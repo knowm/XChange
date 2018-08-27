@@ -1,5 +1,8 @@
 package org.knowm.xchange.itbit.v1;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -14,7 +17,6 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -41,14 +43,9 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
 public final class ItBitAdapters {
 
-  private static final OpenOrders noOpenOrders =
-      new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.emptyList());
   private static final String DATE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
   private static final DecimalFormatSymbols CUSTOM_SYMBOLS = new DecimalFormatSymbols();
   private static Pattern TIMESTAMP_PATTERN = Pattern.compile("(.*\\.[0-9]{3})0000Z$");
@@ -71,7 +68,7 @@ public final class ItBitAdapters {
     cryptoFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     cryptoFormat.setMaximumFractionDigits(4);
     cryptoFormat.setGroupingUsed(false);
-    cryptoFormat.setRoundingMode( RoundingMode.UNNECESSARY );
+    cryptoFormat.setRoundingMode(RoundingMode.UNNECESSARY);
     return cryptoFormat;
   }
 
@@ -80,7 +77,7 @@ public final class ItBitAdapters {
     fiatFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     fiatFormat.setMaximumFractionDigits(2);
     fiatFormat.setGroupingUsed(false);
-    fiatFormat.setRoundingMode( RoundingMode.UNNECESSARY );
+    fiatFormat.setRoundingMode(RoundingMode.UNNECESSARY);
     return fiatFormat;
   }
 
