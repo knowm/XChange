@@ -74,7 +74,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
             "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse =
-        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
+        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345L);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(
@@ -117,7 +117,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
             "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse =
-        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
+        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345L);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(
