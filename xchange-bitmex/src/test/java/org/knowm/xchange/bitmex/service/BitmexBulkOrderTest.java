@@ -78,6 +78,8 @@ public class BitmexBulkOrderTest {
             null,
             nosOrdId,
             null,
+            null,
+            null,
             null));
 
     List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeLimitOrderBulk(commands);
