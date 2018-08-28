@@ -1,12 +1,6 @@
 package org.knowm.xchange.bitmex;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import javax.annotation.Nullable;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitmex.dto.account.*;
 import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
@@ -14,6 +8,13 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.annotation.Nullable;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -155,15 +156,36 @@ public interface Bitmex {
    * @param apiKey
    * @param nonce
    * @param paramsDigest
-   * @param symbol
+   * @param symbol Instrument symbol. e.g. 'XBTUSD'.
    * @param side Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless orderQty or
    *     simpleOrderQty is negative.
    * @param orderQuantity Order quantity in units of the instrument (i.e. contracts).
    * @param simpleOrderQuantity Order quantity in units of the underlying instrument (i.e. Bitcoin).
-   * @param price
-   * @param stopPrice
-   * @param orderType
-   * @param executionInstructions
+   * @param displayQuantity Optional quantity to display in the book. Use 0 for a fully hidden order.
+   * @param price Optional limit price for 'Limit', 'StopLimit', and 'LimitIfTouched' orders.
+   * @param stopPrice Optional trigger price for 'Stop', 'StopLimit', 'MarketIfTouched', and 'LimitIfTouched' orders.
+   *                  Use a price below the current price for stop-sell orders and buy-if-touched orders. Use execInst
+   *                  of 'MarkPrice' or 'LastPrice' to define the current price used for triggering.
+   * @param orderType Order type. Valid options: Market, Limit, Stop, StopLimit, MarketIfTouched, LimitIfTouched,
+   *                  MarketWithLeftOverAsLimit, Pegged. Defaults to 'Limit' when price is specified. Defaults to
+   *                  'Stop' when stopPx is specified. Defaults to 'StopLimit' when price and stopPx are specified.
+   * @param clOrdID Optional Client Order ID. This clOrdID will come back on the order and any related executions.
+   * @param executionInstructions Optional execution instructions. Valid options: ParticipateDoNotInitiate, AllOrNone,
+   *                              MarkPrice, IndexPrice, LastPrice, Close, ReduceOnly, Fixed. 'AllOrNone' instruction
+   *                              requires displayQty to be 0. 'MarkPrice', 'IndexPrice' or 'LastPrice' instruction
+   *                              valid for 'Stop', 'StopLimit', 'MarketIfTouched', and 'LimitIfTouched' orders.
+   * @param clOrdLinkID Optional Client Order Link ID for contingent orders.
+   * @param contingencyType Optional contingency type for use with clOrdLinkID. Valid options: OneCancelsTheOther,
+   *                        OneTriggersTheOther, OneUpdatesTheOtherAbsolute, OneUpdatesTheOtherProportional.
+   * @param pegPriceType Optional peg price type. Valid options: LastPeg, MidPricePeg, MarketPeg, PrimaryPeg,
+   *                     TrailingStopPeg.
+   * @param pegOffsetValue Optional trailing offset from the current price for 'Stop', 'StopLimit', 'MarketIfTouched',
+   *                       and 'LimitIfTouched' orders; use a negative offset for stop-sell orders and buy-if-touched
+   *                       orders. Optional offset from the peg price for 'Pegged' orders.
+   * @param timeInForce Time in force. Valid options: Day, GoodTillCancel, ImmediateOrCancel, FillOrKill. Defaults to
+   *                    'GoodTillCancel' for 'Limit', 'StopLimit', 'LimitIfTouched', and 'MarketWithLeftOverAsLimit'
+   *                    orders.
+   * @param text Optional order annotation. e.g. 'Take profit'.
    * @return
    */
   @POST
@@ -173,16 +195,21 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("symbol") String symbol,
-      @FormParam("side") String side,
-      @FormParam("orderQty") Integer orderQuantity,
-      @FormParam("simpleOrderQty") BigDecimal simpleOrderQuantity,
-      @FormParam("price") BigDecimal price,
+      @Nullable @FormParam("side") String side,
+      @Nullable @FormParam("orderQty") Integer orderQuantity,
+      @Nullable @FormParam("simpleOrderQty") BigDecimal simpleOrderQuantity,
+      @Nullable @FormParam("displayQty") BigDecimal displayQuantity,
+      @Nullable @FormParam("price") BigDecimal price,
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("ordType") String orderType,
       @Nullable @FormParam("clOrdID") String clOrdID,
       @Nullable @FormParam("execInst") String executionInstructions,
       @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
-      @Nullable @FormParam("contingencyType") String contingencyType);
+      @Nullable @FormParam("contingencyType") String contingencyType,
+      @Nullable @FormParam("pegOffsetValue") BigDecimal pegOffsetValue,
+      @Nullable @FormParam("pegPriceType") String pegPriceType,
+      @Nullable @FormParam("timeInForce") String timeInForce,
+      @Nullable @FormParam("text") String text);
 
   @POST
   @Path("order/bulk")

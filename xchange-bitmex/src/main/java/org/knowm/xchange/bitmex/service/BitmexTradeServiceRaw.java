@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
@@ -13,10 +8,38 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
-  public static final String ORDER_TYPE_LIMIT = "Limit";
-  public static final String ORDER_TYPE_STOP = "Stop";
+  enum BitmexOrderType {
+    LIMIT,
+    STOP,
+    MARKET,
+    STOP_LIMIT,
+    PEGGED,
+    MARKET_IF_TOUCHED,
+    LIMIT_IF_TOUCHED,
+    MARKET_WITH_LEFT_OVER_AS_LIMIT;
+
+    public String toApiParameter() {
+      switch (this) {
+        case LIMIT: return "Limit";
+        case STOP: return "Stop";
+        case MARKET: return "Market";
+        case STOP_LIMIT: return "StopLimit";
+        case PEGGED: return "Pegged";
+        case MARKET_IF_TOUCHED: return "MarketIfTouched";
+        case LIMIT_IF_TOUCHED: return "MarketIfTouched";
+        case MARKET_WITH_LEFT_OVER_AS_LIMIT: return "MarketWithLeftOverAsLimit";
+      }
+      throw new RuntimeException("Api parameter for BitmexOrderType " + this.name() + " not configured.");
+    }
+  }
 
   /**
    * Constructor
@@ -91,9 +114,14 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
         null,
         null,
         null,
-        "Market",
+        null,
+        BitmexOrderType.MARKET.toApiParameter(),
         null,
         executionInstructions,
+        null,
+        null,
+        null,
+        null,
         null,
         null);
   }
@@ -116,13 +144,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             side == null ? null : side.getCapitalized(),
             orderQuantity.intValue(),
             null,
+            null,
             price,
             null,
-            ORDER_TYPE_LIMIT,
+            BitmexOrderType.LIMIT.toApiParameter(),
             clOrdID,
             executionInstructions,
             clOrdLinkID,
-            contingencyType));
+            contingencyType,
+            null,
+            null,
+            null,
+            null));
   }
 
   public List<BitmexPrivateOrder> placeLimitOrderBulk(
@@ -156,7 +189,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             orderQuantity.intValue(),
             price,
             null,
-            ORDER_TYPE_LIMIT,
+            BitmexOrderType.LIMIT.toApiParameter(),
             // if clOrdID is not null we should not send orderID
             clOrdID != null ? null : orderId,
             clOrdID,
@@ -181,7 +214,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             orderQuantity.intValue(),
             null,
             price,
-            ORDER_TYPE_LIMIT,
+            BitmexOrderType.LIMIT.toApiParameter(),
             clOrdID != null ? null : orderID,
             clOrdID,
             origClOrdId,
@@ -190,30 +223,35 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder placeStopOrder(
-      String symbol,
-      BitmexSide side,
-      BigDecimal orderQuantity,
-      BigDecimal stopPrice,
-      String executionInstructions,
-      String clOrdID,
-      String clOrdLinkID,
-      String contingencyType) {
+          String symbol,
+          BitmexSide side,
+          BigDecimal orderQuantity,
+          BigDecimal stopPrice,
+          String executionInstructions,
+          String clOrdID,
+          String clOrdLinkID,
+          String contingencyType) {
     return updateRateLimit(
-        bitmex.placeOrder(
-            apiKey,
-            exchange.getNonceFactory(),
-            signatureCreator,
-            symbol,
-            side == null ? null : side.getCapitalized(),
-            orderQuantity.intValue(),
-            null,
-            null,
-            stopPrice,
-            ORDER_TYPE_STOP,
-            clOrdID,
-            executionInstructions,
-            clOrdLinkID,
-            contingencyType));
+            bitmex.placeOrder(
+                    apiKey,
+                    exchange.getNonceFactory(),
+                    signatureCreator,
+                    symbol,
+                    side == null ? null : side.getCapitalized(),
+                    orderQuantity.intValue(),
+                    null,
+                    null,
+                    null,
+                    stopPrice,
+                    BitmexOrderType.STOP.toApiParameter(),
+                    clOrdID,
+                    executionInstructions,
+                    clOrdLinkID,
+                    contingencyType,
+                    null,
+                    null,
+                    null,
+                    null));
   }
 
   /**
@@ -252,13 +290,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             side == null ? null : side.getCapitalized(),
             orderQuantity != null ? orderQuantity.intValue() : null,
             simpleOrderQuantity,
+            null,
             price,
             null,
-            ORDER_TYPE_LIMIT,
+            BitmexOrderType.LIMIT.toApiParameter(),
             null,
             executionInstructions,
             clOrdLinkID,
-            contingencyType));
+            contingencyType,
+            null,
+            null,
+            null,
+            null));
   }
 
   public List<BitmexPrivateOrder> cancelAllOrders() {

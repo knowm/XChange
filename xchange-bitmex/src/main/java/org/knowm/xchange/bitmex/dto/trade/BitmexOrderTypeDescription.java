@@ -7,13 +7,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderTypeDescription.BitmexOrderTypeDeserializer;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderType.BitmexOrderTypeDeserializer;
 
 @JsonDeserialize(using = BitmexOrderTypeDeserializer.class)
-public enum BitmexOrderType {
+public enum BitmexOrderTypeDescription {
   MARKET,
   LIMIT,
   STOP_LOSS,
@@ -27,16 +28,16 @@ public enum BitmexOrderType {
   STOP_LOSS_AND_LIMIT,
   SETTLE_POSITION;
 
-  private static final Map<String, BitmexOrderType> fromString = new HashMap<>();
+  private static final Map<String, BitmexOrderTypeDescription> fromString = new HashMap<>();
 
   static {
-    for (BitmexOrderType orderType : values()) fromString.put(orderType.toString(), orderType);
+    for (BitmexOrderTypeDescription orderType : values()) fromString.put(orderType.toString(), orderType);
 
     fromString.put("l", LIMIT);
     fromString.put("m", MARKET);
   }
 
-  public static BitmexOrderType fromString(String orderTypeString) {
+  public static BitmexOrderTypeDescription fromString(String orderTypeString) {
 
     return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
   }
@@ -52,10 +53,10 @@ public enum BitmexOrderType {
     return name().toLowerCase().replace('_', '-');
   }
 
-  static class BitmexOrderTypeDeserializer extends JsonDeserializer<BitmexOrderType> {
+  static class BitmexOrderTypeDeserializer extends JsonDeserializer<BitmexOrderTypeDescription> {
 
     @Override
-    public BitmexOrderType deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+    public BitmexOrderTypeDescription deserialize(JsonParser jsonParser, DeserializationContext ctxt)
         throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
