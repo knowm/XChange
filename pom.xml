@@ -137,6 +137,7 @@
 		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptopia</module>
+		<module>xchange-coinsuper</module>
 		<module>xchange-dsx</module>
 		<module>xchange-exmo</module>
 		<module>xchange-examples</module>
