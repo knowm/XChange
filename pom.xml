@@ -288,18 +288,18 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${version.qos.logback}</version>
 			</dependency>
+
+			<!-- jwt for auth -->
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${version.java-jwt}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<!-- All children will have these dependencies -->
 	<dependencies>
-		<!-- jwt for auth -->
-		<dependency>
-			<groupId>com.auth0</groupId>
-			<artifactId>java-jwt</artifactId>
-			<version>${version.java-jwt}</version>
-		</dependency>
-
 		<!-- Logging is through SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
