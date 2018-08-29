@@ -25,6 +25,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
@@ -100,14 +101,18 @@ public class HuobiAdapters {
   public static Wallet adaptWallet(Map<String, HuobiBalanceSum> huobiWallet) {
     List<Balance> balances = new ArrayList<>(huobiWallet.size());
     for (Map.Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
-      Currency currency = adaptCurrency(record.getKey());
-      Balance balance =
-          new Balance(
-              currency,
-              record.getValue().getTotal(),
-              record.getValue().getAvailable(),
-              record.getValue().getFrozen());
-      balances.add(balance);
+      try {
+        Currency currency = adaptCurrency(record.getKey());
+        Balance balance =
+            new Balance(
+                currency,
+                record.getValue().getTotal(),
+                record.getValue().getAvailable(),
+                record.getValue().getFrozen());
+        balances.add(balance);
+      } catch (ExchangeException e) {
+        // It might be a new currency. Ignore the exception and continue with other currency.
+      }
     }
     return new Wallet(balances);
   }

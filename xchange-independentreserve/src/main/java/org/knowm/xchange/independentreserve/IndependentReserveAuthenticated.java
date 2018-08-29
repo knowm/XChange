@@ -1,16 +1,31 @@
 package org.knowm.xchange.independentreserve;
 
 import java.io.IOException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
-import org.knowm.xchange.independentreserve.dto.trade.*;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 @Path("Private")

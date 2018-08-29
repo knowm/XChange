@@ -11,10 +11,10 @@
     <artifactId>xchange-cryptonit</artifactId>
 
     <name>XChange Cryptonit</name>
-    <description>XChange implementation for the Canadian VirtEx Exchange</description>
+    <description>XChange implementation for the Cryptonit Exchange</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
-    <inceptionYear>2012</inceptionYear>
+    <inceptionYear>2018</inceptionYear>
 
     <organization>
         <name>Knowm Inc.</name>
