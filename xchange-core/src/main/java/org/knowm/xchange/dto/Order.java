@@ -281,7 +281,22 @@ public abstract class Order implements Serializable {
      * This is to close a long position when trading crypto currency derivatives such as swaps,
      * futures for CFD's.
      */
-    EXIT_BID
+    EXIT_BID;
+	  
+	public OrderType getOpposite() {
+		switch (this) {
+		case BID:
+			return ASK;
+		case ASK:
+			return BID;
+		case EXIT_ASK:
+			return EXIT_BID;
+		case EXIT_BID:
+			return EXIT_ASK;
+		default:
+			return null;
+		}
+	}
   }
 
   public enum OrderStatus {
