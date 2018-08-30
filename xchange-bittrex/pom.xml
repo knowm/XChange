@@ -8,7 +8,9 @@
         <version>4.3.8</version>
     </parent>
 
-    <artifactId>xchange-bittrex</artifactId>
+    <artifactId>xchange-bittrex-custom</artifactId>
+    <version>4.3.8.1</version>
+
 
     <name>XChange Bittrex</name>
     <description>XChange implementation for the Bittrex Exchange</description>
@@ -21,13 +23,24 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
+    <distributionManagement>
+        <repository>
+            <id>myMavenRepoWrite</id>
+            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+        </repository>
+        <snapshotRepository>
+            <id>myMavenRepoWrite</id>
+            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>
 
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>${project.version}</version>
+            <artifactId>xchange-core-custom</artifactId>
+            <version>4.3.8</version>
         </dependency>
 
         <dependency>
