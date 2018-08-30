@@ -13,8 +13,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** DTO representing the exchange order book */
-public final class OrderBook implements Serializable {
+public class OrderBook implements Serializable {
 
+  private int counter;
+  
   /** the asks */
   private final List<LimitOrder> asks;
   /** the bids */
@@ -106,6 +108,16 @@ public final class OrderBook implements Serializable {
   public Date getTimeStamp() {
 
     return timeStamp;
+  }
+
+  /** Gets the internal Nostro counter.*/
+  public int getCounter() {
+	return counter;
+  }
+
+  /** Sets the internal Nostro counter.*/
+  public void setCounter(int counter) {
+	this.counter = counter;
   }
 
   public List<LimitOrder> getAsks() {
