@@ -72,17 +72,23 @@ public class BitmexBulkOrderTest {
     commands.add(
         new Bitmex.PlaceOrderCommand(
             SYMBOL,
-            BitmexSide.SELL.toString(),
-            originalOrderSize.intValue(),
+            BitmexSide.SELL,
+            originalOrderSize,
+            null,
+            null,
             price,
+            null,
             null,
             nosOrdId,
             null,
             null,
             null,
+            null,
+            null,
+            null,
             null));
 
-    List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeLimitOrderBulk(commands);
+    List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeOrderBulk(commands);
     for (BitmexPrivateOrder bitmexPrivateOrder : bitmexPrivateOrders) {}
 
     Thread.sleep(5000);
