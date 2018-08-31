@@ -7,11 +7,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderTypeDescription.BitmexOrderTypeDeserializer;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderTypeDescription.BitmexOrderTypeDeserializer;
 
 @JsonDeserialize(using = BitmexOrderTypeDeserializer.class)
 public enum BitmexOrderTypeDescription {
@@ -31,7 +30,8 @@ public enum BitmexOrderTypeDescription {
   private static final Map<String, BitmexOrderTypeDescription> fromString = new HashMap<>();
 
   static {
-    for (BitmexOrderTypeDescription orderType : values()) fromString.put(orderType.toString(), orderType);
+    for (BitmexOrderTypeDescription orderType : values())
+      fromString.put(orderType.toString(), orderType);
 
     fromString.put("l", LIMIT);
     fromString.put("m", MARKET);
@@ -56,7 +56,8 @@ public enum BitmexOrderTypeDescription {
   static class BitmexOrderTypeDeserializer extends JsonDeserializer<BitmexOrderTypeDescription> {
 
     @Override
-    public BitmexOrderTypeDescription deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+    public BitmexOrderTypeDescription deserialize(
+        JsonParser jsonParser, DeserializationContext ctxt)
         throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();

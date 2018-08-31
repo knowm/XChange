@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -28,7 +29,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException {
+  public OpenOrders getOpenOrders() throws IOException, ExchangeException {
 
     List<BitmexPrivateOrder> bitmexOrders = super.getBitmexOrders();
 
@@ -54,7 +55,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException, ExchangeException {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (LimitOrder order : getOpenOrders().getOpenOrders()) {
@@ -67,19 +68,20 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, ExchangeException {
     String symbol =
         marketOrder.getCurrencyPair().base.getCurrencyCode()
             + marketOrder.getCurrencyPair().counter.getCurrencyCode();
     BitmexSide side = getSide(marketOrder.getType());
 
     BitmexPrivateOrder order =
-        placeMarketOrder(symbol, side, marketOrder.getOriginalAmount(), null);
+        placeMarketOrder(
+            symbol, side, marketOrder.getOriginalAmount(), null, null, null, null, null);
     return order.getId();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
     String symbol =
         limitOrder.getCurrencyPair().base.getCurrencyCode()
             + limitOrder.getCurrencyPair().counter.getCurrencyCode();
@@ -88,9 +90,15 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
         placeLimitOrder(
             symbol,
             limitOrder.getOriginalAmount(),
+            null,
+            null,
             limitOrder.getLimitPrice(),
             side,
             limitOrder.getId(),
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null);
@@ -102,7 +110,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+  public String placeStopOrder(StopOrder stopOrder) throws IOException, ExchangeException {
     String symbol =
         stopOrder.getCurrencyPair().base.getCurrencyCode()
             + stopOrder.getCurrencyPair().counter.getCurrencyCode();
@@ -111,16 +119,18 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             symbol,
             getSide(stopOrder.getType()),
             stopOrder.getOriginalAmount(),
+            null,
             stopOrder.getStopPrice(),
             null,
             stopOrder.getId(),
+            null,
             null,
             null);
     return order.getId();
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException, ExchangeException {
     List<BitmexPrivateOrder> orders = cancelBitmexOrder(orderId);
 
     if (orders.isEmpty()) return true;
@@ -128,11 +138,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException, ExchangeException {
 
     String filter = "{\"orderID\": [\"" + String.join("\",\"", orderIds) + "\"]}";
 
-    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter);
+    List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter, null, null, null);
 
     Set<Order> orders = new HashSet<>();
 

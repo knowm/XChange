@@ -13,6 +13,7 @@ import si.mazi.rescu.HttpResponseAware;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
 
   protected final Bitmex bitmex;
