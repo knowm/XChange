@@ -3,7 +3,7 @@ package org.knowm.xchange.gdax.service;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.dto.GDAXException;
@@ -14,8 +14,6 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
-
-import lombok.extern.slf4j.Slf4j;
 
 /** Created by Yingzhe on 4/6/2015. */
 @Slf4j
@@ -97,74 +95,72 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
       throw handleError(e);
     }
   }
-  
+
   static Instant lastCall = null;
   static boolean rateLimited = false;
-  
-  public GDAXTrades getGDAXTradesExtended(CurrencyPair currencyPair, Long after, Integer limit) throws IOException {	
-	for (;;) {
-	    try {
-	      if (rateLimited) {
-	    	  long delta = Duration.between(lastCall, Instant.now()).toMillis();
-	    	  log.debug("Last call {} ms ago", delta);
-	    	  
-	    	  if (delta < 333) {
-	    		  try {
-	    			log.debug("Sleeping for {}ms", 333-delta);
-					Thread.sleep(333-delta);
-					
-				  } catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				  }
-	    	  } else if (delta > 3000) {
-	    		  log.debug("Clearing rate limiter");
-	    		  rateLimited = false;
-	    	  }
-	      }
-	    	
-	      lastCall = Instant.now();
-	      
-	      GDAXTrades gdaxTrades = this.gdax.getTradesPageable(
-	          currencyPair.base.getCurrencyCode(), 
-	          currencyPair.counter.getCurrencyCode(),
-	          after,
-	          limit);
-	      
-	      
-	      log.debug("GDAXTrades: earliest={}, latest={}, {}", 
-	    		  gdaxTrades.getEarliestTradeId(), 
-	    		  gdaxTrades.getLatestTradeId(), 
-	    		  gdaxTrades);
-	      
-	      return gdaxTrades;
-	    	
-	    } catch (GDAXException e) {
-	    	if (e.getHttpStatusCode() == 429) {
-		    	log.debug("Rate limit exceeded, sleeping for 1000ms");
-		    	
-		    	rateLimited = true;
-		    	
-		    	try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	    	
 
-				log.debug("Retrying");
-	    		
-	    	} else {
-	    	  e.printStackTrace();
-	    	
-	          throw handleError(e);
-	    	}
-	    }
-	}
+  public GDAXTrades getGDAXTradesExtended(CurrencyPair currencyPair, Long after, Integer limit)
+      throws IOException {
+    for (; ; ) {
+      try {
+        if (rateLimited) {
+          long delta = Duration.between(lastCall, Instant.now()).toMillis();
+          log.debug("Last call {} ms ago", delta);
+
+          if (delta < 333) {
+            try {
+              log.debug("Sleeping for {}ms", 333 - delta);
+              Thread.sleep(333 - delta);
+
+            } catch (InterruptedException e) {
+              log.debug("Unexpected exception in getGDAXTradesExtended", e);
+            }
+          } else if (delta > 3000) {
+            log.debug("Clearing rate limiter");
+            rateLimited = false;
+          }
+        }
+
+        lastCall = Instant.now();
+
+        GDAXTrades gdaxTrades =
+            this.gdax.getTradesPageable(
+                currencyPair.base.getCurrencyCode(),
+                currencyPair.counter.getCurrencyCode(),
+                after,
+                limit);
+
+        log.debug(
+            "GDAXTrades: earliest={}, latest={}, {}",
+            gdaxTrades.getEarliestTradeId(),
+            gdaxTrades.getLatestTradeId(),
+            gdaxTrades);
+
+        return gdaxTrades;
+
+      } catch (GDAXException e) {
+        if (e.getHttpStatusCode() == 429) {
+          log.debug("Rate limit exceeded, sleeping for 1000ms");
+
+          rateLimited = true;
+
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e1) {
+        	log.debug("Unexpected exception in getGDAXTradesExtended", e1);
+          }
+
+          log.debug("Retrying");
+
+        } else {
+          log.debug("Uncaught exception in getGDAXTradesExtended", e);
+
+          throw handleError(e);
+        }
+      }
+    }
   }
 
-  
-  
   public GDAXCandle[] getGDAXHistoricalCandles(
       CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
 
