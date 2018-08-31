@@ -77,7 +77,7 @@ public interface GDAX {
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
       throws GDAXException, IOException;
-  
+
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/trades")
   GDAXTrades getTradesPageable(

@@ -304,15 +304,13 @@ public class GDAXAdapters {
 
     return new UserTrades(trades, TradeSortType.SortByID);
   }
-  
-  
+
   public static Trades adaptTrades(List<GDAXTrade> gdaxTradesList, CurrencyPair currencyPair) {
-	  GDAXTrade[] tradeArray = new GDAXTrade[gdaxTradesList.size()];
-	  gdaxTradesList.toArray(tradeArray);
-	  
-	  return GDAXAdapters.adaptTrades(tradeArray, currencyPair);	  
+    GDAXTrade[] tradeArray = new GDAXTrade[gdaxTradesList.size()];
+    gdaxTradesList.toArray(tradeArray);
+
+    return GDAXAdapters.adaptTrades(tradeArray, currencyPair);
   }
-  
 
   public static Trades adaptTrades(GDAXTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
@@ -344,7 +342,7 @@ public class GDAXAdapters {
 
   private static int numberOfDecimals(BigDecimal value) {
     double d = value.doubleValue();
-    return -(int)Math.round(Math.log10(d));
+    return -(int) Math.round(Math.log10(d));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
