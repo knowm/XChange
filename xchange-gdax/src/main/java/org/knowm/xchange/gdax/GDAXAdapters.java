@@ -1,12 +1,5 @@
 package org.knowm.xchange.gdax;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +23,14 @@ import org.knowm.xchange.gdax.dto.marketdata.*;
 import org.knowm.xchange.gdax.dto.trade.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GDAXAdapters {
 
@@ -335,7 +336,7 @@ public class GDAXAdapters {
 
   private static int numberOfDecimals(BigDecimal value) {
     double d = value.doubleValue();
-    return -(int)Math.round(Math.log10(d));
+    return -(int) Math.round(Math.log10(d));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(

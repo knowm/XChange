@@ -1,10 +1,6 @@
 package org.knowm.xchange.gdax.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -16,6 +12,11 @@ import org.knowm.xchange.gdax.GDAXExchange;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GDAXMetadataTest {
 
@@ -34,6 +35,7 @@ public class GDAXMetadataTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-    assertThat(exchangeMetaData.getCurrencyPairs().get(CurrencyPair.ETC_BTC).getPriceScale()).isEqualTo(5);
+    assertThat(exchangeMetaData.getCurrencyPairs().get(CurrencyPair.ETC_BTC).getPriceScale())
+        .isEqualTo(5);
   }
 }
