@@ -24,7 +24,7 @@ public enum BitmexExecutionInstruction {
     return apiParameter;
   }
 
-  public List<BitmexExecutionInstruction> fromParameter(
+  public static List<BitmexExecutionInstruction> fromParameter(
       final boolean postOnly, final boolean reduceOnly) {
     final ArrayList<BitmexExecutionInstruction> result = new ArrayList<>();
     if (postOnly) {

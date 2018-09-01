@@ -1,12 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexException;
@@ -15,6 +8,14 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public class BitmexTradeServiceRaw extends BitmexBaseService {
@@ -114,30 +115,22 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BitmexContingencyType contingencyType,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return bitmex.placeOrder(
-          apiKey,
-          exchange.getNonceFactory(),
-          signatureCreator,
-          symbol,
-          side == null ? null : side.getCapitalized(),
-          orderQuantity,
-          simpleOrderQuantity,
-          null,
-          null,
-          null,
-          BitmexOrderType.MARKET.toApiParameter(),
-          clOrdId,
-          null,
-          clOrdLinkId,
-          contingencyType != null ? contingencyType.toApiParameter() : null,
-          null,
-          null,
-          null,
-          text);
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return placeOrder(
+        symbol,
+        orderQuantity,
+        simpleOrderQuantity,
+        null,
+        null,
+        null,
+        side,
+        clOrdId,
+        null,
+        clOrdLinkId,
+        contingencyType,
+        null,
+        null,
+        null,
+        text);
   }
 
   /**
@@ -161,31 +154,22 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BitmexTimeInForce timeInForce,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.placeOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              symbol,
-              side != null ? side.getCapitalized() : null,
-              orderQuantity,
-              simpleOrderQuantity,
-              displayQuantity,
-              price,
-              null,
-              BitmexOrderType.LIMIT.toApiParameter(),
-              clOrdId,
-              executionInstructions != null ? StringUtils.join(executionInstructions, ",  ") : null,
-              clOrdLinkId,
-              contingencyType != null ? contingencyType.toApiParameter() : null,
-              pegOffsetValue,
-              pegPriceType != null ? pegPriceType.toApiParameter() : null,
-              timeInForce != null ? timeInForce.toApiParameter() : null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return placeOrder(
+        symbol,
+        orderQuantity,
+        simpleOrderQuantity,
+        displayQuantity,
+        price,
+        null,
+        side,
+        clOrdId,
+        executionInstructions,
+        clOrdLinkId,
+        contingencyType,
+        pegOffsetValue,
+        pegPriceType,
+        timeInForce,
+        text);
   }
 
   /**
@@ -205,26 +189,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BigDecimal pegOffsetValue,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.replaceOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              clOrdId != null ? null : orderId,
-              origClOrdId,
-              clOrdId,
-              simpleOrderQuantity,
-              orderQuantity,
-              simpleLeavesQuantity,
-              leavesQuantity,
-              price,
-              null,
-              pegOffsetValue,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return replaceOrder(
+        orderId,
+        origClOrdId,
+        clOrdId,
+        simpleOrderQuantity,
+        orderQuantity,
+        simpleLeavesQuantity,
+        leavesQuantity,
+        price,
+        null,
+        pegOffsetValue,
+        text);
   }
 
   /**
@@ -244,31 +220,22 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BitmexContingencyType contingencyType,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.placeOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              symbol,
-              side != null ? side.getCapitalized() : null,
-              orderQuantity,
-              simpleOrderQuantity,
-              null,
-              null,
-              stopPrice,
-              BitmexOrderType.STOP.toApiParameter(),
-              clOrdId,
-              executionInstructions != null ? StringUtils.join(executionInstructions, ",  ") : null,
-              clOrdLinkId,
-              contingencyType != null ? contingencyType.toApiParameter() : null,
-              null,
-              null,
-              null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return placeOrder(
+        symbol,
+        orderQuantity,
+        simpleOrderQuantity,
+        null,
+        null,
+        stopPrice,
+        side,
+        clOrdId,
+        executionInstructions,
+        clOrdLinkId,
+        contingencyType,
+        null,
+        null,
+        null,
+        text);
   }
 
   /**
@@ -285,26 +252,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BigDecimal stopPrice,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.replaceOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              clOrdId != null ? null : orderId,
-              origClOrdId,
-              clOrdId,
-              simpleOrderQuantity,
-              orderQuantity,
-              null,
-              null,
-              null,
-              stopPrice,
-              null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return replaceOrder(
+        orderId,
+        origClOrdId,
+        clOrdId,
+        simpleOrderQuantity,
+        orderQuantity,
+        null,
+        null,
+        null,
+        stopPrice,
+        null,
+        text);
   }
 
   /**
@@ -327,31 +286,22 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BitmexTimeInForce timeInForce,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.placeOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              symbol,
-              side != null ? side.getCapitalized() : null,
-              orderQuantity,
-              simpleOrderQuantity,
-              displayQuantity,
-              limitPrice,
-              stopPrice,
-              BitmexOrderType.STOP_LIMIT.toApiParameter(),
-              clOrdId,
-              executionInstructions != null ? StringUtils.join(executionInstructions, ",  ") : null,
-              clOrdLinkId,
-              contingencyType != null ? contingencyType.toApiParameter() : null,
-              null,
-              null,
-              timeInForce != null ? timeInForce.toApiParameter() : null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return placeOrder(
+        symbol,
+        orderQuantity,
+        simpleOrderQuantity,
+        displayQuantity,
+        limitPrice,
+        stopPrice,
+        side,
+        clOrdId,
+        executionInstructions,
+        clOrdLinkId,
+        contingencyType,
+        null,
+        null,
+        timeInForce,
+        text);
   }
 
   /**
@@ -369,26 +319,18 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BigDecimal stopPrice,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.replaceOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              clOrdId != null ? null : orderId,
-              origClOrdId,
-              clOrdId,
-              simpleOrderQuantity,
-              orderQuantity,
-              null,
-              null,
-              limitPrice,
-              stopPrice,
-              null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return replaceOrder(
+        orderId,
+        origClOrdId,
+        clOrdId,
+        simpleOrderQuantity,
+        orderQuantity,
+        null,
+        null,
+        limitPrice,
+        stopPrice,
+        null,
+        text);
   }
 
   /**
@@ -408,31 +350,22 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BitmexContingencyType contingencyType,
       @Nullable String text)
       throws IOException, ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.placeOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              symbol,
-              side != null ? side.getCapitalized() : null,
-              orderQuantity,
-              simpleOrderQuantity,
-              null,
-              null,
-              null,
-              BitmexOrderType.PEGGED.toApiParameter(),
-              clOrdId,
-              executionInstructions != null ? StringUtils.join(executionInstructions, ",  ") : null,
-              clOrdLinkId,
-              contingencyType != null ? contingencyType.toApiParameter() : null,
-              trailingStop,
-              BitmexPegPriceType.TRAILING_STOP_PEG.toApiParameter(),
-              null,
-              text));
-    } catch (BitmexException e) {
-      throw handleError(e);
-    }
+    return placeOrder(
+        symbol,
+        orderQuantity,
+        simpleOrderQuantity,
+        null,
+        null,
+        null,
+        side,
+        clOrdId,
+        executionInstructions,
+        clOrdLinkId,
+        contingencyType,
+        trailingStop,
+        BitmexPegPriceType.TRAILING_STOP_PEG,
+        null,
+        text);
   }
 
   /**
@@ -449,6 +382,87 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable BigDecimal trailingStop,
       @Nullable String text)
       throws IOException, ExchangeException {
+    return replaceOrder(
+        orderId,
+        origClOrdId,
+        clOrdId,
+        simpleOrderQuantity,
+        orderQuantity,
+        null,
+        null,
+        null,
+        null,
+        trailingStop,
+        text);
+  }
+
+  /**
+   * See {@link Bitmex#replaceOrder}
+   *
+   * @return {@link BitmexPrivateOrder} contains the results of the call.
+   */
+  public BitmexPrivateOrder placeOrder(
+      String symbol,
+      @Nullable BigDecimal orderQuantity,
+      @Nullable BigDecimal simpleOrderQuantity,
+      @Nullable BigDecimal displayQuantity,
+      @Nullable BigDecimal price,
+      @Nullable BigDecimal stopPrice,
+      @Nullable BitmexSide side,
+      @Nullable String clOrdId,
+      @Nullable List<BitmexExecutionInstruction> executionInstructions,
+      @Nullable String clOrdLinkId,
+      @Nullable BitmexContingencyType contingencyType,
+      @Nullable BigDecimal pegOffsetValue,
+      @Nullable BitmexPegPriceType pegPriceType,
+      @Nullable BitmexTimeInForce timeInForce,
+      @Nullable String text)
+      throws IOException, ExchangeException {
+    try {
+      return updateRateLimit(
+          bitmex.placeOrder(
+              apiKey,
+              exchange.getNonceFactory(),
+              signatureCreator,
+              symbol,
+              side != null ? side.getCapitalized() : null,
+              orderQuantity,
+              simpleOrderQuantity,
+              displayQuantity,
+              price,
+              stopPrice,
+              BitmexOrderType.LIMIT.toApiParameter(),
+              clOrdId,
+              executionInstructions != null ? StringUtils.join(executionInstructions, ",  ") : null,
+              clOrdLinkId,
+              contingencyType != null ? contingencyType.toApiParameter() : null,
+              pegOffsetValue,
+              pegPriceType != null ? pegPriceType.toApiParameter() : null,
+              timeInForce != null ? timeInForce.toApiParameter() : null,
+              text));
+    } catch (BitmexException e) {
+      throw handleError(e);
+    }
+  }
+
+  /**
+   * See {@link Bitmex#replaceOrder}
+   *
+   * @return {@link BitmexPrivateOrder} contains the results of the call.
+   */
+  public BitmexPrivateOrder replaceOrder(
+      @Nullable String orderId,
+      @Nullable String origClOrdId,
+      @Nullable String clOrdId,
+      @Nullable BigDecimal simpleOrderQuantity,
+      @Nullable BigDecimal orderQuantity,
+      @Nullable BigDecimal simpleLeavesQuantity,
+      @Nullable BigDecimal leavesQuantity,
+      @Nullable BigDecimal price,
+      @Nullable BigDecimal stopPrice,
+      @Nullable BigDecimal pegOffsetValue,
+      @Nullable String text)
+      throws IOException, ExchangeException {
     try {
       return updateRateLimit(
           bitmex.replaceOrder(
@@ -460,11 +474,11 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
               clOrdId,
               simpleOrderQuantity,
               orderQuantity,
-              null,
-              null,
-              null,
-              null,
-              trailingStop,
+              simpleLeavesQuantity,
+              leavesQuantity,
+              price,
+              stopPrice,
+              pegOffsetValue,
               text));
     } catch (BitmexException e) {
       throw handleError(e);
@@ -667,7 +681,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
           null,
           null,
           stopPrice,
-          BitmexOrderType.STOP,
+          BitmexOrderType.LIMIT,
           clOrdId,
           executionInstructions,
           clOrdLinkId,
@@ -730,7 +744,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
           displayQuantity,
           limitPrice,
           stopPrice,
-          BitmexOrderType.STOP_LIMIT,
+          BitmexOrderType.LIMIT,
           clOrdId,
           executionInstructions,
           clOrdLinkId,
@@ -791,7 +805,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
           null,
           null,
           null,
-          BitmexOrderType.PEGGED,
+          BitmexOrderType.LIMIT,
           clOrdId,
           executionInstructions,
           clOrdLinkId,
@@ -824,7 +838,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
           null,
           null,
           null,
-          null,
+          trailingStop,
           text);
     }
   }
