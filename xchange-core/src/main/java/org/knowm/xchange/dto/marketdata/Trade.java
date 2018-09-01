@@ -29,6 +29,9 @@ public class Trade implements Serializable {
   /** The trade id */
   protected final String id;
 
+  private String maker_order_id;
+  private String taker_order_id;
+
   /**
    * This constructor is called to create a public Trade object in {@link
    * MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
@@ -87,6 +90,22 @@ public class Trade implements Serializable {
     return id;
   }
 
+  public String getMaker_order_id() {
+    return maker_order_id;
+  }
+
+  public void setMaker_order_id(String maker_order_id) {
+    this.maker_order_id = maker_order_id;
+  }
+
+  public String getTaker_order_id() {
+    return taker_order_id;
+  }
+
+  public void setTaker_order_id(String taker_order_id) {
+    this.taker_order_id = taker_order_id;
+  }
+
   @Override
   public boolean equals(Object o) {
 
@@ -107,20 +126,16 @@ public class Trade implements Serializable {
 
   @Override
   public String toString() {
-
-    return "Trade [type="
-        + type
-        + ", originalAmount="
-        + originalAmount
-        + ", currencyPair="
-        + currencyPair
-        + ", price="
-        + price
-        + ", timestamp="
-        + timestamp
-        + ", id="
-        + id
-        + "]";
+    return "Trade{" +
+            "type=" + type +
+            ", originalAmount=" + originalAmount +
+            ", currencyPair=" + currencyPair +
+            ", price=" + price +
+            ", timestamp=" + timestamp +
+            ", id='" + id + '\'' +
+            ", maker_order_id='" + maker_order_id + '\'' +
+            ", taker_order_id='" + taker_order_id + '\'' +
+            '}';
   }
 
   public static class Builder {

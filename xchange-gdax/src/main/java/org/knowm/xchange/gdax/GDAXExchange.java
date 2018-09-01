@@ -50,8 +50,8 @@ public class GDAXExchange extends BaseExchange {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://api.gdax.com");
-    exchangeSpecification.setHost("api.gdax.com");
+    exchangeSpecification.setSslUri("https://api.pro.coinbase.com");
+    exchangeSpecification.setHost("pro.coinbase.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("GDAX");
     exchangeSpecification.setExchangeDescription(
