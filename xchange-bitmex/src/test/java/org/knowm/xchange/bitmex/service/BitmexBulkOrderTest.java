@@ -1,11 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
-import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,11 +7,19 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
+import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 /** @author Nikita Belenkiy on 18/05/2018. */
 public class BitmexBulkOrderTest {
@@ -70,23 +72,12 @@ public class BitmexBulkOrderTest {
 
     List<Bitmex.PlaceOrderCommand> commands = new ArrayList<>();
     commands.add(
-        new Bitmex.PlaceOrderCommand(
-            SYMBOL,
-            BitmexSide.SELL,
-            originalOrderSize,
-            null,
-            null,
-            price,
-            null,
-            null,
-            nosOrdId,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null));
+        new Bitmex.PlaceOrderCommand(new BitmexPlaceOrderParameters.Builder(SYMBOL)
+                .setSide(BitmexSide.SELL)
+                .setOrderQuantity(originalOrderSize)
+                .setPrice(price)
+                .setClOrdId(nosOrdId)
+                .build()));
 
     List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeOrderBulk(commands);
     for (BitmexPrivateOrder bitmexPrivateOrder : bitmexPrivateOrders) {}
