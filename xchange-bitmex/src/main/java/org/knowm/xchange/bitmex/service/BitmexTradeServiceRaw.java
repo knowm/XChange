@@ -104,7 +104,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     }
 
     /**
-     * See {@link Bitmex#replaceOrder}
+     * See {@link Bitmex#placeOrder}
      *
      * @return {@link BitmexPrivateOrder} contains the results of the call.
      */
