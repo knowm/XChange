@@ -1,9 +1,15 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
+import org.knowm.xchange.bitmex.Bitmex;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 
+
+/**
+ * See {@link Bitmex#replaceOrder}
+ */
 @SuppressWarnings("unused")
 public class BitmexReplaceOrderParameters {
 
@@ -110,6 +116,9 @@ public class BitmexReplaceOrderParameters {
         return text;
     }
 
+    /**
+     * See {@link Bitmex#replaceOrder}
+     */
     public static class Builder {
 
         @Nullable

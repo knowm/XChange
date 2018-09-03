@@ -1,10 +1,15 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
+import org.knowm.xchange.bitmex.Bitmex;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * See {@link Bitmex#placeOrder}
+ */
 @SuppressWarnings({"unused"})
 public class BitmexPlaceOrderParameters {
 
@@ -155,6 +160,9 @@ public class BitmexPlaceOrderParameters {
         return text;
     }
 
+    /**
+     * See {@link Bitmex#placeOrder}
+     */
     public static class Builder {
 
         private final String symbol;

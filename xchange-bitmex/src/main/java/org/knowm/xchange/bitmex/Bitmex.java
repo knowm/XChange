@@ -183,42 +183,48 @@ public interface Bitmex {
      * @param nonce
      * @param paramsDigest
      * @param symbol                Instrument symbol. e.g. {@code XBTUSD}.
-     * @param side                  Order side. Valid options: Buy, Sell. Defaults to 'Buy' unless orderQty or
-     *                              simpleOrderQty is negative.
-     * @param orderQuantity         Order quantity in units of the instrument (i.e. contracts).
-     * @param simpleOrderQuantity   Order quantity in units of the underlying instrument (i.e. Bitcoin).
-     * @param displayQuantity       Optional quantity to display in the book. Use 0 for a fully hidden
-     *                              order.
-     * @param price                 Optional limit price for 'Limit', 'StopLimit', and 'LimitIfTouched' orders.
-     * @param stopPrice             Optional trigger price for 'Stop', 'StopLimit', 'MarketIfTouched', and
-     *                              'LimitIfTouched' orders. Use a price below the current price for stop-sell orders and
-     *                              buy-if-touched orders. Use execInst of 'MarkPrice' or 'LastPrice' to define the current
-     *                              price used for triggering.
-     * @param orderType             Order type. Valid options: Market, Limit, Stop, StopLimit, MarketIfTouched,
-     *                              LimitIfTouched, MarketWithLeftOverAsLimit, Pegged. Defaults to 'Limit' when price is
-     *                              specified. Defaults to 'Stop' when stopPx is specified. Defaults to 'StopLimit' when price
-     *                              and stopPx are specified.
-     * @param clOrdID               Optional Client Order ID. This clOrdID will come back on the order and any
+     * @param side                  Optional Order side. Valid options: {@code Buy}, {@code Sell}. Defaults to
+     *                              {@code Buy} unless {@code orderQty} or {@code simpleOrderQty} is negative.
+     * @param orderQuantity         Optional Order quantity in units of the instrument (i.e. contracts).
+     * @param simpleOrderQuantity   Optional Order quantity in units of the underlying instrument (i.e. Bitcoin).
+     * @param displayQuantity       Optional quantity to display in the book. Use {@code 0} for a fully hidden order.
+     * @param price                 Optional limit price for {@code Limit}, {@code StopLimit}, and
+     *                              {@code LimitIfTouched} orders.
+     * @param stopPrice             Optional trigger price for {@code Stop}, {@code StopLimit}, {@code MarketIfTouched},
+     *                              and {@code LimitIfTouched} orders. Use a price below the current price for stop-sell
+     *                              orders and buy-if-touched orders. Use {@code execInst} of {@code MarkPrice} or
+     *                              {@code LastPrice} to define the current price used for triggering.
+     * @param orderType             Optional Order type. Valid options: {@code Market}, {@code Limit}, {@code Stop},
+     *                              {@code StopLimit}, {@code MarketIfTouched}, {@code LimitIfTouched},
+     *                              {@code MarketWithLeftOverAsLimit}, {@code Pegged}. Defaults to {@code Limit} when
+     *                              {@code price} is specified. Defaults to {@code Stop} when {@code stopPx} is
+     *                              specified. Defaults to {@code StopLimit} when {@code price} and {@code stopPx} are
+     *                              specified.
+     * @param clOrdID               Optional Client Order ID. This {@code clOrdID} will come back on the order and any
      *                              related executions.
      * @param executionInstructions Optional execution instructions. Valid options:
-     *                              ParticipateDoNotInitiate, AllOrNone, MarkPrice, IndexPrice, LastPrice, Close, ReduceOnly,
-     *                              Fixed. 'AllOrNone' instruction requires displayQty to be 0. 'MarkPrice', 'IndexPrice' or
-     *                              'LastPrice' instruction valid for 'Stop', 'StopLimit', 'MarketIfTouched', and
-     *                              'LimitIfTouched' orders.
+     *                              {@code ParticipateDoNotInitiate}, {@code AllOrNone}, {@code MarkPrice},
+     *                              {@code IndexPrice}, {@code LastPrice}, {@code Close}, {@code ReduceOnly},
+     *                              {@code Fixed}. {@code AllOrNone} instruction requires {@code displayQty} to be
+     *                              {@code 0}. {@code MarkPrice}, {@code IndexPrice} or {@code LastPrice} instruction
+     *                              valid for {@code Stop}, {@code StopLimit}, {@code MarketIfTouched}, and
+     *                              {@code LimitIfTouched} orders.
      * @param clOrdLinkID           Optional Client Order Link ID for contingent orders.
      * @param contingencyType       Optional contingency type for use with clOrdLinkID. Valid options:
-     *                              OneCancelsTheOther, OneTriggersTheOther, OneUpdatesTheOtherAbsolute,
-     *                              OneUpdatesTheOtherProportional.
-     * @param pegPriceType          Optional peg price type. Valid options: LastPeg, MidPricePeg, MarketPeg,
-     *                              PrimaryPeg, TrailingStopPeg.
-     * @param pegOffsetValue        Optional trailing offset from the current price for 'Stop', 'StopLimit',
-     *                              'MarketIfTouched', and 'LimitIfTouched' orders; use a negative offset for stop-sell orders
-     *                              and buy-if-touched orders. Optional offset from the peg price for 'Pegged' orders.
-     * @param timeInForce           Time in force. Valid options: Day, GoodTillCancel, ImmediateOrCancel,
-     *                              FillOrKill. Defaults to 'GoodTillCancel' for 'Limit', 'StopLimit', 'LimitIfTouched', and
-     *                              'MarketWithLeftOverAsLimit' orders.
-     * @param text                  Optional order annotation. e.g. 'Take profit'.
-     * @return {@link BitmexPrivateOrder} contains the results of the call.
+     *                              {@code OneCancelsTheOther}, {@code OneTriggersTheOther},
+     *                              {@code OneUpdatesTheOtherAbsolute}, {@code OneUpdatesTheOtherProportional}.
+     * @param pegPriceType          Optional peg price type. Valid options: {@code LastPeg}, {@code MidPricePeg},
+     *                              {@code MarketPeg}, {@code PrimaryPeg}, {@code TrailingStopPeg}.
+     * @param pegOffsetValue        Optional trailing offset from the current price for {@code Stop}, {@code StopLimit},
+     *                              {@code MarketIfTouched}, and {@code LimitIfTouched} orders; use a negative offset for
+     *                              stop-sell orders and buy-if-touched orders. Optional offset from the peg price for
+     *                              {@code Pegged} orders.
+     * @param timeInForce           Optional Time in force. Valid options: {@code Day}, {@code GoodTillCancel},
+     *                              {@code ImmediateOrCancel}, {@code FillOrKill}. Defaults to {@code GoodTillCancel}
+     *                              for {@code Limit}, {@code StopLimit}, {@code LimitIfTouched}, and
+     *                              {@code MarketWithLeftOverAsLimit} orders.
+     * @param text                  Optional order annotation. e.g. {@code Take profit}.
+     * @return {@link BitmexPrivateOrder} contains the result of the call.
      * @throws IOException
      * @throws BitmexException
      */
@@ -260,15 +266,15 @@ public interface Bitmex {
      *                        Bitcoin). Useful for amending partially filled orders.
      * @param leavesQty       Optional leaves quantity in units of the instrument (i.e. contracts). Useful
      *                        for amending partially filled orders.
-     * @param price           Optional limit price for 'Limit', 'StopLimit', and 'LimitIfTouched' orders.
-     * @param stopPrice       Optional trigger price for 'Stop', 'StopLimit', 'MarketIfTouched', and
-     *                        'LimitIfTouched' orders. Use a price below the current price for stop-sell orders and
+     * @param price           Optional limit price for {@code Limit}, {@code StopLimit}, and {@code LimitIfTouched} orders.
+     * @param stopPrice       Optional trigger price for {@code Stop}, {@code StopLimit}, {@code MarketIfTouched}, and
+     *                        {@code LimitIfTouched} orders. Use a price below the current price for stop-sell orders and
      *                        buy-if-touched orders.
-     * @param pegOffsetValue  Optional trailing offset from the current price for 'Stop', 'StopLimit',
-     *                        'MarketIfTouched', and 'LimitIfTouched' orders; use a negative offset for stop-sell orders
-     *                        and buy-if-touched orders. Optional offset from the peg price for 'Pegged' orders.
-     * @param text            Optional amend annotation. e.g. 'Adjust skew'.
-     * @return {@link BitmexPrivateOrder} contains the results of the call.
+     * @param pegOffsetValue  Optional trailing offset from the current price for {@code Stop}, {@code StopLimit},
+     *                        {@code MarketIfTouched}, and {@code LimitIfTouched} orders; use a negative offset for stop-sell orders
+     *                        and buy-if-touched orders. Optional offset from the peg price for {@code Pegged} orders.
+     * @param text            Optional amend annotation. e.g. {@code Adjust skew}.
+     * @return {@link BitmexPrivateOrder} contains the result of the call.
      * @throws IOException
      * @throws BitmexException
      */
