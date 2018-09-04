@@ -56,6 +56,15 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
     }
   }
 
+  public LimitOrder placeLimitOrder2(LimitOrder limitOrder) throws IOException {
+    try {
+      final String orderId = placeBittrexLimitOrder(limitOrder);
+      return BittrexAdapters.adaptOrder(getBittrexOrder(orderId));
+    } catch (BittrexException e) {
+      throw BittrexErrorAdapter.adapt(e);
+    }
+  }
+
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     try {
