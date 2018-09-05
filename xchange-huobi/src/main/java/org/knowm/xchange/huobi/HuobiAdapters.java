@@ -244,7 +244,7 @@ public class HuobiAdapters {
     return result;
   }
 
-  private static OrderType adaptOrderType(String orderType) {
+  public static OrderType adaptOrderType(String orderType) {
     if (orderType.startsWith("buy")) {
       return OrderType.BID;
     }
