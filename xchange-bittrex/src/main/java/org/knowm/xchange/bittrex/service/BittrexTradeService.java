@@ -47,6 +47,15 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
     }
   }
 
+  public MarketOrder placeMarketOrder2(MarketOrder marketOrder) throws IOException {
+    try {
+      return (MarketOrder)
+          BittrexAdapters.adaptOrder(this.getBittrexOrder(placeBittrexMarketOrder(marketOrder)));
+    } catch (BittrexException e) {
+      throw BittrexErrorAdapter.adapt(e);
+    }
+  }
+
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     try {
@@ -58,8 +67,8 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   public LimitOrder placeLimitOrder2(LimitOrder limitOrder) throws IOException {
     try {
-      final String orderId = placeBittrexLimitOrder(limitOrder);
-      return BittrexAdapters.adaptOrder(getBittrexOrder(orderId));
+      return (LimitOrder)
+          BittrexAdapters.adaptOrder(this.getBittrexOrder(placeBittrexLimitOrder(limitOrder)));
     } catch (BittrexException e) {
       throw BittrexErrorAdapter.adapt(e);
     }
@@ -142,7 +151,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
         BittrexOrder order = getBittrexOrder(orderId);
         if (order != null) {
-          LimitOrder limitOrder = BittrexAdapters.adaptOrder(order);
+          Order limitOrder = BittrexAdapters.adaptOrder(order);
           orders.add(limitOrder);
         }
       }
