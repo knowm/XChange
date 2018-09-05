@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinsuper.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.Map;
