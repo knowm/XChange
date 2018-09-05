@@ -285,9 +285,9 @@ public final class OkCoinAdapters {
       case "2":
         return OrderType.ASK;
       case "3":
-        return OrderType.EXIT_ASK;
-      case "4":
         return OrderType.EXIT_BID;
+      case "4":
+        return OrderType.EXIT_ASK;
       default:
         return null;
     }
