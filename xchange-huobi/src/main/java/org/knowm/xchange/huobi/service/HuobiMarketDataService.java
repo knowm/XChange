@@ -59,6 +59,6 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
                     new LimitOrder(
                         OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey()))
             .collect(Collectors.toList());
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(depth.getTs(), asks, bids);
   }
 }
