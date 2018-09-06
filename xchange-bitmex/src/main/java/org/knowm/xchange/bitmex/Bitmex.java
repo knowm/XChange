@@ -1,14 +1,6 @@
 package org.knowm.xchange.bitmex;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.dto.account.*;
 import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
@@ -19,9 +11,17 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "JavaDoc"})
 public interface Bitmex {
 
   @GET
@@ -127,20 +127,23 @@ public interface Bitmex {
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Integer start,
       @Nullable @QueryParam("reverse") Boolean reverse)
-      throws IOException, BitmexException;
+      throws IOException;
 
   @GET
   @Path("instrument")
-  BitmexTickerList getTicker(@QueryParam("symbol") String symbol)
-      throws IOException, BitmexException;
+  BitmexTickerList getTicker(
+          @QueryParam("symbol") String symbol)
+          throws IOException;
 
   @GET
   @Path("instrument/active")
-  BitmexTickerList getActiveTickers() throws IOException, BitmexException;
+  BitmexTickerList getActiveTickers()
+          throws IOException;
 
   @GET
   @Path("instrument/activeIntervals")
-  BitmexSymbolsAndPromptsResult getPromptsAndSymbols() throws IOException, BitmexException;
+  BitmexSymbolsAndPromptsResult getPromptsAndSymbols()
+          throws IOException;
 
   /**
    * @param apiKey
@@ -162,7 +165,6 @@ public interface Bitmex {
    * @param endTime Ending date filter for results.
    * @return {@link BitmexPrivateOrderList} containing the requested order(s).
    * @throws IOException
-   * @throws BitmexException
    */
   @GET
   @Path("order")
@@ -178,7 +180,7 @@ public interface Bitmex {
       @Nullable @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("startTime") Date startTime,
       @Nullable @QueryParam("endTime") Date endTime)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * @param apiKey
@@ -252,7 +254,7 @@ public interface Bitmex {
       @Nullable @FormParam("pegPriceType") String pegPriceType,
       @Nullable @FormParam("timeInForce") String timeInForce,
       @Nullable @FormParam("text") String text)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * @param apiKey
@@ -301,7 +303,7 @@ public interface Bitmex {
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("pegOffsetValue") BigDecimal pegOffsetValue,
       @Nullable @FormParam("text") String text)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * @param apiKey
@@ -319,7 +321,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("orders") String orderCommands)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * @param apiKey
@@ -339,7 +341,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("orders") String orderCommands)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * Either an orderID or a clOrdID must be provided.
@@ -361,7 +363,7 @@ public interface Bitmex {
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @FormParam("orderID") String orderID,
       @Nullable @FormParam("clOrdID") String clOrdID)
-      throws IOException, BitmexException;
+      throws IOException;
 
   /**
    * @param apiKey
@@ -384,7 +386,7 @@ public interface Bitmex {
       @Nullable @FormParam("symbol") String symbol,
       @Nullable @FormParam("filter") String filter,
       @Nullable @FormParam("text") String text)
-      throws IOException, BitmexException;
+      throws IOException;
 
   @GET
   @Path("user/depositAddress")
@@ -393,7 +395,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @QueryParam("currency") String currency)
-      throws IOException, BitmexException;
+      throws IOException;
 
   @POST
   @Path("user/requestWithdrawal")
@@ -404,7 +406,7 @@ public interface Bitmex {
       @FormParam("currency") String currency,
       @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address)
-      throws IOException, BitmexException;
+      throws IOException;
 
   @POST
   @Path("position/leverage")
@@ -414,7 +416,7 @@ public interface Bitmex {
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @FormParam("symbol") String symbol,
       @FormParam("leverage") BigDecimal leverage)
-      throws IOException, BitmexException;
+      throws IOException;
 
   class PlaceOrderCommand {
 
