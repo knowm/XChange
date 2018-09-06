@@ -1,13 +1,18 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.Bitmex;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
+
 /** See {@link Bitmex#placeOrder} */
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class BitmexPlaceOrderParameters {
 
   private final String symbol;
@@ -27,7 +32,7 @@ public class BitmexPlaceOrderParameters {
   @Nullable private final BitmexTimeInForce timeInForce;
   @Nullable private final String text;
 
-  private BitmexPlaceOrderParameters(
+  public BitmexPlaceOrderParameters(
       @Nonnull String symbol,
       @Nullable BigDecimal orderQuantity,
       @Nullable BigDecimal simpleOrderQuantity,
@@ -110,6 +115,11 @@ public class BitmexPlaceOrderParameters {
   @Nullable
   public List<BitmexExecutionInstruction> getExecutionInstructions() {
     return executionInstructions;
+  }
+
+  @Nullable
+  public String getExecutionInstructionsAsParameter() {
+    return executionInstructions != null ? StringUtils.join(executionInstructions, ", ") : null;
   }
 
   @Nullable

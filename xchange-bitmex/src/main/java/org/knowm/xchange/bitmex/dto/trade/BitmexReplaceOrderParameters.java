@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.Bitmex;
 
 /** See {@link Bitmex#replaceOrder} */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class BitmexReplaceOrderParameters {
 
   @Nullable private final String orderId;
@@ -21,7 +21,7 @@ public class BitmexReplaceOrderParameters {
   @Nullable private final BigDecimal pegOffsetValue;
   @Nullable private final String text;
 
-  private BitmexReplaceOrderParameters(
+  public BitmexReplaceOrderParameters(
       @Nullable String orderId,
       @Nullable String origClOrdId,
       @Nullable String clOrdId,
