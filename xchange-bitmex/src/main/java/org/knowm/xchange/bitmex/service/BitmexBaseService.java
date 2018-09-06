@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.*;
@@ -10,6 +11,7 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -39,10 +41,14 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  protected ExchangeException handleError(BitmexException exception) {
-
+  protected ExchangeException handleError(IOException exception) {
     if (exception != null) {
-      final String message = exception.getMessage();
+      String message;
+      if (exception instanceof HttpStatusIOException) {
+          message = ((HttpStatusIOException)exception).getHttpBody();
+      } else {
+          message = exception.getMessage();
+      }
       if (message != null) {
         if (message.contains("Insufficient")) {
           return new FundsExceededException(exception);
