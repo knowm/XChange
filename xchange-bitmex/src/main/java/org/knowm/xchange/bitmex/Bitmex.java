@@ -21,6 +21,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
+@SuppressWarnings("WeakerAccess")
 public interface Bitmex {
 
   @GET
@@ -418,67 +419,67 @@ public interface Bitmex {
   class PlaceOrderCommand {
 
     @JsonProperty("symbol")
-    private final String symbol;
+    public final String symbol;
 
     @Nullable
     @JsonProperty("side")
-    private final String side;
+    public final String side;
 
     @Nullable
     @JsonProperty("orderQty")
-    private final BigDecimal orderQuantity;
+    public final BigDecimal orderQuantity;
 
     @Nullable
     @JsonProperty("simpleOrderQuantity")
-    private final BigDecimal simpleOrderQuantity;
+    public final BigDecimal simpleOrderQuantity;
 
     @Nullable
     @JsonProperty("displayQuantity")
-    private final BigDecimal displayQuantity;
+    public final BigDecimal displayQuantity;
 
     @Nullable
     @JsonProperty("price")
-    private final BigDecimal price;
+    public final BigDecimal price;
 
     @Nullable
     @JsonProperty("stopPx")
-    private final BigDecimal stopPrice;
+    public final BigDecimal stopPrice;
 
     @Nullable
     @JsonProperty("ordType")
-    private final String orderType;
+    public final String orderType;
 
     @Nullable
     @JsonProperty("clOrdID")
-    private final String clOrdID;
+    public final String clOrdID;
 
     @Nullable
     @JsonProperty("execInst")
-    private final String executionInstructions;
+    public final String executionInstructions;
 
     @Nullable
     @JsonProperty("clOrdLinkID")
-    private final String clOrdLinkID;
+    public final String clOrdLinkID;
 
     @Nullable
     @JsonProperty("contingencyType")
-    private final String contingencyType;
+    public final String contingencyType;
 
     @Nullable
     @JsonProperty("pegOffsetValue")
-    private final BigDecimal pegOffsetValue;
+    public final BigDecimal pegOffsetValue;
 
     @Nullable
     @JsonProperty("pegPriceType")
-    private final String pegPriceType;
+    public final String pegPriceType;
 
     @Nullable
     @JsonProperty("timeInForce")
-    private final String timeInForce;
+    public final String timeInForce;
 
     @Nullable
     @JsonProperty("text")
-    private final String text;
+    public final String text;
 
     /** See {@link Bitmex#placeOrder}. */
     public PlaceOrderCommand(final BitmexPlaceOrderParameters parameters) {
@@ -492,10 +493,7 @@ public interface Bitmex {
       this.orderType =
           parameters.getOrderType() != null ? parameters.getOrderType().toApiParameter() : null;
       this.clOrdID = parameters.getClOrdId();
-      this.executionInstructions =
-          parameters.getExecutionInstructions() != null
-              ? StringUtils.join(parameters.getExecutionInstructions(), ",  ")
-              : null;
+      this.executionInstructions = parameters.getExecutionInstructionsAsParameter();
       this.clOrdLinkID = parameters.getClOrdLinkId();
       this.contingencyType =
           parameters.getContingencyType() != null
@@ -564,47 +562,47 @@ public interface Bitmex {
 
     @Nullable
     @JsonProperty("orderID")
-    private final String orderId;
+    public final String orderId;
 
     @Nullable
     @JsonProperty("origClOrdID")
-    private final String origClOrdID;
+    public final String origClOrdID;
 
     @Nullable
     @JsonProperty("clOrdID")
-    private final String clOrdID;
+    public final String clOrdID;
 
     @Nullable
     @JsonProperty("simpleOrderQty")
-    private final BigDecimal simpleOrderQty;
+    public final BigDecimal simpleOrderQty;
 
     @Nullable
     @JsonProperty("orderQty")
-    private final BigDecimal orderQuantity;
+    public final BigDecimal orderQuantity;
 
     @Nullable
     @JsonProperty("simpleLeavesQty")
-    private final BigDecimal simpleLeavesQty;
+    public final BigDecimal simpleLeavesQty;
 
     @Nullable
     @JsonProperty("leavesQty")
-    private final BigDecimal leavesQty;
+    public final BigDecimal leavesQty;
 
     @Nullable
     @JsonProperty("price")
-    private final BigDecimal price;
+    public final BigDecimal price;
 
     @Nullable
     @JsonProperty("stopPx")
-    private final BigDecimal stopPrice;
+    public final BigDecimal stopPrice;
 
     @Nullable
     @JsonProperty("pegOffsetValue")
-    private final BigDecimal pegOffsetValue;
+    public final BigDecimal pegOffsetValue;
 
     @Nullable
     @JsonProperty("text")
-    private final String text;
+    public final String text;
 
     /** See {@link Bitmex#replaceOrder}. */
     public ReplaceOrderCommand(@Nonnull final BitmexReplaceOrderParameters parameters) {

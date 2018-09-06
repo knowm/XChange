@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.sun.javafx.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexException;
@@ -125,9 +127,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
               parameters.getStopPrice(),
               parameters.getOrderType() != null ? parameters.getOrderType().toApiParameter() : null,
               parameters.getClOrdId(),
-              parameters.getExecutionInstructions() != null
-                  ? StringUtils.join(parameters.getExecutionInstructions(), ",  ")
-                  : null,
+              parameters.getExecutionInstructionsAsParameter(),
               parameters.getClOrdLinkId(),
               parameters.getContingencyType() != null
                   ? parameters.getContingencyType().toApiParameter()
