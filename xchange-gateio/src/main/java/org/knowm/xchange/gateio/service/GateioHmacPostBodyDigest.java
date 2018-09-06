@@ -2,8 +2,11 @@ package org.knowm.xchange.gateio.service;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+
 import javax.crypto.Mac;
+
 import org.knowm.xchange.service.BaseParamsDigest;
+
 import si.mazi.rescu.RestInvocation;
 
 /**
@@ -39,6 +42,12 @@ public class GateioHmacPostBodyDigest extends BaseParamsDigest {
 
     try {
       String postBody = restInvocation.getRequestBody();
+      
+      // little hack here. the post body to create the signature mus not contain the url-encoded parameters, they must be in plain form
+      // passing ie the white space inside the withdraw method (required for XLM and XRP ... to pass the tag) results in a plus sing '+', which is the correct encoding, but in this case the signature is not created correctly.
+      // the expected signature must be created using plain parameters. here we simply replace the + by a white space, should be fine for now
+      // see https://support.gate.io/hc/en-us/articles/360000808354-How-to-Withdraw-XRP
+      postBody = postBody.replace('+', ' ');
       Mac mac = getMac();
       mac.update(postBody.getBytes("UTF-8"));
       return String.format("%0128x", new BigInteger(1, mac.doFinal()));
