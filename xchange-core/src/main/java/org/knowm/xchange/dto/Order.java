@@ -32,7 +32,7 @@ public abstract class Order implements Serializable {
   private BigDecimal fee;
   /** The leverage to use for margin related to this order */
   private String leverage = null;
-  /** The unit amount is usually used to calculate the profit and loss situation in the contract transaction. */
+  /** In some futures trading scenario, the originalAmount parameter represents the number of contracts, and the unitAmount parameter represents the par value of each contract. */
   private BigDecimal unitAmount;
 
   /**
