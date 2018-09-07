@@ -305,11 +305,11 @@ public final class ItBitAdapters {
   }
 
   public static String formatFiatAmount(BigDecimal amount) {
-    return getFiatFormat().format(amount);
+    return getFiatFormat().format(amount.add(new BigDecimal(0.00000001)));
   }
 
   public static String formatCryptoAmount(BigDecimal amount) {
-    return getCryptoFormat().format(amount);
+    return getCryptoFormat().format(amount.add(new BigDecimal(0.00000001)));
   }
 
   public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {
