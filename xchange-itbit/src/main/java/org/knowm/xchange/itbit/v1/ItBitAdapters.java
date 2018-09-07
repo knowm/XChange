@@ -68,7 +68,7 @@ public final class ItBitAdapters {
     cryptoFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     cryptoFormat.setMaximumFractionDigits(4);
     cryptoFormat.setGroupingUsed(false);
-    cryptoFormat.setRoundingMode(RoundingMode.UNNECESSARY);
+    cryptoFormat.setRoundingMode(RoundingMode.DOWN);
     return cryptoFormat;
   }
 
@@ -77,7 +77,7 @@ public final class ItBitAdapters {
     fiatFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     fiatFormat.setMaximumFractionDigits(2);
     fiatFormat.setGroupingUsed(false);
-    fiatFormat.setRoundingMode(RoundingMode.UNNECESSARY);
+    fiatFormat.setRoundingMode(RoundingMode.DOWN);
     return fiatFormat;
   }
 
