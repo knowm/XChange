@@ -3,10 +3,11 @@ package org.knowm.xchange.bitmex.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
 /** see field description at http://www.onixs.biz/fix-dictionary/5.0.SP2/fields_by_name.html */
-public class BitmexPrivateOrder {
+public class BitmexPrivateOrder extends AbstractHttpResponseAware {
 
   private final BigDecimal price;
   private final BigDecimal size;
@@ -47,6 +48,8 @@ public class BitmexPrivateOrder {
   // "2018-06-03T05:22:49.018Z"
   private final Date transactTime;
 
+  private final String error;
+
   public BitmexPrivateOrder(
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("orderID") String id,
@@ -79,7 +82,8 @@ public class BitmexPrivateOrder {
       @JsonProperty("avgPx") BigDecimal avgPx,
       @JsonProperty("multiLegReportingType") String multiLegReportingType,
       @JsonProperty("text") String text,
-      @JsonProperty("transactTime") Date transactTime) {
+      @JsonProperty("transactTime") Date transactTime,
+      @JsonProperty("error") String error) {
 
     this.symbol = symbol;
     this.id = id;
@@ -114,6 +118,7 @@ public class BitmexPrivateOrder {
     this.multiLegReportingType = multiLegReportingType;
     this.text = text;
     this.transactTime = transactTime;
+    this.error = error;
   }
 
   public BigDecimal getPrice() {
@@ -251,6 +256,10 @@ public class BitmexPrivateOrder {
     return transactTime;
   }
 
+  public String getError() {
+    return error;
+  }
+
   @Override
   public String toString() {
     return "BitmexPrivateOrder{"
@@ -336,13 +345,18 @@ public class BitmexPrivateOrder {
         + ", transactTime='"
         + transactTime
         + '\''
+        + ", error='"
+        + error
+        + '\''
         + '}';
   }
 
   public enum OrderStatus {
     New,
-    Partially_filled,
+    PartiallyFilled,
     Filled,
-    Canceled
+    Canceled,
+    Rejected,
+    Replaced
   }
 }

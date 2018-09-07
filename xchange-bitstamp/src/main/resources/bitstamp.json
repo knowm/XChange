@@ -3,77 +3,77 @@
     "BTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.01
+      "min_amount": 0.00085000
     },
     "BTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.01
+      "min_amount": 0.00085000
     },
     "EUR/USD": {
-      "price_scale": 2,
+      "price_scale": 5,
       "trading_fee": 0.0020,
-      "min_amount": 5
+      "min_amount": 5.00
     },
     "XRP/USD": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 8
+      "min_amount": 10.00000000
     },
     "XRP/EUR": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 8
+      "min_amount": 11.00000000
     },
     "XRP/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 8
+      "min_amount": 15.00000000
     },
     "LTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.04000000
     },
     "LTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.04500000
     },
     "LTC/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.06000000
     },
     "ETH/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.01500000
     },
     "ETH/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.01500000
     },
     "ETH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.02000000
     },
     "BCH/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.00700000
     },
     "BCH/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.004
+      "min_amount": 0.00600000
     },
     "BCH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.01000000
     }
   },
   "currencies": {

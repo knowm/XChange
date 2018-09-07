@@ -216,7 +216,7 @@ public class CexIOAdapters {
       BigDecimal originalAmount = cexIOArchivedOrder.amount;
       CurrencyPair currencyPair =
           new CurrencyPair(cexIOArchivedOrder.symbol1, cexIOArchivedOrder.symbol2);
-      BigDecimal price = cexIOArchivedOrder.price;
+      BigDecimal price = cexIOArchivedOrder.averageExecutionPrice;
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 

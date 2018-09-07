@@ -27,6 +27,5 @@ public interface ReturnDepositsWithdrawalsApi {
       tags = "account")
   @ApiResponses(
       @ApiResponse(code = 200, message = "", response = ReturnDepositsWithdrawalsResponse.class))
-  ReturnDepositsWithdrawalsResponse fundingHistory(DepositsWithdrawalsReq depositsWithdrawalsReq)
-      throws Exception;
+  ReturnDepositsWithdrawalsResponse fundingHistory(DepositsWithdrawalsReq depositsWithdrawalsReq);
 }

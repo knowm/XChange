@@ -1,11 +1,10 @@
 package org.knowm.xchange.btcmarkets;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
@@ -15,6 +14,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -23,8 +23,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class BTCMarketsAdapters {
+
+  private static final Logger logger = LoggerFactory.getLogger(BTCMarketsAdapters.class);
 
   public static final Comparator<LimitOrder> ASK_COMPARATOR =
       new Comparator<LimitOrder>() {
@@ -40,6 +44,19 @@ public final class BTCMarketsAdapters {
           return o2.getLimitPrice().compareTo(o1.getLimitPrice());
         }
       };
+
+  private static final Map<String, Order.OrderStatus> orderStatusMap = new HashMap<>();
+
+  static {
+    orderStatusMap.put("New", Order.OrderStatus.NEW);
+    orderStatusMap.put("Placed", Order.OrderStatus.NEW);
+    orderStatusMap.put("Failed", Order.OrderStatus.STOPPED);
+    orderStatusMap.put("Error", Order.OrderStatus.STOPPED);
+    orderStatusMap.put("Cancelled", Order.OrderStatus.CANCELED);
+    orderStatusMap.put("Partially Cancelled", Order.OrderStatus.PARTIALLY_CANCELED);
+    orderStatusMap.put("Fully Matched", Order.OrderStatus.FILLED);
+    orderStatusMap.put("Partially Matched", Order.OrderStatus.PARTIALLY_FILLED);
+  }
 
   private BTCMarketsAdapters() {}
 
@@ -72,14 +89,40 @@ public final class BTCMarketsAdapters {
     return limitOrders;
   }
 
+  public static Order.OrderStatus adaptOrderStatus(String btcmarketsOrderStatus) {
+    Order.OrderStatus result =
+        orderStatusMap.getOrDefault(btcmarketsOrderStatus, Order.OrderStatus.UNKNOWN);
+    if (result == Order.OrderStatus.UNKNOWN) {
+      logger.warn("Unable to map btcmarkets orderStatus : {}", btcmarketsOrderStatus);
+    }
+    return result;
+  }
+
   public static LimitOrder adaptOrder(BTCMarketsOrder o) {
+    BigDecimal averagePrice =
+        BigDecimal.valueOf(
+            o.getTrades()
+                .stream()
+                .mapToDouble(value -> value.getPrice().doubleValue())
+                .summaryStatistics()
+                .getAverage());
+    BigDecimal fee =
+        BigDecimal.valueOf(
+            o.getTrades().stream().mapToDouble(value -> value.getFee().doubleValue()).sum());
+    BigDecimal cumulativeAmount =
+        BigDecimal.valueOf(
+            o.getTrades().stream().mapToDouble(value -> value.getVolume().doubleValue()).sum());
     return new LimitOrder(
         adaptOrderType(o.getOrderSide()),
         o.getVolume(),
         new CurrencyPair(o.getInstrument(), o.getCurrency()),
         Long.toString(o.getId()),
         o.getCreationTime(),
-        o.getPrice());
+        o.getPrice(),
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        adaptOrderStatus(o.getStatus()));
   }
 
   public static UserTrades adaptTradeHistory(
@@ -129,5 +172,46 @@ public final class BTCMarketsAdapters {
         .ask(t.getBestAsk())
         .timestamp(t.getTimestamp())
         .build();
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(
+      BTCMarketsFundtransferHistoryResponse btcMarketsFundtransferHistoryResponse) {
+    List<FundingRecord> result = new ArrayList<>();
+    for (BTCMarketsFundtransfer transfer :
+        btcMarketsFundtransferHistoryResponse.getFundTransfers()) {
+      String address = null;
+      String blockchainTransactionHash = null;
+      if (transfer.getCryptoPaymentDetail() != null) {
+        address = transfer.getCryptoPaymentDetail().getAddress();
+        blockchainTransactionHash = transfer.getCryptoPaymentDetail().getTxId();
+      }
+      FundingRecord.Type fundingrecordType = null;
+      if (transfer.getTransferType().equals("WITHDRAW")) {
+        fundingrecordType = FundingRecord.Type.WITHDRAWAL;
+      } else if (transfer.getTransferType().equals("DEPOSIT")) {
+        fundingrecordType = FundingRecord.Type.DEPOSIT;
+      }
+      FundingRecord.Status fundingRecordStatus = null;
+      if (transfer.getStatus().equals("Complete")) {
+        fundingRecordStatus = FundingRecord.Status.COMPLETE;
+      } else {
+        fundingRecordStatus = FundingRecord.Status.PROCESSING;
+      }
+
+      result.add(
+          new FundingRecord(
+              address,
+              transfer.getCreationTime(),
+              Currency.getInstance(transfer.getCurrency()),
+              transfer.getAmount(),
+              Long.toString(transfer.getFundTransferId()),
+              blockchainTransactionHash,
+              fundingrecordType,
+              fundingRecordStatus,
+              null,
+              transfer.getFee(),
+              transfer.getDescription()));
+    }
+    return result;
   }
 }

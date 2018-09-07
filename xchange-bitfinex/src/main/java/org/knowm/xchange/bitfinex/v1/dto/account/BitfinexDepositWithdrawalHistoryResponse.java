@@ -34,6 +34,42 @@ public class BitfinexDepositWithdrawalHistoryResponse {
   @JsonProperty("timestamp")
   private BigDecimal timestamp;
 
+  @JsonProperty("txid")
+  private String txid;
+
+  @JsonProperty("timestamp_created")
+  private BigDecimal timestampCreated;
+
+  @JsonProperty("fee")
+  private BigDecimal fee;
+
+  public BitfinexDepositWithdrawalHistoryResponse(
+      @JsonProperty("id") Long id,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("method") String method,
+      @JsonProperty("type") FundingRecord.Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("description") String description,
+      @JsonProperty("address") String address,
+      @JsonProperty("status") String status,
+      @JsonProperty("timestamp") BigDecimal timestamp,
+      @JsonProperty("txid") String txid,
+      @JsonProperty("timestamp_created") BigDecimal timestampCreated,
+      @JsonProperty("fee") BigDecimal fee) {
+    this.id = id;
+    this.currency = currency;
+    this.method = method;
+    this.type = type;
+    this.amount = amount;
+    this.description = description;
+    this.address = address;
+    this.status = status;
+    this.timestamp = timestamp;
+    this.txid = txid;
+    this.timestampCreated = timestampCreated;
+    this.fee = fee;
+  }
+
   @Override
   public String toString() {
     return "BitfinexDepositWithdrawalHistoryResponse [id="
@@ -54,6 +90,12 @@ public class BitfinexDepositWithdrawalHistoryResponse {
         + status
         + ", timestamp="
         + getTimestamp()
+        + ", txid="
+        + txid
+        + ", timestampCreated="
+        + getTimestampCreated()
+        + ", fee="
+        + fee
         + "]";
   }
 
@@ -91,5 +133,17 @@ public class BitfinexDepositWithdrawalHistoryResponse {
 
   public Date getTimestamp() {
     return new Date(timestamp.scaleByPowerOfTen(3).longValue());
+  }
+
+  public String getTxid() {
+    return txid;
+  }
+
+  public Date getTimestampCreated() {
+    return new Date(timestampCreated.scaleByPowerOfTen(3).longValue());
+  }
+
+  public BigDecimal getFee() {
+    return fee;
   }
 }

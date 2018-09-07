@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -23,7 +24,7 @@ import java.util.Map;
   "transactTime",
   "timestamp"
 })
-public final class BitmexWalletTransaction {
+public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
 
   @JsonProperty("transactID")
   private String transactID;

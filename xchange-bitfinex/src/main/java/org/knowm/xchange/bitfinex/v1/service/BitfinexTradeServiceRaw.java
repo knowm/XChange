@@ -5,14 +5,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelAllOrdersRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
@@ -357,6 +358,25 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       return true;
     } catch (BitfinexException e) {
       if (e.getMessage().equals("Order could not be cancelled.")) {
+        return false;
+      } else {
+        throw handleException(e);
+      }
+    }
+  }
+
+  public boolean cancelAllBitfinexOrders() throws IOException {
+
+    try {
+      bitfinex.cancelAllOrders(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          new BitfinexCancelAllOrdersRequest(
+              String.valueOf(exchange.getNonceFactory().createValue())));
+      return true;
+    } catch (BitfinexException e) {
+      if (e.getMessage().equals("Orders could not be cancelled.")) {
         return false;
       } else {
         throw handleException(e);

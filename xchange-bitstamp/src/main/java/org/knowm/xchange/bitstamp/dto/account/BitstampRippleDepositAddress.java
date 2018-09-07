@@ -12,7 +12,7 @@ public class BitstampRippleDepositAddress {
 
   @JsonIgnore private Long destinationTag = null;
 
-  protected BitstampRippleDepositAddress(@JsonProperty("address") String addressAndDt) {
+  public BitstampRippleDepositAddress(@JsonProperty("address") String addressAndDt) {
 
     this.addressAndDt = addressAndDt;
     final String[] split = addressAndDt.split("\\?dt=");

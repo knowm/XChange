@@ -31,5 +31,5 @@ public interface ReturnOrderTradesApi {
           message =
               "Sample output: [ { date: '2017-10-11 21:41:15',amount: '0.3',type: 'buy',total: '1',price: '0.3',uuid: 'e8719a10-aecc-11e7-9535-3b8451fd4699',transactionHash: '0x28b945b586a5929c69337929533e04794d488c2d6e1122b7b915705d0dff8bb6' } ]",
           response = ReturnOrderTradesResponse.class))
-  ReturnOrderTradesResponse orderTrades(OrderTradesReq orderTradesReq) throws Exception;
+  ReturnOrderTradesResponse orderTrades(OrderTradesReq orderTradesReq);
 }

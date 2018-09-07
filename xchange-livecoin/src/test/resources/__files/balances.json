@@ -1,0 +1,97 @@
+[
+    {
+        "type": "total",
+        "currency": "USD",
+        "value": 20
+    },
+    {
+        "type": "available",
+        "currency": "USD",
+        "value": 10
+    },
+    {
+        "type": "trade",
+        "currency": "USD",
+        "value": 10
+    },
+    {
+        "type": "available_withdrawal",
+        "currency": "USD",
+        "value": 10
+    },
+    {
+        "type": "total",
+        "currency": "EUR",
+        "value": 15
+    },
+    {
+        "type": "available",
+        "currency": "EUR",
+        "value": 5
+    },
+    {
+        "type": "trade",
+        "currency": "EUR",
+        "value": 10
+    },
+    {
+        "type": "available_withdrawal",
+        "currency": "EUR",
+        "value": 10
+    },
+    {
+        "type": "total",
+        "currency": "BTC",
+        "value": 0
+    },
+    {
+        "type": "available",
+        "currency": "BTC",
+        "value": 0
+    },
+    {
+        "type": "trade",
+        "currency": "BTC",
+        "value": 0
+    },
+    {
+        "type": "available_withdrawal",
+        "currency": "BTC",
+        "value": 0
+    },
+    {
+        "type": "total",
+        "currency": "LTC",
+        "value": 0
+    },
+    {
+        "type": "available",
+        "currency": "LTC",
+        "value": 0
+    },
+    {
+        "type": "trade",
+        "currency": "LTC",
+        "value": 0
+    },
+    {
+        "type": "total",
+        "currency": "EMC",
+        "value": 0
+    },
+    {
+        "type": "available",
+        "currency": "EMC",
+        "value": 0
+    },
+    {
+        "type": "trade",
+        "currency": "EMC",
+        "value": 0
+    },
+    {
+        "type": "available_withdrawal",
+        "currency": "EMC",
+        "value": 0
+    }
+]
