@@ -2,17 +2,13 @@ package org.knowm.xchange.btcmarkets.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import org.knowm.xchange.btcmarkets.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -83,6 +79,12 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
             limit,
             since);
     return btcm.getTradeHistory(
+        exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, request);
+  }
+
+  public BTCMarketsOrders getOrderDetails(List<Long> orderIds) throws IOException {
+    BTCMarketsOrderDetailsRequest request = new BTCMarketsOrderDetailsRequest(orderIds);
+    return btcm.getOrderDetails(
         exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, request);
   }
 

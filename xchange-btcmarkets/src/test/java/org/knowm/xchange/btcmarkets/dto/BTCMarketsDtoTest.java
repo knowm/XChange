@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
@@ -246,5 +247,20 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     for (int i = 0; i < userTrades.size(); i++) {
       BtcMarketsAssert.assertEquals(userTrades.get(i), expectedParsedBtcMarketsUserTrades.get(i));
     }
+  }
+
+  @Test
+  public void shouldParseFundTransfers() throws IOException {
+    // given
+    final BTCMarketsFundtransferHistoryResponse
+        expectedParsedBtcMarketsFundtransferHistoryResponse =
+            expectedParsedBTCMarketsFundtransferHistoryResponse();
+
+    // when
+    final BTCMarketsFundtransferHistoryResponse response =
+        parse(BTCMarketsFundtransferHistoryResponse.class);
+
+    assertThat(response.toString())
+        .isEqualTo(expectedParsedBtcMarketsFundtransferHistoryResponse.toString());
   }
 }

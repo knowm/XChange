@@ -9,7 +9,7 @@ import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
 
-@Path("/")
+@Path("/data/eur")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Paymium {
 
