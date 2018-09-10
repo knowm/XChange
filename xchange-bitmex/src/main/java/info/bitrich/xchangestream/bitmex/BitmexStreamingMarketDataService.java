@@ -34,6 +34,10 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
         this.streamingService = streamingService;
+        this.streamingService.subscribeConnectionSuccess().subscribe(o -> {
+            LOG.info("Bitmex connection succeeded. Clearing orderbooks.");
+            orderbooks.clear();
+        });
     }
 
     private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
@@ -116,14 +120,14 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         });
     }
 
-    /**
-     * @param rate    in milliseconds to send updated
-     * @param timeout milliseconds from now after which orders will be cancelled
-     */
     public void enableDeadManSwitch() throws IOException {
         enableDeadManSwitch(BitmexStreamingService.DMS_RESUBSCRIBE, BitmexStreamingService.DMS_CANCEL_ALL_IN);
     }
 
+    /**
+     * @param rate    in milliseconds to send updated
+     * @param timeout milliseconds from now after which orders will be cancelled
+     */
     public void enableDeadManSwitch(long rate, long timeout) throws IOException {
         streamingService.enableDeadMansSwitch(rate, timeout);
     }
