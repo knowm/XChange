@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
@@ -12,6 +7,12 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.utils.ObjectMapperHelper;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
@@ -99,14 +100,13 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder placeLimitOrder(
-      String symbol,
-      BigDecimal orderQuantity,
-      BigDecimal price,
-      BitmexSide side,
-      String clOrdID,
-      String executionInstructions) {
-    return placeLimitOrder(
-        symbol, orderQuantity, price, side, clOrdID, executionInstructions, null, null);
+          String symbol,
+          BigDecimal orderQuantity,
+          BigDecimal price,
+          BitmexSide side,
+          String clOrdID,
+          String executionInstructions) {
+    return placeLimitOrder(symbol, orderQuantity, price, side, clOrdID, executionInstructions, null, null);
   }
 
   public BitmexPrivateOrder placeLimitOrder(
