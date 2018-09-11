@@ -1,9 +1,6 @@
 package org.knowm.xchange.coinsuper;
 
-/**
- * author: kevin gates
- */
-
+/** author: kevin gates */
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
