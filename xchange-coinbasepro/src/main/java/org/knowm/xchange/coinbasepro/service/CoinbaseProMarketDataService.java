@@ -1,21 +1,22 @@
-package org.knowm.xchange.gdax.service;
+package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
-import org.knowm.xchange.gdax.GDAXAdapters;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-@Deprecated //Please use module xchange-coinbasepro
-public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements MarketDataService {
+/** Created by Yingzhe on 4/6/2015. */
+public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRaw
+    implements MarketDataService {
 
-  public GDAXMarketDataService(Exchange exchange) {
+  public CoinbaseProMarketDataService(Exchange exchange) {
 
     super(exchange);
   }
@@ -25,11 +26,11 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
       throws IOException, RateLimitExceededException {
 
     // Request data
-    GDAXProductTicker ticker = getGDAXProductTicker(currencyPair);
-    GDAXProductStats stats = getGDAXProductStats(currencyPair);
+    CoinbaseProProductTicker ticker = getCoinbaseProProductTicker(currencyPair);
+    CoinbaseProProductStats stats = getCoinbaseProProductStats(currencyPair);
 
     // Adapt to XChange DTOs
-    return GDAXAdapters.adaptTicker(ticker, stats, currencyPair);
+    return CoinbaseProAdapters.adaptTicker(ticker, stats, currencyPair);
   }
 
   @Override
@@ -48,13 +49,14 @@ public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements M
       }
     }
 
-    return GDAXAdapters.adaptOrderBook(getGDAXProductOrderBook(currencyPair, level), currencyPair);
+    return CoinbaseProAdapters.adaptOrderBook(
+        getCoinbaseProProductOrderBook(currencyPair, level), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args)
       throws IOException, RateLimitExceededException {
 
-    return GDAXAdapters.adaptTrades(getGDAXTrades(currencyPair), currencyPair);
+    return CoinbaseProAdapters.adaptTrades(getCoinbaseProTrades(currencyPair), currencyPair);
   }
 }
