@@ -11,6 +11,18 @@
     "ETH/BTC": {
       "price_scale": 5,
       "min_amount": 0.001
+    },
+    "ZEC/USD": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "BTC/ZEC": {
+      "price_scale": 5,
+      "min_amount": 0.001
+    },
+    "ETH/ZEC": {
+      "price_scale": 4,
+      "min_amount": 0.001
     }
   },
   "currencies": {
@@ -21,6 +33,9 @@
       "scale": 2
     },
     "ETH": {
+      "scale": 6
+    },
+    "ZEC": {
       "scale": 6
     }
   }
