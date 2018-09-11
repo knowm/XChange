@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -225,6 +226,12 @@ public final class BittrexAdapters {
 
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
+    final BigDecimal priceChange = marketSummary.getLast().subtract(marketSummary.getPrevDay());
+    final BigDecimal priceChangePercent =
+        priceChange
+            .divide(marketSummary.getPrevDay(), 4, RoundingMode.HALF_UP)
+            .multiply(BigDecimal.valueOf(100L));
+
     return new Ticker.Builder()
         .currencyPair(currencyPair)
         .last(last)
@@ -232,6 +239,8 @@ public final class BittrexAdapters {
         .ask(ask)
         .high(high)
         .low(low)
+        .priceChange(priceChange)
+        .priceChangePercent(priceChangePercent)
         .volume(volume)
         .timestamp(timestamp)
         .build();
