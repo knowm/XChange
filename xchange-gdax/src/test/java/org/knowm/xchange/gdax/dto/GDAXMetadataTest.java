@@ -34,6 +34,7 @@ public class GDAXMetadataTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-    assertThat(exchangeMetaData.getCurrencyPairs().get(CurrencyPair.ETC_BTC).getPriceScale()).isEqualTo(5);
+    assertThat(exchangeMetaData.getCurrencyPairs().get(CurrencyPair.ETC_BTC).getPriceScale())
+        .isEqualTo(5);
   }
 }
