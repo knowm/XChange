@@ -3,7 +3,6 @@ package org.knowm.xchange.coinbasepro.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** Created by Yingzhe on 4/4/2015. */
 public class CoinbaseProProductStats {
   private final BigDecimal open;
   private final BigDecimal high;

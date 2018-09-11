@@ -11,7 +11,6 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** Created by Yingzhe on 4/6/2015. */
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   public CoinbaseProMarketDataServiceRaw(Exchange exchange) {

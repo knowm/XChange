@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbasepro.dto.marketdata;
 
 import java.math.BigDecimal;
 
-/** Created by Yingzhe on 4/6/2015. */
 public abstract class CoinbaseProProductBookEntry {
 
   private final BigDecimal price;

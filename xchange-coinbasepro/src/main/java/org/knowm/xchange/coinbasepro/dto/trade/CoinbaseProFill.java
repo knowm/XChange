@@ -3,7 +3,6 @@ package org.knowm.xchange.coinbasepro.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-/** Created by john.demic on 1/2/16. */
 public class CoinbaseProFill {
   private final String tradeId;
   private final String productId;
