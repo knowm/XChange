@@ -33,7 +33,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 
-/** Created by Yingzhe on 4/8/2015. */
 public class CoinbaseProAdaptersTest {
 
   @Test

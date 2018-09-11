@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-/** Created by Yingzhe on 4/6/2015. */
 public class CoinbaseProProductBook {
 
   private final Long sequence;

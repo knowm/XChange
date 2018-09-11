@@ -12,7 +12,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** Created by Yingzhe on 4/6/2015. */
 public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRaw
     implements MarketDataService {
 
