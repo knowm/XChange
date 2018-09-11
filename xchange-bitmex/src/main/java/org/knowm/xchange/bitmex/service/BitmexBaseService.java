@@ -56,6 +56,8 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
           return new RateLimitExceededException(exception);
         } else if (message.contains("Internal server error")) {
           return new InternalServerException(exception);
+        } else {
+          return new ExchangeException(message, exception);
         }
       }
     }
