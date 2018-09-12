@@ -157,6 +157,14 @@ public interface BitstampAuthenticated {
       throws BitstampException, IOException;
 
   @POST
+  @Path("v2/bch_address/")
+  BitstampDepositAddress getBitcoinCashDepositAddress(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws BitstampException, IOException;
+
+  @POST
   @Path("v2/ltc_withdrawal/")
   BitstampWithdrawal withdrawLitecoin(
       @FormParam("key") String apiKey,
