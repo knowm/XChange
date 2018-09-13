@@ -2,57 +2,76 @@ package org.knowm.xchange.bittrex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class BittrexOpenOrder {
+public class BittrexOrder {
 
-  private final String uuid;
+  private final String accountId;
   private final String orderUuid;
   private final String exchange;
-  private final String orderType;
+  private final String type;
   private final BigDecimal quantity;
   private final BigDecimal quantityRemaining;
   private final BigDecimal limit;
+  private final BigDecimal reserved;
+  private final BigDecimal reserveRemaining;
+  private final BigDecimal commissionReserved;
+  private final BigDecimal commissionReserveRemaining;
   private final BigDecimal commissionPaid;
   private final BigDecimal price;
   private final BigDecimal pricePerUnit;
-  private final String opened;
-  private final String closed;
+  private final Date opened;
+  private final Date closed;
+  private final Boolean isOpen;
+  private final String sentinel;
   private final Boolean cancelInitiated;
   private final Boolean immediateOrCancel;
   private final Boolean isConditional;
   private final String condition;
-  private final Object conditionTarget;
+  private final String conditionTarget;
 
-  public BittrexOpenOrder(
-      @JsonProperty("Uuid") String uuid,
+  public BittrexOrder(
+      @JsonProperty("AccountId") String accountId,
       @JsonProperty("OrderUuid") String orderUuid,
       @JsonProperty("Exchange") String exchange,
-      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Type") String type,
       @JsonProperty("Quantity") BigDecimal quantity,
       @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
       @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("Reserved") BigDecimal reserved,
+      @JsonProperty("ReserveRemaining") BigDecimal reserveRemaining,
+      @JsonProperty("CommissionReserved") BigDecimal commissionReserved,
+      @JsonProperty("CommissionReserveRemaining") BigDecimal commissionReserveRemaining,
       @JsonProperty("CommissionPaid") BigDecimal commissionPaid,
       @JsonProperty("Price") BigDecimal price,
       @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
-      @JsonProperty("Opened") String opened,
-      @JsonProperty("Closed") String closed,
+      @JsonProperty("Opened") Date opened,
+      @JsonProperty("Closed") Date closed,
+      @JsonProperty("IsOpen") Boolean isOpen,
+      @JsonProperty("Sentinel") String sentinel,
       @JsonProperty("CancelInitiated") Boolean cancelInitiated,
       @JsonProperty("ImmediateOrCancel") Boolean immediateOrCancel,
       @JsonProperty("IsConditional") Boolean isConditional,
       @JsonProperty("Condition") String condition,
-      @JsonProperty("ConditionTarget") Object conditionTarget) {
-    this.uuid = uuid;
+      @JsonProperty("ConditionTarget") String conditionTarget) {
+    this.accountId = accountId;
     this.orderUuid = orderUuid;
     this.exchange = exchange;
-    this.orderType = orderType;
+    this.type = type;
     this.quantity = quantity;
     this.quantityRemaining = quantityRemaining;
     this.limit = limit;
+    this.reserved = reserved;
+    this.reserveRemaining = reserveRemaining;
+    this.commissionReserved = commissionReserved;
+    this.commissionReserveRemaining = commissionReserveRemaining;
     this.commissionPaid = commissionPaid;
     this.price = price;
     this.pricePerUnit = pricePerUnit;
     this.opened = opened;
     this.closed = closed;
+    this.isOpen = isOpen;
+    this.sentinel = sentinel;
     this.cancelInitiated = cancelInitiated;
     this.immediateOrCancel = immediateOrCancel;
     this.isConditional = isConditional;
@@ -60,8 +79,8 @@ public class BittrexOpenOrder {
     this.conditionTarget = conditionTarget;
   }
 
-  public String getUuid() {
-    return uuid;
+  public String getAccountId() {
+    return accountId;
   }
 
   public String getOrderUuid() {
@@ -72,8 +91,8 @@ public class BittrexOpenOrder {
     return exchange;
   }
 
-  public String getOrderType() {
-    return orderType;
+  public String getType() {
+    return type;
   }
 
   public BigDecimal getQuantity() {
@@ -88,6 +107,22 @@ public class BittrexOpenOrder {
     return limit;
   }
 
+  public BigDecimal getReserved() {
+    return reserved;
+  }
+
+  public BigDecimal getReserveRemaining() {
+    return reserveRemaining;
+  }
+
+  public BigDecimal getCommissionReserved() {
+    return commissionReserved;
+  }
+
+  public BigDecimal getCommissionReserveRemaining() {
+    return commissionReserveRemaining;
+  }
+
   public BigDecimal getCommissionPaid() {
     return commissionPaid;
   }
@@ -100,12 +135,20 @@ public class BittrexOpenOrder {
     return pricePerUnit;
   }
 
-  public String getOpened() {
+  public Date getOpened() {
     return opened;
   }
 
-  public String getClosed() {
+  public Date getClosed() {
     return closed;
+  }
+
+  public Boolean getOpen() {
+    return isOpen;
+  }
+
+  public String getSentinel() {
+    return sentinel;
   }
 
   public Boolean getCancelInitiated() {
@@ -124,46 +167,7 @@ public class BittrexOpenOrder {
     return condition;
   }
 
-  public Object getConditionTarget() {
+  public String getConditionTarget() {
     return conditionTarget;
-  }
-
-  @Override
-  public String toString() {
-    return "BittrexOrder [uuid="
-        + getUuid()
-        + ", orderUuid="
-        + getOrderUuid()
-        + ", exchange="
-        + getExchange()
-        + ", orderType="
-        + getOrderType()
-        + ", quantity="
-        + getQuantity()
-        + ", quantityRemaining="
-        + getQuantityRemaining()
-        + ", limit="
-        + getLimit()
-        + ", commissionPaid="
-        + getCommissionPaid()
-        + ", price="
-        + getPrice()
-        + ", pricePerUnit="
-        + getPricePerUnit()
-        + ", opened="
-        + getOpened()
-        + ", closed="
-        + getClosed()
-        + ", cancelInitiated="
-        + getCancelInitiated()
-        + ", immediateOrCancel="
-        + getImmediateOrCancel()
-        + ", isConditional="
-        + getConditional()
-        + ", condition="
-        + getCondition()
-        + ", conditionTarget="
-        + getConditionTarget()
-        + "]";
   }
 }
