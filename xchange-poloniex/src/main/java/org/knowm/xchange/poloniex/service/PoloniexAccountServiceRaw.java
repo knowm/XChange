@@ -44,6 +44,19 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
         apiKey, signatureCreator, exchange.getNonceFactory());
   }
 
+   public HashMap<String, String> getDepositAddresses() throws IOException {
+   HashMap<String, String> response =
+        poloniexAuthenticated.returnDepositAddresses(
+            apiKey, signatureCreator, exchange.getNonceFactory());
+    if (response.containsKey("error")) {
+      throw new PoloniexException(response.get("error"));
+    }
+     else{  
+     return response;
+     }
+   
+   }
+  
   public String getDepositAddress(String currency) throws IOException {
 
     HashMap<String, String> response =
