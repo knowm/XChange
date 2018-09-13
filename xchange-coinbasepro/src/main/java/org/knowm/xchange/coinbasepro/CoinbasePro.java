@@ -1,4 +1,4 @@
-package org.knowm.xchange.gdax;
+package org.knowm.xchange.coinbasepro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,127 +16,115 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.gdax.dto.GDAXException;
-import org.knowm.xchange.gdax.dto.GDAXTrades;
-import org.knowm.xchange.gdax.dto.GdaxTransfers;
-import org.knowm.xchange.gdax.dto.account.GDAXAccount;
-import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
-import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
-import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXCandle;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
-import org.knowm.xchange.gdax.dto.trade.GDAXFill;
-import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
-import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.utils.DateUtils;
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@Deprecated //Please use module xchange-coinbasepro
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-public interface GDAX {
+public interface CoinbasePro {
 
   @GET
   @Path("products")
-  GDAXProduct[] getProducts() throws GDAXException, IOException;
+  CoinbaseProProduct[] getProducts() throws CoinbaseProException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/ticker")
-  GDAXProductTicker getProductTicker(
+  CoinbaseProProductTicker getProductTicker(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/stats")
-  GDAXProductStats getProductStats(
+  CoinbaseProProductStats getProductStats(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
-  GDAXProductBook getProductOrderBook(
+  CoinbaseProProductBook getProductOrderBook(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency,
       @PathParam("level") String level)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/trades")
-  GDAXTrade[] getTrades(
+  CoinbaseProTrade[] getTrades(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
-      throws GDAXException, IOException;
-
-  @GET
-  @Path("products/{baseCurrency}-{targetCurrency}/trades")
-  GDAXTrades getTradesPageable(
-      @PathParam("baseCurrency") String baseCurrency,
-      @PathParam("targetCurrency") String targetCurrency,
-      @QueryParam("after") Long after,
-      @QueryParam("limit") Integer limit)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/candles")
-  GDAXCandle[] getHistoricalCandles(
+  CoinbaseProCandle[] getHistoricalCandles(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency,
       @QueryParam("start") String start,
       @QueryParam("end") String end,
       @QueryParam("granularity") String granularity)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   /** Authenticated calls */
   @GET
   @Path("accounts")
-  GDAXAccount[] getAccounts(
+  org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] getAccounts(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("orders")
-  GDAXOrder[] getListOrders(
+  CoinbaseProOrder[] getListOrders(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("orders?status={status}")
-  GDAXOrder[] getListOrders(
+  CoinbaseProOrder[] getListOrders(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("status") String status)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  GDAXIdResponse placeOrder(
-      GDAXPlaceOrder placeOrder,
+  CoinbaseProIdResponse placeOrder(
+      CoinbaseProPlaceOrder placeOrder,
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @DELETE
   @Path("orders/{id}")
@@ -147,18 +135,18 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("orders/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  GDAXOrder getOrder(
+  CoinbaseProOrder getOrder(
       @PathParam("id") String id,
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   /**
    * @param apiKey
@@ -170,12 +158,12 @@ public interface GDAX {
    * @param orderId
    * @param productId
    * @return
-   * @throws GDAXException
+   * @throws CoinbaseProException
    * @throws IOException
    */
   @GET
   @Path("fills")
-  GDAXFill[] getFills(
+  CoinbaseProFill[] getFills(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
@@ -184,19 +172,19 @@ public interface GDAX {
       @QueryParam("before") Integer tradeIdBefore,
       @QueryParam("order_id") String orderId,
       @QueryParam("product_id") String productId)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("accounts/{account_id}/transactions")
   @Consumes(MediaType.APPLICATION_JSON)
-  GDAXSendMoneyResponse sendMoney(
-      GDAXSendMoneyRequest sendMoney,
+  CoinbaseProSendMoneyResponse sendMoney(
+      CoinbaseProSendMoneyRequest sendMoney,
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("accounts/{account_id}/ledger")
@@ -208,12 +196,12 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("account_id") String accountId,
       @QueryParam("after") Integer startingOrderId)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("accounts/{account_id}/transfers")
   @Consumes(MediaType.APPLICATION_JSON)
-  GdaxTransfers transfers(
+  CoinbaseProTransfers transfers(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
@@ -231,8 +219,8 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      GDAXReportRequest request)
-      throws GDAXException, IOException;
+      CoinbaseProReportRequest request)
+      throws CoinbaseProException, IOException;
 
   @GET
   @Path("reports/{report_id}")
@@ -243,23 +231,23 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @PathParam("report_id") String reportId)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("withdrawals/crypto")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  GDAXWithdrawCryptoResponse withdrawCrypto(
+  CoinbaseProWithdrawCryptoResponse withdrawCrypto(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      GDAXWithdrawFundsRequest request)
+      CoinbaseProWithdrawFundsRequest request)
       throws HttpStatusIOException;
 
   @GET
   @Path("coinbase-accounts")
-  GDAXCoinbaseAccount[] getGDAXAccounts(
+  CoinbaseProAccount[] getCoinbaseProAccounts(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
@@ -268,7 +256,7 @@ public interface GDAX {
 
   @POST
   @Path("coinbase-accounts/{account_id}/addresses")
-  GDAXCoinbaseAccountAddress getGDAXAccountAddress(
+  CoinbaseProAccountAddress getCoinbaseProAccountAddress(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
@@ -282,9 +270,9 @@ public interface GDAX {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws GDAXException, IOException;
+      throws CoinbaseProException, IOException;
 
-  class GDAXReportRequest {
+  class CoinbaseProReportRequest {
     public final @JsonProperty("type") String type;
     public final @JsonProperty("start_date") String startDate;
     public final @JsonProperty("end_date") String endDate;
@@ -293,7 +281,7 @@ public interface GDAX {
     public final @JsonProperty("format") String format;
     public final @JsonProperty("email") String email;
 
-    public GDAXReportRequest(
+    public CoinbaseProReportRequest(
         Type type,
         Date startDate,
         Date endDate,
@@ -311,7 +299,7 @@ public interface GDAX {
           email);
     }
 
-    public GDAXReportRequest(
+    public CoinbaseProReportRequest(
         String type,
         String startDate,
         String endDate,
