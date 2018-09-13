@@ -14,7 +14,6 @@ public class UpbitBaseService extends BaseExchangeService implements BaseService
   protected final String apiSecret;
   protected final String url;
   protected ParamsDigest signatureCreator;
-  protected ParamsDigest payloadCreator;
 
   /**
    * Constructor

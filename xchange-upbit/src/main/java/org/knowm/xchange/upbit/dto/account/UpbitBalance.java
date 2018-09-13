@@ -7,19 +7,19 @@ public class UpbitBalance {
   private final String currency;
   private final BigDecimal balance;
   private final BigDecimal locked;
-  private final BigDecimal avg_krw_buy_price;
+  private final BigDecimal avgKrwBuyPrice;
   private final boolean modified;
 
   public UpbitBalance(
       @JsonProperty("currency") String currency,
       @JsonProperty("balance") BigDecimal balance,
       @JsonProperty("locked") BigDecimal locked,
-      @JsonProperty("avg_krw_buy_price") BigDecimal avg_krw_buy_price,
+      @JsonProperty("avg_krw_buy_price") BigDecimal avgKrwBuyPrice,
       @JsonProperty("modified") boolean modified) {
     this.currency = currency;
     this.balance = balance;
     this.locked = locked;
-    this.avg_krw_buy_price = avg_krw_buy_price;
+    this.avgKrwBuyPrice = avgKrwBuyPrice;
     this.modified = modified;
   }
 
@@ -35,8 +35,8 @@ public class UpbitBalance {
     return locked;
   }
 
-  public BigDecimal getAvg_krw_buy_price() {
-    return avg_krw_buy_price;
+  public BigDecimal getAvgKrwBuyPrice() {
+    return avgKrwBuyPrice;
   }
 
   public boolean isModified() {
