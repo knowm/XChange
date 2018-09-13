@@ -7,6 +7,7 @@ import si.mazi.rescu.HttpResponseAware;
 
 public class CoinbaseProTransfers extends ArrayList<CoinbaseProTransfer>
     implements HttpResponseAware {
+
   private Map<String, List<String>> headers;
 
   @Override

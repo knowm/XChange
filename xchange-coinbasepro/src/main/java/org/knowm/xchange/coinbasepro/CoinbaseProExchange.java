@@ -54,7 +54,8 @@ public class CoinbaseProExchange extends BaseExchange {
     exchangeSpecification.setHost("api.pro.coinbase.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CoinbasePro");
-    exchangeSpecification.setExchangeDescription( "CoinbasePro Exchange is a Bitcoin exchange, re-branded from GDAX in 2018");
+    exchangeSpecification.setExchangeDescription(
+        "CoinbasePro Exchange is a Bitcoin exchange, re-branded from GDAX in 2018");
 
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
 
@@ -70,7 +71,8 @@ public class CoinbaseProExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException {
 
-    CoinbaseProProduct[] products = ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProProducts();
+    CoinbaseProProduct[] products =
+        ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProProducts();
     exchangeMetaData = CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
   }
 }

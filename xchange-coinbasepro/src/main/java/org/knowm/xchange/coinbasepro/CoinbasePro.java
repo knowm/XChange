@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
@@ -74,6 +75,15 @@ public interface CoinbasePro {
   CoinbaseProTrade[] getTrades(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
+      throws CoinbaseProException, IOException;
+
+  @GET
+  @Path("products/{baseCurrency}-{targetCurrency}/trades")
+  CoinbaseProTrades getTradesPageable(
+      @PathParam("baseCurrency") String baseCurrency,
+      @PathParam("targetCurrency") String targetCurrency,
+      @QueryParam("after") Long after,
+      @QueryParam("limit") Integer limit)
       throws CoinbaseProException, IOException;
 
   @GET
