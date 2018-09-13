@@ -28,7 +28,10 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- jwt for auth -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
     </dependencies>
-
-
 </project>
