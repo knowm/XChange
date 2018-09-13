@@ -34,8 +34,8 @@ public class UpbitJWTDigest implements ParamsDigest {
             queryString = String.valueOf(restInvocation.getParamsMap().get(QueryParam.class));
         } else if (restInvocation.getRequestBody() != null
                 && !restInvocation.getRequestBody().isEmpty()) {
-            ObjectMapper mapper = new ObjectMapper();
             try {
+                ObjectMapper mapper = new ObjectMapper();
                 Map<String, String> map = mapper.readValue(restInvocation.getRequestBody(), Map.class);
                 Iterator it = map.keySet().iterator();
                 while (it.hasNext()) {
@@ -45,23 +45,14 @@ public class UpbitJWTDigest implements ParamsDigest {
                 }
                 queryString = queryString.substring(1);
             } catch (IOException e) {
-                throw new IllegalStateException();
+                throw new IllegalStateException(e.getMessage());
             }
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTCreator.Builder builder = JWT.create();
-        if (queryString.length() > 0) {
-            builder
-                    .withClaim("access_key", accessKey)
-                    .withClaim("nonce", String.valueOf(new Date().getTime()))
-                    .withClaim("query", queryString);
-        } else {
-            builder
-                    .withClaim("access_key", accessKey)
-                    .withClaim("nonce", String.valueOf(new Date().getTime()));
-        }
+        builder.withClaim("access_key", accessKey).withClaim("nonce", String.valueOf(new Date().getTime()));
+        if (queryString.length() > 0) builder.withClaim("query", queryString);
         String jwtToken = builder.sign(algorithm);
-
         return "Bearer " + jwtToken;
     }
 }
