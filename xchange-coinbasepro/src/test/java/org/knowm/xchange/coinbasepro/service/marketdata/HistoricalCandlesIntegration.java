@@ -3,7 +3,6 @@ package org.knowm.xchange.coinbasepro.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;

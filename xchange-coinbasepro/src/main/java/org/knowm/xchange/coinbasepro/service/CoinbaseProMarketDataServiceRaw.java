@@ -1,8 +1,12 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
@@ -11,6 +15,7 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
+@Slf4j
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
   public CoinbaseProMarketDataServiceRaw(Exchange exchange) {
@@ -90,6 +95,60 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
     } catch (CoinbaseProException e) {
       throw handleError(e);
+    }
+  }
+
+  static Instant lastCall = null;
+  static boolean rateLimited = false;
+
+  public CoinbaseProTrades getCoinbaseProTradesExtended(
+      CurrencyPair currencyPair, Long after, Integer limit) throws IOException {
+
+    for (; ; ) {
+      try {
+        if (rateLimited) {
+          long delta = Duration.between(lastCall, Instant.now()).toMillis();
+          log.debug("Last call {} ms ago", delta);
+          if (delta < 333) {
+            try {
+              log.debug("Sleeping for {}ms", 333 - delta);
+              Thread.sleep(333 - delta);
+            } catch (InterruptedException e) {
+              log.debug("Unexpected exception in getCoinbaseProTradesExtended", e);
+            }
+          } else if (delta > 3000) {
+            log.debug("Clearing rate limiter");
+            rateLimited = false;
+          }
+        }
+        lastCall = Instant.now();
+        CoinbaseProTrades CoinbaseProTrades =
+            coinbasePro.getTradesPageable(
+                currencyPair.base.getCurrencyCode(),
+                currencyPair.counter.getCurrencyCode(),
+                after,
+                limit);
+        log.debug(
+            "CoinbaseProTrades: earliest={}, latest={}, {}",
+            CoinbaseProTrades.getEarliestTradeId(),
+            CoinbaseProTrades.getLatestTradeId(),
+            CoinbaseProTrades);
+        return CoinbaseProTrades;
+      } catch (CoinbaseProException e) {
+
+        if (e.getHttpStatusCode() != 429) {
+          throw handleError(e);
+        }
+
+        log.debug("Rate limit exceeded, sleeping for 1000ms");
+        rateLimited = true;
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e1) {
+          log.debug("Unexpected exception in getCoinbaseProTradesExtended", e1);
+        }
+        log.debug("Retrying");
+      }
     }
   }
 
