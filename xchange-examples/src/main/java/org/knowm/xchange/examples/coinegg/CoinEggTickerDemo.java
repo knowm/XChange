@@ -18,7 +18,7 @@ public class CoinEggTickerDemo {
     // Get The Public Market Data Service
     MarketDataService marketDataService = coinEgg.getMarketDataService();
 
-    // BankCurrency Pair To Get Ticker Of
+    // Currency Pair To Get Ticker Of
     CurrencyPair pair = CurrencyPair.ETH_BTC;
 
     // Print The Generic and Raw Ticker
