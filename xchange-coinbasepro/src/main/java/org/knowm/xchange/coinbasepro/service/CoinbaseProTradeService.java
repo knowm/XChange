@@ -1,10 +1,18 @@
-package org.knowm.xchange.gdax.service;
+package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceLimitOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceMarketOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -12,14 +20,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.gdax.GDAXAdapters;
-import org.knowm.xchange.gdax.dto.trade.GDAXFill;
-import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
-import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXPlaceLimitOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXPlaceMarketOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -28,10 +28,9 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
-@Deprecated //Please use module xchange-coinbasepro
-public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
+public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implements TradeService {
 
-  public GDAXTradeService(Exchange exchange) {
+  public CoinbaseProTradeService(Exchange exchange) {
     super(exchange);
   }
 
@@ -49,35 +48,38 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
-    GDAXOrder[] coinbaseExOpenOrders = getGDAXOpenOrders();
-    return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
+    CoinbaseProOrder[] coinbaseExOpenOrders = getCoinbaseProOpenOrders();
+    return CoinbaseProAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    GDAXPlaceMarketOrder gdaxMarketOrder = GDAXAdapters.adaptGDAXPlaceMarketOrder(marketOrder);
-    GDAXIdResponse response = placeGDAXOrder(gdaxMarketOrder);
+    CoinbaseProPlaceMarketOrder coinbaseProMarketOrder =
+        CoinbaseProAdapters.adaptCoinbaseProPlaceMarketOrder(marketOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProMarketOrder);
     return response.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-    GDAXPlaceLimitOrder gdaxLimitOrder = GDAXAdapters.adaptGDAXPlaceLimitOrder(limitOrder);
-    GDAXIdResponse response = placeGDAXOrder(gdaxLimitOrder);
+    CoinbaseProPlaceLimitOrder coinbaseProLimitOrder =
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProLimitOrder);
     return response.getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException, FundsExceededException {
-    GDAXPlaceOrder gdaxStopOrder = GDAXAdapters.adaptGDAXStopOrder(stopOrder);
-    GDAXIdResponse response = placeGDAXOrder(gdaxStopOrder);
+    CoinbaseProPlaceOrder coinbaseProStopOrder =
+        CoinbaseProAdapters.adaptCoinbaseProStopOrder(stopOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProStopOrder);
     return response.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancelGDAXOrder(orderId);
+    return cancelCoinbaseProOrder(orderId);
   }
 
   @Override
@@ -92,14 +94,14 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    GDAXFill[] coinbaseExFills = getGDAXFills(params);
-    return GDAXAdapters.adaptTradeHistory(coinbaseExFills);
+    CoinbaseProFill[] coinbaseExFills = getCoinbaseProFills(params);
+    return CoinbaseProAdapters.adaptTradeHistory(coinbaseExFills);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new GDAXTradeHistoryParams();
+    return new CoinbaseProTradeHistoryParams();
   }
 
   @Override
@@ -107,7 +109,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
     for (String orderId : orderIds) {
-      orders.add(GDAXAdapters.adaptOrder(super.getOrder(orderId)));
+      orders.add(CoinbaseProAdapters.adaptOrder(super.getOrder(orderId)));
     }
 
     return orders;

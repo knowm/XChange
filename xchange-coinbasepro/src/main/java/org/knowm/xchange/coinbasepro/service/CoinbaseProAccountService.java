@@ -1,33 +1,32 @@
-package org.knowm.xchange.gdax.service;
+package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
+import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.gdax.GDAXAdapters;
-import org.knowm.xchange.gdax.dto.GdaxTransfer;
-import org.knowm.xchange.gdax.dto.GdaxTransfers;
-import org.knowm.xchange.gdax.dto.account.GDAXAccount;
-import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
-import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
-import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-@Deprecated //Please use module xchange-coinbasepro
-public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
+public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
+    implements AccountService {
 
-  public GDAXAccountService(Exchange exchange) {
+  public CoinbaseProAccountService(Exchange exchange) {
 
     super(exchange);
   }
@@ -35,7 +34,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(GDAXAdapters.adaptAccountInfo(getGDAXAccountInfo()));
+    return new AccountInfo(CoinbaseProAdapters.adaptAccountInfo(getCoinbaseProAccountInfo()));
   }
 
   @Override
@@ -48,7 +47,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      GDAXWithdrawCryptoResponse response =
+      CoinbaseProWithdrawCryptoResponse response =
           withdrawCrypto(
               defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
       return response.id;
@@ -58,9 +57,10 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   public String moveFunds(Currency currency, String address, BigDecimal amount) throws IOException {
-    GDAXAccount[] accounts = getGDAXAccountInfo();
+    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] accounts =
+        getCoinbaseProAccountInfo();
     String accountId = null;
-    for (GDAXAccount account : accounts) {
+    for (org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount account : accounts) {
       if (currency.getCurrencyCode().equals(account.getCurrency())) {
         accountId = account.getId();
       }
@@ -71,7 +71,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
           "Cannot determine account id for currency " + currency.getCurrencyCode());
     }
 
-    GDAXSendMoneyResponse response = sendMoney(accountId, address, amount, currency);
+    CoinbaseProSendMoneyResponse response = sendMoney(accountId, address, amount, currency);
     if (response.getData() != null) {
       return response.getData().getId();
     }
@@ -82,10 +82,10 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    GDAXCoinbaseAccount[] coinbaseAccounts = getCoinbaseAccounts();
-    GDAXCoinbaseAccount depositAccount = null;
+    CoinbaseProAccount[] coinbaseAccounts = getCoinbaseAccounts();
+    CoinbaseProAccount depositAccount = null;
 
-    for (GDAXCoinbaseAccount account : coinbaseAccounts) {
+    for (CoinbaseProAccount account : coinbaseAccounts) {
       Currency accountCurrency = Currency.getInstance(account.getCurrency());
       if (account.isActive()
           && account.getType().equals("wallet")
@@ -95,13 +95,13 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       }
     }
 
-    GDAXCoinbaseAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    CoinbaseProAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
     return depositAddress.getAddress();
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new GDAXTradeHistoryParams();
+    return new CoinbaseProTradeHistoryParams();
   }
 
   @Override
@@ -116,24 +116,25 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    for (GDAXAccount gdaxAccount : getGDAXAccountInfo()) {
-      Currency currency = Currency.getInstance(gdaxAccount.getCurrency());
+    for (org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount coinbaseProAccount :
+        getCoinbaseProAccountInfo()) {
+      Currency currency = Currency.getInstance(coinbaseProAccount.getCurrency());
 
       if (params instanceof TradeHistoryParamCurrency) {
         Currency desiredCurrency = ((TradeHistoryParamCurrency) params).getCurrency();
         if (!desiredCurrency.equals(currency)) continue;
       }
 
-      String accountId = gdaxAccount.getId();
-      String profileId = gdaxAccount.getProfile_id();
+      String accountId = coinbaseProAccount.getId();
+      String profileId = coinbaseProAccount.getProfile_id();
       String createdAt = null; // use to get next page
 
       while (true) {
-        GdaxTransfers transfers = transfers(accountId, profileId, maxPageSize, createdAt);
+        CoinbaseProTransfers transfers = transfers(accountId, profileId, maxPageSize, createdAt);
         if (transfers.isEmpty()) break;
 
-        for (GdaxTransfer gdaxTransfer : transfers) {
-          fundingHistory.add(GDAXAdapters.adaptFundingRecord(currency, gdaxTransfer));
+        for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
+          fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
         }
 
         createdAt = transfers.getHeader("cb-after");
@@ -143,12 +144,12 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
     return fundingHistory;
   }
 
-  public static class GDAXMoveFundsParams implements WithdrawFundsParams {
+  public static class CoinbaseProMoveFundsParams implements WithdrawFundsParams {
     public final Currency currency;
     public final BigDecimal amount;
     public final String address;
 
-    public GDAXMoveFundsParams(Currency currency, BigDecimal amount, String address) {
+    public CoinbaseProMoveFundsParams(Currency currency, BigDecimal amount, String address) {
       this.currency = currency;
       this.amount = amount;
       this.address = address;
