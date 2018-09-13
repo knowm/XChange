@@ -19,7 +19,7 @@ public class CoinoneOrderBookDemo {
     // Get The Public Market Data Service
     MarketDataService marketDataService = coinone.getMarketDataService();
 
-    // Currency Pair To Get Ticker Of
+    // BankCurrency Pair To Get Ticker Of
     CurrencyPair pair = new CurrencyPair(Currency.ETH, Currency.KRW);
 
     // Print The Generic and Raw Ticker
