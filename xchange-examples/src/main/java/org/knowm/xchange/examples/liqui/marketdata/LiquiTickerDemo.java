@@ -26,7 +26,7 @@ public class LiquiTickerDemo {
     final Ticker ticker = marketDataService.getTicker(CurrencyPair.LTC_BTC);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currency.LTC);
+    System.out.println("BankCurrency: " + Currency.LTC);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -41,7 +41,7 @@ public class LiquiTickerDemo {
     final LiquiTicker ticker = liquiMarketDataServiceRaw.getTicker(CurrencyPair.LTC_BTC);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currency.LTC);
+    System.out.println("BankCurrency: " + Currency.LTC);
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Volume: " + ticker.getVol().toString());
     System.out.println("High: " + ticker.getHigh().toString());

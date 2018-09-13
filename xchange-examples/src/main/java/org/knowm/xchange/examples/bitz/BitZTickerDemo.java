@@ -24,7 +24,7 @@ public class BitZTickerDemo {
     MarketDataService marketDataService = bitZ.getMarketDataService();
     BitZMarketDataServiceRaw rawMarketDataService = (BitZMarketDataServiceRaw) marketDataService;
 
-    // Currency Pair To Get Ticker Of
+    // BankCurrency Pair To Get Ticker Of
     CurrencyPair pair = CurrencyPair.LTC_BTC;
 
     // Print The Generic and Raw Ticker
