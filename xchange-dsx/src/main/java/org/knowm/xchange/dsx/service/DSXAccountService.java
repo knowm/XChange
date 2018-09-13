@@ -21,10 +21,12 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.utils.DateUtils;
 
 /** @author Mikhail Wall */
 public class DSXAccountService extends DSXAccountServiceRaw implements AccountService {
@@ -89,7 +91,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    Integer count = 1000; // todo: parameterize this
+    Integer count = 1000;
     Long since = null;
     Long end = null;
     Long fromId = null;
@@ -98,10 +100,13 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
     DSXTransHistoryResult.Status status = null;
     DSXTransHistoryResult.Type type = null;
 
+    if (params instanceof TradeHistoryParamLimit) {
+      count = ((TradeHistoryParamLimit) params).getLimit();
+    }
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-      since = timeSpan.getStartTime() != null ? timeSpan.getStartTime().getTime() : null;
-      end = timeSpan.getEndTime() != null ? timeSpan.getEndTime().getTime() : null;
+      since = DateUtils.toMillisNullSafe(timeSpan.getStartTime());
+      end = DateUtils.toMillisNullSafe(timeSpan.getEndTime());
     }
     if (params instanceof TradeHistoryParamsIdSpan) {
       TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;

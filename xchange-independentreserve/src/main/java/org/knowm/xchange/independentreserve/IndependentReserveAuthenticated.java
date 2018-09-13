@@ -1,11 +1,13 @@
 package org.knowm.xchange.independentreserve;
 
 import java.io.IOException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
@@ -14,6 +16,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOr
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
@@ -64,6 +68,13 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveCancelOrderResponse cancelOrder(
       IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path("GetOrderDetails")
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveOrderDetailsResponse orderDetails(
+      IndependentReserveOrderDetailsRequest independentReserveOrderDetailsRequest)
       throws IndependentReserveHttpStatusException, IOException;
 
   @POST

@@ -6,6 +6,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
 import org.knowm.xchange.currency.Currency;
@@ -60,5 +61,20 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
               + response.getErrorCode());
 
     return response.status;
+  }
+
+  public BTCMarketsFundtransferHistoryResponse fundtransferHistory() throws IOException {
+    BTCMarketsFundtransferHistoryResponse response =
+        btcm.fundtransferHistory(
+            exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer);
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(
+          "failed to retrieve fundtransfer history: "
+              + response.getErrorMessage()
+              + " "
+              + response.getErrorCode());
+    }
+    return response;
   }
 }
