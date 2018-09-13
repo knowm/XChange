@@ -4,15 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
+import javax.ws.rs.QueryParam;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import javax.ws.rs.QueryParam;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocation;
 
 public class UpbitJWTDigest implements ParamsDigest {
     private String accessKey;
@@ -46,6 +45,7 @@ public class UpbitJWTDigest implements ParamsDigest {
                 }
                 queryString = queryString.substring(1);
             } catch (IOException e) {
+                throw new IllegalStateException();
             }
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
