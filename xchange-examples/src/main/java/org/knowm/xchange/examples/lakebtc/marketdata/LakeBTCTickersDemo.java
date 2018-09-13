@@ -27,7 +27,7 @@ public class LakeBTCTickersDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("BankCurrency: " + Currency.USD);
+    System.out.println("Currency: " + Currency.USD);
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Volume: " + ticker.getVolume());
     System.out.println("High: " + ticker.getHigh());
@@ -35,7 +35,7 @@ public class LakeBTCTickersDemo {
 
     ticker = marketDataService.getTicker(CurrencyPair.BTC_HKD);
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("BankCurrency: " + Currency.HKD);
+    System.out.println("Currency: " + Currency.HKD);
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Volume: " + ticker.getVolume());
     System.out.println("High: " + ticker.getHigh());
@@ -49,7 +49,7 @@ public class LakeBTCTickersDemo {
 
     LakeBTCTicker hkd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_HKD));
     System.out.println("Ticker: " + hkd);
-    System.out.println("BankCurrency: " + Currency.HKD);
+    System.out.println("Currency: " + Currency.HKD);
     System.out.println("Last: " + hkd.getLast());
     System.out.println("Volume: " + hkd.getVolume());
     System.out.println("High: " + hkd.getHigh());
@@ -57,7 +57,7 @@ public class LakeBTCTickersDemo {
 
     LakeBTCTicker usd = tickers.get(LakeBTCAdapters.adaptCurrencyPair(CurrencyPair.BTC_USD));
     System.out.println("Ticker: " + usd);
-    System.out.println("BankCurrency: " + Currency.USD);
+    System.out.println("Currency: " + Currency.USD);
     System.out.println("Last: " + usd.getLast());
     System.out.println("Volume: " + usd.getVolume());
     System.out.println("High: " + usd.getHigh());
