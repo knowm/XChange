@@ -3,8 +3,9 @@ package org.knowm.xchange.bitmex.dto.marketdata.results;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
-public class BitmexSymbolsAndPromptsResult<V> {
+public class BitmexSymbolsAndPromptsResult<V> extends AbstractHttpResponseAware {
 
   private final V intervals;
   private final V symbols;

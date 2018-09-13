@@ -29,5 +29,5 @@ public interface Return24VolumeApi {
           message =
               "This function takes no JSON arguments{ ETH_REP: { ETH: '1.3429046745', REP: '105.29046745' },ETH_DVIP: { ETH: '4', DVIP: '4' },totalETH: '5.3429046745' }",
           response = Volume24Response.class))
-  Volume24Response volume24() throws Exception;
+  Volume24Response volume24();
 }

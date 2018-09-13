@@ -85,6 +85,40 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampWithdrawal withdrawBitstampFunds(
+      Currency currency, BigDecimal amount, final String address) throws IOException {
+    BitstampWithdrawal response = null;
+
+    if (currency.equals(Currency.XRP)) {
+      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(address);
+      response =
+          withdrawRippleFunds(
+              amount, addressAndDt.getAddress(), Long.toString(addressAndDt.getDestinationTag()));
+    } else if (currency.equals(Currency.BTC)) {
+      response = withdrawBtcFunds(amount, address);
+    } else if (currency.equals(Currency.LTC)) {
+      response = withdrawLtcFunds(amount, address);
+    } else if (currency.equals(Currency.BCH)) {
+      response = withdrawBchFunds(amount, address);
+    } else if (currency.equals(Currency.ETH)) {
+      response = withdrawEthFunds(amount, address);
+    } else {
+      throw new ExchangeException(
+          String.format(
+              "Withdrawing funds from Bitstamp failed.Unsupported currency %s", currency));
+    }
+
+    if (response.error != null) {
+      throw new ExchangeException("Failed to withdraw: " + response.error);
+    }
+
+    if (response.getId() == null) {
+      return null;
+    }
+
+    return response;
+  }
+
   public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
 
     try {

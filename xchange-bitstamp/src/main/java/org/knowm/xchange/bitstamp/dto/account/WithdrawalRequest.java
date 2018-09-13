@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.bitstamp.BitstampUtils;
+import org.knowm.xchange.currency.Currency;
 
 public class WithdrawalRequest {
 
@@ -12,6 +13,8 @@ public class WithdrawalRequest {
   private Long id;
   private Type type;
   private BigDecimal amount;
+
+  private Currency currency;
 
   @JsonProperty("status")
   private String statusOriginal; // keep the original status, if it comes to "unknown"
@@ -64,6 +67,10 @@ public class WithdrawalRequest {
     return transactionId;
   }
 
+  public Currency getCurrency() {
+    return currency;
+  }
+
   @Override
   public String toString() {
     return "WithdrawalRequest [id="
@@ -95,6 +102,7 @@ public class WithdrawalRequest {
     rippleBTC,
     XRP,
     litecoin,
+    ETH,
     unknown;
 
     // 0 (SEPA), 1 (bitcoin) or 2(WIRE transfer).
@@ -115,6 +123,8 @@ public class WithdrawalRequest {
           return XRP;
         case "15":
           return litecoin;
+        case "16":
+          return ETH;
         default:
           return unknown;
       }

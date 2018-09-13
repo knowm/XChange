@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfoReturn;
 import org.knowm.xchange.wex.v3.dto.account.WexWithDrawInfoReturn;
@@ -52,7 +55,20 @@ public class WexAccountServiceRaw extends WexBaseService {
     return String.valueOf(info.getReturnValue().gettId());
   }
 
-  public Map<Long, WexTransHistoryResult> transferHistory(Long from) throws IOException {
+  public Map<Long, WexTransHistoryResult> transactionsHistory(TradeHistoryParams params)
+      throws IOException {
+    Long since = null;
+    Long from = null;
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      since = timeSpanParam.getStartTime().toInstant().getEpochSecond();
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      from = ((TradeHistoryParamOffset) params).getOffset();
+    }
+
     WexTransHistoryReturn info =
         btce.TransHistory(
             apiKey,
@@ -63,7 +79,7 @@ public class WexAccountServiceRaw extends WexBaseService {
             null,
             null,
             null,
-            null,
+            since,
             null);
 
     checkResult(info);

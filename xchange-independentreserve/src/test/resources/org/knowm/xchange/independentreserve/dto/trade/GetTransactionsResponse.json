@@ -1,0 +1,21 @@
+{
+  "PageSize": 25,
+  "TotalItems": 6,
+  "TotalPages": 1,
+  "Data": [
+    {
+      "Balance": 199954.27000000,
+      "BitcoinTransactionId": null,
+      "BitcoinTransactionOutputIndex": null,
+      "EthereumTransactionId": null,
+      "Comment": null,
+      "CreatedTimestampUtc": "2014-08-03T05:33:48.2354125Z",
+      "Credit": null,
+      "CurrencyCode": "Usd",
+      "Debit": 6.98000000,
+      "SettleTimestampUtc": "2014-08-03T05:36:24.5532653Z",
+      "Status": "Confirmed",
+      "Type": "Brokerage"
+    }
+  ]
+}
