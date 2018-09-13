@@ -41,7 +41,8 @@
 		<version.qos.logback>1.2.3</version.qos.logback>
 		<version.reflections>0.9.11</version.reflections>
 		<version.slf4j>1.7.25</version.slf4j>
-		<version.crypto>3.5.0</version.crypto>		
+		<version.crypto>3.5.0</version.crypto>
+		<version.java-jwt>3.4.0</version.java-jwt>
 
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
@@ -140,6 +141,7 @@
 		<module>xchange-coinsuper</module>
 		<module>xchange-dsx</module>
 		<module>xchange-exmo</module>
+		<module>xchange-exx</module>
 		<module>xchange-examples</module>
 		<module>xchange-fcoin</module>
 		<module>xchange-gatecoin</module>
@@ -288,20 +290,23 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${version.qos.logback}</version>
 			</dependency>
-			
-			<dependency>
+  		<dependency>
 	        	<groupId>org.projectlombok</groupId>
 	        	<artifactId>lombok</artifactId>
 	        	<version>${version.lombok}</version>
 	        	<scope>provided</scope>
 	        </dependency>
-
+			<!-- jwt for auth -->
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${version.java-jwt}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<!-- All children will have these dependencies -->
 	<dependencies>
-
 		<!-- Logging is through SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
