@@ -45,7 +45,7 @@ public class UpbitJWTDigest implements ParamsDigest {
                 }
                 queryString = queryString.substring(1);
             } catch (IOException e) {
-                throw new IllegalStateException(e.getMessage());
+                throw new IllegalStateException(e);
             }
         }
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
