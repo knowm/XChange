@@ -297,6 +297,13 @@ public class CoinbaseProAdapters {
     return OrderStatus.UNKNOWN;
   }
 
+  public static Trades adaptTrades(
+      List<CoinbaseProTrade> gdaxTradesList, CurrencyPair currencyPair) {
+    CoinbaseProTrade[] tradeArray = new CoinbaseProTrade[gdaxTradesList.size()];
+    gdaxTradesList.toArray(tradeArray);
+    return CoinbaseProAdapters.adaptTrades(tradeArray, currencyPair);
+  }
+
   public static UserTrades adaptTradeHistory(CoinbaseProFill[] coinbaseExFills) {
 
     List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
