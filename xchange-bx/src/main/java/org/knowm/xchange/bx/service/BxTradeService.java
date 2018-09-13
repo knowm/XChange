@@ -8,7 +8,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByPairAndIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -46,13 +46,19 @@ public class BxTradeService extends BxTradeServiceRaw implements TradeService {
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return cancelBxOrder(orderId);
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams cancelOrderParams) throws IOException {
-    return cancelOrderParams instanceof CancelOrderByIdParams
-        && cancelBxOrder(((CancelOrderByIdParams) cancelOrderParams).getOrderId());
+    if (!(cancelOrderParams instanceof CancelOrderByPairAndIdParams)) {
+      throw new IllegalArgumentException();
+    }
+    CancelOrderByPairAndIdParams cancelOrderByPairAndIdParams = (CancelOrderByPairAndIdParams) cancelOrderParams;
+    return cancelBxOrder(
+            cancelOrderByPairAndIdParams.getOrderId(),
+            cancelOrderByPairAndIdParams.getCurrencyPair()
+    );
   }
 
   @Override

@@ -53,8 +53,7 @@ public final class QuadrigaCxAdapters {
           new Balance(
               currency,
               quadrigacxBalance.getCurrencyBalance(currency),
-              quadrigacxBalance.getCurrencyAvailable(currency),
-              quadrigacxBalance.getCurrencyReserved(currency)));
+              quadrigacxBalance.getCurrencyAvailable(currency)));
     }
 
     return new Wallet(balances);
