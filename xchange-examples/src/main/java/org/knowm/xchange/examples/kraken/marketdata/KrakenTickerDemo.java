@@ -32,7 +32,7 @@ public class KrakenTickerDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("BankCurrency: " + Currency.EUR);
+    System.out.println("Currency: " + Currency.EUR);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -49,7 +49,7 @@ public class KrakenTickerDemo {
     KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("BankCurrency: " + Currency.EUR);
+    System.out.println("Currency: " + Currency.EUR);
     System.out.println("Last: " + ticker.getClose());
     System.out.println("Volume: " + ticker.get24HourVolume().toString());
     System.out.println("High: " + ticker.get24HourHigh().toString());
