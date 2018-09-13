@@ -30,7 +30,6 @@ public class UpbitJWTDigest implements ParamsDigest {
     @Override
     public String digestParams(RestInvocation restInvocation) {
         String queryString = "";
-        Iterator it;
         if (restInvocation.getParamsMap().get(QueryParam.class) != null
                 && !restInvocation.getParamsMap().get(QueryParam.class).isEmpty()) {
             queryString = String.valueOf(restInvocation.getParamsMap().get(QueryParam.class));
@@ -39,7 +38,7 @@ public class UpbitJWTDigest implements ParamsDigest {
             ObjectMapper mapper = new ObjectMapper();
             try {
                 Map<String, String> map = mapper.readValue(restInvocation.getRequestBody(), Map.class);
-                it = map.keySet().iterator();
+                Iterator it = map.keySet().iterator();
                 while (it.hasNext()) {
                     String key = (String) it.next();
                     String value = map.get(key);
@@ -47,12 +46,9 @@ public class UpbitJWTDigest implements ParamsDigest {
                 }
                 queryString = queryString.substring(1);
             } catch (IOException e) {
-                queryString = "";
             }
         }
-        Algorithm algorithm = null;
-        String jwtToken = null;
-        algorithm = Algorithm.HMAC256(secretKey);
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTCreator.Builder builder = JWT.create();
         if (queryString.length() > 0) {
             builder
@@ -64,7 +60,7 @@ public class UpbitJWTDigest implements ParamsDigest {
                     .withClaim("access_key", accessKey)
                     .withClaim("nonce", String.valueOf(new Date().getTime()));
         }
-        jwtToken = builder.sign(algorithm);
+        String jwtToken = builder.sign(algorithm);
 
         return "Bearer " + jwtToken;
     }
