@@ -3,6 +3,8 @@ package org.knowm.xchange.examples.bitstamp.account;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankCurrency;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Country;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
@@ -10,7 +12,7 @@ import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
-public class BitstampSepaWithdrawal {
+public class BitstampFiatWithdrawal {
 
   public static void main(String[] args) throws IOException {
 
@@ -31,12 +33,28 @@ public class BitstampSepaWithdrawal {
 
     accountService.withdrawSepa(
         new BigDecimal("150"),
-        "Kovin Kostner",
+        "Test User",
         "BY13NBRB3600900000002Z00AB00",
         "DABAIE2D",
         "Minsk, Belarus, Main street 2",
         "197372",
         "Minsk",
         Country.Belarus.alpha2);
+
+    accountService.withdrawInternational( new BigDecimal("150"),
+        "Test User",
+        "BY13NBRB3600900000002Z00AB00",
+        "DABAIE2D",
+        "Minsk, Belarus, Main street 2",
+        "197372",
+        "Minsk",
+        Country.Belarus.alpha2,
+        "Great Bank",
+        "Great Bank Address",
+        "Great Bank Postal Code",
+        "Great Bank City",
+        "Bank Country Alpha 2 code",
+        BankCurrency.AUD
+        );
   }
 }
