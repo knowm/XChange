@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import com.sun.corba.se.impl.encoding.CodeSetConversion;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -61,8 +63,14 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    KrakenDepositAddress[] depositAddresses =
-        getDepositAddresses(currency.toString(), "Bitcoin", false);
+    KrakenDepositAddress[] depositAddresses;
+    if (Currency.BTC.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
+    } else if (Currency.LTC.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
+    } else {
+      throw new RuntimeException("Not implemented yet, Kraken works only for BTC and LTC");
+    }
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
   }
 
