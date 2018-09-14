@@ -33,7 +33,7 @@ public class BitstampFiatWithdrawal {
 
     accountService.withdrawSepa(
         new BigDecimal("150"),
-        "Kovin Kostner",
+        "Test User",
         "BY13NBRB3600900000002Z00AB00",
         "DABAIE2D",
         "Minsk, Belarus, Main street 2",
@@ -42,7 +42,7 @@ public class BitstampFiatWithdrawal {
         Country.Belarus.alpha2);
 
     accountService.withdrawInternational( new BigDecimal("150"),
-        "Kovin Kostner",
+        "Test User",
         "BY13NBRB3600900000002Z00AB00",
         "DABAIE2D",
         "Minsk, Belarus, Main street 2",
