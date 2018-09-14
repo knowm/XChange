@@ -11,6 +11,7 @@ import org.knowm.xchange.gdax.service.GDAXTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+@Deprecated // Please use module xchange-coinbasepro
 public class GDAXExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();

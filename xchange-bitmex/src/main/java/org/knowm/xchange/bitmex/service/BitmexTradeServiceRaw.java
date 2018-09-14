@@ -104,6 +104,17 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       BigDecimal price,
       BitmexSide side,
       String clOrdID,
+      String executionInstructions) {
+    return placeLimitOrder(
+        symbol, orderQuantity, price, side, clOrdID, executionInstructions, null, null);
+  }
+
+  public BitmexPrivateOrder placeLimitOrder(
+      String symbol,
+      BigDecimal orderQuantity,
+      BigDecimal price,
+      BitmexSide side,
+      String clOrdID,
       String executionInstructions,
       String clOrdLinkID,
       String contingencyType) {

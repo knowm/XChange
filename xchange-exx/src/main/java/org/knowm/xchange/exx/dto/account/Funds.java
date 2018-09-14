@@ -1,6 +1,5 @@
 package org.knowm.xchange.exx.dto.account;
 
-
 // public class Funds {
 //    @JsonProperty("ETP")
 //    private ETP eTP;

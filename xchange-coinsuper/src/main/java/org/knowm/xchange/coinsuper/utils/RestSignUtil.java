@@ -20,10 +20,10 @@ public class RestSignUtil {
     paramsMap.put("accesskey", param.getCommon().getAccesskey());
     paramsMap.put("timestamp", Long.toString(param.getCommon().getTimestamp()));
 
-//    for (Map.Entry<String, String> entry : param.getData())
-//    {
-//        paramsMap.put(entry.getKey(), entry.getValue().toString());
-//    }
+    //    for (Map.Entry<String, String> entry : param.getData())
+    //    {
+    //        paramsMap.put(entry.getKey(), entry.getValue().toString());
+    //    }
     paramsMap.put("secretkey", secretkey);
     return generateSignByRule(paramsMap);
   }
