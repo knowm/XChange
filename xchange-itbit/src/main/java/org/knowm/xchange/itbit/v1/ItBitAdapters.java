@@ -45,8 +45,7 @@ import org.knowm.xchange.utils.DateUtils;
 
 public final class ItBitAdapters {
 
-  private static final OpenOrders noOpenOrders =
-      new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.emptyList());
   private static final String DATE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
   private static final DecimalFormatSymbols CUSTOM_SYMBOLS = new DecimalFormatSymbols();
   private static Pattern TIMESTAMP_PATTERN = Pattern.compile("(.*\\.[0-9]{3})0000Z$");
@@ -69,7 +68,7 @@ public final class ItBitAdapters {
     cryptoFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     cryptoFormat.setMaximumFractionDigits(4);
     cryptoFormat.setGroupingUsed(false);
-    cryptoFormat.setRoundingMode(RoundingMode.HALF_UP);
+    cryptoFormat.setRoundingMode(RoundingMode.DOWN);
     return cryptoFormat;
   }
 
@@ -78,7 +77,7 @@ public final class ItBitAdapters {
     fiatFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     fiatFormat.setMaximumFractionDigits(2);
     fiatFormat.setGroupingUsed(false);
-    fiatFormat.setRoundingMode(RoundingMode.HALF_UP);
+    fiatFormat.setRoundingMode(RoundingMode.DOWN);
     return fiatFormat;
   }
 
@@ -306,11 +305,11 @@ public final class ItBitAdapters {
   }
 
   public static String formatFiatAmount(BigDecimal amount) {
-    return getFiatFormat().format(amount);
+    return getFiatFormat().format(amount.add(new BigDecimal(0.00000001)));
   }
 
   public static String formatCryptoAmount(BigDecimal amount) {
-    return getCryptoFormat().format(amount);
+    return getCryptoFormat().format(amount.add(new BigDecimal(0.00000001)));
   }
 
   public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair) {

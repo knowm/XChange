@@ -1,5 +1,10 @@
 package org.knowm.xchange.hitbtc.v2;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -7,11 +12,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class HitbtcAdaptersTest {
 
