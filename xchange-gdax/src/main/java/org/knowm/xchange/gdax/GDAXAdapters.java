@@ -306,6 +306,13 @@ public class GDAXAdapters {
     return new UserTrades(trades, TradeSortType.SortByID);
   }
 
+  public static Trades adaptTrades(List<GDAXTrade> gdaxTradesList, CurrencyPair currencyPair) {
+    GDAXTrade[] tradeArray = new GDAXTrade[gdaxTradesList.size()];
+    gdaxTradesList.toArray(tradeArray);
+
+    return GDAXAdapters.adaptTrades(tradeArray, currencyPair);
+  }
+
   public static Trades adaptTrades(GDAXTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);

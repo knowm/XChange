@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
@@ -16,6 +15,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexLimitOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -129,7 +129,7 @@ public final class BittrexAdapters {
     BigDecimal qty = order.getQuantity();
     BigDecimal qtyRem =
         order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
-    Boolean isOpen = order.getIsOpen();
+    Boolean isOpen = order.getOpen();
     Boolean isCancelling = order.getCancelInitiated();
     int qtyRemainingToQty = qtyRem.compareTo(qty);
     int qtyRemainingIsZero = qtyRem.compareTo(BigDecimal.ZERO);

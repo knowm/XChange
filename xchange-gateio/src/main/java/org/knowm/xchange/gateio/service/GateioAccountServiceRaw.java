@@ -44,7 +44,7 @@ public class GateioAccountServiceRaw extends GateioBaseService {
       throws IOException {
     String withdrawAddress = baseAddress;
     if (addressTag != null && addressTag.length() > 0) {
-      withdrawAddress = withdrawAddress + "/" + addressTag;
+      withdrawAddress = withdrawAddress + " " + addressTag;
     }
     return withdraw(currency.getCurrencyCode(), amount, withdrawAddress);
   }
