@@ -3,6 +3,7 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -44,7 +45,7 @@ public class GateioAccountServiceRaw extends GateioBaseService {
       throws IOException {
     String withdrawAddress = baseAddress;
     if (addressTag != null && addressTag.length() > 0) {
-      withdrawAddress = withdrawAddress + "/" + addressTag;
+      withdrawAddress = withdrawAddress + " " + addressTag;
     }
     return withdraw(currency.getCurrencyCode(), amount, withdrawAddress);
   }
