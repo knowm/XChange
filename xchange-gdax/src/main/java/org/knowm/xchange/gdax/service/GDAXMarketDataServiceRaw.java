@@ -147,7 +147,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService {
           try {
             Thread.sleep(1000);
           } catch (InterruptedException e1) {
-        	log.debug("Unexpected exception in getGDAXTradesExtended", e1);
+            log.debug("Unexpected exception in getGDAXTradesExtended", e1);
           }
 
           log.debug("Retrying");

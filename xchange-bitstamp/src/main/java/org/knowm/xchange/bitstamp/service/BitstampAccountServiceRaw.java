@@ -27,9 +27,7 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author gnandiga
- */
+/** @author gnandiga */
 public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   private final BitstampDigest signatureCreator;
@@ -39,9 +37,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   protected BitstampAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
@@ -288,7 +284,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   /**
    * @return true if withdrawal was successful. Note that due to a bug on Bitstamp's side,
-   * withdrawal always fails if two-factor authentication is enabled for the account.
+   *     withdrawal always fails if two-factor authentication is enabled for the account.
    */
   public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress)
       throws IOException {

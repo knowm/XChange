@@ -24,7 +24,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-@Deprecated //Please use module xchange-coinbasepro
+@Deprecated // Please use module xchange-coinbasepro
 public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
   public GDAXAccountService(Exchange exchange) {

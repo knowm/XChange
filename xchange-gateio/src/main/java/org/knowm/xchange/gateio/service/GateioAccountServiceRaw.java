@@ -3,7 +3,6 @@ package org.knowm.xchange.gateio.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;

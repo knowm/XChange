@@ -43,7 +43,7 @@ public class GDAXExchangeIntegration {
     marketDataServiceRaw = (GDAXMarketDataServiceRaw) exchange.getMarketDataService();
 
     // get latest trades
-    
+
     GDAXTrades trades1 =
         marketDataServiceRaw.getGDAXTradesExtended(currencyPair, new Long(Integer.MAX_VALUE), null);
     //	  System.out.println(trades1);

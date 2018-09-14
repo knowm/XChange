@@ -14,7 +14,7 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-@Deprecated //Please use module xchange-coinbasepro
+@Deprecated // Please use module xchange-coinbasepro
 @Slf4j
 public class GDAXMarketDataService extends GDAXMarketDataServiceRaw implements MarketDataService {
 

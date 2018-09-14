@@ -41,7 +41,7 @@ import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@Deprecated //Please use module xchange-coinbasepro
+@Deprecated // Please use module xchange-coinbasepro
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface GDAX {
