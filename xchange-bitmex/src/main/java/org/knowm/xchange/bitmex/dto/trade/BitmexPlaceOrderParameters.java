@@ -288,4 +288,42 @@ public class BitmexPlaceOrderParameters {
       return this;
     }
   }
+
+  @Override
+  public String toString() {
+    return "BitmexPlaceOrderParameters{" +
+            "symbol=" +
+            symbol +
+            ", orderQuantity=" +
+            orderQuantity +
+            ", simpleOrderQuantity=" +
+            simpleOrderQuantity +
+            ", displayQuantity=" +
+            displayQuantity +
+            ", price=" +
+            price +
+            ", stopPrice=" +
+            stopPrice +
+            ", side=" +
+            side +
+            ", orderType=" +
+            orderType +
+            ", clOrdId='" +
+            clOrdId +
+            "', executionInstructions=" +
+            StringUtils.join(executionInstructions) +
+            ", clOrdLinkId='" +
+            clOrdLinkId +
+            "', contingencyType=" +
+            contingencyType +
+            ", pegOffsetValue=" +
+            pegOffsetValue +
+            ", pegPriceType=" +
+            pegPriceType +
+            ", timeInForce='" +
+            timeInForce +
+            ", text='" +
+            text +
+            "'}";
+  }
 }
