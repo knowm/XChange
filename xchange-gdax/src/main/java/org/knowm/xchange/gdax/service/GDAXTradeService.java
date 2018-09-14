@@ -28,7 +28,7 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
-@Deprecated //Please use module xchange-coinbasepro
+@Deprecated // Please use module xchange-coinbasepro
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
 
   public GDAXTradeService(Exchange exchange) {

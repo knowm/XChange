@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.bitstamp.account;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankCurrency;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Country;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
@@ -41,7 +40,8 @@ public class BitstampFiatWithdrawal {
         "Minsk",
         Country.Belarus.alpha2);
 
-    accountService.withdrawInternational( new BigDecimal("150"),
+    accountService.withdrawInternational(
+        new BigDecimal("150"),
         "Test User",
         "BY13NBRB3600900000002Z00AB00",
         "DABAIE2D",
@@ -54,7 +54,6 @@ public class BitstampFiatWithdrawal {
         "Great Bank Postal Code",
         "Great Bank City",
         "Bank Country Alpha 2 code",
-        BankCurrency.AUD
-        );
+        BankCurrency.AUD);
   }
 }

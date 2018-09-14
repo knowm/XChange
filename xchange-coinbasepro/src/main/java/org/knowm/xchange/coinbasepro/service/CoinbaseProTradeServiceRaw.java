@@ -38,7 +38,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     }
   }
 
-  public CoinbaseProFill[] getCoinbaseProFills(TradeHistoryParams tradeHistoryParams) throws IOException {
+  public CoinbaseProFill[] getCoinbaseProFills(TradeHistoryParams tradeHistoryParams)
+      throws IOException {
 
     String orderId = null;
     String productId = null;
@@ -82,7 +83,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** @deprecated Use @link {@link #placeCoinbaseProOrder} */
-  public CoinbaseProIdResponse placeCoinbaseProLimitOrder(LimitOrder limitOrder) throws IOException {
+  public CoinbaseProIdResponse placeCoinbaseProLimitOrder(LimitOrder limitOrder)
+      throws IOException {
 
     CoinbaseProPlaceLimitOrder coinbaseProLimitOrder =
         CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
@@ -90,7 +92,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** @deprecated Use {@link #placeCoinbaseProOrder} */
-  public CoinbaseProIdResponse placeCoinbaseProMarketOrder(MarketOrder marketOrder) throws IOException {
+  public CoinbaseProIdResponse placeCoinbaseProMarketOrder(MarketOrder marketOrder)
+      throws IOException {
 
     CoinbaseProPlaceMarketOrder coinbaseProMarketOrder =
         CoinbaseProAdapters.adaptCoinbaseProPlaceMarketOrder(marketOrder);
@@ -104,7 +107,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     return placeCoinbaseProOrder(coinbaseProStopOrder);
   }
 
-  public CoinbaseProIdResponse placeCoinbaseProOrder(CoinbaseProPlaceOrder order) throws IOException {
+  public CoinbaseProIdResponse placeCoinbaseProOrder(CoinbaseProPlaceOrder order)
+      throws IOException {
     try {
       return coinbasePro.placeOrder(order, apiKey, digest, nonceFactory, passphrase);
     } catch (CoinbaseProException e) {
@@ -140,7 +144,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     }
   }
 
-  public static class GdaxTradeHistoryParams implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
+  public static class GdaxTradeHistoryParams
+      implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
 
     private CurrencyPair currencyPair;
     private String txId;
