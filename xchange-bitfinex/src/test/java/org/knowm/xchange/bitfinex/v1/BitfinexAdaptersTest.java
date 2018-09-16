@@ -62,22 +62,22 @@ public class BitfinexAdaptersTest {
         BitfinexAdapters.adaptDynamicTradingFees(readValues, currencyPairs);
     assertEquals(currencyPairs.size(), feesPerPair.size());
 
-    BigDecimal point1 = BigDecimal.ONE.divide(BigDecimal.TEN);
-    BigDecimal point2 = point1.multiply(new BigDecimal(2));
-    BigDecimal point025 = new BigDecimal(25).divide(new BigDecimal(1000));
-    BigDecimal point01 = BigDecimal.ONE.divide(new BigDecimal(100));
+    BigDecimal point001 = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(3));
+    BigDecimal point002 = point001.multiply(new BigDecimal(2));
+    BigDecimal point00025 = new BigDecimal(25).divide(BigDecimal.ONE.scaleByPowerOfTen(5));
+    BigDecimal point0001 = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4));
 
     Fee btcLTCFee = feesPerPair.get(CurrencyPair.BTC_LTC);
-    Fee btcExpectedFee = new Fee(point1, point2);
+    Fee btcExpectedFee = new Fee(point001, point002);
     assertEquals(btcExpectedFee, btcLTCFee);
     Fee btcUSDFee = feesPerPair.get(CurrencyPair.BTC_USD);
     assertEquals(btcExpectedFee, btcUSDFee);
     Fee ltcFee = feesPerPair.get(CurrencyPair.LTC_AUD);
-    assertEquals(new Fee(point1, point2), ltcFee);
+    assertEquals(new Fee(point001, point002), ltcFee);
     Fee ethFee = feesPerPair.get(CurrencyPair.ETH_BTC);
-    assertEquals(new Fee(point1, point2), ethFee);
+    assertEquals(new Fee(point001, point002), ethFee);
     Fee dgcFee = feesPerPair.get(CurrencyPair.DGC_BTC);
-    assertEquals(new Fee(point025, point01), dgcFee);
+    assertEquals(new Fee(point00025, point0001), dgcFee);
   }
 
   @Test
