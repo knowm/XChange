@@ -7,17 +7,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
@@ -254,5 +260,29 @@ public class GeminiAdaptersTest {
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("3"));
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
+  }
+
+  @Test
+  public void testAdaptDynamicTradingFees() throws IOException
+  {
+    // Read in the JSON from the example resources
+    InputStream is =
+        GeminiAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/gemini/v1/account/example-notionalvolume.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    GeminiTrailingVolumeResponse trailingVolumeResp =
+        mapper.readValue(is, GeminiTrailingVolumeResponse.class);
+
+    List<CurrencyPair> fakeSupportedCurrencyPairs = new ArrayList<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
+    Map<CurrencyPair, Fee> dynamicFees = GeminiAdapters.AdaptDynamicTradingFees(trailingVolumeResp, fakeSupportedCurrencyPairs);
+
+    assertThat(dynamicFees.size()).isEqualTo(fakeSupportedCurrencyPairs.size());
+    for (CurrencyPair pair : fakeSupportedCurrencyPairs)
+    {
+      assertThat(dynamicFees.get(pair).getMakerFee()).isEqualTo(new BigDecimal("0.0101"));
+      assertThat(dynamicFees.get(pair).getTakerFee()).isEqualTo(new BigDecimal("0.0205"));
+    }
   }
 }
