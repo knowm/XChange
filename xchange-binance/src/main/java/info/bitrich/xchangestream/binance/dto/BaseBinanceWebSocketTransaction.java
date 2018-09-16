@@ -12,7 +12,8 @@ public class BaseBinanceWebSocketTransaction {
         KLINE("kline"),
         AGG_TRADE("aggTrade"),
         TRADE("trade"),
-        OUTBOUND_ACCOUNT_INFO("outboundAccountInfo");
+        OUTBOUND_ACCOUNT_INFO("outboundAccountInfo"),
+        EXECUTION_REPORT("executionReport");
 
         /**
          * Get a type from the `type` string of a `ProductBinanceWebSocketTransaction`.
@@ -33,6 +34,10 @@ public class BaseBinanceWebSocketTransaction {
         BinanceWebSocketTypes(String serializedValue) {
             this.serializedValue = serializedValue;
         }
+
+        public String getSerializedValue() {
+			return serializedValue;
+		}
     }
 
     protected final BinanceWebSocketTypes eventType;

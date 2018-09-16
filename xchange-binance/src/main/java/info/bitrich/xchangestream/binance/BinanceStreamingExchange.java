@@ -5,10 +5,15 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import si.mazi.rescu.RestProxyFactory;
+
+import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.service.BaseExchangeService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -40,9 +45,27 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
         ProductSubscription subscriptions = args[0];
         streamingService = createStreamingService(subscriptions);
-        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService);
-        return streamingService.connect()
-                .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions));
+
+        ArrayList<Completable> completables = new ArrayList<>();
+
+        if (exchangeSpecification.getApiKey() != null) {
+          BinanceAuthenticated binance = RestProxyFactory.createProxy(
+            BinanceAuthenticated.class,
+            getExchangeSpecification().getSslUri(),
+            new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig()
+          );
+          BinanceUserDataStreamingService userDataStreamingService = BinanceUserDataStreamingService.create(binance, exchangeSpecification.getApiKey());
+          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, marketDataService, userDataStreamingService);
+          completables.add(userDataStreamingService.connect());
+        }
+
+        if (!subscriptions.isEmpty()) {
+          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, marketDataService);
+          completables.add(streamingService.connect());
+        }
+
+        return Completable.concat(completables)
+            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions));
     }
 
     @Override
