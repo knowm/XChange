@@ -101,7 +101,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public boolean cancelOrder(String orderId) throws IOException, BitstampException {
 
-    return cancelBitstampOrder(Integer.parseInt(orderId));
+    return cancelBitstampOrder(Long.parseLong(orderId));
   }
 
   @Override
