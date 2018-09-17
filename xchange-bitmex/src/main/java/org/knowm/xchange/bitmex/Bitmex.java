@@ -30,7 +30,7 @@ public interface Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("user/wallet")
@@ -39,7 +39,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest /*,
            @Nullable @QueryParam("currency") String currency*/)
-      throws IOException;
+      throws IOException, BitmexException;
 
   // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
@@ -49,7 +49,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("currency") String currency)
-      throws IOException;
+      throws IOException, BitmexException;
 
   // Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
@@ -59,7 +59,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("currency") String currency)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("user/margin")
@@ -68,7 +68,7 @@ public interface Bitmex {
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("currency") String currency)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("user/margin?currency=all")
@@ -76,7 +76,7 @@ public interface Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("trade")
@@ -85,7 +85,7 @@ public interface Bitmex {
       @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Integer start)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("trade/bucketed")
@@ -95,13 +95,13 @@ public interface Bitmex {
       @QueryParam("symbol") String symbol,
       @QueryParam("count") Long count,
       @QueryParam("reverse") Boolean reverse)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("orderBook/L2")
   BitmexPublicOrderList getDepth(
       @QueryParam("symbol") String currencyPair, @QueryParam("depth") Double depth)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("position")
@@ -109,7 +109,7 @@ public interface Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("position")
@@ -119,7 +119,7 @@ public interface Bitmex {
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
       @Nullable @QueryParam("symbol") String symbol,
       @Nullable @QueryParam("filter") String filter)
-      throws IOException;
+      throws IOException, BitmexException;
 
   @GET
   @Path("instrument")

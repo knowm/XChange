@@ -239,12 +239,12 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.updateLeveragePosition(
-              apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
-    } catch (IOException e) {
-      throw handleError(e);
-    }
+      try {
+          return updateRateLimit(
+                  bitmex.updateLeveragePosition(
+                          apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
+      } catch (IOException e) {
+          throw handleError(e);
+      }
   }
 }
