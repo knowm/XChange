@@ -80,14 +80,15 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder placeMarketOrder(
-      String symbol, BitmexSide side, BigDecimal orderQuantity, String executionInstructions) {
+      String symbol, BitmexSide side, BigDecimal orderQuantity, String executionInstructions)
+      throws IOException {
     return bitmex.placeOrder(
         apiKey,
         exchange.getNonceFactory(),
         signatureCreator,
         symbol,
         side == null ? null : side.getCapitalized(),
-        orderQuantity.intValue(),
+        orderQuantity,
         null,
         null,
         null,
@@ -104,7 +105,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       BigDecimal price,
       BitmexSide side,
       String clOrdID,
-      String executionInstructions) {
+      String executionInstructions)
+      throws IOException {
     return placeLimitOrder(
         symbol, orderQuantity, price, side, clOrdID, executionInstructions, null, null);
   }
@@ -117,7 +119,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       String clOrdID,
       String executionInstructions,
       String clOrdLinkID,
-      String contingencyType) {
+      String contingencyType)
+      throws IOException {
     return updateRateLimit(
         bitmex.placeOrder(
             apiKey,
@@ -125,7 +128,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             signatureCreator,
             symbol,
             side == null ? null : side.getCapitalized(),
-            orderQuantity.intValue(),
+            orderQuantity,
             null,
             price,
             null,
@@ -136,8 +139,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             contingencyType));
   }
 
-  public List<BitmexPrivateOrder> placeLimitOrderBulk(
-      Collection<Bitmex.PlaceOrderCommand> commands) {
+  public List<BitmexPrivateOrder> placeLimitOrderBulk(Collection<Bitmex.PlaceOrderCommand> commands)
+      throws IOException {
     String s = ObjectMapperHelper.toCompactJSON(commands);
     return updateRateLimit(
         bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
@@ -150,21 +153,21 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public BitmexPrivateOrder replaceLimitOrder(
-      String symbol,
       BigDecimal orderQuantity,
       BigDecimal price,
       String orderId,
       String clOrdID,
       String origClOrdID,
       String clOrdLinkID,
-      String contingencyType) {
+      String contingencyType)
+      throws IOException {
 
     return updateRateLimit(
         bitmex.replaceOrder(
             apiKey,
             exchange.getNonceFactory(),
             signatureCreator,
-            orderQuantity.intValue(),
+            orderQuantity,
             price,
             null,
             ORDER_TYPE_LIMIT,
@@ -183,13 +186,14 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       String clOrdID,
       String origClOrdId,
       String clOrdLinkID,
-      String contingencyType) {
+      String contingencyType)
+      throws IOException {
     return updateRateLimit(
         bitmex.replaceOrder(
             apiKey,
             exchange.getNonceFactory(),
             signatureCreator,
-            orderQuantity.intValue(),
+            orderQuantity,
             null,
             price,
             ORDER_TYPE_LIMIT,
@@ -208,7 +212,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       String executionInstructions,
       String clOrdID,
       String clOrdLinkID,
-      String contingencyType) {
+      String contingencyType)
+      throws IOException {
     return updateRateLimit(
         bitmex.placeOrder(
             apiKey,
@@ -216,7 +221,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             signatureCreator,
             symbol,
             side == null ? null : side.getCapitalized(),
-            orderQuantity.intValue(),
+            orderQuantity,
             null,
             null,
             stopPrice,
@@ -253,7 +258,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       BigDecimal price,
       String executionInstructions,
       String clOrdLinkID,
-      String contingencyType) {
+      String contingencyType)
+      throws IOException {
     return updateRateLimit(
         bitmex.placeOrder(
             apiKey,
@@ -261,7 +267,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             signatureCreator,
             symbol,
             side == null ? null : side.getCapitalized(),
-            orderQuantity != null ? orderQuantity.intValue() : null,
+            orderQuantity,
             simpleOrderQuantity,
             price,
             null,
@@ -272,21 +278,23 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
             contingencyType));
   }
 
-  public List<BitmexPrivateOrder> cancelAllOrders() {
+  public List<BitmexPrivateOrder> cancelAllOrders() throws IOException {
     return cancelAllOrders(null, null, null);
   }
 
-  public List<BitmexPrivateOrder> cancelAllOrders(String symbol, String filter, String text) {
+  public List<BitmexPrivateOrder> cancelAllOrders(String symbol, String filter, String text)
+      throws IOException {
     return updateRateLimit(
         bitmex.cancelAllOrders(
             apiKey, exchange.getNonceFactory(), signatureCreator, symbol, filter, text));
   }
 
-  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID) {
+  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID) throws IOException {
     return cancelBitmexOrder(orderID, null);
   }
 
-  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID, String clOrdID) {
+  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderID, String clOrdID)
+      throws IOException {
     List<BitmexPrivateOrder> orders =
         updateRateLimit(
             bitmex.cancelOrder(
@@ -298,7 +306,8 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return orders;
   }
 
-  public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage) {
+  public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage)
+      throws IOException {
     BitmexPosition order =
         updateRateLimit(
             bitmex.updateLeveragePosition(
