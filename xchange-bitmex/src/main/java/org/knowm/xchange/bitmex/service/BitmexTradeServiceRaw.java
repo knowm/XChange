@@ -37,7 +37,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     try {
       return updateRateLimit(
           bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -47,7 +47,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     try {
       return updateRateLimit(
           bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -88,7 +88,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       }
 
       return orders;
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -138,7 +138,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
                   ? parameters.getTimeInForce().toApiParameter()
                   : null,
               parameters.getText()));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -168,7 +168,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
               parameters.getStopPrice(),
               parameters.getPegOffsetValue(),
               parameters.getText()));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -176,10 +176,14 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public List<BitmexPrivateOrder> placeOrderBulk(
       @Nonnull Collection<Bitmex.PlaceOrderCommand> commands)
-      throws IOException, BitmexException {
-    String s = ObjectMapperHelper.toCompactJSON(commands);
-    return updateRateLimit(
-            bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
+      throws ExchangeException {
+    try {
+      String s = ObjectMapperHelper.toCompactJSON(commands);
+      return updateRateLimit(
+              bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
+    } catch (Exception e) {
+      throw handleError(e);
+    }
   }
 
   @Nonnull
@@ -189,7 +193,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     try {
       String s = ObjectMapperHelper.toCompactJSON(commands);
       return bitmex.replaceOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -206,7 +210,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       return updateRateLimit(
           bitmex.cancelAllOrders(
               apiKey, exchange.getNonceFactory(), signatureCreator, symbol, filter, text));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -228,7 +232,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
               signatureCreator,
               clOrdId != null ? null : orderId,
               clOrdId));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw handleError(e);
     }
   }
@@ -240,7 +244,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
           return updateRateLimit(
                   bitmex.updateLeveragePosition(
                           apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
-      } catch (IOException e) {
+      } catch (Exception e) {
           throw handleError(e);
       }
   }
