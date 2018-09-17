@@ -41,7 +41,7 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  protected ExchangeException handleError(IOException exception) {
+  protected ExchangeException handleError(Exception exception) {
     if (exception != null && exception.getMessage() != null) {
       if (exception.getMessage().contains("Insufficient")) {
         return new FundsExceededException(exception);
