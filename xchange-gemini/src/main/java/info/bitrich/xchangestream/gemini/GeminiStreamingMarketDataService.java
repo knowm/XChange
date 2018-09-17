@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptTrades;
 
@@ -68,7 +67,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                 .map((JsonNode s) -> {
 
                     if(filterEventsByReason(s, "change", "initial")) {
-                        GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
+                        GeminiWebSocketTransaction transaction = mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                         GeminiOrderbook orderbook = transaction.toGeminiOrderbook(currencyPair);
                         orderbooks.put(currencyPair, orderbook);
                         return orderbook;
@@ -79,7 +78,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                             filterEventsByReason(s, "change", "cancel") ||
                             filterEventsByReason(s, "change", "trade")) {
 
-                        GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
+                        GeminiWebSocketTransaction transaction = mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                         GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
                         GeminiOrderbook orderbook = orderbooks.get(currencyPair);
                         orderbook.updateLevels(levels);
@@ -104,7 +103,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
         Observable<GeminiTrade[]> subscribedTrades = service.subscribeChannel(currencyPair, args)
                 .filter(s -> filterEventsByReason(s, "trade", null))
                 .map((JsonNode s) -> {
-                    GeminiWebSocketTransaction transaction = mapper.readValue(s.toString(), GeminiWebSocketTransaction.class);
+                    GeminiWebSocketTransaction transaction = mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                     return transaction.toGeminiTrades();
                 });
 
