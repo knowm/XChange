@@ -1,5 +1,10 @@
 package org.knowm.xchange.coinsuper;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
 import org.knowm.xchange.coinsuper.dto.account.CoinsuperUserAssetInfo;
 import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperOrderbook;
@@ -23,12 +28,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 public class CoinsuperAdapters {
 

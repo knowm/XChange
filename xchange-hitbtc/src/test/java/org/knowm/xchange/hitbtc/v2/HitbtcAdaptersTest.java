@@ -12,7 +12,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
 
-
 public class HitbtcAdaptersTest {
 
   // @Rule

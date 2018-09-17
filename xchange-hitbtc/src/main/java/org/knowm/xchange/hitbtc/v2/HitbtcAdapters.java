@@ -27,7 +27,18 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 
 public class HitbtcAdapters {
 
