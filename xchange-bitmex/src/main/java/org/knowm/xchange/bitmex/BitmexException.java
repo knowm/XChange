@@ -24,6 +24,10 @@ public class BitmexException extends RuntimeException {
     this.error = error;
   }
 
+  public String getErrorName() {
+    return error.name;
+  }
+
   @Override
   public String getMessage() {
     return error.message == null ? error.name : error.message;

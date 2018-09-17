@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
 import org.knowm.xchange.bitmex.Bitmex;
+import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
@@ -175,14 +176,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public List<BitmexPrivateOrder> placeOrderBulk(
       @Nonnull Collection<Bitmex.PlaceOrderCommand> commands)
-      throws ExchangeException {
-    try {
-      String s = ObjectMapperHelper.toCompactJSON(commands);
-      return updateRateLimit(
-          bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
-    } catch (IOException e) {
-      throw handleError(e);
-    }
+      throws IOException, BitmexException {
+    String s = ObjectMapperHelper.toCompactJSON(commands);
+    return updateRateLimit(
+            bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
   }
 
   @Nonnull

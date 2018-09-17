@@ -42,23 +42,15 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
   }
 
   protected ExchangeException handleError(IOException exception) {
-    if (exception != null) {
-      String message;
-      if (exception instanceof HttpStatusIOException) {
-          message = ((HttpStatusIOException)exception).getHttpBody();
+    if (exception != null && exception.getMessage() != null) {
+      if (exception.getMessage().contains("Insufficient")) {
+        return new FundsExceededException(exception);
+      } else if (exception.getMessage().contains("Rate limit exceeded")) {
+        return new RateLimitExceededException(exception);
+      } else if (exception.getMessage().contains("Internal server error")) {
+        return new InternalServerException(exception);
       } else {
-          message = exception.getMessage();
-      }
-      if (message != null) {
-        if (message.contains("Insufficient")) {
-          return new FundsExceededException(exception);
-        } else if (message.contains("Rate limit exceeded")) {
-          return new RateLimitExceededException(exception);
-        } else if (message.contains("Internal server error")) {
-          return new InternalServerException(exception);
-        } else {
-          return new ExchangeException(message, exception);
-        }
+        return new ExchangeException(exception.getMessage(), exception);
       }
     }
     return new ExchangeException(exception);
