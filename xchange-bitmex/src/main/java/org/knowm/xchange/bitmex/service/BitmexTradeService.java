@@ -36,7 +36,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders() throws ExchangeException {
 
     List<BitmexPrivateOrder> bitmexOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
+            super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
 
     return new OpenOrders(
         bitmexOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList()));
