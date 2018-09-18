@@ -28,6 +28,7 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
  *   <li>Cancel user's open orders on the exchange
  *   <li>Place market orders on the exchange
  *   <li>Place limit orders on the exchange
+ *   <li>Modify limit orders on the exchange
  * </ul>
  *
  * <p>The implementation of this service is expected to be based on a client polling mechanism of
@@ -120,6 +121,23 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  /**
+   * Modify an existing limit order
+   *
+   * @param limitOrder
+   * @return the order ID
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default String modifyOrder(LimitOrder limitOrder) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
