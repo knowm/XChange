@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.*;
@@ -10,9 +11,11 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
 
   protected final Bitmex bitmex;
@@ -38,17 +41,19 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  protected ExchangeException handleError(BitmexException exception) {
-
-    if (exception.getMessage().contains("Insufficient")) {
-      return new FundsExceededException(exception);
-    } else if (exception.getMessage().contains("Rate limit exceeded")) {
-      return new RateLimitExceededException(exception);
-    } else if (exception.getMessage().contains("Internal server error")) {
-      return new InternalServerException(exception);
-    } else {
-      return new ExchangeException(exception);
+  protected ExchangeException handleError(Exception exception) {
+    if (exception != null && exception.getMessage() != null) {
+      if (exception.getMessage().contains("Insufficient")) {
+        return new FundsExceededException(exception);
+      } else if (exception.getMessage().contains("Rate limit exceeded")) {
+        return new RateLimitExceededException(exception);
+      } else if (exception.getMessage().contains("Internal server error")) {
+        return new InternalServerException(exception);
+      } else {
+        return new ExchangeException(exception.getMessage(), exception);
+      }
     }
+    return new ExchangeException(exception);
   }
 
   protected <T extends HttpResponseAware> T updateRateLimit(T httpResponseAware) {
