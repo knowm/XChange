@@ -87,7 +87,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     }
   }
 
-  public boolean cancelBitstampOrder(int orderId) throws IOException {
+  public boolean cancelBitstampOrder(long orderId) throws IOException {
 
     try {
       return bitstampAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);

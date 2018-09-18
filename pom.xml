@@ -9,13 +9,14 @@
 
 	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>4.3.10-SNAPSHOT</version>
+	<version>4.3.11-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange</name>
 	<description>XChange is a Java library providing a simple and consistent API for interacting with
         a diverse set of cryptocurrency exchanges.
     </description>
+
 	<url>http://knowm.org/open-source/xchange</url>
 	<inceptionYear>2012</inceptionYear>
 
@@ -35,11 +36,13 @@
 		<version.github.mmazi>2.0.2</version.github.mmazi>
 		<version.junit>4.12</version.junit>
 		<version.knowm.xchart>3.5.2</version.knowm.xchart>
+		<version.lombok>1.18.2</version.lombok>
 		<version.powermock>2.0.0-beta.5</version.powermock>
 		<version.qos.logback>1.2.3</version.qos.logback>
 		<version.reflections>0.9.11</version.reflections>
 		<version.slf4j>1.7.25</version.slf4j>
 		<version.crypto>3.5.0</version.crypto>
+		<version.java-jwt>3.4.0</version.java-jwt>
 
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
@@ -117,12 +120,15 @@
 		<module>xchange-btcmarkets</module>
 		<module>xchange-btctrade</module>
 		<module>xchange-btcturk</module>
+		<module>xchange-bx</module>
 		<module>xchange-campbx</module>
 		<module>xchange-ccex</module>
 		<module>xchange-cexio</module>
 		<module>xchange-cobinhood</module>
 		<module>xchange-coinbase</module>
+		<module>xchange-coinbasepro</module>
 		<module>xchange-coindirect</module>
+		<module>xchange-coinbene</module>
 		<module>xchange-coinegg</module>
 		<module>xchange-coinone</module>
 		<module>xchange-coinfloor</module>
@@ -285,14 +291,23 @@
 				<artifactId>logback-classic</artifactId>
 				<version>${version.qos.logback}</version>
 			</dependency>
-
-
+  		<dependency>
+	        	<groupId>org.projectlombok</groupId>
+	        	<artifactId>lombok</artifactId>
+	        	<version>${version.lombok}</version>
+	        	<scope>provided</scope>
+	        </dependency>
+			<!-- jwt for auth -->
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${version.java-jwt}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<!-- All children will have these dependencies -->
 	<dependencies>
-
 		<!-- Logging is through SLF4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

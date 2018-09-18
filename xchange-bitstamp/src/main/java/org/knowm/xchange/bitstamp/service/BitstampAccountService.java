@@ -73,7 +73,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         return null;
       }
 
-      return Integer.toString(response.getId());
+      return Long.toString(response.getId());
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
@@ -98,7 +98,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         return null;
       }
 
-      return Integer.toString(response.getId());
+      return Long.toString(response.getId());
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);

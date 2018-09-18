@@ -72,7 +72,7 @@ public interface BitstampAuthenticated {
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("id") int orderId)
+      @FormParam("id") long orderId)
       throws BitstampException, IOException;
 
   /** @return true if order has been canceled. */
