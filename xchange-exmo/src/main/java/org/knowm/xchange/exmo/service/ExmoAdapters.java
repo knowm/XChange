@@ -1,6 +1,7 @@
 package org.knowm.xchange.exmo.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,12 +53,22 @@ public class ExmoAdapters {
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, Map<String, String> data) {
+
+    final BigDecimal last = new BigDecimal(data.get("last_trade"));
+
+    final BigDecimal prevDay =
+        new BigDecimal(data.get("avg")); // average deal price within the last 24 hours
+    final BigDecimal priceChange = last.subtract(prevDay);
+    final BigDecimal priceChangePercent =
+        priceChange.divide(prevDay, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L));
     return new Ticker.Builder()
         .currencyPair(currencyPair)
         .ask(new BigDecimal(data.get("sell_price")))
         .bid(new BigDecimal(data.get("buy_price")))
         .high(new BigDecimal(data.get("high")))
-        .last(new BigDecimal(data.get("last_trade")))
+        .last(last)
+        .priceChangePercent(priceChangePercent)
+        .priceChange(priceChange)
         .low(new BigDecimal(data.get("low")))
         .volume(new BigDecimal(data.get("vol")))
         .timestamp(DateUtils.fromMillisUtc(Long.valueOf(data.get("updated"))))
