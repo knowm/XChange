@@ -1,24 +1,24 @@
-Cryptonit Exchange API specification
+cryptonit Exchange API specification
 ================================
-
-
-Cryptonit API Documentation
----------------------------
-
-https://cryptonit.net/documentation/public-api
-
 
 Public API
 
+Documentation
+-------------
+https://www.cryptonit.net/en/api
+
 Ticker
 ------
-https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=usd&ask_currency=btc&ticker
+https://api.cryptonit.net/api/ticker/
 
 Orders
 ------
-https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=BTC&ask_currency=USD&type=placed&limit=1000
+https://api.cryptonit.net/api/order_book/
 
 Trades
 ------
-https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=BTC&ask_currency=USD&type=filled&limit=1000
+https://api.cryptonit.net/api/transactions/
 
+REQUEST LIMITS
+------
+Do not make more than 600 request per 10 minutes or we will ban your IP address.

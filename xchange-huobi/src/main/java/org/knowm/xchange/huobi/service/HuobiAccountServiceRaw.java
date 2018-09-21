@@ -73,9 +73,9 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
             signatureCreator);
     return checkResult(depositAddressWithTagResult);
   }
-  
-  public HuobiFundingRecord[] getDepositWithdrawalHistory(
-		  String currency, String type, String from) throws IOException {
+
+  public HuobiFundingRecord[] getDepositWithdrawalHistory(String currency, String type, String from)
+      throws IOException {
     HuobiFundingHistoryResult fundingHistoryResult =
         huobi.getFundingHistory(
             currency.toLowerCase(),

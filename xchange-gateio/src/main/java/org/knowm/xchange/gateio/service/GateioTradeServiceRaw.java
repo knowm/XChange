@@ -79,9 +79,9 @@ public class GateioTradeServiceRaw extends GateioBaseService {
 
     GateioPlaceOrderReturn orderId;
     if (orderType.equals(GateioOrderType.BUY)) {
-      orderId = bter.buy(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+      orderId = bter.buy(pair, rate, amount, apiKey, signatureCreator);
     } else {
-      orderId = bter.sell(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+      orderId = bter.sell(pair, rate, amount, apiKey, signatureCreator);
     }
 
     return handleResponse(orderId).getOrderId();
@@ -90,12 +90,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public boolean cancelOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelOrderResult =
-        bter.cancelOrder(
-            orderId,
-            GateioUtils.toPairString(currencyPair),
-            apiKey,
-            signatureCreator,
-            exchange.getNonceFactory());
+        bter.cancelOrder(orderId, GateioUtils.toPairString(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelOrderResult).isResult();
   }
@@ -111,28 +106,21 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public boolean cancelAllOrders(String type, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelAllOrdersResult =
-        bter.cancelAllOrders(
-            type,
-            formatCurrencyPair(currencyPair),
-            apiKey,
-            signatureCreator,
-            exchange.getNonceFactory());
+        bter.cancelAllOrders(type, formatCurrencyPair(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelAllOrdersResult).isResult();
   }
 
   public GateioOpenOrders getGateioOpenOrders() throws IOException {
 
-    GateioOpenOrders gateioOpenOrdersReturn =
-        bter.getOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory());
+    GateioOpenOrders gateioOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator);
 
     return handleResponse(gateioOpenOrdersReturn);
   }
 
   public GateioOrderStatus getGateioOrderStatus(String orderId) throws IOException {
 
-    GateioOrderStatus orderStatus =
-        bter.getOrderStatus(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
+    GateioOrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator);
 
     return handleResponse(orderStatus);
   }
@@ -141,11 +129,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
       throws IOException {
 
     GateioTradeHistoryReturn gateioTradeHistoryReturn =
-        bter.getUserTradeHistory(
-            apiKey,
-            signatureCreator,
-            exchange.getNonceFactory(),
-            GateioUtils.toPairString(currencyPair));
+        bter.getUserTradeHistory(apiKey, signatureCreator, GateioUtils.toPairString(currencyPair));
 
     return handleResponse(gateioTradeHistoryReturn);
   }

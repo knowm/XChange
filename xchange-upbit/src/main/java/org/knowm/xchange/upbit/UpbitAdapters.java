@@ -1,33 +1,22 @@
 package org.knowm.xchange.upbit;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBook;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBookData;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTicker;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrade;
-import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
+import org.knowm.xchange.upbit.dto.account.UpbitBalances;
+import org.knowm.xchange.upbit.dto.marketdata.*;
 import org.knowm.xchange.utils.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class UpbitAdapters {
-
-  public static final Logger log = LoggerFactory.getLogger(UpbitAdapters.class);
 
   private UpbitAdapters() {}
 
@@ -50,19 +39,21 @@ public final class UpbitAdapters {
 
     List<LimitOrder> asks = new ArrayList<>(upbitOrders.length);
     List<LimitOrder> bids = new ArrayList<>(upbitOrders.length);
-    for (int i = 0; i < upbitOrders.length; i++) {
-      UpbitOrderBookData upbitOrder = upbitOrders[i];
-      OrderType orderType = OrderType.ASK;
-      BigDecimal price = upbitOrder.getAskPrice();
-      BigDecimal amount = upbitOrder.getAskSize();
-      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
-      asks.add(limitOrder);
-      orderType = OrderType.BID;
-      price = upbitOrder.getBidPrice();
-      amount = upbitOrder.getBidSize();
-      limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
-      bids.add(limitOrder);
-    }
+    Arrays.stream(upbitOrders)
+        .forEach(
+            upbitOrder -> {
+              OrderType orderType = OrderType.ASK;
+              BigDecimal price = upbitOrder.getAskPrice();
+              BigDecimal amount = upbitOrder.getAskSize();
+              LimitOrder limitOrder =
+                  new LimitOrder(orderType, amount, currencyPair, null, null, price);
+              asks.add(limitOrder);
+              orderType = OrderType.BID;
+              price = upbitOrder.getBidPrice();
+              amount = upbitOrder.getBidSize();
+              limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
+              bids.add(limitOrder);
+            });
     Map<OrderType, List<LimitOrder>> map = new HashMap<>();
     map.put(OrderType.ASK, asks);
     map.put(OrderType.BID, bids);
@@ -109,5 +100,19 @@ public final class UpbitAdapters {
         trade.getTradePrice(),
         DateUtils.fromMillisUtc(trade.getTimestamp().longValue()),
         "");
+  }
+
+  public static Wallet adaptWallet(UpbitBalances wallets) {
+    List<Balance> balances = new ArrayList<>();
+    Arrays.stream(wallets.getBalances())
+        .forEach(
+            balance -> {
+              balances.add(
+                  new Balance(
+                      Currency.getInstance(balance.getCurrency()),
+                      balance.getBalance().add(balance.getLocked()),
+                      balance.getBalance()));
+            });
+    return new Wallet(balances);
   }
 }

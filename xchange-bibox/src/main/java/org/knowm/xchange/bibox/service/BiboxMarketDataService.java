@@ -6,13 +6,13 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.BiboxAdapters;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
+import org.knowm.xchange.bibox.dto.trade.BiboxDeals;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
@@ -68,9 +68,13 @@ public class BiboxMarketDataService extends BiboxMarketDataServiceRaw implements
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException(
-        "This operation is not yet implemented for this exchange");
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    Integer depth = 200;
+    if (args != null && args.length > 0 && args[0] instanceof Integer && (Integer) args[0] > 0) {
+      depth = (Integer) args[0];
+    }
+    List<BiboxDeals> biboxDeals = getBiboxDeals(currencyPair, depth);
+    return BiboxAdapters.adaptDeals(biboxDeals, currencyPair);
   }
 
   public ExchangeMetaData getMetadata() throws IOException {

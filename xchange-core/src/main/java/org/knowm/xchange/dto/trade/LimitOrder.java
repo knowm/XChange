@@ -186,6 +186,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
           (Builder)
               new Builder(order.getType(), order.getCurrencyPair())
                   .originalAmount(order.getOriginalAmount())
+                  .cumulativeAmount(order.getCumulativeAmount())
                   .timestamp(order.getTimestamp())
                   .id(order.getId())
                   .flags(order.getOrderFlags())
@@ -271,34 +272,20 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      LimitOrder order;
-      if (remainingAmount != null) {
-        order =
-            new LimitOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                limitPrice,
-                averagePrice,
-                originalAmount.subtract(remainingAmount),
-                fee,
-                status);
-      } else {
-        order =
-            new LimitOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                limitPrice,
-                averagePrice,
-                cumulativeAmount,
-                fee,
-                status);
-      }
+      LimitOrder order =
+          new LimitOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              id,
+              timestamp,
+              limitPrice,
+              averagePrice,
+              originalAmount == null || remainingAmount == null
+                  ? cumulativeAmount
+                  : originalAmount.subtract(remainingAmount),
+              fee,
+              status);
       order.setOrderFlags(flags);
       return order;
     }
