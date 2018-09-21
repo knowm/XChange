@@ -149,6 +149,7 @@
 		<module>xchange-gateio</module>
 		<module>xchange-gdax</module>
 		<module>xchange-gemini</module>
+		<module>xchange-getbtc</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-huobi</module>
 		<module>xchange-idex</module>

@@ -1,0 +1,17 @@
+{  
+   "balances-and-info":{  
+      "on_hold":[  
+
+      ],
+      "available":{  
+         "BTC":0.1,
+         "ETH":0.1
+      },
+      "usd_volume":0,
+      "fee_bracket":{  
+         "maker":"0.20",
+         "taker":"0.20"
+      },
+      "global_btc_volume":"531.10"
+   }
+}

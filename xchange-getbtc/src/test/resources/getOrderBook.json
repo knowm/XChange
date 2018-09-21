@@ -1,0 +1,23 @@
+{
+    "order-book": {
+        "request_currency": "USD",
+        "bid": [           
+            {
+                "price": 6673.04,
+                "order_amount": 2.84000000,
+                "order_value": 18951.43,
+                "converted_from": "null",
+                "timestamp": 1535362431
+            }
+        ],
+        "ask": [            
+            {
+                "price": 6734.44,
+                "order_amount": 0.19000000,
+                "order_value": 1279.54,
+                "converted_from": "null",
+                "timestamp": 1535362431
+            }
+        ]
+    }
+}
