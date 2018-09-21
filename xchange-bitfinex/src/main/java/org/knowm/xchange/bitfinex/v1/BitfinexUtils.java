@@ -15,8 +15,8 @@ public final class BitfinexUtils {
       currency = "dsh";
     }
     if (currency.equals("qtum")) {
-        currency = "qtm";
-      }
+      currency = "qtm";
+    }
     return currency;
   }
 
@@ -70,6 +70,8 @@ public final class BitfinexUtils {
         return "bgold";
       case "BCH":
         return "bcash";
+      case "USDT":
+        return "tetheruso";
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }

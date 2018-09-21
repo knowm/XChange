@@ -10,9 +10,10 @@ public enum ExchangeEndpoint {
   CANCEL_ORDER("CancelOrder"),
   GET_TRADES("GetTrades"),
   GET_TRANSACTIONS("GetTransactions"),
+  GET_ORDER_DETAILS("GetOrderDetails"),
   SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN(
       IndependentReserveAuthenticated.SynchDigitalCurrencyDepositAddressWithBlockchain),
-  WithdrawDigitalCurrency(IndependentReserveAuthenticated.WithdrawDigitalCurrency);
+  WITHDRAW_DIGITAL_CURRENCY(IndependentReserveAuthenticated.WithdrawDigitalCurrency);
 
   private String endpointName;
 

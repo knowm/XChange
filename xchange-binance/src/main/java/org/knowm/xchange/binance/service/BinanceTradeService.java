@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ import org.knowm.xchange.utils.Assert;
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
   public BinanceTradeService(Exchange exchange) {
+
     super(exchange);
   }
 
@@ -57,74 +59,81 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-	  return getOpenOrders(new DefaultOpenOrdersParam());
+
+    return getOpenOrders(new DefaultOpenOrdersParam());
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {
+
     return getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
-	Long recvWindow = 
-	    (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    
-	List<BinanceOrder> binanceOpenOrders;
-	if (params instanceof OpenOrdersParamCurrencyPair) {
-	  OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
-	  CurrencyPair pair = pairParams.getCurrencyPair();
-	  binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
-	} else {
-	  binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
-	}
-    
+    Long recvWindow =
+        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+
+    List<BinanceOrder> binanceOpenOrders;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+      CurrencyPair pair = pairParams.getCurrencyPair();
+      binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
+    } else {
+      binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
+    }
+
     List<LimitOrder> limitOrders = new ArrayList<>();
     List<Order> otherOrders = new ArrayList<>();
     binanceOpenOrders.forEach(
-      binanceOrder -> {
-        Order order = BinanceAdapters.adaptOrder(binanceOrder);
-        if (order instanceof LimitOrder) {
-          limitOrders.add((LimitOrder) order);
-        } else {
-          otherOrders.add(order);
-        }
-      });
+        binanceOrder -> {
+          Order order = BinanceAdapters.adaptOrder(binanceOrder);
+          if (order instanceof LimitOrder) {
+            limitOrders.add((LimitOrder) order);
+          } else {
+            otherOrders.add(order);
+          }
+        });
     return new OpenOrders(limitOrders, otherOrders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
+
     return placeOrder(OrderType.MARKET, mo, null, null, null);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
-    TimeInForce tif;
+
+    TimeInForce tif = TimeInForce.GTC;
     Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-    if (orderFlags.size() == 1) {
-      IOrderFlags orderFlag = orderFlags.iterator().next();
-      Assert.isTrue(
-          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
-      tif = (TimeInForce) orderFlag;
-    } else {
-      tif = TimeInForce.GTC;
+    Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+
+    while (orderFlagsIterator.hasNext()) {
+      IOrderFlags orderFlag = orderFlagsIterator.next();
+      if (orderFlag instanceof TimeInForce) {
+        tif = (TimeInForce) orderFlag;
+      }
     }
+
     return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
   public String placeStopOrder(StopOrder so) throws IOException {
-    TimeInForce tif;
+
+    TimeInForce tif = TimeInForce.GTC;
     Set<IOrderFlags> orderFlags = so.getOrderFlags();
-    if (orderFlags.size() == 1) {
-      IOrderFlags orderFlag = orderFlags.iterator().next();
-      Assert.isTrue(
-          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
-      tif = (TimeInForce) orderFlag;
-    } else {
-      tif = TimeInForce.GTC;
+    Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+
+    while (orderFlagsIterator.hasNext()) {
+      IOrderFlags orderFlag = orderFlagsIterator.next();
+      if (orderFlag instanceof TimeInForce) {
+        tif = (TimeInForce) orderFlag;
+      }
     }
+
     OrderType orderType;
     if (so.getType().equals(Order.OrderType.BID)) {
       orderType = so.getLimitPrice() == null ? OrderType.TAKE_PROFIT : OrderType.TAKE_PROFIT_LIMIT;
@@ -137,6 +146,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   private String placeOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {
+
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     BinanceNewOrder newOrder =
@@ -157,6 +167,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   public void placeTestOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
+
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     testNewOrder(
@@ -174,11 +185,14 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private String getClientOrderId(Order order) {
+
     String clientOrderId = null;
     for (IOrderFlags flags : order.getOrderFlags()) {
       if (flags instanceof BinanceOrderFlags) {
         BinanceOrderFlags bof = (BinanceOrderFlags) flags;
-        if (clientOrderId == null) clientOrderId = bof.getClientId();
+        if (clientOrderId == null) {
+          clientOrderId = bof.getClientId();
+        }
       }
     }
     return clientOrderId;
@@ -186,11 +200,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(String orderId) {
+
     throw new ExchangeException("You need to provide the currency pair to cancel an order.");
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams params) throws IOException {
+
     if (!(params instanceof CancelOrderByCurrencyPair)
         && !(params instanceof CancelOrderByIdParams)) {
       throw new ExchangeException(
@@ -212,6 +228,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
     Assert.isTrue(
         params instanceof TradeHistoryParamCurrencyPair,
         "You need to provide the currency pair to get the user trades.");
@@ -262,21 +279,25 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+
     return new BinanceTradeHistoryParams();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
+
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) {
+
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
+
     Collection<Order> orders = new ArrayList<>();
     for (OrderQueryParams param : params) {
       if (!(param instanceof OrderQueryParamCurrencyPair)) {

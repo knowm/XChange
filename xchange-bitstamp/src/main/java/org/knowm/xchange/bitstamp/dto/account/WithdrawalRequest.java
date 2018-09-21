@@ -1,11 +1,13 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.currency.Currency;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WithdrawalRequest {
 
@@ -18,7 +20,6 @@ public class WithdrawalRequest {
 
   @JsonProperty("status")
   private String statusOriginal; // keep the original status, if it comes to "unknown"
-
   private String data; // additional withdrawal request data
   private String address; // Bitcoin withdrawal address (bitcoin withdrawals only).
 

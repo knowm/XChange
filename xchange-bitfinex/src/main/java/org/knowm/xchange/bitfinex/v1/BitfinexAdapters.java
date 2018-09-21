@@ -90,7 +90,7 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-	return BitfinexUtils.toPairString(pair);
+    return BitfinexUtils.toPairString(pair);
   }
 
   public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
@@ -507,12 +507,12 @@ public final class BitfinexAdapters {
          */
 
         String cleanedDescription =
-            description
-                .replace(address, "")
-                .replace(",", "")
-                .replace("txid:", "")
-                .trim()
-                .toLowerCase();
+            description.replace(",", "").replace("txid:", "").trim().toLowerCase();
+
+        // Address will only be present for crypto payments. It will be null for all fiat payments
+        if (address != null) {
+          cleanedDescription = cleanedDescription.replace(address.toLowerCase(), "");
+        }
 
         // check its just some hex characters, and if so lets assume its the txn hash
         if (cleanedDescription.matches("^(0x)?[0-9a-f]+$")) {

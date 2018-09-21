@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.QueryParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
@@ -76,7 +75,8 @@ public class FCoinDigest extends BaseParamsDigest {
     String timestamp =
         restInvocation.getParamValue(HeaderParam.class, "FC-ACCESS-TIMESTAMP").toString();
     String payload = method + uri + timestamp + bodyQuery;
-    return DatatypeConverter.printBase64Binary(
-        getMac().doFinal(DatatypeConverter.printBase64Binary(payload.getBytes()).getBytes()));
+    return Base64.getEncoder()
+        .encodeToString(
+            getMac().doFinal(Base64.getEncoder().encodeToString(payload.getBytes()).getBytes()));
   }
 }

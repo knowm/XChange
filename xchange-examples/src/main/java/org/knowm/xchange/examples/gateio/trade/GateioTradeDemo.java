@@ -10,8 +10,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.gateio.GateioDemoUtils;
-import org.knowm.xchange.gateio.Gateio;
-import org.knowm.xchange.gateio.GateioUtils;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
@@ -96,7 +94,11 @@ public class GateioTradeDemo {
       GateioOrderStatus orderStatus = tradeService.getGateioOrderStatus(existingOrderId);
       System.out.println(orderStatus);
 
-      boolean isCancelled = tradeService.cancelOrder(existingOrderId, CurrencyPairDeserializer.getCurrencyPairFromString(openOrdersList.get(0).getCurrencyPair()));
+      boolean isCancelled =
+          tradeService.cancelOrder(
+              existingOrderId,
+              CurrencyPairDeserializer.getCurrencyPairFromString(
+                  openOrdersList.get(0).getCurrencyPair()));
       System.out.println(isCancelled);
     }
 
