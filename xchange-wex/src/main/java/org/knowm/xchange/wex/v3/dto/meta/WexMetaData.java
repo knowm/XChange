@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 
 public class WexMetaData extends ExchangeMetaData {
 
@@ -19,8 +20,9 @@ public class WexMetaData extends ExchangeMetaData {
       @JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
       @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
       @JsonProperty("publicInfoCacheSeconds") int publicInfoCacheSeconds,
-      @JsonProperty("amountScale") int amountScale) {
-    super(currencyPairs, currency, null, null, null);
+      @JsonProperty("amountScale") int amountScale,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
+    super(currencyPairs, currency, null, null, null, feeTiers);
     this.publicInfoCacheSeconds = publicInfoCacheSeconds;
     this.amountScale = amountScale;
   }

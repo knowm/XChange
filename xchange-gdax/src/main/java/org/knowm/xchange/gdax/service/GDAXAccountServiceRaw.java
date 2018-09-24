@@ -12,6 +12,7 @@ import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
+import org.knowm.xchange.gdax.dto.account.GDAXTrailingVolume;
 import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
@@ -91,5 +92,9 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
     GDAXWebsocketAuthData data =
         new GDAXWebsocketAuthData(userId, apiKey, passphrase, gdaxDigest.getSignature(), timestamp);
     return data;
+  }
+
+  public GDAXTrailingVolume[] getTrailing30DayVolume() throws IOException {
+    return gdax.getGDAX30DayTrailingVolume(apiKey, digest, nonceFactory, passphrase);
   }
 }

@@ -123,7 +123,8 @@ public class LivecoinAdapters {
 
       if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
+    return new ExchangeMetaData(
+        currencyPairs, currencies, null, null, true, exchangeMetaData.getFeeTiers());
   }
 
   public static Trades adaptTrades(List<LivecoinTrade> tradesRaw, CurrencyPair currencyPair) {

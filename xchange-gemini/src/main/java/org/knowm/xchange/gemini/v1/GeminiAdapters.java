@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Hashtable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -418,16 +418,18 @@ public final class GeminiAdapters {
     return metaData;
   }
 
-  public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(GeminiTrailingVolumeResponse volumeResponse, 
-                                                                List<CurrencyPair> currencyPairs){
+  public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(
+      GeminiTrailingVolumeResponse volumeResponse, List<CurrencyPair> currencyPairs) {
     Map<CurrencyPair, Fee> result = new Hashtable<CurrencyPair, Fee>();
     BigDecimal bpsToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4));
-    Fee feeAcrossCurrencies = new Fee(volumeResponse.MakerFeeBPS.multiply(bpsToFraction), 
-                                      volumeResponse.TakerFeeBPS.multiply(bpsToFraction));
+    Fee feeAcrossCurrencies =
+        new Fee(
+            volumeResponse.MakerFeeBPS.multiply(bpsToFraction),
+            volumeResponse.TakerFeeBPS.multiply(bpsToFraction));
     for (CurrencyPair currencyPair : currencyPairs) {
       result.put(currencyPair, feeAcrossCurrencies);
     }
-    
+
     return result;
   }
 

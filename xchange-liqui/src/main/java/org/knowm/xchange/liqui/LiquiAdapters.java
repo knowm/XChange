@@ -216,7 +216,7 @@ public class LiquiAdapters {
       if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null, null);
   }
 
   public static CurrencyPair adaptCurrencyPair(final String pair) {

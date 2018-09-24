@@ -130,7 +130,7 @@ public class ANXGenerator {
       handleCurrencyPair(map, pair);
     }
     // TODO add RateLimits, fees
-    ANXMetaData metaData = new ANXMetaData(map, currencyMap, null, null, null, null, null);
+    ANXMetaData metaData = new ANXMetaData(map, currencyMap, null, null, null, null, null, null);
 
     mapper.writeValue(out, metaData);
     out.println();

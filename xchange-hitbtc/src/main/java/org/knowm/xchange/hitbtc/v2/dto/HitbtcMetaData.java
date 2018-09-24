@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.meta.RateLimit;
 
 public class HitbtcMetaData extends ExchangeMetaData {
@@ -30,8 +31,10 @@ public class HitbtcMetaData extends ExchangeMetaData {
       @JsonProperty("public_rate_limits") RateLimit[] publicRateLimits,
       @JsonProperty("private_rate_limits") RateLimit[] privateRateLimits,
       @JsonProperty("share_rate_limits") Boolean shareRateLimits,
-      @JsonProperty("min_poll_delay") int minPollDelay) {
-    super(currencyPairs, currencies, publicRateLimits, privateRateLimits, shareRateLimits);
+      @JsonProperty("min_poll_delay") int minPollDelay,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
+    super(
+        currencyPairs, currencies, publicRateLimits, privateRateLimits, shareRateLimits, feeTiers);
 
     this.minPollDelay = minPollDelay;
   }

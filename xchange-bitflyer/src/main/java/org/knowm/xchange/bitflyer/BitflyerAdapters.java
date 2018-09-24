@@ -34,7 +34,7 @@ public class BitflyerAdapters {
       CurrencyPair pair = adaptCurrencyPair(market.getProductCode());
       currencyPairs.put(pair, null);
     }
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, false, null);
   }
 
   public static CurrencyPair adaptCurrencyPair(String productCode) {

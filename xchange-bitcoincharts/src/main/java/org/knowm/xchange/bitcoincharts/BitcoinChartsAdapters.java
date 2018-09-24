@@ -81,7 +81,8 @@ public final class BitcoinChartsAdapters {
         exchangeMetaData.getCurrencies(),
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
-        exchangeMetaData.isShareRateLimits());
+        exchangeMetaData.isShareRateLimits(),
+        exchangeMetaData.getFeeTiers());
   }
 
   private static <T> T firstNonNull(T... objects) {

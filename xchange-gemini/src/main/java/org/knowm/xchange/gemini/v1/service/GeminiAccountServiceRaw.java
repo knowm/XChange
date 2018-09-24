@@ -4,10 +4,9 @@ import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Arrays;
-import java.util.ArrayList;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,11 +16,11 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiAccountServiceRaw extends GeminiBaseService {
@@ -34,7 +33,8 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
    */
   public GeminiAccountServiceRaw(Exchange exchange) {
     super(exchange);
-    this.allCurrencyPairs = new ArrayList<CurrencyPair>(exchange.getExchangeMetaData().getCurrencyPairs().keySet());
+    this.allCurrencyPairs =
+        new ArrayList<CurrencyPair>(exchange.getExchangeMetaData().getCurrencyPairs().keySet());
   }
 
   public List<GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
@@ -94,17 +94,15 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiTrailingVolumeResponse Get30DayTrailingVolumeDescription()
-    throws IOException {
+  public GeminiTrailingVolumeResponse Get30DayTrailingVolumeDescription() throws IOException {
     try {
       GeminiTrailingVolumeRequest request =
-          new GeminiTrailingVolumeRequest(
-              String.valueOf(exchange.getNonceFactory().createValue()));
+          new GeminiTrailingVolumeRequest(String.valueOf(exchange.getNonceFactory().createValue()));
 
       GeminiTrailingVolumeResponse trailingVolResp =
           gemini.TrailingVolume(apiKey, payloadCreator, signatureCreator, request);
       return trailingVolResp;
-    } catch (GeminiException e){
+    } catch (GeminiException e) {
       throw handleException(e);
     }
   }

@@ -330,7 +330,8 @@ public class KrakenAdapters {
         currencies,
         originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
-        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+        originalMetaData == null ? null : originalMetaData.isShareRateLimits(),
+        originalMetaData == null ? null : originalMetaData.getFeeTiers());
   }
 
   private static CurrencyPairMetaData adaptPair(

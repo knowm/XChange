@@ -123,7 +123,8 @@ public class CCEXAdapters {
       currencies.put(pair.counter, null);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
+    return new ExchangeMetaData(
+        currencyPairs, currencies, null, null, true, exchangeMetaData.getFeeTiers());
   }
 
   public static CurrencyPair adaptCurrencyPair(String pair) {

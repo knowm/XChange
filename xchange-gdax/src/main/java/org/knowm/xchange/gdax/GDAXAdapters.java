@@ -358,7 +358,8 @@ public class GDAXAdapters {
         currencies,
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
-        true);
+        true,
+        exchangeMetaData.getFeeTiers());
   }
 
   public static String adaptProductID(CurrencyPair currencyPair) {
