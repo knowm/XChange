@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public abstract class JsonNettyStreamingService extends NettyStreamingService<JsonNode> {
     private static final Logger LOG = LoggerFactory.getLogger(JsonNettyStreamingService.class);
+    protected final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
 
     public JsonNettyStreamingService(String apiUrl) {
         super(apiUrl);
@@ -22,7 +23,6 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
     @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode;
 
         // Parse incoming message to JSON
