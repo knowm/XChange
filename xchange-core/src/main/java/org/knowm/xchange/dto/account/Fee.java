@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 public final class Fee implements Serializable {
   @JsonProperty("maker_fee")
   private final BigDecimal makerFee;
+
   @JsonProperty("taker_fee")
   private final BigDecimal takerFee;
 

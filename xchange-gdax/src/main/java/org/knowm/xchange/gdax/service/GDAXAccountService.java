@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
+import org.knowm.xchange.gdax.dto.account.GDAXTrailingVolume;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
 import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
@@ -41,6 +45,21 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    GDAXTrailingVolume[] trailingVolume = getTrailing30DayVolume();
+    Map<CurrencyPair, BigDecimal>
+        USDVolumePerPair; // = computeUSDVolumeFromTrailing(trailingVolume, )
+    return null;
+    // Get trailing volume in terms of USD per currency pair
+    // Bucket as follows:
+    // User 30 day USD volume 	Taker fee 	Maker fee
+    // $0 - $10m 	0.30 % 	0 %
+    // $10m - $100m 	0.20 % 	0 %
+    // $100m+ 	0.10 % 	0 %
+    // drop in the result map and return
   }
 
   @Override

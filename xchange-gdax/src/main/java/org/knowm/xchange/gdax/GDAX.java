@@ -20,6 +20,7 @@ import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
+import org.knowm.xchange.gdax.dto.account.GDAXTrailingVolume;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXCandle;
@@ -249,6 +250,15 @@ public interface GDAX {
   @GET
   @Path("coinbase-accounts")
   GDAXCoinbaseAccount[] getGDAXAccounts(
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws HttpStatusIOException;
+
+  @GET
+  @Path("/users/self/trailing-volume")
+  GDAXTrailingVolume[] getGDAX30DayTrailingVolume(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,

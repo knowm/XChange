@@ -149,6 +149,6 @@ public final class CryptopiaAdapters {
       marketMetaDataMap.put(currencyPair, currencyPairMetaData);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
+    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null, null);
   }
 }

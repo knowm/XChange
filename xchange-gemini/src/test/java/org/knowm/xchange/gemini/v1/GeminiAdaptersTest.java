@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
@@ -16,8 +16,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -263,8 +263,7 @@ public class GeminiAdaptersTest {
   }
 
   @Test
-  public void testAdaptDynamicTradingFees() throws IOException
-  {
+  public void testAdaptDynamicTradingFees() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
         GeminiAdaptersTest.class.getResourceAsStream(
@@ -275,12 +274,14 @@ public class GeminiAdaptersTest {
     GeminiTrailingVolumeResponse trailingVolumeResp =
         mapper.readValue(is, GeminiTrailingVolumeResponse.class);
 
-    List<CurrencyPair> fakeSupportedCurrencyPairs = new ArrayList<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
-    Map<CurrencyPair, Fee> dynamicFees = GeminiAdapters.AdaptDynamicTradingFees(trailingVolumeResp, fakeSupportedCurrencyPairs);
+    List<CurrencyPair> fakeSupportedCurrencyPairs =
+        new ArrayList<CurrencyPair>(
+            Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.LTC_XRP));
+    Map<CurrencyPair, Fee> dynamicFees =
+        GeminiAdapters.AdaptDynamicTradingFees(trailingVolumeResp, fakeSupportedCurrencyPairs);
 
     assertThat(dynamicFees.size()).isEqualTo(fakeSupportedCurrencyPairs.size());
-    for (CurrencyPair pair : fakeSupportedCurrencyPairs)
-    {
+    for (CurrencyPair pair : fakeSupportedCurrencyPairs) {
       assertThat(dynamicFees.get(pair).getMakerFee()).isEqualTo(new BigDecimal("0.0101"));
       assertThat(dynamicFees.get(pair).getTakerFee()).isEqualTo(new BigDecimal("0.0205"));
     }

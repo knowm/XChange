@@ -174,7 +174,7 @@ public class BleutradeAdapters {
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
+    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null, null);
   }
 
   public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {

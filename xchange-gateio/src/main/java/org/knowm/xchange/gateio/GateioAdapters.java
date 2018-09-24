@@ -233,7 +233,8 @@ public final class GateioAdapters {
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
-    ExchangeMetaData exchangeMetaData = new ExchangeMetaData(currencyPairs, null, null, null, null);
+    ExchangeMetaData exchangeMetaData =
+        new ExchangeMetaData(currencyPairs, null, null, null, null, null);
 
     return exchangeMetaData;
   }

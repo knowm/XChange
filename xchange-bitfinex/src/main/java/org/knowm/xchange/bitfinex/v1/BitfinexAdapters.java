@@ -67,8 +67,10 @@ public final class BitfinexAdapters {
       for (BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow responseRow : responseRows) {
         Currency currency = Currency.getInstance(responseRow.getCurrency());
         BigDecimal percentToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(2));
-        Fee fee = new Fee(responseRow.getMakerFee().multiply(percentToFraction),
-                          responseRow.getTakerFee().multiply(percentToFraction));
+        Fee fee =
+            new Fee(
+                responseRow.getMakerFee().multiply(percentToFraction),
+                responseRow.getTakerFee().multiply(percentToFraction));
         for (CurrencyPair pair : currencyPairs) {
           // Fee to trade for a currency is the fee to trade currency pairs with this base.
           // Fee is typically assessed in units counter.

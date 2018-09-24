@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.meta.RateLimit;
 
 public class ANXMetaData extends ExchangeMetaData {
@@ -25,9 +26,11 @@ public class ANXMetaData extends ExchangeMetaData {
       @JsonProperty("private_rate_limits") RateLimit[] privateRateLimits,
       @JsonProperty("share_rate_limits") Boolean shareRateLimits,
       @JsonProperty("maker_trading_fee") BigDecimal makerTradingFee,
-      @JsonProperty("taker_trading_fee") BigDecimal takerTradingFee) {
+      @JsonProperty("taker_trading_fee") BigDecimal takerTradingFee,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
 
-    super(currencyPairs, currencies, publicRateLimits, privateRateLimits, shareRateLimits);
+    super(
+        currencyPairs, currencies, publicRateLimits, privateRateLimits, shareRateLimits, feeTiers);
 
     this.makerTradingFee = makerTradingFee;
     this.takerTradingFee = takerTradingFee;

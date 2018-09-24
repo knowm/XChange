@@ -1,7 +1,6 @@
 package org.knowm.xchange.gemini.v1.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -27,15 +26,15 @@ public class GeminiTrailingVolumeResponse {
 
   @JsonProperty("date")
   public Date Date;
-  
+
   public static class NotionalOneDayVolume {
     @JsonProperty("date")
     public Date Date;
+
     @JsonProperty("notional_volume")
     public BigDecimal NotionalVolume;
   }
 
   @JsonProperty("notional_1d_volume")
   public NotionalOneDayVolume[] VolumesPerDay;
-
 }

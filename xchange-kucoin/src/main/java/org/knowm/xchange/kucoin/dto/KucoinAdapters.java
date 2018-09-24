@@ -154,7 +154,7 @@ public class KucoinAdapters {
         coins.stream().collect(Collectors.toMap(c -> c.getCoin(), c -> c));
     Map<CurrencyPair, CurrencyPairMetaData> pairMeta = adaptCurrencyPairMap(tickers, coinMap);
     Map<Currency, CurrencyMetaData> coinMeta = adaptCurrencyMap(coins);
-    return new ExchangeMetaData(pairMeta, coinMeta, null, null, null);
+    return new ExchangeMetaData(pairMeta, coinMeta, null, null, null, null);
   }
 
   private static Map<Currency, CurrencyMetaData> adaptCurrencyMap(List<KucoinCoin> coins) {

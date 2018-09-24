@@ -33,6 +33,9 @@ public class ExchangeMetaData implements Serializable {
   @JsonProperty("private_rate_limits")
   private RateLimit[] privateRateLimits;
 
+  @JsonProperty("fee_tiers")
+  private FeeTier[] feeTiers;
+
   /**
    * If true, both public and private calls use single rate limit policy, which is described in
    * {@link #privateRateLimits}.
@@ -51,13 +54,15 @@ public class ExchangeMetaData implements Serializable {
       @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
       @JsonProperty("public_rate_limits") RateLimit[] publicRateLimits,
       @JsonProperty("private_rate_limits") RateLimit[] privateRateLimits,
-      @JsonProperty("share_rate_limits") Boolean shareRateLimits) {
+      @JsonProperty("share_rate_limits") Boolean shareRateLimits,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
 
     this.currencyPairs = currencyPairs;
     this.currencies = currency;
 
     this.publicRateLimits = publicRateLimits;
     this.privateRateLimits = privateRateLimits;
+    this.feeTiers = feeTiers;
 
     this.shareRateLimits = shareRateLimits != null ? shareRateLimits : false;
   }
@@ -94,6 +99,10 @@ public class ExchangeMetaData implements Serializable {
 
   public RateLimit[] getPrivateRateLimits() {
     return privateRateLimits;
+  }
+
+  public FeeTier[] getFeeTiers() {
+    return this.feeTiers;
   }
 
   public boolean isShareRateLimits() {
