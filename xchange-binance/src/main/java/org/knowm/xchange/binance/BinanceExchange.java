@@ -19,6 +19,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
@@ -40,6 +41,7 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
+
     this.marketDataService = new BinanceMarketDataService(this);
     this.tradeService = new BinanceTradeService(this);
     this.accountService = new BinanceAccountService(this);
@@ -53,6 +55,7 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
     spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
@@ -64,11 +67,13 @@ public class BinanceExchange extends BaseExchange {
   }
 
   public BinanceExchangeInfo getExchangeInfo() {
+
     return exchangeInfo;
   }
 
   @Override
   public void remoteInit() {
+
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
@@ -99,9 +104,7 @@ public class BinanceExchange extends BaseExchange {
 
             for (Filter filter : filters) {
               if (filter.getFilterType().equals("PRICE_FILTER")) {
-
                 pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
-
               } else if (filter.getFilterType().equals("LOT_SIZE")) {
                 amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
@@ -135,15 +138,18 @@ public class BinanceExchange extends BaseExchange {
         }
       }
     } catch (Exception e) {
-      logger.warn("An exception occurred while loading the metadata", e);
+      throw new ExchangeException(e.getMessage());
+      // logger.warn("An exception occurred while loading the metadata", e);
     }
   }
 
   private int numberOfDecimals(String value) {
+
     return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
   public void clearDeltaServerTime() {
+
     deltaServerTime = null;
   }
 
@@ -155,7 +161,6 @@ public class BinanceExchange extends BaseExchange {
       Binance binance =
           RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
       Date serverTime = new Date(binance.time().getServerTime().getTime());
-      serverTime = new Date(binance.time().getServerTime().getTime());
 
       // Assume that we are closer to the server time when we get the repose
       Date systemTime = new Date(System.currentTimeMillis());
