@@ -116,8 +116,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         tif = (TimeInForce) orderFlag;
       }
     }
-
-    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
+    OrderType type =
+        lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)
+            ? OrderType.LIMIT_MAKER
+            : OrderType.LIMIT;
+    return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
