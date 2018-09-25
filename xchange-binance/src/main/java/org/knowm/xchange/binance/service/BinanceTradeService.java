@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
@@ -109,19 +108,19 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     TimeInForce tif = TimeInForce.GTC;
     OrderType type;
     if (lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
-        type = OrderType.LIMIT_MAKER;
-        tif = null;
+      type = OrderType.LIMIT_MAKER;
+      tif = null;
     } else {
-        type = OrderType.LIMIT;
-        Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-        Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+      type = OrderType.LIMIT;
+      Set<IOrderFlags> orderFlags = lo.getOrderFlags();
+      Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
 
-        while (orderFlagsIterator.hasNext()) {
-          IOrderFlags orderFlag = orderFlagsIterator.next();
-          if (orderFlag instanceof TimeInForce) {
-            tif = (TimeInForce) orderFlag;
-          }
+      while (orderFlagsIterator.hasNext()) {
+        IOrderFlags orderFlag = orderFlagsIterator.next();
+        if (orderFlag instanceof TimeInForce) {
+          tif = (TimeInForce) orderFlag;
         }
+      }
     }
     return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
   }
