@@ -11,7 +11,7 @@ public class OkExFuturesManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(OkExManualExample.class);
 
     public static void main(String[] args) {
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExFuturesManualExample.class.getName());
+        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExFuturesStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
         exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD, FuturesContract.Quarter).subscribe(orderBook -> {
