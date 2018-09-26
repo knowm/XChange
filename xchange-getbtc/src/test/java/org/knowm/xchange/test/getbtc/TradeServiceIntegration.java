@@ -52,7 +52,7 @@ public class TradeServiceIntegration {
     try {
       GetbtcOpenOrdersParams exxOpenOrdersParams =
           (GetbtcOpenOrdersParams) tradeService.createOpenOrdersParams();
-      exxOpenOrdersParams.setCurrencyPair(CurrencyPair.ETP_BTC);
+      exxOpenOrdersParams.setCurrencyPair(CurrencyPair.ETH_BTC);
       exxOpenOrdersParams.setType("buy");
 
       printOpenOrders(tradeService, exxOpenOrdersParams);
@@ -78,7 +78,7 @@ public class TradeServiceIntegration {
           new LimitOrder(
               (OrderType.BID),
               new BigDecimal("1.0"),
-              CurrencyPair.ETP_BTC,
+              CurrencyPair.ETH_BTC,
               null,
               null,
               new BigDecimal("0.00050"));
@@ -97,7 +97,7 @@ public class TradeServiceIntegration {
     try {
       GetbtcCancelOrderByCurrencyPair exxCancelOrderByCurrencyPair =
           new GetbtcCancelOrderByCurrencyPair();
-      exxCancelOrderByCurrencyPair.setCurrencyPair(CurrencyPair.ETP_BTC);
+      exxCancelOrderByCurrencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
       exxCancelOrderByCurrencyPair.setId("634");
 
       boolean result = tradeService.cancelOrder(exxCancelOrderByCurrencyPair);
