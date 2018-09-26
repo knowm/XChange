@@ -40,7 +40,6 @@ public class GetbtcTradeServiceRaw extends GetbtcBaseService {
   }
 
   /**
-   *
    * @param amount
    * @param currency
    * @param price
@@ -67,7 +66,6 @@ public class GetbtcTradeServiceRaw extends GetbtcBaseService {
   }
 
   /**
-   *
    * @param orderId
    * @param currency
    * @return
@@ -95,7 +93,6 @@ public class GetbtcTradeServiceRaw extends GetbtcBaseService {
   }
 
   /**
-   *
    * @param currency
    * @return
    * @throws IOException

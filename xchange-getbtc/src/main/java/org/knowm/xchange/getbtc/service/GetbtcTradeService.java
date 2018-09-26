@@ -59,10 +59,10 @@ public class GetbtcTradeService extends GetbtcTradeServiceRaw implements TradeSe
     BigDecimal price = limitOrder.getLimitPrice();
     String type = GetbtcAdapters.convertByType(limitOrder.getType());
 
-    GetbtcPlaceOrder exxPlaceOrder = placeGetbtcOrder(amount, currency, price, type);
+    GetbtcPlaceOrder placeOrder = placeGetbtcOrder(amount, currency, price, type);
 
-    if (exxPlaceOrder != null && exxPlaceOrder.getCode() == 100) {
-      return exxPlaceOrder.getId();
+    if (placeOrder != null && placeOrder.getCode() == 100) {
+      return placeOrder.getId();
     } else {
       return null;
     }

@@ -74,7 +74,6 @@ public class GetbtcAdapters {
   }
 
   /**
-   *
    * @param getbtcTickerResponse
    * @return
    */
@@ -93,7 +92,6 @@ public class GetbtcAdapters {
   }
 
   /**
-   *
    * @param getbtcTickers
    * @return
    */
@@ -125,7 +123,6 @@ public class GetbtcAdapters {
   }
 
   /**
-   *
    * @param getbtcOrderbook
    * @param currencyPair
    * @return
@@ -161,7 +158,6 @@ public class GetbtcAdapters {
   }
 
   /**
-   *
    * @param transactions
    * @param currencyPair
    * @return
@@ -191,7 +187,6 @@ public class GetbtcAdapters {
   }
 
   /**
-   *
    * @param getbtcAccountInformation
    * @return
    */

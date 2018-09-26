@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>xchange-getbtc</artifactId>
+
     <name>XChange getbtc</name>
     <description>XChange implementation for the getbtc Exchange</description>
     <url>http://knowm.org/open-source/xchange/</url>
