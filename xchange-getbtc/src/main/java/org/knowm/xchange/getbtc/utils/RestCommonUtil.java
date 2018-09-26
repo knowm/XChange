@@ -1,16 +1,11 @@
 package org.knowm.xchange.getbtc.utils;
 
-/**
- * 常用工具类
- *
- * @author Lynn Li
- */
+
 public class RestCommonUtil {
-  /** 工具类，封闭构造器 */
+
   private RestCommonUtil() {}
 
   /**
-   * 返回字符串是否为空
    *
    * @param str
    * @return
@@ -20,8 +15,7 @@ public class RestCommonUtil {
   }
 
   /**
-   * 返回字符串是否非空
-   *
+   * 
    * @param str
    * @return
    */
