@@ -9,32 +9,28 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.getbtc.GetbtcAuthenticated;
 import org.knowm.xchange.getbtc.dto.account.GetbtcAccountInformation;
 import org.knowm.xchange.getbtc.utils.RestSignUtil;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * kevinobamatheus@gmail.com
- * @author kevingates
  *
+ * @author kevingates
  */
 public class GetbtcAccountServiceRaw extends GetbtcBaseService {
   private final GetbtcAuthenticated exxAuthenticated;
   private String apiKey;
   private String secretKey;
   private SynchronizedValueFactory<Long> nonceFactory;
- 
+
   public GetbtcAccountServiceRaw(Exchange exchange) {
     super(exchange);
     this.exxAuthenticated =
         RestProxyFactory.createProxy(
-        	GetbtcAuthenticated.class,
+            GetbtcAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
-    
+
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
     this.nonceFactory = exchange.getNonceFactory();
@@ -45,21 +41,21 @@ public class GetbtcAccountServiceRaw extends GetbtcBaseService {
    *
    * @return Object
    * @throws IOException
-   * @throws InvalidKeyException 
+   * @throws InvalidKeyException
    */
-  public GetbtcAccountInformation getGetbtcAccountInfo() throws IOException {  
-	  Map params = new HashMap();
-	  params.put("api_key", this.apiKey);
-	  params.put("nonce", System. currentTimeMillis());
-      	   
-      try {
-		   params.put("signature", RestSignUtil.getHmacSHA256(params, this.secretKey));
-		} catch (NoSuchAlgorithmException | InvalidKeyException e) {			
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-      
+  public GetbtcAccountInformation getGetbtcAccountInfo() throws IOException {
+    Map params = new HashMap();
+    params.put("api_key", this.apiKey);
+    params.put("nonce", System.currentTimeMillis());
+
+    try {
+      params.put("signature", RestSignUtil.getHmacSHA256(params, this.secretKey));
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     return exxAuthenticated.getAccountInfo(params);
   }
 }

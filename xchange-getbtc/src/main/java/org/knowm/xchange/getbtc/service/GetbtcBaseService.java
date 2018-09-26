@@ -5,10 +5,11 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * kevinobamatheus@gmail.com
- * @author kevingates
  *
+ * @author kevingates
  */
 public class GetbtcBaseService extends BaseExchangeService implements BaseService {
 

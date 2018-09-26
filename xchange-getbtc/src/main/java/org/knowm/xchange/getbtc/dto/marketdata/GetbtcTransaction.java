@@ -1,113 +1,120 @@
 package org.knowm.xchange.getbtc.dto.marketdata;
-import java.math.BigDecimal;
-import java.util.List;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class GetbtcTransaction {
 
-    @JsonProperty("date")
-    private long date;
-    @JsonProperty("amount")
-    private BigDecimal amount;
-    @JsonProperty("price")
-    private BigDecimal price;
-    @JsonProperty("trade_type")
-    private String tradeType;
-    @JsonProperty("type")
-    private String type;
-    @JsonProperty("tid")
-    private long tid;
+  @JsonProperty("date")
+  private long date;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public GetbtcTransaction() {
-    }
+  @JsonProperty("amount")
+  private BigDecimal amount;
 
-    /**
-     * 
-     * @param amount
-     * @param tradeType
-     * @param price
-     * @param tid
-     * @param type
-     * @param date
-     */
-    public GetbtcTransaction(long date, BigDecimal amount, BigDecimal price, String tradeType, String type, long tid) {
-        super();
-        this.date = date;
-        this.amount = amount;
-        this.price = price;
-        this.tradeType = tradeType;
-        this.type = type;
-        this.tid = tid;
-    }
+  @JsonProperty("price")
+  private BigDecimal price;
 
-    @JsonProperty("date")
-    public long getDate() {
-        return date;
-    }
+  @JsonProperty("trade_type")
+  private String tradeType;
 
-    @JsonProperty("date")
-    public void setDate(long date) {
-        this.date = date;
-    }
+  @JsonProperty("type")
+  private String type;
 
-    @JsonProperty("amount")
-    public BigDecimal getAmount() {
-        return amount;
-    }
+  @JsonProperty("tid")
+  private long tid;
 
-    @JsonProperty("amount")
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
+  /** No args constructor for use in serialization */
+  public GetbtcTransaction() {}
 
-    @JsonProperty("price")
-    public BigDecimal getPrice() {
-        return price;
-    }
+  /**
+   * @param amount
+   * @param tradeType
+   * @param price
+   * @param tid
+   * @param type
+   * @param date
+   */
+  public GetbtcTransaction(
+      long date, BigDecimal amount, BigDecimal price, String tradeType, String type, long tid) {
+    super();
+    this.date = date;
+    this.amount = amount;
+    this.price = price;
+    this.tradeType = tradeType;
+    this.type = type;
+    this.tid = tid;
+  }
 
-    @JsonProperty("price")
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  @JsonProperty("date")
+  public long getDate() {
+    return date;
+  }
 
-    @JsonProperty("trade_type")
-    public String getTradeType() {
-        return tradeType;
-    }
+  @JsonProperty("date")
+  public void setDate(long date) {
+    this.date = date;
+  }
 
-    @JsonProperty("trade_type")
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
+  @JsonProperty("amount")
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-    @JsonProperty("type")
-    public String getType() {
-        return type;
-    }
+  @JsonProperty("amount")
+  public void setAmount(BigDecimal amount) {
+    this.amount = amount;
+  }
 
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
+  @JsonProperty("price")
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    @JsonProperty("tid")
-    public long getTid() {
-        return tid;
-    }
+  @JsonProperty("price")
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    @JsonProperty("tid")
-    public void setTid(long tid) {
-        this.tid = tid;
-    }
+  @JsonProperty("trade_type")
+  public String getTradeType() {
+    return tradeType;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("date", date).append("amount", amount).append("price", price).append("tradeType", tradeType).append("type", type).append("tid", tid).toString();
-    }
+  @JsonProperty("trade_type")
+  public void setTradeType(String tradeType) {
+    this.tradeType = tradeType;
+  }
 
+  @JsonProperty("type")
+  public String getType() {
+    return type;
+  }
+
+  @JsonProperty("type")
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  @JsonProperty("tid")
+  public long getTid() {
+    return tid;
+  }
+
+  @JsonProperty("tid")
+  public void setTid(long tid) {
+    this.tid = tid;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("date", date)
+        .append("amount", amount)
+        .append("price", price)
+        .append("tradeType", tradeType)
+        .append("type", type)
+        .append("tid", tid)
+        .toString();
+  }
 }

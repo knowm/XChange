@@ -12,10 +12,11 @@ import org.knowm.xchange.getbtc.dto.marketdata.GetbtcTickerResponse;
 import org.knowm.xchange.getbtc.dto.marketdata.GetbtcTransaction;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
 /**
  * kevinobamatheus@gmail.com
- * @author kevingates
  *
+ * @author kevingates
  */
 public class GetbtcMarketDataServiceRaw extends GetbtcBaseService {
   private final Getbtc exx;
@@ -30,15 +31,13 @@ public class GetbtcMarketDataServiceRaw extends GetbtcBaseService {
 
     this.exx =
         RestProxyFactory.createProxy(
-            Getbtc.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+            Getbtc.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
     this.nonceFactory = exchange.getNonceFactory();
   }
- 
+
   /**
    * @return Object
    * @throws IOException
@@ -58,25 +57,24 @@ public class GetbtcMarketDataServiceRaw extends GetbtcBaseService {
 
     return exx.getTicker(GetbtcAdapters.toSymbol(currencyPair));
   }
-  
+
   protected Map<String, GetbtcTicker> getGetbtcTickers() throws IOException {
-	  Map<String, GetbtcTicker> data = exx.getTickers();
-	   
-	  return data;
-  }  
-  
+    Map<String, GetbtcTicker> data = exx.getTickers();
+
+    return data;
+  }
+
   /**
-   * 
    * @param currencyPair
    * @return
    * @throws IOException
    */
   public GetbtcTransaction[] getTransactions(CurrencyPair currencyPair) throws IOException {
-	    try {
-	      return exx.getTransactions(GetbtcAdapters.toSymbol(currencyPair));
-	    } catch (IOException e) {
-	      System.out.println(e.getMessage());
-	    }
-	  return null;
-  }  
+    try {
+      return exx.getTransactions(GetbtcAdapters.toSymbol(currencyPair));
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
+    return null;
+  }
 }

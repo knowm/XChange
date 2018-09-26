@@ -5,10 +5,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.getbtc.GetbtcAdapters;
 import org.knowm.xchange.service.account.AccountService;
+
 /**
  * kevinobamatheus@gmail.com
- * @author kevingates
  *
+ * @author kevingates
  */
 public class GetbtcAccountService extends GetbtcAccountServiceRaw implements AccountService {
   public GetbtcAccountService(Exchange exchange) {
@@ -17,7 +18,7 @@ public class GetbtcAccountService extends GetbtcAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-	  
+
     return GetbtcAdapters.convertBalance(super.getGetbtcAccountInfo());
   }
 }

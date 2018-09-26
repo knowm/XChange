@@ -5,7 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -38,32 +37,30 @@ public class CommonUtil {
       return "";
     }
   }
-  
+
   /**
    * HmacSHA512
-   * 
-   * 
+   *
    * @param String value
    * @param String secret
    * @return String
    */
   public static String HmacSHA512(String value, String secret) {
-      String result;
-      try {
-          Mac hmacSHA512 = Mac.getInstance("HmacSHA512");
-          SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(),
-                  "HmacSHA512");
-          hmacSHA512.init(secretKeySpec);
+    String result;
+    try {
+      Mac hmacSHA512 = Mac.getInstance("HmacSHA512");
+      SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(), "HmacSHA512");
+      hmacSHA512.init(secretKeySpec);
 
-          byte[] digest = hmacSHA512.doFinal(value.getBytes());
-          BigInteger hash = new BigInteger(1, digest);
-          result = hash.toString(16);
-          if ((result.length() % 2) != 0) {
-              result = "0" + result;
-          }
-      } catch (InvalidKeyException | NoSuchAlgorithmException ex) {
-          throw new RuntimeException("Problem as HMAC", ex);
+      byte[] digest = hmacSHA512.doFinal(value.getBytes());
+      BigInteger hash = new BigInteger(1, digest);
+      result = hash.toString(16);
+      if ((result.length() % 2) != 0) {
+        result = "0" + result;
       }
-      return result;
-  }   
+    } catch (InvalidKeyException | NoSuchAlgorithmException ex) {
+      throw new RuntimeException("Problem as HMAC", ex);
+    }
+    return result;
+  }
 }
