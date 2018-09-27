@@ -24,6 +24,8 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
+  private static final long THIRTY_DAYS_MILLISECONDS = 2_592_000_000L;
+
   public LivecoinTradeServiceRaw(LivecoinExchange exchange) {
     super(Livecoin.class, exchange);
   }
@@ -45,14 +47,18 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return resp;
   }
 
-  public List<UserTrade> tradeHistory(Date start, Date end, Integer limit, Long offset)
+  public List<UserTrade> tradeHistory(Date startTime, Date endTime, Integer limit, Long offset)
       throws IOException {
+    long end = DateUtils.toMillisNullSafe(endTime);
+    // Livecoin API limitation: 30 days max period
+    long start = Math.max(DateUtils.toMillisNullSafe(startTime), end - THIRTY_DAYS_MILLISECONDS);
+
     List<Map> response =
         service.transactions(
             apiKey,
             signatureCreator,
-            String.valueOf(DateUtils.toMillisNullSafe(start)),
-            String.valueOf(DateUtils.toMillisNullSafe(end)),
+            String.valueOf(start),
+            String.valueOf(end),
             "BUY,SELL",
             limit,
             offset);

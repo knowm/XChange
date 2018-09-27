@@ -18,6 +18,7 @@ import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.gateio.service.GateioTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class GateioTradeDemo {
 
@@ -93,7 +94,11 @@ public class GateioTradeDemo {
       GateioOrderStatus orderStatus = tradeService.getGateioOrderStatus(existingOrderId);
       System.out.println(orderStatus);
 
-      boolean isCancelled = tradeService.cancelOrder(existingOrderId);
+      boolean isCancelled =
+          tradeService.cancelOrder(
+              existingOrderId,
+              CurrencyPairDeserializer.getCurrencyPairFromString(
+                  openOrdersList.get(0).getCurrencyPair()));
       System.out.println(isCancelled);
     }
 

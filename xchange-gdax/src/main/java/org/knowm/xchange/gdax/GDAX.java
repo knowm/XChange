@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gdax.dto.GDAXException;
+import org.knowm.xchange.gdax.dto.GDAXTrades;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
@@ -41,6 +42,7 @@ import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+@Deprecated // Please use module xchange-coinbasepro
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface GDAX {
@@ -76,6 +78,15 @@ public interface GDAX {
   GDAXTrade[] getTrades(
       @PathParam("baseCurrency") String baseCurrency,
       @PathParam("targetCurrency") String targetCurrency)
+      throws GDAXException, IOException;
+
+  @GET
+  @Path("products/{baseCurrency}-{targetCurrency}/trades")
+  GDAXTrades getTradesPageable(
+      @PathParam("baseCurrency") String baseCurrency,
+      @PathParam("targetCurrency") String targetCurrency,
+      @QueryParam("after") Long after,
+      @QueryParam("limit") Integer limit)
       throws GDAXException, IOException;
 
   @GET

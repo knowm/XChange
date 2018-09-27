@@ -1,0 +1,19 @@
+{
+   "data":[
+      {
+         "time":1531159444672,
+         "price":0.05895,
+         "volume":0.001
+      },
+      {
+         "time":1530697476828,
+         "price":0.069353,
+         "volume":0.001
+      }
+   ],
+   "metaData":{
+      "market":"ETH-BTC",
+      "history":"1w",
+      "limit":1000
+   }
+}

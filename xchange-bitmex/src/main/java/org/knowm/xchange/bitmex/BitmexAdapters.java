@@ -12,10 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderDescription;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
@@ -57,10 +54,9 @@ public class BitmexAdapters {
         bidsOrdersContainer.getLimitOrders());
   }
 
-  public static BitmexDepth adaptDepth(BitmexPublicOrder[] orders, CurrencyPair currencyPair) {
+  public static BitmexDepth adaptDepth(BitmexPublicOrderList orders, CurrencyPair currencyPair) {
 
-    BitmexDepth bitmexDepth =
-        new BitmexDepth(new ArrayList<BitmexPublicOrder>(), new ArrayList<BitmexPublicOrder>());
+    BitmexDepth bitmexDepth = new BitmexDepth(new ArrayList<>(), new ArrayList<>());
 
     for (BitmexPublicOrder bitmexOrder : orders) {
       if (bitmexOrder.getSide().equals(BitmexSide.BUY)) bitmexDepth.getBids().add(bitmexOrder);

@@ -9,15 +9,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bittrex.dto.BittrexBaseReponse;
+import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawUuid;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexTradeId;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import si.mazi.rescu.ParamsDigest;
@@ -30,7 +30,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getdepositaddress")
-  BittrexBaseReponse<BittrexDepositAddress> getdepositaddress(
+  BittrexBaseResponse<BittrexDepositAddress> getdepositaddress(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -39,7 +39,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getbalances")
-  BittrexBaseReponse<List<BittrexBalance>> getBalances(
+  BittrexBaseResponse<List<BittrexBalance>> getBalances(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -47,7 +47,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("/account/getbalance")
-  BittrexBaseReponse<BittrexBalance> getBalance(
+  BittrexBaseResponse<BittrexBalance> getBalance(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -56,7 +56,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/buylimit")
-  BittrexBaseReponse<BittrexTradeId> buylimit(
+  BittrexBaseResponse<BittrexTradeId> buylimit(
       @QueryParam("apikey") String apikey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -67,7 +67,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/selllimit")
-  BittrexBaseReponse<BittrexTradeId> selllimit(
+  BittrexBaseResponse<BittrexTradeId> selllimit(
       @QueryParam("apikey") String apikey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -78,7 +78,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/buymarket")
-  BittrexBaseReponse<BittrexTradeId> buymarket(
+  BittrexBaseResponse<BittrexTradeId> buymarket(
       @QueryParam("apikey") String apikey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -88,7 +88,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/sellmarket")
-  BittrexBaseReponse<BittrexTradeId> sellmarket(
+  BittrexBaseResponse<BittrexTradeId> sellmarket(
       @QueryParam("apikey") String apikey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -98,7 +98,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/cancel")
-  BittrexBaseReponse cancel(
+  BittrexBaseResponse cancel(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -107,7 +107,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("market/getopenorders")
-  BittrexBaseReponse<List<BittrexOpenOrder>> openorders(
+  BittrexBaseResponse<List<BittrexOpenOrder>> openorders(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -116,7 +116,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("/account/getorder")
-  BittrexBaseReponse<BittrexOrder> getOrder(
+  BittrexBaseResponse<BittrexOrder> getOrder(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -125,7 +125,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getorderhistory")
-  BittrexBaseReponse<List<BittrexUserTrade>> getorderhistory(
+  BittrexBaseResponse<List<BittrexUserTrade>> getorderhistory(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -134,7 +134,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/withdraw")
-  BittrexBaseReponse<BittrexWithdrawUuid> withdraw(
+  BittrexBaseResponse<BittrexWithdrawUuid> withdraw(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -146,7 +146,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getwithdrawalhistory")
-  BittrexBaseReponse<List<BittrexWithdrawalHistory>> getwithdrawalhistory(
+  BittrexBaseResponse<List<BittrexWithdrawalHistory>> getwithdrawalhistory(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -155,7 +155,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getdeposithistory")
-  BittrexBaseReponse<List<BittrexDepositHistory>> getdeposithistory(
+  BittrexBaseResponse<List<BittrexDepositHistory>> getdeposithistory(
       @QueryParam("apikey") String apiKey,
       @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,

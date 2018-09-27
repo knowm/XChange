@@ -16,8 +16,8 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-=
 Achterhoeker
+Adam Walczak
 Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
@@ -30,6 +30,7 @@ Andraž
 Andrea Fossi
 André Reiter
 Anthony Tsang
+Arran Duff
 Arthurm1
 Artur
 Artur M
@@ -57,12 +58,14 @@ David Kreutzer
 Devin Smith
 Dmitry Fedorenko
 Dolezal Zdenek
+Donald Jackson
 Douggie
 DrawFun
 Eric Anderson
 Erland Lewin
 EzBar
 Ezer Bar-Aviv
+Fabian
 Fabien André
 Felipe Micaroni Lalli
 Flemingjp
@@ -76,9 +79,13 @@ Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
 Herman Ofenböck
+Hypeon
+Ian W
 Ignacio Larranaga
+Iury V. Vinogradov
 JH
 JK
+Jack McKenzie
 James
 James Edwards
 James Fleming
@@ -103,6 +110,7 @@ Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
 Kevin Britz
+Kevin Gates
 Kevin Jannis
 Kolozsy Gábor
 Konstantin Alexandrov
@@ -111,6 +119,7 @@ Konstantin Tenman
 Krystian Nowak
 Krzysiek
 Krzysztof Cieślak
+Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
 Luca Rosellini
@@ -127,6 +136,7 @@ Matt Read
 Matt Whitlock
 Matthew Downey
 Maxim Fefilov
+Micah Lerner
 Michael Lagace
 Michael Lagacé
 Mike Gerlyand
@@ -136,6 +146,7 @@ Miso Oprendek
 Muffon
 Nathan King
 Nicolas Pinot
+Niels
 Nikita Belenkiy
 Niko Schmuck
 Norbert Sándor
@@ -147,11 +158,13 @@ Oscar Francia
 Pablo Lopez
 Pan, Xinyang
 Panchen
+Pavel Niedoba
 Pavlo Pastushok
 Peter Keeler
 Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
+RadeK
 Radu
 Rafal Krupinski
 Rafał Krupiński
@@ -163,6 +176,7 @@ Roman Belkov
 Ronald Bultman
 Ryan Fox
 Ryan Sundberg
+Sascha Zieger
 Sebastiaan van Erk
 Sergey Belyakov
 Sergey Lukashevich
@@ -171,6 +185,7 @@ Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
 Snailz
+Steven te Brinke
 Stuart Low
 Sumedha Saxena
 Sylvain
@@ -184,6 +199,7 @@ Tillerino
 Tim Molter
 Tomas Cere
 Tomáš Procházka
+Tong Yang
 Tony Skulk
 Travis Collins
 U-TORA\cristian.lucaci
@@ -191,6 +207,7 @@ Ujjwal Kabra
 Uwe
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Victor Didenko
 Victor Mezrin
 Viktor.Zakalyuzhnyy
 Wojciech Langiewicz
@@ -230,6 +247,7 @@ cymp
 cyril
 datbui
 david-yam
+desinerlee
 deveth0
 dhenry
 dimecoin
@@ -254,6 +272,7 @@ jamespedwards42
 jasonliu119
 jclaruelle
 jcuypers
+jmcklondonuk
 johndemic
 karol.pysniak@turbineam.com
 kisapmata
@@ -272,8 +291,10 @@ mfarid
 mharris021
 michaelscheung
 miho
+mikhw
 mnapier
 moardm
+nado04@gmail.com
 nakedpony
 nicostouch
 nimrood
@@ -310,6 +331,8 @@ trix
 trix13
 veken0m
 vulicevic
+walec51
+water0126
 will
 wvr
 ww3456

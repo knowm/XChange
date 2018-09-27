@@ -13,6 +13,7 @@ import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
 import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
+import org.knowm.xchange.bibox.dto.trade.BiboxDeals;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 
 /** @author odrotleff */
@@ -42,6 +43,24 @@ public interface Bibox {
   @GET
   @Path("mdata")
   BiboxResponse<BiboxOrderBook> orderBook(
+      @QueryParam("cmd") String cmd,
+      @QueryParam("pair") String pair,
+      @QueryParam("size") Integer size)
+      throws IOException, BiboxException;
+
+  /**
+   * Retrieves the trade history.
+   *
+   * @param cmd always "deals"
+   * @param pair the currency pair
+   * @param size how many，1-200，if not passed will return 200
+   * @return
+   * @throws IOException
+   * @throws BiboxException
+   */
+  @GET
+  @Path("mdata")
+  BiboxResponse<List<BiboxDeals>> deals(
       @QueryParam("cmd") String cmd,
       @QueryParam("pair") String pair,
       @QueryParam("size") Integer size)
