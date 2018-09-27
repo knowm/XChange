@@ -44,7 +44,11 @@ public interface Hitbtc {
 
   @GET
   @Path("public/trades/{symbol}")
-  List<HitbtcTrade> getTrades(@PathParam("symbol") String symbol) throws IOException;
+  List<HitbtcTrade> getTrades(
+      @PathParam("symbol") String symbol,
+      @QueryParam("limit") long limit,
+      @QueryParam("offset") long offset)
+      throws IOException;
 
   @GET
   @Path("public/ticker")
