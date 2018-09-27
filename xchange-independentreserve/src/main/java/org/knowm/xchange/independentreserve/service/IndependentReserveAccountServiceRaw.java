@@ -2,6 +2,7 @@ package org.knowm.xchange.independentreserve.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
@@ -11,6 +12,9 @@ import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdr
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -72,7 +76,12 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
     return independentReserveAuthenticated.synchDigitalCurrencyDepositAddressWithBlockchain(req);
   }
 
-  public void withdrawDigitalCurrency(BigDecimal amount, String withdrawalAddress, String comment)
+  public void withdrawDigitalCurrency(
+      BigDecimal amount,
+      String withdrawalAddress,
+      String comment,
+      String primaryCurrencyCode,
+      String destinationTag)
       throws IndependentReserveHttpStatusException, IOException {
     Long nonce = exchange.getNonceFactory().createValue();
     IndependentReserveWithdrawDigitalCurrencyRequest req =
@@ -81,10 +90,39 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
             nonce,
             amount,
             withdrawalAddress,
-            comment);
+            comment,
+            primaryCurrencyCode,
+            destinationTag);
     req.setSignature(
         signatureCreator.digestParamsToString(
-            ExchangeEndpoint.WithdrawDigitalCurrency, nonce, req.getParameters()));
+            ExchangeEndpoint.WITHDRAW_DIGITAL_CURRENCY, nonce, req.getParameters()));
     Object withdrawDigitalCurrency = independentReserveAuthenticated.withdrawDigitalCurrency(req);
+  }
+
+  IndependentReserveTransactionsResponse getTransactions(
+      String account,
+      Date fromTimestampUtc,
+      Date toTimestampUt,
+      IndependentReserveTransaction.Type[] txTypes,
+      Integer pageIndex,
+      Integer pageSize)
+      throws IndependentReserveHttpStatusException, IOException {
+    Long nonce = exchange.getNonceFactory().createValue();
+
+    IndependentReserveTransactionsRequest req =
+        new IndependentReserveTransactionsRequest(
+            exchange.getExchangeSpecification().getApiKey(),
+            nonce,
+            account,
+            fromTimestampUtc,
+            toTimestampUt,
+            txTypes,
+            pageIndex,
+            pageSize);
+    req.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
+
+    return independentReserveAuthenticated.getTransactions(req);
   }
 }

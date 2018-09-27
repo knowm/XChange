@@ -190,6 +190,25 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
+  @Path("api/v3/openOrders")
+  /**
+   * Get all open orders without a symbol.
+   *
+   * @param symbol
+   * @param recvWindow optional
+   * @param timestamp mandatory
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  List<BinanceOrder> openOrders(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
   @Path("api/v3/allOrders")
   /**
    * Get all account orders; active, canceled, or filled. <br>
@@ -197,7 +216,7 @@ public interface BinanceAuthenticated extends Binance {
    * returned.
    *
    * @param symbol
-   * @param orderId optionanl
+   * @param orderId optional
    * @param limit optional
    * @param recvWindow optional
    * @param timestamp

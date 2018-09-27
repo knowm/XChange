@@ -4,17 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.annotation.Nullable;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitmex.dto.account.*;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
+import org.knowm.xchange.bitmex.dto.marketdata.*;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -42,7 +39,7 @@ public interface Bitmex {
   // Get a history of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletHistory")
-  List<BitmexWalletTransaction> getWalletHistory(
+  BitmexWalletTransactionList getWalletHistory(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -52,7 +49,7 @@ public interface Bitmex {
   // Get a summary of all of your wallet transactions (deposits, withdrawals, PNL)
   @GET
   @Path("user/walletSummary")
-  List<BitmexWalletTransaction> getWalletSummary(
+  BitmexWalletTransactionList getWalletSummary(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -70,7 +67,7 @@ public interface Bitmex {
 
   @GET
   @Path("user/margin?currency=all")
-  List<BitmexMarginAccount> getMarginAccountsStatus(
+  BitmexMarginAccountList getMarginAccountsStatus(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
@@ -78,7 +75,7 @@ public interface Bitmex {
 
   @GET
   @Path("trade")
-  BitmexPublicTrade[] getTrades(
+  BitmexPublicTradeList getTrades(
       @QueryParam("symbol") String currencyPair,
       @QueryParam("reverse") Boolean reverse,
       @Nullable @QueryParam("count") Integer count,
@@ -87,7 +84,7 @@ public interface Bitmex {
 
   @GET
   @Path("trade/bucketed")
-  List<BitmexKline> getBucketedTrades(
+  BitmexKlineList getBucketedTrades(
       @QueryParam("binSize") String binSize,
       @QueryParam("partial") Boolean partial,
       @QueryParam("symbol") String symbol,
@@ -97,13 +94,13 @@ public interface Bitmex {
 
   @GET
   @Path("orderBook/L2")
-  BitmexPublicOrder[] getDepth(
+  BitmexPublicOrderList getDepth(
       @QueryParam("symbol") String currencyPair, @QueryParam("depth") Double depth)
       throws IOException;
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(
+  BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest)
@@ -111,7 +108,7 @@ public interface Bitmex {
 
   @GET
   @Path("position")
-  List<BitmexPosition> getPositions(
+  BitmexPositionList getPositions(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -121,7 +118,7 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTickers(
+  BitmexTickerList getTickers(
       @Nullable @QueryParam("count") Integer count,
       @Nullable @QueryParam("start") Integer start,
       @Nullable @QueryParam("reverse") Boolean reverse)
@@ -129,12 +126,12 @@ public interface Bitmex {
 
   @GET
   @Path("instrument")
-  List<BitmexTicker> getTicker(@QueryParam("symbol") String symbol)
+  BitmexTickerList getTicker(@QueryParam("symbol") String symbol)
       throws IOException, BitmexException;
 
   @GET
   @Path("instrument/active")
-  List<BitmexTicker> getActiveTickers() throws IOException, BitmexException;
+  BitmexTickerList getActiveTickers() throws IOException, BitmexException;
 
   @GET
   @Path("instrument/activeIntervals")
@@ -142,7 +139,7 @@ public interface Bitmex {
 
   @GET
   @Path("order")
-  List<BitmexPrivateOrder> getOrders(
+  BitmexPrivateOrderList getOrders(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -183,13 +180,15 @@ public interface Bitmex {
       @Nullable @FormParam("stopPx") BigDecimal stopPrice,
       @Nullable @FormParam("ordType") String orderType,
       @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("execInst") String executionInstructions);
+      @Nullable @FormParam("execInst") String executionInstructions,
+      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
+      @Nullable @FormParam("contingencyType") String contingencyType);
 
   @POST
   @Path("order/bulk")
   //  @Consumes("application/json")
   //  @Produces("application/json")
-  List<BitmexPrivateOrder> placeOrderBulk(
+  BitmexPrivateOrderList placeOrderBulk(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -209,13 +208,15 @@ public interface Bitmex {
       @Nullable @FormParam("ordType") String orderType,
       @Nullable @FormParam("orderID") String orderId,
       @Nullable @FormParam("clOrdID") String clOrdID,
-      @Nullable @FormParam("origClOrdID") String origClOrdID);
+      @Nullable @FormParam("origClOrdID") String origClOrdID,
+      @Nullable @FormParam("clOrdLinkID") String clOrdLinkID,
+      @Nullable @FormParam("contingencyType") String contingencyType);
 
   @PUT
   @Path("order/bulk")
   // for some reason underlying library doesn't add contenty type for PUT requests automatically
   @Consumes("application/x-www-form-urlencoded")
-  List<BitmexPrivateOrder> replaceOrderBulk(
+  BitmexPrivateOrderList replaceOrderBulk(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -223,7 +224,7 @@ public interface Bitmex {
 
   @DELETE
   @Path("order")
-  List<BitmexPrivateOrder> cancelOrder(
+  BitmexPrivateOrderList cancelOrder(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -232,7 +233,7 @@ public interface Bitmex {
 
   @DELETE
   @Path("order/all")
-  List<BitmexPrivateOrder> cancelAllOrders(
+  BitmexPrivateOrderList cancelAllOrders(
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
@@ -292,6 +293,12 @@ public interface Bitmex {
     @JsonProperty("execInst")
     private final String executionInstructions;
 
+    @JsonProperty("clOrdLinkID")
+    private final String clOrdLinkID;
+
+    @JsonProperty("contingencyType")
+    private final String contingencyType;
+
     public PlaceOrderCommand(
         String symbol,
         @Nullable String side,
@@ -300,7 +307,9 @@ public interface Bitmex {
         @Nullable BigDecimal stopPrice,
         @Nullable String orderType,
         @Nullable String clOrdID,
-        @Nullable String executionInstructions) {
+        @Nullable String executionInstructions,
+        @Nullable String clOrdLinkID,
+        @Nullable String contingencyType) {
       this.symbol = symbol;
       this.side = side;
       this.orderQuantity = orderQuantity;
@@ -309,6 +318,41 @@ public interface Bitmex {
       this.orderType = orderType;
       this.clOrdID = clOrdID;
       this.executionInstructions = executionInstructions;
+      this.clOrdLinkID = clOrdLinkID;
+      this.contingencyType = contingencyType;
+    }
+
+    @Override
+    public String toString() {
+      return "PlaceOrderCommand{"
+          + "symbol='"
+          + symbol
+          + '\''
+          + ", side='"
+          + side
+          + '\''
+          + ", orderQuantity="
+          + orderQuantity
+          + ", price="
+          + price
+          + ", stopPrice="
+          + stopPrice
+          + ", orderType='"
+          + orderType
+          + '\''
+          + ", clOrdID='"
+          + clOrdID
+          + '\''
+          + ", executionInstructions='"
+          + executionInstructions
+          + '\''
+          + ", clOrdLinkID='"
+          + clOrdLinkID
+          + '\''
+          + ", contingencyType='"
+          + contingencyType
+          + '\''
+          + '}';
     }
   }
 
@@ -340,6 +384,12 @@ public interface Bitmex {
     @JsonProperty("origClOrdID")
     private final String origClOrdID;
 
+    @JsonProperty("clOrdLinkID")
+    private final String clOrdLinkID;
+
+    @JsonProperty("contingencyType")
+    private final String contingencyType;
+
     public ReplaceOrderCommand(
         int orderQuantity,
         @Nullable BigDecimal price,
@@ -347,7 +397,9 @@ public interface Bitmex {
         @Nullable String orderType,
         @Nullable String orderId,
         @Nullable String clOrdID,
-        @Nullable String origClOrdID) {
+        @Nullable String origClOrdID,
+        @Nullable String clOrdLinkID,
+        @Nullable String contingencyType) {
       this.orderQuantity = orderQuantity;
       this.price = price;
       this.stopPrice = stopPrice;
@@ -355,6 +407,38 @@ public interface Bitmex {
       this.orderId = orderId;
       this.clOrdID = clOrdID;
       this.origClOrdID = origClOrdID;
+      this.clOrdLinkID = clOrdLinkID;
+      this.contingencyType = contingencyType;
+    }
+
+    @Override
+    public String toString() {
+      return "ReplaceOrderCommand{"
+          + "orderQuantity="
+          + orderQuantity
+          + ", price="
+          + price
+          + ", stopPrice="
+          + stopPrice
+          + ", orderType='"
+          + orderType
+          + '\''
+          + ", orderId='"
+          + orderId
+          + '\''
+          + ", clOrdID='"
+          + clOrdID
+          + '\''
+          + ", origClOrdID='"
+          + origClOrdID
+          + '\''
+          + ", clOrdLinkID='"
+          + clOrdLinkID
+          + '\''
+          + ", contingencyType='"
+          + contingencyType
+          + '\''
+          + '}';
     }
   }
 }

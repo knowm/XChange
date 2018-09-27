@@ -22,5 +22,5 @@ public interface ReturnTickerApi {
   @Produces("application/json")
   @ApiOperation(value = "", notes = "", tags = "market")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnTickerResponse.class))
-  ReturnTickerResponse ticker(Market market) throws Exception;
+  ReturnTickerResponse ticker(Market market);
 }

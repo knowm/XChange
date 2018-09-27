@@ -7,6 +7,9 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankCurrency;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankWithdrawalType;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
@@ -34,11 +37,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+  /** Constructor */
   protected BitstampAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
@@ -80,6 +79,40 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     } catch (BitstampException e) {
       throw handleError(e);
     }
+  }
+
+  public BitstampWithdrawal withdrawBitstampFunds(
+      Currency currency, BigDecimal amount, final String address) throws IOException {
+    BitstampWithdrawal response = null;
+
+    if (currency.equals(Currency.XRP)) {
+      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(address);
+      response =
+          withdrawRippleFunds(
+              amount, addressAndDt.getAddress(), Long.toString(addressAndDt.getDestinationTag()));
+    } else if (currency.equals(Currency.BTC)) {
+      response = withdrawBtcFunds(amount, address);
+    } else if (currency.equals(Currency.LTC)) {
+      response = withdrawLtcFunds(amount, address);
+    } else if (currency.equals(Currency.BCH)) {
+      response = withdrawBchFunds(amount, address);
+    } else if (currency.equals(Currency.ETH)) {
+      response = withdrawEthFunds(amount, address);
+    } else {
+      throw new ExchangeException(
+          String.format(
+              "Withdrawing funds from Bitstamp failed.Unsupported currency %s", currency));
+    }
+
+    if (response.error != null) {
+      throw new ExchangeException("Failed to withdraw: " + response.error);
+    }
+
+    if (response.getId() == null) {
+      return null;
+    }
+
+    return response;
   }
 
   public BitstampWithdrawal withdrawBtcFunds(BigDecimal amount, String address) throws IOException {
@@ -172,11 +205,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       if (response.hasError()) {
-        if (response.toString().contains("You have only"))
+        if (response.toString().contains("You have only")) {
           throw new FundsExceededException(response.toString());
-        else
+        } else {
           throw new ExchangeException(
               "Withdrawing funds from Bitstamp failed: " + response.toString());
+        }
       }
 
       return response;
@@ -316,11 +350,108 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampUserTransaction[] getBitstampUserTransactions(
+      Long numberOfTransactions, Long offset, String sort) throws IOException {
+
+    try {
+      return bitstampAuthenticatedV2.getUserTransactions(
+          apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
   public BitstampTransferBalanceResponse transferSubAccountBalanceToMain(
       BigDecimal amount, String currency, String subAccount) throws IOException {
     try {
       return bitstampAuthenticatedV2.transferSubAccountBalanceToMain(
           apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampWithdrawal withdrawSepa(
+      BigDecimal amount,
+      String name,
+      String IBAN,
+      String BIK,
+      String address,
+      String postalCode,
+      String city,
+      String countryAlpha2)
+      throws IOException {
+
+    try {
+      BitstampWithdrawal response =
+          bitstampAuthenticatedV2.bankWithdrawal(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory(),
+              amount,
+              AccountCurrency.EUR,
+              name,
+              IBAN,
+              BIK,
+              address,
+              postalCode,
+              city,
+              countryAlpha2,
+              BankWithdrawalType.sepa,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampWithdrawal withdrawInternational(
+      BigDecimal amount,
+      String name,
+      String IBAN,
+      String BIK,
+      String address,
+      String postalCode,
+      String city,
+      String countryAlpha2,
+      String bankName,
+      String bankAddress,
+      String bankPostalCode,
+      String bankCity,
+      String bankCountryAlpha2,
+      BankCurrency bankReceiverCurrency)
+      throws IOException {
+
+    try {
+      BitstampWithdrawal response =
+          bitstampAuthenticatedV2.bankWithdrawal(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory(),
+              amount,
+              AccountCurrency.EUR,
+              name,
+              IBAN,
+              BIK,
+              address,
+              postalCode,
+              city,
+              countryAlpha2,
+              BankWithdrawalType.international,
+              bankName,
+              bankAddress,
+              bankPostalCode,
+              bankCity,
+              bankCountryAlpha2,
+              bankReceiverCurrency);
+
+      return checkAndReturnWithdrawal(response);
     } catch (BitstampException e) {
       throw handleError(e);
     }

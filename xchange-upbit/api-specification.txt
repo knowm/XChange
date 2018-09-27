@@ -1,0 +1,123 @@
+OKCoin Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://api.upbit.co.kr/ticker
+
+https://api.upbit.co.kr/orderbook
+
+
+Price Example
+-------------
+# Request 
+GET https://api.upbit.co.kr/ticker?market=KRW-BTC
+# Response
+[
+    {
+        "market": "KRW-BTC",
+        "trade_date": "20180418",
+        "trade_time": "102340",
+        "trade_date_kst": "20180418",
+        "trade_time_kst": "192340",
+        "trade_timestamp": 1524047020000,
+        "opening_price": 8450000,
+        "high_price": 8679000,
+        "low_price": 8445000,
+        "trade_price": 8621000,
+        "prev_closing_price": 8450000,
+        "change": "RISE",
+        "change_price": 171000,
+        "change_rate": 0.0202366864,
+        "signed_change_price": 171000,
+        "signed_change_rate": 0.0202366864,
+        "trade_volume": 0.02467802,
+        "acc_trade_price": 108024804862.58254,
+        "acc_trade_price_24h": 232702901371.09309,
+        "acc_trade_volume": 12603.53386105,
+        "acc_trade_volume_24h": 27181.31137002,
+        "highest_52_week_price": 28885000,
+        "highest_52_week_date": "2018-01-06",
+        "lowest_52_week_price": 4175000,
+        "lowest_52_week_date": "2017-09-25",
+        "timestamp": 1524047026072
+    }
+]
+ 
+Depth Example
+-------------
+ # Request 
+GET https://api.upbit.com/v1/orderbook?market=KRW-BTC
+# Response
+[
+	{
+		"market": "KRW-BTC",
+    "timestamp": 1529910247984,
+    "total_ask_size": 8.83621228,
+    "total_bid_size": 2.43976741,
+    "orderbook_units": [
+        {
+          "ask_price": 6956000,
+          "bid_price": 6954000,
+          "ask_size": 0.24078656,
+          "bid_size": 0.00718341
+        },
+        {
+          "ask_price": 6958000,
+          "bid_price": 6953000,
+          "ask_size": 1.12919,
+          "bid_size": 0.11500074
+        },
+        {
+          "ask_price": 6960000,
+          "bid_price": 6952000,
+          "ask_size": 0.08614137,
+          "bid_size": 0.19019028
+        },
+        {
+          "ask_price": 6962000,
+          "bid_price": 6950000,
+          "ask_size": 0.0837203,
+          "bid_size": 0.28201649
+        },
+        {
+          "ask_price": 6964000,
+          "bid_price": 6949000,
+          "ask_size": 0.501885,
+          "bid_size": 0.01822085
+        },
+        {
+          "ask_price": 6965000,
+          "bid_price": 6946000,
+          "ask_size": 1.12517189,
+          "bid_size": 0.0002
+        },
+        {
+          "ask_price": 6968000,
+          "bid_price": 6945000,
+          "ask_size": 2.89900477,
+          "bid_size": 0.03597913
+        },
+        {
+          "ask_price": 6970000,
+          "bid_price": 6944000,
+          "ask_size": 0.2044231,
+          "bid_size": 0.39291445
+        },
+        {
+          "ask_price": 6972000,
+          "bid_price": 6939000,
+          "ask_size": 2.55280097,
+          "bid_size": 0.12963816
+        },
+        {
+          "ask_price": 6974000,
+          "bid_price": 6937000,
+          "ask_size": 0.01308832,
+          "bid_size": 1.2684239
+        }
+		]
+	}
+]

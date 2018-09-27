@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -24,7 +25,7 @@ import java.util.Map;
   "pgpPubKey",
   "country"
 })
-public final class BitmexAccount {
+public final class BitmexAccount extends AbstractHttpResponseAware {
 
   @JsonProperty("id")
   private Integer id;

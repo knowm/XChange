@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
@@ -171,5 +173,25 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         signatureCreator,
         new BitfinexNonceOnlyRequest(
             "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
+  }
+
+  public BitfinexBalanceHistoryResponse[] getBitfinexBalanceHistory(
+      String currency, String wallet, Long since, Long until, int limit) throws IOException {
+    try {
+      return bitfinex.balanceHistory(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          new BitfinexBalanceHistoryRequest(
+              String.valueOf(exchange.getNonceFactory().createValue()),
+              currency,
+              since,
+              until,
+              limit,
+              wallet));
+
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
+    }
   }
 }

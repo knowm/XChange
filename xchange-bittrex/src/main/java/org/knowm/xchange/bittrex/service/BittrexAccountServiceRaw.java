@@ -6,8 +6,8 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
 
 public class BittrexAccountServiceRaw extends BittrexBaseService {

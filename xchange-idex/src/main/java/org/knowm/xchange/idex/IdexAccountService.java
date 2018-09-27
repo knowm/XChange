@@ -19,33 +19,50 @@ import org.knowm.xchange.idex.dto.*;
 import org.knowm.xchange.idex.service.ReturnCompleteBalancesApi;
 import org.knowm.xchange.idex.service.ReturnDepositsWithdrawalsApi;
 import org.knowm.xchange.idex.service.WithdrawApi;
+import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import si.mazi.rescu.RestProxyFactory;
 
-public class IdexAccountService implements AccountService {
-  private IdexExchange idexExchange;
-  private String apiKey = idexExchange.getExchangeSpecification().getApiKey();
-  private ReturnCompleteBalancesApi returnCompleteBalancesApi =
-      RestProxyFactory.createProxy(
-          ReturnCompleteBalancesApi.class, idexExchange.getExchangeSpecification().getSslUri());
-  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi =
-      RestProxyFactory.createProxy(
-          ReturnDepositsWithdrawalsApi.class,
-          idexExchange.getDefaultExchangeSpecification().getSslUri());
-  private WithdrawApi withdrawApi =
-      RestProxyFactory.createProxy(
-          WithdrawApi.class, idexExchange.getDefaultExchangeSpecification().getSslUri());
+public class IdexAccountService extends BaseExchangeService implements AccountService {
+
+  private ReturnCompleteBalancesApi returnCompleteBalancesApi;
+
+  private ReturnDepositsWithdrawalsApi returnDepositsWithdrawalsApi;
+
+  private WithdrawApi withdrawApi;
+
+  private String apiKey;
 
   public IdexAccountService(IdexExchange idexExchange) {
-    this.idexExchange = idexExchange;
+
+    super(idexExchange);
+
+    returnCompleteBalancesApi =
+        RestProxyFactory.createProxy(
+            ReturnCompleteBalancesApi.class,
+            idexExchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    returnDepositsWithdrawalsApi =
+        RestProxyFactory.createProxy(
+            ReturnDepositsWithdrawalsApi.class,
+            idexExchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    withdrawApi =
+        RestProxyFactory.createProxy(
+            WithdrawApi.class,
+            idexExchange.getDefaultExchangeSpecification().getSslUri(),
+            getClientConfig());
+
+    apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 
   public AccountInfo getAccountInfo() {
     AccountInfo ret = null;
     try {
-      String apiKey = idexExchange.getExchangeSpecification().getApiKey();
       String s = apiKey.substring(0, 6) + "…";
       ReturnCompleteBalancesResponse returnBalancesPost;
       ret = null;
@@ -75,15 +92,15 @@ public class IdexAccountService implements AccountService {
   }
 
   public String requestDepositAddress(Currency currency, String... args) {
-    return idexExchange.getExchangeSpecification().getApiKey();
+    return exchange.getExchangeSpecification().getApiKey();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
     List<FundingRecord> ret = null;
-    if (!(params instanceof IdexTradeHistoryParams)) {
+    if (!(params instanceof IdexDepositsWithdrawalsParams)) {
       throw new Error(
-          "getFundingHistory requires " + IdexTradeHistoryParams.class.getCanonicalName());
+          "getFundingHistory requires " + IdexDepositsWithdrawalsParams.class.getCanonicalName());
     } else {
       try {
         ret =
@@ -98,51 +115,52 @@ public class IdexAccountService implements AccountService {
 
   private final List<FundingRecord> mutableList(
       ReturnDepositsWithdrawalsResponse returnDepositsWithdrawalsPost) {
-    return (List<FundingRecord>)
-        Arrays.asList(
-                returnDepositsWithdrawalsPost
-                    .getWithdrawals()
-                    .stream()
-                    .map(
-                        fundingLedger ->
-                            new FundingRecord(
-                                apiKey,
-                                new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
-                                new Currency(fundingLedger.getCurrency()),
-                                safeParse(fundingLedger.getAmount()),
-                                fundingLedger.getTransactionHash(),
-                                fundingLedger.getDepositNumber(),
-                                Type.WITHDRAWAL,
-                                Status.resolveStatus(fundingLedger.getStatus()),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""))
-                    .collect(Collectors.toList()),
-                returnDepositsWithdrawalsPost
-                    .getDeposits()
-                    .stream()
-                    .map(
-                        fundingLedger1 ->
-                            new FundingRecord(
-                                apiKey,
-                                new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
-                                new Currency(fundingLedger1.getCurrency()),
-                                safeParse(fundingLedger1.getAmount()),
-                                fundingLedger1.getTransactionHash(),
-                                fundingLedger1.getDepositNumber(),
-                                Type.WITHDRAWAL,
-                                Status.resolveStatus(fundingLedger1.getStatus()),
-                                BigDecimal.ZERO,
-                                BigDecimal.ZERO,
-                                ""))
-                    .collect(Collectors.toList()))
-            .stream()
-            .flatMap(List::stream)
-            .sorted(Comparator.comparing(FundingRecord::getDate));
+
+    return Arrays.asList(
+            returnDepositsWithdrawalsPost
+                .getWithdrawals()
+                .stream()
+                .map(
+                    fundingLedger ->
+                        new FundingRecord(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            new Date(Long.parseLong(fundingLedger.getTimestamp()) * 1000),
+                            new Currency(fundingLedger.getCurrency()),
+                            safeParse(fundingLedger.getAmount()),
+                            fundingLedger.getTransactionHash(),
+                            fundingLedger.getDepositNumber(),
+                            Type.WITHDRAWAL,
+                            Status.resolveStatus(fundingLedger.getStatus()),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            ""))
+                .collect(Collectors.toList()),
+            returnDepositsWithdrawalsPost
+                .getDeposits()
+                .stream()
+                .map(
+                    fundingLedger1 ->
+                        new FundingRecord(
+                            exchange.getExchangeSpecification().getApiKey(),
+                            new Date(Long.parseLong(fundingLedger1.getTimestamp()) * 1000),
+                            new Currency(fundingLedger1.getCurrency()),
+                            safeParse(fundingLedger1.getAmount()),
+                            fundingLedger1.getTransactionHash(),
+                            fundingLedger1.getDepositNumber(),
+                            Type.DEPOSIT,
+                            Status.resolveStatus(fundingLedger1.getStatus()),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            ""))
+                .collect(Collectors.toList()))
+        .stream()
+        .flatMap(List::stream)
+        .sorted(Comparator.comparing(FundingRecord::getDate))
+        .collect(Collectors.toList());
   }
 
   public TradeHistoryParams createFundingHistoryParams() {
-    return new IdexTradeHistoryParams();
+    return new IdexDepositsWithdrawalsParams(apiKey);
   }
 
   public String withdrawFunds(WithdrawFundsParams w) {
