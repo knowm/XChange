@@ -2,7 +2,13 @@ package org.knowm.xchange.bittrex.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@Builder
+@ToString
 public class BittrexOpenOrder {
 
   private final String uuid;
@@ -58,112 +64,5 @@ public class BittrexOpenOrder {
     this.isConditional = isConditional;
     this.condition = condition;
     this.conditionTarget = conditionTarget;
-  }
-
-  public String getUuid() {
-    return uuid;
-  }
-
-  public String getOrderUuid() {
-    return orderUuid;
-  }
-
-  public String getExchange() {
-    return exchange;
-  }
-
-  public String getOrderType() {
-    return orderType;
-  }
-
-  public BigDecimal getQuantity() {
-    return quantity;
-  }
-
-  public BigDecimal getQuantityRemaining() {
-    return quantityRemaining;
-  }
-
-  public BigDecimal getLimit() {
-    return limit;
-  }
-
-  public BigDecimal getCommissionPaid() {
-    return commissionPaid;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getPricePerUnit() {
-    return pricePerUnit;
-  }
-
-  public String getOpened() {
-    return opened;
-  }
-
-  public String getClosed() {
-    return closed;
-  }
-
-  public Boolean getCancelInitiated() {
-    return cancelInitiated;
-  }
-
-  public Boolean getImmediateOrCancel() {
-    return immediateOrCancel;
-  }
-
-  public Boolean getConditional() {
-    return isConditional;
-  }
-
-  public String getCondition() {
-    return condition;
-  }
-
-  public Object getConditionTarget() {
-    return conditionTarget;
-  }
-
-  @Override
-  public String toString() {
-    return "BittrexOrder [uuid="
-        + getUuid()
-        + ", orderUuid="
-        + getOrderUuid()
-        + ", exchange="
-        + getExchange()
-        + ", orderType="
-        + getOrderType()
-        + ", quantity="
-        + getQuantity()
-        + ", quantityRemaining="
-        + getQuantityRemaining()
-        + ", limit="
-        + getLimit()
-        + ", commissionPaid="
-        + getCommissionPaid()
-        + ", price="
-        + getPrice()
-        + ", pricePerUnit="
-        + getPricePerUnit()
-        + ", opened="
-        + getOpened()
-        + ", closed="
-        + getClosed()
-        + ", cancelInitiated="
-        + getCancelInitiated()
-        + ", immediateOrCancel="
-        + getImmediateOrCancel()
-        + ", isConditional="
-        + getConditional()
-        + ", condition="
-        + getCondition()
-        + ", conditionTarget="
-        + getConditionTarget()
-        + "]";
   }
 }
