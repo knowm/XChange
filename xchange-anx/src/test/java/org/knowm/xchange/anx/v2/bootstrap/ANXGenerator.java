@@ -45,8 +45,10 @@ import org.knowm.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 
 public class ANXGenerator {
 
@@ -62,6 +64,7 @@ public class ANXGenerator {
   static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
   static CurrencyPair[] pairsOther = {LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC};
+  static Map<CurrencyPair, FeeTier[]> currencyPairFeeTiers = new HashMap<>();
 
   // base currency -> min order size
   static Map<Currency, BigDecimal> minAmount = new HashMap<>();
@@ -87,6 +90,35 @@ public class ANXGenerator {
     maxAmount.put(STR, ONE.movePointRight(5));
     maxAmount.put(START, null);
     maxAmount.put(EGD, null);
+
+    currencyPairFeeTiers.put(
+        LTC_BTC,
+        new FeeTier[] {
+          new FeeTier(
+              BigDecimal.ZERO,
+              new Fee(BigDecimal.ONE.movePointLeft(2), BigDecimal.ONE.movePointLeft((1)))),
+          new FeeTier(
+              BigDecimal.TEN,
+              new Fee(BigDecimal.ONE.movePointLeft(4), BigDecimal.ONE.movePointLeft((3))))
+        });
+    currencyPairFeeTiers.put(
+        DOGE_BTC,
+        new FeeTier[] {
+          new FeeTier(
+              BigDecimal.ZERO,
+              new Fee(BigDecimal.ONE.movePointLeft(5), BigDecimal.ONE.movePointLeft((1)))),
+          new FeeTier(
+              BigDecimal.TEN,
+              new Fee(BigDecimal.ONE.movePointLeft(6), BigDecimal.ONE.movePointLeft((4))))
+        });
+    FeeTier[] constantFeeTier =
+        new FeeTier[] {
+          new FeeTier(
+              BigDecimal.ZERO,
+              new Fee(BigDecimal.ONE.movePointLeft(2), BigDecimal.ONE.movePointLeft(1)))
+        };
+    currencyPairFeeTiers.put(STR_BTC, constantFeeTier);
+    currencyPairFeeTiers.put(XRP_BTC, constantFeeTier);
 
     for (Currency crypto : cryptos) {
       currencyMap.put(crypto, new CurrencyMetaData(8, null));
@@ -130,7 +162,7 @@ public class ANXGenerator {
       handleCurrencyPair(map, pair);
     }
     // TODO add RateLimits, fees
-    ANXMetaData metaData = new ANXMetaData(map, currencyMap, null, null, null, null, null, null);
+    ANXMetaData metaData = new ANXMetaData(map, currencyMap, null, null, null, null, null);
 
     mapper.writeValue(out, metaData);
     out.println();
@@ -145,7 +177,12 @@ public class ANXGenerator {
     BigDecimal maximumAmount =
         scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
     ANXMarketMetaData mmd =
-        new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
+        new ANXMarketMetaData(
+            fee,
+            minimumAmount,
+            maximumAmount,
+            priceScale(currencyPair),
+            currencyPairFeeTiers.get(currencyPair));
     map.put(currencyPair, mmd);
   }
 
