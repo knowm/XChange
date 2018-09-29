@@ -138,8 +138,7 @@ public class BinanceExchange extends BaseExchange {
         }
       }
     } catch (Exception e) {
-      throw new ExchangeException(e.getMessage());
-      // logger.warn("An exception occurred while loading the metadata", e);
+      throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
   }
 
