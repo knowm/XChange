@@ -1,4 +1,4 @@
-package org.known.xchange.acx;
+package org.knowm.xchange.acx;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

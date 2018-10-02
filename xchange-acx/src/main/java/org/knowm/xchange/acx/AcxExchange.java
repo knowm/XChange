@@ -1,12 +1,12 @@
-package org.known.xchange.acx;
+package org.knowm.xchange.acx;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.acx.service.account.AcxAccountService;
+import org.knowm.xchange.acx.service.marketdata.AcxMarketDataService;
+import org.knowm.xchange.acx.service.trade.AcxTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-import org.known.xchange.acx.service.account.AcxAccountService;
-import org.known.xchange.acx.service.marketdata.AcxMarketDataService;
-import org.known.xchange.acx.service.trade.AcxTradeService;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 

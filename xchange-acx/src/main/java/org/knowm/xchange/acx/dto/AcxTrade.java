@@ -1,4 +1,4 @@
-package org.known.xchange.acx.dto;
+package org.knowm.xchange.acx.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;

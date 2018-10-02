@@ -1,11 +1,15 @@
-package org.known.xchange.acx.service.trade;
+package org.knowm.xchange.acx.service.trade;
 
-import static org.known.xchange.acx.utils.AcxUtils.getAcxMarket;
-
+import static org.knowm.xchange.acx.utils.AcxUtils.getAcxMarket;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import org.knowm.xchange.acx.AcxApi;
+import org.knowm.xchange.acx.AcxMapper;
+import org.knowm.xchange.acx.AcxSignatureCreator;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
+import org.knowm.xchange.acx.utils.ArgUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -16,11 +20,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.AcxSignatureCreator;
-import org.known.xchange.acx.dto.marketdata.AcxOrder;
-import org.known.xchange.acx.utils.ArgUtils;
 
 public class AcxTradeService implements TradeService {
   private final AcxApi api;

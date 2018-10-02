@@ -1,8 +1,15 @@
-package org.known.xchange.acx;
+package org.knowm.xchange.acx;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.acx.dto.AcxTrade;
+import org.knowm.xchange.acx.dto.account.AcxAccount;
+import org.knowm.xchange.acx.dto.account.AcxAccountInfo;
+import org.knowm.xchange.acx.dto.marketdata.AcxMarket;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrderBook;
+import org.knowm.xchange.acx.dto.marketdata.AcxTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -16,13 +23,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.known.xchange.acx.dto.AcxTrade;
-import org.known.xchange.acx.dto.account.AcxAccount;
-import org.known.xchange.acx.dto.account.AcxAccountInfo;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
-import org.known.xchange.acx.dto.marketdata.AcxOrder;
-import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
-import org.known.xchange.acx.dto.marketdata.AcxTicker;
 
 public class AcxMapper {
   public Ticker mapTicker(CurrencyPair currencyPair, AcxMarket tickerData) {
