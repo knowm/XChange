@@ -1,7 +1,13 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.Bitmex;
-import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
@@ -9,15 +15,6 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public class BitmexTradeServiceRaw extends BitmexBaseService {
@@ -42,8 +39,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     }
   }
 
-  public List<BitmexPosition> getBitmexPositions(String symbol)
-      throws ExchangeException {
+  public List<BitmexPosition> getBitmexPositions(String symbol) throws ExchangeException {
     try {
       return updateRateLimit(
           bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
@@ -175,12 +171,11 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   @Nonnull
   public List<BitmexPrivateOrder> placeOrderBulk(
-      @Nonnull Collection<Bitmex.PlaceOrderCommand> commands)
-      throws ExchangeException {
+      @Nonnull Collection<Bitmex.PlaceOrderCommand> commands) throws ExchangeException {
     try {
       String s = ObjectMapperHelper.toCompactJSON(commands);
       return updateRateLimit(
-              bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
+          bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
     } catch (Exception e) {
       throw handleError(e);
     }
@@ -188,8 +183,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   @Nonnull
   public List<BitmexPrivateOrder> replaceOrderBulk(
-      @Nonnull Collection<Bitmex.ReplaceOrderCommand> commands)
-      throws ExchangeException {
+      @Nonnull Collection<Bitmex.ReplaceOrderCommand> commands) throws ExchangeException {
     try {
       String s = ObjectMapperHelper.toCompactJSON(commands);
       return bitmex.replaceOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
@@ -216,8 +210,7 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   @Nonnull
-  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderId)
-      throws ExchangeException {
+  public List<BitmexPrivateOrder> cancelBitmexOrder(String orderId) throws ExchangeException {
     return cancelBitmexOrder(orderId, null);
   }
 
@@ -240,12 +233,12 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage)
       throws ExchangeException {
-      try {
-          return updateRateLimit(
-                  bitmex.updateLeveragePosition(
-                          apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
-      } catch (Exception e) {
-          throw handleError(e);
-      }
+    try {
+      return updateRateLimit(
+          bitmex.updateLeveragePosition(
+              apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
+    } catch (Exception e) {
+      throw handleError(e);
+    }
   }
 }

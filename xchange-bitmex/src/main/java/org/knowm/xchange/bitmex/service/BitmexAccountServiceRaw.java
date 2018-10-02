@@ -1,5 +1,8 @@
 package org.knowm.xchange.bitmex.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
@@ -7,10 +10,6 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "JavaDoc", "unused"})
 public class BitmexAccountServiceRaw extends BitmexBaseService {
@@ -50,7 +49,8 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     }
   }
 
-  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy) throws ExchangeException {
+  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy)
+      throws ExchangeException {
 
     try {
       return updateRateLimit(
@@ -61,7 +61,8 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
     }
   }
 
-  public List<BitmexWalletTransaction> getBitmexWalletSummary(Currency ccy) throws ExchangeException {
+  public List<BitmexWalletTransaction> getBitmexWalletSummary(Currency ccy)
+      throws ExchangeException {
 
     try {
       return updateRateLimit(

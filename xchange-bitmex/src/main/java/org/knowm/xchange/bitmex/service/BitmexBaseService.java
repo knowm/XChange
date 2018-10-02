@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitmex.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitmex.*;
@@ -11,7 +10,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
-import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 

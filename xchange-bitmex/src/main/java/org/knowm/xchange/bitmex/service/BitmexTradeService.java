@@ -1,5 +1,11 @@
 package org.knowm.xchange.bitmex.service;
 
+import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -17,13 +23,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
-
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
   public BitmexTradeService(BitmexExchange exchange) {
@@ -35,7 +34,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders() throws ExchangeException {
 
     List<BitmexPrivateOrder> bitmexOrders =
-            super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
+        super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
 
     return new OpenOrders(
         bitmexOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList()));
