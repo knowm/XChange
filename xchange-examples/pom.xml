@@ -155,7 +155,7 @@
 		<!-- XChange GDAX support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-gdax</artifactId>
+			<artifactId>xchange-coinbasepro</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BitcoinAverage support -->
