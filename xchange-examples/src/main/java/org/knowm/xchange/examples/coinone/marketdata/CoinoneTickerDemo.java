@@ -3,10 +3,10 @@ package org.knowm.xchange.examples.coinone.marketdata;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.coinegg.CoinEggExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.xchange.coinegg.CoinEggExchange;
 
 /** Demonstrate requesting Ticker at CoinEgg */
 public class CoinoneTickerDemo {
