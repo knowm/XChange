@@ -1,4 +1,4 @@
-package org.known.xchange.acx;
+package org.knowm.xchange.acx;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,11 +9,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.known.xchange.acx.dto.AcxTrade;
-import org.known.xchange.acx.dto.account.AcxAccountInfo;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
-import org.known.xchange.acx.dto.marketdata.AcxOrder;
-import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
+import org.knowm.xchange.acx.dto.AcxTrade;
+import org.knowm.xchange.acx.dto.account.AcxAccountInfo;
+import org.knowm.xchange.acx.dto.marketdata.AcxMarket;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrderBook;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("")

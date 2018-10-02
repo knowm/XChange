@@ -1,4 +1,4 @@
-package org.known.xchange.acx.dto.account;
+package org.knowm.xchange.acx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

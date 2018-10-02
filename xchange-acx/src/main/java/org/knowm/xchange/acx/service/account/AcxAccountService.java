@@ -1,14 +1,14 @@
-package org.known.xchange.acx.service.account;
+package org.knowm.xchange.acx.service.account;
 
 import java.io.IOException;
+import org.knowm.xchange.acx.AcxApi;
+import org.knowm.xchange.acx.AcxMapper;
+import org.knowm.xchange.acx.AcxSignatureCreator;
+import org.knowm.xchange.acx.dto.account.AcxAccountInfo;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.AcxSignatureCreator;
-import org.known.xchange.acx.dto.account.AcxAccountInfo;
 
 public class AcxAccountService implements AccountService {
   private final AcxApi api;

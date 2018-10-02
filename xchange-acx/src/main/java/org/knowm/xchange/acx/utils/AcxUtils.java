@@ -1,4 +1,4 @@
-package org.known.xchange.acx.utils;
+package org.knowm.xchange.acx.utils;
 
 import org.knowm.xchange.currency.CurrencyPair;
 

@@ -1,20 +1,19 @@
-package org.known.xchange.acx.service.marketdata;
+package org.knowm.xchange.acx.service.marketdata;
 
-import static org.known.xchange.acx.utils.AcxUtils.getAcxMarket;
-
+import static org.knowm.xchange.acx.utils.AcxUtils.getAcxMarket;
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.acx.AcxApi;
+import org.knowm.xchange.acx.AcxMapper;
+import org.knowm.xchange.acx.dto.AcxTrade;
+import org.knowm.xchange.acx.dto.marketdata.AcxMarket;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrderBook;
+import org.knowm.xchange.acx.utils.ArgUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.dto.AcxTrade;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
-import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
-import org.known.xchange.acx.utils.ArgUtils;
 
 public class AcxMarketDataService implements MarketDataService {
   public static final int MAX_LIMIT = 200;
