@@ -1,27 +1,28 @@
-package org.knowm.xchange.examples.gdax;
+package org.knowm.xchange.examples.coinbasepro;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.gdax.GDAXExchange;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class GDAXDepthDemo {
+public class CoinbaseproDepthDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get GDAX exchange API using default settings
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GDAXExchange.class.getName());
+    Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);
-    raw((GDAXMarketDataServiceRaw) marketDataService);
+    raw((CoinbaseProMarketDataServiceRaw) marketDataService);
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -44,10 +45,11 @@ public class GDAXDepthDemo {
     System.out.println(orderBook.toString());
   }
 
-  private static void raw(GDAXMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(CoinbaseProMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    GDAXProductBook orderBook = marketDataService.getGDAXProductOrderBook(CurrencyPair.BTC_USD, 2);
+    CoinbaseProProductBook orderBook =
+        marketDataService.getCoinbaseProProductOrderBook(CurrencyPair.BTC_USD, 2);
 
     System.out.println(
         "Current Order Book size for BTC / USD: "
