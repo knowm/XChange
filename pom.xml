@@ -114,6 +114,7 @@
 		<module>xchange-bittrex</module>
 		<module>xchange-bity</module>
 		<module>xchange-bitz</module>
+		<module>xchange-bl3p</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btcc</module>
@@ -313,7 +314,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${version.slf4j}</version>
 		</dependency>
-                
+
                 <!-- javax APIs -->
                 <dependency>
                     <groupId>javax.annotation</groupId>
