@@ -1,13 +1,10 @@
 package org.knowm.xchange.abucoins.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /orders</code> endpoint.</p>
- * Example:
+ * POJO representing the output JSON for the Abucoins <code>GET /orders</code> endpoint. Example:
  * <code><pre>
  * [
  *    {
@@ -58,10 +55,19 @@ public class AbucoinsOrder {
   boolean settled;
   String message;
 
-  public AbucoinsOrder(@JsonProperty("id") String id, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
-      @JsonProperty("product_id") String productID, @JsonProperty("side") Side side, @JsonProperty("type") Type type,
-      @JsonProperty("time_in_force") String timeInForce, @JsonProperty("post_only") boolean postOnly, @JsonProperty("created_at") String createdAt,
-      @JsonProperty("filled_size") BigDecimal filledSize, @JsonProperty("status") String status, @JsonProperty("settled") boolean settled,
+  public AbucoinsOrder(
+      @JsonProperty("id") String id,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("product_id") String productID,
+      @JsonProperty("side") Side side,
+      @JsonProperty("type") Type type,
+      @JsonProperty("time_in_force") String timeInForce,
+      @JsonProperty("post_only") boolean postOnly,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("filled_size") BigDecimal filledSize,
+      @JsonProperty("status") String status,
+      @JsonProperty("settled") boolean settled,
       @JsonProperty("message") String message) {
     this.id = id;
     this.price = price;
@@ -104,8 +110,7 @@ public class AbucoinsOrder {
 
   /**
    * Returns the raw time in force string, we obtain the time in force as a string in case new
-   * status are added.  We don't want the new string causing the json to fail to
-   * parse.
+   * status are added. We don't want the new string causing the json to fail to parse.
    *
    * @return the raw time in force string
    */
@@ -130,9 +135,8 @@ public class AbucoinsOrder {
   }
 
   /**
-   * Returns the raw status string, we obtain the status as a string in case new
-   * status are added.  We don't want the new string causing the json to fail to
-   * parse.
+   * Returns the raw status string, we obtain the status as a string in case new status are added.
+   * We don't want the new string causing the json to fail to parse.
    *
    * @return the raw status string
    */
@@ -154,21 +158,50 @@ public class AbucoinsOrder {
 
   @Override
   public String toString() {
-    return "AbucoinsOrder [id=" + id + ", price=" + price + ", size=" + size + ", productID=" + productID + ", side=" + side + ", type=" + type
-        + ", timeInForce=" + timeInForce + ", postOnly=" + postOnly + ", createdAt=" + createdAt + ", filledSize=" + filledSize + ", status=" + status
-        + ", settled=" + settled + ", message=" + message + "]";
+    return "AbucoinsOrder [id="
+        + id
+        + ", price="
+        + price
+        + ", size="
+        + size
+        + ", productID="
+        + productID
+        + ", side="
+        + side
+        + ", type="
+        + type
+        + ", timeInForce="
+        + timeInForce
+        + ", postOnly="
+        + postOnly
+        + ", createdAt="
+        + createdAt
+        + ", filledSize="
+        + filledSize
+        + ", status="
+        + status
+        + ", settled="
+        + settled
+        + ", message="
+        + message
+        + "]";
   }
 
   public enum Side {
-    buy, sell
+    buy,
+    sell
   }
 
   public enum Type {
-    limit, market;
+    limit,
+    market;
   }
 
   public enum TimeInForce {
-    GTC, GTT, IOC, FOK,
+    GTC,
+    GTT,
+    IOC,
+    FOK,
 
     Unknown; // added by us to avoid a string parsing error occurs.
 
@@ -202,7 +235,11 @@ public class AbucoinsOrder {
   }
 
   public enum Status {
-    pending, open, done, closed, rejected,
+    pending,
+    open,
+    done,
+    closed,
+    rejected,
 
     unknown; // added by us to avoid a string parsing error occurs.
 

@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitfinex.v1.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class BitfinexLendDepth {
 
@@ -15,7 +14,9 @@ public class BitfinexLendDepth {
    * @param asks
    * @param bids
    */
-  public BitfinexLendDepth(@JsonProperty("asks") BitfinexLendLevel[] asks, @JsonProperty("bids") BitfinexLendLevel[] bids) {
+  public BitfinexLendDepth(
+      @JsonProperty("asks") BitfinexLendLevel[] asks,
+      @JsonProperty("bids") BitfinexLendLevel[] bids) {
 
     this.asks = asks;
     this.bids = bids;
@@ -34,7 +35,10 @@ public class BitfinexLendDepth {
   @Override
   public String toString() {
 
-    return "BitfinexLendDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
+    return "BitfinexLendDepth [asks="
+        + Arrays.toString(asks)
+        + ", bids="
+        + Arrays.toString(bids)
+        + "]";
   }
-
 }

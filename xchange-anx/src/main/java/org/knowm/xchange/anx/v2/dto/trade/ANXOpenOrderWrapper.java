@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXOpenOrderWrapper {
 
   private final String result;
@@ -18,7 +16,9 @@ public class ANXOpenOrderWrapper {
    * @param anxOpenOrders
    * @param error
    */
-  public ANXOpenOrderWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXOpenOrder[] anxOpenOrders,
+  public ANXOpenOrderWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXOpenOrder[] anxOpenOrders,
       @JsonProperty("error") String error) {
 
     this.result = result;
@@ -40,5 +40,4 @@ public class ANXOpenOrderWrapper {
 
     return error;
   }
-
 }

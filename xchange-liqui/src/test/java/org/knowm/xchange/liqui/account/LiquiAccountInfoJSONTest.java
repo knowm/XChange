@@ -2,23 +2,23 @@ package org.knowm.xchange.liqui.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.liqui.dto.account.LiquiAccountFunds;
 import org.knowm.xchange.liqui.dto.account.result.LiquiAccountInfoResult;
 import org.knowm.xchange.liqui.marketdata.LiquiTickerJSONTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class LiquiAccountInfoJSONTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/account/example-getinfo-data.json");
+    final InputStream is =
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-getinfo-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final LiquiAccountInfoResult infoResult = mapper.readValue(is, LiquiAccountInfoResult.class);

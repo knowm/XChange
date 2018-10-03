@@ -6,8 +6,10 @@ public class ItBitWithdrawalRequest {
 
   @JsonProperty("amount")
   protected String amount;
+
   @JsonProperty("address")
   protected String address;
+
   @JsonProperty("currency")
   private String currency;
 

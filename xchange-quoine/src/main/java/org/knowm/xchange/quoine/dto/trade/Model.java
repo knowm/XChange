@@ -1,12 +1,9 @@
 package org.knowm.xchange.quoine.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Model {
 
   private final String id;
@@ -22,6 +19,7 @@ public final class Model {
   private final String status;
   private final String bitcoinAccountId;
   private final Integer leverageLevel;
+  private final String fundingCurrency;
 
   /**
    * Constructor
@@ -40,12 +38,21 @@ public final class Model {
    * @param bitcoinAccountId
    * @param leverageLevel
    */
-  public Model(@JsonProperty("id") String id, @JsonProperty("order_type") String orderType, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("currency_pair_code") String currencyPairCode, @JsonProperty("side") String side,
-      @JsonProperty("product_code") String productCode, @JsonProperty("filled_quantity") BigDecimal filledQuantity,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("created_at") BigDecimal createdAt, @JsonProperty("updated_at") BigDecimal updatedAt,
-      @JsonProperty("status") String status, @JsonProperty("bitcoin_account_id") String bitcoinAccountId,
-      @JsonProperty("leverage_level") Integer leverageLevel) {
+  public Model(
+      @JsonProperty("id") String id,
+      @JsonProperty("order_type") String orderType,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("currency_pair_code") String currencyPairCode,
+      @JsonProperty("side") String side,
+      @JsonProperty("product_code") String productCode,
+      @JsonProperty("filled_quantity") BigDecimal filledQuantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("created_at") BigDecimal createdAt,
+      @JsonProperty("updated_at") BigDecimal updatedAt,
+      @JsonProperty("status") String status,
+      @JsonProperty("bitcoin_account_id") String bitcoinAccountId,
+      @JsonProperty("leverage_level") Integer leverageLevel,
+      @JsonProperty("funding_currency") String fundingCurrency) {
     this.id = id;
     this.orderType = orderType;
     this.quantity = quantity;
@@ -59,6 +66,7 @@ public final class Model {
     this.status = status;
     this.bitcoinAccountId = bitcoinAccountId;
     this.leverageLevel = leverageLevel;
+    this.fundingCurrency = fundingCurrency;
   }
 
   public String getId() {
@@ -113,11 +121,40 @@ public final class Model {
     return leverageLevel;
   }
 
-  @Override
-  public String toString() {
-    return "Model [id=" + id + ", orderType=" + orderType + ", quantity=" + quantity + ", currencyPairCode=" + currencyPairCode + ", side=" + side
-        + ", productCode=" + productCode + ", filledQuantity=" + filledQuantity + ", price=" + price + ", createdAt=" + createdAt + ", updatedAt="
-        + updatedAt + ", status=" + status + ", bitcoinAccountId=" + bitcoinAccountId + ", leverageLevel=" + leverageLevel + "]";
+  public String getFundingCurrency() {
+    return fundingCurrency;
   }
 
+  @Override
+  public String toString() {
+    return "Model [id="
+        + id
+        + ", orderType="
+        + orderType
+        + ", quantity="
+        + quantity
+        + ", currencyPairCode="
+        + currencyPairCode
+        + ", side="
+        + side
+        + ", productCode="
+        + productCode
+        + ", filledQuantity="
+        + filledQuantity
+        + ", price="
+        + price
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", status="
+        + status
+        + ", bitcoinAccountId="
+        + bitcoinAccountId
+        + ", leverageLevel="
+        + leverageLevel
+        + ",fundingCurrency="
+        + fundingCurrency
+        + "]";
+  }
 }

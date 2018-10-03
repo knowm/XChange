@@ -1,7 +1,6 @@
 package org.knowm.xchange.quoine.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -13,7 +12,8 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implements MarketDataService {
+public class QuoineMarketDataService extends QuoineMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -43,5 +43,4 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implemen
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

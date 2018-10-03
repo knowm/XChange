@@ -1,8 +1,7 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BittrexBalance {
 
@@ -14,9 +13,14 @@ public class BittrexBalance {
   private boolean requested;
   private String uuid;
 
-  public BittrexBalance(@JsonProperty("Available") BigDecimal available, @JsonProperty("Balance") BigDecimal balance,
-      @JsonProperty("CryptoAddress") String cryptoAddress, @JsonProperty("Currency") String currency, @JsonProperty("Pending") BigDecimal pending,
-      @JsonProperty("Requested") boolean requested, @JsonProperty("Uuid") String uuid) {
+  public BittrexBalance(
+      @JsonProperty("Available") BigDecimal available,
+      @JsonProperty("Balance") BigDecimal balance,
+      @JsonProperty("CryptoAddress") String cryptoAddress,
+      @JsonProperty("Currency") String currency,
+      @JsonProperty("Pending") BigDecimal pending,
+      @JsonProperty("Requested") boolean requested,
+      @JsonProperty("Uuid") String uuid) {
 
     super();
     this.available = available;
@@ -101,8 +105,20 @@ public class BittrexBalance {
   @Override
   public String toString() {
 
-    return "Bittrexbalance [available=" + available + ", balance=" + balance + ", cryptoAddress=" + cryptoAddress + ", currency=" + currency
-        + ", pending=" + pending + ", requested=" + requested + ", uuid=" + uuid + "]";
+    return "Bittrexbalance [available="
+        + available
+        + ", balance="
+        + balance
+        + ", cryptoAddress="
+        + cryptoAddress
+        + ", currency="
+        + currency
+        + ", pending="
+        + pending
+        + ", requested="
+        + requested
+        + ", uuid="
+        + uuid
+        + "]";
   }
-
 }

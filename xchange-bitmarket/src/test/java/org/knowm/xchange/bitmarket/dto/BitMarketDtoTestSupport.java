@@ -2,10 +2,9 @@ package org.knowm.xchange.bitmarket.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitMarketDtoTestSupport {
   private static ObjectMapper mapper = new ObjectMapper();
@@ -19,9 +18,10 @@ public class BitMarketDtoTestSupport {
     return BitMarketDtoTestSupport.class.getResourceAsStream(String.format("/%s.json", baseName));
   }
 
-  protected <T extends BitMarketBaseResponse> void verifyErrorResponse(Class<T> responseType) throws IOException {
+  protected <T extends BitMarketBaseResponse> void verifyErrorResponse(Class<T> responseType)
+      throws IOException {
     // when
-    T response = parse("example-error", responseType);
+    T response = parse("org/knowm/xchange/bitmarket/dto/example-error", responseType);
 
     // then
     assertThat(response.getSuccess()).isFalse();
@@ -31,7 +31,8 @@ public class BitMarketDtoTestSupport {
     assertThat(response.getLimit()).isNull();
   }
 
-  protected <T extends BitMarketBaseResponse> void verifySuccessResponse(T response) throws IOException {
+  protected <T extends BitMarketBaseResponse> void verifySuccessResponse(T response)
+      throws IOException {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getError()).isEqualTo(0);
     assertThat(response.getErrorMsg()).isNull();

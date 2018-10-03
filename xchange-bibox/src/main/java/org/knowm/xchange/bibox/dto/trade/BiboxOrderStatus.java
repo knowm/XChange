@@ -1,15 +1,16 @@
 package org.knowm.xchange.bibox.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderStatus;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxOrderStatus {
-  PENDING(1, OrderStatus.NEW), PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED), COMPLETED(3, OrderStatus.FILLED), PART_CANCELED(4,
-      OrderStatus.PARTIALLY_CANCELED), CANCELLED(5, OrderStatus.CANCELED), CANCELLING(6, OrderStatus.PENDING_CANCEL);
+  PENDING(1, OrderStatus.NEW),
+  PART_COMPLETED(2, OrderStatus.PARTIALLY_FILLED),
+  COMPLETED(3, OrderStatus.FILLED),
+  PART_CANCELED(4, OrderStatus.PARTIALLY_CANCELED),
+  CANCELLED(5, OrderStatus.CANCELED),
+  CANCELLING(6, OrderStatus.PENDING_CANCEL);
 
   private int orderStatus;
   private OrderStatus xchangeStatus;

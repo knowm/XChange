@@ -32,5 +32,4 @@ public class GeminiCancelOrderRequest {
 
     return String.valueOf(orderId);
   }
-
 }

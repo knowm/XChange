@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcException extends RuntimeException {
 
-  HitbtcError hitbtcError;
+  private HitbtcError hitbtcError;
 
   public HitbtcException(@JsonProperty("error") HitbtcError hitbtcError) {
 
     super(hitbtcError.getMessage());
+    this.hitbtcError = hitbtcError;
   }
 
+  public HitbtcError getHitbtcError() {
+    return hitbtcError;
+  }
 }

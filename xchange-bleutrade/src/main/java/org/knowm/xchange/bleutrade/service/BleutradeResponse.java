@@ -7,7 +7,10 @@ public class BleutradeResponse<T> {
   public final String message;
   public final T result;
 
-  public BleutradeResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") T result) {
+  public BleutradeResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("message") String message,
+      @JsonProperty("result") T result) {
     this.success = success;
     this.message = message;
     this.result = result;

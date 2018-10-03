@@ -2,26 +2,24 @@ package org.knowm.xchange.koinim;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koinim.dto.marketdata.KoinimTicker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author ahmetoz
- */
+/** @author ahmetoz */
 public class KoinimAdapterTest {
 
   @Test
   public void testTickerAdapter() throws IOException {
     // Read in the JSON from the example resources
-    InputStream is = KoinimAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        KoinimAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/koinim/dto/marketdata/example-ticker-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KoinimTicker koinimTicker = mapper.readValue(is, KoinimTicker.class);
@@ -35,6 +33,5 @@ public class KoinimAdapterTest {
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("64980.00000000"));
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("50000.00000000"));
     assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("58281.67839967173"));
-
   }
 }

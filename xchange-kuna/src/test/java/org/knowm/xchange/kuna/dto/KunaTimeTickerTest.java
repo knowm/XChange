@@ -2,13 +2,11 @@ package org.knowm.xchange.kuna.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-
+import java.io.InputStream;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KunaTimeTickerTest {
 
@@ -17,7 +15,10 @@ public class KunaTimeTickerTest {
   @BeforeClass
   public static void init() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    File file = new File("src/test/resources/mock/time_ticker.json");
+    InputStream file =
+        new Object() {}.getClass()
+            .getClassLoader()
+            .getResourceAsStream("org/knowm/xchange/kuna/dto/time_ticker.json");
     ticker = mapper.readValue(file, KunaTimeTicker.class);
   }
 

@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitso.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,9 +9,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Piotr Ładyżyński
- */
+/** @author Piotr Ładyżyński */
 public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements MarketDataService {
 
   public BitsoMarketDataService(Exchange exchange) {

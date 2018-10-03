@@ -1,7 +1,6 @@
 package org.knowm.xchange.yobit.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.yobit.YoBit;
@@ -22,11 +21,13 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
   }
 
   // TODO error message handling http 414 (url too long)
-  public YoBitTickersReturn getYoBitTickers(Iterable<CurrencyPair> currencyPairs) throws IOException {
+  public YoBitTickersReturn getYoBitTickers(Iterable<CurrencyPair> currencyPairs)
+      throws IOException {
     return service.getTickers(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
   }
 
-  public YoBitOrderBooksReturn getOrderBooks(Iterable<CurrencyPair> currencyPairs, Integer limit) throws IOException {
+  public YoBitOrderBooksReturn getOrderBooks(Iterable<CurrencyPair> currencyPairs, Integer limit)
+      throws IOException {
     return service.getOrderBooks(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs), limit);
   }
 

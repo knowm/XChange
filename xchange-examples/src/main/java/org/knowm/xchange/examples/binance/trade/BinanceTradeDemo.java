@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.binance.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -48,4 +47,3 @@ public class BinanceTradeDemo {
     }
   }
 }
-

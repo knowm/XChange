@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,10 +24,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.CertHelper;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexTradeDemo {
 
   private static final CurrencyPair REP_ETH = new CurrencyPair("REP", "ETH");
@@ -55,7 +51,8 @@ public class PoloniexTradeDemo {
   private static void generic(TradeService tradeService) throws Exception {
     System.out.println("----------GENERIC----------");
 
-    PoloniexTradeService.PoloniexTradeHistoryParams params = new PoloniexTradeService.PoloniexTradeHistoryParams();
+    PoloniexTradeService.PoloniexTradeHistoryParams params =
+        new PoloniexTradeService.PoloniexTradeHistoryParams();
     params.setCurrencyPair(currencyPair);
     System.out.println(tradeService.getTradeHistory(params));
 
@@ -67,7 +64,11 @@ public class PoloniexTradeDemo {
     params.setEndTime(endTime.getTime());
     System.out.println(tradeService.getTradeHistory(params));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal(".1")).limitPrice(xmrBuyRate).build();
+    LimitOrder order =
+        new LimitOrder.Builder(OrderType.BID, currencyPair)
+            .originalAmount(new BigDecimal(".1"))
+            .limitPrice(xmrBuyRate)
+            .build();
     String orderId = tradeService.placeLimitOrder(order);
     System.out.println("Placed order #" + orderId);
 
@@ -83,15 +84,23 @@ public class PoloniexTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void raw(PoloniexTradeServiceRaw tradeService) throws IOException, InterruptedException {
+  private static void raw(PoloniexTradeServiceRaw tradeService)
+      throws IOException, InterruptedException {
     System.out.println("------------RAW------------");
-    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));
+    System.out.println(
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null, null)));
     long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
-    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null)));
+    System.out.println(
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null, null)));
     long endTime = new Date().getTime() / 1000;
-    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
+    System.out.println(
+        Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime, null)));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();
+    LimitOrder order =
+        new LimitOrder.Builder(OrderType.BID, currencyPair)
+            .originalAmount(new BigDecimal("1"))
+            .limitPrice(xmrBuyRate)
+            .build();
     String orderId = tradeService.buy(order).getOrderNumber().toString();
     System.out.println("Placed order #" + orderId);
 
@@ -113,13 +122,17 @@ public class PoloniexTradeDemo {
     PoloniexMarginAccountResponse marginAccountSummary = tradeService.returnMarginAccountSummary();
     System.out.println(marginAccountSummary);
 
-    PoloniexAccountBalance accountBalances = tradeService.returnAvailableAccountBalances(PoloniexAccountBalance.ACCOUNT.LENDING.toString());
+    PoloniexAccountBalance accountBalances =
+        tradeService.returnAvailableAccountBalances(
+            PoloniexAccountBalance.ACCOUNT.LENDING.toString());
     System.out.println(accountBalances);
 
-    Map<String, PoloniexMarginPostionResponse> allMarginPositions = tradeService.returnAllMarginPositions();
+    Map<String, PoloniexMarginPostionResponse> allMarginPositions =
+        tradeService.returnAllMarginPositions();
     System.out.println(allMarginPositions);
 
-    PoloniexAccountBalance[] availableAccountBalances = tradeService.returnAllAvailableAccountBalances();
+    PoloniexAccountBalance[] availableAccountBalances =
+        tradeService.returnAllAvailableAccountBalances();
     System.out.println(availableAccountBalances);
 
     Map<String, Map<String, BigDecimal>> tradableBalances = tradeService.returnTradableBalances();
@@ -129,7 +142,8 @@ public class PoloniexTradeDemo {
   private static void printOpenOrders(TradeService tradeService) throws Exception {
     TimeUnit.SECONDS.sleep(2);
 
-    final OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamCurrencyPair params =
+        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     OpenOrders openOrders = tradeService.getOpenOrders(params);
     System.out.printf("All open Orders: %s%n", openOrders);
 

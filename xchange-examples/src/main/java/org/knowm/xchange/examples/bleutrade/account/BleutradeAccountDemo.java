@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bleutrade.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.service.BleutradeAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -19,7 +18,8 @@ public class BleutradeAccountDemo {
     raw((BleutradeAccountServiceRaw) accountService);
   }
 
-  private static void generic(AccountService accountService) throws IOException, InterruptedException {
+  private static void generic(AccountService accountService)
+      throws IOException, InterruptedException {
 
     System.out.println(accountService.requestDepositAddress(Currency.BTC));
     Thread.sleep(1000);
@@ -31,5 +31,4 @@ public class BleutradeAccountDemo {
 
     System.out.println(accountService.getBleutradeBalance("BTC"));
   }
-
 }

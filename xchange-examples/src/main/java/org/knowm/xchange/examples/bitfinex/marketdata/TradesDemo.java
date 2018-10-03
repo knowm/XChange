@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitfinex.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
@@ -12,9 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting Order Book at BTC-E
- */
+/** Demonstrate requesting Order Book at BTC-E */
 public class TradesDemo {
 
   public static void main(String[] args) throws Exception {
@@ -27,7 +24,6 @@ public class TradesDemo {
 
     generic(marketDataService);
     raw((BitfinexMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -41,7 +37,8 @@ public class TradesDemo {
   private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/USD
-    BitfinexTrade[] trades = marketDataService.getBitfinexTrades("btcusd", System.currentTimeMillis() / 1000 - 120);
+    BitfinexTrade[] trades =
+        marketDataService.getBitfinexTrades("btcusd", System.currentTimeMillis() / 1000 - 120);
     System.out.println("Trades, default. Size= " + trades.length);
     System.out.println(Arrays.toString(trades));
   }

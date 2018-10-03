@@ -2,38 +2,41 @@ package org.knowm.xchange.bitcoinde.dto.account;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import org.junit.Test;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 public class BitcoindeAccountTest {
 
   @Test
-  public void testBitcoindeOrderBook() throws JsonParseException, JsonMappingException, IOException {
+  public void testBitcoindeOrderBook()
+      throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoindeAccountTest.class.getResourceAsStream("/account.json");
+    InputStream is =
+        BitcoindeAccountTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/dto/account.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoindeAccountWrapper bitcoindeTradesWrapper = mapper.readValue(is, BitcoindeAccountWrapper.class);
+    BitcoindeAccountWrapper bitcoindeTradesWrapper =
+        mapper.readValue(is, BitcoindeAccountWrapper.class);
     System.out.println("bitcoindeTradesWrapper = " + bitcoindeTradesWrapper);
 
     // Make sure trade values are correct
 
-    BigDecimal btcBalance = bitcoindeTradesWrapper.getData().getBalances().getBtc().getAvailableAmount();
-    BigDecimal ethBalance = bitcoindeTradesWrapper.getData().getBalances().getEth().getAvailableAmount();
+    BigDecimal btcBalance =
+        bitcoindeTradesWrapper.getData().getBalances().getBtc().getAvailableAmount();
+    BigDecimal ethBalance =
+        bitcoindeTradesWrapper.getData().getBalances().getEth().getAvailableAmount();
 
-    BigDecimal reservedAmount = bitcoindeTradesWrapper.getData().getFidorReservation().getAvailableAmount();
+    BigDecimal reservedAmount =
+        bitcoindeTradesWrapper.getData().getFidorReservation().getAvailableAmount();
 
     System.out.println(btcBalance);
     System.out.println(ethBalance);

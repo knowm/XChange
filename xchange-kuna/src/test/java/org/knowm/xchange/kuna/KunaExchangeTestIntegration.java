@@ -36,7 +36,5 @@ public class KunaExchangeTestIntegration extends BaseKunaTest {
     assertThat(accountService instanceof KunaAccountService);
     assertThat(tradeService instanceof KunaTradeService);
     assertThat(marketDataService instanceof KunaMarketDataService);
-
   }
-
 }

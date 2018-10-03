@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.liqui.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -36,7 +35,8 @@ public class LiquiTickerDemo {
 
   private static void raw(final Exchange liquiExchange) throws IOException {
 
-    final LiquiMarketDataServiceRaw liquiMarketDataServiceRaw = (LiquiMarketDataServiceRaw) liquiExchange.getMarketDataService();
+    final LiquiMarketDataServiceRaw liquiMarketDataServiceRaw =
+        (LiquiMarketDataServiceRaw) liquiExchange.getMarketDataService();
 
     final LiquiTicker ticker = liquiMarketDataServiceRaw.getTicker(CurrencyPair.LTC_BTC);
 

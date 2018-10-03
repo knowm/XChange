@@ -1,8 +1,7 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class IndependentReserveTransactionsResponse {
   private final List<IndependentReserveTransaction> independentReserveTransactions;
@@ -10,8 +9,11 @@ public class IndependentReserveTransactionsResponse {
   private final int totalItems;
   private final int totalPages;
 
-  public IndependentReserveTransactionsResponse(@JsonProperty("Data") List<IndependentReserveTransaction> independentReserveTransactions,
-      @JsonProperty("PageSize") int pageSize, @JsonProperty("TotalItems") int totalItems, @JsonProperty("TotalPages") int totalPages) {
+  public IndependentReserveTransactionsResponse(
+      @JsonProperty("Data") List<IndependentReserveTransaction> independentReserveTransactions,
+      @JsonProperty("PageSize") int pageSize,
+      @JsonProperty("TotalItems") int totalItems,
+      @JsonProperty("TotalPages") int totalPages) {
     this.independentReserveTransactions = independentReserveTransactions;
     this.pageSize = pageSize;
     this.totalItems = totalItems;

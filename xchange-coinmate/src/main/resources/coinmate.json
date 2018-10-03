@@ -12,6 +12,14 @@
       "price_scale": 5,
       "min_amount": 0.01
     },
+    "LTC/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.01
+    },
+    "LTC/CZK": {
+      "price_scale": 2,
+      "min_amount": 0.01
+    },
     "BCH/BTC": {
       "price_scale": 5,
       "min_amount": 0.0002

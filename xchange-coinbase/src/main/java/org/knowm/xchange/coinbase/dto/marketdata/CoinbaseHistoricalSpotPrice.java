@@ -3,9 +3,7 @@ package org.knowm.xchange.coinbase.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseHistoricalSpotPrice implements Comparable<CoinbaseHistoricalSpotPrice> {
 
   private final Date timestamp;
@@ -38,5 +36,4 @@ public class CoinbaseHistoricalSpotPrice implements Comparable<CoinbaseHistorica
 
     return this.timestamp.compareTo(o.timestamp);
   }
-
 }

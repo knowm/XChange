@@ -2,17 +2,18 @@ package org.knowm.xchange.coinfloor.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinfloorLimitOrderResponseTest {
   @Test
   public void unmarshalTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/trade/example-place-limit-order.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/trade/example-place-limit-order.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorOrder response = mapper.readValue(is, CoinfloorOrder.class);
 

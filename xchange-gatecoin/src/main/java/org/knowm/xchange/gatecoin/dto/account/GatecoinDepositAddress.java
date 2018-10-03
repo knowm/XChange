@@ -1,8 +1,7 @@
 package org.knowm.xchange.gatecoin.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GatecoinDepositAddress {
 
@@ -12,8 +11,12 @@ public class GatecoinDepositAddress {
   private final String createDateTime;
   private final BigDecimal received;
 
-  public GatecoinDepositAddress(@JsonProperty("addressName") String addressName, @JsonProperty("currency") String currency,
-      @JsonProperty("address") String address, @JsonProperty("createDateTime") String createDateTime, @JsonProperty("received") BigDecimal received) {
+  public GatecoinDepositAddress(
+      @JsonProperty("addressName") String addressName,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("address") String address,
+      @JsonProperty("createDateTime") String createDateTime,
+      @JsonProperty("received") BigDecimal received) {
     this.addressName = addressName;
     this.currency = currency;
     this.address = address;
@@ -46,5 +49,4 @@ public class GatecoinDepositAddress {
 
     return "GatecoinDepositAddress [depositAddress=" + address + "]";
   }
-
 }

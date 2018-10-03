@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.cexio.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
@@ -10,10 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Author: brox Since: 2/6/14
- */
-
+/** Author: brox Since: 2/6/14 */
 public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
@@ -36,5 +32,4 @@ public class TickerDemo {
     System.out.println("Ask: " + ticker.getAsk());
     System.out.println("Timestamp: " + ticker.getTimestamp());
   }
-
 }

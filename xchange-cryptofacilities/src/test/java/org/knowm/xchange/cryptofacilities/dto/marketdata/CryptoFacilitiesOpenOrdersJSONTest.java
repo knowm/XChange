@@ -2,31 +2,29 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Jean-Christophe Laruelle
- */
-
+/** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesOpenOrdersJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoFacilitiesOpenOrdersJSONTest.class.getResourceAsStream("/marketdata/example-openOrders-data.json");
+    InputStream is =
+        CryptoFacilitiesOpenOrdersJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/cryptofacilities/dto/marketdata/example-openOrders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CryptoFacilitiesOpenOrders cryptoFacilitiesOpenOrders = mapper.readValue(is, CryptoFacilitiesOpenOrders.class);
+    CryptoFacilitiesOpenOrders cryptoFacilitiesOpenOrders =
+        mapper.readValue(is, CryptoFacilitiesOpenOrders.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(cryptoFacilitiesOpenOrders.isSuccess()).isTrue();
@@ -48,5 +46,4 @@ public class CryptoFacilitiesOpenOrdersJSONTest {
     assertThat(ord.getQuantity()).isEqualTo(new BigDecimal("5"));
     assertThat(ord.getLimitPrice()).isEqualTo(new BigDecimal("430.11"));
   }
-
 }

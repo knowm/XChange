@@ -33,5 +33,4 @@ public class BitcointoyouLevel {
 
     return "BitcointoyouLevel [amount=" + amount + ", limit=" + limit + "]";
   }
-
 }

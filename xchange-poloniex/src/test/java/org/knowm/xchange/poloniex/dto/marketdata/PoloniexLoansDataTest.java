@@ -2,32 +2,33 @@ package org.knowm.xchange.poloniex.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 
 public class PoloniexLoansDataTest {
 
   @Test
   public void testUnmarshallLoans() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexLoansDataTest.class.getResourceAsStream("/marketdata/loans-info.json");
+    final InputStream is =
+        PoloniexLoansDataTest.class.getResourceAsStream(
+            "/org/knowm/xchange/poloniex/dto/marketdata/loans-info.json");
 
     final ObjectMapper mapper = new ObjectMapper();
 
     final JavaType stringType = mapper.getTypeFactory().constructType(String.class, String.class);
     final JavaType loanArray = mapper.getTypeFactory().constructArrayType(PoloniexLoan.class);
-    final JavaType currencyInfoType = mapper.getTypeFactory().constructMapType(HashMap.class, stringType, loanArray);
+    final JavaType currencyInfoType =
+        mapper.getTypeFactory().constructMapType(HashMap.class, stringType, loanArray);
     final Map<String, PoloniexLoan[]> loansInfo = mapper.readValue(is, currencyInfoType);
 
     assertThat(loansInfo).hasSize(2);

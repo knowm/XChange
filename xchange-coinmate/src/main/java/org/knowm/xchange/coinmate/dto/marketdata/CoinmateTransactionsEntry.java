@@ -23,13 +23,10 @@
  */
 package org.knowm.xchange.coinmate.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateTransactionsEntry {
 
   private final long timestamp;
@@ -38,8 +35,12 @@ public class CoinmateTransactionsEntry {
   private final BigDecimal amount;
   private final String currencyPair;
 
-  public CoinmateTransactionsEntry(@JsonProperty("timestamp") long timestamp, @JsonProperty("transactionId") String transactionId,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currencyPair") String currencyPair) {
+  public CoinmateTransactionsEntry(
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("transactionId") String transactionId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currencyPair") String currencyPair) {
 
     this.timestamp = timestamp;
     this.transactionId = transactionId;
@@ -67,5 +68,4 @@ public class CoinmateTransactionsEntry {
   public String getCurrencyPair() {
     return currencyPair;
   }
-
 }

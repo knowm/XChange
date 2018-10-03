@@ -3,7 +3,6 @@ package org.knowm.xchange.kuna.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -13,9 +12,7 @@ import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-/**
- * @author Dat Bui
- */
+/** @author Dat Bui */
 public class KunaMarketDataServiceRaw extends KunaBaseService {
   /**
    * Constructor.

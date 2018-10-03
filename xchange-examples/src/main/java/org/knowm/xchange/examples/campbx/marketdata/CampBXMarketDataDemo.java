@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.campbx.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.campbx.CampBXExchange;
@@ -13,15 +12,14 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting Market Data from CampBX
- */
+/** Demonstrate requesting Market Data from CampBX */
 public class CampBXMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get CampBX exchange API using default settings
-    Exchange campBXExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange campBXExchange =
+        ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
     generic(campBXExchange);
     raw(campBXExchange);
   }
@@ -47,7 +45,8 @@ public class CampBXMarketDataDemo {
   private static void raw(Exchange campBXExchange) throws IOException {
 
     // Interested in the public market data feed (no authentication)
-    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getMarketDataService();
+    CampBXMarketDataServiceRaw campBXspecificMarketDataService =
+        (CampBXMarketDataServiceRaw) campBXExchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker();
@@ -61,5 +60,4 @@ public class CampBXMarketDataDemo {
 
     System.out.println("Order book: " + campBXOrderBook);
   }
-
 }

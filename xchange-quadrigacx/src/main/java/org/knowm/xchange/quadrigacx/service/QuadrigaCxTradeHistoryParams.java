@@ -7,7 +7,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 public class QuadrigaCxTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset, TradeHistoryParamPaging {
+    implements TradeHistoryParamCurrencyPair,
+        TradeHistoryParamsSorted,
+        TradeHistoryParamOffset,
+        TradeHistoryParamPaging {
   private CurrencyPair currencyPair;
   private Order order;
   private Integer offset;

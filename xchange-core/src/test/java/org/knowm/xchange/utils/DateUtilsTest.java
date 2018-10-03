@@ -2,14 +2,12 @@ package org.knowm.xchange.utils;
 
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public class DateUtilsTest {
 
@@ -48,5 +46,4 @@ public class DateUtilsTest {
 
     assertEquals(expectedOutput, DateUtils.fromRfc3339DateString(input));
   }
-
 }

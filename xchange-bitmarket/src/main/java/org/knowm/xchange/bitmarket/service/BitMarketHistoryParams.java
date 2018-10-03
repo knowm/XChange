@@ -4,18 +4,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
-/**
- * @author kfonal
- */
-public class BitMarketHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
+/** @author kfonal */
+public class BitMarketHistoryParams
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
 
   private CurrencyPair currencyPair;
   private Long offset;
   private Integer count;
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor */
   public BitMarketHistoryParams() {
 
     this.currencyPair = CurrencyPair.BTC_PLN;

@@ -5,19 +5,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
@@ -39,11 +35,15 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
     CurrencyPair currencyPair = params.getCurrencyPair();
     String market = YoBitAdapters.adaptCcyPairToUrlFormat(currencyPair);
 
-    BaseYoBitResponse response = service
-        .activeOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "ActiveOrders", exchange.getNonceFactory(), market);
+    BaseYoBitResponse response =
+        service.activeOrders(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            "ActiveOrders",
+            exchange.getNonceFactory(),
+            market);
 
-    if (!response.success)
-      throw new ExchangeException("failed to get open orders");
+    if (!response.success) throw new ExchangeException("failed to get open orders");
 
     return response;
   }
@@ -53,12 +53,18 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
     String market = YoBitAdapters.adaptCcyPairToUrlFormat(limitOrder.getCurrencyPair());
     String direction = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
 
-    BaseYoBitResponse response = service
-        .trade(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "Trade", exchange.getNonceFactory(), market, direction,
-            limitOrder.getLimitPrice(), limitOrder.getOriginalAmount());
+    BaseYoBitResponse response =
+        service.trade(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            "Trade",
+            exchange.getNonceFactory(),
+            market,
+            direction,
+            limitOrder.getLimitPrice(),
+            limitOrder.getOriginalAmount());
 
-    if (!response.success)
-      throw new ExchangeException("failed to get place order");
+    if (!response.success) throw new ExchangeException("failed to get place order");
 
     return response;
   }
@@ -70,36 +76,38 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
 
   protected BaseYoBitResponse cancelOrderById(String orderId) throws IOException {
 
-    return service.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "CancelOrder", exchange.getNonceFactory(),
+    return service.cancelOrder(
+        exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator,
+        "CancelOrder",
+        exchange.getNonceFactory(),
         Long.valueOf(orderId));
   }
 
-  public BaseYoBitResponse tradeHistory(Integer count, Long offset, String market, Long fromTransactionId, Long endTransactionId, String order,
-      Long fromTimestamp, Long toTimestamp) throws IOException {
+  public BaseYoBitResponse tradeHistory(
+      Integer count,
+      Long offset,
+      String market,
+      Long fromTransactionId,
+      Long endTransactionId,
+      String order,
+      Long fromTimestamp,
+      Long toTimestamp)
+      throws IOException {
 
-    return service
-        .tradeHistory(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "TradeHistory", exchange.getNonceFactory(), offset, count,
-            fromTransactionId, endTransactionId, order, fromTimestamp, toTimestamp, market);
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-    throw new NotYetImplementedForExchangeException();
+    return service.tradeHistory(
+        exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator,
+        "TradeHistory",
+        exchange.getNonceFactory(),
+        offset,
+        count,
+        fromTransactionId,
+        endTransactionId,
+        order,
+        fromTimestamp,
+        toTimestamp,
+        market);
   }
 
   @Override
@@ -110,8 +118,13 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
     for (String orderId : orderIds) {
       Long id = Long.valueOf(orderId);
 
-      BaseYoBitResponse response = service
-          .orderInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, "OrderInfo", exchange.getNonceFactory(), id);
+      BaseYoBitResponse response =
+          service.orderInfo(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              "OrderInfo",
+              exchange.getNonceFactory(),
+              id);
 
       if (response.returnData != null) {
         Map map = (Map) response.returnData.get(orderId);
@@ -123,5 +136,4 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
 
     return orders;
   }
-
 }

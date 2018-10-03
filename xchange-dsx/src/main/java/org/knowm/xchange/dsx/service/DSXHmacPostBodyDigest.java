@@ -2,17 +2,11 @@ package org.knowm.xchange.dsx.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXHmacPostBodyDigest extends BaseParamsDigest {
 
   private DSXHmacPostBodyDigest(String secretKeyBase64) {

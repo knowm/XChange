@@ -1,13 +1,10 @@
 package org.knowm.xchange.bitmarket.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.dto.BitMarketAPILimit;
 import org.knowm.xchange.bitmarket.dto.BitMarketBaseResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketWithdrawResponse extends BitMarketBaseResponse<String> {
 
   /**
@@ -19,8 +16,12 @@ public class BitMarketWithdrawResponse extends BitMarketBaseResponse<String> {
    * @param error
    * @param errorMsg
    */
-  public BitMarketWithdrawResponse(@JsonProperty("success") boolean success, @JsonProperty("data") String data,
-      @JsonProperty("limit") BitMarketAPILimit limit, @JsonProperty("error") int error, @JsonProperty("errorMsg") String errorMsg) {
+  public BitMarketWithdrawResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("data") String data,
+      @JsonProperty("limit") BitMarketAPILimit limit,
+      @JsonProperty("error") int error,
+      @JsonProperty("errorMsg") String errorMsg) {
 
     super(success, data, limit, error, errorMsg);
   }

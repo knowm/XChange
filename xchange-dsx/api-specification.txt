@@ -25,7 +25,7 @@ https://dsx.uk/mapi/trades/btcusd
 
 Private trading API
 
-This api provides access to trade methods such as placing and cancelling orders and getting user trade info (orders/deals/transactions).
+This api provides access to org.knowm.xchange.dsx.dto.trade methods such as placing and cancelling orders and getting user org.knowm.xchange.dsx.dto.trade info (orders/deals/transactions).
 
 Documentation
 -------------

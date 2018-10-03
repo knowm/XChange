@@ -1,12 +1,10 @@
 package org.knowm.xchange.bitcoincore.dto.account;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Test;
 
 public class BitcoinCoreErrorTest {
 

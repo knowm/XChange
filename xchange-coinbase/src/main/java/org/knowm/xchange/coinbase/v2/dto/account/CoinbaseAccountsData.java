@@ -1,12 +1,10 @@
 package org.knowm.xchange.coinbase.v2.dto.account;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
+import java.util.List;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CoinbaseAccountsData {
@@ -25,5 +23,4 @@ public class CoinbaseAccountsData {
   public String toString() {
     return "" + data;
   }
-
 }

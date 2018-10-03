@@ -1,14 +1,13 @@
 package org.knowm.xchange.bitcoinde.dto.account;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"percent", "max_eur_volume", "eur_volume_open_orders"})
@@ -16,18 +15,17 @@ public class BitcoindeAllocation {
 
   @JsonProperty("percent")
   private Integer percent;
+
   @JsonProperty("max_eur_volume")
   private Integer maxEurVolume;
+
   @JsonProperty("eur_volume_open_orders")
   private Integer eurVolumeOpenOrders;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindeAllocation() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindeAllocation() {}
 
   /**
    * @param percent
@@ -80,5 +78,4 @@ public class BitcoindeAllocation {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

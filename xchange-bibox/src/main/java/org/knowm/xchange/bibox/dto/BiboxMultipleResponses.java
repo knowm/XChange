@@ -8,5 +8,4 @@ import java.util.List;
  * @param <R>
  * @author odrotleff
  */
-public class BiboxMultipleResponses<T> extends BiboxResponse<List<BiboxResponse<T>>> {
-}
+public class BiboxMultipleResponses<T> extends BiboxResponse<List<BiboxResponse<T>>> {}

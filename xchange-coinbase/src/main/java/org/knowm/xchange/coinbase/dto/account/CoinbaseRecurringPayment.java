@@ -1,7 +1,8 @@
 package org.knowm.xchange.coinbase.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
-
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat;
@@ -9,17 +10,13 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseRecurringPayment {
 
   private final CoinbaseRecurringPaymentInfo recurringPayment;
 
-  private CoinbaseRecurringPayment(@JsonProperty("recurring_payment") final CoinbaseRecurringPaymentInfo recurringPayment) {
+  private CoinbaseRecurringPayment(
+      @JsonProperty("recurring_payment") final CoinbaseRecurringPaymentInfo recurringPayment) {
 
     this.recurringPayment = recurringPayment;
   }
@@ -123,15 +120,26 @@ public class CoinbaseRecurringPayment {
     private final String description;
     private final CoinbaseMoney amount;
 
-    private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type,
+    private CoinbaseRecurringPaymentInfo(
+        @JsonProperty("id") final String id,
+        @JsonProperty("type") final CoinbaseRecurringPaymentType type,
         @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to,
-        @JsonProperty("from") final String from, @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times,
-        @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat,
-        @JsonProperty("last_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date lastRun,
-        @JsonProperty("next_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date nextRun,
-        @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
-        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney amount) {
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+            final Date createdAt,
+        @JsonProperty("to") final String to,
+        @JsonProperty("from") final String from,
+        @JsonProperty("start_type") final String startType,
+        @JsonProperty("times") final int times,
+        @JsonProperty("times_run") final int timesRun,
+        @JsonProperty("repeat") final CoinbaseRepeat repeat,
+        @JsonProperty("last_run") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+            final Date lastRun,
+        @JsonProperty("next_run") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+            final Date nextRun,
+        @JsonProperty("notes") final String notes,
+        @JsonProperty("description") final String description,
+        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
+            final CoinbaseMoney amount) {
 
       this.id = id;
       this.type = type;
@@ -228,10 +236,37 @@ public class CoinbaseRecurringPayment {
     @Override
     public String toString() {
 
-      return "CoinbaseRecurringPaymentInfo [id=" + id + ", type=" + type + ", status=" + status + ", createdAt=" + createdAt + ", to=" + to
-          + ", from=" + from + ", startType=" + startType + ", times=" + times + ", timesRun=" + timesRun + ", repeat=" + repeat + ", lastRun="
-          + lastRun + ", nextRun=" + nextRun + ", notes=" + notes + ", description=" + description + ", amount=" + amount + "]";
+      return "CoinbaseRecurringPaymentInfo [id="
+          + id
+          + ", type="
+          + type
+          + ", status="
+          + status
+          + ", createdAt="
+          + createdAt
+          + ", to="
+          + to
+          + ", from="
+          + from
+          + ", startType="
+          + startType
+          + ", times="
+          + times
+          + ", timesRun="
+          + timesRun
+          + ", repeat="
+          + repeat
+          + ", lastRun="
+          + lastRun
+          + ", nextRun="
+          + nextRun
+          + ", notes="
+          + notes
+          + ", description="
+          + description
+          + ", amount="
+          + amount
+          + "]";
     }
-
   }
 }

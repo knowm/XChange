@@ -1,12 +1,9 @@
 package org.knowm.xchange.koinim.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author ahmet.oz
- */
+/** @author ahmet.oz */
 public final class KoinimTicker {
 
   private final BigDecimal sell;
@@ -21,10 +18,18 @@ public final class KoinimTicker {
   private final BigDecimal ask;
   private final BigDecimal avg;
 
-  public KoinimTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("buy") BigDecimal buy,
-      @JsonProperty("change_rate") BigDecimal change_rate, @JsonProperty("bid") BigDecimal bid, @JsonProperty("wavg") BigDecimal wavg,
-      @JsonProperty("last_order") BigDecimal last_order, @JsonProperty("volume") BigDecimal volume, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg) {
+  public KoinimTicker(
+      @JsonProperty("sell") BigDecimal sell,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("change_rate") BigDecimal change_rate,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("wavg") BigDecimal wavg,
+      @JsonProperty("last_order") BigDecimal last_order,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("avg") BigDecimal avg) {
     this.sell = sell;
     this.high = high;
     this.buy = buy;
@@ -80,8 +85,30 @@ public final class KoinimTicker {
 
   @Override
   public String toString() {
-    return "KoinimTicker {" + "sell=" + sell + ", high=" + high + ", buy=" + buy + ", change_rate=" + change_rate + ", bid=" + bid + ", wavg=" + wavg
-        + ", last_order=" + last_order + ", volume=" + volume + ", low=" + low + ", ask=" + ask + ", avg=" + avg + '}';
+    return "KoinimTicker {"
+        + "sell="
+        + sell
+        + ", high="
+        + high
+        + ", buy="
+        + buy
+        + ", change_rate="
+        + change_rate
+        + ", bid="
+        + bid
+        + ", wavg="
+        + wavg
+        + ", last_order="
+        + last_order
+        + ", volume="
+        + volume
+        + ", low="
+        + low
+        + ", ask="
+        + ask
+        + ", avg="
+        + avg
+        + '}';
   }
 
   public BigDecimal getVolume() {

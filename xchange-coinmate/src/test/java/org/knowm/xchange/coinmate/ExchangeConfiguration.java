@@ -23,13 +23,10 @@
  */
 package org.knowm.xchange.coinmate;
 
-/**
- * Configuration of Coinmate exchange.
- */
+/** Configuration of Coinmate exchange. */
 public class ExchangeConfiguration {
 
   public String privateApiKey;
   public String publicApiKey;
   public String clientId;
-
 }

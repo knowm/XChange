@@ -1,8 +1,7 @@
 package org.knowm.xchange.okcoin.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class OkCoinTicker {
 
@@ -13,8 +12,12 @@ public class OkCoinTicker {
   private final BigDecimal last;
   private final BigDecimal vol;
 
-  public OkCoinTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low,
-      @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell, @JsonProperty("last") final BigDecimal last,
+  public OkCoinTicker(
+      @JsonProperty("high") final BigDecimal high,
+      @JsonProperty("low") final BigDecimal low,
+      @JsonProperty("buy") final BigDecimal buy,
+      @JsonProperty("sell") final BigDecimal sell,
+      @JsonProperty("last") final BigDecimal last,
       @JsonProperty("vol") final BigDecimal vol) {
 
     this.high = high;
@@ -25,52 +28,39 @@ public class OkCoinTicker {
     this.vol = vol;
   }
 
-  /**
-   * @return the high
-   */
+  /** @return the high */
   public BigDecimal getHigh() {
 
     return high;
   }
 
-  /**
-   * @return the low
-   */
+  /** @return the low */
   public BigDecimal getLow() {
 
     return low;
   }
 
-  /**
-   * @return the buy
-   */
+  /** @return the buy */
   public BigDecimal getBuy() {
 
     return buy;
   }
 
-  /**
-   * @return the sell
-   */
+  /** @return the sell */
   public BigDecimal getSell() {
 
     return sell;
   }
 
-  /**
-   * @return the last
-   */
+  /** @return the last */
   public BigDecimal getLast() {
 
     return last;
   }
 
-  /**
-   * @return the vol
-   */
+  /** @return the vol */
   public BigDecimal getVol() {
 
     return vol;
   }
-
 }

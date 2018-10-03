@@ -1,7 +1,6 @@
 package org.knowm.xchange.mercadobitcoin.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,10 +9,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Felipe Micaroni Lalli
- */
-public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataServiceRaw implements MarketDataService {
+/** @author Felipe Micaroni Lalli */
+public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -23,7 +21,6 @@ public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataSer
   public MercadoBitcoinMarketDataService(Exchange exchange) {
 
     super(exchange);
-
   }
 
   @Override
@@ -35,13 +32,14 @@ public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataSer
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return MercadoBitcoinAdapters.adaptOrderBook(getMercadoBitcoinOrderBook(currencyPair), currencyPair);
+    return MercadoBitcoinAdapters.adaptOrderBook(
+        getMercadoBitcoinOrderBook(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return MercadoBitcoinAdapters.adaptTrades(getMercadoBitcoinTransactions(currencyPair, args), currencyPair);
+    return MercadoBitcoinAdapters.adaptTrades(
+        getMercadoBitcoinTransactions(currencyPair, args), currencyPair);
   }
-
 }

@@ -1,15 +1,13 @@
 package org.knowm.xchange.bibox.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxOrderSide {
-  BID(1, OrderType.BID), ASK(2, OrderType.ASK);
+  BID(1, OrderType.BID),
+  ASK(2, OrderType.ASK);
 
   private int orderSide;
   private OrderType orderType;

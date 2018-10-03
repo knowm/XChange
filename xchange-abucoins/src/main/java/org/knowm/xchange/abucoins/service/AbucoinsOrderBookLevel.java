@@ -1,7 +1,9 @@
 package org.knowm.xchange.abucoins.service;
 
 public enum AbucoinsOrderBookLevel {
-  fullyAggregated, bestAskAndBid, top50AsksAndBids;
+  fullyAggregated,
+  bestAskAndBid,
+  top50AsksAndBids;
 
   public String toLevelParameter() {
     switch (this) {

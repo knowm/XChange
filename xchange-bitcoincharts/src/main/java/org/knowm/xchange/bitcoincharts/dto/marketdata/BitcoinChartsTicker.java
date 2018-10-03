@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitcoincharts.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class BitcoinChartsTicker {
 
   private final BigDecimal ask;
@@ -36,10 +33,18 @@ public final class BitcoinChartsTicker {
    * @param symbol
    * @param volume
    */
-  public BitcoinChartsTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("close") BigDecimal close, @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume,
-      @JsonProperty("high") BigDecimal high, @JsonProperty("latest_trade") long latestTrade, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
+  public BitcoinChartsTicker(
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("close") BigDecimal close,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("currency_volume") BigDecimal currencyVolume,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("latest_trade") long latestTrade,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("volume") BigDecimal volume) {
 
     this.ask = ask;
     this.avg = avg;
@@ -112,8 +117,28 @@ public final class BitcoinChartsTicker {
   @Override
   public String toString() {
 
-    return "BitcoinChartsTickers [ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currency=" + currency + ", currencyVolume="
-        + currencyVolume + ", high=" + high + ", latestTrade=" + latestTrade + ", low=" + low + ", symbol=" + symbol + ", volume=" + volume + "]";
+    return "BitcoinChartsTickers [ask="
+        + ask
+        + ", avg="
+        + avg
+        + ", bid="
+        + bid
+        + ", close="
+        + close
+        + ", currency="
+        + currency
+        + ", currencyVolume="
+        + currencyVolume
+        + ", high="
+        + high
+        + ", latestTrade="
+        + latestTrade
+        + ", low="
+        + low
+        + ", symbol="
+        + symbol
+        + ", volume="
+        + volume
+        + "]";
   }
-
 }

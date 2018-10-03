@@ -23,14 +23,11 @@
  */
 package org.knowm.xchange.coinmate.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateTickerData {
 
   private final BigDecimal last;
@@ -42,8 +39,13 @@ public class CoinmateTickerData {
   private final long timestamp;
 
   @JsonCreator
-  public CoinmateTickerData(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+  public CoinmateTickerData(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
       @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;

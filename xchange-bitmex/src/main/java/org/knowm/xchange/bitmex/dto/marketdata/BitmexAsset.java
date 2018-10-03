@@ -17,7 +17,10 @@ public class BitmexAsset {
    * @param scale
    * @param displayScale
    */
-  public BitmexAsset(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale,
+  public BitmexAsset(
+      @JsonProperty("altname") String altName,
+      @JsonProperty("aclass") String assetClass,
+      @JsonProperty("decimals") int scale,
       @JsonProperty("display_decimals") int displayScale) {
 
     this.altName = altName;
@@ -49,6 +52,14 @@ public class BitmexAsset {
   @Override
   public String toString() {
 
-    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
+    return "KrakenAssetInfo [altName="
+        + altName
+        + ", assetClass="
+        + assetClass
+        + ", scale="
+        + scale
+        + ", displayScale="
+        + displayScale
+        + "]";
   }
 }

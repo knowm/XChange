@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsDepositsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsFill;
+import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalHistory;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsWithdrawalsHistory;
@@ -46,10 +46,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Author: bryant_harris
- */
-
+/** Author: bryant_harris */
 public class AbucoinsAdapters {
   private static Logger logger = LoggerFactory.getLogger(AbucoinsAdapters.class);
 
@@ -102,7 +99,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts a AbucoinsTrade to a Trade Object
    *
-   * @param trade        Abucoins trade object
+   * @param trade Abucoins trade object
    * @param currencyPair trade currencies
    * @return The XChange Trade
    */
@@ -119,15 +116,14 @@ public class AbucoinsAdapters {
    * Adapts a AbucoinsTrade[] to a Trades Object
    *
    * @param abucoinsTrades The Abucoins trade data returned by API
-   * @param currencyPair   trade currencies
+   * @param currencyPair trade currencies
    * @return The trades
    */
   public static Trades adaptTrades(AbucoinsTrade[] abucoinsTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
-    for (AbucoinsTrade trade : abucoinsTrades)
-      tradesList.add(adaptTrade(trade, currencyPair));
+    for (AbucoinsTrade trade : abucoinsTrades) tradesList.add(adaptTrade(trade, currencyPair));
 
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByTimestamp);
   }
@@ -135,7 +131,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts a AbucoinsTicker to a Ticker Object
    *
-   * @param ticker       The exchange specific ticker
+   * @param ticker The exchange specific ticker
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The ticker
    */
@@ -145,11 +141,17 @@ public class AbucoinsAdapters {
     BigDecimal bid = ticker.getBid();
     BigDecimal ask = ticker.getAsk();
     BigDecimal volume = ticker.getVolume();
-    if (ticker.getTime() == null)
-      throw new RuntimeException("Null date for: " + ticker);
+    if (ticker.getTime() == null) throw new RuntimeException("Null date for: " + ticker);
     Date timestamp = parseDate(ticker.getTime());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 
   /**
@@ -166,10 +168,11 @@ public class AbucoinsAdapters {
    * Adapts Cex.IO Depth to OrderBook Object
    *
    * @param abucoinsOrderBook AbucoinsOrderBook order book
-   * @param currencyPair      The currency pair (e.g. BTC/USD)
+   * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(AbucoinsOrderBook abucoinsOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(
+      AbucoinsOrderBook abucoinsOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, abucoinsOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, abucoinsOrderBook.getBids());
@@ -210,11 +213,11 @@ public class AbucoinsAdapters {
     return new Balance(currency, account.getBalance(), account.getAvailable(), account.getHold());
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
+  public static List<LimitOrder> createOrders(
+      CurrencyPair currencyPair, OrderType orderType, AbucoinsOrderBook.LimitOrder[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
-    if (orders == null)
-      return limitOrders;
+    if (orders == null) return limitOrders;
 
     for (AbucoinsOrderBook.LimitOrder o : orders) {
       limitOrders.add(createOrder(currencyPair, o, orderType));
@@ -222,15 +225,19 @@ public class AbucoinsAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
-    return new LimitOrder.Builder(orderType, currencyPair).averagePrice(priceAndAmount.getPrice()).limitPrice(priceAndAmount.getPrice())
-                                                          .orderStatus(OrderStatus.NEW).originalAmount(priceAndAmount.getSize()).build();
+  public static LimitOrder createOrder(
+      CurrencyPair currencyPair, AbucoinsOrderBook.LimitOrder priceAndAmount, OrderType orderType) {
+    return new LimitOrder.Builder(orderType, currencyPair)
+        .averagePrice(priceAndAmount.getPrice())
+        .limitPrice(priceAndAmount.getPrice())
+        .orderStatus(OrderStatus.NEW)
+        .originalAmount(priceAndAmount.getSize())
+        .build();
   }
 
   public static OpenOrders adaptOpenOrders(AbucoinsOrder[] orders) {
     List<LimitOrder> l = new ArrayList<>();
-    for (AbucoinsOrder order : orders)
-      l.add(adaptLimitOrder(order));
+    for (AbucoinsOrder order : orders) l.add(adaptLimitOrder(order));
     OpenOrders retVal = new OpenOrders(l);
 
     return retVal;
@@ -251,19 +258,30 @@ public class AbucoinsAdapters {
   }
 
   public static LimitOrder adaptLimitOrder(AbucoinsOrder order) {
-    return new LimitOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair(order.getProductID())).averagePrice(order.getPrice())
-                                                                                                           .cumulativeAmount(order.getFilledSize())
-                                                                                                           .id(order.getId())
-                                                                                                           .limitPrice(order.getPrice()).orderStatus(
-            adaptOrderStatus(order.getStatus())).originalAmount(order.getSize()).remainingAmount(order.getFilledSize().subtract(order.getSize()))
-                                                                                                           .timestamp(parseDate(order.getCreatedAt()))
-                                                                                                           .build();
+    return new LimitOrder.Builder(
+            adaptOrderType(order.getSide()), adaptCurrencyPair(order.getProductID()))
+        .averagePrice(order.getPrice())
+        .cumulativeAmount(order.getFilledSize())
+        .id(order.getId())
+        .limitPrice(order.getPrice())
+        .orderStatus(adaptOrderStatus(order.getStatus()))
+        .originalAmount(order.getSize())
+        .remainingAmount(order.getSize().subtract(order.getFilledSize()))
+        .timestamp(parseDate(order.getCreatedAt()))
+        .build();
   }
 
   public static MarketOrder adaptMarketOrder(AbucoinsOrder order) {
-    return ((MarketOrder.Builder) new MarketOrder.Builder(adaptOrderType(order.getSide()), adaptCurrencyPair(order.getProductID()))
-        .averagePrice(order.getPrice()).cumulativeAmount(order.getFilledSize()).id(order.getId()).orderStatus(adaptOrderStatus(order.getStatus()))
-        .originalAmount(order.getSize()).remainingAmount(order.getFilledSize().subtract(order.getSize())).timestamp(parseDate(order.getCreatedAt())))
+    return ((MarketOrder.Builder)
+            new MarketOrder.Builder(
+                    adaptOrderType(order.getSide()), adaptCurrencyPair(order.getProductID()))
+                .averagePrice(order.getPrice())
+                .cumulativeAmount(order.getFilledSize())
+                .id(order.getId())
+                .orderStatus(adaptOrderStatus(order.getStatus()))
+                .originalAmount(order.getSize())
+                .remainingAmount(order.getSize().subtract(order.getFilledSize()))
+                .timestamp(parseDate(order.getCreatedAt())))
         .build();
   }
 
@@ -328,63 +346,97 @@ public class AbucoinsAdapters {
     int indexOf = abucoinsProductID.indexOf('-');
     String base = abucoinsProductID.substring(0, indexOf);
     String counter = abucoinsProductID.substring(indexOf + 1);
-    return new CurrencyPair(Currency.getInstanceNoCreate(base), Currency.getInstanceNoCreate(counter));
+    return new CurrencyPair(
+        Currency.getInstanceNoCreate(base), Currency.getInstanceNoCreate(counter));
   }
 
-  public static AbucoinsCreateMarketOrderRequest adaptAbucoinsCreateMarketOrderRequest(MarketOrder marketOrder) {
-    return new AbucoinsCreateMarketOrderRequest(adaptAbucoinsSide(marketOrder.getType()), adaptCurrencyPairToProductID(marketOrder.getCurrencyPair()),
-        marketOrder.getOriginalAmount(), null);
+  public static AbucoinsCreateMarketOrderRequest adaptAbucoinsCreateMarketOrderRequest(
+      MarketOrder marketOrder) {
+    return new AbucoinsCreateMarketOrderRequest(
+        adaptAbucoinsSide(marketOrder.getType()),
+        adaptCurrencyPairToProductID(marketOrder.getCurrencyPair()),
+        marketOrder.getOriginalAmount(),
+        null);
   }
 
-  public static AbucoinsCreateLimitOrderRequest adaptAbucoinsCreateLimitOrderRequest(LimitOrder limitOrder) {
-    return new AbucoinsCreateLimitOrderRequest(adaptAbucoinsSide(limitOrder.getType()), adaptCurrencyPairToProductID(limitOrder.getCurrencyPair()),
-        null, null, limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), AbucoinsOrder.TimeInForce.GTC, null, null);
+  public static AbucoinsCreateLimitOrderRequest adaptAbucoinsCreateLimitOrderRequest(
+      LimitOrder limitOrder) {
+    return new AbucoinsCreateLimitOrderRequest(
+        adaptAbucoinsSide(limitOrder.getType()),
+        adaptCurrencyPairToProductID(limitOrder.getCurrencyPair()),
+        null,
+        null,
+        limitOrder.getLimitPrice(),
+        limitOrder.getOriginalAmount(),
+        AbucoinsOrder.TimeInForce.GTC,
+        null,
+        null);
   }
 
-  public static UserTrades adaptUserTrades(AbucoinsFill[] fills) {
+  public static UserTrades adaptUserTrades(AbucoinsFills fills) {
     List<UserTrade> userTrades = new ArrayList<>();
-    for (AbucoinsFill fill : fills)
-      userTrades.add(adaptUserTrade(fill));
-
-    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+    for (AbucoinsFill fill : fills) userTrades.add(adaptUserTrade(fill));
+    List<String> afterCursorValues = fills.getResponseHeaders().get("ac-after");
+    String nextPageCursor = null;
+    if (afterCursorValues != null && !afterCursorValues.isEmpty()) {
+      nextPageCursor = afterCursorValues.get(0);
+    }
+    return new UserTrades(userTrades, 0L, Trades.TradeSortType.SortByTimestamp, nextPageCursor);
   }
 
   public static UserTrade adaptUserTrade(AbucoinsFill fill) {
-    return new UserTrade.Builder().currencyPair(adaptCurrencyPair(fill.getProductID())).id(fill.getTradeID()).orderId(fill.getOrderID())
-                                  .price(fill.getPrice()).timestamp(parseDate(fill.getCreatedAt())).type(adaptOrderType(fill.getSide())).build();
+    return new UserTrade.Builder()
+        .currencyPair(adaptCurrencyPair(fill.getProductID()))
+        .id(fill.getTradeID())
+        .orderId(fill.getOrderID())
+        .price(fill.getPrice())
+        .originalAmount(fill.getSize())
+        .timestamp(parseDate(fill.getCreatedAt()))
+        .type(adaptOrderType(fill.getSide()))
+        .build();
   }
 
-  public static List<FundingRecord> adaptFundingRecordsFromDepositsHistory(AbucoinsDepositsHistory history) {
+  public static List<FundingRecord> adaptFundingRecordsFromDepositsHistory(
+      AbucoinsDepositsHistory history) {
     List<FundingRecord> retVal = new ArrayList<>();
-    for (AbucoinsDepositHistory h : history.getHistory())
-      retVal.add(adaptFundingRecord(h));
+    for (AbucoinsDepositHistory h : history.getHistory()) retVal.add(adaptFundingRecord(h));
     return retVal;
   }
 
   public static List<FundingRecord> adaptFundingRecords(AbucoinsWithdrawalsHistory history) {
     List<FundingRecord> retVal = new ArrayList<>();
-    for (AbucoinsWithdrawalHistory h : history.getHistory())
-      retVal.add(adaptFundingRecord(h));
+    for (AbucoinsWithdrawalHistory h : history.getHistory()) retVal.add(adaptFundingRecord(h));
     return retVal;
   }
 
   public static FundingRecord adaptFundingRecord(AbucoinsDepositHistory history) {
-    return fundingRecordBuilder(history).setInternalId(history.getDepositID()).setType(FundingRecord.Type.DEPOSIT).build();
+    return fundingRecordBuilder(history)
+        .setInternalId(history.getDepositID())
+        .setType(FundingRecord.Type.DEPOSIT)
+        .build();
   }
 
   public static FundingRecord adaptFundingRecord(AbucoinsWithdrawalHistory history) {
-    return fundingRecordBuilder(history).setInternalId(history.getWithdrawID()).setType(FundingRecord.Type.WITHDRAWAL).build();
+    return fundingRecordBuilder(history)
+        .setInternalId(history.getWithdrawID())
+        .setType(FundingRecord.Type.WITHDRAWAL)
+        .build();
   }
 
   static FundingRecord.Builder fundingRecordBuilder(AbucoinsHistory history) {
-    return new FundingRecord.Builder().setDescription(history.getUrl()).setAmount(history.getAmount())
-                                      .setCurrency(Currency.getInstance(history.getCurrency())).setDate(parseDate(history.getDate()))
-                                      .setFee(history.getFee()).setStatus(adaptFundingStatus(history.getStatus()));
+    return new FundingRecord.Builder()
+        .setDescription(history.getUrl())
+        .setAmount(history.getAmount())
+        .setCurrency(Currency.getInstance(history.getCurrency()))
+        .setDate(parseDate(history.getDate()))
+        .setFee(history.getFee())
+        .setStatus(adaptFundingStatus(history.getStatus()));
   }
 
   public static FundingRecord.Status adaptFundingStatus(AbucoinsHistory.Status abucoinsStatus) {
     switch (abucoinsStatus) {
-      case unknown: // reminder unknown is our own placeholder for cases where we cannot parse the status
+      case unknown: // reminder unknown is our own placeholder for cases where we cannot parse the
+        // status
 
       default:
       case awaitingEmailConfirmation:

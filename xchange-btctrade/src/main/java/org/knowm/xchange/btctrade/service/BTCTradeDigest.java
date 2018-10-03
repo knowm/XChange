@@ -3,12 +3,9 @@ package org.knowm.xchange.btctrade.service;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.Map;
-
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
@@ -27,9 +24,7 @@ public class BTCTradeDigest extends BaseParamsDigest {
     return new BTCTradeDigest(secret.getBytes(CHARSET));
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
@@ -49,5 +44,4 @@ public class BTCTradeDigest extends BaseParamsDigest {
 
     return String.format("%064x", new BigInteger(1, mac.doFinal()));
   }
-
 }

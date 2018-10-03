@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.poloniex.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,10 +10,7 @@ import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author Zach Holmes
- */
-
+/** @author Zach Holmes */
 public class PoloniexMarketDataDemo {
 
   private static Exchange poloniex;
@@ -57,7 +53,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getPoloniexDepth(currencyPair, 3));
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair)));
     long now = new Date().getTime() / 1000;
-    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
+    System.out.println(
+        Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
   }
-
 }

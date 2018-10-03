@@ -1,7 +1,6 @@
 package org.knowm.xchange.wex.v3;
 
 import java.io.InputStream;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,7 +10,6 @@ import org.knowm.xchange.wex.v3.dto.meta.WexMetaData;
 import org.knowm.xchange.wex.v3.service.WexAccountService;
 import org.knowm.xchange.wex.v3.service.WexMarketDataService;
 import org.knowm.xchange.wex.v3.service.WexTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class WexExchange extends BaseExchange implements Exchange {
@@ -31,12 +29,13 @@ public class WexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://wex.nz");
-    exchangeSpecification.setHost("btc-e.nz");
+    exchangeSpecification.setHost("wex.nz");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("BTC-e");
-    exchangeSpecification.setExchangeDescription("BTC-e is a Bitcoin exchange registered in Russia.");
+    exchangeSpecification.setExchangeName("Wex");
+    exchangeSpecification.setExchangeDescription("Wex is a Bitcoin exchange registered in NZ.");
 
     return exchangeSpecification;
   }
@@ -60,7 +59,9 @@ public class WexExchange extends BaseExchange implements Exchange {
       wexExchangeInfo = marketDataService.getBTCEInfo();
       exchangeMetaData = WexAdapters.toMetaData(wexExchangeInfo, wexMetaData);
     } catch (Exception e) {
-      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
+      logger.warn(
+          "An exception occurred while loading the metadata file from the file. This may lead to unexpected results.",
+          e);
     }
   }
 

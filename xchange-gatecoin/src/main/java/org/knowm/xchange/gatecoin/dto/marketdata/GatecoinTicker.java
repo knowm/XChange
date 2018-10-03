@@ -1,12 +1,9 @@
 package org.knowm.xchange.gatecoin.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Sumedha
- */
+/** @author Sumedha */
 public final class GatecoinTicker {
 
   private final String currencyPair;
@@ -42,11 +39,21 @@ public final class GatecoinTicker {
    * @param ask
    * @param createDateTime
    */
-  public GatecoinTicker(@JsonProperty("currencyPair") String currencyPair, @JsonProperty("open") BigDecimal open,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("lastQ") BigDecimal lastQ, @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumn") BigDecimal volumn,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("bidQ") BigDecimal bidQ, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("askQ") BigDecimal askQ, @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("createDateTime") long createDateTime) {
+  public GatecoinTicker(
+      @JsonProperty("currencyPair") String currencyPair,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("lastQ") BigDecimal lastQ,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("volumn") BigDecimal volumn,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("bidQ") BigDecimal bidQ,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("askQ") BigDecimal askQ,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("createDateTime") long createDateTime) {
 
     this.open = open;
     this.last = last;
@@ -137,8 +144,26 @@ public final class GatecoinTicker {
   @Override
   public String toString() {
 
-    return "GatecoinTicker [last=" + last + ",open=" + open + ",volumn=" + volumn + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume="
-        + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + createDateTime + "]";
+    return "GatecoinTicker [last="
+        + last
+        + ",open="
+        + open
+        + ",volumn="
+        + volumn
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", vwap="
+        + vwap
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", timestamp="
+        + createDateTime
+        + "]";
   }
-
 }

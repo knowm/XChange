@@ -1,8 +1,7 @@
 package org.knowm.xchange.gemini.v1.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class GeminiTrade {
 
@@ -22,8 +21,13 @@ public class GeminiTrade {
    * @param exchange
    * @param tradeId
    */
-  public GeminiTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("exchange") String exchange, @JsonProperty("tid") long tradeId, @JsonProperty("type") String type) {
+  public GeminiTrade(
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("exchange") String exchange,
+      @JsonProperty("tid") long tradeId,
+      @JsonProperty("type") String type) {
 
     this.price = price;
     this.amount = amount;

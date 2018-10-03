@@ -1,16 +1,13 @@
 package org.knowm.xchange.examples.anx.v2.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * Test placing a limit order at ANX
- */
+/** Test placing a limit order at ANX */
 public class CancelOrderDemo {
 
   public static void main(String[] args) throws IOException {

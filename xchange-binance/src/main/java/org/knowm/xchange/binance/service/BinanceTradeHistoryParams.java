@@ -5,31 +5,23 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 
-public class BinanceTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsIdSpan {
+public class BinanceTradeHistoryParams
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsIdSpan {
 
-  /**
-   * mandatory
-   */
+  /** mandatory */
   private CurrencyPair currencyPair;
-  /**
-   * optional
-   */
+  /** optional */
   private Integer limit;
-  /**
-   * optional
-   */
+  /** optional */
   private String startId;
-  /**
-   * ignored
-   */
+  /** ignored */
   private String endId;
 
   public BinanceTradeHistoryParams(CurrencyPair currencyPair) {
     this.currencyPair = currencyPair;
   }
 
-  public BinanceTradeHistoryParams() {
-  }
+  public BinanceTradeHistoryParams() {}
 
   public CurrencyPair getCurrencyPair() {
     return currencyPair;

@@ -2,9 +2,7 @@ package org.knowm.xchange.btcmarkets.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-/**
- * Used for open orders, order history, trade history.
- */
+/** Used for open orders, order history, trade history. */
 @JsonPropertyOrder({"currency", "instrument", "limit", "since"})
 public class BTCMarketsOpenOrdersAndTradeHistoryRequest {
 
@@ -15,9 +13,11 @@ public class BTCMarketsOpenOrdersAndTradeHistoryRequest {
 
   /**
    * @param since the ascending trade id
-   * @see https://github.com/BTCMarkets/API/wiki/Trading-API#order-history & https://github.com/BTCMarkets/API/wiki/Trading-API#open-orders
+   * @see https://github.com/BTCMarkets/API/wiki/Trading-API#order-history &
+   *     https://github.com/BTCMarkets/API/wiki/Trading-API#open-orders
    */
-  public BTCMarketsOpenOrdersAndTradeHistoryRequest(String currency, String instrument, Integer limit, Long since) {
+  public BTCMarketsOpenOrdersAndTradeHistoryRequest(
+      String currency, String instrument, Integer limit, Long since) {
     this.currency = currency;
     this.instrument = instrument;
     this.limit = limit;

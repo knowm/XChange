@@ -1,0 +1,70 @@
+[
+  {
+    "market": "BTC-ETH",
+    "timestamp": 1530515793136,
+    "total_ask_size": 311.70715269,
+    "total_bid_size": 33.43681015,
+    "orderbook_units": [
+      {
+        "ask_price": 0.07084678,
+        "bid_price": 0.07083262,
+        "ask_size": 228.42381741,
+        "bid_size": 0.09857284
+      },
+      {
+        "ask_price": 0.07084679,
+        "bid_price": 0.0708,
+        "ask_size": 0.07030772,
+        "bid_size": 0.40940471
+      },
+      {
+        "ask_price": 0.07084795,
+        "bid_price": 0.07071301,
+        "ask_size": 0.1091325,
+        "bid_size": 0.07963658
+      },
+      {
+        "ask_price": 0.07100591,
+        "bid_price": 0.070713,
+        "ask_size": 0.08255362,
+        "bid_size": 0.07628993
+      },
+      {
+        "ask_price": 0.07109289,
+        "bid_price": 0.07070125,
+        "ask_size": 0.32183384,
+        "bid_size": 0.2248712
+      },
+      {
+        "ask_price": 0.0711,
+        "bid_price": 0.07069101,
+        "ask_size": 49.30910717,
+        "bid_size": 23.242
+      },
+      {
+        "ask_price": 0.071175,
+        "bid_price": 0.070691,
+        "ask_size": 22.3049,
+        "bid_size": 9
+      },
+      {
+        "ask_price": 0.0711766,
+        "bid_price": 0.07068517,
+        "ask_size": 0.022,
+        "bid_size": 0.034
+      },
+      {
+        "ask_price": 0.07119,
+        "bid_price": 0.07067809,
+        "ask_size": 10.78189931,
+        "bid_size": 0.164917
+      },
+      {
+        "ask_price": 0.0712,
+        "bid_price": 0.07066403,
+        "ask_size": 0.28160112,
+        "bid_size": 0.10711789
+      }
+    ]
+  }
+]

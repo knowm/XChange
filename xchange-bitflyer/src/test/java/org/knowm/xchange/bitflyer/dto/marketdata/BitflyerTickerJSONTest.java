@@ -2,20 +2,20 @@ package org.knowm.xchange.bitflyer.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitflyerTickerJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitflyerTicker.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        BitflyerTicker.class.getResourceAsStream(
+            "/org/knowm/xchange/bitflyer/dto/marketdata/example-ticker.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

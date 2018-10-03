@@ -1,8 +1,6 @@
 package org.knowm.xchange.exceptions;
 
-/**
- * An exception indicating the request rate limit has been exceeded
- */
+/** An exception indicating the request rate limit has been exceeded */
 public class FrequencyLimitExceededException extends ExchangeException {
 
   public FrequencyLimitExceededException(String message) {
@@ -12,5 +10,4 @@ public class FrequencyLimitExceededException extends ExchangeException {
   public FrequencyLimitExceededException() {
     super("Too many attempts made in a given time window.");
   }
-
 }

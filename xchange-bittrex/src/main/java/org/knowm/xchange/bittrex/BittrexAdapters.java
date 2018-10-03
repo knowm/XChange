@@ -6,10 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
@@ -17,6 +15,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexLimitOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -41,9 +40,7 @@ public final class BittrexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BittrexAdapters.class);
 
-  private BittrexAdapters() {
-
-  }
+  private BittrexAdapters() {}
 
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<BittrexSymbol> bittrexSymbol) {
 
@@ -74,16 +71,27 @@ public final class BittrexAdapters {
 
   public static BittrexLimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
 
-    OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
+    OrderType type =
+        bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL")
+            ? OrderType.ASK
+            : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantity(), pair, bittrexOpenOrder.getOrderUuid(),
-        BittrexUtils.toDate(bittrexOpenOrder.getOpened()), bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), null,
+    return new BittrexLimitOrder(
+        type,
+        bittrexOpenOrder.getQuantity(),
+        pair,
+        bittrexOpenOrder.getOrderUuid(),
+        BittrexUtils.toDate(bittrexOpenOrder.getOpened()),
+        bittrexOpenOrder.getLimit(),
+        bittrexOpenOrder.getQuantityRemaining(),
+        null,
         bittrexOpenOrder.getPricePerUnit());
   }
 
-  public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(
+      BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id, int depth) {
 
     if (orders == null) {
       return new ArrayList<>();
@@ -91,14 +99,20 @@ public final class BittrexAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
-    for (BittrexLevel order : orders) {
+    for (int i = 0; i < Math.min(orders.length, depth); i++) {
+      BittrexLevel order = orders[i];
       limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
     return limitOrders;
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(
+      BigDecimal amount,
+      BigDecimal price,
+      CurrencyPair currencyPair,
+      String orderTypeString,
+      String id) {
 
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
@@ -113,8 +127,9 @@ public final class BittrexAdapters {
     Order.OrderStatus status = Order.OrderStatus.NEW;
 
     BigDecimal qty = order.getQuantity();
-    BigDecimal qtyRem = order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
-    Boolean isOpen = order.getIsOpen();
+    BigDecimal qtyRem =
+        order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
+    Boolean isOpen = order.getOpen();
     Boolean isCancelling = order.getCancelInitiated();
     int qtyRemainingToQty = qtyRem.compareTo(qty);
     int qtyRemainingIsZero = qtyRem.compareTo(BigDecimal.ZERO);
@@ -133,13 +148,23 @@ public final class BittrexAdapters {
       status = Order.OrderStatus.CANCELED;
     }
 
-    return new BittrexLimitOrder(type, order.getQuantity(), pair, order.getOrderUuid(), order.getOpened(), order.getLimit(),
-        order.getQuantityRemaining(), order.getPricePerUnit(), null, status);
+    return new BittrexLimitOrder(
+        type,
+        order.getQuantity(),
+        pair,
+        order.getOrderUuid(),
+        order.getOpened(),
+        order.getLimit(),
+        order.getQuantityRemaining(),
+        order.getPricePerUnit(),
+        null,
+        status);
   }
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {
 
-    OrderType orderType = trade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        trade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity();
     BigDecimal price = trade.getPrice();
     Date date = BittrexUtils.toDate(trade.getTimeStamp());
@@ -147,9 +172,9 @@ public final class BittrexAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(BittrexTrade[] trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.size());
     long lastTradeId = 0;
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
@@ -172,8 +197,16 @@ public final class BittrexAdapters {
 
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-                               .build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 
   public static Wallet adaptWallet(List<BittrexBalance> balances) {
@@ -181,17 +214,30 @@ public final class BittrexAdapters {
     List<Balance> wallets = new ArrayList<>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
-          balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
-          balance.getPending()));
+      wallets.add(
+          new Balance(
+              Currency.getInstance(balance.getCurrency().toUpperCase()),
+              balance.getBalance(),
+              balance.getAvailable(),
+              balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
+              BigDecimal.ZERO,
+              BigDecimal.ZERO,
+              BigDecimal.ZERO,
+              balance.getPending()));
     }
 
     return new Wallet(wallets);
   }
 
   public static Balance adaptBalance(BittrexBalance balance) {
-    return new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
-        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+    return new Balance(
+        Currency.getInstance(balance.getCurrency().toUpperCase()),
+        balance.getBalance(),
+        balance.getAvailable(),
+        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
+        BigDecimal.ZERO,
         balance.getPending());
   }
 
@@ -200,7 +246,9 @@ public final class BittrexAdapters {
     List<UserTrade> trades = new ArrayList<>();
 
     for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
-      trades.add(adaptUserTrade(bittrexTrade));
+      if (!isOrderWithoutTrade(bittrexTrade)) {
+        trades.add(adaptUserTrade(bittrexTrade));
+      }
     }
     return trades;
   }
@@ -210,7 +258,8 @@ public final class BittrexAdapters {
     String[] currencies = trade.getExchange().split("-");
     CurrencyPair currencyPair = new CurrencyPair(currencies[1], currencies[0]);
 
-    OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType =
+        trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
     Date date = BittrexUtils.toDate(trade.getClosed());
     String orderId = String.valueOf(trade.getOrderUuid());
@@ -221,10 +270,20 @@ public final class BittrexAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
+    return new UserTrade(
+        orderType,
+        amount,
+        currencyPair,
+        price,
+        date,
+        orderId,
+        orderId,
+        trade.getCommission(),
+        currencyPair.counter);
   }
 
-  public static ExchangeMetaData adaptMetaData(List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
+  public static ExchangeMetaData adaptMetaData(
+      List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
 
     List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
 
@@ -245,39 +304,63 @@ public final class BittrexAdapters {
     return metaData;
   }
 
-  public static List<FundingRecord> adaptDepositRecords(List<BittrexDepositHistory> bittrexFundingHistories) {
+  public static List<FundingRecord> adaptDepositRecords(
+      List<BittrexDepositHistory> bittrexFundingHistories) {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
     for (BittrexDepositHistory f : bittrexFundingHistories) {
       if (f != null) {
-        fundingRecords.add(new FundingRecord(f.getCryptoAddress(), f.getLastUpdated(), Currency.getInstance(f.getCurrency()), f.getAmount(),
-            String.valueOf(f.getId()), f.getTxId(), FundingRecord.Type.DEPOSIT, FundingRecord.Status.COMPLETE, null, null, null));
+        fundingRecords.add(
+            new FundingRecord(
+                f.getCryptoAddress(),
+                f.getLastUpdated(),
+                Currency.getInstance(f.getCurrency()),
+                f.getAmount(),
+                String.valueOf(f.getId()),
+                f.getTxId(),
+                FundingRecord.Type.DEPOSIT,
+                FundingRecord.Status.COMPLETE,
+                null,
+                null,
+                null));
       }
     }
     return fundingRecords;
   }
 
-  private static FundingRecord.Status fromWithdrawalRecord(BittrexWithdrawalHistory bittrexWithdrawal) {
-    if (bittrexWithdrawal.getCanceled())
-      return FundingRecord.Status.CANCELLED;
-    if (bittrexWithdrawal.getInvalidAddress())
-      return FundingRecord.Status.FAILED;
-    if (bittrexWithdrawal.getPendingPayment())
-      return FundingRecord.Status.PROCESSING;
-    if (bittrexWithdrawal.getAuthorized())
-      return FundingRecord.Status.COMPLETE;
+  private static FundingRecord.Status fromWithdrawalRecord(
+      BittrexWithdrawalHistory bittrexWithdrawal) {
+    if (bittrexWithdrawal.getCanceled()) return FundingRecord.Status.CANCELLED;
+    if (bittrexWithdrawal.getInvalidAddress()) return FundingRecord.Status.FAILED;
+    if (bittrexWithdrawal.getPendingPayment()) return FundingRecord.Status.PROCESSING;
+    if (bittrexWithdrawal.getAuthorized()) return FundingRecord.Status.COMPLETE;
     return FundingRecord.Status.FAILED;
   }
 
-  public static List<FundingRecord> adaptWithdrawalRecords(List<BittrexWithdrawalHistory> bittrexFundingHistories) {
+  public static List<FundingRecord> adaptWithdrawalRecords(
+      List<BittrexWithdrawalHistory> bittrexFundingHistories) {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
     for (BittrexWithdrawalHistory f : bittrexFundingHistories) {
       if (f != null) {
         final FundingRecord.Status status = fromWithdrawalRecord(f);
         fundingRecords.add(
-            new FundingRecord(f.getAddress(), f.getOpened(), Currency.getInstance(f.getCurrency()), f.getAmount(), f.getPaymentUuid(), f.getTxId(),
-                FundingRecord.Type.WITHDRAWAL, status, null, f.getTxCost(), null));
+            new FundingRecord(
+                f.getAddress(),
+                f.getOpened(),
+                Currency.getInstance(f.getCurrency()),
+                f.getAmount(),
+                f.getPaymentUuid(),
+                f.getTxId(),
+                FundingRecord.Type.WITHDRAWAL,
+                status,
+                null,
+                f.getTxCost(),
+                null));
       }
     }
     return fundingRecords;
+  }
+
+  private static boolean isOrderWithoutTrade(BittrexUserTrade bittrexTrade) {
+    return bittrexTrade.getQuantity().compareTo(bittrexTrade.getQuantityRemaining()) == 0;
   }
 }

@@ -1,9 +1,8 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcOwnTrade {
 
@@ -17,9 +16,16 @@ public class HitbtcOwnTrade {
   private final BigDecimal price;
   private final Date timestamp;
 
-  public HitbtcOwnTrade(@JsonProperty("id") Long id, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("orderId") Long orderId,
-      @JsonProperty("symbol") String symbol, @JsonProperty("side") HitbtcSide side, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("price") BigDecimal price, @JsonProperty("timestamp") Date timestamp) {
+  public HitbtcOwnTrade(
+      @JsonProperty("id") Long id,
+      @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("orderId") Long orderId,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("side") HitbtcSide side,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("timestamp") Date timestamp) {
     this.id = id;
     this.clientOrderId = clientOrderId;
     this.orderId = orderId;
@@ -65,7 +71,24 @@ public class HitbtcOwnTrade {
 
   @Override
   public String toString() {
-    return "HitbtcOwnTrade{" + "id=" + id + ", clientOrderId='" + clientOrderId + '\'' + ", orderId=" + orderId + ", side=" + side + ", quantity="
-        + quantity + ", fee=" + fee + ", price=" + price + ", timestamp=" + timestamp + '}';
+    return "HitbtcOwnTrade{"
+        + "id="
+        + id
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", orderId="
+        + orderId
+        + ", side="
+        + side
+        + ", quantity="
+        + quantity
+        + ", fee="
+        + fee
+        + ", price="
+        + price
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 }

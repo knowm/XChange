@@ -1,8 +1,7 @@
 package org.knowm.xchange.abucoins.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Base class for the the history related API calls (withdrawals and deposits)
@@ -10,45 +9,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author bryant_harris
  */
 public abstract class AbucoinsHistory {
-  /**
-   * Deposit currency
-   */
+  /** Deposit currency */
   String currency;
 
-  /**
-   * Date of deposit
-   */
+  /** Date of deposit */
   String date;
 
-  /**
-   * Deposit amount
-   */
+  /** Deposit amount */
   BigDecimal amount;
 
-  /**
-   * Deposit fee
-   */
+  /** Deposit fee */
   BigDecimal fee;
 
   // Not directly storing status as a Status enum, doing so introduces
   // risk of a parsing error due to a new, unrecognized status.
-  /**
-   * Deposit status
-   */
+  /** Deposit status */
   String status;
 
-  /**
-   * blockchain explorer url (null if not available)
-   */
+  /** blockchain explorer url (null if not available) */
   String url;
 
-  /**
-   * Error codes
-   */
+  /** Error codes */
   String message;
 
-  public AbucoinsHistory(@JsonProperty("currency") String currency, @JsonProperty("date") String date, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("status") String status, @JsonProperty("url") String url,
+  public AbucoinsHistory(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("date") String date,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("status") String status,
+      @JsonProperty("url") String url,
       @JsonProperty("message") String message) {
     this.currency = currency;
     this.date = date;
@@ -80,8 +70,7 @@ public abstract class AbucoinsHistory {
   }
 
   /**
-   * Returns the raw string value of the status, useful if
-   * it's a newer status type
+   * Returns the raw string value of the status, useful if it's a newer status type
    *
    * @return
    */
@@ -106,24 +95,17 @@ public abstract class AbucoinsHistory {
   }
 
   public enum Status {
-    /**
-     * Deposit wait for email confirmation
-     */
+    /** Deposit wait for email confirmation */
     awaitingEmailConfirmation,
 
-    /**
-     * Deposit is pending
-     */
+    /** Deposit is pending */
     pending,
 
-    /**
-     * Deposit is completed (documentation lists complete, api seems to return completed
-     */
-    complete, completed,
+    /** Deposit is completed (documentation lists complete, api seems to return completed */
+    complete,
+    completed,
 
-    /**
-     * Deposit was sent
-     */
+    /** Deposit was sent */
     sent,
 
     unknown; // we can't parse it
@@ -132,8 +114,7 @@ public abstract class AbucoinsHistory {
       try {
         return Status.valueOf(s);
       } catch (Exception e) {
-        if (s.equals("awaiting-email-onfirmation"))
-          return awaitingEmailConfirmation;
+        if (s.equals("awaiting-email-onfirmation")) return awaitingEmailConfirmation;
       }
 
       return unknown;

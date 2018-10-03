@@ -1,15 +1,16 @@
 package org.knowm.xchange.cryptopia.dto.marketdata;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class CryptopiaOrderBook {
 
   private final List<CryptopiaOrder> bids;
   private final List<CryptopiaOrder> asks;
 
-  public CryptopiaOrderBook(@JsonProperty("Buy") List<CryptopiaOrder> bids, @JsonProperty("Sell") List<CryptopiaOrder> asks) {
+  public CryptopiaOrderBook(
+      @JsonProperty("Buy") List<CryptopiaOrder> bids,
+      @JsonProperty("Sell") List<CryptopiaOrder> asks) {
     this.bids = bids;
     this.asks = asks;
   }

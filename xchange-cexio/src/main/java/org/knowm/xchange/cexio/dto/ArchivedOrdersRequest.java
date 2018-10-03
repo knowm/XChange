@@ -22,7 +22,13 @@ public class ArchivedOrdersRequest extends CexIORequest {
   @JsonProperty("status")
   public final String status;
 
-  public ArchivedOrdersRequest(Integer limit, Long dateFrom, Long dateTo, Long lastTxDateFrom, Long lastTxDateTo, String status) {
+  public ArchivedOrdersRequest(
+      Integer limit,
+      Long dateFrom,
+      Long dateTo,
+      Long lastTxDateFrom,
+      Long lastTxDateTo,
+      String status) {
     super();
 
     this.limit = limit;

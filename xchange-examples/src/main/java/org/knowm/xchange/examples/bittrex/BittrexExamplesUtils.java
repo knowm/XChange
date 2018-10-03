@@ -15,5 +15,4 @@ public class BittrexExamplesUtils {
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
 }

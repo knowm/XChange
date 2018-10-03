@@ -11,15 +11,14 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class TickerFetchIntegration {
 
   @Test
   public void tickerFetchTest() throws Exception {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoinAverageExchange.class.getName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BitcoinAverageExchange.class.getName());
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
@@ -27,5 +26,4 @@ public class TickerFetchIntegration {
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
-
 }

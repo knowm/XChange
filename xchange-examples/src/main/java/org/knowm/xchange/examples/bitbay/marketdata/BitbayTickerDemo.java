@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bitbay.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitbay.BitbayExchange;
@@ -30,7 +29,5 @@ public class BitbayTickerDemo {
     // Get the latest ticker data showing BTC to GBP
     ticker = marketDataService.getTicker(CurrencyPair.BTC_PLN);
     System.out.println(ticker.toString());
-
   }
-
 }

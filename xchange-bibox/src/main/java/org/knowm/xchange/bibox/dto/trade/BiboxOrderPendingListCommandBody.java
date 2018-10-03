@@ -2,14 +2,10 @@ package org.knowm.xchange.bibox.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public class BiboxOrderPendingListCommandBody {
 
-  /**
-   * the currency pair
-   */
+  /** the currency pair */
   private String pair;
 
   @JsonProperty("account_type")
@@ -19,15 +15,11 @@ public class BiboxOrderPendingListCommandBody {
 
   private int size;
 
-  /**
-   * the base currency
-   */
+  /** the base currency */
   @JsonProperty("coin_symbol")
   private String coinSymbol;
 
-  /**
-   * the counter currency
-   */
+  /** the counter currency */
   @JsonProperty("currency_symbol")
   private String currencySymbol;
 
@@ -38,7 +30,13 @@ public class BiboxOrderPendingListCommandBody {
     this(null, null, page, size, null, null, null);
   }
 
-  public BiboxOrderPendingListCommandBody(String pair, BiboxAccountType accountType, int page, int size, String coinSymbol, String currencySymbol,
+  public BiboxOrderPendingListCommandBody(
+      String pair,
+      BiboxAccountType accountType,
+      int page,
+      int size,
+      String coinSymbol,
+      String currencySymbol,
       BiboxOrderSide orderSide) {
     super();
     this.pair = pair;

@@ -2,26 +2,24 @@ package org.knowm.xchange.btcturk.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.btcturk.BTCTurk;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Created by semihunaldi on 26/11/2017
- */
+/** Created by semihunaldi on 26/11/2017 */
 public class BTCTurkTickerTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCTurkTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        BTCTurkTickerTest.class.getResourceAsStream(
+            "/org/knowm/xchange/btcturk/dto/marketdata/example-ticker-data.json");
     ObjectMapper mapper = new ObjectMapper();
     BTCTurkTicker btcTurkTicker = mapper.readValue(is, BTCTurkTicker.class);
 

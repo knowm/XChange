@@ -1,24 +1,20 @@
 package org.knowm.xchange.bitmex;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class BitmexUtils {
 
   protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
@@ -26,12 +22,8 @@ public class BitmexUtils {
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
 
-  /**
-   * Private Constructor
-   */
-  private BitmexUtils() {
-
-  }
+  /** Private Constructor */
+  private BitmexUtils() {}
 
   public static void setBitmexAssetPairs(List<BitmexTicker> tickers) {
 
@@ -48,9 +40,7 @@ public class BitmexUtils {
         assetsMap.put(quote, quoteCurrencyCode);
       if (!assetsMap.containsKey(base) && !assetsMap.containsValue(baseCurrencyCode))
         assetsMap.put(base, baseCurrencyCode);
-
     }
-
   }
 
   public static String createBitmexContract(BitmexContract contract) {
@@ -142,10 +132,11 @@ public class BitmexUtils {
   public class CustomBitmexContractSerializer extends JsonSerializer<BitmexContract> {
 
     @Override
-    public void serialize(BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(
+        BitmexContract contract, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+        throws IOException {
 
       jsonGenerator.writeString(contract.toString());
-
     }
   }
 }

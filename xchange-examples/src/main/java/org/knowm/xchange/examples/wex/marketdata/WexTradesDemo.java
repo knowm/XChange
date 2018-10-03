@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.wex.marketdata;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,9 +11,7 @@ import org.knowm.xchange.wex.v3.WexExchange;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexTrade;
 import org.knowm.xchange.wex.v3.service.WexMarketDataServiceRaw;
 
-/**
- * Demonstrate requesting Order Book at BTC-E
- */
+/** Demonstrate requesting Order Book at BTC-E */
 public class WexTradesDemo {
 
   public static void main(String[] args) throws IOException {
@@ -39,7 +36,8 @@ public class WexTradesDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public market data feed (no authentication)
-    WexMarketDataServiceRaw marketDataService = (WexMarketDataServiceRaw) exchange.getMarketDataService();
+    WexMarketDataServiceRaw marketDataService =
+        (WexMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest trade data for BTC/USD
     Map<String, WexTrade[]> trades = marketDataService.getBTCETrades("btc_usd", 7).getTradesMap();
@@ -51,5 +49,4 @@ public class WexTradesDemo {
       }
     }
   }
-
 }

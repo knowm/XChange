@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.okcoin.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -34,19 +33,19 @@ public class OkCoinDepthDemo {
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
     System.out.println(orderBook.toString());
-    System.out.println("full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
+    System.out.println(
+        "full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
 
   private static void raw(Exchange okcoinExchange) throws IOException {
 
     // Interested in the public market data feed (no authentication)
-    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
+    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw =
+        (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
 
     // Get the latest full order book data
     OkCoinDepth depth = okCoinMarketDataServiceRaw.getDepth(CurrencyPair.BTC_CNY);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().length + depth.getBids().length));
-
   }
 }

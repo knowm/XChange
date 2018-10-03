@@ -1,18 +1,22 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import java.util.Date;
-
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
 import org.knowm.xchange.independentreserve.util.Util;
 
-/**
- * https://www.independentreserve.com/API#GetTransactions
- */
+/** https://www.independentreserve.com/API#GetTransactions */
 public class IndependentReserveTransactionsRequest extends AuthAggregate {
 
-  public IndependentReserveTransactionsRequest(String apiKey, Long nonce, String accountGuid, Date fromTimestampUtc, Date toTimestampUtc,
-      Type[] txTypes, int pageIndex, int pageSize) {
+  public IndependentReserveTransactionsRequest(
+      String apiKey,
+      Long nonce,
+      String accountGuid,
+      Date fromTimestampUtc,
+      Date toTimestampUtc,
+      Type[] txTypes,
+      int pageIndex,
+      int pageSize) {
     super(apiKey, nonce);
 
     this.parameters.put("accountGuid", accountGuid);

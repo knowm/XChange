@@ -7,8 +7,7 @@ public class BTCMarketsCancelOrderRequest {
 
   private List<Long> orderIds;
 
-  protected BTCMarketsCancelOrderRequest() {
-  }
+  protected BTCMarketsCancelOrderRequest() {}
 
   public BTCMarketsCancelOrderRequest(List<Long> orderIds) {
     this.orderIds = orderIds;

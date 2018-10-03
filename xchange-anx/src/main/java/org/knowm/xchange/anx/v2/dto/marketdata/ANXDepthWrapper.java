@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXDepthWrapper {
 
   private final String result;
@@ -18,7 +16,10 @@ public class ANXDepthWrapper {
    * @param anxDepth
    * @param error
    */
-  public ANXDepthWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXDepth anxDepth, @JsonProperty("error") String error) {
+  public ANXDepthWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXDepth anxDepth,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxDepth = anxDepth;
@@ -39,5 +40,4 @@ public class ANXDepthWrapper {
 
     return error;
   }
-
 }

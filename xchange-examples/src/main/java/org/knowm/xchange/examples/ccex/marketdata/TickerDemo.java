@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.ccex.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ccex.CCEXExchange;
@@ -9,9 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting Ticker from C-CEX.
- */
+/** Demonstrate requesting Ticker from C-CEX. */
 public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
@@ -30,5 +27,4 @@ public class TickerDemo {
 
     System.out.println(ticker);
   }
-
 }

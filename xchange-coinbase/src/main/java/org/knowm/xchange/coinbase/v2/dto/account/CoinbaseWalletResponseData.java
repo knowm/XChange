@@ -1,14 +1,14 @@
 package org.knowm.xchange.coinbase.v2.dto.account;
 
-import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
-import org.knowm.xchange.coinbase.v2.dto.CoinbasePrice;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
+import org.knowm.xchange.coinbase.v2.dto.CoinbasePrice;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class CoinbaseWalletResponseData<T extends CoinbaseWalletResponseData.CoinbaseWalletResponse> {
+abstract class CoinbaseWalletResponseData<
+    T extends CoinbaseWalletResponseData.CoinbaseWalletResponse> {
 
   private final T data;
 
@@ -39,7 +39,10 @@ abstract class CoinbaseWalletResponseData<T extends CoinbaseWalletResponseData.C
     private CoinbasePrice subtotal;
 
     @JsonCreator
-    CoinbaseWalletResponse(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("transaction") String transaction,
+    CoinbaseWalletResponse(
+        @JsonProperty("id") String id,
+        @JsonProperty("status") String status,
+        @JsonProperty("transaction") String transaction,
         @JsonProperty("commited") boolean committed) {
       this.id = id;
       this.status = status;
@@ -101,7 +104,18 @@ abstract class CoinbaseWalletResponseData<T extends CoinbaseWalletResponseData.C
       int scale = "EUR".equals(curr) || "USD".equals(curr) ? 2 : 8;
       String astr = String.format("amount=%." + scale + "f %s", amount.getAmount(), curr);
       String prices = "fee=" + fee + ",subtotal=" + subtotal + ",total=" + total;
-      return getClass().getSimpleName() + "[id=" + id + ",status=" + status + ",committed=" + committed + "," + astr + "," + prices + "]";
+      return getClass().getSimpleName()
+          + "[id="
+          + id
+          + ",status="
+          + status
+          + ",committed="
+          + committed
+          + ","
+          + astr
+          + ","
+          + prices
+          + "]";
     }
   }
 }

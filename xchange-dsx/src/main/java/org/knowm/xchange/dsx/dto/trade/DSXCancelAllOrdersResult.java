@@ -1,15 +1,10 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
 import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXCancelAllOrdersResult {
 
   private final Map<String, DSXCurrencyAmount> funds;

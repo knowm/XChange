@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.anx.v2.ANXExchange;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXExamplesUtils {
 
   public static Exchange createExchange() {

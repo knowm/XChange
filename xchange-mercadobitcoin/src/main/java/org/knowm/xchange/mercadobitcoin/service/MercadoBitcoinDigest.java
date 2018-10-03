@@ -1,16 +1,11 @@
 package org.knowm.xchange.mercadobitcoin.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
-/**
- * @author Felipe Micaroni Lalli
- */
+/** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinDigest extends BaseParamsDigest {
 
   private final String method;
@@ -21,7 +16,7 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param signCode (called "Codigo")
-   * @param tonce    See
+   * @param tonce See
    */
   private MercadoBitcoinDigest(String method, String pin, String signCode, long tonce) {
 
@@ -31,7 +26,8 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
     this.tonce = tonce;
   }
 
-  public static MercadoBitcoinDigest createInstance(String method, String pin, String signCode, long tonce) {
+  public static MercadoBitcoinDigest createInstance(
+      String method, String pin, String signCode, long tonce) {
 
     return signCode == null ? null : new MercadoBitcoinDigest(method, pin, signCode, tonce);
   }

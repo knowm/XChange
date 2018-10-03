@@ -1,0 +1,73 @@
+OKCoin Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://api.coinone.co.kr/ticker
+
+https://api.coinone.co.kr/orderbook
+
+
+Price Example
+-------------
+# Request 
+GET https://api.coinone.co.kr/ticker?currency=btc
+# Response
+{
+    "result": "success",
+    "volume": "2346.4371",
+    "last": "8461000",
+    "yesterday_last": "7890000",
+    "timestamp": "1523695746",
+    "yesterday_low": "7890000",
+    "high": "8620000",
+    "currency": "btc",
+    "low": "8235000",
+    "errorCode": "0",
+    "yesterday_first": "7890000",
+    "yesterday_volume": "0.0104",
+    "yesterday_high": "7890000",
+    "first": "8430000"
+}
+ 
+Depth Example
+-------------
+ # Request 
+GET https://api.coinone.co.kr/orderbook?currency=btc
+# Response
+{
+    "timestamp": "1523695788",
+    "bid": [
+        {
+            "price": "8463000",
+            "qty": "0.0033"
+        },
+        {
+            "price": "8462000",
+            "qty": "0.0736"
+        },
+        {
+            "price": "8460000",
+            "qty": "1.0000"
+        }
+    ],
+    "errorCode": "0",
+    "currency": "btc",
+    "result": "success",
+    "ask": [
+        {
+            "price": "8469000",
+            "qty": "0.5000"
+        },
+        {
+            "price": "8470000",
+            "qty": "1.2386"
+        },
+        {
+            "price": "8474000",
+            "qty": "1.9500"
+        }
+    ]
+}

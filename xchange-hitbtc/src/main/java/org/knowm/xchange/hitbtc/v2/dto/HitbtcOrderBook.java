@@ -7,7 +7,8 @@ public class HitbtcOrderBook {
   private final HitbtcOrderLimit[] asks;
   private final HitbtcOrderLimit[] bids;
 
-  public HitbtcOrderBook(@JsonProperty("ask") HitbtcOrderLimit[] asks, @JsonProperty("bid") HitbtcOrderLimit[] bids) {
+  public HitbtcOrderBook(
+      @JsonProperty("ask") HitbtcOrderLimit[] asks, @JsonProperty("bid") HitbtcOrderLimit[] bids) {
 
     this.asks = asks;
     this.bids = bids;

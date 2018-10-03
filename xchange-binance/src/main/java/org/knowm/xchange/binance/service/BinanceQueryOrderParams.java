@@ -7,9 +7,7 @@ public class BinanceQueryOrderParams implements OrderQueryParamCurrencyPair {
   private String orderId;
   private CurrencyPair pair;
 
-  public BinanceQueryOrderParams() {
-
-  }
+  public BinanceQueryOrderParams() {}
 
   public BinanceQueryOrderParams(CurrencyPair pair, String orderId) {
     this.pair = pair;
@@ -35,5 +33,4 @@ public class BinanceQueryOrderParams implements OrderQueryParamCurrencyPair {
   public void setOrderId(String orderId) {
     this.orderId = orderId;
   }
-
 }

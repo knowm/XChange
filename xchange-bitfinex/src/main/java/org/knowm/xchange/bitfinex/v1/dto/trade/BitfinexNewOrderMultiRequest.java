@@ -49,5 +49,4 @@ public class BitfinexNewOrderMultiRequest {
 
     this.orders = orders;
   }
-
 }

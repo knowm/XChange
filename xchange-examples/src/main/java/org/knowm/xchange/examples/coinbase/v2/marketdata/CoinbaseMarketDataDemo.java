@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbase.v2.CoinbaseExchange;
@@ -19,8 +18,10 @@ public class CoinbaseMarketDataDemo {
 
   public static void main(String[] args) throws IOException, ParseException {
 
-    Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
-    CoinbaseMarketDataService marketDataService = (CoinbaseMarketDataService) coinbaseExchange.getMarketDataService();
+    Exchange coinbaseExchange =
+        ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    CoinbaseMarketDataService marketDataService =
+        (CoinbaseMarketDataService) coinbaseExchange.getMarketDataService();
 
     List<CoinbaseCurrency> currencies = marketDataService.getCoinbaseCurrencies();
     System.out.println("Currencies: " + currencies);
@@ -38,7 +39,9 @@ public class CoinbaseMarketDataDemo {
     System.out.println("Spot Rate: " + spotRate);
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    CoinbasePrice historicalSpotRate = marketDataService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, format.parse("2016-12-01"));
+    CoinbasePrice historicalSpotRate =
+        marketDataService.getCoinbaseHistoricalSpotRate(
+            Currency.BTC, Currency.USD, format.parse("2016-12-01"));
     System.out.println("Historical Spot Rate 2016-12-01: " + historicalSpotRate);
   }
 }

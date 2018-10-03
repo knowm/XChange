@@ -21,5 +21,4 @@ public class BitmexDemoUtils {
 
     return bitmex;
   }
-
 }
