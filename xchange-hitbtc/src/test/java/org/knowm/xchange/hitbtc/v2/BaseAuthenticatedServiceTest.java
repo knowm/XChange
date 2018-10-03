@@ -26,5 +26,4 @@ public class BaseAuthenticatedServiceTest extends BaseServiceTest {
 
     exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
-
 }

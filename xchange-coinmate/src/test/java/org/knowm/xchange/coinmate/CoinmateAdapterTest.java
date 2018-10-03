@@ -25,29 +25,27 @@ package org.knowm.xchange.coinmate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateAdapterTest {
 
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinmateAdapterTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+    InputStream is =
+        CoinmateAdapterTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/marketdata/example-ticker.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -64,5 +62,4 @@ public class CoinmateAdapterTest {
     String dateString = f.format(ticker.getTimestamp());
     assertThat(dateString).isEqualTo("2017-01-26 20:12:57");
   }
-
 }

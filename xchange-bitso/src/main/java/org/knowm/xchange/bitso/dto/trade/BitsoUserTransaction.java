@@ -1,30 +1,24 @@
 package org.knowm.xchange.bitso.dto.trade;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
 
-/**
- * @author Piotr Ładyżyński
- */
+/** @author Piotr Ładyżyński */
 public final class BitsoUserTransaction {
 
   private final String datetime;
   private final long id;
   private final String order_id;
   private final TransactionType type;
-  /**
-   * MXN amount, negative -> BID, positive -> ASK
-   */
+  /** MXN amount, negative -> BID, positive -> ASK */
   private final BigDecimal mxn;
+
   private final BigDecimal btc;
-  /**
-   * price, has the reciprocal sign compared to 'mxn' value
-   */
+  /** price, has the reciprocal sign compared to 'mxn' value */
   private final BigDecimal rate;
+
   private final BigDecimal fee;
 
   /**
@@ -39,9 +33,15 @@ public final class BitsoUserTransaction {
    * @param rate
    * @param fee
    */
-  public BitsoUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") String order_id,
-      @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class) TransactionType type,
-      @JsonProperty("mxn") BigDecimal mxn, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal rate,
+  public BitsoUserTransaction(
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("id") long id,
+      @JsonProperty("order_id") String order_id,
+      @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class)
+          TransactionType type,
+      @JsonProperty("mxn") BigDecimal mxn,
+      @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("rate") BigDecimal rate,
       @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
@@ -112,11 +112,20 @@ public final class BitsoUserTransaction {
   @Override
   public String toString() {
 
-    return String.format("UserTransaction{datetime=%s, id=%d, type=%s, mxn=%s, btc=%s, fee=%s}", datetime, id, type, mxn, btc, fee);
+    return String.format(
+        "UserTransaction{datetime=%s, id=%d, type=%s, mxn=%s, btc=%s, fee=%s}",
+        datetime, id, type, mxn, btc, fee);
   }
 
   public enum TransactionType {
-    deposit, withdrawal, trade, type3_reserved, type4_reserved, type5_reseverd, type6_reseved, type7_reserved
+    deposit,
+    withdrawal,
+    trade,
+    type3_reserved,
+    type4_reserved,
+    type5_reseverd,
+    type6_reseved,
+    type7_reserved
     // reseved so parsing won 't break in case Bitso adds new types
   }
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitflyer.account;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
@@ -34,5 +33,4 @@ public class BitflyerAccountDemo {
     List<BitflyerMarginTransaction> marginHistory = accountServiceRaw.getBitflyerMarginHistory();
     System.out.println(marginHistory);
   }
-
 }

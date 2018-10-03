@@ -1,7 +1,6 @@
 package org.knowm.xchange.liqui.service;
 
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -21,57 +20,82 @@ public class LiquiTradeServiceRaw extends LiquiBaseService {
   public LiquiTrade placeLiquiLimitOrder(final LimitOrder order) {
     final LiquiTradeType orderType = LiquiTradeType.fromOrderType(order.getType());
 
-    final LiquiTradeResult trade = liquiAuthenticated
-        .trade(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "trade",
-            new Liqui.Pairs(order.getCurrencyPair()), orderType.toString(), order.getLimitPrice().toPlainString(),
+    final LiquiTradeResult trade =
+        liquiAuthenticated.trade(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            "trade",
+            new Liqui.Pairs(order.getCurrencyPair()),
+            orderType.toString(),
+            order.getLimitPrice().toPlainString(),
             order.getRemainingAmount().toPlainString());
 
     return checkResult(trade);
   }
 
   public Map<Long, LiquiOrderInfo> getActiveOrders() {
-    return checkResult(liquiAuthenticated
-        .activeOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "activeOrders", null));
+    return checkResult(
+        liquiAuthenticated.activeOrders(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            "activeOrders",
+            null));
   }
 
   public Map<Long, LiquiOrderInfo> getActiveOrders(final CurrencyPair pair) {
-    return checkResult(liquiAuthenticated
-        .activeOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "activeOrders",
+    return checkResult(
+        liquiAuthenticated.activeOrders(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            "activeOrders",
             new Liqui.Pairs(pair)));
   }
 
   public LiquiOrderInfo getOrderInfo(final long orderId) {
-    return checkResult(liquiAuthenticated
-        .orderInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "orderInfo", orderId)).get(orderId);
+    return checkResult(
+            liquiAuthenticated.orderInfo(
+                exchange.getExchangeSpecification().getApiKey(),
+                signatureCreator,
+                exchange.getNonceFactory(),
+                "orderInfo",
+                orderId))
+        .get(orderId);
   }
 
   public LiquiCancelOrder cancelOrder(final long orderId) {
-    return checkResult(liquiAuthenticated
-        .cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "cancelOrder", orderId));
+    return checkResult(
+        liquiAuthenticated.cancelOrder(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            "cancelOrder",
+            orderId));
   }
 
-  public Map<Long, LiquiUserTrade> getTradeHistory() {
-    return checkResult(liquiAuthenticated
-        .tradeHistory(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "tradeHistory", null, null, null,
-            null, null, null, null)).getHistory();
-  }
-
-  public Map<Long, LiquiUserTrade> getTradeHistory(final CurrencyPair pair) {
-    return checkResult(liquiAuthenticated
-        .tradeHistory(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "tradeHistory", null, null, null,
-            null, null, null, new Liqui.Pairs(pair))).getHistory();
-  }
-
-  public Map<Long, LiquiUserTrade> getTradeHistory(final CurrencyPair pair, final int amountOftrades) {
-    return checkResult(liquiAuthenticated
-        .tradeHistory(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "tradeHistory", null,
-            amountOftrades, null, null, null, null, new Liqui.Pairs(pair))).getHistory();
-  }
-
-  public Map<Long, LiquiUserTrade> getTradeHistory(final CurrencyPair pair, final long fromTrade, final long toTrade, final int amountOftrades,
-      final long startTime, final long endTime) {
-    return checkResult(liquiAuthenticated
-        .tradeHistory(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), "tradeHistory", fromTrade,
-            amountOftrades, toTrade, null, startTime, endTime, new Liqui.Pairs(pair))).getHistory();
+  public Map<Long, LiquiUserTrade> getTradeHistory(
+      final CurrencyPair pair,
+      final Long fromTrade,
+      final Long toTrade,
+      final Integer amountOftrades,
+      final Long startTime,
+      final Long endTime) {
+    return checkResult(
+            liquiAuthenticated.tradeHistory(
+                exchange.getExchangeSpecification().getApiKey(),
+                signatureCreator,
+                exchange.getNonceFactory(),
+                "tradeHistory",
+                fromTrade,
+                amountOftrades,
+                fromTrade,
+                toTrade,
+                null,
+                startTime,
+                endTime,
+                pair != null ? new Liqui.Pairs(pair) : null))
+        .getHistory();
   }
 }

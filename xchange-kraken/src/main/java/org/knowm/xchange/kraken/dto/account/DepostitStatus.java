@@ -1,9 +1,8 @@
 package org.knowm.xchange.kraken.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DepostitStatus {
 
@@ -19,10 +18,18 @@ public class DepostitStatus {
   private final String status;
   private final String statusProp;
 
-  public DepostitStatus(@JsonProperty("method") String method, @JsonProperty("aclass") String aclass, @JsonProperty("asset") String asset,
-      @JsonProperty("refid") String refid, @JsonProperty("txid") String txid, @JsonProperty("info") String info,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("time") long unixTimestamp,
-      @JsonProperty("status") String status, @JsonProperty("status-prop") String statusProp) {
+  public DepostitStatus(
+      @JsonProperty("method") String method,
+      @JsonProperty("aclass") String aclass,
+      @JsonProperty("asset") String asset,
+      @JsonProperty("refid") String refid,
+      @JsonProperty("txid") String txid,
+      @JsonProperty("info") String info,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("time") long unixTimestamp,
+      @JsonProperty("status") String status,
+      @JsonProperty("status-prop") String statusProp) {
     super();
     this.method = method;
     this.aclass = aclass;
@@ -83,8 +90,28 @@ public class DepostitStatus {
 
   @Override
   public String toString() {
-    return "DepostitStatus [method=" + method + ", aclass=" + aclass + ", asset=" + asset + ", refid=" + refid + ", txid=" + txid + ", info=" + info
-        + ", amount=" + amount + ", fee=" + fee + ", timestamp=" + timestamp + ", status=" + status + ", statusProp=" + statusProp + "]";
+    return "DepostitStatus [method="
+        + method
+        + ", aclass="
+        + aclass
+        + ", asset="
+        + asset
+        + ", refid="
+        + refid
+        + ", txid="
+        + txid
+        + ", info="
+        + info
+        + ", amount="
+        + amount
+        + ", fee="
+        + fee
+        + ", timestamp="
+        + timestamp
+        + ", status="
+        + status
+        + ", statusProp="
+        + statusProp
+        + "]";
   }
-
 }

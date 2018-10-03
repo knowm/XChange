@@ -1,11 +1,11 @@
 package org.knowm.xchange.bitmex.dto.marketdata.results;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
-public class BitmexSymbolsAndPromptsResult<V> {
+public class BitmexSymbolsAndPromptsResult<V> extends AbstractHttpResponseAware {
 
   private final V intervals;
   private final V symbols;
@@ -16,9 +16,9 @@ public class BitmexSymbolsAndPromptsResult<V> {
    * @param intervals
    * @param symbols
    */
-
   @JsonCreator
-  public BitmexSymbolsAndPromptsResult(@JsonProperty("intervals") V intervals, @JsonProperty("symbols") V symbols) {
+  public BitmexSymbolsAndPromptsResult(
+      @JsonProperty("intervals") V intervals, @JsonProperty("symbols") V symbols) {
 
     this.intervals = intervals;
     this.symbols = symbols;
@@ -32,7 +32,6 @@ public class BitmexSymbolsAndPromptsResult<V> {
   public List<V> getIntervals() {
 
     return (List<V>) intervals;
-
   }
 
   public List<V> getSymbols() {
@@ -43,8 +42,9 @@ public class BitmexSymbolsAndPromptsResult<V> {
   @Override
   public String toString() {
 
-    return String.format("BitmexSymbolsAndPromptsResult[%s: %s]", isSuccess() ? "OK" : "error",
+    return String.format(
+        "BitmexSymbolsAndPromptsResult[%s: %s]",
+        isSuccess() ? "OK" : "error",
         isSuccess() ? intervals.toString() + " / " + symbols.toString() : "error");
   }
-
 }

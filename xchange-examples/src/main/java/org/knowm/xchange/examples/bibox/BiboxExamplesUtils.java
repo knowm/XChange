@@ -15,5 +15,4 @@ public class BiboxExamplesUtils {
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
 }

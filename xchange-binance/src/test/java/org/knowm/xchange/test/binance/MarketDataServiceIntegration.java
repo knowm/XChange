@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -39,7 +38,8 @@ public class MarketDataServiceIntegration {
   @Test
   public void testTimestamp() throws Exception {
 
-    BinanceMarketDataService marketDataService = (BinanceMarketDataService) exchange.getMarketDataService();
+    BinanceMarketDataService marketDataService =
+        (BinanceMarketDataService) exchange.getMarketDataService();
     long serverTime = marketDataService.getTimestamp();
     Assert.assertTrue(0 < serverTime);
   }
@@ -54,16 +54,24 @@ public class MarketDataServiceIntegration {
       }
     }
 
-    Collections.sort(tickers, new Comparator<BinanceTicker24h>() {
-      @Override
-      public int compare(BinanceTicker24h t1, BinanceTicker24h t2) {
-        return t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent());
-      }
-    });
+    Collections.sort(
+        tickers,
+        new Comparator<BinanceTicker24h>() {
+          @Override
+          public int compare(BinanceTicker24h t1, BinanceTicker24h t2) {
+            return t2.getPriceChangePercent().compareTo(t1.getPriceChangePercent());
+          }
+        });
 
-    tickers.stream().forEach(t -> {
-      System.out.println(t.getCurrencyPair() + " => " + String.format("%+.2f%%", t.getPriceChangePercent()));
-    });
+    tickers
+        .stream()
+        .forEach(
+            t -> {
+              System.out.println(
+                  t.getCurrencyPair()
+                      + " => "
+                      + String.format("%+.2f%%", t.getPriceChangePercent()));
+            });
   }
 
   private BinanceTicker24h getBinanceTicker24h(CurrencyPair pair) throws IOException {

@@ -1,12 +1,5 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,10 +7,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Data object representing DHLCs from Kraken
- */
+/** Data object representing DHLCs from Kraken */
 @JsonDeserialize(using = KrakenOHLCs.KrakenOHLCsDeserializer.class)
 public class KrakenOHLCs {
 
@@ -51,7 +48,8 @@ public class KrakenOHLCs {
   static class KrakenOHLCsDeserializer extends JsonDeserializer<KrakenOHLCs> {
 
     @Override
-    public KrakenOHLCs deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenOHLCs deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
       List<KrakenOHLC> krakenOHLCs = new ArrayList<>();
       long last = 0;
       ObjectCodec oc = jsonParser.getCodec();

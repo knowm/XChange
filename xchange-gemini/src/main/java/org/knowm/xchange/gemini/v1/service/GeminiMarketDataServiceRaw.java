@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
@@ -16,11 +15,10 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 
 /**
- * <p>
  * Implementation of the market data service for Gemini
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class GeminiMarketDataServiceRaw extends GeminiBaseService {
@@ -38,21 +36,22 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
   public GeminiTicker getGeminiTicker(String pair) throws IOException {
 
     try {
-      GeminiTicker GeminiTicker = Gemini.getTicker(pair);
+      GeminiTicker GeminiTicker = gemini.getTicker(pair);
       return GeminiTicker;
     } catch (GeminiException e) {
       throw handleException(e);
     }
   }
 
-  public GeminiDepth getGeminiOrderBook(String pair, Integer limitBids, Integer limitAsks) throws IOException {
+  public GeminiDepth getGeminiOrderBook(String pair, Integer limitBids, Integer limitAsks)
+      throws IOException {
 
     try {
       GeminiDepth GeminiDepth;
       if (limitBids == null && limitAsks == null) {
-        GeminiDepth = Gemini.getBook(pair);
+        GeminiDepth = gemini.getBook(pair);
       } else {
-        GeminiDepth = Gemini.getBook(pair, limitBids, limitAsks);
+        GeminiDepth = gemini.getBook(pair, limitBids, limitAsks);
       }
       return GeminiDepth;
     } catch (GeminiException e) {
@@ -60,30 +59,33 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     }
   }
 
-  public GeminiLendDepth getGeminiLendBook(String currency, int limitBids, int limitAsks) throws IOException {
+  public GeminiLendDepth getGeminiLendBook(String currency, int limitBids, int limitAsks)
+      throws IOException {
 
     try {
-      GeminiLendDepth GeminiLendDepth = Gemini.getLendBook(currency, limitBids, limitAsks);
+      GeminiLendDepth GeminiLendDepth = gemini.getLendBook(currency, limitBids, limitAsks);
       return GeminiLendDepth;
     } catch (GeminiException e) {
       throw handleException(e);
     }
   }
 
-  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp, int limitTrades) throws IOException {
+  public GeminiTrade[] getGeminiTrades(String pair, long sinceTimestamp, int limitTrades)
+      throws IOException {
 
     try {
-      GeminiTrade[] GeminiTrades = Gemini.getTrades(pair, sinceTimestamp, limitTrades);
+      GeminiTrade[] GeminiTrades = gemini.getTrades(pair, sinceTimestamp, limitTrades);
       return GeminiTrades;
     } catch (GeminiException e) {
       throw handleException(e);
     }
   }
 
-  public GeminiLend[] getGeminiLends(String currency, long sinceTimestamp, int limitTrades) throws IOException {
+  public GeminiLend[] getGeminiLends(String currency, long sinceTimestamp, int limitTrades)
+      throws IOException {
 
     try {
-      GeminiLend[] GeminiLends = Gemini.getLends(currency, sinceTimestamp, limitTrades);
+      GeminiLend[] GeminiLends = gemini.getLends(currency, sinceTimestamp, limitTrades);
       return GeminiLends;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -93,7 +95,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
   public Collection<String> getGeminiSymbols() throws IOException {
 
     try {
-      return Gemini.getSymbols();
+      return gemini.getSymbols();
     } catch (GeminiException e) {
       throw handleException(e);
     }
@@ -103,7 +105,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
 
     try {
       List<CurrencyPair> currencyPairs = new ArrayList<>();
-      for (String symbol : Gemini.getSymbols()) {
+      for (String symbol : gemini.getSymbols()) {
         currencyPairs.add(GeminiAdapters.adaptCurrencyPair(symbol));
       }
       return currencyPairs;

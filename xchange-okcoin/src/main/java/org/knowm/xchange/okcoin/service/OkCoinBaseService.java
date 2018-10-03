@@ -6,9 +6,7 @@ import org.knowm.xchange.service.BaseService;
 
 public class OkCoinBaseService extends BaseExchangeService implements BaseService {
 
-  /**
-   * Set to true if international site should be used
-   */
+  /** Set to true if international site should be used */
   protected final boolean useIntl;
 
   /**
@@ -20,8 +18,9 @@ public class OkCoinBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    useIntl = (Boolean) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Use_Intl");
-
+    useIntl =
+        (Boolean)
+            exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Use_Intl");
   }
 
   protected String createDelimitedString(String[] items) {

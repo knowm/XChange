@@ -1,16 +1,15 @@
 package org.knowm.xchange.examples.acx;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.acx.AcxExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.known.xchange.acx.AcxExchange;
 
 public class AcxMarketServiceDemo {
   public static void main(String[] args) throws IOException {
@@ -41,5 +40,4 @@ public class AcxMarketServiceDemo {
     System.out.println("First: " + trades.getTrades().get(0));
     System.out.println("Last: " + trades.getTrades().get(trades.getTrades().size() - 1));
   }
-
 }

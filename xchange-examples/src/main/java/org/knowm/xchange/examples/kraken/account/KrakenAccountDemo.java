@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.kraken.account;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -18,12 +17,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 /**
- * <p>
  * Example showing the following:
- * </p>
+ *
  * <ul>
- * <li>Connect to Kraken exchange with authentication</li>
- * <li>View account balance</li>
+ *   <li>Connect to Kraken exchange with authentication
+ *   <li>View account balance
  * </ul>
  */
 public class KrakenAccountDemo {
@@ -46,7 +44,8 @@ public class KrakenAccountDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getAccountService();
+    KrakenAccountServiceRaw rawKrakenAcctService =
+        (KrakenAccountServiceRaw) krakenExchange.getAccountService();
     System.out.println("Balance Info: " + rawKrakenAcctService.getKrakenBalance());
   }
 
@@ -55,7 +54,8 @@ public class KrakenAccountDemo {
     TradeHistoryParams params = accountService.createFundingHistoryParams();
     if (params instanceof TradeHistoryParamsTimeSpan) {
       final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-      timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
+      timeSpanParam.setStartTime(
+          new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
     }
 
     if (params instanceof HistoryParamsFundingType) {
@@ -64,7 +64,7 @@ public class KrakenAccountDemo {
 
     if (params instanceof TradeHistoryParamCurrencies) {
       final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
-      currenciesParam.setCurrencies(new Currency[]{Currency.BTC, Currency.USD});
+      currenciesParam.setCurrencies(new Currency[] {Currency.BTC, Currency.USD});
     }
 
     List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);

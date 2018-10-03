@@ -1,8 +1,7 @@
 package org.knowm.xchange.ripple.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class RippleSettings {
 
@@ -65,18 +64,21 @@ public class RippleSettings {
   }
 
   /**
-   * The raw transfer rate is represented as an integer, the amount that must be sent in order for 1 billion units to arrive. For example, a 20%
-   * transfer fee is represented as the value 120000000. The value cannot be less than 1000000000. Less than that would indicate giving away money for
-   * sending transactions, which is exploitable. You can specify 0 as a shortcut for 1000000000, meaning no fee.
+   * The raw transfer rate is represented as an integer, the amount that must be sent in order for 1
+   * billion units to arrive. For example, a 20% transfer fee is represented as the value 120000000.
+   * The value cannot be less than 1000000000. Less than that would indicate giving away money for
+   * sending transactions, which is exploitable. You can specify 0 as a shortcut for 1000000000,
+   * meaning no fee.
    *
    * @return percentage transfer rate charge
    */
-
   public BigDecimal getTransferFeeRate() {
     if (transferRate == 0) {
       return BigDecimal.ZERO;
     } else {
-      return BigDecimal.valueOf(transferRate).divide(TRANSFER_RATE_DENOMINATOR).subtract(BigDecimal.ONE);
+      return BigDecimal.valueOf(transferRate)
+          .divide(TRANSFER_RATE_DENOMINATOR)
+          .subtract(BigDecimal.ONE);
     }
   }
 

@@ -7,27 +7,25 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.acx.AcxApi;
+import org.knowm.xchange.acx.AcxMapper;
+import org.knowm.xchange.acx.dto.AcxTrade;
+import org.knowm.xchange.acx.dto.marketdata.AcxMarket;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrderBook;
+import org.knowm.xchange.acx.service.marketdata.AcxMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.dto.AcxTrade;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
-import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
-import org.known.xchange.acx.service.marketdata.AcxMarketDataService;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AcxMarketDataServiceTest {
 
@@ -71,7 +69,8 @@ public class AcxMarketDataServiceTest {
 
   @Test
   public void testOrderBooksArguments() throws IOException {
-    when(api.getOrderBook("ethaud", 5, 6)).thenReturn(read("/marketdata/order_book.json", AcxOrderBook.class));
+    when(api.getOrderBook("ethaud", 5, 6))
+        .thenReturn(read("/marketdata/order_book.json", AcxOrderBook.class));
 
     OrderBook orderBook = service.getOrderBook(CurrencyPair.ETH_AUD, 5, 6);
 
@@ -81,8 +80,8 @@ public class AcxMarketDataServiceTest {
 
   @Test
   public void testTrades() throws IOException {
-    when(api.getTrades("ethaud")).thenReturn(read("/marketdata/trades.json", new TypeReference<List<AcxTrade>>() {
-    }));
+    when(api.getTrades("ethaud"))
+        .thenReturn(read("/marketdata/trades.json", new TypeReference<List<AcxTrade>>() {}));
 
     Trades trades = service.getTrades(CurrencyPair.ETH_AUD);
 

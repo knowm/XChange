@@ -1,12 +1,9 @@
 package org.knowm.xchange.wex.v3.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Ticker from Wex
- */
+/** Data object representing Ticker from Wex */
 public final class WexTicker {
 
   private final BigDecimal last;
@@ -32,9 +29,16 @@ public final class WexTicker {
    * @param volCur
    * @param sell
    */
-  public WexTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("avg") BigDecimal avg, @JsonProperty("buy") BigDecimal buy,
-      @JsonProperty("updated") long updated, @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("sell") BigDecimal sell) {
+  public WexTicker(
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vol") BigDecimal vol,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("updated") long updated,
+      @JsonProperty("vol_cur") BigDecimal volCur,
+      @JsonProperty("sell") BigDecimal sell) {
 
     this.high = high;
     this.low = low;
@@ -95,8 +99,24 @@ public final class WexTicker {
   @Override
   public String toString() {
 
-    return "BTCETickerObject [last=" + last + ", high=" + high + ", low=" + low + ", avg=" + avg + ", buy=" + buy + ", sell=" + sell + ", updated="
-        + updated + ", vol=" + vol + ", volCur=" + volCur + "]";
+    return "BTCETickerObject [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", avg="
+        + avg
+        + ", buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", updated="
+        + updated
+        + ", vol="
+        + vol
+        + ", volCur="
+        + volCur
+        + "]";
   }
-
 }

@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,9 +18,7 @@ import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class MarketDataServiceIntegration {
 
   static Exchange exchange;
@@ -54,18 +51,28 @@ public class MarketDataServiceIntegration {
 
     CoinbaseMarketDataService coinbaseService = (CoinbaseMarketDataService) marketDataService;
     CoinbasePrice money = coinbaseService.getCoinbaseBuyPrice(Currency.BTC, Currency.USD);
-    assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
+    assertThat(money)
+        .hasFieldOrPropertyWithValue("currency", Currency.USD)
+        .hasNoNullFieldsOrProperties();
 
     money = coinbaseService.getCoinbaseSellPrice(Currency.BTC, Currency.USD);
-    assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
+    assertThat(money)
+        .hasFieldOrPropertyWithValue("currency", Currency.USD)
+        .hasNoNullFieldsOrProperties();
 
     money = coinbaseService.getCoinbaseSpotRate(Currency.BTC, Currency.USD);
-    assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
+    assertThat(money)
+        .hasFieldOrPropertyWithValue("currency", Currency.USD)
+        .hasNoNullFieldsOrProperties();
 
     money = coinbaseService.getCoinbaseSpotRate(Currency.BTC, Currency.USD);
-    assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
+    assertThat(money)
+        .hasFieldOrPropertyWithValue("currency", Currency.USD)
+        .hasNoNullFieldsOrProperties();
 
     money = coinbaseService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, new Date());
-    assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
+    assertThat(money)
+        .hasFieldOrPropertyWithValue("currency", Currency.USD)
+        .hasNoNullFieldsOrProperties();
   }
 }

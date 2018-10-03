@@ -10,9 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class TickerFetchIntegration {
 
   @Test

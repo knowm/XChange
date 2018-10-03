@@ -7,7 +7,8 @@ public class GateioBaseResponse {
   private final boolean result;
   private final String message;
 
-  protected GateioBaseResponse(@JsonProperty("result") final boolean result, @JsonProperty("msg") final String message) {
+  protected GateioBaseResponse(
+      @JsonProperty("result") final boolean result, @JsonProperty("msg") final String message) {
 
     this.result = result;
     this.message = message;

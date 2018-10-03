@@ -43,5 +43,4 @@ public class BitfinexCancelOrderMultiRequest {
   public void setOrderIds(long[] orderIds) {
     this.orderIds = orderIds;
   }
-
 }

@@ -2,19 +2,13 @@ package org.knowm.xchange.lakebtc;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
-/**
- * @author cristian.lucaci
- */
+/** @author cristian.lucaci */
 public class LakeBTCUtil {
 
   private static long generatedId = 1;
 
-  /**
-   * private Constructor
-   */
-  private LakeBTCUtil() {
-
-  }
+  /** private Constructor */
+  private LakeBTCUtil() {}
 
   public static long getGeneratedId() {
     return generatedId++;

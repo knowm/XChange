@@ -1,17 +1,16 @@
 package org.knowm.xchange.gateio.dto.trade;
 
-import org.knowm.xchange.gateio.dto.GateioBaseResponse;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 
 public class GateioPlaceOrderReturn extends GateioBaseResponse {
 
   private final String orderNumber;
 
-  /**
-   * Constructor
-   */
-  private GateioPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("orderNumber") String orderNumber,
+  /** Constructor */
+  private GateioPlaceOrderReturn(
+      @JsonProperty("result") boolean result,
+      @JsonProperty("orderNumber") String orderNumber,
       @JsonProperty("msg") String message) {
 
     super(result, message);
@@ -28,5 +27,4 @@ public class GateioPlaceOrderReturn extends GateioBaseResponse {
 
     return "GateioPlaceOrderReturn [orderNumber=" + orderNumber + "]";
   }
-
 }

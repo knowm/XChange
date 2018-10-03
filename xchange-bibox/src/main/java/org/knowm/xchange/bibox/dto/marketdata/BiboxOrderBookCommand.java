@@ -7,5 +7,4 @@ public class BiboxOrderBookCommand extends BiboxCommand<BiboxOrderBookCommandBod
   public BiboxOrderBookCommand(String pair, Integer size) {
     super("api/depth", new BiboxOrderBookCommandBody(pair, size));
   }
-
 }

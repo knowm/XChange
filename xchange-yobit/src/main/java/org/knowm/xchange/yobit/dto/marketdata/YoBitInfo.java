@@ -6,7 +6,8 @@ public class YoBitInfo {
   private Long server_time;
   private YoBitPairs pairs;
 
-  public YoBitInfo(@JsonProperty("server_time") Long server_time, @JsonProperty("pairs") YoBitPairs pairs) {
+  public YoBitInfo(
+      @JsonProperty("server_time") Long server_time, @JsonProperty("pairs") YoBitPairs pairs) {
     super();
     this.server_time = server_time;
     this.pairs = pairs;
@@ -24,5 +25,4 @@ public class YoBitInfo {
   public String toString() {
     return "YoBitInfo [server_time=" + server_time + ", pairs=" + pairs + "]";
   }
-
 }

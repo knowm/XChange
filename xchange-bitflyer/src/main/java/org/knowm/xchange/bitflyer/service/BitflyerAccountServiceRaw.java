@@ -3,7 +3,6 @@ package org.knowm.xchange.bitflyer.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerAddress;
@@ -77,10 +76,14 @@ public class BitflyerAccountServiceRaw extends BitflyerBaseService {
     }
   }
 
-  public BitflyerWithdrawResponse withdrawFunds(String currencyCode, String bankAccountID, BigDecimal amount) throws IOException {
+  public BitflyerWithdrawResponse withdrawFunds(
+      String currencyCode, String bankAccountID, BigDecimal amount) throws IOException {
     try {
-      return bitflyer
-          .withdrawFunds(apiKey, exchange.getNonceFactory(), signatureCreator, new BitflyerWithdrawRequest(currencyCode, bankAccountID, amount));
+      return bitflyer.withdrawFunds(
+          apiKey,
+          exchange.getNonceFactory(),
+          signatureCreator,
+          new BitflyerWithdrawRequest(currencyCode, bankAccountID, amount));
     } catch (BitflyerException e) {
       throw handleError(e);
     }

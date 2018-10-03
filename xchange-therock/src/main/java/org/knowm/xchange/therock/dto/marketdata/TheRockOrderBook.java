@@ -1,15 +1,13 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.util.Date;
+import java.util.List;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class TheRockOrderBook {

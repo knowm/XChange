@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.gateio.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.gateio.GateioDemoUtils;

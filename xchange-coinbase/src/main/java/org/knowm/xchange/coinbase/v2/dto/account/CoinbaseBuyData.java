@@ -15,7 +15,10 @@ public class CoinbaseBuyData extends CoinbaseWalletResponseData<CoinbaseBuyData.
   public static class CoinbaseBuy extends CoinbaseWalletResponseData.CoinbaseWalletResponse {
 
     @JsonCreator
-    CoinbaseBuy(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("transaction") String transaction,
+    CoinbaseBuy(
+        @JsonProperty("id") String id,
+        @JsonProperty("status") String status,
+        @JsonProperty("transaction") String transaction,
         @JsonProperty("commited") boolean committed) {
       super(id, status, transaction, committed);
     }

@@ -1,9 +1,8 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class PoloniexMarginAccountResponse {
 
@@ -15,9 +14,13 @@ public class PoloniexMarginAccountResponse {
   private BigDecimal currentMargin;
 
   @JsonCreator
-  public PoloniexMarginAccountResponse(@JsonProperty("totalValue") BigDecimal totalValue, @JsonProperty("pl") BigDecimal pl,
-      @JsonProperty("lendingFees") BigDecimal lendingFees, @JsonProperty("netValue") BigDecimal netValue,
-      @JsonProperty("totalBorrowedValue") BigDecimal totalBorrowedValue, @JsonProperty("currentMargin") BigDecimal currentMargin) {
+  public PoloniexMarginAccountResponse(
+      @JsonProperty("totalValue") BigDecimal totalValue,
+      @JsonProperty("pl") BigDecimal pl,
+      @JsonProperty("lendingFees") BigDecimal lendingFees,
+      @JsonProperty("netValue") BigDecimal netValue,
+      @JsonProperty("totalBorrowedValue") BigDecimal totalBorrowedValue,
+      @JsonProperty("currentMargin") BigDecimal currentMargin) {
     this.totalValue = totalValue;
     this.pl = pl;
     this.lendingFees = lendingFees;
@@ -76,7 +79,19 @@ public class PoloniexMarginAccountResponse {
 
   @Override
   public String toString() {
-    return "PoloniexMarginAccountResponse{" + "totalValue=" + totalValue + ", pl=" + pl + ", lendingFees=" + lendingFees + ", netValue=" + netValue
-        + ", totalBorrowedValue=" + totalBorrowedValue + ", currentMargin=" + currentMargin + '}';
+    return "PoloniexMarginAccountResponse{"
+        + "totalValue="
+        + totalValue
+        + ", pl="
+        + pl
+        + ", lendingFees="
+        + lendingFees
+        + ", netValue="
+        + netValue
+        + ", totalBorrowedValue="
+        + totalBorrowedValue
+        + ", currentMargin="
+        + currentMargin
+        + '}';
   }
 }

@@ -11,7 +11,8 @@ public class BitcointoyouTicker {
   private final BitcointoyouMarketData bitcointoyouMarketData;
   private final CurrencyPair currencyPair;
 
-  public BitcointoyouTicker(BitcointoyouMarketData bitcointoyouMarketData, CurrencyPair currencyPair) {
+  public BitcointoyouTicker(
+      BitcointoyouMarketData bitcointoyouMarketData, CurrencyPair currencyPair) {
 
     super();
     this.bitcointoyouMarketData = bitcointoyouMarketData;
@@ -27,5 +28,4 @@ public class BitcointoyouTicker {
 
     return currencyPair;
   }
-
 }

@@ -3,7 +3,6 @@ package org.knowm.xchange.liqui.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.Liqui;
@@ -19,7 +18,8 @@ public class LiquiMarketDataServiceRaw extends LiquiBaseService {
   }
 
   public LiquiTicker getTicker(final CurrencyPair pair) {
-    return checkResult(liqui.getTicker(new Liqui.Pairs(pair))).get(new Liqui.Pairs(pair).toString());
+    return checkResult(liqui.getTicker(new Liqui.Pairs(pair)))
+        .get(new Liqui.Pairs(pair).toString());
   }
 
   public Map<String, LiquiTicker> getTicker(final List<CurrencyPair> pairs) {
@@ -39,7 +39,8 @@ public class LiquiMarketDataServiceRaw extends LiquiBaseService {
   }
 
   public LiquiDepth getDepth(final CurrencyPair pair, final int limit) {
-    return checkResult(liqui.getDepth(new Liqui.Pairs(pair), limit)).get(new Liqui.Pairs(pair).toString());
+    return checkResult(liqui.getDepth(new Liqui.Pairs(pair), limit))
+        .get(new Liqui.Pairs(pair).toString());
   }
 
   public Map<String, LiquiDepth> getDepth(final List<CurrencyPair> pairs, final int limit) {
@@ -47,15 +48,24 @@ public class LiquiMarketDataServiceRaw extends LiquiBaseService {
   }
 
   public Map<String, LiquiDepth> getAllDepths() {
-    return checkResult(liqui.getDepth(new Liqui.Pairs(new ArrayList<>(exchange.getExchangeMetaData().getCurrencyPairs().keySet()))));
+    return checkResult(
+        liqui.getDepth(
+            new Liqui.Pairs(
+                new ArrayList<>(exchange.getExchangeMetaData().getCurrencyPairs().keySet()))));
   }
 
   public Map<String, LiquiDepth> getAllDepths(final int limit) {
-    return checkResult(liqui.getDepth(new Liqui.Pairs(new ArrayList<>(exchange.getExchangeMetaData().getCurrencyPairs().keySet())), limit));
+    return checkResult(
+        liqui.getDepth(
+            new Liqui.Pairs(
+                new ArrayList<>(exchange.getExchangeMetaData().getCurrencyPairs().keySet())),
+            limit));
   }
 
   public List<LiquiPublicTrade> getTrades(final CurrencyPair pair) {
-    return checkResult(liqui.getTrades(new Liqui.Pairs(pair))).get(new Liqui.Pairs(pair).toString()).getTrades();
+    return checkResult(liqui.getTrades(new Liqui.Pairs(pair)))
+        .get(new Liqui.Pairs(pair).toString())
+        .getTrades();
   }
 
   public Map<String, LiquiPublicTrades> getTrades(final List<CurrencyPair> pairs) {
@@ -63,7 +73,9 @@ public class LiquiMarketDataServiceRaw extends LiquiBaseService {
   }
 
   public List<LiquiPublicTrade> getTrades(final CurrencyPair pair, final int limit) {
-    return checkResult(liqui.getTrades(new Liqui.Pairs(pair), limit)).get(new Liqui.Pairs(pair).toString()).getTrades();
+    return checkResult(liqui.getTrades(new Liqui.Pairs(pair), limit))
+        .get(new Liqui.Pairs(pair).toString())
+        .getTrades();
   }
 
   public Map<String, LiquiPublicTrades> getTrades(final List<CurrencyPair> pairs, final int limit) {

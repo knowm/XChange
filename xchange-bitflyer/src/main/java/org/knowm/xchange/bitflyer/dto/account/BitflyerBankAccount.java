@@ -5,18 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Object representing json returned from <code>GET /v1/me/getbankaccounts</code>
- * <p>Example</p>
- * [
- * {
- * "id": 3402,
- * "is_verified": true,
- * "bank_name": "Wells Fargo",
- * "branch_name": "1231234123",
- * "account_type": "Checking",
- * "account_number": "1111111",
- * "account_name": "Name on Account"
- * }
- * ]
+ *
+ * <p>Example [ { "id": 3402, "is_verified": true, "bank_name": "Wells Fargo", "branch_name":
+ * "1231234123", "account_type": "Checking", "account_number": "1111111", "account_name": "Name on
+ * Account" } ]
  *
  * @author bryant_harris
  */
@@ -101,7 +93,20 @@ public class BitflyerBankAccount {
 
   @Override
   public String toString() {
-    return "BitflyerBankAccount [id=" + id + ", isVerified=" + isVerified + ", bankName=" + bankName + ", branchName=" + branchName + ", accountType="
-        + accountType + ", accountNumber=" + accountNumber + ", accountName=" + accountName + "]";
+    return "BitflyerBankAccount [id="
+        + id
+        + ", isVerified="
+        + isVerified
+        + ", bankName="
+        + bankName
+        + ", branchName="
+        + branchName
+        + ", accountType="
+        + accountType
+        + ", accountNumber="
+        + accountNumber
+        + ", accountName="
+        + accountName
+        + "]";
   }
 }

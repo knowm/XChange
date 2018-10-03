@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kraken.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -20,7 +19,6 @@ public class KrakenMarketOrderDemo {
 
     generic(krakenExchange);
     raw(krakenExchange);
-
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {

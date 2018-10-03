@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
@@ -17,13 +16,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptopiaExchange extends BaseExchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair;
   private Map<Long, CryptopiaTradePair> lookupById;
 
@@ -41,25 +40,30 @@ public class CryptopiaExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.cryptopia.co.nz");
     exchangeSpecification.setHost("www.cryptopia.co.nz");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cryptopia");
-    exchangeSpecification.setExchangeDescription("Cryptopia is a Bitcoin exchange registered in New Zealand");
+    exchangeSpecification.setExchangeDescription(
+        "Cryptopia is a Bitcoin exchange registered in New Zealand");
 
     return exchangeSpecification;
   }
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    List<CryptopiaCurrency> currencies = ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaCurrencies();
-    List<CryptopiaTradePair> tradePairs = ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaTradePairs();
+    List<CryptopiaCurrency> currencies =
+        ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaCurrencies();
+    List<CryptopiaTradePair> tradePairs =
+        ((CryptopiaMarketDataServiceRaw) marketDataService).getCryptopiaTradePairs();
 
     Map<CurrencyPair, CryptopiaTradePair> lookupByCcyPair = new HashMap<>();
     Map<Long, CryptopiaTradePair> lookupById = new HashMap<>();
     for (CryptopiaTradePair tradePair : tradePairs) {
-      lookupByCcyPair.put(CurrencyPairDeserializer.getCurrencyPairFromString(tradePair.getLabel()), tradePair);
+      lookupByCcyPair.put(
+          CurrencyPairDeserializer.getCurrencyPairFromString(tradePair.getLabel()), tradePair);
       lookupById.put(tradePair.getId(), tradePair);
     }
 

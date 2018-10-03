@@ -1,9 +1,8 @@
 package org.knowm.xchange.itbit.v1.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitDepth {
 
@@ -16,7 +15,9 @@ public class ItBitDepth {
    * @param asks
    * @param bids
    */
-  public ItBitDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+  public ItBitDepth(
+      @JsonProperty("asks") List<BigDecimal[]> asks,
+      @JsonProperty("bids") List<BigDecimal[]> bids) {
 
     this.asks = asks;
     this.bids = bids;
@@ -37,5 +38,4 @@ public class ItBitDepth {
 
     return "ItBitDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
-
 }

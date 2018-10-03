@@ -8,12 +8,12 @@ import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Sample more or less cut and pasted from Abucoins API documentation.  Useful for debugging raw calls.
+ * Sample more or less cut and pasted from Abucoins API documentation. Useful for debugging raw
+ * calls.
  *
  * @author bryant_harris
  */
@@ -27,17 +27,19 @@ public class Api {
 
   public static void main(String[] args) throws Exception {
     Api http = new Api();
-    System.out.println(http.sendRequest("POST", "/deposits/crypto", "{ \"currency\":\"ETH\", \"method\":\"ethereum\" }"));
-    //System.out.println(http.sendRequest("POST","/deposits/crypto","{ \"currency\":\"BTC\", \"method\":\"bitcoin\" }"));
-    //System.out.println(http.sendRequest("POST","/deposits/crypto","{ \"currency\":\"BCH\", \"method\":\"bitcoincash\" }"));
+    System.out.println(
+        http.sendRequest(
+            "POST", "/deposits/crypto", "{ \"currency\":\"ETH\", \"method\":\"ethereum\" }"));
+    // System.out.println(http.sendRequest("POST","/deposits/crypto","{ \"currency\":\"BTC\",
+    // \"method\":\"bitcoin\" }"));
+    // System.out.println(http.sendRequest("POST","/deposits/crypto","{ \"currency\":\"BCH\",
+    // \"method\":\"bitcoincash\" }"));
   }
 
   private String sendRequest(String method, String path, String body) throws Exception {
     String localUrl;
-    if (method.equals("GET"))
-      localUrl = URL + path + body;
-    else
-      localUrl = URL + path;
+    if (method.equals("GET")) localUrl = URL + path + body;
+    else localUrl = URL + path;
 
     String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
     String sign = createSign(timestamp, method, path, body);

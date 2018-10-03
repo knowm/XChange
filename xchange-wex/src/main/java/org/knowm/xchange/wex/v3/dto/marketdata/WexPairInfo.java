@@ -1,13 +1,9 @@
 package org.knowm.xchange.wex.v3.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: brox
- */
-
+/** Author: brox */
 public class WexPairInfo {
 
   private final int decimals;
@@ -17,8 +13,12 @@ public class WexPairInfo {
   private final int hidden;
   private final BigDecimal fee;
 
-  public WexPairInfo(@JsonProperty("decimal_places") int decimals, @JsonProperty("min_price") BigDecimal minPrice,
-      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount, @JsonProperty("hidden") int hidden,
+  public WexPairInfo(
+      @JsonProperty("decimal_places") int decimals,
+      @JsonProperty("min_price") BigDecimal minPrice,
+      @JsonProperty("max_price") BigDecimal maxPrice,
+      @JsonProperty("min_amount") BigDecimal minAmount,
+      @JsonProperty("hidden") int hidden,
       @JsonProperty("fee") BigDecimal fee) {
 
     this.decimals = decimals;
@@ -62,8 +62,18 @@ public class WexPairInfo {
   @Override
   public String toString() {
 
-    return "WexPairInfo [decimals=" + decimals + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minAmount=" + minAmount + ", hidden="
-        + hidden + ", fee=" + fee + "]";
+    return "WexPairInfo [decimals="
+        + decimals
+        + ", minPrice="
+        + minPrice
+        + ", maxPrice="
+        + maxPrice
+        + ", minAmount="
+        + minAmount
+        + ", hidden="
+        + hidden
+        + ", fee="
+        + fee
+        + "]";
   }
-
 }

@@ -2,23 +2,24 @@ package org.knowm.xchange.ripple.dto.account.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-
 import org.junit.Test;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.trade.RipplePaymentTransaction;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RipplePaymentTest {
 
   @Test
   public void passthroughUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/trade/example-payment-passthrough.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/trade/example-payment-passthrough.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RipplePaymentTransaction response = mapper.readValue(is, RipplePaymentTransaction.class);
 
@@ -28,14 +29,16 @@ public class RipplePaymentTest {
     assertThat(payment.getSourceTag()).isEqualTo("");
     assertThat(payment.getSourceAmount().getCurrency()).isEqualTo("BTC");
     assertThat(payment.getSourceAmount().getValue()).isEqualTo("0.010000000003347");
-    assertThat(payment.getSourceAmount().getCounterparty()).isEqualTo("r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv");
+    assertThat(payment.getSourceAmount().getCounterparty())
+        .isEqualTo("r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv");
     assertThat(payment.getSourceSlippage()).isEqualTo("0");
 
     assertThat(payment.getDestinationAccount()).isEqualTo("r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv");
     assertThat(payment.getDestinationTag()).isEqualTo("");
     assertThat(payment.getDestinationAmount().getCurrency()).isEqualTo("CNY");
     assertThat(payment.getDestinationAmount().getValue()).isEqualTo("17.2701672");
-    assertThat(payment.getDestinationAmount().getCounterparty()).isEqualTo("r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv");
+    assertThat(payment.getDestinationAmount().getCounterparty())
+        .isEqualTo("r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv");
 
     assertThat(payment.getInvoiceID()).isEqualTo("");
     assertThat(payment.isNoDirectRipple()).isEqualTo(false);
@@ -60,10 +63,10 @@ public class RipplePaymentTest {
     assertThat(payment.getDestinationBalanceChanges()).hasSize(3);
 
     assertThat(response.getClientResourceId()).isEqualTo("");
-    assertThat(response.getHash()).isEqualTo("GHRE072948B95345396B2D9A364363GDE521HRT67QQRGGRTHYTRUP0RRB631107");
+    assertThat(response.getHash())
+        .isEqualTo("GHRE072948B95345396B2D9A364363GDE521HRT67QQRGGRTHYTRUP0RRB631107");
     assertThat(response.getLedger()).isEqualTo("15103564");
     assertThat(response.getState()).isEqualTo("validated");
     assertThat(response.isSuccess()).isEqualTo(true);
   }
-
 }

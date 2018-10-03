@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bitmex.dto.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,5 +25,4 @@ public class BitmexTradeDemo {
     // tradesInfo(tradeService);
     // positionsInfo(tradeService);
   }
-
 }

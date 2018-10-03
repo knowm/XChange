@@ -1,24 +1,19 @@
 package org.knowm.xchange.anx.v2.service;
 
-import java.io.IOException;
-
+import java.util.Base64;
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class ANXV2Digest extends BaseParamsDigest {
 
   /**
    * Constructor
    *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private ANXV2Digest(byte[] secretKeyBase64) {
 
@@ -27,13 +22,11 @@ public class ANXV2Digest extends BaseParamsDigest {
 
   public static ANXV2Digest createInstance(String secretKeyBase64) {
 
-    try {
-      if (secretKeyBase64 != null)
-        return new ANXV2Digest(Base64.decode(secretKeyBase64.getBytes()));
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+    if (secretKeyBase64 != null) {
+      return new ANXV2Digest(Base64.getDecoder().decode(secretKeyBase64.getBytes()));
+    } else {
+      return null;
     }
-    return null;
   }
 
   @Override
@@ -41,9 +34,9 @@ public class ANXV2Digest extends BaseParamsDigest {
 
     Mac mac = getMac();
     mac.update(restInvocation.getMethodPath().getBytes());
-    mac.update(new byte[]{0});
+    mac.update(new byte[] {0});
     mac.update(restInvocation.getRequestBody().getBytes());
 
-    return Base64.encodeBytes(mac.doFinal()).trim();
+    return Base64.getEncoder().encodeToString(mac.doFinal()).trim();
   }
 }

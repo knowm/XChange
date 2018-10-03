@@ -1,11 +1,10 @@
 package org.knowm.xchange.exceptions;
 
 /**
- * <p>
  * Exception to provide the following to API:
- * </p>
+ *
  * <ul>
- * <li>Indication that the exchange does not support the requested function or data</li>
+ *   <li>Indication that the exchange does not support the requested function or data
  * </ul>
  */
 public class NotAvailableFromExchangeException extends UnsupportedOperationException {
@@ -20,12 +19,9 @@ public class NotAvailableFromExchangeException extends UnsupportedOperationExcep
     super(message);
   }
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public NotAvailableFromExchangeException() {
 
-    this("Requested Information from Exchange is not available.");
+    this("Requested Information or function from Exchange is not available.");
   }
-
 }

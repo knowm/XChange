@@ -21,5 +21,4 @@ public class TickerFetchIntegration {
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
-
 }

@@ -3,7 +3,6 @@ package org.knowm.xchange.livecoin.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.livecoin.Livecoin;
@@ -23,42 +22,32 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return service.getRestrictions().getRestrictions();
   }
 
-  public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
-    return service.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  public LivecoinTicker getTickerRaw(CurrencyPair currencyPair) throws IOException {
+    return service.getTicker(
+        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 
-  public List<LivecoinTicker> getAllTickers() throws IOException {
+  public List<LivecoinTicker> getTickersRaw() throws IOException {
     return service.getTicker();
   }
 
-  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth, Boolean groupByPrice) throws IOException {
-    if (!this.checkProductExists(currencyPair)) {
-      return null;
-    }
-
-    return service.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(), depth,
+  public LivecoinOrderBook getOrderBookRaw(
+      CurrencyPair currencyPair, int depth, Boolean groupByPrice) throws IOException {
+    return service.getOrderBook(
+        currencyPair.base.getCurrencyCode().toUpperCase(),
+        currencyPair.counter.getCurrencyCode().toUpperCase(),
+        depth,
         groupByPrice.toString());
   }
 
-  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice) throws IOException {
-    return LivecoinAdapters.adaptToCurrencyPairKeysMap(service.getAllOrderBooks(depth, groupByPrice.toString()));
-
+  public Map<CurrencyPair, LivecoinOrderBook> getAllOrderBooksRaw(int depth, Boolean groupByPrice)
+      throws IOException {
+    return LivecoinAdapters.adaptToCurrencyPairKeysMap(
+        service.getAllOrderBooks(depth, groupByPrice.toString()));
   }
 
-  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
-    boolean currencyPairSupported = false;
-    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode()) && cp.counter.getCurrencyCode().equalsIgnoreCase(
-          currencyPair.counter.getCurrencyCode())) {
-        currencyPairSupported = true;
-        break;
-      }
-    }
-
-    return currencyPairSupported;
-  }
-
-  public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
-    return service.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  public List<LivecoinTrade> getTradesRaw(CurrencyPair currencyPair) throws IOException {
+    return service.getTrades(
+        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 }

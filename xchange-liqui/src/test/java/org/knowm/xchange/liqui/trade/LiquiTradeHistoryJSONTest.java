@@ -2,10 +2,10 @@ package org.knowm.xchange.liqui.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
@@ -13,16 +13,17 @@ import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
 import org.knowm.xchange.liqui.dto.trade.result.LiquiTradeHistoryResult;
 import org.knowm.xchange.liqui.marketdata.LiquiTickerJSONTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class LiquiTradeHistoryJSONTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final InputStream is = LiquiTickerJSONTest.class.getResourceAsStream("/trade/example-tradehistory-data.json");
+    final InputStream is =
+        LiquiTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/liqui/marketdata/example-tradehistory-data.json");
 
     final ObjectMapper mapper = new ObjectMapper();
-    final LiquiTradeHistoryResult tradeHistoryResult = mapper.readValue(is, LiquiTradeHistoryResult.class);
+    final LiquiTradeHistoryResult tradeHistoryResult =
+        mapper.readValue(is, LiquiTradeHistoryResult.class);
     assertThat(tradeHistoryResult.isSuccess()).isTrue();
 
     final Map<Long, LiquiUserTrade> history = tradeHistoryResult.getResult().getHistory();

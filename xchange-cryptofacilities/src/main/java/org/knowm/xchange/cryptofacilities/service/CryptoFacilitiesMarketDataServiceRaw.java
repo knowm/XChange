@@ -1,19 +1,16 @@
 package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesInstruments;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBook;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesPublicFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/**
- * @author Jean-Christophe Laruelle
- */
-
+/** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseService {
 
   /**
@@ -26,9 +23,11 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
     super(exchange);
   }
 
-  public CryptoFacilitiesTicker getCryptoFacilitiesTicker(CurrencyPair currencyPair) throws IOException {
+  public CryptoFacilitiesTicker getCryptoFacilitiesTicker(CurrencyPair currencyPair)
+      throws IOException {
 
-    CryptoFacilitiesTicker ticker = getCryptoFacilitiesTickers().getTicker(currencyPair.base.toString());
+    CryptoFacilitiesTicker ticker =
+        getCryptoFacilitiesTickers().getTicker(currencyPair.base.toString());
 
     return ticker;
   }
@@ -55,9 +54,11 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
     }
   }
 
-  public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair) throws IOException {
+  public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair)
+      throws IOException {
 
-    CryptoFacilitiesOrderBook orderBook = cryptoFacilities.getOrderBook(currencyPair.base.toString());
+    CryptoFacilitiesOrderBook orderBook =
+        cryptoFacilities.getOrderBook(currencyPair.base.toString());
 
     if (orderBook.isSuccess()) {
       orderBook.setCurrencyPair(currencyPair);
@@ -67,4 +68,17 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBaseSe
     }
   }
 
+  public CryptoFacilitiesPublicFills getCryptoFacilitiesHistory(CurrencyPair currencyPair)
+      throws IOException {
+
+    CryptoFacilitiesPublicFills publicFills =
+        cryptoFacilities.getHistory(currencyPair.base.toString());
+
+    if (publicFills.isSuccess()) {
+      publicFills.setCurrencyPair(currencyPair);
+      return publicFills;
+    } else {
+      throw new ExchangeException("Error getting CF public fills: " + publicFills.getError());
+    }
+  }
 }

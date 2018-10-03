@@ -6,7 +6,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 
-public class KucoinCancelOrderParams implements CancelOrderByCurrencyPair, CancelOrderByIdParams, CancelOrderByOrderTypeParams {
+public class KucoinCancelOrderParams
+    implements CancelOrderByCurrencyPair, CancelOrderByIdParams, CancelOrderByOrderTypeParams {
 
   private CurrencyPair currencyPair;
   private String orderId;
@@ -33,5 +34,4 @@ public class KucoinCancelOrderParams implements CancelOrderByCurrencyPair, Cance
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
-
 }

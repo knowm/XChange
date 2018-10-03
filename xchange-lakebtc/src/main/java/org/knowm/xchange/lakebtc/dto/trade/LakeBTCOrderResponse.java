@@ -1,12 +1,9 @@
 package org.knowm.xchange.lakebtc.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.lakebtc.dto.LakeBTCResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCOrderResponse extends LakeBTCResponse<LakeBTCOrder> {
 
   /**
@@ -15,7 +12,8 @@ public class LakeBTCOrderResponse extends LakeBTCResponse<LakeBTCOrder> {
    * @param id
    * @param result
    */
-  public LakeBTCOrderResponse(@JsonProperty("id") String id, @JsonProperty("result") LakeBTCOrder result) {
+  public LakeBTCOrderResponse(
+      @JsonProperty("id") String id, @JsonProperty("result") LakeBTCOrder result) {
     super(id, result);
   }
 }

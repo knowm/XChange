@@ -1,8 +1,6 @@
 package org.knowm.xchange.exceptions;
 
-/**
- * An exception indicating there the rate limit for making requests has been exceeded
- */
+/** An exception indicating there the rate limit for making requests has been exceeded */
 public class RateLimitExceededException extends ExchangeException {
 
   public RateLimitExceededException(String message) {
@@ -20,5 +18,4 @@ public class RateLimitExceededException extends ExchangeException {
   public RateLimitExceededException() {
     super("Rate limit for making requests exceeded!");
   }
-
 }

@@ -1,34 +1,29 @@
 package org.knowm.xchange.bitcoinde.trade;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"current", "last"})
 public class BitcoindePage {
 
   @JsonProperty("current")
   private Integer current;
+
   @JsonProperty("last")
   private Integer last;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  /**
-   * No args constructor for use in serialization
-   */
-  public BitcoindePage() {
-  }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  /** No args constructor for use in serialization */
+  public BitcoindePage() {}
 
   /**
    * @param last
@@ -69,5 +64,4 @@ public class BitcoindePage {
   public void setAdditionalProperty(String name, Object value) {
     this.additionalProperties.put(name, value);
   }
-
 }

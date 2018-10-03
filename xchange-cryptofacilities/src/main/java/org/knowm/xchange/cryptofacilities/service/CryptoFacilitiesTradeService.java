@@ -1,29 +1,22 @@
 package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.IOException;
-import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.CryptoFacilitiesAdapters;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-/**
- * @author Jean-Christophe Laruelle
- */
-
-public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRaw implements TradeService {
+/** @author Jean-Christophe Laruelle */
+public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRaw
+    implements TradeService {
 
   /**
    * Constructor
@@ -49,7 +42,6 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
 
   @Override
@@ -59,14 +51,10 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId));
+    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(
+        super.cancelCryptoFacilitiesOrder(orderId));
   }
 
   @Override
@@ -94,10 +82,4 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

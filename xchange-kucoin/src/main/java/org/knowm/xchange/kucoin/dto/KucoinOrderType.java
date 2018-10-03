@@ -3,7 +3,8 @@ package org.knowm.xchange.kucoin.dto;
 import org.knowm.xchange.dto.Order.OrderType;
 
 public enum KucoinOrderType {
-  BUY(OrderType.BID), SELL(OrderType.ASK);
+  BUY(OrderType.BID),
+  SELL(OrderType.ASK);
 
   private OrderType orderType;
 

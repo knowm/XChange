@@ -2,7 +2,6 @@ package org.knowm.xchange.bitflyer.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
@@ -10,11 +9,10 @@ import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerOrderbook;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 
 /**
- * <p>
  * Implementation of the market data service for Bitflyer
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
 public class BitflyerMarketDataServiceRaw extends BitflyerBaseService {
@@ -66,5 +64,4 @@ public class BitflyerMarketDataServiceRaw extends BitflyerBaseService {
       throw handleError(e);
     }
   }
-
 }

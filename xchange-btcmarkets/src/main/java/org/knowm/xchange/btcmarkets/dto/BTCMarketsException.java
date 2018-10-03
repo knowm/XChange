@@ -1,9 +1,7 @@
 package org.knowm.xchange.btcmarkets.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.List;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BTCMarketsException extends HttpStatusExceptionSupport {
@@ -14,8 +12,12 @@ public class BTCMarketsException extends HttpStatusExceptionSupport {
   private final Long id;
   private final List<BTCMarketsException> responses;
 
-  public BTCMarketsException(@JsonProperty("success") Boolean success, @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("errorCode") Integer errorCode, @JsonProperty("clientRequestId") String clientRequestId, @JsonProperty("id") Long id,
+  public BTCMarketsException(
+      @JsonProperty("success") Boolean success,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("errorCode") Integer errorCode,
+      @JsonProperty("clientRequestId") String clientRequestId,
+      @JsonProperty("id") Long id,
       @JsonProperty("responses") List<BTCMarketsException> responses) {
     super(constructMsg(errorMessage, responses));
     this.success = success;

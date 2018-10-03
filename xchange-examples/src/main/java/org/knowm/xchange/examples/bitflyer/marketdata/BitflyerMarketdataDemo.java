@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitflyer.marketdata;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
@@ -31,7 +30,5 @@ public class BitflyerMarketdataDemo {
 
     ticker = serviceRaw.getTicker("BTC_USD");
     System.out.println(ticker);
-
   }
-
 }

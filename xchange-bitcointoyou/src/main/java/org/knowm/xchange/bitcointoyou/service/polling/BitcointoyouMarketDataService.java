@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
@@ -20,7 +19,8 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  * @author Jonathas Carrijo
  * @author Danilo Guimaraes
  */
-public class BitcointoyouMarketDataService extends BitcointoyouMarketDataServiceRaw implements MarketDataService {
+public class BitcointoyouMarketDataService extends BitcointoyouMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -40,14 +40,16 @@ public class BitcointoyouMarketDataService extends BitcointoyouMarketDataService
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, IOException {
 
     BitcointoyouOrderBook ob = getBitcointoyouOrderBook();
     return BitcointoyouAdapters.adaptBitcointoyouOrderBook(ob, currencyPair);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, IOException {
 
     Long tradeTimeStamp = null;
     Long minTradeId = null;
@@ -68,9 +70,10 @@ public class BitcointoyouMarketDataService extends BitcointoyouMarketDataService
     if (tradeTimeStamp == null && minTradeId == null) {
       bitcointoyouPublicTrades = getBitcointoyouPublicTrades(currencyPair);
     } else {
-      bitcointoyouPublicTrades = getBitcointoyouPublicTrades(currencyPair, tradeTimeStamp, minTradeId);
+      bitcointoyouPublicTrades =
+          getBitcointoyouPublicTrades(currencyPair, tradeTimeStamp, minTradeId);
     }
-    return BitcointoyouAdapters.adaptBitcointoyouPublicTrades(bitcointoyouPublicTrades, currencyPair);
+    return BitcointoyouAdapters.adaptBitcointoyouPublicTrades(
+        bitcointoyouPublicTrades, currencyPair);
   }
-
 }

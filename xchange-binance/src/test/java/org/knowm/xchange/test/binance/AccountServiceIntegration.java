@@ -2,7 +2,6 @@ package org.knowm.xchange.test.binance;
 
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -39,13 +38,24 @@ public class AccountServiceIntegration {
   @Test
   public void testMetaData() throws Exception {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairs();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        exchange.getExchangeMetaData().getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
 
-    CurrencyPair currPair = currencyPairs.keySet().stream().filter(cp -> "ETH/BTC".equals(cp.toString())).collect(StreamUtils.singletonCollector());
+    CurrencyPair currPair =
+        currencyPairs
+            .keySet()
+            .stream()
+            .filter(cp -> "ETH/BTC".equals(cp.toString()))
+            .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(currPair);
 
-    Currency cur = currencies.keySet().stream().filter(c -> Currency.BTC == c).collect(StreamUtils.singletonCollector());
+    Currency cur =
+        currencies
+            .keySet()
+            .stream()
+            .filter(c -> Currency.BTC == c)
+            .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(cur);
   }
 

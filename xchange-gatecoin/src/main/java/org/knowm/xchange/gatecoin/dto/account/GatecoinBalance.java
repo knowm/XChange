@@ -1,12 +1,9 @@
 package org.knowm.xchange.gatecoin.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author sumedha
- */
+/** @author sumedha */
 public class GatecoinBalance {
   private final String currency;
   private final BigDecimal balance;
@@ -16,9 +13,13 @@ public class GatecoinBalance {
   private final BigDecimal openOrder;
   private final Boolean isDigital;
 
-  public GatecoinBalance(@JsonProperty("currency") String currency, @JsonProperty("balance") BigDecimal balance,
-      @JsonProperty("availableBalance") BigDecimal availableBalance, @JsonProperty("pendingIncoming") BigDecimal pendingIncoming,
-      @JsonProperty("pendingOutgoing") BigDecimal pendingOutgoing, @JsonProperty("openOrder") BigDecimal openOrder,
+  public GatecoinBalance(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("availableBalance") BigDecimal availableBalance,
+      @JsonProperty("pendingIncoming") BigDecimal pendingIncoming,
+      @JsonProperty("pendingOutgoing") BigDecimal pendingOutgoing,
+      @JsonProperty("openOrder") BigDecimal openOrder,
       @JsonProperty("isDigital") Boolean isDigital) {
     this.currency = currency;
     this.balance = balance;
@@ -59,7 +60,13 @@ public class GatecoinBalance {
 
   @Override
   public String toString() {
-    return "Balance:currency = " + currency + " balance=" + balance + " availableBalance=" + availableBalance + " frozen= " + openOrder;
+    return "Balance:currency = "
+        + currency
+        + " balance="
+        + balance
+        + " availableBalance="
+        + availableBalance
+        + " frozen= "
+        + openOrder;
   }
-
 }

@@ -3,8 +3,8 @@ Mercado Bitcoin Exchange API specification
 
 Documentation
 -------------
-- [Mercado Bitcoin API](https://www.mercadobitcoin.net/api/)
-- [Mercado Bitcoin Trade API](https://www.mercadobitcoin.net/trade-api/)
+- [Mercado Bitcoin API](https://www.mercadobitcoin.com.br/api-doc/)
+- [Mercado Bitcoin Trade API](https://www.mercadobitcoin.com.br/trade-api/)
 
 Support
 -------

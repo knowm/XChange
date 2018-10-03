@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.koineks.KoineksExchange;
 
-/**
- * @author semihunaldi
- */
+/** @author semihunaldi */
 public class KoineksDemoUtils {
   public static Exchange createExchange() {
     ExchangeSpecification exSpec = new KoineksExchange().getDefaultExchangeSpecification();

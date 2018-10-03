@@ -1,17 +1,18 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import org.knowm.xchange.ripple.dto.RippleAmount;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.knowm.xchange.ripple.dto.RippleAmount;
 
 @JsonPropertyOrder({"type", "taker_pays", "taker_gets"})
 public class RippleOrderEntryRequestBody {
 
   @JsonProperty("type")
   private String type;
+
   @JsonProperty("taker_pays")
   private RippleAmount takerPays = new RippleAmount();
+
   @JsonProperty("taker_gets")
   private RippleAmount takerGets = new RippleAmount();
 
@@ -41,6 +42,8 @@ public class RippleOrderEntryRequestBody {
 
   @Override
   public String toString() {
-    return String.format("%s [type=%s, taker_pays=%s, taker_gets=%s]", getClass().getSimpleName(), type, takerPays, takerGets);
+    return String.format(
+        "%s [type=%s, taker_pays=%s, taker_gets=%s]",
+        getClass().getSimpleName(), type, takerPays, takerGets);
   }
 }

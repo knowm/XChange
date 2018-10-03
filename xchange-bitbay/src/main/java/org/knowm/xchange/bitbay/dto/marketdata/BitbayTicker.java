@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitbay.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kpysniak
- */
+/** @author kpysniak */
 public final class BitbayTicker {
 
   private final BigDecimal max;
@@ -30,9 +27,15 @@ public final class BitbayTicker {
    * @param average
    * @param volume
    */
-  public BitbayTicker(@JsonProperty("max") BigDecimal max, @JsonProperty("min") BigDecimal min, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("vwap") BigDecimal vwap,
-      @JsonProperty("average") BigDecimal average, @JsonProperty("volume") BigDecimal volume) {
+  public BitbayTicker(
+      @JsonProperty("max") BigDecimal max,
+      @JsonProperty("min") BigDecimal min,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("average") BigDecimal average,
+      @JsonProperty("volume") BigDecimal volume) {
 
     this.max = max;
     this.min = min;
@@ -87,7 +90,23 @@ public final class BitbayTicker {
   @Override
   public String toString() {
 
-    return "BitbayTicker{" + "max=" + max + ", min=" + min + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", vwap=" + vwap + ", average="
-        + average + ", volume=" + volume + '}';
+    return "BitbayTicker{"
+        + "max="
+        + max
+        + ", min="
+        + min
+        + ", last="
+        + last
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", vwap="
+        + vwap
+        + ", average="
+        + average
+        + ", volume="
+        + volume
+        + '}';
   }
 }

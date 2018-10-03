@@ -2,16 +2,13 @@ package org.knowm.xchange.service.trade.params;
 
 import java.util.Date;
 
-/**
- * Common implementation of {@link TradeHistoryParamsTimeSpan}.
- */
+/** Common implementation of {@link TradeHistoryParamsTimeSpan}. */
 public class DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamsTimeSpan {
 
   private Date endTime;
   private Date startTime;
 
-  public DefaultTradeHistoryParamsTimeSpan() {
-  }
+  public DefaultTradeHistoryParamsTimeSpan() {}
 
   public DefaultTradeHistoryParamsTimeSpan(Date startTime, Date endTime) {
 

@@ -3,9 +3,7 @@ package org.knowm.xchange.abucoins.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /time</code> endpoint.</p>
- * Example:
+ * POJO representing the output JSON for the Abucoins <code>GET /time</code> endpoint. Example:
  * <code><pre>
  * {
  *   "iso":"2017-10-10T11:16:50Z",

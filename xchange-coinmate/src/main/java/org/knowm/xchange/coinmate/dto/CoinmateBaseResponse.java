@@ -37,12 +37,14 @@ public class CoinmateBaseResponse<T> {
   private final T data;
 
   @JsonCreator
-  public CoinmateBaseResponse(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage, @JsonProperty("data") T data) {
+  public CoinmateBaseResponse(
+      @JsonProperty("error") boolean error,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("data") T data) {
 
     this.error = error;
     this.errorMessage = errorMessage;
     this.data = data;
-
   }
 
   public boolean isError() {
@@ -56,5 +58,4 @@ public class CoinmateBaseResponse<T> {
   public T getData() {
     return data;
   }
-
 }

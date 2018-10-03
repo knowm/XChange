@@ -1,8 +1,7 @@
 package org.knowm.xchange.zaif.dto.marketdata;
 
-import org.knowm.xchange.currency.CurrencyPair;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public class ZaifMarket {
 

@@ -1,4 +1,4 @@
-## [![XChange](https://raw.githubusercontent.com/timmolter/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
+## [![XChange](https://raw.githubusercontent.com/knowm/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
 
 [![Join the chat at https://gitter.im/Java-XChange/Lobby](https://badges.gitter.im/Java-XChange/Lobby.svg)](https://gitter.im/Java-XChange/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -7,13 +7,13 @@ consistent interface for trading and accessing market data.
 
 ## Important!
 
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Knowm's Twitter page](https://twitter.com/knowmorg). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://knowm.org/open-source/) to be had as well.
+The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/knowm/XChange/issues). 
 
 ## Description
 
 XChange is a library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges, including support for Bitcoin. 
 
-A complete list of implemented exchanges, data providers and brokers can be found on our [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-Support) page. 
+A complete list of implemented exchanges, data providers and brokers can be found on our [Exchange Support](https://github.com/knowm/XChange/wiki/Exchange-Support) page. 
 
 Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
 
@@ -33,7 +33,7 @@ System.out.println(ticker.toString());
 
 To use the private API services, `AccountService` and `TradeService`, create an `ExchangeSpecification` with a unique API key and secret key (in some
 cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the
-`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
+`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github.com/knowm/XChange/wiki/Frequently-Asked-Questions).
 
 ```java
 ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
@@ -50,7 +50,7 @@ System.out.println(accountInfo.toString());
 
 All exchange implementations expose the same API, but you can also directly access the underlying "raw" data from the individual exchanges if you need to.
 
-Now go ahead and [study some more examples](http://knowm.org/open-source/xchange/xchange-example-code), [download the thing](http://knowm.org/open-source/xchange/xchange-change-log/) and [provide feedback](https://github.com/timmolter/XChange/issues).
+Now go ahead and [study some more examples](http://knowm.org/open-source/xchange/xchange-example-code), [download the thing](http://knowm.org/open-source/xchange/xchange-change-log/) and [provide feedback](https://github.com/knowm/XChange/issues).
 
 ## Features
 
@@ -71,19 +71,20 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ## Wiki
 
-* [Home](https://github.com/timmolter/XChange/wiki)
-* [FAQ](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions)
-* [Design Notes](https://github.com/timmolter/XChange/wiki/Design-Notes)
-* [Milestones](https://github.com/timmolter/XChange/wiki/Milestones)
-* [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-support)
-* [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices)
-* [Installing SSL Certificates into TrustStore](https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
-* [Getting Started with XChange for Noobies](https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
+* [Home](https://github.com/knowm/XChange/wiki)
+* [FAQ](https://github.com/knowm/XChange/wiki/Frequently-Asked-Questions)
+* [Design Notes](https://github.com/knowm/XChange/wiki/Design-Notes)
+* [Milestones](https://github.com/knowm/XChange/wiki/Milestones)
+* [Exchange Support](https://github.com/knowm/XChange/wiki/Exchange-support)
+* [New Implementation Best Practices](https://github.com/knowm/XChange/wiki/New-Implementation-Best-Practices)
+* [Installing SSL Certificates into TrustStore](https://github.com/knowm/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
+* [Getting Started with XChange for Noobies](https://github.com/knowm/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
+* [Code Style](https://github.com/knowm/XChange/wiki/Code-Style)
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
-[Build History](https://travis-ci.org/timmolter/XChange/builds)  
+[![Build Status](https://travis-ci.org/knowm/XChange.png?branch=develop)](https://travis-ci.org/knowm/XChange.png)
+[Build History](https://travis-ci.org/knowm/XChange/builds)
 
 ## Getting Started
 
@@ -102,17 +103,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.11</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.11</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.3.4</version>
+      <version>4.3.11</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -125,7 +126,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.3.5-SNAPSHOT
+    4.3.12-SNAPSHOT
     
 ## Building with Maven
 
@@ -134,18 +135,17 @@ run unit and integration tests: `mvn clean verify -DskipIntegrationTests=false`
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
-check for dependency updates: `mvn versions:display-dependency-updates`
+check for dependency updates: `mvn versions:display-dependency-updates`  
+check for plugin updates: `mvn versions:display-plugin-updates`  
+code format: `mvn com.coveo:fmt-maven-plugin:format`  
 
 ## Bugs
 
-Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
+Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/knowm/XChange/issues).
 
 ## Contributing
 
-If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips! 
+If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/knowm/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips! 
 
-For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
+For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/knowm/XChange/wiki). 
 
-## Donations
-
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/xchart/issues?state=open). Donation addresses, open bounties and bounties paid thus far can be found on Knowm's [bounties](http://knowm.org/open-source/) page.

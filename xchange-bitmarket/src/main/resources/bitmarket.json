@@ -4,6 +4,10 @@
       "price_scale": 4,
       "min_amount": 0.00000001
     },
+    "BCC/EUR": {
+      "price_scale": 4,
+      "min_amount": 0.00000001
+    },
     "BTC/PLN": {
       "price_scale": 8,
       "min_amount": 0.00000001
@@ -16,7 +20,27 @@
       "price_scale": 8,
       "min_amount": 0.00000001
     },
+    "LTC/EUR": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
+    },
     "LTC/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.01
+    },
+    "BTG/PLN": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
+    },
+    "BTG/EUR": {
+      "price_scale": 8,
+      "min_amount": 0.00000001
+    },
+    "XRP/PLN": {
+      "price_scale": 8,
+      "min_amount": 0.01
+    },
+    "XRP/EUR": {
       "price_scale": 8,
       "min_amount": 0.01
     }
@@ -28,7 +52,13 @@
     "BTC": {
       "scale": 8
     },
+    "BTG": {
+      "scale": 8
+    },
     "LTC": {
+      "scale": 8
+    },
+    "XRP": {
       "scale": 8
     },
     "EUR": {

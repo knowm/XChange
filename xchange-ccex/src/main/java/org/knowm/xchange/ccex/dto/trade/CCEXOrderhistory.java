@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CCEXOrderhistory {
 
@@ -21,12 +20,20 @@ public class CCEXOrderhistory {
   private String ConditionTarget;
   private boolean ImmediateOrCancel;
 
-  public CCEXOrderhistory(@JsonProperty("OrderUuid") String orderUuid, @JsonProperty("Exchange") String exchange,
-      @JsonProperty("TimeStamp") String timeStamp, @JsonProperty("OrderType") String orderType, @JsonProperty("Limit") BigDecimal limit,
-      @JsonProperty("Quantity") BigDecimal quantity, @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
-      @JsonProperty("Commission") BigDecimal commission, @JsonProperty("Price") BigDecimal price,
-      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit, @JsonProperty("IsConditional") boolean isConditional,
-      @JsonProperty("Condition") String condition, @JsonProperty("ConditionTarget") String conditionTarget,
+  public CCEXOrderhistory(
+      @JsonProperty("OrderUuid") String orderUuid,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("TimeStamp") String timeStamp,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Limit") BigDecimal limit,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") BigDecimal quantityRemaining,
+      @JsonProperty("Commission") BigDecimal commission,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PricePerUnit") BigDecimal pricePerUnit,
+      @JsonProperty("IsConditional") boolean isConditional,
+      @JsonProperty("Condition") String condition,
+      @JsonProperty("ConditionTarget") String conditionTarget,
       @JsonProperty("ImmediateOrCancel") boolean immediateOrCancel) {
     super();
     OrderUuid = orderUuid;
@@ -159,9 +166,34 @@ public class CCEXOrderhistory {
 
   @Override
   public String toString() {
-    return "CCEXOrderhistory [OrderUuid=" + OrderUuid + ", Exchange=" + Exchange + ", TimeStamp=" + TimeStamp + ", OrderType=" + OrderType
-        + ", Limit=" + Limit + ", Quantity=" + Quantity + ", QuantityRemaining=" + QuantityRemaining + ", Commission=" + Commission + ", Price="
-        + Price + ", PricePerUnit=" + PricePerUnit + ", IsConditional=" + IsConditional + ", Condition=" + Condition + ", ConditionTarget="
-        + ConditionTarget + ", ImmediateOrCancel=" + ImmediateOrCancel + "]";
+    return "CCEXOrderhistory [OrderUuid="
+        + OrderUuid
+        + ", Exchange="
+        + Exchange
+        + ", TimeStamp="
+        + TimeStamp
+        + ", OrderType="
+        + OrderType
+        + ", Limit="
+        + Limit
+        + ", Quantity="
+        + Quantity
+        + ", QuantityRemaining="
+        + QuantityRemaining
+        + ", Commission="
+        + Commission
+        + ", Price="
+        + Price
+        + ", PricePerUnit="
+        + PricePerUnit
+        + ", IsConditional="
+        + IsConditional
+        + ", Condition="
+        + Condition
+        + ", ConditionTarget="
+        + ConditionTarget
+        + ", ImmediateOrCancel="
+        + ImmediateOrCancel
+        + "]";
   }
 }

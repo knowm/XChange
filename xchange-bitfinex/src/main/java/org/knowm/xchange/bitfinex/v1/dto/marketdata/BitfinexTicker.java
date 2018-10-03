@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitfinex.v1.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitfinexTicker {
 
@@ -25,9 +24,15 @@ public class BitfinexTicker {
    * @param timestamp
    * @param volume
    */
-  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("last_price") BigDecimal last,
-      @JsonProperty("timestamp") double timestamp, @JsonProperty("volume") BigDecimal volume) {
+  public BitfinexTicker(
+      @JsonProperty("mid") BigDecimal mid,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("last_price") BigDecimal last,
+      @JsonProperty("timestamp") double timestamp,
+      @JsonProperty("volume") BigDecimal volume) {
 
     this.mid = mid;
     this.bid = bid;
@@ -82,8 +87,20 @@ public class BitfinexTicker {
   @Override
   public String toString() {
 
-    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", low=" + low + ", high=" + high + ", last=" + last + ", timestamp="
-        + timestamp + "]";
+    return "BitfinexTicker [mid="
+        + mid
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", low="
+        + low
+        + ", high="
+        + high
+        + ", last="
+        + last
+        + ", timestamp="
+        + timestamp
+        + "]";
   }
-
 }

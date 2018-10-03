@@ -2,7 +2,6 @@ package org.knowm.xchange.coinfloor.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -34,7 +33,12 @@ public class CoinfloorPlaceLimitOrderIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
 
     CoinfloorTradeServiceRaw rawService = (CoinfloorTradeServiceRaw) exchange.getTradeService();
-    CoinfloorOrder order = rawService.placeLimitOrder(CurrencyPair.BTC_EUR, OrderType.ASK, new BigDecimal("0.0001"), new BigDecimal("2303.00"));
+    CoinfloorOrder order =
+        rawService.placeLimitOrder(
+            CurrencyPair.BTC_EUR,
+            OrderType.ASK,
+            new BigDecimal("0.0001"),
+            new BigDecimal("2303.00"));
     logger.info("placed orderId={}", order);
   }
 }

@@ -1,10 +1,9 @@
 package org.knowm.xchange.bibox.dto.trade;
 
-/**
- * @author odrotleff
- */
+/** @author odrotleff */
 public enum BiboxAccountType {
-  REGULAR(0), MARGIN(1);
+  REGULAR(0),
+  MARGIN(1);
 
   private int accountType;
 

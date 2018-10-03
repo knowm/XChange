@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitcoinium.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing Ticker from Bitcoinium Web Service
- */
+/** Data object representing Ticker from Bitcoinium Web Service */
 public final class BitcoiniumTicker {
 
   private final BigDecimal last;
@@ -29,8 +26,14 @@ public final class BitcoiniumTicker {
    * @param bid
    * @param ask
    */
-  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") long timestamp, @JsonProperty("v") BigDecimal volume,
-      @JsonProperty("h") BigDecimal high, @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask,
+  public BitcoiniumTicker(
+      @JsonProperty("l") BigDecimal last,
+      @JsonProperty("t") long timestamp,
+      @JsonProperty("v") BigDecimal volume,
+      @JsonProperty("h") BigDecimal high,
+      @JsonProperty("lo") BigDecimal low,
+      @JsonProperty("b") BigDecimal bid,
+      @JsonProperty("a") BigDecimal ask,
       @JsonProperty("tr") BigDecimal trades) {
 
     this.last = last;
@@ -86,8 +89,22 @@ public final class BitcoiniumTicker {
   @Override
   public String toString() {
 
-    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid
-        + ", ask=" + ask + ", trades=" + trades + "]";
+    return "BitcoiniumTicker [last="
+        + last
+        + ", timestamp="
+        + timestamp
+        + ", volume="
+        + volume
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", trades="
+        + trades
+        + "]";
   }
-
 }

@@ -3,10 +3,7 @@ package org.knowm.xchange.dsx.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXReturn<V> {
 
   private final boolean success;
@@ -14,7 +11,10 @@ public class DSXReturn<V> {
   private final String error;
 
   @JsonCreator
-  public DSXReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
+  public DSXReturn(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("return") V returnValue,
+      @JsonProperty("error") String error) {
 
     this.success = success;
     this.returnValue = returnValue;
@@ -39,6 +39,7 @@ public class DSXReturn<V> {
   @Override
   public String toString() {
 
-    return String.format("DSXReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    return String.format(
+        "DSXReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
   }
 }

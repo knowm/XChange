@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -17,14 +16,14 @@ import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrderBook;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 
 /**
- * <p>
  * Implementation of the market data service for Bittrex
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
-public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw implements MarketDataService {
+public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -75,5 +74,4 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
     List<VaultoroTrade> vaultoroTrades = super.getVaultoroTrades(arg0);
     return VaultoroAdapters.adaptVaultoroTransactions(vaultoroTrades, arg0);
   }
-
 }

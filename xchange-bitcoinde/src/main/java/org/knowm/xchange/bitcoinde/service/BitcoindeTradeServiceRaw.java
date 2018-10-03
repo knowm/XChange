@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitcoinde.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcoinde.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.trade.BitcoindeIdResponse;
@@ -9,12 +8,9 @@ import org.knowm.xchange.bitcoinde.trade.BitcoindeMyOpenOrdersWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author kaiserfr
- */
+/** @author kaiserfr */
 public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
   private final SynchronizedValueFactory<Long> nonceFactory;
 
@@ -31,9 +27,11 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
     }
   }
 
-  public BitcoindeIdResponse bitcoindeCancelOrders(String order_id, CurrencyPair currencyPair) throws IOException {
+  public BitcoindeIdResponse bitcoindeCancelOrders(String order_id, CurrencyPair currencyPair)
+      throws IOException {
     try {
-      String currPair = currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+      String currPair =
+          currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
       return bitcoinde.deleteOrder(apiKey, nonceFactory, signatureCreator, order_id, currPair);
     } catch (BitcoindeException e) {
       throw handleError(e);
@@ -43,8 +41,17 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
   public BitcoindeIdResponse bitcoindePlaceLimitOrder(LimitOrder l) throws IOException {
     try {
       String side = l.getType().equals(OrderType.ASK) ? "sell" : "buy";
-      String bitcoindeCurrencyPair = l.getCurrencyPair().base.getCurrencyCode() + l.getCurrencyPair().counter.getCurrencyCode();
-      return bitcoinde.createOrder(apiKey, nonceFactory, signatureCreator, l.getOriginalAmount(), l.getLimitPrice(), bitcoindeCurrencyPair, side);
+      String bitcoindeCurrencyPair =
+          l.getCurrencyPair().base.getCurrencyCode()
+              + l.getCurrencyPair().counter.getCurrencyCode();
+      return bitcoinde.createOrder(
+          apiKey,
+          nonceFactory,
+          signatureCreator,
+          l.getOriginalAmount(),
+          l.getLimitPrice(),
+          bitcoindeCurrencyPair,
+          side);
     } catch (BitcoindeException e) {
       throw handleError(e);
     }

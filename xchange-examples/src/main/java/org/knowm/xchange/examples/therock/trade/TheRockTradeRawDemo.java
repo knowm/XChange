@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.therock.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.therock.TheRockExampleUtils;
@@ -23,9 +22,10 @@ public class TheRockTradeRawDemo {
   }
 
   private static void raw(Exchange theRockExchange) throws IOException, InterruptedException {
-    TheRockTradeServiceRaw tradeService = (TheRockTradeServiceRaw) theRockExchange.getTradeService();
+    TheRockTradeServiceRaw tradeService =
+        (TheRockTradeServiceRaw) theRockExchange.getTradeService();
 
-    //create order
+    // create order
     BigDecimal amount = new BigDecimal("0.01");
     BigDecimal price = new BigDecimal("50.0");
     TheRock.Pair pair = new TheRock.Pair(BTC_EUR);
@@ -34,27 +34,29 @@ public class TheRockTradeRawDemo {
     print(orderResult);
     Thread.sleep(3000);
 
-    //show-order
+    // show-order
     orderResult = tradeService.showTheRockOrder(BTC_EUR, orderResult.getId());
     print(orderResult);
     Thread.sleep(3000);
 
-    //get-orders (without any parameters besides pair, only open orders will be returned)
+    // get-orders (without any parameters besides pair, only open orders will be returned)
     TheRockOrders orders = tradeService.getTheRockOrders(BTC_EUR);
     print(orders);
     Thread.sleep(3000);
 
-    //get execute orders, only page 1
-    TheRockOrders executedOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", null, null, 1);
+    // get execute orders, only page 1
+    TheRockOrders executedOrders =
+        tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", null, null, 1);
     print(executedOrders);
     Thread.sleep(3000);
 
-    //get only executed sell order, starting on page 3
-    TheRockOrders execSellOrders = tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", Side.sell, null, 1);
+    // get only executed sell order, starting on page 3
+    TheRockOrders execSellOrders =
+        tradeService.getTheRockOrders(BTC_EUR, null, null, "executed", Side.sell, null, 1);
     print(execSellOrders);
     Thread.sleep(3000);
 
-    //cancel
+    // cancel
     tradeService.cancelTheRockOrder(BTC_EUR, orderResult.getId());
     Thread.sleep(3000);
   }

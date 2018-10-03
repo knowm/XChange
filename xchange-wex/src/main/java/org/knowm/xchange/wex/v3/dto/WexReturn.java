@@ -3,9 +3,7 @@ package org.knowm.xchange.wex.v3.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class WexReturn<V> {
 
   private final boolean success;
@@ -20,7 +18,10 @@ public class WexReturn<V> {
    * @param error
    */
   @JsonCreator
-  public WexReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
+  public WexReturn(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("return") V returnValue,
+      @JsonProperty("error") String error) {
 
     this.success = success;
     this.returnValue = returnValue;
@@ -45,6 +46,7 @@ public class WexReturn<V> {
   @Override
   public String toString() {
 
-    return String.format("WexReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    return String.format(
+        "WexReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
   }
 }

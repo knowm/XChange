@@ -1,12 +1,9 @@
 package org.knowm.xchange.liqui.service;
 
 import java.nio.charset.StandardCharsets;
-
 import javax.crypto.Mac;
-
-import org.apache.commons.codec.binary.Hex;
 import org.knowm.xchange.service.BaseParamsDigest;
-
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class LiquiDigest extends BaseParamsDigest {
@@ -28,6 +25,6 @@ public class LiquiDigest extends BaseParamsDigest {
     final Mac mac512 = getMac();
     mac512.update(restInvocation.getRequestBody().getBytes(StandardCharsets.UTF_8));
 
-    return new String(Hex.encodeHex(mac512.doFinal()));
+    return DigestUtils.bytesToHex(mac512.doFinal()).toLowerCase();
   }
 }

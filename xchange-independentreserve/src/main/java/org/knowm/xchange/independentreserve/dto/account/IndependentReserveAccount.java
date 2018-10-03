@@ -1,12 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: Kamil Zbikowski Date: 4/10/15
- */
+/** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccount {
   private final String accountGuid;
   private final String accountStatus;
@@ -14,8 +11,11 @@ public class IndependentReserveAccount {
   private final String currencyCode;
   private final BigDecimal totalBalance;
 
-  public IndependentReserveAccount(@JsonProperty("AccountGuid") String accountGuid, @JsonProperty("AccountStatus") String accountStatus,
-      @JsonProperty("AvailableBalance") BigDecimal availableBalance, @JsonProperty("CurrencyCode") String currencyCode,
+  public IndependentReserveAccount(
+      @JsonProperty("AccountGuid") String accountGuid,
+      @JsonProperty("AccountStatus") String accountStatus,
+      @JsonProperty("AvailableBalance") BigDecimal availableBalance,
+      @JsonProperty("CurrencyCode") String currencyCode,
       @JsonProperty("TotalBalance") BigDecimal totalBalance) {
     this.accountGuid = accountGuid;
     this.accountStatus = accountStatus;
@@ -46,8 +46,16 @@ public class IndependentReserveAccount {
 
   @Override
   public String toString() {
-    return "IndependentReserveAccount [accountGuid=" + accountGuid + ", accountStatus=" + accountStatus + ", availableBalance=" + availableBalance
-        + ", currencyCode=" + currencyCode + ", totalBalance=" + totalBalance + "]";
+    return "IndependentReserveAccount [accountGuid="
+        + accountGuid
+        + ", accountStatus="
+        + accountStatus
+        + ", availableBalance="
+        + availableBalance
+        + ", currencyCode="
+        + currencyCode
+        + ", totalBalance="
+        + totalBalance
+        + "]";
   }
-
 }

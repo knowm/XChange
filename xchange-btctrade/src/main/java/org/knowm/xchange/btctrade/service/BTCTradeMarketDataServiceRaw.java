@@ -1,7 +1,6 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeDepth;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeTicker;
@@ -38,5 +37,4 @@ public class BTCTradeMarketDataServiceRaw extends BTCTradeBaseService {
 
     return btcTrade.getTrades(since);
   }
-
 }

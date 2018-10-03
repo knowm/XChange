@@ -6,10 +6,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -34,7 +32,8 @@ public class BitcoinAverageAuthenticationTest {
     connection.setRequestProperty("X-Signature", signature);
 
     // read all the lines of the response into response StringBuffer
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    BufferedReader bufferedReader =
+        new BufferedReader(new InputStreamReader(connection.getInputStream()));
     String inputLine;
     StringBuffer response = new StringBuffer();
 
@@ -59,5 +58,4 @@ public class BitcoinAverageAuthenticationTest {
     String signature = payload + "." + hashHex;
     return signature;
   }
-
 }

@@ -1,22 +1,20 @@
 package org.knowm.xchange.gateio.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by David Henry on 2/19/14.
- */
+/** Created by David Henry on 2/19/14. */
 public class GateioOrderStatus extends GateioBaseResponse {
 
   private final BTEROrderStatusInfo orderStatusInfo;
 
-  private GateioOrderStatus(@JsonProperty("order") BTEROrderStatusInfo orderStatusInfo, @JsonProperty("result") boolean result,
+  private GateioOrderStatus(
+      @JsonProperty("order") BTEROrderStatusInfo orderStatusInfo,
+      @JsonProperty("result") boolean result,
       @JsonProperty("msg") String msg) {
 
     super(result, msg);
@@ -79,9 +77,15 @@ public class GateioOrderStatus extends GateioBaseResponse {
     private final BigDecimal initialRate;
     private final BigDecimal initialAmount;
 
-    private BTEROrderStatusInfo(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("pair") String currencyPair,
-        @JsonProperty("type") GateioOrderType type, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-        @JsonProperty("initial_rate") BigDecimal initialRate, @JsonProperty("initial_amount") BigDecimal initialAmount) {
+    private BTEROrderStatusInfo(
+        @JsonProperty("id") String id,
+        @JsonProperty("status") String status,
+        @JsonProperty("pair") String currencyPair,
+        @JsonProperty("type") GateioOrderType type,
+        @JsonProperty("rate") BigDecimal rate,
+        @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("initial_rate") BigDecimal initialRate,
+        @JsonProperty("initial_amount") BigDecimal initialAmount) {
 
       this.id = id;
       this.status = status;
@@ -136,8 +140,23 @@ public class GateioOrderStatus extends GateioBaseResponse {
     @Override
     public String toString() {
 
-      return "BTEROrderStatusInfo [id=" + id + ", status=" + status + ", currencyPair=" + currencyPair + ", type=" + type + ", rate=" + rate
-          + ", amount=" + amount + ", initialRate=" + initialRate + ", initialAmount=" + initialAmount + "]";
+      return "BTEROrderStatusInfo [id="
+          + id
+          + ", status="
+          + status
+          + ", currencyPair="
+          + currencyPair
+          + ", type="
+          + type
+          + ", rate="
+          + rate
+          + ", amount="
+          + amount
+          + ", initialRate="
+          + initialRate
+          + ", initialAmount="
+          + initialAmount
+          + "]";
     }
   }
 }

@@ -1,18 +1,17 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXExchangeInfo {
 
   private final long serverTime;
   private final Map<String, DSXPairInfo> pairs;
 
-  public DSXExchangeInfo(@JsonProperty("serverTime") long serverTime, @JsonProperty("pairs") Map<String, DSXPairInfo> pairs) {
+  public DSXExchangeInfo(
+      @JsonProperty("serverTime") long serverTime,
+      @JsonProperty("pairs") Map<String, DSXPairInfo> pairs) {
 
     this.serverTime = serverTime;
     this.pairs = pairs;

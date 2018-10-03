@@ -6,13 +6,12 @@ import org.knowm.xchange.kraken.KrakenExchange;
 
 public class KrakenExampleUtils {
 
-  private KrakenExampleUtils() {
-
-  }
+  private KrakenExampleUtils() {}
 
   public static Exchange createTestExchange() {
 
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange =
+        ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
     krakenExchange.getExchangeSpecification().setApiKey("API Key");
     krakenExchange.getExchangeSpecification().setSecretKey("Secret==");
     krakenExchange.getExchangeSpecification().setUserName("user");

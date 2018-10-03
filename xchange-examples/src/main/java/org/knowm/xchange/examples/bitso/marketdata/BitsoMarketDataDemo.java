@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.bitso.marketdata;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitso.BitsoExchange;
@@ -33,7 +32,6 @@ public class BitsoMarketDataDemo {
 
     generic(marketDataService);
     raw((BitsoMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -44,13 +42,17 @@ public class BitsoMarketDataDemo {
     // Get the latest order book data for BTCMXN
     OrderBook orderBook = marketDataService.getOrderBook(cp);
 
-    System.out.println("Current Order Book size for BTC / MXN: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println(
+        "Current Order Book size for BTC / MXN: "
+            + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-    System.out.println("Last Ask: " + orderBook.getAsks().get(orderBook.getAsks().size() - 1).toString());
+    System.out.println(
+        "Last Ask: " + orderBook.getAsks().get(orderBook.getAsks().size() - 1).toString());
 
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
-    System.out.println("Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
+    System.out.println(
+        "Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
 
     System.out.println(orderBook.toString());
 
@@ -70,7 +72,9 @@ public class BitsoMarketDataDemo {
     // Get the latest order book data for BTCMXN
     BitsoOrderBook orderBook = marketDataService.getBitsoOrderBook(CurrencyPair.BTC_MXN);
 
-    System.out.println("Current Order Book size for BTC / MXN: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println(
+        "Current Order Book size for BTC / MXN: "
+            + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
 
@@ -78,5 +82,4 @@ public class BitsoMarketDataDemo {
 
     System.out.println(orderBook.toString());
   }
-
 }

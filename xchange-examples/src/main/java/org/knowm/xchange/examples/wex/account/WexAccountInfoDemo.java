@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.wex.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.wex.WexExamplesUtils;
@@ -9,9 +8,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
 import org.knowm.xchange.wex.v3.service.WexAccountServiceRaw;
 
-/**
- * Demo requesting account info at BTC-E
- */
+/** Demo requesting account info at BTC-E */
 public class WexAccountInfoDemo {
 
   public static void main(String[] args) throws IOException {
@@ -40,5 +37,4 @@ public class WexAccountInfoDemo {
     WexAccountInfo accountInfo = accountService.getBTCEAccountInfo();
     System.out.println("Wex Wallet as String: " + accountInfo.toString());
   }
-
 }

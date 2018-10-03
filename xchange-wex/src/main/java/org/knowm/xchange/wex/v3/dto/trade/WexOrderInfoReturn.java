@@ -1,10 +1,8 @@
 package org.knowm.xchange.wex.v3.dto.trade;
 
-import java.util.Map;
-
-import org.knowm.xchange.wex.v3.dto.WexReturn;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
+import org.knowm.xchange.wex.v3.dto.WexReturn;
 
 /**
  * Return value from OrderInfo.
@@ -20,10 +18,11 @@ public class WexOrderInfoReturn extends WexReturn<Map<Long, WexOrderInfoResult>>
    * @param value
    * @param error
    */
-  public WexOrderInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, WexOrderInfoResult> value,
+  public WexOrderInfoReturn(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("return") Map<Long, WexOrderInfoResult> value,
       @JsonProperty("error") String error) {
 
     super(success, value, error);
   }
-
 }

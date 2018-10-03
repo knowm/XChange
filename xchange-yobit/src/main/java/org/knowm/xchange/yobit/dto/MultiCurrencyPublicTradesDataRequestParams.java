@@ -2,7 +2,6 @@ package org.knowm.xchange.yobit.dto;
 
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class MultiCurrencyPublicTradesDataRequestParams implements PublicTradesRequestParams {

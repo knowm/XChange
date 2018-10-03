@@ -1,73 +1,121 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"account", "currency", "prevDeposited", "prevWithdrawn", "prevTransferIn", "prevTransferOut", "prevAmount", "prevTimestamp",
-    "deltaDeposited", "deltaWithdrawn", "deltaTransferIn", "deltaTransferOut", "deltaAmount", "deposited", "withdrawn", "transferIn", "transferOut",
-    "amount", "pendingCredit", "pendingDebit", "confirmedDebit", "timestamp", "addr", "script", "withdrawalLock"})
-public final class BitmexWallet {
+@JsonPropertyOrder({
+  "account",
+  "currency",
+  "prevDeposited",
+  "prevWithdrawn",
+  "prevTransferIn",
+  "prevTransferOut",
+  "prevAmount",
+  "prevTimestamp",
+  "deltaDeposited",
+  "deltaWithdrawn",
+  "deltaTransferIn",
+  "deltaTransferOut",
+  "deltaAmount",
+  "deposited",
+  "withdrawn",
+  "transferIn",
+  "transferOut",
+  "amount",
+  "pendingCredit",
+  "pendingDebit",
+  "confirmedDebit",
+  "timestamp",
+  "addr",
+  "script",
+  "withdrawalLock"
+})
+public final class BitmexWallet extends AbstractHttpResponseAware {
 
   @JsonProperty("account")
   private Integer account;
+
   @JsonProperty("currency")
   private String currency;
+
   @JsonProperty("prevDeposited")
   private BigDecimal prevDeposited;
+
   @JsonProperty("prevWithdrawn")
   private BigDecimal prevWithdrawn;
+
   @JsonProperty("prevTransferIn")
   private BigDecimal prevTransferIn;
+
   @JsonProperty("prevTransferOut")
   private BigDecimal prevTransferOut;
+
   @JsonProperty("prevAmount")
   private BigDecimal prevAmount;
+
   @JsonProperty("prevTimestamp")
   private String prevTimestamp;
+
   @JsonProperty("deltaDeposited")
   private BigDecimal deltaDeposited;
+
   @JsonProperty("deltaWithdrawn")
   private BigDecimal deltaWithdrawn;
+
   @JsonProperty("deltaTransferIn")
   private BigDecimal deltaTransferIn;
+
   @JsonProperty("deltaTransferOut")
   private BigDecimal deltaTransferOut;
+
   @JsonProperty("deltaAmount")
   private BigDecimal deltaAmount;
+
   @JsonProperty("deposited")
   private BigDecimal deposited;
+
   @JsonProperty("withdrawn")
   private BigDecimal withdrawn;
+
   @JsonProperty("transferIn")
   private BigDecimal transferIn;
+
   @JsonProperty("transferOut")
   private BigDecimal transferOut;
+
   @JsonProperty("amount")
   private BigDecimal amount;
+
   @JsonProperty("pendingCredit")
   private BigDecimal pendingCredit;
+
   @JsonProperty("pendingDebit")
   private BigDecimal pendingDebit;
+
   @JsonProperty("confirmedDebit")
   private BigDecimal confirmedDebit;
+
   @JsonProperty("timestamp")
   private String timestamp;
+
   @JsonProperty("addr")
   private String addr;
+
   @JsonProperty("script")
   private String script;
+
   @JsonProperty("withdrawalLock")
   private List<String> withdrawalLock = null;
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<>();
+
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
   public Integer getAccount() {
     return account;

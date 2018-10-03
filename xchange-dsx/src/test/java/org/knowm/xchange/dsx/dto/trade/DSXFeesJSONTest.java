@@ -2,22 +2,19 @@ package org.knowm.xchange.dsx.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXFeesJSONTest {
 
   @Test
   public void testGetFees() throws IOException {
-    InputStream is = DSXFeesJSONTest.class.getResourceAsStream("/trade/example-fees-data.json");
+    InputStream is =
+        DSXFeesJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/dsx/dto/trade/example-fees-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     DSXFeesReturn fees = mapper.readValue(is, DSXFeesReturn.class);

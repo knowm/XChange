@@ -1,14 +1,11 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
- * <p>POJO representing the output JSON for the Abucoins
- * <code>GET /products/stats</code> endpoint.</p>
- * Example:
- * <code><pre>
+ * POJO representing the output JSON for the Abucoins <code>GET /products/stats</code> endpoint.
+ * Example: <code><pre>
  * [
  *   {
  *     "product_id":"BTC-PLN",
@@ -55,10 +52,18 @@ public class AbucoinsProductStat {
   BigDecimal change;
   String message;
 
-  public AbucoinsProductStat(@JsonProperty("product_id") String productID, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("open") BigDecimal open, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume_BTC") BigDecimal volumeBTC, @JsonProperty("volume_USD") BigDecimal volumeUSD,
-      @JsonProperty("volume_7d") BigDecimal volume7d, @JsonProperty("volume_30d") BigDecimal volume30d, @JsonProperty("change") BigDecimal change,
+  public AbucoinsProductStat(
+      @JsonProperty("product_id") String productID,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("volume_BTC") BigDecimal volumeBTC,
+      @JsonProperty("volume_USD") BigDecimal volumeUSD,
+      @JsonProperty("volume_7d") BigDecimal volume7d,
+      @JsonProperty("volume_30d") BigDecimal volume30d,
+      @JsonProperty("change") BigDecimal change,
       @JsonProperty("message") String message) {
     this.productID = productID;
     this.last = last;
@@ -124,8 +129,28 @@ public class AbucoinsProductStat {
 
   @Override
   public String toString() {
-    return "AbucoinsProductStat [productID=" + productID + ", last=" + last + ", open=" + open + ", high=" + high + ", low=" + low + ", volume="
-        + volume + ", volumeBTC=" + volumeBTC + ", volumeUSD=" + volumeUSD + ", volume7d=" + volume7d + ", volume30d=" + volume30d + ", change="
-        + change + "]";
+    return "AbucoinsProductStat [productID="
+        + productID
+        + ", last="
+        + last
+        + ", open="
+        + open
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", volumeBTC="
+        + volumeBTC
+        + ", volumeUSD="
+        + volumeUSD
+        + ", volume7d="
+        + volume7d
+        + ", volume30d="
+        + volume30d
+        + ", change="
+        + change
+        + "]";
   }
 }

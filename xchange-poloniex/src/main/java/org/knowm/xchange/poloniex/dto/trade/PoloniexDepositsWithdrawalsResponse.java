@@ -1,11 +1,9 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import java.util.List;
-
-import org.knowm.xchange.exceptions.ExchangeException;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class PoloniexDepositsWithdrawalsResponse {
 
@@ -13,7 +11,9 @@ public class PoloniexDepositsWithdrawalsResponse {
   private final List<PoloniexWithdrawal> withdrawals;
 
   @JsonCreator
-  public PoloniexDepositsWithdrawalsResponse(@JsonProperty("error") String error, @JsonProperty("deposits") List<PoloniexDeposit> deposits,
+  public PoloniexDepositsWithdrawalsResponse(
+      @JsonProperty("error") String error,
+      @JsonProperty("deposits") List<PoloniexDeposit> deposits,
       @JsonProperty("withdrawals") List<PoloniexWithdrawal> withdrawals) {
     if (error != null) {
       throw new ExchangeException(error);
@@ -32,6 +32,10 @@ public class PoloniexDepositsWithdrawalsResponse {
 
   @Override
   public String toString() {
-    return "DepositsWithdrawalsResponse [deposits=" + deposits + ", withdrawals=" + withdrawals + "]";
+    return "DepositsWithdrawalsResponse [deposits="
+        + deposits
+        + ", withdrawals="
+        + withdrawals
+        + "]";
   }
 }

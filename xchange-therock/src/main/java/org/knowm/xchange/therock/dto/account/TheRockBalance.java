@@ -1,9 +1,8 @@
 package org.knowm.xchange.therock.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import java.math.BigDecimal;
 
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class TheRockBalance {
@@ -28,6 +27,8 @@ public class TheRockBalance {
 
   @Override
   public String toString() {
-    return String.format("TheRockBalance{currency='%s', balance=%s, trandingBalance=%s}", currency, balance, tradingBalance);
+    return String.format(
+        "TheRockBalance{currency='%s', balance=%s, trandingBalance=%s}",
+        currency, balance, tradingBalance);
   }
 }

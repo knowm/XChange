@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * A central place for shared Vircurex properties
- */
+/** A central place for shared Vircurex properties */
 public final class VircurexUtils {
 
   // Vircurex API parameters
@@ -18,12 +16,8 @@ public final class VircurexUtils {
   public static final String BID = "BUY";
   public static final String ASK = "SELL";
 
-  /**
-   * private Constructor
-   */
-  private VircurexUtils() {
-
-  }
+  /** private Constructor */
+  private VircurexUtils() {}
 
   public static String getUtcTimestamp() {
 
@@ -31,5 +25,4 @@ public final class VircurexUtils {
     format.setTimeZone(TimeZone.getTimeZone("GMT"));
     return format.format(new Date());
   }
-
 }

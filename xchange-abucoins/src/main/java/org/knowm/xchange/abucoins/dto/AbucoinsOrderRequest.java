@@ -6,9 +6,7 @@ public class AbucoinsOrderRequest {
   AbucoinsOrder.Status status;
   String productID;
 
-  /**
-   * all products any status.
-   */
+  /** all products any status. */
   public AbucoinsOrderRequest() {
     this(null, null);
   }

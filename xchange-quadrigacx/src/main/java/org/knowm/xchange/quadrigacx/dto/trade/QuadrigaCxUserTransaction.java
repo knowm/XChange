@@ -1,14 +1,12 @@
 package org.knowm.xchange.quadrigacx.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.knowm.xchange.quadrigacx.util.QuadrigaCxTransactionTypeDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import org.knowm.xchange.quadrigacx.util.QuadrigaCxTransactionTypeDeserializer;
 
 public final class QuadrigaCxUserTransaction {
 
@@ -32,10 +30,15 @@ public final class QuadrigaCxUserTransaction {
    * @param fee
    * @param method
    */
-
-  public QuadrigaCxUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") String order_id,
-      @JsonProperty("type") @JsonDeserialize(using = QuadrigaCxTransactionTypeDeserializer.class) TransactionType type,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("fee") BigDecimal fee, @JsonProperty("method") String method) {
+  public QuadrigaCxUserTransaction(
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("id") long id,
+      @JsonProperty("order_id") String order_id,
+      @JsonProperty("type") @JsonDeserialize(using = QuadrigaCxTransactionTypeDeserializer.class)
+          TransactionType type,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("method") String method) {
 
     this.datetime = datetime;
     this.id = id;
@@ -107,11 +110,37 @@ public final class QuadrigaCxUserTransaction {
 
   @Override
   public String toString() {
-    return "QuadrigaCxUserTransaction{" + "datetime='" + datetime + '\'' + ", id=" + id + ", order_id='" + order_id + '\'' + ", type=" + type
-        + ", rate=" + rate + ", fee=" + fee + ", method='" + method + '\'' + ", currencyAmount=" + currencyAmount + '}';
+    return "QuadrigaCxUserTransaction{"
+        + "datetime='"
+        + datetime
+        + '\''
+        + ", id="
+        + id
+        + ", order_id='"
+        + order_id
+        + '\''
+        + ", type="
+        + type
+        + ", rate="
+        + rate
+        + ", fee="
+        + fee
+        + ", method='"
+        + method
+        + '\''
+        + ", currencyAmount="
+        + currencyAmount
+        + '}';
   }
 
   public enum TransactionType {
-    deposit, withdrawal, trade, type3_reserved, type4_reserved, type5_reseverd, type6_reseved, type7_reserved
+    deposit,
+    withdrawal,
+    trade,
+    type3_reserved,
+    type4_reserved,
+    type5_reseverd,
+    type6_reseved,
+    type7_reserved
   }
 }

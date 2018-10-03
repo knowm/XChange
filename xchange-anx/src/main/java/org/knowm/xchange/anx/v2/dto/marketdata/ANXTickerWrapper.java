@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXTickerWrapper {
 
   private final String result;
@@ -18,7 +16,10 @@ public class ANXTickerWrapper {
    * @param anxTicker
    * @param error
    */
-  public ANXTickerWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXTicker anxTicker, @JsonProperty("error") String error) {
+  public ANXTickerWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXTicker anxTicker,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxTicker = anxTicker;
@@ -39,5 +40,4 @@ public class ANXTickerWrapper {
 
     return error;
   }
-
 }

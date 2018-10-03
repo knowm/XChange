@@ -2,13 +2,11 @@ package org.knowm.xchange.gateio;
 
 import java.io.IOException;
 import java.util.Map;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
@@ -37,18 +35,27 @@ public interface Gateio {
 
   @GET
   @Path("ticker/{ident}_{currency}")
-  GateioTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  GateioTicker getTicker(
+      @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws IOException;
 
   @GET
   @Path("orderBook/{ident}_{currency}")
-  GateioDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  GateioDepth getFullDepth(
+      @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws IOException;
 
   @GET
-  @Path("trade/{ident}_{currency}")
-  GateioTradeHistory getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  @Path("tradeHistory/{ident}_{currency}")
+  GateioTradeHistory getTradeHistory(
+      @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws IOException;
 
   @GET
-  @Path("trade/{ident}_{currency}/{tradeId}")
-  GateioTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
-      @PathParam("tradeId") String tradeId) throws IOException;
+  @Path("tradeHistory/{ident}_{currency}/{tradeId}")
+  GateioTradeHistory getTradeHistorySince(
+      @PathParam("ident") String tradeableIdentifier,
+      @PathParam("currency") String currency,
+      @PathParam("tradeId") String tradeId)
+      throws IOException;
 }

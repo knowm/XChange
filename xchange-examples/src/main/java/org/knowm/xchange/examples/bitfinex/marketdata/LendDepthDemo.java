@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bitfinex.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
@@ -27,7 +26,9 @@ public class LendDepthDemo {
     // Get the latest order book data for USD swaps
     BitfinexLendDepth bitfinexDepth = marketDataService.getBitfinexLendBook("USD", 50, 50);
 
-    System.out.println("Current Order Book size for USD: " + (bitfinexDepth.getAsks().length + bitfinexDepth.getBids().length));
+    System.out.println(
+        "Current Order Book size for USD: "
+            + (bitfinexDepth.getAsks().length + bitfinexDepth.getBids().length));
 
     System.out.println("First Ask: " + bitfinexDepth.getAsks()[0].toString());
 

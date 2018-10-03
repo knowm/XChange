@@ -2,24 +2,22 @@ package org.knowm.xchange.bitmex.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitstampTicker JSON parsing
- */
+/** Test BitstampTicker JSON parsing */
 public class BitmexMarginAccountJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitmexMarginAccountJSONTest.class.getResourceAsStream("/account/example-margin-account.json");
+    InputStream is =
+        BitmexMarginAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitmex/dto/account/example-margin-account.json");
 
     ObjectMapper mapper = new ObjectMapper();
     BitmexMarginAccount bitmexMarginAccount = mapper.readValue(is, BitmexMarginAccount.class);
@@ -34,5 +32,4 @@ public class BitmexMarginAccountJSONTest {
     assertThat(bitmexMarginAccount.getMarginLeverage()).isEqualTo(BigDecimal.ZERO);
     assertThat(bitmexMarginAccount.getTaxableMargin()).isEqualTo(BigDecimal.ZERO);
   }
-
 }

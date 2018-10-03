@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -21,9 +20,7 @@ public class ZaifAdapters {
 
   private static Logger logger = LoggerFactory.getLogger(ZaifAdapters.class);
 
-  public ZaifAdapters() {
-
-  }
+  public ZaifAdapters() {}
 
   public static OrderBook adaptOrderBook(ZaifFullBook book, CurrencyPair currencyPair) {
 
@@ -33,13 +30,15 @@ public class ZaifAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> toLimitOrderList(ZaifFullBookTier[] levels, Order.OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(
+      ZaifFullBookTier[] levels, Order.OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>();
 
     if (levels != null) {
       for (ZaifFullBookTier tier : levels) {
-        allLevels.add(new LimitOrder(orderType, tier.getVolume(), currencyPair, "", null, tier.getPrice()));
+        allLevels.add(
+            new LimitOrder(orderType, tier.getVolume(), currencyPair, "", null, tier.getPrice()));
       }
     }
 

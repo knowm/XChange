@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.account.ITransferFeeSource;
@@ -31,7 +30,8 @@ public class RippleAccountServiceRaw extends RippleBaseService implements ITrans
     return getRippleAccountSettings(exchange.getExchangeSpecification().getApiKey());
   }
 
-  public RippleAccountSettings getRippleAccountSettings(final String address) throws RippleException, IOException {
+  public RippleAccountSettings getRippleAccountSettings(final String address)
+      throws RippleException, IOException {
     RippleAccountSettings settings = accountSettingsStore.get(address);
     if (settings == null) {
       settings = ripplePublic.getAccountSettings(address);

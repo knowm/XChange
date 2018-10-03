@@ -1,11 +1,10 @@
 package org.knowm.xchange.coinbase.v2.dto.account;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CoinbasePaymentMethodsData {
@@ -44,7 +43,10 @@ public class CoinbasePaymentMethodsData {
     private boolean verified;
 
     @JsonCreator
-    CoinbasePaymentMethod(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("type") String type,
+    CoinbasePaymentMethod(
+        @JsonProperty("id") String id,
+        @JsonProperty("name") String name,
+        @JsonProperty("type") String type,
         @JsonProperty("currency") String currency) {
       this.id = id;
       this.name = name;
@@ -142,7 +144,15 @@ public class CoinbasePaymentMethodsData {
 
     @Override
     public String toString() {
-      return "CoinbasePaymentMethod [id=" + id + ", name=" + name + ", type=" + type + ", currency=" + currency + "]";
+      return "CoinbasePaymentMethod [id="
+          + id
+          + ", name="
+          + name
+          + ", type="
+          + type
+          + ", currency="
+          + currency
+          + "]";
     }
   }
 }

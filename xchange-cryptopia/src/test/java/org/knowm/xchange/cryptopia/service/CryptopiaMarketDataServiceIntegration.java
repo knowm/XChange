@@ -3,7 +3,6 @@ package org.knowm.xchange.cryptopia.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -19,7 +18,8 @@ import org.slf4j.LoggerFactory;
 
 public class CryptopiaMarketDataServiceIntegration {
 
-  private static final Logger log = LoggerFactory.getLogger(CryptopiaMarketDataServiceIntegration.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(CryptopiaMarketDataServiceIntegration.class);
 
   private static MarketDataService marketDataService;
 
@@ -60,5 +60,4 @@ public class CryptopiaMarketDataServiceIntegration {
 
     assertThat(ticker).isNotNull();
   }
-
 }

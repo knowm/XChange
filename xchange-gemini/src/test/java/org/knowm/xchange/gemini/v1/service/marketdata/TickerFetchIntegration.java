@@ -10,9 +10,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gemini.v1.GeminiExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class TickerFetchIntegration {
 
   @Test
@@ -24,5 +22,4 @@ public class TickerFetchIntegration {
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
-
 }

@@ -1,13 +1,10 @@
 package org.knowm.xchange.anx.v2.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing depth from ANX
- */
+/** Data object representing depth from ANX */
 public final class ANXDepth {
 
   private final List<ANXOrder> asks;
@@ -22,8 +19,12 @@ public final class ANXDepth {
    * @param asks
    * @param bids
    */
-  public ANXDepth(@JsonProperty("now") Long microTime, @JsonProperty("asks") List<ANXOrder> asks, @JsonProperty("bids") List<ANXOrder> bids,
-      @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
+  public ANXDepth(
+      @JsonProperty("now") Long microTime,
+      @JsonProperty("asks") List<ANXOrder> asks,
+      @JsonProperty("bids") List<ANXOrder> bids,
+      @JsonProperty("filter_min_price") FilterPrice filterMinPrice,
+      @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
 
     this.asks = asks;
     this.bids = bids;
@@ -76,7 +77,10 @@ public final class ANXDepth {
      * @param valueInt
      * @param currency
      */
-    public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
+    public FilterPrice(
+        @JsonProperty("value") BigDecimal value,
+        @JsonProperty("value_int") long valueInt,
+        @JsonProperty("currency") String currency) {
 
       this.value = value;
       this.valueInt = valueInt;
@@ -98,5 +102,4 @@ public final class ANXDepth {
       return currency;
     }
   }
-
 }

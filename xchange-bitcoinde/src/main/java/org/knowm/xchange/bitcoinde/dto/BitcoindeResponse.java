@@ -7,7 +7,8 @@ public class BitcoindeResponse {
   private final int credits;
   private final String[] errors;
 
-  public BitcoindeResponse(@JsonProperty("credits") int credits, @JsonProperty("errors") String[] errors) {
+  public BitcoindeResponse(
+      @JsonProperty("credits") int credits, @JsonProperty("errors") String[] errors) {
 
     this.credits = credits;
     this.errors = errors;
@@ -20,5 +21,4 @@ public class BitcoindeResponse {
   public String[] getErrors() {
     return errors;
   }
-
 }

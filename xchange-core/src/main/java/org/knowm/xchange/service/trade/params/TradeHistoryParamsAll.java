@@ -3,18 +3,23 @@ package org.knowm.xchange.service.trade.params;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
- * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting
- * exceptions, if that all the required fields are non-null) passed to any implementation of {@link TradeService#getTradeHistory(TradeHistoryParams)}
- * .
+ * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the
+ * hierarchy and can be safely (without getting exceptions, if that all the required fields are
+ * non-null) passed to any implementation of {@link
+ * TradeService#getTradeHistory(TradeHistoryParams)} .
  */
 public class TradeHistoryParamsAll
-    implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair,
-    TradeHistoryParamMultiCurrencyPair {
+    implements TradeHistoryParamsTimeSpan,
+        TradeHistoryParamPaging,
+        TradeHistoryParamsIdSpan,
+        TradeHistoryParamOffset,
+        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamLimit {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -25,6 +30,7 @@ public class TradeHistoryParamsAll
   private Long offset;
   private CurrencyPair pair;
   private Collection<CurrencyPair> pairs = Collections.emptySet();
+  private Integer limit;
 
   @Override
   public Integer getPageLength() {
@@ -89,10 +95,8 @@ public class TradeHistoryParamsAll
   @Override
   public Long getOffset() {
 
-    if (offset != null || pageLength == null || pageNumber == null)
-      return offset;
-    else
-      return (long) pageLength * pageNumber;
+    if (offset != null || pageLength == null || pageNumber == null) return offset;
+    else return (long) pageLength * pageNumber;
   }
 
   @Override
@@ -135,5 +139,15 @@ public class TradeHistoryParamsAll
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
 
     pairs = value;
+  }
+
+  @Override
+  public Integer getLimit() {
+    return limit;
+  }
+
+  @Override
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 }

@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing a ANX Wallet History Entry
- */
+/** Data object representing a ANX Wallet History Entry */
 public final class ANXWalletHistory {
 
   private final int records;
@@ -19,8 +17,12 @@ public final class ANXWalletHistory {
    * @param records
    * @param anxWalletHistoryEntries
    */
-  public ANXWalletHistory(@JsonProperty("records") int records, @JsonProperty("result") ANXWalletHistoryEntry[] anxWalletHistoryEntries,
-      @JsonProperty("current_page") int currentPage, @JsonProperty("max_page") int maxPage, @JsonProperty("max_results") int maxResults) {
+  public ANXWalletHistory(
+      @JsonProperty("records") int records,
+      @JsonProperty("result") ANXWalletHistoryEntry[] anxWalletHistoryEntries,
+      @JsonProperty("current_page") int currentPage,
+      @JsonProperty("max_page") int maxPage,
+      @JsonProperty("max_results") int maxResults) {
 
     this.records = records;
     this.anxWalletHistoryEntries = anxWalletHistoryEntries;

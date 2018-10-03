@@ -1,16 +1,12 @@
 package org.knowm.xchange.btcmarkets.dto.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.utils.jackson.BtcToSatoshi;
 import org.knowm.xchange.utils.jackson.SatoshiToBtc;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class BTCMarketsBalance {
 
   @JsonSerialize(using = BtcToSatoshi.class)
@@ -41,6 +37,8 @@ public class BTCMarketsBalance {
 
   @Override
   public String toString() {
-    return String.format("BTCMarketsBalance{pendingFunds=%s, balance=%s, currency='%s'}", pendingFunds, balance, currency);
+    return String.format(
+        "BTCMarketsBalance{pendingFunds=%s, balance=%s, currency='%s'}",
+        pendingFunds, balance, currency);
   }
 }

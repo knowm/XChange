@@ -2,9 +2,7 @@ package org.knowm.xchange.lakebtc.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * User: cristian.lucaci Date: 10/3/2014 Time: 4:53 PM
- */
+/** User: cristian.lucaci Date: 10/3/2014 Time: 4:53 PM */
 public class LakeBTCAccount {
 
   private final LakeBTCBalance balance;
@@ -16,7 +14,9 @@ public class LakeBTCAccount {
    * @param balance
    * @param profile
    */
-  public LakeBTCAccount(@JsonProperty("balance") LakeBTCBalance balance, @JsonProperty("profile") LakeBTCProfile profile) {
+  public LakeBTCAccount(
+      @JsonProperty("balance") LakeBTCBalance balance,
+      @JsonProperty("profile") LakeBTCProfile profile) {
     this.balance = balance;
     this.profile = profile;
   }
