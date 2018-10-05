@@ -24,8 +24,9 @@ public class ExmoAdapters {
     Date date = DateUtils.fromUnixTime(Long.valueOf(tradeDatum.get("date")));
     String tradeId = tradeDatum.get("trade_id");
     String orderId = tradeDatum.get("order_id");
-
-    return new UserTrade(type, amount, currencyPair, price, date, tradeId, orderId, null, null);
+    BigDecimal feeAmount = amount.multiply(new BigDecimal(0.002));
+    return new UserTrade(
+        type, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.base);
   }
 
   public static Order.OrderType adaptOrderType(Map<String, String> order) {
