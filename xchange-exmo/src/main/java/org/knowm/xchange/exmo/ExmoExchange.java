@@ -33,7 +33,7 @@ public class ExmoExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setShouldLoadRemoteMetaData(false);
+    exchangeSpecification.setShouldLoadRemoteMetaData(true);
     exchangeSpecification.setSslUri("https://api.exmo.com");
     exchangeSpecification.setHost("exmo.com");
     exchangeSpecification.setPort(80);
