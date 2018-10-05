@@ -10,6 +10,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.DateUtils;
 
 public class ExmoAccountServiceRaw extends BaseExmoService {
@@ -23,6 +24,10 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
 
   public List<Balance> balances() {
     Map map = exmo.userInfo(signatureCreator, apiKey, exchange.getNonceFactory());
+
+    if (map.get("error") != null) {
+      throw new ExchangeException(map.get("error").toString());
+    }
 
     Map<String, String> balances = (Map<String, String>) map.get("balances");
     Map<String, String> reserved = (Map<String, String>) map.get("reserved");
