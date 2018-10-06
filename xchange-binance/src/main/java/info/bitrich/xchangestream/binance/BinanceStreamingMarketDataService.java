@@ -208,7 +208,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                         subscription.lastUpdateId.set(depth.getLastUpdateId());
                     } else {
                         // If not, we re-sync
-                        LOG.info("Orderbook snapshot for {} out of date (last={}, U={}, u={}) {} ", currencyPair, lastUpdateId, depth.getFirstUpdateId(), depth.getLastUpdateId());
+                        LOG.info("Orderbook snapshot for {} out of date (last={}, U={}, u={})", currencyPair, lastUpdateId, depth.getFirstUpdateId(), depth.getLastUpdateId());
                         setSnapshot(currencyPair, subscription);
                     }
                     return result;
