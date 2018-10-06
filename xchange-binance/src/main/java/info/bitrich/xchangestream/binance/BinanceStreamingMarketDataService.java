@@ -165,8 +165,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             subscription.snapshotlastUpdateId = book.lastUpdateId;
             subscription.lastUpdateId.set(book.lastUpdateId);
             subscription.orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
-        } catch (IOException e) {
-            LOG.error("Failed to fetch initial order book for " + currencyPair);
+        } catch (Throwable e) {
+            LOG.error("Failed to fetch initial order book for " + currencyPair, e);
             subscription.orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
         }
     }
