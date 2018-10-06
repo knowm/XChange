@@ -132,11 +132,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     private static final class OrderbookSubscription {
-        long snapshotlastUpdateId = 0L;
+        long snapshotlastUpdateId;
         AtomicLong lastUpdateId = new AtomicLong(0L);
         OrderBook orderBook;
         ConnectableObservable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
         Disposable disposable;
+        AtomicLong lastSyncTime = new AtomicLong(0L);
     }
 
     private OrderbookSubscription initialOrderBook(CurrencyPair currencyPair) {
@@ -159,6 +160,19 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     private void setSnapshot(CurrencyPair currencyPair, OrderbookSubscription subscription) {
+
+        // Don't attempt reconnects too often to avoid bans. 3 seconds will do it.
+        long now = System.currentTimeMillis();
+        long lastSync = subscription.lastSyncTime.get();
+        if (now - lastSync < 3000) {
+            try {
+                Thread.sleep(3000 - (now - lastSync));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+        }
+
         try {
             LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
             BinanceOrderbook book = marketDataService.getBinanceOrderbook(currencyPair, 1000);
@@ -169,6 +183,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             LOG.error("Failed to fetch initial order book for " + currencyPair, e);
             subscription.orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
         }
+        subscription.lastSyncTime.set(now);
     }
 
     private Observable<OrderBook> orderBookStream(CurrencyPair currencyPair) {
