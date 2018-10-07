@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>xchange-exmo-custom</artifactId>
-    <version>4.3.8.7</version>
+    <version>4.3.8.8</version>
 
     <name>XChange Exmo</name>
     <description>XChange implementation for the Exmo Exchange</description>
