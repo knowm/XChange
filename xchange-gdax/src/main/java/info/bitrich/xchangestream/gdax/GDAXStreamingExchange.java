@@ -7,6 +7,8 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gdax.GDAXExchange;
+import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
+import org.knowm.xchange.gdax.service.GDAXAccountServiceRaw;
 
 /**
  * GDAX Streaming Exchange. Connects to live WebSocket feed.
@@ -28,7 +30,19 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
     public Completable connect(ProductSubscription... args) {
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
-        this.streamingService = new GDAXStreamingService(API_URI);
+        ExchangeSpecification exchangeSpec = getExchangeSpecification();
+        GDAXWebsocketAuthData authData = null;
+        if ( exchangeSpec.getApiKey() != null ) {
+            try {
+                GDAXAccountServiceRaw rawAccountService = (GDAXAccountServiceRaw) getAccountService();
+                authData = rawAccountService.getWebsocketAuthData();
+            }
+            catch (Exception e) {
+                logger.warn("Failed attempting to acquire Websocket AuthData needed for private data on" +
+                            " websocket.  Will only receive public information via API", e);
+            }
+        }
+        this.streamingService = new GDAXStreamingService(API_URI, authData);
         this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
 
