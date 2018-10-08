@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.gdax;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
 import org.slf4j.Logger;
@@ -28,11 +29,11 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
     private static final String SHARE_CHANNEL_NAME = "ALL";
     private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
     private ProductSubscription product = null;
-    private GDAXWebsocketAuthData authData = null;
+    private final Supplier<GDAXWebsocketAuthData> authData;
 
     private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
-    public GDAXStreamingService(String apiUrl,GDAXWebsocketAuthData authData) {
+    public GDAXStreamingService(String apiUrl, Supplier<GDAXWebsocketAuthData> authData) {
         super(apiUrl, Integer.MAX_VALUE);
         this.authData = authData;
     }
@@ -71,7 +72,7 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
 
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-        GDAXWebSocketSubscriptionMessage subscribeMessage = new GDAXWebSocketSubscriptionMessage(SUBSCRIBE, product, authData);
+        GDAXWebSocketSubscriptionMessage subscribeMessage = new GDAXWebSocketSubscriptionMessage(SUBSCRIBE, product, authData.get());
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
@@ -79,7 +80,7 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
     @Override
     public String getUnsubscribeMessage(String channelName) throws IOException {
         GDAXWebSocketSubscriptionMessage subscribeMessage =
-                new GDAXWebSocketSubscriptionMessage(UNSUBSCRIBE, new String[]{"level2", "matches", "ticker"}, authData);
+                new GDAXWebSocketSubscriptionMessage(UNSUBSCRIBE, new String[]{"level2", "matches", "ticker"}, authData.get());
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
