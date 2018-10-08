@@ -31,6 +31,14 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
+        this.streamingService = new GDAXStreamingService(API_URI, () -> authData(exchangeSpec));
+        this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
+        streamingService.subscribeMultipleCurrencyPairs(args);
+
+        return streamingService.connect();
+    }
+
+    private GDAXWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
         GDAXWebsocketAuthData authData = null;
         if ( exchangeSpec.getApiKey() != null ) {
             try {
@@ -42,11 +50,7 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
                             " websocket.  Will only receive public information via API", e);
             }
         }
-        this.streamingService = new GDAXStreamingService(API_URI, authData);
-        this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
-        streamingService.subscribeMultipleCurrencyPairs(args);
-
-        return streamingService.connect();
+        return authData;
     }
 
     @Override
