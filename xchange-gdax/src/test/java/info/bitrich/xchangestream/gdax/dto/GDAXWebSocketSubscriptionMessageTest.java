@@ -18,7 +18,7 @@ public class GDAXWebSocketSubscriptionMessageTest {
 
         ProductSubscription productSubscription = ProductSubscription.create().addOrderbook(CurrencyPair.BTC_USD)
                 .addTrades(CurrencyPair.BTC_USD).addTicker(CurrencyPair.BTC_USD).build();
-        GDAXWebSocketSubscriptionMessage message = new GDAXWebSocketSubscriptionMessage("subscribe", productSubscription);
+        GDAXWebSocketSubscriptionMessage message = new GDAXWebSocketSubscriptionMessage("subscribe", productSubscription, null);
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
