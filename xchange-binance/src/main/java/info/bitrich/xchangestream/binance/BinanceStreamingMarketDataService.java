@@ -131,15 +131,45 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 .map(transaction -> transaction.getData().getTicker());
     }
 
-    private static final class OrderbookSubscription {
+    private final class OrderbookSubscription {
         long snapshotlastUpdateId;
         AtomicLong lastUpdateId = new AtomicLong(0L);
         OrderBook orderBook;
         ConnectableObservable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
         AtomicLong lastSyncTime = new AtomicLong(0L);
+
+        void invalidateSnapshot() {
+            snapshotlastUpdateId = 0L;
+        }
+
+        void initSnapshotIfInvalid(CurrencyPair currencyPair) {
+
+            if (snapshotlastUpdateId != 0L)
+                return;
+
+            // Don't attempt reconnects too often to avoid bans. 3 seconds will do it.
+            long now = System.currentTimeMillis();
+            if (now - lastSyncTime.get() < 3000) {
+                return;
+            }
+
+            try {
+                LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
+                BinanceOrderbook book = marketDataService.getBinanceOrderbook(currencyPair, 1000);
+                snapshotlastUpdateId = book.lastUpdateId;
+                lastUpdateId.set(book.lastUpdateId);
+                orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
+            } catch (Throwable e) {
+                LOG.error("Failed to fetch initial order book for " + currencyPair, e);
+                snapshotlastUpdateId = 0L;
+                lastUpdateId.set(0L);
+                orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+            }
+            lastSyncTime.set(now);
+        }
     }
 
-    private OrderbookSubscription initialOrderBook(CurrencyPair currencyPair) {
+    private OrderbookSubscription connectOrderBook(CurrencyPair currencyPair) {
         OrderbookSubscription subscription = new OrderbookSubscription();
 
         // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
@@ -155,42 +185,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             .replay();
         subscription.stream.connect();
 
-        // 3. Get a depth snapshot from https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000
-        setSnapshot(currencyPair, subscription);
         return subscription;
     }
 
-    private void setSnapshot(CurrencyPair currencyPair, OrderbookSubscription subscription) {
-
-        // Don't attempt reconnects too often to avoid bans. 3 seconds will do it.
-        long now = System.currentTimeMillis();
-        long lastSync = subscription.lastSyncTime.get();
-        if (now - lastSync < 3000) {
-            try {
-                Thread.sleep(3000 - (now - lastSync));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException(e);
-            }
-        }
-
-        try {
-            LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
-            BinanceOrderbook book = marketDataService.getBinanceOrderbook(currencyPair, 1000);
-            subscription.snapshotlastUpdateId = book.lastUpdateId;
-            subscription.lastUpdateId.set(book.lastUpdateId);
-            subscription.orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
-        } catch (Throwable e) {
-            LOG.error("Failed to fetch initial order book for " + currencyPair, e);
-            subscription.orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
-        }
-        subscription.lastSyncTime.set(now);
-    }
-
     private Observable<OrderBook> orderBookStream(CurrencyPair currencyPair) {
-        OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, pair -> initialOrderBook(pair));
+        OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, pair -> connectOrderBook(pair));
 
         return subscription.stream
+
+                // 3. Get a depth snapshot from https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000
+                // (we do this if we don't already have one or we've invalidated a previous one)
+                .doOnNext(transaction -> subscription.initSnapshotIfInvalid(currencyPair))
+
                 .map(BinanceWebsocketTransaction::getData)
 
                 // 4. Drop any event where u is <= lastUpdateId in the snapshot
@@ -226,7 +232,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                         // missing 6.  The only thing we can do is to keep requesting a fresh snapshot until
                         // we get to a situation where the snapshot and an update event precisely line up.
                         LOG.info("Orderbook snapshot for {} out of date (last={}, U={}, u={}). This is normal. Re-syncing.", currencyPair, lastUpdateId, depth.getFirstUpdateId(), depth.getLastUpdateId());
-                        setSnapshot(currencyPair, subscription);
+                        subscription.invalidateSnapshot();
                     }
                     return result;
                 })
