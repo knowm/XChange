@@ -23,6 +23,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.exmo.dto.meta.ExmoCurrencyPairMetaData;
 
 public class ExmoMarketDataServiceRaw extends BaseExmoService {
   protected ExmoMarketDataServiceRaw(Exchange exchange) {
@@ -76,11 +77,12 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
 
       // min_quantity or min_amount ???
       CurrencyPairMetaData currencyPairMetaData =
-          new CurrencyPairMetaData(
+          new ExmoCurrencyPairMetaData(
               tradingFee,
-              new BigDecimal(data.get("min_amount")),
-              new BigDecimal(data.get("max_amount")),
-              priceScale);
+              new BigDecimal(data.get("min_quantity")),
+              new BigDecimal(data.get("max_quantity")),
+              priceScale,
+              new BigDecimal(data.get("min_amount")));
 
       currencyPairs.put(currencyPair, currencyPairMetaData);
 
