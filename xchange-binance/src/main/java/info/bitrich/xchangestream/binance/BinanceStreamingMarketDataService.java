@@ -12,7 +12,6 @@ import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observables.ConnectableObservable;
 
@@ -137,7 +136,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         AtomicLong lastUpdateId = new AtomicLong(0L);
         OrderBook orderBook;
         ConnectableObservable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
-        Disposable disposable;
         AtomicLong lastSyncTime = new AtomicLong(0L);
     }
 
@@ -151,9 +149,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     transaction.getData().getCurrencyPair().equals(currencyPair) &&
                             transaction.getData().getEventType() == DEPTH_UPDATE)
 
-        // 2.Buffer the events you receive from the stream
+        // 2.Buffer the events you receive from the stream.
+        // This is solely to allow room for us to periodically fetch a fresh snapshot
+        // in the event that binance sends events out of sequence or skips events.
             .replay();
-        subscription.disposable = subscription.stream.connect();
+        subscription.stream.connect();
 
         // 3. Get a depth snapshot from https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000
         setSnapshot(currencyPair, subscription);
@@ -191,10 +191,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, pair -> initialOrderBook(pair));
 
         return subscription.stream
-                .doOnComplete(() -> {
-                    subscription.disposable.dispose();
-                    orderbooks.remove(currencyPair);
-                })
                 .map(BinanceWebsocketTransaction::getData)
 
                 // 4. Drop any event where u is <= lastUpdateId in the snapshot
@@ -223,8 +219,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                     if (result) {
                         subscription.lastUpdateId.set(depth.getLastUpdateId());
                     } else {
-                        // If not, we re-sync
-                        LOG.info("Orderbook snapshot for {} out of date (last={}, U={}, u={})", currencyPair, lastUpdateId, depth.getFirstUpdateId(), depth.getLastUpdateId());
+                        // If not, we re-sync.  This will commonly occur a few times when starting up, since
+                        // given update ids 1,2,3,4,5,6,7,8,9, Binance may sometimes return a snapshot
+                        // as of 5, but update events covering 1-3, 4-6 and 7-9.  We can't apply the 4-6
+                        // update event without double-counting 5, and we can't apply the 7-9 update without
+                        // missing 6.  The only thing we can do is to keep requesting a fresh snapshot until
+                        // we get to a situation where the snapshot and an update event precisely line up.
+                        LOG.info("Orderbook snapshot for {} out of date (last={}, U={}, u={}). This is normal. Re-syncing.", currencyPair, lastUpdateId, depth.getFirstUpdateId(), depth.getLastUpdateId());
                         setSnapshot(currencyPair, subscription);
                     }
                     return result;
