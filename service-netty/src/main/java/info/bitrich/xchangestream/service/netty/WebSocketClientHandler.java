@@ -10,6 +10,7 @@ import io.netty.channel.ChannelPromise;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
@@ -77,6 +78,9 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame)frame;
             handler.onMessage(textFrame.text());
+        } else if (frame instanceof PingWebSocketFrame) {
+            LOG.debug("WebSocket Client received ping");
+            ch.writeAndFlush(new PongWebSocketFrame(frame.content().retain()));
         } else if (frame instanceof PongWebSocketFrame) {
             LOG.debug("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {
