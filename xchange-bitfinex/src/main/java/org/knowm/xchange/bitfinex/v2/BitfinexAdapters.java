@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -15,7 +16,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.utils.DateUtils;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +25,44 @@ public final class BitfinexAdapters {
 
   private BitfinexAdapters() {}
 
+  /**
+   * Converts a {@link Currency} to Bitfinex Symbol
+   * @param currency
+   * @return 
+   */
+  public static String adaptCurrency(Currency currency) {
+    if (currency.equals(Currency.DASH)) {
+      return "DSH";
+    
+    } else if (currency.equals(Currency.QTUM)) {
+      return "QTM";
+    
+    } else {
+      return currency.toString();
+    }
+  }
+  
+  public static String adaptBitfinexCurrency(String bitfinexSymbol) {
+    String currency = bitfinexSymbol.toUpperCase();
+    if (currency.equals("DSH")) {
+      currency = "DASH";
+    }
+    if (currency.equals("QTM")) {
+      currency = "QTUM";
+    }
+    return currency;
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
+    String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
+    String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
+    return new CurrencyPair(tradableIdentifier, transactionCurrency);
+  }
+  
   public static String adaptCurrencyPairsToTickersParam(Collection<CurrencyPair> currencyPairs) {
     return currencyPairs
         .stream()
-        .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
+        .map(currencyPair -> "t" + adaptCurrency(currencyPair.base) + adaptCurrency(currencyPair.counter))
         .collect(Collectors.joining(","));
   }
 
@@ -43,8 +77,7 @@ public final class BitfinexAdapters {
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
 
-    CurrencyPair currencyPair =
-        CurrencyPairDeserializer.getCurrencyPairFromString(bitfinexTicker.getSymbol().substring(1));
+    CurrencyPair currencyPair = adaptCurrencyPair(bitfinexTicker.getSymbol().substring(1));
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
