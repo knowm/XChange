@@ -40,8 +40,8 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
     private static final Logger LOG = LoggerFactory.getLogger(GDAXStreamingMarketDataService.class);
 
     private final GDAXStreamingService service;
-    private Map<CurrencyPair, SortedMap<BigDecimal, String>> bids = new HashMap<>();
-    private Map<CurrencyPair, SortedMap<BigDecimal, String>> asks = new HashMap<>();
+    private final Map<CurrencyPair, SortedMap<BigDecimal, String>> bids = new HashMap<>();
+    private final Map<CurrencyPair, SortedMap<BigDecimal, String>> asks = new HashMap<>();
 
     GDAXStreamingMarketDataService(GDAXStreamingService service) {
         this.service = service;
@@ -66,7 +66,7 @@ public class GDAXStreamingMarketDataService implements StreamingMarketDataServic
 
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-        final int maxDepth = (args.length > 0 && args[0] instanceof Integer) ? (int) args[0] : 0;
+        final int maxDepth = (args.length > 0 && args[0] instanceof Integer) ? (int) args[0] : 100;
 
         Observable<GDAXWebSocketTransaction> subscribedChannel = service.subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), GDAXWebSocketTransaction.class));
