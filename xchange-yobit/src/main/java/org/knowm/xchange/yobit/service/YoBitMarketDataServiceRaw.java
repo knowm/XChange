@@ -44,6 +44,6 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
   }
 
   public YoBitTrades getPublicTrades(Iterable<CurrencyPair> currencyPairs) throws IOException {
-    return service.getTrades(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
+    return service.getTrades(getPairListAsString(currencyPairs));
   }
 }
