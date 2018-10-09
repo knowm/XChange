@@ -109,6 +109,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency GNO = createCurrency("GNO", "Gnosis", null);
   public static final Currency GNT = createCurrency("GNT", "Golem", null);
   public static final Currency GTQ = createCurrency("GTQ", "Guatemalan Quetzal", null);
+  public static final Currency GVT = createCurrency("GVT", "Genesis Vision", null);
   public static final Currency GYD = createCurrency("GYD", "Guyanaese Dollar", null);
   public static final Currency HKD = createCurrency("HKD", "Hong Kong Dollar", null);
   public static final Currency HVN = createCurrency("HVN", "Hive", null);
@@ -169,6 +170,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency MYR = createCurrency("MYR", "Malaysian Ringgit", null);
   public static final Currency MZN = createCurrency("MZN", "Mozambican Metical", null);
   public static final Currency NAD = createCurrency("NAD", "Namibian Dollar", null);
+  public static final Currency NOBS = createCurrency("NOBS", "No BS Crypto", null);
   public static final Currency NEO = createCurrency("NEO", "NEO", null);
   public static final Currency NGN = createCurrency("NGN", "Nigerian Naira", null);
   public static final Currency NIO = createCurrency("NIO", "Nicaraguan Córdoba", null);
