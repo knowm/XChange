@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
 import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
+import org.knowm.xchange.bl3p.dto.account.Bl3pWithdrawFunds;
 import org.knowm.xchange.bl3p.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -194,10 +195,55 @@ public interface Bl3pAuthenticated extends Bl3p {
   @GET
   @Path("{currencyPair}/money/trades/fetch")
   Bl3pUserTrades getUserTradeHistory(
-          @HeaderParam("Rest-Key") String restKey,
-          @HeaderParam("Rest-Sign") ParamsDigest restSign,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-          @PathParam("currencyPair") String currencyPair,
-          @FormParam("trade_id") String tradeId);
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @PathParam("currencyPair") String currencyPair,
+      @FormParam("trade_id") String tradeId);
 
+  /**
+   * Withdraw coins
+   *
+   * @param restKey
+   * @param restSign
+   * @param nonce
+   * @param currency
+   * @param address
+   * @param extraFee
+   * @param amount
+   * @return
+   */
+  @POST
+  @Path("GENMKT/money/withdraw")
+  Bl3pWithdrawFunds withdrawCoins(
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("address") String address,
+      @FormParam("extra_fee") int extraFee,
+      @FormParam("amount_int") long amount);
+
+  /**
+   * Withdraw euros
+   *
+   * @param restKey
+   * @param restSign
+   * @param nonce
+   * @param currency
+   * @param accountId
+   * @param accountName
+   * @param amount
+   * @return
+   */
+  @POST
+  @Path("GENMKT/money/withdraw")
+  Bl3pWithdrawFunds withdrawEuros(
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("account_id") String accountId,
+      @FormParam("account_name") String accountName,
+      @FormParam("amount_int") long amount);
 }

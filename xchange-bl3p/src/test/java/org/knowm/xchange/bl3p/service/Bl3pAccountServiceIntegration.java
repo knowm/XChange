@@ -1,11 +1,14 @@
 package org.knowm.xchange.bl3p.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bl3p.Bl3pExchange;
+import org.knowm.xchange.bl3p.service.params.Bl3pWithdrawFundsParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -24,11 +27,7 @@ public class Bl3pAccountServiceIntegration {
   }
 
   @Test
-  public void withdrawFunds() {}
-
-  @Test
   public void requestDepositAddress() throws IOException {
-    /** Don't strain those poor wallets */
     String newDepositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println(newDepositAddress);
   }
@@ -45,5 +44,15 @@ public class Bl3pAccountServiceIntegration {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Test
+  public void withdrawFunds() throws IOException {
+    Bl3pWithdrawFundsParams.Coins withdrawCoins =
+        new Bl3pWithdrawFundsParams.Coins(
+            "BTC", "1P6Wyq83s7CJSd9s82xJ8HszUa4qUV7EgM", new BigDecimal("0.001"));
+
+    String id = accountService.withdrawFunds(withdrawCoins);
+    System.out.println(id);
   }
 }
