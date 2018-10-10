@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit2.marketdata;
+package org.knowm.xchange.examples.cryptonit.marketdata;
 
 import java.io.IOException;
 import java.math.BigDecimal;

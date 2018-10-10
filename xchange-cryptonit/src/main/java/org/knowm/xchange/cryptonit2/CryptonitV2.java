@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cryptonit2.dto.CryptonitException;
+import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitOrderBook;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitTicker;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitTransaction;
@@ -24,8 +25,7 @@ public interface CryptonitV2 {
 
   @GET
   @Path("ticker/{pair}/")
-  CryptonitTicker getTicker(@PathParam("pair") CryptonitV2.Pair pair)
-      throws IOException, CryptonitException;
+  CryptonitTicker getTicker(@PathParam("pair") Pair pair) throws IOException, CryptonitException;
 
   /** Returns descending list of transactions. */
   @GET
@@ -34,6 +34,10 @@ public interface CryptonitV2 {
       @PathParam("pair") Pair pair,
       @QueryParam("time") CryptonitMarketDataServiceRaw.CryptonitTime time)
       throws IOException, CryptonitException;
+
+  @GET
+  @Path("/fiat_withdrawal/methods/")
+  CryptonitWithdrawal fiatWithdrawalMethods() throws CryptonitException, IOException;
 
   class Pair {
     public final CurrencyPair pair;
