@@ -4,7 +4,11 @@ import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.cryptonit2.dto.account.CryptonitBalance;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitOrderBook;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitTicker;
@@ -16,7 +20,7 @@ import org.knowm.xchange.cryptonit2.dto.trade.CryptonitUserTransaction;
 import org.knowm.xchange.cryptonit2.order.dto.CryptonitGenericOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -51,8 +55,7 @@ public final class CryptonitAdapters {
 
     // Adapt to XChange DTOs
     List<Balance> balances = new ArrayList<>();
-    for (org.knowm.xchange.cryptonit2.dto.account.CryptonitBalance.Balance b :
-        cryptonitBalance.getBalances()) {
+    for (CryptonitBalance.Balance b : cryptonitBalance.getBalances()) {
       Balance xchangeBalance =
           new Balance(
               Currency.getInstance(b.getCurrency().toUpperCase()),
@@ -76,15 +79,13 @@ public final class CryptonitAdapters {
    */
   public static OrderBook adaptOrderBook(
       CryptonitOrderBook cryptonitOrderBook, CurrencyPair currencyPair) {
-    List<LimitOrder> asks =
-        createOrders(currencyPair, Order.OrderType.ASK, cryptonitOrderBook.getAsks());
-    List<LimitOrder> bids =
-        createOrders(currencyPair, Order.OrderType.BID, cryptonitOrderBook.getBids());
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, cryptonitOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, cryptonitOrderBook.getBids());
     return new OrderBook(cryptonitOrderBook.getTimestamp(), asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+      CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
@@ -96,7 +97,7 @@ public final class CryptonitAdapters {
   }
 
   public static LimitOrder createOrder(
-      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(
         orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
@@ -184,12 +185,7 @@ public final class CryptonitAdapters {
         .build();
   }
 
-  /**
-   * Adapt the user's trades
-   *
-   * @param cryptonitUserTransactions
-   * @return
-   */
+  /** Adapt the user's trades */
   public static UserTrades adaptTradeHistory(CryptonitUserTransaction[] cryptonitUserTransactions) {
 
     List<UserTrade> trades = new ArrayList<>();
@@ -271,37 +267,67 @@ public final class CryptonitAdapters {
   private static CurrencyPair adaptCurrencyPair(CryptonitOrderTransaction transaction) {
 
     // USD section
-    if (transaction.getBtc() != null && transaction.getUsd() != null) return CurrencyPair.BTC_USD;
+    if (transaction.getBtc() != null && transaction.getUsd() != null) {
+      return CurrencyPair.BTC_USD;
+    }
 
-    if (transaction.getLtc() != null && transaction.getUsd() != null) return CurrencyPair.LTC_USD;
+    if (transaction.getLtc() != null && transaction.getUsd() != null) {
+      return CurrencyPair.LTC_USD;
+    }
 
-    if (transaction.getEth() != null && transaction.getUsd() != null) return CurrencyPair.ETH_USD;
+    if (transaction.getEth() != null && transaction.getUsd() != null) {
+      return CurrencyPair.ETH_USD;
+    }
 
-    if (transaction.getXrp() != null && transaction.getUsd() != null) return CurrencyPair.XRP_USD;
+    if (transaction.getXrp() != null && transaction.getUsd() != null) {
+      return CurrencyPair.XRP_USD;
+    }
 
-    if (transaction.getBch() != null && transaction.getUsd() != null) return CurrencyPair.BCH_USD;
+    if (transaction.getBch() != null && transaction.getUsd() != null) {
+      return CurrencyPair.BCH_USD;
+    }
 
     // EUR section
-    if (transaction.getBtc() != null && transaction.getEur() != null) return CurrencyPair.BTC_EUR;
+    if (transaction.getBtc() != null && transaction.getEur() != null) {
+      return CurrencyPair.BTC_EUR;
+    }
 
-    if (transaction.getLtc() != null && transaction.getEur() != null) return CurrencyPair.LTC_EUR;
+    if (transaction.getLtc() != null && transaction.getEur() != null) {
+      return CurrencyPair.LTC_EUR;
+    }
 
-    if (transaction.getEth() != null && transaction.getEur() != null) return CurrencyPair.ETH_EUR;
+    if (transaction.getEth() != null && transaction.getEur() != null) {
+      return CurrencyPair.ETH_EUR;
+    }
 
-    if (transaction.getXrp() != null && transaction.getEur() != null) return CurrencyPair.XRP_EUR;
+    if (transaction.getXrp() != null && transaction.getEur() != null) {
+      return CurrencyPair.XRP_EUR;
+    }
 
-    if (transaction.getBch() != null && transaction.getEur() != null) return CurrencyPair.BCH_EUR;
+    if (transaction.getBch() != null && transaction.getEur() != null) {
+      return CurrencyPair.BCH_EUR;
+    }
 
     // BTC section
-    if (transaction.getLtc() != null && transaction.getBtc() != null) return CurrencyPair.LTC_BTC;
+    if (transaction.getLtc() != null && transaction.getBtc() != null) {
+      return CurrencyPair.LTC_BTC;
+    }
 
-    if (transaction.getEth() != null && transaction.getBtc() != null) return CurrencyPair.ETH_BTC;
+    if (transaction.getEth() != null && transaction.getBtc() != null) {
+      return CurrencyPair.ETH_BTC;
+    }
 
-    if (transaction.getXrp() != null && transaction.getBtc() != null) return CurrencyPair.XRP_BTC;
+    if (transaction.getXrp() != null && transaction.getBtc() != null) {
+      return CurrencyPair.XRP_BTC;
+    }
 
-    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
+    if (transaction.getBch() != null && transaction.getBtc() != null) {
+      return CurrencyPair.BCH_BTC;
+    }
 
-    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
+    if (transaction.getBch() != null && transaction.getBtc() != null) {
+      return CurrencyPair.BCH_BTC;
+    }
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -311,27 +337,47 @@ public final class CryptonitAdapters {
 
     CurrencyPair currencyPair = adaptCurrencyPair(cryptonitTransaction);
 
-    if (currencyPair.base.equals(Currency.LTC)) return cryptonitTransaction.getLtc();
+    if (currencyPair.base.equals(Currency.LTC)) {
+      return cryptonitTransaction.getLtc();
+    }
 
-    if (currencyPair.base.equals(Currency.BTC)) return cryptonitTransaction.getBtc();
+    if (currencyPair.base.equals(Currency.BTC)) {
+      return cryptonitTransaction.getBtc();
+    }
 
-    if (currencyPair.base.equals(Currency.BCH)) return cryptonitTransaction.getBch();
+    if (currencyPair.base.equals(Currency.BCH)) {
+      return cryptonitTransaction.getBch();
+    }
 
-    if (currencyPair.base.equals(Currency.ETH)) return cryptonitTransaction.getEth();
+    if (currencyPair.base.equals(Currency.ETH)) {
+      return cryptonitTransaction.getEth();
+    }
 
-    if (currencyPair.base.equals(Currency.XRP)) return cryptonitTransaction.getXrp();
+    if (currencyPair.base.equals(Currency.XRP)) {
+      return cryptonitTransaction.getXrp();
+    }
 
     throw new NotYetImplementedForExchangeException();
   }
 
-  public static Order.OrderStatus adaptOrderStatus(CryptonitOrderStatus cryptonitOrderStatus) {
+  public static OrderStatus adaptOrderStatus(
+      CryptonitOrderStatus cryptonitOrderStatus, int length) {
 
-    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Queue))
-      return Order.OrderStatus.PENDING_NEW;
+    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Queue)) {
+      return OrderStatus.PENDING_NEW;
+    }
 
-    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Finished)) return Order.OrderStatus.FILLED;
+    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Finished) && length > 0) {
+      return OrderStatus.FILLED;
+    } else if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Finished) && length == 0) {
+      return OrderStatus.CANCELED;
+    }
 
-    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Open)) return Order.OrderStatus.NEW;
+    if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Open) && length == 0) {
+      return OrderStatus.NEW;
+    } else if (cryptonitOrderStatus.equals(CryptonitOrderStatus.Open) && length > 0) {
+      return OrderStatus.PARTIALLY_FILLED;
+    }
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -339,39 +385,46 @@ public final class CryptonitAdapters {
   /**
    * There is no method to discern market versus limit order type - so this returns a generic
    * CryptonitGenericOrder as a status
-   *
-   * @param cryptonitOrderStatusResponse
-   * @return
    */
   public static CryptonitGenericOrder adaptOrder(
       String orderId, CryptonitOrderStatusResponse cryptonitOrderStatusResponse) {
 
     CryptonitOrderTransaction[] cryptonitTransactions =
         cryptonitOrderStatusResponse.getTransactions();
-
+    CurrencyPair currencyPair = null;
+    Date date = null;
+    BigDecimal averagePrice = null;
+    BigDecimal cumulativeAmount = null;
+    BigDecimal totalFee = null;
     // Use only the first transaction, because we assume that for a single order id all transactions
     // will
     // be of the same currency pair
-    CurrencyPair currencyPair = adaptCurrencyPair(cryptonitTransactions[0]);
-    Date date = cryptonitTransactions[0].getDatetime();
+    if (cryptonitTransactions.length > 0) {
+      currencyPair = adaptCurrencyPair(cryptonitTransactions[0]);
+      date = cryptonitTransactions[0].getDatetime();
 
-    BigDecimal averagePrice =
-        Arrays.stream(cryptonitTransactions)
-            .map(t -> t.getPrice())
-            .reduce((x, y) -> x.add(y))
-            .get()
-            .divide(BigDecimal.valueOf(cryptonitTransactions.length), 2);
+      averagePrice =
+          Arrays.stream(cryptonitTransactions)
+              .map(t -> t.getPrice())
+              .reduce((x, y) -> x.add(y))
+              .get()
+              .divide(BigDecimal.valueOf(cryptonitTransactions.length), 2);
 
-    BigDecimal cumulativeAmount =
-        Arrays.stream(cryptonitTransactions)
-            .map(t -> getBaseCurrencyAmountFromCryptonitTransaction(t))
-            .reduce((x, y) -> x.add(y))
-            .get();
+      cumulativeAmount =
+          Arrays.stream(cryptonitTransactions)
+              .map(t -> getBaseCurrencyAmountFromCryptonitTransaction(t))
+              .reduce((x, y) -> x.add(y))
+              .get();
 
-    BigDecimal totalFee =
-        Arrays.stream(cryptonitTransactions).map(t -> t.getFee()).reduce((x, y) -> x.add(y)).get();
+      totalFee =
+          Arrays.stream(cryptonitTransactions)
+              .map(t -> t.getFee())
+              .reduce((x, y) -> x.add(y))
+              .get();
+    }
 
-    Order.OrderStatus orderStatus = adaptOrderStatus(cryptonitOrderStatusResponse.getStatus());
+    OrderStatus orderStatus =
+        adaptOrderStatus(cryptonitOrderStatusResponse.getStatus(), cryptonitTransactions.length);
 
     CryptonitGenericOrder cryptonitGenericOrder =
         new CryptonitGenericOrder(

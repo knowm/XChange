@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit2;
+package org.knowm.xchange.examples.cryptonit;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -12,8 +12,8 @@ public class CryptonitDemoUtils {
 
     ExchangeSpecification exSpec = new CryptonitExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("209");
-    exSpec.setApiKey("2DEBCF0F-25FF-472E-979C-68EE6FF62A13 ");
-    exSpec.setSecretKey("ODNkOTQxZTViYTIyYzU4ZDQ2MGM1MmE3MzI5ZGFhMzk0ZDk5ZjEwMw");
+    exSpec.setApiKey("04B5F8C2-E8A0-4AE2-ACC7-CBA0A564F8C0");
+    exSpec.setSecretKey("Mzk5OTM2OTNhNmUyOGY1NmY4MTM2NDgyMTM2NTA0YmYwMzg2MTQxYg");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

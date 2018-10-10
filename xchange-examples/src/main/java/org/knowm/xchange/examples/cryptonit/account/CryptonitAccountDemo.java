@@ -1,11 +1,14 @@
-package org.knowm.xchange.examples.cryptonit2.account;
+package org.knowm.xchange.examples.cryptonit.account;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cryptonit2.dto.account.*;
+import org.knowm.xchange.cryptonit2.dto.account.CryptonitBalance;
+import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
 import org.knowm.xchange.cryptonit2.service.CryptonitAccountServiceRaw;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.examples.cryptonit2.CryptonitDemoUtils;
+import org.knowm.xchange.examples.cryptonit.CryptonitDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
 /**
@@ -42,18 +45,16 @@ public class CryptonitAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);*/
 
-    /*
-       Api not implemented or uses other specification?
     String withdrawResult =
-        accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
-    System.out.println("withdrawResult = " + withdrawResult);*/
+        accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(2), "XXX");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
 
   private static void raw(CryptonitAccountServiceRaw accountService) throws IOException {
 
     // Get the account information
-    CryptonitBalance bitstampBalance = accountService.getCryptonitBalance();
-    System.out.println("CryptonitBalance: " + bitstampBalance);
+    CryptonitBalance cryptonitBalance = accountService.getCryptonitBalance();
+    System.out.println("CryptonitBalance: " + cryptonitBalance);
 
     /*
     Api not implemented or uses other specification?
@@ -77,10 +78,8 @@ public class CryptonitAccountDemo {
         System.out.println(unconfirmedDeposit);
       }*/
 
-    /*
-    Api not implemented or uses other specification?
     CryptonitWithdrawal withdrawResult =
-        accountService.withdrawBtcFunds(new BigDecimal(1).movePointLeft(4), "XXX");
-    System.out.println("CryptonitBooleanResponse = " + withdrawResult);*/
+        accountService.withdrawCrypto(new BigDecimal(1).movePointLeft(4), "XXX", Currency.BTC);
+    System.out.println("CryptonitBooleanResponse = " + withdrawResult);
   }
 }
