@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit.trade;
+package org.knowm.xchange.examples.cryptonit2.trade;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
@@ -7,7 +7,7 @@ import org.knowm.xchange.cryptonit2.service.CryptonitTradeHistoryParams;
 import org.knowm.xchange.cryptonit2.service.CryptonitTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.examples.cryptonit.CryptonitDemoUtils;
+import org.knowm.xchange.examples.cryptonit2.CryptonitDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
