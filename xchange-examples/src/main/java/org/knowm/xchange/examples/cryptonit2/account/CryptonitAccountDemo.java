@@ -37,6 +37,16 @@ public class CryptonitAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
+    /*
+    Api not implemented or uses other specification?
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
+    System.out.println("Deposit address: " + depositAddress);*/
+
+    /*
+       Api not implemented or uses other specification?
+    String withdrawResult =
+        accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
+    System.out.println("withdrawResult = " + withdrawResult);*/
   }
 
   private static void raw(CryptonitAccountServiceRaw accountService) throws IOException {
@@ -44,6 +54,33 @@ public class CryptonitAccountDemo {
     // Get the account information
     CryptonitBalance bitstampBalance = accountService.getCryptonitBalance();
     System.out.println("CryptonitBalance: " + bitstampBalance);
-    
+
+    /*
+    Api not implemented or uses other specification?
+    CryptonitDepositAddress depositAddress = accountService.getCryptonitBitcoinDepositAddress();
+     System.out.println("CryptonitDepositAddress address: " + depositAddress);*/
+
+    /*
+    Api not implemented or uses other specification?
+    final List<DepositTransaction> unconfirmedDeposits = accountService.getUnconfirmedDeposits();
+     System.out.println("Unconfirmed deposits:");
+     for (DepositTransaction unconfirmedDeposit : unconfirmedDeposits) {
+       System.out.println(unconfirmedDeposit);
+     }*/
+
+    /*
+    Api not implemented or uses other specification?
+    final List<WithdrawalRequest> withdrawalRequests =
+          accountService.getWithdrawalRequests(50000000l);
+      System.out.println("Withdrawal requests:");
+      for (WithdrawalRequest unconfirmedDeposit : withdrawalRequests) {
+        System.out.println(unconfirmedDeposit);
+      }*/
+
+    /*
+    Api not implemented or uses other specification?
+    CryptonitWithdrawal withdrawResult =
+        accountService.withdrawBtcFunds(new BigDecimal(1).movePointLeft(4), "XXX");
+    System.out.println("CryptonitBooleanResponse = " + withdrawResult);*/
   }
 }
