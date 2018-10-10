@@ -1,7 +1,6 @@
 package org.knowm.xchange.bl3p.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 public class Bl3pTrade {

@@ -1,6 +1,7 @@
 package org.knowm.xchange.bl3p.service;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -8,6 +9,8 @@ import org.knowm.xchange.bl3p.Bl3pAdapters;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
 import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
+import org.knowm.xchange.bl3p.dto.account.Bl3pWithdrawFunds;
+import org.knowm.xchange.bl3p.service.params.Bl3pWithdrawFundsParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -34,7 +37,38 @@ public class Bl3pAccountService extends Bl3pBaseService implements AccountServic
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    return null;
+    Bl3pWithdrawFunds result;
+
+    if (params instanceof Bl3pWithdrawFundsParams.Coins) {
+      Bl3pWithdrawFundsParams.Coins coinParams = (Bl3pWithdrawFundsParams.Coins) params;
+
+      result =
+          this.bl3p.withdrawCoins(
+              apiKey,
+              signatureCreator,
+              nonceFactory,
+              coinParams.getCurrency(),
+              coinParams.getAddress(),
+              coinParams.isExtraFee() ? 1 : 0,
+              coinParams.getAmount());
+    } else if (params instanceof Bl3pWithdrawFundsParams.Euros) {
+      Bl3pWithdrawFundsParams.Euros euroParams = (Bl3pWithdrawFundsParams.Euros) params;
+
+      result =
+          this.bl3p.withdrawEuros(
+              apiKey,
+              signatureCreator,
+              nonceFactory,
+              euroParams.getCurrency(),
+              euroParams.getAccountId(),
+              euroParams.getAccountName(),
+              euroParams.getAmount());
+    } else {
+      throw new InvalidParameterException(
+          "WithdrawFundsParams must be either Bl3pWithdrawFundsParams.Euros or Bl3pWithdrawFundsParams.Coins");
+    }
+
+    return Integer.toString(result.getData().id);
   }
 
   @Override
