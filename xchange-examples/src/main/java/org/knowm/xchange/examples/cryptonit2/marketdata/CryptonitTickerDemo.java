@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit.marketdata;
+package org.knowm.xchange.examples.cryptonit2.marketdata;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;

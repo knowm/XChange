@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit.trade;
+package org.knowm.xchange.examples.cryptonit2.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,7 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.examples.cryptonit.CryptonitDemoUtils;
+import org.knowm.xchange.examples.cryptonit2.CryptonitDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;

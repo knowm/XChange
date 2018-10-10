@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit.account;
+package org.knowm.xchange.examples.cryptonit2.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,7 +8,7 @@ import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
 import org.knowm.xchange.cryptonit2.service.CryptonitAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.examples.cryptonit.CryptonitDemoUtils;
+import org.knowm.xchange.examples.cryptonit2.CryptonitDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
 
 /**

@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.cryptonit;
+package org.knowm.xchange.examples.cryptonit2;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
