@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bl3p.Bl3pExchange;
+import org.knowm.xchange.bl3p.service.params.Bl3pTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -13,7 +14,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 
-public class Bl3pTradeServiceTest {
+public class Bl3pTradeServiceIntegration {
 
   Exchange exchange = ExchangeFactory.INSTANCE.createExchange(Bl3pExchange.class);
   TradeService tradeService = exchange.getTradeService();
@@ -76,8 +77,8 @@ public class Bl3pTradeServiceTest {
 
   @Test
   public void getTradeHistory() throws IOException {
-    Bl3pTradeService.Bl3pTradeHistoryParams p =
-        new Bl3pTradeService.Bl3pTradeHistoryParams(Currency.BTC);
+    Bl3pTradeHistoryParams p =
+        new Bl3pTradeHistoryParams(Currency.BTC, Bl3pTradeHistoryParams.TransactionType.TRADE);
     UserTrades trades = this.tradeService.getTradeHistory(p);
 
     System.out.println(trades);

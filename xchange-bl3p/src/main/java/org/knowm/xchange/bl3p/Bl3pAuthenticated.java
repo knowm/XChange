@@ -6,7 +6,11 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bl3p.dto.Bl3pUserTransactions;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
-import org.knowm.xchange.bl3p.dto.trade.*;
+import org.knowm.xchange.bl3p.dto.account.Bl3pWithdrawFunds;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pCancelOrder;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pGetOrder;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pNewOrder;
+import org.knowm.xchange.bl3p.dto.trade.Bl3pOpenOrders;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -176,8 +180,54 @@ public interface Bl3pAuthenticated extends Bl3p {
       @HeaderParam("Rest-Key") String restKey,
       @HeaderParam("Rest-Sign") ParamsDigest restSign,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("currency") String currency,
+      @PathParam("currency") String currency,
       @FormParam("type") String type,
       @FormParam("page") int page,
       @FormParam("recs_per_page") int recsPerPage);
+
+  /**
+   * Withdraw coins
+   *
+   * @param restKey
+   * @param restSign
+   * @param nonce
+   * @param currency
+   * @param address
+   * @param extraFee
+   * @param amount
+   * @return
+   */
+  @POST
+  @Path("GENMKT/money/withdraw")
+  Bl3pWithdrawFunds withdrawCoins(
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("address") String address,
+      @FormParam("extra_fee") int extraFee,
+      @FormParam("amount_int") long amount);
+
+  /**
+   * Withdraw euros
+   *
+   * @param restKey
+   * @param restSign
+   * @param nonce
+   * @param currency
+   * @param accountId
+   * @param accountName
+   * @param amount
+   * @return
+   */
+  @POST
+  @Path("GENMKT/money/withdraw")
+  Bl3pWithdrawFunds withdrawEuros(
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("account_id") String accountId,
+      @FormParam("account_name") String accountName,
+      @FormParam("amount_int") long amount);
 }
