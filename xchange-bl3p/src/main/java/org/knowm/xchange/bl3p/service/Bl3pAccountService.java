@@ -1,13 +1,13 @@
 package org.knowm.xchange.bl3p.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAdapters;
+import org.knowm.xchange.bl3p.dto.Bl3pUserTransactions;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
-import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
+import org.knowm.xchange.bl3p.service.params.Bl3pTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -48,7 +48,7 @@ public class Bl3pAccountService extends Bl3pBaseService implements AccountServic
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new Bl3pTradeHistoryParams();
+    return new Bl3pTradeHistoryParams(Currency.BTC, Bl3pTradeHistoryParams.TransactionType.DEPOSIT);
   }
 
   @Override
@@ -58,33 +58,16 @@ public class Bl3pAccountService extends Bl3pBaseService implements AccountServic
     }
 
     Bl3pTradeHistoryParams bl3pParams = (Bl3pTradeHistoryParams) params;
-    Bl3pTransactionHistory.Bl3pTransactionHistoryData transactionHistory =
-        this.bl3p
-            .getTransactionHistory(
-                apiKey,
-                signatureCreator,
-                nonceFactory,
-                bl3pParams.getCurrency(),
-                bl3pParams.getPage())
-            .getData();
+    Bl3pUserTransactions transactions =
+        this.bl3p.getUserTransactions(
+            apiKey,
+            signatureCreator,
+            nonceFactory,
+            bl3pParams.getCurrency().toString(),
+            bl3pParams.getType().toString(),
+            bl3pParams.getPageNumber(),
+            bl3pParams.getPageLength());
 
-    List<FundingRecord> list = new ArrayList<>(transactionHistory.getTransactions().length);
-    for (Bl3pTransactionHistory.Bl3pTransactionHistoryTransaction tx :
-        transactionHistory.getTransactions()) {
-      list.add(
-          new FundingRecord.Builder()
-              .setAmount(tx.getAmount().value)
-              .setBalance(tx.getBalance().value)
-              .setCurrency(new Currency(tx.getAmount().currency))
-              .setDate(tx.getDate())
-              .setFee(tx.getFee() == null ? null : tx.getFee().value)
-              .setType(
-                  tx.getType() == "deposit"
-                      ? FundingRecord.Type.DEPOSIT
-                      : FundingRecord.Type.WITHDRAWAL)
-              .build());
-    }
-
-    return list;
+    return Bl3pAdapters.adaptUserTransactionsToFundingRecords(transactions.getData().transactions);
   }
 }

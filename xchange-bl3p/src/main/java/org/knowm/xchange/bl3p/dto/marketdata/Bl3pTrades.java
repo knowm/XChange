@@ -15,5 +15,4 @@ public class Bl3pTrades extends Bl3pResult<Bl3pTrades.Bl3pTradesData> {
       return trades;
     }
   }
-
 }

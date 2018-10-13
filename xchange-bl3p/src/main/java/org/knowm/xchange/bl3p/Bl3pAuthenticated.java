@@ -3,9 +3,9 @@ package org.knowm.xchange.bl3p;
 import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.bl3p.dto.Bl3pUserTransactions;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.account.Bl3pNewDepositAddress;
-import org.knowm.xchange.bl3p.dto.account.Bl3pTransactionHistory;
 import org.knowm.xchange.bl3p.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -53,29 +53,6 @@ public interface Bl3pAuthenticated extends Bl3p {
       @HeaderParam("Rest-Sign") ParamsDigest restSign,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currency") String currency)
-      throws IOException;
-
-  /**
-   * Get your transaction history
-   *
-   * <p>TODO: There are more optional parameters but these are very tedious to implement
-   *
-   * @param restKey
-   * @param restSign
-   * @param nonce
-   * @param currency Currency of the wallet. (Can be: 'BTC', 'EUR')
-   * @param page Page number. (1 = most recent transactions)
-   * @return
-   * @throws IOException
-   */
-  @GET
-  @Path("/GENMKT/money/wallet/history")
-  Bl3pTransactionHistory getTransactionHistory(
-      @HeaderParam("Rest-Key") String restKey,
-      @HeaderParam("Rest-Sign") ParamsDigest restSign,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("currency") String currency,
-      @FormParam("page") int page)
       throws IOException;
 
   /**
@@ -182,22 +159,25 @@ public interface Bl3pAuthenticated extends Bl3p {
       @FormParam("order_id") String orderId);
 
   /**
-   * Get a list of trades since given tradeId
+   * Get a list of transactions
    *
    * @param restKey
    * @param restSign
    * @param nonce
-   * @param currencyPair
-   * @param tradeId
+   * @param currency
+   * @param type
+   * @param page
+   * @param recsPerPage
    * @return
    */
   @GET
-  @Path("{currencyPair}/money/trades/fetch")
-  Bl3pUserTrades getUserTradeHistory(
-          @HeaderParam("Rest-Key") String restKey,
-          @HeaderParam("Rest-Sign") ParamsDigest restSign,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-          @PathParam("currencyPair") String currencyPair,
-          @FormParam("trade_id") String tradeId);
-
+  @Path("GENMKT/money/wallet/history")
+  Bl3pUserTransactions getUserTransactions(
+      @HeaderParam("Rest-Key") String restKey,
+      @HeaderParam("Rest-Sign") ParamsDigest restSign,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("type") String type,
+      @FormParam("page") int page,
+      @FormParam("recs_per_page") int recsPerPage);
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.bl3p.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 public class Bl3pTrade {
@@ -18,7 +17,7 @@ public class Bl3pTrade {
   private long amountInt;
 
   public Bl3pTrade(@JsonProperty("date") long date) {
-    this.date = new Date(date * 1000l);
+    this.date = new Date(date);
   }
 
   public Date getDate() {
