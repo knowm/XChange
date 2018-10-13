@@ -11,7 +11,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class Bl3pMarketDataServiceTest {
+public class Bl3pMarketDataServiceIntegration {
 
   Exchange exchange = ExchangeFactory.INSTANCE.createExchange(Bl3pExchange.class);
   MarketDataService marketDataService = exchange.getMarketDataService();
