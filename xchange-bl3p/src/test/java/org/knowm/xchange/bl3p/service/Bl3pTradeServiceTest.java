@@ -2,16 +2,16 @@ package org.knowm.xchange.bl3p.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bl3p.Bl3pExchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class Bl3pTradeServiceTest {
 
@@ -44,7 +44,7 @@ public class Bl3pTradeServiceTest {
     LimitOrder order =
         new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.BTC_EUR)
             .originalAmount(new BigDecimal("0.001"))
-            .limitPrice(new BigDecimal("5000"))
+            .limitPrice(new BigDecimal("4000"))
             .build();
 
     String orderId = tradeService.placeLimitOrder(order);
@@ -56,7 +56,7 @@ public class Bl3pTradeServiceTest {
   public void cancelOrder() throws IOException {
     /*
     CancelOrderByIdAndCurrencyPairParams params =
-        new CancelOrderByIdAndCurrencyPairParams(CurrencyPair.BTC_EUR, "42408065");
+        new CancelOrderByIdAndCurrencyPairParams(CurrencyPair.BTC_EUR, "42467560");
     boolean result = tradeService.cancelOrder(params);
 
     System.out.println(result);
@@ -65,10 +65,21 @@ public class Bl3pTradeServiceTest {
 
   @Test
   public void getOrder() throws IOException {
+    /*
     OrderQueryParams p =
         new Bl3pTradeService.Bl3pOrderQueryParams(CurrencyPair.BTC_EUR, "42409168");
     Collection<Order> result = this.tradeService.getOrder(p);
 
     System.out.println(result.toArray()[0]);
+    */
+  }
+
+  @Test
+  public void getTradeHistory() throws IOException {
+    Bl3pTradeService.Bl3pTradeHistoryParams p =
+        new Bl3pTradeService.Bl3pTradeHistoryParams(Currency.BTC);
+    UserTrades trades = this.tradeService.getTradeHistory(p);
+
+    System.out.println(trades);
   }
 }

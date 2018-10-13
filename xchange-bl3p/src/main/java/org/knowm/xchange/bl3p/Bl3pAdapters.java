@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.bl3p.dto.Bl3pUserTransactions;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pGetOrder;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pOpenOrders;
@@ -11,9 +12,11 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 public class Bl3pAdapters {
 
@@ -75,5 +78,49 @@ public class Bl3pAdapters {
         .remainingAmount(remainingAmount)
         .timestamp(bl3pOrder.getTimestamp())
         .build();
+  }
+
+  public static List<UserTrade> adaptUserTransactionsToUserTrades(
+      Bl3pUserTransactions.Bl3pUserTransaction[] transactions) {
+    List<UserTrade> result = new ArrayList<>(transactions.length);
+
+    for (Bl3pUserTransactions.Bl3pUserTransaction t : transactions) {
+      UserTrade ut =
+          new UserTrade.Builder()
+              .currencyPair(CurrencyPair.BTC_EUR)
+              .id(Integer.toString(t.id))
+              .orderId(Integer.toString(t.orderId))
+              .type(t.type == "credit" ? Order.OrderType.BID : Order.OrderType.ASK)
+              .timestamp(t.date)
+              .price(t.price.value)
+              .feeAmount(t.fee.value)
+              .feeCurrency(Currency.getInstance(t.fee.currency))
+              .originalAmount(t.amount.value)
+              .build();
+
+      result.add(ut);
+    }
+
+    return result;
+  }
+
+  public static List<FundingRecord> adaptUserTransactionsToFundingRecords(
+      Bl3pUserTransactions.Bl3pUserTransaction[] transactions) {
+    List<FundingRecord> list = new ArrayList<>(transactions.length);
+
+    for (Bl3pUserTransactions.Bl3pUserTransaction tx : transactions) {
+      list.add(
+          new FundingRecord.Builder()
+              .setAmount(tx.amount.value)
+              .setBalance(tx.balance.value)
+              .setCurrency(Currency.getInstance(tx.amount.currency))
+              .setDate(tx.date)
+              .setFee(tx.fee == null ? null : tx.fee.value)
+              .setType(
+                  tx.type == "deposit" ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL)
+              .build());
+    }
+
+    return list;
   }
 }
