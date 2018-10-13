@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinsuper.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.Map;
@@ -21,10 +20,10 @@ public class RestSignUtil {
     paramsMap.put("accesskey", param.getCommon().getAccesskey());
     paramsMap.put("timestamp", Long.toString(param.getCommon().getTimestamp()));
 
-//    for (Map.Entry<String, String> entry : param.getData())
-//    {
-//        paramsMap.put(entry.getKey(), entry.getValue().toString());
-//    }
+    //    for (Map.Entry<String, String> entry : param.getData())
+    //    {
+    //        paramsMap.put(entry.getKey(), entry.getValue().toString());
+    //    }
     paramsMap.put("secretkey", secretkey);
     return generateSignByRule(paramsMap);
   }

@@ -73,7 +73,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         return null;
       }
 
-      return Integer.toString(response.getId());
+      return Long.toString(response.getId());
     } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
@@ -98,7 +98,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
         return null;
       }
 
-      return Integer.toString(response.getId());
+      return Long.toString(response.getId());
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);
@@ -110,20 +110,36 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
    */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-
-    BitstampDepositAddress response = null;
-
     if (currency.equals(Currency.BTC)) {
-      response = getBitstampBitcoinDepositAddress();
+      return getBitstampBitcoinDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.LTC)) {
-      response = getBitstampLitecoinDepositAddress();
+      return getBitstampLitecoinDepositAddress().getDepositAddress();
+    } else if (currency.equals(Currency.XRP)) {
+      return getRippleDepositAddress().getAddressAndDt();
+    } else if (currency.equals(Currency.BCH)) {
+      return getBitstampBitcoinCashDepositAddress().getDepositAddress();
     } else if (currency.equals(Currency.ETH)) {
-      response = getBitstampEthereumDepositAddress();
+      return getBitstampEthereumDepositAddress().getDepositAddress();
     } else {
       throw new IllegalStateException("Unsupported currency " + currency);
     }
+  }
 
-    return response.getDepositAddress();
+  public BitstampDepositAddress requestDepositAddressObject(Currency currency, String... arguments)
+      throws IOException {
+    if (currency.equals(Currency.BTC)) {
+      return getBitstampBitcoinDepositAddress();
+    } else if (currency.equals(Currency.LTC)) {
+      return getBitstampLitecoinDepositAddress();
+    } else if (currency.equals(Currency.XRP)) {
+      return getRippleDepositAddress();
+    } else if (currency.equals(Currency.BCH)) {
+      return getBitstampBitcoinCashDepositAddress();
+    } else if (currency.equals(Currency.ETH)) {
+      return getBitstampEthereumDepositAddress();
+    } else {
+      throw new IllegalStateException("Unsupported currency " + currency);
+    }
   }
 
   @Override
