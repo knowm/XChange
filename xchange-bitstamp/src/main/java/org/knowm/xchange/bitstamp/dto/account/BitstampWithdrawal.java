@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class BitstampWithdrawal {
 
-  public final Integer id;
+  public final Long id;
   public final String status;
   public final Object reason;
   public final Object error;
 
   public BitstampWithdrawal(
-      @JsonProperty("id") Integer id,
+      @JsonProperty("id") Long id,
       @JsonProperty("status") String status,
       @JsonProperty("reason") Object reason,
       @JsonProperty("error") Object error) {
@@ -20,7 +20,7 @@ public final class BitstampWithdrawal {
     this.error = error;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 

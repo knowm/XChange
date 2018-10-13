@@ -61,8 +61,14 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    KrakenDepositAddress[] depositAddresses =
-        getDepositAddresses(currency.toString(), "Bitcoin", false);
+    KrakenDepositAddress[] depositAddresses;
+    if (Currency.BTC.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
+    } else if (Currency.LTC.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
+    } else {
+      throw new RuntimeException("Not implemented yet, Kraken works only for BTC and LTC");
+    }
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
   }
 
