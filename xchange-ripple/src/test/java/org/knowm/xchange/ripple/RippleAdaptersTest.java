@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
