@@ -102,7 +102,7 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
   }
 
   /** Returns order details * */
-  KucoinResponse<KucoinOrderDetail> getOrderDetails(
+  public KucoinResponse<KucoinOrderDetail> getOrderDetails(
       CurrencyPair currencyPair, OrderType orderType, Integer limit, Integer page, String orderOid)
       throws IOException {
     try {
