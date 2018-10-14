@@ -16,6 +16,7 @@ import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
+import org.knowm.xchange.kucoin.dto.trading.KucoinOrderDetail;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
 
@@ -95,6 +96,26 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
               page,
               since == null ? null : since.getTime(),
               before == null ? null : before.getTime()));
+    } catch (KucoinException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+  }
+
+  /** Returns order details * */
+  KucoinResponse<KucoinOrderDetail> getOrderDetails(
+      CurrencyPair currencyPair, OrderType orderType, Integer limit, Integer page, String orderOid)
+      throws IOException {
+    try {
+      return checkSuccess(
+          kucoin.orderDetail(
+              apiKey,
+              exchange.getNonceFactory(),
+              signatureCreator,
+              KucoinAdapters.adaptCurrencyPair(currencyPair),
+              KucoinOrderType.fromOrderType(orderType),
+              limit,
+              page,
+              orderOid));
     } catch (KucoinException e) {
       throw new ExchangeException(e.getMessage());
     }
