@@ -44,17 +44,41 @@ public class HitbtcAdapters {
 
   /** known counter currencies at HitBTC */
   private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
+      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI"));
+  /**
+   * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is
+   * counter currency USD or TUSD?
+   */
+  private static final Set<String> TUSD_SYMBOLS =
+      new HashSet<>(
+          Arrays.asList(
+              "USDTUSD",
+              "XMRTUSD",
+              "BTCTUSD",
+              "LTCTUSD",
+              "NEOTUSD",
+              "ETHTUSD",
+              "DAITUSD",
+              "BCHTUSD",
+              "EURSTUSD",
+              "ZRXTUSD"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
-    String counter =
-        counters
-            .stream()
-            .filter(cnt -> symbol.endsWith(cnt))
-            .findAny()
-            .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
-    String base = symbol.substring(0, symbol.length() - counter.length());
-    return new CurrencyPair(base, counter);
+    // In order to differentiate xxxTUSD and xxxUSD
+    String tempSymbol =
+        symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
+    return counters
+        .stream()
+        .map(counter -> "USD".equals(counter) ? "USDT" : counter)
+        .filter(tempSymbol::endsWith)
+        .map(
+            counter ->
+                counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
+        .map(
+            counter ->
+                new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
+        .findAny()
+        .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {

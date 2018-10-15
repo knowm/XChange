@@ -70,7 +70,8 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
         HitbtcTrade.HitbtcTradesSortField.SORT_BY_TRADE_ID,
         HitbtcSort.SORT_ASCENDING,
         0,
-        100);
+        100,
+        0);
   }
 
   // TODO add extra params in API
@@ -80,10 +81,11 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
       HitbtcTrade.HitbtcTradesSortField sortBy,
       HitbtcSort sortDirection,
       long startIndex,
-      long maxResults)
+      long maxResults,
+      long offset)
       throws IOException {
 
-    return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+    return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults, offset);
   }
 
   public List<HitbtcCandle> getHitbtcCandles(CurrencyPair currencyPair, int limit, String period)

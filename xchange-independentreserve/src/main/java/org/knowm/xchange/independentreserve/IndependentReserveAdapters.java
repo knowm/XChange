@@ -8,17 +8,28 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 import org.knowm.xchange.independentreserve.dto.marketdata.OrderBookOrder;
-import org.knowm.xchange.independentreserve.dto.trade.*;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrder;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAdapters {
@@ -122,7 +133,6 @@ public class IndependentReserveAdapters {
 
   public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
     List<Balance> balances = new ArrayList<>();
-
     for (IndependentReserveAccount balanceAccount :
         independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
@@ -227,5 +237,54 @@ public class IndependentReserveAdapters {
     }
     throw new IllegalStateException(
         "Unknown order type found in Independent Reserve : " + details.getOrderType());
+  }
+
+  public static FundingRecord.Status adaptTransactionStatusToFundingRecordStatus(String status) {
+    switch (status) {
+      case "Open":
+      case "PartiallyFilled":
+      case "Unconfirmed":
+        return Status.PROCESSING;
+      case "Filled":
+      case "Confirmed":
+        return Status.COMPLETE;
+      case "Rejected":
+        return Status.FAILED;
+      default:
+        return null;
+    }
+  }
+
+  public static FundingRecord.Type adaptTransactionTypeToFundingRecordType(
+      IndependentReserveTransaction.Type transctionType) {
+    switch (transctionType) {
+      case Withdrawal:
+        return FundingRecord.Type.WITHDRAWAL;
+      case Deposit:
+        return FundingRecord.Type.DEPOSIT;
+      default:
+        return null;
+    }
+  }
+
+  public static FundingRecord adaptTransaction(IndependentReserveTransaction transaction) {
+    BigDecimal amount = null;
+    if (transaction.getDebit() != null) {
+      amount = transaction.getDebit();
+    } else if (transaction.getCredit() != null) {
+      amount = transaction.getCredit();
+    }
+    return new FundingRecord(
+        null,
+        transaction.getCreatedTimestamp(),
+        new Currency(transaction.getCurrencyCode()),
+        amount,
+        null,
+        transaction.getBitcoinTransactionId(),
+        adaptTransactionTypeToFundingRecordType(transaction.getType()),
+        adaptTransactionStatusToFundingRecordStatus(transaction.getStatus()),
+        transaction.getBalance(),
+        null,
+        transaction.getComment());
   }
 }

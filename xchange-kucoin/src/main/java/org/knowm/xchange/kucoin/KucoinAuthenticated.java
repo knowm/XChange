@@ -19,6 +19,7 @@ import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
 import org.knowm.xchange.kucoin.dto.trading.KucoinOrder;
+import org.knowm.xchange.kucoin.dto.trading.KucoinOrderDetail;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -98,6 +99,20 @@ public interface KucoinAuthenticated extends Kucoin {
       @QueryParam("page") Integer page,
       @QueryParam("since") Long since,
       @QueryParam("before") Long before)
+      throws IOException, KucoinException;
+
+  /** Returns the order details. */
+  @GET
+  @Path("order/detail")
+  KucoinResponse<KucoinOrderDetail> orderDetail(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("type") KucoinOrderType type,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("page") Integer page,
+      @QueryParam("orderOid") String orderOid)
       throws IOException, KucoinException;
 
   /** Places a limit order. */

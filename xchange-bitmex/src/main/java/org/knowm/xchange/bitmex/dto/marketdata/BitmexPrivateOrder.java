@@ -27,7 +27,7 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
   private final BigDecimal stopPx;
   private final BigDecimal pegOffsetValue;
   private final String pegPriceType;
-  private final String ordType;
+  private final String orderType;
   private final String timeInForce;
   private final String execInst;
   private final String contingencyType;
@@ -67,7 +67,7 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
       @JsonProperty("stopPx") BigDecimal stopPx,
       @JsonProperty("pegOffsetValue") BigDecimal pegOffsetValue,
       @JsonProperty("pegPriceType") String pegPriceType,
-      @JsonProperty("ordType") String ordType,
+      @JsonProperty("orderType") String orderType,
       @JsonProperty("timeInForce") String timeInForce,
       @JsonProperty("execInst") String execInst,
       @JsonProperty("contingencyType") String contingencyType,
@@ -102,7 +102,7 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
     this.stopPx = stopPx;
     this.pegOffsetValue = pegOffsetValue;
     this.pegPriceType = pegPriceType;
-    this.ordType = ordType;
+    this.orderType = orderType;
     this.timeInForce = timeInForce;
     this.execInst = execInst;
     this.contingencyType = contingencyType;
@@ -192,8 +192,8 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
     return pegPriceType;
   }
 
-  public String getOrdType() {
-    return ordType;
+  public String getOrderType() {
+    return orderType;
   }
 
   public String getTimeInForce() {
@@ -303,8 +303,8 @@ public class BitmexPrivateOrder extends AbstractHttpResponseAware {
         + ", pegPriceType='"
         + pegPriceType
         + '\''
-        + ", ordType='"
-        + ordType
+        + ", orderType='"
+        + orderType
         + '\''
         + ", timeInForce='"
         + timeInForce
