@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -252,7 +253,7 @@ public class BitmexTicker {
   private String fundingPremiumSymbol;
 
   @JsonProperty("fundingTimestamp")
-  private String fundingTimestamp;
+  private Date fundingTimestamp;
 
   @JsonProperty("fundingInterval")
   private String fundingInterval;
@@ -588,7 +589,7 @@ public class BitmexTicker {
     return fundingPremiumSymbol;
   }
 
-  public String getFundingTimestamp() {
+  public Date getFundingTimestamp() {
     return fundingTimestamp;
   }
 

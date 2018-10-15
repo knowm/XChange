@@ -90,8 +90,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
     }
     Object[] argsToPass = Arrays.copyOfRange(args, 1, args.length);
     return BitmexAdapters.adaptOrderBook(
-        getBitmexDepth(BitmexAdapters.adaptCurrencyPair(currencyPair), prompt, argsToPass),
-        currencyPair);
+        getBitmexDepth(currencyPair, prompt, argsToPass), currencyPair);
   }
 
   @Override
@@ -110,6 +109,6 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
     Object[] argsToPass = Arrays.copyOfRange(args, 1, args.length);
     // Trades bitmexTrades = getBitmexTrades(BitmexAdapters.adaptCurrencyPair(currencyPair), prompt,
     // argsToPass);
-    return getBitmexTrades(BitmexAdapters.adaptCurrencyPair(currencyPair), prompt, argsToPass);
+    return getBitmexTrades(currencyPair, prompt, argsToPass);
   }
 }
