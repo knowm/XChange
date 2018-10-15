@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitmex;
 
-import com.google.common.collect.BiMap;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
@@ -41,6 +41,8 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import com.google.common.collect.BiMap;
 
 public class BitmexAdapters {
 
@@ -231,40 +233,7 @@ public class BitmexAdapters {
         bitmexOrder.getFee(),
         status);
   }
-  /*
-    ? begin
-    public static UserTrades adaptTradesHistory(Map<String, BitmexTrade> bitmexTrades) {
 
-        List<UserTrade> trades = new ArrayList<>();
-        for (Entry<String, BitmexTrade> bitmexTradeEntry : bitmexTrades.entrySet()) {
-          trades.add(adaptTrade(bitmexTradeEntry.getValue(), bitmexTradeEntry.getKey()));
-        }
-
-        return new UserTrades(trades, TradeSortType.SortByID);
-      }
-
-      public static BitmexUserTrade adaptTrade(BitmexTrade bitmexTrade, String tradeId) {
-
-        OrderType orderType = adaptOrderType(bitmexTrade.getSide());
-        BigDecimal originalAmount = bitmexTrade.getSize();
-        String bitmexAssetPair = bitmexTrade.getSymbol();
-        CurrencyPair pair = adaptCurrencyPair(bitmexAssetPair);
-        BigDecimal price = bitmexTrade.getPrice();
-
-        return new BitmexUserTrade(
-            orderType,
-            originalAmount,
-            pair,
-            price,
-            null,
-            tradeId,
-            bitmexTrade.getTrdMatchID(),
-            BigDecimal.ONE,
-            pair.counter,
-            BigDecimal.ONE);
-      }
-  ? end
-          */
   public static OrderType adaptOrderType(BitmexSide bitmexType) {
 
     return bitmexType.equals(BitmexSide.BUY) ? OrderType.BID : OrderType.ASK;
