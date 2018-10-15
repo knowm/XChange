@@ -2,25 +2,38 @@ package org.knowm.xchange.bitmex.service;
 
 import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexExecutionInstruction;
+import org.knowm.xchange.bitmex.dto.trade.BitmexOrderFlags;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters.Builder;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
@@ -69,14 +82,16 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
     String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
 
-    return placeOrder(
-            new BitmexPlaceOrderParameters.Builder(symbol)
-                .setOrderQuantity(limitOrder.getOriginalAmount())
-                .setPrice(limitOrder.getLimitPrice())
-                .setSide(fromOrderType(limitOrder.getType()))
-                .setClOrdId(limitOrder.getId())
-                .build())
-        .getId();
+    Builder b =
+        new BitmexPlaceOrderParameters.Builder(symbol)
+            .setOrderQuantity(limitOrder.getOriginalAmount())
+            .setPrice(limitOrder.getLimitPrice())
+            .setSide(fromOrderType(limitOrder.getType()))
+            .setClOrdId(limitOrder.getId());
+    if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
+      b.addExecutionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
+    }
+    return placeOrder(b.build()).getId();
   }
 
   @Override
@@ -126,5 +141,34 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
     List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter, null, null, null);
     return privateOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList());
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    String symbol = null;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      symbol =
+          BitmexAdapters.adaptCurrencyPairToSymbol(
+              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+    }
+    Long start = null;
+    if (params instanceof TradeHistoryParamOffset) {
+      start = ((TradeHistoryParamOffset) params).getOffset();
+    }
+    Date startTime = null;
+    Date endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = timeSpan.getStartTime();
+      endTime = timeSpan.getEndTime();
+    }
+
+    List<UserTrade> userTrades =
+        getTradeHistory(symbol, null, null, null, start, false, startTime, endTime)
+            .stream()
+            .map(BitmexAdapters::adoptUserTrade)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 }
