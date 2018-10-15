@@ -13,8 +13,6 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observables.ConnectableObservable;
-
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -30,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,7 +132,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         long snapshotlastUpdateId;
         AtomicLong lastUpdateId = new AtomicLong(0L);
         OrderBook orderBook;
-        ConnectableObservable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
+        Observable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
         AtomicLong lastSyncTime = new AtomicLong(0L);
 
         void invalidateSnapshot() {
@@ -163,7 +160,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 LOG.error("Failed to fetch initial order book for " + currencyPair, e);
                 snapshotlastUpdateId = 0L;
                 lastUpdateId.set(0L);
-                orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+                orderBook = null;
             }
             lastSyncTime.set(now);
         }
@@ -173,17 +170,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         OrderbookSubscription subscription = new OrderbookSubscription();
 
         // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
+        // 2. Buffer the events you receive from the stream.
         subscription.stream = service.subscribeChannel(channelFromCurrency(currencyPair, "depth"))
             .map((JsonNode s) -> depthTransaction(s.toString()))
             .filter(transaction ->
                     transaction.getData().getCurrencyPair().equals(currencyPair) &&
-                            transaction.getData().getEventType() == DEPTH_UPDATE)
+                                transaction.getData().getEventType() == DEPTH_UPDATE);
 
-        // 2.Buffer the events you receive from the stream.
-        // This is solely to allow room for us to periodically fetch a fresh snapshot
-        // in the event that binance sends events out of sequence or skips events.
-            .replay();
-        subscription.stream.connect();
 
         return subscription;
     }
@@ -196,6 +189,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 // 3. Get a depth snapshot from https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000
                 // (we do this if we don't already have one or we've invalidated a previous one)
                 .doOnNext(transaction -> subscription.initSnapshotIfInvalid(currencyPair))
+
+                // If we failed, don't return anything. Just keep trying until it works
+                .filter(transaction -> subscription.snapshotlastUpdateId > 0L)
 
                 .map(BinanceWebsocketTransaction::getData)
 
