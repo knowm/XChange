@@ -14,16 +14,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.acx.AcxApi;
+import org.knowm.xchange.acx.AcxMapper;
+import org.knowm.xchange.acx.AcxSignatureCreator;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
+import org.knowm.xchange.acx.service.trade.AcxTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.AcxSignatureCreator;
-import org.known.xchange.acx.dto.marketdata.AcxOrder;
-import org.known.xchange.acx.service.trade.AcxTradeService;
 
 public class AcxTradingServiceTest {
 

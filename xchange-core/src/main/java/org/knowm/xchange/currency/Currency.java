@@ -109,6 +109,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency GNO = createCurrency("GNO", "Gnosis", null);
   public static final Currency GNT = createCurrency("GNT", "Golem", null);
   public static final Currency GTQ = createCurrency("GTQ", "Guatemalan Quetzal", null);
+  public static final Currency GVT = createCurrency("GVT", "Genesis Vision", null);
   public static final Currency GYD = createCurrency("GYD", "Guyanaese Dollar", null);
   public static final Currency HKD = createCurrency("HKD", "Hong Kong Dollar", null);
   public static final Currency HVN = createCurrency("HVN", "Hive", null);
@@ -169,6 +170,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency MYR = createCurrency("MYR", "Malaysian Ringgit", null);
   public static final Currency MZN = createCurrency("MZN", "Mozambican Metical", null);
   public static final Currency NAD = createCurrency("NAD", "Namibian Dollar", null);
+  public static final Currency NOBS = createCurrency("NOBS", "No BS Crypto", null);
   public static final Currency NEO = createCurrency("NEO", "NEO", null);
   public static final Currency NGN = createCurrency("NGN", "Nigerian Naira", null);
   public static final Currency NIO = createCurrency("NIO", "Nicaraguan Córdoba", null);
@@ -237,6 +239,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency UYU = createCurrency("UYU", "Uruguayan Peso", null);
   public static final Currency UZS = createCurrency("UZS", "Uzbekistan Som", null);
   public static final Currency VEF = createCurrency("VEF", "Venezuelan Bolívar", null);
+  public static final Currency VET = createCurrency("VET", "Hub Culture's Vet", null, "VEN");
   public static final Currency VEN = createCurrency("VEN", "Hub Culture's Ven", null, "XVN");
   public static final Currency XVN = getInstance("XVN");
   public static final Currency VIB = createCurrency("VIB", "Viberate", null);
@@ -270,6 +273,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency H18 = createCurrency("H18", "March 30th", null);
   public static final Currency M18 = createCurrency("M18", "June 29th", null);
   public static final Currency U18 = createCurrency("U18", "September 28th", null);
+  public static final Currency Z18 = createCurrency("Z18", "December 28th", null);
 
   // Cryptos
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);

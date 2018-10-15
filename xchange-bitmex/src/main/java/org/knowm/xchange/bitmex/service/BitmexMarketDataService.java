@@ -64,7 +64,7 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
               .high(bitmexTicker.getHighPrice())
               .low(bitmexTicker.getLowPrice())
               .vwap(new BigDecimal(bitmexTicker.getVwap()))
-              .volume(bitmexTicker.getVolume())
+              .volume(bitmexTicker.getVolume24h())
               .quoteVolume(null)
               .timestamp(format.parse(bitmexTicker.getTimestamp()))
               .build();

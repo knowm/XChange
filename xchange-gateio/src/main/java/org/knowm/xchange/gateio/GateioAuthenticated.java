@@ -11,13 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.gateio.dto.account.GateioDepositAddress;
+import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioPlaceOrderReturn;
 import org.knowm.xchange.gateio.dto.trade.GateioTradeHistoryReturn;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("api2/1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -26,10 +26,7 @@ public interface GateioAuthenticated extends Gateio {
 
   @POST
   @Path("private/balances")
-  GateioFunds getFunds(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+  GateioFunds getFunds(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
@@ -46,7 +43,7 @@ public interface GateioAuthenticated extends Gateio {
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer,
       @FormParam("currency") String currency,
-      @FormParam("amount") String amount,
+      @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address)
       throws IOException;
 
@@ -56,8 +53,7 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("orderNumber") String orderNumber,
       @FormParam("currencyPair") String currencyPair,
       @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
@@ -66,8 +62,7 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("type") String type,
       @FormParam("currencyPair") String currencyPair,
       @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
@@ -77,8 +72,7 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("rate") BigDecimal rate,
       @FormParam("amount") BigDecimal amount,
       @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
@@ -88,16 +82,13 @@ public interface GateioAuthenticated extends Gateio {
       @FormParam("rate") BigDecimal rate,
       @FormParam("amount") BigDecimal amount,
       @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
   @Path("private/openOrders")
   GateioOpenOrders getOpenOrders(
-      @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 
   @POST
@@ -105,8 +96,16 @@ public interface GateioAuthenticated extends Gateio {
   GateioTradeHistoryReturn getUserTradeHistory(
       @HeaderParam("KEY") String apiKey,
       @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair)
+      throws IOException;
+
+  @POST
+  @Path("private/depositsWithdrawals")
+  GateioDepositsWithdrawals getDepositsWithdrawals(
+      @HeaderParam("KEY") String apiKey,
+      @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("start") Long startUnixTime,
+      @FormParam("end") Long endUnixTime)
       throws IOException;
 
   @POST
@@ -114,7 +113,6 @@ public interface GateioAuthenticated extends Gateio {
   GateioOrderStatus getOrderStatus(
       @FormParam("order_id") String orderId,
       @HeaderParam("KEY") String apiKey,
-      @HeaderParam("SIGN") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("SIGN") ParamsDigest signer)
       throws IOException;
 }

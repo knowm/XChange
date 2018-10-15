@@ -8,6 +8,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.AccountCurrency;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankCurrency;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.BankWithdrawalType;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
@@ -89,7 +90,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     BitstampWithdrawal response = null;
 
     if (currency.equals(Currency.XRP)) {
-      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(address);
+      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(null, address);
       response =
           withdrawRippleFunds(
               amount, addressAndDt.getAddress(), Long.toString(addressAndDt.getDestinationTag()));
@@ -208,11 +209,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       if (response.hasError()) {
-        if (response.toString().contains("You have only"))
+        if (response.toString().contains("You have only")) {
           throw new FundsExceededException(response.toString());
-        else
+        } else {
           throw new ExchangeException(
               "Withdrawing funds from Bitstamp failed: " + response.toString());
+        }
       }
 
       return response;
@@ -223,6 +225,24 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   }
 
   public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticated.getBitcoinDepositAddress(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory());
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Bitcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampBitcoinCashDepositAddress() throws IOException {
 
     try {
       final BitstampDepositAddress response =
@@ -391,7 +411,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
               signatureCreator,
               exchange.getNonceFactory(),
               amount,
-              AccountCurrency.EUR,
+              BitstampAuthenticatedV2.AccountCurrency.EUR,
               name,
               IBAN,
               BIK,
@@ -406,6 +426,52 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
               null,
               null,
               null);
+
+      return checkAndReturnWithdrawal(response);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampWithdrawal withdrawInternational(
+      BigDecimal amount,
+      String name,
+      String IBAN,
+      String BIK,
+      String address,
+      String postalCode,
+      String city,
+      String countryAlpha2,
+      String bankName,
+      String bankAddress,
+      String bankPostalCode,
+      String bankCity,
+      String bankCountryAlpha2,
+      BankCurrency bankReceiverCurrency)
+      throws IOException {
+
+    try {
+      BitstampWithdrawal response =
+          bitstampAuthenticatedV2.bankWithdrawal(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory(),
+              amount,
+              AccountCurrency.EUR,
+              name,
+              IBAN,
+              BIK,
+              address,
+              postalCode,
+              city,
+              countryAlpha2,
+              BankWithdrawalType.international,
+              bankName,
+              bankAddress,
+              bankPostalCode,
+              bankCity,
+              bankCountryAlpha2,
+              bankReceiverCurrency);
 
       return checkAndReturnWithdrawal(response);
     } catch (BitstampException e) {
