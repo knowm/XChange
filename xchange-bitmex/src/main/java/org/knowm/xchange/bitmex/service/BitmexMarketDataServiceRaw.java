@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmex.service;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +16,8 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexKline;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTradeList;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
@@ -52,36 +49,12 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     BitmexPublicOrderList result = updateRateLimit(() -> bitmex.getDepth(bitmexSymbol, 1000d));
 
     if (pair != null && prompt != null) return BitmexAdapters.adaptDepth(result, pair);
-
-    // return result;
     return null;
-
-    // return checkResult(result);
   }
 
-  public Trades getBitmexTrades(CurrencyPair pair, BitmexPrompt prompt, Object... args)
+  public List<BitmexPublicTrade> getBitmexTrades(String bitmexSymbol, Integer limit, Long start)
       throws ExchangeException {
-
-    List<BitmexPublicTrade> trades = new ArrayList<>();
-
-    BitmexContract contract = new BitmexContract(pair, prompt);
-    String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
-
-    Integer limit = (Integer) args[0];
-
-    for (int i = 0; trades.size() + 500 <= limit; i++) {
-      final int j = i;
-      BitmexPublicTradeList result =
-          updateRateLimit(() -> bitmex.getTrades(bitmexSymbol, true, 500, (long) (j * 500)));
-      trades.addAll(result);
-    }
-
-    if (pair != null && prompt != null) {
-      List<BitmexPublicTrade> trimmed = trades.subList(0, Math.min(limit, trades.size()));
-      return BitmexAdapters.adaptTrades(trimmed, pair);
-    }
-
-    return null;
+    return updateRateLimit(() -> bitmex.getTrades(bitmexSymbol, true, limit, start));
   }
 
   public BitmexTickerList getTicker(String symbol) throws ExchangeException {
