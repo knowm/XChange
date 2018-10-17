@@ -12,7 +12,7 @@ public class OkExFuturesManualExample {
 
     public static void main(String[] args) {
 
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExStreamingExchange.class.getName());
+        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(OkExFuturesStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
         exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD, FuturesContract.Quarter).subscribe(orderBook -> {
