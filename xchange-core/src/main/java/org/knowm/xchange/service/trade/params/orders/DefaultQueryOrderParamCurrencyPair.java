@@ -7,11 +7,13 @@ public class DefaultQueryOrderParamCurrencyPair extends DefaultQueryOrderParam
 
   private CurrencyPair pair;
 
-  public DefaultQueryOrderParamCurrencyPair() {}
+  public DefaultQueryOrderParamCurrencyPair() {
+    super();
+  }
 
   public DefaultQueryOrderParamCurrencyPair(CurrencyPair pair, String orderId) {
+    super(orderId);
     this.pair = pair;
-    setOrderId(orderId);
   }
 
   @Override
