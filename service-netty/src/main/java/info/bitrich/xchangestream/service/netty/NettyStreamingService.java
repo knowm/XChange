@@ -97,7 +97,7 @@ public abstract class NettyStreamingService<T> {
                 if (eventLoopGroup != null && !eventLoopGroup.isShutdown() && !eventLoopGroup.isShuttingDown()) {
                     eventLoopGroup.shutdownGracefully();
                 }
-                LOG.info("Connecting to {}://{}:{}{}", uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
+                LOG.info("Connecting to {}", uri.toString());
                 String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
                 String host = uri.getHost();
