@@ -24,8 +24,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         public void onMessage(String message);
     }
 
-    private final WebSocketClientHandshaker handshaker;
-    private final WebSocketMessageHandler handler;
+    protected final WebSocketClientHandshaker handshaker;
+    protected final WebSocketMessageHandler handler;
     private ChannelPromise handshakeFuture;
 
     public WebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
