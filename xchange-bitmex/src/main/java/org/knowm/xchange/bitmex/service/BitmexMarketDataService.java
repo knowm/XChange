@@ -2,9 +2,6 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.bitmex.BitmexAdapters;
@@ -51,30 +48,20 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
     }
 
     BitmexTicker bitmexTicker = bitmexTickers.get(0);
-
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-    Ticker ticker = null;
-
-    try {
-      ticker =
-          new Ticker.Builder()
-              .currencyPair(currencyPair)
-              .open(bitmexTicker.getOpenValue())
-              .last(bitmexTicker.getLastPrice())
-              .bid(bitmexTicker.getBidPrice())
-              .ask(bitmexTicker.getAskPrice())
-              .high(bitmexTicker.getHighPrice())
-              .low(bitmexTicker.getLowPrice())
-              .vwap(new BigDecimal(bitmexTicker.getVwap()))
-              .volume(bitmexTicker.getVolume24h())
-              .quoteVolume(null)
-              .timestamp(format.parse(bitmexTicker.getTimestamp()))
-              .build();
-    } catch (ParseException e) {
-
-      return null;
-    }
+    Ticker ticker =
+        new Ticker.Builder()
+            .currencyPair(currencyPair)
+            .open(bitmexTicker.getOpenValue())
+            .last(bitmexTicker.getLastPrice())
+            .bid(bitmexTicker.getBidPrice())
+            .ask(bitmexTicker.getAskPrice())
+            .high(bitmexTicker.getHighPrice())
+            .low(bitmexTicker.getLowPrice())
+            .vwap(new BigDecimal(bitmexTicker.getVwap()))
+            .volume(bitmexTicker.getVolume24h())
+            .quoteVolume(null)
+            .timestamp(bitmexTicker.getTimestamp())
+            .build();
 
     return ticker;
   }
