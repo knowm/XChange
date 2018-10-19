@@ -139,23 +139,18 @@ public class Trades implements Serializable {
 
   public static class TradeIDComparator implements Comparator<Trade> {
 
+    private static final int[] ALLOWED_RADIXES = {10, 16};
     @Override
     public int compare(Trade trade1, Trade trade2) {
-      BigInteger id1;
-      BigInteger id2;
-      try {
-        id1 = new BigInteger(trade1.getId());
-        id2 = new BigInteger(trade2.getId());
-        return id1.compareTo(id2);
-      } catch (NumberFormatException e1) {
+      for (int radix : ALLOWED_RADIXES) {
         try {
-          id1 = new BigInteger(trade1.getId(), 16);
-          id2 = new BigInteger(trade2.getId(), 16);
+          BigInteger id1 = new BigInteger(trade1.getId(), radix);
+          BigInteger id2 = new BigInteger(trade2.getId(), radix);
           return id1.compareTo(id2);
-        } catch (NumberFormatException e2) {
-          return trade1.getId().compareTo(trade2.getId());
+        } catch (NumberFormatException ignored) {
         }
       }
+      return trade1.getId().compareTo(trade2.getId());
     }
   }
 }
