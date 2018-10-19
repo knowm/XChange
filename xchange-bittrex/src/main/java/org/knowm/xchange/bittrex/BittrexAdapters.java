@@ -226,11 +226,16 @@ public final class BittrexAdapters {
 
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
-    final BigDecimal priceChange = marketSummary.getLast().subtract(marketSummary.getPrevDay());
-    final BigDecimal priceChangePercent =
-        priceChange
-            .divide(marketSummary.getPrevDay(), 4, RoundingMode.HALF_UP)
-            .multiply(BigDecimal.valueOf(100L));
+    BigDecimal priceChange = null;
+    BigDecimal priceChangePercent = null;
+    if (last != null) {
+      final BigDecimal prevDay = marketSummary.getPrevDay();
+      if (prevDay != null && prevDay.compareTo(BigDecimal.ZERO) != 0) {
+        priceChange = marketSummary.getLast().subtract(prevDay);
+        priceChangePercent =
+            priceChange.divide(prevDay, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L));
+      }
+    }
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
