@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class CurrencyMetaData implements Serializable {
 
   @JsonProperty("scale")
-  private final int scale;
+  private final Integer scale;
 
   /** Withdrawal fee */
   @JsonProperty("withdrawal_fee")
@@ -19,7 +19,8 @@ public class CurrencyMetaData implements Serializable {
    * @param scale
    */
   public CurrencyMetaData(
-      @JsonProperty("scale") int scale, @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee) {
+      @JsonProperty("scale") Integer scale,
+      @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee) {
     this.scale = scale;
     this.withdrawalFee = withdrawalFee;
   }
