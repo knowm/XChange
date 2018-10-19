@@ -64,9 +64,11 @@ public class ExmoAdapters {
 
     if (ExmoMarketDataHolder.getCloseBuyPrice(currencyPair) != null) {
       final BigDecimal prevDay = ExmoMarketDataHolder.getCloseBuyPrice(currencyPair);
-      priceChange = buyPrice.subtract(prevDay);
-      priceChangePercent =
-          priceChange.divide(prevDay, 4, RoundingMode.CEILING).multiply(BigDecimal.valueOf(100L));
+      if (prevDay.compareTo(BigDecimal.ZERO) != 0) {
+        priceChange = buyPrice.subtract(prevDay);
+        priceChangePercent =
+            priceChange.divide(prevDay, 4, RoundingMode.CEILING).multiply(BigDecimal.valueOf(100L));
+      }
     }
     return new Ticker.Builder()
         .currencyPair(currencyPair)
