@@ -105,6 +105,10 @@ public class HuobiAdapters {
     for (Map.Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
       try {
         Currency currency = adaptCurrency(record.getKey());
+        if (currency == null) {
+          // Avoid creating Balance objects with null currency.
+          continue;
+        }
         Balance balance =
             new Balance(
                 currency,
