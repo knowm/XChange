@@ -19,14 +19,14 @@ public class OkCoinExchange extends BaseExchange {
       if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
           && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(false)) {
 
-        exchangeSpecification.setSslUri("https://www.okex.com/api");
-        exchangeSpecification.setHost("www.okex.com");
+        exchangeSpecification.setSslUri("https://www.OKCoin.com/api");
+        exchangeSpecification.setHost("www.OKCoin.com");
 
       } else if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)
           && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
 
-        exchangeSpecification.setSslUri("https://www.okex.com/api");
-        exchangeSpecification.setHost("www.okex.com");
+        exchangeSpecification.setSslUri("https://www.OKCoin.com/api");
+        exchangeSpecification.setHost("www.OKCoin.com");
       }
     }
   }
@@ -115,8 +115,8 @@ public class OkCoinExchange extends BaseExchange {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.okex.com/api");
-    exchangeSpecification.setHost("www.okex.com");
+    exchangeSpecification.setSslUri("https://www.OKCoin.com/api");
+    exchangeSpecification.setHost("www.OKCoin.com");
     exchangeSpecification.setExchangeName("OKCoin");
     exchangeSpecification.setExchangeDescription(
         "OKCoin is a globally oriented crypto-currency trading platform.");

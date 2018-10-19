@@ -60,4 +60,16 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw
         getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results, offset),
         currencyPair);
   }
+
+  public Trades getTradesCustom(
+      CurrencyPair currencyPair,
+      long fromTradeId,
+      HitbtcTrade.HitbtcTradesSortField sortBy,
+      HitbtcSort sortDirection,
+      long limit)
+      throws IOException {
+
+    return HitbtcAdapters.adaptTrades(
+        getHitbtcTrades(currencyPair, fromTradeId, sortBy, sortDirection, limit), currencyPair);
+  }
 }
