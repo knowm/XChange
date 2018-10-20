@@ -25,7 +25,7 @@ public class CurrencyMetaData implements Serializable {
     this.withdrawalFee = withdrawalFee;
   }
 
-  public int getScale() {
+  public Integer getScale() {
     return scale;
   }
 
