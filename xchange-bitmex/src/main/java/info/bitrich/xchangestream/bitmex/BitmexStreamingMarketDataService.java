@@ -1,14 +1,11 @@
 package info.bitrich.xchangestream.bitmex;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.bitmex.dto.*;
+import info.bitrich.xchangestream.bitmex.dto.BitmexLimitOrder;
+import info.bitrich.xchangestream.bitmex.dto.BitmexOrderbook;
+import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
+import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import org.knowm.xchange.bitmex.BitmexContract;
-import org.knowm.xchange.bitmex.BitmexPrompt;
-import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -16,8 +13,10 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Created by Lukas Zaoralek on 13.11.17.
@@ -25,34 +24,17 @@ import java.util.*;
 public class BitmexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingMarketDataService.class);
 
-    private final ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
-
     private final BitmexStreamingService streamingService;
 
-    private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
-
+    private final SortedMap<CurrencyPair, BitmexOrderbook> orderbooks = new TreeMap<>();
 
     public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
         this.streamingService = streamingService;
-        this.streamingService.subscribeConnectionSuccess().subscribe(o -> {
-            LOG.info("Bitmex connection succeeded. Clearing orderbooks.");
-            orderbooks.clear();
-        });
-    }
-
-    private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
-        if (args.length > 0) {
-            BitmexPrompt prompt = (BitmexPrompt) args[0];
-            BitmexContract contract = new BitmexContract(currencyPair, prompt);
-            return BitmexUtils.translateBitmexContract(contract);
-        } else {
-            return currencyPair.base.toString() + currencyPair.counter.toString();
-        }
     }
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = String.format("orderBookL2:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -60,12 +42,12 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             String action = s.getAction();
             if (action.equals("partial")) {
                 orderbook = s.toBitmexOrderbook();
-                orderbooks.put(instrument, orderbook);
+                orderbooks.put(currencyPair, orderbook);
             } else {
-                orderbook = orderbooks.get(instrument);
+                orderbook = orderbooks.get(currencyPair);
                 //ignore updates until first "partial"
                 if (orderbook == null) {
-                    return new OrderBook(null, Collections.emptyList(), Collections.emptyList());
+                    return null;
                 }
                 BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
                 orderbook.updateLevels(levels, action);
@@ -76,7 +58,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
@@ -84,7 +66,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -95,7 +77,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
         String channelName = String.format("trade:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
@@ -106,37 +88,5 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             }
             return trades;
         });
-    }
-
-
-    public Observable<BitmexExecution> getExecutions(String symbol) {
-        return streamingService.subscribeBitmexChannel("execution:" + symbol).flatMapIterable(s -> {
-            JsonNode executions = s.getData();
-            List<BitmexExecution> bitmexExecutions = new ArrayList<>(executions.size());
-            for (JsonNode execution : executions) {
-                bitmexExecutions.add(objectMapper.treeToValue(execution, BitmexExecution.class));
-            }
-            return bitmexExecutions;
-        });
-    }
-
-    public void enableDeadManSwitch() throws IOException {
-        enableDeadManSwitch(BitmexStreamingService.DMS_RESUBSCRIBE, BitmexStreamingService.DMS_CANCEL_ALL_IN);
-    }
-
-    /**
-     * @param rate    in milliseconds to send updated
-     * @param timeout milliseconds from now after which orders will be cancelled
-     */
-    public void enableDeadManSwitch(long rate, long timeout) throws IOException {
-        streamingService.enableDeadMansSwitch(rate, timeout);
-    }
-
-    public boolean isDeadManSwitchEnabled() throws IOException {
-        return streamingService.isDeadMansSwitchEnabled();
-    }
-
-    public void disableDeadMansSwitch() throws IOException {
-        streamingService.disableDeadMansSwitch();
     }
 }
