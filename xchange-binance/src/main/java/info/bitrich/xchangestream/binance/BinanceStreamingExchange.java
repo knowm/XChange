@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
         ProductSubscription subscriptions = args[0];
         streamingService = createStreamingService(subscriptions);
-        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService);
+        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService);
         return streamingService.connect()
                 .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions));
     }
