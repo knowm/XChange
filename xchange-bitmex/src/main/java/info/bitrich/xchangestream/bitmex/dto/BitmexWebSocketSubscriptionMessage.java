@@ -13,9 +13,9 @@ public class BitmexWebSocketSubscriptionMessage {
     private String op;
 
     @JsonProperty(ARGS)
-    private Object[] args;
+    private String[] args;
 
-    public BitmexWebSocketSubscriptionMessage(String op, Object[] args) {
+    public BitmexWebSocketSubscriptionMessage(String op, String[] args) {
         this.op = op;
         this.args = args;
     }
