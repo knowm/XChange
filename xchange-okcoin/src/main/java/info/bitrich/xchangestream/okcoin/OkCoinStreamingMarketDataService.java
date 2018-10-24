@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.okcoin.dto.OkCoinOrderbook;
 import info.bitrich.xchangestream.okcoin.dto.OkCoinWebSocketTrade;
 import info.bitrich.xchangestream.okcoin.dto.marketdata.FutureTicker;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -33,12 +34,11 @@ import java.util.Map;
 public class OkCoinStreamingMarketDataService implements StreamingMarketDataService {
     private final OkCoinStreamingService service;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final Map<String, OkCoinOrderbook> orderbooks = new HashMap<>();
 
     OkCoinStreamingMarketDataService(OkCoinStreamingService service) {
         this.service = service;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**
