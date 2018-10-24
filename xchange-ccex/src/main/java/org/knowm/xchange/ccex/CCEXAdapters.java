@@ -32,6 +32,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 
@@ -112,19 +113,26 @@ public class CCEXAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, List<CCEXMarket> products) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> existingCurrencyPairMetadata =
+        exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (CCEXMarket product : products) {
       BigDecimal minSize = product.getMinTradeSize();
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 0);
       CurrencyPair pair = adaptCurrencyPair(product);
+      CurrencyPairMetaData existingMetaForPair = existingCurrencyPairMetadata.get(pair);
+      FeeTier[] existingFeeTiers = null;
+      if (existingMetaForPair != null) {
+        existingFeeTiers = existingMetaForPair.getFeeTiers();
+      }
+      CurrencyPairMetaData cpmd =
+          new CurrencyPairMetaData(null, minSize, null, 0, existingFeeTiers);
       currencyPairs.put(pair, cpmd);
       currencies.put(pair.base, null);
       currencies.put(pair.counter, null);
     }
 
-    return new ExchangeMetaData(
-        currencyPairs, currencies, null, null, true, exchangeMetaData.getFeeTiers());
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
   public static CurrencyPair adaptCurrencyPair(String pair) {

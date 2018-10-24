@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenFee.KrakenFeeDeserializer;
 
 @JsonDeserialize(using = KrakenFeeDeserializer.class)
-public class KrakenFee {
+public class KrakenFee implements Comparable<KrakenFee> {
 
   private final BigDecimal volume;
   private final BigDecimal percentFee;
@@ -21,6 +21,10 @@ public class KrakenFee {
 
     this.volume = volume;
     this.percentFee = percentFee;
+  }
+
+  public int compareTo(KrakenFee other) {
+    return volume.compareTo(other.volume);
   }
 
   public BigDecimal getVolume() {

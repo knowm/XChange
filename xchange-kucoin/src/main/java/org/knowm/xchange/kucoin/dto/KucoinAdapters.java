@@ -154,7 +154,7 @@ public class KucoinAdapters {
         coins.stream().collect(Collectors.toMap(c -> c.getCoin(), c -> c));
     Map<CurrencyPair, CurrencyPairMetaData> pairMeta = adaptCurrencyPairMap(tickers, coinMap);
     Map<Currency, CurrencyMetaData> coinMeta = adaptCurrencyMap(coins);
-    return new ExchangeMetaData(pairMeta, coinMeta, null, null, null, null);
+    return new ExchangeMetaData(pairMeta, coinMeta, null, null, null);
   }
 
   private static Map<Currency, CurrencyMetaData> adaptCurrencyMap(List<KucoinCoin> coins) {
@@ -185,7 +185,7 @@ public class KucoinAdapters {
       KucoinTicker tick, KucoinCoin coin) {
 
     // trading scale is determined by the base currency's trade precision
-    return new CurrencyPairMetaData(tick.getFeeRate(), null, null, coin.getTradePrecision());
+    return new CurrencyPairMetaData(tick.getFeeRate(), null, null, coin.getTradePrecision(), null);
   }
 
   public static AccountInfo adaptAccountInfo(List<KucoinCoinBalance> balances) {

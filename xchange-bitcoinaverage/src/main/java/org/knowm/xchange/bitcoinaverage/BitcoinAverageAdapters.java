@@ -58,6 +58,6 @@ public final class BitcoinAverageAdapters {
       currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency.substring(3))), null);
     }
     return new ExchangeMetaData(
-        currencyPairs, Collections.<Currency, CurrencyMetaData>emptyMap(), null, null, null, null);
+        currencyPairs, Collections.<Currency, CurrencyMetaData>emptyMap(), null, null, null);
   }
 }

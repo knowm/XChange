@@ -3,6 +3,7 @@ package org.knowm.xchange.kraken;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -27,6 +29,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -38,6 +41,7 @@ import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
@@ -330,8 +334,46 @@ public class KrakenAdapters {
         currencies,
         originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
-        originalMetaData == null ? null : originalMetaData.isShareRateLimits(),
-        originalMetaData == null ? null : originalMetaData.getFeeTiers());
+        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+  }
+
+  protected static FeeTier[] adaptFeeTiers(List<KrakenFee> makerFees, List<KrakenFee> takerFees) {
+    Collections.sort(makerFees);
+    Collections.sort(takerFees);
+    List<FeeTier> resultFeeTiers = new ArrayList<FeeTier>();
+    int makerFeeIdx = 0;
+    int takerFeeIdx = 0;
+
+    while (makerFeeIdx < makerFees.size() || takerFeeIdx < takerFees.size()) {
+      int curMakerIdx = Math.min(makerFeeIdx, makerFees.size() - 1);
+      int curTakerIdx = Math.min(takerFeeIdx, takerFees.size() - 1);
+
+      BigDecimal quantityMaker = makerFees.get(curMakerIdx).getVolume();
+      BigDecimal quantityTaker = takerFees.get(curTakerIdx).getVolume();
+      BigDecimal currentMakerFee = makerFees.get(curMakerIdx).getPercentFee();
+      BigDecimal currentTakerFee = takerFees.get(curTakerIdx).getPercentFee();
+      Fee adjustedFee = new Fee(currentMakerFee.movePointLeft(2), currentTakerFee.movePointLeft(2));
+      FeeTier feeTier = null;
+      int makerVolCompTakerVol = quantityMaker.compareTo(quantityTaker);
+      if ((makerVolCompTakerVol > 0 || makerFeeIdx >= makerFees.size())
+          && takerFeeIdx < takerFees.size()) {
+        takerFeeIdx++;
+        feeTier = new FeeTier(quantityTaker, adjustedFee);
+      } else if ((makerVolCompTakerVol < 0 || takerFeeIdx >= takerFees.size())
+          && makerFeeIdx < makerFees.size()) {
+        makerFeeIdx++;
+        feeTier = new FeeTier(quantityMaker, adjustedFee);
+      } else // makerVolCompTakerVol == 0 && makerFeeIdx < makerFees.size() && takerFeeIdx <
+      // takerFees.size()
+      {
+        takerFeeIdx++;
+        makerFeeIdx++;
+        feeTier = new FeeTier(quantityMaker, adjustedFee);
+      }
+      resultFeeTiers.add(feeTier);
+    }
+
+    return resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]);
   }
 
   private static CurrencyPairMetaData adaptPair(
@@ -341,13 +383,15 @@ public class KrakenAdapters {
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
-          krakenPair.getPairScale());
+          krakenPair.getPairScale(),
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
     } else {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           null,
           null,
-          krakenPair.getPairScale());
+          krakenPair.getPairScale(),
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
     }
   }
 

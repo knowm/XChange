@@ -144,11 +144,12 @@ public final class CryptopiaAdapters {
               cryptopiaTradePair.getTradeFee(),
               cryptopiaTradePair.getMinimumTrade(),
               cryptopiaTradePair.getMaximumTrade(),
-              8);
+              8,
+              null);
 
       marketMetaDataMap.put(currencyPair, currencyPairMetaData);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null, null);
+    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 }

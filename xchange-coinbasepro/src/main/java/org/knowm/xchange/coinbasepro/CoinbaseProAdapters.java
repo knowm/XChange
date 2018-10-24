@@ -379,7 +379,13 @@ public class CoinbaseProAdapters {
 
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
+      CurrencyPairMetaData cpmd =
+          new CurrencyPairMetaData(
+              null,
+              minSize,
+              maxSize,
+              priceScale,
+              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
       currencyPairs.put(pair, cpmd);
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
@@ -390,8 +396,7 @@ public class CoinbaseProAdapters {
         currencies,
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
-        true,
-        exchangeMetaData.getFeeTiers());
+        true);
   }
 
   public static String adaptProductID(CurrencyPair currencyPair) {

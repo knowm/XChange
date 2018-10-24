@@ -203,14 +203,15 @@ public class LiquiAdapters {
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
       final int priceScale = entry.getValue().getDecimalPlaces();
 
-      currencyPairs.put(pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale));
+      currencyPairs.put(
+          pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale, null));
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 
       if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, null, null);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
   public static CurrencyPair adaptCurrencyPair(final String pair) {

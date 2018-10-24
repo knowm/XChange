@@ -116,17 +116,20 @@ public class LivecoinAdapters {
         currencyPairs.put(
             pair,
             new CurrencyPairMetaData(
-                existing.getTradingFee(), minSize, existing.getMaximumAmount(), priceScale));
+                existing.getTradingFee(),
+                minSize,
+                existing.getMaximumAmount(),
+                priceScale,
+                existing.getFeeTiers()));
       } else {
-        currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale));
+        currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale, null));
       }
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 
       if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
-    return new ExchangeMetaData(
-        currencyPairs, currencies, null, null, true, exchangeMetaData.getFeeTiers());
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
   public static Trades adaptTrades(List<LivecoinTrade> tradesRaw, CurrencyPair currencyPair) {

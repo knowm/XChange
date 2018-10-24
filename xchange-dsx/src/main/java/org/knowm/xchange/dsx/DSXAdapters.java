@@ -247,7 +247,7 @@ public class DSXAdapters {
 
     RateLimit[] publicRateLimits =
         new RateLimit[] {new RateLimit(dsxMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
-    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false, null);
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 
   private static void addCurrencyMetaData(
@@ -269,7 +269,7 @@ public class DSXAdapters {
     BigDecimal maximumAmount = withScale(info.getMaxPrice(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

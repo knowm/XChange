@@ -30,7 +30,7 @@ public class IdexExchange extends BaseExchange {
 
   private ReturnCurrenciesResponse allCurrenciesStatic;
 
-  CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0);
+  CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0, null);
 
   public final CurrencyPairMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;
@@ -62,7 +62,7 @@ public class IdexExchange extends BaseExchange {
                     0, ZERO, value.getAddress(), value.getName(), value.getDecimals())));
     RateLimit[] publicRateLimits = {};
     return new ExchangeMetaData(
-        currencyPairs, linkedHashMap, publicRateLimits, publicRateLimits, Boolean.FALSE, null);
+        currencyPairs, linkedHashMap, publicRateLimits, publicRateLimits, Boolean.FALSE);
   }
 
   private IdexAccountService idexAccountService;

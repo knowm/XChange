@@ -318,8 +318,7 @@ public class BitmexAdapters {
         currencies,
         originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
-        originalMetaData == null ? null : originalMetaData.isShareRateLimits(),
-        originalMetaData == null ? null : originalMetaData.getFeeTiers());
+        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
   }
 
   private static CurrencyPairMetaData adaptPair(
@@ -330,13 +329,15 @@ public class BitmexAdapters {
           ticker.getTakerFee(),
           OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
-          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()));
+          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
+          OriginalMeta.getFeeTiers());
     } else {
       return new CurrencyPairMetaData(
           ticker.getTakerFee(),
           null,
           null,
-          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()));
+          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
+          OriginalMeta.getFeeTiers());
     }
   }
 
