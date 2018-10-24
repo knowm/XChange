@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitflyer.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,12 +27,10 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
     private final PubnubStreamingService streamingService;
 
     private final Map<CurrencyPair, BitflyerOrderbook> orderbooks = new HashMap<>();
-    private final ObjectMapper mapper;
+    private final ObjectMapper mapper=StreamingObjectMapperHelper.getObjectMapper();
 
     public BitflyerStreamingMarketDataService(PubnubStreamingService streamingService) {
         this.streamingService = streamingService;
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
 
         Observable<BitflyerOrderbook> snapshotTransactions = streamingService.subscribeChannel
                 (channelOrderbookSnapshotName).map(s -> {
-            BitflyerPubNubOrderbookTransaction transaction = mapper.readValue(s.toString(), BitflyerPubNubOrderbookTransaction.class);
+            BitflyerPubNubOrderbookTransaction transaction = mapper.treeToValue(s, BitflyerPubNubOrderbookTransaction.class);
             BitflyerOrderbook bitflyerOrderbook = transaction.toBitflyerOrderbook(currencyPair);
             orderbooks.put(currencyPair, bitflyerOrderbook);
             return bitflyerOrderbook;
@@ -53,7 +52,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
                 .filter(s -> orderbooks.containsKey(currencyPair))
                 .map(s -> {
                     BitflyerOrderbook bitflyerOrderbook = orderbooks.get(currencyPair);
-                    BitflyerPubNubOrderbookTransaction transaction = mapper.readValue(s.toString(), BitflyerPubNubOrderbookTransaction.class);
+                    BitflyerPubNubOrderbookTransaction transaction = mapper.treeToValue(s, BitflyerPubNubOrderbookTransaction.class);
                     BitflyerLimitOrder[] asks = transaction.getAsks();
                     BitflyerLimitOrder[] bids = transaction.getBids();
                     bitflyerOrderbook.updateLevels(asks, Order.OrderType.ASK);
@@ -68,7 +67,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         String channelName = "lightning_ticker_" + currencyPair.base.toString() + "_" + currencyPair.counter.toString();
         Observable<BitflyerTicker> tickerTransactions = streamingService.subscribeChannel(channelName).map(s -> {
-            BitflyerPubNubTickerTransaction transaction = mapper.readValue(s.toString(), BitflyerPubNubTickerTransaction.class);
+            BitflyerPubNubTickerTransaction transaction = mapper.treeToValue(s, BitflyerPubNubTickerTransaction.class);
             return transaction.toBitflyerTicker();
         });
 

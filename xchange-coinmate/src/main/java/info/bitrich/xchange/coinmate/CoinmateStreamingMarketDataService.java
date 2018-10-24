@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchange.coinmate.dto.CoinmateWebSocketTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -32,8 +33,7 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
         return service.subscribeChannel(channelName, "order_book")
                 .map(s -> {
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                    ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
                     CoinmateOrderBookData orderBookData = mapper.readValue(s, CoinmateOrderBookData.class);
                     CoinmateOrderBook coinmateOrderBook = new CoinmateOrderBook(false, null, orderBookData);
 
@@ -53,8 +53,8 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
         return service.subscribeChannel(channelName, "new_trades")
                 .map(s -> {
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+                    ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
                     List<CoinmateWebSocketTrade> list = mapper.readValue(s, new TypeReference<List<CoinmateWebSocketTrade>>() {
                     });
                     return list;

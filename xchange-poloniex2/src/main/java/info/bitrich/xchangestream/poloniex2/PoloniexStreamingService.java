@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransaction;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -62,7 +63,6 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode;
 
         // Parse incoming message to JSON
@@ -93,12 +93,9 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
     public Observable<PoloniexWebSocketEvent> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
         String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
         return subscribeChannel(channelName)
                 .flatMapIterable(s -> {
-                    PoloniexWebSocketEventsTransaction transaction = mapper.readValue(s.toString(), PoloniexWebSocketEventsTransaction.class);
+                    PoloniexWebSocketEventsTransaction transaction = objectMapper.treeToValue(s, PoloniexWebSocketEventsTransaction.class);
                     return Arrays.asList(transaction.getEvents());
                 }).share();
     }
@@ -116,7 +113,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         PoloniexWebSocketSubscriptionMessage subscribeMessage = new PoloniexWebSocketSubscriptionMessage("subscribe",
                 channelName);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
@@ -125,7 +122,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         PoloniexWebSocketSubscriptionMessage subscribeMessage = new PoloniexWebSocketSubscriptionMessage("unsubscribe",
                 channelName);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 

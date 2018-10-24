@@ -27,7 +27,6 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
     private String apiKey;
     private String apiSecret;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private PublishSubject<Order> subjectOrder = PublishSubject.create();
     private PublishSubject<CexioWebSocketTransaction> subjectTransaction = PublishSubject.create();
 

@@ -12,6 +12,7 @@ import java.util.TimeZone;
  * Created by Lukas Zaoralek on 13.11.17.
  */
 public class BitmexMarketDataEvent {
+    public static final String BITMEX_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     protected String timestamp;
     protected String symbol;
 
@@ -35,8 +36,7 @@ public class BitmexMarketDataEvent {
     }
 
     public Date getDate() {
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat formatter = new SimpleDateFormat(BITMEX_TIMESTAMP_FORMAT);
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {

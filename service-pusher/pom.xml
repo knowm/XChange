@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.pusher</groupId>
             <artifactId>pusher-java-client</artifactId>
-            <version>1.4.0</version>
+            <version>1.8.0</version>
         </dependency>
     </dependencies>
 
