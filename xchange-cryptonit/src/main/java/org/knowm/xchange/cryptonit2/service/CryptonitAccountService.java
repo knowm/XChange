@@ -7,8 +7,10 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptonit2.CryptonitAdapters;
 import org.knowm.xchange.cryptonit2.CryptonitUtils;
+import org.knowm.xchange.cryptonit2.dto.account.CryptoWithdrawParams;
 import org.knowm.xchange.cryptonit2.dto.account.CryptonitDepositAddress;
 import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
+import org.knowm.xchange.cryptonit2.dto.account.SepaWithdrawParams;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitUserTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -43,59 +45,29 @@ public class CryptonitAccountService extends CryptonitAccountServiceRaw implemen
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+    return withdrawFunds(new CryptoWithdrawParams(address, currency, amount));
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params)
       throws ExchangeException, NotAvailableFromExchangeException,
           NotYetImplementedForExchangeException, IOException {
-    if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
-
-      CryptonitWithdrawal response =
-          withdrawRippleFunds(
-              rippleWithdrawFundsParams.getAmount(),
-              rippleWithdrawFundsParams.getAddress(),
-              rippleWithdrawFundsParams.getTag());
-
-      if (response.error != null) {
-        throw new ExchangeException("Failed to withdraw: " + response.error);
-      }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Integer.toString(response.getId());
-    } else if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-
-      CryptonitWithdrawal response;
-      if (defaultParams.getCurrency().equals(Currency.LTC)) {
-        response = withdrawLtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.ETH)) {
-        response = withdrawEthFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BTC)) {
-        response = withdrawBtcFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else if (defaultParams.getCurrency().equals(Currency.BCH)) {
-        response = withdrawBchFunds(defaultParams.getAmount(), defaultParams.getAddress());
-      } else {
-        throw new IllegalStateException("Cannot withdraw " + defaultParams.getCurrency());
-      }
-
-      if (response.error != null) {
-        throw new ExchangeException("Failed to withdraw: " + response.error);
-      }
-
-      if (response.getId() == null) {
-        return null;
-      }
-
-      return Integer.toString(response.getId());
+    CryptonitWithdrawal response;
+    if (params instanceof CryptoWithdrawParams) {
+      CryptoWithdrawParams cryptoParams = (CryptoWithdrawParams) params;
+      response =
+          withdrawCrypto(
+              cryptoParams.getAmount(), cryptoParams.address, cryptoParams.getCurrency());
+    } else if (params instanceof SepaWithdrawParams) {
+      SepaWithdrawParams sepaParams = (SepaWithdrawParams) params;
+      response = withdrawSepa(sepaParams);
+    } else {
+      throw new IllegalStateException("Don't know how to withdraw: " + params);
     }
-
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
+    if (response.error != null) {
+      throw new ExchangeException("Failed to withdraw: " + response.error);
+    }
+    return String.valueOf(response.getSuccess());
   }
 
   /**
@@ -107,17 +79,8 @@ public class CryptonitAccountService extends CryptonitAccountServiceRaw implemen
 
     CryptonitDepositAddress response = null;
 
-    if (currency.equals(Currency.BTC)) {
-      response = getCryptonitBitcoinDepositAddress();
-    } else if (currency.equals(Currency.LTC)) {
-      response = getCryptonitLitecoinDepositAddress();
-    } else if (currency.equals(Currency.ETH)) {
-      response = getCryptonitEthereumDepositAddress();
-    } else {
-      throw new IllegalStateException("Unsupported currency " + currency);
-    }
-
-    return response.getDepositAddress();
+    throw new NotYetImplementedForExchangeException();
+    // return response.getDepositAddress();
   }
 
   @Override
