@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -101,8 +103,7 @@ public class YoBitAdapters {
       List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
-    for (int i = 0; i < levels.size(); i++) {
-      YoBitAsksBidsData ask = levels.get(i);
+    for (YoBitAsksBidsData ask : levels) {
       if (ask != null) {
         allLevels.add(
             new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
@@ -157,11 +158,9 @@ public class YoBitAdapters {
   }
 
   public static String adaptCcyPairsToUrlFormat(Iterable<CurrencyPair> currencyPairs) {
-    java.util.StringJoiner stringJoiner = new java.util.StringJoiner("-");
-    java.util.stream.StreamSupport.stream(currencyPairs.spliterator(), false)
+    return StreamSupport.stream(currencyPairs.spliterator(), false)
         .map(YoBitAdapters::adaptCcyPairToUrlFormat)
-        .forEach(stringJoiner::add);
-    return stringJoiner.toString();
+        .collect(Collectors.joining("-"));
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {

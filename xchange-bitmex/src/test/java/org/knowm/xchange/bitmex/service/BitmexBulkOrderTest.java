@@ -13,6 +13,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.utils.CertHelper;
@@ -71,18 +72,14 @@ public class BitmexBulkOrderTest {
     List<Bitmex.PlaceOrderCommand> commands = new ArrayList<>();
     commands.add(
         new Bitmex.PlaceOrderCommand(
-            SYMBOL,
-            BitmexSide.SELL.toString(),
-            originalOrderSize.intValue(),
-            price,
-            null,
-            nosOrdId,
-            null,
-            null,
-            null,
-            null));
+            new BitmexPlaceOrderParameters.Builder(SYMBOL)
+                .setSide(BitmexSide.SELL)
+                .setOrderQuantity(originalOrderSize)
+                .setPrice(price)
+                .setClOrdId(nosOrdId)
+                .build()));
 
-    List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeLimitOrderBulk(commands);
+    List<BitmexPrivateOrder> bitmexPrivateOrders = tradeService.placeOrderBulk(commands);
     for (BitmexPrivateOrder bitmexPrivateOrder : bitmexPrivateOrders) {}
 
     Thread.sleep(5000);

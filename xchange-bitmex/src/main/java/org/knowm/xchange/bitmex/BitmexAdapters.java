@@ -22,6 +22,7 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
 import org.knowm.xchange.bitmex.dto.trade.BitmexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -99,6 +100,25 @@ public class BitmexAdapters {
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", null, order.getPrice());
+  }
+
+  public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
+    Order.OrderType type =
+        rawOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+
+    CurrencyPair pair = adaptCurrencyPair(rawOrder.getSymbol());
+
+    return new LimitOrder(
+        type,
+        rawOrder.getVolume(),
+        pair,
+        rawOrder.getId(),
+        rawOrder.getTimestamp(),
+        rawOrder.getPrice(),
+        rawOrder.getAvgPx(),
+        rawOrder.getCumQty(),
+        null,
+        BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
   }
 
   public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
@@ -191,7 +211,6 @@ public class BitmexAdapters {
 
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
-    BigDecimal remainingAmount = originalAmount.min(filledAmount);
     CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
@@ -381,6 +400,10 @@ public class BitmexAdapters {
   public static CurrencyPair adaptCurrencyPair(CurrencyPair currencyPair) {
 
     return currencyPair;
+  }
+
+  public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
   }
 
   public static class OrdersContainer {

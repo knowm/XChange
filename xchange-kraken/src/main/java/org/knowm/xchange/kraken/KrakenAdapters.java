@@ -350,27 +350,47 @@ public class KrakenAdapters {
 
       BigDecimal quantityMaker = makerFees.get(curMakerIdx).getVolume();
       BigDecimal quantityTaker = takerFees.get(curTakerIdx).getVolume();
-      BigDecimal currentMakerFee = makerFees.get(curMakerIdx).getPercentFee();
-      BigDecimal currentTakerFee = takerFees.get(curTakerIdx).getPercentFee();
-      Fee adjustedFee = new Fee(currentMakerFee.movePointLeft(2), currentTakerFee.movePointLeft(2));
-      FeeTier feeTier = null;
+
+      BigDecimal resultQuantity = null;
+      BigDecimal resultMakerFee = null;
+      BigDecimal resultTakerFee = null;
       int makerVolCompTakerVol = quantityMaker.compareTo(quantityTaker);
       if ((makerVolCompTakerVol > 0 || makerFeeIdx >= makerFees.size())
           && takerFeeIdx < takerFees.size()) {
+        if (makerFeeIdx < 1) {
+          throw new IllegalStateException(
+              "Kraken exchange specified fee tiers such that the maker fee was unspecified before a nonzero quantity was traded.");
+        }
+        KrakenFee takerFeeData = takerFees.get(curTakerIdx);
+        resultTakerFee = takerFeeData.getPercentFee();
+        resultMakerFee = makerFees.get(makerFeeIdx - 1).getPercentFee();
+        resultQuantity = takerFeeData.getVolume();
         takerFeeIdx++;
-        feeTier = new FeeTier(quantityTaker, adjustedFee);
       } else if ((makerVolCompTakerVol < 0 || takerFeeIdx >= takerFees.size())
           && makerFeeIdx < makerFees.size()) {
+        if (takerFeeIdx < 1) {
+          throw new IllegalStateException(
+              "Kraken exchange specified fee tiers such that the taker fee was unspecified before a nonzero quantity was traded.");
+        }
+        KrakenFee makerFeeData = makerFees.get(curMakerIdx);
+        resultMakerFee = makerFeeData.getPercentFee();
+        resultTakerFee = takerFees.get(takerFeeIdx - 1).getPercentFee();
+        resultQuantity = makerFeeData.getVolume();
         makerFeeIdx++;
-        feeTier = new FeeTier(quantityMaker, adjustedFee);
-      } else // makerVolCompTakerVol == 0 && makerFeeIdx < makerFees.size() && takerFeeIdx <
-      // takerFees.size()
-      {
+      } else { // makerVolCompTakerVol == 0 && makerFeeIdx < makerFees.size() && takerFeeIdx <
+               // takerFees.size()
+        KrakenFee makerFeeData = makerFees.get(curMakerIdx);
+        resultMakerFee = makerFeeData.getPercentFee();
+        resultTakerFee = takerFees.get(curTakerIdx).getPercentFee();
+        resultQuantity = makerFeeData.getVolume();
+
         takerFeeIdx++;
         makerFeeIdx++;
-        feeTier = new FeeTier(quantityMaker, adjustedFee);
       }
-      resultFeeTiers.add(feeTier);
+      resultFeeTiers.add(
+          new FeeTier(
+              resultQuantity,
+              new Fee(resultMakerFee.movePointLeft(2), resultTakerFee.movePointLeft(2))));
     }
 
     return resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]);

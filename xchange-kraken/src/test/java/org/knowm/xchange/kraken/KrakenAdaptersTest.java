@@ -325,7 +325,7 @@ public class KrakenAdaptersTest {
   }
 
   @Test
-  public void testAdaptFeeTiers() {
+  public void testAdaptFeeTiers1() {
     List<KrakenFee> krakenMakerFees = new ArrayList<KrakenFee>();
     List<KrakenFee> krakenTakerFees = new ArrayList<KrakenFee>();
 
@@ -345,7 +345,7 @@ public class KrakenAdaptersTest {
 
     assertThat(adaptedFeeTiers[1].beginQuantity).isEqualByComparingTo(new BigDecimal(30));
     assertThat(adaptedFeeTiers[1].fee.getMakerFee())
-        .isEqualByComparingTo(new BigDecimal(0.5).movePointLeft(2));
+        .isEqualByComparingTo(BigDecimal.ONE.movePointLeft(2));
     assertThat(adaptedFeeTiers[1].fee.getTakerFee())
         .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
 
