@@ -170,11 +170,11 @@ public class BleutradeAdapters {
       CurrencyPair currencyPair =
           CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
       CurrencyPairMetaData marketMetaData =
-          new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), null, 8);
+          new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), null, 8, null);
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null, null);
+    return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
   public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {

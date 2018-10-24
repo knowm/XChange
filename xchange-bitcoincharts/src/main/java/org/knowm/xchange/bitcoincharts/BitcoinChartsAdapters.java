@@ -73,7 +73,7 @@ public final class BitcoinChartsAdapters {
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
           new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
-          new CurrencyPairMetaData(null, null, null, scale));
+          new CurrencyPairMetaData(null, null, null, scale, null));
     }
 
     return new ExchangeMetaData(
@@ -81,8 +81,7 @@ public final class BitcoinChartsAdapters {
         exchangeMetaData.getCurrencies(),
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
-        exchangeMetaData.isShareRateLimits(),
-        exchangeMetaData.getFeeTiers());
+        exchangeMetaData.isShareRateLimits());
   }
 
   private static <T> T firstNonNull(T... objects) {

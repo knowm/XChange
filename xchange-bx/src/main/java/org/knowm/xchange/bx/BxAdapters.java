@@ -42,7 +42,7 @@ public class BxAdapters {
         pairs.put(adaptCurrencyPair(id), adaptCurrencyPairMetaData(assetPairs.get(id)));
       }
     }
-    return new ExchangeMetaData(pairs, BxUtils.getCurrencies(), null, null, false, null);
+    return new ExchangeMetaData(pairs, BxUtils.getCurrencies(), null, null, false);
   }
 
   private static CurrencyPair adaptCurrencyPair(String pairId) {
@@ -50,7 +50,7 @@ public class BxAdapters {
   }
 
   private static CurrencyPairMetaData adaptCurrencyPairMetaData(BxAssetPair assetPair) {
-    return new CurrencyPairMetaData(null, assetPair.getPrimaryMin(), null, 0);
+    return new CurrencyPairMetaData(null, assetPair.getPrimaryMin(), null, 0, null);
   }
 
   public static Ticker adaptTicker(BxTicker bxTicker, SynchronizedValueFactory<Long> nonce) {

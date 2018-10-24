@@ -272,9 +272,9 @@ public interface GDAX {
   GDAXTrailingVolume[] getGDAX30DayTrailingVolume(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") long nonce,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
-      throws HttpStatusIOException;
+      throws GDAXException, IOException;
 
   @POST
   @Path("coinbase-accounts/{account_id}/addresses")

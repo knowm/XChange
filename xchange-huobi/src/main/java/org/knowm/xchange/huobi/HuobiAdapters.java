@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -75,7 +76,7 @@ public class HuobiAdapters {
       currencies.put(currency, new CurrencyMetaData(scale, withdrawalFee));
     }
 
-    return new ExchangeMetaData(pairs, currencies, null, null, false, null);
+    return new ExchangeMetaData(pairs, currencies, null, null, false);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPair) {
@@ -85,13 +86,14 @@ public class HuobiAdapters {
   private static CurrencyPairMetaData adaptPair(
       HuobiAssetPair pair, CurrencyPairMetaData metadata) {
     BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
+    FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
 
     return new CurrencyPairMetaData(
         fee,
         minQty, // Min amount
         null, // Max amount
-        new Integer(pair.getPricePrecision()) // Price scale
-        );
+        new Integer(pair.getPricePrecision()), // Price scale
+        feeTiers);
   }
 
   private static Currency adaptCurrency(String currency) {

@@ -135,9 +135,9 @@ public class BiboxAdapters {
     for (BiboxMarket biboxMarket : markets) {
       pairMeta.put(
           new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
-          new CurrencyPairMetaData(null, null, null, null));
+          new CurrencyPairMetaData(null, null, null, null, null));
     }
-    return new ExchangeMetaData(pairMeta, null, null, null, null, null);
+    return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 
   public static UserTrades adaptUserTrades(BiboxOrders biboxOrderHistory) {

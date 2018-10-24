@@ -3,10 +3,14 @@ package org.knowm.xchange.gdax.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.GdaxTransfers;
@@ -24,10 +28,23 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class GDAXAccountServiceRaw extends GDAXBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
+  protected final Map<CurrencyPair, FeeTier[]> feeTiersPerCurrency;
 
   public GDAXAccountServiceRaw(Exchange exchange) {
-
     super(exchange);
+
+    Hashtable<CurrencyPair, FeeTier[]> feesPerCurrency = new Hashtable<CurrencyPair, FeeTier[]>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMeta =
+        exchange.getExchangeMetaData().getCurrencyPairs();
+    for (CurrencyPair currencyPairForMeta : currencyPairMeta.keySet()) {
+      CurrencyPairMetaData currencyMetaHere = currencyPairMeta.get(currencyPairForMeta);
+      FeeTier[] feeTiersForCurrency = currencyMetaHere.getFeeTiers();
+      if (feeTiersForCurrency != null) {
+        feesPerCurrency.put(currencyPairForMeta, feeTiersForCurrency);
+      }
+    }
+    this.feeTiersPerCurrency = feesPerCurrency;
+
     this.nonceFactory = exchange.getNonceFactory();
   }
 
@@ -95,6 +112,7 @@ public class GDAXAccountServiceRaw extends GDAXBaseService {
   }
 
   public GDAXTrailingVolume[] getTrailing30DayVolume() throws IOException {
-    return gdax.getGDAX30DayTrailingVolume(apiKey, digest, nonceFactory, passphrase);
+    long timestamp = nonceFactory.createValue();
+    return gdax.getGDAX30DayTrailingVolume(apiKey, digest, timestamp, passphrase);
   }
 }

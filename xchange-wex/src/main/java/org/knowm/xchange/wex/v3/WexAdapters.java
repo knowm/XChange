@@ -308,7 +308,7 @@ public final class WexAdapters {
 
     RateLimit[] publicRateLimits =
         new RateLimit[] {new RateLimit(wexMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
-    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false, null);
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 
   private static void addCurrencyMetaData(
@@ -327,7 +327,7 @@ public final class WexAdapters {
     BigDecimal minimumAmount = withScale(info.getMinAmount(), wexMetaData.amountScale);
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

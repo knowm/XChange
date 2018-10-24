@@ -449,7 +449,8 @@ public final class BitfinexAdapters {
                         null,
                         bitfinexSymbolDetail.getMinimum_order_size(),
                         bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
+                        bitfinexSymbolDetail.getPrice_precision(),
+                        null);
                 currencyPairs.put(currencyPair, newMetaData);
               } else {
                 CurrencyPairMetaData oldMetaData = currencyPairs.get(currencyPair);
@@ -458,7 +459,8 @@ public final class BitfinexAdapters {
                         oldMetaData.getTradingFee(),
                         bitfinexSymbolDetail.getMinimum_order_size(),
                         bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
+                        bitfinexSymbolDetail.getPrice_precision(),
+                        null);
                 currencyPairs.put(currencyPair, newMetaData);
               }
             });
@@ -493,7 +495,7 @@ public final class BitfinexAdapters {
     // now.
     // also setting the taker_fee as the trading_fee for now.
     final CurrencyPairMetaData metaData =
-        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null);
+        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null, null);
     currencyPairs
         .keySet()
         .parallelStream()
@@ -507,7 +509,8 @@ public final class BitfinexAdapters {
                             newMetaData.getTradingFee(),
                             oldMetaData.getMinimumAmount(),
                             oldMetaData.getMaximumAmount(),
-                            oldMetaData.getPriceScale())));
+                            oldMetaData.getPriceScale(),
+                            oldMetaData.getFeeTiers())));
 
     return exchangeMetaData;
   }

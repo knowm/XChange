@@ -23,6 +23,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -293,20 +294,23 @@ public class HitbtcAdapters {
         BigDecimal minimumAmount = null;
         BigDecimal maximumAmount = null;
 
+        FeeTier[] feeTiers = null;
         if (currencyPairs.containsKey(pair)) {
           CurrencyPairMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
+          feeTiers = existing.getFeeTiers();
         }
 
         CurrencyPairMetaData meta =
-            new CurrencyPairMetaData(tradingFee, minimumAmount, maximumAmount, priceScale);
+            new CurrencyPairMetaData(
+                tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
 
         currencyPairs.put(pair, meta);
       }
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, null, null);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
   public static FundingRecord adapt(HitbtcTransaction transaction) {

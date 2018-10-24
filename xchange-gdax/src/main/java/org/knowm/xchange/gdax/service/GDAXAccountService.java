@@ -3,6 +3,7 @@ package org.knowm.xchange.gdax.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
@@ -11,6 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.GdaxTransfer;
@@ -51,16 +53,29 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
     GDAXTrailingVolume[] trailingVolume = getTrailing30DayVolume();
-    Map<CurrencyPair, BigDecimal>
-        USDVolumePerPair; // = computeUSDVolumeFromTrailing(trailingVolume, )
-    return null;
-    // Get trailing volume in terms of USD per currency pair
-    // Bucket as follows:
-    // User 30 day USD volume 	Taker fee 	Maker fee
-    // $0 - $10m 	0.30 % 	0 %
-    // $10m - $100m 	0.20 % 	0 %
-    // $100m+ 	0.10 % 	0 %
-    // drop in the result map and return
+
+    BigDecimal totalTrailingVolumeInUSD = BigDecimal.ZERO;
+    for (GDAXTrailingVolume vol : trailingVolume) {
+      totalTrailingVolumeInUSD = totalTrailingVolumeInUSD.add(vol.getExchangeVolume());
+    }
+
+    Map<CurrencyPair, Fee> result = new Hashtable<CurrencyPair, Fee>();
+    for (Map.Entry<CurrencyPair, FeeTier[]> feePerCurrency : feeTiersPerCurrency.entrySet()) {
+      FeeTier[] feeTiers = feePerCurrency.getValue();
+      FeeTier tierHere = null;
+      for (int i = 0; i < feeTiers.length - 1; i++) {
+        if (totalTrailingVolumeInUSD.compareTo(feeTiers[i].beginQuantity) >= 0
+            && totalTrailingVolumeInUSD.compareTo(feeTiers[i + 1].beginQuantity) < 0) {
+          tierHere = feeTiers[i];
+        }
+      }
+      if (tierHere == null) {
+        tierHere = feeTiers[feeTiers.length - 1];
+      }
+      result.put(feePerCurrency.getKey(), tierHere.fee);
+    }
+
+    return result;
   }
 
   @Override

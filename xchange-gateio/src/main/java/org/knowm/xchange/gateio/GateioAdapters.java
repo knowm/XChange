@@ -232,12 +232,12 @@ public final class GateioAdapters {
               btermarketInfo.getFee(),
               btermarketInfo.getMinAmount(),
               null,
-              btermarketInfo.getDecimalPlaces());
+              btermarketInfo.getDecimalPlaces(),
+              null);
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
-    ExchangeMetaData exchangeMetaData =
-        new ExchangeMetaData(currencyPairs, null, null, null, null, null);
+    ExchangeMetaData exchangeMetaData = new ExchangeMetaData(currencyPairs, null, null, null, null);
 
     return exchangeMetaData;
   }
