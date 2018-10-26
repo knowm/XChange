@@ -119,26 +119,38 @@ public final class UpbitAdapters {
     return new Wallet(balances);
   }
 
-    public static Order adaptOrderInfo(UpbitOrderResponse upbitOrderResponse) {
-        Order.OrderStatus status = Order.OrderStatus.NEW;
-        if(upbitOrderResponse.getState().equalsIgnoreCase("cancel")){
-            status = Order.OrderStatus.CANCELED;
-        } else if(upbitOrderResponse.getExecutedVolume().compareTo(BigDecimal.ZERO) == 0){
-            status = Order.OrderStatus.NEW;
-        } else if(upbitOrderResponse.getRemainingVolume().compareTo(BigDecimal.ZERO) > 0){
-            status = Order.OrderStatus.PARTIALLY_FILLED;
-        } else if(upbitOrderResponse.getState().equalsIgnoreCase("done")){
-            status = Order.OrderStatus.FILLED;
-        }
-        OrderType type = upbitOrderResponse.getSide().equals("ask") ? OrderType.ASK : OrderType.BID;
-        BigDecimal originalAmount = upbitOrderResponse.getVolume();
-        String[] markets = upbitOrderResponse.getMarket().split("-");
-        CurrencyPair currencyPair = new CurrencyPair(new Currency(markets[1]), new Currency(markets[0]));
-        String orderId = upbitOrderResponse.getUuid();
-        BigDecimal cumulativeAmount = upbitOrderResponse.getExecutedVolume();
-        BigDecimal price = upbitOrderResponse.getAvgPrice();
-        ZonedDateTime dateTime = ZonedDateTime.parse(upbitOrderResponse.getCreatedAt());
-        LimitOrder order = new LimitOrder(type, originalAmount, currencyPair, orderId, Date.from(dateTime.toInstant()), price, price, cumulativeAmount, upbitOrderResponse.getPaidFee(), status);
-        return order;
+  public static Order adaptOrderInfo(UpbitOrderResponse upbitOrderResponse) {
+    Order.OrderStatus status = Order.OrderStatus.NEW;
+    if (upbitOrderResponse.getState().equalsIgnoreCase("cancel")) {
+      status = Order.OrderStatus.CANCELED;
+    } else if (upbitOrderResponse.getExecutedVolume().compareTo(BigDecimal.ZERO) == 0) {
+      status = Order.OrderStatus.NEW;
+    } else if (upbitOrderResponse.getRemainingVolume().compareTo(BigDecimal.ZERO) > 0) {
+      status = Order.OrderStatus.PARTIALLY_FILLED;
+    } else if (upbitOrderResponse.getState().equalsIgnoreCase("done")) {
+      status = Order.OrderStatus.FILLED;
     }
+    OrderType type = upbitOrderResponse.getSide().equals("ask") ? OrderType.ASK : OrderType.BID;
+    BigDecimal originalAmount = upbitOrderResponse.getVolume();
+    String[] markets = upbitOrderResponse.getMarket().split("-");
+    CurrencyPair currencyPair =
+        new CurrencyPair(new Currency(markets[1]), new Currency(markets[0]));
+    String orderId = upbitOrderResponse.getUuid();
+    BigDecimal cumulativeAmount = upbitOrderResponse.getExecutedVolume();
+    BigDecimal price = upbitOrderResponse.getAvgPrice();
+    ZonedDateTime dateTime = ZonedDateTime.parse(upbitOrderResponse.getCreatedAt());
+    LimitOrder order =
+        new LimitOrder(
+            type,
+            originalAmount,
+            currencyPair,
+            orderId,
+            Date.from(dateTime.toInstant()),
+            price,
+            price,
+            cumulativeAmount,
+            upbitOrderResponse.getPaidFee(),
+            status);
+    return order;
+  }
 }

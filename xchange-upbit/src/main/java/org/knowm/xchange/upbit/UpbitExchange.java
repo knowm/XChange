@@ -18,7 +18,7 @@ public class UpbitExchange extends BaseExchange implements Exchange {
   protected void initServices() {
     this.marketDataService = new UpbitMarketDataService(this);
     this.accountService = new UpbitAccountService(this);
-    this.tradeService= new UpbitTradeService(this);
+    this.tradeService = new UpbitTradeService(this);
   }
 
   @Override
