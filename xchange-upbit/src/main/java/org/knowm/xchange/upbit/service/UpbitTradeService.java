@@ -21,72 +21,68 @@ import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 
 public class UpbitTradeService extends UpbitTradeServiceRaw implements TradeService {
 
-    /**
-     *
-     * @param exchange
-     */
-    public UpbitTradeService(Exchange exchange) {
-        super(exchange);
-    }
+  /** @param exchange */
+  public UpbitTradeService(Exchange exchange) {
+    super(exchange);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        return super.limitOrder(limitOrder).getUuid();
-    }
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    return super.limitOrder(limitOrder).getUuid();
+  }
 
-    @Override
-    public String placeStopOrder(StopOrder stopOrder) throws IOException {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-        return super.cancelOrderRaw(orderId) == null ? false : true;
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    return super.cancelOrderRaw(orderId) == null ? false : true;
+  }
 
-    }
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public OpenOrdersParams createOpenOrdersParams() {
-        throw new NotYetImplementedForExchangeException();
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    ArrayList<Order> rtn = new ArrayList<>();
+    for (String orderId : orderIds) {
+      UpbitOrderResponse res = super.getOrderRaw(orderId);
+      rtn.add(UpbitAdapters.adaptOrderInfo(res));
     }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws IOException {
-        ArrayList<Order> rtn = new ArrayList<>();
-        for (String orderId : orderIds) {
-            UpbitOrderResponse res = super.getOrderRaw(orderId);
-            rtn.add(UpbitAdapters.adaptOrderInfo(res));
-        }
-        return rtn;
-    }
+    return rtn;
+  }
 }
