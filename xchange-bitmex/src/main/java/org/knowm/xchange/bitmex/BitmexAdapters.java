@@ -348,13 +348,15 @@ public class BitmexAdapters {
           ticker.getTakerFee(),
           OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
-          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()));
+          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
+          OriginalMeta.getFeeTiers());
     } else {
       return new CurrencyPairMetaData(
           ticker.getTakerFee(),
           null,
           null,
-          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()));
+          Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
+          OriginalMeta.getFeeTiers());
     }
   }
 

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.coinegg.dto.marketdata.CoinEggOrders;
 
 public class CoinEggOrdersJSONTest {
 
