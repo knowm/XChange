@@ -16,6 +16,7 @@ import org.knowm.xchange.cexio.dto.*;
 import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
 import org.knowm.xchange.cexio.dto.trade.*;
 import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -219,6 +220,88 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   public Map getOrderTransactions(String orderId) throws IOException {
     return cexIOAuthenticated.getOrderTransactions(
         signatureCreator, new CexioSingleIdRequest(orderId));
+  }
+
+  public List<CexioPosition> getOpenPositions(CurrencyPair currencyPair) throws IOException {
+    CexioOpenPositionsResponse response =
+        cexIOAuthenticated.getOpenPositions(
+            signatureCreator,
+            currencyPair.base.getSymbol(),
+            currencyPair.counter.getSymbol(),
+            new CexIORequest());
+    if (!"ok".equalsIgnoreCase(response.getStatus())) {
+      throw new ExchangeException(response.getEventName() + " " + response.getStatus());
+    }
+    return response.getPositions();
+  }
+
+  public CexioPosition getPosition(String positionId) throws IOException {
+    CexioPositionResponse response =
+        cexIOAuthenticated.getPosition(signatureCreator, new CexIOGetPositionRequest(positionId));
+    if (!"ok".equalsIgnoreCase(response.getStatus())) {
+      throw new ExchangeException(response.getEventName() + " " + response.getStatus());
+    }
+    return response.getPosition();
+  }
+
+  /**
+   * @param currencyPair
+   * @param amount total amount of product to buy using borrowed funds and user's funds
+   * @param collateral currency of user funds used, may be one of currencies in the pair, default is
+   *     second currency in the pair
+   * @param leverage leverage ratio of total funds (user's and borrowed) to user's funds; for
+   *     example - leverage=3 means - ratio total/user's=3:1, margin=33.(3)%, 1/3 is users, 2/3 are
+   *     borrowed; Note that in UI it will be presented as 1/3
+   * @param type position type. long - buying product, profitable if product price grows; short -
+   *     selling product, profitable if product price falls;
+   * @param anySlippage allows to open position at changed price
+   * @param estimatedOpenPrice allows to open position at changed price
+   * @param stopLossPrice price near which your position will be closed automatically in case of
+   *     unfavorable market conditions
+   * @return CexioPosition
+   * @throws IOException
+   */
+  public CexioOpenPosition openCexIOPosition(
+      CurrencyPair currencyPair,
+      BigDecimal amount,
+      Currency collateral,
+      Integer leverage,
+      CexioPositionType type,
+      Boolean anySlippage,
+      BigDecimal estimatedOpenPrice,
+      BigDecimal stopLossPrice)
+      throws IOException {
+    CexioOpenPositionResponse order =
+        cexIOAuthenticated.openPosition(
+            signatureCreator,
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            new CexIOOpenPositionRequest(
+                currencyPair.base.getCurrencyCode(),
+                amount,
+                collateral.getCurrencyCode(),
+                leverage,
+                type,
+                anySlippage,
+                estimatedOpenPrice,
+                stopLossPrice));
+    if (order.getErrorMessage() != null) {
+      throw new ExchangeException(order.getErrorMessage());
+    }
+    return order.getPosition();
+  }
+
+  public CexioClosePosition closePosition(CurrencyPair currencyPair, String id) throws IOException {
+    CexioClosePositionResponse response =
+        cexIOAuthenticated.closePosition(
+            signatureCreator,
+            currencyPair.base.getSymbol(),
+            currencyPair.counter.getSymbol(),
+            new CexIOGetPositionRequest(id));
+    if (!"ok".equalsIgnoreCase(response.getStatus())) {
+      throw new ExchangeException(response.getEventName() + " " + response.getStatus());
+    }
+    return response.getPosition();
   }
 
   public static class CexIOTradeHistoryParams

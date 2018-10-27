@@ -109,4 +109,38 @@ public interface CexIOAuthenticated extends CexIO {
   CexIOCryptoAddress getCryptoAddress(
       @HeaderParam("_ignored_") ParamsDigest signer, CexioCryptoAddressRequest request)
       throws IOException;
+
+  @POST
+  @Path("open_position/{symbol1}/{symbol2}/")
+  CexioOpenPositionResponse openPosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIOOpenPositionRequest cexIOOpenPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("get_position")
+  CexioPositionResponse getPosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      CexIOGetPositionRequest cexIOGetPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("close_position/{symbol1}/{symbol2}/")
+  CexioClosePositionResponse closePosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIOGetPositionRequest cexIOGetPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("open_positions/{symbol1}/{symbol2}/")
+  CexioOpenPositionsResponse getOpenPositions(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIORequest emptyRequest)
+      throws IOException;
 }
