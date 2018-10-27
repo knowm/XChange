@@ -56,13 +56,9 @@ public class BxAdapters {
   public static Ticker adaptTicker(BxTicker bxTicker, SynchronizedValueFactory<Long> nonce) {
     Ticker.Builder builder = new Ticker.Builder();
     builder.currencyPair(BxUtils.translateBxCurrencyPair(bxTicker.getPairingId()));
-    builder.open(bxTicker.getOpen());
     builder.last(bxTicker.getLastPrice());
     builder.bid(bxTicker.getOrderBook().getBids().getHighBid());
     builder.ask(bxTicker.getOrderBook().getAsks().getHighBid());
-    builder.high(bxTicker.getHigh());
-    builder.low(bxTicker.getLow());
-    builder.vwap(bxTicker.getAvg());
     builder.volume(bxTicker.getVolume24hours());
     builder.timestamp(new Date(nonce.createValue()));
     return builder.build();
