@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -34,6 +35,7 @@ import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrder;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrder;
+import org.knowm.xchange.kucoin.dto.trading.KucoinOrderDetail;
 
 public class KucoinAdapters {
 
@@ -119,6 +121,32 @@ public class KucoinAdapters {
             order.getDealAmount().compareTo(BigDecimal.ZERO) == 0
                 ? OrderStatus.NEW
                 : OrderStatus.PARTIALLY_FILLED)
+        .build();
+  }
+
+  public static Order adaptOrder(KucoinOrderDetail order) {
+    OrderStatus status;
+
+    if (order.getIsActive()) {
+      status =
+          order.getDealAmount().compareTo(BigDecimal.ZERO) == 0
+              ? OrderStatus.NEW
+              : OrderStatus.PARTIALLY_FILLED;
+    } else {
+      status =
+          order.getDealAmount().compareTo(BigDecimal.ZERO) == 0
+              ? OrderStatus.CANCELED
+              : OrderStatus.FILLED;
+    }
+
+    return new LimitOrder.Builder(
+            order.getType(), new CurrencyPair(order.getCoinType(), order.getCoinTypePair()))
+        .id(order.getOrderOid())
+        .originalAmount(order.getDealAmount())
+        .remainingAmount(order.getPendingAmount())
+        .averagePrice(order.getDealPriceAverage())
+        .limitPrice(order.getOrderPrice())
+        .orderStatus(status)
         .build();
   }
 
