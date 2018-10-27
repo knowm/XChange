@@ -12,14 +12,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
-import org.knowm.xchange.bitmex.dto.marketdata.*;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
+import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderDescription;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderStatus;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
-import org.knowm.xchange.bitmex.dto.trade.BitmexTrade;
-import org.knowm.xchange.bitmex.dto.trade.BitmexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -38,7 +41,6 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
 
 public class BitmexAdapters {
 
@@ -106,7 +108,7 @@ public class BitmexAdapters {
     Order.OrderType type =
         rawOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
 
-    CurrencyPair pair = adaptCurrencyPair(rawOrder.getSymbol());
+    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(rawOrder.getSymbol());
 
     return new LimitOrder(
         type,
@@ -168,7 +170,7 @@ public class BitmexAdapters {
 
     Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (String bitmexCurrencyPair : bitmexCurrencyPairs) {
-      CurrencyPair currencyPair = adaptCurrencyPair(bitmexCurrencyPair);
+      CurrencyPair currencyPair = BitmexUtils.translateBitmexCurrencyPair(bitmexCurrencyPair);
       if (currencyPair != null) {
         currencyPairs.add(currencyPair);
       }
@@ -179,11 +181,6 @@ public class BitmexAdapters {
   public static Currency adaptCurrency(String bitmexCurrencyCode) {
 
     return BitmexUtils.translateBitmexCurrencyCode(bitmexCurrencyCode);
-  }
-
-  public static CurrencyPair adaptCurrencyPair(String bitmexCurrencyPair) {
-
-    return BitmexUtils.translateBitmexCurrencyPair(bitmexCurrencyPair);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
@@ -211,7 +208,7 @@ public class BitmexAdapters {
 
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
-    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
+    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
     OrderStatus status = adaptOrderStatus(bitmexOrder.getStatus());
@@ -233,37 +230,6 @@ public class BitmexAdapters {
         filledAmount,
         bitmexOrder.getFee(),
         status);
-  }
-
-  public static UserTrades adaptTradesHistory(Map<String, BitmexTrade> bitmexTrades) {
-
-    List<UserTrade> trades = new ArrayList<>();
-    for (Entry<String, BitmexTrade> bitmexTradeEntry : bitmexTrades.entrySet()) {
-      trades.add(adaptTrade(bitmexTradeEntry.getValue(), bitmexTradeEntry.getKey()));
-    }
-
-    return new UserTrades(trades, TradeSortType.SortByID);
-  }
-
-  public static BitmexUserTrade adaptTrade(BitmexTrade bitmexTrade, String tradeId) {
-
-    OrderType orderType = adaptOrderType(bitmexTrade.getSide());
-    BigDecimal originalAmount = bitmexTrade.getSize();
-    String bitmexAssetPair = bitmexTrade.getSymbol();
-    CurrencyPair pair = adaptCurrencyPair(bitmexAssetPair);
-    BigDecimal price = bitmexTrade.getPrice();
-
-    return new BitmexUserTrade(
-        orderType,
-        originalAmount,
-        pair,
-        price,
-        null,
-        tradeId,
-        bitmexTrade.getTrdMatchID(),
-        BigDecimal.ONE,
-        pair.counter,
-        BigDecimal.ONE);
   }
 
   public static OrderType adaptOrderType(BitmexSide bitmexType) {
@@ -300,7 +266,9 @@ public class BitmexAdapters {
       Currency quoteCurrencyCode = BitmexAdapters.adaptCurrency(quote);
 
       CurrencyPair pair = new CurrencyPair(baseCurrencyCode, quoteCurrencyCode);
-      pairs.put(pair, adaptPair(ticker, pairs.get(adaptCurrencyPair(pair.toString()))));
+      pairs.put(
+          pair,
+          adaptPair(ticker, pairs.get(BitmexUtils.translateBitmexCurrencyPair(pair.toString()))));
       if (!BitmexUtils.bitmexCurrencies.containsKey(baseCurrencyCode)
           && !BitmexUtils.bitmexCurrencies.containsValue(base))
         BitmexUtils.bitmexCurrencies.put(baseCurrencyCode, base);
@@ -397,13 +365,10 @@ public class BitmexAdapters {
     }
   }
 
-  public static CurrencyPair adaptCurrencyPair(CurrencyPair currencyPair) {
-
-    return currencyPair;
-  }
-
   public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    return currencyPair == null
+        ? null
+        : currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
   }
 
   public static class OrdersContainer {
@@ -424,13 +389,41 @@ public class BitmexAdapters {
     }
 
     public long getTimestamp() {
-
       return timestamp;
     }
 
     public List<LimitOrder> getLimitOrders() {
-
       return limitOrders;
+    }
+  }
+
+  public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
+    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(exec.symbol);
+    // the "lastQty" parameter is in the USD currency for ???/USD pairs
+    OrderType orderType = convertType(exec.side);
+    return orderType == null
+        ? null
+        : new UserTrade.Builder()
+            .id(exec.execID)
+            .orderId(exec.orderID)
+            .currencyPair(pair)
+            .originalAmount(exec.lastQty)
+            .price(exec.lastPx)
+            .feeAmount(exec.commission.multiply(exec.lastQty))
+            .feeCurrency(pair.counter.equals(Currency.USD) ? pair.counter : pair.base)
+            .timestamp(exec.timestamp)
+            .type(orderType)
+            .build();
+  }
+
+  private static OrderType convertType(String side) {
+    switch (side) {
+      case "Buy":
+        return OrderType.BID;
+      case "Sell":
+        return OrderType.ASK;
+      default:
+        return null;
     }
   }
 }

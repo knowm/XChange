@@ -9,10 +9,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
+import org.knowm.xchange.bitmex.HttpResponseAwareList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
+import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
+import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
+import org.knowm.xchange.bitmex.dto.trade.ReplaceOrderCommand;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
@@ -20,7 +24,6 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
 public class BitmexTradeServiceRaw extends BitmexBaseService {
 
   private String apiKey = exchange.getExchangeSpecification().getApiKey();
-
   /**
    * Constructor
    *
@@ -31,21 +34,15 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexPosition> getBitmexPositions() throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () -> bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator));
   }
 
   public List<BitmexPosition> getBitmexPositions(String symbol) throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.getPositions(apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.getPositions(
+                apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
   }
 
   /**
@@ -60,33 +57,31 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
       @Nullable Date startTime,
       @Nullable Date endTime)
       throws ExchangeException {
-    try {
-      ArrayList<BitmexPrivateOrder> orders = new ArrayList<>();
+    ArrayList<BitmexPrivateOrder> orders = new ArrayList<>();
 
-      for (int i = 0; orders.size() % 500 == 0; i++) {
-        List<BitmexPrivateOrder> orderResponse =
-            updateRateLimit(
-                bitmex.getOrders(
-                    apiKey,
-                    exchange.getNonceFactory(),
-                    signatureCreator,
-                    symbol,
-                    filter,
-                    columns,
-                    500,
-                    i * 500,
-                    true,
-                    startTime,
-                    endTime));
-        orders.addAll(orderResponse);
-        // Prevent loop when no orders found
-        if (orderResponse.size() == 0) break;
-      }
-
-      return orders;
-    } catch (Exception e) {
-      throw handleError(e);
+    for (int i = 0; orders.size() % 500 == 0; i++) {
+      final int j = i;
+      List<BitmexPrivateOrder> orderResponse =
+          updateRateLimit(
+              () ->
+                  bitmex.getOrders(
+                      apiKey,
+                      exchange.getNonceFactory(),
+                      signatureCreator,
+                      symbol,
+                      filter,
+                      columns,
+                      500,
+                      (long) (j * 500),
+                      true,
+                      startTime,
+                      endTime));
+      orders.addAll(orderResponse);
+      // Prevent loop when no orders found
+      if (orderResponse.size() == 0) break;
     }
+
+    return orders;
   }
 
   /**
@@ -106,37 +101,36 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public BitmexPrivateOrder placeOrder(@Nonnull final BitmexPlaceOrderParameters parameters)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.placeOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              parameters.getSymbol(),
-              parameters.getSide() != null ? parameters.getSide().getCapitalized() : null,
-              parameters.getOrderQuantity(),
-              parameters.getSimpleOrderQuantity(),
-              parameters.getDisplayQuantity(),
-              parameters.getPrice(),
-              parameters.getStopPrice(),
-              parameters.getOrderType() != null ? parameters.getOrderType().toApiParameter() : null,
-              parameters.getClOrdId(),
-              parameters.getExecutionInstructionsAsParameter(),
-              parameters.getClOrdLinkId(),
-              parameters.getContingencyType() != null
-                  ? parameters.getContingencyType().toApiParameter()
-                  : null,
-              parameters.getPegOffsetValue(),
-              parameters.getPegPriceType() != null
-                  ? parameters.getPegPriceType().toApiParameter()
-                  : null,
-              parameters.getTimeInForce() != null
-                  ? parameters.getTimeInForce().toApiParameter()
-                  : null,
-              parameters.getText()));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.placeOrder(
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                parameters.getSymbol(),
+                parameters.getSide() != null ? parameters.getSide().getCapitalized() : null,
+                parameters.getOrderQuantity(),
+                parameters.getSimpleOrderQuantity(),
+                parameters.getDisplayQuantity(),
+                parameters.getPrice(),
+                parameters.getStopPrice(),
+                parameters.getOrderType() != null
+                    ? parameters.getOrderType().toApiParameter()
+                    : null,
+                parameters.getClOrdId(),
+                parameters.getExecutionInstructionsAsParameter(),
+                parameters.getClOrdLinkId(),
+                parameters.getContingencyType() != null
+                    ? parameters.getContingencyType().toApiParameter()
+                    : null,
+                parameters.getPegOffsetValue(),
+                parameters.getPegPriceType() != null
+                    ? parameters.getPegPriceType().toApiParameter()
+                    : null,
+                parameters.getTimeInForce() != null
+                    ? parameters.getTimeInForce().toApiParameter()
+                    : null,
+                parameters.getText()));
   }
 
   /**
@@ -147,49 +141,39 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public BitmexPrivateOrder replaceOrder(@Nonnull final BitmexReplaceOrderParameters parameters)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.replaceOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              parameters.getClOrdId() != null ? null : parameters.getOrderId(),
-              parameters.getOrigClOrdId(),
-              parameters.getClOrdId(),
-              parameters.getSimpleOrderQuantity(),
-              parameters.getOrderQuantity(),
-              parameters.getSimpleLeavesQuantity(),
-              parameters.getLeavesQuantity(),
-              parameters.getPrice(),
-              parameters.getStopPrice(),
-              parameters.getPegOffsetValue(),
-              parameters.getText()));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.replaceOrder(
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                parameters.getClOrdId() != null ? null : parameters.getOrderId(),
+                parameters.getOrigClOrdId(),
+                parameters.getClOrdId(),
+                parameters.getSimpleOrderQuantity(),
+                parameters.getOrderQuantity(),
+                parameters.getSimpleLeavesQuantity(),
+                parameters.getLeavesQuantity(),
+                parameters.getPrice(),
+                parameters.getStopPrice(),
+                parameters.getPegOffsetValue(),
+                parameters.getText()));
   }
 
   @Nonnull
-  public List<BitmexPrivateOrder> placeOrderBulk(
-      @Nonnull Collection<Bitmex.PlaceOrderCommand> commands) throws ExchangeException {
-    try {
-      String s = ObjectMapperHelper.toCompactJSON(commands);
-      return updateRateLimit(
-          bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+  public List<BitmexPrivateOrder> placeOrderBulk(@Nonnull Collection<PlaceOrderCommand> commands)
+      throws ExchangeException {
+    String s = ObjectMapperHelper.toCompactJSON(commands);
+    return updateRateLimit(
+        () -> bitmex.placeOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
   }
 
   @Nonnull
   public List<BitmexPrivateOrder> replaceOrderBulk(
-      @Nonnull Collection<Bitmex.ReplaceOrderCommand> commands) throws ExchangeException {
-    try {
-      String s = ObjectMapperHelper.toCompactJSON(commands);
-      return bitmex.replaceOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s);
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+      @Nonnull Collection<ReplaceOrderCommand> commands) throws ExchangeException {
+    String s = ObjectMapperHelper.toCompactJSON(commands);
+    return updateRateLimit(
+        () -> bitmex.replaceOrderBulk(apiKey, exchange.getNonceFactory(), signatureCreator, s));
   }
 
   @Nonnull
@@ -200,13 +184,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public List<BitmexPrivateOrder> cancelAllOrders(String symbol, String filter, String text)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.cancelAllOrders(
-              apiKey, exchange.getNonceFactory(), signatureCreator, symbol, filter, text));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.cancelAllOrders(
+                apiKey, exchange.getNonceFactory(), signatureCreator, symbol, filter, text));
   }
 
   @Nonnull
@@ -217,28 +198,74 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
   @Nonnull
   public List<BitmexPrivateOrder> cancelBitmexOrder(String orderId, String clOrdId)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.cancelOrder(
-              apiKey,
-              exchange.getNonceFactory(),
-              signatureCreator,
-              clOrdId != null ? null : orderId,
-              clOrdId));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.cancelOrder(
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                clOrdId != null ? null : orderId,
+                clOrdId));
   }
 
   @Nonnull
   public BitmexPosition updateLeveragePosition(String symbol, BigDecimal leverage)
       throws ExchangeException {
-    try {
-      return updateRateLimit(
-          bitmex.updateLeveragePosition(
-              apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
-    } catch (Exception e) {
-      throw handleError(e);
-    }
+    return updateRateLimit(
+        () ->
+            bitmex.updateLeveragePosition(
+                apiKey, exchange.getNonceFactory(), signatureCreator, symbol, leverage));
+  }
+
+  public HttpResponseAwareList<BitmexPrivateExecution> getExecutions(
+      String symbol,
+      String filter,
+      String columns,
+      Integer count,
+      Long start,
+      Boolean reverse,
+      Date startTime,
+      Date endTime)
+      throws ExchangeException {
+    return updateRateLimit(
+        () ->
+            bitmex.getExecutions(
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                symbol,
+                filter,
+                columns,
+                count,
+                start,
+                reverse,
+                startTime,
+                endTime));
+  }
+
+  public HttpResponseAwareList<BitmexPrivateExecution> getTradeHistory(
+      String symbol,
+      String filter,
+      String columns,
+      Integer count,
+      Long start,
+      Boolean reverse,
+      Date startTime,
+      Date endTime)
+      throws ExchangeException {
+    return updateRateLimit(
+        () ->
+            bitmex.getTradeHistory(
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                symbol,
+                filter,
+                columns,
+                count,
+                start,
+                reverse,
+                startTime,
+                endTime));
   }
 }
