@@ -185,7 +185,7 @@ public class KucoinAdapters {
       KucoinTicker tick, KucoinCoin coin) {
 
     // trading scale is determined by the base currency's trade precision
-    return new CurrencyPairMetaData(tick.getFeeRate(), null, null, coin.getTradePrecision());
+    return new CurrencyPairMetaData(tick.getFeeRate(), null, null, coin.getTradePrecision(), null);
   }
 
   public static AccountInfo adaptAccountInfo(List<KucoinCoinBalance> balances) {

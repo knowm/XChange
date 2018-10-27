@@ -50,7 +50,7 @@ public class BxAdapters {
   }
 
   private static CurrencyPairMetaData adaptCurrencyPairMetaData(BxAssetPair assetPair) {
-    return new CurrencyPairMetaData(null, assetPair.getPrimaryMin(), null, 0);
+    return new CurrencyPairMetaData(null, assetPair.getPrimaryMin(), null, 0, null);
   }
 
   public static Ticker adaptTicker(BxTicker bxTicker, SynchronizedValueFactory<Long> nonce) {

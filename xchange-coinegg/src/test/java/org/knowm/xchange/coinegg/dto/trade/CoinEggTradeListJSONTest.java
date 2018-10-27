@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.coinegg.dto.CoinEggResult;
 import org.knowm.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
-import org.knowm.xchange.coinegg.dto.trade.CoinEggTradeList;
 
 public class CoinEggTradeListJSONTest {
 

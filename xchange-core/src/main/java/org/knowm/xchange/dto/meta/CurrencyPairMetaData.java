@@ -3,12 +3,17 @@ package org.knowm.xchange.dto.meta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class CurrencyPairMetaData implements Serializable {
 
   /** Trading fee (fraction) */
   @JsonProperty("trading_fee")
   private final BigDecimal tradingFee;
+
+  /** Trading fee tiers by volume (fraction). Sorted in ascending order by quantity */
+  @JsonProperty("fee_tiers")
+  private final FeeTier[] feeTiers;
 
   /** Minimum trade amount */
   @JsonProperty("min_amount")
@@ -33,12 +38,17 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("trading_fee") BigDecimal tradingFee,
       @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount,
-      @JsonProperty("price_scale") Integer priceScale) {
+      @JsonProperty("price_scale") Integer priceScale,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
     this.priceScale = priceScale;
+    if (feeTiers != null) {
+      Arrays.sort(feeTiers);
+    }
+    this.feeTiers = feeTiers;
   }
 
   public BigDecimal getTradingFee() {
@@ -59,6 +69,11 @@ public class CurrencyPairMetaData implements Serializable {
   public Integer getPriceScale() {
 
     return priceScale;
+  }
+
+  public FeeTier[] getFeeTiers() {
+
+    return feeTiers;
   }
 
   @Override

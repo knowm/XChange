@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.FormParam;
 import org.junit.Test;
-import org.knowm.xchange.coinegg.service.CoinEggDigest;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
