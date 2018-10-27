@@ -51,6 +51,16 @@ public interface Hitbtc {
       throws IOException;
 
   @GET
+  @Path("public/trades/{symbol}")
+  List<HitbtcTrade> getTrades(
+      @PathParam("symbol") String symbol,
+      @QueryParam("sort") String sortDirection,
+      @QueryParam("by") String sortBy,
+      @QueryParam("from") String from,
+      @QueryParam("limit") long limit)
+      throws IOException;
+
+  @GET
   @Path("public/ticker")
   List<HitbtcTicker> getHitbtcTickers() throws IOException;
 
