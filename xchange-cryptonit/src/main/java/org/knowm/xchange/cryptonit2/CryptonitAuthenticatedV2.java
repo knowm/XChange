@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cryptonit2.dto.CryptonitException;
-import org.knowm.xchange.cryptonit2.dto.CryptonitTransferBalanceResponse;
-import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
 import org.knowm.xchange.cryptonit2.dto.account.WithdrawalRequest;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitOrder;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitUserTransaction;
@@ -24,7 +22,7 @@ public interface CryptonitAuthenticatedV2 {
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @PathParam("pair") org.knowm.xchange.cryptonit2.CryptonitV2.Pair pair)
+      @PathParam("pair") CryptonitV2.Pair pair)
       throws CryptonitException, IOException;
 
   @POST
@@ -71,58 +69,6 @@ public interface CryptonitAuthenticatedV2 {
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort)
-      throws CryptonitException, IOException;
-
-  @POST
-  @Path("xrp_withdrawal/")
-  CryptonitWithdrawal xrpWithdrawal(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String rippleAddress,
-      @FormParam("destination_tag") String destinationTag)
-      throws CryptonitException, IOException;
-
-  @POST
-  @Path("ltc_withdrawal/")
-  CryptonitWithdrawal withdrawLitecoin(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address)
-      throws CryptonitException, IOException;
-
-  @POST
-  @Path("bch_withdrawal/")
-  CryptonitWithdrawal bchWithdrawal(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address)
-      throws CryptonitException, IOException;
-
-  @POST
-  @Path("eth_withdrawal/")
-  CryptonitWithdrawal withdrawEther(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address)
-      throws CryptonitException, IOException;
-
-  @POST
-  @Path("transfer-to-main/")
-  CryptonitTransferBalanceResponse transferSubAccountBalanceToMain(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currency") String currency,
-      @FormParam("subAccount") String subAccount)
       throws CryptonitException, IOException;
 
   @POST
