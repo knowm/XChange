@@ -2,6 +2,7 @@ package org.knowm.xchange.cryptonit2.service;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,8 +15,10 @@ import org.knowm.xchange.cryptonit2.CryptonitUtils;
 import org.knowm.xchange.cryptonit2.dto.CryptonitException;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitOrder;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitUserTransaction;
+import org.knowm.xchange.cryptonit2.order.dto.CryptonitGenericOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -149,8 +152,20 @@ public class CryptonitTradeService extends CryptonitTradeServiceRaw implements T
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
     for (String orderId : orderIds) {
-      orders.add(
-          CryptonitAdapters.adaptOrder(orderId, super.getCryptonitOrder(Long.parseLong(orderId))));
+      if (orderId != null) {
+        try {
+          orders.add(
+              CryptonitAdapters.adaptOrder(
+                  orderId, super.getCryptonitOrder(Long.parseLong(orderId))));
+        } catch (MismatchedInputException mie) {
+          if (mie.getMessage().contains("Order not found")) {
+            Order unknown =
+                new CryptonitGenericOrder(
+                    null, null, null, orderId, null, null, null, null, OrderStatus.UNKNOWN);
+            orders.add(unknown);
+          }
+        }
+      }
     }
 
     return orders;
