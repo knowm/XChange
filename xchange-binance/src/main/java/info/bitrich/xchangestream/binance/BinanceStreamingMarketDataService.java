@@ -4,9 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
@@ -41,7 +38,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.TimeUnit;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.DEPTH_UPDATE;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TICKER_24_HR;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TRADE;
@@ -112,35 +108,30 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        Observable<Trade> publicTrades = getRawTrades(currencyPair).map(rawTrade -> new Trade(
-            BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
-            rawTrade.getQuantity(),
-            currencyPair,
-            rawTrade.getPrice(),
-            new Date(rawTrade.getTimestamp()),
-            String.valueOf(rawTrade.getTradeId())
-        ));
+        Observable<Trade> publicTrades = getRawTrades(currencyPair, args)
+            .map(rawTrade -> new Trade(
+                BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
+                rawTrade.getQuantity(),
+                currencyPair,
+                rawTrade.getPrice(),
+                new Date(rawTrade.getTimestamp()),
+                String.valueOf(rawTrade.getTradeId())
+            ));
         if (binanceUserDataStreamingService != null) {
-            // To avoid duplication of user and public trades, we delay the public trades by one second
-            // and skip any trade ids which have recently been streamed as user trades. This isn't
-            // perfect, of course...
-            Cache<String, ? super Trade> recentTrades = CacheBuilder.newBuilder().maximumSize(50).build();
-            return publicTrades
-                .concatMap(t -> Observable.just(t).delay(1, TimeUnit.SECONDS))
-                .skipWhile(t -> recentTrades.asMap().containsKey(t.getId()))
-                .mergeWith(
-                    getUserTrades()
-                        .filter(t -> t.getCurrencyPair().equals(currencyPair))
-                        .doOnNext(t -> recentTrades.put(t.getId(), t))
-        		);
+            return publicTrades.mergeWith(getUserTrades(currencyPair, args));
+        } else {
+            return publicTrades;
         }
-        return publicTrades;
     }
 
     public Observable<UserTrade> getUserTrades() {
         return getRawExecutionReports()
         		.filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-    			.map(ExecutionReportBinanceUserTransaction::toUserTrade);
+    			  .map(ExecutionReportBinanceUserTransaction::toUserTrade);
+    }
+
+    public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+        return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
     }
 
     private Observable<ExecutionReportBinanceUserTransaction> rawExecutionReports() {

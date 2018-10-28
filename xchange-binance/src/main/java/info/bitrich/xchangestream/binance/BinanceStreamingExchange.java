@@ -12,6 +12,8 @@ import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
     private static final String API_BASE_URI = "wss://stream.binance.com:9443/";
 
     private BinanceStreamingService streamingService;
@@ -49,18 +53,20 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         ArrayList<Completable> completables = new ArrayList<>();
 
         if (exchangeSpecification.getApiKey() != null) {
+          LOG.info("Connecting to authenticated web sockets");
           BinanceAuthenticated binance = RestProxyFactory.createProxy(
             BinanceAuthenticated.class,
             getExchangeSpecification().getSslUri(),
             new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig()
           );
           BinanceUserDataStreamingService userDataStreamingService = BinanceUserDataStreamingService.create(binance, exchangeSpecification.getApiKey());
-          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, marketDataService, userDataStreamingService);
+          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, userDataStreamingService);
           completables.add(userDataStreamingService.connect());
-        }
-
-        if (!subscriptions.isEmpty()) {
-          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, marketDataService);
+          if (!subscriptions.isEmpty()) {
+            completables.add(streamingService.connect());
+          }
+        } else if (!subscriptions.isEmpty()) {
+          streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService);
           completables.add(streamingService.connect());
         }
 
