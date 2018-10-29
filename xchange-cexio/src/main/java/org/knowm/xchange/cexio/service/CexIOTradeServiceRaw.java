@@ -1,27 +1,25 @@
 package org.knowm.xchange.cexio.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.dto.*;
-import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
 import org.knowm.xchange.cexio.dto.trade.*;
-import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOTradeServiceRaw(Exchange exchange) {
@@ -30,32 +28,17 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public List<CexIOOrder> getCexIOOpenOrders(CurrencyPair currencyPair) throws IOException {
 
-    List<CexIOOrder> cexIOOrderList = new ArrayList<>();
-
     String tradableIdentifier = currencyPair.base.getCurrencyCode();
     String transactionCurrency = currencyPair.counter.getCurrencyCode();
 
-    CexIOOpenOrders openOrders =
-        cexIOAuthenticated.getOpenOrders(
-            signatureCreator, tradableIdentifier, transactionCurrency, new CexIORequest());
-
-    for (CexIOOrder cexIOOrder : openOrders.getOpenOrders()) {
-      cexIOOrder.setTradableIdentifier(tradableIdentifier);
-      cexIOOrder.setTransactionCurrency(transactionCurrency);
-      cexIOOrderList.add(cexIOOrder);
-    }
-
-    return cexIOOrderList;
+    return cexIOAuthenticated
+        .getOpenOrders(
+            signatureCreator, tradableIdentifier, transactionCurrency, new CexIORequest())
+        .getOpenOrders();
   }
 
   public List<CexIOOrder> getCexIOOpenOrders() throws IOException {
-
-    List<CexIOOrder> cexIOOrderList = new ArrayList<>();
-
-    for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      cexIOOrderList.addAll(getCexIOOpenOrders(currencyPair));
-    }
-    return cexIOOrderList;
+    return cexIOAuthenticated.getOpenOrders(signatureCreator, new CexIORequest()).getOpenOrders();
   }
 
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
