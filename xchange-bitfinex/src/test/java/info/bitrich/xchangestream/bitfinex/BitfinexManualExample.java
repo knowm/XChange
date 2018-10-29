@@ -60,14 +60,13 @@ public class BitfinexManualExample {
                     LOG.error("ERROR in getting trade: ", throwable);
                 });
 
+        Thread.sleep(10000);
+
         tickerSubscriber.dispose();
         tradesSubscriber.dispose();
         orderBookSubscriber.dispose();
 
         LOG.info("disconnecting...");
         exchange.disconnect().subscribe(() -> LOG.info("disconnected"));
-
-        Thread.sleep(10000);
-
     }
 }
