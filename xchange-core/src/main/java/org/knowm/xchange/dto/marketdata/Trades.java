@@ -3,12 +3,15 @@ package org.knowm.xchange.dto.marketdata;
 import static org.knowm.xchange.dto.marketdata.Trades.TradeSortType.SortByID;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/** DTO representing a collection of trades */
+/**
+ * DTO representing a collection of trades
+ */
 public class Trades implements Serializable {
 
   private static final TradeIDComparator TRADE_ID_COMPARATOR = new TradeIDComparator();
@@ -59,7 +62,7 @@ public class Trades implements Serializable {
    * @param lastID Last Unique ID
    * @param tradeSortType Trade sort type
    * @param nextPageCursor a marker that lets you receive the next page of trades using
-   *     TradeHistoryParamNextPageCursor
+   * TradeHistoryParamNextPageCursor
    */
   public Trades(
       List<Trade> trades, long lastID, TradeSortType tradeSortType, String nextPageCursor) {
@@ -82,13 +85,17 @@ public class Trades implements Serializable {
     }
   }
 
-  /** @return A list of trades ordered by id */
+  /**
+   * @return A list of trades ordered by id
+   */
   public List<Trade> getTrades() {
 
     return trades;
   }
 
-  /** @return a Unique ID for the fetched trades */
+  /**
+   * @return a Unique ID for the fetched trades
+   */
   public long getlastID() {
 
     return lastID;
@@ -132,9 +139,17 @@ public class Trades implements Serializable {
 
   public static class TradeIDComparator implements Comparator<Trade> {
 
+    private static final int[] ALLOWED_RADIXES = {10, 16};
     @Override
     public int compare(Trade trade1, Trade trade2) {
-
+      for (int radix : ALLOWED_RADIXES) {
+        try {
+          BigInteger id1 = new BigInteger(trade1.getId(), radix);
+          BigInteger id2 = new BigInteger(trade2.getId(), radix);
+          return id1.compareTo(id2);
+        } catch (NumberFormatException ignored) {
+        }
+      }
       return trade1.getId().compareTo(trade2.getId());
     }
   }

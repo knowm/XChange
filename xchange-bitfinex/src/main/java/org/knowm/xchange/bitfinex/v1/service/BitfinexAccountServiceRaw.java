@@ -16,6 +16,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistor
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
@@ -31,6 +33,21 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public BitfinexTradingFeeResponse[] getBitfinexDynamicTradingFees() throws IOException {
+    try {
+      BitfinexTradingFeeResponse[] response =
+          bitfinex.tradingFees(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new BitfinexTradingFeesRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue())));
+      return response;
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e);
+    }
   }
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {

@@ -18,7 +18,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public class BitmexUtils {
 
   protected static final HashBiMap<String, Currency> assetsMap = HashBiMap.create();
-  protected static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
+  private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
   protected static BiMap<String, BitmexContract> bitmexContracts = HashBiMap.create();
   protected static BiMap<Currency, String> bitmexCurrencies = HashBiMap.create();
 
@@ -34,12 +34,9 @@ public class BitmexUtils {
       Currency quoteCurrencyCode = Currency.getInstance(quote);
 
       CurrencyPair pair = new CurrencyPair(base, quote);
-      if (!assetPairMap.containsKey(ticker.getSymbol()) && !assetPairMap.containsValue(pair))
-        assetPairMap.put(ticker.getSymbol(), pair);
-      if (!assetsMap.containsKey(quote) && !assetsMap.containsValue(quoteCurrencyCode))
-        assetsMap.put(quote, quoteCurrencyCode);
-      if (!assetsMap.containsKey(base) && !assetsMap.containsValue(baseCurrencyCode))
-        assetsMap.put(base, baseCurrencyCode);
+      assetPairMap.put(ticker.getSymbol(), pair);
+      assetsMap.put(quote, quoteCurrencyCode);
+      assetsMap.put(base, baseCurrencyCode);
     }
   }
 
