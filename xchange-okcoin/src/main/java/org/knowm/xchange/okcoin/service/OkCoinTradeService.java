@@ -1,7 +1,10 @@
 package org.knowm.xchange.okcoin.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +18,15 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinBatchTradeResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
+import org.knowm.xchange.okcoin.dto.trade.result.OkCoinBatchTradeResult;
+import org.knowm.xchange.okcoin.dto.trade.result.OkCoinMoreTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -81,26 +87,19 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     String marketOrderType = null;
-    String rate = null;
+    String price = null;
     String amount = null;
-
+    long orderId = -1L;
+    String symbol = OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair());
     if (marketOrder.getType().equals(OrderType.BID)) {
       marketOrderType = "buy_market";
-      rate = marketOrder.getOriginalAmount().toPlainString();
-      amount = "1";
+      price = marketOrder.getOriginalAmount().toPlainString();
+      orderId = placeMarketOrderBuy(symbol, marketOrderType, price).getOrderId();
     } else {
       marketOrderType = "sell_market";
-      rate = "1";
       amount = marketOrder.getOriginalAmount().toPlainString();
+      orderId = placeMarketOrderSell(symbol, marketOrderType, amount).getOrderId();
     }
-
-    long orderId =
-        trade(
-                OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()),
-                marketOrderType,
-                rate,
-                amount)
-            .getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -115,6 +114,63 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
                 limitOrder.getOriginalAmount().toPlainString())
             .getOrderId();
     return String.valueOf(orderId);
+  }
+
+  /**
+   * 批量下单 todo 测试不成功
+   *
+   * @param limitOrders
+   * @return
+   * @throws IOException
+   */
+  public String placeBatchLimitOrder(LimitOrder... limitOrders) throws IOException {
+    if (limitOrders == null || limitOrders.length < 1) {
+      throw new RuntimeException("this limitOrders not be null or length min 1");
+    }
+    if (limitOrders.length > 5) {
+      throw new RuntimeException("this limitOrders length max 5");
+    }
+    List<Map<String, Object>> list = new ArrayList<>();
+    Arrays.stream(limitOrders)
+        .forEach(
+            limitOrder -> {
+              Map<String, Object> map = new HashMap<>();
+              map.put("price", limitOrder.getLimitPrice().toPlainString());
+              map.put("amount", limitOrder.getOriginalAmount().toPlainString());
+              map.put("type", limitOrder.getType() == OrderType.BID ? "buy" : "sell");
+              list.add(map);
+            });
+
+    ObjectMapper mapper = new ObjectMapper();
+    String ordersData = mapper.writeValueAsString(list);
+
+    OkCoinMoreTradeResult result =
+        batchTrade(
+            OkCoinAdapters.adaptSymbol(limitOrders[0].getCurrencyPair()),
+            limitOrders[0].getType() == OrderType.BID ? "buy" : "sell",
+            ordersData);
+    StringBuilder builder = new StringBuilder();
+    if (result.isStatus()) {
+      result
+          .getOrderInfo()
+          .stream()
+          .forEach(
+              p -> {
+                if (-1L != Long.valueOf((long) p.get("order_id"))) {
+                  builder.append(",").append((String) p.get("order_id"));
+                }
+              });
+    }
+    if (builder.length() > 1) {
+      return builder.substring(1);
+    } else {
+      return "no one order success";
+    }
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -160,6 +216,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
     OkCoinBatchTradeResult okCoinBatchTradeResult =
         cancelUpToThreeOrders(ordersToCancel, OkCoinAdapters.adaptSymbol(currencyPair));
+
     Map<String, Boolean> requestResults = new HashMap<>(ordersToCancel.size());
     if (okCoinBatchTradeResult.getSuccess() != null) {
       Arrays.stream(okCoinBatchTradeResult.getSuccess().split(BATCH_DELIMITER))
@@ -230,6 +287,42 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OkCoinOrderResult getOrder(String symbol) throws IOException {
+    return super.getOrder(symbol);
+  }
+
+  @Override
+  public OkCoinOrderResult getOrder(long orderId, String symbol) throws IOException {
+
+    return super.getOrder(orderId, symbol);
+  }
+
+  /**
+   * todo 批量获取用户订单
+   *
+   * @param symbol
+   * @param type 查询类型 0:未完成的订单 1:已经完成的订单
+   * @param orderIds 多个订单ID中间以","分隔,一次最多允许查询50个订单
+   * @return
+   * @throws IOException
+   */
+  public OkCoinOrderResult getOrder(String symbol, Integer type, String... orderIds)
+      throws IOException {
+    if (orderIds == null || orderIds.length > 50) {
+      throw new UnsupportedOperationException(
+          "Can only get 1 to 50 orders. " + orderIds.length + " orders provided.");
+    }
+    String ids = Arrays.stream(orderIds).collect(Collectors.joining(","));
+
+    return super.getOrder(symbol, type, ids);
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging

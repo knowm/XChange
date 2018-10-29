@@ -114,4 +114,40 @@ public class OkCoinFuturesOrder {
 
     return leverRate;
   }
+
+  @Override
+  public String toString() {
+    return "OkCoinFuturesOrder{"
+        + "amount="
+        + amount
+        + ", contractName='"
+        + contractName
+        + '\''
+        + ", createdDate="
+        + createdDate
+        + ", dealAmount="
+        + dealAmount
+        + ", fee="
+        + fee
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", price="
+        + price
+        + ", avgPrice="
+        + avgPrice
+        + ", status="
+        + status
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", unitAmount="
+        + unitAmount
+        + ", leverRate="
+        + leverRate
+        + '}';
+  }
 }
