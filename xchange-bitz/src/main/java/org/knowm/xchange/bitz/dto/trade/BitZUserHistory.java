@@ -3,49 +3,64 @@ package org.knowm.xchange.bitz.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
-// TODO: Implement Once Implemented By The Exchange
-public class BitZTradeAdd {
+public class BitZUserHistory {
   private final long id;
+  private final long uid;
   private final long uId;
   private final BigDecimal price;
   private final BigDecimal number;
+  private final BigDecimal total;
   private final BigDecimal numberOver;
+  private final BigDecimal numberDeal;
   private final String flag;
-  private final String status;
+  private final Integer status;
+  private final String isNew;
   private final String coinFrom;
   private final String coinTo;
-  private final BigDecimal numberDeal;
+  private final BigDecimal orderTotalPrice;
+  private final Date created;
 
-  public BitZTradeAdd(
+  public BitZUserHistory(
       @JsonProperty("id") long id,
+      @JsonProperty("uid") long uid,
       @JsonProperty("uId") long uId,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("number") BigDecimal number,
+      @JsonProperty("total") BigDecimal total,
       @JsonProperty("numberOver") BigDecimal numberOver,
+      @JsonProperty("numberDeal") BigDecimal numberDeal,
       @JsonProperty("flag") String flag,
-      @JsonProperty("status") String status,
+      @JsonProperty("status") Integer status,
+      @JsonProperty("isNew") String isNew,
       @JsonProperty("coinFrom") String coinFrom,
       @JsonProperty("coinTo") String coinTo,
-      @JsonProperty("numberDeal") BigDecimal numberDeal) {
+      @JsonProperty("orderTotalPrice") BigDecimal orderTotalPrice,
+      @JsonProperty("created") long created) {
     this.id = id;
+    this.uid = uid;
     this.uId = uId;
     this.price = price;
     this.number = number;
+    this.total = total;
     this.numberOver = numberOver;
+    this.numberDeal = numberDeal;
     this.flag = flag;
     this.status = status;
+    this.isNew = isNew;
     this.coinFrom = coinFrom;
     this.coinTo = coinTo;
-    this.numberDeal = numberDeal;
+    this.orderTotalPrice = orderTotalPrice;
+    this.created = new Date(created * 1000);
   }
 
   public long getId() {
     return id;
   }
 
-  public long getuId() {
-    return uId;
+  public long getUid() {
+    return uid;
   }
 
   public BigDecimal getPrice() {
@@ -56,12 +71,28 @@ public class BitZTradeAdd {
     return number;
   }
 
+  public BigDecimal getTotal() {
+    return total;
+  }
+
+  public BigDecimal getNumberOver() {
+    return numberOver;
+  }
+
+  public BigDecimal getNumberDeal() {
+    return numberDeal;
+  }
+
   public String getFlag() {
     return flag;
   }
 
-  public String getStatus() {
+  public Integer getStatus() {
     return status;
+  }
+
+  public String getIsNew() {
+    return isNew;
   }
 
   public String getCoinFrom() {
@@ -72,32 +103,44 @@ public class BitZTradeAdd {
     return coinTo;
   }
 
-  public BigDecimal getNumberDeal() {
-    return numberDeal;
+  public Date getCreated() {
+    return created;
   }
 
-  public BigDecimal getNumberOver() {
-    return numberOver;
+  public long getuId() {
+    return uId;
+  }
+
+  public BigDecimal getOrderTotalPrice() {
+    return orderTotalPrice;
   }
 
   @Override
   public String toString() {
-    return "BitZTradeAdd{"
+    return "BitZUserHistory{"
         + "id="
         + id
+        + ", uid="
+        + uid
         + ", uId="
         + uId
         + ", price="
         + price
         + ", number="
         + number
+        + ", total="
+        + total
         + ", numberOver="
         + numberOver
+        + ", numberDeal="
+        + numberDeal
         + ", flag='"
         + flag
         + '\''
-        + ", status='"
+        + ", status="
         + status
+        + ", isNew='"
+        + isNew
         + '\''
         + ", coinFrom='"
         + coinFrom
@@ -105,8 +148,10 @@ public class BitZTradeAdd {
         + ", coinTo='"
         + coinTo
         + '\''
-        + ", numberDeal="
-        + numberDeal
+        + ", orderTotalPrice="
+        + orderTotalPrice
+        + ", created="
+        + created
         + '}';
   }
 }
