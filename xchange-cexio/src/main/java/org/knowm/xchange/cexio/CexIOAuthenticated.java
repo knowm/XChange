@@ -1,16 +1,15 @@
 package org.knowm.xchange.cexio;
 
+import org.knowm.xchange.cexio.dto.*;
+import org.knowm.xchange.cexio.dto.account.*;
+import org.knowm.xchange.cexio.dto.trade.*;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.cexio.dto.*;
-import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
-import org.knowm.xchange.cexio.dto.account.*;
-import org.knowm.xchange.cexio.dto.trade.*;
-import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
-import si.mazi.rescu.ParamsDigest;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +34,11 @@ public interface CexIOAuthenticated extends CexIO {
       @PathParam("currency") String currency,
       CexIORequest cexIORequest)
       throws IOException;
+
+  @POST
+  @Path("open_orders/")
+  CexIOOpenOrders getOpenOrders(
+      @HeaderParam("_ignored_") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
 
   @POST
   @Path("cancel_order/")
