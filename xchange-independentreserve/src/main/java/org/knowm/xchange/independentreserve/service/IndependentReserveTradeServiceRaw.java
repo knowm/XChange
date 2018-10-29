@@ -7,14 +7,25 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
-import org.knowm.xchange.independentreserve.dto.trade.*;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import si.mazi.rescu.RestProxyFactory;
 
 /** Author: Kamil Zbikowski Date: 4/13/15 */
 public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseService {
-  private final String TRADE_HISTORY_PAGE_SIZE = "50";
+  private final int TRADE_HISTORY_PAGE_SIZE = 50;
   private final int TRANSACTION_HISTORY_PAGE_SIZE = 50;
   private final IndependentReserveDigest signatureCreator;
   private final IndependentReserveAuthenticated independentReserveAuthenticated;
@@ -42,25 +53,20 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
   /**
    * @param primaryCurrency - optional primary currency code
    * @param secondaryCurrency - optional secondary currency code
-   * @param pageNumber -
+   * @param pageIndex - The page index. Must be greater or equal to 1
    * @return
    * @throws IOException
    */
   public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(
-      String primaryCurrency, String secondaryCurrency, Integer pageNumber) throws IOException {
-    if (pageNumber <= 0) {
+      String primaryCurrency, String secondaryCurrency, int pageIndex) throws IOException {
+    if (pageIndex <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest =
         new IndependentReserveOpenOrderRequest(
-            apiKey,
-            nonce,
-            primaryCurrency,
-            secondaryCurrency,
-            pageNumber.toString(),
-            TRADE_HISTORY_PAGE_SIZE);
+            apiKey, nonce, primaryCurrency, secondaryCurrency, pageIndex, TRADE_HISTORY_PAGE_SIZE);
 
     independentReserveOpenOrderRequest.setSignature(
         signatureCreator.digestParamsToString(
@@ -137,9 +143,9 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     }
   }
 
-  public IndependentReserveTradeHistoryResponse getIndependentReserveTradeHistory(
-      Integer pageNumber) throws IOException {
-    if (pageNumber <= 0) {
+  public IndependentReserveTradeHistoryResponse getIndependentReserveTradeHistory(int pageIndex)
+      throws IOException {
+    if (pageIndex <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
     Long nonce = exchange.getNonceFactory().createValue();
@@ -147,7 +153,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
 
     IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest =
         new IndependentReserveTradeHistoryRequest(
-            apiKey, nonce, pageNumber.toString(), TRADE_HISTORY_PAGE_SIZE);
+            apiKey, nonce, pageIndex, TRADE_HISTORY_PAGE_SIZE);
 
     independentReserveTradeHistoryRequest.setSignature(
         signatureCreator.digestParamsToString(
@@ -162,13 +168,9 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
   }
 
   public IndependentReserveTransactionsResponse getIndependentReserveTransactions(
-      String accountGuid,
-      Date fromTimestampUtc,
-      Date toTimestampUtc,
-      Type[] txTypes,
-      Integer pageNumber)
+      String accountGuid, Date fromTimestampUtc, Date toTimestampUtc, Type[] txTypes, int pageIndex)
       throws IOException {
-    if (pageNumber <= 0) {
+    if (pageIndex <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
     Long nonce = exchange.getNonceFactory().createValue();
@@ -181,7 +183,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
             fromTimestampUtc,
             toTimestampUtc,
             txTypes,
-            pageNumber,
+            pageIndex,
             TRANSACTION_HISTORY_PAGE_SIZE);
     req.setSignature(
         signatureCreator.digestParamsToString(

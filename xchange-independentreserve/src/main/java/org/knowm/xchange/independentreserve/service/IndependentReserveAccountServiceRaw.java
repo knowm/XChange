@@ -104,8 +104,8 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
       Date fromTimestampUtc,
       Date toTimestampUt,
       IndependentReserveTransaction.Type[] txTypes,
-      Integer pageIndex,
-      Integer pageSize)
+      int pageIndex,
+      int pageSize)
       throws IndependentReserveHttpStatusException, IOException {
     Long nonce = exchange.getNonceFactory().createValue();
 

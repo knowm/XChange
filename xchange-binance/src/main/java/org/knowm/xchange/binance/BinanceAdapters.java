@@ -137,7 +137,8 @@ public class BinanceAdapters {
               order.executedQty,
               BigDecimal.ZERO,
               orderStatus);
-    } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)) {
+    } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
+        || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
       result =
           new LimitOrder(
               type,

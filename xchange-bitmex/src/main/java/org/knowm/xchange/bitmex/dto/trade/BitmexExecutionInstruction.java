@@ -22,7 +22,7 @@ public enum BitmexExecutionInstruction {
 
   @Override
   public String toString() {
-      return apiParameter;
+    return apiParameter;
   }
 
   public static class Builder {

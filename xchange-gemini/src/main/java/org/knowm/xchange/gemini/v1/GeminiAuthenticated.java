@@ -13,6 +13,8 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
@@ -85,6 +87,15 @@ public interface GeminiAuthenticated extends Gemini {
       @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
       GeminiPastTradesRequest pastTradesRequest)
+      throws IOException, GeminiException;
+
+  @POST
+  @Path("notionalvolume")
+  GeminiTrailingVolumeResponse TrailingVolume(
+      @HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiTrailingVolumeRequest pastTradesRequest)
       throws IOException, GeminiException;
 
   @POST

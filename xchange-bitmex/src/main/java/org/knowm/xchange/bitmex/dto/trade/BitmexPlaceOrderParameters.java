@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.Bitmex;
-
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
 
 /** See {@link Bitmex#placeOrder} */
 @SuppressWarnings({"unused", "WeakerAccess"})
@@ -253,6 +250,15 @@ public class BitmexPlaceOrderParameters {
     }
 
     @Nonnull
+    public Builder addExecutionInstruction(@Nullable BitmexExecutionInstruction execInst) {
+      if (this.executionInstructions == null) {
+        this.executionInstructions = new ArrayList<>();
+      }
+      this.executionInstructions.add(execInst);
+      return this;
+    }
+
+    @Nonnull
     public Builder setClOrdLinkId(@Nullable String clOrdLinkId) {
       this.clOrdLinkId = clOrdLinkId;
       return this;
@@ -291,39 +297,39 @@ public class BitmexPlaceOrderParameters {
 
   @Override
   public String toString() {
-    return "BitmexPlaceOrderParameters{" +
-            "symbol=" +
-            symbol +
-            ", orderQuantity=" +
-            orderQuantity +
-            ", simpleOrderQuantity=" +
-            simpleOrderQuantity +
-            ", displayQuantity=" +
-            displayQuantity +
-            ", price=" +
-            price +
-            ", stopPrice=" +
-            stopPrice +
-            ", side=" +
-            side +
-            ", orderType=" +
-            orderType +
-            ", clOrdId='" +
-            clOrdId +
-            "', executionInstructions=" +
-            StringUtils.join(executionInstructions) +
-            ", clOrdLinkId='" +
-            clOrdLinkId +
-            "', contingencyType=" +
-            contingencyType +
-            ", pegOffsetValue=" +
-            pegOffsetValue +
-            ", pegPriceType=" +
-            pegPriceType +
-            ", timeInForce='" +
-            timeInForce +
-            ", text='" +
-            text +
-            "'}";
+    return "BitmexPlaceOrderParameters{"
+        + "symbol="
+        + symbol
+        + ", orderQuantity="
+        + orderQuantity
+        + ", simpleOrderQuantity="
+        + simpleOrderQuantity
+        + ", displayQuantity="
+        + displayQuantity
+        + ", price="
+        + price
+        + ", stopPrice="
+        + stopPrice
+        + ", side="
+        + side
+        + ", orderType="
+        + orderType
+        + ", clOrdId='"
+        + clOrdId
+        + "', executionInstructions="
+        + StringUtils.join(executionInstructions)
+        + ", clOrdLinkId='"
+        + clOrdLinkId
+        + "', contingencyType="
+        + contingencyType
+        + ", pegOffsetValue="
+        + pegOffsetValue
+        + ", pegPriceType="
+        + pegPriceType
+        + ", timeInForce='"
+        + timeInForce
+        + ", text='"
+        + text
+        + "'}";
   }
 }
