@@ -23,11 +23,9 @@ import io.reactivex.Observable;
  */
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public BitmexStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
 	 @Override
@@ -51,7 +49,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
     public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
         return subscribeChannel(channelName).map(s -> {
-            BitmexWebSocketTransaction transaction = mapper.readValue(s.toString(), BitmexWebSocketTransaction.class);
+            BitmexWebSocketTransaction transaction = objectMapper.treeToValue(s, BitmexWebSocketTransaction.class);
             return transaction;
         })
                 .share();
@@ -67,14 +65,12 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         BitmexWebSocketSubscriptionMessage subscribeMessage = new BitmexWebSocketSubscriptionMessage("subscribe", new String[]{channelName});
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName) throws IOException {
         BitmexWebSocketSubscriptionMessage subscribeMessage = new BitmexWebSocketSubscriptionMessage("unsubscribe", new String[]{});
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 }

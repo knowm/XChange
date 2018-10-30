@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
@@ -60,7 +61,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         WebSocketMessage webSocketMessage = new WebSocketMessage("addChannel", channelName);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(webSocketMessage);
     }
 
@@ -68,7 +69,6 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     public String getUnsubscribeMessage(String channelName) throws IOException {
         WebSocketMessage webSocketMessage = new WebSocketMessage("removeChannel", channelName);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(webSocketMessage);
     }
 

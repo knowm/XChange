@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import info.bitrich.xchangestream.wex.dto.WexOrderbook;
 import info.bitrich.xchangestream.wex.dto.WexWebSocketTransaction;
@@ -27,7 +28,7 @@ import java.util.Map;
 public class WexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(WexStreamingMarketDataService.class);
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     private final PusherStreamingService service;
     private final MarketDataService marketDataService;
@@ -37,7 +38,6 @@ public class WexStreamingMarketDataService implements StreamingMarketDataService
     WexStreamingMarketDataService(PusherStreamingService service, MarketDataService marketDataService) {
         this.service = service;
         this.marketDataService = marketDataService;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override

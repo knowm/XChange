@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.gemini.dto.GeminiLimitOrder;
 import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -32,11 +33,11 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
     private final GeminiStreamingService service;
     private final Map<CurrencyPair, GeminiOrderbook> orderbooks = new HashMap<>();
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
 
     public GeminiStreamingMarketDataService(GeminiStreamingService service) {
         this.service = service;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private boolean filterEventsByReason(JsonNode message, String type, String reason) {

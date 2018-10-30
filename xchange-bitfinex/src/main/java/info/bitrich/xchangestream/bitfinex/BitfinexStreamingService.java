@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
@@ -42,7 +43,6 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode;
 
         // Parse incoming message to JSON
@@ -127,7 +127,6 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         }
         if (subscribeMessage == null) throw new IOException("SubscribeMessage: Insufficient arguments");
 
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
@@ -145,7 +144,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
         BitfinexWebSocketUnSubscriptionMessage subscribeMessage =
                 new BitfinexWebSocketUnSubscriptionMessage(channelId);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 }
