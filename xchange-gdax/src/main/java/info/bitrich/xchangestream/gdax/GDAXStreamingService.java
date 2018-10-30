@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.gdax.dto.GDAXWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.gdax.netty.WebSocketClientCompressionAllowClientNoContextHandler;
@@ -73,7 +71,6 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         GDAXWebSocketSubscriptionMessage subscribeMessage = new GDAXWebSocketSubscriptionMessage(SUBSCRIBE, product, authData.get());
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
@@ -81,7 +78,6 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
     public String getUnsubscribeMessage(String channelName) throws IOException {
         GDAXWebSocketSubscriptionMessage subscribeMessage =
                 new GDAXWebSocketSubscriptionMessage(UNSUBSCRIBE, new String[]{"level2", "matches", "ticker"}, authData.get());
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 

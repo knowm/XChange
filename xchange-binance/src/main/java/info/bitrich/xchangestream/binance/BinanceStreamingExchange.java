@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -55,6 +56,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     @Override
     public boolean isAlive() {
         return streamingService!= null && streamingService.isSocketOpen();
+    }
+
+    @Override
+    public Observable<Throwable> reconnectFailure() {
+        return streamingService.subscribeReconnectFailure();
+    }
+
+    @Override
+    public Observable<Object> connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
     }
 
     @Override
