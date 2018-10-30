@@ -42,8 +42,7 @@ public class OkCoinAdaptersTest {
         mapper.readValue(is, OkCoinAccountRecords.class);
 
     List<FundingRecord> records =
-        OkCoinAdapters.adaptFundingHistory(
-            okCoinAccountDepositRecords, FundingRecord.Type.DEPOSIT);
+        OkCoinAdapters.adaptFundingHistory(okCoinAccountDepositRecords, FundingRecord.Type.DEPOSIT);
 
     assertThat(records.size()).isEqualTo(2);
     FundingRecord depositRecord = records.get(1);
