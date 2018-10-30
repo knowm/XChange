@@ -8,7 +8,6 @@ import java.util.Date;
 public class BitZUserHistory {
   private final long id;
   private final long uid;
-  private final long uId;
   private final BigDecimal price;
   private final BigDecimal number;
   private final BigDecimal total;
@@ -25,7 +24,6 @@ public class BitZUserHistory {
   public BitZUserHistory(
       @JsonProperty("id") long id,
       @JsonProperty("uid") long uid,
-      @JsonProperty("uId") long uId,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("number") BigDecimal number,
       @JsonProperty("total") BigDecimal total,
@@ -40,7 +38,6 @@ public class BitZUserHistory {
       @JsonProperty("created") long created) {
     this.id = id;
     this.uid = uid;
-    this.uId = uId;
     this.price = price;
     this.number = number;
     this.total = total;
@@ -107,10 +104,6 @@ public class BitZUserHistory {
     return created;
   }
 
-  public long getuId() {
-    return uId;
-  }
-
   public BigDecimal getOrderTotalPrice() {
     return orderTotalPrice;
   }
@@ -122,8 +115,6 @@ public class BitZUserHistory {
         + id
         + ", uid="
         + uid
-        + ", uId="
-        + uId
         + ", price="
         + price
         + ", number="

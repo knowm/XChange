@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.Exchange;
@@ -149,7 +150,7 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
    * @return
    * @throws IOException
    */
-  public BitZCurrencyRateList getCurrencyRate(CurrencyPair... currencyPairs) throws IOException {
+  public Map<String, BitZCurrencyRate> getCurrencyRate(CurrencyPair... currencyPairs) throws IOException {
     List<String> symbolList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
             .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
