@@ -57,7 +57,8 @@ public class TickerBinanceWebsocketTransaction extends ProductBinanceWebSocketTr
                 closeTime,
                 firstId,
                 lastId,
-                count);
+                count,
+                symbol);
         ticker.setCurrencyPair(currencyPair);
     }
 

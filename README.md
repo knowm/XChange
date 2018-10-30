@@ -1,7 +1,9 @@
 # XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/xchange-stream)
+> **MAINTAINER WANTED:** If anyone would like contribute to this project and become a maintainer, let me know via message. This project would deserve more time than I have.
+
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
-It is build on top of of [XChange library](https://github.com/timmolter/XChange) providing new interfaces for streaming API. User can subscribe for live update via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
+It is build on top of the [XChange library](https://github.com/timmolter/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
 
 ## Why use it?
 
@@ -15,7 +17,7 @@ It is build on top of of [XChange library](https://github.com/timmolter/XChange)
 
 ### Include in your project
 
-Xchange-stream is on Maven Central. You will need `xchange-stream-core` dependency and `xchange-XYZ` where XYZ is supported exchange (eg. `xchange-bitstamp`). Add following into your `pom.xml`.
+Xchange-stream is on Maven Central. You will need `xchange-stream-core` dependency and `xchange-XYZ` where XYZ is supported exchange (eg. `xchange-bitstamp`). Add the following into your `pom.xml`.
 
 
 #### Maven
@@ -48,12 +50,12 @@ For snapshots version (built from develop branch), add the following repository 
 
 #### Versioning 
 
-Xchange-stream follows major and minor version from XChange library. So version 4.2.x is based on latest 4.2. release of XChange.
+XChange-stream follows major and minor version from XChange library. So version 4.2.x is based on latest 4.2. release of XChange.
 
 
 ### Example
 
-Use the library same as the XChange. But instead of `ExchangeFactory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
+Use the same library as XChange but instead of `ExchangeFactory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreamingMarketDataService` to subscribe to trade data.
 
 ```java
 StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
@@ -91,7 +93,7 @@ Listening for live updates of
 
 Exchange | order books | trades | tickers
 -------- | ----------- | ------ | -------
-**Binance** | :heavy_check_mark: | :construction: | :heavy_check_mark:
+**Binance** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
@@ -108,9 +110,9 @@ Exchange | order books | trades | tickers
 - :construction: - missing but can be implemented
 - :x: - not supported by the exchange
 
-GDAX authenticated live updates is not yet supported, hopefully it will be added in the near future. 
+GDAX authenticated live updates are not yet supported, hopefully it will be added in the near future. 
 
-If you missing specific exchange implementation, feel free to propose pull request or open issue with some sweet BTC bounty. 
+If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty. 
  
 
 ## License

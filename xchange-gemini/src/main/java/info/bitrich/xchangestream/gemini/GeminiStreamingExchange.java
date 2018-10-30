@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiExchange;
 
 /**
@@ -45,4 +46,7 @@ public class GeminiStreamingExchange extends GeminiExchange implements Streaming
     public boolean isAlive() {
         return streamingService.isAlive();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { throw new NotYetImplementedForExchangeException(); }
 }

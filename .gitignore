@@ -104,3 +104,6 @@ local.properties
 
 # log
 *.log
+
+# externalized configuration file for keys
+*secret.keys

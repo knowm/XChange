@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.wamp.WampStreamingService;
 import io.reactivex.Completable;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 
 public class PoloniexStreamingExchange extends PoloniexExchange implements StreamingExchange {
@@ -43,4 +44,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }
