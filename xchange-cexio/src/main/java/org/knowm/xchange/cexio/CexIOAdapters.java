@@ -196,7 +196,7 @@ public class CexIOAdapters {
               cexIOOrder.getAmount(),
               cexIOOrder.getAmount().subtract(cexIOOrder.getPending()),
               new CurrencyPair(
-                  cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()),
+                  cexIOOrder.getSymbol1(), cexIOOrder.getSymbol2()),
               id,
               DateUtils.fromMillisUtc(cexIOOrder.getTime()),
               cexIOOrder.getPrice()));
