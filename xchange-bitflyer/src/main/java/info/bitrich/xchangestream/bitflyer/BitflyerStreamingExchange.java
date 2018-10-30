@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitflyer.BitflyerExchange;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -59,5 +60,8 @@ public class BitflyerStreamingExchange extends BitflyerExchange implements Strea
     public boolean isAlive() {
         return streamingService.isAlive();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }
 

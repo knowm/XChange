@@ -3,11 +3,13 @@ package info.bitrich.xchangestream.gemini.dto;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.gemini.v1.GeminiAdapters;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.math.BigDecimal;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptOrders;
 
@@ -15,31 +17,33 @@ import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptOrders;
  * Created by Lukas Zaoralek on 15.11.17.
  */
 public class GeminiOrderbook {
-    private final SortedMap<BigDecimal, GeminiLimitOrder> asks;
-    private final SortedMap<BigDecimal, GeminiLimitOrder> bids;
-    private final BigDecimal zero = new BigDecimal(0);
+    private final Map<BigDecimal, GeminiLimitOrder> asks;
+    private final Map<BigDecimal, GeminiLimitOrder> bids;
 
     private final CurrencyPair currencyPair;
 
     public GeminiOrderbook(CurrencyPair currencyPair) {
-        asks = new TreeMap<>();
-        bids = new TreeMap<>(java.util.Collections.reverseOrder());
+        asks = new ConcurrentHashMap<>();
+        bids = new ConcurrentHashMap<>();
         this.currencyPair = currencyPair;
     }
 
     public void createFromLevels(GeminiLimitOrder[] levels) {
         for (GeminiLimitOrder level : levels) {
-            SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
-            orderBookSide.put(level.getPrice(), level);
+            Map<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
+            orderBookSide.put(level.getPrice().stripTrailingZeros(), level);
         }
     }
 
     public void updateLevel(GeminiLimitOrder level) {
-        SortedMap<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
-        boolean shouldDelete = level.getAmount().compareTo(zero) == 0;
-        BigDecimal price = new BigDecimal(level.getPrice().toString()); // copy of the price is required for thread safety (BigDecimal is not thread safe, and the hashcode can be affected by outside accesses of the value)
-        orderBookSide.remove(price);
-        if (!shouldDelete) {
+        Map<BigDecimal, GeminiLimitOrder> orderBookSide = level.getSide() == Order.OrderType.ASK ? asks : bids;
+        boolean shouldDelete = level.getAmount().compareTo(BigDecimal.ZERO) == 0;
+        // BigDecimal is immutable type (thread safe naturally),
+        // strip the trailing zeros to ensure the hashCode is same when two BigDecimal are equal but decimal scale are different, such as "1.1200" & "1.12"
+        BigDecimal price = level.getPrice().stripTrailingZeros();
+        if (shouldDelete) {
+            orderBookSide.remove(price);
+        } else {
             orderBookSide.put(price, level);
         }
     }
@@ -53,9 +57,10 @@ public class GeminiOrderbook {
     public OrderBook toOrderbook() {
         GeminiLimitOrder[] askLevels = asks.values().toArray(new GeminiLimitOrder[asks.size()]);
         GeminiLimitOrder[] bidLevels = bids.values().toArray(new GeminiLimitOrder[bids.size()]);
-        GeminiAdapters.OrdersContainer askOrdersContainer = adaptOrders(askLevels, currencyPair, Order.OrderType.ASK);
-        GeminiAdapters.OrdersContainer bidOrdersContainer = adaptOrders(bidLevels, currencyPair, Order.OrderType.BID);
-
-        return new OrderBook(null, askOrdersContainer.getLimitOrders(), bidOrdersContainer.getLimitOrders());
+        List<LimitOrder> askOrders = adaptOrders(askLevels, currencyPair, Order.OrderType.ASK).getLimitOrders();
+        List<LimitOrder> bidOrders = adaptOrders(bidLevels, currencyPair, Order.OrderType.BID).getLimitOrders();
+        Collections.sort(askOrders);
+        Collections.sort(bidOrders);
+        return new OrderBook(null, askOrders, bidOrders);
     }
 }

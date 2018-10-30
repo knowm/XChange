@@ -5,8 +5,11 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gdax.GDAXExchange;
+import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
+import org.knowm.xchange.gdax.service.GDAXAccountServiceRaw;
 
 /**
  * GDAX Streaming Exchange. Connects to live WebSocket feed.
@@ -28,11 +31,27 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
     public Completable connect(ProductSubscription... args) {
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
-        this.streamingService = new GDAXStreamingService(API_URI);
+        ExchangeSpecification exchangeSpec = getExchangeSpecification();
+        this.streamingService = new GDAXStreamingService(API_URI, () -> authData(exchangeSpec));
         this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
 
         return streamingService.connect();
+    }
+
+    private GDAXWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
+        GDAXWebsocketAuthData authData = null;
+        if ( exchangeSpec.getApiKey() != null ) {
+            try {
+                GDAXAccountServiceRaw rawAccountService = (GDAXAccountServiceRaw) getAccountService();
+                authData = rawAccountService.getWebsocketAuthData();
+            }
+            catch (Exception e) {
+                logger.warn("Failed attempting to acquire Websocket AuthData needed for private data on" +
+                            " websocket.  Will only receive public information via API", e);
+            }
+        }
+        return authData;
     }
 
     @Override
@@ -41,6 +60,16 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
         streamingService = null;
         streamingMarketDataService = null;
         return service.disconnect();
+    }
+
+    @Override
+    public Observable<Throwable> reconnectFailure() {
+        return streamingService.subscribeReconnectFailure();
+    }
+
+    @Override
+    public Observable<Object> connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
     }
 
     @Override
@@ -69,4 +98,7 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
     public boolean isAlive() {
         return streamingService != null && streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }

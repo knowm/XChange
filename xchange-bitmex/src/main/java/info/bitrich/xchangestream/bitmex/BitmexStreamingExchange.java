@@ -21,8 +21,13 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
         this.streamingService = new BitmexStreamingService(API_URI);
     }
 
+    protected BitmexStreamingExchange(BitmexStreamingService streamingService) {
+        this.streamingService = streamingService;
+    }
+
     @Override
     protected void initServices() {
+        super.initServices();
         streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
     }
 
@@ -57,4 +62,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
+
+    @Override
+    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 }

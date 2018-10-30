@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitfinex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -37,15 +38,14 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
         String channelName = "book";
         final String depth = args.length > 0 ? args[0].toString() : "100";
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel = service.subscribeChannel(channelName,
                 new Object[]{pair, "P0", depth})
                 .map(s -> {
-                    if (s.get(1).get(0).isArray()) return mapper.readValue(s.toString(),
+                    if (s.get(1).get(0).isArray()) return mapper.treeToValue(s,
                             BitfinexWebSocketSnapshotOrderbook.class);
-                    else return mapper.readValue(s.toString(), BitfinexWebSocketUpdateOrderbook.class);
+                    else return mapper.treeToValue(s, BitfinexWebSocketUpdateOrderbook.class);
                 });
 
         return subscribedChannel
@@ -62,12 +62,11 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
         String channelName = "ticker";
 
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<BitfinexWebSocketTickerTransaction> subscribedChannel = service.subscribeChannel(channelName,
                 new Object[]{pair})
-                .map(s -> mapper.readValue(s.toString(), BitfinexWebSocketTickerTransaction.class));
+                .map(s -> mapper.treeToValue(s, BitfinexWebSocketTickerTransaction.class));
 
         return subscribedChannel
                 .map(s -> adaptTicker(s.toBitfinexTicker(), currencyPair));
@@ -79,16 +78,15 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
         final String tradeType = args.length > 0 ? args[0].toString() : "te";
 
         String pair = currencyPair.base.toString() + currencyPair.counter.toString();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         Observable<BitfinexWebSocketTradesTransaction> subscribedChannel = service.subscribeChannel(channelName,
                 new Object[]{pair})
                 .filter(s -> s.get(1).asText().equals(tradeType))
                 .map(s -> {
                     if (s.get(1).asText().equals("te") || s.get(1).asText().equals("tu")) {
-                        return mapper.readValue(s.toString(), BitfinexWebsocketUpdateTrade.class);
-                    } else return mapper.readValue(s.toString(), BitfinexWebSocketSnapshotTrades.class);
+                        return mapper.treeToValue(s, BitfinexWebsocketUpdateTrade.class);
+                    } else return mapper.treeToValue(s, BitfinexWebSocketSnapshotTrades.class);
                 });
 
         return subscribedChannel
