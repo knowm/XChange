@@ -7,13 +7,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders.CexIOOpenOrdersDeserializer;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder.Type;
+import org.knowm.xchange.exceptions.ExchangeException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders.CexIOOpenOrdersDeserializer;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder.Type;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 @JsonDeserialize(using = CexIOOpenOrdersDeserializer.class)
 public class CexIOOpenOrders {
@@ -79,8 +80,12 @@ public class CexIOOpenOrders {
           final BigDecimal price = new BigDecimal(openOrderNode.path("price").asText());
           final BigDecimal amount = new BigDecimal(openOrderNode.path("amount").asText());
           final BigDecimal pending = new BigDecimal(openOrderNode.path("pending").asText());
+          final String symbol1 = openOrderNode.path("symbol1").asText();
+          final String symbol2 = openOrderNode.path("symbol2").asText();
 
-          openOrders.add(new CexIOOrder(id, time, type, price, amount, pending, null));
+          openOrders.add(
+              new CexIOOrder(
+                  id, time, type, price, amount, pending, symbol1, symbol2, null));
         }
       }
       return new CexIOOpenOrders(openOrders);
