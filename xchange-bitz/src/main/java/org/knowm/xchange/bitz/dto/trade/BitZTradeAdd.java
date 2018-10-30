@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitz.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 // TODO: Implement Once Implemented By The Exchange

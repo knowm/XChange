@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bitz.dto.account.result.BitZUserAssetsResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.*;
 import org.knowm.xchange.bitz.dto.trade.result.*;
