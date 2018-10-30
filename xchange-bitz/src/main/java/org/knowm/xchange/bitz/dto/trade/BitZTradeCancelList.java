@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitz.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.Map;
 
 public class BitZTradeCancelList {

@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitz.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class BitZUserAssetsInfo {

@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitz.dto.marketdata.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Map;
 import org.knowm.xchange.bitz.dto.BitZResult;
 import org.knowm.xchange.currency.Currency;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
-public class BitZCurrencyCoinRateResult extends BitZResult<Map<Currency, Map<Currency, BigDecimal>>> {
+public class BitZCurrencyCoinRateResult
+    extends BitZResult<Map<Currency, Map<Currency, BigDecimal>>> {
   public BitZCurrencyCoinRateResult(
       @JsonProperty("status") int status,
       @JsonProperty("msg") String message,

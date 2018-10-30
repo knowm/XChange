@@ -1,12 +1,12 @@
 package org.knowm.xchange.bitz.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitz.BitZUtils;
 import org.knowm.xchange.bitz.dto.marketdata.*;
@@ -14,6 +14,7 @@ import org.knowm.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTradesResult;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class BitZMarketDataServiceRaw extends BitZBaseService {
@@ -52,11 +53,12 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
    * @return
    * @throws IOException
    */
-  public BitZCurrencyCoinRateList getCoinRate(CurrencyPair... currencyPairs) throws IOException {
+  public Map<Currency, Map<Currency, BigDecimal>> getCoinRate(CurrencyPair... currencyPairs)
+      throws IOException {
     List<String> coinList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-            .forEach(
-                    currencyPair -> coinList.add(currencyPair.counter.getCurrencyCode().toLowerCase()));
+        .forEach(
+            currencyPair -> coinList.add(currencyPair.counter.getCurrencyCode().toLowerCase()));
     String coins = coinList.stream().collect(Collectors.joining(","));
     return bitz.getCurrencyCoinRate(coins).getData();
   }
@@ -72,10 +74,10 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
    * @throws IOException
    */
   public BitZKline getKline(
-          CurrencyPair currencyPair, BitZKlineResolution resolution, Integer size, String microsecond)
-          throws IOException {
+      CurrencyPair currencyPair, BitZKlineResolution resolution, Integer size, String microsecond)
+      throws IOException {
     return bitz.getKline(BitZUtils.toPairString(currencyPair), resolution.code(), size, microsecond)
-            .getData();
+        .getData();
   }
 
   /**
@@ -100,7 +102,7 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
   public BitZTickerAll getTickerAll(CurrencyPair... currencyPairs) throws IOException {
     List<String> symbolList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-            .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
+        .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
     String symbols = symbolList.stream().collect(Collectors.joining(","));
     BitZTickerAllResult result = bitz.getTickerAll(symbols);
     return result.getData();
@@ -138,7 +140,7 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
   public BitZSymbolList getSymbolList(CurrencyPair... currencyPairs) throws IOException {
     List<String> symbolList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-            .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
+        .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
     String symbols = symbolList.stream().collect(Collectors.joining(","));
     return bitz.getSymbolList(symbols).getData();
   }
@@ -150,10 +152,11 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, BitZCurrencyRate> getCurrencyRate(CurrencyPair... currencyPairs) throws IOException {
+  public Map<String, BitZCurrencyRate> getCurrencyRate(CurrencyPair... currencyPairs)
+      throws IOException {
     List<String> symbolList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-            .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
+        .forEach(currencyPair -> symbolList.add(BitZUtils.toPairString(currencyPair)));
     String symbols = symbolList.stream().collect(Collectors.joining(","));
     return bitz.getCurrencyRate(symbols).getData();
   }
@@ -165,11 +168,11 @@ public class BitZMarketDataServiceRaw extends BitZBaseService {
    * @return
    * @throws IOException
    */
-  public BitZCurrencyCoinRateList getCurrencyCoinRate(CurrencyPair... currencyPairs)
-          throws IOException {
+  public Map<Currency, Map<Currency, BigDecimal>> getCurrencyCoinRate(CurrencyPair... currencyPairs)
+      throws IOException {
     List<String> coinList = new ArrayList<>(currencyPairs.length);
     Arrays.stream(currencyPairs)
-            .forEach(currencyPair -> coinList.add(currencyPair.base.getCurrencyCode().toLowerCase()));
+        .forEach(currencyPair -> coinList.add(currencyPair.base.getCurrencyCode().toLowerCase()));
     String coins = coinList.stream().collect(Collectors.joining(","));
     return bitz.getCurrencyCoinRate(coins).getData();
   }
