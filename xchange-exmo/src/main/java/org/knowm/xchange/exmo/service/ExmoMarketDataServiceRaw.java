@@ -74,13 +74,15 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
         tradingFee = currencyPairs.get(currencyPair).getTradingFee();
       }
 
+      CurrencyPairMetaData staticMeta = currencyPairs.get(currencyPair);
       // min_quantity or min_amount ???
       CurrencyPairMetaData currencyPairMetaData =
           new CurrencyPairMetaData(
               tradingFee,
               new BigDecimal(data.get("min_quantity")),
               new BigDecimal(data.get("max_quantity")),
-              priceScale);
+              priceScale,
+              staticMeta != null ? staticMeta.getFeeTiers() : null);
 
       currencyPairs.put(currencyPair, currencyPairMetaData);
 

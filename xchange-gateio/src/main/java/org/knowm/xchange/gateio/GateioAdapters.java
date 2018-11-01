@@ -232,7 +232,8 @@ public final class GateioAdapters {
               btermarketInfo.getFee(),
               btermarketInfo.getMinAmount(),
               null,
-              btermarketInfo.getDecimalPlaces());
+              btermarketInfo.getDecimalPlaces(),
+              null);
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 

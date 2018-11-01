@@ -11,18 +11,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
@@ -99,15 +96,22 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    if (orderIds == null || orderIds.length == 0) {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    if (orderQueryParams == null) {
       return new ArrayList<>();
     }
 
     Collection<Order> orders = new ArrayList<>();
-    for (String orderId : orderIds) {
+    for (OrderQueryParams param : orderQueryParams) {
+      if (!(param instanceof OrderQueryParamCurrencyPair)) {
+        throw new ExchangeException(
+            "Parameters must be an instance of OrderQueryParamCurrencyPair");
+      }
       HitbtcOrder rawOrder =
-          getHitbtcOrder("BTCUSD", orderId); // why is the currency pair hardcoded?
+          getHitbtcOrder(
+              HitbtcAdapters.adaptCurrencyPair(
+                  ((OrderQueryParamCurrencyPair) param).getCurrencyPair()),
+              param.getOrderId());
 
       if (rawOrder != null) orders.add(HitbtcAdapters.adaptOrder(rawOrder));
     }

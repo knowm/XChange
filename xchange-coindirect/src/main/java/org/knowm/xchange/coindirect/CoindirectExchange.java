@@ -53,12 +53,18 @@ public class CoindirectExchange extends BaseExchange {
     try {
       List<CoindirectMarket> coindirectMarketList =
           coindirectMarketDataService.getCoindirectMarkets(1000);
-      CurrencyPairMetaData currencyPairMetaData;
 
       for (CoindirectMarket market : coindirectMarketList) {
-        currencyPairMetaData =
-            new CurrencyPairMetaData(null, market.minimumQuantity, market.maximumQuantity, null);
-        currencyPairs.put(CoindirectAdapters.toCurrencyPair(market.symbol), currencyPairMetaData);
+        CurrencyPair currencyPair = CoindirectAdapters.toCurrencyPair(market.symbol);
+        CurrencyPairMetaData staticMeta = currencyPairs.get(currencyPair);
+        CurrencyPairMetaData adaptedMeta =
+            new CurrencyPairMetaData(
+                staticMeta.getTradingFee(),
+                market.minimumQuantity,
+                market.maximumQuantity,
+                staticMeta.getPriceScale(),
+                staticMeta.getFeeTiers());
+        currencyPairs.put(currencyPair, adaptedMeta);
       }
 
     } catch (IOException exception) {

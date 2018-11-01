@@ -105,19 +105,24 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeLimitOrder(LimitOrder lo) throws IOException {
-
     TimeInForce tif = TimeInForce.GTC;
-    Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-    Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+    OrderType type;
+    if (lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
+      type = OrderType.LIMIT_MAKER;
+      tif = null;
+    } else {
+      type = OrderType.LIMIT;
+      Set<IOrderFlags> orderFlags = lo.getOrderFlags();
+      Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
 
-    while (orderFlagsIterator.hasNext()) {
-      IOrderFlags orderFlag = orderFlagsIterator.next();
-      if (orderFlag instanceof TimeInForce) {
-        tif = (TimeInForce) orderFlag;
+      while (orderFlagsIterator.hasNext()) {
+        IOrderFlags orderFlag = orderFlagsIterator.next();
+        if (orderFlag instanceof TimeInForce) {
+          tif = (TimeInForce) orderFlag;
+        }
       }
     }
-
-    return placeOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
+    return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
   }
 
   @Override
