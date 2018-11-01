@@ -5,15 +5,15 @@ import java.util.List;
 
 /** Author: Kamil Zbikowski Date: 4/15/15 */
 public class IndependentReserveOpenOrdersResponse {
-  private final String pageSize;
-  private final String totalItems;
-  private final String totalPages;
+  private final int pageSize;
+  private final long totalItems;
+  private final int totalPages;
   private final List<IndependentReserveOpenOrder> independentReserveOrders;
 
   public IndependentReserveOpenOrdersResponse(
-      @JsonProperty("PageSize") String pageSize,
-      @JsonProperty("TotalItems") String totalItems,
-      @JsonProperty("TotalPages") String totalPages,
+      @JsonProperty("PageSize") int pageSize,
+      @JsonProperty("TotalItems") long totalItems,
+      @JsonProperty("TotalPages") int totalPages,
       @JsonProperty("Data") List<IndependentReserveOpenOrder> independentReserveOrders) {
     this.independentReserveOrders = independentReserveOrders;
     this.pageSize = pageSize;
@@ -25,15 +25,15 @@ public class IndependentReserveOpenOrdersResponse {
     return independentReserveOrders;
   }
 
-  public String getPageSize() {
+  public int getPageSize() {
     return pageSize;
   }
 
-  public String getTotalItems() {
+  public long getTotalItems() {
     return totalItems;
   }
 
-  public String getTotalPages() {
+  public int getTotalPages() {
     return totalPages;
   }
 }

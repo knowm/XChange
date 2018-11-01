@@ -327,7 +327,7 @@ public final class WexAdapters {
     BigDecimal minimumAmount = withScale(info.getMinAmount(), wexMetaData.amountScale);
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

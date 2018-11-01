@@ -176,8 +176,10 @@ public class BleutradeTestData {
 
   protected static CurrencyPairMetaData[] expectedMetaDataList() {
     return new CurrencyPairMetaData[] {
-      new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.10000000"), null, 8),
-      new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.00000001"), null, 8)
+      new CurrencyPairMetaData(
+          new BigDecimal("0.0025"), new BigDecimal("0.10000000"), null, 8, null),
+      new CurrencyPairMetaData(
+          new BigDecimal("0.0025"), new BigDecimal("0.00000001"), null, 8, null)
     };
   }
 
