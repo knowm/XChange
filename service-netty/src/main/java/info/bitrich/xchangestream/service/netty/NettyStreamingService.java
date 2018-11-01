@@ -108,7 +108,8 @@ public abstract class NettyStreamingService<T> {
     public Completable connect() {
         return Completable.create(completable -> {
             try {
-                LOG.info("Connecting to {}://{}:{}{}", uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
+
+                LOG.info("Connecting to {}", uri.toString());
                 String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
                 String host = uri.getHost();
