@@ -26,6 +26,10 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
     super(exchange);
   }
 
+  /**
+   *  @deprecated Endpoint still valid, but Bittrex have disabled market orders. See https://twitter.com/bittrexexchange/status/526590250487783425.
+   */
+  @Deprecated
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
 
     String pair = BittrexUtils.toPairString(marketOrder.getCurrencyPair());
