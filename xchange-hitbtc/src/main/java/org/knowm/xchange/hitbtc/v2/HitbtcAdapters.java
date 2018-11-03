@@ -44,7 +44,7 @@ public class HitbtcAdapters {
 
   /** known counter currencies at HitBTC */
   private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI"));
+      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI", "EOS"));
   /**
    * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is
    * counter currency USD or TUSD?
