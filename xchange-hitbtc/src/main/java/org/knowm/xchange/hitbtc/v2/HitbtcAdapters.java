@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -42,7 +43,9 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 
 public class HitbtcAdapters {
 
-  /** known counter currencies at HitBTC */
+  /**
+   * known counter currencies at HitBTC
+   */
   private static final Set<String> counters =
       new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI", "EOS"));
   /**
@@ -71,14 +74,11 @@ public class HitbtcAdapters {
         .stream()
         .map(counter -> "USD".equals(counter) ? "USDT" : counter)
         .filter(tempSymbol::endsWith)
-        .map(
-            counter ->
-                counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
-        .map(
-            counter ->
-                new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
+        .map(counter -> counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
+        .map(counter -> new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
         .findAny()
-        .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
+        // We try our best if the counter currency is not in the list
+        .orElse(new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3)));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -337,7 +337,7 @@ public class HitbtcAdapters {
    * @param type
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible types: payout, payin,
-   *     deposit, withdraw, bankToExchange, exchangeToBank
+   * deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
     switch (type) {
@@ -357,7 +357,7 @@ public class HitbtcAdapters {
   /**
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible statusses: created,
-   *     pending, failed, success
+   * pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
@@ -378,7 +378,7 @@ public class HitbtcAdapters {
    *
    * @return
    * @see https://api.hitbtc.com/#order-model Order Model possible statuses: new, suspended,
-   *     partiallyFilled, filled, canceled, expired
+   * partiallyFilled, filled, canceled, expired
    */
   private static Order.OrderStatus convertOrderStatus(String status) {
     switch (status) {
