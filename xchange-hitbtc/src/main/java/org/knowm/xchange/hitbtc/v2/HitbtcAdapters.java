@@ -1,13 +1,5 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -28,18 +20,10 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
+import org.knowm.xchange.hitbtc.v2.dto.*;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class HitbtcAdapters {
 
@@ -288,10 +272,9 @@ public class HitbtcAdapters {
         CurrencyPair pair = adaptSymbol(symbol);
         BigDecimal tickSize = symbol.getTickSize();
         int priceScale = tickSize.scale(); // not 100% sure this is correct
-        // also, we need to take into account the quantityIncrement
 
         BigDecimal tradingFee = symbol.getTakeLiquidityRate();
-        BigDecimal minimumAmount = null;
+        BigDecimal minimumAmount = symbol.getQuantityIncrement();
         BigDecimal maximumAmount = null;
 
         FeeTier[] feeTiers = null;
