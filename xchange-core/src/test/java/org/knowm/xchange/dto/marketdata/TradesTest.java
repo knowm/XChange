@@ -22,5 +22,4 @@ public class TradesTest {
       Assert.fail("Could not compare trades");
     }
   }
-
 }

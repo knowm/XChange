@@ -10,11 +10,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitmex.Bitmex;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
@@ -69,9 +69,9 @@ public class BitmexBulkOrderTest {
     //            new Date(),
     //            price);
 
-    List<Bitmex.PlaceOrderCommand> commands = new ArrayList<>();
+    List<PlaceOrderCommand> commands = new ArrayList<>();
     commands.add(
-        new Bitmex.PlaceOrderCommand(
+        new PlaceOrderCommand(
             new BitmexPlaceOrderParameters.Builder(SYMBOL)
                 .setSide(BitmexSide.SELL)
                 .setOrderQuantity(originalOrderSize)

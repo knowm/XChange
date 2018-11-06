@@ -1,6 +1,7 @@
 package org.knowm.xchange.acx.service.trade;
 
 import static org.knowm.xchange.acx.utils.AcxUtils.getAcxMarket;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;

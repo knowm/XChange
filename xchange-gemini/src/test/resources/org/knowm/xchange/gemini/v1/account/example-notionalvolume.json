@@ -1,0 +1,19 @@
+{
+  "maker_fee_bps": 101,
+  "taker_fee_bps": 205,
+  "auction_fee_bps": 100,
+  "notional_30d_volume": 150.00,
+  "last_updated_ms": 1532460166424,
+  "account_id": 72,
+  "date": "2018-07-24",
+  "notional_1d_volume": [
+      {
+          "date": "2018-07-24",
+          "notional_volume": 75.00
+      },
+      {
+          "date": "2018-07-23",
+          "notional_volume": 75.00
+      }
+  ]
+}

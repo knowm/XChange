@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.bitz.dto.marketdata.BitZOrders;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 
 public class BitZDepthJSONTest {

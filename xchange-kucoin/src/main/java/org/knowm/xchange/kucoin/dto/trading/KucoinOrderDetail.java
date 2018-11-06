@@ -63,4 +63,51 @@ public class KucoinOrderDetail {
   /**
    * INFO: Maybe we need to add dealOrders list here from request, but we don't need it in logic.
    */
+  public String getCoinType() {
+    return coinType;
+  }
+
+  public BigDecimal getDealValueTotal() {
+    return dealValueTotal;
+  }
+
+  public BigDecimal getDealPriceAverage() {
+    return dealPriceAverage;
+  }
+
+  public BigDecimal getFeeTotal() {
+    return feeTotal;
+  }
+
+  public String getUserOid() {
+    return userOid;
+  }
+
+  public BigDecimal getDealAmount() {
+    return dealAmount;
+  }
+
+  public String getCoinTypePair() {
+    return coinTypePair;
+  }
+
+  public BigDecimal getOrderPrice() {
+    return orderPrice;
+  }
+
+  public Order.OrderType getType() {
+    return type;
+  }
+
+  public String getOrderOid() {
+    return orderOid;
+  }
+
+  public BigDecimal getPendingAmount() {
+    return pendingAmount;
+  }
+
+  public Boolean getIsActive() {
+    return isActive;
+  }
 }

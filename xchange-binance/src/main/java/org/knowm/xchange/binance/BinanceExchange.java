@@ -118,8 +118,9 @@ public class BinanceExchange extends BaseExchange {
                     new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                     minQty, // Min amount
                     maxQty, // Max amount
-                    pairPrecision // precision
-                    ));
+                    pairPrecision, // precision
+                    null /* TODO get fee tiers, although this is not necessary now
+                         because their API returns current fee directly */));
             currencies.put(
                 pair.base,
                 new CurrencyMetaData(

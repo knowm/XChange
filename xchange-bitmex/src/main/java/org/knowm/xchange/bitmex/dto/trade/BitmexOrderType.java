@@ -8,7 +8,7 @@ public enum BitmexOrderType {
   STOP_LIMIT("StopLimit"),
   PEGGED("Pegged"),
   MARKET_IF_TOUCHED("MarketIfTouched"),
-  LIMIT_IF_TOUCHED("MarketIfTouched"),
+  LIMIT_IF_TOUCHED("LimitIfTouched"),
   MARKET_WITH_LEFT_OVER_AS_LIMIT("MarketWithLeftOverAsLimit");
 
   private String apiParameter;

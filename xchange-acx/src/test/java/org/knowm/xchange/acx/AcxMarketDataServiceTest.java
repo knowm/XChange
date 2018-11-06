@@ -15,8 +15,6 @@ import java.util.Date;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.acx.AcxApi;
-import org.knowm.xchange.acx.AcxMapper;
 import org.knowm.xchange.acx.dto.AcxTrade;
 import org.knowm.xchange.acx.dto.marketdata.AcxMarket;
 import org.knowm.xchange.acx.dto.marketdata.AcxOrderBook;
