@@ -5,24 +5,23 @@ import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinErrorResult;
 
-public class OkCoinFuturesUserInfoCross extends OkCoinErrorResult {
+public class OkCoinFuturesUserInfoFixed extends OkCoinErrorResult {
+  private final Map<Currency, OkcoinFuturesFundsFixed> info;
 
-  private final Map<Currency, OkcoinFuturesFundsCross> info;
-
-  public OkCoinFuturesUserInfoCross(
+  public OkCoinFuturesUserInfoFixed(
       @JsonProperty("result") final boolean result,
       @JsonProperty("error_code") final int errorCode,
-      @JsonProperty("info") Map<Currency, OkcoinFuturesFundsCross> info) {
+      @JsonProperty("info") Map<Currency, OkcoinFuturesFundsFixed> info) {
 
     super(result, errorCode);
     this.info = info;
   }
 
-  public Map<Currency, OkcoinFuturesFundsCross> getInfo() {
+  public Map<Currency, OkcoinFuturesFundsFixed> getInfo() {
     return info;
   }
 
-  public OkcoinFuturesFundsCross getFunds(Currency currency) {
+  public OkcoinFuturesFundsFixed getFunds(Currency currency) {
     return info.get(currency);
   }
 }

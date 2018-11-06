@@ -17,8 +17,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
@@ -164,6 +166,11 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
   /** Liquidate long or short contract using a limit order */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
@@ -232,26 +239,25 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     OkCoinFuturesTradeHistoryParams myParams = (OkCoinFuturesTradeHistoryParams) params;
     long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
     CurrencyPair currencyPair = myParams.getCurrencyPair();
+    String date = myParams.getDate();
     String page = myParams.getPageNumber().toString();
     String pageLength = myParams.getPageLength().toString();
     FuturesContract reqFuturesContract = myParams.futuresContract;
 
     OkCoinFuturesTradeHistoryResult[] orderHistory =
-        getFuturesTradesHistory(
-            OkCoinAdapters.adaptSymbol(currencyPair), Long.valueOf("86751191"), "2015-12-04");
-    // orderHistory
-    // (orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
+        getFuturesTradesHistory(OkCoinAdapters.adaptSymbol(currencyPair), orderId, date);
+
     return OkCoinAdapters.adaptTradeHistory(orderHistory);
-    // OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
   public List<FuturesContract> getExchangeContracts() {
-    return java.util.Arrays.asList(FuturesContract.values());
+    return Arrays.asList(FuturesContract.values());
   }
 
   @Override
   public OkCoinFuturesTradeHistoryParams createTradeHistoryParams() {
-    return new OkCoinFuturesTradeHistoryParams(50, 0, CurrencyPair.BTC_USD, futuresContract, null);
+    return new OkCoinFuturesTradeHistoryParams(
+        50, 0, CurrencyPair.BTC_USD, futuresContract, null, "2018-08-10");
   }
 
   @Override
@@ -386,6 +392,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
+    private String date; // "yyyy-MM-dd"
 
     public OkCoinFuturesTradeHistoryParams() {}
 
@@ -394,11 +401,13 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         Integer pageNumber,
         CurrencyPair currencyPair,
         FuturesContract futuresContract,
-        String orderId) {
+        String orderId,
+        String date) {
       super(pageLength, pageNumber);
       this.currencyPair = currencyPair;
       this.futuresContract = futuresContract;
       this.orderId = orderId;
+      this.date = date;
     }
 
     @Override
@@ -429,6 +438,14 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     @Override
     public void setOrderId(String orderId) {
       this.orderId = orderId;
+    }
+
+    public String getDate() {
+      return date;
+    }
+
+    public void setDate(String date) {
+      this.date = date;
     }
   }
 
