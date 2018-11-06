@@ -1,16 +1,15 @@
 package org.knowm.xchange.cexio;
 
+import org.knowm.xchange.cexio.dto.*;
+import org.knowm.xchange.cexio.dto.account.*;
+import org.knowm.xchange.cexio.dto.trade.*;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.cexio.dto.*;
-import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
-import org.knowm.xchange.cexio.dto.account.*;
-import org.knowm.xchange.cexio.dto.trade.*;
-import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
-import si.mazi.rescu.ParamsDigest;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +34,11 @@ public interface CexIOAuthenticated extends CexIO {
       @PathParam("currency") String currency,
       CexIORequest cexIORequest)
       throws IOException;
+
+  @POST
+  @Path("open_orders/")
+  CexIOOpenOrders getOpenOrders(
+      @HeaderParam("_ignored_") ParamsDigest signer, CexIORequest cexIORequest) throws IOException;
 
   @POST
   @Path("cancel_order/")
@@ -108,5 +112,39 @@ public interface CexIOAuthenticated extends CexIO {
   @Path("get_address")
   CexIOCryptoAddress getCryptoAddress(
       @HeaderParam("_ignored_") ParamsDigest signer, CexioCryptoAddressRequest request)
+      throws IOException;
+
+  @POST
+  @Path("open_position/{symbol1}/{symbol2}/")
+  CexioOpenPositionResponse openPosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIOOpenPositionRequest cexIOOpenPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("get_position")
+  CexioPositionResponse getPosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      CexIOGetPositionRequest cexIOGetPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("close_position/{symbol1}/{symbol2}/")
+  CexioClosePositionResponse closePosition(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIOGetPositionRequest cexIOGetPositionRequest)
+      throws IOException;
+
+  @POST
+  @Path("open_positions/{symbol1}/{symbol2}/")
+  CexioOpenPositionsResponse getOpenPositions(
+      @HeaderParam("_ignored_") ParamsDigest signer,
+      @PathParam("symbol1") String symbol1,
+      @PathParam("symbol2") String symbol2,
+      CexIORequest emptyRequest)
       throws IOException;
 }

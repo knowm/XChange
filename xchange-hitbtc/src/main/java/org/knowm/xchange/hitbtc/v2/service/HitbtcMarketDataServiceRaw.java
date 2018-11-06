@@ -88,6 +88,22 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
     return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults, offset);
   }
 
+  public List<HitbtcTrade> getHitbtcTrades(
+      CurrencyPair currencyPair,
+      long from,
+      HitbtcTrade.HitbtcTradesSortField sortBy,
+      HitbtcSort sortDirection,
+      long maxResults)
+      throws IOException {
+
+    return hitbtc.getTrades(
+        HitbtcAdapters.adaptCurrencyPair(currencyPair),
+        sortDirection.toString(),
+        sortBy.toString(),
+        String.valueOf(from),
+        maxResults);
+  }
+
   public List<HitbtcCandle> getHitbtcCandles(CurrencyPair currencyPair, int limit, String period)
       throws IOException {
 

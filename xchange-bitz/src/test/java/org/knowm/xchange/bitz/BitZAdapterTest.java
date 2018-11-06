@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
-import org.knowm.xchange.bitz.BitZAdapters;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTickerResult;
 import org.knowm.xchange.bitz.dto.marketdata.result.BitZTradesResult;

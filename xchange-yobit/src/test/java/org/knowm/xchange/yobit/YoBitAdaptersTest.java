@@ -2,7 +2,6 @@ package org.knowm.xchange.yobit;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;

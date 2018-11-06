@@ -1,6 +1,7 @@
 package org.knowm.xchange.acx.service.marketdata;
 
 import static org.knowm.xchange.acx.utils.AcxUtils.getAcxMarket;
+
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.acx.AcxApi;
