@@ -24,6 +24,10 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
+    final Map userInfo = exmo.userInfo(signatureCreator, apiKey, exchange.getNonceFactory());
+    if (userInfo.get("uid") != null) {
+      return new AccountInfo(userInfo.get("uid").toString(), new Wallet(balances()));
+    }
     return new AccountInfo(new Wallet(balances()));
   }
 
