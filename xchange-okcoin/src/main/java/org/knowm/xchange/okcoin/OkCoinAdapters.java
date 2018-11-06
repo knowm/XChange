@@ -33,7 +33,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -146,10 +145,9 @@ public final class OkCoinAdapters {
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
-    OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
-    OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
-    OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
-    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
+    OkcoinFuturesFundsCross btcFunds = futureUserInfo.getFunds(Currency.BTC);
+    OkcoinFuturesFundsCross ltcFunds = futureUserInfo.getFunds(Currency.LTC);
+    OkcoinFuturesFundsCross bchFunds = futureUserInfo.getFunds(Currency.BCH);
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
