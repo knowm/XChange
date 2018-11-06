@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -26,7 +25,6 @@ import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Exchange {
