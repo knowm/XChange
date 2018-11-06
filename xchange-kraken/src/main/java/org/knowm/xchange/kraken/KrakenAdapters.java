@@ -378,7 +378,7 @@ public class KrakenAdapters {
         resultQuantity = makerFeeData.getVolume();
         makerFeeIdx++;
       } else { // makerVolCompTakerVol == 0 && makerFeeIdx < makerFees.size() && takerFeeIdx <
-               // takerFees.size()
+        // takerFees.size()
         KrakenFee makerFeeData = makerFees.get(curMakerIdx);
         resultMakerFee = makerFeeData.getPercentFee();
         resultTakerFee = takerFees.get(curTakerIdx).getPercentFee();
