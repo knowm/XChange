@@ -22,6 +22,10 @@ public class BitmexManualExample {
 
         final BitmexStreamingMarketDataService streamingMarketDataService = (BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService();
 
+        streamingMarketDataService.getIndex(CurrencyPair.XBT_USD).subscribe(order -> {
+            LOG.info("XBT Index: {}", order);
+        });
+
         CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
         streamingMarketDataService.getOrderBook(xbtUsd).subscribe(orderBook -> {
             LOG.info("First ask: {}", orderBook.getAsks().get(0));

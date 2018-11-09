@@ -12,6 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,11 +85,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         });
     }
 
-    @Override
-    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
-        String channelName = String.format("trade:%s", instrument);
-
+    public Observable<Trade> _getTrades(String channelName) {
         return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
             BitmexTrade[] bitmexTrades = s.toBitmexTrades();
             List<Trade> trades = new ArrayList<>(bitmexTrades.length);
@@ -97,6 +94,26 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             }
             return trades;
         });
+    }
+
+    @Override
+    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+        String instrument = getBitmexSymbol(currencyPair, args);
+        String channelName = String.format("trade:%s", instrument);
+
+        return _getTrades(channelName);
+    }
+
+    public Observable<Trade> getIndex(CurrencyPair currencyPair, Object... args) {
+        String instrument;
+        if (currencyPair == CurrencyPair.XBT_USD) {
+            instrument = ".BXBT";
+        } else {
+            throw new NotYetImplementedForExchangeException("Not implemented");
+        }
+        String channelName = String.format("trade:%s", instrument);
+
+        return _getTrades(channelName);
     }
 
 }
