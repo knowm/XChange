@@ -13,4 +13,9 @@ public class OkExStreamingExchange extends OkCoinStreamingExchange {
     public OkExStreamingExchange(String apiUrl) {
         super(new OkCoinStreamingService(apiUrl));
     }
+
+    @Override
+    protected void initServices() {
+        super.initServices();
+    }
 }
