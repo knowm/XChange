@@ -221,9 +221,9 @@ public abstract class NettyStreamingService<T> {
             if(f.isSuccess()) {
                 isManualDisconnect = false;
             }
+            // shutdown sockets after disconnect for avoiding sockets leak
+            eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS);
         });
-        // shutdown sockets after disconnect for avoiding sockets leak
-        eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS);
         completable.onError(t);
     }
 
