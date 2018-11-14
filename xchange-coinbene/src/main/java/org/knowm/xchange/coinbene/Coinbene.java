@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrades;
 
@@ -45,4 +46,9 @@ public interface Coinbene {
   @Path("market/trades")
   CoinbeneTrades trades(@QueryParam("symbol") String symbol, @QueryParam("size") Integer size)
       throws IOException, CoinbeneException;
+
+  /** Retrieves trade symbols */
+  @GET
+  @Path("market/symbol")
+  CoinbeneSymbol.Container symbol() throws IOException, CoinbeneException;
 }
