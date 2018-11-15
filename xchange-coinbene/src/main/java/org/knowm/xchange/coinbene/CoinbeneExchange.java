@@ -48,10 +48,6 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    try {
       exchangeMetaData = ((CoinbeneMarketDataService) marketDataService).getMetadata();
-    } catch (IOException e) {
-      throw new IOException("Retrieving MetaData for Coinbene failed", e);
-    }
   }
 }
