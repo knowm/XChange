@@ -7,6 +7,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbene.service.CoinbeneAccountService;
 import org.knowm.xchange.coinbene.service.CoinbeneMarketDataService;
 import org.knowm.xchange.coinbene.service.CoinbeneTradeService;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +30,7 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.coinbene.com/");
     exchangeSpecification.setHost("coinbene.com");
     exchangeSpecification.setPort(80);
@@ -46,12 +46,12 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void remoteInit() {
+  public void remoteInit() throws IOException, ExchangeException {
 
     try {
       exchangeMetaData = ((CoinbeneMarketDataService) marketDataService).getMetadata();
     } catch (IOException e) {
-      LOG.error("Retrieving MetaData for Coinbene failed", e);
+      throw new IOException("Retrieving MetaData for Coinbene failed", e);
     }
   }
 }
