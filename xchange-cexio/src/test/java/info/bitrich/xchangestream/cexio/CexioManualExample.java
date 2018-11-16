@@ -37,6 +37,8 @@ public class CexioManualExample {
             Thread.sleep(10_000);
         } catch (InterruptedException ignored) {
         }
+
+        exchange.disconnect().blockingAwait();
     }
 
 }
