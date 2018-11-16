@@ -88,7 +88,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
                 subscribedChannels.remove(channelId);
             } else if (event.textValue().equals(ERROR)) {
                 if (message.get("code").asInt() == SUBSCRIPTION_FAILED) {
-                    LOG.error("Error with message: " + message.get("msg"));
+                    LOG.error("Error with message: " + message.get("symbol") + " " + message.get("msg"));
                     return;
                 }
                 super.handleError(message, new ExchangeException("Error code: " + message.get("code").asText()));
