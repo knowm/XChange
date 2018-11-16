@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -42,8 +43,8 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
     private Map<CurrencyPair, Integer> getCurrencyPairMap() {
         Map<CurrencyPair, Integer> currencyPairMap = new HashMap<>();
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
         try {
             URL tickerUrl = new URL(TICKER_URL);
             JsonNode jsonRootTickers = mapper.readTree(tickerUrl);

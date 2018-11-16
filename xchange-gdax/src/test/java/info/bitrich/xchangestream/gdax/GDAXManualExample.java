@@ -36,5 +36,7 @@ public class GDAXManualExample {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        exchange.disconnect().blockingAwait();
     }
 }

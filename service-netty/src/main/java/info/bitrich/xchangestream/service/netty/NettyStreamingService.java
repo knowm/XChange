@@ -5,9 +5,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,15 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.proxy.Socks5ProxyHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import io.netty.util.internal.SocketUtils;
 import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
@@ -61,12 +69,22 @@ public abstract class NettyStreamingService<T> {
     private final int maxFramePayloadLength;
     private final URI uri;
     private boolean isManualDisconnect = false;
+    private boolean connectedSuccessfully = false;
     private Channel webSocketChannel;
     private Duration retryDuration;
     private Duration connectionTimeout;
-    private final NioEventLoopGroup eventLoopGroup;
+    private volatile NioEventLoopGroup eventLoopGroup;
     protected Map<String, Subscription> channels = new ConcurrentHashMap<>();
     private boolean compressedMessages = false;
+    private final List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
+    private final List<ObservableEmitter<Object>> connectionSuccessEmitters = new LinkedList<>();
+
+    //debugging
+    private boolean acceptAllCertificates = false;
+    private boolean enableLoggingHandler = false;
+    private LogLevel loggingHandlerLevel = LogLevel.DEBUG;
+    private String socksProxyHost;
+    private Integer socksProxyPort;
 
     public NettyStreamingService(String apiUrl) {
         this(apiUrl, 65536);
@@ -82,7 +100,6 @@ public abstract class NettyStreamingService<T> {
             this.retryDuration = retryDuration;
             this.connectionTimeout = connectionTimeout;
             this.uri = new URI(apiUrl);
-            this.eventLoopGroup = new NioEventLoopGroup();
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Error parsing URI " + apiUrl, e);
         }
@@ -91,7 +108,8 @@ public abstract class NettyStreamingService<T> {
     public Completable connect() {
         return Completable.create(completable -> {
             try {
-                LOG.info("Connecting to {}://{}:{}{}", uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath());
+
+                LOG.info("Connecting to {}", uri.toString());
                 String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
                 String host = uri.getHost();
@@ -119,16 +137,21 @@ public abstract class NettyStreamingService<T> {
                 final boolean ssl = "wss".equalsIgnoreCase(scheme);
                 final SslContext sslCtx;
                 if (ssl) {
-                    sslCtx = SslContextBuilder.forClient().build();
+                    SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
+                    if (acceptAllCertificates) {
+                        sslContextBuilder = sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+                    }
+                    sslCtx = sslContextBuilder.build();
                 } else {
                     sslCtx = null;
                 }
 
                 final WebSocketClientHandler handler = getWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(
-                        uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders(), maxFramePayloadLength),
+                        uri, WebSocketVersion.V13, null, true, getCustomHeaders(), maxFramePayloadLength),
                         this::messageHandler);
 
                 Bootstrap b = new Bootstrap();
+                eventLoopGroup = new NioEventLoopGroup(2);
                 b.group(eventLoopGroup)
                         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, java.lang.Math.toIntExact(connectionTimeout.toMillis()))
                         .channel(NioSocketChannel.class)
@@ -136,6 +159,10 @@ public abstract class NettyStreamingService<T> {
                             @Override
                             protected void initChannel(SocketChannel ch) {
                                 ChannelPipeline p = ch.pipeline();
+
+                                if (socksProxyHost != null) {
+                                    p.addLast(new Socks5ProxyHandler(SocketUtils.socketAddress(socksProxyHost, socksProxyPort)));
+                                }
                                 if (sslCtx != null) {
                                     p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
                                 }
@@ -143,15 +170,17 @@ public abstract class NettyStreamingService<T> {
                                 WebSocketClientExtensionHandler clientExtensionHandler = getWebSocketClientExtensionHandler();
                                 List<ChannelHandler> handlers = new ArrayList<>(4);
                                 handlers.add(new HttpClientCodec());
+
+                                if (enableLoggingHandler) handlers.add(new LoggingHandler(loggingHandlerLevel));
                                 if (compressedMessages) handlers.add(WebSocketClientCompressionHandler.INSTANCE);
                                 handlers.add(new HttpObjectAggregator(8192));
-                                
+
                                 if (clientExtensionHandler != null) {
                                   handlers.add(clientExtensionHandler);
                                 }
-                                
+
                                 handlers.add(handler);
-                                p.addLast(handlers.toArray(new ChannelHandler[handlers.size()]));
+                                p.addLast(handlers.toArray(new ChannelHandler[0]));
                             }
                         });
 
@@ -162,29 +191,63 @@ public abstract class NettyStreamingService<T> {
                             if (f.isSuccess()) {
                                 completable.onComplete();
                             } else {
-                                completable.onError(f.cause());
+                                handleError(completable, f.cause());
                             }
                         });
                     } else {
-                        completable.onError(future.cause());
+                        handleError(completable, future.cause());
                     }
 
                 });
             } catch (Exception throwable) {
-                completable.onError(throwable);
+                handleError(completable, throwable);
             }
+        }).doOnError(t -> {
+            LOG.warn("Problem with connection", t);
+            reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
+        }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
+          .doOnComplete(() -> {
+            connectedSuccessfully = true;
+            LOG.warn("Resubscribing channels");
+            resubscribeChannels();
+
+            connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
         });
+    }
+
+    protected void handleError(CompletableEmitter completable, Throwable t) {
+        isManualDisconnect = true;
+        ChannelFuture disconnect = webSocketChannel.disconnect();
+        disconnect.addListener(f -> {
+            if(f.isSuccess()) {
+                isManualDisconnect = false;
+            }
+            // shutdown sockets after disconnect for avoiding sockets leak
+            eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS);
+        });
+        completable.onError(t);
+    }
+
+    protected DefaultHttpHeaders getCustomHeaders() {
+        return new DefaultHttpHeaders();
     }
 
     public Completable disconnect() {
         isManualDisconnect = true;
+        connectedSuccessfully = false;
         return Completable.create(completable -> {
             if (webSocketChannel.isOpen()) {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
                 webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
                     channels = new ConcurrentHashMap<>();
-                    completable.onComplete();
+                    eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> {
+                      LOG.info("Disconnected");
+                      completable.onComplete();
+                    });
                 });
+            } else {
+              LOG.warn("Disconnect called but already disconnected");
+              completable.onComplete();
             }
         });
     }
@@ -223,6 +286,14 @@ public abstract class NettyStreamingService<T> {
             WebSocketFrame frame = new TextWebSocketFrame(message);
             webSocketChannel.writeAndFlush(frame);
         }
+    }
+
+    public Observable<Throwable> subscribeReconnectFailure() {
+        return Observable.create(reconnFailEmitters::add);
+    }
+
+    public Observable<Object> subscribeConnectionSuccess() {
+        return Observable.create(connectionSuccessEmitters::add);
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
@@ -285,7 +356,12 @@ public abstract class NettyStreamingService<T> {
 
 
     protected void handleChannelMessage(String channel, T message) {
-        ObservableEmitter<T> emitter = channels.get(channel).emitter;
+        NettyStreamingService<T>.Subscription subscription = channels.get(channel);
+        if (subscription == null) {
+            LOG.debug("Channel has been closed {}.", channel);
+            return;
+        }
+        ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
@@ -295,11 +371,12 @@ public abstract class NettyStreamingService<T> {
     }
 
     protected void handleChannelError(String channel, Throwable t) {
-        if (!channel.contains(channel)) {
-            LOG.error("Unexpected channel's error: {}, {}.", channel, t);
+        NettyStreamingService<T>.Subscription subscription = channels.get(channel);
+        if (subscription == null) {
+            LOG.debug("Channel {} has been closed.", channel);
             return;
         }
-        ObservableEmitter<T> emitter = channels.get(channel).emitter;
+        ObservableEmitter<T> emitter = subscription.emitter;
         if (emitter == null) {
             LOG.debug("No subscriber for channel {}.", channel);
             return;
@@ -328,15 +405,10 @@ public abstract class NettyStreamingService<T> {
                 isManualDisconnect = false;
             } else {
                 super.channelInactive(ctx);
-                LOG.info("Reopening websocket because it was closed by the host");
-                final Completable c = connect()
-                        .doOnError(t -> LOG.warn("Problem with reconnect", t))
-                        .retryWhen(new RetryWithDelay(retryDuration.toMillis()))
-                        .doOnComplete(() -> {
-                            LOG.info("Resubscribing channels");
-                            resubscribeChannels();
-                        });
-                c.subscribe();
+                if (connectedSuccessfully) {
+                    LOG.info("Reopening websocket because it was closed by the host");
+                    eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> connect().subscribe());
+                }
             }
         }
     }
@@ -346,4 +418,26 @@ public abstract class NettyStreamingService<T> {
     }
 
     public void useCompressedMessages(boolean compressedMessages) { this.compressedMessages = compressedMessages; }
+
+    public void setAcceptAllCertificates(boolean acceptAllCertificates) {
+        this.acceptAllCertificates = acceptAllCertificates;
+}
+
+    public void setEnableLoggingHandler(boolean enableLoggingHandler) {
+        this.enableLoggingHandler = enableLoggingHandler;
+    }
+
+    public void setLoggingHandlerLevel(LogLevel loggingHandlerLevel) {
+        this.loggingHandlerLevel = loggingHandlerLevel;
+    }
+
+    public void setSocksProxyHost(String socksProxyHost) {
+        this.socksProxyHost = socksProxyHost;
+    }
+
+    public void setSocksProxyPort(Integer socksProxyPort) {
+        this.socksProxyPort = socksProxyPort;
+    }
+
+
 }

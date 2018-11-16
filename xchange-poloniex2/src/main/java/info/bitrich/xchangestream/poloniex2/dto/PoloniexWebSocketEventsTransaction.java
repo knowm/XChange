@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -23,8 +24,7 @@ public class PoloniexWebSocketEventsTransaction {
     public JsonNode[] jsonEvents;
 
     public PoloniexWebSocketEvent[] getEvents() {
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         List<PoloniexWebSocketEvent> events = new ArrayList<>(jsonEvents.length);
         for (JsonNode jsonNode : jsonEvents) {
