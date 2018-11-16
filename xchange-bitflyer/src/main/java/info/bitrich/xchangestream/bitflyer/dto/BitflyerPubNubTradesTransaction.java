@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.bitflyer.dto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,12 +14,10 @@ import java.util.List;
  */
 public class BitflyerPubNubTradesTransaction {
     private final JsonNode jsonTrades;
-    private final ObjectMapper mapper;
+    private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     public BitflyerPubNubTradesTransaction(JsonNode jsonTrades) {
         this.jsonTrades = jsonTrades;
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public JsonNode getJsonTrades() {
@@ -31,7 +30,7 @@ public class BitflyerPubNubTradesTransaction {
             for (JsonNode jsonTrade : jsonTrades) {
                 BitflyerTrade trade = null;
                 try {
-                    trade = mapper.readValue(jsonTrade.toString(), BitflyerTrade.class);
+                    trade = mapper.treeToValue(jsonTrade, BitflyerTrade.class);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -25,8 +25,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         public void onMessage(String message);
     }
 
-    private final WebSocketClientHandshaker handshaker;
-    private final WebSocketMessageHandler handler;
+    protected final WebSocketClientHandshaker handshaker;
+    protected final WebSocketMessageHandler handler;
     private ChannelPromise handshakeFuture;
 
     public WebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
@@ -59,8 +59,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         if (!handshaker.isHandshakeComplete()) {
             try {
                 handshaker.finishHandshake(ch, (FullHttpResponse)msg);
-            LOG.info("WebSocket Client connected!");
-            handshakeFuture.setSuccess();
+                LOG.info("WebSocket Client connected!");
+                handshakeFuture.setSuccess();
             }
             catch (WebSocketHandshakeException e) {
                 LOG.error("WebSocket Client failed to connect. {}", e.getMessage());

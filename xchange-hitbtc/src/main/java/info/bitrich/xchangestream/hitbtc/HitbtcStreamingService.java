@@ -41,14 +41,10 @@ public class HitbtcStreamingService extends JsonNettyStreamingService {
      * Map request Id to Chanel Name and HitBTC method pair
      */
     private final Map<Integer, Pair <String, String>> requests = new HashMap<>();
-    private final ObjectMapper objectMapper;
 
 
     public HitbtcStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
-
-        objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override

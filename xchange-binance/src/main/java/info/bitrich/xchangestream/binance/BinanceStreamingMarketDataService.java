@@ -11,6 +11,7 @@ import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -46,13 +47,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions = new HashMap<>();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
 
     public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService) {
         this.service = service;
         this.marketDataService = marketDataService;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -172,9 +172,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
         // 2. Buffer the events you receive from the stream.
         subscription.stream = service.subscribeChannel(channelFromCurrency(currencyPair, "depth"))
-            .map((JsonNode s) -> depthTransaction(s.toString()))
-            .filter(transaction ->
-                    transaction.getData().getCurrencyPair().equals(currencyPair) &&
+                .map((JsonNode s) -> depthTransaction(s.toString()))
+                .filter(transaction ->
+                        transaction.getData().getCurrencyPair().equals(currencyPair) &&
                                 transaction.getData().getEventType() == DEPTH_UPDATE);
 
 

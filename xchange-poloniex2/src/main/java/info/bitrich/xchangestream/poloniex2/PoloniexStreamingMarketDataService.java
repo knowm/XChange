@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.poloniex2.dto.*;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -60,8 +61,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         int currencyPairId = currencyPairMap.getOrDefault(currencyPair, 0);
         Observable<PoloniexWebSocketTickerTransaction> subscribedChannel = service.subscribeChannel("1002")
