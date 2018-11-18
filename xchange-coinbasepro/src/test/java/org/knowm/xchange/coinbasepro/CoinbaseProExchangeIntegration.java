@@ -73,8 +73,5 @@ public class CoinbaseProExchangeIntegration {
     Assert.assertNotNull(exchangeMetaData);
     Assert.assertNotNull(exchangeMetaData.getCurrencies());
     Assert.assertNotNull("USDC is not defined", exchangeMetaData.getCurrencies().get(new Currency("USDC")));
-
-
-
   }
 }
