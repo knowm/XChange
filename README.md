@@ -114,6 +114,11 @@ GDAX authenticated live updates are not yet supported, hopefully it will be adde
 
 If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty. 
  
+## Open Source Projects Using XChange-Stream
+
+This is an, not so complete, list of projects that use XChange-Stream, feel free to add your project below.
+- [XChange-Trade-Bot](https://github.com/yurivin/xchange-trade-bot) by yurivin
+- [Crypto Websockets](https://github.com/firepol/crypto-websockets) by firepol
 
 ## License
 Copyright 2017 Zdenek Dolezal, Michal Oprendek
