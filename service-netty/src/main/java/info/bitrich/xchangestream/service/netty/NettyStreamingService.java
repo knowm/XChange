@@ -180,7 +180,7 @@ public abstract class NettyStreamingService<T> {
                                 }
 
                                 handlers.add(handler);
-                                p.addLast(handlers.toArray(new ChannelHandler[handlers.size()]));
+                                p.addLast(handlers.toArray(new ChannelHandler[0]));
                             }
                         });
 
@@ -211,11 +211,7 @@ public abstract class NettyStreamingService<T> {
             LOG.warn("Resubscribing channels");
             resubscribeChannels();
 
-            connectionSuccessEmitters.forEach(emitter -> {
-                    emitter.onNext(new Object());
-                }
-            );
-
+            connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
         });
     }
 
@@ -226,6 +222,8 @@ public abstract class NettyStreamingService<T> {
             if(f.isSuccess()) {
                 isManualDisconnect = false;
             }
+            // shutdown sockets after disconnect for avoiding sockets leak
+            eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS);
         });
         completable.onError(t);
     }
@@ -291,11 +289,11 @@ public abstract class NettyStreamingService<T> {
     }
 
     public Observable<Throwable> subscribeReconnectFailure() {
-        return Observable.<Throwable>create(observableEmitter -> reconnFailEmitters.add(observableEmitter));
+        return Observable.create(reconnFailEmitters::add);
     }
 
     public Observable<Object> subscribeConnectionSuccess() {
-        return Observable.<Object>create(e -> connectionSuccessEmitters.add(e));
+        return Observable.create(connectionSuccessEmitters::add);
     }
 
     public Observable<T> subscribeChannel(String channelName, Object... args) {
