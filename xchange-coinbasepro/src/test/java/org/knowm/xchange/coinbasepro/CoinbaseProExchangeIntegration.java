@@ -9,8 +9,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataServiceRaw;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoinbaseProExchangeIntegration {
@@ -60,5 +62,16 @@ public class CoinbaseProExchangeIntegration {
 
     Trades trades3 = marketDataService.getTrades(currencyPair, new Long(0), new Long(1005));
     assertEquals("Unexpected trades list length (100)", 1004, trades3.getTrades().size());
+  }
+
+  @Test
+  public void testExchangeMetaData() {
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+
+    ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
+
+    Assert.assertNotNull(exchangeMetaData);
+    Assert.assertNotNull(exchangeMetaData.getCurrencies());
+    Assert.assertNotNull("USDC is not defined", exchangeMetaData.getCurrencies().get(new Currency("USDC")));
   }
 }
