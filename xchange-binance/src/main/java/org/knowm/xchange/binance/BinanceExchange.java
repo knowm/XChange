@@ -81,6 +81,11 @@ public class BinanceExchange extends BaseExchange {
 
       for (Symbol symbol : exchangeInfo.getSymbols()) {
 
+        //hardcode, update lib version from head repository
+        if (!"TRADING".equals(symbol.getStatus())) {
+          continue;
+        }
+
         CurrencyPair pair = new CurrencyPair(symbol.getBaseAsset(), symbol.getQuoteAsset());
         // defaults
         BigDecimal tradingFee = BigDecimal.ZERO;
