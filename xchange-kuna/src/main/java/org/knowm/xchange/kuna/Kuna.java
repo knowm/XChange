@@ -9,32 +9,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kuna.dto.KunaAskBid;
+import org.knowm.xchange.kuna.dto.KunaDepthDto;
 import org.knowm.xchange.kuna.dto.KunaException;
 import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
 
-/** @author Dat Bui */
+/**
+ * @author Dat Bui
+ * @author Roman Dovgan
+ */
 @Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Kuna {
 
-  /**
-   * Returns current server timestamp.
-   *
-   * @return timestamp
-   * @throws IOException
-   */
+  /** Returns current server timestamp. */
   @GET
   @Path("timestamp")
   Long getTimestamp() throws IOException;
 
-  /**
-   * Returns available tickers.
-   *
-   * @return tickers
-   * @throws IOException
-   * @throws KunaException
-   */
+  /** Returns available tickers. */
   @GET
   @Path("tickers")
   Map<String, KunaTimeTicker> getTickers() throws IOException, KunaException;
@@ -44,30 +37,26 @@ public interface Kuna {
    *
    * @param pair currency pair
    * @return ticker with timestamp
-   * @throws IOException
-   * @throws KunaException
    */
   @GET
   @Path("tickers/{pair}")
   KunaTimeTicker getTicker(@PathParam("pair") String pair) throws IOException, KunaException;
 
-  /**
-   * @param pair
-   * @return
-   * @throws IOException
-   * @throws KunaException
-   */
+  /** Returns order list */
   @GET
   @Path("order_book")
   KunaAskBid getOrders(@QueryParam("market") String pair) throws IOException, KunaException;
+
+  /** Returns depth list */
+  @GET
+  @Path("depth")
+  KunaDepthDto getDepth(@QueryParam("market") String pair) throws IOException, KunaException;
 
   /**
    * Returns trading history
    *
    * @param pair instrument
    * @return trade list
-   * @throws IOException
-   * @throws KunaException
    */
   @GET
   @Path("trades")

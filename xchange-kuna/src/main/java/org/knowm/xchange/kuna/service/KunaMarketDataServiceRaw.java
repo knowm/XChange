@@ -6,7 +6,9 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kuna.dto.KunaAccountDto;
 import org.knowm.xchange.kuna.dto.KunaAskBid;
+import org.knowm.xchange.kuna.dto.KunaDepthDto;
 import org.knowm.xchange.kuna.dto.KunaException;
 import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
@@ -43,6 +45,14 @@ public class KunaMarketDataServiceRaw extends KunaBaseService {
     return tickers;
   }
 
+  public KunaAccountDto getAccountInfo() throws IOException {
+    return getKunaAuthenticated()
+        .getAccountInfo(
+            exchange.getNonceFactory(),
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator);
+  }
+
   public KunaAskBid getKunaOrderBook(CurrencyPair pair) throws IOException {
     KunaAskBid askBid;
     try {
@@ -51,6 +61,16 @@ public class KunaMarketDataServiceRaw extends KunaBaseService {
       throw new ExchangeException(e.getMessage());
     }
     return askBid;
+  }
+
+  public KunaDepthDto getKunaDepthList(CurrencyPair pair) throws IOException {
+    KunaDepthDto depthList;
+    try {
+      depthList = getKuna().getDepth(KunaUtils.toPairString(pair));
+    } catch (KunaException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+    return depthList;
   }
 
   public KunaTrade[] getKunaTradesHistory(CurrencyPair pair) throws IOException {
