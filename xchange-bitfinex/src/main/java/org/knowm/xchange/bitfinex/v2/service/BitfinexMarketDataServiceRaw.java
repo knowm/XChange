@@ -6,9 +6,11 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v2.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.CandleInterval;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.HttpStatusIOException;
@@ -46,6 +48,27 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       return bitfinex.getPublicTrades(
           "t" + currencyPair.base.toString() + currencyPair.counter.toString(),
           limitTrades,
+          startTimestamp,
+          endTimestamp,
+          sort);
+    } catch (HttpStatusIOException e) {
+      throw handleException(new BitfinexException(e.getHttpBody()));
+    }
+  }
+
+  public BitfinexCandle[] getBitfinexCandles(
+      CandleInterval candleInterval,
+      CurrencyPair currencyPair,
+      int limitCandles,
+      long startTimestamp,
+      long endTimestamp,
+      int sort)
+      throws IOException {
+    try {
+      return bitfinex.getCandles(
+          candleInterval.getCode(),
+          "t" + currencyPair.base.toString() + currencyPair.counter.toString(),
+          limitCandles,
           startTimestamp,
           endTimestamp,
           sort);

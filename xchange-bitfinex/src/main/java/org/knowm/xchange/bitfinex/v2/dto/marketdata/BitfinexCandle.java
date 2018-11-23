@@ -4,18 +4,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-public class BitfinexPublicTrade {
+public class BitfinexCandle {
 
-	private long timestamp;
-	private BigDecimal open;
-	private BigDecimal close;
-	private BigDecimal high;
-	private BigDecimal low;
-	private BigDecimal volume;
+  private long timestamp;
+  private BigDecimal open;
+  private BigDecimal close;
+  private BigDecimal high;
+  private BigDecimal low;
+  private BigDecimal volume;
 
-	public BitfinexCandle() {}
+  public BitfinexCandle() {}
 
-	public BitfinexCandle(long timestamp, BigDecimal open, BigDecimal close, BigDecimal high, BigDecimal low, BigDecimal volume) {
+  public BitfinexCandle(
+      long timestamp,
+      BigDecimal open,
+      BigDecimal close,
+      BigDecimal high,
+      BigDecimal low,
+      BigDecimal volume) {
 
     this.timestamp = timestamp;
     this.open = open;
@@ -23,55 +29,54 @@ public class BitfinexPublicTrade {
     this.high = high;
     this.low = low;
     this.volume = volume;
-    
   }
 
-	public long getTimestamp() {
+  public long getTimestamp() {
 
-		return timestamp;
-	}
+    return timestamp;
+  }
 
-	public BigDecimal getOpen() {
+  public BigDecimal getOpen() {
 
-		return open;
-	}
+    return open;
+  }
 
-	public BigDecimal getClose() {
+  public BigDecimal getClose() {
 
-		return close;
-	}
+    return close;
+  }
 
-	public BigDecimal getHigh() {
+  public BigDecimal getHigh() {
 
-		return high;
-	}
+    return high;
+  }
 
-	public BigDecimal getLow() {
+  public BigDecimal getLow() {
 
-		return low;
-	}
+    return low;
+  }
 
-	public BigDecimal getVolume() {
+  public BigDecimal getVolume() {
 
-		return volume;
-	}
+    return volume;
+  }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BitfinexCandle [timestamp=");
-		builder.append(timestamp);
-		builder.append(", open=");
-		builder.append(open);
-		builder.append(", close=");
-		builder.append(close);
-		builder.append(", high=");
-		builder.append(high);
-		builder.append(", low=");
-		builder.append(low);
-		builder.append(", volume=");
-		builder.append(volume);
-		builder.append("]");
-		return builder.toString();
-	}
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("BitfinexCandle [timestamp=");
+    builder.append(timestamp);
+    builder.append(", open=");
+    builder.append(open);
+    builder.append(", close=");
+    builder.append(close);
+    builder.append(", high=");
+    builder.append(high);
+    builder.append(", low=");
+    builder.append(low);
+    builder.append(", volume=");
+    builder.append(volume);
+    builder.append("]");
+    return builder.toString();
+  }
 }
