@@ -10,21 +10,18 @@ import org.knowm.xchange.bankera.BankeraExchange;
 
 public class BankeraStreamingExchange extends BankeraExchange implements StreamingExchange {
 
-	private static final String WS_URI = "wss://api-dev.bankera.com/ws";
+	private static final String WS_URI = "wss://frontendapi-dev.bankera.com/ws";
 	private BankeraStreamingService streamingService;
 	private BankeraStreamingMarketDataService streamingMarketDataService;
 
-	public BankeraStreamingExchange() {}
+	public BankeraStreamingExchange() {
+    this.streamingService = new BankeraStreamingService(WS_URI);
+  }
 
 	@Override
 	protected void initServices() {
 		super.initServices();
-	}
-
-	private BankeraStreamingService createStreamingService() {
-		streamingService = new BankeraStreamingService(WS_URI);
-		applyStreamingSpecification(getExchangeSpecification(), streamingService);
-		return streamingService;
+		streamingMarketDataService = new BankeraStreamingMarketDataService(streamingService);
 	}
 
 	@Override
