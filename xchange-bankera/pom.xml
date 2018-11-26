@@ -33,9 +33,9 @@
             <version>${xchange.version}</version>
         </dependency>-->
         <dependency>
-            <groupId>com.github.MrNomNom</groupId>
-            <artifactId>XChange</artifactId>
-            <version>bankera-implementation-SNAPSHOT</version>
+            <groupId>com.github.MrNomNom.XChange</groupId>
+            <artifactId>xchange-bankera</artifactId>
+            <version>06574e59ae</version>
         </dependency>
     </dependencies>
 </project>
