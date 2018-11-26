@@ -14,11 +14,17 @@ public class BankeraManualExample {
             .createExchange(BankeraStreamingExchange.class.getName());
 
         exchange.connect().blockingAwait();
-        exchange.getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.ETH_BTC)
-            .subscribe(orderBook -> {
-              LOGGER.debug("ORDERBOOK: {}", orderBook.toString());
-        }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
+      exchange.getStreamingMarketDataService()
+          .getOrderBook(CurrencyPair.ETH_BTC)
+          .subscribe(orderBook -> {
+            LOGGER.debug("ORDERBOOK: {}", orderBook.toString());
+          }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
+
+      exchange.getStreamingMarketDataService()
+          .getTicker(CurrencyPair.ETH_BTC)
+          .subscribe(orderBook -> {
+            LOGGER.debug("TICKER: {}", orderBook.toString());
+          }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
 
       try {
         Thread.sleep(10000);

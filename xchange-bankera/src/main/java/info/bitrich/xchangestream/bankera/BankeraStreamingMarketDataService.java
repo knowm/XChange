@@ -4,9 +4,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.bankera.BankeraAdapters;
 import org.knowm.xchange.bankera.dto.BankeraException;
-import org.knowm.xchange.bankera.dto.marketdata.BankeraMarket;
-import org.knowm.xchange.bankera.dto.marketdata.BankeraMarketInfo;
-import org.knowm.xchange.bankera.dto.marketdata.BankeraOrderBook;
+import org.knowm.xchange.bankera.dto.marketdata.*;
 import org.knowm.xchange.bankera.service.BankeraMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -44,13 +42,18 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
               .forEach(b -> listAsks.add(new BankeraOrderBook.OrderBookOrder(
                   0, b.get("price").asText(), b.get("amount").asText())));
           return BankeraAdapters.adaptOrderBook(new BankeraOrderBook(listBids, listAsks), currencyPair);
-        }).share();
+        });
   }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-  //  Observable<JsonNode> jsonNodeObservable = service.subscribeChannel("tickerChannel");
-    return null;
+    BankeraMarket market = getMarketInfo(currencyPair);
+    return service.subscribeChannel("market-ohlcv-candle", market.getId())
+      .map(s -> {
+        return BankeraAdapters.adaptTicker(new BankeraTickerResponse(new BankeraTicker(
+            1, "1", "0.0001", "0.5", "0.6", "0.55", "4444", 546545L
+        )), currencyPair);
+      });
   }
 
   @Override
