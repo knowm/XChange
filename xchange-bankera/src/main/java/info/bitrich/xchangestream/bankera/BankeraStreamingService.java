@@ -18,19 +18,19 @@ public class BankeraStreamingService extends JsonNettyStreamingService {
 
 	@Override
 	protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-		LOGGER.debug("getChannelNameFromMessage: {}", message.toString());
+		System.out.println("getChannelNameFromMessage: {}");
 		return "market-orderbook";
 	}
 
 	@Override
 	public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-		LOGGER.debug("getSubscribeMessage: {}", channelName);
-		return null;
+    System.out.println(channelName);
+		return "{\"sss\":\"dasdsad\"}";
 	}
 
 	@Override
 	public String getUnsubscribeMessage(String channelName) throws IOException {
-		LOGGER.debug("getUnsubscribeMessage: {}", channelName);
+    System.out.println("getUnsubscribeMessage: {}");
 		return null;
 	}
 
