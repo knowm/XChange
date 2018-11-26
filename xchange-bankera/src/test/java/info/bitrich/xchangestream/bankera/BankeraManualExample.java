@@ -15,10 +15,9 @@ public class BankeraManualExample {
 
         exchange.connect().blockingAwait();
         exchange.getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USD)
+            .getOrderBook(CurrencyPair.ETH_BTC)
             .subscribe(orderBook -> {
-              LOGGER.info("First ask: {}", orderBook.getAsks().get(0));
-              LOGGER.info("First bid: {}", orderBook.getBids().get(0));
+              LOGGER.debug("ORDERBOOK: {}", orderBook.toString());
         }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
 
       try {
@@ -26,6 +25,7 @@ public class BankeraManualExample {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
+
       exchange.disconnect().subscribe(() -> LOGGER.info("Disconnected"));
 
     }

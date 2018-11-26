@@ -7,12 +7,14 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bankera.BankeraExchange;
+import org.knowm.xchange.bankera.service.BankeraMarketDataService;
+
 
 public class BankeraStreamingExchange extends BankeraExchange implements StreamingExchange {
 
 	private static final String WS_URI = "wss://frontendapi-dev.bankera.com/ws";
 	private BankeraStreamingService streamingService;
-	private BankeraStreamingMarketDataService streamingMarketDataService;
+  private BankeraStreamingMarketDataService streamingMarketDataService;
 
 	public BankeraStreamingExchange() {
     this.streamingService = new BankeraStreamingService(WS_URI);
@@ -21,7 +23,8 @@ public class BankeraStreamingExchange extends BankeraExchange implements Streami
 	@Override
 	protected void initServices() {
 		super.initServices();
-		streamingMarketDataService = new BankeraStreamingMarketDataService(streamingService);
+		streamingMarketDataService = new BankeraStreamingMarketDataService(
+		    streamingService, (BankeraMarketDataService) marketDataService);
 	}
 
 	@Override
