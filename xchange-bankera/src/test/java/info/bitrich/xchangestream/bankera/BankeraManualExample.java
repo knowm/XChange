@@ -2,12 +2,7 @@ package info.bitrich.xchangestream.bankera;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +14,7 @@ public class BankeraManualExample {
             .createExchange(BankeraStreamingExchange.class.getName());
 
         exchange.connect().blockingAwait();
-      Disposable orderBookObserver = exchange.getStreamingMarketDataService()
+        exchange.getStreamingMarketDataService()
             .getOrderBook(CurrencyPair.BTC_USD)
             .subscribe(orderBook -> {
               LOGGER.info("First ask: {}", orderBook.getAsks().get(0));
@@ -31,8 +26,6 @@ public class BankeraManualExample {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-
-      orderBookObserver.dispose();
       exchange.disconnect().subscribe(() -> LOGGER.info("Disconnected"));
 
     }
