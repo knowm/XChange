@@ -30,7 +30,7 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Mar
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    OERRates rates = getOERTicker();
+    OERRates rates = getOERTicker(currencyPair);
 
     // Use reflection to get at data.
     Method method = null;
