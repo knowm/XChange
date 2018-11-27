@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class BankeraStreamingService extends JsonNettyStreamingService {
 
-
 	public BankeraStreamingService(String uri) {
 		super(uri, Integer.MAX_VALUE);
 	}
