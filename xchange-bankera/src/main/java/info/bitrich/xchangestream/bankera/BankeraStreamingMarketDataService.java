@@ -11,8 +11,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -21,7 +19,6 @@ import java.util.*;
 
 public class BankeraStreamingMarketDataService implements StreamingMarketDataService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BankeraStreamingMarketDataService.class);
   private final BankeraStreamingService service;
   private final BankeraMarketDataService marketDataService;
 
