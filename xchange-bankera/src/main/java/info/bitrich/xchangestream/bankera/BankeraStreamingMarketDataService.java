@@ -7,6 +7,7 @@ import org.knowm.xchange.bankera.dto.BankeraException;
 import org.knowm.xchange.bankera.dto.marketdata.*;
 import org.knowm.xchange.bankera.service.BankeraMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -32,13 +34,13 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     BankeraMarket market = getMarketInfo(currencyPair);
     return service.subscribeChannel("market-orderbook", market.getId())
-        .map(s -> {
+        .map(o -> {
           List<BankeraOrderBook.OrderBookOrder> listBids = new ArrayList<>();
           List<BankeraOrderBook.OrderBookOrder> listAsks = new ArrayList<>();
-          s.get("data").get("buy")
+          o.get("data").get("buy")
               .forEach(b -> listBids.add(new BankeraOrderBook.OrderBookOrder(
                   0, b.get("price").asText(), b.get("amount").asText())));
-          s.get("data").get("sell")
+          o.get("data").get("sell")
               .forEach(b -> listAsks.add(new BankeraOrderBook.OrderBookOrder(
                   0, b.get("price").asText(), b.get("amount").asText())));
           return BankeraAdapters.adaptOrderBook(new BankeraOrderBook(listBids, listAsks), currencyPair);
@@ -49,17 +51,31 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     BankeraMarket market = getMarketInfo(currencyPair);
     return service.subscribeChannel("market-ohlcv-candle", market.getId())
-      .map(s -> {
-        return BankeraAdapters.adaptTicker(new BankeraTickerResponse(new BankeraTicker(
-            1, "1", "0.0001", "0.5", "0.6", "0.55", "4444", 546545L
-        )), currencyPair);
-      });
+      .map(t -> new Ticker.Builder()
+          .currencyPair(currencyPair)
+          .high(new BigDecimal(t.get("data").get("h").asText()))
+          .low(new BigDecimal(t.get("data").get("l").asText()))
+          .open(new BigDecimal(t.get("data").get("o").asText()))
+          .last(new BigDecimal(t.get("data").get("c").asText()))
+          .volume(new BigDecimal(t.get("data").get("v").asText()))
+          .timestamp(new Date(t.get("data").get("ts").asLong()))
+          .build()
+      );
   }
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-   // Observable<JsonNode> jsonNodeObservable = service.subscribeChannel("tradesChannel");
-    return null;
+    BankeraMarket market = getMarketInfo(currencyPair);
+    return service.subscribeChannel("market-trade", market.getId())
+      .map(t -> new Trade.Builder()
+          .currencyPair(currencyPair)
+          .id("-1")
+          .price(new BigDecimal(t.get("data").get("price").asText()))
+          .originalAmount(new BigDecimal(t.get("data").get("amount").asText()))
+          .timestamp(new Date(t.get("data").get("time").asLong()))
+          .type(t.get("data").get("side").asText().equals("SELL") ? Order.OrderType.ASK : Order.OrderType.BID)
+          .build()
+      );
   }
 
   private BankeraMarket getMarketInfo(CurrencyPair currencyPair) {

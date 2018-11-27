@@ -10,10 +10,10 @@ public class BankeraManualExample {
     private static final Logger LOGGER = LoggerFactory.getLogger(BankeraManualExample.class);
 
     public static void main(String[] args) {
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE
-            .createExchange(BankeraStreamingExchange.class.getName());
+      StreamingExchange exchange = StreamingExchangeFactory.INSTANCE
+          .createExchange(BankeraStreamingExchange.class.getName());
 
-        exchange.connect().blockingAwait();
+      exchange.connect().blockingAwait();
       exchange.getStreamingMarketDataService()
           .getOrderBook(CurrencyPair.ETH_BTC)
           .subscribe(orderBook -> {
@@ -22,12 +22,18 @@ public class BankeraManualExample {
 
       exchange.getStreamingMarketDataService()
           .getTicker(CurrencyPair.ETH_BTC)
-          .subscribe(orderBook -> {
-            LOGGER.debug("TICKER: {}", orderBook.toString());
-          }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
+          .subscribe(tick -> {
+            LOGGER.debug("TICKER: {}", tick.toString());
+          }, throwable -> LOGGER.error("ERROR in getting tick ", throwable));
+
+      exchange.getStreamingMarketDataService()
+          .getTrades(CurrencyPair.ETH_BTC)
+          .subscribe(trade -> {
+            LOGGER.debug("TRADES: {}", trade.toString());
+          }, throwable -> LOGGER.error("ERROR in getting trade ", throwable));
 
       try {
-        Thread.sleep(10000);
+        Thread.sleep(100000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
