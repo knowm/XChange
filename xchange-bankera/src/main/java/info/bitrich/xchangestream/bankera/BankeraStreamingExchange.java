@@ -12,7 +12,7 @@ import org.knowm.xchange.bankera.service.BankeraMarketDataService;
 
 public class BankeraStreamingExchange extends BankeraExchange implements StreamingExchange {
 
-	private static final String WS_URI = "wss://api-dev.bankera.com/ws";
+	private static final String WS_URI = "wss://api-pp.bankera.com/ws";
 	private BankeraStreamingService streamingService;
   private BankeraStreamingMarketDataService streamingMarketDataService;
 
