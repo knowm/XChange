@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -46,19 +47,9 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    BankeraMarket market = getMarketInfo(currencyPair);
-    return service.subscribeChannel("market-ohlcv-candle", market.getId())
-      .map(t -> new Ticker.Builder()
-          .currencyPair(currencyPair)
-          .high(new BigDecimal(t.get("data").get("h").asText()))
-          .low(new BigDecimal(t.get("data").get("l").asText()))
-          .open(new BigDecimal(t.get("data").get("o").asText()))
-          .last(new BigDecimal(t.get("data").get("c").asText()))
-          .volume(new BigDecimal(t.get("data").get("v").asText()))
-          .timestamp(new Date(t.get("data").get("ts").asLong()))
-          .build()
-      );
+    throw new NotAvailableFromExchangeException();
   }
+
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
