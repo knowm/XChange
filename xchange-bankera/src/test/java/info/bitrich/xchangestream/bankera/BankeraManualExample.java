@@ -16,24 +16,16 @@ public class BankeraManualExample {
       exchange.connect().blockingAwait();
       exchange.getStreamingMarketDataService()
           .getOrderBook(CurrencyPair.ETH_BTC)
-          .subscribe(orderBook -> {
-            LOGGER.debug("ORDERBOOK: {}", orderBook.toString());
-          }, throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
-
-      exchange.getStreamingMarketDataService()
-          .getTicker(CurrencyPair.ETH_BTC)
-          .subscribe(tick -> {
-            LOGGER.debug("TICKER: {}", tick.toString());
-          }, throwable -> LOGGER.error("ERROR in getting tick ", throwable));
+          .subscribe(orderBook -> LOGGER.debug("ORDERBOOK: {}", orderBook.toString()),
+              throwable -> LOGGER.error("ERROR in getting order book: ", throwable));
 
       exchange.getStreamingMarketDataService()
           .getTrades(CurrencyPair.ETH_BTC)
-          .subscribe(trade -> {
-            LOGGER.debug("TRADES: {}", trade.toString());
-          }, throwable -> LOGGER.error("ERROR in getting trade ", throwable));
+          .subscribe(trade ->LOGGER.debug("TRADES: {}", trade.toString()),
+              throwable -> LOGGER.error("ERROR in getting trade ", throwable));
 
       try {
-        Thread.sleep(100000);
+        Thread.sleep(10000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
