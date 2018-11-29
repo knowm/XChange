@@ -35,10 +35,10 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
         .map(o -> {
           List<BankeraOrderBook.OrderBookOrder> listBids = new ArrayList<>();
           List<BankeraOrderBook.OrderBookOrder> listAsks = new ArrayList<>();
-          o.get("data").get("buy")
+          o.get("data").get("bids")
               .forEach(b -> listBids.add(new BankeraOrderBook.OrderBookOrder(
                   0, b.get("price").asText(), b.get("amount").asText())));
-          o.get("data").get("sell")
+          o.get("data").get("asks")
               .forEach(b -> listAsks.add(new BankeraOrderBook.OrderBookOrder(
                   0, b.get("price").asText(), b.get("amount").asText())));
           return BankeraAdapters.adaptOrderBook(new BankeraOrderBook(listBids, listAsks), currencyPair);
