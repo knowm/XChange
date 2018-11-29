@@ -138,7 +138,8 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     try {
       return converter.apply(argStr);
     } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("Argument no " + index + " is not a number: " + argStr, e);
+      throw new IllegalArgumentException(
+          "Argument on index " + index + " is not a number: " + argStr, e);
     }
   }
 }

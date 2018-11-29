@@ -6,7 +6,9 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /** @author walec51 */
-public class BinanceErrorAdapter {
+public final class BinanceErrorAdapter {
+
+  private BinanceErrorAdapter() {}
 
   public static ExchangeException adapt(BinanceException e) {
     String message = e.getMessage();
