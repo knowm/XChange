@@ -47,10 +47,10 @@ public class KrakenExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-
     KrakenAssetPairs assetPairs =
         ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssetPairs();
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssets();
+    KrakenUtils.clearAssets();
     // other endpoints?
     // hard-coded meta data from json file not available at an endpoint?
     exchangeMetaData =
