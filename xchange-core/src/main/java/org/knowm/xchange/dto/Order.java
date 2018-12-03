@@ -329,7 +329,36 @@ public abstract class Order implements Serializable {
      * The exchange returned a state which is not in the exchange's API documentation. The state of
      * the order cannot be confirmed.
      */
-    UNKNOWN
+    UNKNOWN;
+	  
+	/** Returns true for final {@link OrderStatus} */
+	public boolean isFinal() {
+		switch(this) {
+		case FILLED:
+		case PARTIALLY_CANCELED: // Cancelled, partially-executed order is final status.
+		case CANCELED:
+		case REPLACED:
+		case STOPPED:
+		case REJECTED:
+		case EXPIRED:
+			return true;
+		default:
+			return false;	
+		}
+	}
+	
+	/** Returns true when open {@link OrderStatus} */
+	public boolean isOpen() {
+		switch(this) {
+		case PENDING_NEW:
+		case NEW:
+		case PARTIALLY_FILLED:
+			return true;
+		default:
+			return false;	
+		}
+	}
+	
   }
 
   public interface IOrderFlags {}
