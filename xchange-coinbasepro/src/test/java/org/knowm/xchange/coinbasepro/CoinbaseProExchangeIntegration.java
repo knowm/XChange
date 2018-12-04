@@ -66,12 +66,14 @@ public class CoinbaseProExchangeIntegration {
 
   @Test
   public void testExchangeMetaData() {
-    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
 
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
 
     Assert.assertNotNull(exchangeMetaData);
     Assert.assertNotNull(exchangeMetaData.getCurrencies());
-    Assert.assertNotNull("USDC is not defined", exchangeMetaData.getCurrencies().get(new Currency("USDC")));
+    Assert.assertNotNull(
+        "USDC is not defined", exchangeMetaData.getCurrencies().get(new Currency("USDC")));
   }
 }
