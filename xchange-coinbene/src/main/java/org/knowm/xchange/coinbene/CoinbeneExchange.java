@@ -30,7 +30,8 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.coinbene.com/");
     exchangeSpecification.setHost("coinbene.com");
     exchangeSpecification.setPort(80);
@@ -48,6 +49,6 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-      exchangeMetaData = ((CoinbeneMarketDataService) marketDataService).getMetadata();
+    exchangeMetaData = ((CoinbeneMarketDataService) marketDataService).getMetadata();
   }
 }

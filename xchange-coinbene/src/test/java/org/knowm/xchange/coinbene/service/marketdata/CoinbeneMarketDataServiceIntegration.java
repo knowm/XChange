@@ -66,6 +66,5 @@ public class CoinbeneMarketDataServiceIntegration {
     List<CurrencyPair> symbols = COINBENE.getExchangeSymbols();
     assertThat(symbols).isNotNull();
     assertThat(symbols.contains(CurrencyPair.ETH_BTC)).isEqualTo(true);
-
   }
 }
