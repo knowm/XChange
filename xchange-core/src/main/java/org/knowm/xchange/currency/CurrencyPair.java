@@ -197,6 +197,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_XDC = new CurrencyPair(Currency.LTC, Currency.XDC);
   public static final CurrencyPair LTC_NMC = new CurrencyPair(Currency.LTC, Currency.NMC);
   public static final CurrencyPair LTC_PPC = new CurrencyPair(Currency.LTC, Currency.PPC);
+  public static final CurrencyPair LTC_XMR = new CurrencyPair(Currency.LTC, Currency.XMR);
 
   // DOGE
   public static final CurrencyPair DOGE_HKD = new CurrencyPair(Currency.DOGE, Currency.HKD);

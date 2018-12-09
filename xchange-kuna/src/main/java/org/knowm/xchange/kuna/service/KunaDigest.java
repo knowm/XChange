@@ -2,7 +2,7 @@ package org.knowm.xchange.kuna.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +11,7 @@ import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.QueryParam;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
@@ -27,7 +28,7 @@ public class KunaDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
     String httpMethod = restInvocation.getHttpMethod();
-    String method = "/" + restInvocation.getMethodPath();
+    String method = "/api/v2/" + restInvocation.getMethodPath();
     String query =
         Stream.of(
                 restInvocation.getParamsMap().get(FormParam.class),
@@ -35,13 +36,36 @@ public class KunaDigest extends BaseParamsDigest {
             .map(Params::asHttpHeaders)
             .map(Map::entrySet)
             .flatMap(Collection::stream)
-            .filter(e -> !"Signature".equals(e.getKey()))
+            .filter(e -> !"signature".equals(e.getKey()))
             .sorted(Map.Entry.comparingByKey())
             .map(e -> e.getKey() + "=" + encodeValue(e.getValue()))
             .collect(Collectors.joining("&"));
     String toSign = String.format("%s|%s|%s", httpMethod, method, query);
     Mac mac = getMac();
-    return encodeValue(Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim());
+    try {
+      mac.update(toSign.getBytes("UTF-8"));
+    } catch (Exception e) {
+      throw new RuntimeException();
+    }
+    return DigestUtils.bytesToHex(mac.doFinal()).trim();
+  }
+
+  public String digestParams(String httpMethod, String method, Map<String, String> params) {
+    String query =
+        params
+            .entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByKey())
+            .map(e -> e.getKey() + "=" + encodeValue(e.getValue()))
+            .collect(Collectors.joining("&"));
+    String toSign = String.format("%s|%s|%s", httpMethod, method, query);
+    Mac mac = getMac();
+    try {
+      mac.update(toSign.getBytes(StandardCharsets.UTF_8));
+    } catch (Exception e) {
+      throw new RuntimeException();
+    }
+    return DigestUtils.bytesToHex(mac.doFinal()).trim();
   }
 
   private String encodeValue(String value) {

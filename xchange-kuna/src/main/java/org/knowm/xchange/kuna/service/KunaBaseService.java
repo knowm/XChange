@@ -5,7 +5,6 @@ import org.knowm.xchange.kuna.Kuna;
 import org.knowm.xchange.kuna.KunaAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 /** @author Dat Bui */
@@ -13,7 +12,7 @@ public class KunaBaseService extends BaseExchangeService implements BaseService 
 
   private Kuna kuna;
   private KunaAuthenticated kunaAuthenticated;
-  protected final ParamsDigest signatureCreator;
+  protected final KunaDigest signatureCreator;
 
   /**
    * Constructor.
@@ -22,6 +21,8 @@ public class KunaBaseService extends BaseExchangeService implements BaseService 
    */
   protected KunaBaseService(Exchange exchange) {
     super(exchange);
+    signatureCreator =
+        KunaDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     kuna =
         RestProxyFactory.createProxy(
             Kuna.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
@@ -30,8 +31,6 @@ public class KunaBaseService extends BaseExchangeService implements BaseService 
             KunaAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
-    signatureCreator =
-        KunaDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected Kuna getKuna() {

@@ -2,8 +2,6 @@ package org.knowm.xchange.examples.huobi.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -35,21 +33,10 @@ public class HuobiMarketDataDemo {
       }
     }
 
-    Collections.sort(
-        tickers,
-        new Comparator<HuobiTicker>() {
-          @Override
-          public int compare(HuobiTicker t1, HuobiTicker t2) {
-            return t2.getTs().compareTo(t1.getTs());
-          }
-        });
+    tickers.sort((t1, t2) -> t2.getTs().compareTo(t1.getTs()));
 
-    tickers
-        .stream()
-        .forEach(
-            t -> {
-              System.out.println(t.getId() + " => " + String.format("%s", t.toString()));
-            });
+    tickers.forEach(
+        t -> System.out.println(t.getId() + " => " + String.format("%s", t.toString())));
     System.out.println("raw out end");
   }
 }
