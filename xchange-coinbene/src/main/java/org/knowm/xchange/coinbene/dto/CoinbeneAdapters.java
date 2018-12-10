@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbene.dto;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -93,6 +94,10 @@ public class CoinbeneAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(CoinbeneOrders orders) {
+
+    if (orders == null) {
+      return new OpenOrders(Collections.EMPTY_LIST);
+    }
 
     return new OpenOrders(
         orders
