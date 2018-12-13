@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gdax.dto;
+package info.bitrich.xchangestream.coinbasepro.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,14 +11,14 @@ import org.knowm.xchange.currency.CurrencyPair;
 /**
  * Created by luca on 5/3/17.
  */
-public class GDAXWebSocketSubscriptionMessageTest {
+public class CoinbaseProWebSocketSubscriptionMessageTest {
 
     @Test
     public void testWebSocketMessageSerialization() throws JsonProcessingException {
 
         ProductSubscription productSubscription = ProductSubscription.create().addOrderbook(CurrencyPair.BTC_USD)
                 .addTrades(CurrencyPair.BTC_USD).addTicker(CurrencyPair.BTC_USD).build();
-        GDAXWebSocketSubscriptionMessage message = new GDAXWebSocketSubscriptionMessage("subscribe", productSubscription, null);
+        CoinbaseProWebSocketSubscriptionMessage message = new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, null);
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
