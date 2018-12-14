@@ -33,8 +33,8 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        streamingService = new CoinbaseProStreamingService(API_URI, () -> authData(exchangeSpec));
-        streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
+        this.streamingService = new CoinbaseProStreamingService(API_URI, () -> authData(exchangeSpec));
+        this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
 
         return streamingService.connect();
