@@ -104,7 +104,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     }
 
     public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {
-        product = products[0];
+        this.product = products[0];
     }
 
     /**
