@@ -154,6 +154,7 @@ public abstract class NettyStreamingService<T> {
                 eventLoopGroup = new NioEventLoopGroup(2);
                 b.group(eventLoopGroup)
                         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, java.lang.Math.toIntExact(connectionTimeout.toMillis()))
+                        .option(ChannelOption.SO_KEEPALIVE, true)
                         .channel(NioSocketChannel.class)
                         .handler(new ChannelInitializer<SocketChannel>() {
                             @Override
