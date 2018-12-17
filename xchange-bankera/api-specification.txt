@@ -1,0 +1,6 @@
+Bankera api spec
+
+You need an extra parameters:
+exSpec.setExchangeSpecificParametersItem("scope", "withdrawals users trading orders");
+exSpec.setExchangeSpecificParametersItem("clientId", "clientId");
+exSpec.setExchangeSpecificParametersItem("clientSecret", "clientSecret");
