@@ -24,9 +24,6 @@ public class ExchangeUtils {
       props.load(is);
       logger.debug(props.toString());
 
-      if (props.getProperty("scope") != null) {
-        exSpec.setExchangeSpecificParametersItem("scope", props.getProperty("scope"));
-      }
       if (props.getProperty("client-id") != null) {
         exSpec.setExchangeSpecificParametersItem("clientId", props.getProperty("client-id"));
       }

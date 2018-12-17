@@ -18,7 +18,6 @@ public interface Bankera {
   @Path("/oauth/token")
   BankeraToken getToken(
       @FormParam("grant_type") String grantType,
-      @FormParam("scope") String scope,
       @FormParam("client_id") String clientId,
       @FormParam("client_secret") String clientSecret)
       throws BankeraException;

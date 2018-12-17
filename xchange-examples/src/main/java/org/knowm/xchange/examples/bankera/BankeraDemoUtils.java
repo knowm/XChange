@@ -10,7 +10,6 @@ public class BankeraDemoUtils {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BankeraExchange.class);
 
-    exSpec.setExchangeSpecificParametersItem("scope", "users trades trading withdrawals orders");
     exSpec.setExchangeSpecificParametersItem("clientId", "");
     exSpec.setExchangeSpecificParametersItem("clientSecret", "");
 
