@@ -30,9 +30,8 @@ public class BankeraBaseService extends BaseExchangeService implements BaseServi
   }
 
   public BankeraToken createToken() throws BankeraException {
-    String scope = (String) exchange.getExchangeSpecification().getParameter("scope");
     String clientId = (String) exchange.getExchangeSpecification().getParameter("clientId");
     String clientSecret = (String) exchange.getExchangeSpecification().getParameter("clientSecret");
-    return bankera.getToken("client_credentials", scope, clientId, clientSecret);
+    return bankera.getToken("client_credentials", clientId, clientSecret);
   }
 }
