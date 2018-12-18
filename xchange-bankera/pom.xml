@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.github.MrNomNom.XChange</groupId>
             <artifactId>xchange-bankera</artifactId>
-            <version>4191963f96</version>
+            <version>b07e992009</version>
         </dependency>
     </dependencies>
 </project>
