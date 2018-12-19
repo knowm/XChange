@@ -27,7 +27,7 @@ public class LiquiOrderInfo {
     final String[] split = pair.split("_");
     this.pair = new CurrencyPair(split[0], split[1]);
     this.type = type;
-    this.startAmount = new BigDecimal(startAmount != null ? startAmount : "0");
+    this.startAmount = startAmount != null ? new BigDecimal(startAmount) : null;
     this.amount = new BigDecimal(amount);
     this.rate = new BigDecimal(rate);
     this.timestampCreated = timestampCreated;

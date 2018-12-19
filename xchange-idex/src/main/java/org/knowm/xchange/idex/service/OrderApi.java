@@ -22,5 +22,5 @@ public interface OrderApi {
   @Produces("application/json")
   @ApiOperation(value = "Limit Order", notes = "", tags = "trade")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = OrderResponse.class))
-  OrderResponse order(OrderReq orderReq) throws Exception;
+  OrderResponse order(OrderReq orderReq);
 }

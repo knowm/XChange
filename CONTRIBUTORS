@@ -17,6 +17,7 @@ The following list of authors was automatically generated from the XChange proje
     git log --format='%aN' | sort -u
 
 Achterhoeker
+Adam Walczak
 Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
@@ -29,10 +30,12 @@ Andraž
 Andrea Fossi
 André Reiter
 Anthony Tsang
+Arran Duff
 Arthurm1
 Artur
 Artur M
 Baffo32
+BenTrapani
 Benedict Wong
 Benedikt Bünz
 Bilgin Ibryam
@@ -45,17 +48,24 @@ Carlos Lopez-Camey
 Chris Cannell
 Chris Rico
 Christian Strässle
+Claus235
 Cray Imperative
 Cristian Lucaci
+Cryptonit Exchange
 Cyril
 Daniel Cohen
+Daniela Hajnikova
 Danilo Guimarães
 Dave Seyb
 David FRANCOIS
+David Jirovec
 David Kreutzer
+Dennis Ruhe
 Devin Smith
 Dmitry Fedorenko
+Dmitry Sklyadnev
 Dolezal Zdenek
+Donald Jackson
 Douggie
 DrawFun
 Eric Anderson
@@ -76,7 +86,10 @@ Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
 Herman Ofenböck
+Hypeon
+Ian W
 Ignacio Larranaga
+Igor Velichkevich
 Iury V. Vinogradov
 JH
 JK
@@ -90,6 +103,7 @@ Jan X Marek
 Janosch Gräf
 Jean-Pierre Froud
 Jim Northrup
+Joakim Johansson
 Joe Zhou
 Johannes Zweng
 Jonathan Heusser
@@ -105,6 +119,7 @@ Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
 Kevin Britz
+Kevin Gates
 Kevin Jannis
 Kolozsy Gábor
 Konstantin Alexandrov
@@ -113,6 +128,7 @@ Konstantin Tenman
 Krystian Nowak
 Krzysiek
 Krzysztof Cieślak
+Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
 Luca Rosellini
@@ -128,7 +144,9 @@ Matija Mazi
 Matt Read
 Matt Whitlock
 Matthew Downey
+Matthew Peacock
 Maxim Fefilov
+Micah Lerner
 Michael Lagace
 Michael Lagacé
 Mike Gerlyand
@@ -138,6 +156,7 @@ Miso Oprendek
 Muffon
 Nathan King
 Nicolas Pinot
+Niels
 Nikita Belenkiy
 Niko Schmuck
 Norbert Sándor
@@ -155,6 +174,7 @@ Peter Keeler
 Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
+RadeK
 Radu
 Rafal Krupinski
 Rafał Krupiński
@@ -166,6 +186,8 @@ Roman Belkov
 Ronald Bultman
 Ryan Fox
 Ryan Sundberg
+Sascha
+Sascha Zieger
 Sebastiaan van Erk
 Sergey Belyakov
 Sergey Lukashevich
@@ -174,11 +196,13 @@ Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
 Snailz
+Steven te Brinke
 Stuart Low
 Sumedha Saxena
 Sylvain
 Sébastien Koch
 TM Lee
+Tangjun He
 The Gitter Badger
 Theofanis Pantelides
 Thomas Diesler
@@ -187,6 +211,7 @@ Tillerino
 Tim Molter
 Tomas Cere
 Tomáš Procházka
+Tong Yang
 Tony Skulk
 Travis Collins
 U-TORA\cristian.lucaci
@@ -268,6 +293,7 @@ kyr7
 lapoor
 lazy_p@163.com
 lazyp
+lichunmao
 m4g4
 makarid
 matija.mazi@gmail.com
@@ -278,6 +304,7 @@ mfarid
 mharris021
 michaelscheung
 miho
+mikhw
 mnapier
 moardm
 nado04@gmail.com
@@ -289,6 +316,7 @@ nxtpool@gmail.com
 o
 odaken
 paul
+pavel
 pchertalev
 perlboy
 piotr
@@ -317,7 +345,9 @@ trix
 trix13
 veken0m
 vulicevic
+w0lph
 walec51
+water0126
 will
 wvr
 ww3456

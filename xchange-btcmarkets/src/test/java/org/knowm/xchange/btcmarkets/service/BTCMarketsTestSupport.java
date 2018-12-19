@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
+import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
@@ -382,5 +384,30 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
     Whitebox.setInternalState(marketsBalance, "currency", currency);
 
     return marketsBalance;
+  }
+
+  protected static BTCMarketsFundtransferHistoryResponse
+      expectedParsedBTCMarketsFundtransferHistoryResponse() {
+    return new BTCMarketsFundtransferHistoryResponse(
+        true,
+        null,
+        null,
+        Arrays.asList(
+            new BTCMarketsFundtransfer(
+                "Complete",
+                new Date(1530533761866L),
+                BigDecimal.ZERO.setScale(8),
+                "Ethereum Deposit, S 15",
+                null,
+                new Date(1530533761866L),
+                7485764826L,
+                new BTCMarketsFundtransfer.CryptoPaymentDetail(
+                    "0x1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef1234abcdef", null),
+                "ETH",
+                BigDecimal.valueOf(15.04872041),
+                "DEPOSIT")),
+        new BTCMarketsFundtransferHistoryResponse.Paging(
+            "/fundtransfer/history?since=1957653133&indexForward=true",
+            "/fundtransfer/history?since=373346299&indexForward=false"));
   }
 }

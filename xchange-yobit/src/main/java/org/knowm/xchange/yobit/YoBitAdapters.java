@@ -6,10 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -18,6 +21,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
@@ -64,7 +68,16 @@ public class YoBitAdapters {
 
       BigDecimal minSize = value.getMin_amount();
       Integer priceScale = value.getDecimal_places();
-      currencyPairs.put(pair, new CurrencyPairMetaData(value.getFee(), minSize, null, priceScale));
+      currencyPairs.put(
+          pair,
+          new CurrencyPairMetaData(
+              value.getFee(),
+              minSize,
+              null,
+              priceScale,
+              new FeeTier[] {
+                new FeeTier(BigDecimal.ZERO, new Fee(value.getFee_seller(), value.getFee_buyer()))
+              }));
 
       if (!currencies.containsKey(pair.base)) {
         CurrencyMetaData currencyMetaData = exchangeMetaData.getCurrencies().get(pair.base);
@@ -90,8 +103,7 @@ public class YoBitAdapters {
       List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
-    for (int i = 0; i < levels.size(); i++) {
-      YoBitAsksBidsData ask = levels.get(i);
+    for (YoBitAsksBidsData ask : levels) {
       if (ask != null) {
         allLevels.add(
             new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
@@ -146,11 +158,9 @@ public class YoBitAdapters {
   }
 
   public static String adaptCcyPairsToUrlFormat(Iterable<CurrencyPair> currencyPairs) {
-    java.util.StringJoiner stringJoiner = new java.util.StringJoiner("-");
-    java.util.stream.StreamSupport.stream(currencyPairs.spliterator(), false)
+    return StreamSupport.stream(currencyPairs.spliterator(), false)
         .map(YoBitAdapters::adaptCcyPairToUrlFormat)
-        .forEach(stringJoiner::add);
-    return stringJoiner.toString();
+        .collect(Collectors.joining("-"));
   }
 
   public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {

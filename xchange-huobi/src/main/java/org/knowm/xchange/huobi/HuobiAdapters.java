@@ -1,6 +1,7 @@
 package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,22 +12,32 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
+import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 
 public class HuobiAdapters {
+
+  private static BigDecimal fee = new BigDecimal("0.002"); // Trading fee at Huobi is 0.2 %
 
   public static Ticker adaptTicker(HuobiTicker huobiTicker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
@@ -43,19 +54,26 @@ public class HuobiAdapters {
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
-      HuobiAssetPair[] assetPairs, HuobiAsset[] assets) {
+      HuobiAssetPair[] assetPairs, HuobiAsset[] assets, ExchangeMetaData staticMetaData) {
+
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
 
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = staticMetaData.getCurrencyPairs();
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    for (HuobiAssetPair pair : assetPairs) {
-      pairs.put(adaptCurrencyPair(pair.getKey()), adaptPair(pair));
+    for (HuobiAssetPair assetPair : assetPairs) {
+      CurrencyPair pair = adaptCurrencyPair(assetPair.getKey());
+      pairs.put(pair, adaptPair(assetPair, pairsMetaData.getOrDefault(pair, null)));
     }
 
+    Map<Currency, CurrencyMetaData> currenciesMetaData = staticMetaData.getCurrencies();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (HuobiAsset asset : assets) {
       Currency currency = adaptCurrency(asset.getAsset());
-      currencies.put(currency, new CurrencyMetaData(0, null));
+      CurrencyMetaData metadata = currenciesMetaData.getOrDefault(currency, null);
+      BigDecimal withdrawalFee = metadata == null ? null : metadata.getWithdrawalFee();
+      int scale = metadata == null ? 8 : metadata.getScale();
+      currencies.put(currency, new CurrencyMetaData(scale, withdrawalFee));
     }
 
     return new ExchangeMetaData(pairs, currencies, null, null, false);
@@ -65,8 +83,17 @@ public class HuobiAdapters {
     return HuobiUtils.translateHuobiCurrencyPair(currencyPair);
   }
 
-  private static CurrencyPairMetaData adaptPair(HuobiAssetPair pair) {
-    return new CurrencyPairMetaData(null, null, null, new Integer(pair.getPricePrecision()));
+  private static CurrencyPairMetaData adaptPair(
+      HuobiAssetPair pair, CurrencyPairMetaData metadata) {
+    BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
+    FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
+
+    return new CurrencyPairMetaData(
+        fee,
+        minQty, // Min amount
+        null, // Max amount
+        new Integer(pair.getPricePrecision()), // Price scale
+        feeTiers);
   }
 
   private static Currency adaptCurrency(String currency) {
@@ -76,14 +103,18 @@ public class HuobiAdapters {
   public static Wallet adaptWallet(Map<String, HuobiBalanceSum> huobiWallet) {
     List<Balance> balances = new ArrayList<>(huobiWallet.size());
     for (Map.Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
-      Currency currency = adaptCurrency(record.getKey());
-      Balance balance =
-          new Balance(
-              currency,
-              record.getValue().getTotal(),
-              record.getValue().getAvailable(),
-              record.getValue().getFrozen());
-      balances.add(balance);
+      try {
+        Currency currency = adaptCurrency(record.getKey());
+        Balance balance =
+            new Balance(
+                currency,
+                record.getValue().getTotal(),
+                record.getValue().getAvailable(),
+                record.getValue().getFrozen());
+        balances.add(balance);
+      } catch (ExchangeException e) {
+        // It might be a new currency. Ignore the exception and continue with other currency.
+      }
     }
     return new Wallet(balances);
   }
@@ -109,7 +140,8 @@ public class HuobiAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (HuobiOrder openOrder : openOrders) {
       if (openOrder.isLimit()) {
-        limitOrders.add((LimitOrder) adaptOrder(openOrder));
+        LimitOrder order = (LimitOrder) adaptOrder(openOrder);
+        limitOrders.add(order);
       }
     }
     return new OpenOrders(limitOrders);
@@ -144,15 +176,44 @@ public class HuobiAdapters {
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
               openOrder.getPrice());
-      order.setAveragePrice(
-          openOrder
-              .getFieldCashAmount()
-              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
+      if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
+        order.setAveragePrice(BigDecimal.ZERO);
+      } else {
+        order.setAveragePrice(
+            openOrder
+                .getFieldCashAmount()
+                .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
+      }
     }
     if (order != null) {
       order.setOrderStatus(adaptOrderStatus(openOrder.getState()));
     }
     return order;
+  }
+
+  /**
+   * Huobi currently doesn't have trade history API. We simulate it by using the orders history.
+   *
+   * @param order
+   * @return
+   */
+  private static UserTrade adaptTrade(LimitOrder order) {
+    BigDecimal feeAmount =
+        order
+            .getCumulativeAmount()
+            .multiply(order.getLimitPrice())
+            .multiply(fee)
+            .setScale(8, RoundingMode.DOWN);
+    return new UserTrade(
+        order.getType(),
+        order.getCumulativeAmount(),
+        order.getCurrencyPair(),
+        order.getLimitPrice(),
+        order.getTimestamp(),
+        null, // Trade id
+        order.getId(), // Original order id
+        feeAmount,
+        order.getCurrencyPair().counter);
   }
 
   private static OrderStatus adaptOrderStatus(String huobiStatus) {
@@ -199,5 +260,83 @@ public class HuobiAdapters {
       orders.add(adaptOrder(order));
     }
     return orders;
+  }
+
+  public static UserTrades adaptTradeHistory(HuobiOrder[] openOrders) {
+    OpenOrders orders = adaptOpenOrders(openOrders);
+    List<UserTrade> trades = new ArrayList<>();
+    for (LimitOrder order : orders.getOpenOrders()) {
+      trades.add(adaptTrade(order));
+    }
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(HuobiFundingRecord[] fundingRecords) {
+    List<FundingRecord> records = new ArrayList<>();
+    for (HuobiFundingRecord record : fundingRecords) {
+      records.add(adaptFundingRecord(record));
+    }
+    return records;
+  }
+
+  public static FundingRecord adaptFundingRecord(HuobiFundingRecord r) {
+
+    return new FundingRecord(
+        r.getAddress(),
+        r.getCreatedAt(),
+        Currency.getInstance(r.getCurrency()),
+        r.getAmount(),
+        Long.toString(r.getId()),
+        r.getTxhash(),
+        r.getType(),
+        adaptFundingStatus(r),
+        null,
+        r.getFee(),
+        null);
+  }
+
+  private static Status adaptFundingStatus(HuobiFundingRecord record) {
+    if (record.getType() == FundingRecord.Type.WITHDRAWAL) {
+      return adaptWithdrawalStatus(record.getState());
+    }
+    return adaptDepostStatus(record.getState());
+  }
+
+  private static Status adaptWithdrawalStatus(String state) {
+    switch (state) {
+      case "pre-transfer":
+      case "submitted":
+      case "reexamine":
+      case "pass":
+      case "wallet-transfer":
+        return Status.PROCESSING;
+      case "canceled":
+        return Status.CANCELLED;
+      case "confirmed":
+        return Status.COMPLETE;
+      case "wallet-reject":
+      case "reject	":
+      case "confirm-error":
+        return Status.FAILED;
+      case "repealed":
+
+      default:
+        return null;
+    }
+  }
+
+  private static Status adaptDepostStatus(String state) {
+    switch (state) {
+      case "confirming":
+      case "safe":
+        return Status.PROCESSING;
+      case "confirmed":
+        return Status.COMPLETE;
+      case "unknown":
+      case "orphan":
+        return Status.FAILED;
+      default:
+        return null;
+    }
   }
 }

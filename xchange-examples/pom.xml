@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.8</version>
+		<version>4.3.13</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -140,6 +140,12 @@
 			<artifactId>xchange-coinbase</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinbene support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbene</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange CoinEgg support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -149,7 +155,7 @@
 		<!-- XChange GDAX support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-gdax</artifactId>
+			<artifactId>xchange-coinbasepro</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BitcoinAverage support -->
@@ -164,6 +170,12 @@
 			<artifactId>xchange-cexio</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- Xchange Cobinhood exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cobinhood</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<!-- Xchange Coingi exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -308,6 +320,11 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-upbit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-vircurex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -397,6 +414,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-zaif</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Coindirect exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coindirect</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

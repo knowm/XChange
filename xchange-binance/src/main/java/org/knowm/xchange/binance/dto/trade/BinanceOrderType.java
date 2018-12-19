@@ -8,7 +8,8 @@ public enum BinanceOrderType {
   TAKE_PROFIT_LIMIT,
   STOP_LOSS_LIMIT,
   STOP_LOSS,
-  TAKE_PROFIT;
+  TAKE_PROFIT,
+  LIMIT_MAKER;
 
   @JsonCreator
   public static BinanceOrderType getOrderType(String s) {

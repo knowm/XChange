@@ -12,6 +12,7 @@ fi"
 
 jdk:
   - oraclejdk8
+  - openjdk11
 
 # whitelist
 branches:

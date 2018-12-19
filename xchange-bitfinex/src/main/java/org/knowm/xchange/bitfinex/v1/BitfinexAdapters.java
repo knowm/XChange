@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
@@ -25,6 +26,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -51,10 +53,46 @@ public final class BitfinexAdapters {
 
   private BitfinexAdapters() {}
 
+  /**
+   * Each element in the response array contains a set of currencies that are at a given fee tier.
+   * The API returns the fee per currency in each tier and does not make any promises that they are
+   * all the same, so this adapter will use the fee per currency instead of the fee per tier.
+   */
+  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(
+      BitfinexTradingFeeResponse[] responses, List<CurrencyPair> currencyPairs) {
+    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+    for (BitfinexTradingFeeResponse response : responses) {
+      BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow[] responseRows =
+          response.getTradingFees();
+      for (BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow responseRow : responseRows) {
+        Currency currency = Currency.getInstance(responseRow.getCurrency());
+        BigDecimal percentToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(2));
+        Fee fee =
+            new Fee(
+                responseRow.getMakerFee().multiply(percentToFraction),
+                responseRow.getTakerFee().multiply(percentToFraction));
+        for (CurrencyPair pair : currencyPairs) {
+          // Fee to trade for a currency is the fee to trade currency pairs with this base.
+          // Fee is typically assessed in units counter.
+          if (pair.base.equals(currency)) {
+            if (result.put(pair, fee) != null) {
+              throw new IllegalStateException(
+                  "Fee for currency pair " + pair + " is overspecified");
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
     String currency = bitfinexSymbol.toUpperCase();
     if (currency.equals("DSH")) {
       currency = "DASH";
+    }
+    if (currency.equals("QTM")) {
+      currency = "QTUM";
     }
     return currency;
   }
@@ -87,8 +125,7 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-
-    return (pair.base.getCurrencyCode() + pair.counter.getCurrencyCode()).toLowerCase();
+    return BitfinexUtils.toPairString(pair);
   }
 
   public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
@@ -412,7 +449,8 @@ public final class BitfinexAdapters {
                         null,
                         bitfinexSymbolDetail.getMinimum_order_size(),
                         bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
+                        bitfinexSymbolDetail.getPrice_precision(),
+                        null);
                 currencyPairs.put(currencyPair, newMetaData);
               } else {
                 CurrencyPairMetaData oldMetaData = currencyPairs.get(currencyPair);
@@ -421,7 +459,8 @@ public final class BitfinexAdapters {
                         oldMetaData.getTradingFee(),
                         bitfinexSymbolDetail.getMinimum_order_size(),
                         bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
+                        bitfinexSymbolDetail.getPrice_precision(),
+                        null);
                 currencyPairs.put(currencyPair, newMetaData);
               }
             });
@@ -456,7 +495,7 @@ public final class BitfinexAdapters {
     // now.
     // also setting the taker_fee as the trading_fee for now.
     final CurrencyPairMetaData metaData =
-        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null);
+        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null, null);
     currencyPairs
         .keySet()
         .parallelStream()
@@ -470,7 +509,8 @@ public final class BitfinexAdapters {
                             newMetaData.getTradingFee(),
                             oldMetaData.getMinimumAmount(),
                             oldMetaData.getMaximumAmount(),
-                            oldMetaData.getPriceScale())));
+                            oldMetaData.getPriceScale(),
+                            oldMetaData.getFeeTiers())));
 
     return exchangeMetaData;
   }
@@ -505,12 +545,12 @@ public final class BitfinexAdapters {
          */
 
         String cleanedDescription =
-            description
-                .replace(address, "")
-                .replace(",", "")
-                .replace("txid:", "")
-                .trim()
-                .toLowerCase();
+            description.replace(",", "").replace("txid:", "").trim().toLowerCase();
+
+        // Address will only be present for crypto payments. It will be null for all fiat payments
+        if (address != null) {
+          cleanedDescription = cleanedDescription.replace(address.toLowerCase(), "");
+        }
 
         // check its just some hex characters, and if so lets assume its the txn hash
         if (cleanedDescription.matches("^(0x)?[0-9a-f]+$")) {

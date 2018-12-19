@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -123,26 +124,7 @@ public class LiquiAdapters {
 
   public static LimitOrder adaptActiveOrder(final LiquiOrderInfo orderInfo, final long id) {
 
-    final OrderType type = adaptOrderType(orderInfo.getType());
-
-    final BigDecimal originalAmount = orderInfo.getStartAmount();
-    final BigDecimal filledAmount = orderInfo.getStartAmount().subtract(orderInfo.getAmount());
-    final CurrencyPair pair = orderInfo.getPair();
-    final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
-
-    final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
-
-    return new LimitOrder(
-        type,
-        originalAmount,
-        pair,
-        String.valueOf(id),
-        timestamp,
-        orderInfo.getRate(),
-        orderInfo.getRate(),
-        filledAmount,
-        null,
-        status);
+    return LimitOrder.Builder.from(adaptLiquiOrderInfo(orderInfo)).id(String.valueOf(id)).build();
   }
 
   public static Order.OrderStatus adaptOrderStatus(final String status) {
@@ -187,15 +169,27 @@ public class LiquiAdapters {
         null);
   }
 
-  public static Order adaptOrderInfo(final LiquiOrderInfo info) {
-    final OrderType orderType = adaptOrderType(info.getType());
-    final CurrencyPair pair = info.getPair();
-    final BigDecimal amount = info.getStartAmount().subtract(info.getAmount());
-    final BigDecimal startAmount = info.getStartAmount();
-    final BigDecimal rate = info.getRate();
-    final Date timestamp = new Date(info.getTimestampCreated() * 1000L);
+  public static Order adaptOrderInfo(final LiquiOrderInfo orderInfo) {
 
-    return new LimitOrder(orderType, startAmount, amount, pair, "", timestamp, rate);
+    return adaptLiquiOrderInfo(orderInfo);
+  }
+
+  public static Order adaptLiquiOrderInfo(final LiquiOrderInfo orderInfo) {
+
+    final OrderType type = adaptOrderType(orderInfo.getType());
+    final Optional<BigDecimal> originalAmount = Optional.ofNullable(orderInfo.getStartAmount());
+    final Optional<BigDecimal> cumulativeAmount =
+        originalAmount.map(startAmount -> startAmount.subtract(orderInfo.getAmount()));
+    final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
+    final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
+
+    return new LimitOrder.Builder(type, orderInfo.getPair())
+        .originalAmount(originalAmount.orElse(orderInfo.getAmount()))
+        .timestamp(timestamp)
+        .limitPrice(orderInfo.getRate())
+        .cumulativeAmount(cumulativeAmount.orElse(null))
+        .orderStatus(status)
+        .build();
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(final Map<String, LiquiPairInfo> infos) {
@@ -209,7 +203,8 @@ public class LiquiAdapters {
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
       final int priceScale = entry.getValue().getDecimalPlaces();
 
-      currencyPairs.put(pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale));
+      currencyPairs.put(
+          pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale, null));
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 

@@ -56,7 +56,7 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit>
               currency,
               amountIncludingOrders,
               amountAvailable,
-              BigDecimal.ZERO,
+              amountIncludingOrders.subtract(amountAvailable),
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               BigDecimal.ZERO,

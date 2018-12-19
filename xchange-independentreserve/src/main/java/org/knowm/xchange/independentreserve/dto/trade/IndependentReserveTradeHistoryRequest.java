@@ -6,7 +6,7 @@ import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 public class IndependentReserveTradeHistoryRequest extends AuthAggregate {
 
   public IndependentReserveTradeHistoryRequest(
-      String apiKey, Long nonce, String pageIndex, String pageSize) {
+      String apiKey, Long nonce, int pageIndex, int pageSize) {
     super(apiKey, nonce);
 
     this.parameters.put("pageIndex", pageIndex);

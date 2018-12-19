@@ -8,7 +8,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -21,7 +20,8 @@ public class LiquiAccountService extends LiquiAccountServiceRaw implements Accou
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return LiquiAdapters.adaptAccountInfo(getAccountInfoRaw());
+    throw new NotAvailableFromExchangeException(
+        "Liqui balances cannot be retrieved in one call. Please build them by merging active orders amounts and LiquiAccountServiceRaw.getAccountInfoRaw amounts.");
   }
 
   @Override

@@ -11,6 +11,8 @@ public class OkCoinTicker {
   private final BigDecimal sell;
   private final BigDecimal last;
   private final BigDecimal vol;
+  private final Long contractId;
+  private final BigDecimal unitAmount;
 
   public OkCoinTicker(
       @JsonProperty("high") final BigDecimal high,
@@ -18,7 +20,9 @@ public class OkCoinTicker {
       @JsonProperty("buy") final BigDecimal buy,
       @JsonProperty("sell") final BigDecimal sell,
       @JsonProperty("last") final BigDecimal last,
-      @JsonProperty("vol") final BigDecimal vol) {
+      @JsonProperty("vol") final BigDecimal vol,
+      @JsonProperty("contract_id") final Long contractId,
+      @JsonProperty("unit_amount") final BigDecimal unitAmount) {
 
     this.high = high;
     this.low = low;
@@ -26,6 +30,8 @@ public class OkCoinTicker {
     this.sell = sell;
     this.last = last;
     this.vol = vol;
+    this.contractId = contractId;
+    this.unitAmount = unitAmount;
   }
 
   /** @return the high */
@@ -62,5 +68,35 @@ public class OkCoinTicker {
   public BigDecimal getVol() {
 
     return vol;
+  }
+
+  public Long getContractId() {
+    return contractId;
+  }
+
+  public BigDecimal getUnitAmount() {
+    return unitAmount;
+  }
+
+  @Override
+  public String toString() {
+    return "OkCoinTicker{"
+        + "high="
+        + high
+        + ", low="
+        + low
+        + ", buy="
+        + buy
+        + ", sell="
+        + sell
+        + ", last="
+        + last
+        + ", vol="
+        + vol
+        + ", contractId="
+        + contractId
+        + ", unitAmount="
+        + unitAmount
+        + '}';
   }
 }

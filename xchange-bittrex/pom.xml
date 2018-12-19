@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.8</version>
+        <version>4.3.13</version>
     </parent>
 
     <artifactId>xchange-bittrex-custom</artifactId>
-    <version>4.3.8.5</version>
+    <version>4.3.13.5</version>
 
 
     <name>XChange Bittrex</name>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core-custom</artifactId>
-            <version>4.3.8</version>
+            <version>4.3.13</version>
         </dependency>
 
         <dependency>

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,16 +124,16 @@ public class BitmexTicker {
   private String typ;
 
   @JsonProperty("listing")
-  private String listing;
+  private Date listing;
 
   @JsonProperty("front")
-  private String front;
+  private Date front;
 
   @JsonProperty("expiry")
-  private String expiry;
+  private Date expiry;
 
   @JsonProperty("settle")
-  private String settle;
+  private Date settle;
 
   @JsonProperty("relistInterval")
   private String relistInterval;
@@ -252,10 +253,10 @@ public class BitmexTicker {
   private String fundingPremiumSymbol;
 
   @JsonProperty("fundingTimestamp")
-  private String fundingTimestamp;
+  private Date fundingTimestamp;
 
   @JsonProperty("fundingInterval")
-  private String fundingInterval;
+  private Date fundingInterval;
 
   @JsonProperty("fundingRate")
   private BigDecimal fundingRate;
@@ -270,13 +271,13 @@ public class BitmexTicker {
   private String rebalanceInterval;
 
   @JsonProperty("openingTimestamp")
-  private String openingTimestamp;
+  private Date openingTimestamp;
 
   @JsonProperty("closingTimestamp")
-  private String closingTimestamp;
+  private Date closingTimestamp;
 
   @JsonProperty("sessionInterval")
-  private String sessionInterval;
+  private Date sessionInterval;
 
   @JsonProperty("prevClosePrice")
   private BigDecimal prevClosePrice;
@@ -396,7 +397,7 @@ public class BitmexTicker {
   private BigDecimal settledPrice;
 
   @JsonProperty("timestamp")
-  private String timestamp;
+  private Date timestamp;
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -416,19 +417,19 @@ public class BitmexTicker {
     return typ;
   }
 
-  public String getListing() {
+  public Date getListing() {
     return listing;
   }
 
-  public String getFront() {
+  public Date getFront() {
     return front;
   }
 
-  public String getExpiry() {
+  public Date getExpiry() {
     return expiry;
   }
 
-  public String getSettle() {
+  public Date getSettle() {
     return settle;
   }
 
@@ -588,11 +589,11 @@ public class BitmexTicker {
     return fundingPremiumSymbol;
   }
 
-  public String getFundingTimestamp() {
+  public Date getFundingTimestamp() {
     return fundingTimestamp;
   }
 
-  public String getFundingInterval() {
+  public Date getFundingInterval() {
     return fundingInterval;
   }
 
@@ -612,15 +613,15 @@ public class BitmexTicker {
     return rebalanceInterval;
   }
 
-  public String getOpeningTimestamp() {
+  public Date getOpeningTimestamp() {
     return openingTimestamp;
   }
 
-  public String getClosingTimestamp() {
+  public Date getClosingTimestamp() {
     return closingTimestamp;
   }
 
-  public String getSessionInterval() {
+  public Date getSessionInterval() {
     return sessionInterval;
   }
 
@@ -780,11 +781,247 @@ public class BitmexTicker {
     return settledPrice;
   }
 
-  public String getTimestamp() {
+  public Date getTimestamp() {
     return timestamp;
   }
 
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
+  }
+
+  @Override
+  public String toString() {
+    return "BitmexTicker{"
+        + "symbol='"
+        + symbol
+        + '\''
+        + ", rootSymbol='"
+        + rootSymbol
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", typ='"
+        + typ
+        + '\''
+        + ", listing='"
+        + listing
+        + '\''
+        + ", front='"
+        + front
+        + '\''
+        + ", expiry='"
+        + expiry
+        + '\''
+        + ", settle='"
+        + settle
+        + '\''
+        + ", relistInterval='"
+        + relistInterval
+        + '\''
+        + ", inverseLeg='"
+        + inverseLeg
+        + '\''
+        + ", sellLeg='"
+        + sellLeg
+        + '\''
+        + ", buyLeg='"
+        + buyLeg
+        + '\''
+        + ", positionCurrency='"
+        + positionCurrency
+        + '\''
+        + ", underlying='"
+        + underlying
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", underlyingSymbol='"
+        + underlyingSymbol
+        + '\''
+        + ", reference='"
+        + reference
+        + '\''
+        + ", referenceSymbol='"
+        + referenceSymbol
+        + '\''
+        + ", calcInterval='"
+        + calcInterval
+        + '\''
+        + ", publishInterval='"
+        + publishInterval
+        + '\''
+        + ", publishTime='"
+        + publishTime
+        + '\''
+        + ", maxOrderQty="
+        + maxOrderQty
+        + ", maxPrice="
+        + maxPrice
+        + ", lotSize="
+        + lotSize
+        + ", tickSize="
+        + tickSize
+        + ", multiplier="
+        + multiplier
+        + ", settlCurrency='"
+        + settlCurrency
+        + '\''
+        + ", underlyingToPositionMultiplier="
+        + underlyingToPositionMultiplier
+        + ", underlyingToSettleMultiplier="
+        + underlyingToSettleMultiplier
+        + ", quoteToSettleMultiplier="
+        + quoteToSettleMultiplier
+        + ", isQuanto="
+        + isQuanto
+        + ", isInverse="
+        + isInverse
+        + ", initMargin="
+        + initMargin
+        + ", maintMargin="
+        + maintMargin
+        + ", riskLimit="
+        + riskLimit
+        + ", riskStep="
+        + riskStep
+        + ", limit="
+        + limit
+        + ", capped="
+        + capped
+        + ", taxed="
+        + taxed
+        + ", deleverage="
+        + deleverage
+        + ", makerFee="
+        + makerFee
+        + ", takerFee="
+        + takerFee
+        + ", settlementFee="
+        + settlementFee
+        + ", insuranceFee="
+        + insuranceFee
+        + ", fundingBaseSymbol='"
+        + fundingBaseSymbol
+        + '\''
+        + ", fundingQuoteSymbol='"
+        + fundingQuoteSymbol
+        + '\''
+        + ", fundingPremiumSymbol='"
+        + fundingPremiumSymbol
+        + '\''
+        + ", fundingTimestamp='"
+        + fundingTimestamp
+        + '\''
+        + ", fundingInterval='"
+        + fundingInterval
+        + '\''
+        + ", fundingRate="
+        + fundingRate
+        + ", indicativeFundingRate="
+        + indicativeFundingRate
+        + ", rebalanceTimestamp='"
+        + rebalanceTimestamp
+        + '\''
+        + ", rebalanceInterval='"
+        + rebalanceInterval
+        + '\''
+        + ", openingTimestamp='"
+        + openingTimestamp
+        + '\''
+        + ", closingTimestamp='"
+        + closingTimestamp
+        + '\''
+        + ", sessionInterval='"
+        + sessionInterval
+        + '\''
+        + ", prevClosePrice="
+        + prevClosePrice
+        + ", limitDownPrice="
+        + limitDownPrice
+        + ", limitUpPrice="
+        + limitUpPrice
+        + ", bankruptLimitDownPrice="
+        + bankruptLimitDownPrice
+        + ", bankruptLimitUpPrice="
+        + bankruptLimitUpPrice
+        + ", prevTotalVolume="
+        + prevTotalVolume
+        + ", totalVolume="
+        + totalVolume
+        + ", volume="
+        + volume
+        + ", volume24h="
+        + volume24h
+        + ", prevTotalTurnover="
+        + prevTotalTurnover
+        + ", totalTurnover="
+        + totalTurnover
+        + ", turnover="
+        + turnover
+        + ", turnover24h="
+        + turnover24h
+        + ", prevPrice24h="
+        + prevPrice24h
+        + ", vwap="
+        + vwap
+        + ", highPrice="
+        + highPrice
+        + ", lowPrice="
+        + lowPrice
+        + ", lastPrice="
+        + lastPrice
+        + ", lastPriceProtected="
+        + lastPriceProtected
+        + ", lastTickDirection='"
+        + lastTickDirection
+        + '\''
+        + ", lastChangePcnt="
+        + lastChangePcnt
+        + ", bidPrice="
+        + bidPrice
+        + ", midPrice="
+        + midPrice
+        + ", askPrice="
+        + askPrice
+        + ", impactBidPrice="
+        + impactBidPrice
+        + ", impactMidPrice="
+        + impactMidPrice
+        + ", impactAskPrice="
+        + impactAskPrice
+        + ", hasLiquidity="
+        + hasLiquidity
+        + ", openInterest="
+        + openInterest
+        + ", openValue="
+        + openValue
+        + ", fairMethod='"
+        + fairMethod
+        + '\''
+        + ", fairBasisRate="
+        + fairBasisRate
+        + ", fairBasis="
+        + fairBasis
+        + ", fairPrice="
+        + fairPrice
+        + ", markMethod='"
+        + markMethod
+        + '\''
+        + ", markPrice="
+        + markPrice
+        + ", indicativeTaxRate="
+        + indicativeTaxRate
+        + ", indicativeSettlePrice="
+        + indicativeSettlePrice
+        + ", settledPrice="
+        + settledPrice
+        + ", timestamp='"
+        + timestamp
+        + '\''
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

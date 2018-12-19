@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.marketdata;
 import static org.knowm.xchange.dto.marketdata.Trades.TradeSortType.SortByID;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -132,9 +133,18 @@ public class Trades implements Serializable {
 
   public static class TradeIDComparator implements Comparator<Trade> {
 
+    private static final int[] ALLOWED_RADIXES = {10, 16};
+
     @Override
     public int compare(Trade trade1, Trade trade2) {
-
+      for (int radix : ALLOWED_RADIXES) {
+        try {
+          BigInteger id1 = new BigInteger(trade1.getId(), radix);
+          BigInteger id2 = new BigInteger(trade2.getId(), radix);
+          return id1.compareTo(id2);
+        } catch (NumberFormatException ignored) {
+        }
+      }
       return trade1.getId().compareTo(trade2.getId());
     }
   }
