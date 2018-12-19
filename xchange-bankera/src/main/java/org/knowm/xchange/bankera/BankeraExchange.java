@@ -45,7 +45,7 @@ public class BankeraExchange extends BaseExchange implements Exchange {
   }
 
   public BankeraToken getToken() {
-    if (token == null || token.getExpirationTime() < System.currentTimeMillis()) {
+    if (token == null || token.getExpirationTime() < System.currentTimeMillis() + 30000L) {
       try {
         token = ((BankeraBaseService) accountService).createToken();
       } catch (BankeraException e) {
