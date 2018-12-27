@@ -9,9 +9,13 @@ import org.knowm.xchange.coinbene.service.CoinbeneMarketDataService;
 import org.knowm.xchange.coinbene.service.CoinbeneTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbeneExchange extends BaseExchange implements Exchange {
+
+  private static final Logger LOG = LoggerFactory.getLogger(CoinbeneExchange.class);
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
@@ -39,10 +43,12 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
     return nonceFactory;
   }
 
   @Override
-  public void remoteInit() throws IOException, ExchangeException {}
+  public void remoteInit() throws IOException, ExchangeException {
+
+    exchangeMetaData = ((CoinbeneMarketDataService) marketDataService).getMetadata();
+  }
 }

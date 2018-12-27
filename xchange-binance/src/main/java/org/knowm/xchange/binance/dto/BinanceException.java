@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BinanceException extends RuntimeException {
 
-  public final int code;
-  public final String msg;
+  private final int code;
 
   public BinanceException(@JsonProperty("code") int code, @JsonProperty("msg") String msg) {
-    super(code + ": " + msg);
+    super(msg);
     this.code = code;
-    this.msg = msg;
+  }
+
+  public int getCode() {
+    return code;
   }
 }

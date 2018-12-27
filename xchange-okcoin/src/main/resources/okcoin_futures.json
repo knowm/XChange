@@ -5,24 +5,6 @@
     },
     "LTC/USD": {
       "price_scale": 2
-    },
-    "ETH/USD": {
-      "price_scale": 2
-    },
-    "ETC/USD": {
-      "price_scale": 2
-    },
-    "BCH/USD": {
-      "price_scale": 2
-    },
-    "XRP/USD": {
-      "price_scale": 2
-    },
-    "EOS/USD": {
-      "price_scale": 2
-    },
-    "BTG/USD": {
-      "price_scale": 2
     }
   },
   "currencies": {},

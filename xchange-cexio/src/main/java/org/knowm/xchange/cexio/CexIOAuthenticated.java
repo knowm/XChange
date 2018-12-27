@@ -1,15 +1,14 @@
 package org.knowm.xchange.cexio;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cexio.dto.*;
 import org.knowm.xchange.cexio.dto.account.*;
 import org.knowm.xchange.cexio.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)

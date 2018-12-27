@@ -266,9 +266,7 @@ public class BitmexAdapters {
       Currency quoteCurrencyCode = BitmexAdapters.adaptCurrency(quote);
 
       CurrencyPair pair = new CurrencyPair(baseCurrencyCode, quoteCurrencyCode);
-      pairs.put(
-          pair,
-          adaptPair(ticker, pairs.get(BitmexUtils.translateBitmexCurrencyPair(pair.toString()))));
+      pairs.put(pair, adaptPair(ticker, pairs.get(pair)));
       if (!BitmexUtils.bitmexCurrencies.containsKey(baseCurrencyCode)
           && !BitmexUtils.bitmexCurrencies.containsValue(base))
         BitmexUtils.bitmexCurrencies.put(baseCurrencyCode, base);
@@ -309,22 +307,22 @@ public class BitmexAdapters {
   }
 
   private static CurrencyPairMetaData adaptPair(
-      BitmexTicker ticker, CurrencyPairMetaData OriginalMeta) {
+      BitmexTicker ticker, CurrencyPairMetaData originalMeta) {
 
-    if (OriginalMeta != null) {
+    if (originalMeta != null) {
       return new CurrencyPairMetaData(
           ticker.getTakerFee(),
-          OriginalMeta.getMinimumAmount(),
-          OriginalMeta.getMaximumAmount(),
+          originalMeta.getMinimumAmount(),
+          originalMeta.getMaximumAmount(),
           Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
-          OriginalMeta.getFeeTiers());
+          originalMeta.getFeeTiers());
     } else {
       return new CurrencyPairMetaData(
           ticker.getTakerFee(),
           null,
           null,
           Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
-          OriginalMeta.getFeeTiers());
+          null);
     }
   }
 
