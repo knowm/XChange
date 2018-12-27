@@ -3,10 +3,12 @@ package org.knowm.xchange.coinbene.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USDT;
 
+import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbene.CoinbeneExchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -56,5 +58,13 @@ public class CoinbeneMarketDataServiceIntegration {
     Trades tradesLimit20 = COINBENE.getMarketDataService().getTrades(BTC_USDT, 20);
     assertThat(tradesLimit20.getTrades().size()).isEqualTo(20);
     tradesLimit20.getTrades().forEach(t -> assertThat(t.getCurrencyPair()).isEqualTo(BTC_USDT));
+  }
+
+  @Test
+  public void testGetSymbol() {
+
+    List<CurrencyPair> symbols = COINBENE.getExchangeSymbols();
+    assertThat(symbols).isNotNull();
+    assertThat(symbols.contains(CurrencyPair.ETH_BTC)).isEqualTo(true);
   }
 }

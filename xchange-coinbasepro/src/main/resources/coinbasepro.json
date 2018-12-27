@@ -59,6 +59,21 @@
       "min_amount": 0.01,
       "max_amount": 10000.00,
       "price_scale": 2
+    },
+    "BTC/USDC": {
+      "min_amount": 0.001,
+      "max_amount": 70,
+      "price_scale": 0.01
+    },
+    "ETH/USDC": {
+      "min_amount": 0.001,
+      "max_amount": 700,
+      "price_scale": 0.01
+    },
+    "BAT/USDC": {
+      "min_amount": 1,
+      "max_amount": 300000,
+      "price_scale": 0.000001
     }
   },
   "currencies": {
@@ -87,6 +102,10 @@
       "withdrawal_fee": 0.0
     },
     "GBP": {
+      "scale": 2,
+      "withdrawal_fee": 0.0
+    },
+    "USDC": {
       "scale": 2,
       "withdrawal_fee": 0.0
     }

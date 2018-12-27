@@ -11,6 +11,7 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexV2MarketSummary;
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class BittrexMarketDataServiceRaw extends BittrexBaseService {
@@ -77,5 +78,9 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     return bittrexV2
         .getLatestTick(BittrexUtils.toPairString(currencyPair), periodType.getPeriod(), timeStamp)
         .getResult();
+  }
+
+  public List<BittrexV2MarketSummary> getBittrexV2MarketSummaries() {
+    return bittrexV2.getMarketSummaries().getResult();
   }
 }

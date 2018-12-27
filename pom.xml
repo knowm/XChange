@@ -9,7 +9,7 @@
 
 	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>4.3.12-SNAPSHOT</version>
+	<version>4.3.14-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange</name>
@@ -37,7 +37,7 @@
 		<version.junit>4.12</version.junit>
 		<version.knowm.xchart>3.5.2</version.knowm.xchart>
 		<version.lombok>1.18.2</version.lombok>
-		<version.powermock>2.0.0-beta.5</version.powermock>
+		<version.powermock>2.0.0-RC.1</version.powermock>
 		<version.qos.logback>1.2.3</version.qos.logback>
 		<version.reflections>0.9.11</version.reflections>
 		<version.slf4j>1.7.25</version.slf4j>
@@ -142,6 +142,7 @@
 		<module>xchange-cryptopia</module>
 		<module>xchange-coinsuper</module>
 		<module>xchange-dsx</module>
+		<module>xchange-dragonex</module>
 		<module>xchange-exmo</module>
 		<module>xchange-exx</module>
 		<module>xchange-examples</module>
@@ -285,6 +286,13 @@
 				<version>${version.powermock}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-reflect</artifactId>
+				<version>${version.powermock}</version>
+				<scope>test</scope>
+			</dependency>
+
 			<!-- SLF4J implementation for use in examples -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>

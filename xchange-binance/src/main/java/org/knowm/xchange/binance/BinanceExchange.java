@@ -104,7 +104,7 @@ public class BinanceExchange extends BaseExchange {
 
             for (Filter filter : filters) {
               if (filter.getFilterType().equals("PRICE_FILTER")) {
-                pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
+                pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
               } else if (filter.getFilterType().equals("LOT_SIZE")) {
                 amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
