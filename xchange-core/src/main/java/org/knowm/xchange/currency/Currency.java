@@ -483,9 +483,6 @@ public class Currency implements Comparable<Currency>, Serializable {
   public int compareTo(Currency o) {
 
     if (attributes.equals(o.attributes)) return 0;
-    if (attributes.commonCode == null) {
-		return o.attributes.commonCode == null ? 0 : -1;
-    }
 
     Comparator<String> nullSafeStringComparator = Comparator
             .nullsFirst(String::compareToIgnoreCase);
@@ -493,12 +490,21 @@ public class Currency implements Comparable<Currency>, Serializable {
     Comparator<Integer> nullSafeIntComparator = Comparator
             .nullsFirst(Integer::compareTo);
 
-    Comparator<Currency> currencyComparator = Comparator
-            .comparing(Currency::getCommonCode, nullSafeStringComparator)
-            .thenComparing(Currency::getDisplayName, nullSafeStringComparator)
-            .thenComparing(Currency::hashCode, nullSafeIntComparator);
-
-    return currencyComparator.compare(this, o);
+    Comparator<Currency> currencyComparator;
+    
+    // If common code exist, prefer it over currency code 
+    if (attributes.commonCode != null && o.attributes.commonCode != null) {
+    		currencyComparator= Comparator
+			.comparing(Currency::getCommonCode, nullSafeStringComparator);
+    } else {
+	currencyComparator= Comparator
+        		.comparing(Currency::getCurrencyCode, nullSafeStringComparator);
+    }
+    
+    return currencyComparator
+    		.thenComparing(Currency::getDisplayName, nullSafeStringComparator)
+    		.thenComparing(Currency::hashCode, nullSafeIntComparator)
+    		.compare(this, o);
   }
 
   private static class CurrencyAttributes implements Serializable {
