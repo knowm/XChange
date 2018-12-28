@@ -143,6 +143,7 @@
 		<module>xchange-coinsuper</module>
 		<module>xchange-dsx</module>
 		<module>xchange-dragonex</module>
+		<module>xchange-dvchain</module>
 		<module>xchange-exmo</module>
 		<module>xchange-exx</module>
 		<module>xchange-examples</module>
