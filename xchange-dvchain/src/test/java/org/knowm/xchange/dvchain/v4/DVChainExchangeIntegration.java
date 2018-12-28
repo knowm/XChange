@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -20,16 +19,16 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.dvchain.DVChainExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
 
 public class DVChainExchangeIntegration {
-    final String secret =
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjMGZkZjczNTUxYTU4M2I2OGNmOTM1YSIsImlhdCI6MTU0NDcyNjk3Nn0.wBuyED4CmkFzzrNdQm1FqwixJhvQTfl-aN4OE0ryoho";
+  final String secret =
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjMGZkZjczNTUxYTU4M2I2OGNmOTM1YSIsImlhdCI6MTU0NDcyNjk3Nn0.wBuyED4CmkFzzrNdQm1FqwixJhvQTfl-aN4OE0ryoho";
+
   @Test
   public void shouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getCanonicalName());
+    Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getCanonicalName());
     ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
     exchangeSpecification.setHost("sandbox.trade.dvchain.co");
@@ -40,10 +39,10 @@ public class DVChainExchangeIntegration {
   public void testExchangeMarketData() {
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
-      ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
-      exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
-      exchangeSpecification.setHost("sandbox.trade.dvchain.co");
-      exchange.applySpecification(exchangeSpecification);
+    ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+    exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
+    exchangeSpecification.setHost("sandbox.trade.dvchain.co");
+    exchange.applySpecification(exchangeSpecification);
     final MarketDataService marketDataService = exchange.getMarketDataService();
     try {
       OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("BTC", "USD"));
@@ -63,10 +62,10 @@ public class DVChainExchangeIntegration {
 
     final Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
-      ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
-      exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
-      exchangeSpecification.setHost("sandbox.trade.dvchain.co");
-      exchange.applySpecification(exchangeSpecification);
+    ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+    exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
+    exchangeSpecification.setHost("sandbox.trade.dvchain.co");
+    exchange.applySpecification(exchangeSpecification);
     TradeService tradeService = exchange.getTradeService();
     try {
       String order =
@@ -80,60 +79,65 @@ public class DVChainExchangeIntegration {
     }
   }
 
-    @Test
-    public void testLimitOrder() {
-        final Exchange exchange =
-                ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
-        ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
-        exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
-        exchangeSpecification.setHost("sandbox.trade.dvchain.co");
-        exchange.applySpecification(exchangeSpecification);
-        TradeService tradeService = exchange.getTradeService();
-        try {
-            String order =
-                    tradeService.placeLimitOrder(
-                            new LimitOrder(
-                                    Order.OrderType.ASK, new BigDecimal(1), new CurrencyPair("BTC", "USD"), "", null, new BigDecimal("7001")));
-            assertNotNull(order);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            assert (false);
-        }
+  @Test
+  public void testLimitOrder() {
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+    ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+    exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
+    exchangeSpecification.setHost("sandbox.trade.dvchain.co");
+    exchange.applySpecification(exchangeSpecification);
+    TradeService tradeService = exchange.getTradeService();
+    try {
+      String order =
+          tradeService.placeLimitOrder(
+              new LimitOrder(
+                  Order.OrderType.ASK,
+                  new BigDecimal(1),
+                  new CurrencyPair("BTC", "USD"),
+                  "",
+                  null,
+                  new BigDecimal("7001")));
+      assertNotNull(order);
+    } catch (Exception exception) {
+      System.out.println(exception.getMessage());
+      assert (false);
     }
+  }
 
-    @Test
-    public void testOrders() {
-        final Exchange exchange =
-                ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
-        ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
-        exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
-        exchangeSpecification.setHost("sandbox.trade.dvchain.co");
-        exchange.applySpecification(exchangeSpecification);
-        TradeService tradeService = exchange.getTradeService();
-        try {
-            OpenOrders orders = tradeService.getOpenOrders();
-            assertNotNull(orders);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            assert (false);
-        }
+  @Test
+  public void testOrders() {
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+    ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+    exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
+    exchangeSpecification.setHost("sandbox.trade.dvchain.co");
+    exchange.applySpecification(exchangeSpecification);
+    TradeService tradeService = exchange.getTradeService();
+    try {
+      OpenOrders orders = tradeService.getOpenOrders();
+      assertNotNull(orders);
+    } catch (Exception exception) {
+      System.out.println(exception.getMessage());
+      assert (false);
     }
+  }
 
-    @Test
-    public void testTrades() {
-        final Exchange exchange =
-                ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
-        ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
-        exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
-        exchangeSpecification.setHost("sandbox.trade.dvchain.co");
-        exchange.applySpecification(exchangeSpecification);
-        TradeService tradeService = exchange.getTradeService();
-        try {
-            UserTrades trades = tradeService.getTradeHistory(new TradeHistoryParamsZero());
-            assertNotNull(trades);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-            assert (false);
-        }
+  @Test
+  public void testTrades() {
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(DVChainExchange.class.getName(), secret, secret);
+    ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+    exchangeSpecification.setSslUri("https://sandbox.trade.dvchain.co");
+    exchangeSpecification.setHost("sandbox.trade.dvchain.co");
+    exchange.applySpecification(exchangeSpecification);
+    TradeService tradeService = exchange.getTradeService();
+    try {
+      UserTrades trades = tradeService.getTradeHistory(new TradeHistoryParamsZero());
+      assertNotNull(trades);
+    } catch (Exception exception) {
+      System.out.println(exception.getMessage());
+      assert (false);
     }
+  }
 }

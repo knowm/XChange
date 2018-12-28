@@ -46,7 +46,7 @@ public class DVChainTradeServiceRaw extends DVChainBaseService {
 
   public List<DVChainTrade> getOrders() throws IOException {
     try {
-      DVChainTradesResponse tradesResponse = dvChain.getTrades(authToken,"no-cache", "no-cache");
+      DVChainTradesResponse tradesResponse = dvChain.getTrades(authToken, "no-cache", "no-cache");
       return tradesResponse
           .getData()
           .stream()

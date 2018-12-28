@@ -17,9 +17,10 @@ public interface DVChain {
 
   @GET
   @Path("trades")
-  DVChainTradesResponse getTrades(@HeaderParam("Authorization") String apiKey,
-                                  @HeaderParam("Pragma") String nocache,
-                                  @HeaderParam("Cache-Control") String cache)
+  DVChainTradesResponse getTrades(
+      @HeaderParam("Authorization") String apiKey,
+      @HeaderParam("Pragma") String nocache,
+      @HeaderParam("Cache-Control") String cache)
       throws DVChainException, IOException;
 
   @POST
