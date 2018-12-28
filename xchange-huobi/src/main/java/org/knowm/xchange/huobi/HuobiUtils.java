@@ -54,8 +54,10 @@ public class HuobiUtils {
           new CurrencyPair(
               translateHuobiCurrencyCode(entry.getBaseCurrency()),
               translateHuobiCurrencyCode(entry.getQuoteCurrency()));
-      assetPairMap.put(entry.getKey(), pair);
-      assetPairMapReverse.put(pair, entry.getKey());
+      if (pair.base != null && pair.counter != null) {
+    	    assetPairMap.put(entry.getKey(), pair);
+        assetPairMapReverse.put(pair, entry.getKey());
+      }
     }
   }
 
