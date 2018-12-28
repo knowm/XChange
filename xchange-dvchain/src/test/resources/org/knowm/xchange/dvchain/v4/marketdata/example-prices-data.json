@@ -1,0 +1,42 @@
+{
+  "BTC": {
+    "levels": [
+      {
+        "sellPrice": 6181.4,
+        "buyPrice": 6218.61,
+        "maxQuantity": 1
+      },
+      {
+        "sellPrice": 6171.43,
+        "buyPrice": 6228.63,
+        "maxQuantity": 5
+      },
+      {
+        "sellPrice": 6161.46,
+        "buyPrice": 6238.66,
+        "maxQuantity": 10
+      }
+    ],
+    "expiresAt": 1539626145342
+  },
+  "ETH": {
+    "levels": [
+      {
+        "sellPrice": 198.4,
+        "buyPrice": 200.6,
+        "maxQuantity": 10
+      },
+      {
+        "sellPrice": 197.41,
+        "buyPrice": 201.6,
+        "maxQuantity": 20
+      },
+      {
+        "sellPrice": 196.41,
+        "buyPrice": 202.61,
+        "maxQuantity": 30
+      }
+    ],
+    "expiresAt": 1539626145341
+  }
+}
