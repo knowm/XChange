@@ -1,6 +1,9 @@
 package org.knowm.xchange.exceptions;
 
-/** An exception indicating there the rate limit for making requests has been exceeded */
+/**
+ * An exception indicating that the server is overloaded and the service is temporally unavailable
+ * i.e. when server return an http error 502
+ */
 public class SystemOverloadException extends ExchangeException {
 
   public SystemOverloadException(String message) {
