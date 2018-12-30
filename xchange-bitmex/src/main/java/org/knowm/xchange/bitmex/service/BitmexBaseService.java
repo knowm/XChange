@@ -6,10 +6,7 @@ import java.util.Map;
 import org.knowm.xchange.bitmex.BitmexAuthenticated;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.RateLimitUpdateListener;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.exceptions.InternalServerException;
-import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.exceptions.*;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
@@ -50,6 +47,8 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
         return new RateLimitExceededException(exception);
       } else if (exception.getMessage().contains("Internal server error")) {
         return new InternalServerException(exception);
+      } else if (exception.getMessage().contains("The system is currently overloaded")) {
+        return new SystemOverloadException(exception);
       } else {
         return new ExchangeException(exception.getMessage(), exception);
       }
