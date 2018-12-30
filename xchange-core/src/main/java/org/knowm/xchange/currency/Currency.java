@@ -277,6 +277,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency Z18 = createCurrency("Z18", "December 28th", null);
 
   // Cryptos
+  public static final Currency BNK = createCurrency("BNK", "Bankera Coin", null);
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);
   public static final Currency QSP = createCurrency("QSP", "Quantstamp", null);
   public static final Currency IOTA = createCurrency("IOTA", "Iota", null);
