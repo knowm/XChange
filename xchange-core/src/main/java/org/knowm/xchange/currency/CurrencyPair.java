@@ -333,6 +333,10 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ETC_7D =
       new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
 
+  //Bankera Exchange pairs
+  public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
+  public static final CurrencyPair BNK_ETH = new CurrencyPair(Currency.BNK, Currency.ETH);
+
   public final Currency base;
   public final Currency counter;
 
