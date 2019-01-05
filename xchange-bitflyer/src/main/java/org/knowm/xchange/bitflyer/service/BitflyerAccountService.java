@@ -10,6 +10,7 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.BitflyerAdapters;
 import org.knowm.xchange.bitflyer.BitflyerUtils;
+import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerAddress;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerCoinHistory;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
@@ -19,6 +20,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -49,8 +51,8 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
                 getTradingCommission(BitflyerUtils.bitflyerProductCode(pair));
 
             tradingFees.put(pair, BitflyerAdapters.adaptTradingCommission(commission));
-          } catch (IOException e) {
-            LOG.trace("IOException fetching trade commission for {}", pair);
+          } catch (IOException | BitflyerException | ExchangeException e) {
+            LOG.trace("Exception fetching trade commission for {}", pair, e);
           }
         });
 
