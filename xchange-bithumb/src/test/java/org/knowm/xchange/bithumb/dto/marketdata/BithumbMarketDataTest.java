@@ -2,9 +2,11 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.bithumb.BithumbAdapters;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +24,6 @@ public class BithumbMarketDataTest {
 
         final BithumbTicker bithumbTicker = mapper.readValue(is, BithumbTicker.class);
 
-        System.out.println(bithumbTicker);
         assertThat(bithumbTicker.getOpeningPrice()).isEqualTo("151300");
         assertThat(bithumbTicker.getClosingPrice()).isEqualTo("168900");
         assertThat(bithumbTicker.getMinPrice()).isEqualTo("148600");
@@ -36,6 +37,37 @@ public class BithumbMarketDataTest {
         assertThat(bithumbTicker.get_24HFluctate()).isEqualTo("17600");
         assertThat(bithumbTicker.get_24HFluctateRate()).isEqualTo("11.63");
         assertThat(bithumbTicker.getDate()).isEqualTo(1546440237614L);
+    }
+
+    @Test
+    public void testUnmarshallTickers() throws IOException {
+
+        // given
+        final InputStream is =
+                BithumbMarketDataTest.class.getResourceAsStream(
+                        "/org/knowm/xchange/bithumb/dto/marketdata/all-ticker-data.json");
+
+        // when
+        final BithumbTickersReturn bithumbTickers = mapper.readValue(is, BithumbTickersReturn.class);
+
+        // then
+        assertThat(bithumbTickers.getTickers()).hasSize(3);
+        assertThat(bithumbTickers.getTickers()).containsKeys("BTC", "ETH", "DASH");
+
+        final BithumbTicker btc = bithumbTickers.getTickers().get("BTC");
+        assertThat(btc.getOpeningPrice()).isEqualTo(BigDecimal.valueOf(4185000L));
+        assertThat(btc.getClosingPrice()).isEqualTo(BigDecimal.valueOf(4297000L));
+        assertThat(btc.getMinPrice()).isEqualTo(BigDecimal.valueOf(4137000L));
+        assertThat(btc.getMaxPrice()).isEqualTo(BigDecimal.valueOf(4328000L));
+        assertThat(btc.getAveragePrice()).isEqualTo(BigDecimal.valueOf(4252435.9159));
+        assertThat(btc.getUnitsTraded()).isEqualTo(BigDecimal.valueOf(3815.4174696));
+        assertThat(btc.getVolume1day()).isEqualTo(BigDecimal.valueOf(3815.4174696));
+        assertThat(btc.getVolume7day()).isEqualTo(BigDecimal.valueOf(31223.31245306));
+        assertThat(btc.getBuyPrice()).isEqualTo(BigDecimal.valueOf(4296000));
+        assertThat(btc.getSellPrice()).isEqualTo(BigDecimal.valueOf(4297000));
+        assertThat(btc.get_24HFluctate()).isEqualTo(BigDecimal.valueOf(112000));
+        assertThat(btc.get_24HFluctateRate()).isEqualTo(BigDecimal.valueOf(2.67));
+        assertThat(btc.getDate()).isEqualTo(1546440191110L);
     }
 
     @Test
@@ -69,11 +101,12 @@ public class BithumbMarketDataTest {
                 BithumbMarketDataTest.class.getResourceAsStream(
                         "/org/knowm/xchange/bithumb/dto/marketdata/example-transaction-history.json");
 
-        final BithumbTransactionHistory bithumbOrderbook = mapper.readValue(is, BithumbTransactionHistory.class);
+        final BithumbTransactionHistory bithumbOrderbook =
+                mapper.readValue(is, BithumbTransactionHistory.class);
 
         assertThat(bithumbOrderbook.getContNo()).isEqualTo(30062545L);
         assertThat(bithumbOrderbook.getTransactionDate()).isEqualTo("2019-01-03 00:54:08");
-        assertThat(bithumbOrderbook.getType()).isEqualTo("ask");
+        assertThat(bithumbOrderbook.getType()).isEqualTo(BithumbAdapters.OrderType.ask);
         assertThat(bithumbOrderbook.getUnitsTraded()).isEqualTo("0.3215");
         assertThat(bithumbOrderbook.getPrice()).isEqualTo("166900");
         assertThat(bithumbOrderbook.getTotal()).isEqualTo("53658");
