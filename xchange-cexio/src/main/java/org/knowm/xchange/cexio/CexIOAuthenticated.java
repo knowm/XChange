@@ -104,7 +104,7 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("get_order_tx/")
   Map getOrderTransactions(
-      @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleIdRequest request)
+      @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleOrderIdRequest request)
       throws IOException;
 
   @POST

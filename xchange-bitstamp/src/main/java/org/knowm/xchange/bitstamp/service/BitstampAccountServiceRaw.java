@@ -246,7 +246,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       final BitstampDepositAddress response =
-          bitstampAuthenticated.getBitcoinDepositAddress(
+          bitstampAuthenticated.getBitcoinCashDepositAddress(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());

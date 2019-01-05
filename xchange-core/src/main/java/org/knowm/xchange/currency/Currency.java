@@ -3,6 +3,7 @@ package org.knowm.xchange.currency;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -440,10 +441,19 @@ public class Currency implements Comparable<Currency>, Serializable {
     return attributes.name;
   }
 
+  /** Gets the common code of this currency. */
+  private String getCommonCode() {
+
+	return attributes.commonCode;
+  }
+
   @Override
   public String toString() {
 
-    return code;
+    if (attributes.commonCode == null) {
+      return code;
+    }
+    return attributes.commonCode;
   }
 
   @Override
@@ -474,10 +484,27 @@ public class Currency implements Comparable<Currency>, Serializable {
 
     if (attributes.equals(o.attributes)) return 0;
 
-    int comparison = code.compareTo(o.code);
-    if (comparison == 0) comparison = getDisplayName().compareTo(o.getDisplayName());
-    if (comparison == 0) comparison = hashCode() - o.hashCode();
-    return comparison;
+    Comparator<String> nullSafeStringComparator = Comparator
+            .nullsFirst(String::compareToIgnoreCase);
+
+    Comparator<Integer> nullSafeIntComparator = Comparator
+            .nullsFirst(Integer::compareTo);
+
+    Comparator<Currency> currencyComparator;
+    
+    // If common code exist, prefer it over currency code 
+    if (attributes.commonCode != null && o.attributes.commonCode != null) {
+    		currencyComparator= Comparator
+			.comparing(Currency::getCommonCode, nullSafeStringComparator);
+    } else {
+	currencyComparator= Comparator
+        		.comparing(Currency::getCurrencyCode, nullSafeStringComparator);
+    }
+    
+    return currencyComparator
+    		.thenComparing(Currency::getDisplayName, nullSafeStringComparator)
+    		.thenComparing(Currency::hashCode, nullSafeIntComparator)
+    		.compare(this, o);
   }
 
   private static class CurrencyAttributes implements Serializable {
