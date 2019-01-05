@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitflyerUtils {
@@ -36,5 +37,9 @@ public class BitflyerUtils {
     } catch (final ParseException e) {
       throw new ExchangeException("Illegal date/time format: " + date, e);
     }
+  }
+
+  public static String bitflyerProductCode(CurrencyPair pair) {
+    return pair.toString().replace("/", "_");
   }
 }

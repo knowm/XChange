@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import org.knowm.xchange.bitflyer.BitflyerUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
@@ -179,7 +180,7 @@ public class BitflyerChildOrder {
 
     public BitflyerChildOrder buildOrder() {
       return new BitflyerChildOrder(
-          currencyPair.toString().replace("/", "_"),
+          BitflyerUtils.bitflyerProductCode(currencyPair),
           childOrderType,
           side,
           price,
