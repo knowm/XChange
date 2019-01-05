@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.knowm.xchange.bitflyer.BitflyerUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
@@ -118,7 +119,7 @@ public class BitflyerParentOrder {
 
       BitflyerParentOrderParameter parameter =
           new BitflyerParentOrderParameter(
-              productCode.toString().replace("/", "_"),
+              BitflyerUtils.bitflyerProductCode(productCode),
               conditionType,
               BitflyerSide.fromOrderType(side),
               price,

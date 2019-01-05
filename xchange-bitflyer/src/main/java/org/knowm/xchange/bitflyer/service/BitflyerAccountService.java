@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.BitflyerAdapters;
+import org.knowm.xchange.bitflyer.BitflyerUtils;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerAddress;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerCoinHistory;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
@@ -21,8 +22,12 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BitflyerAccountService extends BitflyerAccountServiceRaw implements AccountService {
+  private static final Logger LOG = LoggerFactory.getLogger(BitflyerAccountService.class);
+
   /**
    * Constructor
    *
@@ -35,11 +40,19 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
     Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
 
-    // TODO not sure how to programmatically determine which product code(s) to use here
-    BitflyerTradingCommission commission = getTradingCommission("BTC_USD");
+    pairs.forEach(
+        pair -> {
+          try {
+            BitflyerTradingCommission commission =
+                getTradingCommission(BitflyerUtils.bitflyerProductCode(pair));
 
-    tradingFees.put(CurrencyPair.BTC_USD, BitflyerAdapters.adaptTradingCommission(commission));
+            tradingFees.put(pair, BitflyerAdapters.adaptTradingCommission(commission));
+          } catch (IOException e) {
+            LOG.trace("IOException fetching trade commission for {}", pair);
+          }
+        });
 
     return tradingFees;
   }
