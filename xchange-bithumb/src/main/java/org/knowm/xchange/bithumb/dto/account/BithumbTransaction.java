@@ -2,12 +2,15 @@ package org.knowm.xchange.bithumb.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BithumbTransaction {
+    public static final String SEARCH_BUY = "1";
+    public static final String SEARCH_SELL = "2";
     private final String search;
     private final long transferDate;
     private final String units;
@@ -75,5 +78,9 @@ public class BithumbTransaction {
                 ", krwRemain=" + krwRemain +
                 ", additionalProperties=" + additionalProperties +
                 '}';
+    }
+
+    public boolean isBuyOrSell() {
+        return StringUtils.equalsAny(search, SEARCH_BUY, SEARCH_SELL);
     }
 }

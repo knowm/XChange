@@ -1,8 +1,12 @@
 package org.knowm.xchange.bithumb.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bithumb.BithumbAdapters;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BithumbOrder {
 
@@ -10,7 +14,7 @@ public class BithumbOrder {
     private final long orderDate;
     private final String orderCurrency;
     private final String paymentCurrency;
-    private final String type;
+    private final BithumbAdapters.OrderType type;
     private final String status;
     private final BigDecimal units;
     private final BigDecimal unitsRemaining;
@@ -18,13 +22,14 @@ public class BithumbOrder {
     private final BigDecimal fee;
     private final BigDecimal total;
     private final long dateCompleted;
+    private final Map<String, Object> additionalProperties = new HashMap<>();
 
     public BithumbOrder(
             @JsonProperty("order_id") long orderId,
             @JsonProperty("order_date") long orderDate,
             @JsonProperty("order_currency") String orderCurrency,
             @JsonProperty("payment_currency") String paymentCurrency,
-            @JsonProperty("type") String type,
+            @JsonProperty("type") BithumbAdapters.OrderType type,
             @JsonProperty("status") String status,
             @JsonProperty("units") BigDecimal units,
             @JsonProperty("units_remaining") BigDecimal unitsRemaining,
@@ -62,7 +67,7 @@ public class BithumbOrder {
         return paymentCurrency;
     }
 
-    public String getType() {
+    public BithumbAdapters.OrderType getType() {
         return type;
     }
 
@@ -92,6 +97,11 @@ public class BithumbOrder {
 
     public long getDateCompleted() {
         return dateCompleted;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
     @Override

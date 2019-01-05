@@ -18,7 +18,7 @@ public class BithumbTicker {
     private final BigDecimal sellPrice;
     private final BigDecimal _24HFluctate;
     private final BigDecimal _24HFluctateRate;
-    private final long date;
+    private long date;
 
     public BithumbTicker(
             @JsonProperty("opening_price") BigDecimal openingPrice,
@@ -99,6 +99,10 @@ public class BithumbTicker {
 
     public long getDate() {
         return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     @Override
