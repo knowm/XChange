@@ -210,6 +210,8 @@ public abstract class Order implements Serializable {
         + print(cumulativeAmount)
         + ", averagePrice="
         + print(averagePrice)
+        + ", fee="
+        + print(fee)
         + ", currencyPair="
         + currencyPair
         + ", id="
