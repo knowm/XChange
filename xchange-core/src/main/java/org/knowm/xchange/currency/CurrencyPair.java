@@ -154,6 +154,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
   public static final CurrencyPair XMR_ETH = new CurrencyPair(Currency.XMR, Currency.ETH);
   public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
+  public static final CurrencyPair XMR_USDT = new CurrencyPair(Currency.XMR, Currency.USDT);
 
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
   public static final CurrencyPair XPM_CNY = new CurrencyPair(Currency.XPM, Currency.CNY);
