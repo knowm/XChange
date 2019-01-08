@@ -320,18 +320,18 @@ public final class FundingRecord implements Serializable {
 
     public static Builder from(FundingRecord record) {
       return new Builder()
-		  .setAddress(record.address)
-		  .setDate(record.date)
-		  .setCurrency(record.currency)
-		  .setAmount(record.amount)
-		  .setInternalId(record.internalId)
-		  .setDescription(record.description)
-		  .setType(record.type)
-		  .setStatus(record.status)
-		  .setBalance(record.balance)
-		  .setFee(record.fee);
+          .setAddress(record.address)
+          .setDate(record.date)
+          .setCurrency(record.currency)
+          .setAmount(record.amount)
+          .setInternalId(record.internalId)
+          .setDescription(record.description)
+          .setType(record.type)
+          .setStatus(record.status)
+          .setBalance(record.balance)
+          .setFee(record.fee);
     }
-    
+
     public Builder setAddress(String address) {
       this.address = address;
       return this;

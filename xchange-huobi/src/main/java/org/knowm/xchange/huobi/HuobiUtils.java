@@ -11,9 +11,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
-import si.mazi.rescu.SynchronizedValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HuobiUtils {
   private static Logger logger = LoggerFactory.getLogger(HuobiUtils.class);
@@ -55,7 +55,7 @@ public class HuobiUtils {
               translateHuobiCurrencyCode(entry.getBaseCurrency()),
               translateHuobiCurrencyCode(entry.getQuoteCurrency()));
       if (pair.base != null && pair.counter != null) {
-    	    assetPairMap.put(entry.getKey(), pair);
+        assetPairMap.put(entry.getKey(), pair);
         assetPairMapReverse.put(pair, entry.getKey());
       }
     }

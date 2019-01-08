@@ -2,7 +2,6 @@ package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -53,20 +52,16 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
             .getExchangeSpecification()
             .getExchangeSpecificParametersItem("Use_Intl")
             .equals(true);
-    
+
     String currencySymbol =
         OkCoinAdapters.adaptSymbol(
             new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
 
-    BigDecimal staticFee = 
-    		this.exchange
-    		    .getExchangeMetaData()
-    		    .getCurrencies()
-    		    .get(currency)
-    		    .getWithdrawalFee();
-    		    
+    BigDecimal staticFee =
+        this.exchange.getExchangeMetaData().getCurrencies().get(currency).getWithdrawalFee();
+
     if (staticFee == null) {
-        throw new IllegalArgumentException("Unsupported withdraw currency " + currency);
+      throw new IllegalArgumentException("Unsupported withdraw currency " + currency);
     }
 
     NumberFormat format = new DecimalFormat("0.####"); // lowest fee is 0.0005
@@ -106,12 +101,14 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     if (params instanceof TradeHistoryParamCurrency
         && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
 
-      symbol = OkCoinAdapters.adaptCurrencyToAccountRecordPair(((TradeHistoryParamCurrency) params).getCurrency());
+      symbol =
+          OkCoinAdapters.adaptCurrencyToAccountRecordPair(
+              ((TradeHistoryParamCurrency) params).getCurrency());
     }
     if (symbol == null) {
       throw new ExchangeException("Symbol must be supplied");
     }
-    
+
     Integer pageLength = 50;
     Integer pageNumber = null;
     if (params instanceof TradeHistoryParamPaging) {

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -62,13 +61,15 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 
-    // Get the last-price of each pair. It is needed to infer XChange's priceScale out of Bitfinex's pricePercision
+    // Get the last-price of each pair. It is needed to infer XChange's priceScale out of Bitfinex's
+    // pricePercision
     org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw dataServiceV2 =
-            new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
-    Map<CurrencyPair, BigDecimal> lastPrices = Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
-    	.map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
-    	.collect(Collectors.toMap(t -> t.getCurrencyPair() , t -> t.getLast()));
-    
+        new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
+    Map<CurrencyPair, BigDecimal> lastPrices =
+        Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
+            .map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
+            .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
+
     final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails, lastPrices);
 

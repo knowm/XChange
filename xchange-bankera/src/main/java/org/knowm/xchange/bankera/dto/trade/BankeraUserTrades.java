@@ -13,6 +13,6 @@ public class BankeraUserTrades {
   }
 
   public List<BankeraUserTrade> getTrades() {
-	return trades;
+    return trades;
   }
 }

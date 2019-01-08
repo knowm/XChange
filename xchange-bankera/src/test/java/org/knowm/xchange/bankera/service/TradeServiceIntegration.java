@@ -16,7 +16,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
@@ -60,11 +59,7 @@ public class TradeServiceIntegration {
 
     MarketOrder marketOrder =
         new MarketOrder(
-            Order.OrderType.ASK,
-            BigDecimal.valueOf(0.01),
-            CurrencyPair.ETH_BTC,
-            "",
-            new Date());
+            Order.OrderType.ASK, BigDecimal.valueOf(0.01), CurrencyPair.ETH_BTC, "", new Date());
 
     Assert.assertNotNull(tradeService.placeMarketOrder(marketOrder));
   }
@@ -107,9 +102,9 @@ public class TradeServiceIntegration {
   @Test
   public void testHgetUserTrades() throws Exception {
 
-	DefaultTradeHistoryParamCurrencyPair currencyPair = new DefaultTradeHistoryParamCurrencyPair();
-	currencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
-	UserTrades trades = tradeService.getTradeHistory(currencyPair);
-	logger.info("Response: {}", trades.getUserTrades());
+    DefaultTradeHistoryParamCurrencyPair currencyPair = new DefaultTradeHistoryParamCurrencyPair();
+    currencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
+    UserTrades trades = tradeService.getTradeHistory(currencyPair);
+    logger.info("Response: {}", trades.getUserTrades());
   }
 }

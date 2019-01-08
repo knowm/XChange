@@ -2,10 +2,8 @@ package org.knowm.xchange.bitfinex.v1.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.currency.Currency;
 
@@ -15,11 +13,17 @@ public class BitfinexAccountFeesResponse {
 
   public BitfinexAccountFeesResponse(
       @JsonProperty("withdraw") final Map<String, BigDecimal> withdraw) {
-    this.withdraw = withdraw.entrySet().stream()  // Sting needs to be adapted (i.e., DSH -> DASH)
-			.collect(Collectors.toMap(entry -> new Currency(BitfinexAdapters.adaptBitfinexCurrency(entry.getKey())), entry -> entry.getValue()));
+    this.withdraw =
+        withdraw
+            .entrySet()
+            .stream() // Sting needs to be adapted (i.e., DSH -> DASH)
+            .collect(
+                Collectors.toMap(
+                    entry -> new Currency(BitfinexAdapters.adaptBitfinexCurrency(entry.getKey())),
+                    entry -> entry.getValue()));
   }
 
   public Map<Currency, BigDecimal> getWithdraw() {
-	return withdraw;
+    return withdraw;
   }
 }
