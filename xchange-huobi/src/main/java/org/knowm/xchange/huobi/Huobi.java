@@ -40,7 +40,7 @@ public interface Huobi {
   @Path("market/depth")
   HuobiDepthResult getDepth(@QueryParam("symbol") String symbol, @QueryParam("type") String type)
       throws IOException;
-  
+
   @GET
   @Path("market/history/trade")
   HuobiTradesResult getTrades(@QueryParam("symbol") String symbol, @QueryParam("size") int size)

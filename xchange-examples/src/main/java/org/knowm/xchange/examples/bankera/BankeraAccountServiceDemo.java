@@ -1,10 +1,9 @@
 package org.knowm.xchange.examples.bankera;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
 
 public class BankeraAccountServiceDemo {
   public static void main(String[] args) throws IOException {

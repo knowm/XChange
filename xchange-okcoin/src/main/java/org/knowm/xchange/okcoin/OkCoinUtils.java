@@ -70,19 +70,19 @@ public class OkCoinUtils {
       case (10015):
         return "Order price differs from current market price too much";
       case (10016):
-          return "Insufficient coins balance";
+        return "Insufficient coins balance";
       case (10017):
-          return "API authorization error";
+        return "API authorization error";
       case (10018):
-          return "borrow amount less than lower limit";
+        return "borrow amount less than lower limit";
       case (10019):
-          return "loan agreement not checked";
+        return "loan agreement not checked";
       case (10020):
-          return "rate cannot exceed 1%\n";
+        return "rate cannot exceed 1%\n";
       case (10021):
-          return "rate cannot less than 0.01%";
+        return "rate cannot less than 0.01%";
       case (10023):
-          return "fail to get latest ticker";
+        return "fail to get latest ticker";
       case (10216):
         return "Non-public API";
       case (20001):

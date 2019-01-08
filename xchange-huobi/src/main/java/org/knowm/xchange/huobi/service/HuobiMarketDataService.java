@@ -65,11 +65,11 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
             .collect(Collectors.toList());
     return new OrderBook(depth.getTs(), asks, bids);
   }
-  
+
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     int size = 100;
-	  
+
     if (args != null && args.length == 1) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Integer) || arg0 == null || (int) arg0 < 1 || (int) arg0 > 2000) {
@@ -78,17 +78,23 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
         size = (int) arg0;
       }
     }
-    
+
     HuobiTradeWrapper[] huobiTrades = getHuobiTrades(currencyPair, size);
-    List<Trade> trades = Arrays.asList(huobiTrades)
-    		.stream()
-    		.map(t -> t.getData()[0])
-    		.map(
-    			t ->
-    				new Trade(HuobiAdapters.adaptOrderType(t.getDirection()), t.getAmount(), currencyPair, t.getPrice(), t.getTs(), t.getId())
-    		)
-    		.collect(Collectors.toList());
-    
+    List<Trade> trades =
+        Arrays.asList(huobiTrades)
+            .stream()
+            .map(t -> t.getData()[0])
+            .map(
+                t ->
+                    new Trade(
+                        HuobiAdapters.adaptOrderType(t.getDirection()),
+                        t.getAmount(),
+                        currencyPair,
+                        t.getPrice(),
+                        t.getTs(),
+                        t.getId()))
+            .collect(Collectors.toList());
+
     return new Trades(trades);
   }
 }

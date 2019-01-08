@@ -284,21 +284,21 @@ public abstract class Order implements Serializable {
      * futures for CFD's.
      */
     EXIT_BID;
-	  
-	public OrderType getOpposite() {
-		switch (this) {
-		case BID:
-			return ASK;
-		case ASK:
-			return BID;
-		case EXIT_ASK:
-			return EXIT_BID;
-		case EXIT_BID:
-			return EXIT_ASK;
-		default:
-			return null;
-		}
-	}
+
+    public OrderType getOpposite() {
+      switch (this) {
+        case BID:
+          return ASK;
+        case ASK:
+          return BID;
+        case EXIT_ASK:
+          return EXIT_BID;
+        case EXIT_BID:
+          return EXIT_ASK;
+        default:
+          return null;
+      }
+    }
   }
 
   public enum OrderStatus {
@@ -332,35 +332,34 @@ public abstract class Order implements Serializable {
      * the order cannot be confirmed.
      */
     UNKNOWN;
-	  
-	/** Returns true for final {@link OrderStatus} */
-	public boolean isFinal() {
-		switch(this) {
-		case FILLED:
-		case PARTIALLY_CANCELED: // Cancelled, partially-executed order is final status.
-		case CANCELED:
-		case REPLACED:
-		case STOPPED:
-		case REJECTED:
-		case EXPIRED:
-			return true;
-		default:
-			return false;	
-		}
-	}
-	
-	/** Returns true when open {@link OrderStatus} */
-	public boolean isOpen() {
-		switch(this) {
-		case PENDING_NEW:
-		case NEW:
-		case PARTIALLY_FILLED:
-			return true;
-		default:
-			return false;	
-		}
-	}
-	
+
+    /** Returns true for final {@link OrderStatus} */
+    public boolean isFinal() {
+      switch (this) {
+        case FILLED:
+        case PARTIALLY_CANCELED: // Cancelled, partially-executed order is final status.
+        case CANCELED:
+        case REPLACED:
+        case STOPPED:
+        case REJECTED:
+        case EXPIRED:
+          return true;
+        default:
+          return false;
+      }
+    }
+
+    /** Returns true when open {@link OrderStatus} */
+    public boolean isOpen() {
+      switch (this) {
+        case PENDING_NEW:
+        case NEW:
+        case PARTIALLY_FILLED:
+          return true;
+        default:
+          return false;
+      }
+    }
   }
 
   public interface IOrderFlags {}

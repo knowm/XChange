@@ -29,20 +29,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<version.assertj>3.10.0</version.assertj>
+		<version.assertj>3.11.1</version.assertj>
 		<version.commons.io>2.6</version.commons.io>
-		<version.commons.lang3>3.7</version.commons.lang3>
-		<version.fasterxml>2.9.6</version.fasterxml>
+		<version.commons.lang3>3.8.1</version.commons.lang3>
+		<version.fasterxml>2.9.8</version.fasterxml>
 		<version.github.mmazi>2.0.2</version.github.mmazi>
 		<version.junit>4.12</version.junit>
 		<version.knowm.xchart>3.5.2</version.knowm.xchart>
-		<version.lombok>1.18.2</version.lombok>
-		<version.powermock>2.0.0-RC.1</version.powermock>
+		<version.lombok>1.18.4</version.lombok>
+		<version.powermock>2.0.0</version.powermock>
 		<version.qos.logback>1.2.3</version.qos.logback>
 		<version.reflections>0.9.11</version.reflections>
-		<version.slf4j>1.7.25</version.slf4j>
+		<version.slf4j>1.8.0-beta2</version.slf4j>
 		<version.crypto>3.5.0</version.crypto>
-		<version.java-jwt>3.4.0</version.java-jwt>
+		<version.java-jwt>3.4.1</version.java-jwt>
 
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
@@ -257,20 +257,20 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>25.1-jre</version>
+				<version>27.0.1-jre</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>2.20.1</version>
+				<version>2.23.4</version>
 				<scope>test</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.tomakehurst</groupId>
 				<artifactId>wiremock</artifactId>
-				<version>2.18.0</version>
+				<version>2.20.0</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -425,7 +425,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -480,13 +480,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.21.0</version>
+				<version>3.0.0-M3</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.21.0</version>
+				<version>3.0.0-M3</version>
 				<executions>
 					<execution>
 						<goals>
@@ -505,7 +505,7 @@
 			<plugin>
 				<groupId>com.coveo</groupId>
 				<artifactId>fmt-maven-plugin</artifactId>
-				<version>2.5.0</version>
+				<version>2.6.0</version>
 				<configuration>
 					<filesNamePattern>.*\.java</filesNamePattern>
 					<skip>false</skip>

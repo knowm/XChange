@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.Set;
-
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -416,22 +415,31 @@ public final class BitfinexAdapters {
 
     Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
-    
+
     // Remove pairs that are no-longer in use
     pairsMap.keySet().retainAll(currencyPairs);
-   
+
     // Remove currencies that are no-longer in use
-    Set<Currency> currencies = currencyPairs.stream().flatMap(pair -> Stream.of(pair.base, pair.counter)).collect(Collectors.toSet());
+    Set<Currency> currencies =
+        currencyPairs
+            .stream()
+            .flatMap(pair -> Stream.of(pair.base, pair.counter))
+            .collect(Collectors.toSet());
     currenciesMap.keySet().retainAll(currencies);
-    
+
     // Add missing pairs and currencies
     for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
-      
+
       if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, new CurrencyMetaData(2, null)); // When missing, add default meta-data with scale of 2 (Bitfinex's minimal scale)
+        currenciesMap.put(
+            c.base,
+            new CurrencyMetaData(
+                2,
+                null)); // When missing, add default meta-data with scale of 2 (Bitfinex's minimal
+        // scale)
       }
       if (!currenciesMap.containsKey(c.counter)) {
         currenciesMap.put(c.counter, new CurrencyMetaData(2, null));
@@ -450,8 +458,10 @@ public final class BitfinexAdapters {
    * @return
    */
   public static ExchangeMetaData adaptMetaData(
-      ExchangeMetaData exchangeMetaData, List<BitfinexSymbolDetail> symbolDetails, Map<CurrencyPair, BigDecimal> lastPrices) {
-	  
+      ExchangeMetaData exchangeMetaData,
+      List<BitfinexSymbolDetail> symbolDetails,
+      Map<CurrencyPair, BigDecimal> lastPrices) {
+
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
     symbolDetails
@@ -459,21 +469,27 @@ public final class BitfinexAdapters {
         .forEach(
             bitfinexSymbolDetail -> {
               final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
-              
+
               // Infer price-scale from last and price-precision
               BigDecimal last = lastPrices.get(currencyPair);
               int pricePercision = bitfinexSymbolDetail.getPrice_precision();
-              int priceScale = last.scale() + (pricePercision - last.precision()); 
-              
+              int priceScale = last.scale() + (pricePercision - last.precision());
+
               CurrencyPairMetaData newMetaData =
-                      new CurrencyPairMetaData(
-                		  currencyPairs.get(currencyPair) == null ? null : currencyPairs.get(currencyPair).getTradingFee(), // Take tradingFee from static metaData if exists
-                          bitfinexSymbolDetail.getMinimum_order_size().setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
-                          bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
-                          priceScale,
-                          null);
+                  new CurrencyPairMetaData(
+                      currencyPairs.get(currencyPair) == null
+                          ? null
+                          : currencyPairs
+                              .get(currencyPair)
+                              .getTradingFee(), // Take tradingFee from static metaData if exists
+                      bitfinexSymbolDetail
+                          .getMinimum_order_size()
+                          .setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
+                      bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
+                      priceScale,
+                      null);
               currencyPairs.put(currencyPair, newMetaData);
-         });
+            });
     return exchangeMetaData;
   }
 
@@ -483,11 +499,13 @@ public final class BitfinexAdapters {
     final Map<Currency, BigDecimal> withdrawFees = accountFeesResponse.getWithdraw();
     withdrawFees.forEach(
         (currency, withdrawalFee) -> {
-          CurrencyMetaData newMetaData = 
-        		  new CurrencyMetaData(
-        				  // Currency should have at least the scale of the withdrawalFee
-        				  currencies.get(currency) == null ? withdrawalFee.scale() : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()), 
-        				  withdrawalFee);
+          CurrencyMetaData newMetaData =
+              new CurrencyMetaData(
+                  // Currency should have at least the scale of the withdrawalFee
+                  currencies.get(currency) == null
+                      ? withdrawalFee.scale()
+                      : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
+                  withdrawalFee);
           currencies.put(currency, newMetaData);
         });
     return metaData;
@@ -498,10 +516,12 @@ public final class BitfinexAdapters {
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
 
-    // lets go with the assumption that the trading fees are common across all trading pairs for now.
+    // lets go with the assumption that the trading fees are common across all trading pairs for
+    // now.
     // also setting the taker_fee as the trading_fee for now.
     final CurrencyPairMetaData metaData =
-        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
+        new CurrencyPairMetaData(
+            bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
     currencyPairs
         .keySet()
         .parallelStream()

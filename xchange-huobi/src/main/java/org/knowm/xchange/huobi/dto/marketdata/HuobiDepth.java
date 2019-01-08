@@ -43,11 +43,11 @@ public final class HuobiDepth {
   public long getId() {
     return id;
   }
-  
+
   public Date getTs() {
     return ts;
   }
-  
+
   public SortedMap<BigDecimal, BigDecimal> getBids() {
     return bids;
   }
@@ -59,8 +59,8 @@ public final class HuobiDepth {
   @Override
   public String toString() {
     return "HuobiDepth [id="
-    	+ getId()
-    	+ ", timestamp="
+        + getId()
+        + ", timestamp="
         + getTs()
         + ", bids="
         + getBids().toString()

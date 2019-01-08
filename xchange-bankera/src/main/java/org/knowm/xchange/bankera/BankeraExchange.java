@@ -9,7 +9,6 @@ import org.knowm.xchange.bankera.service.BankeraAccountService;
 import org.knowm.xchange.bankera.service.BankeraBaseService;
 import org.knowm.xchange.bankera.service.BankeraMarketDataService;
 import org.knowm.xchange.bankera.service.BankeraTradeService;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
