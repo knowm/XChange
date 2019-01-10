@@ -181,7 +181,7 @@ public final class BankeraAdapters {
                       trade.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK,
                       new BigDecimal(trade.getAmount()),
                       pair,
-                      new BigDecimal(trade.getTotal()),
+                      new BigDecimal(trade.getPrice()),
                       new Date(Long.valueOf(trade.getCompletedAt())),
                       String.valueOf(trade.getId()),
                       String.valueOf(trade.getOrderId()),
