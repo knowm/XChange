@@ -40,12 +40,12 @@
       "min_amount": 0.20000000,
       "trading_fee": 0.002
     },
-    "DASH/USD": {
+    "DSH/USD": {
       "price_scale": 2,
       "min_amount": 0.04000000,
       "trading_fee": 0.002
     },
-    "DASH/BTC": {
+    "DSH/BTC": {
       "price_scale": 6,
       "min_amount": 0.04000000,
       "trading_fee": 0.002
@@ -229,7 +229,7 @@
       "scale": 8,
       "withdrawal_fee": 0.01
     },
-    "DASH": {
+    "DSH": {
       "scale": 8,
       "withdrawal_fee": 0.01
     },
