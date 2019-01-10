@@ -3,6 +3,8 @@ package org.knowm.xchange.bitfinex.v1;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -46,6 +51,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
@@ -65,7 +71,7 @@ public final class BitfinexAdapters {
    */
   public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(
       BitfinexTradingFeeResponse[] responses, List<CurrencyPair> currencyPairs) {
-    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+    Map<CurrencyPair, Fee> result = new HashMap<>();
     for (BitfinexTradingFeeResponse response : responses) {
       BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow[] responseRows =
           response.getTradingFees();
@@ -93,7 +99,7 @@ public final class BitfinexAdapters {
 
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
     return bitfinexSymbol.toUpperCase();
-  }
+    }
 
   public static BitfinexOrderType adaptOrderFlagsToType(Set<Order.IOrderFlags> flags) {
     if (flags.contains(BitfinexOrderFlags.MARGIN)) {
@@ -105,7 +111,7 @@ public final class BitfinexAdapters {
         return BitfinexOrderType.MARGIN_STOP;
       } else {
         return BitfinexOrderType.MARGIN_LIMIT;
-      }
+    }
     } else {
       if (flags.contains(BitfinexOrderFlags.FILL_OR_KILL)) {
         return BitfinexOrderType.FILL_OR_KILL;
@@ -115,7 +121,7 @@ public final class BitfinexAdapters {
         return BitfinexOrderType.STOP;
       } else {
         return BitfinexOrderType.LIMIT;
-      }
+  }
     }
   }
 
@@ -362,7 +368,8 @@ public final class BitfinexAdapters {
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> hiddenOrders = new ArrayList<>();
 
     for (BitfinexOrderStatusResponse order : activeOrders) {
 
@@ -371,21 +378,81 @@ public final class BitfinexAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
-      limitOrders.add(
-          new LimitOrder(
-              orderType,
-              order.getOriginalAmount(),
-              currencyPair,
-              String.valueOf(order.getId()),
-              timestamp,
-              order.getPrice(),
-              order.getAvgExecutionPrice(),
-              order.getExecutedAmount(),
-              null,
-              status));
+      Supplier<LimitOrder> limitOrderCreator = () -> new LimitOrder(
+          orderType,
+          order.getOriginalAmount(),
+          currencyPair,
+          String.valueOf(order.getId()),
+          timestamp,
+          order.getPrice(),
+          order.getAvgExecutionPrice(),
+          order.getExecutedAmount(),
+          null,
+          status);
+
+      Supplier<StopOrder> stopOrderCreator = () -> new StopOrder(
+          orderType,
+          order.getOriginalAmount(),
+          currencyPair,
+          String.valueOf(order.getId()),
+          timestamp,
+          order.getPrice(),
+          null,
+          order.getAvgExecutionPrice(),
+          order.getExecutedAmount(),
+          status);
+
+      LimitOrder limitOrder = null;
+      StopOrder stopOrder = null;
+
+      Optional<BitfinexOrderType> bitfinexOrderType = Arrays.stream(BitfinexOrderType.values())
+          .filter(v -> v.getValue().equals(order.getType()))
+          .findFirst();
+      switch(bitfinexOrderType.orElse(null)) {
+        case FILL_OR_KILL:
+          limitOrder = limitOrderCreator.get();
+          limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
+          break;
+        case MARGIN_FILL_OR_KILL:
+          limitOrder = limitOrderCreator.get();
+          limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
+          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+          break;
+        case MARGIN_LIMIT:
+          limitOrder = limitOrderCreator.get();
+          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+          break;
+        case MARGIN_STOP:
+          stopOrder = stopOrderCreator.get();
+          stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+          stopOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+          break;
+        case MARGIN_TRAILING_STOP:
+          limitOrder = limitOrderCreator.get();
+          limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
+          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+          break;
+        case STOP:
+          stopOrder = stopOrderCreator.get();
+          stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+          break;
+        case TRAILING_STOP:
+          limitOrder = limitOrderCreator.get();
+          limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
+          break;
+        default:
+          limitOrder = limitOrderCreator.get();
+          break;
+      }
+
+      if (limitOrder != null) {
+        limitOrders.add(limitOrder);
+      } else if (stopOrder != null) {
+        hiddenOrders.add(stopOrder);
+      }
     }
 
-    return new OpenOrders(limitOrders);
+    return new OpenOrders(limitOrders, hiddenOrders);
   }
 
   public static UserTrades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
@@ -484,8 +551,8 @@ public final class BitfinexAdapters {
               int pricePercision = bitfinexSymbolDetail.getPrice_precision();
               int priceScale = last.scale() + (pricePercision - last.precision());
 
-              CurrencyPairMetaData newMetaData =
-                  new CurrencyPairMetaData(
+                CurrencyPairMetaData newMetaData =
+                    new CurrencyPairMetaData(
                       currencyPairs.get(currencyPair) == null
                           ? null
                           : currencyPairs
@@ -496,8 +563,8 @@ public final class BitfinexAdapters {
                           .setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
                       bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
                       priceScale,
-                      null);
-              currencyPairs.put(currencyPair, newMetaData);
+                        null);
+                currencyPairs.put(currencyPair, newMetaData);
             });
     return exchangeMetaData;
   }
@@ -508,14 +575,14 @@ public final class BitfinexAdapters {
     final Map<Currency, BigDecimal> withdrawFees = accountFeesResponse.getWithdraw();
     withdrawFees.forEach(
         (currency, withdrawalFee) -> {
-          CurrencyMetaData newMetaData =
+            CurrencyMetaData newMetaData =
               new CurrencyMetaData(
                   // Currency should have at least the scale of the withdrawalFee
                   currencies.get(currency) == null
                       ? withdrawalFee.scale()
                       : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
                   withdrawalFee);
-          currencies.put(currency, newMetaData);
+            currencies.put(currency, newMetaData);
         });
     return metaData;
   }
