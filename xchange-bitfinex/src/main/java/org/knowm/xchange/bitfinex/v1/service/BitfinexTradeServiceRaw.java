@@ -213,12 +213,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       }
 
     } else { // order amend
-      boolean useRemaining;
-      if (limitOrder.hasFlag(BitfinexOrderFlags.USE_REMAINING)) {
-        useRemaining = true;
-      } else {
-        useRemaining = false;
-      }
+      boolean useRemaining = limitOrder.hasFlag(BitfinexOrderFlags.USE_REMAINING);
 
       BitfinexReplaceOrderRequest request =
           new BitfinexReplaceOrderRequest(
