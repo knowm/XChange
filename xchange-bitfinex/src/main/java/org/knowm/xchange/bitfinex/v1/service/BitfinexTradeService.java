@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
@@ -17,6 +18,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -58,6 +60,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   /** Bitfinex API does not provide filtering option. So we should filter orders ourselves */
+  @SuppressWarnings("unchecked")
   private OpenOrders filterOrders(OpenOrders rawOpenOrders, OpenOrdersParams params) {
     if (params == null) {
       return rawOpenOrders;
@@ -65,7 +68,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
     List<LimitOrder> openOrdersList = rawOpenOrders.getOpenOrders();
     openOrdersList.removeIf(openOrder -> !params.accept(openOrder));
-    return new OpenOrders(openOrdersList);
+
+    return new OpenOrders(openOrdersList, (List<Order>) rawOpenOrders.getHiddenOrders());
   }
 
   @Override
@@ -84,6 +88,21 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     BitfinexOrderType type = BitfinexAdapters.adaptOrderFlagsToType(limitOrder.getOrderFlags());
     BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, type);
     return String.valueOf(newOrder.getId());
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    LimitOrder limitOrder = new LimitOrder(
+        stopOrder.getType(),
+        stopOrder.getOriginalAmount(),
+        stopOrder.getCurrencyPair(),
+        stopOrder.getId(),
+        stopOrder.getTimestamp(),
+        stopOrder.getStopPrice());
+    limitOrder.setOrderFlags(stopOrder.getOrderFlags());
+    limitOrder.setLeverage(stopOrder.getLeverage());
+    limitOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+    return placeLimitOrder(limitOrder);
   }
 
   @Override
