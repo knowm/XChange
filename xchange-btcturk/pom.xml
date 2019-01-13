@@ -5,6 +5,7 @@
         <groupId>org.knowm.xchange</groupId>
         <version>4.3.14-SNAPSHOT</version>
     </parent>
+    
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xchange-btcturk</artifactId>
@@ -24,6 +25,11 @@
             <name>Semih Unaldi</name>
             <email>semihunaldi@gmail.com</email>
         </developer>
+        
+        <developer>
+            <name>Mert Güner</name>
+            <email>m.mertguner@gmail.com</email>
+        </developer>
     </developers>
 
     <!-- Parent provides default configuration for dependencies -->
@@ -34,4 +40,39 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+    <build>
+    	<pluginManagement>
+    		<plugins>
+    			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    			<plugin>
+    				<groupId>org.eclipse.m2e</groupId>
+    				<artifactId>lifecycle-mapping</artifactId>
+    				<version>1.0.0</version>
+    				<configuration>
+    					<lifecycleMappingMetadata>
+    						<pluginExecutions>
+    							<pluginExecution>
+    								<pluginExecutionFilter>
+    									<groupId>com.coveo</groupId>
+    									<artifactId>
+    										fmt-maven-plugin
+    									</artifactId>
+    									<versionRange>
+    										[2.5.0,)
+    									</versionRange>
+    									<goals>
+    										<goal>format</goal>
+    									</goals>
+    								</pluginExecutionFilter>
+    								<action>
+    									<ignore></ignore>
+    								</action>
+    							</pluginExecution>
+    						</pluginExecutions>
+    					</lifecycleMappingMetadata>
+    				</configuration>
+    			</plugin>
+    		</plugins>
+    	</pluginManagement>
+    </build>
 </project>
