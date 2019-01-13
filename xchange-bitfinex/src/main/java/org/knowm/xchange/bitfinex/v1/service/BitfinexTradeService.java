@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelAllOrders;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -92,6 +93,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    if (stopOrder.getLimitPrice() != null) {
+      throw new NotYetImplementedForExchangeException("Limit stops are not supported by the Bitfinex v1 API.");
+    }
     LimitOrder limitOrder = new LimitOrder(
         stopOrder.getType(),
         stopOrder.getOriginalAmount(),
