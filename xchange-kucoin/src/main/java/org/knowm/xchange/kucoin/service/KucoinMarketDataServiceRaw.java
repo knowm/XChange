@@ -10,10 +10,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
+import org.knowm.xchange.kucoin.dto.marketdata.*;
 
 public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 
@@ -62,6 +59,18 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   public KucoinResponse<List<KucoinCoin>> getKucoinCurrencies() throws IOException {
     try {
       return checkSuccess(kucoin.coins());
+    } catch (KucoinException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+  }
+
+  public KucoinKLineResponse getKucoinKLines(
+      CurrencyPair currencyPair, String type, Long from, Long to, Integer limit)
+      throws IOException {
+    try {
+
+      return checkSuccess(
+          kucoin.klineData(KucoinAdapters.adaptCurrencyPair(currencyPair), type, from, to, limit));
     } catch (KucoinException e) {
       throw new ExchangeException(e.getMessage());
     }

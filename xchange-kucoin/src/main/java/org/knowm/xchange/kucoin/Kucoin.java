@@ -8,10 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
+import org.knowm.xchange.kucoin.dto.marketdata.*;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -81,5 +78,27 @@ public interface Kucoin {
       @QueryParam("symbol") String symbol,
       @QueryParam("limit") Integer limit,
       @QueryParam("since") Long since)
+      throws IOException, KucoinException;
+
+  /**
+   * This is the call for recent trades.
+   *
+   * @param symbol the currency pair
+   * @param type a comma separated string with desired candle units
+   * @param limit limit list of trades to this length
+   * @param from only retrieve trades since this datetime
+   * @param to only retrieve trades up to this datetime
+   * @param limit limit list of trades to this length
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("open/kline")
+  KucoinKLineResponse klineData(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("type") String type,
+      @QueryParam("from") Long from,
+      @QueryParam("to") Long to,
+      @QueryParam("limit") Integer limit)
       throws IOException, KucoinException;
 }

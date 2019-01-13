@@ -7,6 +7,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -16,12 +17,7 @@ import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 
 public class KucoinAccountService extends KucoinAccountServiceRaw implements AccountService {
 
@@ -98,5 +94,10 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
             pagingParams.getPageLength(),
             pagingParams.getPageNumber() != null ? pagingParams.getPageNumber() + 1 : null);
     return KucoinAdapters.adaptFundingHistory(response.getData().getRecords());
+  }
+
+  @Override
+  public Balance getBalance(Currency currency) throws IOException {
+    return KucoinAdapters.adaptBalance(getKucoinBalance(currency).getData());
   }
 }

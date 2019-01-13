@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.KLine;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -28,10 +29,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
 import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecord;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
+import org.knowm.xchange.kucoin.dto.marketdata.*;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrder;
 import org.knowm.xchange.kucoin.dto.trading.KucoinActiveOrders;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrder;
@@ -223,7 +221,7 @@ public class KucoinAdapters {
             balances.stream().map(KucoinAdapters::adaptBalance).collect(Collectors.toList())));
   }
 
-  private static Balance adaptBalance(KucoinCoinBalance balance) {
+  public static Balance adaptBalance(KucoinCoinBalance balance) {
 
     BigDecimal avail = balance.getBalance();
     BigDecimal freezeBalance = balance.getFreezeBalance();
@@ -250,5 +248,21 @@ public class KucoinAdapters {
         .setDescription(record.getRemark())
         .setType(record.getType().getFundingRecordType())
         .build();
+  }
+
+  public static List<KLine> adaptKLines(List<List<BigDecimal>> kucoinKLine) {
+    return kucoinKLine
+        .stream()
+        .map(
+            values ->
+                new KLine(
+                    values.get(0).longValue(),
+                    values.get(1),
+                    values.get(2),
+                    values.get(3),
+                    values.get(4),
+                    values.get(5),
+                    values.get(6)))
+        .collect(Collectors.toList());
   }
 }

@@ -11,10 +11,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinException;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
-import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
-import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddress;
-import org.knowm.xchange.kucoin.dto.account.KucoinWalletOperation;
-import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
+import org.knowm.xchange.kucoin.dto.account.*;
 
 public class KucoinAccountServiceRaw extends KucoinBaseService {
 
@@ -29,6 +26,16 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
       return checkSuccess(
           kucoin.accountBalances(
               apiKey, exchange.getNonceFactory(), signatureCreator, limit, page));
+    } catch (KucoinException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+  }
+
+  KucoinResponse<KucoinCoinBalance> getKucoinBalance(Currency currency) throws IOException {
+    try {
+      return checkSuccess(
+          kucoin.walletBalance(
+              apiKey, exchange.getNonceFactory(), signatureCreator, currency.getCurrencyCode()));
     } catch (KucoinException e) {
       throw new ExchangeException(e.getMessage());
     }

@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.KucoinOrderType;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
+import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalance;
 import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
 import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddress;
 import org.knowm.xchange.kucoin.dto.account.KucoinWalletRecords;
@@ -58,6 +59,15 @@ public interface KucoinAuthenticated extends Kucoin {
   @GET
   @Path("account/{coin}/wallet/address")
   KucoinResponse<KucoinDepositAddress> walletAddress(
+      @HeaderParam(HEADER_APIKEY) String apiKey,
+      @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
+      @PathParam("coin") String coin)
+      throws IOException, KucoinException;
+
+  @GET
+  @Path("account/{coin}/balance")
+  KucoinResponse<KucoinCoinBalance> walletBalance(
       @HeaderParam(HEADER_APIKEY) String apiKey,
       @HeaderParam(HEADER_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(HEADER_SIGNATURE) ParamsDigest signature,
