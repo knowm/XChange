@@ -22,6 +22,8 @@ public class BitfinexManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitfinexStreamingExchange.class
                 .getName());
 
+        System.setProperty(BitfinexConnectionRateLimiter.BFX_CON_RATE_LIMIT, "5");
+
         ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
 
 //        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);

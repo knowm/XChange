@@ -105,7 +105,16 @@ public abstract class NettyStreamingService<T> {
         }
     }
 
+    /**
+     * Override this method in case need any pre-connection actions,
+     * like e.g. adding some throttle control for limiting too often opening connections
+     */
+    protected void beforeConnection() {
+        // not need any pre-connection actions by default
+    }
+
     public Completable connect() {
+        beforeConnection();
         return Completable.create(completable -> {
             try {
 
