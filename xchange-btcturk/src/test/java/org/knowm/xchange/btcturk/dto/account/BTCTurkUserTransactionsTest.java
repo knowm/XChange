@@ -31,7 +31,7 @@ public class BTCTurkUserTransactionsTest {
 	    
 	    assertThat(btcTurkUserTransactions.length).isEqualTo(25);
 
-		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo(new BigDecimal(132599));
+		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo(new BigDecimal("132599"));
 
 		try {
         	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
