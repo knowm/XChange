@@ -18,7 +18,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 /** @author mertguner */
 public class BTCTrukTradeDemo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// Use the factory to get BTCTurk exchange API using default settings
 	    Exchange exchange = BTCTurkDemoUtils.createExchange();
 
