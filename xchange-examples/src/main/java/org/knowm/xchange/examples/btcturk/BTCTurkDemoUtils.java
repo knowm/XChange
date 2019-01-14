@@ -10,7 +10,6 @@ public class BTCTurkDemoUtils {
   public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
-    exSpec.setUserName("<insert_user_name>");
     exSpec.setApiKey("<insert_api_key>");
     exSpec.setSecretKey("<insert_secret_key>");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
