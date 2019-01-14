@@ -4,29 +4,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BithumbWalletAddress {
 
-    private final String currency;
-    private final String walletAddress;
+  private final String currency;
+  private final String walletAddress;
 
-    public BithumbWalletAddress(
-            @JsonProperty("currency") String currency,
-            @JsonProperty("wallet_address") String walletAddress) {
-        this.currency = currency;
-        this.walletAddress = walletAddress;
-    }
+  public BithumbWalletAddress(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("wallet_address") String walletAddress) {
+    this.currency = currency;
+    this.walletAddress = walletAddress;
+  }
 
-    public String getCurrency() {
-        return currency;
-    }
+  public String getCurrency() {
+    return currency;
+  }
 
-    public String getWalletAddress() {
-        return walletAddress;
-    }
+  public String getWalletAddress() {
+    return walletAddress;
+  }
 
-    @Override
-    public String toString() {
-        return "BithumbWalletAddress{" +
-                "currency='" + currency + '\'' +
-                ", walletAddress='" + walletAddress + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "BithumbWalletAddress{"
+        + "currency='"
+        + currency
+        + '\''
+        + ", walletAddress='"
+        + walletAddress
+        + '\''
+        + '}';
+  }
 }

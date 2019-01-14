@@ -2,43 +2,42 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 public class BithumbTickersDeserializer extends JsonDeserializer<BithumbTickersReturn> {
 
-    private final ObjectReader jsonObjectReader = new ObjectMapper().readerFor(BithumbTicker.class);
+  private final ObjectReader jsonObjectReader = new ObjectMapper().readerFor(BithumbTicker.class);
 
-    @Override
-    public BithumbTickersReturn deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException {
+  @Override
+  public BithumbTickersReturn deserialize(JsonParser p, DeserializationContext ctxt)
+      throws IOException {
 
-        JsonNode node = p.readValueAsTree();
-        Map<String, BithumbTicker> tickers = new HashMap<>();
+    JsonNode node = p.readValueAsTree();
+    Map<String, BithumbTicker> tickers = new HashMap<>();
 
-        if (node.isObject()) {
-            final long date = node.findValue("date").asLong();
+    if (node.isObject()) {
+      final long date = node.findValue("date").asLong();
 
-            Iterator<Map.Entry<String, JsonNode>> priceEntryIter = node.fields();
-            while (priceEntryIter.hasNext()) {
-                Map.Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
-                final String key = priceEntryNode.getKey();
-                final JsonNode value = priceEntryNode.getValue();
+      Iterator<Map.Entry<String, JsonNode>> priceEntryIter = node.fields();
+      while (priceEntryIter.hasNext()) {
+        Map.Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+        final String key = priceEntryNode.getKey();
+        final JsonNode value = priceEntryNode.getValue();
 
-                if (StringUtils.equals(key, "date")) {
-                    continue;
-                }
-
-                BithumbTicker ticker = jsonObjectReader.readValue(value);
-                ticker.setDate(date);
-                tickers.put(key, ticker);
-            }
+        if (StringUtils.equals(key, "date")) {
+          continue;
         }
 
-        return new BithumbTickersReturn(tickers);
+        BithumbTicker ticker = jsonObjectReader.readValue(value);
+        ticker.setDate(date);
+        tickers.put(key, ticker);
+      }
     }
+
+    return new BithumbTickersReturn(tickers);
+  }
 }
