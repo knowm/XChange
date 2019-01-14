@@ -4,12 +4,12 @@ import org.knowm.xchange.dto.account.FundingRecord.Type;
 
 /** @author mertguner */
 public enum BTCTurkOperations {
-	SELL("sell"),
-	TRADE("trade"),
-	WITHDRAWAL("withdrawal"),	      
-	BUY("buy"),
-	DEPOSIT("deposit"),
-	COMMISSION("commission");
+	sell("sell"),
+	trade("trade"),
+	withdrawal("withdrawal"),	      
+	buy("buy"),
+	deposit("deposit"),
+	commission("commission");
 	
 	  private final String Operation;
 
