@@ -34,7 +34,7 @@ public class BTCTurkOpenOrdersTest {
 	    
         try {
         	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = parser.parse("2019-01-04 14:46:49");
+			Date date = parser.parse("2019-01-04 11:46:49");
 			assertThat(btcTurkOpenOrders[0].getDatetime()).isEqualTo(date);
 		} catch (ParseException e) {
 			e.printStackTrace();

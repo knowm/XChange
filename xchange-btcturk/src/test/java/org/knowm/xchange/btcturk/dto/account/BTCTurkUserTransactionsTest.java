@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
+import org.knowm.xchange.btcturk.dto.BTCTurkOperations;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTickerTest;
 import org.knowm.xchange.currency.Currency;
 
@@ -31,7 +32,7 @@ public class BTCTurkUserTransactionsTest {
 	    
 	    assertThat(btcTurkUserTransactions.length).isEqualTo(25);
 
-		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo(new BigDecimal("132599"));
+		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo("132599");
 
 		try {
         	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -42,7 +43,7 @@ public class BTCTurkUserTransactionsTest {
 			e.printStackTrace();
 		}
 
-		assertThat(btcTurkUserTransactions[0].getOperation()).isEqualTo("trade");
+		assertThat(btcTurkUserTransactions[0].getOperation()).isEqualTo(BTCTurkOperations.trade);
 		assertThat(btcTurkUserTransactions[0].getCurrency()).isEqualTo(Currency.ETH);
 		assertThat(btcTurkUserTransactions[0].getFunds()).isEqualTo(new BigDecimal("23494.6206940035832218"));
 		assertThat(btcTurkUserTransactions[0].getAmount()).isEqualTo(new BigDecimal("-1.0000000000000000"));

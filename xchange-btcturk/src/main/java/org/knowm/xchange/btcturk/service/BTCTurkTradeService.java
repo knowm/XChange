@@ -78,7 +78,7 @@ implements TradeService{
 		  List<BTCTurkUserTransactions> transactions =  super.getUserTransactions();
 		  for(BTCTurkUserTransactions transaction : transactions)
 		  {
-			  if(transaction.getOperation().equals(BTCTurkOperations.TRADE))
+			  if(transaction.getOperation().equals(BTCTurkOperations.trade))
 				  trades.add(new UserTrade(((transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) ? OrderType.ASK : OrderType.BID), transaction.getAmount(), null, transaction.getPrice(), transaction.getDate(), transaction.getId(), null, transaction.getFee(), transaction.getCurrency()));
 		  }
 		  
