@@ -1,25 +1,43 @@
 package org.knowm.xchange.bithumb.service;
 
+import java.io.IOException;
+import java.util.Optional;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbWalletAddress;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
-import java.util.Optional;
+public class BithumbAccountServiceRaw extends BithumbBaseService {
 
-public class BithumbAccountServiceRaw {
+  protected BithumbAccountServiceRaw(Exchange exchange) {
+    super(exchange);
+  }
 
-    public BithumbBalance getBithumbBalance() {
-        throw new NotYetImplementedForExchangeException();
-    }
+  public BithumbBalance getBithumbBalance() throws IOException {
+    final BithumbResponse<BithumbBalance> balance =
+        bithumbAuthenticated.getBalance(
+            apiKey, signatureCreator, exchange.getNonceFactory(), endpointGenerator, "ALL");
+    return checkResult(balance);
+  }
 
-    public BithumbAccount getBithumbAddress() {
-        throw new NotYetImplementedForExchangeException();
-    }
+  public BithumbAccount getBithumbAddress() throws IOException {
+    final BithumbResponse<BithumbAccount> account =
+        bithumbAuthenticated.getAccount(
+            apiKey, signatureCreator, exchange.getNonceFactory(), endpointGenerator);
+    return checkResult(account);
+  }
 
-
-    public Optional<BithumbWalletAddress> getBithumbWalletAddress(Currency currency) {
-        throw new NotYetImplementedForExchangeException();
-    }
+  public Optional<BithumbWalletAddress> getBithumbWalletAddress(Currency currency)
+      throws IOException {
+    return Optional.ofNullable(
+            bithumbAuthenticated.getWalletAddress(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                endpointGenerator,
+                currency.getCurrencyCode()))
+        .map(this::checkResult);
+  }
 }
