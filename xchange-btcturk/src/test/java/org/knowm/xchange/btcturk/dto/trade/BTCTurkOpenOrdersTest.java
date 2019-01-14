@@ -30,7 +30,7 @@ public class BTCTurkOpenOrdersTest {
 	    BTCTurkOpenOrders[] btcTurkOpenOrders = mapper.readValue(is, BTCTurkOpenOrders[].class);
 
 	    assertThat(btcTurkOpenOrders.length).isEqualTo(2);
-	    assertThat(btcTurkOpenOrders[0].getId()).isEqualTo(23674042);
+	    assertThat(btcTurkOpenOrders[0].getId()).isEqualTo("23674042");
 	    
         try {
         	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
