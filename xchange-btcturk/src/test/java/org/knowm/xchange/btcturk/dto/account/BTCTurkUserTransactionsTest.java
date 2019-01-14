@@ -36,7 +36,7 @@ public class BTCTurkUserTransactionsTest {
 
 		try {
         	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = parser.parse("2018-12-14 02:46:42.333");
+			Date date = parser.parse("2018-12-13 23:46:42.333");
 			assertThat(btcTurkUserTransactions[0].getDate()).isEqualTo(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
