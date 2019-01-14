@@ -223,6 +223,7 @@ public final class BittrexAdapters {
     BigDecimal high = marketSummary.getHigh();
     BigDecimal low = marketSummary.getLow();
     BigDecimal volume = marketSummary.getVolume();
+    BigDecimal baseVolume = marketSummary.getBaseVolume();
 
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
@@ -247,6 +248,7 @@ public final class BittrexAdapters {
         .priceChange(priceChange)
         .priceChangePercent(priceChangePercent)
         .volume(volume)
+        .quoteVolume(baseVolume)
         .timestamp(timestamp)
         .build();
   }

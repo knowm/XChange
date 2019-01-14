@@ -80,6 +80,7 @@ public class ExmoAdapters {
         .priceChange(priceChange)
         .low(new BigDecimal(data.get("low")))
         .volume(new BigDecimal(data.get("vol")))
+        .quoteVolume(new BigDecimal(data.get("vol_curr")))
         .timestamp(DateUtils.fromMillisUtc(Long.valueOf(data.get("updated"))))
         .build();
   }
