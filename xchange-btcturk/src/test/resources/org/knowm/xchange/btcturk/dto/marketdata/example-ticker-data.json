@@ -1,12 +1,16 @@
 {
-  "pair": "BTCTRY",
-  "high": 39436.99,
-  "last": 38800.02,
-  "timestamp": 1511724574.0,
-  "bid": 38800.02,
-  "volume": 850.97,
-  "low": 35501.0,
-  "ask": 38800.02,
-  "open": 35599.0,
-  "average": 37909.3
+		"pair": "BTCTRY",
+        "high": 20735,
+        "last": 20527,
+        "timestamp": 1546770924,
+        "bid": 20547,
+        "volume": 121.43,
+        "low": 20416,
+        "ask": 20599,
+        "open": 20526,
+        "average": 20579.48,
+        "daily": 73,
+        "dailyPercent": 0.36,
+        "denominatorsymbol": "TRY",
+        "numeratorsymbol": "BTC"
 }
