@@ -1,20 +1,26 @@
-package info.bitrich.xchangestream.gdax.dto;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
-import org.knowm.xchange.gdax.dto.trade.GDAXFill;
+package info.bitrich.xchangestream.coinbasepro.dto;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TimeZone;
+
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Domain object mapping a GDAX web socket message.
+ * Domain object mapping a CoinbasePro web socket message.
  */
-public class GDAXWebSocketTransaction {
+public class CoinbaseProWebSocketTransaction {
     private final String type;
     private final String orderId;
     private final String orderType;
@@ -40,13 +46,13 @@ public class GDAXWebSocketTransaction {
     private final long tradeId;
     private final String makerOrderId;
     private final String takerOrderId;
-    
+
     private final String takerUserId;
     private final String userId;
     private final String takerProfileId;
     private final String profileId;
 
-    public GDAXWebSocketTransaction(
+    public CoinbaseProWebSocketTransaction(
             @JsonProperty("type") String type,
             @JsonProperty("order_id") String orderId,
             @JsonProperty("order_type") String orderType,
@@ -102,13 +108,13 @@ public class GDAXWebSocketTransaction {
         this.productId = productId;
         this.sequence = sequence;
         this.time = time;
-        this.takerUserId = takerUserId; 
+        this.takerUserId = takerUserId;
         this.userId = userId;
         this.takerProfileId = takerProfileId;
         this.profileId = profileId;
     }
 
-    private String[][] GDAXOrderBookChanges(String side, String[][] changes, SortedMap<BigDecimal, String> sideEntries,
+    private String[][] CoinbaseProOrderBookChanges(String side, String[][] changes, SortedMap<BigDecimal, String> sideEntries,
                                             int maxDepth) {
         if (changes.length == 0) {
             return null;
@@ -138,36 +144,36 @@ public class GDAXWebSocketTransaction {
         return levels.toArray(new String[levels.size()][]);
     }
 
-    public GDAXProductBook toGDAXProductBook(SortedMap<BigDecimal, String> bids, SortedMap<BigDecimal, String> asks,
+    public CoinbaseProProductBook toCoinbaseProProductBook(SortedMap<BigDecimal, String> bids, SortedMap<BigDecimal, String> asks,
                                              int maxDepth) {
-        String[][] gdaxOrderBookBids = GDAXOrderBookChanges("buy", this.changes != null ? this.changes : this.bids,
+        String[][] gdaxOrderBookBids = CoinbaseProOrderBookChanges("buy", changes != null ? changes : this.bids,
                 bids, maxDepth);
-        String[][] gdaxOrderBookAsks = GDAXOrderBookChanges("sell", this.changes != null ? this.changes : this.asks,
+        String[][] gdaxOrderBookAsks = CoinbaseProOrderBookChanges("sell", changes != null ? changes : this.asks,
                 asks, maxDepth);
-        return new GDAXProductBook((long) 0, gdaxOrderBookBids, gdaxOrderBookAsks);
+        return new CoinbaseProProductBook((long) 0, gdaxOrderBookBids, gdaxOrderBookAsks);
     }
 
-    public GDAXProductTicker toGDAXProductTicker() {
+    public CoinbaseProProductTicker toCoinbaseProProductTicker() {
         String tickerTime = time;
         if (tickerTime == null) {
             SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
             dateFormatGmt.setTimeZone(TimeZone.getTimeZone("UTC"));
             tickerTime = dateFormatGmt.format(new Date()); //First ticker event doesn't have time!
         }
-        return new GDAXProductTicker(String.valueOf(tradeId), price, lastSize, bestBid, bestAsk, volume24h, tickerTime);
+        return new CoinbaseProProductTicker(String.valueOf(tradeId), price, lastSize, bestBid, bestAsk, volume24h, tickerTime);
     }
 
-    public GDAXProductStats toGDAXProductStats() {
-        return new GDAXProductStats(open24h, high24h, low24h, volume24h);
+    public CoinbaseProProductStats toCoinbaseProProductStats() {
+        return new CoinbaseProProductStats(open24h, high24h, low24h, volume24h);
     }
 
-    public GDAXTrade toGDAXTrade() {
-        return new GDAXTrade(time, tradeId, price, size, side);
+    public CoinbaseProTrade toCoinbaseProTrade() {
+        return new CoinbaseProTrade(time, tradeId, price, size, side);
     }
 
-    public GDAXFill toGDAXFill() {
+    public CoinbaseProFill toCoinbaseProFill() {
         boolean taker = userId != null && takerUserId != null && userId.equals(takerUserId);
-        return new GDAXFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, side);
+        return new CoinbaseProFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, side);
     }
 
     public String getType() {
@@ -257,14 +263,15 @@ public class GDAXWebSocketTransaction {
     /**
      * @deprecated Use {@link #getTakerOrderId()}
      */
+    @Deprecated
     public String getTakenOrderId() {
         return takerOrderId;
     }
-    
+
     public String getTakerOrderId() {
         return takerOrderId;
     }
-    
+
     public String getTakerUserId() {
 		return takerUserId;
 	}
@@ -283,7 +290,7 @@ public class GDAXWebSocketTransaction {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("GDAXWebSocketTransaction{");
+        final StringBuffer sb = new StringBuffer("CoinbaseProWebSocketTransaction{");
         sb.append("type='").append(type).append('\'');
         sb.append(", orderId='").append(orderId).append('\'');
         sb.append(", orderType='").append(orderType).append('\'');
