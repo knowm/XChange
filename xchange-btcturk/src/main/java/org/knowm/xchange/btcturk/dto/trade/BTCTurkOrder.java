@@ -2,11 +2,11 @@ package org.knowm.xchange.btcturk.dto.trade;
 
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderMethods;
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.btcturk.dto.BTCTurkPair;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** @author mertguner */
 public class BTCTurkOrder {   
-    private String Id;
     private BTCTurkOrderMethods OrderMethod;
     private String Price;
     private String PricePrecision;
@@ -18,17 +18,37 @@ public class BTCTurkOrder {
     private String TriggerPrice;
     private String TriggerPricePrecision;
     private BTCTurkOrderTypes OrderType;
-    private CurrencyPair PairSymbol;
-    private String DateTime;
+    private BTCTurkPair PairSymbol;
+
+    public BTCTurkOrder(
+  	@JsonProperty("OrderMethod") BTCTurkOrderMethods OrderMethod,
+  	@JsonProperty("Price") String Price,
+  	@JsonProperty("PricePrecision") String PricePrecision,
+  	@JsonProperty("Amount") String Amount,
+  	@JsonProperty("AmountPrecision") String AmountPrecision,
+  	@JsonProperty("Total") String Total,
+  	@JsonProperty("TotalPrecision") String TotalPrecision,
+  	@JsonProperty("DenominatorPrecision") int DenominatorPrecision,
+  	@JsonProperty("TriggerPrice") String TriggerPrice,
+  	@JsonProperty("TriggerPricePrecision") String TriggerPricePrecision,
+  	@JsonProperty("OrderType") BTCTurkOrderTypes OrderType,
+  	@JsonProperty("PairSymbol") BTCTurkPair PairSymbol
+  			  ){
+  	this.OrderMethod = OrderMethod;	
+  	this.Price = Price;	 
+  	this.PricePrecision = PricePrecision;	 
+  	this.Amount = Amount;	 
+  	this.AmountPrecision = AmountPrecision;	 
+  	this.Total = Total;	 
+  	this.TotalPrecision = TotalPrecision;	 
+  	this.DenominatorPrecision = DenominatorPrecision;	 
+  	this.TriggerPrice = TriggerPrice;	 
+  	this.TriggerPricePrecision = TriggerPricePrecision;	 
+  	this.OrderType = OrderType;	
+  	this.OrderType = OrderType;	 
+  	this.PairSymbol = PairSymbol;	 
+  	  }
     
-    public String getId() {
-		return Id;
-	}
-
-	public void setId(String id) {
-		Id = id;
-	}
-
 	public BTCTurkOrderMethods getOrderMethod() {
 		return OrderMethod;
 	}
@@ -117,29 +137,21 @@ public class BTCTurkOrder {
 		OrderType = orderType;
 	}
 
-	public CurrencyPair getPairSymbol() {
+	public BTCTurkPair getPairSymbol() {
 		return PairSymbol;
 	}
 
-	public void setPairSymbol(CurrencyPair pairSymbol) {
+	public void setPairSymbol(BTCTurkPair pairSymbol) {
 		PairSymbol = pairSymbol;
-	}
-
-	public String getDateTime() {
-		return DateTime;
-	}
-
-	public void setDateTime(String dateTime) {
-		DateTime = dateTime;
 	}
 
 	@Override
 	public String toString() {
-		return "BTCTurkOrder [Id=" + Id + ", OrderMethod=" + OrderMethod + ", Price=" + Price + ", PricePrecision="
+		return "BTCTurkOrder [OrderMethod=" + OrderMethod + ", Price=" + Price + ", PricePrecision="
 				+ PricePrecision + ", Amount=" + Amount + ", AmountPrecision=" + AmountPrecision + ", Total=" + Total
 				+ ", TotalPrecision=" + TotalPrecision + ", DenominatorPrecision=" + DenominatorPrecision
 				+ ", TriggerPrice=" + TriggerPrice + ", TriggerPricePrecision=" + TriggerPricePrecision + ", OrderType="
-				+ OrderType + ", PairSymbol=" + PairSymbol + ", DateTime=" + DateTime + "]";
+				+ OrderType + ", PairSymbol=" + PairSymbol + "]";
 	}
 	
     

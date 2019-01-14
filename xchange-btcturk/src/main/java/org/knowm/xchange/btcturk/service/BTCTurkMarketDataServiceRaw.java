@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOHLC;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
@@ -43,13 +42,23 @@ public class BTCTurkMarketDataServiceRaw extends BTCTurkBaseService {
     return btcTurk.getOrderBook(pair.toString().replace("/", ""));
   }
 
-  public BTCTurkTrades[] getBTCTurkTrades(CurrencyPair pair, @Nullable Integer last)
+  public BTCTurkTrades[] getBTCTurkTrades(CurrencyPair pair)
+	      throws IOException {
+	  return btcTurk.getTrades(pair.toString().replace("/", ""));
+	  }
+  
+  public BTCTurkTrades[] getBTCTurkTrades(CurrencyPair pair, Integer last)
       throws IOException {
-    return btcTurk.getTrades(pair.toString().replace("/", ""), last);
+	return btcTurk.getTrades(pair.toString().replace("/", ""), last);
   }
 
-  public BTCTurkOHLC[] getBTCTurkOHLC(@Nullable CurrencyPair pair, @Nullable Integer last)
+  public BTCTurkOHLC[] getBTCTurkOHLC(CurrencyPair pair)
+	      throws IOException {
+		return btcTurk.getOHLC(pair.toString().replace("/", ""));
+	  }
+  
+  public BTCTurkOHLC[] getBTCTurkOHLC(CurrencyPair pair, Integer last)
       throws IOException {
-    return btcTurk.getOHLC(pair.toString().replace("/", ""), last);
+	return btcTurk.getOHLC(pair.toString().replace("/", ""), last);
   }
 }

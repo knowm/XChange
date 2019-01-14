@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.btcturk.dto.BTCTurkSort;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkAccountBalance;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkDepositRequestResult;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkUserTransactions;
@@ -58,7 +57,7 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	List<BTCTurkUserTransactions> getUserTransactions(
 			@QueryParam("offset") int offset, 
 			@QueryParam("limit") int limit,
-			@QueryParam("sort") BTCTurkSort sort,
+			@QueryParam("sort") String sort,
 			@HeaderParam("X-PCK") String apiKey,
 			@HeaderParam("X-Stamp")  SynchronizedValueFactory<Long> stamp,
 			@HeaderParam("X-Signature") ParamsDigest signature)

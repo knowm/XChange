@@ -44,9 +44,13 @@ public class BTCTurkMarketDataService extends BTCTurkMarketDataServiceRaw
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     Integer last = args.length > 0 ? (Integer) args[0] : null;
-    if (last != null && last > 500) { // Max. value for last parameter is 500)
-      last = 500;
+    if (last != null) 
+    { 
+    	if (last > 500) // Max. value for last parameter is 500)
+    		last = 500; 
+    	return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair, last), currencyPair);
     }
-    return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair, last), currencyPair);
+    else
+    	return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair), currencyPair);
   }
 }
