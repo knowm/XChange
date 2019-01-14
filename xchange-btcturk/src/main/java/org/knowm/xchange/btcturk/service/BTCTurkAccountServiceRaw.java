@@ -37,7 +37,7 @@ public class BTCTurkAccountServiceRaw extends BTCTurkBaseService {
 		  return btcTurk.getUserTransactions(
 		    				offset,
 		    				limit,
-		    				sort,
+		    				sort.toString(),
 		            exchange.getExchangeSpecification().getApiKey(),
 		            exchange.getNonceFactory(),
 		            signatureCreator

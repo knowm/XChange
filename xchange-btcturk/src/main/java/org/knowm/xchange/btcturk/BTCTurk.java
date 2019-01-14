@@ -34,7 +34,18 @@ public interface BTCTurk {
   @GET
   @Path("trades/")
   BTCTurkTrades[] getTrades(
+      @QueryParam("pairSymbol") String pairSymbol)
+      throws IOException;
+  
+  @GET
+  @Path("trades/")
+  BTCTurkTrades[] getTrades(
       @QueryParam("pairSymbol") String pairSymbol, @QueryParam("last") Integer last)
+      throws IOException;
+  
+  @GET
+  @Path("ohlcdata/")
+  BTCTurkOHLC[] getOHLC(@QueryParam("pairSymbol") String pairSymbol)
       throws IOException;
   
   @GET
