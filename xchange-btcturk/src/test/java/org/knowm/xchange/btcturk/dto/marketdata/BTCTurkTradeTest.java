@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrades;
 
 /** @author semihunaldi Test BTCTurkTrade[] JSON parsing */
 public class BTCTurkTradeTest {
@@ -21,7 +22,7 @@ public class BTCTurkTradeTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCTurkTrade[] trades = mapper.readValue(is, BTCTurkTrade[].class);
+    BTCTurkTrades[] trades = mapper.readValue(is, BTCTurkTrades[].class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(trades[0].getDate()).isEqualTo(1511728478L);
