@@ -80,7 +80,7 @@ public final class BTCTurkAdapters {
    * @param currencyPair (e.g. BTC/TRY)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(BTCTurkTrades[] btcTurkTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BTCTurkTrades> btcTurkTrades, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
     BigDecimal lastTradeId = new BigDecimal("0");
     for (BTCTurkTrades btcTurkTrade : btcTurkTrades) {
