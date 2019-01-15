@@ -71,6 +71,12 @@ public final class OkCoinAdapters {
     return new CurrencyPair(currencies[0], currencies[1]);
   }
 
+  public static String adaptCurrencyToAccountRecordPair(Currency currency) {
+    // Currency pair must be used with usd
+    // This is due to https://github.com/okcoin-okex/API-docs-OKEx.com/issues/115
+    return adaptSymbol(new CurrencyPair(currency, Currency.USD));
+  }
+
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
     final Date date = adaptDate(tickerResponse.getDate());
     return new Ticker.Builder()

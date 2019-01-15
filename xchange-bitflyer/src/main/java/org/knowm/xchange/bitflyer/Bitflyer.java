@@ -24,8 +24,14 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerWithdrawRequest;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerWithdrawResponse;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerOrderbook;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
+import org.knowm.xchange.bitflyer.dto.trade.BitflyerChildOrder;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
+import org.knowm.xchange.bitflyer.dto.trade.BitflyerParentOrder;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerPosition;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerChildOrderAcceptance;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerParentOrderAcceptance;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerQueryChildOrderResult;
+import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerTradingCommission;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -177,5 +183,46 @@ public interface Bitflyer {
       @HeaderParam(ACCESS_KEY) String apiKey,
       @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest)
+      throws IOException, BitflyerException;
+
+  @GET
+  @Path("me/gettradingcommission")
+  BitflyerTradingCommission getTradingCommission(
+      @HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest,
+      @QueryParam("product_code") String productCode)
+      throws IOException, BitflyerException;
+
+  @GET
+  @Path("me/getchildorders")
+  List<BitflyerQueryChildOrderResult> getChildOrders(
+      @HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest,
+      @QueryParam("product_code") String productCode,
+      @QueryParam("child_order_state") String childOrderState)
+      throws IOException, BitflyerException;
+
+  @POST
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("me/sendparentorder")
+  BitflyerParentOrderAcceptance sendParentOrder(
+      @HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest,
+      BitflyerParentOrder parentOrder)
+      throws IOException, BitflyerException;
+
+  @POST
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("me/sendchildorder")
+  BitflyerChildOrderAcceptance sendChildOrder(
+      @HeaderParam(ACCESS_KEY) String apiKey,
+      @HeaderParam(ACCESS_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(ACCESS_SIGN) ParamsDigest paramsDigest,
+      BitflyerChildOrder parentOrder)
       throws IOException, BitflyerException;
 }

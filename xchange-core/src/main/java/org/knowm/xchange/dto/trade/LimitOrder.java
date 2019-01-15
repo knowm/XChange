@@ -264,6 +264,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return (Builder) super.flags(flags);
     }
 
+    @Override
+    public Builder fee(BigDecimal fee) {
+      return (Builder) super.fee(fee);
+    }
+
     public Builder limitPrice(BigDecimal limitPrice) {
 
       this.limitPrice = limitPrice;
