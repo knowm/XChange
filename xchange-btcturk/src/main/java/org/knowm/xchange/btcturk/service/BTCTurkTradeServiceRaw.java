@@ -26,7 +26,7 @@ public class BTCTurkTradeServiceRaw  extends BTCTurkBaseService {
 	    super(exchange);
 	  }
 	
-	public List<BTCTurkOpenOrders> getOpenOrders(CurrencyPair pair) throws IOException {
+	public List<BTCTurkOpenOrders> getBTCTurkOpenOrders(CurrencyPair pair) throws IOException {
 
 		return btcTurk.getOpenOrders(
 	    		pair.toString().replace("/", ""),
@@ -36,12 +36,12 @@ public class BTCTurkTradeServiceRaw  extends BTCTurkBaseService {
 	            );
 	  }
   
-	public List<BTCTurkOpenOrders> getOpenOrdersRaw() throws IOException {
+	public List<BTCTurkOpenOrders> getBTCTurkOpenOrders() throws IOException {
 
 		List<BTCTurkOpenOrders> openOrdersRaw = new ArrayList<BTCTurkOpenOrders>();
 		
 		for(BTCTurkTicker ticker :	btcTurk.getTicker()) {
-			for(BTCTurkOpenOrders order :	getOpenOrders(ticker.getPair())) {
+			for(BTCTurkOpenOrders order :	getBTCTurkOpenOrders(ticker.getPair())) {
 				openOrdersRaw.add(order);
 			 }			
 		 }
@@ -49,7 +49,7 @@ public class BTCTurkTradeServiceRaw  extends BTCTurkBaseService {
 		return openOrdersRaw;
 	  }
 	
-	  public List<BTCTurkUserTransactions> getUserTransactions() throws IOException {
+	  public List<BTCTurkUserTransactions> getBTCTurkUserTransactions() throws IOException {
 
 		  return btcTurk.getUserTransactions(
 				  0,

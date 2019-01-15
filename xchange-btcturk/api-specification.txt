@@ -20,7 +20,6 @@ https://www.btcturk.com/api/orderbook?pairSymbol=BTCTRY
 
 Trades
 ------
-https://www.btcturk.com/api/trades?pairSymbol=BTCTRY (shows the last 50 value)
 https://www.btcturk.com/api/trades?pairSymbol=BTCTRY&last=COUNT (Max. value for count parameter is 500)
 
 OHCL Data (Daily)

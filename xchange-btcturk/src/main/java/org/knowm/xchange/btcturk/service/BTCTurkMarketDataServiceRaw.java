@@ -42,22 +42,17 @@ public class BTCTurkMarketDataServiceRaw extends BTCTurkBaseService {
     return btcTurk.getOrderBook(pair.toString().replace("/", ""));
   }
 
-  public BTCTurkTrades[] getBTCTurkTrades(CurrencyPair pair)
-	      throws IOException {
-	  return btcTurk.getTrades(pair.toString().replace("/", ""));
-	  }
-  
-  public BTCTurkTrades[] getBTCTurkTrades(CurrencyPair pair, Integer last)
+  public List<BTCTurkTrades> getBTCTurkTrades(CurrencyPair pair, Integer last)
       throws IOException {
 	return btcTurk.getTrades(pair.toString().replace("/", ""), last);
   }
 
-  public BTCTurkOHLC[] getBTCTurkOHLC(CurrencyPair pair)
+  public List<BTCTurkOHLC> getBTCTurkOHLC(CurrencyPair pair)
 	      throws IOException {
 		return btcTurk.getOHLC(pair.toString().replace("/", ""));
 	  }
   
-  public BTCTurkOHLC[] getBTCTurkOHLC(CurrencyPair pair, Integer last)
+  public List<BTCTurkOHLC> getBTCTurkOHLC(CurrencyPair pair, Integer last)
       throws IOException {
 	return btcTurk.getOHLC(pair.toString().replace("/", ""), last);
   }

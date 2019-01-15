@@ -51,6 +51,6 @@ public class BTCTurkMarketDataService extends BTCTurkMarketDataServiceRaw
     	return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair, last), currencyPair);
     }
     else
-    	return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair), currencyPair);
+    	return BTCTurkAdapters.adaptTrades(super.getBTCTurkTrades(currencyPair, 50), currencyPair);
   }
 }
