@@ -3,7 +3,6 @@ The documentation for BTCTurk BTCTrader's white label exchange platform API.
 
 Public API
 
-
 Documentation
 -------------
 https://github.com/BTCTrader/broker-api-docs
