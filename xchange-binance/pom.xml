@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
         <version>4.3.13</version>
     </parent>
 
     <artifactId>xchange-binance-custom</artifactId>
-    <version>4.3.13.3</version>
+    <version>4.3.13.4</version>
 
     <name>XChange Binance</name>
     <description>XChange implementation for the Binance Exchange</description>

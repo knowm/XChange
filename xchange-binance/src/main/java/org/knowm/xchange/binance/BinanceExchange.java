@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
+import org.knowm.xchange.binance.dto.meta.BinanceCurrencyPairMetaData;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -104,6 +105,7 @@ public class BinanceExchange extends BaseExchange {
 
             BigDecimal minQty = null;
             BigDecimal maxQty = null;
+            BigDecimal minNotional = BigDecimal.ZERO;
 
             Filter[] filters = symbol.getFilters();
 
@@ -114,16 +116,20 @@ public class BinanceExchange extends BaseExchange {
                 amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
                 maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+              } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
+                minNotional = new BigDecimal(filter.getMinNotional());
               }
             }
 
             currencyPairs.put(
                 price.getCurrencyPair(),
-                new CurrencyPairMetaData(
+                new BinanceCurrencyPairMetaData(
                     new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                     minQty, // Min amount
                     maxQty, // Max amount
-                    pairPrecision, // precision
+                    pairPrecision,
+                    minNotional,
+                    // precision
                     null /* TODO get fee tiers, although this is not necessary now
                          because their API returns current fee directly */));
             currencies.put(
