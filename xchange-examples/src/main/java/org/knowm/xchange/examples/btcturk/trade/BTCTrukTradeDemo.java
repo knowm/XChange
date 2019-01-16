@@ -36,7 +36,7 @@ public class BTCTrukTradeDemo {
 	  }
 
 	  private static void raw(BTCTurkTradeServiceRaw tradeService) throws IOException {
-		BTCTurkExchangeResult result = tradeService.placeMarketOrder(new BigDecimal(".1"), CurrencyPair.ETH_TRY, BTCTurkOrderTypes.BUY);  
+		BTCTurkExchangeResult result = tradeService.placeMarketOrder(new BigDecimal(".1"), CurrencyPair.ETH_TRY, BTCTurkOrderTypes.Buy);  
 	    System.out.println(result.getId());
 	  }
 
