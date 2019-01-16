@@ -23,7 +23,7 @@ public class BTCTurkOHLCTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(btcTurkOHLCs.length).isEqualTo(2);
-    assertThat(btcTurkOHLCs[0].getTime().toString()).isEqualTo("Mon Jan 14 03:00:00 EET 2019");
+    assertThat(btcTurkOHLCs[0].getTime().toString()).isEqualTo("Mon Jan 14 00:00:00 UTC 2019");
     assertThat(btcTurkOHLCs[0].getOpen()).isEqualTo(new BigDecimal("640"));
     assertThat(btcTurkOHLCs[0].getHigh()).isEqualTo(new BigDecimal("731"));
     assertThat(btcTurkOHLCs[0].getLow()).isEqualTo(new BigDecimal("637"));

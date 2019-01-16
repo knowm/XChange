@@ -23,7 +23,7 @@ public class BTCTurkExchangeResultTest {
 	    BTCTurkExchangeResult btcTurkExchangeResult = mapper.readValue(is, BTCTurkExchangeResult.class);
 
 	    assertThat(btcTurkExchangeResult.getId()).isEqualTo("24502215");
-	    assertThat(btcTurkExchangeResult.getDatetime().toString()).isEqualTo("Mon Jan 14 20:55:31 EET 2019");
+	    assertThat(btcTurkExchangeResult.getDatetime().toString()).isEqualTo("Mon Jan 14 17:55:31 UTC 2019");
 	    assertThat(btcTurkExchangeResult.getType()).isEqualTo(BTCTurkOrderTypes.Sell);
 	    assertThat(btcTurkExchangeResult.getPrice()).isEqualTo(new BigDecimal("900"));
 	    assertThat(btcTurkExchangeResult.getAmount()).isEqualTo(new BigDecimal("0.0123"));

@@ -1,4 +1,4 @@
-package org.known.xchange.btcturk.service;
+package org.knowm.xchange.btcturk.service;
 
 public class BTCTurkDemoUtilsTest {
 

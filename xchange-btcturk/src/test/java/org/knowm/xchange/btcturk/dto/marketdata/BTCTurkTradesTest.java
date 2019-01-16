@@ -25,7 +25,7 @@ public class BTCTurkTradesTest {
     BTCTurkTrades[] trades = mapper.readValue(is, BTCTurkTrades[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(trades[0].getDate().toString()).isEqualTo("Sun Jan 18 23:51:16 EET 1970");
+    assertThat(trades[0].getDate().toString()).isEqualTo("Sun Jan 18 21:51:16 UTC 1970");
     assertThat(trades[0].getTid()).isEqualTo(new BigDecimal("636830731788787572"));
     assertThat(trades[0].getPrice()).isEqualTo(new BigDecimal("19800"));
     assertThat(trades[0].getAmount()).isEqualTo(new BigDecimal("0.14187336"));

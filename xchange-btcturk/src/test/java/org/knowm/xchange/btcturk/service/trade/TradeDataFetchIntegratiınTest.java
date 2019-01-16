@@ -1,4 +1,4 @@
-package org.known.xchange.btcturk.service.trade;
+package org.knowm.xchange.btcturk.service.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,10 +16,10 @@ import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkUserTransactions;
 import org.knowm.xchange.btcturk.dto.trade.BTCTurkExchangeResult;
 import org.knowm.xchange.btcturk.dto.trade.BTCTurkOpenOrders;
+import org.knowm.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 import org.knowm.xchange.btcturk.service.BTCTurkTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
-import org.known.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 
 /** @author mertguner */
 public class TradeDataFetchIntegratiınTest {

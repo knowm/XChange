@@ -29,7 +29,7 @@ public class BTCTurkUserTransactionsTest {
 	    
 	    assertThat(btcTurkUserTransactions.length).isEqualTo(25);
 		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo("132599");
-		assertThat(btcTurkUserTransactions[0].getDate().toString()).isEqualTo("Fri Dec 14 02:46:42 EET 2018");
+		assertThat(btcTurkUserTransactions[0].getDate().toString()).isEqualTo("Thu Dec 13 23:46:42 UTC 2018");
 		assertThat(btcTurkUserTransactions[0].getOperation()).isEqualTo(BTCTurkOperations.trade);
 		assertThat(btcTurkUserTransactions[0].getCurrency()).isEqualTo(Currency.ETH);
 		assertThat(btcTurkUserTransactions[0].getFunds()).isEqualTo(new BigDecimal("23494.6206940035832218"));
