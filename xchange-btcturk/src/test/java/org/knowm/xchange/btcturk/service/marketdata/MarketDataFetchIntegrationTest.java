@@ -46,46 +46,36 @@ public class MarketDataFetchIntegrationTest {
 	}
 	
   @Test
-  public void TickerTest() throws Exception {
-    Ticker ticker = btcTurkMarketDataService.getTicker(new CurrencyPair("BTC", "TRY"));
-    System.out.println(ticker.toString());
-    assertThat(ticker).isNotNull();
+  public void Test() throws Exception {
+	  //Ticker Test
+	Ticker ticker = btcTurkMarketDataService.getTicker(new CurrencyPair("BTC", "TRY"));
+	System.out.println(ticker.toString());
+	assertThat(ticker).isNotNull();
     
-    List<Ticker> tickers = btcTurkMarketDataService.getTickers(new Params() {});
-    for(Ticker _ticker : tickers)
-    {
-    	System.out.println(_ticker.toString());
-        assertThat(_ticker).isNotNull();
-    }
+	List<Ticker> tickers = btcTurkMarketDataService.getTickers(new Params() {});
+	for(Ticker _ticker : tickers)
+	{
+		System.out.println(_ticker.toString());
+		assertThat(_ticker).isNotNull();
+	}
     
-  }
-  
-  @Test
-  public void TradesTest() throws Exception {
-	  Trades trades = btcTurkMarketDataService.getTrades(CurrencyPair.BTC_TRY);
-		assertThat(trades.getTrades().size()).isEqualTo(50);
+	//TradesTest
+	Trades trades = btcTurkMarketDataService.getTrades(CurrencyPair.BTC_TRY);
+	assertThat(trades.getTrades().size()).isEqualTo(50);
 		 
-		trades = btcTurkMarketDataService.getTrades(CurrencyPair.BTC_TRY, 5);
-		assertThat(trades.getTrades().size()).isEqualTo(5);
-  }
-  
-  @Test
-	public void OHCLTest() throws IOException 
-	{
-		List<BTCTurkOHLC> btcTurkBTCTurkOHLC = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY);
-		assertThat(btcTurkBTCTurkOHLC.size()).isNotEqualTo(0); //Daily size is always changing
+	trades = btcTurkMarketDataService.getTrades(CurrencyPair.BTC_TRY, 5);
+	assertThat(trades.getTrades().size()).isEqualTo(5);
+	  
+	//OHCLTest	  
+	List<BTCTurkOHLC> btcTurkBTCTurkOHLC = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY);
+	assertThat(btcTurkBTCTurkOHLC.size()).isNotEqualTo(0); //Daily size is always changing
 		
-		List<BTCTurkOHLC> btcTurkBTCTurkOHLC2 = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY, 2);
-		assertThat(btcTurkBTCTurkOHLC2.size()).isEqualTo(2);
-	}
-  
-  @Test
-	public void OrderBookTest() throws IOException 
-	{
-		BTCTurkOrderBook btcTurkBTCTurkOrderBook = btcTurkMarketDataService.getBTCTurkOrderBook(CurrencyPair.BTC_TRY);
-		assertThat(btcTurkBTCTurkOrderBook.getAsks().size()).isEqualTo(100); 
-		assertThat(btcTurkBTCTurkOrderBook.getBids().size()).isEqualTo(100); 
-	}
-  
-  
+	List<BTCTurkOHLC> btcTurkBTCTurkOHLC2 = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY, 2);
+	assertThat(btcTurkBTCTurkOHLC2.size()).isEqualTo(2);
+	  
+	//OrderBookTest
+	BTCTurkOrderBook btcTurkBTCTurkOrderBook = btcTurkMarketDataService.getBTCTurkOrderBook(CurrencyPair.BTC_TRY);
+	assertThat(btcTurkBTCTurkOrderBook.getAsks().size()).isEqualTo(100); 
+	assertThat(btcTurkBTCTurkOrderBook.getBids().size()).isEqualTo(100); 
+  }
 }
