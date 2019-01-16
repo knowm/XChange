@@ -1,4 +1,4 @@
-package org.known.xchange.btcturk.service.account;
+package org.knowm.xchange.btcturk.service.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,9 +13,9 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcturk.BTCTurkExchange;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkAccountBalance;
 import org.knowm.xchange.btcturk.service.BTCTurkAccountService;
+import org.knowm.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
-import org.known.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 
 public class AccountDataFetchIntegratiınTest {
 

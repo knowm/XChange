@@ -13,13 +13,13 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcturk.BTCTurkExchange;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOHLC;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
+import org.knowm.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 import org.knowm.xchange.btcturk.service.BTCTurkMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
-import org.known.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 
 /** @author semihunaldi 
  *  @author mertguner */
