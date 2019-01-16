@@ -31,10 +31,15 @@ public class MarketDataFetchIntegrationTest {
 	@Before
 	public void InitExchange() throws IOException 
 	{
-		ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
-    	exSpec.setApiKey(BTCTurkDemoUtilsTest.BTCTURK_APIKEY);
-    	exSpec.setSecretKey(BTCTurkDemoUtilsTest.BTCTURK_SECRETKEY);    	
-    	btcTurk = ExchangeFactory.INSTANCE.createExchange(exSpec);
+		if(BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty())
+			btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class.getName());
+		else
+		{
+			ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
+    			exSpec.setApiKey(BTCTurkDemoUtilsTest.BTCTURK_APIKEY);
+    			exSpec.setSecretKey(BTCTurkDemoUtilsTest.BTCTURK_SECRETKEY); 
+    			btcTurk = ExchangeFactory.INSTANCE.createExchange(exSpec);
+		}
     	
     	MarketDataService marketDataService = btcTurk.getMarketDataService();
     	btcTurkMarketDataService = (BTCTurkMarketDataService)marketDataService;
