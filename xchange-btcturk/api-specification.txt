@@ -58,8 +58,6 @@ Buy Order (Requires Authentication)
 https://www.btcturk.com/api/exchange
 
 
-
-
 REQUEST LIMITS
 ------
 .../api/ticker requests are limited to 10 requests per 100 miliseconds.
