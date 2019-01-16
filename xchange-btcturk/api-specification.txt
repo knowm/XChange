@@ -3,7 +3,6 @@ The documentation for BTCTurk BTCTrader's white label exchange platform API.
 
 Public API
 
-
 Documentation
 -------------
 https://github.com/BTCTrader/broker-api-docs
@@ -57,8 +56,6 @@ https://www.btcturk.com/api/cancelOrder
 Buy Order (Requires Authentication)
 ------
 https://www.btcturk.com/api/exchange
-
-
 
 
 REQUEST LIMITS
