@@ -28,11 +28,11 @@ public class BTCTurkAccountServiceRaw extends BTCTurkBaseService {
 		  }
 	  
 	  
-	  public List<BTCTurkUserTransactions> getUserTransactions() throws IOException {
-		    return getUserTransactions(0,25,BTCTurkSort.SORT_ASCENDING);
+	  public List<BTCTurkUserTransactions> getBTCTurkUserTransactions() throws IOException {
+		    return getBTCTurkUserTransactions(0,25,BTCTurkSort.SORT_ASCENDING);
 		  }
 	  
-	  public List<BTCTurkUserTransactions> getUserTransactions(int offset,int limit, BTCTurkSort sort) throws IOException {
+	  public List<BTCTurkUserTransactions> getBTCTurkUserTransactions(int offset,int limit, BTCTurkSort sort) throws IOException {
 
 		  return btcTurk.getUserTransactions(
 		    				offset,

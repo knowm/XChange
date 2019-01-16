@@ -53,7 +53,7 @@ public class BTCTurkTradeServiceRaw  extends BTCTurkBaseService {
 
 		  return btcTurk.getUserTransactions(
 				  0,
-				  50,
+				  25,
 				  BTCTurkSort.SORT_ASCENDING.toString(),
 		          exchange.getExchangeSpecification().getApiKey(),
 		          exchange.getNonceFactory(),

@@ -9,16 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcturk.BTCTurkExchange;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOHLC;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.service.BTCTurkMarketDataService;
-import org.knowm.xchange.btcturk.service.BTCTurkMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.known.xchange.btcturk.service.BTCTurkDemoUtilsTest;
 
 /** @author semihunaldi 
  *  @author mertguner */
@@ -26,16 +27,17 @@ public class MarketDataFetchIntegrationTest {
 
 	private Exchange btcTurk;
 	private BTCTurkMarketDataService btcTurkMarketDataService;
-	private BTCTurkMarketDataServiceRaw btcTurkMarketDataServiceRaw;
 	
 	@Before
 	public void InitExchange() throws IOException 
 	{
-    	btcTurk = ExchangeFactory.INSTANCE.createExchange(BTCTurkExchange.class.getName());
+		ExchangeSpecification exSpec = new BTCTurkExchange().getDefaultExchangeSpecification();
+    	exSpec.setApiKey(BTCTurkDemoUtilsTest.BTCTURK_APIKEY);
+    	exSpec.setSecretKey(BTCTurkDemoUtilsTest.BTCTURK_SECRETKEY);    	
+    	btcTurk = ExchangeFactory.INSTANCE.createExchange(exSpec);
     	
     	MarketDataService marketDataService = btcTurk.getMarketDataService();
     	btcTurkMarketDataService = (BTCTurkMarketDataService)marketDataService;
-    	btcTurkMarketDataServiceRaw = (BTCTurkMarketDataServiceRaw)marketDataService;
 	}
 	
   @Test
@@ -65,17 +67,17 @@ public class MarketDataFetchIntegrationTest {
   @Test
 	public void OHCLTest() throws IOException 
 	{
-		List<BTCTurkOHLC> btcTurkBTCTurkOHLC = btcTurkMarketDataServiceRaw.getBTCTurkOHLC(CurrencyPair.BTC_TRY);
+		List<BTCTurkOHLC> btcTurkBTCTurkOHLC = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY);
 		assertThat(btcTurkBTCTurkOHLC.size()).isNotEqualTo(0); //Daily size is always changing
 		
-		List<BTCTurkOHLC> btcTurkBTCTurkOHLC2 = btcTurkMarketDataServiceRaw.getBTCTurkOHLC(CurrencyPair.BTC_TRY, 2);
+		List<BTCTurkOHLC> btcTurkBTCTurkOHLC2 = btcTurkMarketDataService.getBTCTurkOHLC(CurrencyPair.BTC_TRY, 2);
 		assertThat(btcTurkBTCTurkOHLC2.size()).isEqualTo(2);
 	}
   
   @Test
 	public void OrderBookTest() throws IOException 
 	{
-		BTCTurkOrderBook btcTurkBTCTurkOrderBook = btcTurkMarketDataServiceRaw.getBTCTurkOrderBook(CurrencyPair.BTC_TRY);
+		BTCTurkOrderBook btcTurkBTCTurkOrderBook = btcTurkMarketDataService.getBTCTurkOrderBook(CurrencyPair.BTC_TRY);
 		assertThat(btcTurkBTCTurkOrderBook.getAsks().size()).isEqualTo(100); 
 		assertThat(btcTurkBTCTurkOrderBook.getBids().size()).isEqualTo(100); 
 	}
