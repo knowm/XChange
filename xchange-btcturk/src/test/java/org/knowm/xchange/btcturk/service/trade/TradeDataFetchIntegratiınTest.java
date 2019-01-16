@@ -46,35 +46,35 @@ public class TradeDataFetchIntegratiınTest {
 	}
 	
 	@Test
-	  public void testplaceOrderAndOpenOrders() throws IOException {
+	  public void Tests() throws IOException, InterruptedException {
 
+		
 		if(tradeService != null)
 		{
+			//PlaceOrderAndOpenOrders Test
+			Thread.sleep(1000);
 			List<BTCTurkOpenOrders> openOrders = btcTurkTradeService.getBTCTurkOpenOrders(CurrencyPair.ETH_TRY);
 
 			 Boolean result = false;
 			 if(openOrders.isEmpty())
 			 {
+				Thread.sleep(1000);
 				BTCTurkExchangeResult exchangeResult = btcTurkTradeService.placeLimitOrder(new BigDecimal("0.01"), new BigDecimal(713), CurrencyPair.ETH_TRY, BTCTurkOrderTypes.Sell);
-				result = btcTurkTradeService.cancelOrder(exchangeResult.getId());
+				Thread.sleep(1000);
+				result = btcTurkTradeService.cancelOrder(exchangeResult.getId());	
 			 }
 			 else 
 			 {
 				 result = btcTurkTradeService.cancelOrder(openOrders.get(0).getId());			 
 			 }
-			 assertThat(result).isEqualTo(true);			 
+			 assertThat(result).isEqualTo(true);	
+			 
+
+			//UserTransactions Test
+			Thread.sleep(1000);
+			List<BTCTurkUserTransactions> userTransactions = btcTurkTradeService.getBTCTurkUserTransactions();
+			assertThat(userTransactions.size()).isEqualTo(25);	
 		}else
 			assertThat(tradeService).isEqualTo(null);	
-	}
-	
-	@Test
-	  public void testUserTransactions() throws IOException {
-
-		if(tradeService != null)
-		{
-			List<BTCTurkUserTransactions> userTransactions = btcTurkTradeService.getBTCTurkUserTransactions();
-			assertThat(userTransactions.size()).isEqualTo(25);			
-		}else
-			assertThat(tradeService).isEqualTo(null);
 	}
 }

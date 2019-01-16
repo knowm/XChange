@@ -41,27 +41,20 @@ public class AccountDataFetchIntegratiınTest {
 	}
 	
 	@Test
-	  public void testBalance() throws IOException {
+	  public void testBalance() throws IOException, InterruptedException {
 		
 		if(accountService != null)
 		{
+			//BTCTurkAccountBalance Test
 			BTCTurkAccountBalance accountBalance = btcTurkAccountService.getBTCTurkBalance();
 			assertThat(accountBalance).isNotEqualTo(null);
 			assertThat(accountBalance.getBtctry_maker_fee_percentage()).isEqualTo(new BigDecimal("0.0012711860000000"));
-		}else
-			assertThat(accountService).isEqualTo(null);
-		
-	}
-	
-	@Test
-	  public void testaccountInfo() throws IOException {
-		
-		if(accountService != null)
-		{
+			
+			//AccountInfo Test
+			Thread.sleep(1000);
 			AccountInfo accountInfo = btcTurkAccountService.getAccountInfo();
 			assertThat(accountInfo).isNotEqualTo(null);
 		}else
 			assertThat(accountService).isEqualTo(null);
-		
 	}
 }
