@@ -1,19 +1,6 @@
 package info.bitrich.xchangestream.service.netty;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -49,8 +36,21 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class NettyStreamingService<T> {
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+public abstract class NettyStreamingService<T> extends ConnectableService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
     private static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
     private static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
@@ -86,6 +86,7 @@ public abstract class NettyStreamingService<T> {
     private LogLevel loggingHandlerLevel = LogLevel.DEBUG;
     private String socksProxyHost;
     private Integer socksProxyPort;
+    private Runnable beforeConnectionHandler = () -> {};
 
     public NettyStreamingService(String apiUrl) {
         this(apiUrl, 65536);
@@ -106,16 +107,8 @@ public abstract class NettyStreamingService<T> {
         }
     }
 
-    /**
-     * Override this method in case need any pre-connection actions,
-     * like e.g. adding some throttle control for limiting too often opening connections
-     */
-    protected void beforeConnection() {
-        // not need any pre-connection actions by default
-    }
-
-    public Completable connect() {
-        beforeConnection();
+    @Override
+    protected Completable openConnection() {
         return Completable.create(completable -> {
             try {
 
@@ -275,6 +268,16 @@ public abstract class NettyStreamingService<T> {
 
     public String getSubscriptionUniqueId(String channelName, Object... args) {
         return channelName;
+    }
+
+    public Runnable getBeforeConnectionHandler() {
+        return beforeConnectionHandler;
+    }
+
+    public void setBeforeConnectionHandler(Runnable beforeConnectionHandler) {
+        if (beforeConnectionHandler != null) {
+            this.beforeConnectionHandler = beforeConnectionHandler;
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import com.pusher.client.channel.Channel;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
+import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.List;
 
-public class PusherStreamingService {
+public class PusherStreamingService extends ConnectableService  {
     private static final Logger LOG = LoggerFactory.getLogger(PusherStreamingService.class);
 
     private final Pusher pusher;
@@ -37,7 +38,8 @@ public class PusherStreamingService {
         this.pusher = pusher;
     }
 
-    public Completable connect() {
+    @Override
+    protected Completable openConnection() {
         return Completable.create(e -> pusher.connect(new ConnectionEventListener() {
             @Override
             public void onConnectionStateChange(ConnectionStateChange change) {

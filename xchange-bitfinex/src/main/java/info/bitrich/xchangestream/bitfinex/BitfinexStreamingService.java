@@ -41,11 +41,6 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    protected void beforeConnection() {
-        BitfinexConnectionRateLimiter.openConnectionRateLimit();
-    }
-
-    @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
         JsonNode jsonNode;
