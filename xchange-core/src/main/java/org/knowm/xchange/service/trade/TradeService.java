@@ -125,20 +125,33 @@ public interface TradeService extends BaseService {
   }
 
   /**
-   * Modify an existing limit order
+   * Modify or cancel/replace an existing limit order
    *
-   * @param limitOrder
-   * @return the order ID
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   * @implNote Some exchanges have API methods that allow to modify an order or cancel an existing
+   *     one and create a new one in one request.
+   *     <p>Based on exchange API there are 3 ways, how this function works:
+   *     <ol>
+   *       <li>Exchange supports existing order modify operation. Then function returns {@code
+   *           limitOrder} order ID.
+   *       <li>Exchange supports order cancel/replace by one request. Then function returns new
+   *           order ID.
+   *       <li>Exchange doesn't support any of these operations. Then function performs
+   *           cancel/replace by two separate requests, and returns new order ID (default behaviour)
+   *     </ol>
+   *
+   * @param limitOrder Order's data to change
+   * @return Order ID
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the
    *     request or response
-   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   * @throws NotAvailableFromExchangeException Indication that the exchange does not support the
    *     requested function or data
-   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   * @throws NotYetImplementedForExchangeException Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
-   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException Indication that a networking error occurred while fetching JSON data
    */
-  default String modifyOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+  default String changeOrder(LimitOrder limitOrder) throws IOException {
+    cancelOrder(limitOrder.getId());
+    return placeLimitOrder(limitOrder);
   }
 
   /**
