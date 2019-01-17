@@ -270,16 +270,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         return channelName;
     }
 
-    public Runnable getBeforeConnectionHandler() {
-        return beforeConnectionHandler;
-    }
-
-    public void setBeforeConnectionHandler(Runnable beforeConnectionHandler) {
-        if (beforeConnectionHandler != null) {
-            this.beforeConnectionHandler = beforeConnectionHandler;
-        }
-    }
-
     /**
      * Handler that receives incoming messages.
      *
