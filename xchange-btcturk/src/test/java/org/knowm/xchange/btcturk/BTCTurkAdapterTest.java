@@ -16,7 +16,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-/** Created by semihunaldi on 26/11/2017 Updated @author mertguner */
+/** Created by semihunaldi on 26/11/2017 
+ *  Updated @author mertguner */
 public class BTCTurkAdapterTest {
   @Test
   public void testOrderBookAdapter() throws IOException {

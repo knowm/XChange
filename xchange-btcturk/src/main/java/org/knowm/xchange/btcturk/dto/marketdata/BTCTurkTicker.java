@@ -2,14 +2,14 @@ package org.knowm.xchange.btcturk.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+
 import org.knowm.xchange.btcturk.dto.BTCTurkPair;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/**
- * @author semihunaldi
- * @author mertguner
- */
+/** @author semihunaldi
+ *  @author mertguner
+ **/
 public final class BTCTurkTicker {
 
   private BTCTurkPair pair;
@@ -26,9 +26,9 @@ public final class BTCTurkTicker {
   private final BigDecimal dailyPercent;
   private final Currency denominatorsymbol;
   private final Currency numeratorsymbol;
-
+  
   public BTCTurkTicker(
-      @JsonProperty("pair") BTCTurkPair pair,
+	  @JsonProperty("pair") BTCTurkPair pair,
       @JsonProperty("high") BigDecimal high,
       @JsonProperty("last") BigDecimal last,
       @JsonProperty("timestamp") long timestamp,
@@ -42,7 +42,7 @@ public final class BTCTurkTicker {
       @JsonProperty("dailyPercent") BigDecimal dailyPercent,
       @JsonProperty("denominatorsymbol") Currency denominatorsymbol,
       @JsonProperty("numeratorsymbol") Currency numeratorsymbol) {
-    this.pair = pair;
+	this.pair = pair;
     this.high = high;
     this.last = last;
     this.timestamp = timestamp;
@@ -98,50 +98,30 @@ public final class BTCTurkTicker {
     return average;
   }
 
-  public BigDecimal getDaily() {
-    return daily;
-  }
+public BigDecimal getDaily() {
+	return daily;
+}
 
-  public BigDecimal getDailyPercent() {
-    return dailyPercent;
-  }
+public BigDecimal getDailyPercent() {
+	return dailyPercent;
+}
 
-  public Currency getDenominatorsymbol() {
-    return denominatorsymbol;
-  }
+public Currency getDenominatorsymbol() {
+	return denominatorsymbol;
+}
 
-  public Currency getNumeratorsymbol() {
-    return numeratorsymbol;
-  }
+public Currency getNumeratorsymbol() {
+	return numeratorsymbol;
+}
 
-  @Override
-  public String toString() {
-    return "BTCTurkTicker [high="
-        + high
-        + ", last="
-        + last
-        + ", timestamp="
-        + timestamp
-        + ", bid="
-        + bid
-        + ", volume="
-        + volume
-        + ", low="
-        + low
-        + ", ask="
-        + ask
-        + ", open="
-        + open
-        + ", average="
-        + average
-        + ", daily="
-        + daily
-        + ", dailyPercent="
-        + dailyPercent
-        + ", denominatorsymbol="
-        + denominatorsymbol
-        + ", numeratorsymbol="
-        + numeratorsymbol
-        + "]";
-  }
+@Override
+public String toString() {
+	return "BTCTurkTicker [high=" + high + ", last=" + last + ", timestamp=" + timestamp + ", bid="
+			+ bid + ", volume=" + volume + ", low=" + low + ", ask=" + ask + ", open=" + open + ", average=" + average
+			+ ", daily=" + daily + ", dailyPercent=" + dailyPercent + ", denominatorsymbol=" + denominatorsymbol
+			+ ", numeratorsymbol=" + numeratorsymbol + "]";
+}
+
+
+
 }

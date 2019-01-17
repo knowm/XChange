@@ -1,20 +1,32 @@
 package org.knowm.xchange.btcturk;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
 import org.knowm.xchange.btcturk.service.BTCTurkAccountService;
 import org.knowm.xchange.btcturk.service.BTCTurkMarketDataService;
+import org.knowm.xchange.btcturk.service.BTCTurkMarketDataServiceRaw;
 import org.knowm.xchange.btcturk.service.BTCTurkTradeService;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author semihunaldi
- * @author mertguner
- */
+/** @author semihunaldi 
+  * @author mertguner */
 public class BTCTurkExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -24,9 +36,9 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
 
     this.marketDataService = new BTCTurkMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null) {
-      this.accountService = new BTCTurkAccountService(this);
-      this.tradeService = new BTCTurkTradeService(this);
-    }
+        this.accountService = new BTCTurkAccountService(this);
+        this.tradeService = new BTCTurkTradeService(this);
+      }
   }
 
   @Override
@@ -47,7 +59,9 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-
+  
   @Override
-  public void remoteInit() throws IOException, ExchangeException {}
+  public void remoteInit() throws IOException, ExchangeException {
+
+}
 }
