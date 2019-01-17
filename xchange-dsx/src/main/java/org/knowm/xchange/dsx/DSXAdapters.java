@@ -269,7 +269,7 @@ public class DSXAdapters {
     BigDecimal maximumAmount = withScale(info.getMaxPrice(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

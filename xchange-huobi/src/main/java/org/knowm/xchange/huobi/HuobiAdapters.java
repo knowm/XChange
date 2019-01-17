@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -84,14 +85,17 @@ public class HuobiAdapters {
 
   private static CurrencyPairMetaData adaptPair(
       HuobiAssetPair pair, CurrencyPairMetaData metadata) {
-    BigDecimal minQty = metadata == null ? null : metadata.getMinimumAmount();
-
+    BigDecimal minQty =
+        metadata == null
+            ? null
+            : metadata.getMinimumAmount().setScale(Integer.parseInt(pair.getAmountPrecision()));
+    FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
     return new CurrencyPairMetaData(
         fee,
         minQty, // Min amount
         null, // Max amount
-        new Integer(pair.getPricePrecision()) // Price scale
-        );
+        new Integer(pair.getPricePrecision()), // Price scale
+        feeTiers);
   }
 
   private static Currency adaptCurrency(String currency) {
@@ -103,6 +107,10 @@ public class HuobiAdapters {
     for (Map.Entry<String, HuobiBalanceSum> record : huobiWallet.entrySet()) {
       try {
         Currency currency = adaptCurrency(record.getKey());
+        if (currency == null) {
+          // Avoid creating Balance objects with null currency.
+          continue;
+        }
         Balance balance =
             new Balance(
                 currency,
@@ -242,7 +250,7 @@ public class HuobiAdapters {
     return result;
   }
 
-  private static OrderType adaptOrderType(String orderType) {
+  public static OrderType adaptOrderType(String orderType) {
     if (orderType.startsWith("buy")) {
       return OrderType.BID;
     }

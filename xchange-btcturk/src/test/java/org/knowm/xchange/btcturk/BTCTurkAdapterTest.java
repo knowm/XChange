@@ -9,14 +9,14 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
-import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrade;
+import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrades;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-/** Created by semihunaldi on 26/11/2017 */
+/** Created by semihunaldi on 26/11/2017 Updated @author mertguner */
 public class BTCTurkAdapterTest {
   @Test
   public void testOrderBookAdapter() throws IOException {
@@ -52,10 +52,10 @@ public class BTCTurkAdapterTest {
     BTCTurkTicker btcTurkTicker = mapper.readValue(is, BTCTurkTicker.class);
 
     Ticker ticker = BTCTurkAdapters.adaptTicker(btcTurkTicker);
-    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("38800.02"));
-    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("39436.99"));
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1511724574L);
-    assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("37909.3"));
+    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("20599"));
+    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("20735"));
+    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1546770924L);
+    assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("20579.48"));
   }
 
   @Test
@@ -66,7 +66,7 @@ public class BTCTurkAdapterTest {
             "/org/knowm/xchange/btcturk/dto/marketdata/example-trades-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCTurkTrade[] btcTurkTrades = mapper.readValue(is, BTCTurkTrade[].class);
+    BTCTurkTrades[] btcTurkTrades = mapper.readValue(is, BTCTurkTrades[].class);
     Trades trades = BTCTurkAdapters.adaptTrades(btcTurkTrades, CurrencyPair.BTC_TRY);
 
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("1");

@@ -26,60 +26,49 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
     super(exchange);
   }
 
+  /**
+   * @deprecated Endpoint still valid, but Bittrex have disabled market orders. See
+   *     https://twitter.com/bittrexexchange/status/526590250487783425.
+   */
+  @Deprecated
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    String pair = BittrexUtils.toPairString(marketOrder.getCurrencyPair());
-
-    if (marketOrder.getType() == OrderType.BID) {
-      return bittrexAuthenticated
-          .buymarket(
-              apiKey,
-              signatureCreator,
-              exchange.getNonceFactory(),
-              pair,
-              marketOrder.getOriginalAmount().toPlainString())
-          .getResult()
-          .getUuid();
-    } else {
-      return bittrexAuthenticated
-          .sellmarket(
-              apiKey,
-              signatureCreator,
-              exchange.getNonceFactory(),
-              pair,
-              marketOrder.getOriginalAmount().toPlainString())
-          .getResult()
-          .getUuid();
-    }
+    return (OrderType.BID.equals(marketOrder.getType())
+            ? bittrexAuthenticated.buymarket(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                marketOrder.getOriginalAmount().toPlainString())
+            : bittrexAuthenticated.sellmarket(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                marketOrder.getOriginalAmount().toPlainString()))
+        .getResult()
+        .getUuid();
   }
 
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = BittrexUtils.toPairString(limitOrder.getCurrencyPair());
-
-    if (limitOrder.getType() == OrderType.BID) {
-      return bittrexAuthenticated
-          .buylimit(
-              apiKey,
-              signatureCreator,
-              exchange.getNonceFactory(),
-              pair,
-              limitOrder.getOriginalAmount().toPlainString(),
-              limitOrder.getLimitPrice().toPlainString())
-          .getResult()
-          .getUuid();
-    } else {
-      return bittrexAuthenticated
-          .selllimit(
-              apiKey,
-              signatureCreator,
-              exchange.getNonceFactory(),
-              pair,
-              limitOrder.getOriginalAmount().toPlainString(),
-              limitOrder.getLimitPrice().toPlainString())
-          .getResult()
-          .getUuid();
-    }
+    return (OrderType.BID.equals(limitOrder.getType())
+            ? bittrexAuthenticated.buylimit(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString())
+            : bittrexAuthenticated.selllimit(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString()))
+        .getResult()
+        .getUuid();
   }
 
   public boolean cancelBittrexLimitOrder(String uuid) throws IOException {
@@ -91,7 +80,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public List<BittrexOpenOrder> getBittrexOpenOrders(OpenOrdersParams params) throws IOException {
     String ccyPair = null;
 
-    if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
+    if (params instanceof OpenOrdersParamCurrencyPair) {
       CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
       if (currencyPair != null) {
         ccyPair = BittrexUtils.toPairString(currencyPair);
@@ -105,9 +94,8 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   public List<BittrexUserTrade> getBittrexTradeHistory(CurrencyPair currencyPair)
       throws IOException {
-    String ccyPair = null;
-    if (currencyPair != null) ccyPair = BittrexUtils.toPairString(currencyPair);
 
+    String ccyPair = currencyPair == null ? null : BittrexUtils.toPairString(currencyPair);
     return bittrexAuthenticated
         .getorderhistory(apiKey, signatureCreator, exchange.getNonceFactory(), ccyPair)
         .getResult();

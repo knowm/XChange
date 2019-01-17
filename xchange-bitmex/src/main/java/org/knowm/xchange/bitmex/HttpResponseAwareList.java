@@ -6,6 +6,7 @@ import java.util.Map;
 import si.mazi.rescu.HttpResponseAware;
 
 /** @author Nikita Belenkiy on 03/07/2018. */
+@SuppressWarnings("serial")
 public class HttpResponseAwareList<E> extends ArrayList<E> implements HttpResponseAware {
   private Map<String, List<String>> headers;
 

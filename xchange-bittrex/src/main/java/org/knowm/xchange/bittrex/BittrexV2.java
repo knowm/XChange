@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexChartData;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexV2MarketSummary;
 
 @Path("v2.0")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,4 +29,8 @@ public interface BittrexV2 {
       @QueryParam("marketName") String market,
       @QueryParam("tickInterval") String tickInterval,
       @QueryParam("_") Long timeStamp);
+
+  @GET
+  @Path("pub/markets/GetMarketSummaries")
+  BittrexBaseResponse<List<BittrexV2MarketSummary>> getMarketSummaries();
 }
