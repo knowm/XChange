@@ -28,7 +28,7 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
  *   <li>Cancel user's open orders on the exchange
  *   <li>Place market orders on the exchange
  *   <li>Place limit orders on the exchange
- *   <li>Modify limit orders on the exchange
+ *   <li>Change limit orders on the exchange
  * </ul>
  *
  * <p>The implementation of this service is expected to be based on a client polling mechanism of
