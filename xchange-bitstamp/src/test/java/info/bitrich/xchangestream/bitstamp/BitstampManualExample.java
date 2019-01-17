@@ -55,5 +55,7 @@ public class BitstampManualExample {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        rateLimiter.shutdown();
     }
 }
