@@ -1,16 +1,20 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
@@ -18,13 +22,16 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -51,24 +58,65 @@ public final class BitfinexAdapters {
 
   private BitfinexAdapters() {}
 
-  public static String adaptBitfinexCurrency(String bitfinexSymbol) {
-    String currency = bitfinexSymbol.toUpperCase();
-    if (currency.equals("DSH")) {
-      currency = "DASH";
+  /**
+   * Each element in the response array contains a set of currencies that are at a given fee tier.
+   * The API returns the fee per currency in each tier and does not make any promises that they are
+   * all the same, so this adapter will use the fee per currency instead of the fee per tier.
+   */
+  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(
+      BitfinexTradingFeeResponse[] responses, List<CurrencyPair> currencyPairs) {
+    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+    for (BitfinexTradingFeeResponse response : responses) {
+      BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow[] responseRows =
+          response.getTradingFees();
+      for (BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow responseRow : responseRows) {
+        Currency currency = Currency.getInstance(responseRow.getCurrency());
+        BigDecimal percentToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(2));
+        Fee fee =
+            new Fee(
+                responseRow.getMakerFee().multiply(percentToFraction),
+                responseRow.getTakerFee().multiply(percentToFraction));
+        for (CurrencyPair pair : currencyPairs) {
+          // Fee to trade for a currency is the fee to trade currency pairs with this base.
+          // Fee is typically assessed in units counter.
+          if (pair.base.equals(currency)) {
+            if (result.put(pair, fee) != null) {
+              throw new IllegalStateException(
+                  "Fee for currency pair " + pair + " is overspecified");
+            }
+          }
+        }
+      }
     }
-    if (currency.equals("QTM")) {
-      currency = "QTUM";
-    }
-    return currency;
+    return result;
   }
 
-  public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> bitfinexSymbol) {
+  public static String adaptBitfinexCurrency(String bitfinexSymbol) {
+    return bitfinexSymbol.toUpperCase();
+  }
 
-    List<CurrencyPair> currencyPairs = new ArrayList<>();
-    for (String symbol : bitfinexSymbol) {
-      currencyPairs.add(adaptCurrencyPair(symbol));
+  public static BitfinexOrderType adaptOrderFlagsToType(Set<Order.IOrderFlags> flags) {
+    if (flags.contains(BitfinexOrderFlags.MARGIN)) {
+      if (flags.contains(BitfinexOrderFlags.FILL_OR_KILL)) {
+        return BitfinexOrderType.MARGIN_FILL_OR_KILL;
+      } else if (flags.contains(BitfinexOrderFlags.TRAILING_STOP)) {
+        return BitfinexOrderType.MARGIN_TRAILING_STOP;
+      } else if (flags.contains(BitfinexOrderFlags.STOP)) {
+        return BitfinexOrderType.MARGIN_STOP;
+      } else {
+        return BitfinexOrderType.MARGIN_LIMIT;
+      }
+    } else {
+      if (flags.contains(BitfinexOrderFlags.FILL_OR_KILL)) {
+        return BitfinexOrderType.FILL_OR_KILL;
+      } else if (flags.contains(BitfinexOrderFlags.TRAILING_STOP)) {
+        return BitfinexOrderType.TRAILING_STOP;
+      } else if (flags.contains(BitfinexOrderFlags.STOP)) {
+        return BitfinexOrderType.STOP;
+      } else {
+        return BitfinexOrderType.LIMIT;
+      }
     }
-    return currencyPairs;
   }
 
   public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
@@ -376,15 +424,34 @@ public final class BitfinexAdapters {
 
     Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
+
+    // Remove pairs that are no-longer in use
+    pairsMap.keySet().retainAll(currencyPairs);
+
+    // Remove currencies that are no-longer in use
+    Set<Currency> currencies =
+        currencyPairs
+            .stream()
+            .flatMap(pair -> Stream.of(pair.base, pair.counter))
+            .collect(Collectors.toSet());
+    currenciesMap.keySet().retainAll(currencies);
+
+    // Add missing pairs and currencies
     for (CurrencyPair c : currencyPairs) {
       if (!pairsMap.containsKey(c)) {
         pairsMap.put(c, null);
       }
+
       if (!currenciesMap.containsKey(c.base)) {
-        currenciesMap.put(c.base, null);
+        currenciesMap.put(
+            c.base,
+            new CurrencyMetaData(
+                2,
+                null)); // When missing, add default meta-data with scale of 2 (Bitfinex's minimal
+        // scale)
       }
       if (!currenciesMap.containsKey(c.counter)) {
-        currenciesMap.put(c.counter, null);
+        currenciesMap.put(c.counter, new CurrencyMetaData(2, null));
       }
     }
 
@@ -400,7 +467,10 @@ public final class BitfinexAdapters {
    * @return
    */
   public static ExchangeMetaData adaptMetaData(
-      ExchangeMetaData exchangeMetaData, List<BitfinexSymbolDetail> symbolDetails) {
+      ExchangeMetaData exchangeMetaData,
+      List<BitfinexSymbolDetail> symbolDetails,
+      Map<CurrencyPair, BigDecimal> lastPrices) {
+
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
     symbolDetails
@@ -408,24 +478,26 @@ public final class BitfinexAdapters {
         .forEach(
             bitfinexSymbolDetail -> {
               final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
-              if (currencyPairs.get(currencyPair) == null) {
-                CurrencyPairMetaData newMetaData =
-                    new CurrencyPairMetaData(
-                        null,
-                        bitfinexSymbolDetail.getMinimum_order_size(),
-                        bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
-                currencyPairs.put(currencyPair, newMetaData);
-              } else {
-                CurrencyPairMetaData oldMetaData = currencyPairs.get(currencyPair);
-                CurrencyPairMetaData newMetaData =
-                    new CurrencyPairMetaData(
-                        oldMetaData.getTradingFee(),
-                        bitfinexSymbolDetail.getMinimum_order_size(),
-                        bitfinexSymbolDetail.getMaximum_order_size(),
-                        bitfinexSymbolDetail.getPrice_precision());
-                currencyPairs.put(currencyPair, newMetaData);
-              }
+
+              // Infer price-scale from last and price-precision
+              BigDecimal last = lastPrices.get(currencyPair);
+              int pricePercision = bitfinexSymbolDetail.getPrice_precision();
+              int priceScale = last.scale() + (pricePercision - last.precision());
+
+              CurrencyPairMetaData newMetaData =
+                  new CurrencyPairMetaData(
+                      currencyPairs.get(currencyPair) == null
+                          ? null
+                          : currencyPairs
+                              .get(currencyPair)
+                              .getTradingFee(), // Take tradingFee from static metaData if exists
+                      bitfinexSymbolDetail
+                          .getMinimum_order_size()
+                          .setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
+                      bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
+                      priceScale,
+                      null);
+              currencyPairs.put(currencyPair, newMetaData);
             });
     return exchangeMetaData;
   }
@@ -436,15 +508,14 @@ public final class BitfinexAdapters {
     final Map<Currency, BigDecimal> withdrawFees = accountFeesResponse.getWithdraw();
     withdrawFees.forEach(
         (currency, withdrawalFee) -> {
-          if (currencies.get(currency) == null) {
-            CurrencyMetaData currencyMetaData = new CurrencyMetaData(0, withdrawalFee);
-            currencies.put(currency, currencyMetaData);
-          } else {
-            final CurrencyMetaData oldMetaData = currencies.get(currency);
-            CurrencyMetaData newMetaData =
-                new CurrencyMetaData(oldMetaData.getScale(), withdrawalFee);
-            currencies.put(currency, newMetaData);
-          }
+          CurrencyMetaData newMetaData =
+              new CurrencyMetaData(
+                  // Currency should have at least the scale of the withdrawalFee
+                  currencies.get(currency) == null
+                      ? withdrawalFee.scale()
+                      : Math.max(withdrawalFee.scale(), currencies.get(currency).getScale()),
+                  withdrawalFee);
+          currencies.put(currency, newMetaData);
         });
     return metaData;
   }
@@ -458,7 +529,8 @@ public final class BitfinexAdapters {
     // now.
     // also setting the taker_fee as the trading_fee for now.
     final CurrencyPairMetaData metaData =
-        new CurrencyPairMetaData(bitfinexAccountInfos[0].getTakerFees(), null, null, null);
+        new CurrencyPairMetaData(
+            bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
     currencyPairs
         .keySet()
         .parallelStream()
@@ -472,7 +544,8 @@ public final class BitfinexAdapters {
                             newMetaData.getTradingFee(),
                             oldMetaData.getMinimumAmount(),
                             oldMetaData.getMaximumAmount(),
-                            oldMetaData.getPriceScale())));
+                            oldMetaData.getPriceScale(),
+                            oldMetaData.getFeeTiers())));
 
     return exchangeMetaData;
   }

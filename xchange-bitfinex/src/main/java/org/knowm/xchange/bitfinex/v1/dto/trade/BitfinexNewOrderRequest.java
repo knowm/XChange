@@ -24,10 +24,10 @@ public class BitfinexNewOrderRequest {
   protected String type;
 
   @JsonProperty("amount")
-  protected BigDecimal amount;
+  protected String amount;
 
   @JsonProperty("price")
-  protected BigDecimal price;
+  protected String price;
 
   @JsonProperty("is_hidden")
   protected boolean is_hidden = false;
@@ -57,8 +57,12 @@ public class BitfinexNewOrderRequest {
     this.request = "/v1/order/new";
     this.nonce = nonce;
     this.symbol = symbol;
-    this.amount = amount;
-    this.price = price;
+    if (amount != null) {
+      this.amount = amount.toPlainString();
+    }
+    if (price != null) {
+      this.price = price.toPlainString();
+    }
     this.exchange = exchange;
     this.side = side;
     this.type = type;
@@ -125,12 +129,17 @@ public class BitfinexNewOrderRequest {
   }
 
   public String getAmount() {
+    if (amount == null) {
+      return null;
+    }
 
-    return amount.toPlainString();
+    return amount;
   }
 
   public String getPrice() {
-
-    return price.toPlainString();
+    if (price == null) {
+      return null;
+    }
+    return price;
   }
 }

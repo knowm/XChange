@@ -37,7 +37,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
 
-  /** Constructor */
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
   protected BitstampAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
@@ -86,7 +90,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     BitstampWithdrawal response = null;
 
     if (currency.equals(Currency.XRP)) {
-      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(address);
+      BitstampRippleDepositAddress addressAndDt = new BitstampRippleDepositAddress(null, address);
       response =
           withdrawRippleFunds(
               amount, addressAndDt.getAddress(), Long.toString(addressAndDt.getDestinationTag()));
@@ -225,6 +229,24 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       final BitstampDepositAddress response =
           bitstampAuthenticated.getBitcoinDepositAddress(
+              exchange.getExchangeSpecification().getApiKey(),
+              signatureCreator,
+              exchange.getNonceFactory());
+      if (response.getError() != null) {
+        throw new ExchangeException(
+            "Requesting Bitcoin deposit address failed: " + response.getError());
+      }
+      return response;
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampDepositAddress getBitstampBitcoinCashDepositAddress() throws IOException {
+
+    try {
+      final BitstampDepositAddress response =
+          bitstampAuthenticated.getBitcoinCashDepositAddress(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -389,7 +411,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
               signatureCreator,
               exchange.getNonceFactory(),
               amount,
-              AccountCurrency.EUR,
+              BitstampAuthenticatedV2.AccountCurrency.EUR,
               name,
               IBAN,
               BIK,

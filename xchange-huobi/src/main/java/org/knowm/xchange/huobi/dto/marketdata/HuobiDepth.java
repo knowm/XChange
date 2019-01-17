@@ -3,6 +3,7 @@ package org.knowm.xchange.huobi.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -12,14 +13,17 @@ import java.util.function.BiConsumer;
 public final class HuobiDepth {
 
   private final long id;
+  private final Date ts;
   public final SortedMap<BigDecimal, BigDecimal> bids;
   public final SortedMap<BigDecimal, BigDecimal> asks;
 
   public HuobiDepth(
       @JsonProperty("id") long id,
+      @JsonProperty("ts") Date ts,
       @JsonProperty("bids") List<BigDecimal[]> bidsJson,
       @JsonProperty("asks") List<BigDecimal[]> asksJson) {
     this.id = id;
+    this.ts = ts;
 
     BiConsumer<BigDecimal[], Map<BigDecimal, BigDecimal>> entryProcessor =
         (obj, col) -> {
@@ -40,6 +44,10 @@ public final class HuobiDepth {
     return id;
   }
 
+  public Date getTs() {
+    return ts;
+  }
+
   public SortedMap<BigDecimal, BigDecimal> getBids() {
     return bids;
   }
@@ -50,8 +58,10 @@ public final class HuobiDepth {
 
   @Override
   public String toString() {
-    return "HuobiTicker [id="
+    return "HuobiDepth [id="
         + getId()
+        + ", timestamp="
+        + getTs()
         + ", bids="
         + getBids().toString()
         + ", asks="

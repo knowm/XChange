@@ -415,6 +415,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
 
       return new Builder()
           .currency(balance.getCurrency())
+          .total(balance.getTotal())
           .available(balance.getAvailable())
           .frozen(balance.getFrozen())
           .borrowed(balance.getBorrowed())

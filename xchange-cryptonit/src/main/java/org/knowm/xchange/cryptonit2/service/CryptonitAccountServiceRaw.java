@@ -1,5 +1,6 @@
 package org.knowm.xchange.cryptonit2.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -9,12 +10,9 @@ import org.knowm.xchange.cryptonit2.CryptonitAuthenticated;
 import org.knowm.xchange.cryptonit2.CryptonitAuthenticatedV2;
 import org.knowm.xchange.cryptonit2.CryptonitV2;
 import org.knowm.xchange.cryptonit2.dto.CryptonitException;
-import org.knowm.xchange.cryptonit2.dto.CryptonitTransferBalanceResponse;
 import org.knowm.xchange.cryptonit2.dto.account.CryptonitBalance;
-import org.knowm.xchange.cryptonit2.dto.account.CryptonitDepositAddress;
-import org.knowm.xchange.cryptonit2.dto.account.CryptonitRippleDepositAddress;
 import org.knowm.xchange.cryptonit2.dto.account.CryptonitWithdrawal;
-import org.knowm.xchange.cryptonit2.dto.account.DepositTransaction;
+import org.knowm.xchange.cryptonit2.dto.account.SepaWithdrawParams;
 import org.knowm.xchange.cryptonit2.dto.account.WithdrawalRequest;
 import org.knowm.xchange.cryptonit2.dto.trade.CryptonitUserTransaction;
 import org.knowm.xchange.currency.Currency;
@@ -24,7 +22,7 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author gnandiga */
+/** @author yurivin */
 public class CryptonitAccountServiceRaw extends CryptonitBaseService {
 
   private final CryptonitDigest signatureCreator;
@@ -33,7 +31,7 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
   private final CryptonitAuthenticatedV2 cryptonitAuthenticatedV2;
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
-
+  private final ObjectMapper mapper = new ObjectMapper();
   /**
    * Constructor
    *
@@ -82,72 +80,19 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
     }
   }
 
-  public CryptonitWithdrawal withdrawBtcFunds(BigDecimal amount, String address)
+  public CryptonitWithdrawal withdrawCrypto(BigDecimal amount, String address, Currency currency)
       throws IOException {
 
     try {
       CryptonitWithdrawal response =
-          cryptonitAuthenticated.withdrawBitcoin(
+          cryptonitAuthenticated.cryptoWithdrawal(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory(),
-              amount,
-              address);
-
-      return checkAndReturnWithdrawal(response);
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitWithdrawal withdrawLtcFunds(BigDecimal amount, String address)
-      throws IOException {
-
-    try {
-      CryptonitWithdrawal response =
-          cryptonitAuthenticatedV2.withdrawLitecoin(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory(),
-              amount,
-              address);
-
-      return checkAndReturnWithdrawal(response);
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitWithdrawal withdrawEthFunds(BigDecimal amount, String address)
-      throws IOException {
-
-    try {
-      CryptonitWithdrawal response =
-          cryptonitAuthenticatedV2.withdrawEther(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory(),
-              amount,
-              address);
-
-      return checkAndReturnWithdrawal(response);
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitWithdrawal withdrawRippleFunds(
-      BigDecimal amount, String address, String destinationTag) throws IOException {
-
-    try {
-      CryptonitWithdrawal response =
-          cryptonitAuthenticatedV2.xrpWithdrawal(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory(),
+              currency.toString(),
               amount,
               address,
-              destinationTag);
+              "qazzaq");
 
       return checkAndReturnWithdrawal(response);
     } catch (CryptonitException e) {
@@ -155,17 +100,20 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
     }
   }
 
-  public CryptonitWithdrawal withdrawBchFunds(BigDecimal amount, String address)
-      throws IOException {
+  public CryptonitWithdrawal withdrawSepa(SepaWithdrawParams params) throws IOException {
 
     try {
       CryptonitWithdrawal response =
-          cryptonitAuthenticatedV2.bchWithdrawal(
+          cryptonitAuthenticated.fiatWithdrawal(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory(),
-              amount,
-              address);
+              params.currency.toString(),
+              params.amount,
+              params.methodId,
+              "qazzaq",
+              params.params.toJson());
+
       return checkAndReturnWithdrawal(response);
     } catch (CryptonitException e) {
       throw handleError(e);
@@ -185,103 +133,6 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
 
       return response;
 
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitDepositAddress getCryptonitBitcoinDepositAddress() throws IOException {
-
-    try {
-      final CryptonitDepositAddress response =
-          cryptonitAuthenticated.getBitcoinDepositAddress(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory());
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitDepositAddress getCryptonitLitecoinDepositAddress() throws IOException {
-
-    try {
-      final CryptonitDepositAddress response =
-          cryptonitAuthenticated.getLitecoinDepositAddress(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory());
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitDepositAddress getCryptonitEthereumDepositAddress() throws IOException {
-
-    try {
-      final CryptonitDepositAddress response =
-          cryptonitAuthenticated.getEthereumDepositAddress(
-              exchange.getExchangeSpecification().getApiKey(),
-              signatureCreator,
-              exchange.getNonceFactory());
-      if (response.getError() != null) {
-        throw new ExchangeException(
-            "Requesting Bitcoin deposit address failed: " + response.getError());
-      }
-      return response;
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitRippleDepositAddress getRippleDepositAddress() throws IOException {
-
-    return cryptonitAuthenticated.getRippleDepositAddress(
-        exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        exchange.getNonceFactory());
-  }
-
-  /**
-   * @return true if withdrawal was successful. Note that due to a bug on Cryptonit's side,
-   *     withdrawal always fails if two-factor authentication is enabled for the account.
-   */
-  public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress)
-      throws IOException {
-
-    try {
-      return cryptonitAuthenticated.withdrawToRipple(
-          exchange.getExchangeSpecification().getApiKey(),
-          signatureCreator,
-          exchange.getNonceFactory(),
-          amount,
-          currency.getCurrencyCode(),
-          rippleAddress);
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
-
-    try {
-      final List<DepositTransaction> response =
-          Arrays.asList(
-              cryptonitAuthenticated.getUnconfirmedDeposits(
-                  exchange.getExchangeSpecification().getApiKey(),
-                  signatureCreator,
-                  exchange.getNonceFactory()));
-      return response;
     } catch (CryptonitException e) {
       throw handleError(e);
     }
@@ -326,16 +177,6 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
     try {
       return cryptonitAuthenticatedV2.getUserTransactions(
           apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
-    } catch (CryptonitException e) {
-      throw handleError(e);
-    }
-  }
-
-  public CryptonitTransferBalanceResponse transferSubAccountBalanceToMain(
-      BigDecimal amount, String currency, String subAccount) throws IOException {
-    try {
-      return cryptonitAuthenticatedV2.transferSubAccountBalanceToMain(
-          apiKey, signatureCreator, nonceFactory, amount, currency, subAccount);
     } catch (CryptonitException e) {
       throw handleError(e);
     }

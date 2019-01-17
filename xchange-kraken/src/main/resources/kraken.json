@@ -2,43 +2,53 @@
   "currency_pairs": {
    	"BCH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BCH/EUR": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BCH/USD": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BTC/GBP": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BTC/EUR": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BTC/USD": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BTC/CAD": {
       "price_scale": 1,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "BTC/JPY": {
       "price_scale": 0,
-      "min_amount": 0.002
+      "min_amount": 0.002,
+      "trading_fee": 0.0026
     },
     "DASH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.030
+      "min_amount": 0.030,
+      "trading_fee": 0.0026
     },
     "DASH/EUR": {
       "price_scale": 3,
-      "min_amount": 0.030
+      "min_amount": 0.030,
+      "trading_fee": 0.0026
     },
     "DASH/USD": {
       "price_scale": 3,
@@ -46,15 +56,18 @@
     },
     "DOGE/BTC": {
       "price_scale": 8,
-      "min_amount": 3000.000
+      "min_amount": 3000.000,
+      "trading_fee": 0.0026
     },
     "EOS/BTC": {
       "price_scale": 7,
-      "min_amount": 3.000
+      "min_amount": 3.000,
+      "trading_fee": 0.0026
     },
     "EOS/ETH": {
       "price_scale": 6,
-      "min_amount": 3.000
+      "min_amount": 3.000,
+      "trading_fee": 0.0026
     },
     "ETC/BTC": {
       "price_scale": 6,
@@ -62,127 +75,158 @@
     },
     "ETC/EUR": {
       "price_scale": 3,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "ETC/USD": {
       "price_scale": 3,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "ETC/ETH": {
       "price_scale": 6,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "ETH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.020
+      "min_amount": 0.020,
+      "trading_fee": 0.0026
     },
     "ETH/CAD": {
       "price_scale": 2,
-      "min_amount": 0.020
+      "min_amount": 0.020,
+      "trading_fee": 0.0026
     },
     "ETH/EUR": {
       "price_scale": 2,
-      "min_amount": 0.020
+      "min_amount": 0.020,
+      "trading_fee": 0.0026
     },
     "ETH/JPY": {
       "price_scale": 0,
-      "min_amount": 0.020
+      "min_amount": 0.020,
+      "trading_fee": 0.0026
     },
     "ETH/USD": {
       "price_scale": 2,
-      "min_amount": 0.020
+      "min_amount": 0.020,
+      "trading_fee": 0.0026
     },
     "GNO/ETH": {
       "price_scale": 4,
-      "min_amount": 0.030
+      "min_amount": 0.030,
+      "trading_fee": 0.0026
     },
     "GNO/BTC": {
       "price_scale": 5,
-      "min_amount": 0.030
+      "min_amount": 0.030,
+      "trading_fee": 0.0026
     },
     "ICN/BTC": {
       "price_scale": 6,
-      "min_amount": 2.000
+      "min_amount": 2.000,
+      "trading_fee": 0.0026
     },
     "ICN/ETH": {
       "price_scale": 6,
-      "min_amount": 2.000
+      "min_amount": 2.000,
+      "trading_fee": 0.0026
     },
     "LTC/EUR": {
       "price_scale": 2,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "LTC/USD": {
       "price_scale": 2,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "LTC/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "MLN/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "MLN/ETH": {
       "price_scale": 5,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "REP/BTC": {
       "price_scale": 6,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "REP/ETH": {
       "price_scale": 5,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "REP/EUR": {
       "price_scale": 3,
-      "min_amount": 0.300
+      "min_amount": 0.300,
+      "trading_fee": 0.0026
     },
     "USDT/USD": {
       "price_scale": 4,
-      "min_amount": 5.000
+      "min_amount": 5.000,
+      "trading_fee": 0.0026
     },
     "XLM/BTC": {
       "price_scale": 8,
-      "min_amount": 30.000
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
     },
     "XMR/BTC": {
       "price_scale": 6,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "XMR/EUR": {
       "price_scale": 2,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "XMR/USD": {
       "price_scale": 2,
-      "min_amount": 0.100
+      "min_amount": 0.100,
+      "trading_fee": 0.0026
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 30.000
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
     },
     "XRP/EUR": {
       "price_scale": 5,
-      "min_amount": 30.000
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
     },
     "XRP/USD": {
       "price_scale": 5,
-      "min_amount": 30.000
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
     },
     "ZEC/BTC": {
       "price_scale": 5,
-      "min_amount": 0.0300
+      "min_amount": 0.0300,
+      "trading_fee": 0.0026
     },
     "ZEC/EUR": {
       "price_scale": 2,
-      "min_amount": 0.0300
+      "min_amount": 0.0300,
+      "trading_fee": 0.0026
     },
     "ZEC/USD": {
       "price_scale": 2,
-      "min_amount": 0.0300
+      "min_amount": 0.0300,
+      "trading_fee": 0.0026
     }
   },
   "currencies": {

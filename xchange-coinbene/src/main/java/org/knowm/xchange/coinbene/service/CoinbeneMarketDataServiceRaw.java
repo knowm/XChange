@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.CoinbeneException;
 import org.knowm.xchange.coinbene.dto.CoinbeneAdapters;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrades;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -34,6 +35,14 @@ public class CoinbeneMarketDataServiceRaw extends CoinbeneBaseService {
     try {
       return checkSuccess(
           coinbene.orderBook(CoinbeneAdapters.adaptCurrencyPair(currencyPair), size));
+    } catch (CoinbeneException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
+  public CoinbeneSymbol.Container getSymbol() throws IOException {
+    try {
+      return checkSuccess(coinbene.symbol());
     } catch (CoinbeneException e) {
       throw new ExchangeException(e.getMessage(), e);
     }

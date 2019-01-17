@@ -14,10 +14,7 @@ import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
-import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -198,8 +195,7 @@ public class CexIOAdapters {
               orderType,
               cexIOOrder.getAmount(),
               cexIOOrder.getAmount().subtract(cexIOOrder.getPending()),
-              new CurrencyPair(
-                  cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()),
+              new CurrencyPair(cexIOOrder.getSymbol1(), cexIOOrder.getSymbol2()),
               id,
               DateUtils.fromMillisUtc(cexIOOrder.getTime()),
               cexIOOrder.getPrice()));
@@ -339,6 +335,20 @@ public class CexIOAdapters {
         return Order.OrderStatus.CANCELED;
       }
     }
+    return Order.OrderStatus.UNKNOWN;
+  }
+
+  /**
+   * CexIO position status is not documented, testing API we can infer that they are similar to
+   * order status {@link #adaptOrderStatus(CexIOOpenOrder)}
+   *
+   * @param cexioPosition cex raw order
+   * @return OrderStatus
+   */
+  public static Order.OrderStatus adaptPositionStatus(CexioPosition cexioPosition) {
+    if ("c".equalsIgnoreCase(cexioPosition.getStatus())) return Order.OrderStatus.CANCELED;
+    if ("d".equalsIgnoreCase(cexioPosition.getStatus())) return Order.OrderStatus.FILLED;
+    if ("a".equalsIgnoreCase(cexioPosition.getStatus())) return Order.OrderStatus.NEW;
     return Order.OrderStatus.UNKNOWN;
   }
 

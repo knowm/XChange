@@ -3,8 +3,6 @@ package org.knowm.xchange.bitmex.dto.trade;
 import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitmex.Bitmex;
 
 /** See {@link Bitmex#replaceOrder} */
@@ -203,29 +201,29 @@ public class BitmexReplaceOrderParameters {
 
   @Override
   public String toString() {
-    return "BitmexReplaceOrderParameters{" +
-            "orderId=" +
-            orderId +
-            ", origClOrdId='" +
-            origClOrdId +
-            "', clOrdId='" +
-            clOrdId +
-            "', simpleOrderQuantity=" +
-            simpleOrderQuantity +
-            ", orderQuantity=" +
-            orderQuantity +
-            ", simpleLeavesQuantity=" +
-            simpleLeavesQuantity +
-            ", leavesQuantity=" +
-            leavesQuantity +
-            ", price=" +
-            price +
-            ", stopPrice=" +
-            stopPrice +
-            ", pegOffsetValue=" +
-            pegOffsetValue +
-            ", text='" +
-            text +
-            "'}";
+    return "BitmexReplaceOrderParameters{"
+        + "orderId="
+        + orderId
+        + ", origClOrdId='"
+        + origClOrdId
+        + "', clOrdId='"
+        + clOrdId
+        + "', simpleOrderQuantity="
+        + simpleOrderQuantity
+        + ", orderQuantity="
+        + orderQuantity
+        + ", simpleLeavesQuantity="
+        + simpleLeavesQuantity
+        + ", leavesQuantity="
+        + leavesQuantity
+        + ", price="
+        + price
+        + ", stopPrice="
+        + stopPrice
+        + ", pegOffsetValue="
+        + pegOffsetValue
+        + ", text='"
+        + text
+        + "'}";
   }
 }

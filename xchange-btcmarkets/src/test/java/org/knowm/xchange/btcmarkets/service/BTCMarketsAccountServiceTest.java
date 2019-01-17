@@ -29,6 +29,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -103,6 +105,32 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     // when
     String result = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
 
+    assertThat(result).isNull();
+  }
+
+  @Test
+  public void withdrawFundsShouldAppendRippleTag() throws IOException {
+
+    String status = "the-status"; // maybe the id would be more useful?
+    BTCMarketsWithdrawCryptoResponse response =
+        new BTCMarketsWithdrawCryptoResponse(
+            true, null, null, status, "id", "desc", "ccy", BigDecimal.ONE, BigDecimal.ONE, 0L);
+    ArgumentCaptor<BTCMarketsWithdrawCryptoRequest> captor =
+        ArgumentCaptor.forClass(BTCMarketsWithdrawCryptoRequest.class);
+
+    PowerMockito.when(
+            btcm.withdrawCrypto(
+                Mockito.eq(SPECIFICATION_API_KEY),
+                Mockito.any(SynchronizedValueFactory.class),
+                Mockito.any(BTCMarketsDigest.class),
+                captor.capture()))
+        .thenReturn(response);
+
+    // when
+    RippleWithdrawFundsParams params =
+        new RippleWithdrawFundsParams("any address", Currency.BTC, BigDecimal.TEN, "12345");
+    String result = accountService.withdrawFunds(params);
+    assertThat(captor.getValue().address).isEqualTo("any address?dt=12345");
     assertThat(result).isNull();
   }
 
