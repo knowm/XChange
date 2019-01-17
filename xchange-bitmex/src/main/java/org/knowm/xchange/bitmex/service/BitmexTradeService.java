@@ -110,7 +110,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public String modifyOrder(LimitOrder limitOrder) throws ExchangeException {
+  public String changeOrder(LimitOrder limitOrder) throws ExchangeException {
     BitmexPrivateOrder order =
         replaceOrder(
             new BitmexReplaceOrderParameters.Builder()
