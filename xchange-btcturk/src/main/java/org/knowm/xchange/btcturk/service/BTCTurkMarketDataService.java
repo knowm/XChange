@@ -2,6 +2,7 @@ package org.knowm.xchange.btcturk.service;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcturk.BTCTurkAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,10 +12,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-/**
- * @author semihunaldi
- * @author mertguner
- */
+/** @author semihunaldi 
+ *  @author mertguner */
 public class BTCTurkMarketDataService extends BTCTurkMarketDataServiceRaw
     implements MarketDataService {
 
@@ -29,14 +28,14 @@ public class BTCTurkMarketDataService extends BTCTurkMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return BTCTurkAdapters.adaptTicker(super.getBTCTurkTicker());
+	  return BTCTurkAdapters.adaptTicker(super.getBTCTurkTicker());
   }
-
+  
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
     return super.getExchangeSymbols();
-  }
-
+}
+  
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return BTCTurkAdapters.adaptOrderBook(super.getBTCTurkOrderBook(currencyPair), currencyPair);
