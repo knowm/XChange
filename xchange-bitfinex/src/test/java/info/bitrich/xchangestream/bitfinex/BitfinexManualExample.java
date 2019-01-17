@@ -79,6 +79,8 @@ public class BitfinexManualExample {
 
         LOG.info("disconnecting...");
         exchange.disconnect().subscribe(() -> LOG.info("disconnected"));
+
+        rateLimiter.shutdown();
     }
 
 }
