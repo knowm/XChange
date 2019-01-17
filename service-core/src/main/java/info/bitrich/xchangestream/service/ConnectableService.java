@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.service;
 import io.reactivex.Completable;
 
 /**
- * Base for all streaming services, declares connect() method including before connection logic
+ * Base class of streaming services, declares connect() method including before connection logic
  */
 public abstract class ConnectableService {
 
@@ -15,7 +15,7 @@ public abstract class ConnectableService {
      * static final TimedSemaphore limiter = new TimedSemaphore(1, MINUTES, 15);
      * ExchangeSpecification spec = exchange.getDefaultExchangeSpecification();
      * spec.setExchangeSpecificParameters(ImmutableMap.of(
-     *   StreamingExchange.BEFORE_CONNECTION_EVENT_HANDLER, () -> limiter.acquire()
+     *   {@link ConnectableService#BEFORE_CONNECTION_HANDLER}, () -> limiter.acquire()
      * ));
      * }
      * </pre>
