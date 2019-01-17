@@ -36,6 +36,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -163,6 +164,7 @@ public abstract class NettyStreamingService<T> {
                 eventLoopGroup = new NioEventLoopGroup(2);
                 b.group(eventLoopGroup)
                         .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, java.lang.Math.toIntExact(connectionTimeout.toMillis()))
+                        .option(ChannelOption.SO_KEEPALIVE, true)
                         .channel(NioSocketChannel.class)
                         .handler(new ChannelInitializer<SocketChannel>() {
                             @Override
@@ -212,7 +214,11 @@ public abstract class NettyStreamingService<T> {
                 handleError(completable, throwable);
             }
         }).doOnError(t -> {
-            LOG.warn("Problem with connection", t);
+            if (t instanceof WebSocketHandshakeException) {
+                LOG.warn("Problem with connection: {} - {}", t.getClass(), t.getMessage());
+            } else {
+                LOG.warn("Problem with connection", t);
+            }
             reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
         }).retryWhen(new RetryWithDelay(retryDuration.toMillis()))
           .doOnComplete(() -> {
