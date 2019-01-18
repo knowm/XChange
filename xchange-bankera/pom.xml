@@ -3,18 +3,11 @@
     <parent>
         <artifactId>xchange-stream-parent</artifactId>
         <groupId>info.bitrich.xchange-stream</groupId>
-        <version>4.3.12-SNAPSHOT</version>
+        <version>4.3.14-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xchange-bankera</artifactId>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -27,15 +20,10 @@
             <artifactId>service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-bankera</artifactId>
             <version>${xchange.version}</version>
-        </dependency>-->
-        <dependency>
-            <groupId>com.github.MrNomNom.XChange</groupId>
-            <artifactId>xchange-bankera</artifactId>
-            <version>9ee28a9033</version>
         </dependency>
     </dependencies>
 </project>
