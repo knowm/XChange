@@ -5,7 +5,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.12-SNAPSHOT</version>
+    <version>4.3.14-SNAPSHOT</version>
 
     <modules>
         <module>xchange-stream-core</module>
@@ -19,7 +19,7 @@
         <module>xchange-okcoin</module>
         <module>xchange-poloniex</module>
         <module>xchange-coinmate</module>
-        <module>xchange-gdax</module>
+        <module>xchange-coinbasepro</module>
         <module>xchange-bitfinex</module>
         <module>xchange-bitmex</module>
         <module>xchange-poloniex2</module>
@@ -81,7 +81,7 @@
     </repositories>
 
     <properties>
-        <xchange.version>4.3.11</xchange.version>
+        <xchange.version>4.3.14</xchange.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
