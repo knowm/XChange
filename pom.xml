@@ -29,6 +29,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<version.java>1.8</version.java>
 		<version.assertj>3.11.1</version.assertj>
 		<version.commons.io>2.6</version.commons.io>
 		<version.commons.lang3>3.8.1</version.commons.lang3>
@@ -121,7 +122,7 @@
 		<module>xchange-btcc</module>
 		<module>xchange-btcmarkets</module>
 		<module>xchange-btctrade</module>
-		<module>xchange-btcturk</module>
+		<!--<module>xchange-btcturk</module>-->
 		<module>xchange-bx</module>
 		<module>xchange-campbx</module>
 		<module>xchange-ccex</module>
@@ -427,8 +428,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${version.java}</source>
+					<target>${version.java}</target>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 				</configuration>
@@ -475,6 +476,7 @@
 					<quiet>true</quiet>
 					<skip>false</skip>
 					<doclint>none</doclint>
+					<source>${version.java}</source>
 				</configuration>
 			</plugin>
 			<plugin>
