@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
@@ -134,7 +135,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public String placeStopOrder(StopOrder so) throws IOException {
 
-    TimeInForce tif = TimeInForce.GTC;
+    TimeInForce tif = null;
     Set<IOrderFlags> orderFlags = so.getOrderFlags();
     Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
 
@@ -143,6 +144,14 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       if (orderFlag instanceof TimeInForce) {
         tif = (TimeInForce) orderFlag;
       }
+    }
+
+    // Time-in-force should not be provided for market orders but is required for
+    // limit orders, so we only default it for limit orders. If the caller
+    // specifies one for a market order, we don't remove it, since Binance might allow
+    // it at some point.
+    if (so.getLimitPrice() != null && tif == null) {
+      tif = TimeInForce.GTC;
     }
 
     OrderType orderType;
