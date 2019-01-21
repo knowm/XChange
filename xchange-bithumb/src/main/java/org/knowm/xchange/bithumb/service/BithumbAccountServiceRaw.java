@@ -18,14 +18,14 @@ public class BithumbAccountServiceRaw extends BithumbBaseService {
   public BithumbBalance getBithumbBalance() throws IOException {
     final BithumbResponse<BithumbBalance> balance =
         bithumbAuthenticated.getBalance(
-            apiKey, signatureCreator, exchange.getNonceFactory(), endpointGenerator, "ALL");
+            apiKey, signatureCreator, exchange.getNonceFactory(), "2", endpointGenerator, "ALL");
     return checkResult(balance);
   }
 
   public BithumbAccount getBithumbAddress() throws IOException {
     final BithumbResponse<BithumbAccount> account =
         bithumbAuthenticated.getAccount(
-            apiKey, signatureCreator, exchange.getNonceFactory(), endpointGenerator);
+            apiKey, signatureCreator, exchange.getNonceFactory(), "2", endpointGenerator);
     return checkResult(account);
   }
 
@@ -36,6 +36,7 @@ public class BithumbAccountServiceRaw extends BithumbBaseService {
                 apiKey,
                 signatureCreator,
                 exchange.getNonceFactory(),
+                "2",
                 endpointGenerator,
                 currency.getCurrencyCode()))
         .map(this::checkResult);

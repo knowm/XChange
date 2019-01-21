@@ -14,7 +14,7 @@ import org.knowm.xchange.service.marketdata.params.Params;
 public class BithumbMarketDataService extends BithumbMarketDataServiceRaw
     implements MarketDataService {
 
-  protected BithumbMarketDataService(Exchange exchange) {
+  public BithumbMarketDataService(Exchange exchange) {
     super(exchange);
   }
 

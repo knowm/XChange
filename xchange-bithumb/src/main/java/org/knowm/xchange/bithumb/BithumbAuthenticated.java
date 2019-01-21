@@ -12,12 +12,14 @@ import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BithumbAuthenticated {
   String API_KEY = "Api-Key";
   String API_SIGN = "Api-Sign";
   String API_NONCE = "Api-Nonce";
   String ENDPOINT = "endpoint";
+  String API_CLIENT_TYPE = "api-client-type";
 
   @POST
   @Path("info/account")
@@ -26,6 +28,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator)
       throws BithumbException, IOException;
 
@@ -36,6 +39,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("currency") String currency)
       throws BithumbException, IOException;
@@ -47,6 +51,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("currency") String currency)
       throws BithumbException, IOException;
@@ -58,6 +63,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_currency") String orderCurrency)
       throws BithumbException, IOException;
@@ -69,6 +75,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_id") Long orderId,
       @FormParam("type") String type,
@@ -84,6 +91,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_id") String orderId,
       @FormParam("type") String type,
@@ -97,6 +105,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_id") String orderId,
       @FormParam("type") String type,
@@ -110,6 +119,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_currency") String orderCurrency,
       @FormParam("payment_currency") String paymentCurrency,
@@ -125,6 +135,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("type") String type,
       @FormParam("order_id") Long orderId,
@@ -138,6 +149,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("units") BigDecimal units,
       @FormParam("currency") String currency)
@@ -150,6 +162,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("units") BigDecimal units,
       @FormParam("currency") String currency)

@@ -10,7 +10,7 @@ import org.knowm.xchange.service.account.AccountService;
 
 public class BithumbAccountService extends BithumbAccountServiceRaw implements AccountService {
 
-  protected BithumbAccountService(Exchange exchange) {
+  public BithumbAccountService(Exchange exchange) {
     super(exchange);
   }
 

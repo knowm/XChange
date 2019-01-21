@@ -2,6 +2,7 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class BithumbTickersDeserializer extends JsonDeserializer<BithumbTickersReturn> {
 
-  private final ObjectReader jsonObjectReader = new ObjectMapper().readerFor(BithumbTicker.class);
+  private final ObjectReader jsonObjectReader =
+      new ObjectMapper()
+          .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+          .readerFor(BithumbTicker.class);
 
   @Override
   public BithumbTickersReturn deserialize(JsonParser p, DeserializationContext ctxt)
@@ -32,9 +36,13 @@ public class BithumbTickersDeserializer extends JsonDeserializer<BithumbTickersR
           continue;
         }
 
-        BithumbTicker ticker = jsonObjectReader.readValue(value);
-        ticker.setDate(date);
-        tickers.put(key, ticker);
+        try {
+          BithumbTicker ticker = jsonObjectReader.readValue(value);
+          ticker.setDate(date);
+          tickers.put(key, ticker);
+        } catch (MismatchedInputException ignore) {
+          // ignore
+        }
       }
     }
 
