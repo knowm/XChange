@@ -68,6 +68,12 @@
 			<artifactId>xchange-binance</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Bithumb exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-bithumb</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
