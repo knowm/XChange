@@ -1,5 +1,7 @@
 package org.knowm.xchange.bithumb;
 
+import java.util.Optional;
+import javax.annotation.Nullable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -11,8 +13,11 @@ public final class BithumbUtils {
     // not called
   }
 
-  public static String getBaseCurrency(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode();
+  public static String getBaseCurrency(@Nullable CurrencyPair currencyPair) {
+    return Optional.ofNullable(currencyPair)
+        .map(c -> c.base)
+        .map(Currency::getCurrencyCode)
+        .orElse(null);
   }
 
   public static String getCounterCurrency() {

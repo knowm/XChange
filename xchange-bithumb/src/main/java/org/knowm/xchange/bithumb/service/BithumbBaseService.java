@@ -6,7 +6,6 @@ import org.knowm.xchange.bithumb.BithumbAuthenticated;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ClientConfig;
@@ -33,15 +32,13 @@ public class BithumbBaseService extends BaseExchangeService implements BaseServi
 
     this.bithumbAuthenticated =
         RestProxyFactory.createProxy(
-            BithumbAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            clientConfig);
+            BithumbAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BithumbDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.bithumb =
         RestProxyFactory.createProxy(
-            Bithumb.class, exchange.getExchangeSpecification().getSslUri(), clientConfig);
+            Bithumb.class, exchange.getExchangeSpecification().getSslUri());
     this.endpointGenerator = new BithumbEndpointGenerator();
   }
 
@@ -60,7 +57,7 @@ public class BithumbBaseService extends BaseExchangeService implements BaseServi
         case "5400": // Database Fail
         case "5600": // 상황 별 에러 메시지 출력
         default:
-          throw new InternalServerException(respose.getMessage());
+          throw new ExchangeException(respose.getMessage());
       }
     }
 

@@ -25,8 +25,8 @@ public class BithumbDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     final String path = restInvocation.getPath();
-    final String requestBody = restInvocation.getRequestBody();
     final Map<String, String> httpHeadersFromParams = restInvocation.getHttpHeadersFromParams();
+    final String requestBody = restInvocation.getRequestBody();
 
     final String input =
         String.join(";", path, requestBody, httpHeadersFromParams.get("Api-Nonce"));
