@@ -22,7 +22,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
 
 /** @author mertguner */
-public class TradeDataFetchIntegratiınTest {
+public class TradeDataFetchIntegrationTest {
 
 	private Exchange btcTurk;
 	private BTCTurkTradeService btcTurkTradeService;

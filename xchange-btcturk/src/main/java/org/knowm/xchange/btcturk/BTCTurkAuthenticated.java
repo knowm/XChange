@@ -31,6 +31,9 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 
 	/** Get the authenticated account's balance. 
 	  * @author mertguner
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return An object of type AccountBalance. Null if account balance cannot be retreived.
 	  * @see BTCTurkAccountBalance
@@ -45,12 +48,15 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	
 	/** Get the authenticated account's latest transactions. Includes all balance changes. Buys, sells, deposits, withdrawals and fees.
 	  * @author mertguner
-	  * @param Offset
-	  * @param Limit
-	  * @param Sort
+	  * @param offset
+	  * @param limit
+	  * @param sort
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return A list of object type UserTransOutput. Null if user tranasctions cannot be retreived.
-	  * @see List<BTCTurkUserTransactions>
+	  * @see BTCTurkUserTransactions
 	  */
 	@GET
 	@Path("userTransactions/")
@@ -65,10 +71,13 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 
 	/** Get all open orders of the user.
 	  * @author mertguner
-	  * @param PairSymbol
+	  * @param pairSymbol
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return Users open orders listed. Null if there was an error.
-	  * @see List<BTCTurkOpenOrders>
+	  * @see BTCTurkOpenOrders
 	  */
 	@GET
 	@Path("openOrders/")
@@ -81,7 +90,6 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	
 	/** Submits given Order. Requires authentication. 
 	  * @author mertguner
-	  * @param BTCTurkOrder to be submitted
 	  * @exception IOException
 	  * @return True if Order is submitted successfully, false if it was not.
 	  * @see BTCTurkExchangeResult
@@ -108,7 +116,10 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	
 	/** Cancels order with given OrderId 
 	  * @author mertguner
-	  * @param BTCTurkCancelOrderRequest
+	  * @param id in BTCTurkCancelOrderRequest
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return True if order was cancelled, false otherwise
 	  * @see BTCTurkCancelOrderResult
@@ -125,6 +136,9 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	/** Get the deposit money info 
 	  * @author mertguner
 	  * @deprecated by BtcTurk
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return The deposit money. Null if there was an error
 	  * @see BTCTurkDepositRequestResult
@@ -140,7 +154,11 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	/** Send the deposit money request, and return the deposit money request info. 
 	  * @author mertguner
 	  * @deprecated by BtcTurk
-	  * @param BTCTurkDepositRequest
+	  * @param amount in BTCTurkDepositRequest
+	  * @param amountPrecision in BTCTurkDepositRequest
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return If a request is already, return the deposit money info. Null if there was an error
 	  * @see BTCTurkDepositRequestResult
@@ -159,6 +177,9 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	  * @author mertguner
 	  * @deprecated by BtcTurk
 	  * @param balanceRequestId
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return True if request was cancelled, false otherwise
 	  * @see Boolean
@@ -175,6 +196,9 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	/** Get the withdrawal money info 
 	  * @author mertguner
 	  * @deprecated by BtcTurk
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return The withdrawal money. Null if there was an error
 	  * @see BTCTurkWithdrawalRequestInfo
@@ -190,7 +214,20 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	/** Send the withdrawal money request, and return the withdrawal money request info. 
 	  * @author mertguner
 	  * @deprecated by BtcTurk
-	  * @param BTCTurkWithdrawalRequest
+	  * @param Iban in BTCTurkWithdrawalRequest
+	  * @param FriendlyName in BTCTurkWithdrawalRequest
+	  * @param FriendlyNameSave in BTCTurkWithdrawalRequest
+	  * @param Amount in BTCTurkWithdrawalRequest
+	  * @param AmountPrecision in BTCTurkWithdrawalRequest
+	  * @param HasBalanceRequest in BTCTurkWithdrawalRequest
+	  * @param BalanceRequestId in BTCTurkWithdrawalRequest
+	  * @param BankId in BTCTurkWithdrawalRequest
+	  * @param BankName in BTCTurkWithdrawalRequest
+	  * @param FirstName in BTCTurkWithdrawalRequest
+	  * @param LastName in BTCTurkWithdrawalRequest
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return If a request is already, return the withdrawal money info. Null if there was an error
 	  * @see BTCTurkWithdrawalRequestInfo
@@ -218,6 +255,9 @@ public interface BTCTurkAuthenticated extends BTCTurk{
 	  * @author mertguner
 	  * @deprecated by BtcTurk
 	  * @param balanceRequestId
+	  * @param apiKey
+	  * @param stamp
+	  * @param signature
 	  * @exception IOException
 	  * @return True if request was cancelled, false otherwise
 	  * @see Boolean
