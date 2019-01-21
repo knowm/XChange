@@ -136,7 +136,7 @@ public interface TradeService extends BaseService {
    *       <li>Exchange supports order cancel/replace by one request. Then function returns new
    *           order ID.
    *       <li>Exchange doesn't support any of these operations. Then function performs
-   *           cancel/replace by two separate requests, and returns new order ID (default behaviour)
+   *           cancel/replace by two separate requests, and returns new order ID (default behavior)
    *     </ol>
    *
    * @param limitOrder Order's data to change
