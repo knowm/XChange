@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v2.BitfinexAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -26,14 +28,22 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return Arrays.stream(getBitfinexTickers(exchange.getExchangeSymbols()))
-        .map(BitfinexAdapters::adaptTicker)
-        .collect(Collectors.toList());
+    try {
+      return Arrays.stream(getBitfinexTickers(exchange.getExchangeSymbols()))
+          .map(BitfinexAdapters::adaptTicker)
+          .collect(Collectors.toList());
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitfinexAdapters.adaptTicker(getBitfinexTicker(currencyPair));
+    try {
+      return BitfinexAdapters.adaptTicker(getBitfinexTicker(currencyPair));
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   /**
@@ -44,39 +54,42 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    try {
+      int limitTrades = 1000;
+      long startTimestamp = 0;
+      long endTimestamp = 0;
+      int sort = -1;
 
-    int limitTrades = 1000;
-    long startTimestamp = 0;
-    long endTimestamp = 0;
-    int sort = -1;
-
-    if (args != null) {
-      for (int i = 0; i < args.length; i++) {
-        if (args[i] instanceof Number) {
-          Number arg = (Number) args[i];
-          switch (i) {
-            case 0:
-              limitTrades = arg.intValue();
-              break;
-            case 1:
-              startTimestamp = arg.longValue();
-              break;
-            case 2:
-              endTimestamp = arg.longValue();
-              break;
-            case 3:
-              sort = arg.intValue();
-              break;
+      if (args != null) {
+        for (int i = 0; i < args.length; i++) {
+          if (args[i] instanceof Number) {
+            Number arg = (Number) args[i];
+            switch (i) {
+              case 0:
+                limitTrades = arg.intValue();
+                break;
+              case 1:
+                startTimestamp = arg.longValue();
+                break;
+              case 2:
+                endTimestamp = arg.longValue();
+                break;
+              case 3:
+                sort = arg.intValue();
+                break;
+            }
+          } else {
+            throw new IllegalArgumentException(
+                "Extra argument #" + i + " must be an int/long was: " + args[i].getClass());
           }
-        } else {
-          throw new IllegalArgumentException(
-              "Extra argument #" + i + " must be an int/long was: " + args[i].getClass());
         }
       }
-    }
 
-    return BitfinexAdapters.adaptPublicTrades(
-        getBitfinexPublicTrades(currencyPair, limitTrades, startTimestamp, endTimestamp, sort),
-        currencyPair);
+      return BitfinexAdapters.adaptPublicTrades(
+          getBitfinexPublicTrades(currencyPair, limitTrades, startTimestamp, endTimestamp, sort),
+          currencyPair);
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 }
