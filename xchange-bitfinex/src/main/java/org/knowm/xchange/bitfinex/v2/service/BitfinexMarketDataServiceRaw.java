@@ -33,7 +33,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
             BitfinexAdapters.adaptCurrencyPairsToTickersParam(
                 Collections.singletonList(currencyPair)));
     if (ticker.length == 0) {
-      throw handleException(new BitfinexException("Unknown Symbol"));
+      throw new BitfinexException("Unknown Symbol");
     } else {
       return ticker[0];
     }
@@ -50,7 +50,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
           endTimestamp,
           sort);
     } catch (HttpStatusIOException e) {
-      throw handleException(new BitfinexException(e.getHttpBody()));
+      throw new BitfinexException(e.getHttpBody());
     }
   }
 
@@ -61,7 +61,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       return bitfinex.getPublicFundingTrades(
           "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
     } catch (HttpStatusIOException e) {
-      throw handleException(new BitfinexException(e.getHttpBody()));
+      throw new BitfinexException(e.getHttpBody());
     }
   }
 }

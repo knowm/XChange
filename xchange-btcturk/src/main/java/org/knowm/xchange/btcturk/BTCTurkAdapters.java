@@ -98,7 +98,6 @@ public final class BTCTurkAdapters {
    *
    * @param btcTurkTrade The BTCTurkTrade trade
    * @param currencyPair (e.g. BTC/TRY)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(
@@ -111,6 +110,7 @@ public final class BTCTurkAdapters {
   /**
    * Adapts org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook to a OrderBook Object
    *
+   * @param btcTurkOrderBook
    * @param currencyPair (e.g. BTC/TRY)
    * @return The XChange OrderBook
    */

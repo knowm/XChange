@@ -52,51 +52,38 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
 
-    try {
-      BitfinexBalancesResponse[] balances =
-          bitfinex.balances(
-              apiKey,
-              payloadCreator,
-              signatureCreator,
-              new BitfinexBalancesRequest(
-                  String.valueOf(exchange.getNonceFactory().createValue())));
-      return balances;
-    } catch (BitfinexException e) {
-      throw handleException(e);
-    }
+    BitfinexBalancesResponse[] balances =
+        bitfinex.balances(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
+    return balances;
   }
 
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
 
-    try {
-      BitfinexMarginInfosResponse[] marginInfos =
-          bitfinex.marginInfos(
-              apiKey,
-              payloadCreator,
-              signatureCreator,
-              new BitfinexMarginInfosRequest(
-                  String.valueOf(exchange.getNonceFactory().createValue())));
-      return marginInfos;
-    } catch (BitfinexException e) {
-      throw handleException(e);
-    }
+    BitfinexMarginInfosResponse[] marginInfos =
+        bitfinex.marginInfos(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexMarginInfosRequest(
+                String.valueOf(exchange.getNonceFactory().createValue())));
+    return marginInfos;
   }
 
   public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(
       String currency, String method, Date since, Date until, Integer limit) throws IOException {
-    try {
-      BitfinexDepositWithdrawalHistoryRequest request =
-          new BitfinexDepositWithdrawalHistoryRequest(
-              String.valueOf(exchange.getNonceFactory().createValue()),
-              currency,
-              method,
-              since,
-              until,
-              limit);
-      return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
-    } catch (BitfinexException e) {
-      throw handleException(e);
-    }
+    BitfinexDepositWithdrawalHistoryRequest request =
+        new BitfinexDepositWithdrawalHistoryRequest(
+            String.valueOf(exchange.getNonceFactory().createValue()),
+            currency,
+            method,
+            since,
+            until,
+            limit);
+    return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
   }
 
   public String withdraw(
@@ -133,36 +120,32 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public BitfinexDepositAddressResponse requestDepositAddressRaw(String currency)
       throws IOException {
-    try {
-      String type = "unknown";
-      if (currency.equalsIgnoreCase("BTC")) {
-        type = "bitcoin";
-      } else if (currency.equalsIgnoreCase("LTC")) {
-        type = "litecoin";
-      } else if (currency.equalsIgnoreCase("ETH")) {
-        type = "ethereum";
-      } else if (currency.equalsIgnoreCase("IOT")) {
-        type = "iota";
-      } else if (currency.equalsIgnoreCase("BCH")) {
-        type = "bcash";
-      } else if (currency.equalsIgnoreCase("BTG")) {
-        type = "bgold";
-      }
+    String type = "unknown";
+    if (currency.equalsIgnoreCase("BTC")) {
+      type = "bitcoin";
+    } else if (currency.equalsIgnoreCase("LTC")) {
+      type = "litecoin";
+    } else if (currency.equalsIgnoreCase("ETH")) {
+      type = "ethereum";
+    } else if (currency.equalsIgnoreCase("IOT")) {
+      type = "iota";
+    } else if (currency.equalsIgnoreCase("BCH")) {
+      type = "bcash";
+    } else if (currency.equalsIgnoreCase("BTG")) {
+      type = "bgold";
+    }
 
-      BitfinexDepositAddressResponse requestDepositAddressResponse =
-          bitfinex.requestDeposit(
-              apiKey,
-              payloadCreator,
-              signatureCreator,
-              new BitfinexDepositAddressRequest(
-                  String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange", 0));
-      if (requestDepositAddressResponse != null) {
-        return requestDepositAddressResponse;
-      } else {
-        return null;
-      }
-    } catch (BitfinexException e) {
-      throw handleException(e);
+    BitfinexDepositAddressResponse requestDepositAddressResponse =
+        bitfinex.requestDeposit(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexDepositAddressRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange", 0));
+    if (requestDepositAddressResponse != null) {
+      return requestDepositAddressResponse;
+    } else {
+      return null;
     }
   }
 
@@ -177,21 +160,16 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public BitfinexBalanceHistoryResponse[] getBitfinexBalanceHistory(
       String currency, String wallet, Long since, Long until, int limit) throws IOException {
-    try {
-      return bitfinex.balanceHistory(
-          apiKey,
-          payloadCreator,
-          signatureCreator,
-          new BitfinexBalanceHistoryRequest(
-              String.valueOf(exchange.getNonceFactory().createValue()),
-              currency,
-              since,
-              until,
-              limit,
-              wallet));
-
-    } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
-    }
+    return bitfinex.balanceHistory(
+        apiKey,
+        payloadCreator,
+        signatureCreator,
+        new BitfinexBalanceHistoryRequest(
+            String.valueOf(exchange.getNonceFactory().createValue()),
+            currency,
+            since,
+            until,
+            limit,
+            wallet));
   }
 }
