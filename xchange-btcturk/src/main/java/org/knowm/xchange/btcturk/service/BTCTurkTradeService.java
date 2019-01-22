@@ -36,12 +36,12 @@ implements TradeService{
 
 	@Override
 	  public OpenOrders getOpenOrders() throws IOException {
-		return BTCTurkAdapters.adaptOpenOrders(super.getOpenOrdersRaw());
+		return BTCTurkAdapters.adaptOpenOrders(super.getBTCTurkOpenOrders());
 	}
 	
 	  @Override
 	  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-		  List<BTCTurkOpenOrders> openOrdersRaw = super.getOpenOrders(((DefaultOpenOrdersParamCurrencyPair) params).getCurrencyPair());
+		  List<BTCTurkOpenOrders> openOrdersRaw = super.getBTCTurkOpenOrders(((DefaultOpenOrdersParamCurrencyPair) params).getCurrencyPair());
 	    return BTCTurkAdapters.adaptOpenOrders(openOrdersRaw);
 	  }
 
@@ -75,7 +75,7 @@ implements TradeService{
 	  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException{
 		  List<UserTrade> trades = new ArrayList<UserTrade>();
 		  
-		  List<BTCTurkUserTransactions> transactions =  super.getUserTransactions();
+		  List<BTCTurkUserTransactions> transactions =  super.getBTCTurkUserTransactions();
 		  for(BTCTurkUserTransactions transaction : transactions)
 		  {
 			  if(transaction.getOperation().equals(BTCTurkOperations.trade))

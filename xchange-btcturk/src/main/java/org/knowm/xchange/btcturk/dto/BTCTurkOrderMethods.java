@@ -3,8 +3,8 @@ package org.knowm.xchange.btcturk.dto;
 
 /** @author mertguner */
 public enum BTCTurkOrderMethods {
-		MARKET(1),
 		LIMIT(0),
+		MARKET(1),		
 		STOP_LIMIT(2),
 		STOP_MARKET(3);
 
