@@ -5,10 +5,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.account.BTCTurkAccountBalance;
@@ -29,13 +25,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.utils.DateUtils;
 
 /** @author semihunaldi Various adapters for converting from BTCTurk DTOs to XChange DTOs 
  * @author mertguner */
@@ -89,16 +80,17 @@ public final class BTCTurkAdapters {
    * @param currencyPair (e.g. BTC/TRY)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(BTCTurkTrades[] btcTurkTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BTCTurkTrades> btcTurkTrades, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
-    int lastTradeId = 0;
+    BigDecimal lastTradeId = new BigDecimal("0");
     for (BTCTurkTrades btcTurkTrade : btcTurkTrades) {
-      if (btcTurkTrade.getTid() > lastTradeId) {
+      if (btcTurkTrade.getTid().compareTo(lastTradeId) > 0) 
+      {
         lastTradeId = btcTurkTrade.getTid();
       }
-      trades.add(adaptTrade(btcTurkTrade, currencyPair, 1));
+      trades.add(adaptTrade(btcTurkTrade, currencyPair));
     }
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId.longValue(), Trades.TradeSortType.SortByID);
   }
 
   /**
@@ -106,24 +98,19 @@ public final class BTCTurkAdapters {
    *
    * @param btcTurkTrade The BTCTurkTrade trade
    * @param currencyPair (e.g. BTC/TRY)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(
-      BTCTurkTrades btcTurkTrade, CurrencyPair currencyPair, int timeScale) {
+      BTCTurkTrades btcTurkTrade, CurrencyPair currencyPair) {
 
-    final String tradeId = String.valueOf(btcTurkTrade.getTid());
-    Date date =
-        DateUtils.fromMillisUtc(
-            btcTurkTrade.getDate()
-                * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new Trade(
-        null, btcTurkTrade.getAmount(), currencyPair, btcTurkTrade.getPrice(), date, tradeId);
+        null, btcTurkTrade.getAmount(), currencyPair, btcTurkTrade.getPrice(), btcTurkTrade.getDate(), btcTurkTrade.getTid().toString());
   }
 
   /**
    * Adapts org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook to a OrderBook Object
    *
+   * @param btcTurkOrderBook
    * @param currencyPair (e.g. BTC/TRY)
    * @return The XChange OrderBook
    */
@@ -196,7 +183,7 @@ public final class BTCTurkAdapters {
   
   public static BTCTurkOrderTypes adaptOrderType(OrderType type)
   {
-	 return type.equals(OrderType.ASK) ? BTCTurkOrderTypes.BUY : BTCTurkOrderTypes.SELL;
+	 return type.equals(OrderType.ASK) ? BTCTurkOrderTypes.Buy : BTCTurkOrderTypes.Sell;
   }
   
   

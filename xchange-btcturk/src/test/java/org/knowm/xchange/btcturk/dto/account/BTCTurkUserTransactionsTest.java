@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.junit.Test;
 import org.knowm.xchange.btcturk.dto.BTCTurkOperations;
@@ -31,18 +28,8 @@ public class BTCTurkUserTransactionsTest {
 
 	    
 	    assertThat(btcTurkUserTransactions.length).isEqualTo(25);
-
 		assertThat(btcTurkUserTransactions[0].getId()).isEqualTo("132599");
-
-		try {
-        	SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = parser.parse("2018-12-13 23:46:42.333");
-			assertThat(btcTurkUserTransactions[0].getDate()).isEqualTo(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		assertThat(btcTurkUserTransactions[0].getDate().toString()).isEqualTo("Thu Dec 13 23:46:42 UTC 2018");
 		assertThat(btcTurkUserTransactions[0].getOperation()).isEqualTo(BTCTurkOperations.trade);
 		assertThat(btcTurkUserTransactions[0].getCurrency()).isEqualTo(Currency.ETH);
 		assertThat(btcTurkUserTransactions[0].getFunds()).isEqualTo(new BigDecimal("23494.6206940035832218"));
