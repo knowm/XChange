@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.bithumb.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
 import org.knowm.xchange.bithumb.service.BithumbTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -103,7 +104,7 @@ public class BithumbTradeDemo {
     final OpenOrdersParams openOrders = new DefaultOpenOrdersParamCurrencyPair(CURRENCY_PAIR);
     try {
       log.debug("{}", tradeServiceRaw.getBithumbOrders(CURRENCY_PAIR));
-    } catch (ExchangeException e) {
+    } catch (BithumbException e) {
       log.debug("", e);
     }
 

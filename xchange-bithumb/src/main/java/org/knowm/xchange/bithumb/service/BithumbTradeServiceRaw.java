@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.BithumbUtils;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
@@ -34,7 +35,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             null,
             null,
             BithumbUtils.getBaseCurrency(currencyPair));
-    return checkResult(orders);
+    return orders.getData();
   }
 
   @Nullable
@@ -52,7 +53,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             null,
             null,
             null);
-    return checkResult(orders).stream().findFirst().orElse(null);
+    return orders.getData().stream().findFirst().orElse(null);
   }
 
   public BithumbTradeResponse placeBithumbMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -106,12 +107,11 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
               try {
                 return cancelBithumbOrder(
                     orderId, bo.getType().name(), BithumbUtils.getBaseCurrency(currencyPair));
-              } catch (IOException ignored) {
+              } catch (IOException | BithumbException ignored) {
               }
               return null;
             })
-        .map(BithumbResponse::isSuccess)
-        .orElse(false);
+        .isPresent();
   }
 
   private BithumbResponse cancelBithumbOrder(Long orderId, String type, String baseCurrency)
@@ -140,6 +140,6 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             null,
             BithumbUtils.getBaseCurrency(currencyPair));
 
-    return checkResult(transactions);
+    return transactions.getData();
   }
 }
