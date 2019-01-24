@@ -20,24 +20,24 @@ public class BithumbMarketDataServiceRaw extends BithumbBaseService {
   public BithumbTicker getBithumbTicker(CurrencyPair currencyPair) throws IOException {
     final BithumbResponse<BithumbTicker> ticker =
         bithumb.ticker(BithumbUtils.getBaseCurrency(currencyPair));
-    return checkResult(ticker);
+    return ticker.getData();
   }
 
   public BithumbTickersReturn getBithumbTickers() throws IOException {
     final BithumbResponse<BithumbTickersReturn> tickerAll = bithumb.tickerAll();
-    return checkResult(tickerAll);
+    return tickerAll.getData();
   }
 
   public BithumbOrderbook getBithumbOrderBook(CurrencyPair currencyPair) throws IOException {
     final BithumbResponse<BithumbOrderbook> orderbook =
         bithumb.orderbook(BithumbUtils.getBaseCurrency(currencyPair));
-    return checkResult(orderbook);
+    return orderbook.getData();
   }
 
   public List<BithumbTransactionHistory> getBithumbTrades(CurrencyPair currencyPair)
       throws IOException {
     final BithumbResponse<List<BithumbTransactionHistory>> transactionHistory =
         bithumb.transactionHistory(BithumbUtils.getBaseCurrency(currencyPair));
-    return checkResult(transactionHistory);
+    return transactionHistory.getData();
   }
 }
