@@ -1,4 +1,9 @@
-package info.bitrich.xchangestream.gdax;
+package info.bitrich.xchangestream.coinbasepro;
+
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -6,21 +11,17 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.gdax.GDAXExchange;
-import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
-import org.knowm.xchange.gdax.service.GDAXAccountServiceRaw;
 
 /**
- * GDAX Streaming Exchange. Connects to live WebSocket feed.
+ * CoinbasePro Streaming Exchange. Connects to live WebSocket feed.
  */
-public class GDAXStreamingExchange extends GDAXExchange implements StreamingExchange {
-    private static final String API_URI = "wss://ws-feed.gdax.com";
+public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
+    private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
 
-    private GDAXStreamingService streamingService;
-    private GDAXStreamingMarketDataService streamingMarketDataService;
+    private CoinbaseProStreamingService streamingService;
+    private CoinbaseProStreamingMarketDataService streamingMarketDataService;
 
-    public GDAXStreamingExchange() { }
+    public CoinbaseProStreamingExchange() { }
 
     @Override
     protected void initServices() {
@@ -32,18 +33,18 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        this.streamingService = new GDAXStreamingService(API_URI, () -> authData(exchangeSpec));
-        this.streamingMarketDataService = new GDAXStreamingMarketDataService(this.streamingService);
+        this.streamingService = new CoinbaseProStreamingService(API_URI, () -> authData(exchangeSpec));
+        this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
 
         return streamingService.connect();
     }
 
-    private GDAXWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
-        GDAXWebsocketAuthData authData = null;
+    private CoinbaseProWebsocketAuthData authData(ExchangeSpecification exchangeSpec) {
+        CoinbaseProWebsocketAuthData authData = null;
         if ( exchangeSpec.getApiKey() != null ) {
             try {
-                GDAXAccountServiceRaw rawAccountService = (GDAXAccountServiceRaw) getAccountService();
+                CoinbaseProAccountServiceRaw rawAccountService = (CoinbaseProAccountServiceRaw) getAccountService();
                 authData = rawAccountService.getWebsocketAuthData();
             }
             catch (Exception e) {
@@ -56,7 +57,7 @@ public class GDAXStreamingExchange extends GDAXExchange implements StreamingExch
 
     @Override
     public Completable disconnect() {
-        GDAXStreamingService service = this.streamingService;
+        CoinbaseProStreamingService service = streamingService;
         streamingService = null;
         streamingMarketDataService = null;
         return service.disconnect();

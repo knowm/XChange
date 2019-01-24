@@ -1,20 +1,22 @@
-package info.bitrich.xchangestream.gdax.dto;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import info.bitrich.xchangestream.core.ProductSubscription;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.gdax.dto.account.GDAXWebsocketAuthData;
+package info.bitrich.xchangestream.coinbasepro.dto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import info.bitrich.xchangestream.core.ProductSubscription;
+
 /**
- * GDAX subscription message.
+ * CoinbasePro subscription message.
  */
-public class GDAXWebSocketSubscriptionMessage {
+public class CoinbaseProWebSocketSubscriptionMessage {
 
     public static final String TYPE = "type";
     public static final String CHANNELS = "channels";
@@ -27,14 +29,14 @@ public class GDAXWebSocketSubscriptionMessage {
     public static final String PASSPHRASE = "passphrase";
     public static final String TIMESTAMP = "timestamp";
 
-    class GDAXProductSubsctiption {
+    class CoinbaseProProductSubsctiption {
         @JsonProperty(NAME)
-        private String name;
+        private final String name;
 
         @JsonProperty(PRODUCT_IDS)
-        private String[] productIds;
+        private final String[] productIds;
 
-        public GDAXProductSubsctiption(String name, String[] productIds, GDAXWebsocketAuthData authData) {
+        public CoinbaseProProductSubsctiption(String name, String[] productIds, CoinbaseProWebsocketAuthData authData) {
             this.name = name;
             this.productIds = productIds;
         }
@@ -49,33 +51,33 @@ public class GDAXWebSocketSubscriptionMessage {
     }
 
     @JsonProperty(TYPE)
-    private String type;
+    private final String type;
 
     @JsonProperty(CHANNELS)
-    private GDAXProductSubsctiption[] channels;
-    
+    private CoinbaseProProductSubsctiption[] channels;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty(SIGNATURE)
     String signature;
-    
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty(KEY)
     String key;
-    
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty(PASSPHRASE)
     String passphrase;
-    
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty(TIMESTAMP)
     String timestamp;
 
-    public GDAXWebSocketSubscriptionMessage(String type, ProductSubscription product, GDAXWebsocketAuthData authData) {
+    public CoinbaseProWebSocketSubscriptionMessage(String type, ProductSubscription product, CoinbaseProWebsocketAuthData authData) {
         this.type = type;
         generateSubscriptionMessage(product, authData);
     }
 
-    public GDAXWebSocketSubscriptionMessage(String type, String[] channelNames, GDAXWebsocketAuthData authData) {
+    public CoinbaseProWebSocketSubscriptionMessage(String type, String[] channelNames, CoinbaseProWebsocketAuthData authData) {
         this.type = type;
         generateSubscriptionMessage(channelNames, authData);
     }
@@ -89,23 +91,23 @@ public class GDAXWebSocketSubscriptionMessage {
         return productIds.toArray(new String[productIds.size()]);
     }
 
-    private GDAXProductSubsctiption generateGDAXProduct(String name, CurrencyPair[] pairs, GDAXWebsocketAuthData authData) {
+    private CoinbaseProProductSubsctiption generateCoinbaseProProduct(String name, CurrencyPair[] pairs, CoinbaseProWebsocketAuthData authData) {
         String[] productsIds;
         productsIds = generateProductIds(pairs);
-        return new GDAXProductSubsctiption(name, productsIds, authData);
+        return new CoinbaseProProductSubsctiption(name, productsIds, authData);
     }
 
-    private void generateSubscriptionMessage(String[] channelNames, GDAXWebsocketAuthData authData) {
-        List<GDAXProductSubsctiption> channels = new ArrayList<>(3);
+    private void generateSubscriptionMessage(String[] channelNames, CoinbaseProWebsocketAuthData authData) {
+        List<CoinbaseProProductSubsctiption> channels = new ArrayList<>(3);
         for (String name : channelNames) {
-            channels.add(new GDAXProductSubsctiption(name, null, authData));
+            channels.add(new CoinbaseProProductSubsctiption(name, null, authData));
         }
 
-        this.channels = channels.toArray(new GDAXProductSubsctiption[channels.size()]);
+        this.channels = channels.toArray(new CoinbaseProProductSubsctiption[channels.size()]);
     }
 
-    private void generateSubscriptionMessage(ProductSubscription productSubscription, GDAXWebsocketAuthData authData) {
-        List<GDAXProductSubsctiption> channels = new ArrayList<>(3);
+    private void generateSubscriptionMessage(ProductSubscription productSubscription, CoinbaseProWebsocketAuthData authData) {
+        List<CoinbaseProProductSubsctiption> channels = new ArrayList<>(3);
         Map<String, List<CurrencyPair>> pairs = new HashMap<>(3);
 
         pairs.put("level2", productSubscription.getOrderBook());
@@ -119,12 +121,12 @@ public class GDAXWebSocketSubscriptionMessage {
             if (currencyPairs == null || currencyPairs.size() == 0) {
                 continue;
             }
-            GDAXProductSubsctiption gdaxProduct = generateGDAXProduct(product.getKey(), product.getValue().toArray(new CurrencyPair[product.getValue().size()]), authData);
+            CoinbaseProProductSubsctiption gdaxProduct = generateCoinbaseProProduct(product.getKey(), product.getValue().toArray(new CurrencyPair[product.getValue().size()]), authData);
             channels.add(gdaxProduct);
         }
 
-        this.channels = channels.toArray(new GDAXProductSubsctiption[channels.size()]);
-        
+        this.channels = channels.toArray(new CoinbaseProProductSubsctiption[channels.size()]);
+
         if ( authData != null ) {
 	        this.key = authData.getKey();
 	        this.passphrase = authData.getPassphrase();
@@ -137,7 +139,7 @@ public class GDAXWebSocketSubscriptionMessage {
         return type;
     }
 
-    public GDAXProductSubsctiption[] getChannels() {
+    public CoinbaseProProductSubsctiption[] getChannels() {
         return channels;
     }
 }
