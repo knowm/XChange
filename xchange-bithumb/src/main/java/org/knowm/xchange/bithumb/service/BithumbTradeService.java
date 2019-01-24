@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.BithumbErrorAdapter;
+import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.dto.trade.BithumbOpenOrdersParam;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -37,7 +39,11 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
             .map(p -> ((OpenOrdersParamCurrencyPair) p).getCurrencyPair())
             .orElse(null);
 
-    return BithumbAdapters.adaptOrders(getBithumbOrders(currencyPair));
+    try {
+      return BithumbAdapters.adaptOrders(getBithumbOrders(currencyPair));
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -70,7 +76,11 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
             .filter(p -> p instanceof TradeHistoryParamCurrencyPair)
             .map(p -> ((TradeHistoryParamCurrencyPair) p).getCurrencyPair())
             .orElse(null);
-    return BithumbAdapters.adaptUserTrades(bithumbTransactions(currencyPair), currencyPair);
+    try {
+      return BithumbAdapters.adaptUserTrades(bithumbTransactions(currencyPair), currencyPair);
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
