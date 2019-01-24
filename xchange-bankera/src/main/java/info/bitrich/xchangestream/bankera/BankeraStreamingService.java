@@ -3,9 +3,6 @@ package info.bitrich.xchangestream.bankera;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bankera.dto.BankeraWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 
 import java.io.IOException;
