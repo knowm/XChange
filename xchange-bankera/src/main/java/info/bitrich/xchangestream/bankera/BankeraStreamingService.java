@@ -3,6 +3,9 @@ package info.bitrich.xchangestream.bankera;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bankera.dto.BankeraWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 
 import java.io.IOException;
@@ -36,4 +39,20 @@ public class BankeraStreamingService extends JsonNettyStreamingService {
 		return null;
 	}
 
+	@Override
+	protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketClientHandler.WebSocketMessageHandler handler) {
+		return new BankeraExchangeNettyWebSocketClientHandler(handshaker, handler);
+	}
+
+	protected class BankeraExchangeNettyWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+		protected BankeraExchangeNettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+			super(handshaker, handler);
+		}
+
+		@Override
+		public void channelInactive(ChannelHandlerContext ctx) {
+			super.channelInactive(ctx);
+		}
+	}
 }
