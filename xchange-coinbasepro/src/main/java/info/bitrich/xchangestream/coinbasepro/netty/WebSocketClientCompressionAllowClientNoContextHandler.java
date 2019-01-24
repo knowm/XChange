@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gdax.netty;
+package info.bitrich.xchangestream.coinbasepro.netty;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.compression.ZlibCodecFactory;
