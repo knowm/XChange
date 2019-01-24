@@ -3,6 +3,8 @@ package org.knowm.xchange.bithumb.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.BithumbErrorAdapter;
+import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.dto.account.BithumbWalletAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,13 +18,21 @@ public class BithumbAccountService extends BithumbAccountServiceRaw implements A
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return BithumbAdapters.adaptAccountInfo(getBithumbAddress(), getBithumbBalance());
+    try {
+      return BithumbAdapters.adaptAccountInfo(getBithumbAddress(), getBithumbBalance());
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return getBithumbWalletAddress(currency)
-        .map(BithumbWalletAddress::getWalletAddress)
-        .orElse(null);
+    try {
+      return getBithumbWalletAddress(currency)
+          .map(BithumbWalletAddress::getWalletAddress)
+          .orElse(null);
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.BithumbErrorAdapter;
+import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -20,21 +22,37 @@ public class BithumbMarketDataService extends BithumbMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BithumbAdapters.adaptTicker(getBithumbTicker(currencyPair), currencyPair);
+    try {
+      return BithumbAdapters.adaptTicker(getBithumbTicker(currencyPair), currencyPair);
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return BithumbAdapters.adaptTickers(getBithumbTickers());
+    try {
+      return BithumbAdapters.adaptTickers(getBithumbTickers());
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BithumbAdapters.adaptOrderBook(getBithumbOrderBook(currencyPair));
+    try {
+      return BithumbAdapters.adaptOrderBook(getBithumbOrderBook(currencyPair));
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BithumbAdapters.adaptTrades(getBithumbTrades(currencyPair), currencyPair);
+    try {
+      return BithumbAdapters.adaptTrades(getBithumbTrades(currencyPair), currencyPair);
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
+    }
   }
 }
