@@ -39,20 +39,4 @@ public class BankeraStreamingService extends JsonNettyStreamingService {
 		return null;
 	}
 
-	@Override
-	protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketClientHandler.WebSocketMessageHandler handler) {
-		return new BankeraExchangeNettyWebSocketClientHandler(handshaker, handler);
-	}
-
-	protected class BankeraExchangeNettyWebSocketClientHandler extends NettyWebSocketClientHandler {
-
-		protected BankeraExchangeNettyWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-			super(handshaker, handler);
-		}
-
-		@Override
-		public void channelInactive(ChannelHandlerContext ctx) {
-			super.channelInactive(ctx);
-		}
-	}
 }
