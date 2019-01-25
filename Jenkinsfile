@@ -11,7 +11,7 @@ node {
 
     stage('clean') {
         sh "chmod +x mvnw"
-        sh "./mvnw clean"
+        ./mvnw clean
     }
 
     stage('backend tests') {
