@@ -2,8 +2,8 @@ package org.knowm.xchange.btcturk.dto;
 
 /** @author mertguner */
 public enum BTCTurkOrderTypes {
-	BUY(0),	
-	SELL(1);
+	Buy(0),	
+	Sell(1);
 
 	  private final int orderType;
 

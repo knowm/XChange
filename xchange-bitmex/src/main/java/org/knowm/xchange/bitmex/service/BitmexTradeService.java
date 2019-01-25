@@ -16,6 +16,7 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexExecutionInstruction;
 import org.knowm.xchange.bitmex.dto.trade.BitmexOrderFlags;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters.Builder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -106,6 +107,18 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
                 .setClOrdId(stopOrder.getId())
                 .build())
         .getId();
+  }
+
+  @Override
+  public String changeOrder(LimitOrder limitOrder) throws ExchangeException {
+    BitmexPrivateOrder order =
+        replaceOrder(
+            new BitmexReplaceOrderParameters.Builder()
+                .setClOrdId(limitOrder.getId())
+                .setOrderQuantity(limitOrder.getOriginalAmount())
+                .setPrice(limitOrder.getLimitPrice())
+                .build());
+    return order.getId();
   }
 
   @Override
