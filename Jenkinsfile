@@ -10,7 +10,6 @@ node {
     }
 
     stage('clean') {
-        sh "chmod +x mvnw"
         sh "mvn clean"
     }
 
