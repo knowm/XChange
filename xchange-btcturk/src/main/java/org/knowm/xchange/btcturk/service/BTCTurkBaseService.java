@@ -16,10 +16,6 @@ public class BTCTurkBaseService extends BaseExchangeService implements BaseServi
 	protected final BTCTurkAuthenticated btcTurk;
 	protected final ParamsDigest signatureCreator;
 	  
-  /**
-   *
-   * @param exchange
-   */
   public BTCTurkBaseService(Exchange exchange) {
 
     super(exchange);
