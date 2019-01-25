@@ -9,7 +9,7 @@
 
 	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>4.3.15-SNAPSHOT</version>
+	<version>4.3.15-trixprod-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange</name>
@@ -48,6 +48,22 @@
 		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
 
+	<distributionManagement>
+
+		<repository>
+			<id>trixprod-private</id>
+			<name>Internal Releases</name>
+			<url>http://nexus.trixprod.com/repository/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>trixprod-private</id>
+			<name>Internal Snapshots</name>
+			<url>http://nexus.trixprod.com/repository/snapshots</url>
+		</snapshotRepository>
+
+	</distributionManagement>
+
 	<developers>
 		<developer>
 			<name>Tim Molter</name>
@@ -68,19 +84,6 @@
 		<url>https://github.com/knowm/XChange/issues</url>
 	</issueManagement>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
-	</distributionManagement>
 
 	<scm>
 		<connection>scm:git:git@github.com:knowm/XChange.git</connection>
