@@ -4,20 +4,25 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
+import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
@@ -29,7 +34,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.binance.BinanceAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.DEPTH_UPDATE;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TICKER_24_HR;
 import static info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.TRADE;
@@ -46,29 +51,24 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
     private final BinanceStreamingService service;
-    private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
 
+    private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions = new HashMap<>();
 
-    private volatile Observable<ExecutionReportBinanceUserTransaction> executionReportsSubscription;
+    private final PublishSubject<ExecutionReportBinanceUserTransaction> executionReportsPublisher = PublishSubject.create();
+    private volatile Disposable executionReports;
+    private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
-
-    private final BinanceUserDataStreamingService binanceUserDataStreamingService;
-
 
     public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, BinanceUserDataStreamingService binanceUserDataStreamingService) {
         this.service = service;
         this.marketDataService = marketDataService;
         this.binanceUserDataStreamingService = binanceUserDataStreamingService;
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
-
-    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService) {
-      this(service, marketDataService, null);
     }
 
     @Override
@@ -94,10 +94,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
-        if (executionReportsSubscription == null) {
+        if (executionReportsPublisher == null) {
             throw new UnsupportedOperationException("Binance exchange only supports up front subscriptions - subscribe at connect time");
         }
-        return executionReportsSubscription;
+        return executionReportsPublisher;
     }
 
     @Override
@@ -161,8 +161,24 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         productSubscription.getTrades()
                 .forEach(currencyPair ->
                         tradeSubscriptions.put(currencyPair, triggerObservableBody(rawTradeStream(currencyPair).share())));
+        connectUserSubscriptions();
+    }
+
+    /**
+     * User data subscriptions may have to persist across multiple socket connections to different
+     * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
+     * stream.
+     */
+    void setUserDataStreamingService(BinanceUserDataStreamingService binanceUserDataStreamingService) {
+        if (executionReports != null && !executionReports.isDisposed())
+            executionReports.dispose();
+        this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+        connectUserSubscriptions();
+    }
+
+    private void connectUserSubscriptions() {
         if (binanceUserDataStreamingService != null) {
-            executionReportsSubscription = triggerObservableBody(rawExecutionReports());
+            executionReports = rawExecutionReports().subscribe(executionReportsPublisher::onNext);
         }
     }
 
