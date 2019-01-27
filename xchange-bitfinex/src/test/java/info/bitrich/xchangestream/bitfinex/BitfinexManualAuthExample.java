@@ -25,27 +25,31 @@ public class BitfinexManualAuthExample {
         spec.setSecretKey(apiSecret);
         BitfinexStreamingExchange exchange = (BitfinexStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
-        exchange.connectToAuthenticated().blockingAwait();
-        exchange.getStreamingAuthenticatedDataService().getAuthenticatedTrades().subscribe(
-            t -> LOG.info("AUTH TRADE: {}", t),
-            throwable -> LOG.error("ERROR: ", throwable)
-        );
-        exchange.getStreamingAuthenticatedDataService().getAuthenticatedPreTrades().subscribe(
-            t -> LOG.info("AUTH PRE TRADE: {}", t),
-            throwable -> LOG.error("ERROR: ", throwable)
-        );
-        exchange.getStreamingAuthenticatedDataService().getAuthenticatedOrders().subscribe(
-            t -> LOG.info("AUTH ORDER: {}", t),
-            throwable -> LOG.error("ERROR: ", throwable)
-        );
-        exchange.getStreamingAuthenticatedDataService().getAuthenticatedBalances().subscribe(
-            t -> LOG.info("AUTH BALANCE: {}", t),
-            throwable -> LOG.error("ERROR: ", throwable)
-        );
+        exchange.connect().blockingAwait();
         try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            exchange.getStreamingAuthenticatedDataService().getAuthenticatedTrades().subscribe(
+                t -> LOG.info("AUTH TRADE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAuthenticatedDataService().getAuthenticatedPreTrades().subscribe(
+                t -> LOG.info("AUTH PRE TRADE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAuthenticatedDataService().getAuthenticatedOrders().subscribe(
+                t -> LOG.info("AUTH ORDER: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAuthenticatedDataService().getAuthenticatedBalances().subscribe(
+                t -> LOG.info("AUTH BALANCE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            exchange.disconnect().blockingAwait();
         }
     }
 }

@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.bitfinex;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexAuthRequestStatus;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuth;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
@@ -10,14 +11,17 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -37,10 +41,10 @@ public class BitfinexStreamingRawService extends JsonNettyStreamingService {
     private String apiKey;
     private String apiSecret;
 
-    private PublishSubject<BitfinexWebSocketAuthPreTrade> subjectPreTrade = PublishSubject.create();
-    private PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
-    private PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
-    private PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance = PublishSubject.create();
+    private final PublishSubject<BitfinexWebSocketAuthPreTrade> subjectPreTrade = PublishSubject.create();
+    private final PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
+    private final PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
+    private final PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance = PublishSubject.create();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public BitfinexStreamingRawService(String apiUrl) {
@@ -248,7 +252,7 @@ public class BitfinexStreamingRawService extends JsonNettyStreamingService {
         );
     }
 
-    public void auth() {
+    private void auth() {
         long nonce = System.currentTimeMillis() * 1000;
         String payload = "AUTH" + nonce;
         String signature;
