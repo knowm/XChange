@@ -12,20 +12,27 @@ import io.reactivex.observers.TestObserver;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 public class BitfinexStreamingServiceTest {
 
-    private BitfinexStreamingRawService service;
+    private BitfinexStreamingService service;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Mock SynchronizedValueFactory<Long> nonceFactory;
 
     @Before
     public void setUp() {
-        service = new BitfinexStreamingRawService(BitfinexStreamingExchange.API_URI);
+        MockitoAnnotations.initMocks(this);
+        service = new BitfinexStreamingService(BitfinexStreamingExchange.API_URI, nonceFactory);
     }
 
     @Test

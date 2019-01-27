@@ -10,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
 
-import java.util.ArrayList;
-
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
@@ -21,53 +19,32 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
-    private BitfinexStreamingRawService streamingAuthenticatedDataService;
 
     @Override
     protected void initServices() {
         super.initServices();
         this.streamingService = createStreamingService();
-        this.streamingAuthenticatedDataService = createAuthenticatedStreamingService();
-        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService, streamingAuthenticatedDataService);
-    }
-
-    private BitfinexStreamingRawService createAuthenticatedStreamingService() {
-        if (StringUtils.isEmpty(exchangeSpecification.getApiKey()))
-            return null;
-        BitfinexStreamingRawService result = new BitfinexStreamingRawService(API_URI);
-        result.setApiKey(exchangeSpecification.getApiKey());
-        result.setApiSecret(exchangeSpecification.getSecretKey());
-        return result;
+        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
     }
 
     private BitfinexStreamingService createStreamingService() {
-        BitfinexStreamingService streamingService = new BitfinexStreamingService(API_URI);
+        BitfinexStreamingService streamingService = new BitfinexStreamingService(API_URI, getNonceFactory());
         applyStreamingSpecification(getExchangeSpecification(), streamingService);
+        if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
+            streamingService.setApiKey(exchangeSpecification.getApiKey());
+            streamingService.setApiSecret(exchangeSpecification.getSecretKey());
+        }
         return streamingService;
     }
 
     @Override
     public Completable connect(ProductSubscription... args) {
-        if (streamingAuthenticatedDataService == null) {
-            return streamingService.connect();
-        } else {
-            ArrayList<Completable> result = new ArrayList<>();
-            result.add(streamingService.connect());
-            result.add(streamingAuthenticatedDataService.connect());
-            return Completable.concat(result);
-        }
+        return streamingService.connect();
     }
 
     @Override
     public Completable disconnect() {
-        if (streamingAuthenticatedDataService == null) {
-            return streamingService.disconnect();
-        } else {
-            ArrayList<Completable> result = new ArrayList<>();
-            result.add(streamingService.disconnect());
-            result.add(streamingAuthenticatedDataService.disconnect());
-            return Completable.concat(result);
-        }
+        return streamingService.disconnect();
     }
 
     @Override
@@ -102,6 +79,6 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 
     public boolean isAuthenticatedAlive() {
-        return streamingAuthenticatedDataService != null && streamingAuthenticatedDataService.isSocketOpen();
+        return streamingService != null && streamingService.isAuthenticated();
     }
 }
