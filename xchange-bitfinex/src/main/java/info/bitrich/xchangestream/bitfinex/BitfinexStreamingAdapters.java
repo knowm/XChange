@@ -6,6 +6,10 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
+import info.bitrich.xchangestream.core.OrderStatusChange;
+import info.bitrich.xchangestream.core.OrderStatusChangeType;
+
+import io.reactivex.annotations.Nullable;
 
 import io.reactivex.annotations.Nullable;
 
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import static java.util.stream.StreamSupport.stream;
@@ -148,5 +153,27 @@ class BitfinexStreamingAdapters {
                 type, typePrev, orderStatus, price, priceAvg, priceTrailing,
                 priceAuxLimit, placedId, flags
         );
+    }
+
+    @Nullable
+    static OrderStatusChange adaptOrderStatus(BitfinexWebSocketAuthOrder authOrder) {
+        OrderStatusChangeType status = adaptOrderStatusType(authOrder.getOrderStatus());
+        if (status == null)
+            return OrderStatusChange.create().build();
+        return OrderStatusChange.create()
+            .type(status)
+            .timestamp(new Date())
+            .orderId(Long.toString(authOrder.getId()))
+            .build();
+    }
+
+    @Nullable
+    private static OrderStatusChangeType adaptOrderStatusType(String orderStatus) {
+        switch(orderStatus) {
+            case "ACTIVE": return OrderStatusChangeType.OPENED;
+            case "EXECUTED": return OrderStatusChangeType.CLOSED;
+            case "CANCELED": return OrderStatusChangeType.CLOSED;
+            default: return null;
+        }
     }
 }
