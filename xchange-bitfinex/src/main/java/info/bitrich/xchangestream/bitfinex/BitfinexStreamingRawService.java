@@ -287,19 +287,19 @@ public class BitfinexStreamingRawService extends JsonNettyStreamingService {
         }
     }
 
-    public Observable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {
+    Observable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {
         return subjectOrder.share();
     }
 
-    public Observable<BitfinexWebSocketAuthPreTrade> getAuthenticatedPreTrades() {
+    Observable<BitfinexWebSocketAuthPreTrade> getAuthenticatedPreTrades() {
         return subjectPreTrade.share();
     }
 
-    public Observable<BitfinexWebSocketAuthTrade> getAuthenticatedTrades() {
+    Observable<BitfinexWebSocketAuthTrade> getAuthenticatedTrades() {
         return subjectTrade.share();
     }
 
-    public Observable<BitfinexWebSocketAuthBalance> getAuthenticatedBalances() {
+    Observable<BitfinexWebSocketAuthBalance> getAuthenticatedBalances() {
         return subjectBalance.share();
     }
 }

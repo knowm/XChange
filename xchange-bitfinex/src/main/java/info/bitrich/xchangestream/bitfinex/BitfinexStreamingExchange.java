@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -17,7 +16,8 @@ import java.util.ArrayList;
  * Created by Lukas Zaoralek on 7.11.17.
  */
 public class BitfinexStreamingExchange extends BitfinexExchange implements StreamingExchange {
-    private static final String API_URI = "wss://api.bitfinex.com/ws/2";
+
+    static final String API_URI = "wss://api.bitfinex.com/ws/2";
 
     private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
@@ -28,7 +28,7 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
         super.initServices();
         this.streamingService = createStreamingService();
         this.streamingAuthenticatedDataService = createAuthenticatedStreamingService();
-        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService, streamingAuthenticatedDataService);
     }
 
     private BitfinexStreamingRawService createAuthenticatedStreamingService() {
@@ -94,7 +94,7 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
+    public BitfinexStreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
 
@@ -103,9 +103,5 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     public boolean isAuthenticatedAlive() {
         return streamingAuthenticatedDataService != null && streamingAuthenticatedDataService.isSocketOpen();
-    }
-
-    public BitfinexStreamingRawService getStreamingAuthenticatedDataService() {
-        return streamingAuthenticatedDataService;
     }
 }

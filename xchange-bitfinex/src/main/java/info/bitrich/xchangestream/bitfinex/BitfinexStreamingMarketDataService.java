@@ -3,6 +3,10 @@ package info.bitrich.xchangestream.bitfinex;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexOrderbook;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
+import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketOrderbookTransaction;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSnapshotOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSnapshotTrades;
@@ -20,6 +24,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +39,13 @@ import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTrades;
 public class BitfinexStreamingMarketDataService implements StreamingMarketDataService {
 
     private final BitfinexStreamingService service;
+    private final BitfinexStreamingRawService authenticatedService;
 
     private final Map<CurrencyPair, BitfinexOrderbook> orderbooks = new HashMap<>();
 
-    public BitfinexStreamingMarketDataService(BitfinexStreamingService service) {
+    public BitfinexStreamingMarketDataService(BitfinexStreamingService service, BitfinexStreamingRawService authenticatedService) {
         this.service = service;
+        this.authenticatedService = authenticatedService;
     }
 
     @Override
@@ -102,5 +109,28 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
                     Trades adaptedTrades = adaptTrades(s.toBitfinexTrades(), currencyPair);
                     return adaptedTrades.getTrades();
                 });
+    }
+
+    public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
+        return checkAuthenticated().getAuthenticatedOrders();
+    }
+
+    public Observable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {
+        return checkAuthenticated().getAuthenticatedPreTrades();
+    }
+
+    public Observable<BitfinexWebSocketAuthTrade> getRawAuthenticatedTrades() {
+        return checkAuthenticated().getAuthenticatedTrades();
+    }
+
+    public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
+        return checkAuthenticated().getAuthenticatedBalances();
+    }
+
+    private BitfinexStreamingRawService checkAuthenticated() {
+        if (authenticatedService == null) {
+            throw new ExchangeSecurityException("Cannot return authenticated orders. Not authenticated.");
+        }
+        return authenticatedService;
     }
 }

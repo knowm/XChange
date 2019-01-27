@@ -2,11 +2,14 @@ package info.bitrich.xchangestream.bitfinex;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
+
 import io.reactivex.observers.TestObserver;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,8 +25,7 @@ public class BitfinexStreamingServiceTest {
 
     @Before
     public void setUp() {
-        BitfinexStreamingExchange bitfinexStreamingExchange = new BitfinexStreamingExchange();
-        service = bitfinexStreamingExchange.getStreamingAuthenticatedDataService();
+        service = new BitfinexStreamingRawService(BitfinexStreamingExchange.API_URI);
     }
 
     @Test
