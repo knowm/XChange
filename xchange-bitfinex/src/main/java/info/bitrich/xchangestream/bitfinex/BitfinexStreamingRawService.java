@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.bitfinex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexAuthRequestStatus;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuth;
@@ -45,7 +44,6 @@ public class BitfinexStreamingRawService extends JsonNettyStreamingService {
     private final PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
     private final PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
     private final PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance = PublishSubject.create();
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public BitfinexStreamingRawService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
