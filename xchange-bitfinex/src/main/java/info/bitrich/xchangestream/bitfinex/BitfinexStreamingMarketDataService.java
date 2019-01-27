@@ -14,6 +14,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketTickerTransactio
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketTradesTransaction;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUpdateOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebsocketUpdateTrade;
+import info.bitrich.xchangestream.core.OrderStatusChange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
@@ -106,6 +107,13 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
                     Trades adaptedTrades = adaptTrades(s.toBitfinexTrades(), currencyPair);
                     return adaptedTrades.getTrades();
                 });
+    }
+
+    @Override
+    public Observable<OrderStatusChange> getOrderStatusChanges(CurrencyPair currencyPair, Object... args) {
+        return getRawAuthenticatedOrders()
+                .map(BitfinexStreamingAdapters::adaptOrderStatus)
+                .filter(o -> o.getOrderId() != null);
     }
 
     public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
