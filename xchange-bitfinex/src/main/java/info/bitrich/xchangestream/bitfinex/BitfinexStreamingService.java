@@ -179,10 +179,14 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         JsonNode object = message.get(2);
         switch (type) {
             case "te":
-                subjectPreTrade.onNext(BitfinexStreamingAdapters.adaptPreTrade(object));
+                BitfinexWebSocketAuthPreTrade preTrade = BitfinexStreamingAdapters.adaptPreTrade(object);
+                if (preTrade != null)
+                    subjectPreTrade.onNext(preTrade);
                 break;
             case "tu":
-                subjectTrade.onNext(BitfinexStreamingAdapters.adaptTrade(object));
+                BitfinexWebSocketAuthTrade trade = BitfinexStreamingAdapters.adaptTrade(object);
+                if (trade != null)
+                    subjectTrade.onNext(trade);
                 break;
             case "os":
                 BitfinexStreamingAdapters.adaptOrders(object).forEach(subjectOrder::onNext);
@@ -190,13 +194,17 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
             case "on":
             case "ou":
             case "oc":
-                subjectOrder.onNext(BitfinexStreamingAdapters.adaptOrder(object));
+                BitfinexWebSocketAuthOrder order = BitfinexStreamingAdapters.adaptOrder(object);
+                if (order != null)
+                    subjectOrder.onNext(order);
                 break;
             case "ws":
                 BitfinexStreamingAdapters.adaptBalances(object).forEach(subjectBalance::onNext);
                 break;
             case "wu":
-                subjectBalance.onNext(BitfinexStreamingAdapters.adaptBalance(object));
+                BitfinexWebSocketAuthBalance balance = BitfinexStreamingAdapters.adaptBalance(object);
+                if (balance != null)
+                    subjectBalance.onNext(balance);
                 break;
             default:
                 // In case bitfinex adds new channels, ignore

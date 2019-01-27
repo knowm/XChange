@@ -7,6 +7,8 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 
+import io.reactivex.annotations.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ class BitfinexStreamingAdapters {
 
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingAdapters.class);
 
+    @Nullable
     static BitfinexWebSocketAuthPreTrade adaptPreTrade(JsonNode preTrade) {
         if (preTrade.size() < 12) {
             LOG.error("addPreTrade unexpected record size={}, record={}", preTrade.size(), preTrade.toString());
@@ -39,6 +42,7 @@ class BitfinexStreamingAdapters {
         return preTradeObject;
     }
 
+    @Nullable
     static BitfinexWebSocketAuthTrade adaptTrade(JsonNode trade) {
         if (trade.size() < 11) {
             LOG.error("addTrade unexpected record size={}, record={}", trade.size(), trade.toString());
@@ -65,11 +69,12 @@ class BitfinexStreamingAdapters {
     static Stream<BitfinexWebSocketAuthOrder> adaptOrders(JsonNode orders) {
         Iterable<JsonNode> iterator = () -> orders.iterator();
         return stream(iterator.spliterator(), false)
+                .filter(o -> o.size() >= 32)
                 .map(BitfinexStreamingAdapters::createOrderObject)
-                .filter(o -> o != null)
                 .peek(o -> LOG.debug("New order: {}", o));
     }
 
+    @Nullable
     static BitfinexWebSocketAuthOrder adaptOrder(JsonNode order) {
         BitfinexWebSocketAuthOrder orderObject = createOrderObject(order);
         if (orderObject == null) {
@@ -79,6 +84,7 @@ class BitfinexStreamingAdapters {
         return orderObject;
     }
 
+    @Nullable
     static BitfinexWebSocketAuthBalance adaptBalance(JsonNode balance) {
         BitfinexWebSocketAuthBalance balanceObject = createBalanceObject(balance);
         if (balanceObject == null) {
@@ -91,11 +97,12 @@ class BitfinexStreamingAdapters {
     static Stream<BitfinexWebSocketAuthBalance> adaptBalances(JsonNode balances) {
         Iterable<JsonNode> iterator = () -> balances.iterator();
         return stream(iterator.spliterator(), false)
+                .filter(o -> o.size() >= 5)
                 .map(BitfinexStreamingAdapters::createBalanceObject)
-                .filter(o -> o != null)
                 .peek(o -> LOG.debug("Balance: {}", o));
     }
 
+    @Nullable
     static private BitfinexWebSocketAuthBalance createBalanceObject(JsonNode balance) {
         if (balance.size() < 5) {
             LOG.error("createBalanceObject unexpected record size={}, record={}", balance.size(), balance.toString());
@@ -111,6 +118,7 @@ class BitfinexStreamingAdapters {
         return new BitfinexWebSocketAuthBalance(walletType, currency, balanceValue, unsettledInterest, balanceAvailable);
     }
 
+    @Nullable
     static private BitfinexWebSocketAuthOrder createOrderObject(JsonNode order) {
         if (order.size() < 32) {
             LOG.error("createOrderObject unexpected record size={}, record={}", order.size(), order.toString());
