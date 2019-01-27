@@ -13,11 +13,13 @@ public class ProductSubscription {
     private final List<CurrencyPair> orderBook;
     private final List<CurrencyPair> trades;
     private final List<CurrencyPair> ticker;
+    private final List<CurrencyPair> orderStatusChange;
 
     private ProductSubscription(ProductSubscriptionBuilder builder) {
         this.orderBook = builder.orderBook;
         this.trades = builder.trades;
         this.ticker = builder.ticker;
+        this.orderStatusChange = builder.orderStatusChange;
     }
 
     public List<CurrencyPair> getOrderBook() {
@@ -32,8 +34,12 @@ public class ProductSubscription {
         return ticker;
     }
 
+    public List<CurrencyPair> getOrderStatusChange() {
+      return ticker;
+  }
+
     public boolean isEmpty() {
-      return ticker.isEmpty() && trades.isEmpty() && orderBook.isEmpty();
+      return ticker.isEmpty() && trades.isEmpty() && orderBook.isEmpty() && orderStatusChange.isEmpty();
     }
 
     public static ProductSubscriptionBuilder create() {
@@ -44,11 +50,13 @@ public class ProductSubscription {
         private final List<CurrencyPair> orderBook;
         private final List<CurrencyPair> trades;
         private final List<CurrencyPair> ticker;
+        private final List<CurrencyPair> orderStatusChange;
 
         private ProductSubscriptionBuilder() {
             orderBook = new ArrayList<>();
             trades = new ArrayList<>();
             ticker = new ArrayList<>();
+            orderStatusChange = new ArrayList<>();
         }
 
         public ProductSubscriptionBuilder addOrderbook(CurrencyPair pair) {
@@ -66,10 +74,16 @@ public class ProductSubscription {
             return this;
         }
 
+        public ProductSubscriptionBuilder addOrderStatusChange(CurrencyPair pair) {
+            orderStatusChange.add(pair);
+            return this;
+        }
+
         public ProductSubscriptionBuilder addAll(CurrencyPair pair) {
             orderBook.add(pair);
             trades.add(pair);
             ticker.add(pair);
+            orderStatusChange.add(pair);
             return this;
         }
 
