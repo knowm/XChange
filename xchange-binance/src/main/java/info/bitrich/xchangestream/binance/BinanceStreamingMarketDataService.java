@@ -13,6 +13,7 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.core.OrderStatusChange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -122,6 +123,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         } else {
             return publicTrades;
         }
+    }
+
+    @Override
+    public Observable<OrderStatusChange> getOrderStatusChanges(CurrencyPair currencyPair, Object... args) {
+        return getRawExecutionReports()
+            .filter(r -> currencyPair.equals(r.getCurrencyPair()))
+            .filter(r -> r.getExecutionType().equals(ExecutionType.CANCELED) ||
+                         r.getExecutionType().equals(ExecutionType.EXPIRED) ||
+                         r.getExecutionType().equals(ExecutionType.NEW))
+            .map(BinanceStreamingAdapters::adaptOrderStatusChange);
     }
 
     public Observable<UserTrade> getUserTrades() {

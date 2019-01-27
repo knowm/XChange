@@ -26,6 +26,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
+import info.bitrich.xchangestream.core.OrderStatusChange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
@@ -157,5 +158,25 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
                             return adaptedTrades.getTrades().get(0);
                         }
                 );
+    }
+
+    @Override
+    public Observable<OrderStatusChange> getOrderStatusChanges(CurrencyPair currencyPair, Object... args) {
+        if (!containsPair(service.getProduct().getOrderStatusChange(), currencyPair))
+            throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for trades", currencyPair));
+
+        String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
+        Observable<CoinbaseProWebSocketTransaction> subscribedChannel = service.subscribeChannel(channelName)
+                .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class));
+
+        return subscribedChannel
+                .filter(s -> !isNullOrEmpty(s.getType()) &&
+                             (s.getType().equals("open") || s.getType().equals("done")) &&
+                             s.getProductId().equals(channelName)
+                )
+                .map(CoinbaseProStreamingAdapters::adaptOrderStatusChange);
     }
 }
