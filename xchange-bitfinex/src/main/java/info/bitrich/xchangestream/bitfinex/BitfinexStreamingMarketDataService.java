@@ -24,7 +24,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +38,11 @@ import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTrades;
 public class BitfinexStreamingMarketDataService implements StreamingMarketDataService {
 
     private final BitfinexStreamingService service;
-    private final BitfinexStreamingRawService authenticatedService;
 
     private final Map<CurrencyPair, BitfinexOrderbook> orderbooks = new HashMap<>();
 
-    public BitfinexStreamingMarketDataService(BitfinexStreamingService service, BitfinexStreamingRawService authenticatedService) {
+    public BitfinexStreamingMarketDataService(BitfinexStreamingService service) {
         this.service = service;
-        this.authenticatedService = authenticatedService;
     }
 
     @Override
@@ -112,25 +109,18 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     }
 
     public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
-        return checkAuthenticated().getAuthenticatedOrders();
+        return service.getAuthenticatedOrders();
     }
 
     public Observable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {
-        return checkAuthenticated().getAuthenticatedPreTrades();
+        return service.getAuthenticatedPreTrades();
     }
 
     public Observable<BitfinexWebSocketAuthTrade> getRawAuthenticatedTrades() {
-        return checkAuthenticated().getAuthenticatedTrades();
+        return service.getAuthenticatedTrades();
     }
 
     public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
-        return checkAuthenticated().getAuthenticatedBalances();
-    }
-
-    private BitfinexStreamingRawService checkAuthenticated() {
-        if (authenticatedService == null) {
-            throw new ExchangeSecurityException("Cannot return authenticated orders. Not authenticated.");
-        }
-        return authenticatedService;
+        return service.getAuthenticatedBalances();
     }
 }

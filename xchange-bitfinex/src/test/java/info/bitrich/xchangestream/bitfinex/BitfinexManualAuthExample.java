@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,12 @@ public class BitfinexManualAuthExample {
             );
             exchange.getStreamingMarketDataService().getRawAuthenticatedBalances().subscribe(
                 t -> LOG.info("AUTH BALANCE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+
+            // Make sure we can still get unauthenticated data on the same socket
+            exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(
+                t -> LOG.info("PUBLIC TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
             try {
