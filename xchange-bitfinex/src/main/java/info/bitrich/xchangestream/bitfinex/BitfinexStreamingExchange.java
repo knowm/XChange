@@ -3,8 +3,10 @@ package info.bitrich.xchangestream.bitfinex;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
 
@@ -18,15 +20,19 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     private BitfinexStreamingMarketDataService streamingMarketDataService;
     private BitfinexStreamingRawService streamingAuthenticatedDataService;
 
-    public BitfinexStreamingExchange() {
-        this.streamingAuthenticatedDataService = new BitfinexStreamingRawService(API_URI);
-    }
-
     @Override
     protected void initServices() {
         super.initServices();
         this.streamingService = createStreamingService();
         this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+        this.streamingAuthenticatedDataService = createAuthenticatedStreamingService();
+    }
+
+    private BitfinexStreamingRawService createAuthenticatedStreamingService() {
+       BitfinexStreamingRawService result = new BitfinexStreamingRawService(API_URI);
+       result.setApiKey(exchangeSpecification.getApiKey());
+       result.setApiSecret(exchangeSpecification.getSecretKey());
+       return result;
     }
 
     private BitfinexStreamingService createStreamingService() {
@@ -90,11 +96,6 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     public boolean isAuthenticatedAlive() {
         return streamingAuthenticatedDataService.isSocketOpen();
-    }
-
-    public void setCredentials(String apiKey, String apiSecret) {
-        streamingAuthenticatedDataService.setApiKey(apiKey);
-        streamingAuthenticatedDataService.setApiSecret(apiSecret);
     }
 
     public BitfinexStreamingRawService getStreamingAuthenticatedDataService() {

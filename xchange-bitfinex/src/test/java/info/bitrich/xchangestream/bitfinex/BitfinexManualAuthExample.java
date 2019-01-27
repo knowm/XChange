@@ -1,6 +1,9 @@
 package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+
+import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,9 +11,19 @@ public class BitfinexManualAuthExample {
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexManualAuthExample.class);
 
     public static void main(String[] args) {
-        BitfinexStreamingExchange exchange = (BitfinexStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(
-            BitfinexStreamingExchange.class.getName());
-        exchange.setCredentials("API-KEY", "API-SECRET");
+
+        // Far safer than temporarily adding these to code that might get committed to VCS
+        String apiKey = System.getProperty("bitfinex-api-key");
+        String apiSecret = System.getProperty("bitfinex-api-secret");
+        if (StringUtils.isEmpty(apiKey) || StringUtils.isEmpty(apiSecret)) {
+            throw new IllegalArgumentException("Supply api details in VM args");
+        }
+
+        ExchangeSpecification spec = StreamingExchangeFactory.INSTANCE.createExchange(
+            BitfinexStreamingExchange.class.getName()).getDefaultExchangeSpecification();
+        spec.setApiKey(apiKey);
+        spec.setSecretKey(apiSecret);
+        BitfinexStreamingExchange exchange = (BitfinexStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
         exchange.connectToAuthenticated().blockingAwait();
         exchange.getStreamingAuthenticatedDataService().getAuthenticatedTrades().subscribe(
