@@ -27,19 +27,19 @@ public class BitfinexManualAuthExample {
 
         exchange.connect().blockingAwait();
         try {
-            exchange.getStreamingAuthenticatedDataService().getAuthenticatedTrades().subscribe(
+            exchange.getStreamingMarketDataService().getRawAuthenticatedTrades().subscribe(
                 t -> LOG.info("AUTH TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingAuthenticatedDataService().getAuthenticatedPreTrades().subscribe(
+            exchange.getStreamingMarketDataService().getRawAuthenticatedPreTrades().subscribe(
                 t -> LOG.info("AUTH PRE TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingAuthenticatedDataService().getAuthenticatedOrders().subscribe(
+            exchange.getStreamingMarketDataService().getRawAuthenticatedOrders().subscribe(
                 t -> LOG.info("AUTH ORDER: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingAuthenticatedDataService().getAuthenticatedBalances().subscribe(
+            exchange.getStreamingMarketDataService().getRawAuthenticatedBalances().subscribe(
                 t -> LOG.info("AUTH BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
