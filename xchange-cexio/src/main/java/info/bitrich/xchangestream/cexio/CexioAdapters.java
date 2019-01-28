@@ -1,12 +1,19 @@
 package info.bitrich.xchangestream.cexio;
 
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrder;
+import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketPair;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class CexioAdapters {
 
@@ -70,5 +77,54 @@ public class CexioAdapters {
             status = Order.OrderStatus.PARTIALLY_FILLED;
         }
         return status;
+    }
+    
+    private static List<LimitOrder> updateOrInsertQuantityForPrice(List<LimitOrder> existingOrders, 
+    		List<List<BigDecimal>> updatedQuantitiesPerPrice,
+    		OrderType orderType,
+    		Date timestamp,
+    		CurrencyPair currencyPair,
+    		String id) {
+    	Collections.sort(existingOrders);
+    	for (List<BigDecimal> updatedQuantityPrice : updatedQuantitiesPerPrice) {
+    		if (updatedQuantityPrice.size() != 2) {
+    			throw new IllegalArgumentException("Expected price quantity list to contain exactly two big decimals");
+    		}
+    		BigDecimal price = updatedQuantityPrice.get(0);
+    		BigDecimal quantity = updatedQuantityPrice.get(1);
+    		LimitOrder orderForUpdatedQuantityPrice = new LimitOrder(orderType, quantity, currencyPair, id, timestamp, price);
+    		int insertIndex = Collections.binarySearch(existingOrders, orderForUpdatedQuantityPrice);
+    		if (insertIndex == existingOrders.size()) {
+    			existingOrders.add(orderForUpdatedQuantityPrice);
+    		}
+    		else if (insertIndex < 0)
+    		{
+    			existingOrders.add(0, orderForUpdatedQuantityPrice);
+    		}
+    		else if (existingOrders.get(insertIndex).compareTo(orderForUpdatedQuantityPrice) == 0) 
+    		{
+    			existingOrders.set(insertIndex, orderForUpdatedQuantityPrice);
+    		} 
+    		else 
+    		{
+    			existingOrders.add(insertIndex, orderForUpdatedQuantityPrice);
+    		}
+    	}
+    	return existingOrders;
+    }
+    
+    protected static CurrencyPair adaptCurrencyPairString(String currencyPairString) {
+    	String[] splitOnColon = currencyPairString.split(":");
+    	return new CurrencyPair(splitOnColon[0], splitOnColon[1]);
+    }
+    
+    protected static OrderBook adaptOrderBookIncremental(OrderBook prevOrderBook, CexioWebSocketOrderBookSubscribeResponse update) {
+    	CurrencyPair currencyPair = adaptCurrencyPairString(update.pair);
+    	List<LimitOrder> asks = prevOrderBook.getAsks();
+    	List<LimitOrder> bids = prevOrderBook.getBids();
+    	asks = updateOrInsertQuantityForPrice(asks, update.asks, OrderType.ASK, update.timestamp, currencyPair, update.id.toString());
+    	bids = updateOrInsertQuantityForPrice(bids, update.bids, OrderType.BID, update.timestamp, currencyPair, update.id.toString());
+    	
+    	return new OrderBook(update.timestamp, asks, bids, true);
     }
 }

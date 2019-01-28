@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -20,7 +19,7 @@ public class CexioStreamingServiceTest {
 
     @Before
     public void setUp() {
-        cexioStreamingExchange = new CexioStreamingExchange();
+        cexioStreamingExchange = new CexioStreamingExchange(true /* isTest */);
     }
 
     @Test
