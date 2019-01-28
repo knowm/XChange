@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class BitfinexWebSocketAuthTrade extends BitfinexWebSocketAuthPreTrade {
-    private BigDecimal fee;
-    private String feeCurrency;
+    private final BigDecimal fee;
+    private final String feeCurrency;
 
     public BitfinexWebSocketAuthTrade(long id, String pair, long mtsCreate,
                                       long orderId, BigDecimal execAmount, BigDecimal execPrice,
                                       String orderType, BigDecimal orderPrice,
-                                      int maker, BigDecimal fee, String feeCurrency) {
+                                      long maker, BigDecimal fee, String feeCurrency) {
         super(id, pair, mtsCreate, orderId, execAmount, execPrice, orderType, orderPrice, maker);
         this.fee = fee;
         this.feeCurrency = feeCurrency;

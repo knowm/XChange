@@ -13,7 +13,6 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.core.OrderStatusChange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -28,6 +27,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
@@ -126,13 +126,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     @Override
-    public Observable<OrderStatusChange> getOrderStatusChanges(CurrencyPair currencyPair, Object... args) {
+    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         return getRawExecutionReports()
             .filter(r -> currencyPair.equals(r.getCurrencyPair()))
-            .filter(r -> r.getExecutionType().equals(ExecutionType.CANCELED) ||
-                         r.getExecutionType().equals(ExecutionType.EXPIRED) ||
-                         r.getExecutionType().equals(ExecutionType.NEW))
-            .map(BinanceStreamingAdapters::adaptOrderStatusChange);
+            .map(ExecutionReportBinanceUserTransaction::toOrder);
     }
 
     public Observable<UserTrade> getUserTrades() {
@@ -141,6 +138,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     			  .map(ExecutionReportBinanceUserTransaction::toUserTrade);
     }
 
+    @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
     }
