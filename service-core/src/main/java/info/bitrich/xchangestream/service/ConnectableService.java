@@ -25,7 +25,7 @@ public abstract class ConnectableService {
     /**
      * {@link Runnable} handler is called before opening new socket connection.
      */
-    Runnable beforeConnectionHandler = () -> {
+    private Runnable beforeConnectionHandler = () -> {
     };
 
     public void setBeforeConnectionHandler(Runnable beforeConnectionHandler) {
