@@ -32,14 +32,25 @@ public class BitfinexManualAuthExample {
                 t -> LOG.info("AUTH TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
+            exchange.getStreamingMarketDataService().getUserTrades().subscribe(
+                t -> LOG.info("GENERIC USER TRADE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+
             exchange.getStreamingMarketDataService().getRawAuthenticatedPreTrades().subscribe(
                 t -> LOG.info("AUTH PRE TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
+
             exchange.getStreamingMarketDataService().getRawAuthenticatedOrders().subscribe(
                 t -> LOG.info("AUTH ORDER: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
+            exchange.getStreamingMarketDataService().getOrderChanges().subscribe(
+                t -> LOG.info("GENERIC ORDER: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+
             exchange.getStreamingMarketDataService().getRawAuthenticatedBalances().subscribe(
                 t -> LOG.info("AUTH BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)

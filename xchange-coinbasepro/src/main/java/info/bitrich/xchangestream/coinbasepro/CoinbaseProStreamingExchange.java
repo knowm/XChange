@@ -7,7 +7,6 @@ import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -82,7 +81,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
     }
 
     @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
+    public CoinbaseProStreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
 

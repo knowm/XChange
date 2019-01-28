@@ -1,5 +1,13 @@
 package info.bitrich.xchangestream.coinbasepro.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,14 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
-
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Domain object mapping a CoinbasePro web socket message.
@@ -295,6 +295,7 @@ public class CoinbaseProWebSocketTransaction {
         sb.append(", orderId='").append(orderId).append('\'');
         sb.append(", orderType='").append(orderType).append('\'');
         sb.append(", size=").append(size);
+        sb.append(", remainingSize=").append(remainingSize);
         sb.append(", price=").append(price);
         sb.append(", bestBid=").append(bestBid);
         sb.append(", bestAsk=").append(bestAsk);
@@ -304,10 +305,15 @@ public class CoinbaseProWebSocketTransaction {
         sb.append(", low24h=").append(low24h);
         sb.append(", high24h=").append(high24h);
         sb.append(", side='").append(side).append('\'');
+        sb.append(", bids=").append(bids);
+        sb.append(", asks=").append(asks);
+        sb.append(", changes=").append(asks);
         sb.append(", clientOid='").append(clientOid).append('\'');
         sb.append(", productId='").append(productId).append('\'');
         sb.append(", sequence=").append(sequence);
         sb.append(", time='").append(time).append('\'');
+        sb.append(", reason='").append(reason).append('\'');
+        sb.append(", trade_id='").append(tradeId).append('\'');
         if ( userId != null )
         	sb.append(", userId='").append(userId).append('\'');
         if ( profileId != null )
