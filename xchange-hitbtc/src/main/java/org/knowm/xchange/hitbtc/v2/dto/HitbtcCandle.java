@@ -1,5 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class HitbtcCandle {
@@ -18,14 +20,15 @@ public class HitbtcCandle {
 
   private BigDecimal volumeQuote;
 
+  @JsonCreator
   public HitbtcCandle(
-      String timestamp,
-      BigDecimal open,
-      BigDecimal close,
-      BigDecimal min,
-      BigDecimal max,
-      BigDecimal volume,
-      BigDecimal volumeQuote) {
+      @JsonProperty("timestamp") String timestamp,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("close") BigDecimal close,
+      @JsonProperty("min") BigDecimal min,
+      @JsonProperty("max") BigDecimal max,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("volumeQuote") BigDecimal volumeQuote) {
     this.timestamp = timestamp;
     this.open = open;
     this.close = close;
