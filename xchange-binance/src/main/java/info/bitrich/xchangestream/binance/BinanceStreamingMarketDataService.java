@@ -129,13 +129,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         return getRawExecutionReports()
             .filter(r -> currencyPair.equals(r.getCurrencyPair()))
+            .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
             .map(ExecutionReportBinanceUserTransaction::toOrder);
     }
 
     public Observable<UserTrade> getUserTrades() {
         return getRawExecutionReports()
         		.filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-    			  .map(ExecutionReportBinanceUserTransaction::toUserTrade);
+        		.map(ExecutionReportBinanceUserTransaction::toUserTrade);
     }
 
     @Override
