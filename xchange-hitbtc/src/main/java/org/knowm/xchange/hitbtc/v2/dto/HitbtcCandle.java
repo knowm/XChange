@@ -18,6 +18,23 @@ public class HitbtcCandle {
 
   private BigDecimal volumeQuote;
 
+  public HitbtcCandle(
+      String timestamp,
+      BigDecimal open,
+      BigDecimal close,
+      BigDecimal min,
+      BigDecimal max,
+      BigDecimal volume,
+      BigDecimal volumeQuote) {
+    this.timestamp = timestamp;
+    this.open = open;
+    this.close = close;
+    this.min = min;
+    this.max = max;
+    this.volume = volume;
+    this.volumeQuote = volumeQuote;
+  }
+
   @Override
   public String toString() {
     return "HitbtcCandle [timestamp="
