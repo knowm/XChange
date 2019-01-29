@@ -125,12 +125,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         }
     }
 
-    @Override
-    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+    public Observable<Order> getOrderChanges() {
         return getRawExecutionReports()
-            .filter(r -> currencyPair.equals(r.getCurrencyPair()))
             .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
             .map(ExecutionReportBinanceUserTransaction::toOrder);
+    }
+
+    @Override
+    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+        return getOrderChanges()
+            .filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
     }
 
     public Observable<UserTrade> getUserTrades() {
