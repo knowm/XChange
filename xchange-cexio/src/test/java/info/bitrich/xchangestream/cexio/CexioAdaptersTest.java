@@ -48,7 +48,8 @@ public class CexioAdaptersTest {
 		CexioWebSocketOrderBookSubscribeResponse subResp1 = new CexioWebSocketOrderBookSubscribeResponse(new Date(1234567), null, bidOrders, askOrders, "LTC:USD", BigInteger.ONE);
 		OrderBook orderBookV1 = CexioAdapters.adaptOrderBookIncremental(orderBookSoFar, subResp1);
 		OrderBook expectedOrderBookV1 = new OrderBook(new Date(1234567), expectedAsks, expectedBids, true /* sort */);
-		assertEquals(expectedOrderBookV1, orderBookV1);
+		assertEquals(expectedOrderBookV1.getBids(), orderBookV1.getBids());
+		assertEquals(expectedOrderBookV1.getAsks(), orderBookV1.getAsks());
 		
 		List<List<BigDecimal>> askOrders2 = new ArrayList<List<BigDecimal>>();
 		askOrders2.add(new ArrayList<BigDecimal>(Arrays.asList(new BigDecimal[]{new BigDecimal(10), new BigDecimal(400)})));
@@ -81,5 +82,7 @@ public class CexioAdaptersTest {
 		
 		OrderBook orderBookV2 = CexioAdapters.adaptOrderBookIncremental(orderBookV1, subResp2);
 		OrderBook expectedOrderBookV2 = new OrderBook(new Date(1235567), expectedAsks2, expectedBids2, true /* sort */);
+		assertEquals(expectedOrderBookV2.getBids(), orderBookV2.getBids());
+		assertEquals(expectedOrderBookV2.getAsks(), orderBookV2.getAsks());
 	}
 }

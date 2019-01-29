@@ -62,7 +62,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
 			final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 			JsonNode dataNode = message.get("data");
 			CexioWebSocketOrderBookSubscribeResponse orderBookSubResp = mapper.readValue(dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
-			CurrencyPair currencyPair = CexioAdapters.adaptCurrencyPairString(orderBookSubResp.pair);
+			CurrencyPair currencyPair = CexioAdapters.adaptCurrencyPair(orderBookSubResp.pair);
 			return GetOrderBookChannelForCurrencyPair(currencyPair);
     	}
     	else
