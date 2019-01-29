@@ -2,8 +2,10 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import info.bitrich.xchangestream.service.ConnectableService;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import org.apache.commons.lang3.concurrent.TimedSemaphore;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,20 +13,31 @@ import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
 public class BitfinexManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexManualExample.class);
 
+    private static final TimedSemaphore rateLimiter = new TimedSemaphore(1, MINUTES, 15);
+    private static void rateLimit() {
+        try {
+            rateLimiter.acquire();
+        } catch (InterruptedException e) {
+            LOG.warn("Bitfinex connection throttle control has been interrupted");
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         CertHelper.trustAllCerts();
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitfinexStreamingExchange.class
-                .getName());
 
-        ExchangeSpecification defaultExchangeSpecification = exchange.getDefaultExchangeSpecification();
+        ExchangeSpecification defaultExchangeSpecification = new ExchangeSpecification(BitfinexStreamingExchange.class);
+        defaultExchangeSpecification.setExchangeSpecificParametersItem(ConnectableService.BEFORE_CONNECTION_HANDLER, (Runnable) BitfinexManualExample::rateLimit);
 
-//        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
+        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
+/*
         defaultExchangeSpecification.setProxyHost("localhost");
         defaultExchangeSpecification.setProxyPort(9999);
 
@@ -33,11 +46,10 @@ public class BitfinexManualExample {
 
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
-//        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
+        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ENABLE_LOGGING_HANDLER, true);
+*/
 
-        exchange.applySpecification(defaultExchangeSpecification);
-
-
+        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
         exchange.connect().blockingAwait();
 
         Observable<OrderBook> orderBookObserver = exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD);
@@ -47,7 +59,6 @@ public class BitfinexManualExample {
         }, throwable -> {
             LOG.error("ERROR in getting order book: ", throwable);
         });
-
 
         Disposable tickerSubscriber = exchange.getStreamingMarketDataService().getTicker(CurrencyPair.BTC_EUR).subscribe(ticker -> {
             LOG.info("TICKER: {}", ticker);
@@ -68,5 +79,8 @@ public class BitfinexManualExample {
 
         LOG.info("disconnecting...");
         exchange.disconnect().subscribe(() -> LOG.info("disconnected"));
+
+        rateLimiter.shutdown();
     }
+
 }
