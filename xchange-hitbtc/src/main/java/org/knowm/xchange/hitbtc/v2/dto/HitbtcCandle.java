@@ -20,7 +20,7 @@ public class HitbtcCandle {
 
   @Override
   public String toString() {
-    return "KrakenOHLC [timestamp="
+    return "HitbtcCandle [timestamp="
         + timestamp
         + ", open="
         + open
