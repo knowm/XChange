@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.*;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -35,47 +38,13 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
 
     private String apiKey;
     private String apiSecret;
-    private boolean isAuthenticated = false;
-    private final Lock authLock = new ReentrantLock();
-    private final Condition authCond = authLock.newCondition();
-    private final boolean isTest;
+    private AuthCompletable authCompletable = new AuthCompletable();
     
     private PublishSubject<Order> subjectOrder = PublishSubject.create();
     private PublishSubject<CexioWebSocketTransaction> subjectTransaction = PublishSubject.create();
     
-    public CexioStreamingRawService(String apiUrl, boolean isTest) {
+    public CexioStreamingRawService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
-        this.isTest = isTest;
-    }
-    
-    public void waitForAuthIfNeeded() {
-    	authLock.lock();
-    	try
-    	{
-    		while (!isAuthenticated && !isTest)
-    		{
-    			authCond.await();
-    		}
-    	} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	finally
-    	{
-    		authLock.unlock();
-    	}
-    }
-    
-    public void signalAuthComplete() {
-    	authLock.lock();
-    	try {
-    		isAuthenticated = true;
-        	authCond.signalAll();
-    	}
-    	finally 
-    	{
-    		authLock.unlock();
-    	}
     }
     
     public static String GetOrderBookChannelForCurrencyPair(CurrencyPair currencyPair) {
@@ -163,7 +132,32 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
 		}
 		handleMessage(jsonNode);
 	}
-
+	
+	protected static class AuthCompletable implements CompletableOnSubscribe
+	{
+		private CompletableEmitter completableEmitter;
+		
+		@Override
+		public void subscribe(CompletableEmitter e) throws Exception {
+			this.completableEmitter = e;
+		}
+		
+		public void SignalAuthComplete() {
+			completableEmitter.onComplete();
+		}
+	}
+	
+	@Override
+	public Completable connect() {
+		synchronized(authCompletable)
+		{
+			Completable parentCompletable = super.connect();
+			parentCompletable.blockingAwait();
+			return Completable.create(authCompletable);
+		}
+		
+	}
+	
     @Override
     protected void handleMessage(JsonNode message) {
         LOG.debug("Receiving message: {}", message);
@@ -180,7 +174,10 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
                         if (response != null) {
                         	if (response.isSuccess())
                         	{
-                        		signalAuthComplete();
+                        		synchronized(authCompletable)
+                        		{
+                        			authCompletable.SignalAuthComplete();
+                        		}
                         	}
                         	else
                         	{

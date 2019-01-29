@@ -19,7 +19,7 @@ public class CexioStreamingServiceTest {
 
     @Before
     public void setUp() {
-        cexioStreamingExchange = new CexioStreamingExchange(true /* isTest */);
+        cexioStreamingExchange = new CexioStreamingExchange();
     }
 
     @Test
