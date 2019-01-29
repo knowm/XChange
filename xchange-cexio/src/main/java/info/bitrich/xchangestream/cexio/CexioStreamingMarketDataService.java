@@ -55,9 +55,6 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     
 	@Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-		
-		streamingOrderDataService.waitForAuthIfNeeded();
-		
 		String channelNameForPair = CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
     	
     	final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();

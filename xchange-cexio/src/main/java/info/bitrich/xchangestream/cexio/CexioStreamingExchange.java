@@ -17,12 +17,7 @@ public class CexioStreamingExchange extends CexIOExchange implements StreamingEx
     private final CexioStreamingRawService streamingOrderDataService;
 
     public CexioStreamingExchange() {
-        this.streamingOrderDataService = new CexioStreamingRawService(API_URI, false);
-        this.streamingMarketDataService = new CexioStreamingMarketDataService(streamingOrderDataService);
-    }
-    
-    public CexioStreamingExchange(boolean isTest) {
-        this.streamingOrderDataService = new CexioStreamingRawService(API_URI, isTest);
+        this.streamingOrderDataService = new CexioStreamingRawService(API_URI);
         this.streamingMarketDataService = new CexioStreamingMarketDataService(streamingOrderDataService);
     }
 
