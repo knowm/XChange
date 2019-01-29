@@ -79,13 +79,12 @@ public class CexioAdapters {
         return status;
     }
     
-    private static List<LimitOrder> updateOrInsertQuantityForPrice(List<LimitOrder> existingOrders, 
+    private static OrderBook updateOrInsertQuantityForPrice(OrderBook orderBook, 
     		List<List<BigDecimal>> updatedQuantitiesPerPrice,
     		OrderType orderType,
     		Date timestamp,
     		CurrencyPair currencyPair,
     		String id) {
-    	Collections.sort(existingOrders);
     	for (List<BigDecimal> updatedQuantityPrice : updatedQuantitiesPerPrice) {
     		if (updatedQuantityPrice.size() != 2) {
     			throw new IllegalArgumentException("Expected price quantity list to contain exactly two big decimals");
@@ -93,38 +92,22 @@ public class CexioAdapters {
     		BigDecimal price = updatedQuantityPrice.get(0);
     		BigDecimal quantity = updatedQuantityPrice.get(1);
     		LimitOrder orderForUpdatedQuantityPrice = new LimitOrder(orderType, quantity, currencyPair, id, timestamp, price);
-    		int insertIndex = Collections.binarySearch(existingOrders, orderForUpdatedQuantityPrice);
-    		if (insertIndex == existingOrders.size()) {
-    			existingOrders.add(orderForUpdatedQuantityPrice);
-    		}
-    		else if (insertIndex < 0)
-    		{
-    			existingOrders.add(0, orderForUpdatedQuantityPrice);
-    		}
-    		else if (existingOrders.get(insertIndex).compareTo(orderForUpdatedQuantityPrice) == 0) 
-    		{
-    			existingOrders.set(insertIndex, orderForUpdatedQuantityPrice);
-    		} 
-    		else 
-    		{
-    			existingOrders.add(insertIndex, orderForUpdatedQuantityPrice);
-    		}
+    		orderBook.update(orderForUpdatedQuantityPrice);
     	}
-    	return existingOrders;
+    	return orderBook;
     }
     
-    protected static CurrencyPair adaptCurrencyPairString(String currencyPairString) {
-    	String[] splitOnColon = currencyPairString.split(":");
-    	return new CurrencyPair(splitOnColon[0], splitOnColon[1]);
+    // Copied from xchange org.knowm.xchange.cexio.CexIOAdapters since that implementation 
+    // is private as of the time of writing
+    protected static CurrencyPair adaptCurrencyPair(String pair) {
+        // Currency pair is in the format: "BCH:USD"
+        return new CurrencyPair(pair.replace(":", "/"));
     }
     
     protected static OrderBook adaptOrderBookIncremental(OrderBook prevOrderBook, CexioWebSocketOrderBookSubscribeResponse update) {
-    	CurrencyPair currencyPair = adaptCurrencyPairString(update.pair);
-    	List<LimitOrder> asks = prevOrderBook.getAsks();
-    	List<LimitOrder> bids = prevOrderBook.getBids();
-    	asks = updateOrInsertQuantityForPrice(asks, update.asks, OrderType.ASK, update.timestamp, currencyPair, update.id.toString());
-    	bids = updateOrInsertQuantityForPrice(bids, update.bids, OrderType.BID, update.timestamp, currencyPair, update.id.toString());
-    	
-    	return new OrderBook(update.timestamp, asks, bids, true);
+    	CurrencyPair currencyPair = adaptCurrencyPair(update.pair);
+    	prevOrderBook = updateOrInsertQuantityForPrice(prevOrderBook, update.asks, OrderType.ASK, update.timestamp, currencyPair, update.id.toString());
+    	prevOrderBook = updateOrInsertQuantityForPrice(prevOrderBook, update.bids, OrderType.BID, update.timestamp, currencyPair, update.id.toString());
+    	return prevOrderBook;
     }
 }
