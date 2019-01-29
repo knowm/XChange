@@ -1,19 +1,28 @@
 package info.bitrich.xchangestream.binance;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 
-public class BinanceStreamingService extends JsonNettyStreamingService {
+import io.reactivex.Observable;
 
-    private final ProductSubscription productSubscription;
+import java.io.IOException;
 
-    public BinanceStreamingService(String baseUri, ProductSubscription productSubscription) {
-        super(baseUri, Integer.MAX_VALUE);
-        this.productSubscription = productSubscription;
+public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
+
+	private static final String USER_API_BASE_URI = "wss://stream.binance.com:9443/ws/";
+
+    public static BinanceUserDataStreamingService create(String listenKey) {
+        return new BinanceUserDataStreamingService(USER_API_BASE_URI + listenKey);
+    }
+
+    private BinanceUserDataStreamingService(String url) {
+        super(url, Integer.MAX_VALUE);
+    }
+
+    public Observable<JsonNode> subscribeChannel(BinanceWebSocketTypes eventType) {
+    	return super.subscribeChannel(eventType.getSerializedValue());
     }
 
     @Override
@@ -28,7 +37,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-        return message.get("stream").asText();
+        return message.get("e").asText();
     }
 
     @Override
@@ -46,13 +55,5 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     @Override
     public void sendMessage(String message) {
         // Subscriptions are made upon connection - no messages are sent.
-    }
-
-    /**
-     * The available subscriptions for this streaming service.
-     * @return The subscriptions for the currently open connection.
-     */
-    public ProductSubscription getProductSubscription() {
-        return productSubscription;
     }
 }
