@@ -109,6 +109,7 @@
 		<module>xchange-bitcointoyou</module>
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitflyer</module>
+		<module>xchange-bithumb</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitmex</module>
 		<module>xchange-bitso</module>
