@@ -339,7 +339,8 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XMR_H18 = new CurrencyPair(Currency.XMR, Currency.H18);
   public static final CurrencyPair XLM_H18 = new CurrencyPair(Currency.XLM, Currency.H18);
   public static final CurrencyPair ZEC_H18 = new CurrencyPair(Currency.ZEC, Currency.H18);
-  public static final CurrencyPair ETC_7D =  new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
+  public static final CurrencyPair ETC_7D =
+      new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
 
   // Bankera Exchange pairs
   public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
