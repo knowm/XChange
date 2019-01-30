@@ -1,9 +1,12 @@
 package org.knowm.xchange.binance;
 
+import static java.math.BigDecimal.ZERO;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
@@ -116,12 +119,19 @@ public class BinanceAdapters {
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
     Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
+
     final BigDecimal averagePrice;
     if (order.executedQty.signum() == 0
         || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
       averagePrice = BigDecimal.ZERO;
     } else {
-      averagePrice = order.price;
+      if (order.cummulativeQuoteQty == null ||
+          order.cummulativeQuoteQty.compareTo(ZERO) < 0 ||
+          order.executedQty.compareTo(ZERO) == 0) {
+        averagePrice = order.price;
+      } else {
+        averagePrice = order.cummulativeQuoteQty.divide(order.executedQty);
+      }
     }
 
     Order result;
