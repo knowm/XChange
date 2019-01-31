@@ -457,7 +457,7 @@ public class BitmexAdapters {
             walletTransaction.getAddress(),
             dateFunding,
             Currency.getInstance(currency),
-            walletTransaction.getAmount(),
+            walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
             walletTransaction.getTransactID(),
             walletTransaction.getTx(),
             walletTransaction.getTransactType().equals("Deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL,
