@@ -86,9 +86,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         return userDataStreamingService.connect().doOnComplete(() -> {
             LOG.info("Connected to authenticated web socket");
             userDataChannel.onChangeListenKey(newListenKey -> {
-                userDataStreamingService.disconnect().blockingAwait();
-                createAndConnectUserDataService(newListenKey).blockingAwait();
-                streamingMarketDataService.setUserDataStreamingService(userDataStreamingService);
+                userDataStreamingService.disconnect().doOnComplete(() -> {
+                    createAndConnectUserDataService(newListenKey).doOnComplete(() -> {
+                        streamingMarketDataService.setUserDataStreamingService(userDataStreamingService);
+                    });
+                });
             });
         });
     }
