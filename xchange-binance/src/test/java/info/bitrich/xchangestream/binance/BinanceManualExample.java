@@ -6,7 +6,6 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 
 import io.reactivex.disposables.Disposable;
 
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
