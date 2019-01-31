@@ -148,12 +148,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
     }
 
-    private Observable<ExecutionReportBinanceUserTransaction> rawExecutionReports() {
-        return binanceUserDataStreamingService
-            .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.EXECUTION_REPORT)
-            .map((JsonNode s) -> executionReport(s.toString()));
-    }
-
     private static String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
         String currency = String.join("", currencyPair.toString().split("/")).toLowerCase();
         return currency + "@" + subscriptionType;
@@ -192,7 +186,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     private void connectUserSubscriptions() {
         if (binanceUserDataStreamingService != null) {
-            executionReports = rawExecutionReports().subscribe(executionReportsPublisher::onNext);
+            executionReports = binanceUserDataStreamingService
+                .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.EXECUTION_REPORT)
+                .map((JsonNode s) -> executionReport(s.toString()))
+                .subscribe(executionReportsPublisher::onNext);
         }
     }
 
