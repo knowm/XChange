@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinmarketcap.dto.marketdata;
+package org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata;
 
 import org.knowm.xchange.currency.Currency;
 
