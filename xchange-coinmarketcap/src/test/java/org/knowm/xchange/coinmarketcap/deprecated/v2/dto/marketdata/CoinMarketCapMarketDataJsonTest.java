@@ -1,10 +1,11 @@
-package org.knowm.xchange.coinmarketcap.dto.marketdata;
+package org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.Test;
 
 /** @author allenday */
 public class CoinMarketCapMarketDataJsonTest {

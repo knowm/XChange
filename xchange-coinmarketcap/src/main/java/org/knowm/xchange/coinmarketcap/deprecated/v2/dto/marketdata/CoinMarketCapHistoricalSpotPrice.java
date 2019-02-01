@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinmarketcap.dto.marketdata;
+package org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.Date;

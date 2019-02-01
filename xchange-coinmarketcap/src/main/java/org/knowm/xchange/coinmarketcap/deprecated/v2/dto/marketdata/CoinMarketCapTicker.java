@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinmarketcap.dto.marketdata;
+package org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,9 +9,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /** @author allenday */
 @JsonDeserialize(using = CoinMarketCapTicker.CoinMarketCapTickerDeserializer.class)
