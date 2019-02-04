@@ -2,8 +2,8 @@ package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyData;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapStatus;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.wrapper.CoinMarketCapCurrencyData;
 
 public final class CoinMarketCapCurrencyResponse {
 
@@ -37,29 +37,4 @@ public final class CoinMarketCapCurrencyResponse {
         + status
         + '}';
   }
-  //
-  //    static class CoinMarketCapCurrencyResponseDeserializer
-  //            extends JsonDeserializer<CoinMarketCapCurrencyResponse> {
-  //
-  //        @Override
-  //        public CoinMarketCapCurrencyResponse deserialize(JsonParser jp, DeserializationContext
-  // ctxt)
-  //                throws IOException {
-  //
-  //
-  //            JsonNode jsonNode = jp.getCodec().readTree(jp);
-  //            JsonNode statusNode = jsonNode.get("status");
-  //            ObjectMapper mapper = new ObjectMapper();
-  //            CoinMarketCapStatus currencyStatus = mapper.readValue(statusNode.asText(),
-  // CoinMarketCapStatus.class);
-  //
-  //
-  //            JsonNode dataNode = jsonNode.get("data");
-  //            CoinMarketCapCurrencyData currencyData =
-  //
-  // CoinMarketCapCurrencyData.CoinMarketCapCurrencyDataDeserializer.deserializeFromNode(dataNode);
-  //
-  //            return new CoinMarketCapCurrencyResponse(currencyData, currencyStatus);
-  //        }
-  //    }
 }

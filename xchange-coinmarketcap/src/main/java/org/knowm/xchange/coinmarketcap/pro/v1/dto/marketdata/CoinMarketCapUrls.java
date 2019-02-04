@@ -6,14 +6,14 @@ import java.util.List;
 
 public final class CoinMarketCapUrls {
 
-  private List<String> website;
-  private List<String> explorer;
-  private List<String> sourceCode;
-  private List<String> messageBoard;
-  private List<Object> chat;
-  private List<Object> announcement;
-  private List<String> reddit;
-  private List<String> twitter;
+  private final List<String> website;
+  private final List<String> explorer;
+  private final List<String> sourceCode;
+  private final List<String> messageBoard;
+  private final List<Object> chat;
+  private final List<Object> announcement;
+  private final List<String> reddit;
+  private final List<String> twitter;
 
   public CoinMarketCapUrls(
       @JsonProperty("website") List<String> website,

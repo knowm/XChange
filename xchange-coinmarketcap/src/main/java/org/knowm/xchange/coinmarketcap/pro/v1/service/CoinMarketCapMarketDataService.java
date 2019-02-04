@@ -1,8 +1,8 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyData;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyInfo;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.wrapper.CoinMarketCapCurrencyData;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
