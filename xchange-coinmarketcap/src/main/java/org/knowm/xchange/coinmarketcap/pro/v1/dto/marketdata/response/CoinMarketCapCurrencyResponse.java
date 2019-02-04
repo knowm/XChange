@@ -48,28 +48,28 @@ public final class CoinMarketCapCurrencyResponse {
         + '}';
   }
 
-  public static class CoinMarketCapCurrencyDataDeserializer
-          extends JsonDeserializer<Map<String, CoinMarketCapCurrencyInfo>> {
+    public static class CoinMarketCapCurrencyDataDeserializer
+            extends JsonDeserializer<Map<String, CoinMarketCapCurrencyInfo>> {
 
-    @Override
-    public Map<String, CoinMarketCapCurrencyInfo> deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException {
-      JsonNode jsonNode = jp.getCodec().readTree(jp);
-      return deserializeFromNode(jsonNode);
-    }
+        @Override
+        public Map<String, CoinMarketCapCurrencyInfo> deserialize(JsonParser jp, DeserializationContext ctxt)
+                throws IOException {
+            JsonNode jsonNode = jp.getCodec().readTree(jp);
+            return deserializeFromNode(jsonNode);
+        }
 
-    static Map<String, CoinMarketCapCurrencyInfo> deserializeFromNode(JsonNode jsonNode)
-            throws IOException {
-      Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
-      Map<String, CoinMarketCapCurrencyInfo> currencyData = new HashMap<>();
-      ObjectMapper mapper = new ObjectMapper();
-      while (iterator.hasNext()) {
-        Map.Entry<String, JsonNode> entry = iterator.next();
-        CoinMarketCapCurrencyInfo currency =
-                mapper.readValue(entry.getValue().toString(), CoinMarketCapCurrencyInfo.class);
-        currencyData.put(entry.getKey(), currency);
-      }
-      return currencyData;
+        static Map<String, CoinMarketCapCurrencyInfo> deserializeFromNode(JsonNode jsonNode)
+                throws IOException {
+            Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
+            Map<String, CoinMarketCapCurrencyInfo> currencyData = new HashMap<>();
+            ObjectMapper mapper = new ObjectMapper();
+            while (iterator.hasNext()) {
+                Map.Entry<String, JsonNode> entry = iterator.next();
+                CoinMarketCapCurrencyInfo currency =
+                        mapper.readValue(entry.getValue().toString(), CoinMarketCapCurrencyInfo.class);
+                currencyData.put(entry.getKey(), currency);
+            }
+            return currencyData;
+        }
     }
-  }
 }
