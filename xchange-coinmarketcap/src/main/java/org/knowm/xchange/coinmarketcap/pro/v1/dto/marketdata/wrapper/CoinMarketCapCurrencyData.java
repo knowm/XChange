@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
+package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParser;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyInfo;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,21 +15,17 @@ import java.util.Iterator;
 import java.util.Map;
 
 @JsonDeserialize(using = CoinMarketCapCurrencyData.CoinMarketCapCurrencyDataDeserializer.class)
-public class CoinMarketCapCurrencyData {
+public final class CoinMarketCapCurrencyData {
 
   @JsonIgnore
-  Map<String, CoinMarketCapCurrencyInfo> currencyMap;
+  private final Map<String, CoinMarketCapCurrencyInfo> currencyMap;
 
-  public CoinMarketCapCurrencyData(Map<String, CoinMarketCapCurrencyInfo> currencyMap) {
+  private CoinMarketCapCurrencyData(Map<String, CoinMarketCapCurrencyInfo> currencyMap) {
     this.currencyMap = currencyMap;
   }
 
   public Map<String, CoinMarketCapCurrencyInfo> getCurrencyMap() {
     return currencyMap;
-  }
-
-  public void setCurrencyMap(Map<String, CoinMarketCapCurrencyInfo> currencyMap) {
-    this.currencyMap = currencyMap;
   }
 
   @Override
@@ -46,7 +43,7 @@ public class CoinMarketCapCurrencyData {
       return deserializeFromNode(jsonNode);
     }
 
-    public static CoinMarketCapCurrencyData deserializeFromNode(JsonNode jsonNode)
+    static CoinMarketCapCurrencyData deserializeFromNode(JsonNode jsonNode)
         throws IOException {
       Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
       Map<String, CoinMarketCapCurrencyInfo> currencyMap = new HashMap<>();

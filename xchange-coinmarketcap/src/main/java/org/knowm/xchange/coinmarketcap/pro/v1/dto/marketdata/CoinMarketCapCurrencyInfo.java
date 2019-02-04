@@ -6,16 +6,16 @@ import java.util.List;
 
 public final class CoinMarketCapCurrencyInfo {
 
-  private String symbol;
-  private CoinMarketCapUrls urls;
-  private String name;
-  private String logo;
-  private int id;
-  private String category;
-  private String slug;
-  private CoinMarketCapPlatform platform;
-  private List<String> tags;
-  private String dateAdded;
+  private final String symbol;
+  private final CoinMarketCapUrls urls;
+  private final String name;
+  private final String logo;
+  private final int id;
+  private final String category;
+  private final String slug;
+  private final CoinMarketCapPlatform platform;
+  private final List<String> tags;
+  private final String dateAdded;
 
   public CoinMarketCapCurrencyInfo(
       @JsonProperty("symbol") String symbol,
