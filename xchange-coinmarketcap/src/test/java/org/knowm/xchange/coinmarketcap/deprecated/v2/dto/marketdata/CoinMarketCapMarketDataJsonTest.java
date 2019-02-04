@@ -57,12 +57,12 @@ public class CoinMarketCapMarketDataJsonTest {
 
       // Use Jackson to parse it
       ObjectMapper mapper = new ObjectMapper();
-      CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, CoinMarketCapCurrency.class);
-      List<CoinMarketCapCurrency> currencies = mapper.readValue(is, collectionType);
+      CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, CoinMarketCapCurrencyInfo.class);
+      List<CoinMarketCapCurrencyInfo> currencies = mapper.readValue(is, collectionType);
 
       assertThat(currencies.size()).isEqualTo(161);
 
-      CoinMarketCapCurrency currency = currencies.get(160);
+      CoinMarketCapCurrencyInfo currency = currencies.get(160);
       assertThat(currency.getIsoCode()).isEqualTo("ZWL");
       assertThat(currency.getName()).isEqualTo("Zimbabwean Dollar (ZWL)");
     }
