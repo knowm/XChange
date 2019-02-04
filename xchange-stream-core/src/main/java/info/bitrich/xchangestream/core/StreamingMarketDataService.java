@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.core;
 
 import io.reactivex.Observable;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
@@ -10,8 +11,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-
-import java.util.Currency;
 
 
 public interface StreamingMarketDataService {

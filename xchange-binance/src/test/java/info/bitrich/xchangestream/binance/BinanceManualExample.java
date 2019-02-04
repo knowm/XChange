@@ -53,6 +53,7 @@ public class BinanceManualExample {
 
         Disposable orderChanges = null;
         Disposable userTrades = null;
+        Disposable balances = null;
         Disposable accountInfo =  null;
         Disposable executionReports = null;
 
@@ -67,6 +68,9 @@ public class BinanceManualExample {
             userTrades = exchange.getStreamingMarketDataService()
                 .getUserTrades()
                 .subscribe(trade -> LOG.info("User trade: {}", trade));
+            balances = exchange.getStreamingMarketDataService()
+                .getBalanceChanges()
+                .subscribe(trade -> LOG.info("Balance: {}", trade));
 
             // Level 2 (exchange-specific) APIs
             executionReports = exchange.getStreamingMarketDataService()
@@ -92,6 +96,7 @@ public class BinanceManualExample {
         if (apiKey != null) {
             orderChanges.dispose();
             userTrades.dispose();
+            balances.dispose();
             accountInfo.dispose();
             executionReports.dispose();
         }
