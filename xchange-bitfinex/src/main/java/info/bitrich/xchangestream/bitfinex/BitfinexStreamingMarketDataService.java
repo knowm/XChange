@@ -20,13 +20,18 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.reactivex.Observable;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +45,8 @@ import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTrades;
  * Created by Lukas Zaoralek on 7.11.17.
  */
 public class BitfinexStreamingMarketDataService implements StreamingMarketDataService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingMarketDataService.class);
 
     private final BitfinexStreamingService service;
 
@@ -115,7 +122,11 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
     public Observable<Order> getOrderChanges() {
         return getRawAuthenticatedOrders()
                 .filter(o -> o.getId() != 0)
-                .map(BitfinexStreamingAdapters::adaptOrder);
+                .map(BitfinexStreamingAdapters::adaptOrder)
+                .doOnNext(o -> {
+                    service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().base.getCurrencyCode());
+                    service.scheduleCalculatedBalanceFetch(o.getCurrencyPair().counter.getCurrencyCode());
+                });
     }
 
     @Override
@@ -124,16 +135,45 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
                 .filter(o -> currencyPair.equals(o.getCurrencyPair()));
     }
 
+    /**
+     * Gets a stream of all user trades to which we are subscribed.
+     *
+     * @return The stream of user trades.
+     */
     public Observable<UserTrade> getUserTrades() {
         return getRawAuthenticatedTrades()
                 .filter(o -> o.getId() != 0)
-                .map(BitfinexStreamingAdapters::adaptUserTrade);
+                .map(BitfinexStreamingAdapters::adaptUserTrade)
+                .doOnNext(t -> {
+                    service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().base.getCurrencyCode());
+                    service.scheduleCalculatedBalanceFetch(t.getCurrencyPair().counter.getCurrencyCode());
+                });
     }
 
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         return getUserTrades()
                 .filter(t -> currencyPair.equals(t.getCurrencyPair()));
+    }
+
+    @Override
+    public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+        if (args.length == 0 || !String.class.isInstance(args[0])) {
+            throw new ExchangeException("Specify wallet id to monitor balance stream");
+        }
+        String walletId = (String) args[0];
+        return getRawAuthenticatedBalances()
+                .filter(b -> b.getWalletType().equalsIgnoreCase(walletId))
+                .filter(b -> currency.getCurrencyCode().equals(b.getCurrency()))
+                .filter(b -> {
+                    if (b.getBalanceAvailable() == null) {
+                        LOG.debug("Ignoring uncalculated balance on {}-{}, scheduling calculated fetch", walletId, b.getCurrency());
+                        service.scheduleCalculatedBalanceFetch(b.getCurrency());
+                        return false;
+                    }
+                    return true;
+                })
+                .map(BitfinexStreamingAdapters::adaptBalance);
     }
 
     public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {

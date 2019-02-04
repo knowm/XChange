@@ -118,7 +118,6 @@ public class CoinbaseProWebSocketSubscriptionMessage {
             ArrayList<CurrencyPair> userCurrencies = new ArrayList<>();
             Stream.of(
                     productSubscription.getUserTrades().stream(),
-                    productSubscription.getBalances().stream(),
                     productSubscription.getOrders().stream()
                 )
                 .flatMap(s -> s)
