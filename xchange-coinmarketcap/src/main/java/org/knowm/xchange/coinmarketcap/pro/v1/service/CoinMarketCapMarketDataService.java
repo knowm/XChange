@@ -2,11 +2,11 @@ package org.knowm.xchange.coinmarketcap.pro.v1.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyInfo;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.wrapper.CoinMarketCapCurrencyData;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw
     implements MarketDataService {
@@ -16,8 +16,8 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
   }
 
   public CoinMarketCapCurrencyInfo getCurrencyInfo(Currency currency) throws IOException {
-    CoinMarketCapCurrencyData currencyData =
+    Map<String, CoinMarketCapCurrencyInfo> currencyData =
         super.getCoinMarketCapCurrencyInfo(currency).getCurrencyData();
-    return currencyData.getCurrencyMap().get(currency.getSymbol());
+    return currencyData.get(currency.getSymbol());
   }
 }
