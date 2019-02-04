@@ -37,6 +37,8 @@ public class BinanceManualExample {
 
         exchange.connect(subscription).blockingAwait();
 
+        LOG.info("Subscribing public channels");
+
         Disposable tickers = exchange.getStreamingMarketDataService()
                 .getTicker(CurrencyPair.ETH_BTC)
                 .subscribe(ticker -> {
@@ -51,25 +53,36 @@ public class BinanceManualExample {
 
         Disposable orderChanges = null;
         Disposable userTrades = null;
+        Disposable accountInfo =  null;
+        Disposable executionReports = null;
 
         if (apiKey != null) {
+
+            LOG.info("Subscribing authenticated channels");
+
+            // Level 1 (generic) APIs
             orderChanges = exchange.getStreamingMarketDataService()
                 .getOrderChanges()
-                .subscribe(oc -> {
-                    LOG.info("Order change: {}", oc);
-                });
+                .subscribe(oc -> LOG.info("Order change: {}", oc));
             userTrades = exchange.getStreamingMarketDataService()
                 .getUserTrades()
-                .subscribe(trade -> {
-                    LOG.info("User trade: {}", trade);
-                });
+                .subscribe(trade -> LOG.info("User trade: {}", trade));
+
+            // Level 2 (exchange-specific) APIs
+            executionReports = exchange.getStreamingMarketDataService()
+                .getRawExecutionReports()
+                .subscribe(report -> LOG.info("Subscriber got execution report: {}", report));
+            accountInfo = exchange.getStreamingMarketDataService()
+                .getRawAccountInfo()
+                .subscribe(accInfo -> LOG.info("Subscriber got account Info (not printing, often causes console issues in IDEs)"));
+
         }
 
         Disposable orderbooks = orderbooks(exchange, "one");
         Thread.sleep(5000);
-
         Disposable orderbooks2 = orderbooks(exchange, "two");
-        Thread.sleep(10000);
+
+        Thread.sleep(1000000);
 
         tickers.dispose();
         trades.dispose();
@@ -79,12 +92,11 @@ public class BinanceManualExample {
         if (apiKey != null) {
             orderChanges.dispose();
             userTrades.dispose();
+            accountInfo.dispose();
+            executionReports.dispose();
         }
 
-        Thread.sleep(1000000);
-
         exchange.disconnect().blockingAwait();
-
     }
 
     private static Disposable orderbooks(StreamingExchange exchange, String identifier) {
