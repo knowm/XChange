@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
+import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
@@ -30,6 +31,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -44,9 +46,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -166,6 +168,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
+    }
+
+    public Observable<Balance> getBalanceChanges() {
+        return getRawAccountInfo()
+                .map(OutboundAccountInfoBinanceWebsocketTransaction::getBalances)
+                .flatMap((List<BinanceWebsocketBalance> balances) -> Observable.fromIterable(balances))
+                .map(BinanceWebsocketBalance::toBalance);
+    }
+
+    @Override
+    public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+        return getBalanceChanges().filter(t -> t.getCurrency().equals(currency));
     }
 
     private static String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
