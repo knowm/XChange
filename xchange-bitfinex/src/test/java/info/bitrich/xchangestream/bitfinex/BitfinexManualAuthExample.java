@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
