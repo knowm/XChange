@@ -49,7 +49,7 @@ public class AcxMapper {
     return orders.stream().map(o -> mapOrder(currencyPair, o)).collect(Collectors.toList());
   }
 
-  private LimitOrder mapOrder(CurrencyPair currencyPair, AcxOrder order) {
+  public LimitOrder mapOrder(CurrencyPair currencyPair, AcxOrder order) {
     OrderType type = mapOrderType(order);
     return new LimitOrder.Builder(type, currencyPair)
         .id(order.id)

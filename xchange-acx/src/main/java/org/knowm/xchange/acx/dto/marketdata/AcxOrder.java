@@ -31,7 +31,7 @@ public class AcxOrder {
 
   public final int tradesCount;
   /** the market the order belongs to, like ‘btcaud’ */
-  private final String marker;
+  public final String market;
 
   public AcxOrder(
       @JsonProperty("id") String id,
@@ -52,7 +52,7 @@ public class AcxOrder {
     this.price = price;
     this.avgPrice = avgPrice;
     this.state = state;
-    this.marker = market;
+    this.market = market;
     this.createdAt = createdAt;
     this.volume = volume;
     this.remainingVolume = remainingVolume;
