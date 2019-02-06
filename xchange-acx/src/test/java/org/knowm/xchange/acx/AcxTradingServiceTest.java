@@ -1,9 +1,10 @@
 package org.knowm.xchange.acx;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -80,7 +81,7 @@ public class AcxTradingServiceTest {
 
     boolean result = service.cancelOrder(orderId);
 
-    assertEquals(true, result);
+    assertTrue(result);
   }
 
   private <T> T read(String path, Class<T> clz) throws IOException {
