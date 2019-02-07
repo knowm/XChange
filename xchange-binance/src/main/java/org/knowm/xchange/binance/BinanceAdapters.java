@@ -3,6 +3,7 @@ package org.knowm.xchange.binance;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -130,7 +131,13 @@ public class BinanceAdapters {
           order.executedQty.compareTo(ZERO) == 0) {
         averagePrice = order.price;
       } else {
-        averagePrice = order.cummulativeQuoteQty.divide(order.executedQty);
+        // This is how Binance advises deriving the average price.
+        // Regarding the scale, we just avoid adding digits and
+        // round to get there.
+        averagePrice = order.cummulativeQuoteQty.divide(
+            order.executedQty,
+            Math.max(order.cummulativeQuoteQty.scale(), order.executedQty.scale()),
+            RoundingMode.HALF_UP);
       }
     }
 
