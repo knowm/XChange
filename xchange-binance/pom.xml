@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>xchange-binance-custom</artifactId>
-    <version>4.3.8.3</version>
+    <version>4.3.8.5</version>
 
     <name>XChange Binance</name>
     <description>XChange implementation for the Binance Exchange</description>
