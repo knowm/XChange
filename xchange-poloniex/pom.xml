@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>xchange-poloniex-custom</artifactId>
-    <version>4.3.14.3</version>
+    <version>4.3.14.1</version>
     <name>XChange Poloniex</name>
     <description>XChange implementation for the Poloniex Exchange</description>
 

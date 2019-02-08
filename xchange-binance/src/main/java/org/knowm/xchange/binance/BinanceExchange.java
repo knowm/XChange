@@ -10,7 +10,6 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.meta.BinanceCurrencyPairMetaData;
-import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -90,11 +89,11 @@ public class BinanceExchange extends BaseExchange {
         CurrencyPair pair = price.getCurrencyPair();
 
         for (Symbol symbol : symbols) {
-            // hardcode, update lib version from head repository
-            if (!"TRADING".equals(symbol.getStatus())) {
+          // hardcode, update lib version from head repository
+          if (!"TRADING".equals(symbol.getStatus())) {
             continue;
-            }
-            
+          }
+
           if (symbol
               .getSymbol()
               .equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
@@ -104,8 +103,7 @@ public class BinanceExchange extends BaseExchange {
             int pairPrecision = 8;
             int amountPrecision = 8;
 
-
-              BigDecimal minQty = null;
+            BigDecimal minQty = null;
             BigDecimal maxQty = null;
             BigDecimal minNotional = BigDecimal.ZERO;
 
@@ -119,7 +117,7 @@ public class BinanceExchange extends BaseExchange {
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
                 maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
-                  minNotional = new BigDecimal(filter.getMinNotional());
+                minNotional = new BigDecimal(filter.getMinNotional());
               }
             }
 
@@ -129,7 +127,7 @@ public class BinanceExchange extends BaseExchange {
                     new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                     minQty, // Min amount
                     maxQty, // Max amount
-                        pairPrecision, // precision
+                    pairPrecision, // precision
                     minNotional,
                     null /* TODO get fee tiers, although this is not necessary now
                          because their API returns current fee directly */));

@@ -77,7 +77,7 @@ public class BinanceAdapters {
     }
   }
 
-    public static Order.OrderStatus adaptOrderStatus(OrderStatus orderStatus) {
+  public static Order.OrderStatus adaptOrderStatus(BinanceOrderStatus orderStatus) {
     switch (orderStatus) {
       case NEW:
         return Order.OrderStatus.NEW;
@@ -122,17 +122,16 @@ public class BinanceAdapters {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
-      Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
+    Order.OrderStatus orderStatus = adaptOrderStatus(order.bStatus);
     final BigDecimal averagePrice;
-      if (order.executedQty.signum() == 0
-              || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+    if (order.executedQty.signum() == 0 || order.bType.equals(BinanceOrderType.MARKET)) {
       averagePrice = BigDecimal.ZERO;
     } else {
       averagePrice = order.price;
     }
 
     Order result;
-      if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
+    if (order.bType.equals(BinanceOrderType.MARKET)) {
       result =
           new MarketOrder(
               type,
@@ -144,8 +143,8 @@ public class BinanceAdapters {
               order.executedQty,
               BigDecimal.ZERO,
               orderStatus);
-      } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
-              || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
+    } else if (order.bType.equals(BinanceOrderType.LIMIT)
+        || order.bType.equals(BinanceOrderType.LIMIT_MAKER)) {
       result =
           new LimitOrder(
               type,

@@ -7,7 +7,7 @@
 		<version>4.3.14</version>
 	</parent>
 
-	<artifactId>xchange-core</artifactId>
+	<artifactId>xchange-core-custom</artifactId>
 
 	<name>XChange Core</name>
 	<description>Core functionality used by all other modules.</description>
@@ -19,6 +19,17 @@
 		<name>Knowm Inc.</name>
 		<url>http://knowm.org/open-source/xchange/</url>
 	</organization>
+
+	<distributionManagement>
+		<repository>
+			<id>myMavenRepoWrite</id>
+			<url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+		</repository>
+		<snapshotRepository>
+			<id>myMavenRepoWrite</id>
+			<url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>

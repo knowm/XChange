@@ -13,8 +13,6 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.*;
-import org.knowm.xchange.binance.BinanceErrorAdapter;
-import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
@@ -109,29 +107,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
 
-    return placeOrder(OrderType.MARKET, mo, null, null, null);
-  }
-
-  @Override
-  public String placeLimitOrder(LimitOrder lo) throws IOException {
-    TimeInForce tif = TimeInForce.GTC;
-    OrderType type;
-    if (lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
-      type = OrderType.LIMIT_MAKER;
-      tif = null;
-    } else {
-      type = OrderType.LIMIT;
-      Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-      Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
-
-      while (orderFlagsIterator.hasNext()) {
-        IOrderFlags orderFlag = orderFlagsIterator.next();
-        if (orderFlag instanceof TimeInForce) {
-          tif = (TimeInForce) orderFlag;
-        }
-      }
-    }
-    return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
+    return Long.toString(placeOrder(OrderType.MARKET, mo, null, null, null).orderId);
   }
 
   @Override
@@ -154,33 +130,58 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } else {
       orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
     }
-    return placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif);
+    return Long.toString(
+        placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif).orderId);
   }
 
-  private String placeOrder(
+  private BinanceNewOrder placeOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {
     try {
       Long recvWindow =
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-      BinanceNewOrder newOrder =
-          newOrder(
-              order.getCurrencyPair(),
-              BinanceAdapters.convert(order.getType()),
-              type,
-              tif,
-              order.getOriginalAmount(),
-              limitPrice,
-              getClientOrderId(order),
-              stopPrice,
-              null,
-              recvWindow,
-              getTimestamp());
-      return Long.toString(newOrder.orderId);
+      return newOrder(
+          order.getCurrencyPair(),
+          BinanceAdapters.convert(order.getType()),
+          type,
+          tif,
+          order.getOriginalAmount(),
+          limitPrice,
+          getClientOrderId(order),
+          stopPrice,
+          null,
+          recvWindow,
+          getTimestamp());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder lo) throws IOException {
+    return Long.toString(placeLimitOrder2(lo).orderId);
+  }
+
+  public BinanceNewOrder placeLimitOrder2(LimitOrder lo) throws IOException {
+    TimeInForce tif = TimeInForce.GTC;
+    OrderType type;
+    if (lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
+      type = OrderType.LIMIT_MAKER;
+      tif = null;
+    } else {
+      type = OrderType.LIMIT;
+      Set<IOrderFlags> orderFlags = lo.getOrderFlags();
+      Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+
+      while (orderFlagsIterator.hasNext()) {
+        IOrderFlags orderFlag = orderFlagsIterator.next();
+        if (orderFlag instanceof TimeInForce) {
+          tif = (TimeInForce) orderFlag;
+        }
+      }
+    }
+    return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
   }
 
   public void placeTestOrder(
