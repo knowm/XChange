@@ -25,9 +25,9 @@ import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrderType;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import si.mazi.rescu.ParamsDigest;
 
@@ -62,7 +62,7 @@ public interface BinanceAuthenticated extends Binance {
   BinanceNewOrder newOrder(
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
-      @FormParam("type") BinanceOrderType type,
+      @FormParam("type") OrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
       @FormParam("price") BigDecimal price,
@@ -100,7 +100,7 @@ public interface BinanceAuthenticated extends Binance {
   Object testNewOrder(
       @FormParam("symbol") String symbol,
       @FormParam("side") OrderSide side,
-      @FormParam("type") BinanceOrderType type,
+      @FormParam("type") OrderType type,
       @FormParam("timeInForce") TimeInForce timeInForce,
       @FormParam("quantity") BigDecimal quantity,
       @FormParam("price") BigDecimal price,
@@ -190,6 +190,25 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
+  @Path("api/v3/openOrders")
+  /**
+   * Get all open orders without a symbol.
+   *
+   * @param symbol
+   * @param recvWindow optional
+   * @param timestamp mandatory
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  List<BinanceOrder> openOrders(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
   @Path("api/v3/allOrders")
   /**
    * Get all account orders; active, canceled, or filled. <br>
@@ -197,7 +216,7 @@ public interface BinanceAuthenticated extends Binance {
    * returned.
    *
    * @param symbol
-   * @param orderId optionanl
+   * @param orderId optional
    * @param limit optional
    * @param recvWindow optional
    * @param timestamp

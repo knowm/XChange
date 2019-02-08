@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,9 +17,6 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -66,51 +65,65 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Long recvWindow =
-        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
-    List<Balance> balances =
-        acc.balances
-            .stream()
-            .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
-            .collect(Collectors.toList());
-    return new AccountInfo(new Wallet(balances));
+    try {
+      Long recvWindow =
+          (Long)
+              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+      BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
+      List<Balance> balances =
+          acc.balances
+              .stream()
+              .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
+              .collect(Collectors.toList());
+      return new AccountInfo(new Wallet(balances));
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    return super.withdraw(currency.getCurrencyCode(), address, amount);
+      throws IOException {
+    try {
+      return super.withdraw(currency.getCurrencyCode(), address, amount);
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
-    if (!(params instanceof DefaultWithdrawFundsParams)) {
-      throw new RuntimeException("DefaultWithdrawFundsParams must be provided.");
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+    try {
+      if (!(params instanceof DefaultWithdrawFundsParams)) {
+        throw new IllegalArgumentException("DefaultWithdrawFundsParams must be provided.");
+      }
+      String id = null;
+      if (params instanceof RippleWithdrawFundsParams) {
+        RippleWithdrawFundsParams rippleParams = null;
+        rippleParams = (RippleWithdrawFundsParams) params;
+        id =
+            super.withdraw(
+                rippleParams.getCurrency().getCurrencyCode(),
+                rippleParams.getAddress(),
+                rippleParams.getTag(),
+                rippleParams.getAmount());
+      } else {
+        DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
+        id = super.withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
+      }
+      return id;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
     }
-    String id = null;
-    if (params instanceof RippleWithdrawFundsParams) {
-      RippleWithdrawFundsParams rippleParams = null;
-      rippleParams = (RippleWithdrawFundsParams) params;
-      id =
-          super.withdraw(
-              rippleParams.getCurrency().getCurrencyCode(),
-              rippleParams.getAddress(),
-              rippleParams.getTag(),
-              rippleParams.getAmount());
-    } else {
-      DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-      id = super.withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
-    }
-    return id;
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return super.requestDepositAddress(currency).address;
+    try {
+      return super.requestDepositAddress(currency).address;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -120,80 +133,85 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    String asset = null;
-    if (params instanceof TradeHistoryParamCurrency) {
-      TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
-      if (cp.getCurrency() != null) {
-        asset = cp.getCurrency().getCurrencyCode();
+    try {
+      String asset = null;
+      if (params instanceof TradeHistoryParamCurrency) {
+        TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
+        if (cp.getCurrency() != null) {
+          asset = cp.getCurrency().getCurrencyCode();
+        }
       }
-    }
-    Long recvWindow =
-        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+      Long recvWindow =
+          (Long)
+              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
-    boolean withdrawals = true;
-    boolean deposits = true;
+      boolean withdrawals = true;
+      boolean deposits = true;
 
-    Long startTime = null;
-    Long endTime = null;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
-      if (tp.getStartTime() != null) {
-        startTime = tp.getStartTime().getTime();
+      Long startTime = null;
+      Long endTime = null;
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
+        if (tp.getStartTime() != null) {
+          startTime = tp.getStartTime().getTime();
+        }
+        if (tp.getEndTime() != null) {
+          endTime = tp.getEndTime().getTime();
+        }
       }
-      if (tp.getEndTime() != null) {
-        endTime = tp.getEndTime().getTime();
+
+      if (params instanceof HistoryParamsFundingType) {
+        HistoryParamsFundingType f = (HistoryParamsFundingType) params;
+        if (f.getType() != null) {
+          withdrawals = f.getType() == Type.WITHDRAWAL;
+          deposits = f.getType() == Type.DEPOSIT;
+        }
       }
-    }
 
-    if (params instanceof HistoryParamsFundingType) {
-      HistoryParamsFundingType f = (HistoryParamsFundingType) params;
-      if (f.getType() != null) {
-        withdrawals = f.getType() == Type.WITHDRAWAL;
-        deposits = f.getType() == Type.DEPOSIT;
+      List<FundingRecord> result = new ArrayList<>();
+      if (withdrawals) {
+        super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+            .forEach(
+                w -> {
+                  result.add(
+                      new FundingRecord(
+                          w.address,
+                          new Date(w.applyTime),
+                          Currency.getInstance(w.asset),
+                          w.amount,
+                          w.id,
+                          w.txId,
+                          Type.WITHDRAWAL,
+                          withdrawStatus(w.status),
+                          null,
+                          null,
+                          null));
+                });
       }
-    }
 
-    List<FundingRecord> result = new ArrayList<>();
-    if (withdrawals) {
-      super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp())
-          .forEach(
-              w -> {
-                result.add(
-                    new FundingRecord(
-                        w.address,
-                        new Date(w.applyTime),
-                        Currency.getInstance(w.asset),
-                        w.amount,
-                        w.id,
-                        w.txId,
-                        Type.WITHDRAWAL,
-                        withdrawStatus(w.status),
-                        null,
-                        null,
-                        null));
-              });
-    }
+      if (deposits) {
+        super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+            .forEach(
+                d -> {
+                  result.add(
+                      new FundingRecord(
+                          d.address,
+                          new Date(d.insertTime),
+                          Currency.getInstance(d.asset),
+                          d.amount,
+                          null,
+                          d.txId,
+                          Type.DEPOSIT,
+                          depositStatus(d.status),
+                          null,
+                          null,
+                          null));
+                });
+      }
 
-    if (deposits) {
-      super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp())
-          .forEach(
-              d -> {
-                result.add(
-                    new FundingRecord(
-                        d.address,
-                        new Date(d.insertTime),
-                        Currency.getInstance(d.asset),
-                        d.amount,
-                        null,
-                        d.txId,
-                        Type.DEPOSIT,
-                        depositStatus(d.status),
-                        null,
-                        null,
-                        null));
-              });
+      return result;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
     }
-
-    return result;
   }
 }

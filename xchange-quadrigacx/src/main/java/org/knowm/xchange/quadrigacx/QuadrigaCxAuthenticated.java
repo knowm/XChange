@@ -100,6 +100,30 @@ public interface QuadrigaCxAuthenticated {
       throws QuadrigaCxException, IOException;
 
   @POST
+  @Path("bitcoincash_deposit_address")
+  QuadrigaCxDepositAddress getBitcoinCachDepositAddress(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws QuadrigaCxException, IOException;
+
+  @POST
+  @Path("bitcoingold_deposit_address")
+  QuadrigaCxDepositAddress getBitcoinGoldDepositAddress(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws QuadrigaCxException, IOException;
+
+  @POST
+  @Path("litecoin_deposit_address")
+  QuadrigaCxDepositAddress getLitecoinDepositAddress(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws QuadrigaCxException, IOException;
+
+  @POST
   @Path("bitcoin_withdrawal")
   String withdrawBitcoin(
       @FormParam("key") String apiKey,
@@ -112,6 +136,36 @@ public interface QuadrigaCxAuthenticated {
   @POST
   @Path("ether_withdrawal")
   String withdrawEther(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws QuadrigaCxException, IOException;
+
+  @POST
+  @Path("bitcoincash_withdrawal")
+  String withdrawBitcoinCach(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws QuadrigaCxException, IOException;
+
+  @POST
+  @Path("bitcoingold_withdrawal")
+  String withdrawBitcoinGold(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") QuadrigaCxDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws QuadrigaCxException, IOException;
+
+  @POST
+  @Path("litecoin_withdrawal")
+  String withdrawLitecoin(
       @FormParam("key") String apiKey,
       @FormParam("signature") QuadrigaCxDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,

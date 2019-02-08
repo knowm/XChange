@@ -1,6 +1,7 @@
 package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -57,6 +58,17 @@ public class BinanceAdapters {
     }
   }
 
+  public static CurrencyPair convert(String symbol) {
+    // Iterate by base currency priority at binance.
+    for (Currency base : Arrays.asList(Currency.BTC, Currency.ETH, Currency.BNB, Currency.USDT)) {
+      if (symbol.contains(base.toString())) {
+        String counter = symbol.replace(base.toString(), "");
+        return new CurrencyPair(base, new Currency(counter));
+      }
+    }
+    throw new IllegalArgumentException("Could not parse currency pair from '" + symbol + "'");
+  }
+
   public static long id(String id) {
     try {
       return Long.valueOf(id);
@@ -98,8 +110,6 @@ public class BinanceAdapters {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
     } else if (symbol.endsWith("USDS")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
-    } else if (symbol.endsWith("ALTS")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "ALTS");
     } else if (symbol.endsWith("USDC")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
     } else {
@@ -133,7 +143,8 @@ public class BinanceAdapters {
               order.executedQty,
               BigDecimal.ZERO,
               orderStatus);
-    } else if (order.bType.equals(BinanceOrderType.LIMIT)) {
+    } else if (order.bType.equals(BinanceOrderType.LIMIT)
+        || order.bType.equals(BinanceOrderType.LIMIT_MAKER)) {
       result =
           new LimitOrder(
               type,

@@ -25,5 +25,5 @@ public interface ReturnOpenOrdersApi {
       notes = "",
       tags = "trade")
   @ApiResponses(@ApiResponse(code = 200, message = "", response = ReturnOpenOrdersResponse.class))
-  ReturnOpenOrdersResponse openOrders(OpenOrdersReq openOrdersReq) throws Exception;
+  ReturnOpenOrdersResponse openOrders(OpenOrdersReq openOrdersReq);
 }

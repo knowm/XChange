@@ -6,6 +6,8 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
@@ -14,6 +16,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistor
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
@@ -29,6 +33,21 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public BitfinexTradingFeeResponse[] getBitfinexDynamicTradingFees() throws IOException {
+    try {
+      BitfinexTradingFeeResponse[] response =
+          bitfinex.tradingFees(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new BitfinexTradingFeesRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue())));
+      return response;
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e);
+    }
   }
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
@@ -154,5 +173,25 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         signatureCreator,
         new BitfinexNonceOnlyRequest(
             "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
+  }
+
+  public BitfinexBalanceHistoryResponse[] getBitfinexBalanceHistory(
+      String currency, String wallet, Long since, Long until, int limit) throws IOException {
+    try {
+      return bitfinex.balanceHistory(
+          apiKey,
+          payloadCreator,
+          signatureCreator,
+          new BitfinexBalanceHistoryRequest(
+              String.valueOf(exchange.getNonceFactory().createValue()),
+              currency,
+              since,
+              until,
+              limit,
+              wallet));
+
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
+    }
   }
 }

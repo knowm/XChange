@@ -54,7 +54,7 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
       CurrencyPairMetaData metaData =
-          new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null);
+          new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null, null);
       currencyPairs.merge(
           currencyPair,
           metaData,
@@ -68,7 +68,10 @@ public class CexIOExchange extends BaseExchange implements Exchange {
                   newMetaData.getMaximumAmount() != null
                       ? newMetaData.getMaximumAmount()
                       : oldMetaData.getMaximumAmount(),
-                  oldMetaData.getPriceScale()));
+                  oldMetaData.getPriceScale(),
+                  newMetaData.getFeeTiers() != null
+                      ? newMetaData.getFeeTiers()
+                      : oldMetaData.getFeeTiers()));
     }
     logger.info("remoteInit successful for {}", getExchangeSpecification().getExchangeName());
   }

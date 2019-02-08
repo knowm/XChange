@@ -1,7 +1,11 @@
 package org.knowm.xchange.bitfinex.v2;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,10 +13,9 @@ import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
+import org.knowm.xchange.bitfinex.v2.service.BitfinexAccountService;
+import org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataService;
+import org.knowm.xchange.bitfinex.v2.service.BitfinexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
@@ -38,8 +41,8 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.bitfinex.com/");
     exchangeSpecification.setHost("api.bitfinex.com");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("BitFinex");
-    exchangeSpecification.setExchangeDescription("BitFinex is a bitcoin exchange.");
+    exchangeSpecification.setExchangeName("Bitfinex");
+    exchangeSpecification.setExchangeDescription("Bitfnex is a cryptocurrency and fiat exchange.");
 
     return exchangeSpecification;
   }
@@ -53,21 +56,33 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    BitfinexMarketDataServiceRaw dataService =
-        (BitfinexMarketDataServiceRaw) this.marketDataService;
+    // TODO: replace these v1 services with v2 ones once implemented.
+    org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw dataService =
+        new org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw(this);
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 
+    // Get the last-price of each pair. It is needed to infer XChange's priceScale out of Bitfinex's
+    // pricePercision
+    org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw dataServiceV2 =
+        new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
+    Map<CurrencyPair, BigDecimal> lastPrices =
+        Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
+            .map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
+            .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
+
     final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails);
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails, lastPrices);
 
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
       // Additional remoteInit configuration for authenticated instances
-      BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
+      org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService accountService =
+          new org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService(this);
       final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
       exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
 
-      BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
+      org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService tradeService =
+          new org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService(this);
       final BitfinexAccountInfosResponse[] bitfinexAccountInfos =
           tradeService.getBitfinexAccountInfos();
 

@@ -11,6 +11,7 @@ import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
+import org.knowm.xchange.bibox.dto.trade.BiboxDeals;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrder;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBookEntry;
@@ -26,6 +27,8 @@ import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -132,7 +135,7 @@ public class BiboxAdapters {
     for (BiboxMarket biboxMarket : markets) {
       pairMeta.put(
           new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
-          new CurrencyPairMetaData(null, null, null, null));
+          new CurrencyPairMetaData(null, null, null, null, null));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
@@ -216,6 +219,39 @@ public class BiboxAdapters {
         return Status.FAILED;
       default:
         throw new RuntimeException("Unknown status of bibox deposit: " + status);
+    }
+  }
+
+  public static Trades adaptDeals(List<BiboxDeals> biboxDeals, CurrencyPair currencyPair) {
+    List<Trade> trades =
+        biboxDeals
+            .stream()
+            .map(
+                d ->
+                    new Trade(
+                        convertSide(d.getSide()),
+                        d.getAmount(),
+                        currencyPair,
+                        d.getPrice(),
+                        new Date(d.getTime()),
+                        d.getId()))
+            .collect(Collectors.toList());
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+  /**
+   * transaction side，1-bid，2-ask
+   *
+   * @param side
+   * @return
+   */
+  private static OrderType convertSide(int side) {
+    switch (side) {
+      case 1:
+        return OrderType.BID;
+      case 2:
+        return OrderType.ASK;
+      default:
+        throw new RuntimeException("Unknown order type (side) of bibox deal: " + side);
     }
   }
 }

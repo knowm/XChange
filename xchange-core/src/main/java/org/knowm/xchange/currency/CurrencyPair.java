@@ -154,6 +154,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XMR_BTC = new CurrencyPair(Currency.XMR, Currency.BTC);
   public static final CurrencyPair XMR_ETH = new CurrencyPair(Currency.XMR, Currency.ETH);
   public static final CurrencyPair XMR_USD = new CurrencyPair(Currency.XMR, Currency.USD);
+  public static final CurrencyPair XMR_USDT = new CurrencyPair(Currency.XMR, Currency.USDT);
 
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currency.XPM, Currency.USD);
   public static final CurrencyPair XPM_CNY = new CurrencyPair(Currency.XPM, Currency.CNY);
@@ -169,6 +170,21 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair STEEM_ETH = new CurrencyPair(Currency.STEEM, Currency.ETH);
   public static final CurrencyPair STEEM_BNB = new CurrencyPair(Currency.STEEM, Currency.BNB);
   public static final CurrencyPair STEEM_KRW = new CurrencyPair(Currency.STEEM, Currency.KRW);
+
+  public static final CurrencyPair VET_BTC = new CurrencyPair(Currency.VET, Currency.BTC);
+  public static final CurrencyPair VET_USDT = new CurrencyPair(Currency.VET, Currency.USDT);
+  public static final CurrencyPair VET_ETH = new CurrencyPair(Currency.VET, Currency.ETH);
+  public static final CurrencyPair VET_BNB = new CurrencyPair(Currency.VET, Currency.BNB);
+
+  public static final CurrencyPair ADA_BTC = new CurrencyPair(Currency.ADA, Currency.BTC);
+  public static final CurrencyPair ADA_USDT = new CurrencyPair(Currency.ADA, Currency.USDT);
+  public static final CurrencyPair ADA_ETH = new CurrencyPair(Currency.ADA, Currency.ETH);
+  public static final CurrencyPair ADA_BNB = new CurrencyPair(Currency.ADA, Currency.BNB);
+
+  public static final CurrencyPair TRX_BTC = new CurrencyPair(Currency.TRX, Currency.BTC);
+  public static final CurrencyPair TRX_USDT = new CurrencyPair(Currency.TRX, Currency.USDT);
+  public static final CurrencyPair TRX_ETH = new CurrencyPair(Currency.TRX, Currency.ETH);
+  public static final CurrencyPair TRX_BNB = new CurrencyPair(Currency.TRX, Currency.BNB);
 
   // start of extra ANX supported pair
   // BTC
@@ -293,6 +309,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair XBT_H18 = new CurrencyPair(Currency.XBT, Currency.H18);
   public static final CurrencyPair XBT_M18 = new CurrencyPair(Currency.XBT, Currency.M18);
   public static final CurrencyPair XBT_U18 = new CurrencyPair(Currency.XBT, Currency.U18);
+  public static final CurrencyPair XBT_Z18 = new CurrencyPair(Currency.XBT, Currency.Z18);
 
   public static final CurrencyPair ADA_H18 = new CurrencyPair(Currency.ADA, Currency.H18);
   public static final CurrencyPair ADA_M18 = new CurrencyPair(Currency.ADA, Currency.M18);
@@ -316,6 +333,10 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair ZEC_H18 = new CurrencyPair(Currency.ZEC, Currency.H18);
   public static final CurrencyPair ETC_7D =
       new CurrencyPair(Currency.ETC, Currency.getInstance("7D"));
+
+  // Bankera Exchange pairs
+  public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
+  public static final CurrencyPair BNK_ETH = new CurrencyPair(Currency.BNK, Currency.ETH);
 
   public final Currency base;
   public final Currency counter;

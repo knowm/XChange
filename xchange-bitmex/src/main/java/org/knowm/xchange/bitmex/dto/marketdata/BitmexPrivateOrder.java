@@ -3,10 +3,11 @@ package org.knowm.xchange.bitmex.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 
 /** see field description at http://www.onixs.biz/fix-dictionary/5.0.SP2/fields_by_name.html */
-public class BitmexPrivateOrder {
+public class BitmexPrivateOrder extends AbstractHttpResponseAware {
 
   private final BigDecimal price;
   private final BigDecimal size;
@@ -26,7 +27,7 @@ public class BitmexPrivateOrder {
   private final BigDecimal stopPx;
   private final BigDecimal pegOffsetValue;
   private final String pegPriceType;
-  private final String ordType;
+  private final String orderType;
   private final String timeInForce;
   private final String execInst;
   private final String contingencyType;
@@ -66,7 +67,7 @@ public class BitmexPrivateOrder {
       @JsonProperty("stopPx") BigDecimal stopPx,
       @JsonProperty("pegOffsetValue") BigDecimal pegOffsetValue,
       @JsonProperty("pegPriceType") String pegPriceType,
-      @JsonProperty("ordType") String ordType,
+      @JsonProperty("orderType") String orderType,
       @JsonProperty("timeInForce") String timeInForce,
       @JsonProperty("execInst") String execInst,
       @JsonProperty("contingencyType") String contingencyType,
@@ -101,7 +102,7 @@ public class BitmexPrivateOrder {
     this.stopPx = stopPx;
     this.pegOffsetValue = pegOffsetValue;
     this.pegPriceType = pegPriceType;
-    this.ordType = ordType;
+    this.orderType = orderType;
     this.timeInForce = timeInForce;
     this.execInst = execInst;
     this.contingencyType = contingencyType;
@@ -191,8 +192,8 @@ public class BitmexPrivateOrder {
     return pegPriceType;
   }
 
-  public String getOrdType() {
-    return ordType;
+  public String getOrderType() {
+    return orderType;
   }
 
   public String getTimeInForce() {
@@ -302,8 +303,8 @@ public class BitmexPrivateOrder {
         + ", pegPriceType='"
         + pegPriceType
         + '\''
-        + ", ordType='"
-        + ordType
+        + ", orderType='"
+        + orderType
         + '\''
         + ", timeInForce='"
         + timeInForce

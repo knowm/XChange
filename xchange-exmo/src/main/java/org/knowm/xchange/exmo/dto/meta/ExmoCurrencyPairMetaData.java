@@ -2,6 +2,7 @@ package org.knowm.xchange.exmo.dto.meta;
 
 import java.math.BigDecimal;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 
 /** @author ujjwal on 26/02/18. */
 public class ExmoCurrencyPairMetaData extends CurrencyPairMetaData {
@@ -20,8 +21,9 @@ public class ExmoCurrencyPairMetaData extends CurrencyPairMetaData {
       BigDecimal minimumAmount,
       BigDecimal maximumAmount,
       Integer priceScale,
-      BigDecimal minNotional) {
-    super(tradingFee, minimumAmount, maximumAmount, priceScale);
+      BigDecimal minNotional,
+      FeeTier[] feeTiers) {
+    super(tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
     this.minNotional = minNotional;
   }
 

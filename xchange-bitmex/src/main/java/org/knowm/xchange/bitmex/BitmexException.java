@@ -1,22 +1,66 @@
 package org.knowm.xchange.bitmex;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
+import si.mazi.rescu.HttpResponseAware;
+import si.mazi.rescu.HttpStatusException;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
-public class BitmexException extends RuntimeException {
+@SuppressWarnings("serial")
+public class BitmexException extends HttpStatusExceptionSupport
+    implements HttpStatusException, HttpResponseAware {
 
-  @JsonProperty("message")
-  private String message;
+  @JsonProperty("error")
+  private Error error;
 
-  @JsonProperty("name")
-  private String name;
+  private Map<String, List<String>> headers;
+  private int httpStatusCode;
 
-  public BitmexException(
-      @JsonProperty("message") String message, @JsonProperty("name") String name) {
-    this.message = message;
-    this.name = name;
+  public int getHttpStatusCode() {
+    return httpStatusCode;
   }
 
+  public void setHttpStatusCode(int httpStatusCode) {
+    this.httpStatusCode = httpStatusCode;
+  }
+
+  public BitmexException(@JsonProperty("error") Error error) {
+    this.error = error;
+  }
+
+  public String getErrorName() {
+    return error.name;
+  }
+
+  @Override
   public String getMessage() {
-    return message == null ? name : message;
+    return (error.message == null ? error.name : error.message)
+        + " (HTTP:  "
+        + httpStatusCode
+        + ").";
+  }
+
+  @Override
+  public void setResponseHeaders(Map<String, List<String>> headers) {
+    this.headers = headers;
+  }
+
+  @Override
+  public Map<String, List<String>> getResponseHeaders() {
+    return headers;
+  }
+
+  static class Error {
+    @JsonProperty("message")
+    private String message;
+
+    @JsonProperty("name")
+    private String name;
+
+    public Error(@JsonProperty("message") String message, @JsonProperty("name") String name) {
+      this.message = message;
+      this.name = name;
+    }
   }
 }

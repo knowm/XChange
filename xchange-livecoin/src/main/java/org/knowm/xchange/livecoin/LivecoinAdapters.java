@@ -73,8 +73,10 @@ public class LivecoinAdapters {
     }
     List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (LivecoinAsksBidsData ask : levels) {
-      allLevels.add(
-          new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      if (ask != null) {
+        allLevels.add(
+            new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      }
     }
 
     return allLevels;
@@ -114,9 +116,13 @@ public class LivecoinAdapters {
         currencyPairs.put(
             pair,
             new CurrencyPairMetaData(
-                existing.getTradingFee(), minSize, existing.getMaximumAmount(), priceScale));
+                existing.getTradingFee(),
+                minSize,
+                existing.getMaximumAmount(),
+                priceScale,
+                existing.getFeeTiers()));
       } else {
-        currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale));
+        currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale, null));
       }
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);

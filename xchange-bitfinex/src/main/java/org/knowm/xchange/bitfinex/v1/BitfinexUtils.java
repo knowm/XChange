@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /** A central place for shared Bitfinex properties */
@@ -9,18 +10,22 @@ public final class BitfinexUtils {
   /** private Constructor */
   private BitfinexUtils() {}
 
-  public static String adaptXchangeCurrency(String xchangeSymbol) {
-    String currency = xchangeSymbol.toLowerCase();
-    if (currency.equals("dash")) {
-      currency = "dsh";
+  public static String adaptXchangeCurrency(Currency xchangeSymbol) {
+
+    if (xchangeSymbol == null) {
+      return null;
     }
-    return currency;
+
+    return xchangeSymbol.toString().toLowerCase();
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return adaptXchangeCurrency(currencyPair.base.toString())
-        + adaptXchangeCurrency(currencyPair.counter.toString());
+    if (currencyPair == null) {
+      return null;
+    }
+
+    return adaptXchangeCurrency(currencyPair.base) + adaptXchangeCurrency(currencyPair.counter);
   }
 
   /**
@@ -67,6 +72,8 @@ public final class BitfinexUtils {
         return "bgold";
       case "BCH":
         return "bcash";
+      case "USDT":
+        return "tetheruso";
       default:
         throw new BitfinexException("Cannot determine withdrawal type.");
     }

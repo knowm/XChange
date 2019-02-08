@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.8</version>
+        <version>4.3.14</version>
     </parent>
 
     <artifactId>xchange-quoine</artifactId>
@@ -19,10 +19,16 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- jwt for auth -->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
