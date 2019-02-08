@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -30,7 +31,7 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
-  @GET
+  @POST
   @Path("/sendorder")
   CryptoFacilitiesOrder sendOrder(
       @HeaderParam("APIKey") String apiKey,
@@ -43,7 +44,7 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @QueryParam("limitPrice") BigDecimal limitPrice)
       throws IOException;
 
-  @GET
+  @POST
   @Path("/cancelorder")
   CryptoFacilitiesCancel cancelOrder(
       @HeaderParam("APIKey") String apiKey,
