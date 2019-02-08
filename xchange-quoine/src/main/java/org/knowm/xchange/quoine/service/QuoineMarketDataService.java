@@ -49,9 +49,7 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw
     return Arrays.stream(products)
         .filter(
             product ->
-                pairs
-                    .getCurrencyPairs()
-                    .stream()
+                pairs.getCurrencyPairs().stream()
                     .anyMatch(
                         pair ->
                             product.getBaseCurrency().equals(pair.base.getCurrencyCode())

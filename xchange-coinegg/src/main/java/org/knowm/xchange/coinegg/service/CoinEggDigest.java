@@ -38,12 +38,7 @@ public final class CoinEggDigest extends BaseParamsDigest {
 
     // Create Query String From Form Parameters
     Params params = Params.of();
-    restInvocation
-        .getParamsMap()
-        .get(FormParam.class)
-        .asHttpHeaders()
-        .entrySet()
-        .stream()
+    restInvocation.getParamsMap().get(FormParam.class).asHttpHeaders().entrySet().stream()
         .filter(e -> !e.getKey().equalsIgnoreCase("signature"))
         .forEach(e -> params.add(e.getKey(), e.getValue()));
 

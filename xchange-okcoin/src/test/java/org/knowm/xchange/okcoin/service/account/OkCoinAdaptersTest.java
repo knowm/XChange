@@ -110,9 +110,7 @@ public class OkCoinAdaptersTest {
                 new LimitOrder(
                     Order.OrderType.ASK, ask3Amount, CurrencyPair.ETH_BTC, null, date, ask3Price)));
     Assert.assertTrue(
-        orderBook
-            .getAsks()
-            .stream()
+        orderBook.getAsks().stream()
             .sorted()
             .collect(Collectors.toList())
             .equals(orderBook.getAsks()));
@@ -131,9 +129,7 @@ public class OkCoinAdaptersTest {
                 new LimitOrder(
                     Order.OrderType.BID, bid2Amount, CurrencyPair.ETH_BTC, null, date, bid2Price)));
     Assert.assertTrue(
-        orderBook
-            .getBids()
-            .stream()
+        orderBook.getBids().stream()
             .sorted()
             .collect(Collectors.toList())
             .equals(orderBook.getBids()));

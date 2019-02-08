@@ -51,9 +51,7 @@ public class CoindirectMarketDataService extends CoindirectMarketDataServiceRaw
       trades = new ArrayList<>();
     } else {
       trades =
-          coindirectTrades
-              .data
-              .stream()
+          coindirectTrades.data.stream()
               .map(
                   at ->
                       new Trade(

@@ -5,29 +5,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /** @author mertguner */
 public class BTCTurkKeyValues {
 
-	private final String key;
-	  private final String value;
-	  
-	  public BTCTurkKeyValues(
-	      @JsonProperty("key") String key,
-	      @JsonProperty("value") String value    
-			  ) {
-	    this.key = key;
-	    this.value = value;
-	  }
+  private final String key;
+  private final String value;
 
-	public String getKey() {
-		return key;
-	}
+  public BTCTurkKeyValues(@JsonProperty("key") String key, @JsonProperty("value") String value) {
+    this.key = key;
+    this.value = value;
+  }
 
-	public String getValue() {
-		return value;
-	}
+  public String getKey() {
+    return key;
+  }
 
-	@Override
-	public String toString() {
-		return "BTCTurkKeyValues [key=" + key + ", value=" + value + "]";
-	}
+  public String getValue() {
+    return value;
+  }
 
-	  
+  @Override
+  public String toString() {
+    return "BTCTurkKeyValues [key=" + key + ", value=" + value + "]";
+  }
 }

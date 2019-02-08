@@ -149,8 +149,7 @@ public class BitflyerAdapters {
   public static OpenOrders adaptOpenOrdersFromChildOrderResults(
       List<BitflyerQueryChildOrderResult> queryResults) {
     return new OpenOrders(
-        queryResults
-            .stream()
+        queryResults.stream()
             .map(
                 result ->
                     new LimitOrder.Builder(

@@ -68,10 +68,7 @@ public class BithumbTradeDemo {
 
     Thread.sleep(3000); // wait for order to propagate
 
-    tradeService
-        .getOpenOrders(openOrders)
-        .getOpenOrders()
-        .stream()
+    tradeService.getOpenOrders(openOrders).getOpenOrders().stream()
         .map(Order::getId)
         .map(
             orderId ->
@@ -128,9 +125,7 @@ public class BithumbTradeDemo {
 
     Thread.sleep(3000); // wait for order to propagate
 
-    tradeServiceRaw
-        .getBithumbOrders(CURRENCY_PAIR)
-        .stream()
+    tradeServiceRaw.getBithumbOrders(CURRENCY_PAIR).stream()
         .map(BithumbOrder::getOrderId)
         .forEach(
             orderId -> {

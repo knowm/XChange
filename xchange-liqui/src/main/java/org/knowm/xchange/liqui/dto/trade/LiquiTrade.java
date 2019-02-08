@@ -27,9 +27,7 @@ public class LiquiTrade {
     this.orderId = orderId;
     this.initOrderId = initOrderId;
     this.funds =
-        funds
-            .entrySet()
-            .stream()
+        funds.entrySet().stream()
             .collect(Collectors.toMap((Map.Entry::getKey), (e -> new BigDecimal(e.getValue()))));
     this.trades = trades;
   }

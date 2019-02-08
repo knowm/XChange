@@ -91,8 +91,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
 
       ret =
           new OpenOrders(
-              openOrdersResponse
-                  .stream()
+              openOrdersResponse.stream()
                   .map(
                       responseInner -> {
                         CurrencyPair currencyPair;
@@ -145,9 +144,7 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
     UserTrades ret = null;
     try {
       List<UserTrade> userTrades =
-          returnTradeHistoryApi
-              .tradeHistory((TradeHistoryReq) tradeHistoryParams)
-              .stream()
+          returnTradeHistoryApi.tradeHistory((TradeHistoryReq) tradeHistoryParams).stream()
               .map(
                   tradeHistoryItem ->
                       new UserTrade.Builder()

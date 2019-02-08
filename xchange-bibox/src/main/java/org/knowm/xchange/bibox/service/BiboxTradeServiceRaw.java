@@ -116,8 +116,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   public void cancelBiboxOrders(List<String> orderIds) {
     try {
       List<BiboxCommand<?>> cmds =
-          orderIds
-              .stream()
+          orderIds.stream()
               .map(BigInteger::new)
               .map(BiboxCancelTradeCommand::new)
               .collect(Collectors.toList());

@@ -29,7 +29,6 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -114,8 +113,7 @@ public class BitmexAdapters {
   }
 
   public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
-    OrderType type =
-        rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
+    OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
 
     CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(rawOrder.getSymbol());
 
@@ -444,7 +442,7 @@ public class BitmexAdapters {
     try {
       dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
     } catch (ParseException e) {
-        throw new IllegalArgumentException(e);
+      throw new IllegalArgumentException(e);
     }
 
     String currency = walletTransaction.getCurrency();
@@ -454,16 +452,18 @@ public class BitmexAdapters {
     }
 
     return new FundingRecord(
-            walletTransaction.getAddress(),
-            dateFunding,
-            Currency.getInstance(currency),
-            walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
-            walletTransaction.getTransactID(),
-            walletTransaction.getTx(),
-            walletTransaction.getTransactType().equals("Deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL,
-            FundingRecord.Status.COMPLETE,
-            null,
-            walletTransaction.getFee(),
-            walletTransaction.getText());
+        walletTransaction.getAddress(),
+        dateFunding,
+        Currency.getInstance(currency),
+        walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
+        walletTransaction.getTransactID(),
+        walletTransaction.getTx(),
+        walletTransaction.getTransactType().equals("Deposit")
+            ? FundingRecord.Type.DEPOSIT
+            : FundingRecord.Type.WITHDRAWAL,
+        FundingRecord.Status.COMPLETE,
+        null,
+        walletTransaction.getFee(),
+        walletTransaction.getText());
   }
 }

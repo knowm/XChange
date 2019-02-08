@@ -38,15 +38,11 @@ public class DVChainAdapters {
       DVChainMarketData marketData, Long time, CurrencyPair currencyPair) {
     Date timeStamp = Date.from(Instant.ofEpochMilli(time));
     List<LimitOrder> asks =
-        marketData
-            .getLevels()
-            .stream()
+        marketData.getLevels().stream()
             .map(level -> adaptOrder(level, Order.OrderType.ASK, currencyPair))
             .collect(Collectors.toList());
     List<LimitOrder> bids =
-        marketData
-            .getLevels()
-            .stream()
+        marketData.getLevels().stream()
             .map(level -> adaptOrder(level, Order.OrderType.BID, currencyPair))
             .collect(Collectors.toList());
     return new OrderBook(timeStamp, asks, bids);
