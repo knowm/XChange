@@ -3,12 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
         <version>4.3.14</version>
     </parent>
 
-    <artifactId>xchange-binance</artifactId>
+    <artifactId>xchange-binance-custom</artifactId>
+    <version>4.3.13.4</version>
 
     <name>XChange Binance</name>
     <description>XChange implementation for the Binance Exchange</description>
@@ -21,11 +22,22 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
+    <distributionManagement>
+        <repository>
+            <id>myMavenRepoWrite</id>
+            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+        </repository>
+        <snapshotRepository>
+            <id>myMavenRepoWrite</id>
+            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>${project.version}</version>
+            <artifactId>xchange-core-custom</artifactId>
+            <version>4.3.14</version>
         </dependency>
     </dependencies>
 </project>
