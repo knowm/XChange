@@ -39,7 +39,7 @@ public class HuobiAssetPair {
     return pricePrecision;
   }
 
-  private String getAmountPrecision() {
+  public String getAmountPrecision() {
     return amountPrecision;
   }
 

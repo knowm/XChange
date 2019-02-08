@@ -77,7 +77,7 @@ public class BinanceAdapters {
     }
   }
 
-  public static Order.OrderStatus adaptOrderStatus(BinanceOrderStatus orderStatus) {
+    public static Order.OrderStatus adaptOrderStatus(OrderStatus orderStatus) {
     switch (orderStatus) {
       case NEW:
         return Order.OrderStatus.NEW;
@@ -110,8 +110,6 @@ public class BinanceAdapters {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
     } else if (symbol.endsWith("USDS")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
-    } else if (symbol.endsWith("ALTS")) {
-      return new CurrencyPair(symbol.substring(0, pairLength - 4), "ALTS");
     } else if (symbol.endsWith("USDC")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
     } else {
@@ -124,16 +122,17 @@ public class BinanceAdapters {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
 
-    Order.OrderStatus orderStatus = adaptOrderStatus(order.bStatus);
+      Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
     final BigDecimal averagePrice;
-    if (order.executedQty.signum() == 0 || order.bType.equals(BinanceOrderType.MARKET)) {
+      if (order.executedQty.signum() == 0
+              || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
       averagePrice = BigDecimal.ZERO;
     } else {
       averagePrice = order.price;
     }
 
     Order result;
-    if (order.bType.equals(BinanceOrderType.MARKET)) {
+      if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
       result =
           new MarketOrder(
               type,
@@ -145,8 +144,8 @@ public class BinanceAdapters {
               order.executedQty,
               BigDecimal.ZERO,
               orderStatus);
-    } else if (order.bType.equals(BinanceOrderType.LIMIT)
-        || order.bType.equals(BinanceOrderType.LIMIT_MAKER)) {
+      } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
+              || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
       result =
           new LimitOrder(
               type,

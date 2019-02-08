@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.13</version>
+        <version>4.3.14</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,30 +12,17 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <artifactId>xchange-bitflyer-custom</artifactId>
-    <version>4.3.13.1</version>
-
+    <artifactId>xchange-bitflyer</artifactId>
     <name>XChange BitFlyer</name>
     <description>BitFlyer Exchange</description>
-
-    <distributionManagement>
-        <repository>
-            <id>myMavenRepoWrite</id>
-            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
-        </repository>
-        <snapshotRepository>
-            <id>myMavenRepoWrite</id>
-            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>
 
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core-custom</artifactId>
-            <version>4.3.13</version>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

@@ -13,6 +13,13 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.dto.trade.OrderType;
+import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -127,20 +134,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
   }
 
-  protected BinanceNewOrder placeLimitOrder2(LimitOrder lo) throws IOException {
-    TimeInForce tif;
-    Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-    if (orderFlags.size() == 1) {
-      IOrderFlags orderFlag = orderFlags.iterator().next();
-      Assert.isTrue(
-          orderFlag instanceof TimeInForce, "Order flag should be instance of TimeInForce.");
-      tif = (TimeInForce) orderFlag;
-    } else {
-      tif = TimeInForce.GTC;
-    }
-    return placeBinanceOrder(OrderType.LIMIT, lo, lo.getLimitPrice(), null, tif);
-  }
-
   @Override
   public String placeStopOrder(StopOrder so) throws IOException {
 
@@ -168,30 +161,26 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
       throws IOException {
     try {
-      BinanceNewOrder newOrder = placeBinanceOrder(type, order, limitPrice, stopPrice, tif);
+      Long recvWindow =
+          (Long)
+              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+      BinanceNewOrder newOrder =
+          newOrder(
+              order.getCurrencyPair(),
+              BinanceAdapters.convert(order.getType()),
+              type,
+              tif,
+              order.getOriginalAmount(),
+              limitPrice,
+              getClientOrderId(order),
+              stopPrice,
+              null,
+              recvWindow,
+              getTimestamp());
       return Long.toString(newOrder.orderId);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
-  }
-
-  private BinanceNewOrder placeBinanceOrder(
-      OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice, TimeInForce tif)
-      throws IOException {
-    Long recvWindow =
-        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    return newOrder(
-        order.getCurrencyPair(),
-        BinanceAdapters.convert(order.getType()),
-        type,
-        tif,
-        order.getOriginalAmount(),
-        limitPrice,
-        getClientOrderId(order),
-        stopPrice,
-        null,
-        recvWindow,
-        getTimestamp());
   }
 
   public void placeTestOrder(

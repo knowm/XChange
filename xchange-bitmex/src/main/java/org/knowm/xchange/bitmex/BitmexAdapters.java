@@ -3,6 +3,7 @@ package org.knowm.xchange.bitmex;
 import com.google.common.collect.BiMap;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,9 +48,9 @@ public class BitmexAdapters {
   public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer =
-        adaptOrders(bitmexDepth.getAsks(), currencyPair, OrderType.ASK);
+        adaptOrders(bitmexDepth.getAsks(), currencyPair, OrderType.ASK, true);
     OrdersContainer bidsOrdersContainer =
-        adaptOrders(bitmexDepth.getBids(), currencyPair, OrderType.BID);
+        adaptOrders(bitmexDepth.getBids(), currencyPair, OrderType.BID, false);
 
     return new OrderBook(
         new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
@@ -71,17 +72,21 @@ public class BitmexAdapters {
   }
 
   public static OrdersContainer adaptOrders(
-      List<BitmexPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
+      List<BitmexPublicOrder> orders,
+      CurrencyPair currencyPair,
+      OrderType orderType,
+      boolean reverse) {
 
     // bitmex does not provide timestamps on order book
     long maxTimestamp = System.currentTimeMillis();
-    List<LimitOrder> limitOrders = new ArrayList<>(orders.size());
+    LimitOrder[] limitOrders = new LimitOrder[orders.size()];
 
+    int i = reverse ? orders.size() - 1 : 0;
     for (BitmexPublicOrder order : orders) {
-
-      limitOrders.add(adaptOrder(order, orderType, currencyPair));
+      limitOrders[i] = adaptOrder(order, orderType, currencyPair);
+      i += (reverse ? -1 : 1);
     }
-    return new OrdersContainer(maxTimestamp, limitOrders);
+    return new OrdersContainer(maxTimestamp, Arrays.asList(limitOrders));
   }
 
   public static Trades adaptTrades(List<BitmexPublicTrade> trades, CurrencyPair currencyPair) {

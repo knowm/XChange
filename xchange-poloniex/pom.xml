@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.13</version>
+        <version>4.3.14</version>
     </parent>
 
-    <artifactId>xchange-poloniex-custom</artifactId>
-    <version>4.3.13.3</version>
+    <artifactId>xchange-poloniex</artifactId>
+
     <name>XChange Poloniex</name>
     <description>XChange implementation for the Poloniex Exchange</description>
 
@@ -21,23 +21,12 @@
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
-    <distributionManagement>
-        <repository>
-            <id>myMavenRepoWrite</id>
-            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
-        </repository>
-        <snapshotRepository>
-            <id>myMavenRepoWrite</id>
-            <url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <dependencies>
 
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core-custom</artifactId>
-            <version>4.3.13</version>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>
