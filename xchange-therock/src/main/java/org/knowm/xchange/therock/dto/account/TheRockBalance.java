@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.math.BigDecimal;
 
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TheRockBalance {
 
   private String currency;

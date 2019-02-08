@@ -86,9 +86,7 @@ public class KrakenAdapters {
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
 
-    return krakenOrdersMap
-        .entrySet()
-        .stream()
+    return krakenOrdersMap.entrySet().stream()
         .map(krakenOrderEntry -> adaptOrder(krakenOrderEntry.getKey(), krakenOrderEntry.getValue()))
         .collect(Collectors.toList());
   }

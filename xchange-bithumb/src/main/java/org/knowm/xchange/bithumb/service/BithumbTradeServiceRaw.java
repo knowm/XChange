@@ -98,8 +98,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
 
   public boolean cancelBithumbOrder(Long orderId, CurrencyPair currencyPair) throws IOException {
 
-    return getBithumbOrders(currencyPair)
-        .stream()
+    return getBithumbOrders(currencyPair).stream()
         .filter(bo -> bo.getOrderId() == orderId)
         .findFirst()
         .map(

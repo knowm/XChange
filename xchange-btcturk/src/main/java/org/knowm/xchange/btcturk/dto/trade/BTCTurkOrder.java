@@ -1,158 +1,175 @@
 package org.knowm.xchange.btcturk.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderMethods;
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
 import org.knowm.xchange.btcturk.dto.BTCTurkPair;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** @author mertguner */
-public class BTCTurkOrder {   
-    private BTCTurkOrderMethods OrderMethod;
-    private String Price;
-    private String PricePrecision;
-    private String Amount;
-    private String AmountPrecision;
-    private String Total;
-    private String TotalPrecision;
-    private int DenominatorPrecision;
-    private String TriggerPrice;
-    private String TriggerPricePrecision;
-    private BTCTurkOrderTypes OrderType;
-    private BTCTurkPair PairSymbol;
+public class BTCTurkOrder {
+  private BTCTurkOrderMethods OrderMethod;
+  private String Price;
+  private String PricePrecision;
+  private String Amount;
+  private String AmountPrecision;
+  private String Total;
+  private String TotalPrecision;
+  private int DenominatorPrecision;
+  private String TriggerPrice;
+  private String TriggerPricePrecision;
+  private BTCTurkOrderTypes OrderType;
+  private BTCTurkPair PairSymbol;
 
-    public BTCTurkOrder(
-  	@JsonProperty("OrderMethod") BTCTurkOrderMethods OrderMethod,
-  	@JsonProperty("Price") String Price,
-  	@JsonProperty("PricePrecision") String PricePrecision,
-  	@JsonProperty("Amount") String Amount,
-  	@JsonProperty("AmountPrecision") String AmountPrecision,
-  	@JsonProperty("Total") String Total,
-  	@JsonProperty("TotalPrecision") String TotalPrecision,
-  	@JsonProperty("DenominatorPrecision") int DenominatorPrecision,
-  	@JsonProperty("TriggerPrice") String TriggerPrice,
-  	@JsonProperty("TriggerPricePrecision") String TriggerPricePrecision,
-  	@JsonProperty("OrderType") BTCTurkOrderTypes OrderType,
-  	@JsonProperty("PairSymbol") BTCTurkPair PairSymbol
-  			  ){
-  	this.OrderMethod = OrderMethod;	
-  	this.Price = Price;	 
-  	this.PricePrecision = PricePrecision;	 
-  	this.Amount = Amount;	 
-  	this.AmountPrecision = AmountPrecision;	 
-  	this.Total = Total;	 
-  	this.TotalPrecision = TotalPrecision;	 
-  	this.DenominatorPrecision = DenominatorPrecision;	 
-  	this.TriggerPrice = TriggerPrice;	 
-  	this.TriggerPricePrecision = TriggerPricePrecision;	 
-  	this.OrderType = OrderType;	
-  	this.OrderType = OrderType;	 
-  	this.PairSymbol = PairSymbol;	 
-  	  }
-    
-	public BTCTurkOrderMethods getOrderMethod() {
-		return OrderMethod;
-	}
+  public BTCTurkOrder(
+      @JsonProperty("OrderMethod") BTCTurkOrderMethods OrderMethod,
+      @JsonProperty("Price") String Price,
+      @JsonProperty("PricePrecision") String PricePrecision,
+      @JsonProperty("Amount") String Amount,
+      @JsonProperty("AmountPrecision") String AmountPrecision,
+      @JsonProperty("Total") String Total,
+      @JsonProperty("TotalPrecision") String TotalPrecision,
+      @JsonProperty("DenominatorPrecision") int DenominatorPrecision,
+      @JsonProperty("TriggerPrice") String TriggerPrice,
+      @JsonProperty("TriggerPricePrecision") String TriggerPricePrecision,
+      @JsonProperty("OrderType") BTCTurkOrderTypes OrderType,
+      @JsonProperty("PairSymbol") BTCTurkPair PairSymbol) {
+    this.OrderMethod = OrderMethod;
+    this.Price = Price;
+    this.PricePrecision = PricePrecision;
+    this.Amount = Amount;
+    this.AmountPrecision = AmountPrecision;
+    this.Total = Total;
+    this.TotalPrecision = TotalPrecision;
+    this.DenominatorPrecision = DenominatorPrecision;
+    this.TriggerPrice = TriggerPrice;
+    this.TriggerPricePrecision = TriggerPricePrecision;
+    this.OrderType = OrderType;
+    this.OrderType = OrderType;
+    this.PairSymbol = PairSymbol;
+  }
 
-	public void setOrderMethod(BTCTurkOrderMethods orderMethod) {
-		OrderMethod = orderMethod;
-	}
+  public BTCTurkOrderMethods getOrderMethod() {
+    return OrderMethod;
+  }
 
-	public String getPrice() {
-		return Price;
-	}
+  public void setOrderMethod(BTCTurkOrderMethods orderMethod) {
+    OrderMethod = orderMethod;
+  }
 
-	public void setPrice(String price) {
-		Price = price;
-	}
+  public String getPrice() {
+    return Price;
+  }
 
-	public String getPricePrecision() {
-		return PricePrecision;
-	}
+  public void setPrice(String price) {
+    Price = price;
+  }
 
-	public void setPricePrecision(String pricePrecision) {
-		PricePrecision = pricePrecision;
-	}
+  public String getPricePrecision() {
+    return PricePrecision;
+  }
 
-	public String getAmount() {
-		return Amount;
-	}
+  public void setPricePrecision(String pricePrecision) {
+    PricePrecision = pricePrecision;
+  }
 
-	public void setAmount(String amount) {
-		Amount = amount;
-	}
+  public String getAmount() {
+    return Amount;
+  }
 
-	public String getAmountPrecision() {
-		return AmountPrecision;
-	}
+  public void setAmount(String amount) {
+    Amount = amount;
+  }
 
-	public void setAmountPrecision(String amountPrecision) {
-		AmountPrecision = amountPrecision;
-	}
+  public String getAmountPrecision() {
+    return AmountPrecision;
+  }
 
-	public String getTotal() {
-		return Total;
-	}
+  public void setAmountPrecision(String amountPrecision) {
+    AmountPrecision = amountPrecision;
+  }
 
-	public void setTotal(String total) {
-		Total = total;
-	}
+  public String getTotal() {
+    return Total;
+  }
 
-	public String getTotalPrecision() {
-		return TotalPrecision;
-	}
+  public void setTotal(String total) {
+    Total = total;
+  }
 
-	public void setTotalPrecision(String totalPrecision) {
-		TotalPrecision = totalPrecision;
-	}
+  public String getTotalPrecision() {
+    return TotalPrecision;
+  }
 
-	public int getDenominatorPrecision() {
-		return DenominatorPrecision;
-	}
+  public void setTotalPrecision(String totalPrecision) {
+    TotalPrecision = totalPrecision;
+  }
 
-	public void setDenominatorPrecision(int denominatorPrecision) {
-		DenominatorPrecision = denominatorPrecision;
-	}
+  public int getDenominatorPrecision() {
+    return DenominatorPrecision;
+  }
 
-	public String getTriggerPrice() {
-		return TriggerPrice;
-	}
+  public void setDenominatorPrecision(int denominatorPrecision) {
+    DenominatorPrecision = denominatorPrecision;
+  }
 
-	public void setTriggerPrice(String triggerPrice) {
-		TriggerPrice = triggerPrice;
-	}
+  public String getTriggerPrice() {
+    return TriggerPrice;
+  }
 
-	public String getTriggerPricePrecision() {
-		return TriggerPricePrecision;
-	}
+  public void setTriggerPrice(String triggerPrice) {
+    TriggerPrice = triggerPrice;
+  }
 
-	public void setTriggerPricePrecision(String triggerPricePrecision) {
-		TriggerPricePrecision = triggerPricePrecision;
-	}
+  public String getTriggerPricePrecision() {
+    return TriggerPricePrecision;
+  }
 
-	public BTCTurkOrderTypes getOrderType() {
-		return OrderType;
-	}
+  public void setTriggerPricePrecision(String triggerPricePrecision) {
+    TriggerPricePrecision = triggerPricePrecision;
+  }
 
-	public void setOrderType(BTCTurkOrderTypes orderType) {
-		OrderType = orderType;
-	}
+  public BTCTurkOrderTypes getOrderType() {
+    return OrderType;
+  }
 
-	public BTCTurkPair getPairSymbol() {
-		return PairSymbol;
-	}
+  public void setOrderType(BTCTurkOrderTypes orderType) {
+    OrderType = orderType;
+  }
 
-	public void setPairSymbol(BTCTurkPair pairSymbol) {
-		PairSymbol = pairSymbol;
-	}
+  public BTCTurkPair getPairSymbol() {
+    return PairSymbol;
+  }
 
-	@Override
-	public String toString() {
-		return "BTCTurkOrder [OrderMethod=" + OrderMethod + ", Price=" + Price + ", PricePrecision="
-				+ PricePrecision + ", Amount=" + Amount + ", AmountPrecision=" + AmountPrecision + ", Total=" + Total
-				+ ", TotalPrecision=" + TotalPrecision + ", DenominatorPrecision=" + DenominatorPrecision
-				+ ", TriggerPrice=" + TriggerPrice + ", TriggerPricePrecision=" + TriggerPricePrecision + ", OrderType="
-				+ OrderType + ", PairSymbol=" + PairSymbol + "]";
-	}
-	
-    
+  public void setPairSymbol(BTCTurkPair pairSymbol) {
+    PairSymbol = pairSymbol;
+  }
+
+  @Override
+  public String toString() {
+    return "BTCTurkOrder [OrderMethod="
+        + OrderMethod
+        + ", Price="
+        + Price
+        + ", PricePrecision="
+        + PricePrecision
+        + ", Amount="
+        + Amount
+        + ", AmountPrecision="
+        + AmountPrecision
+        + ", Total="
+        + Total
+        + ", TotalPrecision="
+        + TotalPrecision
+        + ", DenominatorPrecision="
+        + DenominatorPrecision
+        + ", TriggerPrice="
+        + TriggerPrice
+        + ", TriggerPricePrecision="
+        + TriggerPricePrecision
+        + ", OrderType="
+        + OrderType
+        + ", PairSymbol="
+        + PairSymbol
+        + "]";
+  }
 }

@@ -79,9 +79,7 @@ public class CobinhoodAdapters {
   public static OpenOrders adaptOpenOrders(CobinhoodOrders orders) {
 
     return new OpenOrders(
-        orders
-            .getOrders()
-            .stream()
+        orders.getOrders().stream()
             .map(CobinhoodAdapters::adaptOrder)
             .collect(Collectors.toList()));
   }
@@ -90,9 +88,7 @@ public class CobinhoodAdapters {
     Wallet wallet =
         new Wallet(
             null,
-            balances
-                .getBalances()
-                .stream()
+            balances.getBalances().stream()
                 .map(
                     balance ->
                         new Balance(new Currency(balance.getCurrency()), balance.getTotalAmount()))

@@ -58,9 +58,7 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
     OrderHistory orderHistory = super.orderHistory(exchange.getOrCreateToken().token, req);
 
     List<LimitOrder> openOrders =
-        orderHistory
-            .getList()
-            .stream()
+        orderHistory.getList().stream()
             .map(
                 o ->
                     new LimitOrder(
@@ -132,9 +130,7 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
     DealHistoryRequest req = new DealHistoryRequest(symbolId, direction, null, 1000);
     DealHistory dealHistory = super.dealHistory(exchange.getOrCreateToken().token, req);
     List<UserTrade> trades =
-        dealHistory
-            .getList()
-            .stream()
+        dealHistory.getList().stream()
             .map(
                 d -> {
                   CurrencyPair p = exchange.pair(d.symbolId);

@@ -82,8 +82,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       Integer depth, Collection<CurrencyPair> currencyPairs) {
     try {
       List<BiboxCommand<?>> allCommands =
-          currencyPairs
-              .stream()
+          currencyPairs.stream()
               .distinct()
               .filter(Objects::nonNull)
               .map(BiboxAdapters::toBiboxPair)
@@ -92,9 +91,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       BiboxMultipleResponses<BiboxOrderBook> response =
           bibox.orderBooks(BiboxCommands.of(allCommands).json());
       throwErrors(response);
-      return response
-          .getResult()
-          .stream()
+      return response.getResult().stream()
           .map(BiboxResponse::getResult)
           .collect(Collectors.toList());
     } catch (BiboxException e) {

@@ -100,9 +100,7 @@ public class CoinbeneAdapters {
     }
 
     return new OpenOrders(
-        orders
-            .getOrders()
-            .stream()
+        orders.getOrders().stream()
             .map(CoinbeneAdapters::adaptLimitOrder)
             .collect(Collectors.toList()));
   }
@@ -111,9 +109,7 @@ public class CoinbeneAdapters {
     Wallet wallet =
         new Wallet(
             null,
-            balances
-                .getBalances()
-                .stream()
+            balances.getBalances().stream()
                 .map(
                     balance ->
                         new Balance(

@@ -43,17 +43,13 @@ public class AccountServiceIntegration {
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
 
     CurrencyPair currPair =
-        currencyPairs
-            .keySet()
-            .stream()
+        currencyPairs.keySet().stream()
             .filter(cp -> "ETH/BTC".equals(cp.toString()))
             .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(currPair);
 
     Currency cur =
-        currencies
-            .keySet()
-            .stream()
+        currencies.keySet().stream()
             .filter(c -> Currency.BTC == c)
             .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(cur);

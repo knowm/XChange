@@ -101,9 +101,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
       ret =
           new OrderBook(
               new Date(),
-              returnOrderBookResponse
-                  .getAsks()
-                  .stream()
+              returnOrderBookResponse.getAsks().stream()
                   .map(
                       ask -> {
                         BigDecimal limitPrice = IdexExchange.Companion.safeParse(ask.getPrice());
@@ -116,9 +114,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
                             .id(orderHash)
                             .build();
                       }),
-              returnOrderBookResponse
-                  .getBids()
-                  .stream()
+              returnOrderBookResponse.getBids().stream()
                   .map(
                       bid -> {
                         BigDecimal limitPrice = IdexExchange.Companion.safeParse(bid.getPrice());
@@ -180,9 +176,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
     static final List<Currency> getAllBase() {
       if (null == Companion.allBase)
         Companion.allBase =
-            Companion.allTickers
-                .keySet()
-                .stream()
+            Companion.allTickers.keySet().stream()
                 .map(it -> it.split("_")[1])
                 .distinct()
                 .sorted()
@@ -194,9 +188,7 @@ public class IdexMarketDataService extends BaseExchangeService implements Market
     public List<Currency> getAllCounter() {
       if (allCounter == null)
         allCounter =
-            Companion.allTickers
-                .keySet()
-                .stream()
+            Companion.allTickers.keySet().stream()
                 .map((String key) -> key.split("_")[0])
                 .distinct()
                 .sorted()

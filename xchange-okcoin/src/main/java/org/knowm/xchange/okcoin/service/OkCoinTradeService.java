@@ -151,9 +151,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
             ordersData);
     StringBuilder builder = new StringBuilder();
     if (result.isStatus()) {
-      result
-          .getOrderInfo()
-          .stream()
+      result.getOrderInfo().stream()
           .forEach(
               p -> {
                 if (-1L != Long.valueOf((long) p.get("order_id"))) {
@@ -229,8 +227,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     Map<LimitOrder, Boolean> results = new HashMap<>(limitOrders.size());
     requestResults.forEach(
         (id, result) ->
-            limitOrders
-                .stream()
+            limitOrders.stream()
                 .filter(order -> order.getId().equals(id))
                 .findAny()
                 .ifPresent(limitOrder -> results.put(limitOrder, requestResults.get(id))));

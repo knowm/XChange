@@ -44,20 +44,14 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
     }
     HuobiDepth depth = getHuobiDepth(currencyPair, depthType);
     List<LimitOrder> bids =
-        depth
-            .getBids()
-            .entrySet()
-            .stream()
+        depth.getBids().entrySet().stream()
             .map(
                 e ->
                     new LimitOrder(
                         OrderType.BID, e.getValue(), currencyPair, null, null, e.getKey()))
             .collect(Collectors.toList());
     List<LimitOrder> asks =
-        depth
-            .getAsks()
-            .entrySet()
-            .stream()
+        depth.getAsks().entrySet().stream()
             .map(
                 e ->
                     new LimitOrder(
@@ -81,8 +75,7 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
 
     HuobiTradeWrapper[] huobiTrades = getHuobiTrades(currencyPair, size);
     List<Trade> trades =
-        Arrays.asList(huobiTrades)
-            .stream()
+        Arrays.asList(huobiTrades).stream()
             .map(t -> t.getData()[0])
             .map(
                 t ->

@@ -73,9 +73,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
           new AccountInfo(
               new Wallet(
                   s,
-                  returnBalancesPost
-                      .entrySet()
-                      .stream()
+                  returnBalancesPost.entrySet().stream()
                       .map(
                           entry ->
                               new Balance(
@@ -117,9 +115,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
       ReturnDepositsWithdrawalsResponse returnDepositsWithdrawalsPost) {
 
     return Arrays.asList(
-            returnDepositsWithdrawalsPost
-                .getWithdrawals()
-                .stream()
+            returnDepositsWithdrawalsPost.getWithdrawals().stream()
                 .map(
                     fundingLedger ->
                         new FundingRecord(
@@ -135,9 +131,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
                             BigDecimal.ZERO,
                             ""))
                 .collect(Collectors.toList()),
-            returnDepositsWithdrawalsPost
-                .getDeposits()
-                .stream()
+            returnDepositsWithdrawalsPost.getDeposits().stream()
                 .map(
                     fundingLedger1 ->
                         new FundingRecord(

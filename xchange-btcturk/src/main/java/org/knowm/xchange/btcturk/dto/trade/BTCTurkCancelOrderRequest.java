@@ -2,18 +2,18 @@ package org.knowm.xchange.btcturk.dto.trade;
 
 /** @author mertguner */
 public class BTCTurkCancelOrderRequest {
-	private long id;
-	  
-	public long getId() {
-		return id;
-	}
+  private long id;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+  public long getId() {
+    return id;
+  }
 
-	@Override
-	public String toString() {
-		return "BTCTurkCancelOrderRequest [id=" + id + "]";
-	}
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    return "BTCTurkCancelOrderRequest [id=" + id + "]";
+  }
 }

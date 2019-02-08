@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
 import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
@@ -107,15 +106,17 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
     if (stopOrder.getLimitPrice() != null) {
-      throw new NotYetImplementedForExchangeException("Limit stops are not supported by the Bitfinex v1 API.");
+      throw new NotYetImplementedForExchangeException(
+          "Limit stops are not supported by the Bitfinex v1 API.");
     }
-    LimitOrder limitOrder = new LimitOrder(
-        stopOrder.getType(),
-        stopOrder.getOriginalAmount(),
-        stopOrder.getCurrencyPair(),
-        stopOrder.getId(),
-        stopOrder.getTimestamp(),
-        stopOrder.getStopPrice());
+    LimitOrder limitOrder =
+        new LimitOrder(
+            stopOrder.getType(),
+            stopOrder.getOriginalAmount(),
+            stopOrder.getCurrencyPair(),
+            stopOrder.getId(),
+            stopOrder.getTimestamp(),
+            stopOrder.getStopPrice());
     limitOrder.setOrderFlags(stopOrder.getOrderFlags());
     limitOrder.setLeverage(stopOrder.getLeverage());
     limitOrder.addOrderFlag(BitfinexOrderFlags.STOP);

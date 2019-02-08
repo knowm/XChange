@@ -48,9 +48,7 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
     if (params instanceof CurrencyPairsParam) {
       currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
     }
-    return getGateioTickers()
-        .values()
-        .stream()
+    return getGateioTickers().values().stream()
         .filter(
             ticker -> currencyPairs.size() == 0 || currencyPairs.contains(ticker.getCurrencyPair()))
         .collect(Collectors.toList());

@@ -1,7 +1,6 @@
 package org.knowm.xchange.btcturk;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,8 +11,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author semihunaldi 
-  * @author mertguner */
+/**
+ * @author semihunaldi
+ * @author mertguner
+ */
 public class BTCTurkExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -23,9 +24,9 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
 
     this.marketDataService = new BTCTurkMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null) {
-        this.accountService = new BTCTurkAccountService(this);
-        this.tradeService = new BTCTurkTradeService(this);
-      }
+      this.accountService = new BTCTurkAccountService(this);
+      this.tradeService = new BTCTurkTradeService(this);
+    }
   }
 
   @Override
@@ -46,9 +47,7 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-  
-  @Override
-  public void remoteInit() throws IOException, ExchangeException {
 
-}
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {}
 }

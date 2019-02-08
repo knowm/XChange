@@ -44,8 +44,7 @@ public final class BithumbAdapters {
 
   private static List<LimitOrder> createOrder(
       CurrencyPair currencyPair, List<BithumbOrderbookEntry> orders, Order.OrderType orderType) {
-    return orders
-        .stream()
+    return orders.stream()
         .map(order -> createOrder(currencyPair, orderType, order.getQuantity(), order.getPrice()))
         .collect(Collectors.toList());
   }
@@ -89,10 +88,7 @@ public final class BithumbAdapters {
   }
 
   public static List<Ticker> adaptTickers(BithumbTickersReturn bithumbTickers) {
-    return bithumbTickers
-        .getTickers()
-        .entrySet()
-        .stream()
+    return bithumbTickers.getTickers().entrySet().stream()
         .map(
             tickerEntry -> {
               final CurrencyPair currencyPair =
@@ -105,8 +101,7 @@ public final class BithumbAdapters {
   public static Trades adaptTrades(
       List<BithumbTransactionHistory> bithumbTrades, CurrencyPair currencyPair) {
     final List<Trade> trades =
-        bithumbTrades
-            .stream()
+        bithumbTrades.stream()
             .map(trade -> adaptTrade(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades);
@@ -155,8 +150,7 @@ public final class BithumbAdapters {
   public static UserTrades adaptUserTrades(
       List<BithumbTransaction> transactions, CurrencyPair currencyPair) {
     final List<UserTrade> userTrades =
-        transactions
-            .stream()
+        transactions.stream()
             .filter(BithumbTransaction::isBuyOrSell)
             .map(transaction -> adaptUserTrade(transaction, currencyPair))
             .collect(Collectors.toList());

@@ -1,67 +1,73 @@
 package org.knowm.xchange.btcturk.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.btcturk.dto.BTCTurkOrderTypes;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** @author mertguner */
 public class BTCTurkExchangeResult {
-	
-	private final String id;
-	private final Date datetime;
-	private final BTCTurkOrderTypes type;
-	private final BigDecimal price;
-	private final BigDecimal amount;
-	private final String pairsymbol;
-	
-	  public BTCTurkExchangeResult(
-	      @JsonProperty("id") String id,
-	      @JsonProperty("datetime") Date datetime,
-	      @JsonProperty("type") BTCTurkOrderTypes type,
-	      @JsonProperty("price") BigDecimal price,
-	      @JsonProperty("amount") BigDecimal amount,
-	      @JsonProperty("pairsymbol") String pairsymbol
-			  ){
-	    this.id = id;
-	    this.datetime = datetime;
-	    this.type = type;
-	    this.price = price;
-	    this.amount = amount;
-	    this.pairsymbol = pairsymbol;
-	  }
 
-	public String getId() {
-		return id;
-	}
+  private final String id;
+  private final Date datetime;
+  private final BTCTurkOrderTypes type;
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final String pairsymbol;
 
-	public Date getDatetime() {
-		return datetime;
-	}
+  public BTCTurkExchangeResult(
+      @JsonProperty("id") String id,
+      @JsonProperty("datetime") Date datetime,
+      @JsonProperty("type") BTCTurkOrderTypes type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("pairsymbol") String pairsymbol) {
+    this.id = id;
+    this.datetime = datetime;
+    this.type = type;
+    this.price = price;
+    this.amount = amount;
+    this.pairsymbol = pairsymbol;
+  }
 
-	public BTCTurkOrderTypes getType() {
-		return type;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+  public Date getDatetime() {
+    return datetime;
+  }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+  public BTCTurkOrderTypes getType() {
+    return type;
+  }
 
-	public String getPairsymbol() {
-		return pairsymbol;
-	}
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-	@Override
-	public String toString() {
-		return "BTCTurkExchangeResult [id=" + id + ", datetime=" + datetime + ", type=" + type + ", price=" + price
-				+ ", amount=" + amount + ", pairsymbol=" + pairsymbol + "]";
-	}
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-	
+  public String getPairsymbol() {
+    return pairsymbol;
+  }
+
+  @Override
+  public String toString() {
+    return "BTCTurkExchangeResult [id="
+        + id
+        + ", datetime="
+        + datetime
+        + ", type="
+        + type
+        + ", price="
+        + price
+        + ", amount="
+        + amount
+        + ", pairsymbol="
+        + pairsymbol
+        + "]";
+  }
 }

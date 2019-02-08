@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
@@ -33,7 +32,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   public TradeHistoryParams createFundingHistoryParams() {
-      return new DefaultTradeHistoryParamCurrency();
+    return new DefaultTradeHistoryParamCurrency();
   }
 
   @Override
@@ -68,7 +67,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     return requestDepositAddress(currencyCode);
   }
 
-
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
 
@@ -77,18 +75,20 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     if (params instanceof TradeHistoryParamCurrency) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency();
 
-      if (currency.getCurrencyCode().equals("BTC") ||
-          currency.getCurrencyCode().equals("XBT")) {
+      if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
         currency = new Currency("XBt");
       }
     } else {
-        throw new ExchangeException("Currency must be supplied");
+      throw new ExchangeException("Currency must be supplied");
     }
 
-    return getBitmexWalletHistory(currency).stream().
-            filter(w -> w.getTransactStatus().equals("Completed") &&
-                  (w.getTransactType().equals("Deposit") || w.getTransactType().equals("Withdrawal"))).
-            map(w -> BitmexAdapters.adaptFundingRecord(w)).
-            collect(Collectors.toList());
+    return getBitmexWalletHistory(currency).stream()
+        .filter(
+            w ->
+                w.getTransactStatus().equals("Completed")
+                    && (w.getTransactType().equals("Deposit")
+                        || w.getTransactType().equals("Withdrawal")))
+        .map(w -> BitmexAdapters.adaptFundingRecord(w))
+        .collect(Collectors.toList());
   }
 }
