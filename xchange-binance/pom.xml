@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.15-SNAPSHOT</version>
+        <version>4.3.15</version>
     </parent>
 
     <artifactId>xchange-binance</artifactId>
