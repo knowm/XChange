@@ -71,7 +71,7 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
               Currency.getInstance(curr),
               new BigDecimal(amount).abs(),
               null,
-                  txid,
+              txid,
               type.equalsIgnoreCase("deposit")
                   ? FundingRecord.Type.DEPOSIT
                   : FundingRecord.Type.WITHDRAWAL,

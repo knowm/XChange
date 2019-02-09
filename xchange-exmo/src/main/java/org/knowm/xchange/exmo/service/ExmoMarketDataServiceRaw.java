@@ -1,5 +1,10 @@
 package org.knowm.xchange.exmo.service;
 
+import static org.apache.commons.lang3.StringUtils.join;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,12 +17,6 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.join;
 
 public class ExmoMarketDataServiceRaw extends BaseExmoService {
   protected ExmoMarketDataServiceRaw(Exchange exchange) {
