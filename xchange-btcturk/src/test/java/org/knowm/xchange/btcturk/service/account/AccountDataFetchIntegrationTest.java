@@ -41,7 +41,7 @@ public class AccountDataFetchIntegrationTest {
   @Test
   public void testBalance() throws IOException, InterruptedException {
 
-    if (accountService != null) {
+    if (!BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty()) {
       // BTCTurkAccountBalance Test
       BTCTurkAccountBalance accountBalance = btcTurkAccountService.getBTCTurkBalance();
       assertThat(accountBalance).isNotEqualTo(null);
@@ -52,6 +52,6 @@ public class AccountDataFetchIntegrationTest {
       Thread.sleep(1000);
       AccountInfo accountInfo = btcTurkAccountService.getAccountInfo();
       assertThat(accountInfo).isNotEqualTo(null);
-    } else assertThat(accountService).isEqualTo(null);
+    } else assertThat(accountService).isNotEqualTo(null);
   }
 }

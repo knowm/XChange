@@ -45,7 +45,7 @@ public class TradeDataFetchIntegrationTest {
   @Test
   public void Tests() throws IOException, InterruptedException {
 
-    if (tradeService != null) {
+    if (!BTCTurkDemoUtilsTest.BTCTURK_APIKEY.isEmpty()) {
       // PlaceOrderAndOpenOrders Test
       Thread.sleep(1000);
       List<BTCTurkOpenOrders> openOrders =
@@ -72,6 +72,6 @@ public class TradeDataFetchIntegrationTest {
       List<BTCTurkUserTransactions> userTransactions =
           btcTurkTradeService.getBTCTurkUserTransactions();
       assertThat(userTransactions.size()).isEqualTo(25);
-    } else assertThat(tradeService).isEqualTo(null);
+    } else assertThat(tradeService).isNotEqualTo(null);
   }
 }
