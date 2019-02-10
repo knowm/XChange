@@ -21,4 +21,11 @@ public final class Inputs {
 
     return this.prevOut;
   }
+
+  @Override
+  public String toString() {
+    return "Inputs{" +
+            "prevOut=" + prevOut +
+            '}';
+  }
 }
