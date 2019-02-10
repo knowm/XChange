@@ -58,4 +58,15 @@ public final class Out {
 
     return this.value;
   }
+
+  @Override
+  public String toString() {
+    return "Out{" +
+            "addr='" + addr + '\'' +
+            ", n=" + n +
+            ", txIndex=" + txIndex +
+            ", type=" + type +
+            ", value=" + value +
+            '}';
+  }
 }

@@ -185,7 +185,10 @@
 		<module>xchange-wex</module>
 		<module>xchange-yobit</module>
 		<module>xchange-zaif</module>
-	</modules>
+        <module>xchange-coindeal</module>
+        <!--<module>xchange-coinex</module>-->
+        <module>xchange-lykke</module>
+    </modules>
 
 	<repositories>
 		<repository>
@@ -354,6 +357,12 @@
 			<version>${version.assertj}</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.5</version>
+            <scope>compile</scope>
+        </dependency>
 
 	</dependencies>
 
