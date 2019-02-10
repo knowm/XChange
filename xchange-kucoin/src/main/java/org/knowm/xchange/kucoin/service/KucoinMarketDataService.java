@@ -45,9 +45,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return getKucoinTickers()
-        .getData()
-        .stream()
+    return getKucoinTickers().getData().stream()
         .map(KucoinAdapters::adaptTicker)
         .collect(Collectors.toList());
   }
@@ -84,9 +82,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
     KucoinResponse<List<KucoinDealOrder>> response = getKucoinTrades(currencyPair, limit, since);
     List<Trade> trades =
-        response
-            .getData()
-            .stream()
+        response.getData().stream()
             .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);

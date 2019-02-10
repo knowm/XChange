@@ -37,9 +37,7 @@ public class BitZDigest implements ParamsDigest {
     // TODO: Find More Elegant Solution To Remove Sign
     // Order By Key Alphabetically, Concancecate Values
     byte[] unsigned =
-        params
-            .entrySet()
-            .stream()
+        params.entrySet().stream()
             .sorted(Map.Entry.<String, String>comparingByKey())
             .filter(e -> !e.getKey().equalsIgnoreCase("sign"))
             .map(e -> e.getValue())

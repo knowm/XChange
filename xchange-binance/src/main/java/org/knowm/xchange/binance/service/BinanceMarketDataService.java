@@ -53,15 +53,11 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
 
   public static OrderBook convertOrderBook(BinanceOrderbook ob, CurrencyPair pair) {
     List<LimitOrder> bids =
-        ob.bids
-            .entrySet()
-            .stream()
+        ob.bids.entrySet().stream()
             .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
             .collect(Collectors.toList());
     List<LimitOrder> asks =
-        ob.asks
-            .entrySet()
-            .stream()
+        ob.asks.entrySet().stream()
             .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
             .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);
@@ -107,8 +103,7 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
       List<BinanceAggTrades> aggTrades =
           binance.aggTrades(BinanceAdapters.toSymbol(pair), fromId, startTime, endTime, limit);
       List<Trade> trades =
-          aggTrades
-              .stream()
+          aggTrades.stream()
               .map(
                   at ->
                       new Trade(

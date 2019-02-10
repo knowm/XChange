@@ -1,0 +1,50 @@
+{
+  "timestamp": "1547301204217",
+  "payment_currency": "KRW",
+  "BTC": {
+    "order_currency": "BTC",
+    "bids": [
+      {
+        "quantity": "1.3506",
+        "price": "4083000"
+      },
+      {
+        "quantity": "3.7294",
+        "price": "4082000"
+      }
+    ],
+    "asks": [
+      {
+        "quantity": "0.8",
+        "price": "4089000"
+      },
+      {
+        "quantity": "3.5591",
+        "price": "4091000"
+      }
+    ]
+  },
+  "ETH": {
+    "order_currency": "ETH",
+    "bids": [
+      {
+        "quantity": "49.1075",
+        "price": "142000"
+      },
+      {
+        "quantity": "37.2778",
+        "price": "141900"
+      }
+    ],
+    "asks": [
+      {
+        "quantity": "39.98140295",
+        "price": "142200"
+      },
+      {
+        "quantity": "35.34",
+        "price": "142300"
+      }
+    ]
+  }
+}

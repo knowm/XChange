@@ -2,7 +2,6 @@ package org.knowm.xchange.btcturk;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,8 +12,10 @@ import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrades;
 
-/** @author semihunaldi 
- * @author mertguner */
+/**
+ * @author semihunaldi
+ * @author mertguner
+ */
 @Path("api/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTCTurk {
@@ -26,7 +27,7 @@ public interface BTCTurk {
   @GET
   @Path("ticker/")
   List<BTCTurkTicker> getTicker() throws IOException;
-  
+
   @GET
   @Path("orderbook/")
   BTCTurkOrderBook getOrderBook(@QueryParam("pairSymbol") String pairSymbol) throws IOException;
@@ -36,14 +37,14 @@ public interface BTCTurk {
   List<BTCTurkTrades> getTrades(
       @QueryParam("pairSymbol") String pairSymbol, @QueryParam("last") Integer last)
       throws IOException;
-  
+
   @GET
   @Path("ohlcdata/")
-  List<BTCTurkOHLC> getOHLC(@QueryParam("pairSymbol") String pairSymbol)
-      throws IOException;
-  
+  List<BTCTurkOHLC> getOHLC(@QueryParam("pairSymbol") String pairSymbol) throws IOException;
+
   @GET
   @Path("ohlcdata/")
-  List<BTCTurkOHLC> getOHLC(@QueryParam("pairSymbol") String pairSymbol, @QueryParam("last") Integer last)
+  List<BTCTurkOHLC> getOHLC(
+      @QueryParam("pairSymbol") String pairSymbol, @QueryParam("last") Integer last)
       throws IOException;
 }

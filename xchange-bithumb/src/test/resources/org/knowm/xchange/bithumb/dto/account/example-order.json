@@ -1,0 +1,15 @@
+{
+  "order_id": "1546705688665840",
+  "order_currency": "XRP",
+  "order_date": "1546705688665840",
+  "payment_currency": "KRW",
+  "type": "ask",
+  "status": "placed",
+  "units": "1.0",
+  "units_remaining": "1.0",
+  "price": "700",
+  "misu_yn": "N",
+  "fee": null,
+  "total": null,
+  "date_completed": null
+}

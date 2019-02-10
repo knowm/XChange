@@ -14,9 +14,7 @@ public class BitfinexAccountFeesResponse {
   public BitfinexAccountFeesResponse(
       @JsonProperty("withdraw") final Map<String, BigDecimal> withdraw) {
     this.withdraw =
-        withdraw
-            .entrySet()
-            .stream() // Sting needs to be adapted (i.e., DSH -> DASH)
+        withdraw.entrySet().stream() // Sting needs to be adapted (i.e., DSH -> DASH)
             .collect(
                 Collectors.toMap(
                     entry -> new Currency(BitfinexAdapters.adaptBitfinexCurrency(entry.getKey())),

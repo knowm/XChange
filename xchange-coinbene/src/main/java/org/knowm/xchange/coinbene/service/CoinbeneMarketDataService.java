@@ -56,9 +56,7 @@ public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
     }
 
     List<Trade> trades =
-        getCoinbeneTrades(currencyPair, limit)
-            .getTrades()
-            .stream()
+        getCoinbeneTrades(currencyPair, limit).getTrades().stream()
             .map(trade -> CoinbeneAdapters.adaptTrade(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);

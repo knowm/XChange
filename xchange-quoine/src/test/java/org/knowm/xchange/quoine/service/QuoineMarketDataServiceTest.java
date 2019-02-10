@@ -62,15 +62,13 @@ public class QuoineMarketDataServiceTest {
     assertEquals(params.getCurrencyPairs().size(), tickers.size());
 
     Ticker btcUsd =
-        tickers
-            .stream()
+        tickers.stream()
             .filter(ticker -> ticker.getCurrencyPair().equals(CurrencyPair.BTC_USD))
             .findFirst()
             .orElseThrow(() -> new NullPointerException("Required Ticker not found!"));
 
     Ticker ethUsd =
-        tickers
-            .stream()
+        tickers.stream()
             .filter(ticker -> ticker.getCurrencyPair().equals(CurrencyPair.ETH_USD))
             .findFirst()
             .orElseThrow(() -> new NullPointerException("Required Ticker not found!"));

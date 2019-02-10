@@ -10,8 +10,10 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 
-/** @author semihunaldi Created on 26/11/2017 
- * @author mertguner updated on 06.01.2019*/
+/**
+ * @author semihunaldi Created on 26/11/2017
+ * @author mertguner updated on 06.01.2019
+ */
 public class BTCTurkTickerTest {
 
   @Test

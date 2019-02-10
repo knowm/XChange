@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.utils.DateUtils;
 
-/** Created by semihunaldi on 26/11/2017 
- *  @author mertguner Updated 14.01.2019 for new OHCL values */
+/**
+ * Created by semihunaldi on 26/11/2017
+ *
+ * @author mertguner Updated 14.01.2019 for new OHCL values
+ */
 public class BTCTurkOHLCTest {
   @Test
   public void testUnmarshal() throws IOException {
@@ -23,7 +27,8 @@ public class BTCTurkOHLCTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(btcTurkOHLCs.length).isEqualTo(2);
-    assertThat(btcTurkOHLCs[0].getTime().toString()).isEqualTo("Mon Jan 14 00:00:00 UTC 2019");
+    assertThat(DateUtils.toUTCString(btcTurkOHLCs[0].getTime()))
+        .isEqualTo("2019-01-14 00:00:00 GMT");
     assertThat(btcTurkOHLCs[0].getOpen()).isEqualTo(new BigDecimal("640"));
     assertThat(btcTurkOHLCs[0].getHigh()).isEqualTo(new BigDecimal("731"));
     assertThat(btcTurkOHLCs[0].getLow()).isEqualTo(new BigDecimal("637"));
