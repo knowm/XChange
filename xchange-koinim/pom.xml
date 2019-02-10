@@ -3,12 +3,11 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.6-SNAPSHOT</version>
+        <version>4.3.16-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xchange-koinim</artifactId>
-    <version>4.3.6-SNAPSHOT</version>
 
     <name>XChange Koinim</name>
     <description>XChange implementation for the Koinim Exchange</description>
@@ -32,7 +31,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

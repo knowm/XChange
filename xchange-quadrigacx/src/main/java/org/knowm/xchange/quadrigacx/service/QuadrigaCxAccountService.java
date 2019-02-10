@@ -2,13 +2,10 @@ package org.knowm.xchange.quadrigacx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxBalance;
 import org.knowm.xchange.service.account.AccountService;
@@ -40,6 +37,9 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
 
     if (currency.equals(Currency.BTC)) return withdrawBitcoin(amount, address);
     else if (currency.equals(Currency.ETH)) return withdrawEther(amount, address);
+    else if (currency.equals(Currency.BCH)) return withdrawBitcoinCach(amount, address);
+    else if (currency.equals(Currency.BTG)) return withdrawBitcoinGold(amount, address);
+    else if (currency.equals(Currency.LTC)) return withdrawLitecoin(amount, address);
     else throw new IllegalStateException("unsupported ccy " + currency);
   }
 
@@ -63,16 +63,17 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw
       return getQuadrigaCxBitcoinDepositAddress().getDepositAddress();
     else if (currency.equals(Currency.ETH))
       return getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.BCH))
+      return getQuadrigaCxBitcoinCachDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.BTG))
+      return getQuadrigaCxBitcoinGoldDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.LTC))
+      return getQuadrigaCxLitecoinDepositAddress().getDepositAddress();
     else throw new IllegalStateException("unsupported ccy " + currency);
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 }

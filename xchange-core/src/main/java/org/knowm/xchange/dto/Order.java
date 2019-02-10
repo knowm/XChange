@@ -28,8 +28,10 @@ public abstract class Order implements Serializable {
   private BigDecimal cumulativeAmount;
   /** Weighted Average price of the fills in the order */
   private BigDecimal averagePrice;
-  /** The total of the fees incured for all transactions related to this order */
+  /** The total of the fees incurred for all transactions related to this order */
   private BigDecimal fee;
+  /** The leverage to use for margin related to this order */
+  private String leverage = null;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -189,6 +191,14 @@ public abstract class Order implements Serializable {
     this.status = status;
   }
 
+  public String getLeverage() {
+    return leverage;
+  }
+
+  public void setLeverage(String leverage) {
+    this.leverage = leverage;
+  }
+
   @Override
   public String toString() {
 
@@ -200,6 +210,8 @@ public abstract class Order implements Serializable {
         + print(cumulativeAmount)
         + ", averagePrice="
         + print(averagePrice)
+        + ", fee="
+        + print(fee)
         + ", currencyPair="
         + currencyPair
         + ", id="
@@ -271,7 +283,22 @@ public abstract class Order implements Serializable {
      * This is to close a long position when trading crypto currency derivatives such as swaps,
      * futures for CFD's.
      */
-    EXIT_BID
+    EXIT_BID;
+
+    public OrderType getOpposite() {
+      switch (this) {
+        case BID:
+          return ASK;
+        case ASK:
+          return BID;
+        case EXIT_ASK:
+          return EXIT_BID;
+        case EXIT_BID:
+          return EXIT_ASK;
+        default:
+          return null;
+      }
+    }
   }
 
   public enum OrderStatus {
@@ -304,7 +331,35 @@ public abstract class Order implements Serializable {
      * The exchange returned a state which is not in the exchange's API documentation. The state of
      * the order cannot be confirmed.
      */
-    UNKNOWN
+    UNKNOWN;
+
+    /** Returns true for final {@link OrderStatus} */
+    public boolean isFinal() {
+      switch (this) {
+        case FILLED:
+        case PARTIALLY_CANCELED: // Cancelled, partially-executed order is final status.
+        case CANCELED:
+        case REPLACED:
+        case STOPPED:
+        case REJECTED:
+        case EXPIRED:
+          return true;
+        default:
+          return false;
+      }
+    }
+
+    /** Returns true when open {@link OrderStatus} */
+    public boolean isOpen() {
+      switch (this) {
+        case PENDING_NEW:
+        case NEW:
+        case PARTIALLY_FILLED:
+          return true;
+        default:
+          return false;
+      }
+    }
   }
 
   public interface IOrderFlags {}

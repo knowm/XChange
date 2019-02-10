@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,6 +15,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -32,6 +35,8 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
@@ -336,7 +341,7 @@ public final class GeminiAdapters {
       OrderStatus status = OrderStatus.NEW;
 
       if (order.isCancelled()) {
-        status = Order.OrderStatus.CANCELED;
+        status = OrderStatus.CANCELED;
       } else if (order.getExecutedAmount().signum() > 0
           && order.getExecutedAmount().compareTo(order.getOriginalAmount()) < 0) {
         status = OrderStatus.PARTIALLY_FILLED;
@@ -371,7 +376,7 @@ public final class GeminiAdapters {
     for (GeminiTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
-      final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
+      final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount();
       pastTrades.add(
           new UserTrade(
               orderType,
@@ -411,6 +416,51 @@ public final class GeminiAdapters {
     }
 
     return metaData;
+  }
+
+  public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(
+      GeminiTrailingVolumeResponse volumeResponse, List<CurrencyPair> currencyPairs) {
+    Map<CurrencyPair, Fee> result = new Hashtable<CurrencyPair, Fee>();
+    BigDecimal bpsToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4));
+    Fee feeAcrossCurrencies =
+        new Fee(
+            volumeResponse.MakerFeeBPS.multiply(bpsToFraction),
+            volumeResponse.TakerFeeBPS.multiply(bpsToFraction));
+    for (CurrencyPair currencyPair : currencyPairs) {
+      result.put(currencyPair, feeAcrossCurrencies);
+    }
+
+    return result;
+  }
+
+  public static FundingRecord adapt(GeminiTransfer transfer) {
+    FundingRecord.Status status = FundingRecord.Status.PROCESSING;
+    if (transfer.status.equals("Complete")) status = FundingRecord.Status.COMPLETE;
+    if (transfer.status.equals("Advanced")) status = FundingRecord.Status.COMPLETE;
+
+    String description = "";
+    if (transfer.purpose != null) description = transfer.purpose;
+
+    if (transfer.method != null) description += " " + transfer.method;
+
+    description = description.trim();
+
+    FundingRecord.Type type =
+        transfer.type.equals("Withdrawal")
+            ? FundingRecord.Type.WITHDRAWAL
+            : FundingRecord.Type.DEPOSIT;
+
+    return new FundingRecord.Builder()
+        .setStatus(status)
+        .setType(type)
+        .setInternalId(transfer.eid)
+        .setAddress(transfer.destination)
+        .setCurrency(Currency.getInstance(transfer.currency))
+        .setDate(DateUtils.fromMillisUtc(transfer.timestamp))
+        .setAmount(transfer.amount)
+        .setBlockchainTransactionHash(transfer.txnHash)
+        .setDescription(description)
+        .build();
   }
 
   public static class OrdersContainer {

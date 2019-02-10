@@ -1,0 +1,10 @@
+{
+  "transaction_date": "1428024598967",
+  "type": "ask",
+  "order_currency": "BTC",
+  "payment_currency": "KRW",
+  "units_traded": "0.0017",
+  "price": "264000",
+  "fee": "0.0000017",
+  "total": "449"
+}

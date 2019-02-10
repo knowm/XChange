@@ -14,7 +14,10 @@ public class RippleOrderBookTest {
   @Test
   public void unmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = getClass().getResourceAsStream("/marketdata/example-order-book.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/ripple/dto/marketdata/example-order-book.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderBook orderBook = mapper.readValue(is, RippleOrderBook.class);
 

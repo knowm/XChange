@@ -16,9 +16,9 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-小田謙太郎
-=
 Achterhoeker
+Adam Walczak
+Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex Nugent
@@ -27,11 +27,15 @@ Alexey Z
 Allen Day
 Alvin Singh
 Andraž
+Andrea Fossi
 André Reiter
 Anthony Tsang
+Arran Duff
 Arthurm1
 Artur
+Artur M
 Baffo32
+BenTrapani
 Benedict Wong
 Benedikt Bünz
 Bilgin Ibryam
@@ -44,22 +48,32 @@ Carlos Lopez-Camey
 Chris Cannell
 Chris Rico
 Christian Strässle
+Claus235
 Cray Imperative
 Cristian Lucaci
+Cryptonit Exchange
+Cyril
 Daniel Cohen
+Daniela Hajnikova
 Danilo Guimarães
 Dave Seyb
 David FRANCOIS
+David Jirovec
 David Kreutzer
+Dennis Ruhe
 Devin Smith
+Djihad BENGATI
 Dmitry Fedorenko
+Dmitry Sklyadnev
 Dolezal Zdenek
+Donald Jackson
 Douggie
 DrawFun
 Eric Anderson
 Erland Lewin
 EzBar
 Ezer Bar-Aviv
+Fabian
 Fabien André
 Felipe Micaroni Lalli
 Flemingjp
@@ -67,15 +81,23 @@ Frank Kaiser
 GENiALi
 Gary Rowe
 Gianluigi
+Giedrius Koksta
+Giedrius Kokšta
 Giridhar Nandigam
 Graham Crockford
 Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
 Herman Ofenböck
+Hypeon
+Ian W
 Ignacio Larranaga
+Igor Velichkevich
+Igor.Velichkevich
+Iury V. Vinogradov
 JH
 JK
+Jack McKenzie
 James
 James Edwards
 James Fleming
@@ -85,6 +107,7 @@ Jan X Marek
 Janosch Gräf
 Jean-Pierre Froud
 Jim Northrup
+Joakim Johansson
 Joe Zhou
 Johannes Zweng
 Jonathan Heusser
@@ -92,6 +115,7 @@ Jonathan Tse
 Jonny Heggheim
 Joseph Marcilla
 Julian Liebl
+Juliusz Choinski
 Jure Grabnar
 Justin Ramsey
 Kamil Żbikowski
@@ -100,6 +124,7 @@ Karsten Nilsen
 Ken Fehling
 Kenneth Jorgensen
 Kevin Britz
+Kevin Gates
 Kevin Jannis
 Kolozsy Gábor
 Konstantin Alexandrov
@@ -108,6 +133,7 @@ Konstantin Tenman
 Krystian Nowak
 Krzysiek
 Krzysztof Cieślak
+Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
 Luca Rosellini
@@ -123,7 +149,9 @@ Matija Mazi
 Matt Read
 Matt Whitlock
 Matthew Downey
+Matthew Peacock
 Maxim Fefilov
+Micah Lerner
 Michael Lagace
 Michael Lagacé
 Mike Gerlyand
@@ -131,22 +159,30 @@ Mikelle
 Mikhail Wall
 Miso Oprendek
 Muffon
+Nathan King
 Nicolas Pinot
+Niels
+Nikita Belenkiy
+Niko Schmuck
 Norbert Sándor
 ObsessiveOrange
+Oleg Danilov
 Oleg Khomenko
 Oliver Drotleff
 Oscar Francia
+Pablo Lopez
 Pan, Xinyang
 Panchen
+Pavel Niedoba
 Pavlo Pastushok
 Peter Keeler
 Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
+RadeK
 Radu
-Rafał Krupiński
 Rafal Krupinski
+Rafał Krupiński
 Raphael Voellmy
 Richard Flint
 Robert Felker
@@ -155,15 +191,23 @@ Roman Belkov
 Ronald Bultman
 Ryan Fox
 Ryan Sundberg
+Sascha
+Sascha Zieger
 Sebastiaan van Erk
 Sergey Belyakov
+Sergey Lukashevich
 Sergey Tselovalnikov
+Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
+Snailz
+Steven te Brinke
 Stuart Low
 Sumedha Saxena
+Sylvain
 Sébastien Koch
 TM Lee
+Tangjun He
 The Gitter Badger
 Theofanis Pantelides
 Thomas Diesler
@@ -172,6 +216,7 @@ Tillerino
 Tim Molter
 Tomas Cere
 Tomáš Procházka
+Tong Yang
 Tony Skulk
 Travis Collins
 U-TORA\cristian.lucaci
@@ -179,12 +224,14 @@ Ujjwal Kabra
 Uwe
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Victor Didenko
 Victor Mezrin
 Viktor.Zakalyuzhnyy
 Wojciech Langiewicz
 Wyatt Endres
 Yang Yang
 Ying Zhe Chong
+Your Name
 Yuki INOUE
 Zach Holmes
 Zdenek Dolezal
@@ -192,8 +239,11 @@ Zorge.R
 ahmetoz
 ajdev
 aleks-azen
+aleksazen@gmail.com
 alessandro luppi
 alobarev
+amjad1210
+anton
 anw
 apaygh
 artvel
@@ -201,16 +251,20 @@ b00lean
 bharris
 bolo
 bolobox
+boppleton
 brilliantnut
 bronko
+bronoman
 brox
 cacofish
 cacofishadct
+caleb
 coinlover75
 cymp
 cyril
 datbui
 david-yam
+desinerlee
 deveth0
 dhenry
 dimecoin
@@ -225,12 +279,18 @@ gmorpheme
 godoorsun
 gpwclark
 hardsky
+hbwhyte
 henry
+huguanrui
 hurricup
+interwater
 ivan.kosianenko
 jamespedwards42
+jasonliu119
+jchoinski
 jclaruelle
 jcuypers
+jmcklondonuk
 johndemic
 karol.pysniak@turbineam.com
 kisapmata
@@ -239,6 +299,7 @@ kyr7
 lapoor
 lazy_p@163.com
 lazyp
+lichunmao
 m4g4
 makarid
 matija.mazi@gmail.com
@@ -247,8 +308,12 @@ mazi
 mdeverdelhan
 mfarid
 mharris021
+michaelscheung
 miho
+mikhw
 mnapier
+moardm
+nado04@gmail.com
 nakedpony
 nicostouch
 nimrood
@@ -257,10 +322,13 @@ nxtpool@gmail.com
 o
 odaken
 paul
+pavel
+pchertalev
 perlboy
 piotr
 pnkwpk
 pozheg
+procyon
 seanrobb
 sebastienkoch
 semihunaldi
@@ -275,12 +343,21 @@ stephane-coulomb
 stevenuray
 suchac
 swiesend
+taoruifu
 tbosman
 tim
 timmolter
+tobakk
+trix
+trix13
 veken0m
 vulicevic
+w0lph
+walec51
+water0126
 will
 wvr
 ww3456
 zholmes
+陈晔
+小田謙太郎

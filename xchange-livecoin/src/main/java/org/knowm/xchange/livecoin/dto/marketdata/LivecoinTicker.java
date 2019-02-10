@@ -2,8 +2,9 @@ package org.knowm.xchange.livecoin.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-public class LivecoinTicker {
+public class LivecoinTicker extends LivecoinBaseResponse {
   private final String cur;
   private final String symbol;
   private final BigDecimal last;
@@ -17,6 +18,7 @@ public class LivecoinTicker {
   private final BigDecimal bestAsk;
 
   public LivecoinTicker(
+      @JsonProperty("success") Boolean success,
       @JsonProperty("cur") String cur,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("last") BigDecimal last,
@@ -28,7 +30,7 @@ public class LivecoinTicker {
       @JsonProperty("min_ask") BigDecimal minAsk,
       @JsonProperty("best_bid") BigDecimal bestBid,
       @JsonProperty("best_ask") BigDecimal bestAsk) {
-
+    super(success);
     this.cur = cur;
     this.symbol = symbol;
     this.last = last;

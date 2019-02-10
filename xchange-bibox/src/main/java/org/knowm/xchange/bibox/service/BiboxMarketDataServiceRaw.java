@@ -17,6 +17,7 @@ import org.knowm.xchange.bibox.dto.BiboxResponse;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxOrderBookCommand;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxTicker;
+import org.knowm.xchange.bibox.dto.trade.BiboxDeals;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -27,6 +28,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
   private static final String TICKER_CMD = "ticker";
   private static final String DEPTH_CMD = "depth";
   private static final String ALL_TICKERS_CMD = "marketAll";
+  private static final String DEALS_CMD = "deals";
 
   protected BiboxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
@@ -54,6 +56,18 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
     }
   }
 
+  public List<BiboxDeals> getBiboxDeals(CurrencyPair currencyPair, Integer depth)
+      throws IOException {
+    try {
+      BiboxResponse<List<BiboxDeals>> response =
+          bibox.deals(DEALS_CMD, BiboxAdapters.toBiboxPair(currencyPair), depth);
+      throwErrors(response);
+      return response.getResult();
+    } catch (BiboxException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
   public List<BiboxMarket> getAllBiboxMarkets() throws IOException {
     try {
       BiboxResponse<List<BiboxMarket>> response = bibox.marketAll(ALL_TICKERS_CMD);
@@ -68,8 +82,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       Integer depth, Collection<CurrencyPair> currencyPairs) {
     try {
       List<BiboxCommand<?>> allCommands =
-          currencyPairs
-              .stream()
+          currencyPairs.stream()
               .distinct()
               .filter(Objects::nonNull)
               .map(BiboxAdapters::toBiboxPair)
@@ -78,9 +91,7 @@ public class BiboxMarketDataServiceRaw extends BiboxBaseService {
       BiboxMultipleResponses<BiboxOrderBook> response =
           bibox.orderBooks(BiboxCommands.of(allCommands).json());
       throwErrors(response);
-      return response
-          .getResult()
-          .stream()
+      return response.getResult().stream()
           .map(BiboxResponse::getResult)
           .collect(Collectors.toList());
     } catch (BiboxException e) {

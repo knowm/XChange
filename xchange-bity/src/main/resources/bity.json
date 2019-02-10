@@ -1,0 +1,14 @@
+{
+  "currency_pairs": {
+    "BTC/CHF": {
+      "price_scale": 2
+    },
+    "ETH/CHF": {
+      "price_scale": 2
+    },
+    "REP/CHF": {
+      "price_scale": 2
+    }
+  },
+  "currencies": {}
+}

@@ -2,7 +2,7 @@ package org.knowm.xchange.cryptofacilities;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,9 +23,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
 
-  @POST
+  @GET
   @Path("/accounts")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesAccounts accounts(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -34,7 +33,6 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
 
   @POST
   @Path("/sendorder")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOrder sendOrder(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -48,7 +46,6 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
 
   @POST
   @Path("/cancelorder")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesCancel cancelOrder(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -56,27 +53,24 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @QueryParam("order_id") String order_id)
       throws IOException;
 
-  @POST
+  @GET
   @Path("/openorders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOpenOrders openOrders(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
-  @POST
+  @GET
   @Path("/fills")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesFills fills(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
-  @POST
+  @GET
   @Path("/openpositions")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOpenPositions openPositions(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,

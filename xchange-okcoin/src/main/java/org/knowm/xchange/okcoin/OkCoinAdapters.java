@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -32,7 +33,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -69,6 +69,12 @@ public final class OkCoinAdapters {
 
     String[] currencies = symbol.toUpperCase().split("_");
     return new CurrencyPair(currencies[0], currencies[1]);
+  }
+
+  public static String adaptCurrencyToAccountRecordPair(Currency currency) {
+    // Currency pair must be used with usd
+    // This is due to https://github.com/okcoin-okex/API-docs-OKEx.com/issues/115
+    return adaptSymbol(new CurrencyPair(currency, Currency.USD));
   }
 
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
@@ -145,10 +151,9 @@ public final class OkCoinAdapters {
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
-    OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
-    OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
-    OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
-    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
+    OkcoinFuturesFundsCross btcFunds = futureUserInfo.getFunds(Currency.BTC);
+    OkcoinFuturesFundsCross ltcFunds = futureUserInfo.getFunds(Currency.LTC);
+    OkcoinFuturesFundsCross bchFunds = futureUserInfo.getFunds(Currency.BCH);
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
@@ -380,68 +385,45 @@ public final class OkCoinAdapters {
   }
 
   public static List<FundingRecord> adaptFundingHistory(
-      final OkCoinAccountRecords[] okCoinAccountRecordsList) {
+      final OkCoinAccountRecords okCoinAccountRecordsList, FundingRecord.Type type) {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
-    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0) {
-      final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
-      if (depositRecord != null) {
-        final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
-        for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
+    if (okCoinAccountRecordsList != null) {
+      final Currency c = Currency.getInstance(okCoinAccountRecordsList.getSymbol());
+      for (OkCoinRecords okCoinRecordEntry : okCoinAccountRecordsList.getRecords()) {
 
-          FundingRecord.Status status = null;
-          if (okCoinRecordEntry.getStatus() != null) {
+        FundingRecord.Status status = null;
+        if (okCoinRecordEntry.getStatus() != null) {
+          if (type == Type.DEPOSIT) {
             final OkCoinRecords.RechargeStatus rechargeStatus =
                 OkCoinRecords.RechargeStatus.fromInt(okCoinRecordEntry.getStatus());
             if (rechargeStatus != null) {
               status = FundingRecord.Status.resolveStatus(rechargeStatus.getStatus());
             }
-          }
-
-          fundingRecords.add(
-              new FundingRecord(
-                  okCoinRecordEntry.getAddress(),
-                  adaptDate(okCoinRecordEntry.getDate()),
-                  depositCurrency,
-                  okCoinRecordEntry.getAmount(),
-                  null,
-                  null,
-                  FundingRecord.Type.DEPOSIT,
-                  status,
-                  null,
-                  okCoinRecordEntry.getFee(),
-                  null));
-        }
-      }
-      final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
-      if (withdrawalRecord != null) {
-        final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
-        for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
-
-          FundingRecord.Status status = null;
-          if (okCoinRecordEntry.getStatus() != null) {
+          } else { // WITHDRAWAL
             final OkCoinRecords.WithdrawalStatus withdrawalStatus =
                 OkCoinRecords.WithdrawalStatus.fromInt(okCoinRecordEntry.getStatus());
             if (withdrawalStatus != null) {
               status = FundingRecord.Status.resolveStatus(withdrawalStatus.getStatus());
             }
           }
-
-          fundingRecords.add(
-              new FundingRecord(
-                  okCoinRecordEntry.getAddress(),
-                  adaptDate(okCoinRecordEntry.getDate()),
-                  withdrawalCurrency,
-                  okCoinRecordEntry.getAmount(),
-                  null,
-                  null,
-                  FundingRecord.Type.WITHDRAWAL,
-                  status,
-                  null,
-                  okCoinRecordEntry.getFee(),
-                  null));
         }
+
+        fundingRecords.add(
+            new FundingRecord(
+                okCoinRecordEntry.getAddress(),
+                adaptDate(okCoinRecordEntry.getDate()),
+                c,
+                okCoinRecordEntry.getAmount(),
+                null,
+                null,
+                type,
+                status,
+                null,
+                okCoinRecordEntry.getFee(),
+                null));
       }
     }
+
     return fundingRecords;
   }
 }

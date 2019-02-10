@@ -37,7 +37,9 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException;
+  default Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Get the tickers representing the current exchange rate for the provided parameters
@@ -68,7 +70,9 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException;
+  default OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * Get the trades recently performed by the exchange
@@ -83,5 +87,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException;
+  default Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }

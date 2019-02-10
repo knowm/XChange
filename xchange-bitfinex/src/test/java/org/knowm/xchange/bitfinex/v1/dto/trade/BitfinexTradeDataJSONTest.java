@@ -23,7 +23,7 @@ public class BitfinexTradeDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-place-order-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-place-order-data.json");
     BitfinexOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
@@ -47,7 +47,7 @@ public class BitfinexTradeDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-cancel-order-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-cancel-order-data.json");
     BitfinexOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
@@ -71,7 +71,7 @@ public class BitfinexTradeDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-open-orders-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-open-orders-data.json");
     BitfinexOrderStatusResponse response =
         new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
@@ -95,7 +95,7 @@ public class BitfinexTradeDataJSONTest {
 
     InputStream resourceAsStream =
         BitfinexTradeDataJSONTest.class.getResourceAsStream(
-            "/v1/trade/example-past-trades-data.json");
+            "/org/knowm/xchange/bitfinex/v1/dto/trade/example-past-trades-data.json");
     BitfinexTradeResponse[] responses =
         new ObjectMapper().readValue(resourceAsStream, BitfinexTradeResponse[].class);
 

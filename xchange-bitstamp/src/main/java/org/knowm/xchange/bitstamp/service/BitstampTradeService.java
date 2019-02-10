@@ -20,10 +20,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -55,7 +53,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
       BitstampOrder[] openOrders = getBitstampOpenOrders(pair);
       for (BitstampOrder bitstampOrder : openOrders) {
         OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-        String id = Integer.toString(bitstampOrder.getId());
+        String id = Long.toString(bitstampOrder.getId());
         BigDecimal price = bitstampOrder.getPrice();
         limitOrders.add(
             new LimitOrder(
@@ -81,7 +79,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
-    return Integer.toString(bitstampOrder.getId());
+    return Long.toString(bitstampOrder.getId());
   }
 
   @Override
@@ -97,18 +95,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
-    return Integer.toString(bitstampOrder.getId());
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return Long.toString(bitstampOrder.getId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException, BitstampException {
 
-    return cancelBitstampOrder(Integer.parseInt(orderId));
+    return cancelBitstampOrder(Long.parseLong(orderId));
   }
 
   @Override

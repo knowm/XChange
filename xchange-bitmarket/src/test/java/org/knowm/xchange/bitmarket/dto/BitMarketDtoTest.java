@@ -21,7 +21,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseMarketAccountInfo() throws IOException {
     // when
     BitMarketAccountInfoResponse response =
-        parse("account/example-info-data", BitMarketAccountInfoResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/account/example-info-data",
+            BitMarketAccountInfoResponse.class);
 
     // then
     verifySuccessResponse(response);
@@ -38,7 +40,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseCancelOrder() throws IOException {
     // when
     BitMarketCancelResponse response =
-        parse("trade/example-cancel-order", BitMarketCancelResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-cancel-order",
+            BitMarketCancelResponse.class);
 
     // then
     verifySuccessResponse(response);
@@ -55,7 +59,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseDeposit() throws IOException {
     // when
     BitMarketDepositResponse response =
-        parse("account/example-deposit-data", BitMarketDepositResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/account/example-deposit-data",
+            BitMarketDepositResponse.class);
 
     // then
     verifySuccessResponse(response);
@@ -72,7 +78,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseWithdraw() throws IOException {
     // when
     BitMarketWithdrawResponse response =
-        parse("account/example-withdraw-data", BitMarketWithdrawResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/account/example-withdraw-data",
+            BitMarketWithdrawResponse.class);
 
     // then
     verifySuccessResponse(response);
@@ -89,7 +97,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseMarketTrade() throws IOException {
     // when
     BitMarketTradeResponse response =
-        parse("trade/example-trade-data", BitMarketTradeResponse.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/trade/example-trade-data",
+            BitMarketTradeResponse.class);
 
     // then
     verifySuccessResponse(response);
@@ -109,7 +119,9 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   public void shouldParseOrderBook() throws IOException {
     // when
     BitMarketOrderBook response =
-        parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-order-book-data",
+            BitMarketOrderBook.class);
 
     // then
     BitMarketAssert.assertEquals(response, PARSED_ORDER_BOOK);
@@ -118,7 +130,10 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   @Test
   public void shouldParseTicker() throws IOException {
     // when
-    BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+    BitMarketTicker response =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-ticker-data",
+            BitMarketTicker.class);
 
     // then
     BitMarketAssert.assertEquals(response, PARSED_TICKER);
@@ -130,7 +145,10 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
     final BitMarketTrade[] expectedParsedTrades = expectedParsedTrades();
 
     // when
-    BitMarketTrade[] trades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+    BitMarketTrade[] trades =
+        parse(
+            "org/knowm/xchange/bitmarket/dto/marketdata/example-trades-data",
+            BitMarketTrade[].class);
 
     // then
     assertThat(trades).hasSize(3);

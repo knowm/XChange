@@ -13,6 +13,8 @@ import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioPlaceOrderReturn;
 import org.knowm.xchange.gateio.dto.trade.GateioTradeHistoryReturn;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 
 public class GateioTradeServiceRaw extends GateioBaseService {
 
@@ -77,18 +79,18 @@ public class GateioTradeServiceRaw extends GateioBaseService {
 
     GateioPlaceOrderReturn orderId;
     if (orderType.equals(GateioOrderType.BUY)) {
-      orderId = bter.buy(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+      orderId = bter.buy(pair, rate, amount, apiKey, signatureCreator);
     } else {
-      orderId = bter.sell(pair, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
+      orderId = bter.sell(pair, rate, amount, apiKey, signatureCreator);
     }
 
     return handleResponse(orderId).getOrderId();
   }
 
-  public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelOrderResult =
-        bter.cancelOrder(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
+        bter.cancelOrder(orderId, GateioUtils.toPairString(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelOrderResult).isResult();
   }
@@ -104,28 +106,21 @@ public class GateioTradeServiceRaw extends GateioBaseService {
   public boolean cancelAllOrders(String type, CurrencyPair currencyPair) throws IOException {
 
     GateioBaseResponse cancelAllOrdersResult =
-        bter.cancelAllOrders(
-            type,
-            formatCurrencyPair(currencyPair),
-            apiKey,
-            signatureCreator,
-            exchange.getNonceFactory());
+        bter.cancelAllOrders(type, formatCurrencyPair(currencyPair), apiKey, signatureCreator);
 
     return handleResponse(cancelAllOrdersResult).isResult();
   }
 
   public GateioOpenOrders getGateioOpenOrders() throws IOException {
 
-    GateioOpenOrders gateioOpenOrdersReturn =
-        bter.getOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory());
+    GateioOpenOrders gateioOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator);
 
     return handleResponse(gateioOpenOrdersReturn);
   }
 
   public GateioOrderStatus getGateioOrderStatus(String orderId) throws IOException {
 
-    GateioOrderStatus orderStatus =
-        bter.getOrderStatus(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
+    GateioOrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator);
 
     return handleResponse(orderStatus);
   }
@@ -134,11 +129,7 @@ public class GateioTradeServiceRaw extends GateioBaseService {
       throws IOException {
 
     GateioTradeHistoryReturn gateioTradeHistoryReturn =
-        bter.getUserTradeHistory(
-            apiKey,
-            signatureCreator,
-            exchange.getNonceFactory(),
-            GateioUtils.toPairString(currencyPair));
+        bter.getUserTradeHistory(apiKey, signatureCreator, GateioUtils.toPairString(currencyPair));
 
     return handleResponse(gateioTradeHistoryReturn);
   }
@@ -147,5 +138,26 @@ public class GateioTradeServiceRaw extends GateioBaseService {
     return String.format(
             "%s_%s", currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode())
         .toLowerCase();
+  }
+
+  public static class GateioCancelOrderParams
+      implements CancelOrderByIdParams, CancelOrderByCurrencyPair {
+    public final CurrencyPair currencyPair;
+    public final String orderId;
+
+    public GateioCancelOrderParams(CurrencyPair currencyPair, String orderId) {
+      this.currencyPair = currencyPair;
+      this.orderId = orderId;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
   }
 }

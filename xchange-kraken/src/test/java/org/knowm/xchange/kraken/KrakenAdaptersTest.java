@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -33,6 +35,7 @@ import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
@@ -52,14 +55,17 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assets-data.json");
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     KrakenUtils.setKrakenAssets(krakenResult.getResult());
 
     // Read in the JSON from the example resources
-    is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+    is =
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
     // Use Jackson to parse it
     mapper = new ObjectMapper();
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
@@ -71,7 +77,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -99,7 +106,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-assetpairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -117,7 +125,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -142,7 +151,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -167,7 +177,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/account/example-balance-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -185,7 +196,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -209,7 +221,7 @@ public class KrakenAdaptersTest {
     // Read in the JSON from the example resources
     InputStream is =
         KrakenAdaptersTest.class.getResourceAsStream(
-            "/trading/example-openorders-in-transaction-currency-data.json");
+            "/org/knowm/xchange/kraken/dto/trading/example-openorders-in-transaction-currency-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -232,7 +244,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -263,7 +276,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/account/example-ledgerinfo-data.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-ledgerinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -289,7 +303,8 @@ public class KrakenAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream("/order/example-market-ask-order.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/order/example-market-ask-order.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -307,5 +322,37 @@ public class KrakenAdaptersTest {
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.84962599"));
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_USD);
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass()));
+  }
+
+  @Test
+  public void testAdaptFeeTiers1() {
+    List<KrakenFee> krakenMakerFees = new ArrayList<KrakenFee>();
+    List<KrakenFee> krakenTakerFees = new ArrayList<KrakenFee>();
+
+    krakenMakerFees.add(new KrakenFee(BigDecimal.TEN, BigDecimal.ONE));
+    krakenTakerFees.add(new KrakenFee(BigDecimal.TEN, new BigDecimal(2)));
+    krakenMakerFees.add(new KrakenFee(new BigDecimal(45), new BigDecimal(0.5)));
+    krakenTakerFees.add(new KrakenFee(new BigDecimal(30), new BigDecimal(0.75)));
+
+    FeeTier[] adaptedFeeTiers = KrakenAdapters.adaptFeeTiers(krakenMakerFees, krakenTakerFees);
+    assertThat(adaptedFeeTiers.length).isEqualTo(3);
+
+    assertThat(adaptedFeeTiers[0].beginQuantity).isEqualByComparingTo(BigDecimal.TEN);
+    assertThat(adaptedFeeTiers[0].fee.getMakerFee())
+        .isEqualByComparingTo(BigDecimal.ONE.movePointLeft(2));
+    assertThat(adaptedFeeTiers[0].fee.getTakerFee())
+        .isEqualByComparingTo(new BigDecimal(2).movePointLeft(2));
+
+    assertThat(adaptedFeeTiers[1].beginQuantity).isEqualByComparingTo(new BigDecimal(30));
+    assertThat(adaptedFeeTiers[1].fee.getMakerFee())
+        .isEqualByComparingTo(BigDecimal.ONE.movePointLeft(2));
+    assertThat(adaptedFeeTiers[1].fee.getTakerFee())
+        .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
+
+    assertThat(adaptedFeeTiers[2].beginQuantity).isEqualByComparingTo(new BigDecimal(45));
+    assertThat(adaptedFeeTiers[2].fee.getMakerFee())
+        .isEqualByComparingTo(new BigDecimal(0.5).movePointLeft(2));
+    assertThat(adaptedFeeTiers[2].fee.getTakerFee())
+        .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
   }
 }

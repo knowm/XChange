@@ -35,6 +35,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,8 @@ public class DSXAdapters {
   private static final Logger log = LoggerFactory.getLogger(DSXAdapters.class);
 
   private DSXAdapters() {}
+
+  public static DSXExchangeInfo dsxExchangeInfo;
 
   public static List<LimitOrder> adaptOrders(
       List<BigDecimal[]> dSXOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
@@ -189,13 +192,14 @@ public class DSXAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
-    String currencyOne = dsxCurrencyPair.substring(0, 3);
-    if (currencyOne.equalsIgnoreCase("bcc")) currencyOne = "bch";
-
-    String currencyTwo = dsxCurrencyPair.substring(3, 6);
-    if (currencyTwo.equalsIgnoreCase("bcc")) currencyTwo = "bch";
-
-    return new CurrencyPair(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
+    if (dsxExchangeInfo == null) {
+      throw new ExchangeException("DSX exchange info not initialized yet.");
+    }
+    DSXPairInfo dsxPairInfo = dsxExchangeInfo.getPairs().get(dsxCurrencyPair);
+    if (dsxPairInfo == null) {
+      throw new ExchangeException("Not supported DSX pair: " + dsxCurrencyPair);
+    }
+    return new CurrencyPair(dsxPairInfo.baseCurrency, dsxPairInfo.quotedCurrency);
   }
 
   public static Currency adaptCurrency(String dsxCurrency) {
@@ -265,7 +269,7 @@ public class DSXAdapters {
     BigDecimal maximumAmount = withScale(info.getMaxPrice(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

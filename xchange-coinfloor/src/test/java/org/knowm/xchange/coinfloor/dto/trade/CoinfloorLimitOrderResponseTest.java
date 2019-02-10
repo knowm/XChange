@@ -10,7 +10,10 @@ import org.junit.Test;
 public class CoinfloorLimitOrderResponseTest {
   @Test
   public void unmarshalTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/trade/example-place-limit-order.json");
+    InputStream is =
+        getClass()
+            .getResourceAsStream(
+                "/org/knowm/xchange/coinfloor/dto/trade/example-place-limit-order.json");
     ObjectMapper mapper = new ObjectMapper();
     CoinfloorOrder response = mapper.readValue(is, CoinfloorOrder.class);
 

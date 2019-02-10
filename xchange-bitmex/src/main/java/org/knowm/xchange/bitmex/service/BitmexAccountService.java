@@ -3,7 +3,9 @@ package org.knowm.xchange.bitmex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.knowm.xchange.Exchange;
+import java.util.stream.Collectors;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
@@ -11,10 +13,11 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitmexAccountService extends BitmexAccountServiceRaw implements AccountService {
 
@@ -23,9 +26,13 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
    *
    * @param exchange
    */
-  public BitmexAccountService(Exchange exchange) {
+  public BitmexAccountService(BitmexExchange exchange) {
 
     super(exchange);
+  }
+
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new DefaultTradeHistoryParamCurrency();
   }
 
   @Override
@@ -48,11 +55,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     String currencyCode = currency.getCurrencyCode();
 
@@ -66,12 +68,27 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   @Override
-  public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
 
-  @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    Currency currency = null;
+
+    if (params instanceof TradeHistoryParamCurrency) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency();
+
+      if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
+        currency = new Currency("XBt");
+      }
+    } else {
+      throw new ExchangeException("Currency must be supplied");
+    }
+
+    return getBitmexWalletHistory(currency).stream()
+        .filter(
+            w ->
+                w.getTransactStatus().equals("Completed")
+                    && (w.getTransactType().equals("Deposit")
+                        || w.getTransactType().equals("Withdrawal")))
+        .map(w -> BitmexAdapters.adaptFundingRecord(w))
+        .collect(Collectors.toList());
   }
 }

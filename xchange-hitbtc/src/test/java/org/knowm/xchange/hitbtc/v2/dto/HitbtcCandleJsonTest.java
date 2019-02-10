@@ -16,7 +16,8 @@ public class HitbtcCandleJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        HitbtcCandleJsonTest.class.getResourceAsStream("/marketdata/example-candles-data.json");
+        HitbtcCandleJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/hitbtc/v2/dto/marketdata/example-candles-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

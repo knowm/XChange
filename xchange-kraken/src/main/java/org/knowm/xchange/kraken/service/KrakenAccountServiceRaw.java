@@ -69,6 +69,7 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             null,
             currency,
             method,
+            newAddress,
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory());
@@ -196,8 +197,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    *
    * @param assets Set of assets to restrict output to (can be null, defaults to all)
    * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all types)
-   * @param start Start Unix timestamp or ledger id of results (can be null)
-   * @param end End Unix timestamp or ledger id of results (can be null)
+   * @param startTime Start Unix timestamp or ledger id of results (can be null)
+   * @param endTime End Unix timestamp or ledger id of results (can be null)
    * @param offset Result offset (can be null)
    * @return
    * @throws IOException

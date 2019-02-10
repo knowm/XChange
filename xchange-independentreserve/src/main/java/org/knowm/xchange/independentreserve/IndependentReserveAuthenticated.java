@@ -14,6 +14,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOr
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
@@ -64,6 +66,13 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveCancelOrderResponse cancelOrder(
       IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path("GetOrderDetails")
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveOrderDetailsResponse orderDetails(
+      IndependentReserveOrderDetailsRequest independentReserveOrderDetailsRequest)
       throws IndependentReserveHttpStatusException, IOException;
 
   @POST

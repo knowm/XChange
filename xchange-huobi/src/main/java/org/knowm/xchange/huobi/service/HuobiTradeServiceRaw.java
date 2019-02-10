@@ -15,6 +15,7 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 class HuobiTradeServiceRaw extends HuobiBaseService {
 
@@ -22,8 +23,21 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     super(exchange);
   }
 
+  HuobiOrder[] getHuobiTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+    String tradeStates = "partial-filled,partial-canceled,filled";
+    HuobiOrdersResult result =
+        huobi.getOpenOrders(
+            tradeStates,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
+  }
+
   HuobiOrder[] getHuobiOpenOrders() throws IOException {
-    String states = "pre-submitted,submitted,partial-filled,partial-canceled,filled,canceled";
+    String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
         huobi.getOpenOrders(
             states,
@@ -60,7 +74,9 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     HuobiOrderResult result =
         huobi.placeLimitOrder(
             new HuobiCreateOrderRequest(
-                limitOrder.getId(),
+                String.valueOf(
+                    ((HuobiAccountServiceRaw) exchange.getAccountService())
+                        .getAccounts()[0].getId()),
                 limitOrder.getOriginalAmount().toString(),
                 limitOrder.getLimitPrice().toString(),
                 HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),

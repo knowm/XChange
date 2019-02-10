@@ -1,18 +1,15 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
-import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
@@ -21,8 +18,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Zach Holmes */
 public class PoloniexTradeServiceRaw extends PoloniexBaseService {
@@ -51,7 +46,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexUserTrade[] returnTradeHistory(
-      CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+      CurrencyPair currencyPair, Long startTime, Long endTime, Integer limit) throws IOException {
 
     return poloniexAuthenticated.returnTradeHistory(
         apiKey,
@@ -59,15 +54,23 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         exchange.getNonceFactory(),
         PoloniexUtils.toPairString(currencyPair),
         startTime,
-        endTime);
+        endTime,
+        limit);
   }
 
-  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime)
-      throws IOException {
+  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(
+      Long startTime, Long endTime, Integer limit) throws IOException {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(
-        apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, ignore);
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        "all",
+        startTime,
+        endTime,
+        limit,
+        ignore);
   }
 
   public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {
@@ -105,100 +108,65 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
-    return orderEntry(limitOrder, "buy");
+    return orderEntry(limitOrder, false);
   }
 
   public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
-    return orderEntry(limitOrder, "sell");
+    return orderEntry(limitOrder, true);
   }
 
-  private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, String name) throws IOException {
-    Integer fillOrKill;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL)) {
-      fillOrKill = 1;
-    } else {
-      fillOrKill = null;
-    }
-
-    Integer immediateOrCancel;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
-      immediateOrCancel = 1;
-    } else {
-      immediateOrCancel = null;
-    }
-
-    Integer postOnly;
-    if (limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY)) {
-      postOnly = 1;
-    } else {
-      postOnly = null;
-    }
+  private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, boolean sell) throws IOException {
+    final Integer fillOrKill = limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL) ? 1 : null;
+    final Integer immediateOrCancel =
+        limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) ? 1 : null;
+    final Integer postOnly = limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY) ? 1 : null;
 
     Double lendingRate = null;
     // TODO need to be able to specify the rate at which you would like to borrow margin.
 
-    try {
-      if (limitOrder.hasFlag(PoloniexOrderFlags.MARGIN)) {
-        name = "margin" + name.substring(0, 1).toUpperCase() + name.substring(1);
+    if (limitOrder.hasFlag(PoloniexOrderFlags.MARGIN)) {
 
-        Method marginMethod =
-            PoloniexAuthenticated.class.getDeclaredMethod(
-                name,
-                String.class,
-                ParamsDigest.class,
-                SynchronizedValueFactory.class,
-                String.class,
-                String.class,
-                String.class,
-                Double.class);
-        PoloniexTradeResponse response =
-            (PoloniexTradeResponse)
-                marginMethod.invoke(
-                    poloniexAuthenticated,
-                    apiKey,
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limitOrder.getOriginalAmount().toPlainString(),
-                    limitOrder.getLimitPrice().toPlainString(),
-                    PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
-                    lendingRate);
-        return response;
-      } else {
-        Method method =
-            PoloniexAuthenticated.class.getDeclaredMethod(
-                name,
-                String.class,
-                ParamsDigest.class,
-                SynchronizedValueFactory.class,
-                String.class,
-                String.class,
-                String.class,
-                Integer.class,
-                Integer.class,
-                Integer.class);
-        PoloniexTradeResponse response =
-            (PoloniexTradeResponse)
-                method.invoke(
-                    poloniexAuthenticated,
-                    apiKey,
-                    signatureCreator,
-                    exchange.getNonceFactory(),
-                    limitOrder.getOriginalAmount().toPlainString(),
-                    limitOrder.getLimitPrice().toPlainString(),
-                    PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
-                    fillOrKill,
-                    immediateOrCancel,
-                    postOnly);
-        return response;
-      }
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new ExchangeException(e.getMessage(), e);
+      return sell
+          ? poloniexAuthenticated.marginSell(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              lendingRate)
+          : poloniexAuthenticated.marginBuy(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              lendingRate);
+
+    } else {
+
+      return sell
+          ? poloniexAuthenticated.sell(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              fillOrKill,
+              immediateOrCancel,
+              postOnly)
+          : poloniexAuthenticated.buy(
+              apiKey,
+              signatureCreator,
+              exchange.getNonceFactory(),
+              limitOrder.getOriginalAmount().toPlainString(),
+              limitOrder.getLimitPrice().toPlainString(),
+              PoloniexUtils.toPairString(limitOrder.getCurrencyPair()),
+              fillOrKill,
+              immediateOrCancel,
+              postOnly);
     }
   }
 
@@ -220,19 +188,15 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
       postOnly = null;
     }
 
-    try {
-      return poloniexAuthenticated.moveOrder(
-          apiKey,
-          signatureCreator,
-          exchange.getNonceFactory(),
-          orderId,
-          originalAmount.toPlainString(),
-          limitPrice.toPlainString(),
-          immediateOrCancel,
-          postOnly);
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
-    }
+    return poloniexAuthenticated.moveOrder(
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        orderId,
+        originalAmount.toPlainString(),
+        limitPrice.toPlainString(),
+        immediateOrCancel,
+        postOnly);
   }
 
   public PoloniexMoveResponse move(String orderId, BigDecimal originalAmount, BigDecimal limitPrice)
@@ -246,7 +210,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         poloniexAuthenticated.cancelOrder(
             apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (response.containsKey("error")) {
-      throw new ExchangeException(response.get("error"));
+      throw new PoloniexException(response.get("error"));
     } else {
       return response.get("success").equals("1");
     }
@@ -256,7 +220,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     HashMap<String, String> response =
         poloniexAuthenticated.returnFeeInfo(apiKey, signatureCreator, exchange.getNonceFactory());
     if (response.containsKey("error")) {
-      throw new ExchangeException(response.get("error"));
+      throw new PoloniexException(response.get("error"));
     }
     return response;
   }

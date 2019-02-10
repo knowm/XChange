@@ -23,6 +23,7 @@ public class BitflyerTickerIntegration {
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_JPY);
     assertThat(ticker.getHigh()).isNull();
     assertThat(ticker.getLow()).isNull();
+    assertThat(ticker.getLast()).isGreaterThan(BigDecimal.ZERO);
     assertThat(ticker.getVolume()).isGreaterThan(BigDecimal.ZERO);
     assertThat(ticker.getBid()).isGreaterThan(BigDecimal.ZERO);
     assertThat(ticker.getAsk()).isGreaterThan(BigDecimal.ZERO);

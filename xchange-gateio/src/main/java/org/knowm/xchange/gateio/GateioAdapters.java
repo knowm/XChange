@@ -13,6 +13,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -26,6 +28,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
+import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
@@ -208,8 +211,8 @@ public final class GateioAdapters {
         currencyPair,
         gateioTrade.getRate(),
         timestamp,
-        gateioTrade.getId(),
-        gateioTrade.getOrderid(),
+        gateioTrade.getTradeID(),
+        gateioTrade.getOrderNumber(),
         null,
         (Currency) null);
   }
@@ -229,12 +232,68 @@ public final class GateioAdapters {
               btermarketInfo.getFee(),
               btermarketInfo.getMinAmount(),
               null,
-              btermarketInfo.getDecimalPlaces());
+              btermarketInfo.getDecimalPlaces(),
+              null);
       currencyPairs.put(currencyPair, currencyPairMetaData);
     }
 
     ExchangeMetaData exchangeMetaData = new ExchangeMetaData(currencyPairs, null, null, null, null);
 
     return exchangeMetaData;
+  }
+
+  public static List<FundingRecord> adaptDepositsWithdrawals(
+      GateioDepositsWithdrawals depositsWithdrawals) {
+    List<FundingRecord> result = new ArrayList<>();
+
+    depositsWithdrawals
+        .getDeposits()
+        .forEach(
+            d -> {
+              FundingRecord r =
+                  new FundingRecord(
+                      d.address,
+                      d.getTimestamp(),
+                      Currency.getInstance(d.currency),
+                      d.amount,
+                      d.id,
+                      d.txid,
+                      FundingRecord.Type.DEPOSIT,
+                      status(d.status),
+                      null,
+                      null,
+                      null);
+              result.add(r);
+            });
+    depositsWithdrawals
+        .getWithdraws()
+        .forEach(
+            w -> {
+              FundingRecord r =
+                  new FundingRecord(
+                      w.address,
+                      w.getTimestamp(),
+                      Currency.getInstance(w.currency),
+                      w.amount,
+                      w.id,
+                      w.txid,
+                      FundingRecord.Type.WITHDRAWAL,
+                      status(w.status),
+                      null,
+                      null,
+                      null);
+              result.add(r);
+            });
+
+    return result;
+  }
+
+  private static FundingRecord.Status status(String gateioStatus) {
+    switch (gateioStatus) {
+      case "DONE":
+        return Status.COMPLETE;
+      default:
+        return Status.PROCESSING; // @TODO which statusses are possible at gate.io?
+    }
   }
 }

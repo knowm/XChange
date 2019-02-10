@@ -1,21 +1,22 @@
 package org.knowm.xchange.bitflyer.service;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.bitflyer.BitflyerAdapters;
+import org.knowm.xchange.bitflyer.BitflyerUtils;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BitflyerTradeService extends BitflyerTradeServiceRaw implements TradeService {
+  private static final Logger LOG = LoggerFactory.getLogger(BitflyerTradeService.class);
+
   /**
    * Constructor
    *
@@ -26,57 +27,40 @@ public class BitflyerTradeService extends BitflyerTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return BitflyerAdapters.adaptOrderId(super.sendChildOrder(marketOrder));
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return BitflyerAdapters.adaptOrderId(super.sendChildOrder(limitOrder));
   }
 
   @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
+  public OpenOrders getOpenOrders() throws IOException {
+    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
 
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
+    // US and EUR only have one pair available
+    if (pairs.size() == 1) {
+      return BitflyerAdapters.adaptOpenOrdersFromChildOrderResults(
+          super.getChildOrders(BitflyerUtils.bitflyerProductCode(pairs.get(0)), "ACTIVE"));
+    }
 
-  @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
+    // JPY has about three pairs so we need to combine the results
+    List<LimitOrder> orders = new ArrayList<>();
 
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
+    pairs.forEach(
+        pair -> {
+          try {
+            orders.addAll(
+                BitflyerAdapters.adaptOpenOrdersFromChildOrderResults(
+                        super.getChildOrders(BitflyerUtils.bitflyerProductCode(pair), "ACTIVE"))
+                    .getOpenOrders());
+          } catch (IOException e) {
+            LOG.trace("IOException adapting open orders for {}", pair, e);
+          }
+        });
 
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return new OpenOrders(orders);
   }
 }

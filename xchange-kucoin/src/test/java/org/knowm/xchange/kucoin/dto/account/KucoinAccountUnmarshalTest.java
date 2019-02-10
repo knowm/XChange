@@ -18,7 +18,8 @@ public class KucoinAccountUnmarshalTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KucoinAccountUnmarshalTest.class.getResourceAsStream("/account/example-balance.json");
+        KucoinAccountUnmarshalTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kucoin/dto/account/example-balance.json");
     KucoinCoinBalance balance = mapper.readValue(is, KucoinCoinBalance.class);
 
     // Verify that the example data was unmarshalled correctly
@@ -32,7 +33,8 @@ public class KucoinAccountUnmarshalTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        KucoinAccountUnmarshalTest.class.getResourceAsStream("/account/example-wallet-record.json");
+        KucoinAccountUnmarshalTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kucoin/dto/account/example-wallet-record.json");
     KucoinWalletRecord balance = mapper.readValue(is, KucoinWalletRecord.class);
 
     // Verify that the example data was unmarshalled correctly

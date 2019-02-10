@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -24,7 +25,7 @@ import java.util.Map;
   "pgpPubKey",
   "country"
 })
-public final class BitmexAccount {
+public final class BitmexAccount extends AbstractHttpResponseAware {
 
   @JsonProperty("id")
   private Integer id;
@@ -128,5 +129,52 @@ public final class BitmexAccount {
 
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
+  }
+
+  @Override
+  public String toString() {
+    return "BitmexAccount{"
+        + "id="
+        + id
+        + ", ownerId="
+        + ownerId
+        + ", firstname='"
+        + firstname
+        + '\''
+        + ", lastname='"
+        + lastname
+        + '\''
+        + ", username='"
+        + username
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", phone='"
+        + phone
+        + '\''
+        + ", created='"
+        + created
+        + '\''
+        + ", lastUpdated='"
+        + lastUpdated
+        + '\''
+        + ", preferences="
+        + preferences
+        + ", tFAEnabled='"
+        + tFAEnabled
+        + '\''
+        + ", affiliateID='"
+        + affiliateID
+        + '\''
+        + ", pgpPubKey='"
+        + pgpPubKey
+        + '\''
+        + ", country='"
+        + country
+        + '\''
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

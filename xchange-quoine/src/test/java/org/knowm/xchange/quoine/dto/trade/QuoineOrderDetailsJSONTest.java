@@ -16,7 +16,8 @@ public class QuoineOrderDetailsJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        QuoineOrderDetailsJSONTest.class.getResourceAsStream("/trade/example-order-details.json");
+        QuoineOrderDetailsJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/quoine/dto/trade/example-order-details.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

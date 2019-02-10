@@ -16,6 +16,7 @@ import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
  * Implementation of the market data service for Bittrex
@@ -39,7 +40,14 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return KucoinAdapters.adaptTicker(getKucoinTicker(currencyPair), currencyPair);
+    return KucoinAdapters.adaptTicker(getKucoinTicker(currencyPair).getData());
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return getKucoinTickers().getData().stream()
+        .map(KucoinAdapters::adaptTicker)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -74,9 +82,7 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
 
     KucoinResponse<List<KucoinDealOrder>> response = getKucoinTrades(currencyPair, limit, since);
     List<Trade> trades =
-        response
-            .getData()
-            .stream()
+        response.getData().stream()
             .map(o -> KucoinAdapters.adaptTrade(o, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, TradeSortType.SortByTimestamp);

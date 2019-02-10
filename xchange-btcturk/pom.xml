@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.6-SNAPSHOT</version>
+        <version>4.3.16-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,6 +24,10 @@
             <name>Semih Unaldi</name>
             <email>semihunaldi@gmail.com</email>
         </developer>
+		<developer>
+            <name>Mert Güner</name>
+            <email>m.mertguner@gmail.com</email>
+        </developer>
     </developers>
 
     <!-- Parent provides default configuration for dependencies -->
@@ -31,7 +35,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.6-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

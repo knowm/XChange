@@ -1,6 +1,7 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
@@ -9,14 +10,14 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kucoin.dto.KucoinAdapters;
 import org.knowm.xchange.kucoin.dto.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.trading.KucoinDealtOrdersInfo;
+import org.knowm.xchange.kucoin.dto.trading.KucoinOrderDetail;
+import org.knowm.xchange.kucoin.dto.trading.KucoinOrderQueryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -29,6 +30,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
@@ -65,11 +67,6 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return placeKucoinLimitOrder(limitOrder).getData().getOrderOid();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -149,8 +146,28 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    if (orderQueryParams == null) {
+      return new ArrayList<>();
+    }
 
-    throw new NotAvailableFromExchangeException();
+    Collection<Order> orders = new ArrayList<>();
+    for (OrderQueryParams param : orderQueryParams) {
+      if (!(param instanceof KucoinOrderQueryParams)) {
+        throw new ExchangeException(
+            "Parameters must be an instance of OrderQueryParamCurrencyPair");
+      }
+      KucoinResponse<KucoinOrderDetail> response =
+          getOrderDetails(
+              ((KucoinOrderQueryParams) param).getCurrencyPair(),
+              ((KucoinOrderQueryParams) param).getOrderType(),
+              ((KucoinOrderQueryParams) param).getLimit(),
+              ((KucoinOrderQueryParams) param).getPage(),
+              param.getOrderId());
+
+      if (response != null) orders.add(KucoinAdapters.adaptOrder(response.getData()));
+    }
+
+    return orders;
   }
 }

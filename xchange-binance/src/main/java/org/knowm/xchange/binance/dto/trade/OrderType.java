@@ -6,7 +6,10 @@ public enum OrderType {
   LIMIT,
   MARKET,
   TAKE_PROFIT_LIMIT,
-  STOP_LOSS_LIMIT;
+  STOP_LOSS_LIMIT,
+  STOP_LOSS,
+  TAKE_PROFIT,
+  LIMIT_MAKER;
 
   @JsonCreator
   public static OrderType getOrderType(String s) {

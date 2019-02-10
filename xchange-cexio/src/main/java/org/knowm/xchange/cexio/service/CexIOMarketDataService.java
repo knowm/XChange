@@ -1,6 +1,9 @@
 package org.knowm.xchange.cexio.service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
@@ -11,6 +14,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /** Author: brox Since: 2/6/14 */
 public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements MarketDataService {
@@ -23,6 +28,18 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   public CexIOMarketDataService(Exchange exchange) {
 
     super(exchange);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    if (!(params instanceof CurrencyPairsParam)) {
+      throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
+    }
+    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+    return getAllCexIOTickers().stream()
+        .map(CexIOAdapters::adaptTicker)
+        .filter(ticker -> pairs.contains(ticker.getCurrencyPair()))
+        .collect(Collectors.toList());
   }
 
   @Override

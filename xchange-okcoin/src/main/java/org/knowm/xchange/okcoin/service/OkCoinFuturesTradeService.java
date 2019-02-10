@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -28,12 +30,16 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPriceLimit;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -187,30 +193,11 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public boolean cancelOrder(String orderId) throws IOException {
 
     boolean ret = false;
-    long id = Long.valueOf(orderId);
-
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    List<FuturesContract> exchangeContracts = getExchangeContracts();
-
-    for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
-      for (FuturesContract futuresContract : exchangeContracts) {
-
-        try {
-          OkCoinTradeResult cancelResult =
-              futuresCancelOrder(id, OkCoinAdapters.adaptSymbol(symbol), futuresContract);
-
-          if (id == cancelResult.getOrderId()) {
-            ret = true;
-          }
+    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+      for (FuturesContract futuresContract : getExchangeContracts()) {
+        if (cancelOrder(new OkCoinFuturesCancelOrderParams(symbol, futuresContract, orderId))) {
+          ret = true;
           break;
-
-        } catch (ExchangeException e) {
-          if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))
-              || e.getMessage().equals(OkCoinUtils.getErrorMessage(20015))) {
-            // order not found.
-            continue;
-          }
         }
       }
     }
@@ -219,11 +206,31 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
+
+    OkCoinFuturesCancelOrderParams myParams = (OkCoinFuturesCancelOrderParams) orderParams;
+
+    CurrencyPair currencyPair = myParams.getCurrencyPair();
+    FuturesContract reqFuturesContract = myParams.futuresContract;
+    long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
+    boolean ret = false;
+
+    try {
+      OkCoinTradeResult cancelResult =
+          futuresCancelOrder(orderId, OkCoinAdapters.adaptSymbol(currencyPair), reqFuturesContract);
+
+      if (orderId == cancelResult.getOrderId()) {
+        ret = true;
+      }
+
+    } catch (ExchangeException e) {
+      if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))
+          || e.getMessage().equals(OkCoinUtils.getErrorMessage(20015))) {
+        // order not found.
+
+      } else throw e;
     }
+
+    return ret;
   }
 
   /** Parameters: see {@link OkCoinFuturesTradeService.OkCoinFuturesTradeHistoryParams} */
@@ -232,26 +239,25 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     OkCoinFuturesTradeHistoryParams myParams = (OkCoinFuturesTradeHistoryParams) params;
     long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
     CurrencyPair currencyPair = myParams.getCurrencyPair();
+    String date = myParams.getDate();
     String page = myParams.getPageNumber().toString();
     String pageLength = myParams.getPageLength().toString();
     FuturesContract reqFuturesContract = myParams.futuresContract;
 
     OkCoinFuturesTradeHistoryResult[] orderHistory =
-        getFuturesTradesHistory(
-            OkCoinAdapters.adaptSymbol(currencyPair), Long.valueOf("86751191"), "2015-12-04");
-    // orderHistory
-    // (orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
+        getFuturesTradesHistory(OkCoinAdapters.adaptSymbol(currencyPair), orderId, date);
+
     return OkCoinAdapters.adaptTradeHistory(orderHistory);
-    // OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
   public List<FuturesContract> getExchangeContracts() {
-    return java.util.Arrays.asList(FuturesContract.values());
+    return Arrays.asList(FuturesContract.values());
   }
 
   @Override
   public OkCoinFuturesTradeHistoryParams createTradeHistoryParams() {
-    return new OkCoinFuturesTradeHistoryParams(50, 0, CurrencyPair.BTC_USD, futuresContract, null);
+    return new OkCoinFuturesTradeHistoryParams(
+        50, 0, CurrencyPair.BTC_USD, futuresContract, null, "2018-08-10");
   }
 
   @Override
@@ -260,62 +266,118 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    List<Order> openOrders = new ArrayList<>();
-    List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    Map<CurrencyPair, Map<FuturesContract, Set<String>>> ordersToQuery =
+        new HashMap<CurrencyPair, Map<FuturesContract, Set<String>>>();
     List<String> orderIdsRequest = new ArrayList<>();
-    Set<String> orderSet = new HashSet<>();
+    List<OkCoinFuturesOrder> orderResults = new ArrayList<>();
+    List<Order> openOrders = new ArrayList<>();
 
-    Collections.addAll(orderSet, orderIds);
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      OkCoinFuturesOrderQueryParams myParams = (OkCoinFuturesOrderQueryParams) orderQueryParam;
+      CurrencyPair currencyPair = myParams.getCurrencyPair();
+      FuturesContract reqFuturesContract = myParams.futuresContract;
+      long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
 
-    for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
-      log.debug("Getting order: {}", symbol);
-      int count = 0;
-      orderIdsRequest.clear();
-      for (String order : orderSet) {
-        orderIdsRequest.add(order);
-        count++;
-        if (count % batchSize == 0) {
+      if (ordersToQuery.get(currencyPair) == null) {
+        Set<String> orderSet = new HashSet<>();
+        orderSet.add(String.valueOf(orderId));
+        HashMap<FuturesContract, Set<String>> futuresContractMap =
+            new HashMap<FuturesContract, Set<String>>();
+        futuresContractMap.put(reqFuturesContract, orderSet);
+        ordersToQuery.put(currencyPair, futuresContractMap);
 
-          OkCoinFuturesOrderResult orderResult =
+      } else if (ordersToQuery.get(currencyPair).get(reqFuturesContract) == null) {
+        Set<String> orderSet = new HashSet<>();
+        orderSet.add(String.valueOf(orderId));
+        ordersToQuery.get(currencyPair).put(reqFuturesContract, orderSet);
+
+      } else {
+        ordersToQuery.get(currencyPair).get(reqFuturesContract).add(String.valueOf(orderId));
+      }
+    }
+    for (CurrencyPair pair : ordersToQuery.keySet()) {
+      for (FuturesContract contract : ordersToQuery.get(pair).keySet()) {
+        int count = 0;
+        orderIdsRequest.clear();
+
+        for (String order : ordersToQuery.get(pair).get(contract)) {
+          orderIdsRequest.add(order);
+          count++;
+          if (count % batchSize == 0) {
+
+            OkCoinFuturesOrderResult orderResult =
+                getFuturesOrders(
+                    createDelimitedString(
+                        orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+                    OkCoinAdapters.adaptSymbol(pair),
+                    contract);
+            orderIdsRequest.clear();
+            if (orderResult.getOrders().length > 0) {
+              orderResults.addAll(new ArrayList<>(Arrays.asList(orderResult.getOrders())));
+            }
+          }
+        }
+        OkCoinFuturesOrderResult orderResult;
+        if (!orderIdsRequest.isEmpty()) {
+          orderResult =
               getFuturesOrders(
                   createDelimitedString(
                       orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
-                  OkCoinAdapters.adaptSymbol(symbol),
-                  futuresContract);
-          orderIdsRequest.clear();
-          if (orderResult.getOrders().length > 0) {
-            orderResults.addAll(new ArrayList<>(Arrays.asList(orderResult.getOrders())));
+                  OkCoinAdapters.adaptSymbol(pair),
+                  contract);
+        } else {
+          orderResult =
+              getFuturesFilledOrder(-1, OkCoinAdapters.adaptSymbol(pair), "0", "50", contract);
+        }
+
+        if (orderResult.getOrders().length > 0) {
+          for (int o = 0; o < orderResult.getOrders().length; o++) {
+            OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
+            openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
           }
         }
       }
-      OkCoinFuturesOrderResult orderResult;
-      if (!orderIdsRequest.isEmpty()) {
-        orderResult =
-            getFuturesOrders(
-                createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
-                OkCoinAdapters.adaptSymbol(symbol),
-                futuresContract);
-      } else {
-        orderResult =
-            getFuturesFilledOrder(
-                -1, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
-      }
+    }
 
-      if (orderResult.getOrders().length > 0) {
-        for (int o = 0; o < orderResult.getOrders().length; o++) {
-          OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
-          openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
-        }
+    return openOrders;
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    List<OkCoinFuturesOrderQueryParams> params = new ArrayList<OkCoinFuturesOrderQueryParams>();
+
+    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+      for (String orderId : orderIds) {
+        params.add(new OkCoinFuturesOrderQueryParams(symbol, futuresContract, orderId));
       }
     }
-    return openOrders;
+
+    return getOrder(params.toArray(new OkCoinFuturesOrderQueryParams[params.size()]));
   }
 
   // TODO if Futures ever get a generic interface, move this interface to xchange-core
   public interface TradeHistoryParamFuturesContract extends TradeHistoryParams {
+    FuturesContract getFuturesContract();
+
+    void setFuturesContract(FuturesContract futuresContract);
+
+    String getOrderId();
+
+    void setOrderId(String orderId);
+  }
+
+  public interface OrderQueryParamFuturesContract extends OrderQueryParams {
+    FuturesContract getFuturesContract();
+
+    void setFuturesContract(FuturesContract futuresContract);
+
+    String getOrderId();
+
+    void setOrderId(String orderId);
+  }
+
+  public interface CancelOrderParamFuturesContract extends CancelOrderParams {
     FuturesContract getFuturesContract();
 
     void setFuturesContract(FuturesContract futuresContract);
@@ -330,6 +392,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
+    private String date; // "yyyy-MM-dd"
 
     public OkCoinFuturesTradeHistoryParams() {}
 
@@ -338,8 +401,65 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         Integer pageNumber,
         CurrencyPair currencyPair,
         FuturesContract futuresContract,
-        String orderId) {
+        String orderId,
+        String date) {
       super(pageLength, pageNumber);
+      this.currencyPair = currencyPair;
+      this.futuresContract = futuresContract;
+      this.orderId = orderId;
+      this.date = date;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+      this.currencyPair = pair;
+    }
+
+    @Override
+    public FuturesContract getFuturesContract() {
+      return futuresContract;
+    }
+
+    @Override
+    public void setFuturesContract(FuturesContract futuresContract) {
+      this.futuresContract = futuresContract;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public void setOrderId(String orderId) {
+      this.orderId = orderId;
+    }
+
+    public String getDate() {
+      return date;
+    }
+
+    public void setDate(String date) {
+      this.date = date;
+    }
+  }
+
+  public static final class OkCoinFuturesOrderQueryParams extends DefaultQueryOrderParam
+      implements OrderQueryParamCurrencyPair, OrderQueryParamFuturesContract {
+    private CurrencyPair currencyPair;
+    private FuturesContract futuresContract;
+    private String orderId;
+
+    public OkCoinFuturesOrderQueryParams() {}
+
+    public OkCoinFuturesOrderQueryParams(
+        CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+      super(orderId);
       this.currencyPair = currencyPair;
       this.futuresContract = futuresContract;
       this.orderId = orderId;
@@ -353,6 +473,48 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     @Override
     public void setCurrencyPair(CurrencyPair pair) {
       this.currencyPair = pair;
+    }
+
+    @Override
+    public FuturesContract getFuturesContract() {
+      return futuresContract;
+    }
+
+    @Override
+    public void setFuturesContract(FuturesContract futuresContract) {
+      this.futuresContract = futuresContract;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public void setOrderId(String orderId) {
+      this.orderId = orderId;
+    }
+  }
+
+  public static final class OkCoinFuturesCancelOrderParams extends DefaultCancelOrderParamId
+      implements CancelOrderByCurrencyPair, CancelOrderParamFuturesContract {
+    private CurrencyPair currencyPair;
+    private FuturesContract futuresContract;
+    private String orderId;
+
+    public OkCoinFuturesCancelOrderParams() {}
+
+    public OkCoinFuturesCancelOrderParams(
+        CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+      super(orderId);
+      this.currencyPair = currencyPair;
+      this.futuresContract = futuresContract;
+      this.orderId = orderId;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
     }
 
     @Override

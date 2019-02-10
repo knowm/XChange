@@ -13,7 +13,9 @@ public class BitflyerPositionJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitflyerExecution.class.getResourceAsStream("/trade/example-position.json");
+    InputStream is =
+        BitflyerExecution.class.getResourceAsStream(
+            "/org/knowm/xchange/bitflyer/dto/trade/example-position.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

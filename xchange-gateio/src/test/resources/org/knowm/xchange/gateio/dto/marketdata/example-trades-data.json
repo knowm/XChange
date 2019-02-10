@@ -1,0 +1,22 @@
+{
+  "result": "true",
+  "data": [
+    {
+      "date":"2014-03-04 04:43:11",
+      "timestamp":"1393908191",
+      "rate": 3942,
+      "amount": 0.0129,
+      "tradeID": "5600118",
+      "type": "sell"
+    },
+    {
+      "date":"2018-05-15 00:49:47",
+      "timestamp":"1526345387",
+      "rate": 3947,
+      "amount": 0.288,
+      "tradeID": "5600205",
+      "type": "buy"
+    }
+  ],
+  "elapsed": "0.634ms"
+}

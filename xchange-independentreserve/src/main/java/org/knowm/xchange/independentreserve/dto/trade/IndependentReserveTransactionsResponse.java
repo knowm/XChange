@@ -6,13 +6,13 @@ import java.util.List;
 public class IndependentReserveTransactionsResponse {
   private final List<IndependentReserveTransaction> independentReserveTransactions;
   private final int pageSize;
-  private final int totalItems;
+  private final long totalItems;
   private final int totalPages;
 
   public IndependentReserveTransactionsResponse(
       @JsonProperty("Data") List<IndependentReserveTransaction> independentReserveTransactions,
       @JsonProperty("PageSize") int pageSize,
-      @JsonProperty("TotalItems") int totalItems,
+      @JsonProperty("TotalItems") long totalItems,
       @JsonProperty("TotalPages") int totalPages) {
     this.independentReserveTransactions = independentReserveTransactions;
     this.pageSize = pageSize;
@@ -28,7 +28,7 @@ public class IndependentReserveTransactionsResponse {
     return pageSize;
   }
 
-  public int getTotalItems() {
+  public long getTotalItems() {
     return totalItems;
   }
 

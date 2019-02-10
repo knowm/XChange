@@ -63,8 +63,7 @@ public class MarketDataServiceIntegration {
           }
         });
 
-    tickers
-        .stream()
+    tickers.stream()
         .forEach(
             t -> {
               System.out.println(

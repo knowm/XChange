@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -37,7 +38,7 @@ import java.util.Map;
   "script",
   "withdrawalLock"
 })
-public final class BitmexWallet {
+public final class BitmexWallet extends AbstractHttpResponseAware {
 
   @JsonProperty("account")
   private Integer account;
@@ -218,5 +219,68 @@ public final class BitmexWallet {
 
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
+  }
+
+  @Override
+  public String toString() {
+    return "BitmexWallet{"
+        + "account="
+        + account
+        + ", currency='"
+        + currency
+        + '\''
+        + ", prevDeposited="
+        + prevDeposited
+        + ", prevWithdrawn="
+        + prevWithdrawn
+        + ", prevTransferIn="
+        + prevTransferIn
+        + ", prevTransferOut="
+        + prevTransferOut
+        + ", prevAmount="
+        + prevAmount
+        + ", prevTimestamp='"
+        + prevTimestamp
+        + '\''
+        + ", deltaDeposited="
+        + deltaDeposited
+        + ", deltaWithdrawn="
+        + deltaWithdrawn
+        + ", deltaTransferIn="
+        + deltaTransferIn
+        + ", deltaTransferOut="
+        + deltaTransferOut
+        + ", deltaAmount="
+        + deltaAmount
+        + ", deposited="
+        + deposited
+        + ", withdrawn="
+        + withdrawn
+        + ", transferIn="
+        + transferIn
+        + ", transferOut="
+        + transferOut
+        + ", amount="
+        + amount
+        + ", pendingCredit="
+        + pendingCredit
+        + ", pendingDebit="
+        + pendingDebit
+        + ", confirmedDebit="
+        + confirmedDebit
+        + ", timestamp='"
+        + timestamp
+        + '\''
+        + ", addr='"
+        + addr
+        + '\''
+        + ", script='"
+        + script
+        + '\''
+        + ", withdrawalLock="
+        + withdrawalLock
+        + ", additionalProperties="
+        + additionalProperties
+        + '}';
   }
 }

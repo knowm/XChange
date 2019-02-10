@@ -5,18 +5,19 @@ import java.math.BigDecimal;
 
 public class KrakenDepositMethods {
   /*
-   * method = name of deposit method limit = maximum net amount that can be deposited right now fee = amount of fees that will be paid
-   * address-setup-fee = whether or not method has an address setup fee (optional)
+   * method = name of deposit method limit = maximum net amount that can be deposited right now fee
+   * = amount of fees that will be paid address-setup-fee = whether or not method has an address
+   * setup fee (optional)
    */
 
   private final String method;
-  private final BigDecimal limit;
+  private final String limit;
   private final BigDecimal fee;
   private final BigDecimal addressSetupFee;
 
   public KrakenDepositMethods(
       @JsonProperty("method") String method,
-      @JsonProperty("limit") BigDecimal limit,
+      @JsonProperty("limit") String limit,
       @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("address-setup-fee") BigDecimal addressSetupFee) {
     super();
@@ -31,7 +32,11 @@ public class KrakenDepositMethods {
   }
 
   public BigDecimal getLimit() {
-    return limit;
+    if (limit.equals("false")) {
+      return BigDecimal.valueOf(Double.MAX_VALUE);
+    } else {
+      return new BigDecimal(limit);
+    }
   }
 
   public BigDecimal getFee() {

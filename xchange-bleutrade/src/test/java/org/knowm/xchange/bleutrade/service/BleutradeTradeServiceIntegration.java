@@ -37,7 +37,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
@@ -89,12 +88,6 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
         .thenReturn(bleutrade);
 
     tradeService = new BleutradeTradeService(exchange, restProxyFactory);
-  }
-
-  @Test
-  public void constructor() {
-    assertThat((String) Whitebox.getInternalState(tradeService, "apiKey"))
-        .isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
@@ -379,7 +372,8 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             any(SynchronizedValueFactory.class),
             Mockito.matches("ALL"),
             any(String.class),
-            any(String.class)))
+            any(String.class),
+            any(Integer.class)))
         .thenReturn(response);
 
     // when
@@ -400,14 +394,15 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             any(SynchronizedValueFactory.class),
             Mockito.matches("BTC_AUD"),
             Mockito.matches("status"),
-            Mockito.matches("type")))
+            Mockito.matches("type"),
+            any(Integer.class)))
         .thenReturn(response);
 
     // when
     UserTrades tradeHistory =
         tradeService.getTradeHistory(
             new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(
-                CurrencyPair.BTC_AUD, "status", "type"));
+                CurrencyPair.BTC_AUD, "status", "type", 100));
     assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 

@@ -1,6 +1,7 @@
 package org.knowm.xchange.therock.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
@@ -9,11 +10,9 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -46,7 +45,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
         placeTheRockOrder(
             order.getCurrencyPair(),
             order.getOriginalAmount(),
-            null,
+            BigDecimal.ZERO,
             TheRockAdapters.adaptSide(order.getType()),
             TheRockOrder.Type.market);
     return placedOrder.getId().toString();
@@ -62,11 +61,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
             TheRockAdapters.adaptSide(order.getType()),
             TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
-  }
-
-  @Override
-  public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   /**
@@ -177,11 +171,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
         getTheRockUserTrades(
             pairParams.getCurrencyPair(), sinceTradeId, after, before, pageLength, page),
         pairParams.getCurrencyPair());
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

@@ -1,13 +1,7 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,36 +17,52 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.*;
 
 public class HitbtcAdapters {
 
   /** known counter currencies at HitBTC */
   private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("USD", "EUR", "BTC", "ETH", "USDT"));
+      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI", "EOS"));
+  /**
+   * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is
+   * counter currency USD or TUSD?
+   */
+  private static final Set<String> TUSD_SYMBOLS =
+      new HashSet<>(
+          Arrays.asList(
+              "USDTUSD",
+              "XMRTUSD",
+              "BTCTUSD",
+              "LTCTUSD",
+              "NEOTUSD",
+              "ETHTUSD",
+              "DAITUSD",
+              "BCHTUSD",
+              "EURSTUSD",
+              "ZRXTUSD"));
 
   public static CurrencyPair adaptSymbol(String symbol) {
-    String counter =
-        counters
-            .stream()
-            .filter(cnt -> symbol.endsWith(cnt))
-            .findAny()
-            .orElseThrow(() -> new RuntimeException("Not supported HitBTC symbol: " + symbol));
-    String base = symbol.substring(0, symbol.length() - counter.length());
-    return new CurrencyPair(base, counter);
+    // In order to differentiate xxxTUSD and xxxUSD
+    String tempSymbol =
+        symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
+    return counters.stream()
+        .map(counter -> "USD".equals(counter) ? "USDT" : counter)
+        .filter(tempSymbol::endsWith)
+        .map(
+            counter ->
+                counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
+        .map(
+            counter ->
+                new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
+        .findAny()
+        // We try our best if the counter currency is not in the list
+        .orElse(new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3)));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -164,20 +174,18 @@ public class HitbtcAdapters {
   public static LimitOrder adaptOrder(HitbtcOrder hitbtcOrder) {
     OrderType type = adaptOrderType(hitbtcOrder.side);
 
-    LimitOrder order =
-        new LimitOrder(
-            type,
-            hitbtcOrder.quantity,
-            adaptSymbol(hitbtcOrder.symbol),
-            hitbtcOrder.clientOrderId,
-            hitbtcOrder.getCreatedAt(),
-            hitbtcOrder.price,
-            null, // exchange does not provide average price
-            hitbtcOrder.cumQuantity,
-            null,
-            convertOrderStatus(hitbtcOrder.status));
-
-    return order;
+    return new HitbtcLimitOrder(
+        type,
+        hitbtcOrder.quantity,
+        adaptSymbol(hitbtcOrder.symbol),
+        hitbtcOrder.id,
+        hitbtcOrder.getCreatedAt(),
+        hitbtcOrder.price,
+        null, // exchange does not provide average price
+        hitbtcOrder.cumQuantity,
+        null,
+        convertOrderStatus(hitbtcOrder.status),
+        hitbtcOrder.clientOrderId);
   }
 
   public static List<LimitOrder> adaptOrders(List<HitbtcOrder> openOrdersRaw) {
@@ -199,31 +207,31 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(
-      List<HitbtcOwnTrade> tradeHistoryRaw, ExchangeMetaData metaData) {
+  public static UserTrades adaptTradeHistory(List<HitbtcOwnTrade> tradeHistoryRaw) {
 
     List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.size());
     for (HitbtcOwnTrade hitbtcOwnTrade : tradeHistoryRaw) {
+
       OrderType type = adaptOrderType(hitbtcOwnTrade.getSide().getValue());
-
       CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
-
       BigDecimal originalAmount = hitbtcOwnTrade.getQuantity();
       Date timestamp = hitbtcOwnTrade.getTimestamp();
-
       String id = Long.toString(hitbtcOwnTrade.getId());
+      String orderId = String.valueOf(hitbtcOwnTrade.getOrderId());
+      String clientOrderId = hitbtcOwnTrade.getClientOrderId();
 
       UserTrade trade =
-          new UserTrade(
+          new HitbtcUserTrade(
               type,
               originalAmount,
               pair,
               hitbtcOwnTrade.getPrice(),
               timestamp,
               id,
-              hitbtcOwnTrade.getClientOrderId(),
+              orderId,
               hitbtcOwnTrade.getFee(),
-              Currency.getInstance(pair.counter.getCurrencyCode()));
+              pair.counter,
+              clientOrderId);
 
       trades.add(trade);
     }
@@ -263,20 +271,22 @@ public class HitbtcAdapters {
         CurrencyPair pair = adaptSymbol(symbol);
         BigDecimal tickSize = symbol.getTickSize();
         int priceScale = tickSize.scale(); // not 100% sure this is correct
-        // also, we need to take into account the quantityIncrement
 
         BigDecimal tradingFee = symbol.getTakeLiquidityRate();
-        BigDecimal minimumAmount = null;
+        BigDecimal minimumAmount = symbol.getQuantityIncrement();
         BigDecimal maximumAmount = null;
 
+        FeeTier[] feeTiers = null;
         if (currencyPairs.containsKey(pair)) {
           CurrencyPairMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
+          feeTiers = existing.getFeeTiers();
         }
 
         CurrencyPairMetaData meta =
-            new CurrencyPairMetaData(tradingFee, minimumAmount, maximumAmount, priceScale);
+            new CurrencyPairMetaData(
+                tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
 
         currencyPairs.put(pair, meta);
       }

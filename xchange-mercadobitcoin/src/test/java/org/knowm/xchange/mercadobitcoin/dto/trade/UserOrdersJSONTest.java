@@ -21,7 +21,9 @@ public class UserOrdersJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = UserOrdersJSONTest.class.getResourceAsStream("/trade/example-userorders.json");
+    InputStream is =
+        UserOrdersJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/mercadobitcoin/dto/trade/example-userorders.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

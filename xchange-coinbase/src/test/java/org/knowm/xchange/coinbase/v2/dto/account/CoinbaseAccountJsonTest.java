@@ -17,7 +17,8 @@ public class CoinbaseAccountJsonTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-accounts-data.json");
+        CoinbaseAccountJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinbase/dto/account/example-accounts-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -25,8 +26,7 @@ public class CoinbaseAccountJsonTest {
     Assert.assertEquals(4, accounts.size());
 
     CoinbaseAccount btcAccount =
-        accounts
-            .stream()
+        accounts.stream()
             .filter(t -> t.getName().equals("BTC Wallet"))
             .collect(Collectors.toList())
             .get(0);

@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.QueryParam;
-import javax.xml.bind.DatatypeConverter;
 import org.knowm.xchange.kucoin.KucoinAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class KucoinDigest extends BaseParamsDigest {
@@ -37,12 +37,7 @@ public class KucoinDigest extends BaseParamsDigest {
     // https://kucoinapidocs.docs.apiary.io/#introduction/authentication/signature-calculation
     String endpoint = "/" + restInvocation.getPath(); // needs leading slash
     String queryString =
-        restInvocation
-            .getParamsMap()
-            .get(QueryParam.class)
-            .asHttpHeaders()
-            .entrySet()
-            .stream()
+        restInvocation.getParamsMap().get(QueryParam.class).asHttpHeaders().entrySet().stream()
             .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
             .map(e -> e.getKey() + "=" + e.getValue())
             .collect(Collectors.joining("&"));
@@ -52,9 +47,9 @@ public class KucoinDigest extends BaseParamsDigest {
     Mac mac = getMac();
     try {
       mac.update(Base64.getEncoder().encode(strForSign.getBytes("UTF-8")));
-    } catch (IllegalStateException | UnsupportedEncodingException e1) {
-      throw new RuntimeException(e1.getMessage());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
     }
-    return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
+    return DigestUtils.bytesToHex(mac.doFinal()).toLowerCase();
   }
 }

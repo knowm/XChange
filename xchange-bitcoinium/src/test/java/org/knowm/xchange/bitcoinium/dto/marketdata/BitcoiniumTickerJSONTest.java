@@ -16,7 +16,8 @@ public class BitcoiniumTickerJSONTest {
 
     // Read in the JSON from the example resources
     InputStream is =
-        BitcoiniumTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+        BitcoiniumTickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinium/dto/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

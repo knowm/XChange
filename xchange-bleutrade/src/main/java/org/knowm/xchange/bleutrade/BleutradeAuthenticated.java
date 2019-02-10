@@ -3,6 +3,7 @@ package org.knowm.xchange.bleutrade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -100,7 +101,17 @@ public interface BleutradeAuthenticated extends Bleutrade {
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
       @QueryParam("market") String market,
       @QueryParam("orderstatus") String orderStatus,
-      @QueryParam("ordertype") String orderType)
+      @QueryParam("ordertype") String orderType,
+      @QueryParam("depth") Integer depth)
+      throws IOException, BleutradeException;
+
+  @GET
+  @Path("account/getorderhistory")
+  Map getOrderHistory(
+      @QueryParam("apikey") String apiKey,
+      @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("orderid") String orderid)
       throws IOException, BleutradeException;
 
   @GET
