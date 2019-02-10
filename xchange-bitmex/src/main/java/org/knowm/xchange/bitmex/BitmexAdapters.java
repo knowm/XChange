@@ -463,7 +463,7 @@ public class BitmexAdapters {
             : FundingRecord.Type.WITHDRAWAL,
         FundingRecord.Status.COMPLETE,
         null,
-        walletTransaction.getFee(),
+        walletTransaction.getFee() != null ? walletTransaction.getFee().divide(BigDecimal.valueOf(100_000_000L)) : null,
         walletTransaction.getText());
   }
 }
