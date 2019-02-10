@@ -44,8 +44,7 @@ public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw
       if (params instanceof CurrencyPairsParam) {
         currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
       }
-      return getTickersRaw()
-          .stream()
+      return getTickersRaw().stream()
           .map(
               livecoinTicker ->
                   LivecoinAdapters.adaptTicker(

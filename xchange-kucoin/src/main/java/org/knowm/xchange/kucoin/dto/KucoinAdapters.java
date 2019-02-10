@@ -68,14 +68,10 @@ public class KucoinAdapters {
     KucoinOrderBook kcOrders = response.getData();
     Date timestamp = new Date(response.getTimestamp());
     List<LimitOrder> asks = new LinkedList<>();
-    kcOrders
-        .getSell()
-        .stream()
+    kcOrders.getSell().stream()
         .forEach(s -> asks.add(adaptLimitOrder(currencyPair, OrderType.ASK, s, timestamp)));
     List<LimitOrder> bids = new LinkedList<>();
-    kcOrders
-        .getBuy()
-        .stream()
+    kcOrders.getBuy().stream()
         .forEach(s -> bids.add(adaptLimitOrder(currencyPair, OrderType.BID, s, timestamp)));
     return new OrderBook(timestamp, asks, bids);
   }
@@ -187,8 +183,7 @@ public class KucoinAdapters {
 
   private static Map<Currency, CurrencyMetaData> adaptCurrencyMap(List<KucoinCoin> coins) {
 
-    return coins
-        .stream()
+    return coins.stream()
         .collect(
             Collectors.toMap(
                 c -> Currency.getInstance(c.getCoin()), c -> adaptCurrencyMetadata(c)));
@@ -201,8 +196,7 @@ public class KucoinAdapters {
   private static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairMap(
       List<KucoinTicker> symbols, Map<String, KucoinCoin> coins) {
 
-    return symbols
-        .stream()
+    return symbols.stream()
         .collect(
             Collectors.toMap(
                 t -> new CurrencyPair(t.getCoinType(), t.getCoinTypePair()),

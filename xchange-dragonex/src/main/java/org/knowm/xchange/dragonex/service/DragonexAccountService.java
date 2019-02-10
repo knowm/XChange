@@ -20,8 +20,7 @@ public class DragonexAccountService extends DragonexAccountServiceRaw implements
   public AccountInfo getAccountInfo() throws IOException {
     List<Balance> userCoins = userCoins(exchange.getOrCreateToken().token);
     List<org.knowm.xchange.dto.account.Balance> balances =
-        userCoins
-            .stream()
+        userCoins.stream()
             .map(
                 b ->
                     new org.knowm.xchange.dto.account.Balance(

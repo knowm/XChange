@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/** @author semihunaldi 
- *  @author mertguner updated 14.01.2019 because tid value was bigger than int*/
+/**
+ * @author semihunaldi
+ * @author mertguner updated 14.01.2019 because tid value was bigger than int
+ */
 public final class BTCTurkTrades {
 
   private final Date date;
@@ -48,10 +50,16 @@ public final class BTCTurkTrades {
     return amount;
   }
 
-@Override
-public String toString() {
-	return "BTCTurkTrade [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
-}
-
-  
+  @Override
+  public String toString() {
+    return "BTCTurkTrade [date="
+        + date
+        + ", tid="
+        + tid
+        + ", price="
+        + price
+        + ", amount="
+        + amount
+        + "]";
+  }
 }

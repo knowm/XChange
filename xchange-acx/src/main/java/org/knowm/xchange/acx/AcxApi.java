@@ -94,6 +94,23 @@ public interface AcxApi {
       throws IOException;
 
   /**
+   * Get your orders, results are paginated.
+   *
+   * @param accessKey Access key.
+   * @param tonce Tonce is an integer represents the milliseconds elapsed since Unix epoch.
+   * @param id Order id
+   * @param signature The signature of your request payload, generated using your secret key.
+   */
+  @GET
+  @Path("/order.json?access_key={access_key}&tonce={tonce}&id={id}&signature={signature}")
+  AcxOrder getOrder(
+      @PathParam("access_key") String accessKey,
+      @PathParam("tonce") long tonce,
+      @PathParam("id") long id,
+      @PathParam("signature") ParamsDigest signature)
+      throws IOException;
+
+  /**
    * Create a Sell/Buy order.
    *
    * @param accessKey Access key.

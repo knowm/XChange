@@ -43,13 +43,11 @@ public class DragonexMarketDataService extends DragonexMarketDataServiceRaw
     BiFunction<OrderType, Order, LimitOrder> f =
         (t, o) -> new LimitOrder(t, o.volume, pair, null, null, o.price);
     List<LimitOrder> bids =
-        super.marketBuyOrders(symbolId)
-            .stream()
+        super.marketBuyOrders(symbolId).stream()
             .map(o -> f.apply(OrderType.BID, o))
             .collect(Collectors.toList());
     List<LimitOrder> asks =
-        super.marketSellOrders(symbolId)
-            .stream()
+        super.marketSellOrders(symbolId).stream()
             .map(o -> f.apply(OrderType.ASK, o))
             .collect(Collectors.toList());
     return new OrderBook(null, asks, bids);

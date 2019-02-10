@@ -24,8 +24,7 @@ public class BankeraUserInfoTest {
 
     List<BankeraWallet> wallets = user.getWallets();
 
-    wallets
-        .stream()
+    wallets.stream()
         .forEach(
             w -> {
               assertThat(w.getBalance()).isEqualTo("10.000000000000000000000000000000");

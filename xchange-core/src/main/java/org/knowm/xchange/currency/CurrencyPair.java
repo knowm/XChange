@@ -313,18 +313,26 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   public static final CurrencyPair ADA_H18 = new CurrencyPair(Currency.ADA, Currency.H18);
   public static final CurrencyPair ADA_M18 = new CurrencyPair(Currency.ADA, Currency.M18);
+  public static final CurrencyPair ADA_H19 = new CurrencyPair(Currency.ADA, Currency.H19);
 
   public static final CurrencyPair BCH_H18 = new CurrencyPair(Currency.BCH, Currency.H18);
   public static final CurrencyPair BCH_M18 = new CurrencyPair(Currency.BCH, Currency.M18);
+  public static final CurrencyPair BCH_H19 = new CurrencyPair(Currency.BCH, Currency.H19);
+
+  public static final CurrencyPair EOS_H19 = new CurrencyPair(Currency.EOS, Currency.H19);
 
   public static final CurrencyPair ETH_H18 = new CurrencyPair(Currency.ETH, Currency.H18);
   public static final CurrencyPair ETH_M18 = new CurrencyPair(Currency.ETH, Currency.M18);
 
-  public static final CurrencyPair XRP_H18 = new CurrencyPair(Currency.XRP, Currency.H18);
-  public static final CurrencyPair XRP_M18 = new CurrencyPair(Currency.XRP, Currency.M18);
-
   public static final CurrencyPair LTC_H18 = new CurrencyPair(Currency.LTC, Currency.H18);
   public static final CurrencyPair LTC_M18 = new CurrencyPair(Currency.LTC, Currency.M18);
+  public static final CurrencyPair LTC_H19 = new CurrencyPair(Currency.LTC, Currency.H19);
+
+  public static final CurrencyPair TRX_H19 = new CurrencyPair(Currency.TRX, Currency.H19);
+
+  public static final CurrencyPair XRP_H18 = new CurrencyPair(Currency.XRP, Currency.H18);
+  public static final CurrencyPair XRP_M18 = new CurrencyPair(Currency.XRP, Currency.M18);
+  public static final CurrencyPair XRP_H19 = new CurrencyPair(Currency.XRP, Currency.H19);
 
   public static final CurrencyPair DASH_H18 = new CurrencyPair(Currency.DASH, Currency.H18);
   public static final CurrencyPair NEO_H18 = new CurrencyPair(Currency.NEO, Currency.H18);

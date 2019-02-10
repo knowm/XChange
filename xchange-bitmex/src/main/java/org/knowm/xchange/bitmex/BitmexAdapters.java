@@ -2,6 +2,8 @@ package org.knowm.xchange.bitmex;
 
 import com.google.common.collect.BiMap;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
@@ -26,10 +29,10 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -110,8 +113,7 @@ public class BitmexAdapters {
   }
 
   public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
-    Order.OrderType type =
-        rawOrder.getSide() == BitmexSide.BUY ? Order.OrderType.BID : Order.OrderType.ASK;
+    OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
 
     CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(rawOrder.getSymbol());
 
@@ -428,5 +430,40 @@ public class BitmexAdapters {
       default:
         return null;
     }
+  }
+
+  public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
+
+    String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
+    Date dateFunding = null;
+
+    try {
+      dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
+    } catch (ParseException e) {
+      throw new IllegalArgumentException(e);
+    }
+
+    String currency = walletTransaction.getCurrency();
+
+    if (currency.equals("XBt")) {
+      currency = Currency.BTC.getCurrencyCode();
+    }
+
+    return new FundingRecord(
+        walletTransaction.getAddress(),
+        dateFunding,
+        Currency.getInstance(currency),
+        walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
+        walletTransaction.getTransactID(),
+        walletTransaction.getTx(),
+        walletTransaction.getTransactType().equals("Deposit")
+            ? FundingRecord.Type.DEPOSIT
+            : FundingRecord.Type.WITHDRAWAL,
+        FundingRecord.Status.COMPLETE,
+        null,
+        walletTransaction.getFee(),
+        walletTransaction.getText());
   }
 }

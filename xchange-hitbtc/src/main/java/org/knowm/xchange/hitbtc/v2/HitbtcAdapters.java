@@ -51,8 +51,7 @@ public class HitbtcAdapters {
     // In order to differentiate xxxTUSD and xxxUSD
     String tempSymbol =
         symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
-    return counters
-        .stream()
+    return counters.stream()
         .map(counter -> "USD".equals(counter) ? "USDT" : counter)
         .filter(tempSymbol::endsWith)
         .map(

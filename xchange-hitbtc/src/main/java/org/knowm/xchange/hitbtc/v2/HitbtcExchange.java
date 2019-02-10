@@ -107,17 +107,14 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
     HitbtcMarketDataServiceRaw dataService = ((HitbtcMarketDataServiceRaw) marketDataService);
     List<HitbtcSymbol> hitbtcSymbols = dataService.getHitbtcSymbols();
     Map<Currency, CurrencyMetaData> currencies =
-        dataService
-            .getHitbtcCurrencies()
-            .stream()
+        dataService.getHitbtcCurrencies().stream()
             .collect(
                 Collectors.toMap(
                     hitbtcCurrency -> new Currency(hitbtcCurrency.getId()),
                     hitbtcCurrency -> new CurrencyMetaData(null, hitbtcCurrency.getPayoutFee())));
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        hitbtcSymbols
-            .stream()
+        hitbtcSymbols.stream()
             .collect(
                 Collectors.toMap(
                     hitbtcSymbol ->
