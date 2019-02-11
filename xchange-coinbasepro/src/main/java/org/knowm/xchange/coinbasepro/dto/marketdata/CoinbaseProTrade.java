@@ -33,7 +33,7 @@ public class CoinbaseProTrade {
     this.size = size;
     this.side = side;
   }
-  public GDAXTrade(
+  public CoinbaseProTrade(
           @JsonProperty("time") String timestamp,
           @JsonProperty("trade_id") long tradeId,
           @JsonProperty("price") BigDecimal price,
