@@ -453,7 +453,6 @@ public class BitmexAdapters {
       currency = Currency.BTC.getCurrencyCode();
     }
 
-
     return new FundingRecord(
         walletTransaction.getAddress(),
         dateFunding,
@@ -466,7 +465,9 @@ public class BitmexAdapters {
             : FundingRecord.Type.WITHDRAWAL,
         FundingRecord.Status.COMPLETE,
         null,
-        walletTransaction.getFee() != null ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC) : null,
+        walletTransaction.getFee() != null
+            ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC)
+            : null,
         walletTransaction.getText());
   }
 }
