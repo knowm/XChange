@@ -56,6 +56,7 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @FormParam("json") BatchOrder orderCommands)
       throws IOException;
 
+  @POST
   @Path("cancelorder")
   CryptoFacilitiesCancel cancelOrder(
       @HeaderParam("APIKey") String apiKey,
