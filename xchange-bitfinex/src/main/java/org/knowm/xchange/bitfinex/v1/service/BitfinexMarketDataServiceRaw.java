@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
@@ -71,14 +73,22 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    List<CurrencyPair> currencyPairs = new ArrayList<>();
-    for (String symbol : bitfinex.getSymbols()) {
-      currencyPairs.add(BitfinexAdapters.adaptCurrencyPair(symbol));
+    try {
+      List<CurrencyPair> currencyPairs = new ArrayList<>();
+      for (String symbol : bitfinex.getSymbols()) {
+        currencyPairs.add(BitfinexAdapters.adaptCurrencyPair(symbol));
+      }
+      return currencyPairs;
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
     }
-    return currencyPairs;
   }
 
   public List<BitfinexSymbolDetail> getSymbolDetails() throws IOException {
-    return bitfinex.getSymbolsDetails();
+    try {
+      return bitfinex.getSymbolsDetails();
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 }
