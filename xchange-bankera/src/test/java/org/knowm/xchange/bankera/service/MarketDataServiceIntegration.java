@@ -43,7 +43,7 @@ public class MarketDataServiceIntegration {
   @Test
   public void getOrderBookTest() throws Exception {
 
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BNK_BTC);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BNK_USDT);
     assertNotNull(orderBook);
     logger.info("Response: {}", orderBook);
   }
