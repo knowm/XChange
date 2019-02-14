@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.core;
 
+import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -71,6 +72,7 @@ public interface StreamingExchange extends Exchange {
     default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService streamingService){
         streamingService.setSocksProxyHost((String) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_HOST));
         streamingService.setSocksProxyPort((Integer) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_PORT));
+        streamingService.setBeforeConnectionHandler((Runnable) exchangeSpec.getExchangeSpecificParametersItem(ConnectableService.BEFORE_CONNECTION_HANDLER));
 
         Boolean accept_all_ceriticates = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(ACCEPT_ALL_CERITICATES);
         if (accept_all_ceriticates != null && accept_all_ceriticates) {

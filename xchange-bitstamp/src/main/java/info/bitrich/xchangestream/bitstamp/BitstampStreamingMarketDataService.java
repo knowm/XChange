@@ -42,10 +42,9 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
                     BitstampOrderBook orderBook = mapper.readValue(s, BitstampOrderBook.class);
                     org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook bitstampOrderBook =
                             new org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook(
-                                    new Date().getTime() / 1000L,
+                                    orderBook.getTimestamp(),
                                     orderBook.getBids(),
                                     orderBook.getAsks());
-
                     return BitstampAdapters.adaptOrderBook(bitstampOrderBook, currencyPair);
                 });
     }
