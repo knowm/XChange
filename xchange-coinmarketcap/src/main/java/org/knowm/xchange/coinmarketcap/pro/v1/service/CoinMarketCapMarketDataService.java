@@ -9,8 +9,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Map;
+
+import static org.knowm.xchange.coinmarketcap.deprecated.v2.CoinMarketCapAdapters.adaptTicker;
 
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw
     implements MarketDataService {
@@ -31,20 +32,6 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
     CoinMarketCapTicker ticker = super.getCoinMarketCapLatestQuote(currencyPair)
             .getTickerData().get(currencyPair.base.getSymbol());
 
-    BigDecimal price = ticker.getQuote().get(currencyPair.counter.getCurrencyCode()).getPrice();
-    BigDecimal volume24h = ticker.getQuote().get(currencyPair.counter.getCurrencyCode()).getVolume24h();
-
-    return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .timestamp(ticker.getLastUpdated())
-            .open(price)
-            .last(price)
-            .bid(price)
-            .ask(price)
-            .high(price)
-            .low(price)
-            .vwap(price)
-            .volume(volume24h)
-            .build();
+    return adaptTicker(ticker, currencyPair);
   }
 }
