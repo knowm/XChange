@@ -7,23 +7,21 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class CoinMarketCapTicker {
 
 	private final String symbol;
 	private final int circulatingSupply;
-	private final String lastUpdated;
+	private final Date lastUpdated;
 	private final int totalSupply;
 	private final int cmcRank;
 	private final Object platform;
 	private final List<String> tags;
-	private final String dateAdded;
+	private final Date dateAdded;
 	private final Map<String, CoinMarketCapQuote> quoteData;
 	private final int numMarketPairs;
 	private final String name;
@@ -34,12 +32,16 @@ public final class CoinMarketCapTicker {
 	public CoinMarketCapTicker(
 			@JsonProperty("symbol") String symbol,
 			@JsonProperty("circulating_supply") int circulatingSupply,
-			@JsonProperty("last_updated") String lastUpdated,
+			@JsonProperty("last_updated")
+					@JsonDeserialize(using = ISO8601DateDeserializer.class)
+					Date lastUpdated,
 			@JsonProperty("total_supply") int totalSupply,
 			@JsonProperty("cmc_rank") int cmcRank,
 			@JsonProperty("platform") Object platform,
 			@JsonProperty("tags") List<String> tags,
-			@JsonProperty("date_added") String dateAdded,
+			@JsonProperty("date_added")
+					@JsonDeserialize(using = ISO8601DateDeserializer.class)
+					Date dateAdded,
 			@JsonProperty("quote")
 					@JsonDeserialize(using = CoinMarketCapQuoteDeserializer.class)
 					Map<String, CoinMarketCapQuote> quoteData,
@@ -72,7 +74,7 @@ public final class CoinMarketCapTicker {
 		return circulatingSupply;
 	}
 
-	public String getLastUpdated(){
+	public Date getLastUpdated(){
 		return lastUpdated;
 	}
 
@@ -92,7 +94,7 @@ public final class CoinMarketCapTicker {
 		return tags;
 	}
 
-	public String getDateAdded(){
+	public Date getDateAdded(){
 		return dateAdded;
 	}
 
