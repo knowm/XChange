@@ -54,6 +54,6 @@ public class CoinMarketCapTickerTest {
         assertThat(quote.getPercentChange24h()).isEqualTo(new BigDecimal("-0.342853"));
         assertThat(quote.getPercentChange7d()).isEqualTo(new BigDecimal("0.070337"));
         assertThat(quote.getMarketCap()).isEqualTo(new BigDecimal("60680617970.86225"));
-        assertThat(quote.getLastUpdated()).isEqualTo("2019-02-04T16:34:24.000Z");
+        assertThat(quote.getLastUpdated()).isEqualTo(lastUpdated);
     }
 }

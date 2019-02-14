@@ -1,8 +1,11 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public final class CoinMarketCapQuote {
 
@@ -12,7 +15,7 @@ public final class CoinMarketCapQuote {
 	private BigDecimal percentChange7d;
 	private BigDecimal percentChange24h;
 	private BigDecimal marketCap;
-	private String lastUpdated;
+	private Date lastUpdated;
 
 	public CoinMarketCapQuote(
 			@JsonProperty("price") BigDecimal price,
@@ -21,7 +24,9 @@ public final class CoinMarketCapQuote {
 			@JsonProperty("percent_change_7d") BigDecimal percentChange7d,
 			@JsonProperty("percent_change_24h") BigDecimal percentChange24h,
 			@JsonProperty("market_cap") BigDecimal marketCap,
-			@JsonProperty("last_updated") String lastUpdated) {
+			@JsonProperty("last_updated")
+					@JsonDeserialize(using = ISO8601DateDeserializer.class)
+					Date lastUpdated) {
 		this.price = price;
 		this.volume24h = volume24h;
 		this.percentChange1h = percentChange1h;
@@ -55,7 +60,7 @@ public final class CoinMarketCapQuote {
 		return marketCap;
 	}
 
-	public String getLastUpdated() {
+	public Date getLastUpdated() {
 		return lastUpdated;
 	}
 

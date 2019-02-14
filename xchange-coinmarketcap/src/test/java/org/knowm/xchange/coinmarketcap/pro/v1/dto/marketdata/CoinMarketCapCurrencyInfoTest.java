@@ -15,7 +15,7 @@ public class CoinMarketCapCurrencyInfoTest {
     public void testDeserializeCurrencyInfo() throws IOException {
         //given
         InputStream is = CoinMarketCapCurrencyInfo.class.getResourceAsStream(
-                "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency.json");
+                "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency-info.json");
 
         //when
         ObjectMapper mapper = new ObjectMapper();

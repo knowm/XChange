@@ -27,6 +27,10 @@ public class CurrencyInfoFetchIntegration {
         (CoinMarketCapMarketDataService) exchange.getMarketDataService();
     CoinMarketCapCurrencyInfo currency = marketDataService.getCurrencyInfo(Currency.BTC);
 
+    System.out.println(currency);
+
+    assertThat(currency).isNotNull();
     assertThat(currency.getSymbol()).isEqualTo(Currency.BTC.getSymbol());
+
   }
 }
