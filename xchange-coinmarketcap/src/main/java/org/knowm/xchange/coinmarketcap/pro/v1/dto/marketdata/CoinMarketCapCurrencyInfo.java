@@ -1,7 +1,10 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
+import java.util.Date;
 import java.util.List;
 
 public final class CoinMarketCapCurrencyInfo {
@@ -15,7 +18,7 @@ public final class CoinMarketCapCurrencyInfo {
   private final String slug;
   private final CoinMarketCapPlatform platform;
   private final List<String> tags;
-  private final String dateAdded;
+  private final Date dateAdded;
 
   public CoinMarketCapCurrencyInfo(
       @JsonProperty("symbol") String symbol,
@@ -27,7 +30,9 @@ public final class CoinMarketCapCurrencyInfo {
       @JsonProperty("slug") String slug,
       @JsonProperty("platform") CoinMarketCapPlatform platform,
       @JsonProperty("tags") List<String> tags,
-      @JsonProperty("date_added") String dateAdded) {
+      @JsonProperty("date_added")
+            @JsonDeserialize(using = ISO8601DateDeserializer.class)
+              Date dateAdded) {
     this.symbol = symbol;
     this.urls = urls;
     this.name = name;
@@ -76,7 +81,7 @@ public final class CoinMarketCapCurrencyInfo {
     return tags;
   }
 
-  public String getDateAdded() {
+  public Date getDateAdded() {
     return dateAdded;
   }
 

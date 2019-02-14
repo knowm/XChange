@@ -1,17 +1,23 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+import java.util.Date;
 
 public final class CoinMarketCapStatus {
 
-  private final String timestamp;
+  private final Date timestamp;
   private final int errorCode;
   private final String errorMessage;
   private final int elapsed;
   private final int creditCount;
 
   public CoinMarketCapStatus(
-      @JsonProperty("timestamp") String timestamp,
+      @JsonProperty("timestamp")
+              @JsonDeserialize(using = ISO8601DateDeserializer.class)
+              Date timestamp,
       @JsonProperty("error_code") int errorCode,
       @JsonProperty("error_message") String errorMessage,
       @JsonProperty("elapsed") int elapsed,
@@ -23,7 +29,7 @@ public final class CoinMarketCapStatus {
     this.creditCount = creditCount;
   }
 
-  public String getTimestamp() {
+  public Date getTimestamp() {
     return timestamp;
   }
 
