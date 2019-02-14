@@ -5,7 +5,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.14</version>
+    <version>4.3.15-SNAPSHOT</version>
 
     <modules>
         <module>xchange-stream-core</module>
@@ -56,7 +56,7 @@
         <connection>scm:git:git@github.com:bitrich-info/xchange-stream.git</connection>
         <developerConnection>scm:git:git@github.com:bitrich-info/xchange-stream.git</developerConnection>
         <url>git@github.com:bitrich-info/xchange-stream.git</url>
-        <tag>xchange-stream-parent-4.3.14</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
