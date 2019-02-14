@@ -5,7 +5,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.11</version>
+    <version>4.3.15</version>
 
     <modules>
         <module>xchange-stream-core</module>
@@ -19,7 +19,7 @@
         <module>xchange-okcoin</module>
         <module>xchange-poloniex</module>
         <module>xchange-coinmate</module>
-        <module>xchange-gdax</module>
+        <module>xchange-coinbasepro</module>
         <module>xchange-bitfinex</module>
         <module>xchange-bitmex</module>
         <module>xchange-poloniex2</module>
@@ -56,7 +56,7 @@
         <connection>scm:git:git@github.com:bitrich-info/xchange-stream.git</connection>
         <developerConnection>scm:git:git@github.com:bitrich-info/xchange-stream.git</developerConnection>
         <url>git@github.com:bitrich-info/xchange-stream.git</url>
-        <tag>xchange-stream-parent-4.3.11</tag>
+        <tag>xchange-stream-parent-4.3.15</tag>
     </scm>
 
     <distributionManagement>
@@ -80,17 +80,28 @@
     </repositories>
 
     <properties>
-        <xchange.version>4.3.11</xchange.version>
+        <xchange.version>4.3.15</xchange.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.8</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.13</version>
+            <version>1.7.25</version>
         </dependency>
 
         <dependency>
@@ -109,7 +120,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.6.2</version>
+            <version>2.11.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -123,14 +134,14 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.6.3</version>
+            <version>2.18.3</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.6.1</version>
+            <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
