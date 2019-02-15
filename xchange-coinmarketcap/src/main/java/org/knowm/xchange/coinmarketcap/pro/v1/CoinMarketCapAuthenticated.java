@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyInfoResponse;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyMapResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapTickerResponse;
 
 import javax.ws.rs.*;
@@ -17,6 +18,15 @@ public interface CoinMarketCapAuthenticated {
   CoinMarketCapCurrencyInfoResponse getCurrencyInfo(
       @HeaderParam(API_KEY_HEADER) String apiKey, @QueryParam("symbol") String symbol)
       throws IOException;
+
+  @GET
+  @Path("cryptocurrency/map")
+  CoinMarketCapCurrencyMapResponse getCurrencyMap(
+          @HeaderParam(API_KEY_HEADER) String apiKey,
+          @QueryParam("listing_status") String isActive,
+          @QueryParam("start") int start,
+          @QueryParam("limit") int limit)
+          throws IOException;
 
   @GET
   @Path("cryptocurrency/quotes/latest")
