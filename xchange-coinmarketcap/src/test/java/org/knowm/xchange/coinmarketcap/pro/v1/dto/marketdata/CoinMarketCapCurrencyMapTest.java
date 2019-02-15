@@ -1,0 +1,44 @@
+package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class CoinMarketCapCurrencyMapTest {
+
+    @Test
+    public void testDeserializeCurrencyMap() throws Exception {
+        //given
+        InputStream is = CoinMarketCapCurrencyMap.class.getResourceAsStream(
+                "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency-map.json");
+
+        //when
+        ObjectMapper mapper = new ObjectMapper();
+        CoinMarketCapCurrencyMap currencyMap = mapper.readValue(is, CoinMarketCapCurrencyMap.class);
+
+        //then
+        assertThat(currencyMap).isNotNull();
+
+        assertThat(currencyMap.getId()).isEqualTo(1);
+        assertThat(currencyMap.getName()).isEqualTo(Currency.BTC.getDisplayName());
+        assertThat(currencyMap.getSymbol()).isEqualTo(Currency.BTC.getSymbol());
+        assertThat(currencyMap.getSlug()).isEqualTo("bitcoin");
+        assertThat(currencyMap.isActive()).isTrue();
+
+        SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date firstHistoricalData = iso8601Format.parse("2013-04-28T18:47:21.000Z");
+        Date lastHistoricalData = iso8601Format.parse("2019-02-15T20:39:01.000Z");
+
+        assertThat(currencyMap.getFirstHistoricalData()).isEqualTo(firstHistoricalData);
+        assertThat(currencyMap.getLastHistoricalData()).isEqualTo(lastHistoricalData);
+        assertThat(currencyMap.getPlatform()).isNull();
+    }
+}
