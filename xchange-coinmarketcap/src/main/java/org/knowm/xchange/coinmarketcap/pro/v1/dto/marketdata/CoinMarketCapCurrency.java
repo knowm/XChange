@@ -6,7 +6,7 @@ import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.util.Date;
 
-public final class CoinMarketCapCurrencyMap {
+public final class CoinMarketCapCurrency {
     private final int id;
     private final String name;
     private final String symbol;
@@ -16,7 +16,7 @@ public final class CoinMarketCapCurrencyMap {
     private final Date lastHistoricalData;
     private final CoinMarketCapPlatform platform;
 
-    public CoinMarketCapCurrencyMap(
+    public CoinMarketCapCurrency(
             @JsonProperty("id") int id,
             @JsonProperty("name") String name,
             @JsonProperty("symbol") String symbol,
@@ -73,7 +73,7 @@ public final class CoinMarketCapCurrencyMap {
 
     @Override
     public String toString() {
-        return "CoinMarketCapCurrencyMap{" +
+        return "CoinMarketCapCurrency{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", symbol='" + symbol + '\'' +
