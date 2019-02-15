@@ -15,15 +15,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class CoinMarketCapCurrencyResponse {
+public final class CoinMarketCapCurrencyInfoResponse {
 
   private final Map<String, CoinMarketCapCurrencyInfo> currencyData;
   private final CoinMarketCapStatus status;
 
-  public CoinMarketCapCurrencyResponse(
+  public CoinMarketCapCurrencyInfoResponse(
       @JsonProperty("data")
           @JsonDeserialize(
-              using = CoinMarketCapCurrencyResponse.CoinMarketCapCurrencyDataDeserializer.class)
+              using = CoinMarketCapCurrencyInfoResponse.CoinMarketCapCurrencyDataDeserializer.class)
               Map<String, CoinMarketCapCurrencyInfo> currencyData,
       @JsonProperty("status") CoinMarketCapStatus status) {
     this.currencyData = currencyData;
@@ -40,7 +40,7 @@ public final class CoinMarketCapCurrencyResponse {
 
   @Override
   public String toString() {
-    return "CoinMarketCapCurrencyResponse{"
+    return "CoinMarketCapCurrencyInfoResponse{"
         + "currencyData="
         + currencyData
         + ", status="

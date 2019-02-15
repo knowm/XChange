@@ -40,7 +40,7 @@ public final class CoinMarketCapTickerResponse {
 
   @Override
   public String toString() {
-    return "CoinMarketCapCurrencyResponse{"
+    return "CoinMarketCapCurrencyInfoResponse{"
         + "tickerData="
         + tickerData
         + ", status="
