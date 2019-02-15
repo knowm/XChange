@@ -11,17 +11,17 @@ import java.util.TimeZone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoinMarketCapCurrencyMapTest {
+public class CoinMarketCapCurrencyTest {
 
     @Test
     public void testDeserializeCurrencyMap() throws Exception {
         //given
-        InputStream is = CoinMarketCapCurrencyMap.class.getResourceAsStream(
-                "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency-map.json");
+        InputStream is = CoinMarketCapCurrency.class.getResourceAsStream(
+                "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency.json");
 
         //when
         ObjectMapper mapper = new ObjectMapper();
-        CoinMarketCapCurrencyMap currencyMap = mapper.readValue(is, CoinMarketCapCurrencyMap.class);
+        CoinMarketCapCurrency currencyMap = mapper.readValue(is, CoinMarketCapCurrency.class);
 
         //then
         assertThat(currencyMap).isNotNull();
