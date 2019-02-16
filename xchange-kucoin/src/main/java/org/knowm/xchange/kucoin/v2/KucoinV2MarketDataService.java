@@ -3,10 +3,10 @@ package org.knowm.xchange.kucoin.v2;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw implements MarketDataService {
@@ -26,7 +26,7 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
    */
   public static final String PARAM_FULL_ORDERBOOK = "Full_Orderbook";
 
-  public KucoinV2MarketDataService(Exchange exchange) {
+  public KucoinV2MarketDataService(KucoinV2Exchange exchange) {
     super(exchange);
   }
 
@@ -59,5 +59,10 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
         currencyPair,
         getKucoinOrderBookPartial(currencyPair));
     }
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return KucoinV2Adapters.adaptTrades(currencyPair, getKucoinTrades(currencyPair));
   }
 }

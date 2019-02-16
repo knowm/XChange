@@ -1,6 +1,7 @@
 package org.knowm.xchange.kucoin.v2;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.knowm.xchange.kucoin.v2.KucoinV2MarketDataService.PARAM_FULL_ORDERBOOK;
 import static org.knowm.xchange.kucoin.v2.KucoinV2MarketDataService.PARAM_MINIMAL_TICKER;
@@ -17,6 +18,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
@@ -79,6 +81,13 @@ public class KucoinV2MarketDataServiceIntegration {
     KucoinV2Exchange exchange = exchange();
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(ETH, PARAM_FULL_ORDERBOOK);
     checkOrderBookIntegrity(orderBook);
+  }
+
+  @Test
+  public void testTrades() throws Exception {
+    KucoinV2Exchange exchange = exchange();
+    Trades trades = exchange.getMarketDataService().getTrades(ETH);
+    assertFalse(trades.getTrades().isEmpty());
   }
 
   private KucoinV2Exchange exchange() {
