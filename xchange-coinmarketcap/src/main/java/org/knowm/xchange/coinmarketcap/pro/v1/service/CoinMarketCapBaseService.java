@@ -21,4 +21,5 @@ public class CoinMarketCapBaseService extends BaseExchangeService implements Bas
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
   }
+
 }

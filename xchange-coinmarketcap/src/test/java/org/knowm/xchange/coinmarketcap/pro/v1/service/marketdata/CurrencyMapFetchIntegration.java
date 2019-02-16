@@ -1,10 +1,10 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service.marketdata;
 
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinmarketcap.pro.v1.CoinMarketCapExchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.pro.v1.service.CoinMarketCapMarketDataService;
@@ -18,8 +18,9 @@ public class CurrencyMapFetchIntegration {
 
   @BeforeClass
   public static void initExchange() {
-    ExchangeSpecification specification = new ExchangeSpecification(CoinMarketCapExchange.class);
-    exchange = ExchangeFactory.INSTANCE.createExchange(specification);
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinMarketCapExchange.class);
+
+    Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
   }
 
   @Test
