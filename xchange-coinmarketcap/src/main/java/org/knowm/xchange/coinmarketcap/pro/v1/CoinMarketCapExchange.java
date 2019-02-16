@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
-import java.util.Properties;
 
 /** @author allenday */
 public class CoinMarketCapExchange extends BaseExchange implements Exchange {
@@ -41,10 +40,13 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
     defaultExchangeSpecification.setExchangeDescription(
         "Cryptocurrency market cap rankings, charts, and more.");
 
-    Properties props = AuthUtils.getSecretProperties("coinmarketcap");
-    if (props != null) {
-      defaultExchangeSpecification.setApiKey(props.getProperty("apiKey"));
-    }
+    AuthUtils.setApiAndSecretKey(defaultExchangeSpecification, "coinmarketcap");
+
+//
+//    Properties props = AuthUtils.getSecretProperties("coinmarketcap");
+//    if (props != null) {
+//      defaultExchangeSpecification.setApiKey(props.getProperty("apiKey"));
+//    }
 
     return defaultExchangeSpecification;
   }

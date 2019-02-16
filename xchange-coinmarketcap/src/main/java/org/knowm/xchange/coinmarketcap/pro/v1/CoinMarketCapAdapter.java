@@ -7,7 +7,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 
 import java.math.BigDecimal;
 
-public class CoinMarketCapAdapters {
+public class CoinMarketCapAdapter {
 
     public static Ticker adaptTicker(CoinMarketCapTicker ticker, CurrencyPair currencyPair) {
         BigDecimal price = ticker.getQuote().get(currencyPair.counter.getCurrencyCode()).getPrice();

@@ -18,11 +18,14 @@ class CoinMarketCapMarketDataServiceRaw extends CoinMarketCapBaseService {
   }
 
   public CoinMarketCapCurrencyInfoResponse getCoinMarketCapCurrencyInfo(Currency currency)
-      throws IOException {
+          throws IOException {
+
     return coinMarketCapAuthenticated.getCurrencyInfo(super.apiKey, currency.toString());
   }
 
-  public CoinMarketCapCurrencyMapResponse getCoinMarketCapCurrencyMap() throws IOException {
+  public CoinMarketCapCurrencyMapResponse getCoinMarketCapCurrencyMap()
+          throws IOException {
+
     return coinMarketCapAuthenticated.getCurrencyMap(super.apiKey, "active", 1, 5000);
   }
 
@@ -44,6 +47,7 @@ class CoinMarketCapMarketDataServiceRaw extends CoinMarketCapBaseService {
 
   public CoinMarketCapTickerResponse getCoinMarketCapLatestQuote(CurrencyPair currencyPair)
           throws IOException {
+
     return coinMarketCapAuthenticated.getLatestQuote(super.apiKey,
             currencyPair.base.getCurrencyCode(),
             currencyPair.counter.getCurrencyCode());
