@@ -10,6 +10,8 @@ import org.knowm.xchange.coinmarketcap.pro.v1.service.CoinMarketCapMarketDataSer
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TickerFetchIntegration {
@@ -31,5 +33,17 @@ public class TickerFetchIntegration {
 
     assertThat(ticker).isNotNull();
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+  }
+
+  @Test
+  public void getTickersTest() throws Exception {
+    CoinMarketCapMarketDataService marketDataService =
+            (CoinMarketCapMarketDataService) exchange.getMarketDataService();
+    List<Ticker> tickerList = marketDataService.getTickers(null);
+
+    System.out.println(tickerList);
+
+//    assertThat(ticker).isNotNull();
+//    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 }

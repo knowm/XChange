@@ -3,6 +3,7 @@ package org.knowm.xchange.coinmarketcap.pro.v1.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyInfoResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyMapResponse;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapTickerListResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapTickerResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,18 +26,20 @@ class CoinMarketCapMarketDataServiceRaw extends CoinMarketCapBaseService {
     return coinMarketCapAuthenticated.getCurrencyMap(super.apiKey, "active", 1, 5000);
   }
 
-  public CoinMarketCapTickerResponse getCoinMarketCapCurrencyList()
+  public CoinMarketCapTickerListResponse getCoinMarketCapLatestDataForAllCurrencies()
           throws IOException {
 
-    return coinMarketCapAuthenticated.getLatestForAllCurrency(super.apiKey, 1, 5000,
+    return coinMarketCapAuthenticated.getLatestDataForAllCurrencies(super.apiKey, 1, 5000,
             Currency.USD.getCurrencyCode(), "symbol", "asc", "all");
   }
 
-  public CoinMarketCapTickerResponse getCoinMarketCapCurrencyList(int startIndex, int limitIndex, )
+  public CoinMarketCapTickerListResponse getCoinMarketCapLatestDataForAllCurrencies(
+          int startIndex, int limitIndex, String currencyCounters,
+          String sortByField, String sortDirection, String currencyType)
           throws IOException {
 
-    return coinMarketCapAuthenticated.getLatestForAllCurrency(super.apiKey, 1, 5000,
-            Currency.USD.getCurrencyCode(), "symbol", "asc", "all");
+    return coinMarketCapAuthenticated.getLatestDataForAllCurrencies(super.apiKey, startIndex, limitIndex,
+            currencyCounters, sortByField, sortDirection, currencyType);
   }
 
   public CoinMarketCapTickerResponse getCoinMarketCapLatestQuote(CurrencyPair currencyPair)

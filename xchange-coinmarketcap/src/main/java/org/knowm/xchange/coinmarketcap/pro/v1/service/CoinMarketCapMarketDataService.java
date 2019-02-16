@@ -11,6 +11,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,15 +48,32 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
+      List<Ticker> tickers = new ArrayList<>();
 
-    Map<String, CoinMarketCapTicker> tickerMap
-            = super.getCoinMarketCapCurrencyList().getTickerData();
+    List<CoinMarketCapTicker> coinMarketCapTickers
+            = super.getCoinMarketCapLatestDataForAllCurrencies().getTickerData();
 
-    Set<String> currencyBaseSet = tickerMap.keySet();
-    currencyBaseSet.stream();
+      for(CoinMarketCapTicker t : coinMarketCapTickers) {
 
+          Set<String> counterCurrencySymbolSet = t.getQuote().keySet();
+          for (String counterSymbol : counterCurrencySymbolSet) {
+              tickers.add(adaptTicker(t, buildCurrencyPair(t.getSymbol(), counterSymbol)));
+          }
+      }
 
-
-    return null;
+    return tickers;
   }
+
+
+
+  private CurrencyPair buildCurrencyPair(String currencyBaseSymbol, String currencyCounterSymbol){
+      Currency currencyBase = Currency.getInstance(currencyBaseSymbol);
+      Currency currencyCounter = Currency.getInstance(currencyCounterSymbol);
+      return new CurrencyPair(currencyBase, currencyCounter);
+  }
+
+//    @Override
+//    public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
+//        throw new NotAvailableFromExchangeException();
+//    }
 }
