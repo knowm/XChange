@@ -32,19 +32,19 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
 
   public CoinMarketCapCurrencyInfo getCurrencyInfo(Currency currency) throws IOException {
     Map<String, CoinMarketCapCurrencyInfo> currencyData =
-            super.getCoinMarketCapCurrencyInfo(currency).getCurrencyData();
+            super.getCoinMarketCapCurrencyInfo(currency).getData();
     return currencyData.get(currency.getSymbol());
   }
 
   public List<CoinMarketCapCurrency> getCurrencyList() throws IOException {
-    return super.getCoinMarketCapCurrencyMap().getCurrencyData();
+    return super.getCoinMarketCapCurrencyMap().getData();
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     CoinMarketCapTicker ticker = super.getCoinMarketCapLatestQuote(currencyPair)
-            .getTickerData().get(currencyPair.base.getSymbol());
+            .getData().get(currencyPair.base.getSymbol());
 
     return adaptTicker(ticker, currencyPair);
   }
@@ -54,7 +54,7 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       List<Ticker> tickers = new ArrayList<>();
 
     List<CoinMarketCapTicker> coinMarketCapTickers
-            = super.getCoinMarketCapLatestDataForAllCurrencies().getTickerData();
+            = super.getCoinMarketCapLatestDataForAllCurrencies().getData();
 
       for(CoinMarketCapTicker t : coinMarketCapTickers) {
 
