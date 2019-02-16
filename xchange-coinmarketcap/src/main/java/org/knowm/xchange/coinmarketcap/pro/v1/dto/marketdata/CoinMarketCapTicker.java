@@ -10,32 +10,33 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 public final class CoinMarketCapTicker {
 
 	private final String symbol;
-	private final int circulatingSupply;
+	private final BigDecimal circulatingSupply;
 	private final Date lastUpdated;
-	private final int totalSupply;
+	private final BigDecimal totalSupply;
 	private final int cmcRank;
 	private final Object platform;
 	private final List<String> tags;
 	private final Date dateAdded;
 	private final Map<String, CoinMarketCapQuote> quoteData;
-	private final int numMarketPairs;
+	private final BigDecimal numMarketPairs;
 	private final String name;
-	private final int maxSupply;
+	private final BigDecimal maxSupply;
 	private final int id;
 	private final String slug;
 
 	public CoinMarketCapTicker(
 			@JsonProperty("symbol") String symbol,
-			@JsonProperty("circulating_supply") int circulatingSupply,
+			@JsonProperty("circulating_supply") BigDecimal circulatingSupply,
 			@JsonProperty("last_updated")
 					@JsonDeserialize(using = ISO8601DateDeserializer.class)
 					Date lastUpdated,
-			@JsonProperty("total_supply") int totalSupply,
+			@JsonProperty("total_supply") BigDecimal totalSupply,
 			@JsonProperty("cmc_rank") int cmcRank,
 			@JsonProperty("platform") Object platform,
 			@JsonProperty("tags") List<String> tags,
@@ -45,9 +46,9 @@ public final class CoinMarketCapTicker {
 			@JsonProperty("quote")
 					@JsonDeserialize(using = CoinMarketCapQuoteDeserializer.class)
 					Map<String, CoinMarketCapQuote> quoteData,
-			@JsonProperty("num_market_pairs") int numMarketPairs,
+			@JsonProperty("num_market_pairs") BigDecimal numMarketPairs,
 			@JsonProperty("name") String name,
-			@JsonProperty("max_supply") int maxSupply,
+			@JsonProperty("max_supply") BigDecimal maxSupply,
 			@JsonProperty("id") int id,
 			@JsonProperty("slug") String slug) {
 		this.symbol = symbol;
@@ -70,7 +71,7 @@ public final class CoinMarketCapTicker {
 		return symbol;
 	}
 
-	public int getCirculatingSupply(){
+	public BigDecimal getCirculatingSupply(){
 		return circulatingSupply;
 	}
 
@@ -78,7 +79,7 @@ public final class CoinMarketCapTicker {
 		return lastUpdated;
 	}
 
-	public int getTotalSupply(){
+	public BigDecimal getTotalSupply(){
 		return totalSupply;
 	}
 
@@ -102,7 +103,7 @@ public final class CoinMarketCapTicker {
 		return quoteData;
 	}
 
-	public int getNumMarketPairs(){
+	public BigDecimal getNumMarketPairs(){
 		return numMarketPairs;
 	}
 
@@ -110,7 +111,7 @@ public final class CoinMarketCapTicker {
 		return name;
 	}
 
-	public int getMaxSupply(){
+	public BigDecimal getMaxSupply(){
 		return maxSupply;
 	}
 

@@ -31,16 +31,16 @@ public class CoinMarketCapTickerTest {
         assertThat(ticker.getName()).isEqualTo(Currency.BTC.getDisplayName());
         assertThat(ticker.getSymbol()).isEqualTo(Currency.BTC.getSymbol());
         assertThat(ticker.getSlug()).isEqualTo("bitcoin");
-        assertThat(ticker.getCirculatingSupply()).isEqualTo(17519062);
-        assertThat(ticker.getTotalSupply()).isEqualTo(17519062);
-        assertThat(ticker.getMaxSupply()).isEqualTo(21000000);
+        assertThat(ticker.getCirculatingSupply()).isEqualTo(new BigDecimal("17519062"));
+        assertThat(ticker.getTotalSupply()).isEqualTo(new BigDecimal("17519062"));
+        assertThat(ticker.getMaxSupply()).isEqualTo(new BigDecimal("21000000"));
 
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateAdded = iso8601Format.parse("2013-04-28T00:00:00.000Z");
 
         assertThat(ticker.getDateAdded()).isEqualTo(dateAdded);
-        assertThat(ticker.getNumMarketPairs()).isEqualTo(6513);
+        assertThat(ticker.getNumMarketPairs()).isEqualTo(new BigDecimal("6513"));
         assertThat(ticker.getTags().get(0)).isEqualTo("mineable");
         assertThat(ticker.getCmcRank()).isEqualTo(1);
 

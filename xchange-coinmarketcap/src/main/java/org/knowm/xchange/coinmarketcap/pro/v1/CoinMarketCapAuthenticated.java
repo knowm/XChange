@@ -2,6 +2,7 @@ package org.knowm.xchange.coinmarketcap.pro.v1;
 
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyInfoResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapCurrencyMapResponse;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapTickerListResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CoinMarketCapTickerResponse;
 
 import javax.ws.rs.*;
@@ -26,6 +27,18 @@ public interface CoinMarketCapAuthenticated {
           @QueryParam("listing_status") String isActive,
           @QueryParam("start") int start,
           @QueryParam("limit") int limit)
+          throws IOException;
+
+  @GET
+  @Path("cryptocurrency/listings/latest")
+  CoinMarketCapTickerListResponse getLatestDataForAllCurrencies(
+          @HeaderParam(API_KEY_HEADER) String apiKey,
+          @QueryParam("start") int startIndex,
+          @QueryParam("limit") int limitIndex,
+          @QueryParam("convert") String currencyCounters,
+          @QueryParam("sort") String field,
+          @QueryParam("sort_dir") String sortDirection,
+          @QueryParam("cryptocurrency_type") String cryptocurrencyType)
           throws IOException;
 
   @GET
