@@ -6,6 +6,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.TradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -72,5 +75,15 @@ public class KucoinV2Exchange extends BaseExchange implements Exchange {
   @Override
   public KucoinV2MarketDataService getMarketDataService() {
     return (KucoinV2MarketDataService) super.getMarketDataService();
+  }
+
+  @Override
+  public TradeService getTradeService() {
+    throw new NotYetImplementedForExchangeException("Trade service not yet implemented. Monitor https://github.com/knowm/XChange/issues/2914 for progress.");
+  }
+
+  @Override
+  public AccountService getAccountService() {
+    throw new NotYetImplementedForExchangeException("Account service not yet implemented. Monitor https://github.com/knowm/XChange/issues/2914 for progress.");
   }
 }
