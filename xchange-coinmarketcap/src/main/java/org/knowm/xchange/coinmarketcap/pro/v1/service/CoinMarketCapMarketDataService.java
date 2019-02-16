@@ -6,7 +6,10 @@ import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurren
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -64,7 +67,15 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
     return tickers;
   }
 
+    @Override
+    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
+        throw new NotAvailableFromExchangeException();
+    }
 
+    @Override
+    public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
+        throw new NotAvailableFromExchangeException();
+    }
 
   private CurrencyPair buildCurrencyPair(String currencyBaseSymbol, String currencyCounterSymbol){
       Currency currencyBase = Currency.getInstance(currencyBaseSymbol);
@@ -72,8 +83,4 @@ public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServi
       return new CurrencyPair(currencyBase, currencyCounter);
   }
 
-//    @Override
-//    public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
-//        throw new NotAvailableFromExchangeException();
-//    }
 }
