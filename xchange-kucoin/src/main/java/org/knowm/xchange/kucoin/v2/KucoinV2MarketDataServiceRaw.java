@@ -3,7 +3,6 @@ package org.knowm.xchange.kucoin.v2;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -12,10 +11,11 @@ import com.kucoin.sdk.rest.response.OrderBookResponse;
 import com.kucoin.sdk.rest.response.SymbolResponse;
 import com.kucoin.sdk.rest.response.SymbolTickResponse;
 import com.kucoin.sdk.rest.response.TickerResponse;
+import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
 public class KucoinV2MarketDataServiceRaw extends KucoinV2BaseService {
 
-  protected KucoinV2MarketDataServiceRaw(Exchange exchange) {
+  protected KucoinV2MarketDataServiceRaw(KucoinV2Exchange exchange) {
     super(exchange);
   }
 
@@ -43,6 +43,12 @@ public class KucoinV2MarketDataServiceRaw extends KucoinV2BaseService {
   public OrderBookResponse getKucoinOrderBookFull(CurrencyPair pair) {
     return classifyExceptions(() ->
       kucoinRestClient.orderBookAPI().getFullOrderBookAggregated(
+        KucoinV2Adapters.adaptCurrencyPair(pair)));
+  }
+
+  public List<TradeHistoryResponse> getKucoinTrades(CurrencyPair pair) {
+    return classifyExceptions(() ->
+      kucoinRestClient.historyAPI().getTradeHistories(
         KucoinV2Adapters.adaptCurrencyPair(pair)));
   }
 

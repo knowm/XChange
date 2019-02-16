@@ -10,12 +10,16 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -27,6 +31,7 @@ import com.kucoin.sdk.rest.response.OrderBookResponse;
 import com.kucoin.sdk.rest.response.SymbolResponse;
 import com.kucoin.sdk.rest.response.SymbolTickResponse;
 import com.kucoin.sdk.rest.response.TickerResponse;
+import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
 public class KucoinV2Adapters {
 
@@ -123,6 +128,22 @@ public class KucoinV2Adapters {
         .limitPrice(priceAndSize.price)
         .originalAmount(priceAndSize.size)
         .orderStatus(NEW)
+        .build();
+  }
+
+  public static Trades adaptTrades(CurrencyPair currencyPair, List<TradeHistoryResponse> kucoinTrades) {
+    return new Trades(kucoinTrades.stream()
+        .map(o -> adaptTrade(currencyPair, o))
+        .collect(Collectors.toList()), TradeSortType.SortByTimestamp);
+  }
+
+  private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
+    return new Trade.Builder()
+        .currencyPair(currencyPair)
+        .originalAmount(trade.getSize())
+        .price(trade.getPrice())
+        .timestamp(new Date(Long.parseLong(trade.getSequence())))
+        .type("sell".equals(trade.getSide()) ? ASK : BID)
         .build();
   }
 
