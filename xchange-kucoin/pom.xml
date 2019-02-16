@@ -21,9 +21,11 @@
 		<url>http://knowm.org/open-source/xchange/</url>
 	</organization>
   
-    <!-- Currently not available from Maven Central.
+    <!-- The Kucoin SDK is not available from Maven Central.
          See https://github.com/Kucoin/kucoin-java-sdk/issues/4
-         To be sure it is safe I am referencing a verified fork in the meantime  -->
+         In the meantime, JitPack is used to pull the dependency directly off
+         GitHub. Referencing a specific commit hash for security; there's
+         no guarantee that this code won't change.  -->
     <repositories>
       <repository>
         <id>jitpack.io</id>
@@ -47,9 +49,9 @@
 			<version>${project.version}</version>
 		</dependency>
         <dependency>
-            <groupId>com.github.badgerwithagun</groupId>
+            <groupId>com.github.kucoin</groupId>
             <artifactId>kucoin-java-sdk</artifactId>
-            <version>1.0.0</version>
+            <version>6d818931a4d68e10e562b5800827fbe321eef3d6</version>
         </dependency>
 	</dependencies>
 </project>
