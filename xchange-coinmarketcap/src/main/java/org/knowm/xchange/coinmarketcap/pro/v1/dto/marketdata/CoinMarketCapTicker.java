@@ -20,7 +20,7 @@ public final class CoinMarketCapTicker {
 	private final Date lastUpdated;
 	private final BigDecimal totalSupply;
 	private final int cmcRank;
-	private final Object platform;
+	private final CoinMarketCapPlatform platform;
 	private final List<String> tags;
 	private final Date dateAdded;
 	private final Map<String, CoinMarketCapQuote> quoteData;
@@ -38,7 +38,7 @@ public final class CoinMarketCapTicker {
 					Date lastUpdated,
 			@JsonProperty("total_supply") BigDecimal totalSupply,
 			@JsonProperty("cmc_rank") int cmcRank,
-			@JsonProperty("platform") Object platform,
+			@JsonProperty("platform") CoinMarketCapPlatform platform,
 			@JsonProperty("tags") List<String> tags,
 			@JsonProperty("date_added")
 					@JsonDeserialize(using = ISO8601DateDeserializer.class)
@@ -87,7 +87,7 @@ public final class CoinMarketCapTicker {
 		return cmcRank;
 	}
 
-	public Object getPlatform(){
+	public CoinMarketCapPlatform getPlatform(){
 		return platform;
 	}
 
