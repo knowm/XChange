@@ -1,4 +1,4 @@
-package org.knowm.xchange.coinmarketcap.deprecated.v2;
+package org.knowm.xchange.coinmarketcap.pro.v1;
 
 
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapTicker;

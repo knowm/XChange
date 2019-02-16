@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.knowm.xchange.coinmarketcap.deprecated.v2.CoinMarketCapAdapters.adaptTicker;
+import static org.knowm.xchange.coinmarketcap.pro.v1.CoinMarketCapAdapters.adaptTicker;
 
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw
     implements MarketDataService {
