@@ -1,48 +1,32 @@
 package info.bitrich.xchangestream.binance;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
-import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
-import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,13 +34,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
-public class BinanceStreamingMarketDataService implements StreamingMarketDataService, StreamingAccountService, StreamingTradeService {
+public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
     private static final JavaType TICKER_TYPE = getObjectMapper()
@@ -76,22 +59,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions = new HashMap<>();
 
-    private final Subject<ExecutionReportBinanceUserTransaction> executionReportsPublisher = PublishSubject.<ExecutionReportBinanceUserTransaction>create().toSerialized();
-    private final BehaviorSubject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoLast = BehaviorSubject.create();
-    private final Subject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher = accountInfoLast.toSerialized();
-
-    private volatile Disposable executionReports;
-    private volatile Disposable accountInfo;
-    private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
-
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
 
-    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, BinanceUserDataStreamingService binanceUserDataStreamingService) {
+    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService) {
         this.service = service;
         this.marketDataService = marketDataService;
-        this.binanceUserDataStreamingService = binanceUserDataStreamingService;
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -116,15 +89,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         return tradeSubscriptions.get(currencyPair);
     }
 
-    public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
-        return executionReportsPublisher;
-
-    }
-
-    public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
-        return accountInfoPublisher;
-    }
-
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         return getRawTicker(currencyPair)
@@ -133,7 +97,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        Observable<Trade> publicTrades = getRawTrades(currencyPair, args)
+        return getRawTrades(currencyPair, args)
             .map(rawTrade -> new Trade(
                 BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
                 rawTrade.getQuantity(),
@@ -142,46 +106,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 new Date(rawTrade.getTimestamp()),
                 String.valueOf(rawTrade.getTradeId())
             ));
-        if (binanceUserDataStreamingService != null) {
-            return publicTrades.mergeWith(getUserTrades(currencyPair, args));
-        } else {
-            return publicTrades;
-        }
-    }
-
-    public Observable<Order> getOrderChanges() {
-        return getRawExecutionReports()
-            .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
-            .map(ExecutionReportBinanceUserTransaction::toOrder);
-    }
-
-    @Override
-    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-        return getOrderChanges()
-            .filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
-    }
-
-    public Observable<UserTrade> getUserTrades() {
-        return getRawExecutionReports()
-    		.filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
-    		.map(ExecutionReportBinanceUserTransaction::toUserTrade);
-    }
-
-    @Override
-    public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
-    }
-
-    public Observable<Balance> getBalanceChanges() {
-        return getRawAccountInfo()
-                .map(OutboundAccountInfoBinanceWebsocketTransaction::getBalances)
-                .flatMap((List<BinanceWebsocketBalance> balances) -> Observable.fromIterable(balances))
-                .map(BinanceWebsocketBalance::toBalance);
-    }
-
-    @Override
-    public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
-        return getBalanceChanges().filter(t -> t.getCurrency().equals(currency));
     }
 
     private static String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
@@ -205,36 +129,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         productSubscription.getTrades()
                 .forEach(currencyPair ->
                         tradeSubscriptions.put(currencyPair, triggerObservableBody(rawTradeStream(currencyPair).share())));
-        connectUserSubscriptions();
-    }
-
-    /**
-     * User data subscriptions may have to persist across multiple socket connections to different
-     * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
-     * stream.
-     */
-    void setUserDataStreamingService(BinanceUserDataStreamingService binanceUserDataStreamingService) {
-        if (executionReports != null && !executionReports.isDisposed())
-            executionReports.dispose();
-        if (accountInfo != null && !accountInfo.isDisposed())
-            accountInfo.dispose();
-        this.binanceUserDataStreamingService = binanceUserDataStreamingService;
-        connectUserSubscriptions();
-    }
-
-    private void connectUserSubscriptions() {
-        if (binanceUserDataStreamingService != null) {
-            executionReports = binanceUserDataStreamingService
-                .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.EXECUTION_REPORT)
-                .map(this::executionReport)
-                .subscribe(executionReportsPublisher::onNext);
-            accountInfo = binanceUserDataStreamingService
-                .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_INFO)
-                .map(this::accountInfo)
-                .filter(m -> accountInfoLast.getValue() == null ||
-                             accountInfoLast.getValue().getEventTime().before(m.getEventTime()))
-                .subscribe(accountInfoPublisher::onNext);
-        }
     }
 
     private Observable<BinanceTicker24h> rawTickerStream(CurrencyPair currencyPair) {
@@ -404,22 +298,6 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             return mapper.readValue(mapper.treeAsTokens(node), TRADE_TYPE);
         } catch (IOException e) {
             throw new ExchangeException("Unable to parse trade transaction", e);
-        }
-    }
-
-    private ExecutionReportBinanceUserTransaction executionReport(JsonNode json) {
-        try {
-            return mapper.treeToValue(json, ExecutionReportBinanceUserTransaction.class);
-        } catch (IOException e) {
-            throw new ExchangeException("Unable to parse execution report", e);
-        }
-    }
-
-    private OutboundAccountInfoBinanceWebsocketTransaction accountInfo(JsonNode json) {
-        try {
-            return mapper.treeToValue(json, OutboundAccountInfoBinanceWebsocketTransaction.class);
-        } catch (Exception e) {
-            throw new ExchangeException("Unable to parse account info", e);
         }
     }
 }

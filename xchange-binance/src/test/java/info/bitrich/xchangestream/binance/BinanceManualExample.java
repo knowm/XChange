@@ -62,21 +62,21 @@ public class BinanceManualExample {
             LOG.info("Subscribing authenticated channels");
 
             // Level 1 (generic) APIs
-            orderChanges = exchange.getStreamingMarketDataService()
+            orderChanges = exchange.getStreamingTradeService()
                 .getOrderChanges()
                 .subscribe(oc -> LOG.info("Order change: {}", oc));
-            userTrades = exchange.getStreamingMarketDataService()
+            userTrades = exchange.getStreamingTradeService()
                 .getUserTrades()
                 .subscribe(trade -> LOG.info("User trade: {}", trade));
-            balances = exchange.getStreamingMarketDataService()
+            balances = exchange.getStreamingAccountService()
                 .getBalanceChanges()
                 .subscribe(trade -> LOG.info("Balance: {}", trade));
 
             // Level 2 (exchange-specific) APIs
-            executionReports = exchange.getStreamingMarketDataService()
+            executionReports = exchange.getStreamingTradeService()
                 .getRawExecutionReports()
                 .subscribe(report -> LOG.info("Subscriber got execution report: {}", report));
-            accountInfo = exchange.getStreamingMarketDataService()
+            accountInfo = exchange.getStreamingAccountService()
                 .getRawAccountInfo()
                 .subscribe(accInfo -> LOG.info("Subscriber got account Info (not printing, often causes console issues in IDEs)"));
 
