@@ -17,7 +17,9 @@ import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocke
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.reactivex.Observable;
@@ -54,7 +56,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
-public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
+public class BinanceStreamingMarketDataService implements StreamingMarketDataService, StreamingAccountService, StreamingTradeService {
     private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
     private static final JavaType TICKER_TYPE = getObjectMapper()

@@ -29,14 +29,16 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 
 /**
  * Created by luca on 4/3/17.
  */
-public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService {
+public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService, StreamingAccountService, StreamingTradeService {
 
     private static final String SNAPSHOT = "snapshot";
     private static final String L2UPDATE = "l2update";

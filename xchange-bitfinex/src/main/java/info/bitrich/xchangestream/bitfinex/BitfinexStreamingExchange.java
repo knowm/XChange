@@ -1,7 +1,9 @@
 package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -72,6 +74,16 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     @Override
     public BitfinexStreamingMarketDataService getStreamingMarketDataService() {
+        return streamingMarketDataService;
+    }
+
+    @Override
+    public StreamingAccountService getStreamingAccountService() {
+        return streamingMarketDataService;
+    }
+
+    @Override
+    public StreamingTradeService getStreamingTradeService() {
         return streamingMarketDataService;
     }
 
