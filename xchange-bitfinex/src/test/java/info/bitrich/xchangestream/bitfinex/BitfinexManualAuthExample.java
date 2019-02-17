@@ -31,41 +31,41 @@ public class BitfinexManualAuthExample {
         try {
 
             // L1 (generic) APIs
-            exchange.getStreamingMarketDataService().getUserTrades().subscribe(
+            exchange.getStreamingTradeService().getUserTrades().subscribe(
                 t -> LOG.info("GENERIC USER TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getOrderChanges().subscribe(
+            exchange.getStreamingTradeService().getOrderChanges().subscribe(
                 t -> LOG.info("GENERIC ORDER: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getBalanceChanges(Currency.BTC, "exchange").subscribe(
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "exchange").subscribe(
                 t -> LOG.info("GENERIC EXCHANGE BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getBalanceChanges(Currency.BTC, "margin").subscribe(
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "margin").subscribe(
                 t -> LOG.info("GENERIC MARGIN BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getBalanceChanges(Currency.BTC, "funding").subscribe(
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "funding").subscribe(
                 t -> LOG.info("GENERIC FUNDING BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
 
             // L2 (exchange specific) APIs
-            exchange.getStreamingMarketDataService().getRawAuthenticatedTrades().subscribe(
+            exchange.getStreamingTradeService().getRawAuthenticatedTrades().subscribe(
                 t -> LOG.info("AUTH TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedPreTrades().subscribe(
+            exchange.getStreamingTradeService().getRawAuthenticatedPreTrades().subscribe(
                 t -> LOG.info("AUTH PRE TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedOrders().subscribe(
+            exchange.getStreamingTradeService().getRawAuthenticatedOrders().subscribe(
                 t -> LOG.info("AUTH ORDER: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedBalances().subscribe(
+            exchange.getStreamingAccountService().getRawAuthenticatedBalances().subscribe(
                 t -> LOG.info("AUTH BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
