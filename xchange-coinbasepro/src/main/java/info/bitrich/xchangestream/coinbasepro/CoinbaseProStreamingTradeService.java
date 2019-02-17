@@ -14,6 +14,7 @@ import java.util.List;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Observable;
 
 /**
@@ -45,6 +46,9 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         if (!containsPair(service.getProduct().getUserTrades(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for user trades", currencyPair));
+        if (!service.isAuthenticated()) {
+            throw new NotConnectedException();
+        }
         return service.getRawWebSocketTransactions(currencyPair, true)
                 .filter(message -> message.getType().equals(MATCH))
                 .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
@@ -64,6 +68,9 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         if (!containsPair(service.getProduct().getOrders(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orders", currencyPair));
+        if (!service.isAuthenticated()) {
+            throw new NotConnectedException();
+        }
         LOG.warn("The order change stream is not yet fully implemented for Coinbase Pro. "
                 + "Orders are not fully populated, containing only the values changed since "
                 + "the last update. Other values will be null.");

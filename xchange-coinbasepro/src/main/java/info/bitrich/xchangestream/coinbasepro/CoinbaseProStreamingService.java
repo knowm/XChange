@@ -85,6 +85,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
                 .filter(t -> !isNullOrEmpty(t.getType()));
     }
 
+    boolean isAuthenticated() {
+        return authData.get() != null;
+    }
+
     @Override
     protected String getChannelNameFromMessage(JsonNode message) {
         return SHARE_CHANNEL_NAME;

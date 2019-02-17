@@ -12,8 +12,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Function;
-
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
@@ -48,13 +46,9 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
     }
 
     public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
-        return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedBalances);
-    }
-
-    private <T> Observable<T> withAuthenticatedService(Function<BitfinexStreamingService, Observable<T>> serviceConsumer) {
         if (!service.isAuthenticated()) {
             return Observable.error(new NotConnectedException());
         }
-        return serviceConsumer.apply(service);
+        return service.getAuthenticatedBalances();
     }
 }
