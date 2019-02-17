@@ -4,11 +4,11 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -22,6 +22,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     private CoinbaseProStreamingService streamingService;
     private CoinbaseProStreamingMarketDataService streamingMarketDataService;
+    private CoinbaseProStreamingTradeService streamingTradeService;
 
     public CoinbaseProStreamingExchange() { }
 
@@ -40,6 +41,7 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
             : API_URI;
         this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
         this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new CoinbaseProStreamingTradeService(streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
         return streamingService.connect();
     }
@@ -92,12 +94,12 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
 
     @Override
     public StreamingAccountService getStreamingAccountService() {
-        return streamingMarketDataService;
+        throw new NotYetImplementedForExchangeException();
     }
 
     @Override
-    public StreamingTradeService getStreamingTradeService() {
-        return streamingMarketDataService;
+    public CoinbaseProStreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
     }
 
     /**
