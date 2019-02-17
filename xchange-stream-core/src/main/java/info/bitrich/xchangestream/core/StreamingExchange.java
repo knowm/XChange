@@ -60,19 +60,23 @@ public interface StreamingExchange extends Exchange {
     }
 
     /**
-     * Returns service that can be used to access streamingmarket data.
+     * Returns service that can be used to access streaming market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
 
     /**
      * Returns service that can be used to access streaming account data.
      */
-    StreamingAccountService getStreamingAccountService();
+    default StreamingAccountService getStreamingAccountService() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Returns service that can be used to access streaming trade data.
      */
-    StreamingTradeService getStreamingTradeService();
+    default StreamingTradeService getStreamingTradeService() {
+        throw new NotYetImplementedForExchangeException();
+    }
 
     /**
      * Set whether or not to enable compression handler.
