@@ -1,9 +1,7 @@
 package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -21,12 +19,16 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
 
     private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
+    private BitfinexStreamingTradeService streamingTradeService;
+    private BitfinexStreamingAccountService streamingAccountService;
 
     @Override
     protected void initServices() {
         super.initServices();
         this.streamingService = createStreamingService();
         this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+        this.streamingTradeService = new BitfinexStreamingTradeService(streamingService);
+        this.streamingAccountService = new BitfinexStreamingAccountService(streamingService);
     }
 
     private BitfinexStreamingService createStreamingService() {
@@ -78,13 +80,13 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
-    public StreamingAccountService getStreamingAccountService() {
-        return streamingMarketDataService;
+    public BitfinexStreamingAccountService getStreamingAccountService() {
+        return streamingAccountService;
     }
 
     @Override
-    public StreamingTradeService getStreamingTradeService() {
-        return streamingMarketDataService;
+    public BitfinexStreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
     }
 
     @Override
