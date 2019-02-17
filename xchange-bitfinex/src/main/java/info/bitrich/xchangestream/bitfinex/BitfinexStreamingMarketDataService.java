@@ -14,7 +14,9 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketTickerTransactio
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketTradesTransaction;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUpdateOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebsocketUpdateTrade;
+import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
@@ -44,7 +46,7 @@ import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTrades;
 /**
  * Created by Lukas Zaoralek on 7.11.17.
  */
-public class BitfinexStreamingMarketDataService implements StreamingMarketDataService {
+public class BitfinexStreamingMarketDataService implements StreamingMarketDataService, StreamingAccountService, StreamingTradeService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingMarketDataService.class);
 
