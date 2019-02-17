@@ -1,25 +1,17 @@
 package info.bitrich.xchangestream.coinbasepro;
 
-import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptOrderBook;
 import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTicker;
-import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTradeHistory;
 import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTrades;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -29,16 +21,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
-import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 
 /**
  * Created by luca on 4/3/17.
  */
-public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService, StreamingAccountService, StreamingTradeService {
+public class CoinbaseProStreamingMarketDataService implements StreamingMarketDataService {
 
     private static final String SNAPSHOT = "snapshot";
     private static final String L2UPDATE = "l2update";
@@ -118,31 +107,12 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         if (!containsPair(service.getProduct().getTrades(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for trades", currencyPair));
-        return getRawTrades(currencyPair, args)
+        return getRawWebSocketTransactions(currencyPair, true)
+                .filter(message -> message.getType().equals(MATCH))
                 .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() == null)
                 .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProTrade())
                 .map((CoinbaseProTrade t) -> adaptTrades(new CoinbaseProTrade[]{t}, currencyPair))
                 .map((Trades h) -> h.getTrades().get(0));
-    }
-
-    @Override
-    public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        if (!containsPair(service.getProduct().getUserTrades(), currencyPair))
-            throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for user trades", currencyPair));
-        return getRawTrades(currencyPair, args)
-                .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
-                .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProFill())
-                .map((CoinbaseProFill f) -> adaptTradeHistory(new CoinbaseProFill[]{f}))
-                .map((UserTrades h) -> h.getUserTrades().get(0));
-    }
-
-    @Override
-    public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-        if (!containsPair(service.getProduct().getOrders(), currencyPair))
-            throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orders", currencyPair));
-        return getRawWebSocketTransactions(currencyPair, true)
-                .filter(s -> s.getUserId() != null)
-                .map(CoinbaseProStreamingAdapters::adaptOrder);
     }
 
     /**
@@ -152,16 +122,6 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
      * @return The stream.
      */
     public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(CurrencyPair currencyPair, boolean filterChannelName) {
-        String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-        return service.subscribeChannel(channelName)
-                .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class))
-                .filter(t -> channelName.equals(t.getProductId()))
-                .filter(t -> !isNullOrEmpty(t.getType()));
-    }
-
-    private Observable<CoinbaseProWebSocketTransaction> getRawTrades(CurrencyPair currencyPair, Object... args) {
-        return getRawWebSocketTransactions(currencyPair, true)
-                .filter(message -> message.getType().equals(MATCH));
+        return service.getRawWebSocketTransactions(currencyPair, filterChannelName);
     }
 }

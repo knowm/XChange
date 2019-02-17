@@ -20,8 +20,12 @@ public class CoinbaseProManualExample {
         String apiPassphrase = System.getProperty("coinbasepro-api-passphrase");
 
         ProductSubscription productSubscription = ProductSubscription.create()
+                .addTicker(CurrencyPair.ETH_USD)
                 .addOrders(CurrencyPair.LTC_EUR)
-                .addUserTrades(CurrencyPair.LTC_EUR).build();
+                .addOrderbook(CurrencyPair.BTC_USD)
+                .addTrades(CurrencyPair.BTC_USD)
+                .addUserTrades(CurrencyPair.LTC_EUR)
+                .build();
 
         ExchangeSpecification spec = StreamingExchangeFactory.INSTANCE.createExchange(
                 CoinbaseProStreamingExchange.class.getName()).getDefaultExchangeSpecification();
@@ -53,12 +57,12 @@ public class CoinbaseProManualExample {
                     LOG.info("RAW WEBSOCKET TRANSACTION: {}", transaction);
                 }, throwable -> LOG.error("ERROR in getting raw websocket transactions: ", throwable));
 
-            exchange.getStreamingMarketDataService().getUserTrades(CurrencyPair.LTC_EUR)
+            exchange.getStreamingTradeService().getUserTrades(CurrencyPair.LTC_EUR)
                 .subscribe(trade -> {
                     LOG.info("USER TRADE: {}", trade);
                 }, throwable -> LOG.error("ERROR in getting user trade: ", throwable));
 
-            exchange.getStreamingMarketDataService().getOrderChanges(CurrencyPair.LTC_EUR)
+            exchange.getStreamingTradeService().getOrderChanges(CurrencyPair.LTC_EUR)
                 .subscribe(order -> {
                     LOG.info("USER ORDER: {}", order);
                 }, throwable -> LOG.error("ERROR in getting user orders: ", throwable));
