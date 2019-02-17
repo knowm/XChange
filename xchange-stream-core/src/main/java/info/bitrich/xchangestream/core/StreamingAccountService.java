@@ -11,6 +11,15 @@ public interface StreamingAccountService {
     /**
      * Get the changes of account balance for the logged-in user.
      *
+     * <p><strong>Warning:</strong> there are currently no guarantees that messages will
+     * arrive in order, that messages will not be skipped, or that any initial state
+     * message will be sent on connection. Most exchanges have a recommended approach
+     * for managing this, involving timestamps, sequence numbers and a separate REST
+     * API for re-sync when inconsistencies appear. The intention is for this to be
+     * managed automatically by this method, but this doesn't currently happen. See
+     * https://github.com/bitrich-info/xchange-stream/issues/274 for progress towards
+     * this.</p>
+     *
      * <p>Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
      * not connected to the WebSocket API <strong>and</strong> authenticated.</p>
      *

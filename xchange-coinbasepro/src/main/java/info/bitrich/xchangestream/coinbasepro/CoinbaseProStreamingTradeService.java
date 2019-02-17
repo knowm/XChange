@@ -53,6 +53,13 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
                 .map((UserTrades h) -> h.getUserTrades().get(0));
     }
 
+    /**
+     * <p><strong>Warning:</strong> the order change stream is not yet fully
+     * implemented for Coinbase Pro. Orders are not fully populated, containing only
+     * the values changed since the last update. Other values will be null. The
+     * intention is to resolve this. See
+     * https://github.com/bitrich-info/xchange-stream/issues/274 for progress.</p>
+     */
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         if (!containsPair(service.getProduct().getOrders(), currencyPair))
