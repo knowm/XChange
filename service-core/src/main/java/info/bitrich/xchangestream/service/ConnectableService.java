@@ -9,7 +9,7 @@ public abstract class ConnectableService {
 
     /**
      * Exchange specific parameter is used for providing {@link Runnable} action which is caused before setup new connection.
-     * For example adding throttle control for limiting too often opening connections:<br/>
+     * For example adding throttle control for limiting too often opening connections:
      * <pre>
      * {@code
      * static final TimedSemaphore limiter = new TimedSemaphore(1, MINUTES, 15);
