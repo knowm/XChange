@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.reactivex.Observable;
@@ -19,6 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import java.io.IOException;
 
@@ -37,9 +37,8 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
 
     public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
         if (binanceUserDataStreamingService == null || !binanceUserDataStreamingService.isSocketOpen())
-            throw new NotConnectedException();
+            throw new ExchangeSecurityException("Not authenticated");
         return executionReportsPublisher;
-
     }
 
     public Observable<Order> getOrderChanges() {

@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
-import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.reactivex.Observable;
@@ -18,6 +17,7 @@ import io.reactivex.subjects.Subject;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService  
 
     public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
         if (binanceUserDataStreamingService == null || !binanceUserDataStreamingService.isSocketOpen())
-            throw new NotConnectedException();
+            throw new ExchangeSecurityException("Not authenticated");
         return accountInfoPublisher;
     }
 

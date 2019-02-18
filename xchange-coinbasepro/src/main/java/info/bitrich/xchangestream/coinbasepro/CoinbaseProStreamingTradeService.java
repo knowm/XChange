@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Observable;
 
 /**
@@ -47,7 +47,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         if (!containsPair(service.getProduct().getUserTrades(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for user trades", currencyPair));
         if (!service.isAuthenticated()) {
-            throw new NotConnectedException();
+            throw new ExchangeSecurityException("Not authenticated");
         }
         return service.getRawWebSocketTransactions(currencyPair, true)
                 .filter(message -> message.getType().equals(MATCH))
@@ -69,7 +69,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         if (!containsPair(service.getProduct().getOrders(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orders", currencyPair));
         if (!service.isAuthenticated()) {
-            throw new NotConnectedException();
+            throw new ExchangeSecurityException("Not authenticated");
         }
         LOG.warn("The order change stream is not yet fully implemented for Coinbase Pro. "
                 + "Orders are not fully populated, containing only the values changed since "

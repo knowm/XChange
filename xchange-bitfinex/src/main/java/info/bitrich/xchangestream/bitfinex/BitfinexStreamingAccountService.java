@@ -2,13 +2,13 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
-import info.bitrich.xchangestream.service.exception.NotConnectedException;
 
 import io.reactivex.Observable;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,7 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
 
     public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
         if (!service.isAuthenticated()) {
-            return Observable.error(new NotConnectedException());
+            throw new ExchangeSecurityException("Not authenticated");
         }
         return service.getAuthenticatedBalances();
     }
