@@ -3,15 +3,12 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /** @author Panchen */
 public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date fillTime;
   private final String order_id;
@@ -39,7 +36,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.fillTime = strfillTime == null ? null : DATE_FORMAT.parse(strfillTime);
+    this.fillTime = Util.parseDate(strfillTime);
     this.order_id = order_id;
     this.fill_id = fill_id;
     this.cliOrdId = cliOrdId;
@@ -95,7 +92,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
         + ", cliOrdId="
         + cliOrdId
         + ", fillTime="
-        + DATE_FORMAT.format(fillTime)
+        + fillTime
         + ", symbol="
         + symbol
         + ", side="
