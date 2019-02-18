@@ -6,12 +6,12 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
 
-public class CmcBaseService extends BaseExchangeService implements BaseService {
+class CmcBaseService extends BaseExchangeService implements BaseService {
 
-  protected final String apiKey;
-  protected final CmcAuthenticated cmcAuthenticated;
+  final String apiKey;
+  final CmcAuthenticated cmcAuthenticated;
 
-  protected CmcBaseService(Exchange exchange) {
+  CmcBaseService(Exchange exchange) {
     super(exchange);
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
@@ -21,5 +21,4 @@ public class CmcBaseService extends BaseExchangeService implements BaseService {
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
   }
-
 }

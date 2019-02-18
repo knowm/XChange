@@ -18,8 +18,7 @@ import si.mazi.rescu.HttpStatusIOException;
 import java.io.IOException;
 import java.util.*;
 
-public class CmcMarketDataService extends CmcMarketDataServiceRaw
-    implements MarketDataService {
+public class CmcMarketDataService extends CmcMarketDataServiceRaw implements MarketDataService {
 
   public CmcMarketDataService(Exchange exchange) {
     super(exchange);
@@ -28,55 +27,55 @@ public class CmcMarketDataService extends CmcMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-      CmcTicker ticker = null;
-      try {
-          ticker = super.getCmcLatestQuote(currencyPair).get(currencyPair.base.getCurrencyCode());
-      } catch (HttpStatusIOException ex) {
-          CmcErrorAdapter.adapt(ex);
-      }
+    CmcTicker ticker = null;
+    try {
+      ticker = super.getCmcLatestQuote(currencyPair).get(currencyPair.base.getCurrencyCode());
+    } catch (HttpStatusIOException ex) {
+      CmcErrorAdapter.adapt(ex);
+    }
 
-      return CmcAdapter.adaptTicker(ticker, currencyPair);
+    return CmcAdapter.adaptTicker(ticker, currencyPair);
   }
 
-    @Override
-    public List<Ticker> getTickers(Params params) throws IOException {
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
 
-        if (!(params instanceof CurrencyPairsParam)) {
-            throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
-        }
-
-        Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
-
-        Set<Currency> baseSymbols = new HashSet<>();
-        Set<Currency> convertSymbols = new HashSet<>();
-        for (CurrencyPair pair : pairs) {
-            baseSymbols.add(pair.base);
-            convertSymbols.add(pair.counter);
-        }
-
-        Map<String, CmcTicker> cmcTickerMap = super.getCmcLatestQuotes(baseSymbols, convertSymbols);
-        return CmcAdapter.adaptTickerMap(cmcTickerMap);
+    if (!(params instanceof CurrencyPairsParam)) {
+      throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
+
+    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+
+    Set<Currency> baseSymbols = new HashSet<>();
+    Set<Currency> convertSymbols = new HashSet<>();
+    for (CurrencyPair pair : pairs) {
+      baseSymbols.add(pair.base);
+      convertSymbols.add(pair.counter);
+    }
+
+    Map<String, CmcTicker> cmcTickerMap = super.getCmcLatestQuotes(baseSymbols, convertSymbols);
+    return CmcAdapter.adaptTickerMap(cmcTickerMap);
+  }
 
   public List<Ticker> getAllTickers() throws IOException {
 
-      List<CmcTicker> cmcTickerList = new ArrayList<>();
-      try {
-          cmcTickerList = super.getCmcLatestDataForAllCurrencies();
-      } catch (HttpStatusIOException ex) {
-          CmcErrorAdapter.adapt(ex);
-      }
+    List<CmcTicker> cmcTickerList = new ArrayList<>();
+    try {
+      cmcTickerList = super.getCmcLatestDataForAllCurrencies();
+    } catch (HttpStatusIOException ex) {
+      CmcErrorAdapter.adapt(ex);
+    }
 
-      return CmcAdapter.adaptTickerList(cmcTickerList);
+    return CmcAdapter.adaptTickerList(cmcTickerList);
   }
 
-    @Override
-    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... objects) {
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... objects) {
+    throw new NotAvailableFromExchangeException();
+  }
 }

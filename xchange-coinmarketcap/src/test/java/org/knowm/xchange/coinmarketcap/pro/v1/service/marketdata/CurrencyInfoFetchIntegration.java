@@ -40,7 +40,8 @@ public class CurrencyInfoFetchIntegration {
   public void getCmcMultipleCurrencyInfoTest() throws Exception {
     List<Currency> currencyList = Arrays.asList(Currency.BTC, Currency.ETH, Currency.LTC);
 
-    Map<String, CmcCurrencyInfo> currencyInfoMap = cmcMarketDataService.getCmcMultipleCurrencyInfo(currencyList);
+    Map<String, CmcCurrencyInfo> currencyInfoMap =
+        cmcMarketDataService.getCmcMultipleCurrencyInfo(currencyList);
 
     assertThat(currencyInfoMap).isNotNull();
     assertThat(currencyInfoMap.size()).isEqualTo(3);
@@ -48,7 +49,4 @@ public class CurrencyInfoFetchIntegration {
     assertThat(currencyInfoMap.get(Currency.ETH.getSymbol())).isNotNull();
     assertThat(currencyInfoMap.get(Currency.LTC.getSymbol())).isNotNull();
   }
-
-
-
 }

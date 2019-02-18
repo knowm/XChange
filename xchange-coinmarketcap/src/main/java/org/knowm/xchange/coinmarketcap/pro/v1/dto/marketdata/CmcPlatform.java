@@ -8,20 +8,20 @@ public final class CmcPlatform {
   private final String name;
   private final String symbol;
   private final String slug;
-  private final String tokenAdress;
-
+  private final String tokenAddress;
 
   public CmcPlatform(
       @JsonProperty("id") int id,
       @JsonProperty("name") String name,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("slug") String slug,
-      @JsonProperty("token_address") String tokenAdress) {
+      @JsonProperty("token_address") String tokenAddress) {
+
     this.id = id;
     this.name = name;
     this.symbol = symbol;
     this.slug = slug;
-    this.tokenAdress = tokenAdress;
+    this.tokenAddress = tokenAddress;
   }
 
   public int getId() {
@@ -40,18 +40,27 @@ public final class CmcPlatform {
     return slug;
   }
 
-  public String getTokenAdress() {
-    return tokenAdress;
+  public String getTokenAddress() {
+    return tokenAddress;
   }
 
   @Override
   public String toString() {
-    return "CmcPlatform{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", slug='" + slug + '\'' +
-            ", tokenAdress='" + tokenAdress + '\'' +
-            '}';
+    return "CmcPlatform{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", slug='"
+        + slug
+        + '\''
+        + ", tokenAddress='"
+        + tokenAddress
+        + '\''
+        + '}';
   }
 }

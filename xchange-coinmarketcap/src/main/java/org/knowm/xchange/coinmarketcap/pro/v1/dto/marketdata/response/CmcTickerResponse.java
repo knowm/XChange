@@ -7,14 +7,12 @@ import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcTicker;
 
 import java.util.Map;
 
-public final class CmcTickerResponse
-          extends CmcResult<Map<String, CmcTicker>> {
+public final class CmcTickerResponse extends CmcResult<Map<String, CmcTicker>> {
 
-    public CmcTickerResponse(
-            @JsonProperty("status") CmcStatus status,
-            @JsonProperty("result") Map<String, CmcTicker> data) {
+  public CmcTickerResponse(
+      @JsonProperty("status") CmcStatus status,
+      @JsonProperty("result") Map<String, CmcTicker> data) {
 
-      super(data, status);
-    }
+    super(data, status);
+  }
 }
-

@@ -43,13 +43,13 @@ public class TickerFetchIntegration {
   @Test
   public void getTickersTest() throws Exception {
     CurrencyPairsParam pairsParam =
-            () -> {
-              Set<CurrencyPair> pairs = new HashSet<>();
-              pairs.add(CurrencyPair.BTC_USD);
-              pairs.add(CurrencyPair.ETH_USD);
-              pairs.add(CurrencyPair.LTC_USD);
-              return pairs;
-            };
+        () -> {
+          Set<CurrencyPair> pairs = new HashSet<>();
+          pairs.add(CurrencyPair.BTC_USD);
+          pairs.add(CurrencyPair.ETH_USD);
+          pairs.add(CurrencyPair.LTC_USD);
+          return pairs;
+        };
 
     List<Ticker> tickerList = cmcMarketDataService.getTickers(pairsParam);
 

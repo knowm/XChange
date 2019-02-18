@@ -30,9 +30,9 @@ public final class CmcCurrencyInfo {
       @JsonProperty("slug") String slug,
       @JsonProperty("platform") CmcPlatform platform,
       @JsonProperty("tags") List<String> tags,
-      @JsonProperty("date_added")
-            @JsonDeserialize(using = ISO8601DateDeserializer.class)
-              Date dateAdded) {
+      @JsonProperty("date_added") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+          Date dateAdded) {
+
     this.symbol = symbol;
     this.urls = urls;
     this.name = name;
