@@ -7,12 +7,10 @@ import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcTicker;
 
 import java.util.List;
 
-public final class CmcTickerListResponse
-        extends CmcResult<List<CmcTicker>> {
+public final class CmcTickerListResponse extends CmcResult<List<CmcTicker>> {
 
   public CmcTickerListResponse(
-          @JsonProperty("status") CmcStatus status,
-          @JsonProperty("result") List<CmcTicker> data) {
+      @JsonProperty("status") CmcStatus status, @JsonProperty("result") List<CmcTicker> data) {
 
     super(data, status);
   }

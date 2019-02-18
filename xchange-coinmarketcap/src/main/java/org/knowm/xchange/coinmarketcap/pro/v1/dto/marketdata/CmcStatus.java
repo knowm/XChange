@@ -15,9 +15,8 @@ public final class CmcStatus {
   private final int creditCount;
 
   public CmcStatus(
-      @JsonProperty("timestamp")
-              @JsonDeserialize(using = ISO8601DateDeserializer.class)
-              Date timestamp,
+      @JsonProperty("timestamp") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+          Date timestamp,
       @JsonProperty("error_code") int errorCode,
       @JsonProperty("error_message") String errorMessage,
       @JsonProperty("elapsed") int elapsed,

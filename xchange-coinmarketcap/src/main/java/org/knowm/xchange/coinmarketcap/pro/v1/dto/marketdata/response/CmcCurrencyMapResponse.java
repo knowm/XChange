@@ -7,12 +7,11 @@ import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcStatus;
 
 import java.util.List;
 
-public final class CmcCurrencyMapResponse
-        extends CmcResult<List<CmcCurrency>> {
+public final class CmcCurrencyMapResponse extends CmcResult<List<CmcCurrency>> {
 
-    public CmcCurrencyMapResponse(
-              @JsonProperty("status") CmcStatus status,
-              @JsonProperty("result") List<CmcCurrency> data){
-        super(data, status);
+  public CmcCurrencyMapResponse(
+      @JsonProperty("status") CmcStatus status, @JsonProperty("result") List<CmcCurrency> data) {
+
+    super(data, status);
   }
 }

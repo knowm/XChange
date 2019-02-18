@@ -10,7 +10,6 @@ import si.mazi.rescu.HttpStatusIOException;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-
 public final class CmcErrorAdapter {
 
   private CmcErrorAdapter() {}
@@ -32,8 +31,8 @@ public final class CmcErrorAdapter {
       }
       // but if it contains a parsable result, then try to parse errors from result:
       if (result.getStatus() != null
-              && isNotEmpty(result.getStatus().getErrorMessage())
-              && !result.isSuccess()) {
+          && isNotEmpty(result.getStatus().getErrorMessage())
+          && !result.isSuccess()) {
 
         String error = result.getStatus().getErrorMessage();
         if (result.getStatus().getErrorCode() == 401) {
@@ -53,5 +52,4 @@ public final class CmcErrorAdapter {
     // else: just throw ExchangeException with causing Exception
     throw new ExchangeException(msg, httpStatusException);
   }
-
 }

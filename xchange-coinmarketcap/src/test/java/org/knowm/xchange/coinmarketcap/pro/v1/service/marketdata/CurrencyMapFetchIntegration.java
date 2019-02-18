@@ -33,7 +33,8 @@ public class CurrencyMapFetchIntegration {
     assertThat(currencyList).isNotNull();
     assertThat(currencyList.size()).isGreaterThan(0);
 
-    Optional<CmcCurrency> btcOptional = currencyList.stream().filter(currency -> "BTC".equals(currency.getSymbol())).findAny();
+    Optional<CmcCurrency> btcOptional =
+        currencyList.stream().filter(currency -> "BTC".equals(currency.getSymbol())).findAny();
     CmcCurrency btc = btcOptional.get();
     assertThat(btc).isNotNull();
   }

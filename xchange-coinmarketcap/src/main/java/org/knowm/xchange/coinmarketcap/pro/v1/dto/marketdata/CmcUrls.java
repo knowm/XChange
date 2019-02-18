@@ -24,6 +24,7 @@ public final class CmcUrls {
       @JsonProperty("announcement") List<Object> announcement,
       @JsonProperty("reddit") List<String> reddit,
       @JsonProperty("twitter") List<String> twitter) {
+
     this.website = website;
     this.explorer = explorer;
     this.sourceCode = sourceCode;

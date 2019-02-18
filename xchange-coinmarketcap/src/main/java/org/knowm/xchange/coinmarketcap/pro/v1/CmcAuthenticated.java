@@ -17,37 +17,35 @@ public interface CmcAuthenticated {
   @GET
   @Path("cryptocurrency/info")
   CmcCurrencyInfoResponse getCurrencyInfo(
-      @HeaderParam(API_KEY_HEADER) String apiKey,
-      @QueryParam("symbol") String symbol)
+      @HeaderParam(API_KEY_HEADER) String apiKey, @QueryParam("symbol") String symbol)
       throws IOException;
 
   @GET
   @Path("cryptocurrency/map")
   CmcCurrencyMapResponse getCurrencyMap(
-          @HeaderParam(API_KEY_HEADER) String apiKey,
-          @QueryParam("listing_status") String listingStatus,
-          @QueryParam("start") int start,
-          @QueryParam("limit") int limit)
-          throws IOException;
+      @HeaderParam(API_KEY_HEADER) String apiKey,
+      @QueryParam("listing_status") String listingStatus,
+      @QueryParam("start") int start,
+      @QueryParam("limit") int limit)
+      throws IOException;
 
   @GET
   @Path("cryptocurrency/listings/latest")
   CmcTickerListResponse getLatestListing(
-          @HeaderParam(API_KEY_HEADER) String apiKey,
-          @QueryParam("start") int start,
-          @QueryParam("limit") int limit,
-          @QueryParam("convert") String convert,
-          @QueryParam("sort") String sort,
-          @QueryParam("sort_dir") String sortDirection,
-          @QueryParam("cryptocurrency_type") String cryptocurrencyType)
-          throws IOException;
+      @HeaderParam(API_KEY_HEADER) String apiKey,
+      @QueryParam("start") int start,
+      @QueryParam("limit") int limit,
+      @QueryParam("convert") String convert,
+      @QueryParam("sort") String sort,
+      @QueryParam("sort_dir") String sortDirection,
+      @QueryParam("cryptocurrency_type") String cryptocurrencyType)
+      throws IOException;
 
   @GET
   @Path("cryptocurrency/quotes/latest")
   CmcTickerResponse getLatestQuotes(
-          @HeaderParam(API_KEY_HEADER) String apiKey,
-          @QueryParam("symbol") String symbol,
-          @QueryParam("convert") String convert)
-          throws IOException;
-
+      @HeaderParam(API_KEY_HEADER) String apiKey,
+      @QueryParam("symbol") String symbol,
+      @QueryParam("convert") String convert)
+      throws IOException;
 }

@@ -1,6 +1,5 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
-
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcQuote;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcTicker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,59 +13,58 @@ import java.util.Map;
 
 public class CmcAdapter {
 
-    public static Ticker adaptTicker(CmcTicker ticker, CurrencyPair currencyPair) {
-        Date timestamp = ticker.getLastUpdated();
-        CmcQuote cmcQuote = ticker.getQuote().get(currencyPair.counter.getCurrencyCode());
-        BigDecimal price = cmcQuote.getPrice();
-        BigDecimal volume24h = cmcQuote.getVolume24h();
+  public static Ticker adaptTicker(CmcTicker ticker, CurrencyPair currencyPair) {
 
-        return new Ticker.Builder()
-                .currencyPair(currencyPair)
-                .timestamp(timestamp)
-                .open(price)
-                .last(price)
-                .bid(price)
-                .ask(price)
-                .high(price)
-                .low(price)
-                .vwap(price)
-                .volume(volume24h)
-                .build();
-    }
+    Date timestamp = ticker.getLastUpdated();
+    CmcQuote cmcQuote = ticker.getQuote().get(currencyPair.counter.getCurrencyCode());
+    BigDecimal price = cmcQuote.getPrice();
+    BigDecimal volume24h = cmcQuote.getVolume24h();
 
-    public static List<Ticker> adaptTickerMap(Map<String, CmcTicker> cmcTickerMap) {
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .timestamp(timestamp)
+        .open(price)
+        .last(price)
+        .bid(price)
+        .ask(price)
+        .high(price)
+        .low(price)
+        .vwap(price)
+        .volume(volume24h)
+        .build();
+  }
 
-        List<Ticker> tickerList = new ArrayList<>();
-        cmcTickerMap.forEach(
-                (baseSymbol, cmcTicker) -> {
+  public static List<Ticker> adaptTickerMap(Map<String, CmcTicker> cmcTickerMap) {
 
-                    cmcTicker
-                            .getQuote()
-                            .forEach(
-                                    (currencySymbol, quote) -> {
-                                        CurrencyPair pair =
-                                                new CurrencyPair(cmcTicker.getSymbol(), currencySymbol);
-                                        tickerList.add(adaptTicker(cmcTicker, pair));
-                                    });
-                });
+    List<Ticker> tickerList = new ArrayList<>();
+    cmcTickerMap.forEach(
+        (baseSymbol, cmcTicker) -> {
+          cmcTicker
+              .getQuote()
+              .forEach(
+                  (currencySymbol, quote) -> {
+                    CurrencyPair pair = new CurrencyPair(cmcTicker.getSymbol(), currencySymbol);
+                    tickerList.add(adaptTicker(cmcTicker, pair));
+                  });
+        });
 
-        return tickerList;
-    }
+    return tickerList;
+  }
 
-    public static List<Ticker> adaptTickerList(List<CmcTicker> cmcTickerList) {
+  public static List<Ticker> adaptTickerList(List<CmcTicker> cmcTickerList) {
 
-        List<Ticker> tickerList = new ArrayList<>();
-        cmcTickerList.forEach(
-                cmcTicker -> {
-                    cmcTicker
-                            .getQuote()
-                            .forEach(
-                                    (currencySymbol, quote) -> {
-                                        CurrencyPair pair = new CurrencyPair(cmcTicker.getSymbol(), currencySymbol);
-                                        tickerList.add(adaptTicker(cmcTicker, pair));
-                                    });
-                });
+    List<Ticker> tickerList = new ArrayList<>();
+    cmcTickerList.forEach(
+        cmcTicker -> {
+          cmcTicker
+              .getQuote()
+              .forEach(
+                  (currencySymbol, quote) -> {
+                    CurrencyPair pair = new CurrencyPair(cmcTicker.getSymbol(), currencySymbol);
+                    tickerList.add(adaptTicker(cmcTicker, pair));
+                  });
+        });
 
-        return tickerList;
-    }
+    return tickerList;
+  }
 }
