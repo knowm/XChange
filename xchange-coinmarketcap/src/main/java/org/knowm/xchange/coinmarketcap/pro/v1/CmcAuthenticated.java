@@ -1,13 +1,12 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
+import java.io.IOException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CmcCurrencyInfoResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CmcCurrencyMapResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CmcTickerListResponse;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CmcTickerResponse;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 @Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)

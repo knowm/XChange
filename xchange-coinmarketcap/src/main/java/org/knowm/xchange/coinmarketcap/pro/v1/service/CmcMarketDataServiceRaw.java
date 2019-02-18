@@ -1,5 +1,10 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.CmcErrorAdapter;
@@ -13,12 +18,6 @@ import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.response.CmcTickerR
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.HttpStatusIOException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 class CmcMarketDataServiceRaw extends CmcBaseService {
 

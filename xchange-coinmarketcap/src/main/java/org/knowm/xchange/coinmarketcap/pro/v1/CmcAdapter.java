@@ -1,15 +1,14 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcQuote;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcTicker;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcQuote;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcTicker;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 public class CmcAdapter {
 

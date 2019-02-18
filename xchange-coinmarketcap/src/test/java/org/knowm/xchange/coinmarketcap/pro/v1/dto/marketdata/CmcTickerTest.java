@@ -1,9 +1,8 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -11,8 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
 
 public class CmcTickerTest {
 

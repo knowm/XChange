@@ -1,5 +1,8 @@
 package org.knowm.xchange.coinmarketcap.deprecated.v2.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.CoinMarketCap;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapCurrency;
@@ -9,10 +12,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /** @author allenday */
 class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements BaseService {

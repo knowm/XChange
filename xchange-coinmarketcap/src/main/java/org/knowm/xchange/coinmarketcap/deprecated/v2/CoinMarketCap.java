@@ -1,17 +1,16 @@
 package org.knowm.xchange.coinmarketcap.deprecated.v2;
 
-import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapArrayData;
-import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapTicker;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
+import java.io.IOException;
+import java.util.Objects;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Objects;
+import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapArrayData;
+import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapTicker;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 /** @author allenday https://api.coinmarketcap.com/v2/ticker/ */
 @Path("/v2")

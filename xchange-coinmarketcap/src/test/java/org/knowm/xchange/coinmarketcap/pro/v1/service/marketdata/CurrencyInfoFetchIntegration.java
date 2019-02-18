@@ -1,5 +1,10 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service.marketdata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,12 +14,6 @@ import org.knowm.xchange.coinmarketcap.pro.v1.CmcExchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcCurrencyInfo;
 import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 import org.knowm.xchange.currency.Currency;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class CurrencyInfoFetchIntegration {
   private static Exchange exchange;

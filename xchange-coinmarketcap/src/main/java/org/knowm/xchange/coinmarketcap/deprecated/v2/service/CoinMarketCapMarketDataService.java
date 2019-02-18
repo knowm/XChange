@@ -1,5 +1,8 @@
 package org.knowm.xchange.coinmarketcap.deprecated.v2.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapTicker;
@@ -10,10 +13,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
 
 /** @author allenday */
 public class CoinMarketCapMarketDataService extends CoinMarketCapMarketDataServiceRaw
