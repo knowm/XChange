@@ -1,13 +1,13 @@
-package org.knowm.xchange.kucoin.v2;
+package org.knowm.xchange.kucoin;
 
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NonceException;
 
 import com.kucoin.sdk.exception.KucoinApiException;
 
-public final class KucoinV2ExceptionClassifier {
+public final class KucoinExceptionClassifier {
 
-  KucoinV2ExceptionClassifier() {}
+  KucoinExceptionClassifier() {}
 
   public static RuntimeException classify(KucoinApiException e) {
     if (e.getMessage().contains("check environment variables")) {

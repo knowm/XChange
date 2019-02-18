@@ -1,4 +1,4 @@
-package org.knowm.xchange.kucoin.v2;
+package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
 import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
@@ -33,7 +33,7 @@ import com.kucoin.sdk.rest.response.SymbolTickResponse;
 import com.kucoin.sdk.rest.response.TickerResponse;
 import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
-public class KucoinV2Adapters {
+public class KucoinAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();

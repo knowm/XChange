@@ -1,4 +1,4 @@
-package org.knowm.xchange.kucoin.v2;
+package org.knowm.xchange.kucoin;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -13,20 +13,20 @@ import com.kucoin.sdk.rest.response.SymbolTickResponse;
 import com.kucoin.sdk.rest.response.TickerResponse;
 import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
-public class KucoinV2MarketDataServiceRaw extends KucoinV2BaseService {
+public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 
-  protected KucoinV2MarketDataServiceRaw(KucoinV2Exchange exchange) {
+  protected KucoinMarketDataServiceRaw(KucoinExchange exchange) {
     super(exchange);
   }
 
   public TickerResponse getKucoinTicker(CurrencyPair pair) {
     return classifyExceptions(() ->
-      kucoinRestClient.symbolAPI().getTicker(KucoinV2Adapters.adaptCurrencyPair(pair)));
+      kucoinRestClient.symbolAPI().getTicker(KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   public SymbolTickResponse getKucoin24hrStats(CurrencyPair pair) {
     return classifyExceptions(() ->
-      kucoinRestClient.symbolAPI().get24hrStats(KucoinV2Adapters.adaptCurrencyPair(pair)));
+      kucoinRestClient.symbolAPI().get24hrStats(KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   public List<SymbolResponse> getKucoinSymbols() {
@@ -37,19 +37,19 @@ public class KucoinV2MarketDataServiceRaw extends KucoinV2BaseService {
   public OrderBookResponse getKucoinOrderBookPartial(CurrencyPair pair) {
     return classifyExceptions(() ->
       kucoinRestClient.orderBookAPI().getPartOrderBookAggregated(
-        KucoinV2Adapters.adaptCurrencyPair(pair)));
+        KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   public OrderBookResponse getKucoinOrderBookFull(CurrencyPair pair) {
     return classifyExceptions(() ->
       kucoinRestClient.orderBookAPI().getFullOrderBookAggregated(
-        KucoinV2Adapters.adaptCurrencyPair(pair)));
+        KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   public List<TradeHistoryResponse> getKucoinTrades(CurrencyPair pair) {
     return classifyExceptions(() ->
       kucoinRestClient.historyAPI().getTradeHistories(
-        KucoinV2Adapters.adaptCurrencyPair(pair)));
+        KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   private <T> T classifyExceptions(Supplier<T> apiCall) {
@@ -60,7 +60,7 @@ public class KucoinV2MarketDataServiceRaw extends KucoinV2BaseService {
       }
       return result;
     } catch (KucoinApiException e) {
-      throw KucoinV2ExceptionClassifier.classify(e);
+      throw KucoinExceptionClassifier.classify(e);
     }
   }
 }
