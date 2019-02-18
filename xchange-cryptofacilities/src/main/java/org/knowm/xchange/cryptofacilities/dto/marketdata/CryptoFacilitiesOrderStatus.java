@@ -2,14 +2,11 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.knowm.xchange.cryptofacilities.Util;
 
 /** @author Panchen */
 public class CryptoFacilitiesOrderStatus {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date receivedTime;
   private final String status;
@@ -21,7 +18,7 @@ public class CryptoFacilitiesOrderStatus {
       @JsonProperty("order_id") String order_id)
       throws ParseException {
 
-    this.receivedTime = strReceivedTime == null ? null : DATE_FORMAT.parse(strReceivedTime);
+    this.receivedTime = Util.parseDate(strReceivedTime);
     this.status = status;
     this.order_id = order_id;
   }
@@ -44,7 +41,7 @@ public class CryptoFacilitiesOrderStatus {
         + ", status="
         + status
         + ", receivedTime="
-        + DATE_FORMAT.format(receivedTime)
+        + receivedTime
         + "]";
   }
 }
