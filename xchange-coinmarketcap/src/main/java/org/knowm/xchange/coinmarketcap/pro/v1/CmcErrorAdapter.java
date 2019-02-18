@@ -1,5 +1,7 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.coinmarketcap.pro.v1.dto.CmcResult;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -7,8 +9,6 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import si.mazi.rescu.HttpStatusIOException;
-
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public final class CmcErrorAdapter {
 

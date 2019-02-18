@@ -1,5 +1,11 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service.marketdata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,13 +16,6 @@ import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TickerFetchIntegration {
   private static Exchange exchange;

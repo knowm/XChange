@@ -2,10 +2,9 @@ package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
-
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 public final class CmcCurrencyInfo {
 
