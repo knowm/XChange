@@ -4,13 +4,13 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.service.exception.NotConnectedException;
 
 import io.reactivex.Observable;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import java.util.function.Function;
 
@@ -76,7 +76,7 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
 
     private <T> Observable<T> withAuthenticatedService(Function<BitfinexStreamingService, Observable<T>> serviceConsumer) {
         if (!service.isAuthenticated()) {
-            return Observable.error(new NotConnectedException());
+            throw new ExchangeSecurityException("Not authenticated");
         }
         return serviceConsumer.apply(service);
     }

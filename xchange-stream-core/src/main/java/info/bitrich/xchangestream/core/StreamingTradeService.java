@@ -5,6 +5,7 @@ import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingTradeService {
@@ -21,8 +22,11 @@ public interface StreamingTradeService {
      * https://github.com/bitrich-info/xchange-stream/issues/274 for progress towards
      * this.</p>
      *
-     * <p>Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
-     * not connected to the WebSocket API <strong>and</strong> authenticated.</p>
+     * <p><strong>Emits</strong> {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
+     * not connected to the WebSocket API.</p>
+     *
+     * <p><strong>Immediately throws</strong> {@link ExchangeSecurityException} if called without
+     * authentication details</p>
      *
      * @param currencyPair Currency pair of the order changes.
      * @return {@link Observable} that emits {@link Order} when exchange sends the update.
@@ -42,8 +46,11 @@ public interface StreamingTradeService {
      * https://github.com/bitrich-info/xchange-stream/issues/274 for progress towards
      * this.</p>
      *
-     * <p>Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
-     * not connected to the WebSocket API <strong>and</strong> authenticated.</p>
+     * <p><strong>Emits</strong> {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
+     * not connected to the WebSocket API.</p>
+     *
+     * <p><strong>Immediately throws</strong> {@link ExchangeSecurityException} if called without
+     * authentication details</p>
      *
      * @param currencyPair Currency pair for which to get trades.
      * @return {@link Observable} that emits {@link UserTrade} when exchange sends the update.

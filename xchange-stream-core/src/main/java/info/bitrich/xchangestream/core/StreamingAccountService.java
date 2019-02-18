@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public interface StreamingAccountService {
@@ -20,8 +21,11 @@ public interface StreamingAccountService {
      * https://github.com/bitrich-info/xchange-stream/issues/274 for progress towards
      * this.</p>
      *
-     * <p>Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
-     * not connected to the WebSocket API <strong>and</strong> authenticated.</p>
+     * <p><strong>Emits</strong> {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
+     * not connected to the WebSocket API.</p>
+     *
+     * <p><strong>Immediately throws</strong> {@link ExchangeSecurityException} if called without
+     * authentication details</p>
      *
      * @param currency Currency to monitor.
      * @return {@link Observable} that emits {@link Balance} when exchange sends the update.
