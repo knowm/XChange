@@ -6,9 +6,6 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.TradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -29,7 +26,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX).equals(true)) {
+      if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
         exchangeSpecification.setSslUri(KucoinExchange.SANDBOX_URI);
         exchangeSpecification.setHost(KucoinExchange.SANDBOX_HOST);
       }
@@ -78,12 +75,12 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public TradeService getTradeService() {
-    throw new NotYetImplementedForExchangeException("Trade service not yet implemented. Monitor https://github.com/knowm/XChange/issues/2914 for progress.");
+  public KucoinTradeService getTradeService() {
+    return (KucoinTradeService) super.getTradeService();
   }
 
   @Override
-  public AccountService getAccountService() {
-    throw new NotYetImplementedForExchangeException("Account service not yet implemented. Monitor https://github.com/knowm/XChange/issues/2914 for progress.");
+  public KucoinAccountService getAccountService() {
+    return (KucoinAccountService) super.getAccountService();
   }
 }
