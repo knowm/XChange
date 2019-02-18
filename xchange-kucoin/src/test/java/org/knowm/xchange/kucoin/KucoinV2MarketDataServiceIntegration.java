@@ -1,10 +1,10 @@
-package org.knowm.xchange.kucoin.v2;
+package org.knowm.xchange.kucoin;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.knowm.xchange.kucoin.v2.KucoinV2MarketDataService.PARAM_FULL_ORDERBOOK;
-import static org.knowm.xchange.kucoin.v2.KucoinV2MarketDataService.PARAM_MINIMAL_TICKER;
+import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_FULL_ORDERBOOK;
+import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_MINIMAL_TICKER;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.kucoin.KucoinExchange;
 
 public class KucoinV2MarketDataServiceIntegration {
 
@@ -28,14 +29,14 @@ public class KucoinV2MarketDataServiceIntegration {
 
   @Test
   public void testGetMarketData() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     exchangeMetaData.getCurrencyPairs().entrySet().forEach(pair -> System.out.println(pair));
   }
 
   @Test
   public void testGetTicker() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     Ticker ticker = exchange.getMarketDataService().getTicker(ETH);
     assertThat(ticker.getBid()).isNotNull();
     assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
@@ -53,7 +54,7 @@ public class KucoinV2MarketDataServiceIntegration {
 
   @Test
   public void testGetTickerPartial() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     Ticker ticker = exchange.getMarketDataService().getTicker(ETH, PARAM_MINIMAL_TICKER);
     assertThat(ticker.getBid()).isNotNull();
     assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
@@ -69,7 +70,7 @@ public class KucoinV2MarketDataServiceIntegration {
 
   @Test
   public void testOrderBookPartial() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(ETH);
     checkOrderBookIntegrity(orderBook);
     assertThat(orderBook.getAsks().size()).isLessThanOrEqualTo(100);
@@ -78,22 +79,22 @@ public class KucoinV2MarketDataServiceIntegration {
 
   @Test
   public void testOrderBookFull() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(ETH, PARAM_FULL_ORDERBOOK);
     checkOrderBookIntegrity(orderBook);
   }
 
   @Test
   public void testTrades() throws Exception {
-    KucoinV2Exchange exchange = exchange();
+    KucoinExchange exchange = exchange();
     Trades trades = exchange.getMarketDataService().getTrades(ETH);
     assertFalse(trades.getTrades().isEmpty());
   }
 
-  private KucoinV2Exchange exchange() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(KucoinV2Exchange.class);
-    exchangeSpecification.setExchangeSpecificParametersItem(KucoinV2Exchange.PARAM_SANDBOX, true);
-    return (KucoinV2Exchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+  private KucoinExchange exchange() {
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(KucoinExchange.class);
+    exchangeSpecification.setExchangeSpecificParametersItem(KucoinExchange.PARAM_SANDBOX, true);
+    return (KucoinExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
 
   private void checkTimestamp(Date date) {

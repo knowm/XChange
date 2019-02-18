@@ -1,4 +1,4 @@
-package org.knowm.xchange.kucoin.v2;
+package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw implements MarketDataService {
+public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implements MarketDataService {
 
   /**
    * Kucoin returns ticker data in two distinct API calls; one returns the actual
@@ -26,7 +26,7 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
    */
   public static final String PARAM_FULL_ORDERBOOK = "Full_Orderbook";
 
-  public KucoinV2MarketDataService(KucoinV2Exchange exchange) {
+  public KucoinMarketDataService(KucoinExchange exchange) {
     super(exchange);
   }
 
@@ -37,10 +37,10 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     if (Arrays.asList(args).contains(PARAM_MINIMAL_TICKER)) {
-      return KucoinV2Adapters.adaptTickerPartial(currencyPair, getKucoinTicker(currencyPair))
+      return KucoinAdapters.adaptTickerPartial(currencyPair, getKucoinTicker(currencyPair))
         .build();
     } else {
-      return KucoinV2Adapters.adaptTickerFull(
+      return KucoinAdapters.adaptTickerFull(
           currencyPair,
           getKucoinTicker(currencyPair),
           getKucoin24hrStats(currencyPair)
@@ -51,11 +51,11 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     if (Arrays.asList(args).contains(PARAM_FULL_ORDERBOOK)) {
-      return KucoinV2Adapters.adaptOrderBook(
+      return KucoinAdapters.adaptOrderBook(
         currencyPair,
         getKucoinOrderBookFull(currencyPair));
     } else {
-      return KucoinV2Adapters.adaptOrderBook(
+      return KucoinAdapters.adaptOrderBook(
         currencyPair,
         getKucoinOrderBookPartial(currencyPair));
     }
@@ -63,6 +63,6 @@ public class KucoinV2MarketDataService extends KucoinV2MarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return KucoinV2Adapters.adaptTrades(currencyPair, getKucoinTrades(currencyPair));
+    return KucoinAdapters.adaptTrades(currencyPair, getKucoinTrades(currencyPair));
   }
 }
