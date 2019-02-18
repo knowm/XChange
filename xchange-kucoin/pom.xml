@@ -51,6 +51,6 @@
             <groupId>com.github.badgerwithagun</groupId>
             <artifactId>kucoin-java-sdk</artifactId>
             <version>1.0.0.2</version>
-        </dependency>
+        </dependency> 
 	</dependencies>
 </project>
