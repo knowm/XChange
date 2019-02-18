@@ -41,3 +41,5 @@ GTAGS
 GRTAGS
 GPATH
 GSYMS
+**/*.releaseBackup
+/release.properties
