@@ -9,17 +9,17 @@ import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoinMarketCapCurrencyInfoTest {
+public class CmcCurrencyInfoTest {
 
     @Test
     public void testDeserializeCurrencyInfo() throws IOException {
         //given
-        InputStream is = CoinMarketCapCurrencyInfo.class.getResourceAsStream(
+        InputStream is = CmcCurrencyInfo.class.getResourceAsStream(
                 "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-currency-info.json");
 
         //when
         ObjectMapper mapper = new ObjectMapper();
-        CoinMarketCapCurrencyInfo currencyInfo = mapper.readValue(is, CoinMarketCapCurrencyInfo.class);
+        CmcCurrencyInfo currencyInfo = mapper.readValue(is, CmcCurrencyInfo.class);
 
         //then
         assertThat(currencyInfo.getSymbol()).isEqualTo(Currency.BTC.getSymbol());

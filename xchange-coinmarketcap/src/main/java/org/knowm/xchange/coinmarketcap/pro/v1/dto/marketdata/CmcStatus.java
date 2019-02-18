@@ -6,7 +6,7 @@ import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.util.Date;
 
-public final class CoinMarketCapStatus {
+public final class CmcStatus {
 
   private final Date timestamp;
   private final int errorCode;
@@ -14,7 +14,7 @@ public final class CoinMarketCapStatus {
   private final int elapsed;
   private final int creditCount;
 
-  public CoinMarketCapStatus(
+  public CmcStatus(
       @JsonProperty("timestamp")
               @JsonDeserialize(using = ISO8601DateDeserializer.class)
               Date timestamp,
@@ -51,7 +51,7 @@ public final class CoinMarketCapStatus {
 
   @Override
   public String toString() {
-    return "CoinMarketCapStatus{"
+    return "CmcStatus{"
         + "timestamp='"
         + timestamp
         + '\''

@@ -7,28 +7,28 @@ import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 import java.util.Date;
 import java.util.List;
 
-public final class CoinMarketCapCurrencyInfo {
+public final class CmcCurrencyInfo {
 
   private final String symbol;
-  private final CoinMarketCapUrls urls;
+  private final CmcUrls urls;
   private final String name;
   private final String logo;
   private final int id;
   private final String category;
   private final String slug;
-  private final CoinMarketCapPlatform platform;
+  private final CmcPlatform platform;
   private final List<String> tags;
   private final Date dateAdded;
 
-  public CoinMarketCapCurrencyInfo(
+  public CmcCurrencyInfo(
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("urls") CoinMarketCapUrls urls,
+      @JsonProperty("urls") CmcUrls urls,
       @JsonProperty("name") String name,
       @JsonProperty("logo") String logo,
       @JsonProperty("id") int id,
       @JsonProperty("category") String category,
       @JsonProperty("slug") String slug,
-      @JsonProperty("platform") CoinMarketCapPlatform platform,
+      @JsonProperty("platform") CmcPlatform platform,
       @JsonProperty("tags") List<String> tags,
       @JsonProperty("date_added")
             @JsonDeserialize(using = ISO8601DateDeserializer.class)
@@ -49,7 +49,7 @@ public final class CoinMarketCapCurrencyInfo {
     return symbol;
   }
 
-  public CoinMarketCapUrls getUrls() {
+  public CmcUrls getUrls() {
     return urls;
   }
 
@@ -73,7 +73,7 @@ public final class CoinMarketCapCurrencyInfo {
     return slug;
   }
 
-  public CoinMarketCapPlatform getPlatform() {
+  public CmcPlatform getPlatform() {
     return platform;
   }
 
@@ -87,7 +87,7 @@ public final class CoinMarketCapCurrencyInfo {
 
   @Override
   public String toString() {
-    return "CoinMarketCapCurrencyInfo{"
+    return "CmcCurrencyInfo{"
         + "symbol='"
         + symbol
         + '\''

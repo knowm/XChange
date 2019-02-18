@@ -14,17 +14,17 @@ import java.util.TimeZone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CoinMarketCapTickerTest {
+public class CmcTickerTest {
 
     @Test
-    public void testDeserializeTicker() throws IOException, ParseException {
+    public void deserializeTickerTest() throws IOException, ParseException {
         //given
-        InputStream is = CoinMarketCapCurrencyInfo.class.getResourceAsStream(
+        InputStream is = CmcCurrencyInfo.class.getResourceAsStream(
                 "/org/knowm/xchange/coinmarketcap/pro/v1/dto/marketdata/example-ticker.json");
 
         //when
         ObjectMapper mapper = new ObjectMapper();
-        CoinMarketCapTicker ticker = mapper.readValue(is, CoinMarketCapTicker.class);
+        CmcTicker ticker = mapper.readValue(is, CmcTicker.class);
 
         //then
         assertThat(ticker.getId()).isEqualTo(1);
@@ -47,7 +47,7 @@ public class CoinMarketCapTickerTest {
         Date lastUpdated = iso8601Format.parse("2019-02-04T16:34:24.000Z");
         assertThat(ticker.getLastUpdated()).isEqualTo(lastUpdated);
 
-        CoinMarketCapQuote quote = ticker.getQuote().get("USD");
+        CmcQuote quote = ticker.getQuote().get("USD");
         assertThat(quote.getPrice()).isEqualTo(new BigDecimal("3463.69103385"));
         assertThat(quote.getVolume24h()).isEqualTo(new BigDecimal("5327785294.41072"));
         assertThat(quote.getPercentChange1h()).isEqualTo(new BigDecimal("0.25934"));
