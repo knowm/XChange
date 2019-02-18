@@ -2,7 +2,7 @@ package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class CoinMarketCapPlatform {
+public final class CmcPlatform {
 
   private final int id;
   private final String name;
@@ -11,7 +11,7 @@ public final class CoinMarketCapPlatform {
   private final String tokenAdress;
 
 
-  public CoinMarketCapPlatform(
+  public CmcPlatform(
       @JsonProperty("id") int id,
       @JsonProperty("name") String name,
       @JsonProperty("symbol") String symbol,
@@ -46,7 +46,7 @@ public final class CoinMarketCapPlatform {
 
   @Override
   public String toString() {
-    return "CoinMarketCapPlatform{" +
+    return "CmcPlatform{" +
             "id=" + id +
             ", name='" + name + '\'' +
             ", symbol='" + symbol + '\'' +

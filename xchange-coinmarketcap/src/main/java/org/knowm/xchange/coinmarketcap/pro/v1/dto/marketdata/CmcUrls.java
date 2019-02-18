@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public final class CoinMarketCapUrls {
+public final class CmcUrls {
 
   private final List<String> website;
   private final List<String> explorer;
@@ -15,7 +15,7 @@ public final class CoinMarketCapUrls {
   private final List<String> reddit;
   private final List<String> twitter;
 
-  public CoinMarketCapUrls(
+  public CmcUrls(
       @JsonProperty("website") List<String> website,
       @JsonProperty("explorer") List<String> explorer,
       @JsonProperty("source_code") List<String> sourceCode,
@@ -68,7 +68,7 @@ public final class CoinMarketCapUrls {
 
   @Override
   public String toString() {
-    return "CoinMarketCapUrls{"
+    return "CmcUrls{"
         + "website="
         + website
         + ", explorer="

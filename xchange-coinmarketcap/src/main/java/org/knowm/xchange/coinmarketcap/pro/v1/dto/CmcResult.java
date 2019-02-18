@@ -1,23 +1,23 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapStatus;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcStatus;
 
 /**
  * Generic result value structure for every API endpoint. See also:
  * https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions
  */
-public class CoinMarketCapResult<V> {
+public class CmcResult<V> {
 
     /** "data" contains result of the queried endpoint */
     private final V data;
 
     /** "status" is always present and contains status info about the returned call */
-    private final CoinMarketCapStatus status;
+    private final CmcStatus status;
 
 
-    public CoinMarketCapResult(@JsonProperty("data") V data,
-                               @JsonProperty("status") CoinMarketCapStatus status) {
+    public CmcResult(@JsonProperty("data") V data,
+                     @JsonProperty("status") CmcStatus status) {
 
         this.data = data;
         this.status = status;
@@ -31,13 +31,13 @@ public class CoinMarketCapResult<V> {
         return data;
     }
 
-    public CoinMarketCapStatus getStatus() {
+    public CmcStatus getStatus() {
         return status;
     }
 
     @Override
     public String toString() {
-        return "CoinMarketCapResult{" +
+        return "CmcResult{" +
                 "data=" + data +
                 ", status=" + status +
                 '}';

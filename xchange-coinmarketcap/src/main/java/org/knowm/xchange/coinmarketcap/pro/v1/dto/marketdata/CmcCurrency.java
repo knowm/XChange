@@ -6,7 +6,7 @@ import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import java.util.Date;
 
-public final class CoinMarketCapCurrency {
+public final class CmcCurrency {
     private final int id;
     private final String name;
     private final String symbol;
@@ -14,9 +14,9 @@ public final class CoinMarketCapCurrency {
     private final boolean isActive;
     private final Date firstHistoricalData;
     private final Date lastHistoricalData;
-    private final CoinMarketCapPlatform platform;
+    private final CmcPlatform platform;
 
-    public CoinMarketCapCurrency(
+    public CmcCurrency(
             @JsonProperty("id") int id,
             @JsonProperty("name") String name,
             @JsonProperty("symbol") String symbol,
@@ -28,7 +28,7 @@ public final class CoinMarketCapCurrency {
             @JsonProperty("last_historical_data")
             @JsonDeserialize(using = ISO8601DateDeserializer.class)
                     Date lastHistoricalData,
-            @JsonProperty("platform") CoinMarketCapPlatform platform) {
+            @JsonProperty("platform") CmcPlatform platform) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -67,13 +67,13 @@ public final class CoinMarketCapCurrency {
         return lastHistoricalData;
     }
 
-    public CoinMarketCapPlatform getPlatform() {
+    public CmcPlatform getPlatform() {
         return platform;
     }
 
     @Override
     public String toString() {
-        return "CoinMarketCapCurrency{" +
+        return "CmcCurrency{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", symbol='" + symbol + '\'' +

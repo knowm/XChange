@@ -1,7 +1,7 @@
 package org.knowm.xchange.coinmarketcap.pro.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.CoinMarketCapResult;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.CmcResult;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
@@ -11,22 +11,22 @@ import si.mazi.rescu.HttpStatusIOException;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 
-public final class CoinMarketCapErrorAdapter {
+public final class CmcErrorAdapter {
 
-  private CoinMarketCapErrorAdapter() {}
+  private CmcErrorAdapter() {}
 
   /** Parse errors from HTTP exceptions */
-  public static <R> R adapt(HttpStatusIOException httpStatusException) {
+  public static void adapt(HttpStatusIOException httpStatusException) {
 
     String msg = "HTTP Status: " + httpStatusException.getHttpStatusCode();
 
     // if we have a HTTP body try to parse more error details from body
     if (isNotEmpty(httpStatusException.getHttpBody())) {
       ObjectMapper mapper = new ObjectMapper();
-      CoinMarketCapResult<R> result;
+      CmcResult result;
       try {
-        result = mapper.readValue(httpStatusException.getHttpBody(), CoinMarketCapResult.class);
-      } catch (Exception e1) {
+        result = mapper.readValue(httpStatusException.getHttpBody(), CmcResult.class);
+      } catch (Exception e) {
         // but ignore errors on parsing and throw generic ExchangeException instead
         throw new ExchangeException(msg, httpStatusException);
       }
@@ -34,33 +34,24 @@ public final class CoinMarketCapErrorAdapter {
       if (result.getStatus() != null
               && isNotEmpty(result.getStatus().getErrorMessage())
               && !result.isSuccess()) {
-        return checkResult(result);
+
+        String error = result.getStatus().getErrorMessage();
+        if (result.getStatus().getErrorCode() == 401) {
+          throw new ExchangeSecurityException(error);
+        }
+        if (result.getStatus().getErrorCode() == 402) {
+          throw new FundsExceededException(error);
+        }
+        if (result.getStatus().getErrorCode() == 429) {
+          throw new FrequencyLimitExceededException(error);
+        }
+
+        msg = error + " - ErrorCode: " + result.getStatus().getErrorCode();
+        throw new ExchangeException(msg);
       }
     }
     // else: just throw ExchangeException with causing Exception
     throw new ExchangeException(msg, httpStatusException);
-  }
-
-  /** Check results for errors */
-  private static <R> R checkResult(CoinMarketCapResult<R> result) {
-
-    if (!result.isSuccess()) {
-
-      String error = result.getStatus().getErrorMessage();
-      String msg = error + " - ErrorCode: " + result.getStatus().getErrorCode();
-
-      if (result.getStatus().getErrorCode() == 401) {
-        throw new ExchangeSecurityException(error);
-      }
-      if (result.getStatus().getErrorCode() == 402) {
-        throw new FundsExceededException(error);
-      }
-      if (result.getStatus().getErrorCode() == 429) {
-        throw new FrequencyLimitExceededException(error);
-      }
-      throw new ExchangeException(msg);
-    }
-    return result.getData();
   }
 
 }

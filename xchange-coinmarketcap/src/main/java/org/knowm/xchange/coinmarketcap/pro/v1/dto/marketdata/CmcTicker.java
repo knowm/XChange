@@ -13,24 +13,24 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-public final class CoinMarketCapTicker {
+public final class CmcTicker {
 
 	private final String symbol;
 	private final BigDecimal circulatingSupply;
 	private final Date lastUpdated;
 	private final BigDecimal totalSupply;
 	private final int cmcRank;
-	private final CoinMarketCapPlatform platform;
+	private final CmcPlatform platform;
 	private final List<String> tags;
 	private final Date dateAdded;
-	private final Map<String, CoinMarketCapQuote> quoteData;
+	private final Map<String, CmcQuote> quoteData;
 	private final BigDecimal numMarketPairs;
 	private final String name;
 	private final BigDecimal maxSupply;
 	private final int id;
 	private final String slug;
 
-	public CoinMarketCapTicker(
+	public CmcTicker(
 			@JsonProperty("symbol") String symbol,
 			@JsonProperty("circulating_supply") BigDecimal circulatingSupply,
 			@JsonProperty("last_updated")
@@ -38,14 +38,14 @@ public final class CoinMarketCapTicker {
 					Date lastUpdated,
 			@JsonProperty("total_supply") BigDecimal totalSupply,
 			@JsonProperty("cmc_rank") int cmcRank,
-			@JsonProperty("platform") CoinMarketCapPlatform platform,
+			@JsonProperty("platform") CmcPlatform platform,
 			@JsonProperty("tags") List<String> tags,
 			@JsonProperty("date_added")
 					@JsonDeserialize(using = ISO8601DateDeserializer.class)
 					Date dateAdded,
 			@JsonProperty("quote")
 					@JsonDeserialize(using = CoinMarketCapQuoteDeserializer.class)
-					Map<String, CoinMarketCapQuote> quoteData,
+					Map<String, CmcQuote> quoteData,
 			@JsonProperty("num_market_pairs") BigDecimal numMarketPairs,
 			@JsonProperty("name") String name,
 			@JsonProperty("max_supply") BigDecimal maxSupply,
@@ -87,7 +87,7 @@ public final class CoinMarketCapTicker {
 		return cmcRank;
 	}
 
-	public CoinMarketCapPlatform getPlatform(){
+	public CmcPlatform getPlatform(){
 		return platform;
 	}
 
@@ -99,7 +99,7 @@ public final class CoinMarketCapTicker {
 		return dateAdded;
 	}
 
-	public Map<String, CoinMarketCapQuote> getQuote(){
+	public Map<String, CmcQuote> getQuote(){
 		return quoteData;
 	}
 
@@ -126,7 +126,7 @@ public final class CoinMarketCapTicker {
 	@Override
  	public String toString(){
 		return 
-			"CoinMarketCapTicker{" +
+			"CmcTicker{" +
 			"symbol = '" + symbol + '\'' + 
 			",circulating_supply = '" + circulatingSupply + '\'' + 
 			",last_updated = '" + lastUpdated + '\'' + 
@@ -145,24 +145,24 @@ public final class CoinMarketCapTicker {
 		}
 
 	public static class CoinMarketCapQuoteDeserializer
-			extends JsonDeserializer<Map<String, CoinMarketCapQuote>> {
+			extends JsonDeserializer<Map<String, CmcQuote>> {
 
 		@Override
-		public Map<String, CoinMarketCapQuote> deserialize(JsonParser jp, DeserializationContext ctxt)
+		public Map<String, CmcQuote> deserialize(JsonParser jp, DeserializationContext ctxt)
 				throws IOException {
 			JsonNode jsonNode = jp.getCodec().readTree(jp);
 			return deserializeFromNode(jsonNode);
 		}
 
-		static Map<String, CoinMarketCapQuote> deserializeFromNode(JsonNode jsonNode)
+		static Map<String, CmcQuote> deserializeFromNode(JsonNode jsonNode)
 				throws IOException {
 			Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
-			Map<String, CoinMarketCapQuote> quoteData = new HashMap<>();
+			Map<String, CmcQuote> quoteData = new HashMap<>();
 			ObjectMapper mapper = new ObjectMapper();
 			while (iterator.hasNext()) {
 				Map.Entry<String, JsonNode> entry = iterator.next();
-				CoinMarketCapQuote quote =
-						mapper.readValue(entry.getValue().toString(), CoinMarketCapQuote.class);
+				CmcQuote quote =
+						mapper.readValue(entry.getValue().toString(), CmcQuote.class);
 				quoteData.put(entry.getKey(), quote);
 			}
 			return quoteData;

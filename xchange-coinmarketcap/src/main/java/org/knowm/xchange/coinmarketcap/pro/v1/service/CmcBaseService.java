@@ -1,23 +1,23 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.coinmarketcap.pro.v1.CoinMarketCapAuthenticated;
+import org.knowm.xchange.coinmarketcap.pro.v1.CmcAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
 
-public class CoinMarketCapBaseService extends BaseExchangeService implements BaseService {
+public class CmcBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;
-  protected final CoinMarketCapAuthenticated coinMarketCapAuthenticated;
+  protected final CmcAuthenticated cmcAuthenticated;
 
-  protected CoinMarketCapBaseService(Exchange exchange) {
+  protected CmcBaseService(Exchange exchange) {
     super(exchange);
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.coinMarketCapAuthenticated =
+    this.cmcAuthenticated =
         RestProxyFactory.createProxy(
-            CoinMarketCapAuthenticated.class,
+            CmcAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
   }

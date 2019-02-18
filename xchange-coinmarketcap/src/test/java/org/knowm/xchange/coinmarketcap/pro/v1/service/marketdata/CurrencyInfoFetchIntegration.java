@@ -5,33 +5,50 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.coinmarketcap.pro.v1.CoinMarketCapExchange;
-import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CoinMarketCapCurrencyInfo;
-import org.knowm.xchange.coinmarketcap.pro.v1.service.CoinMarketCapMarketDataService;
+import org.knowm.xchange.coinmarketcap.pro.v1.CmcExchange;
+import org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata.CmcCurrencyInfo;
+import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 import org.knowm.xchange.currency.Currency;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CurrencyInfoFetchIntegration {
   private static Exchange exchange;
+  private static CmcMarketDataService cmcMarketDataService;
 
   @BeforeClass
-  public static void initExchange() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinMarketCapExchange.class);
+  public static void setUp() {
+    exchange = ExchangeFactory.INSTANCE.createExchange(CmcExchange.class);
+    cmcMarketDataService = (CmcMarketDataService) exchange.getMarketDataService();
 
     Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());
   }
 
   @Test
-  public void getCurrencyInfoTest() throws Exception {
-    CoinMarketCapMarketDataService marketDataService =
-        (CoinMarketCapMarketDataService) exchange.getMarketDataService();
-    CoinMarketCapCurrencyInfo currency = marketDataService.getCurrencyInfo(Currency.BTC);
-
-    System.out.println(currency);
+  public void getCmcCurrencyInfoTest() throws Exception {
+    CmcCurrencyInfo currency = cmcMarketDataService.getCmcCurrencyInfo(Currency.BTC);
 
     assertThat(currency).isNotNull();
     assertThat(currency.getSymbol()).isEqualTo(Currency.BTC.getSymbol());
-
   }
+
+  @Test
+  public void getCmcMultipleCurrencyInfoTest() throws Exception {
+    List<Currency> currencyList = Arrays.asList(Currency.BTC, Currency.ETH, Currency.LTC);
+
+    Map<String, CmcCurrencyInfo> currencyInfoMap = cmcMarketDataService.getCmcMultipleCurrencyInfo(currencyList);
+
+    assertThat(currencyInfoMap).isNotNull();
+    assertThat(currencyInfoMap.size()).isEqualTo(3);
+    assertThat(currencyInfoMap.get(Currency.BTC.getSymbol())).isNotNull();
+    assertThat(currencyInfoMap.get(Currency.ETH.getSymbol())).isNotNull();
+    assertThat(currencyInfoMap.get(Currency.LTC.getSymbol())).isNotNull();
+  }
+
+
+
 }

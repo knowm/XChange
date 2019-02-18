@@ -7,7 +7,7 @@ import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public final class CoinMarketCapQuote {
+public final class CmcQuote {
 
 	private BigDecimal price;
 	private BigDecimal volume24h;
@@ -17,7 +17,7 @@ public final class CoinMarketCapQuote {
 	private BigDecimal marketCap;
 	private Date lastUpdated;
 
-	public CoinMarketCapQuote(
+	public CmcQuote(
 			@JsonProperty("price") BigDecimal price,
 			@JsonProperty("volume_24h") BigDecimal volume24h,
 			@JsonProperty("percent_change_1h") BigDecimal percentChange1h,
@@ -66,7 +66,7 @@ public final class CoinMarketCapQuote {
 
 	@Override
 	public String toString() {
-		return "CoinMarketCapQuote{" +
+		return "CmcQuote{" +
 				"price=" + price +
 				", volume24h=" + volume24h +
 				", percentChange1h=" + percentChange1h +
@@ -82,7 +82,7 @@ public final class CoinMarketCapQuote {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		CoinMarketCapQuote that = (CoinMarketCapQuote) o;
+		CmcQuote that = (CmcQuote) o;
 
 		if (getPrice() != null ? !getPrice().equals(that.getPrice()) : that.getPrice() != null) return false;
 		if (getVolume24h() != null ? !getVolume24h().equals(that.getVolume24h()) : that.getVolume24h() != null)
