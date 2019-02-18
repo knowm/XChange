@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.kucoin.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,13 +11,14 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kucoin.KucoinExchange;
-import org.knowm.xchange.kucoin.dto.KucoinResponse;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinCoin;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinDealOrder;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinOrderBook;
-import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
-import org.knowm.xchange.kucoin.service.KucoinMarketDataServiceRaw;
+import org.knowm.xchange.kucoin.KucoinMarketDataService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import com.kucoin.sdk.rest.response.OrderBookResponse;
+import com.kucoin.sdk.rest.response.SymbolResponse;
+import com.kucoin.sdk.rest.response.SymbolTickResponse;
+import com.kucoin.sdk.rest.response.TickerResponse;
+import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
 public class KucoinMarketDataDemo {
 
@@ -31,7 +33,7 @@ public class KucoinMarketDataDemo {
     System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
 
     generic(marketDataService);
-    raw((KucoinMarketDataServiceRaw) marketDataService);
+    raw((KucoinMarketDataService) marketDataService);
   }
 
   private static void generic(MarketDataService marketDataService) throws IOException {
@@ -42,32 +44,39 @@ public class KucoinMarketDataDemo {
     Ticker ticker = marketDataService.getTicker(PAIR);
     System.out.println(ticker);
 
-    OrderBook orderBook = marketDataService.getOrderBook(PAIR);
-    System.out.println(orderBook);
+    Ticker minimalTicker = marketDataService.getTicker(PAIR, KucoinMarketDataService.PARAM_MINIMAL_TICKER);
+    System.out.println(minimalTicker);
+
+    OrderBook orderBookPartial = marketDataService.getOrderBook(PAIR);
+    System.out.println(orderBookPartial);
+
+    OrderBook orderBookFull = marketDataService.getOrderBook(PAIR, KucoinMarketDataService.PARAM_FULL_ORDERBOOK);
+    System.out.println(orderBookFull);
 
     Trades trades = marketDataService.getTrades(PAIR);
     System.out.println(trades);
   }
 
-  private static void raw(KucoinMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(KucoinMarketDataService marketDataService) throws IOException {
 
     System.out.println("------------RAW-----------");
 
-    KucoinResponse<KucoinTicker> tickerResponse = marketDataService.getKucoinTicker(PAIR);
-    System.out.println(tickerResponse.getData());
+    TickerResponse tickerResponse = marketDataService.getKucoinTicker(PAIR);
+    System.out.println(tickerResponse);
 
-    KucoinResponse<List<KucoinTicker>> tickersResponse = marketDataService.getKucoinTickers();
-    System.out.println(tickersResponse.getData());
+    SymbolTickResponse statsResponse = marketDataService.getKucoin24hrStats(PAIR);
+    System.out.println(statsResponse);
 
-    KucoinResponse<KucoinOrderBook> orderBookResponse =
-        marketDataService.getKucoinOrderBook(PAIR, 10);
-    System.out.println(orderBookResponse.getData());
+    OrderBookResponse orderBookResponsePartial = marketDataService.getKucoinOrderBookPartial(PAIR);
+    System.out.println(orderBookResponsePartial);
 
-    KucoinResponse<List<KucoinDealOrder>> tradesResponse =
-        marketDataService.getKucoinTrades(PAIR, 10, null);
-    System.out.println(Arrays.asList(tradesResponse.getData()));
+    OrderBookResponse orderBookResponseFull = marketDataService.getKucoinOrderBookFull(PAIR);
+    System.out.println(orderBookResponseFull);
 
-    KucoinResponse<List<KucoinCoin>> currenciesResponse = marketDataService.getKucoinCurrencies();
-    System.out.println(currenciesResponse.getData());
+    List<TradeHistoryResponse> tradesResponse = marketDataService.getKucoinTrades(PAIR);
+    System.out.println(tradesResponse);
+
+    List<SymbolResponse> currenciesResponse = marketDataService.getKucoinSymbols();
+    System.out.println(currenciesResponse);
   }
 }
