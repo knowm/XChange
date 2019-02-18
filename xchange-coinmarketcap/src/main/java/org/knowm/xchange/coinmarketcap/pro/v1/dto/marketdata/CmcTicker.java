@@ -1,17 +1,13 @@
 package org.knowm.xchange.coinmarketcap.pro.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public final class CmcTicker {
 
@@ -41,8 +37,7 @@ public final class CmcTicker {
       @JsonProperty("tags") List<String> tags,
       @JsonProperty("date_added") @JsonDeserialize(using = ISO8601DateDeserializer.class)
           Date dateAdded,
-      @JsonProperty("quote") @JsonDeserialize(using = CoinMarketCapQuoteDeserializer.class)
-          Map<String, CmcQuote> quoteData,
+      @JsonProperty("quote") Map<String, CmcQuote> quoteData,
       @JsonProperty("num_market_pairs") BigDecimal numMarketPairs,
       @JsonProperty("name") String name,
       @JsonProperty("max_supply") BigDecimal maxSupply,
@@ -167,28 +162,5 @@ public final class CmcTicker {
         + slug
         + '\''
         + "}";
-  }
-
-  public static class CoinMarketCapQuoteDeserializer
-      extends JsonDeserializer<Map<String, CmcQuote>> {
-
-    @Override
-    public Map<String, CmcQuote> deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException {
-      JsonNode jsonNode = jp.getCodec().readTree(jp);
-      return deserializeFromNode(jsonNode);
-    }
-
-    static Map<String, CmcQuote> deserializeFromNode(JsonNode jsonNode) throws IOException {
-      Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
-      Map<String, CmcQuote> quoteData = new HashMap<>();
-      ObjectMapper mapper = new ObjectMapper();
-      while (iterator.hasNext()) {
-        Map.Entry<String, JsonNode> entry = iterator.next();
-        CmcQuote quote = mapper.readValue(entry.getValue().toString(), CmcQuote.class);
-        quoteData.put(entry.getKey(), quote);
-      }
-      return quoteData;
-    }
   }
 }
