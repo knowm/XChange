@@ -53,5 +53,11 @@
             <artifactId>kucoin-java-sdk</artifactId>
             <version>6d818931a4d68e10e562b5800827fbe321eef3d6</version>
         </dependency>
+        <!-- TODO old version of FastJSON was screwing up Jackson. This should be patched into the SDK -->
+        <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>fastjson</artifactId>
+          <version>1.2.56</version>
+        </dependency>
 	</dependencies>
 </project>
