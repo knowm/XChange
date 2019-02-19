@@ -4,13 +4,7 @@ import static org.apache.commons.lang3.StringUtils.join;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -123,7 +117,7 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
         String quantity = tradeData.get("quantity").toString();
         String amount = tradeData.get("amount").toString();
 
-        String date = tradeData.get("date").toString();
+        long unixTimestamp = Long.valueOf(tradeData.get("date").toString());
 
         results.add(
             new Trade(
@@ -131,7 +125,7 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
                 new BigDecimal(quantity),
                 currencyPair,
                 new BigDecimal(price),
-                new Date(Long.valueOf(date)),
+                new Date(unixTimestamp * 1000L),
                 id));
       }
     }

@@ -63,8 +63,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
           (params instanceof CurrencyPairsParam)
               ? new ArrayList<>(((CurrencyPairsParam) params).getCurrencyPairs())
               : new ArrayList<>();
-      return getBittrexMarketSummaries()
-          .stream()
+      return getBittrexMarketSummaries().stream()
           .map(
               bittrexMarketSummary ->
                   BittrexAdapters.adaptTicker(

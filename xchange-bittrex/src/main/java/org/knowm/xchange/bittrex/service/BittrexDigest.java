@@ -64,18 +64,24 @@ public class BittrexDigest extends BaseParamsDigest {
 
     Matcher firstParsed = ENDS_WITH_SLASHES.matcher(first);
     if (!firstParsed.matches()) {
-      throw new RuntimeException("Incorrect regular expression ENDS_WITH_SLASHES, fix the bug in rescu.");
+      throw new RuntimeException(
+          "Incorrect regular expression ENDS_WITH_SLASHES, fix the bug in rescu.");
     }
     Matcher secondParsed = STARTS_WITH_SLASHES.matcher(second);
     if (!secondParsed.matches()) {
-      throw new RuntimeException("Incorrect regular expression STARTS_WITH_SLASHES, fix the bug in rescu.");
+      throw new RuntimeException(
+          "Incorrect regular expression STARTS_WITH_SLASHES, fix the bug in rescu.");
     }
 
     String firstTrimmed = firstParsed.group(1);
     String secondTrimmed = secondParsed.group(2);
 
-    // Use middle slash when any of the original strings contained adjacent slash, or both trimmed strings were nonempty.
-    boolean midSlash = isNonEmpty(firstParsed.group(2)) || isNonEmpty(secondParsed.group(1)) || (isNonEmpty(firstTrimmed) && isNonEmpty(secondTrimmed));
+    // Use middle slash when any of the original strings contained adjacent slash, or both trimmed
+    // strings were nonempty.
+    boolean midSlash =
+        isNonEmpty(firstParsed.group(2))
+            || isNonEmpty(secondParsed.group(1))
+            || (isNonEmpty(firstTrimmed) && isNonEmpty(secondTrimmed));
     return firstTrimmed + (midSlash ? "/" : "") + secondTrimmed;
   }
 

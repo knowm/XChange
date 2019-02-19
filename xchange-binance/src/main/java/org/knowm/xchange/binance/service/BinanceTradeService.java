@@ -113,7 +113,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public String placeStopOrder(StopOrder so) throws IOException {
 
-    TimeInForce tif = TimeInForce.GTC;
+    TimeInForce tif = null;
     Set<IOrderFlags> orderFlags = so.getOrderFlags();
     Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
 
@@ -122,6 +122,14 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       if (orderFlag instanceof TimeInForce) {
         tif = (TimeInForce) orderFlag;
       }
+    }
+
+    // Time-in-force should not be provided for market orders but is required for
+    // limit orders, so we only default it for limit orders. If the caller
+    // specifies one for a market order, we don't remove it, since Binance might allow
+    // it at some point.
+    if (so.getLimitPrice() != null && tif == null) {
+      tif = TimeInForce.GTC;
     }
 
     OrderType orderType;
@@ -287,8 +295,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       List<BinanceTrade> binanceTrades =
           super.myTrades(pair, limit, fromId, recvWindow, getTimestamp());
       List<UserTrade> trades =
-          binanceTrades
-              .stream()
+          binanceTrades.stream()
               .map(
                   t ->
                       new UserTrade(

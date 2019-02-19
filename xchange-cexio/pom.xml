@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.14</version>
+        <version>4.3.15</version>
     </parent>
 
     <artifactId>xchange-cexio</artifactId>

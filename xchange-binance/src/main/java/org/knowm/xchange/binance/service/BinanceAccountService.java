@@ -71,8 +71,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
       BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
       List<Balance> balances =
-          acc.balances
-              .stream()
+          acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
               .collect(Collectors.toList());
       return new AccountInfo(new Wallet(balances));

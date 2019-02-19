@@ -2,12 +2,16 @@ package org.knowm.xchange.btcturk.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.Date;
 
-/** @author semihunaldi */
-public final class BTCTurkTrade {
+/**
+ * @author semihunaldi
+ * @author mertguner updated 14.01.2019 because tid value was bigger than int
+ */
+public final class BTCTurkTrades {
 
-  private final long date;
-  private final int tid;
+  private final Date date;
+  private final BigDecimal tid;
   private final BigDecimal price;
   private final BigDecimal amount;
 
@@ -19,9 +23,9 @@ public final class BTCTurkTrade {
    * @param price BTC price
    * @param amount BTC amount
    */
-  public BTCTurkTrade(
-      @JsonProperty("date") long date,
-      @JsonProperty("tid") int tid,
+  public BTCTurkTrades(
+      @JsonProperty("date") Date date,
+      @JsonProperty("tid") BigDecimal tid,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount) {
     this.date = date;
@@ -30,11 +34,11 @@ public final class BTCTurkTrade {
     this.amount = amount;
   }
 
-  public long getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public int getTid() {
+  public BigDecimal getTid() {
     return tid;
   }
 
@@ -48,16 +52,14 @@ public final class BTCTurkTrade {
 
   @Override
   public String toString() {
-    return "BTCTurkTrade {"
-        + "date="
+    return "BTCTurkTrade [date="
         + date
-        + ", tid='"
+        + ", tid="
         + tid
-        + '\''
         + ", price="
         + price
         + ", amount="
         + amount
-        + '}';
+        + "]";
   }
 }

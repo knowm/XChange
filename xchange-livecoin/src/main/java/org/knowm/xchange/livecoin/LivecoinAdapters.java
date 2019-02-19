@@ -307,9 +307,7 @@ public class LivecoinAdapters {
       }
     }
     return new Wallet(
-        balanceBuildersByCurrency
-            .values()
-            .stream()
+        balanceBuildersByCurrency.values().stream()
             .map(Balance.Builder::build)
             .collect(Collectors.toList()));
   }

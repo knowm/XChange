@@ -40,8 +40,7 @@ public final class BankeraAdapters {
 
   public static Wallet adaptWallet(List<BankeraWallet> wallets) {
     List<Balance> balances =
-        wallets
-            .stream()
+        wallets.stream()
             .map(
                 w ->
                     new Balance.Builder()

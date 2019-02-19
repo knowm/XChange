@@ -1,6 +1,7 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,9 +39,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
   public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
 
-    return hitbtc
-        .getHitbtcTickers()
-        .stream()
+    return hitbtc.getHitbtcTickers().stream()
         .collect(
             Collectors.toMap(
                 hitbtcTicker -> hitbtcTicker.getSymbol(), hitbtcTicker -> hitbtcTicker));
@@ -108,5 +107,28 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
       throws IOException {
 
     return hitbtc.getHitbtcOHLC(HitbtcAdapters.adaptCurrencyPair(currencyPair), limit, period);
+  }
+
+  public List<HitbtcCandle> getHitbtcCandles(
+      CurrencyPair currencyPair, int limit, String period, String sort) throws IOException {
+
+    return hitbtc.getHitbtcOHLC(
+        HitbtcAdapters.adaptCurrencyPair(currencyPair), limit, period, sort);
+  }
+
+  public List<HitbtcCandle> getHitbtcCandles(
+      CurrencyPair currencyPair, int limit, String period, Date from, Date till, String sort)
+      throws IOException {
+
+    return hitbtc.getHitbtcOHLC(
+        HitbtcAdapters.adaptCurrencyPair(currencyPair), limit, period, from, till, sort);
+  }
+
+  public List<HitbtcCandle> getHitbtcCandles(
+      CurrencyPair currencyPair, int limit, String period, int offset, String sort)
+      throws IOException {
+
+    return hitbtc.getHitbtcOHLC(
+        HitbtcAdapters.adaptCurrencyPair(currencyPair), limit, period, offset, sort);
   }
 }

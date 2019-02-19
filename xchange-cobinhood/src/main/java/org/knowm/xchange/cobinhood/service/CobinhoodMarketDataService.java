@@ -36,10 +36,7 @@ public class CobinhoodMarketDataService extends CobinhoodMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return getCobinhoodTickers()
-        .getResult()
-        .getTickers()
-        .stream()
+    return getCobinhoodTickers().getResult().getTickers().stream()
         .map(CobinhoodAdapters::adaptTicker)
         .collect(Collectors.toList());
   }
@@ -77,10 +74,7 @@ public class CobinhoodMarketDataService extends CobinhoodMarketDataServiceRaw
 
     CobinhoodResponse<CobinhoodTrades> response = getCobinhoodTrades(currencyPair, limit);
     List<Trade> trades =
-        response
-            .getResult()
-            .getTrades()
-            .stream()
+        response.getResult().getTrades().stream()
             .map(trade -> CobinhoodAdapters.adaptTrade(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);

@@ -344,8 +344,7 @@ public class PoloniexAdapters {
     }
 
     BigDecimal weightedAveragePrice =
-        weightedPrices
-            .stream()
+        weightedPrices.stream()
             .reduce(new BigDecimal(0), (a, b) -> a.add(b))
             .divide(amount, RoundingMode.HALF_UP);
 

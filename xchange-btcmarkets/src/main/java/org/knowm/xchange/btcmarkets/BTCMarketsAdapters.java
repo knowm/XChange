@@ -101,8 +101,7 @@ public final class BTCMarketsAdapters {
   public static LimitOrder adaptOrder(BTCMarketsOrder o) {
     BigDecimal averagePrice =
         BigDecimal.valueOf(
-            o.getTrades()
-                .stream()
+            o.getTrades().stream()
                 .mapToDouble(value -> value.getPrice().doubleValue())
                 .summaryStatistics()
                 .getAverage());
