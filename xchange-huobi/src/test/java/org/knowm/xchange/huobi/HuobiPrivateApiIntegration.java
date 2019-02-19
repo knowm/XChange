@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -23,15 +22,32 @@ import org.knowm.xchange.huobi.service.HuobiAccountService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 
-@Ignore("Use it for manual launch only")
 public class HuobiPrivateApiIntegration {
+
+  private HuobiProperties properties;
+  private Exchange exchange;
+
+  @Before
+  public void setup() throws IOException {
+    properties = new HuobiProperties();
+    Assume.assumeTrue("Ignore tests because credentials are missing", properties.isValid());
+
+    exchange =
+        ExchangeFactory.INSTANCE.createExchange(
+            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+  }
+
+  @After
+  public void teardown() throws IOException {
+    if (exchange != null) {
+      for (LimitOrder order : exchange.getTradeService().getOpenOrders().getOpenOrders()) {
+        exchange.getTradeService().cancelOrder(order.getId());
+      }
+    }
+  }
 
   @Test
   public void getAccountTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
     HuobiAccount[] accounts = accountService.getAccounts();
     System.out.println(Arrays.toString(accounts));
@@ -39,10 +55,6 @@ public class HuobiPrivateApiIntegration {
 
   @Test
   public void getBalanceTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     AccountService accountService = exchange.getAccountService();
     Balance balance = accountService.getAccountInfo().getWallet().getBalance(Currency.USDT);
     System.out.println(balance.toString());
@@ -51,10 +63,6 @@ public class HuobiPrivateApiIntegration {
 
   @Test
   public void getOpenOrdersTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());
@@ -63,10 +71,6 @@ public class HuobiPrivateApiIntegration {
 
   @Test
   public void getOrderTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     Collection<Order> orders = tradeService.getOrder("2132866355");
     System.out.println(orders.toString());
@@ -80,10 +84,6 @@ public class HuobiPrivateApiIntegration {
   }
 
   private String placePendingOrder() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
     HuobiAccount[] accounts = accountService.getAccounts();
@@ -100,17 +100,13 @@ public class HuobiPrivateApiIntegration {
 
   @Test
   public void placeMarketOrderTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     HuobiAccountService accountService = (HuobiAccountService) exchange.getAccountService();
     HuobiAccount[] accounts = accountService.getAccounts();
     MarketOrder marketOrder =
         new MarketOrder(
-            OrderType.BID,
-            new BigDecimal("0.001"),
+            OrderType.ASK,
+            new BigDecimal("0.0002"),
             new CurrencyPair("BTC", "USDT"),
             String.valueOf(accounts[0].getId()),
             null);
@@ -121,10 +117,6 @@ public class HuobiPrivateApiIntegration {
   @Test
   @Ignore("Use it for manual")
   public void cancelOrderTest() throws IOException {
-    HuobiProperties properties = new HuobiProperties();
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     boolean result = tradeService.cancelOrder("2134551697");
     System.out.println(result);
