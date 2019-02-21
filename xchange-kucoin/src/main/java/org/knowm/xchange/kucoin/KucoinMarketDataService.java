@@ -12,15 +12,6 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implements MarketDataService {
 
   /**
-   * Kucoin returns ticker data in two distinct API calls; one returns the actual
-   * price data and the other the 24h statistics. XChange returns both in the same
-   * API, but this means making two API calls, which may not be necessary. Supply
-   * this to {@link #getTicker(CurrencyPair, Object...)} if you don't need full
-   * information, to avoid spamming the API.
-   */
-  public static final String PARAM_MINIMAL_TICKER = "Exclude_24h";
-
-  /**
    * Set on calls to {@link #getOrderBook(CurrencyPair, Object...)} to return the
    * full orderbook rather than the default 100 prices either side.
    */
@@ -36,16 +27,10 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
    */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    if (Arrays.asList(args).contains(PARAM_MINIMAL_TICKER)) {
-      return KucoinAdapters.adaptTickerPartial(currencyPair, getKucoinTicker(currencyPair))
-        .build();
-    } else {
-      return KucoinAdapters.adaptTickerFull(
-          currencyPair,
-          getKucoinTicker(currencyPair),
-          getKucoin24hrStats(currencyPair)
-        ).build();
-    }
+    return KucoinAdapters.adaptTickerFull(
+        currencyPair,
+        getKucoin24hrStats(currencyPair)
+      ).build();
   }
 
   @Override

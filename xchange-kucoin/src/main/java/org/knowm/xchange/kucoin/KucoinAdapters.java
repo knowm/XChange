@@ -30,7 +30,6 @@ import com.google.common.collect.Ordering;
 import com.kucoin.sdk.rest.response.OrderBookResponse;
 import com.kucoin.sdk.rest.response.SymbolResponse;
 import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TickerResponse;
 import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
 public class KucoinAdapters {
@@ -47,22 +46,18 @@ public class KucoinAdapters {
     return new CurrencyPair(split[0], split[1]);
   }
 
-  public static Ticker.Builder adaptTickerPartial(CurrencyPair pair, TickerResponse ticker) {
+  public static Ticker.Builder adaptTickerFull(CurrencyPair pair, SymbolTickResponse stats) {
     return new Ticker.Builder()
         .currencyPair(pair)
-        .bid(ticker.getBestBid())
-        .ask(ticker.getBestAsk())
-        .last(ticker.getPrice())
-        .timestamp(new Date(Long.parseLong(ticker.getSequence())));
-  }
-
-  public static Ticker.Builder adaptTickerFull(CurrencyPair pair, TickerResponse ticker, SymbolTickResponse stats) {
-    return adaptTickerPartial(pair, ticker)
+        .bid(stats.getBuy())
+        .ask(stats.getSell())
+        .last(stats.getLast())
         .high(stats.getHigh())
         .low(stats.getLow())
         .volume(stats.getVol())
         .quoteVolume(stats.getVolValue())
-        .open(stats.getOpen());
+        .open(stats.getOpen())
+        .timestamp(stats.getTime() == null ? null : new Date(Long.parseLong(stats.getTime())));
   }
 
   /**

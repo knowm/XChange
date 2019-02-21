@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_FULL_ORDERBOOK;
-import static org.knowm.xchange.kucoin.KucoinMarketDataService.PARAM_MINIMAL_TICKER;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,14 +13,12 @@ import java.util.Date;
 
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.kucoin.KucoinExchange;
 
 public class KucoinV2MarketDataServiceIntegration {
 
@@ -45,25 +42,9 @@ public class KucoinV2MarketDataServiceIntegration {
       .isLessThanOrEqualTo(ticker.getHigh());
     assertThat(ticker.getLow()).isNotNull();
     assertThat(ticker.getHigh()).isGreaterThan(ticker.getLow());
-    assertThat(ticker.getOpen()).isNotNull();
+    // assertThat(ticker.getOpen()).isNotNull(); Seems to be mostly...
     assertThat(ticker.getVolume()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
     assertThat(ticker.getQuoteVolume()).isNotNull().isGreaterThanOrEqualTo(BigDecimal.ZERO);
-    assertThat(ticker.getCurrencyPair()).isEqualTo(ETH);
-    checkTimestamp(ticker.getTimestamp());
-  }
-
-  @Test
-  public void testGetTickerPartial() throws Exception {
-    KucoinExchange exchange = exchange();
-    Ticker ticker = exchange.getMarketDataService().getTicker(ETH, PARAM_MINIMAL_TICKER);
-    assertThat(ticker.getBid()).isNotNull();
-    assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
-    assertThat(ticker.getLast()).isNotNull();
-    assertThat(ticker.getHigh()).isNull();
-    assertThat(ticker.getLow()).isNull();
-    assertThat(ticker.getOpen()).isNull();
-    assertThat(ticker.getVolume()).isNull();
-    assertThat(ticker.getQuoteVolume()).isNull();
     assertThat(ticker.getCurrencyPair()).isEqualTo(ETH);
     checkTimestamp(ticker.getTimestamp());
   }
@@ -92,9 +73,7 @@ public class KucoinV2MarketDataServiceIntegration {
   }
 
   private KucoinExchange exchange() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(KucoinExchange.class);
-    exchangeSpecification.setExchangeSpecificParametersItem(KucoinExchange.PARAM_SANDBOX, true);
-    return (KucoinExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    return ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class);
   }
 
   private void checkTimestamp(Date date) {
