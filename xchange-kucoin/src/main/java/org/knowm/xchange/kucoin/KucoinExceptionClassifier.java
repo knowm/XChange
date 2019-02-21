@@ -1,5 +1,8 @@
 package org.knowm.xchange.kucoin;
 
+import java.util.function.Supplier;
+
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NonceException;
 
@@ -8,6 +11,18 @@ import com.kucoin.sdk.exception.KucoinApiException;
 public final class KucoinExceptionClassifier {
 
   KucoinExceptionClassifier() {}
+
+  public static <T> T classifyingExceptions(Supplier<T> apiCall) {
+    try {
+      T result = apiCall.get();
+      if (result == null) {
+        throw new ExchangeException("Empty response from Kucoin. Check logs.");
+      }
+      return result;
+    } catch (KucoinApiException e) {
+      throw classify(e);
+    }
+  }
 
   public static RuntimeException classify(KucoinApiException e) {
     if (e.getMessage().contains("check environment variables")) {
