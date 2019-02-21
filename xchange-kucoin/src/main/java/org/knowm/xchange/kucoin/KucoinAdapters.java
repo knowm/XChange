@@ -59,7 +59,7 @@ public class KucoinAdapters {
         .volume(stats.getVol())
         .quoteVolume(stats.getVolValue())
         .open(stats.getOpen())
-        .timestamp(stats.getTime() == null ? null : new Date(Long.parseLong(stats.getTime())));
+        .timestamp(new Date(stats.getTime()));
   }
 
   /**
