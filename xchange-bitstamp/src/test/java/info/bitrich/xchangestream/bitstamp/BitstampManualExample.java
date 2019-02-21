@@ -46,16 +46,15 @@ public class BitstampManualExample {
             LOG.info("Trade {}", trade);
         });
 
-        subscribe.dispose();
-
-        exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
-
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        subscribe.dispose();
+        exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
+      
         rateLimiter.shutdown();
     }
 }
