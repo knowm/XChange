@@ -85,7 +85,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
 
         return Completable.concat(completables)
-            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions));
+            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
+            .doOnComplete(() -> streamingAccountService.openSubscriptions())
+            .doOnComplete(() -> streamingTradeService.openSubscriptions());
     }
 
     private Completable createAndConnectUserDataService(String listenKey) {
