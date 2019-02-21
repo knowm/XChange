@@ -145,6 +145,10 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
 		public void SignalAuthComplete() {
 			completableEmitter.onComplete();
 		}
+		
+		public void SignalError(String error) {
+			completableEmitter.onError(new IllegalStateException(error));
+		}
 	}
 	
 	@Override
@@ -181,7 +185,12 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
                         	}
                         	else
                         	{
-                        		LOG.error("Authentication error: {}", response.getData().getError());
+                        		String authErrorString = new String("Authentication error: " + response.getData().getError());
+                        		LOG.error(authErrorString);
+                        		synchronized(authCompletable)
+                        		{
+                        			authCompletable.SignalError(authErrorString);
+                        		}
                         	}
                         }
                         break;
