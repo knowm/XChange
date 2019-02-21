@@ -44,9 +44,6 @@ public class KucoinMarketDataDemo {
     Ticker ticker = marketDataService.getTicker(PAIR);
     System.out.println(ticker);
 
-    Ticker minimalTicker = marketDataService.getTicker(PAIR, KucoinMarketDataService.PARAM_MINIMAL_TICKER);
-    System.out.println(minimalTicker);
-
     OrderBook orderBookPartial = marketDataService.getOrderBook(PAIR);
     System.out.println(orderBookPartial);
 

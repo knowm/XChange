@@ -27,8 +27,11 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
+        logger.debug("Connecting to sandbox");
         exchangeSpecification.setSslUri(KucoinExchange.SANDBOX_URI);
         exchangeSpecification.setHost(KucoinExchange.SANDBOX_HOST);
+      } else {
+        logger.debug("Connecting to live");
       }
     }
   }
@@ -43,6 +46,8 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   protected void initServices() {
     concludeHostParams(exchangeSpecification);
     this.marketDataService = new KucoinMarketDataService(this);
+    this.accountService = new KucoinAccountService(this);
+    this.tradeService = new KucoinTradeService();
   }
 
   @Override
