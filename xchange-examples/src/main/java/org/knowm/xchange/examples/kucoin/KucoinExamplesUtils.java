@@ -12,6 +12,7 @@ public class KucoinExamplesUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(KucoinExchange.class);
     exSpec.setApiKey("your-api-key");
     exSpec.setSecretKey("your-secret-key");
+    exSpec.setExchangeSpecificParametersItem("passphrase", "your-passphrase");
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

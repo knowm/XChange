@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -27,6 +28,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import com.google.common.collect.Ordering;
+import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import com.kucoin.sdk.rest.response.OrderBookResponse;
 import com.kucoin.sdk.rest.response.SymbolResponse;
 import com.kucoin.sdk.rest.response.SymbolTickResponse;
@@ -130,6 +132,10 @@ public class KucoinAdapters {
     return new Trades(kucoinTrades.stream()
         .map(o -> adaptTrade(currencyPair, o))
         .collect(Collectors.toList()), TradeSortType.SortByTimestamp);
+  }
+
+  public static Balance adaptBalance(AccountBalancesResponse a) {
+    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable());
   }
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
