@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>xchange-parent</artifactId>
-        <groupId>org.knowm.xchange</groupId>
+        <groupId>com.gruelbox</groupId>
         <version>4.3.16-SNAPSHOT</version>
     </parent>
 
@@ -19,7 +19,7 @@
 
         <!-- Project dependencies (version automatically set through parent) -->
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
+            <groupId>com.gruelbox</groupId>
             <artifactId>xchange-core</artifactId>
             <version>4.3.16-SNAPSHOT</version>
         </dependency>
