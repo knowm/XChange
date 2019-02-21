@@ -10,9 +10,9 @@ import java.util.List;
  * For instancing, use builder @link {@link ProductSubscriptionBuilder}
  */
 public class ProductSubscription {
-    private List<CurrencyPair> orderBook;
-    private List<CurrencyPair> trades;
-    private List<CurrencyPair> ticker;
+    private final List<CurrencyPair> orderBook;
+    private final List<CurrencyPair> trades;
+    private final List<CurrencyPair> ticker;
 
     private ProductSubscription(ProductSubscriptionBuilder builder) {
         this.orderBook = builder.orderBook;
@@ -32,14 +32,18 @@ public class ProductSubscription {
         return ticker;
     }
 
+    public boolean isEmpty() {
+      return ticker.isEmpty() && trades.isEmpty() && orderBook.isEmpty();
+    }
+
     public static ProductSubscriptionBuilder create() {
         return new ProductSubscriptionBuilder();
     }
 
     public static class ProductSubscriptionBuilder {
-        private List<CurrencyPair> orderBook;
-        private List<CurrencyPair> trades;
-        private List<CurrencyPair> ticker;
+        private final List<CurrencyPair> orderBook;
+        private final List<CurrencyPair> trades;
+        private final List<CurrencyPair> ticker;
 
         private ProductSubscriptionBuilder() {
             orderBook = new ArrayList<>();
