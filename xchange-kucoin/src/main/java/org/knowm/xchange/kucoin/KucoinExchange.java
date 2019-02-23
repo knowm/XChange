@@ -47,7 +47,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
     concludeHostParams(exchangeSpecification);
     this.marketDataService = new KucoinMarketDataService(this);
     this.accountService = new KucoinAccountService(this);
-    this.tradeService = new KucoinTradeService();
+    this.tradeService = new KucoinTradeService(this);
   }
 
   @Override
