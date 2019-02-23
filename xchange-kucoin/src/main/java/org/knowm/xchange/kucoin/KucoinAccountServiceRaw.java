@@ -1,5 +1,6 @@
 package org.knowm.xchange.kucoin;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.kucoin.sdk.rest.response.AccountBalancesResponse;
@@ -10,7 +11,7 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     super(exchange);
   }
 
-  public List<AccountBalancesResponse> getKucoinAccounts() {
+  public List<AccountBalancesResponse> getKucoinAccounts() throws IOException {
     return kucoinRestClient.accountAPI().listAccounts(null, null);
   }
 }

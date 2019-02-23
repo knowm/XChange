@@ -21,10 +21,6 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
     super(exchange);
   }
 
-  /**
-   * Returns only partial information, omitting 24h statistics, unless called with
-   * the optional parameter {@link #PARAM_DETAILED_TICKER}.
-   */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return KucoinAdapters.adaptTickerFull(
