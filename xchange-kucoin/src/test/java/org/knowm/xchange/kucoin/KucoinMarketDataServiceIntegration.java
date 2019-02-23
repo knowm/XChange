@@ -20,7 +20,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-public class KucoinV2MarketDataServiceIntegration {
+public class KucoinMarketDataServiceIntegration {
 
   private final CurrencyPair ETH = CurrencyPair.ETH_BTC;
 
