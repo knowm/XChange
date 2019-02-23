@@ -1,17 +1,22 @@
 package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
+import static org.knowm.xchange.dto.Order.OrderStatus.CANCELED;
 import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
+import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
+import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +35,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
 import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import com.kucoin.sdk.rest.response.OrderBookResponse;
@@ -157,23 +163,25 @@ public class KucoinAdapters {
   }
 
   public static Order adaptOrder(OrderResponse order) {
+
     OrderType orderType = adaptSide(order.getSide());
     CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
-    BigDecimal cumulativeAmount = order.getDealSize().subtract(order.getSize());
-    Order.Builder builder;
+
     OrderStatus status;
     if (order.isCancelExist()) {
-      status = OrderStatus.PENDING_CANCEL;
+      status = CANCELED;
     } else if (order.isActive()) {
-      if (cumulativeAmount.signum() == 0) {
-        status = OrderStatus.NEW;
+      if (order.getDealSize().signum() == 0) {
+        status = NEW;
       } else {
-        status = OrderStatus.PARTIALLY_FILLED;
+        status = PARTIALLY_FILLED;
       }
     } else {
-      status = OrderStatus.CANCELED;
+      status = UNKNOWN;
     }
-    if (order.getType().equals("stop") || order.getType().equals("limit_stop")) {
+
+    Order.Builder builder;
+    if (StringUtils.isNotEmpty(order.getStop())) {
       builder = new StopOrder.Builder(orderType, currencyPair)
           .limitPrice(order.getPrice())
           .stopPrice(order.getStopPrice());
@@ -182,14 +190,21 @@ public class KucoinAdapters {
           .limitPrice(order.getPrice());
     }
     builder = builder
-        .averagePrice(null)
-        .cumulativeAmount(cumulativeAmount)
+        .averagePrice(order.getDealSize().compareTo(BigDecimal.ZERO) == 0
+            ? MoreObjects.firstNonNull(order.getPrice(), order.getStopPrice())
+            : order.getDealFunds().divide(order.getDealSize(), RoundingMode.HALF_UP))
+        .cumulativeAmount(order.getDealSize())
         .fee(order.getFee())
         .id(order.getId())
         .orderStatus(status)
-        .originalAmount(order.getDealSize())
-        .remainingAmount(order.getSize())
+        .originalAmount(order.getSize())
+        .remainingAmount(order.getSize().subtract(order.getDealSize()))
         .timestamp(order.getCreatedAt());
+
+    if (StringUtils.isNotEmpty(order.getTimeInForce())) {
+      builder.flag(TimeInForce.getTimeInForce(order.getTimeInForce()));
+    }
+
     return StopOrder.Builder.class.isInstance(builder)
         ? ((StopOrder.Builder) builder).build()
         : ((LimitOrder.Builder) builder).build();
