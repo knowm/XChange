@@ -629,7 +629,7 @@
   },
   "public_rate_limits": [
     {
-      "calls": 50,
+      "calls": 30,
       "time_span": 1,
       "time_unit": "MINUTES"
     }
