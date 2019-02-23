@@ -1,6 +1,6 @@
 package org.knowm.xchange.kucoin;
 
-import java.util.function.Supplier;
+import java.io.IOException;
 
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
@@ -12,7 +12,7 @@ public final class KucoinExceptionClassifier {
 
   KucoinExceptionClassifier() {}
 
-  public static <T> T classifyingExceptions(Supplier<T> apiCall) {
+  public static <T> T classifyingExceptions(IOExceptionThrowingSupplier<T> apiCall) throws IOException {
     try {
       T result = apiCall.get();
       if (result == null) {
@@ -50,5 +50,10 @@ public final class KucoinExceptionClassifier {
         return new NonceException(e.getMessage(), e);
       default: return e;
     }
+  }
+
+  @FunctionalInterface
+  interface IOExceptionThrowingSupplier<T> {
+    T get() throws IOException;
   }
 }
