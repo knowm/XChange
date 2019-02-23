@@ -14,7 +14,7 @@ import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 public class KucoinAccountService extends KucoinAccountServiceRaw
                                   implements AccountService {
 
-  protected KucoinAccountService(KucoinExchange exchange) {
+  KucoinAccountService(KucoinExchange exchange) {
     super(exchange);
   }
 
