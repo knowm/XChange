@@ -80,9 +80,9 @@ public class KucoinTradeDemo {
 //    Thread.sleep(7000); // wait for order to propagate
 //
 //    System.out.println();
-    System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 1, 100));
+    System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 1, 1000));
 
-    System.out.println("DRGN orders: " + tradeService.getKucoinOpenOrders("DRGN-BTC", 1, 100));
+    System.out.println("DRGN orders: " + tradeService.getKucoinOpenOrders("DRGN-BTC", 1, 1000));
 
     // Not yet implemented
 //    System.out.println("Attempting to cancel order " + orderId);

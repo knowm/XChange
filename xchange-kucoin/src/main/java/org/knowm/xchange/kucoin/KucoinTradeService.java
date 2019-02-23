@@ -18,13 +18,15 @@ import com.kucoin.sdk.rest.response.OrderResponse;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
+  private static final int ORDERS_TO_FETCH = 1000;
+
   KucoinTradeService(KucoinExchange exchange) {
     super(exchange);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return build(getKucoinOpenOrders(null, 0, 100).getItems());
+    return convertOpenOrders(getKucoinOpenOrders(null, 1, ORDERS_TO_FETCH).getItems());
   }
 
   @Override
@@ -33,7 +35,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       throw new ExchangeException("Only currency pair parameters are currently supported.");
     OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) genericParams;
     String symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
-    return build(getKucoinOpenOrders(symbol, 1, 100).getItems());
+    return convertOpenOrders(getKucoinOpenOrders(symbol, 1, 1000).getItems());
   }
 
   @Override
@@ -41,7 +43,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     return new DefaultOpenOrdersParamCurrencyPair();
   }
 
-  private OpenOrders build(Collection<OrderResponse> orders) {
+  private OpenOrders convertOpenOrders(Collection<OrderResponse> orders) {
     Builder<LimitOrder> openOrders = ImmutableList.builder();
     Builder<Order> hiddenOrders = ImmutableList.builder();
     orders.stream()
