@@ -33,7 +33,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       throw new ExchangeException("Only currency pair parameters are currently supported.");
     OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) genericParams;
     String symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
-    return build(getKucoinOpenOrders(symbol, 0, 100).getItems());
+    return build(getKucoinOpenOrders(symbol, 1, 100).getItems());
   }
 
   @Override

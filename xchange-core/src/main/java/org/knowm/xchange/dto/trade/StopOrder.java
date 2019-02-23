@@ -170,7 +170,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   @Override
   public String toString() {
 
-    return "StopOrder [stopPrice=" + stopPrice + ", " + super.toString() + "]";
+    return "StopOrder [stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
   @Override
