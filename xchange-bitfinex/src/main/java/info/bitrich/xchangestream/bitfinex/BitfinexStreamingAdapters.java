@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import static java.util.stream.StreamSupport.stream;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 class BitfinexStreamingAdapters {
 
@@ -222,18 +224,21 @@ class BitfinexStreamingAdapters {
     }
 
     static UserTrade adaptUserTrade(BitfinexWebSocketAuthTrade authTrade) {
+        OrderType orderType = authTrade.getOrderType().equalsIgnoreCase("buy") ? BID : ASK;
         return new UserTrade.Builder()
             .currencyPair(BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair())))
-            .feeAmount(authTrade.getFee())
+            .feeAmount(orderType.equals(BID)
+                    ? authTrade.getFee()
+                    : authTrade.getFee().negate())
             .feeCurrency(Currency.getInstance(authTrade.getFeeCurrency()))
             .id(Long.toString(authTrade.getId()))
             .orderId(Long.toString(authTrade.getOrderId()))
-            .originalAmount(authTrade.getExecAmount())
+            .originalAmount(orderType.equals(BID)
+                    ? authTrade.getExecAmount()
+                    : authTrade.getExecAmount().negate())
             .price(authTrade.getExecPrice())
             .timestamp(DateUtils.fromMillisUtc(authTrade.getMtsCreate()))
-            .type(authTrade.getOrderType().equalsIgnoreCase("buy")
-                ? OrderType.BID
-                : OrderType.ASK)
+            .type(orderType)
             .build();
     }
 
