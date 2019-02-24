@@ -5,7 +5,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
 import org.knowm.xchange.kucoin.KucoinTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
 public class KucoinTradeDemo {
   private static final CurrencyPair PAIR = new CurrencyPair("DRGN", "BTC");
@@ -22,6 +23,8 @@ public class KucoinTradeDemo {
   }
 
   private static void generic(TradeService tradeService) throws Exception {
+
+    System.out.println("GENERIC...\n");
 
     // Not yet implemented
 //    LimitOrder limitOrder =
@@ -41,10 +44,16 @@ public class KucoinTradeDemo {
     System.out.println(tradeService.getOpenOrders());
 
     System.out.println("DRGN orders:");
-    DefaultOpenOrdersParamCurrencyPair orderParams =
-        (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    OpenOrdersParamCurrencyPair orderParams =
+        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     System.out.println(tradeService.getOpenOrders(orderParams));
+
+    System.out.println("All fills: " + tradeService.getTradeHistory(null));
+    TradeHistoryParamCurrencyPair tradeHistoryParams =
+        (TradeHistoryParamCurrencyPair) tradeService.createTradeHistoryParams();
+    tradeHistoryParams.setCurrencyPair(PAIR);
+    System.out.println("DRGN fills: " + tradeService.getTradeHistory(tradeHistoryParams));
 
     // Not yet implemented
 //    System.out.println("Attempting to cancel order " + uuid);
@@ -65,6 +74,8 @@ public class KucoinTradeDemo {
 
   private static void raw(KucoinTradeServiceRaw tradeService) throws Exception {
 
+    System.out.println("RAW...\n");
+
     // Not yet implemented
 //    LimitOrder limitOrder =
 //        new LimitOrder.Builder(ORDER_TYPE, PAIR)
@@ -81,8 +92,9 @@ public class KucoinTradeDemo {
 //
 //    System.out.println();
     System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 1, 1000));
-
     System.out.println("DRGN orders: " + tradeService.getKucoinOpenOrders("DRGN-BTC", 1, 1000));
+    System.out.println("All fills: " + tradeService.getKucoinFills(null, 0, 1000));
+    System.out.println("DRGN fills: " + tradeService.getKucoinFills("DRGN-BTC", 0, 1000));
 
     // Not yet implemented
 //    System.out.println("Attempting to cancel order " + orderId);
