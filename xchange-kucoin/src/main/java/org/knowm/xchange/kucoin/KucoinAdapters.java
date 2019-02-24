@@ -33,6 +33,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import com.google.common.base.MoreObjects;
@@ -43,6 +44,7 @@ import com.kucoin.sdk.rest.response.OrderResponse;
 import com.kucoin.sdk.rest.response.SymbolResponse;
 import com.kucoin.sdk.rest.response.SymbolTickResponse;
 import com.kucoin.sdk.rest.response.TradeHistoryResponse;
+import com.kucoin.sdk.rest.response.TradeResponse;
 
 public class KucoinAdapters {
 
@@ -208,6 +210,20 @@ public class KucoinAdapters {
     return StopOrder.Builder.class.isInstance(builder)
         ? ((StopOrder.Builder) builder).build()
         : ((LimitOrder.Builder) builder).build();
+  }
+
+  public static UserTrade adaptUserTrade(TradeResponse trade) {
+    return new UserTrade.Builder()
+        .currencyPair(adaptCurrencyPair(trade.getSymbol()))
+        .feeAmount(trade.getFee())
+        .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+        .id(trade.getTradeId())
+        .orderId(trade.getOrderId())
+        .originalAmount(trade.getSize())
+        .price(trade.getPrice())
+        .timestamp(trade.getTradeCreatedAt())
+        .type(adaptSide(trade.getSide()))
+        .build();
   }
 
   private static final class PriceAndSize {
