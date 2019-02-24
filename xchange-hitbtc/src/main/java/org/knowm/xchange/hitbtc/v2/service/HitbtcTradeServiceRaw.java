@@ -52,14 +52,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
 
-    String clientOrderId = null;
-    if (limitOrder instanceof HitbtcLimitOrder) {
-      HitbtcLimitOrder order = (HitbtcLimitOrder) limitOrder;
-      clientOrderId = order.getClientOrderId();
-    }
-
     return hitbtc.postHitbtcNewOrder(
-        clientOrderId,
+		limitOrder.getUserReference(),
         symbol,
         side,
         limitOrder.getLimitPrice(),
