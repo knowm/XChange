@@ -1,18 +1,22 @@
 package org.knowm.xchange.bitmex;
 
 import com.google.common.collect.BiMap;
-import java.io.IOException;
-import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
+import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
 import org.knowm.xchange.bitmex.service.BitmexAccountService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
@@ -84,5 +88,31 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
   public void setRateLimitUpdateListener(RateLimitUpdateListener rateLimitUpdateListener) {
     this.rateLimitUpdateListener = rateLimitUpdateListener;
+  }
+
+  public CurrencyPair determineActiveContract(String baseSymbol, String counterSymbol, BitmexPrompt contractTimeframe){
+
+    if(baseSymbol.equals("BTC")) {
+      baseSymbol = "XBT";
+    }
+    if(counterSymbol.equals("BTC")) {
+      counterSymbol = "XBT";
+    }
+
+    final String symbols = baseSymbol + "/" + counterSymbol;
+
+    BitmexTickerList tickerList =
+            ((BitmexMarketDataServiceRaw) marketDataService).getTicker(baseSymbol + ":" + contractTimeframe);
+
+    String bitmexSymbol =
+            tickerList
+                    .stream()
+                    .map(BitmexTicker::getSymbol)
+                    .findFirst()
+                    .orElseThrow(() -> new ExchangeException("Instrument for " + symbols +
+                            " is not active or does not exist"));
+
+    String contractTypeSymbol = bitmexSymbol.substring(3, bitmexSymbol.length());
+    return new CurrencyPair(baseSymbol, contractTypeSymbol);
   }
 }
