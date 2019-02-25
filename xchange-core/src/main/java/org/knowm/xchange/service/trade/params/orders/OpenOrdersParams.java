@@ -27,8 +27,8 @@ public interface OpenOrdersParams {
   boolean accept(LimitOrder order);
 
   /**
-   * Added later, this method allows the filter to also to apply to stop orders,
-   * at a small cost. It should be explicitly implemented for better performance.
+   * Added later, this method allows the filter to also to apply to stop orders, at a small cost. It
+   * should be explicitly implemented for better performance.
    *
    * @param order The order to filter.
    * @return true if order is ok.

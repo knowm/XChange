@@ -1,9 +1,13 @@
 package org.knowm.xchange.examples.kucoin.marketdata;
 
+import com.kucoin.sdk.rest.response.OrderBookResponse;
+import com.kucoin.sdk.rest.response.SymbolResponse;
+import com.kucoin.sdk.rest.response.SymbolTickResponse;
+import com.kucoin.sdk.rest.response.TickerResponse;
+import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,12 +17,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kucoin.KucoinExchange;
 import org.knowm.xchange.kucoin.KucoinMarketDataService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TickerResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 
 public class KucoinMarketDataDemo {
 
@@ -47,7 +45,8 @@ public class KucoinMarketDataDemo {
     OrderBook orderBookPartial = marketDataService.getOrderBook(PAIR);
     System.out.println(orderBookPartial);
 
-    OrderBook orderBookFull = marketDataService.getOrderBook(PAIR, KucoinMarketDataService.PARAM_FULL_ORDERBOOK);
+    OrderBook orderBookFull =
+        marketDataService.getOrderBook(PAIR, KucoinMarketDataService.PARAM_FULL_ORDERBOOK);
     System.out.println(orderBookFull);
 
     Trades trades = marketDataService.getTrades(PAIR);

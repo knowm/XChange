@@ -1,15 +1,13 @@
 package org.knowm.xchange.examples.kucoin.account;
 
+import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
 import org.knowm.xchange.kucoin.KucoinAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
-
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 
 public class KucoinAccountDemo {
 
@@ -31,7 +29,7 @@ public class KucoinAccountDemo {
     System.out.println(accountInfo);
 
     // Not yet implemented
-//    System.out.println(accountService.requestDepositAddress(Currency.BTC));
+    //    System.out.println(accountService.requestDepositAddress(Currency.BTC));
   }
 
   private static void raw(KucoinAccountServiceRaw accountService) throws IOException {
@@ -42,7 +40,7 @@ public class KucoinAccountDemo {
     System.out.println(responseBalances);
 
     // Not yet implemented
-//    ????? responseAddress = accountService.getKucoinDepositAddress(Currency.BTC);
-//    System.out.println(responseAddress.?????);
+    //    ????? responseAddress = accountService.getKucoinDepositAddress(Currency.BTC);
+    //    System.out.println(responseAddress.?????);
   }
 }
