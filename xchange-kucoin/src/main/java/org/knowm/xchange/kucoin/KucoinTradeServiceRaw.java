@@ -32,4 +32,9 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
       kucoinRestClient.orderAPI().cancelAllOrders(symbol));
   }
 
+  public OrderCancelResponse kucoinCancelOrder(String orderId) throws IOException {
+    return classifyingExceptions(() ->
+      kucoinRestClient.orderAPI().cancelOrder(orderId));
+  }
+
 }
