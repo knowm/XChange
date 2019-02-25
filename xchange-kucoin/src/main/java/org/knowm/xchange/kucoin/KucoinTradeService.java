@@ -2,29 +2,33 @@ package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.kucoin.sdk.rest.response.OrderCancelResponse;
+import com.kucoin.sdk.rest.response.OrderResponse;
+import com.kucoin.sdk.rest.response.TradeResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
@@ -37,7 +41,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return convertOpenOrders(getKucoinOpenOrders(null, 1, ORDERS_TO_FETCH).getItems(), null);
+    return convertOpenOrders(getKucoinOpenOrders(null, 0, ORDERS_TO_FETCH).getItems(), null);
   }
 
   @Override
@@ -47,7 +51,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
       symbol = KucoinAdapters.adaptCurrencyPair(pairParams.getCurrencyPair());
     }
-    return convertOpenOrders(getKucoinOpenOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems(), params);
+    return convertOpenOrders(
+        getKucoinOpenOrders(symbol, 0, TRADE_HISTORIES_TO_FETCH).getItems(), params);
   }
 
   @Override
@@ -55,13 +60,12 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     String symbol = null;
     if (genericParams != null) {
       Preconditions.checkArgument(
-        genericParams instanceof TradeHistoryParamCurrencyPair,
-        "Only currency pair parameters are currently supported."
-      );
+          genericParams instanceof TradeHistoryParamCurrencyPair,
+          "Only currency pair parameters are currently supported.");
       TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
     }
-    return convertUserTrades(getKucoinFills(symbol, 1, 1000).getItems());
+    return convertUserTrades(getKucoinFills(symbol, 0, 1000).getItems());
   }
 
   @Override
@@ -74,28 +78,62 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     return new DefaultTradeHistoryParamCurrencyPair();
   }
 
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    OrderCancelResponse response = kucoinCancelOrder(orderId);
+    return response.getCancelledOrderIds().contains(orderId);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams genericParams) throws IOException {
+    Preconditions.checkNotNull(genericParams, "No parameter supplied");
+    Preconditions.checkArgument(
+        genericParams instanceof CancelOrderByIdParams,
+        "Only order id parameters are currently supported.");
+    CancelOrderByIdParams params = (CancelOrderByIdParams) genericParams;
+    return cancelOrder(params.getOrderId());
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptLimitOrder(limitOrder)).getOrderId();
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptMarketOrder(marketOrder)).getOrderId();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptStopOrder(stopOrder)).getOrderId();
+  }
+
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {
     Builder<LimitOrder> openOrders = ImmutableList.builder();
     Builder<Order> hiddenOrders = ImmutableList.builder();
     orders.stream()
-      .map(KucoinAdapters::adaptOrder)
-      .filter(o -> params == null ? true : params.accept(o))
-      .forEach(o -> {
-        if (o instanceof LimitOrder) {
-          openOrders.add((LimitOrder) o);
-        } else {
-          hiddenOrders.add(o);
-        }
-      });
+        .map(KucoinAdapters::adaptOrder)
+        .filter(o -> params == null ? true : params.accept(o))
+        .forEach(
+            o -> {
+              if (o instanceof LimitOrder) {
+                openOrders.add((LimitOrder) o);
+              } else {
+                hiddenOrders.add(o);
+              }
+            });
     return new OpenOrders(openOrders.build(), hiddenOrders.build());
   }
 
   private UserTrades convertUserTrades(List<TradeResponse> fills) {
     return new UserTrades(
-      fills.stream()
-        .map(KucoinAdapters::adaptUserTrade)
-        .collect(toCollection(ArrayList::new)),
-      TradeSortType.SortByTimestamp
-    );
+        fills.stream().map(KucoinAdapters::adaptUserTrade).collect(toCollection(ArrayList::new)),
+        TradeSortType.SortByTimestamp);
+  }
+
+  /** TODO same as Binance. Should be merged into generic API */
+  public interface KucoinOrderFlags extends IOrderFlags {
+    String getClientId();
   }
 }

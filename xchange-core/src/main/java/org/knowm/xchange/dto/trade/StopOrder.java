@@ -170,7 +170,13 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   @Override
   public String toString() {
 
-    return "StopOrder [stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", " + super.toString() + "]";
+    return "StopOrder [stopPrice="
+        + stopPrice
+        + ", limitPrice="
+        + limitPrice
+        + ", "
+        + super.toString()
+        + "]";
   }
 
   @Override
@@ -230,13 +236,14 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
     public static Builder from(Order order) {
 
-      Builder builder = new Builder(order.getType(), order.getCurrencyPair())
-          .originalAmount(order.getOriginalAmount())
-          .timestamp(order.getTimestamp())
-          .id(order.getId())
-          .flags(order.getOrderFlags())
-          .orderStatus(order.getStatus())
-          .averagePrice(order.getAveragePrice());
+      Builder builder =
+          new Builder(order.getType(), order.getCurrencyPair())
+              .originalAmount(order.getOriginalAmount())
+              .timestamp(order.getTimestamp())
+              .id(order.getId())
+              .flags(order.getOrderFlags())
+              .orderStatus(order.getStatus())
+              .averagePrice(order.getAveragePrice());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());

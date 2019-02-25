@@ -2,18 +2,18 @@ package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implements MarketDataService {
+public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
-   * Set on calls to {@link #getOrderBook(CurrencyPair, Object...)} to return the
-   * full orderbook rather than the default 100 prices either side.
+   * Set on calls to {@link #getOrderBook(CurrencyPair, Object...)} to return the full orderbook
+   * rather than the default 100 prices either side.
    */
   public static final String PARAM_FULL_ORDERBOOK = "Full_Orderbook";
 
@@ -23,22 +23,15 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    return KucoinAdapters.adaptTickerFull(
-        currencyPair,
-        getKucoin24hrStats(currencyPair)
-      ).build();
+    return KucoinAdapters.adaptTickerFull(currencyPair, getKucoin24hrStats(currencyPair)).build();
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     if (Arrays.asList(args).contains(PARAM_FULL_ORDERBOOK)) {
-      return KucoinAdapters.adaptOrderBook(
-        currencyPair,
-        getKucoinOrderBookFull(currencyPair));
+      return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookFull(currencyPair));
     } else {
-      return KucoinAdapters.adaptOrderBook(
-        currencyPair,
-        getKucoinOrderBookPartial(currencyPair));
+      return KucoinAdapters.adaptOrderBook(currencyPair, getKucoinOrderBookPartial(currencyPair));
     }
   }
 

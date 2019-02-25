@@ -1,9 +1,9 @@
 package org.knowm.xchange.kucoin;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
+/** TODO same as Binance. Should be merged into common API. */
 public enum TimeInForce implements IOrderFlags {
   GTC,
   GTT,
