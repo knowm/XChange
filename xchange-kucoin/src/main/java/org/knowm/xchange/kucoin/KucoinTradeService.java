@@ -43,7 +43,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return convertOpenOrders(getKucoinOpenOrders(null, 1, ORDERS_TO_FETCH).getItems(), null);
+    return convertOpenOrders(getKucoinOpenOrders(null, 0, ORDERS_TO_FETCH).getItems(), null);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
       symbol = KucoinAdapters.adaptCurrencyPair(pairParams.getCurrencyPair());
     }
-    return convertOpenOrders(getKucoinOpenOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems(), params);
+    return convertOpenOrders(getKucoinOpenOrders(symbol, 0, TRADE_HISTORIES_TO_FETCH).getItems(), params);
   }
 
   @Override
@@ -67,7 +67,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
     }
-    return convertUserTrades(getKucoinFills(symbol, 1, 1000).getItems());
+    return convertUserTrades(getKucoinFills(symbol, 0, 1000).getItems());
   }
 
   @Override
