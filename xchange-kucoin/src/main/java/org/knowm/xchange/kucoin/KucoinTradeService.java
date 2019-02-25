@@ -13,6 +13,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,6 +25,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import com.kucoin.sdk.rest.response.OrderCancelResponse;
 import com.kucoin.sdk.rest.response.OrderResponse;
 import com.kucoin.sdk.rest.response.TradeResponse;
 
@@ -72,6 +75,20 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamCurrencyPair();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    OrderCancelResponse response = kucoinCancelOrder(orderId);
+    return response.getCancelledOrderIds().contains(orderId);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams genericParams) throws IOException {
+    Preconditions.checkNotNull(genericParams, "No parameter supplied");
+    Preconditions.checkArgument(genericParams instanceof CancelOrderByIdParams, "Only order id parameters are currently supported.");
+    CancelOrderByIdParams params = (CancelOrderByIdParams) genericParams;
+    return cancelOrder(params.getOrderId());
   }
 
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {
