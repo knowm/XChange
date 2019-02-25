@@ -8,9 +8,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -91,6 +94,21 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     return cancelOrder(params.getOrderId());
   }
 
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptLimitOrder(limitOrder)).getOrderId();
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptMarketOrder(marketOrder)).getOrderId();
+  }
+
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    return kucoinCreateOrder(KucoinAdapters.adaptStopOrder(stopOrder)).getOrderId();
+  }
+
   private OpenOrders convertOpenOrders(Collection<OrderResponse> orders, OpenOrdersParams params) {
     Builder<LimitOrder> openOrders = ImmutableList.builder();
     Builder<Order> hiddenOrders = ImmutableList.builder();
@@ -114,5 +132,12 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         .collect(toCollection(ArrayList::new)),
       TradeSortType.SortByTimestamp
     );
+  }
+
+  /**
+   * TODO same as Binance. Should be merged into generic API
+   */
+  public interface KucoinOrderFlags extends IOrderFlags {
+    String getClientId();
   }
 }

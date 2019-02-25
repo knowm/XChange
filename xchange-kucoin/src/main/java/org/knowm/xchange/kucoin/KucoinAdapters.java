@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -32,12 +33,15 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
+import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
 import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import com.kucoin.sdk.rest.response.OrderBookResponse;
 import com.kucoin.sdk.rest.response.OrderResponse;
@@ -164,6 +168,10 @@ public class KucoinAdapters {
     return "sell".equals(side) ? ASK : BID;
   }
 
+  private static String adaptSide(OrderType type) {
+    return type.equals(ASK) ? "sell" : "buy";
+  }
+
   public static Order adaptOrder(OrderResponse order) {
 
     OrderType orderType = adaptSide(order.getSide());
@@ -224,6 +232,42 @@ public class KucoinAdapters {
         .timestamp(trade.getTradeCreatedAt())
         .type(adaptSide(trade.getSide()))
         .build();
+  }
+
+  public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
+    return adaptOrder(limitOrder)
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .build();
+  }
+
+  public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
+    return adaptOrder(stopOrder)
+        .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
+        .price(stopOrder.getLimitPrice())
+        .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
+        .stopPrice(stopOrder.getStopPrice())
+        .build();
+  }
+
+  public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
+    return adaptOrder(marketOrder)
+        .type("market")
+        .build();
+  }
+
+  public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
+    OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
+    for (IOrderFlags flag : order.getOrderFlags()) {
+      if (flag instanceof KucoinOrderFlags) {
+        request.clientOid(((KucoinOrderFlags) flag).getClientId());
+      } else if (flag instanceof TimeInForce) {
+        request.timeInForce(((TimeInForce) flag).name());
+      }
+    }
+    return request
+        .size(order.getOriginalAmount())
+        .side(adaptSide(order.getType()));
   }
 
   private static final class PriceAndSize {
