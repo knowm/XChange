@@ -193,8 +193,12 @@ public class KucoinAdapters {
 
     Order.Builder builder;
     if (StringUtils.isNotEmpty(order.getStop())) {
+      BigDecimal limitPrice = order.getPrice();
+      if (limitPrice != null && limitPrice.compareTo(BigDecimal.ZERO) == 0) {
+        limitPrice = null;
+      }
       builder = new StopOrder.Builder(orderType, currencyPair)
-          .limitPrice(order.getPrice())
+          .limitPrice(limitPrice)
           .stopPrice(order.getStopPrice());
     } else {
       builder = new LimitOrder.Builder(orderType, currencyPair)
