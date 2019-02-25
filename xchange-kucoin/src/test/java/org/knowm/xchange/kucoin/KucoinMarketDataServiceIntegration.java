@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -38,8 +37,8 @@ public class KucoinMarketDataServiceIntegration {
     assertThat(ticker.getBid()).isNotNull();
     assertThat(ticker.getAsk()).isGreaterThan(ticker.getBid());
     assertThat(ticker.getLast())
-      .isGreaterThanOrEqualTo(ticker.getLow())
-      .isLessThanOrEqualTo(ticker.getHigh());
+        .isGreaterThanOrEqualTo(ticker.getLow())
+        .isLessThanOrEqualTo(ticker.getHigh());
     assertThat(ticker.getLow()).isNotNull();
     assertThat(ticker.getHigh()).isGreaterThan(ticker.getLow());
     // assertThat(ticker.getOpen()).isNotNull(); Seems to be mostly...
@@ -78,9 +77,10 @@ public class KucoinMarketDataServiceIntegration {
 
   private void checkTimestamp(Date date) {
     assertThat(
-        Math.abs(LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC)
-          .until(LocalDateTime.now(), ChronoUnit.MINUTES)) < 5
-    );
+        Math.abs(
+                LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC)
+                    .until(LocalDateTime.now(), ChronoUnit.MINUTES))
+            < 5);
   }
 
   private void checkOrderBookIntegrity(OrderBook orderBook) {
@@ -90,14 +90,14 @@ public class KucoinMarketDataServiceIntegration {
       previousPrice = o.getLimitPrice();
       assertNotEquals(0, o.getOriginalAmount().compareTo(BigDecimal.ZERO));
     }
-    previousPrice = orderBook.getBids().isEmpty()
-        ? BigDecimal.ZERO
-        : orderBook.getBids().get(0).getLimitPrice();
+    previousPrice =
+        orderBook.getBids().isEmpty()
+            ? BigDecimal.ZERO
+            : orderBook.getBids().get(0).getLimitPrice();
     for (LimitOrder o : orderBook.getAsks()) {
       assertThat(o.getLimitPrice()).isGreaterThan(previousPrice);
       previousPrice = o.getLimitPrice();
       assertNotEquals(0, o.getOriginalAmount().compareTo(BigDecimal.ZERO));
-
     }
     checkTimestamp(orderBook.getTimeStamp());
   }

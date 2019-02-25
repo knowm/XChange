@@ -1,20 +1,17 @@
 package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
 
   /**
-   * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)}
-   * to specify that connection should be made to the Kucoin sandbox instead of the
-   * live API.
+   * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)} to specify
+   * that connection should be made to the Kucoin sandbox instead of the live API.
    */
   public static final String PARAM_SANDBOX = "Use_Sandbox";
 
@@ -26,7 +23,8 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   private void concludeHostParams(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
+      if (Boolean.TRUE.equals(
+          exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
         logger.debug("Connecting to sandbox");
         exchangeSpecification.setSslUri(KucoinExchange.SANDBOX_URI);
         exchangeSpecification.setHost(KucoinExchange.SANDBOX_HOST);
@@ -52,7 +50,8 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri(LIVE_URI);
     exchangeSpecification.setHost(LIVE_HOST);
     exchangeSpecification.setPort(80);
@@ -68,10 +67,9 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    this.exchangeMetaData = KucoinAdapters.adaptMetadata(
-      this.exchangeMetaData,
-      getMarketDataService().getKucoinSymbols()
-    );
+    this.exchangeMetaData =
+        KucoinAdapters.adaptMetadata(
+            this.exchangeMetaData, getMarketDataService().getKucoinSymbols());
   }
 
   @Override

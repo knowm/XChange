@@ -1,18 +1,17 @@
 package org.knowm.xchange.kucoin;
 
+import com.kucoin.sdk.exception.KucoinApiException;
 import java.io.IOException;
-
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NonceException;
-
-import com.kucoin.sdk.exception.KucoinApiException;
 
 public final class KucoinExceptionClassifier {
 
   KucoinExceptionClassifier() {}
 
-  public static <T> T classifyingExceptions(IOExceptionThrowingSupplier<T> apiCall) throws IOException {
+  public static <T> T classifyingExceptions(IOExceptionThrowingSupplier<T> apiCall)
+      throws IOException {
     try {
       T result = apiCall.get();
       if (result == null) {
@@ -38,7 +37,7 @@ public final class KucoinExceptionClassifier {
     // case "429": return new RateLimitExceededException(e.getMessage(), e);
     // case "503": return new SystemOverloadException(e.getMessage(), e);
 
-    switch(e.getCode()) {
+    switch (e.getCode()) {
       case "400001":
       case "400003":
       case "400004":
@@ -48,7 +47,8 @@ public final class KucoinExceptionClassifier {
         return new ExchangeSecurityException(e.getMessage(), e);
       case "400005":
         return new NonceException(e.getMessage(), e);
-      default: return e;
+      default:
+        return e;
     }
   }
 

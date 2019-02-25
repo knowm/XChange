@@ -8,6 +8,16 @@ import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Ordering;
+import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
+import com.kucoin.sdk.rest.response.AccountBalancesResponse;
+import com.kucoin.sdk.rest.response.OrderBookResponse;
+import com.kucoin.sdk.rest.response.OrderResponse;
+import com.kucoin.sdk.rest.response.SymbolResponse;
+import com.kucoin.sdk.rest.response.SymbolTickResponse;
+import com.kucoin.sdk.rest.response.TradeHistoryResponse;
+import com.kucoin.sdk.rest.response.TradeResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -16,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -39,17 +48,6 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Ordering;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 
 public class KucoinAdapters {
 
@@ -80,15 +78,15 @@ public class KucoinAdapters {
   }
 
   /**
-   * Imperfect implementation. Kucoin appears to enforce a base <strong>and</strong>
-   * quote min <strong>and max</strong> amount that the XChange API current doesn't
-   * take account of.
+   * Imperfect implementation. Kucoin appears to enforce a base <strong>and</strong> quote min
+   * <strong>and max</strong> amount that the XChange API current doesn't take account of.
    *
    * @param exchangeMetaData The static exchange metadata.
    * @param kucoinSymbols Kucoin symbol data.
    * @return Exchange metadata.
    */
-  public static ExchangeMetaData adaptMetadata(ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols) {
+  public static ExchangeMetaData adaptMetadata(
+      ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
@@ -124,20 +122,23 @@ public class KucoinAdapters {
 
   public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {
     Date timestamp = new Date(Long.parseLong(kc.getSequence()));
-    List<LimitOrder> asks = kc.getAsks().stream()
-        .map(PriceAndSize::new)
-        .sorted(Ordering.natural().onResultOf(s -> s.price))
-        .map(s -> adaptLimitOrder(currencyPair, ASK, s, timestamp))
-        .collect(toCollection(LinkedList::new));
-    List<LimitOrder> bids = kc.getBids().stream()
-        .map(PriceAndSize::new)
-        .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
-        .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
-        .collect(toCollection(LinkedList::new));
+    List<LimitOrder> asks =
+        kc.getAsks().stream()
+            .map(PriceAndSize::new)
+            .sorted(Ordering.natural().onResultOf(s -> s.price))
+            .map(s -> adaptLimitOrder(currencyPair, ASK, s, timestamp))
+            .collect(toCollection(LinkedList::new));
+    List<LimitOrder> bids =
+        kc.getBids().stream()
+            .map(PriceAndSize::new)
+            .sorted(Ordering.natural().onResultOf((PriceAndSize s) -> s.price).reversed())
+            .map(s -> adaptLimitOrder(currencyPair, BID, s, timestamp))
+            .collect(toCollection(LinkedList::new));
     return new OrderBook(timestamp, asks, bids);
   }
 
-  private static LimitOrder adaptLimitOrder(CurrencyPair currencyPair, OrderType orderType, PriceAndSize priceAndSize, Date timestamp) {
+  private static LimitOrder adaptLimitOrder(
+      CurrencyPair currencyPair, OrderType orderType, PriceAndSize priceAndSize, Date timestamp) {
     return new LimitOrder.Builder(orderType, currencyPair)
         .limitPrice(priceAndSize.price)
         .originalAmount(priceAndSize.size)
@@ -145,10 +146,11 @@ public class KucoinAdapters {
         .build();
   }
 
-  public static Trades adaptTrades(CurrencyPair currencyPair, List<TradeHistoryResponse> kucoinTrades) {
-    return new Trades(kucoinTrades.stream()
-        .map(o -> adaptTrade(currencyPair, o))
-        .collect(Collectors.toList()), TradeSortType.SortByTimestamp);
+  public static Trades adaptTrades(
+      CurrencyPair currencyPair, List<TradeHistoryResponse> kucoinTrades) {
+    return new Trades(
+        kucoinTrades.stream().map(o -> adaptTrade(currencyPair, o)).collect(Collectors.toList()),
+        TradeSortType.SortByTimestamp);
   }
 
   public static Balance adaptBalance(AccountBalancesResponse a) {
@@ -197,24 +199,26 @@ public class KucoinAdapters {
       if (limitPrice != null && limitPrice.compareTo(BigDecimal.ZERO) == 0) {
         limitPrice = null;
       }
-      builder = new StopOrder.Builder(orderType, currencyPair)
-          .limitPrice(limitPrice)
-          .stopPrice(order.getStopPrice());
+      builder =
+          new StopOrder.Builder(orderType, currencyPair)
+              .limitPrice(limitPrice)
+              .stopPrice(order.getStopPrice());
     } else {
-      builder = new LimitOrder.Builder(orderType, currencyPair)
-          .limitPrice(order.getPrice());
+      builder = new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice());
     }
-    builder = builder
-        .averagePrice(order.getDealSize().compareTo(BigDecimal.ZERO) == 0
-            ? MoreObjects.firstNonNull(order.getPrice(), order.getStopPrice())
-            : order.getDealFunds().divide(order.getDealSize(), RoundingMode.HALF_UP))
-        .cumulativeAmount(order.getDealSize())
-        .fee(order.getFee())
-        .id(order.getId())
-        .orderStatus(status)
-        .originalAmount(order.getSize())
-        .remainingAmount(order.getSize().subtract(order.getDealSize()))
-        .timestamp(order.getCreatedAt());
+    builder =
+        builder
+            .averagePrice(
+                order.getDealSize().compareTo(BigDecimal.ZERO) == 0
+                    ? MoreObjects.firstNonNull(order.getPrice(), order.getStopPrice())
+                    : order.getDealFunds().divide(order.getDealSize(), RoundingMode.HALF_UP))
+            .cumulativeAmount(order.getDealSize())
+            .fee(order.getFee())
+            .id(order.getId())
+            .orderStatus(status)
+            .originalAmount(order.getSize())
+            .remainingAmount(order.getSize().subtract(order.getDealSize()))
+            .timestamp(order.getCreatedAt());
 
     if (StringUtils.isNotEmpty(order.getTimeInForce())) {
       builder.flag(TimeInForce.getTimeInForce(order.getTimeInForce()));
@@ -240,10 +244,7 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
-    return adaptOrder(limitOrder)
-        .type("limit")
-        .price(limitOrder.getLimitPrice())
-        .build();
+    return adaptOrder(limitOrder).type("limit").price(limitOrder.getLimitPrice()).build();
   }
 
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
@@ -256,9 +257,7 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return adaptOrder(marketOrder)
-        .type("market")
-        .build();
+    return adaptOrder(marketOrder).type("market").build();
   }
 
   public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {

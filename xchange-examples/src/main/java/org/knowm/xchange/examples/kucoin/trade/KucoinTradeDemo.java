@@ -1,9 +1,12 @@
 package org.knowm.xchange.examples.kucoin.trade;
 
+import com.kucoin.sdk.exception.KucoinApiException;
+import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
+import com.kucoin.sdk.rest.response.OrderCancelResponse;
+import com.kucoin.sdk.rest.response.OrderCreateResponse;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -16,11 +19,6 @@ import org.knowm.xchange.kucoin.KucoinTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-
-import com.kucoin.sdk.exception.KucoinApiException;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.OrderCancelResponse;
-import com.kucoin.sdk.rest.response.OrderCreateResponse;
 
 public class KucoinTradeDemo {
 
@@ -51,10 +49,7 @@ public class KucoinTradeDemo {
     System.out.println("GENERIC LIMIT ORDER...\n");
 
     LimitOrder limitOrder =
-        new LimitOrder.Builder(ORDER_TYPE, PAIR)
-            .limitPrice(PRICE)
-            .originalAmount(AMOUNT)
-            .build();
+        new LimitOrder.Builder(ORDER_TYPE, PAIR).limitPrice(PRICE).originalAmount(AMOUNT).build();
 
     String uuid = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Order successfully placed. ID=" + uuid);
@@ -70,7 +65,8 @@ public class KucoinTradeDemo {
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
     System.out.println(openOrders);
 
-    Optional<LimitOrder> found = openOrders.getOpenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
+    Optional<LimitOrder> found =
+        openOrders.getOpenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
     if (!found.isPresent()) {
       throw new AssertionError("Order not found on book");
     }
@@ -134,7 +130,8 @@ public class KucoinTradeDemo {
         (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
-    Optional<? extends Order> found = openOrders.getHiddenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
+    Optional<? extends Order> found =
+        openOrders.getHiddenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
     if (!found.isPresent()) {
       throw new AssertionError("Order not found on book");
     }
@@ -180,7 +177,8 @@ public class KucoinTradeDemo {
         (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
-    Optional<? extends Order> found = openOrders.getHiddenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
+    Optional<? extends Order> found =
+        openOrders.getHiddenOrders().stream().filter(o -> o.getId().equals(uuid)).findFirst();
     if (!found.isPresent()) {
       throw new AssertionError("Order not found on book");
     }
@@ -209,14 +207,15 @@ public class KucoinTradeDemo {
 
     System.out.println("RAW...\n");
 
-    OrderCreateApiRequest limitOrder = OrderCreateApiRequest.builder()
-        .size(AMOUNT)
-        .price(PRICE)
-        .side("sell")
-        .symbol(SYMBOL)
-        .type("limit")
-        .clientOid(UUID.randomUUID().toString())
-        .build();
+    OrderCreateApiRequest limitOrder =
+        OrderCreateApiRequest.builder()
+            .size(AMOUNT)
+            .price(PRICE)
+            .side("sell")
+            .symbol(SYMBOL)
+            .type("limit")
+            .clientOid(UUID.randomUUID().toString())
+            .build();
 
     OrderCreateResponse response = tradeService.kucoinCreateOrder(limitOrder);
     String orderId = response.getOrderId();
