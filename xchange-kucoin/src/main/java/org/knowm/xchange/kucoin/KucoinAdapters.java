@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -258,14 +259,20 @@ public class KucoinAdapters {
 
   public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
+    boolean hasClientId = false;
     for (IOrderFlags flag : order.getOrderFlags()) {
       if (flag instanceof KucoinOrderFlags) {
         request.clientOid(((KucoinOrderFlags) flag).getClientId());
+        hasClientId = true;
       } else if (flag instanceof TimeInForce) {
         request.timeInForce(((TimeInForce) flag).name());
       }
     }
+    if (!hasClientId) {
+      request.clientOid(UUID.randomUUID().toString());
+    }
     return request
+        .symbol(adaptCurrencyPair(order.getCurrencyPair()))
         .size(order.getOriginalAmount())
         .side(adaptSide(order.getType()));
   }
