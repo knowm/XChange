@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>com.gruelbox</groupId>
-        <version>4.3.16.1</version>
+        <version>4.3.16.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-fcoin</artifactId>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.gruelbox</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.16.1</version>
+            <version>4.3.16.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
