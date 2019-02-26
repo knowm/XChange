@@ -251,13 +251,16 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-        String chanId;
+        String chanId = null;
         if (message.has(CHANNEL_ID)) {
             chanId = message.get(CHANNEL_ID).asText();
         } else {
-            chanId = message.get(0).asText();
+            JsonNode jsonNode = message.get(0);
+            if (jsonNode != null) {
+                chanId = message.get(0).asText();
+            }
         }
-        if (chanId == null) throw new IOException("Can't find CHANNEL_ID value");
+        if (chanId == null) throw new IOException("Can't find CHANNEL_ID value in socket message: " + message.toString());
         String subscribedChannel = subscribedChannels.get(chanId);
         if (subscribedChannel != null)
             return subscribedChannel;
