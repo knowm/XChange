@@ -27,6 +27,10 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
   private final BigDecimal markPrice;
   private final BigDecimal lastSize;
   private final BigDecimal vol24H;
+  private final String tag;
+  private final String pair;
+  private final BigDecimal fundingRate;
+  private final BigDecimal fundingRatePrediction;
 
   public CryptoFacilitiesTicker(
       @JsonProperty("result") String result,
@@ -44,7 +48,11 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
       @JsonProperty("high24h") BigDecimal high24H,
       @JsonProperty("markPrice") BigDecimal markPrice,
       @JsonProperty("lastSize") BigDecimal lastSize,
-      @JsonProperty("vol24h") BigDecimal vol24H)
+      @JsonProperty("vol24h") BigDecimal vol24H,
+      @JsonProperty("tag") String tag,
+      @JsonProperty("pair") String pair,
+      @JsonProperty("fundingRate") BigDecimal fundingRate,
+      @JsonProperty("fundingRatePrediction") BigDecimal fundingRatePrediction)
       throws ParseException {
 
     super(result, error);
@@ -63,6 +71,10 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     this.markPrice = markPrice;
     this.lastSize = lastSize;
     this.vol24H = vol24H;
+    this.tag = tag;
+    this.pair = pair;
+    this.fundingRate = fundingRate;
+    this.fundingRatePrediction = fundingRatePrediction;
   }
 
   public BigDecimal getBid() {
@@ -121,6 +133,22 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     return vol24H;
   }
 
+  public String getTag() {
+    return tag;
+  }
+
+  public String getPair() {
+    return pair;
+  }
+
+  public BigDecimal getFundingRate() {
+    return fundingRate;
+  }
+
+  public BigDecimal getFundingRatePrediction() {
+    return fundingRatePrediction;
+  }
+
   @Override
   public String toString() {
 
@@ -153,6 +181,14 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
         + markPrice
         + ", suspended="
         + suspended
+        + ", tag="
+        + tag
+        + ", pair="
+        + pair
+        + ", fundingRate="
+        + fundingRate
+        + ", fundingRatePrediction="
+        + fundingRatePrediction
         + "]";
   }
 }
