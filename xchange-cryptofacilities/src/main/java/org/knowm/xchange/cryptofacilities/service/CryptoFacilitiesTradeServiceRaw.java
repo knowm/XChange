@@ -2,12 +2,17 @@ package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
+import org.knowm.xchange.cryptofacilities.dto.trade.BatchOrder;
+import org.knowm.xchange.cryptofacilities.dto.trade.BatchOrderResult;
+import org.knowm.xchange.cryptofacilities.dto.trade.CryptoFacilitiesOrderFlags;
+import org.knowm.xchange.cryptofacilities.dto.trade.OrderCommand;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -26,7 +31,8 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
   }
 
   public CryptoFacilitiesOrder sendCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException {
-    String orderType = "lmt";
+    String orderType = order.hasFlag(CryptoFacilitiesOrderFlags.POST_ONLY) ? "post" : "lmt";
+
     String symbol = order.getCurrencyPair().base.toString();
     String side = "buy";
     if (order.getType().equals(OrderType.ASK)) {
@@ -50,6 +56,22 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
       return ord;
     } else {
       throw new ExchangeException("Error sending CF limit order: " + ord.getError());
+    }
+  }
+
+  public BatchOrderResult sendCryptoFacilitiesBatchOrder(List<OrderCommand> commands)
+      throws IOException {
+    BatchOrderResult ord =
+        cryptoFacilities.batchOrder(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            new BatchOrder(commands));
+
+    if (ord.isSuccess()) {
+      return ord;
+    } else {
+      throw new ExchangeException("Error sending CF batch order: " + ord.getError());
     }
   }
 
