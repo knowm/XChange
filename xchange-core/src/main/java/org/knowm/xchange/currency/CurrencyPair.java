@@ -298,6 +298,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   // Tether Pairs
   public static final CurrencyPair BTC_USDT = new CurrencyPair(Currency.BTC, Currency.USDT);
+  public static final CurrencyPair DASH_USDT = new CurrencyPair(Currency.DASH, Currency.USDT);
 
   // UAH pairs
   public static final CurrencyPair BTC_UAH = new CurrencyPair(Currency.BTC, Currency.UAH);
@@ -345,6 +346,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   // Bankera Exchange pairs
   public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
   public static final CurrencyPair BNK_ETH = new CurrencyPair(Currency.BNK, Currency.ETH);
+  public static final CurrencyPair BNK_USDT = new CurrencyPair(Currency.BNK, Currency.USDT);
 
   public final Currency base;
   public final Currency counter;
