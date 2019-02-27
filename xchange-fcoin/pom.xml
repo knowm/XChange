@@ -11,8 +11,8 @@
 
     <artifactId>xchange-fcoin</artifactId>
 
-    <name>XChange FCoin</name>
-    <description>XChange implementations for the FCoin Exchange.</description>
+    <name>Orko XChange Fork - FCoin</name>
+    <description>Development fork. Not for general use.</description>
 
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>

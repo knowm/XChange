@@ -11,8 +11,8 @@
 
     <artifactId>xchange-cexio</artifactId>
 
-    <name>XChange Cex.io</name>
-    <description>XChange implementation for the Cex.io Exchange</description>
+    <name>Orko XChange Fork - Cex.io</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

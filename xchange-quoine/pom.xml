@@ -8,8 +8,8 @@
 
     <artifactId>xchange-quoine</artifactId>
 
-    <name>XChange Quoine</name>
-    <description>XChange implementation for the Quoine Exchange</description>
+    <name>Orko XChange Fork - Quoine</name>
+    <description>Development fork. Not for general use.</description>
 
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>

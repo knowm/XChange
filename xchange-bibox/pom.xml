@@ -10,8 +10,8 @@
 
 	<artifactId>xchange-bibox</artifactId>
 
-	<name>XChange Bibox</name>
-	<description>XChange implementation for the Bibox Exchange</description>
+	<name>Orko XChange Fork - Bibox</name>
+	<description>Development fork. Not for general use.</description>
 
 	<url>http://knowm.org/open-source/xchange/</url>
 	<inceptionYear>2012</inceptionYear>

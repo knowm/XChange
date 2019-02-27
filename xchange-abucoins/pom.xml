@@ -11,8 +11,8 @@
 
     <artifactId>xchange-abucoins</artifactId>
 
-    <name>XChange Abucoins</name>
-    <description>XChange implementation for the Abucoins Exchange</description>
+    <name>Orko XChange Fork - Abucoins</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

@@ -9,8 +9,8 @@
 
     <artifactId>xchange-cobinhood</artifactId>
 
-    <name>XChange Cobinhood</name>
-    <description>XChange implementation for the Cobinhood Exchange</description>
+    <name>Orko XChange Fork - Cobinhood</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

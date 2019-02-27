@@ -10,8 +10,8 @@
 
     <artifactId>xchange-okcoin</artifactId>
 
-    <name>XChange OKCoin</name>
-    <description>XChange implementation for OKCoin</description>
+    <name>Orko XChange Fork - OKCoin</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

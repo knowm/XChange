@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bankera</artifactId>
 
-    <name>XChange Bankera</name>
-    <description>XChange implementation for the Bankera Exchange</description>
+    <name>Orko XChange Fork - Bankera</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

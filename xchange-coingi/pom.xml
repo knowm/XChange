@@ -10,8 +10,8 @@
 
     <artifactId>xchange-coingi</artifactId>
 
-    <name>XChange Coingi</name>
-    <description>XChange implementation for the Coingi Exchange</description>
+    <name>Orko XChange Fork - Coingi</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://coingi.com</url>
     <inceptionYear>2016</inceptionYear>

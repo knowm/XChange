@@ -10,8 +10,8 @@
 
     <artifactId>xchange-coinfloor</artifactId>
 
-    <name>XChange Coinfloor</name>
-    <description>XChange implementation for the Coinfloor Exchange</description>
+    <name>Orko XChange Fork - Coinfloor</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

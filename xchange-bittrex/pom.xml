@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bittrex</artifactId>
 
-    <name>XChange Bittrex</name>
-    <description>XChange implementation for the Bittrex Exchange</description>
+    <name>Orko XChange Fork - Bittrex</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

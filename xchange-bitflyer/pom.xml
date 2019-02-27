@@ -13,8 +13,8 @@
     </organization>
 
     <artifactId>xchange-bitflyer</artifactId>
-    <name>XChange BitFlyer</name>
-    <description>BitFlyer Exchange</description>
+    <name>Orko XChange Fork - BitFlyer</name>
+    <description>Development fork. Not for general use.</description>
 
     <!-- Parent provides default configuration for dependencies -->
     <dependencies>

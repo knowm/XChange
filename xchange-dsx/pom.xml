@@ -9,8 +9,8 @@
 
     <artifactId>xchange-dsx</artifactId>
 
-    <name>XChange DSX</name>
-    <description>XChange implementation for the DSX Exchange</description>
+    <name>Orko XChange Fork - DSX</name>
+    <description>Development fork. Not for general use.</description>
 
     <organization>
         <name>Knowm Inc.</name>

@@ -10,8 +10,8 @@
 
     <artifactId>xchange-mercadobitcoin</artifactId>
 
-    <name>XChange Mercado Bitcoin</name>
-    <description>XChange implementation for the Mercado Bitcoin Exchange</description>
+    <name>Orko XChange Fork - Mercado Bitcoin</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

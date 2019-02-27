@@ -10,8 +10,8 @@
 
     <artifactId>xchange-ripple</artifactId>
 
-    <name>XChange Ripple</name>
-    <description>XChange implementation for the Ripple Network</description>
+    <name>Orko XChange Fork - Ripple</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

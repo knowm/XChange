@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bitcoinaverage</artifactId>
 
-    <name>XChange BitcoinAverage</name>
-    <description>XChange implementation for BitcoinAverage.com</description>
+    <name>Orko XChange Fork - BitcoinAverage</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

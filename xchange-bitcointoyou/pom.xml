@@ -10,8 +10,8 @@
 
 	<artifactId>xchange-bitcointoyou</artifactId>
 
-	<name>XChange BitcoinToYou</name>
-	<description>XChange implementation for the BitcoinToYou Exchange</description>
+	<name>Orko XChange Fork - BitcoinToYou</name>
+	<description>Development fork. Not for general use.</description>
 
 	<url>http://knowm.org/open-source/xchange</url>
 	<inceptionYear>2018</inceptionYear>

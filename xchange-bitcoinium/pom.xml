@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bitcoinium</artifactId>
 
-    <name>XChange Bitcoinium</name>
-    <description>XChange implementation for the Bitcoinium Web Service</description>
+    <name>Orko XChange Fork - Bitcoinium</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

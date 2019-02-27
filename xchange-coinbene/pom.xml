@@ -9,8 +9,8 @@
 
     <artifactId>xchange-coinbene</artifactId>
 
-    <name>XChange Coinbene</name>
-    <description>XChange implementation for the Coinbene Exchange</description>
+    <name>Orko XChange Fork - Coinbene</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

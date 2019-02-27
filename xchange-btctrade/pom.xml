@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>xchange-btctrade</artifactId>
-    <name>XChange BtcTrade</name>
+    <name>Orko XChange Fork - BtcTrade</name>
     <description>
         XChange implementation for the BtcTrade exchange.
     </description>

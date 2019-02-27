@@ -6,7 +6,7 @@
         <version>4.3.16.2-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-acx</artifactId>
-    <name>XChange ACX.IO</name>
+    <name>Orko XChange Fork - ACX.IO</name>
 
     <dependencies>
         <dependency>

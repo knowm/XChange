@@ -6,8 +6,8 @@
         <version>4.3.16.2-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-yobit</artifactId>
-    <name>XChange YoBit</name>
-    <description>YoBit.Net - Ethereum (ETH) Exchange</description>
+    <name>Orko XChange Fork - YoBit</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

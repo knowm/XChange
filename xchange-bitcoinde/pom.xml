@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bitcoinde</artifactId>
 
-    <name>XChange Bitcoin.de</name>
-    <description>XChange implementation for Bitcoin.de exchange.</description>
+    <name>Orko XChange Fork - Bitcoin.de</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

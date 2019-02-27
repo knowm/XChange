@@ -9,8 +9,8 @@
 
     <artifactId>xchange-dvchain</artifactId>
 
-    <name>XChange DVChain</name>
-    <description>XChange implementation for the DVChain Exchange</description>
+    <name>Orko XChange Fork - DVChain</name>
+    <description>Development fork. Not for general use.</description>
 
     <organization>
         <name>Knowm Inc.</name>

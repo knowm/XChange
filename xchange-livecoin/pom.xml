@@ -6,8 +6,8 @@
         <version>4.3.16.2-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-livecoin</artifactId>
-    <name>XChange Livecoin</name>
-    <description>A convenient way to buy and sell Bitcoin</description>
+    <name>Orko XChange Fork - Livecoin</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

@@ -10,8 +10,8 @@
 
     <artifactId>xchange-btcc</artifactId>
 
-    <name>XChange BTCC</name>
-    <description>XChange implementation for BTCC</description>
+    <name>Orko XChange Fork - BTCC</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

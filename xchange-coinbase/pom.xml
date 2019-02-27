@@ -10,8 +10,8 @@
 
     <artifactId>xchange-coinbase</artifactId>
 
-    <name>XChange Coinbase</name>
-    <description>XChange implementation for Coinbase</description>
+    <name>Orko XChange Fork - Coinbase</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bleutrade</artifactId>
 
-    <name>XChange Bleutrade</name>
-    <description>XChange implementation for the Bleutrade Exchange</description>
+    <name>Orko XChange Fork - Bleutrade</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

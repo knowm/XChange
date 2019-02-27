@@ -10,8 +10,8 @@
 
     <artifactId>xchange-binance</artifactId>
 
-    <name>XChange Binance</name>
-    <description>XChange implementation for the Binance Exchange</description>
+    <name>Orko XChange Fork - Binance</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

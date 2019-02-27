@@ -7,8 +7,8 @@
         <version>4.3.16.2-SNAPSHOT</version>
     </parent>
     <artifactId>xchange-ccex</artifactId>
-    <name>XChange C-Cex</name>
-    <description>XChange implementation for the C-CEX.com - Crypto-currency exchange / MultiWallet</description>
+    <name>Orko XChange Fork - C-Cex</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

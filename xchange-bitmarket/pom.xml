@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bitmarket</artifactId>
 
-    <name>XChange Bitcoin Bitmarket</name>
-    <description>XChange implementation for Bitcoin Bitmarket exchange</description>
+    <name>Orko XChange Fork - Bitcoin Bitmarket</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

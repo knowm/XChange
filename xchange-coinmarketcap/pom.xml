@@ -10,8 +10,8 @@
 
     <artifactId>xchange-coinmarketcap</artifactId>
 
-    <name>XChange CoinMarketCap</name>
-    <description>XChange implementation for CoinMarketCap</description>
+    <name>Orko XChange Fork - CoinMarketCap</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

@@ -12,7 +12,7 @@
 	<version>4.3.16.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>XChange</name>
+	<name>Orko XChange Fork</name>
 	<description>This is the public fork of XChange (https://github.com/knowm/XChange) used by Orko
 		(https://github.com/gruelbox/orko), which is usually the development branch of XChange plu
 		some urgent fixes. Those fixes will be or will have already been submitted to XChange

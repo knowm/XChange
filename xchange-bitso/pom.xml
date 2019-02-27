@@ -10,8 +10,8 @@
 
     <artifactId>xchange-bitso</artifactId>
 
-    <name>XChange Bitso</name>
-    <description>XChange implementation for the Bitso Exchange</description>
+    <name>Orko XChange Fork - Bitso</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

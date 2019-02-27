@@ -10,8 +10,8 @@
 
     <artifactId>xchange-coinmate</artifactId>
 
-    <name>XChange Coinmate</name>
-    <description>XChange implementation for the Coinmate Exchange</description>
+    <name>Orko XChange Fork - Coinmate</name>
+    <description>Development fork. Not for general use.</description>
 
     <url>http://coinmate.io</url>
     <inceptionYear>2015</inceptionYear>

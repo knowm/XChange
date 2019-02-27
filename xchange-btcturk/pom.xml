@@ -9,8 +9,8 @@
 
     <artifactId>xchange-btcturk</artifactId>
 
-    <name>XChange BTC Turk</name>
-    <description>XChange implementation for the BTC Turk Exchange</description>
+    <name>Orko XChange Fork - BTC Turk</name>
+    <description>Development fork. Not for general use.</description>
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>
 
