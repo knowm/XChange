@@ -30,10 +30,4 @@ public class LykkeAccountTest {
         assertThat(wallets[1].getReserved()).isEqualTo(1);
 
     }
-
-    @Test
-    public void testAccountBalances() throws IOException{
-        Exchange exchange = LykkeKeys.getExchange();
-        System.out.println(exchange.getAccountService().getAccountInfo().getWallets());
-    }
 }

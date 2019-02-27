@@ -34,17 +34,5 @@ public class CoindealOrderBookTest {
         assertThat(coindealOrderBook.getBids().get(0).getAmount()).isEqualTo("0.10000000");
 
     }
-    @Test
-    public void orderbookTest(){
-        try {
-            System.out.println(exchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC).getBids());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @Test
-    public void testingMetadata(){
-        System.out.println(exchange.getExchangeMetaData().getCurrencyPairs().keySet());
-    }
 
 }
