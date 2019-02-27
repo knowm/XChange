@@ -48,6 +48,8 @@ import org.knowm.xchange.dto.trade.UserTrade;
 
 public class BitmexAdapters {
 
+  private static final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
+
   public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer =
@@ -455,7 +457,7 @@ public class BitmexAdapters {
         walletTransaction.getAddress(),
         dateFunding,
         Currency.getInstance(currency),
-        walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
+        walletTransaction.getAmount().divide(SATOSHIS_BY_BTC),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
         walletTransaction.getTransactType().equals("Deposit")
@@ -463,7 +465,9 @@ public class BitmexAdapters {
             : FundingRecord.Type.WITHDRAWAL,
         FundingRecord.Status.COMPLETE,
         null,
-        walletTransaction.getFee(),
+        walletTransaction.getFee() != null
+            ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC)
+            : null,
         walletTransaction.getText());
   }
 }
