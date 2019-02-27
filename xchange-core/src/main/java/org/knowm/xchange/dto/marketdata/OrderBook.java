@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -30,7 +34,7 @@ public final class OrderBook implements Serializable {
    * @param asks The ASK orders
    * @param bids The BID orders
    */
-  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
+  public OrderBook(Date timeStamp,List<LimitOrder> asks,List<LimitOrder> bids) {
 
     this(timeStamp, asks, bids, false);
   }

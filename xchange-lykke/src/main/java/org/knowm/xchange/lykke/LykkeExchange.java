@@ -5,8 +5,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAsset;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
@@ -17,6 +19,8 @@ import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactor
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,13 +60,15 @@ public class LykkeExchange extends BaseExchange implements Exchange {
             Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
             Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
             List<CurrencyPair> currencyPairList = getExchangeSymbols();
+            List<FeeTier> feeTiers = new ArrayList<>();
+            feeTiers.add(new FeeTier(BigDecimal.ZERO,new Fee(BigDecimal.ZERO,BigDecimal.ZERO)));
 
             LykkeMarketDataService marketDataService = (LykkeMarketDataService) this.marketDataService;
             List<LykkeAssetPair> assetPairList = marketDataService.getAssetPairs();
 
             for (LykkeAssetPair lykkeAssetPair : assetPairList){
                 CurrencyPair currencyPair = new CurrencyPair(lykkeAssetPair.getName().split("/")[0],lykkeAssetPair.getQuotingAssetId());
-                CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(null,null,null,lykkeAssetPair.getAccuracy());
+                CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(null,null,null,lykkeAssetPair.getAccuracy(),feeTiers.toArray(new FeeTier[feeTiers.size()]));
                 currencyPairs.put(currencyPair,currencyPairMetaData);
                 currencyPairList.add(currencyPair);
             }
