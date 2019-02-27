@@ -30,12 +30,4 @@ public class LykkeOrderbookTest {
         assertThat(lykkeOrderBooks[0].getPrices().get(0).getPrice()).isEqualTo(0.000349);
 
     }
-
-    @Test
-    public void test() throws IOException {
-        Exchange exchange = LykkeKeys.getExchange();
-        OrderBook orderBook = exchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
-        System.out.println(orderBook.getBids().get(0));
-        System.out.println(orderBook.getAsks().get(0));
-    }
 }
