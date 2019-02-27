@@ -173,7 +173,16 @@ public class CoinbaseProWebSocketTransaction {
 
     public CoinbaseProFill toCoinbaseProFill() {
         boolean taker = userId != null && takerUserId != null && userId.equals(takerUserId);
-        return new CoinbaseProFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, side);
+        // buy/sell are flipped on the taker side.
+        String useSide = side;
+        if (taker && side != null) {
+            if ("buy".equals(side)) {
+                useSide = "sell";
+            } else {
+                useSide = "buy";
+            }
+        }
+        return new CoinbaseProFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, useSide);
     }
 
     public String getType() {
