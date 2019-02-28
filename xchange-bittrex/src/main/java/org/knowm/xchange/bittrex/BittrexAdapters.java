@@ -1,5 +1,7 @@
 package org.knowm.xchange.bittrex;
 
+import static java.math.BigDecimal.ZERO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +39,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.MoreObjects;
 
 public final class BittrexAdapters {
 
@@ -228,16 +232,19 @@ public final class BittrexAdapters {
     List<Balance> wallets = new ArrayList<>(balances.size());
 
     for (BittrexBalance balance : balances) {
+      BigDecimal total = MoreObjects.firstNonNull(balance.getBalance(), ZERO);
+      BigDecimal available = MoreObjects.firstNonNull(balance.getAvailable(), ZERO);
+      BigDecimal pending = MoreObjects.firstNonNull(balance.getPending(), ZERO);
       wallets.add(
           new Balance(
               Currency.getInstance(balance.getCurrency().toUpperCase()),
-              balance.getBalance(),
-              balance.getAvailable(),
-              balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              BigDecimal.ZERO,
-              balance.getPending()));
+              total,
+              available,
+              total.subtract(available).subtract(pending),
+              ZERO,
+              ZERO,
+              ZERO,
+              pending));
     }
 
     return new Wallet(wallets);
