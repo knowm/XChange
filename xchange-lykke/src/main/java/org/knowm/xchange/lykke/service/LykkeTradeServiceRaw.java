@@ -73,7 +73,7 @@ public class LykkeTradeServiceRaw extends LykkeBaseService{
 //            throw new ExchangeException(e.getMessage());
 //        }
     }
-    public boolean cancelAllLykkeOrders(String assetPairId) throws IOException,HTTPException {
+    public boolean cancelAllLykkeOrders(String assetPairId) throws IOException {
         try{
             lykke.cancelAllOrders(assetPairId,apiKey);
             return true;
