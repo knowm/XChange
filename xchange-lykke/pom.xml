@@ -29,6 +29,12 @@
             <artifactId>xchange-core</artifactId>
             <version>4.3.16-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>4.3.16-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 

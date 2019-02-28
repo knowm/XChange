@@ -2,12 +2,10 @@ package org.knowm.xchange.coindeal;
 
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
-import org.knowm.xchange.dto.Order;
 import si.mazi.rescu.ParamsDigest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.math.BigDecimal;
 
 @Path("api/v1/")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
