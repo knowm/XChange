@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAsset;
 import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
@@ -17,6 +18,7 @@ import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactor
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +64,7 @@ public class LykkeExchange extends BaseExchange implements Exchange {
 
             for (LykkeAssetPair lykkeAssetPair : assetPairList){
                 CurrencyPair currencyPair = new CurrencyPair(lykkeAssetPair.getName().split("/")[0],lykkeAssetPair.getQuotingAssetId());
-                CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(null,null,null,lykkeAssetPair.getAccuracy());
+                CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(BigDecimal.ZERO,null,null,lykkeAssetPair.getAccuracy(),null);
                 currencyPairs.put(currencyPair,currencyPairMetaData);
                 currencyPairList.add(currencyPair);
             }
