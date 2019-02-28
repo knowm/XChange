@@ -231,35 +231,26 @@ public final class BittrexAdapters {
 
     List<Balance> wallets = new ArrayList<>(balances.size());
 
-    for (BittrexBalance balance : balances) {
-      BigDecimal total = MoreObjects.firstNonNull(balance.getBalance(), ZERO);
-      BigDecimal available = MoreObjects.firstNonNull(balance.getAvailable(), ZERO);
-      BigDecimal pending = MoreObjects.firstNonNull(balance.getPending(), ZERO);
-      wallets.add(
-          new Balance(
-              Currency.getInstance(balance.getCurrency().toUpperCase()),
-              total,
-              available,
-              total.subtract(available).subtract(pending),
-              ZERO,
-              ZERO,
-              ZERO,
-              pending));
+    for (BittrexBalance balance : balances) {;
+      wallets.add(adaptBalance(balance));
     }
 
     return new Wallet(wallets);
   }
 
   public static Balance adaptBalance(BittrexBalance balance) {
+    BigDecimal total = MoreObjects.firstNonNull(balance.getBalance(), ZERO);
+    BigDecimal available = MoreObjects.firstNonNull(balance.getAvailable(), ZERO);
+    BigDecimal pending = MoreObjects.firstNonNull(balance.getPending(), ZERO);
     return new Balance(
         Currency.getInstance(balance.getCurrency().toUpperCase()),
-        balance.getBalance(),
-        balance.getAvailable(),
-        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
-        BigDecimal.ZERO,
-        BigDecimal.ZERO,
-        BigDecimal.ZERO,
-        balance.getPending());
+        total,
+        available,
+        total.subtract(available).subtract(pending),
+        ZERO,
+        ZERO,
+        ZERO,
+        pending);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
