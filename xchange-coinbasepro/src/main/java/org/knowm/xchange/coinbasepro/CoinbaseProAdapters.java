@@ -335,10 +335,8 @@ public class CoinbaseProAdapters {
   public static Trades adaptTrades(CoinbaseProTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
-
     for (int i = 0; i < coinbaseExTrades.length; i++) {
       CoinbaseProTrade trade = coinbaseExTrades[i];
-
       // yes, sell means buy for coinbasePro reported trades..
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 

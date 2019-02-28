@@ -30,4 +30,5 @@ public class LykkeAccountTest {
         assertThat(wallets[1].getReserved()).isEqualTo(1);
 
     }
+
 }
