@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BitmexTradesIntegration {
+public class BitmexOrderBookFetchIntegration {
 
   public static MarketDataService marketDataService;
   public static BitmexExchange bitmexExchange;
@@ -25,17 +25,19 @@ public class BitmexTradesIntegration {
   }
 
   @Test
-  public void getTradesTest() throws IOException {
+  public void getOrderBookTest() throws IOException {
     CurrencyPair pair = new CurrencyPair("XBT", "M19");
-    Trades trades = marketDataService.getTrades(pair, 500, 0L);
+    OrderBook orderBook = marketDataService.getOrderBook(pair);
 
-    assertThat(trades).isNotNull();
-    assertThat(trades.getTrades()).isNotEmpty();
-    assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(pair);
-    assertThat(trades.getTrades().get(0).getType()).isNotNull();
-    assertThat(trades.getTrades().get(0).getOriginalAmount()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(trades.getTrades().get(0).getPrice()).isGreaterThan(BigDecimal.ZERO);
-    assertThat(trades.getTrades().get(0).getTimestamp()).isNotNull();
-    assertThat(trades.getTrades().get(0).getId()).isNotNull();
+    assertThat(orderBook).isNotNull();
+    assertThat(orderBook.getAsks()).isNotEmpty();
+    assertThat(orderBook.getBids()).isNotEmpty();
+
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(pair);
+
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(pair);
   }
+
 }
