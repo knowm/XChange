@@ -39,40 +39,4 @@ public class LykkeTradeHistoryTest {
         assertThat(lykkeTradeHistory[0].getFee().getAmount()).isEqualTo(0);
         assertThat(lykkeTradeHistory[0].getFee().getType()).isEqualTo(LykkeFeeType.Unknown);
     }
-
-    @Test
-    public void lastOrdersTradeHistory() throws IOException {
-        Exchange exchange = LykkeKeys.getExchange();
-        TradeHistoryParamsAll paramsAll = new TradeHistoryParamsAll();
-        paramsAll.setPageLength(500);
-        paramsAll.setCurrencyPair(CurrencyPair.ETH_EUR);
-        List<UserTrade> userTrades = exchange.getTradeService().getTradeHistory(paramsAll).getUserTrades();
-        Collections.reverse(userTrades);
-        userTrades.forEach(userTrade -> {
-            System.out.println(userTrade);
-        });
-
-    }
-
-    @Test
-    public void tradehistory() throws IOException{
-        LykkeTradeServiceRaw raw = new LykkeTradeServiceRaw(LykkeKeys.getExchange());
-        TradeHistoryParamsAll paramsAll = new TradeHistoryParamsAll();
-        paramsAll.setPageLength(500);
-        paramsAll.setCurrencyPair(CurrencyPair.BTC_EUR);
-        raw.getLykkeTradeHistory(paramsAll).forEach(tradeHistory -> {
-            System.out.println(tradeHistory);
-        });
-    }
-
-    @Test
-    public void lastOrdersRaw() throws IOException{
-        LykkeTradeServiceRaw raw = new LykkeTradeServiceRaw(LykkeKeys.getExchange());
-        TradeHistoryParamsAll paramsAll = new TradeHistoryParamsAll();
-        paramsAll.setPageLength(100);
-        paramsAll.setCurrencyPair(CurrencyPair.BTC_EUR);
-        raw.getMathedOrders(100).forEach(tradeHistory -> {
-            System.out.println(tradeHistory);
-        });
-    }
 }

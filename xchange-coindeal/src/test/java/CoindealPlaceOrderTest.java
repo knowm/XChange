@@ -38,30 +38,4 @@ public class CoindealPlaceOrderTest {
         assertThat(coindealTradeHistory.get(1).getOrderId()).isEqualTo("1");
         assertThat(coindealTradeHistory.get(1).getSymbol()).isEqualTo("string");
     }
-
-    @Test
-    public void testingPlacingOrder(){
-            CoindealTradeServiceRaw raw = new CoindealTradeServiceRaw(CoindealKeys.getExchange());
-            System.out.println(raw.placeOrder(new LimitOrder(Order.OrderType.BID, BigDecimal.valueOf(2),
-                    CurrencyPair.BTC_EUR, null, null, BigDecimal.valueOf(2))));
-
-    }
-
-    @Test
-    public void testingDeleteAllOrders(){
-        CoindealTradeServiceRaw raw = new CoindealTradeServiceRaw(CoindealKeys.getExchange());
-        System.out.println(raw.deleteOrders(CurrencyPair.BTC_EUR));
-    }
-    @Test
-    public void testingDeleteOrderById(){
-        CoindealTradeServiceRaw raw = new CoindealTradeServiceRaw(CoindealKeys.getExchange());
-        System.out.println(raw.deleteOrderById("dsadasdasdass"));
-    }
-
-    @Test
-    public void testOrder() throws IOException{
-        CoindealTradeService raw = new CoindealTradeService(CoindealKeys.getExchange());
-        System.out.println(raw.placeLimitOrder(new LimitOrder(Order.OrderType.BID, BigDecimal.valueOf(2),
-                CurrencyPair.BTC_EUR, null, null, BigDecimal.valueOf(2))));
-    }
 }
