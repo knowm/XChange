@@ -5,23 +5,29 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.9-SNAPSHOT</version>
+        <version>4.3.16-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xchange-lykke</artifactId>
+
+    <name>XChange Lykke</name>
+    <description>XChange implementation for the Lykke Exchange</description>
+
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
+
     <dependencies>
+
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.9-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>4.3.10-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>4.3.16-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
