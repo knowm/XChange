@@ -1,10 +1,12 @@
-package org.knowm.xchange.cobinhood.dto;
+package org.knowm.xchange.cobinhood;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.account.CobinhoodCoinBalances;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodOrderBook;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTicker;
@@ -54,7 +56,7 @@ public class CobinhoodAdapters {
   }
 
   public static OrderBook adaptOrderBook(
-      CobinhoodResponse<CobinhoodOrderBook.Container> response, CurrencyPair currencyPair) {
+          CobinhoodResponse<CobinhoodOrderBook.Container> response, CurrencyPair currencyPair) {
 
     CobinhoodOrderBook chOrders = response.getResult().getOrderBook();
     List<LimitOrder> asks = new LinkedList<>();

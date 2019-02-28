@@ -122,4 +122,22 @@ public final class Txs {
 
     return this.voutSz;
   }
+
+  @Override
+  public String toString() {
+    return "Txs{" +
+            "blockHeight=" + blockHeight +
+            ", hash='" + hash + '\'' +
+            ", inputs=" + inputs +
+            ", out=" + out +
+            ", relayedBy='" + relayedBy + '\'' +
+            ", result=" + result +
+            ", size=" + size +
+            ", time=" + time +
+            ", txIndex=" + txIndex +
+            ", ver=" + ver +
+            ", vinSz=" + vinSz +
+            ", voutSz=" + voutSz +
+            '}';
+  }
 }
