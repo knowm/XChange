@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BitmexTickerIntegration {
+public class BitmexTickerFetchIntegration {
 
   public static MarketDataService marketDataService;
   public static BitmexExchange bitmexExchange;
