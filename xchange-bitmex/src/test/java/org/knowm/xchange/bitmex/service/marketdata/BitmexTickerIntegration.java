@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitmex.service;
+package org.knowm.xchange.bitmex.service.marketdata;
 
 import org.junit.Before;
 import org.junit.Test;
