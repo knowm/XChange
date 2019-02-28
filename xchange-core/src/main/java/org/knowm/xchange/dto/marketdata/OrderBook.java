@@ -12,11 +12,13 @@ import java.util.stream.Stream;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** DTO representing the exchange order book */
+@JsonDeserialize(builder = OrderBook.class)
 public final class OrderBook implements Serializable {
 
   /** the asks */

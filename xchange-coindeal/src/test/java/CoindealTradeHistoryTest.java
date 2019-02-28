@@ -33,16 +33,4 @@ public class CoindealTradeHistoryTest {
         assertThat(coindealTradeHistory.get(1).getOrderId()).isEqualTo("1");
         assertThat(coindealTradeHistory.get(1).getSymbol()).isEqualTo("string");
     }
-
-    @Test
-    public void testTradeHistoryCall(){
-        CoindealTradeServiceRaw raw = new CoindealTradeServiceRaw(CoindealKeys.getExchange());
-        TradeHistoryParamsAll paramsAll = new TradeHistoryParamsAll();
-        paramsAll.setCurrencyPair(CurrencyPair.ETH_BTC);
-        paramsAll.setLimit(10);
-        List<CoindealTradeHistory> tradeHistory = raw.getTradeHistory(paramsAll);
-        for(CoindealTradeHistory tradeHistory1 : tradeHistory){
-            System.out.println(tradeHistory1.toString());
-        }
-    }
 }

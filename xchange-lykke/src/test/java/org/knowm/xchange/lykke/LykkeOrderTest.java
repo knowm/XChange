@@ -37,42 +37,4 @@ public class LykkeOrderTest {
         assertThat(lykkeOrderRespons[0].getCreatedAt()).isEqualTo("2018-07-19T21:19:48.544Z");
 
     }
-
-    @Test
-    public void testPlaceOrder() throws IOException {
-        Exchange exchange = LykkeKeys.getExchange();
-        LimitOrder lykkeLimitOrder = new LimitOrder(Order.OrderType.BID,new BigDecimal(3),new CurrencyPair(Currency.EUR,Currency.CHF),null,null,new BigDecimal(1.2649));
-        System.out.println(exchange.getTradeService().placeLimitOrder(lykkeLimitOrder));
-    }
-
-    @Test
-    public void getLastOrdersTest() throws IOException{
-        Exchange exchange  = LykkeKeys.getExchange();
-        System.out.println(exchange.getTradeService().getOpenOrders());
-
-    }
-
-    @Test
-    public void testss() throws IOException{
-        Exchange exchange = LykkeKeys.getExchange();
-        System.out.println(exchange.getExchangeMetaData().getCurrencies());
-    }
-
-    @Test
-    public void testCancelOrder() throws IOException{
-        Exchange exchange = LykkeKeys.getExchange();
-        System.out.println(exchange.getTradeService().cancelOrder("81f66d38-d297-4015-a2b6-6573e8a4a185"));
-    }
-    @Test
-    public void testCancelAllOrders() throws IOException{
-        Exchange exchange = LykkeKeys.getExchange();
-        CancelOrderByCurrencyPair test = new CancelOrderByCurrencyPair() {
-            @Override
-            public CurrencyPair getCurrencyPair() {
-                return CurrencyPair.BTC_EUR;
-            }
-        };
-        System.out.println(exchange.getTradeService().cancelOrder(test));
-    }
-    //65709232-5f9f-491a-9243-77dfef0775b3
 }

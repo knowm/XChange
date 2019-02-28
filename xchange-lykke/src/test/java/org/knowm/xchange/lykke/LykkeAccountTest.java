@@ -31,9 +31,4 @@ public class LykkeAccountTest {
 
     }
 
-    @Test
-    public void testAccountBalances() throws IOException{
-        Exchange exchange = LykkeKeys.getExchange();
-        System.out.println(exchange.getAccountService().getAccountInfo().getWallets());
-    }
 }
