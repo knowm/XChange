@@ -20,7 +20,6 @@ import org.knowm.xchange.bittrex.dto.trade.BittrexOrderBase;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
@@ -244,8 +243,8 @@ public final class BittrexAdapters {
       wallets.add(
           new Balance(
               Currency.getInstance(balance.getCurrency().toUpperCase()),
-              balance.getBalance(),
-              balance.getAvailable(),
+              Optional.ofNullable(balance.getBalance()).orElse(BigDecimal.ZERO),
+              Optional.ofNullable(balance.getAvailable()).orElse(BigDecimal.ZERO),
               calculateFrozenBalance(balance),
               BigDecimal.ZERO,
               BigDecimal.ZERO,
@@ -259,8 +258,8 @@ public final class BittrexAdapters {
   public static Balance adaptBalance(BittrexBalance balance) {
     return new Balance(
         Currency.getInstance(balance.getCurrency().toUpperCase()),
-        balance.getBalance(),
-        balance.getAvailable(),
+        Optional.ofNullable(balance.getBalance()).orElse(BigDecimal.ZERO),
+        Optional.ofNullable(balance.getAvailable()).orElse(BigDecimal.ZERO),
         calculateFrozenBalance(balance),
         BigDecimal.ZERO,
         BigDecimal.ZERO,
