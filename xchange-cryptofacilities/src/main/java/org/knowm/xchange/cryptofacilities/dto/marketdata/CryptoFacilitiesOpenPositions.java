@@ -2,16 +2,13 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /** @author Panchen */
 public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date serverTime;
   private final List<CryptoFacilitiesOpenPosition> openPositions;
@@ -25,7 +22,7 @@ public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
+    this.serverTime = Util.parseDate(strServerTime);
     this.openPositions = openPositions;
   }
 
@@ -43,9 +40,7 @@ public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
     if (isSuccess()) {
       StringBuilder res =
           new StringBuilder(
-              "CryptoFacilitiesOpenPositions [serverTime="
-                  + DATE_FORMAT.format(serverTime)
-                  + ", openPositions=");
+              "CryptoFacilitiesOpenPositions [serverTime=" + serverTime + ", openPositions=");
       for (CryptoFacilitiesOpenPosition openPosition : openPositions)
         res.append(openPosition.toString()).append(", ");
       res.append(" ]");
