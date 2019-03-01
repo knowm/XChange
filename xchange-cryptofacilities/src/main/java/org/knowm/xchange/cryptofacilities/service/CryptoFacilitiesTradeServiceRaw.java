@@ -2,8 +2,10 @@ package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
@@ -105,11 +107,16 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
   }
 
   public CryptoFacilitiesFills getCryptoFacilitiesFills() throws IOException {
+    return getCryptoFacilitiesFills(null);
+  }
+
+  public CryptoFacilitiesFills getCryptoFacilitiesFills(Date lastFillTime) throws IOException {
     CryptoFacilitiesFills fills =
         cryptoFacilities.fills(
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
-            exchange.getNonceFactory());
+            exchange.getNonceFactory(),
+            Util.format(lastFillTime));
 
     if (fills.isSuccess()) {
       return fills;
