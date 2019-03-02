@@ -39,8 +39,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
     super(exchange);
   }
 
-  public BitmexDepth getBitmexDepth(String bitmexSymbol)
-      throws ExchangeException {
+  public BitmexDepth getBitmexDepth(String bitmexSymbol) throws ExchangeException {
 
     BitmexPublicOrderList result = updateRateLimit(() -> bitmex.getDepth(bitmexSymbol, 1000d));
     return BitmexAdapters.adaptDepth(result);
@@ -93,11 +92,7 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
   }
 
   public List<BitmexKline> getBucketedTrades(
-      String binSize,
-      Boolean partial,
-      CurrencyPair pair,
-      long count,
-      Boolean reverse)
+      String binSize, Boolean partial, CurrencyPair pair, long count, Boolean reverse)
       throws ExchangeException {
 
     String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(pair);

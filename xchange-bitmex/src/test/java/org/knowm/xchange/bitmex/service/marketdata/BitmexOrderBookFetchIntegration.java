@@ -20,7 +20,8 @@ public class BitmexOrderBookFetchIntegration {
 
   @Before
   public void setUp() {
-    bitmexExchange = (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
+    bitmexExchange =
+        (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
     marketDataService = bitmexExchange.getMarketDataService();
   }
 
@@ -39,5 +40,4 @@ public class BitmexOrderBookFetchIntegration {
     assertThat(orderBook.getBids().get(0).getLimitPrice()).isGreaterThan(BigDecimal.ZERO);
     assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(pair);
   }
-
 }
