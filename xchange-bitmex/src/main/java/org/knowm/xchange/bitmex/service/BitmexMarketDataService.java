@@ -76,22 +76,22 @@ public class BitmexMarketDataService extends BitmexMarketDataServiceRaw
     Integer limit = null;
     Long start = null;
 
-      if (args.length > 0) {
-        Object arg1 = args[0];
-        if (arg1 instanceof Integer) {
-          limit = (Integer) arg1;
-        } else {
-          throw new ExchangeException("args[0] must be of type Integer!");
-        }
+    if (args.length > 0) {
+      Object arg1 = args[0];
+      if (arg1 instanceof Integer) {
+        limit = (Integer) arg1;
+      } else {
+        throw new ExchangeException("args[0] must be of type Integer!");
       }
-      if (args.length > 1) {
-        Object arg2 = args[1];
-        if (arg2 instanceof Long) {
-          start = (Long) arg2;
-        } else {
-          throw new ExchangeException("args[1] must be of type Long!");
-        }
+    }
+    if (args.length > 1) {
+      Object arg2 = args[1];
+      if (arg2 instanceof Long) {
+        start = (Long) arg2;
+      } else {
+        throw new ExchangeException("args[1] must be of type Long!");
       }
+    }
 
     String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(currencyPair);
     List<BitmexPublicTrade> trades = getBitmexTrades(bitmexSymbol, limit, start);

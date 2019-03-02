@@ -22,21 +22,24 @@ public class BitmexTickerFetchIntegration {
 
   @Before
   public void setUp() {
-    bitmexExchange = (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
+    bitmexExchange =
+        (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
     marketDataService = bitmexExchange.getMarketDataService();
   }
 
-
   @Test(expected = ExchangeException.class)
-  public void contractNotExistsTest(){
+  public void contractNotExistsTest() {
     bitmexExchange.determineActiveContract("USD", "USD", BitmexPrompt.PERPETUAL);
   }
 
   @Test
-  public void determineActiveContractTest(){
-    CurrencyPair perpetualXBT = bitmexExchange.determineActiveContract("BTC", "USD", BitmexPrompt.PERPETUAL);
-    CurrencyPair quarterlyLTC = bitmexExchange.determineActiveContract("LTC", "BTC", BitmexPrompt.QUARTERLY);
-    CurrencyPair quarterlyETH = bitmexExchange.determineActiveContract("ETH", "BTC", BitmexPrompt.QUARTERLY);
+  public void determineActiveContractTest() {
+    CurrencyPair perpetualXBT =
+        bitmexExchange.determineActiveContract("BTC", "USD", BitmexPrompt.PERPETUAL);
+    CurrencyPair quarterlyLTC =
+        bitmexExchange.determineActiveContract("LTC", "BTC", BitmexPrompt.QUARTERLY);
+    CurrencyPair quarterlyETH =
+        bitmexExchange.determineActiveContract("ETH", "BTC", BitmexPrompt.QUARTERLY);
 
     assertThat(new CurrencyPair("XBT", "USD")).isEqualTo(perpetualXBT);
     assertThat(new CurrencyPair("LTC", "H19")).isEqualTo(quarterlyLTC);
@@ -45,7 +48,8 @@ public class BitmexTickerFetchIntegration {
 
   @Test
   public void fetchTickerTest() throws IOException {
-    CurrencyPair activeContract = bitmexExchange.determineActiveContract("BTC", "USD", BitmexPrompt.PERPETUAL);
+    CurrencyPair activeContract =
+        bitmexExchange.determineActiveContract("BTC", "USD", BitmexPrompt.PERPETUAL);
 
     Ticker ticker = marketDataService.getTicker(activeContract);
     assertThat(ticker).isNotNull();
