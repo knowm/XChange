@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitmex;
 
-import com.google.common.collect.BiMap;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.*;
@@ -17,9 +16,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -236,69 +233,6 @@ public class BitmexAdapters {
 
     List<String> orderIds = orderResponse.getTransactionIds();
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
-  }
-
-  public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData originalMetaData,
-      List<BitmexTicker> tickers,
-      BiMap<BitmexPrompt, String> contracts) {
-
-    // So we will create 3 maps.
-    // A pairs map ( "ETC/BTC" -> price_scale:, min_amount:)
-    // A currencies map : "BTC"->"scale": 5,"withdrawal_fee": 0.001
-    // A bitmexContracts Map XMRZ17->XMR.BTC.MONTHLY
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
-    BitmexUtils.setBitmexAssetPairs(tickers);
-
-    pairs.putAll(originalMetaData.getCurrencyPairs());
-    currencies.putAll(originalMetaData.getCurrencies());
-
-    for (BitmexTicker ticker : tickers) {
-      String quote = ticker.getQuoteCurrency();
-      String base = ticker.getRootSymbol();
-      Currency baseCurrencyCode = BitmexAdapters.adaptCurrency(base);
-      Currency quoteCurrencyCode = BitmexAdapters.adaptCurrency(quote);
-
-      CurrencyPair pair = new CurrencyPair(baseCurrencyCode, quoteCurrencyCode);
-      pairs.put(pair, adaptPair(ticker, pairs.get(pair)));
-      if (!BitmexUtils.bitmexCurrencies.containsKey(baseCurrencyCode)
-          && !BitmexUtils.bitmexCurrencies.containsValue(base))
-        BitmexUtils.bitmexCurrencies.put(baseCurrencyCode, base);
-      if (!BitmexUtils.bitmexCurrencies.containsKey(quoteCurrencyCode)
-          && !BitmexUtils.bitmexCurrencies.containsValue(quote))
-        BitmexUtils.bitmexCurrencies.put(quoteCurrencyCode, quote);
-
-      int scale = Math.max(0, ticker.getTickSize().stripTrailingZeros().scale());
-      BigDecimal baseWithdrawalFee =
-          originalMetaData.getCurrencies().get(baseCurrencyCode) == null
-              ? null
-              : originalMetaData.getCurrencies().get(baseCurrencyCode).getWithdrawalFee();
-      BigDecimal quoteWithdrawalFee =
-          originalMetaData.getCurrencies().get(quoteCurrencyCode) == null
-              ? null
-              : originalMetaData.getCurrencies().get(quoteCurrencyCode).getWithdrawalFee();
-
-      currencies.put(baseCurrencyCode, new CurrencyMetaData(scale, baseWithdrawalFee));
-      currencies.put(quoteCurrencyCode, new CurrencyMetaData(scale, quoteWithdrawalFee));
-      BitmexPrompt prompt =
-          contracts.inverse().get(ticker.getSymbol().replaceFirst(ticker.getRootSymbol(), ""))
-                  != null
-              ? contracts.inverse().get(ticker.getSymbol().replaceFirst(ticker.getRootSymbol(), ""))
-              : BitmexPrompt.PERPETUAL;
-
-      BitmexContract contract = new BitmexContract(pair, prompt);
-      if (!BitmexUtils.bitmexContracts.containsKey(ticker.getSymbol())
-          && !BitmexUtils.bitmexContracts.containsValue(contract))
-        BitmexUtils.bitmexContracts.put(ticker.getSymbol(), contract);
-    }
-
-    return new ExchangeMetaData(
-        pairs,
-        currencies,
-        originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
-        originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
-        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
   }
 
   private static CurrencyPairMetaData adaptPair(
