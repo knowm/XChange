@@ -100,7 +100,7 @@ public class BitmexAdapters {
   public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
     OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
 
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(rawOrder.getSymbol());
+    CurrencyPair pair = adaptSymbolToCurrencyPair(rawOrder.getSymbol());
 
     return new LimitOrder(
         type,
@@ -151,28 +151,11 @@ public class BitmexAdapters {
 
     List<Balance> balances = new ArrayList<>(bitmexWallet.size());
     for (Entry<String, BigDecimal> balancePair : bitmexWallet.entrySet()) {
-      Currency currency = adaptCurrency(balancePair.getKey());
+      Currency currency = new Currency(balancePair.getKey());
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
     return new Wallet(balances);
-  }
-
-  public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> bitmexCurrencyPairs) {
-
-    Set<CurrencyPair> currencyPairs = new HashSet<>();
-    for (String bitmexCurrencyPair : bitmexCurrencyPairs) {
-      CurrencyPair currencyPair = BitmexUtils.translateBitmexCurrencyPair(bitmexCurrencyPair);
-      if (currencyPair != null) {
-        currencyPairs.add(currencyPair);
-      }
-    }
-    return currencyPairs;
-  }
-
-  public static Currency adaptCurrency(String bitmexCurrencyCode) {
-
-    return BitmexUtils.translateBitmexCurrencyCode(bitmexCurrencyCode);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
@@ -200,7 +183,7 @@ public class BitmexAdapters {
 
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(orderDescription.getAssetPair());
+    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
     OrderStatus status = adaptOrderStatus(bitmexOrder.getStatus());
@@ -298,6 +281,15 @@ public class BitmexAdapters {
         : currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
   }
 
+  public static CurrencyPair adaptSymbolToCurrencyPair(String bitmexSymbol) {
+
+    // Assuming that base symbol has 3 characters
+    String baseSymbol = bitmexSymbol.substring(0, 3);
+    String counterSymbol = bitmexSymbol.substring(3);
+
+    return new CurrencyPair(baseSymbol, counterSymbol);
+  }
+
   public static class OrdersContainer {
 
     private final long timestamp;
@@ -325,7 +317,7 @@ public class BitmexAdapters {
   }
 
   public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(exec.symbol);
+    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
     // the "lastQty" parameter is in the USD currency for ???/USD pairs
     OrderType orderType = convertType(exec.side);
     return orderType == null

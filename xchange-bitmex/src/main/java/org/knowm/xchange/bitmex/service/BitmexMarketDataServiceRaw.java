@@ -2,7 +2,9 @@ package org.knowm.xchange.bitmex.service;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import org.knowm.xchange.bitmex.*;
+import org.knowm.xchange.bitmex.BitmexAdapters;
+import org.knowm.xchange.bitmex.BitmexExchange;
+import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexTickerList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
@@ -94,13 +96,11 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
       String binSize,
       Boolean partial,
       CurrencyPair pair,
-      BitmexPrompt prompt,
       long count,
       Boolean reverse)
       throws ExchangeException {
 
-    BitmexContract contract = new BitmexContract(pair, prompt);
-    String bitmexSymbol = BitmexUtils.translateBitmexContract(contract);
+    String bitmexSymbol = BitmexAdapters.adaptCurrencyPairToSymbol(pair);
 
     return updateRateLimit(
         () -> bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse));
