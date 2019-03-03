@@ -1,55 +1,11 @@
 {
   "currency_pairs": {
-    "XRP/H19": {
-      "price_scale": 8,
-      "min_amount": 1
-    },
-    "BCH/H19": {
-      "price_scale": 4,
-      "min_amount": 1
-    },
-    "ADA/H19": {
-      "price_scale": 8,
-      "min_amount": 1
-    },
-    "EOS/H19": {
-      "price_scale": 7,
-      "min_amount": 1
-    },
-    "TRX/H19": {
-      "price_scale": 8,
-      "min_amount": 1
-    },
     "XBT/USD": {
-      "price_scale": 1,
-      "min_amount": 1
-    },
-    "XBT/7D_U105": {
-      "price_scale": 5,
-      "min_amount": 1
-    },
-    "XBT/7D_D95": {
-      "price_scale": 5,
-      "min_amount": 1
-    },
-    "XBT/H19": {
-      "price_scale": 1,
-      "min_amount": 1
-    },
-    "XBT/M19": {
       "price_scale": 1,
       "min_amount": 1
     },
     "ETH/USD": {
       "price_scale": 2,
-      "min_amount": 1
-    },
-    "ETH/H19": {
-      "price_scale": 5,
-      "min_amount": 1
-    },
-    "LTC/H19": {
-      "price_scale": 5,
       "min_amount": 1
     }
   },
@@ -87,22 +43,6 @@
       "withdrawal_fee": ""
     },
     "USD": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "H19": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "M19": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "7D_U105": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "7D_D95": {
       "scale": "",
       "withdrawal_fee": ""
     }
