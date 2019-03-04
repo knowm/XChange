@@ -41,6 +41,7 @@ final class MatchingEngine {
   private static final BigDecimal FEE_RATE = new BigDecimal("0.001");
   private static final int TRADE_HISTORY_SIZE = 50;
 
+  private final AccountFactory accountFactory;
   private final CurrencyPair currencyPair;
   private final int priceScale;
   private final Consumer<Fill> onFill;
@@ -52,11 +53,13 @@ final class MatchingEngine {
 
   private volatile BigDecimal last;
 
-  MatchingEngine(CurrencyPair currencyPair, int priceScale) {
-    this(currencyPair, priceScale,  f -> {});
+  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale) {
+    this(accountFactory, currencyPair, priceScale,  f -> {});
+
   }
 
-  MatchingEngine(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
+  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
+    this.accountFactory = accountFactory;
     this.currencyPair = currencyPair;
     this.priceScale = priceScale;
     this.onFill = onFill;
@@ -64,6 +67,8 @@ final class MatchingEngine {
 
   public synchronized LimitOrder postOrder(String apiKey, Order original) {
     LOGGER.debug("User {} posting order: {}", apiKey, original);
+    Account account = accountFactory.get(apiKey);
+    checkBalance(original, account);
     BookOrder takerOrder = BookOrder.fromOrder(original, apiKey);
     switch (takerOrder.getType()) {
       case ASK:
@@ -73,7 +78,7 @@ final class MatchingEngine {
           if (original instanceof MarketOrder) {
             throw new ExchangeException("Cannot fulfil order. No buyers.");
           }
-          insertIntoBook(asks, takerOrder, ASK);
+          insertIntoBook(asks, takerOrder, ASK, account);
         }
         break;
       case BID:
@@ -83,7 +88,7 @@ final class MatchingEngine {
           if (original instanceof MarketOrder) {
             throw new ExchangeException("Cannot fulfil order. No sellers.");
           }
-          insertIntoBook(bids, takerOrder, BID);
+          insertIntoBook(bids, takerOrder, BID, account);
         }
         break;
       default:
@@ -92,26 +97,64 @@ final class MatchingEngine {
     return takerOrder.toOrder(currencyPair);
   }
 
-  private void insertIntoBook(LinkedList<BookLevel> book, BookOrder takerOrder, OrderType type) {
+  private void checkBalance(Order order, Account account) {
+    if (order instanceof LimitOrder) {
+      account.checkBalance((LimitOrder) order);
+    } else {
+      BigDecimal marketCostOrProceeds = marketCostOrProceeds(order.getType(), order.getOriginalAmount());
+      BigDecimal marketAmount = order.getType().equals(OrderType.BID)
+          ? marketCostOrProceeds
+          : order.getOriginalAmount();
+      account.checkBalance(order, marketAmount);
+    }
+  }
+
+  private void insertIntoBook(LinkedList<BookLevel> book, BookOrder order, OrderType type, Account account) {
     Iterator<BookLevel> iter = book.iterator();
     int i = 0;
     while (iter.hasNext()) {
       BookLevel level = iter.next();
-      int signum = level.getPrice().compareTo(takerOrder.getLimitPrice());
+      int signum = level.getPrice().compareTo(order.getLimitPrice());
       if (signum == 0) {
-        level.getOrders().add(takerOrder);
+        level.getOrders().add(order);
         return;
       } else if (signum < 0 && type == BID || signum > 0 && type == ASK) {
-        BookLevel newLevel = new BookLevel(takerOrder.getLimitPrice());
-        newLevel.getOrders().add(takerOrder);
+        BookLevel newLevel = new BookLevel(order.getLimitPrice());
+        newLevel.getOrders().add(order);
         book.add(i, newLevel);
+        account.reserve(order.toOrder(currencyPair));
         return;
       }
       i++;
     }
-    BookLevel newLevel = new BookLevel(takerOrder.getLimitPrice());
-    newLevel.getOrders().add(takerOrder);
+    BookLevel newLevel = new BookLevel(order.getLimitPrice());
+    newLevel.getOrders().add(order);
     book.add(newLevel);
+    account.reserve(order.toOrder(currencyPair));
+  }
+
+  /**
+   * Calculates the total cost or proceeds at market price of the specified bid/ask amount.
+   *
+   * @param orderType Ask or bid.
+   * @param amount The amount.
+   * @return The market cost/proceeds
+   * @throws ExchangeException If there is insufficient liquidity.
+   */
+  public BigDecimal marketCostOrProceeds(OrderType orderType, BigDecimal amount) {
+    BigDecimal remaining = amount;
+    BigDecimal cost = ZERO;
+    List<BookLevel> orderbookSide = orderType.equals(BID) ? asks : bids;
+    for (BookOrder order : FluentIterable.from(orderbookSide).transformAndConcat(BookLevel::getOrders)) {
+      BigDecimal available = order.getRemainingAmount();
+      BigDecimal tradeAmount = remaining.compareTo(available) >= 0 ? available : remaining;
+      BigDecimal tradeCost = tradeAmount.multiply(order.getLimitPrice());
+      cost = cost.add(tradeCost);
+      remaining = remaining.subtract(tradeAmount);
+      if (remaining.compareTo(ZERO) == 0)
+        return cost;
+    }
+    throw new ExchangeException("Insufficient liquidity in book");
   }
 
   public synchronized Level3OrderBook book() {
@@ -282,6 +325,7 @@ final class MatchingEngine {
       }
     }
     userTrades.put(fill.getApiKey(), fill.getTrade());
+    accountFactory.get(fill.getApiKey()).fill(fill.getTrade(), !fill.isTaker());
     onFill.accept(fill);
   }
 }
