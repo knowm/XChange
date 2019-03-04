@@ -16,8 +16,11 @@ import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.simulated.FillMatcher.fillMatcher;
 import static org.knowm.xchange.simulated.UserTradeMatcher.userTradeMatcher;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -30,10 +33,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 public class TestMatchingEngine {
@@ -41,6 +46,8 @@ public class TestMatchingEngine {
   private static final String MAKER = "MAKER";
   private static final String TAKER = "TAKER";
   @Mock private Consumer<Fill> onFill;
+  @Mock private AccountFactory accountFactory;
+  @Mock private Account account;
   private MatchingEngine matchingEngine;
 
   @Captor private ArgumentCaptor<Fill> fillCaptor1;
@@ -49,7 +56,8 @@ public class TestMatchingEngine {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    matchingEngine = new MatchingEngine(BTC_USD, 2, onFill);
+    Mockito.when(accountFactory.get(Mockito.anyString())).thenReturn(account);
+    matchingEngine = new MatchingEngine(accountFactory, BTC_USD, 2, onFill);
   }
 
   @Test
@@ -67,6 +75,9 @@ public class TestMatchingEngine {
     assertThat(result.getId(), notNullValue());
     assertThat(result.getStatus(), equalTo(NEW));
     verifyZeroInteractions(onFill);
+    verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, times(1)).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
     assertThat(matchingEngine.book().getAsks(), contains(result));
     assertThat(matchingEngine.book().getBids(), empty());
   }
@@ -85,6 +96,9 @@ public class TestMatchingEngine {
     assertThat(result.getId(), notNullValue());
     assertThat(result.getStatus(), equalTo(NEW));
     verifyZeroInteractions(onFill);
+    verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, times(1)).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
 
     Level3OrderBook book = matchingEngine.book();
     assertThat(book.getBids(), contains(result));
@@ -114,11 +128,20 @@ public class TestMatchingEngine {
         .originalAmount(new BigDecimal(5))
         .build());
 
+    verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, times(1)).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
+    reset(account);
+
     // When
     LimitOrder taker = matchingEngine.postOrder(TAKER, new LimitOrder.Builder(ASK, BTC_USD)
         .limitPrice(new BigDecimal(100))
         .originalAmount(new BigDecimal(5))
         .build());
+
+    verify(account, times(2)).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, never()).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
 
     // Then
     assertThat(taker.getStatus(), equalTo(FILLED));
@@ -167,11 +190,20 @@ public class TestMatchingEngine {
         .originalAmount(new BigDecimal(5))
         .build());
 
+    verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, times(1)).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
+    reset(account);
+
     // When
     LimitOrder taker = matchingEngine.postOrder(TAKER, new LimitOrder.Builder(BID, BTC_USD)
         .limitPrice(new BigDecimal(100))
         .originalAmount(new BigDecimal(5))
         .build());
+
+    verify(account, times(2)).fill(any(UserTrade.class), any(Boolean.class));
+    verify(account, never()).reserve(any(LimitOrder.class));
+    verify(account, never()).release(any(LimitOrder.class));
 
     // Then
     assertThat(taker.getStatus(), equalTo(FILLED));
@@ -272,7 +304,7 @@ public class TestMatchingEngine {
   public void testAskMultiple() {
 
     // Given
-    LimitOrder maker1 =matchingEngine.postOrder(MAKER, new LimitOrder.Builder(BID, BTC_USD)
+    LimitOrder maker1 = matchingEngine.postOrder(MAKER, new LimitOrder.Builder(BID, BTC_USD)
         .limitPrice(new BigDecimal(102))
         .originalAmount(new BigDecimal(1))
         .build());

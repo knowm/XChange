@@ -42,16 +42,18 @@ public class SimulatedExchange extends BaseExchange {
    *  own factory and share it between {@link SimulatedExchange} instances to allow
    *  those specific instances to share the same order books and thus trade against
    *  each other. Recommended for integration testing.</li>
-   *  <li>{@code MatchingEngineFactory.INSTANCE} - . A single,
-   *  static set of matching engines. All {@link SimulatedExchange} instances that
-   *  use this in a JVM process will share the same set of matching engines and thus
-   *  trade against each other. Suitable for emulating volume trading sitations but
-   *  can be risky in tests where it means that trade state bleeds between tests.</li>
    * </ul>
    */
   public static final String ENGINE_FACTORY_PARAM = "MatchingEngineFactory";
 
+  /**
+   * As with {@link #ENGINE_FACTORY_PARAM}, provides a default unshared but optionally
+   * shared instance of {@link AccountFactory}.
+   */
+  public static final String ACCOUNT_FACTORY_PARAM = "AccountFactory";
+
   private MatchingEngineFactory engineFactory;
+  private AccountFactory accountFactory;
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -64,16 +66,24 @@ public class SimulatedExchange extends BaseExchange {
         new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setExchangeName("Simulated");
     exchangeSpecification.setExchangeDescription("A simulated exchange for integration testing purposes.");
-    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, new MatchingEngineFactory());
+    AccountFactory accountFactory = new AccountFactory();
+    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, new MatchingEngineFactory(accountFactory));
+    exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
     return exchangeSpecification;
   }
 
   @Override
   protected void initServices() {
     engineFactory = (MatchingEngineFactory) exchangeSpecification.getExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM);
+    accountFactory = (AccountFactory) exchangeSpecification.getExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM);
+    getAccount().initialize(getExchangeMetaData().getCurrencies().keySet());
     tradeService = new SimulatedTradeService(this);
     marketDataService = new SimulatedMarketDataService(this);
     accountService = new SimulatedAccountService(this);
+  }
+
+  Account getAccount() {
+    return accountFactory.get(exchangeSpecification.getApiKey());
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
@@ -88,5 +98,20 @@ public class SimulatedExchange extends BaseExchange {
         currencyPairMetaData == null
             ? 8
             : currencyPairMetaData.getPriceScale());
+  }
+
+  @Override
+  public SimulatedMarketDataService getMarketDataService() {
+    return (SimulatedMarketDataService) super.getMarketDataService();
+  }
+
+  @Override
+  public SimulatedAccountService getAccountService() {
+    return (SimulatedAccountService) super.getAccountService();
+  }
+
+  @Override
+  public SimulatedTradeService getTradeService() {
+    return (SimulatedTradeService) super.getTradeService();
   }
 }

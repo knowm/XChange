@@ -8,17 +8,21 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 public final class MatchingEngineFactory {
 
-  public static final MatchingEngineFactory INSTANCE = new MatchingEngineFactory();
-
   private final ConcurrentMap<CurrencyPair, MatchingEngine> engines = new ConcurrentHashMap<>();
 
-  public MatchingEngine create(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
-    return engines.computeIfAbsent(currencyPair,
-        pair -> new MatchingEngine(pair, priceScale, onFill));
+  private final AccountFactory accountFactory;
+
+  public MatchingEngineFactory(AccountFactory accountFactory) {
+    this.accountFactory = accountFactory;
   }
 
-  public MatchingEngine create(CurrencyPair currencyPair, int priceScale) {
+  MatchingEngine create(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
     return engines.computeIfAbsent(currencyPair,
-        pair -> new MatchingEngine(pair, priceScale));
+        pair -> new MatchingEngine(accountFactory, pair, priceScale, onFill));
+  }
+
+  MatchingEngine create(CurrencyPair currencyPair, int priceScale) {
+    return engines.computeIfAbsent(currencyPair,
+        pair -> new MatchingEngine(accountFactory, pair, priceScale));
   }
 }
