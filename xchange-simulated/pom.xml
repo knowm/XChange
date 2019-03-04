@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.knowm.xchange</groupId>
+		<groupId>com.gruelbox</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.16-SNAPSHOT</version>
+		<version>4.3.16.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-simulated</artifactId>
@@ -24,7 +24,7 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 		<dependency>
-			<groupId>org.knowm.xchange</groupId>
+			<groupId>com.gruelbox</groupId>
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
