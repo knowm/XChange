@@ -112,7 +112,6 @@ final class MatchingEngine {
     BookLevel newLevel = new BookLevel(takerOrder.getLimitPrice());
     newLevel.getOrders().add(takerOrder);
     book.add(newLevel);
-    return;
   }
 
   public synchronized Level3OrderBook book() {
