@@ -36,7 +36,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class MatchingEngineTest {
+public class TestMatchingEngine {
 
   private static final String MAKER = "MAKER";
   private static final String TAKER = "TAKER";
@@ -49,7 +49,7 @@ public class MatchingEngineTest {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    matchingEngine = MatchingEngine.create(BTC_USD, 2, onFill);
+    matchingEngine = new MatchingEngine(BTC_USD, 2, onFill);
   }
 
   @Test
