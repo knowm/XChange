@@ -10,11 +10,10 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -23,6 +22,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -32,19 +32,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
 final class MatchingEngine {
 
-  private static final ConcurrentMap<CurrencyPair, MatchingEngine> ENGINES = new ConcurrentHashMap<>();
-
-  static MatchingEngine create(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
-    return ENGINES.computeIfAbsent(currencyPair,
-        pair -> new MatchingEngine(pair, priceScale, onFill));
-  }
-
   private static final Logger LOGGER = LoggerFactory.getLogger(MatchingEngine.class);
   private static final BigDecimal FEE_RATE = new BigDecimal("0.001");
+  private static final int TRADE_HISTORY_SIZE = 50;
 
   private final CurrencyPair currencyPair;
   private final int priceScale;
@@ -53,12 +48,23 @@ final class MatchingEngine {
   private final LinkedList<BookLevel> asks = new LinkedList<>();
   private final LinkedList<BookLevel> bids = new LinkedList<>();
 
+  private final Deque<Trade> publicTrades = new LinkedList<>();
+
   private volatile BigDecimal last;
 
-  private MatchingEngine(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
+  MatchingEngine(CurrencyPair currencyPair, int priceScale) {
+    this(currencyPair, priceScale,  f -> {});
+  }
+
+  MatchingEngine(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
     this.currencyPair = currencyPair;
     this.priceScale = priceScale;
-    this.onFill = onFill;
+    this.onFill = onFill.andThen(f -> {
+      publicTrades.push(f.getTrade());
+      if (publicTrades.size() > TRADE_HISTORY_SIZE) {
+        publicTrades.removeLast();
+      }
+    });
   }
 
   public synchronized LimitOrder postOrder(String apiKey, Order original) {
@@ -130,9 +136,13 @@ final class MatchingEngine {
   public synchronized Ticker ticker() {
     return new Ticker.Builder()
         .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
-        .ask(bids.isEmpty() ? null : bids.get(0).getPrice())
+        .bid(bids.isEmpty() ? null : bids.get(0).getPrice())
         .last(last)
         .build();
+  }
+
+  public synchronized List<Trade> publicTrades() {
+    return ImmutableList.copyOf(publicTrades);
   }
 
   private void chewBook(Iterable<BookLevel> makerOrders, BookOrder takerOrder) {
@@ -140,7 +150,7 @@ final class MatchingEngine {
     while (levelIter.hasNext()) {
       BookLevel level = levelIter.next();
       Iterator<BookOrder> orderIter = level.getOrders().iterator();
-      while (orderIter.hasNext()) {
+      while (orderIter.hasNext() && !takerOrder.isDone()) {
         BookOrder makerOrder = orderIter.next();
 
         LOGGER.debug("Matching against maker order {}", makerOrder);
@@ -215,12 +225,17 @@ final class MatchingEngine {
     BigDecimal amount = trade.getOriginalAmount();
     BigDecimal price = trade.getPrice();
     BigDecimal newTotal = bookOrder.getCumulativeAmount().add(amount);
-    bookOrder.setAveragePrice(bookOrder.getCumulativeAmount().compareTo(ZERO) == 0
-        ? price
-        : (bookOrder.getAveragePrice()
-            .multiply(bookOrder.getCumulativeAmount()
-            .add(price.multiply(amount))
-            .divide(newTotal, priceScale, HALF_UP))));
+
+    if (bookOrder.getCumulativeAmount().compareTo(ZERO) == 0) {
+      bookOrder.setAveragePrice(price);
+    } else {
+      bookOrder.setAveragePrice(
+          bookOrder.getAveragePrice()
+              .multiply(bookOrder.getCumulativeAmount())
+              .add(price.multiply(amount))
+              .divide(newTotal, priceScale, HALF_UP));
+    }
+
     bookOrder.setCumulativeAmount(newTotal);
     bookOrder.setFee(bookOrder.getFee().add(trade.getFeeAmount()));
   }

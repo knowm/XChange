@@ -24,7 +24,7 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 		<dependency>
-			<groupId>com.gruelbox</groupId>
+			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>

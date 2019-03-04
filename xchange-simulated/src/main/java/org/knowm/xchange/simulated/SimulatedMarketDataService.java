@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -22,5 +23,10 @@ public class SimulatedMarketDataService extends BaseExchangeService<SimulatedExc
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return exchange.getEngine(currencyPair).level2();
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return new Trades(exchange.getEngine(currencyPair).publicTrades());
   }
 }
