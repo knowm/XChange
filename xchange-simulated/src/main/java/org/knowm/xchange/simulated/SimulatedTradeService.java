@@ -3,13 +3,18 @@ package org.knowm.xchange.simulated;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -38,12 +43,26 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
       throw new ExchangeException("Currency pair required");
     }
     MatchingEngine engine = exchange.getEngine(((OpenOrdersParamCurrencyPair)params).getCurrencyPair());
-    return engine.openOrders(getApiKey());
+    return new OpenOrders(engine.openOrders(getApiKey()));
   }
 
   @Override
-  public OpenOrdersParams createOpenOrdersParams() {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+      throw new ExchangeException("Currency pair required");
+    }
+    MatchingEngine engine = exchange.getEngine(((TradeHistoryParamCurrencyPair)params).getCurrencyPair());
+    return new UserTrades(engine.tradeHistory(getApiKey()), TradeSortType.SortByTimestamp);
+  }
+
+  @Override
+  public OpenOrdersParamCurrencyPair createOpenOrdersParams() {
     return new DefaultOpenOrdersParamCurrencyPair();
+  }
+
+  @Override
+  public TradeHistoryParamCurrencyPair createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamCurrencyPair();
   }
 
   private String getApiKey() {

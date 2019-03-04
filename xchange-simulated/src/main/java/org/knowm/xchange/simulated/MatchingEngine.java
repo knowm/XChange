@@ -10,7 +10,6 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +24,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
@@ -33,6 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 
 final class MatchingEngine {
@@ -47,8 +47,8 @@ final class MatchingEngine {
 
   private final LinkedList<BookLevel> asks = new LinkedList<>();
   private final LinkedList<BookLevel> bids = new LinkedList<>();
-
-  private final Deque<Trade> publicTrades = new LinkedList<>();
+  private final LinkedList<Trade> publicTrades = new LinkedList<>();
+  private final Multimap<String, UserTrade> userTrades = LinkedListMultimap.create();
 
   private volatile BigDecimal last;
 
@@ -64,6 +64,7 @@ final class MatchingEngine {
       if (publicTrades.size() > TRADE_HISTORY_SIZE) {
         publicTrades.removeLast();
       }
+      userTrades.put(f.getApiKey(), f.getTrade());
     });
   }
 
@@ -142,7 +143,13 @@ final class MatchingEngine {
   }
 
   public synchronized List<Trade> publicTrades() {
-    return ImmutableList.copyOf(publicTrades);
+    return FluentIterable.from(publicTrades)
+        .transform(t -> Trade.Builder.from(t).build())
+        .toList();
+  }
+
+  public synchronized List<UserTrade> tradeHistory(String apiKey) {
+    return ImmutableList.copyOf(userTrades.get(apiKey));
   }
 
   private void chewBook(Iterable<BookLevel> makerOrders, BookOrder takerOrder) {
@@ -240,15 +247,13 @@ final class MatchingEngine {
     bookOrder.setFee(bookOrder.getFee().add(trade.getFeeAmount()));
   }
 
-  public synchronized OpenOrders openOrders(String apiKey) {
-    return new OpenOrders(
-        Stream.concat(asks.stream(), bids.stream())
-            .flatMap(v -> v.getOrders().stream())
-            .filter(o -> o.getApiKey().equals(apiKey))
-            .sorted(Ordering.natural().onResultOf(BookOrder::getTimestamp).reversed())
-            .map(o -> o.toOrder(currencyPair))
-            .collect(toList())
-    );
+  public synchronized List<LimitOrder> openOrders(String apiKey) {
+    return Stream.concat(asks.stream(), bids.stream())
+        .flatMap(v -> v.getOrders().stream())
+        .filter(o -> o.getApiKey().equals(apiKey))
+        .sorted(Ordering.natural().onResultOf(BookOrder::getTimestamp).reversed())
+        .map(o -> o.toOrder(currencyPair))
+        .collect(toList());
   }
 
   public synchronized OrderBook level2() {
