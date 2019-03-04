@@ -17,16 +17,19 @@ public class SimulatedMarketDataService extends BaseExchangeService<SimulatedExc
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    exchange.maybeThrow();
     return exchange.getEngine(currencyPair).ticker();
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    exchange.maybeThrow();
     return exchange.getEngine(currencyPair).level2();
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    exchange.maybeThrow();
     return new Trades(exchange.getEngine(currencyPair).publicTrades());
   }
 }

@@ -1,5 +1,7 @@
 package org.knowm.xchange.simulated;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -52,8 +54,14 @@ public class SimulatedExchange extends BaseExchange {
    */
   public static final String ACCOUNT_FACTORY_PARAM = "AccountFactory";
 
+  /**
+   * Provides an {@link ExceptionThrower}.
+   */
+  public static final String EXCEPTION_THROWER_PARAM = "ExceptionThrower";
+
   private MatchingEngineFactory engineFactory;
   private AccountFactory accountFactory;
+  private ExceptionThrower exceptionThrower;
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -69,6 +77,7 @@ public class SimulatedExchange extends BaseExchange {
     AccountFactory accountFactory = new AccountFactory();
     exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, new MatchingEngineFactory(accountFactory));
     exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
+    exchangeSpecification.setExchangeSpecificParametersItem(EXCEPTION_THROWER_PARAM, (ExceptionThrower) () -> {});
     return exchangeSpecification;
   }
 
@@ -76,6 +85,7 @@ public class SimulatedExchange extends BaseExchange {
   protected void initServices() {
     engineFactory = (MatchingEngineFactory) exchangeSpecification.getExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM);
     accountFactory = (AccountFactory) exchangeSpecification.getExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM);
+    exceptionThrower = (ExceptionThrower) exchangeSpecification.getExchangeSpecificParametersItem(EXCEPTION_THROWER_PARAM);
     getAccount().initialize(getExchangeMetaData().getCurrencies().keySet());
     tradeService = new SimulatedTradeService(this);
     marketDataService = new SimulatedMarketDataService(this);
@@ -84,6 +94,10 @@ public class SimulatedExchange extends BaseExchange {
 
   Account getAccount() {
     return accountFactory.get(exchangeSpecification.getApiKey());
+  }
+
+  void maybeThrow() throws IOException {
+    exceptionThrower.run();
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
