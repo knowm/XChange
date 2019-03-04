@@ -8,6 +8,24 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+/**
+ * A simple, in-memory implementation which mocks out the main elements of the XChange
+ * generic API in a consistent way.  The effect is to create a virtual "exchange"
+ * that you can connect to from multiple threads and simulate a real exchange. Intended
+ * for integration testing of higher order components.
+ *
+ * <p>This is not remotely suitable for use as a real-world exchange. The
+ * concurrency model is extremely slow and most data transforms involve mutation
+ * and no transactional control.  If any errors occur midway through a trade, they
+ * are likely to leave the system in an inconsistent state. And nothing gets saved
+ * to a database anyway.<p>
+ *
+ * <p>If you start using this for running a real exchange, you will
+ * <a href="https://www.reddit.com/r/nanotrade/comments/83hosf/we_have_suffered_a_stolen/">suffer
+ * a stolen</a>.</p>
+ *
+ * @author Graham Crockford
+ */
 public class SimulatedExchange extends BaseExchange {
 
   /**
@@ -55,6 +73,7 @@ public class SimulatedExchange extends BaseExchange {
     engineFactory = (MatchingEngineFactory) exchangeSpecification.getExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM);
     tradeService = new SimulatedTradeService(this);
     marketDataService = new SimulatedMarketDataService(this);
+    accountService = new SimulatedAccountService(this);
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
@@ -66,6 +85,8 @@ public class SimulatedExchange extends BaseExchange {
     }
     return engineFactory.create(
         currencyPair,
-        currencyPairMetaData == null ? 8 : currencyPairMetaData.getPriceScale());
+        currencyPairMetaData == null
+            ? 8
+            : currencyPairMetaData.getPriceScale());
   }
 }
