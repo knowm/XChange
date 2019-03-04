@@ -1,6 +1,7 @@
 package org.knowm.xchange.simulated;
 
 import static java.math.BigDecimal.ZERO;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
@@ -27,6 +28,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
 public class TestSimulatedExchange {
@@ -65,6 +68,8 @@ public class TestSimulatedExchange {
     assertThat(ticker.getAsk(), equalTo(new BigDecimal(98)));
     assertThat(ticker.getBid(), equalTo(new BigDecimal(97)));
     assertThat(ticker.getLast(), nullValue());
+    assertThat(getOpenOrders().getAllOpenOrders(), empty());
+    assertThat(getTradeHistory().getTrades(), empty());
   }
 
   @Test
@@ -77,12 +82,13 @@ public class TestSimulatedExchange {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
 
-    // THen
+    // Then
     assertThat(orderBook.getAsks(), hasSize(3));
     assertThat(orderBook.getBids(), hasSize(4));
     assertThat(ticker.getAsk(), equalTo(new BigDecimal(98)));
     assertThat(ticker.getBid(), equalTo(new BigDecimal(96)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(96)));
+    assertThat(getTradeHistory().getTrades(), hasSize(3));
   }
 
   @Test
@@ -103,15 +109,15 @@ public class TestSimulatedExchange {
     assertThat(ticker.getBid(), equalTo(new BigDecimal(96)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(97)));
 
-    OpenOrdersParamCurrencyPair openOrdersParams = (OpenOrdersParamCurrencyPair) exchange.getTradeService().createOpenOrdersParams();
-    openOrdersParams.setCurrencyPair(BTC_USD);
-    OpenOrders orders = exchange.getTradeService().getOpenOrders(openOrdersParams);
+    OpenOrders orders = getOpenOrders();
     assertThat(orders.getOpenOrders(), hasSize(1));
     assertThat(orders.getOpenOrders().get(0).getRemainingAmount(), equalTo(new BigDecimal("0.3")));
     assertThat(orders.getOpenOrders().get(0).getCumulativeAmount(), equalTo(new BigDecimal("0.4")));
     assertThat(orders.getOpenOrders().get(0).getAveragePrice(), equalTo(new BigDecimal(97)));
     assertThat(orders.getOpenOrders().get(0).getId(), equalTo(orderId));
     assertThat(orders.getOpenOrders().get(0).getStatus(), equalTo(PARTIALLY_FILLED));
+
+    assertThat(getTradeHistory().getTrades(), hasSize(1));
   }
 
   @Test
@@ -130,6 +136,7 @@ public class TestSimulatedExchange {
     assertThat(ticker.getAsk(), equalTo(new BigDecimal(99)));
     assertThat(ticker.getBid(), equalTo(new BigDecimal(97)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(99)));
+    assertThat(getTradeHistory().getTrades(), hasSize(3));
   }
 
   @Test
@@ -154,9 +161,7 @@ public class TestSimulatedExchange {
     assertThat(ticker.getBid(), equalTo(new BigDecimal(99)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(99)));
 
-    OpenOrdersParamCurrencyPair openOrdersParams = (OpenOrdersParamCurrencyPair) exchange.getTradeService().createOpenOrdersParams();
-    openOrdersParams.setCurrencyPair(BTC_USD);
-    OpenOrders orders = exchange.getTradeService().getOpenOrders(openOrdersParams);
+    OpenOrders orders = getOpenOrders();
     assertThat(orders.getOpenOrders(), hasSize(2));
     Order order1 = orders.getAllOpenOrders().stream().filter(o -> o.getId().equals(orderId1)).findFirst().get();
     Order order2 = orders.getAllOpenOrders().stream().filter(o -> o.getId().equals(orderId2)).findFirst().get();
@@ -168,6 +173,8 @@ public class TestSimulatedExchange {
     assertThat(order2.getCumulativeAmount(), equalTo(ZERO));
     assertThat(order2.getAveragePrice(), nullValue());
     assertThat(order2.getStatus(), equalTo(NEW));
+
+    assertThat(getTradeHistory().getTrades(), hasSize(3));
   }
 
   private void mockMarket() throws IOException {
@@ -193,5 +200,17 @@ public class TestSimulatedExchange {
         .limitPrice(price)
         .originalAmount(amount)
         .build());
+  }
+
+  private OpenOrders getOpenOrders() throws IOException {
+    OpenOrdersParamCurrencyPair params = (OpenOrdersParamCurrencyPair) exchange.getTradeService().createOpenOrdersParams();
+    params.setCurrencyPair(BTC_USD);
+    return exchange.getTradeService().getOpenOrders(params);
+  }
+
+  private UserTrades getTradeHistory() throws IOException {
+    TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) exchange.getTradeService().createTradeHistoryParams();
+    params.setCurrencyPair(BTC_USD);
+    return exchange.getTradeService().getTradeHistory(params);
   }
 }
