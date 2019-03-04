@@ -28,12 +28,14 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     MatchingEngine engine = exchange.getEngine(limitOrder.getCurrencyPair());
+    exchange.maybeThrow();
     return engine.postOrder(getApiKey(), limitOrder).getId();
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     MatchingEngine engine = exchange.getEngine(marketOrder.getCurrencyPair());
+    exchange.maybeThrow();
     return engine.postOrder(getApiKey(), marketOrder).getId();
   }
 
@@ -43,6 +45,7 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
       throw new ExchangeException("Currency pair required");
     }
     MatchingEngine engine = exchange.getEngine(((OpenOrdersParamCurrencyPair)params).getCurrencyPair());
+    exchange.maybeThrow();
     return new OpenOrders(engine.openOrders(getApiKey()));
   }
 
@@ -52,6 +55,7 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
       throw new ExchangeException("Currency pair required");
     }
     MatchingEngine engine = exchange.getEngine(((TradeHistoryParamCurrencyPair)params).getCurrencyPair());
+    exchange.maybeThrow();
     return new UserTrades(engine.tradeHistory(getApiKey()), TradeSortType.SortByTimestamp);
   }
 
