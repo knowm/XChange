@@ -14,6 +14,7 @@ final class FillMatcher extends BaseMatcher<Fill> {
 
   private Matcher<String> apiKey = Matchers.any(String.class);
   private Matcher<UserTrade> trade = Matchers.any(UserTrade.class);
+  private Matcher<Boolean> taker = Matchers.any(Boolean.class);
 
   private FillMatcher() {}
 
@@ -27,17 +28,24 @@ final class FillMatcher extends BaseMatcher<Fill> {
     return this;
   }
 
+  FillMatcher whereTaker(Matcher<Boolean> taker) {
+    this.taker = taker;
+    return this;
+  }
+
   @Override
   public boolean matches(Object actual) {
     Fill other = (Fill) actual;
     return apiKey.matches(other.getApiKey())
-        && trade.matches(other.getTrade());
+        && trade.matches(other.getTrade())
+        && taker.matches(other.isTaker());
   }
 
   @Override
   public void describeTo(Description description) {
     description.appendText("Fill with ")
       .appendText("apiKey that matches [").appendDescriptionOf(apiKey)
-      .appendText("], trade that matches [").appendDescriptionOf(trade);
+      .appendText("], trade that matches [").appendDescriptionOf(trade)
+      .appendText("], taker that matches [").appendDescriptionOf(taker);
   }
 }
