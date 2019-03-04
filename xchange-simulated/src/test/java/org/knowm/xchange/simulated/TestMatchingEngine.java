@@ -125,6 +125,7 @@ public class TestMatchingEngine {
 
     verify(onFill).accept(argThat(fillMatcher()
         .whereApiKey(equalTo(TAKER))
+        .whereTaker(equalTo(true))
         .whereTrade(userTradeMatcher()
             .whereOrderId(equalTo(taker.getId()))
             .whereId(notNullValue(String.class))
@@ -138,6 +139,7 @@ public class TestMatchingEngine {
 
     verify(onFill).accept(argThat(fillMatcher()
         .whereApiKey(equalTo(MAKER))
+        .whereTaker(equalTo(false))
         .whereTrade(userTradeMatcher()
             .whereOrderId(equalTo(maker.getId()))
             .whereId(notNullValue(String.class))
@@ -176,6 +178,7 @@ public class TestMatchingEngine {
 
     verify(onFill).accept(argThat(fillMatcher()
         .whereApiKey(equalTo(TAKER))
+        .whereTaker(equalTo(true))
         .whereTrade(userTradeMatcher()
             .whereOrderId(equalTo(taker.getId()))
             .whereId(notNullValue(String.class))
@@ -189,6 +192,7 @@ public class TestMatchingEngine {
 
     verify(onFill).accept(argThat(fillMatcher()
         .whereApiKey(equalTo(MAKER))
+        .whereTaker(equalTo(false))
         .whereTrade(userTradeMatcher()
             .whereOrderId(equalTo(maker.getId()))
             .whereId(notNullValue(String.class))

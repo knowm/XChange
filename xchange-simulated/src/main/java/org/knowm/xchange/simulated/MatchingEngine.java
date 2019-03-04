@@ -59,13 +59,7 @@ final class MatchingEngine {
   MatchingEngine(CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
     this.currencyPair = currencyPair;
     this.priceScale = priceScale;
-    this.onFill = onFill.andThen(f -> {
-      publicTrades.push(f.getTrade());
-      if (publicTrades.size() > TRADE_HISTORY_SIZE) {
-        publicTrades.removeLast();
-      }
-      userTrades.put(f.getApiKey(), f.getTrade());
-    });
+    this.onFill = onFill;
   }
 
   public synchronized LimitOrder postOrder(String apiKey, Order original) {
@@ -224,8 +218,8 @@ final class MatchingEngine {
     accumulate(makerOrder, makerTrade);
 
     last = makerOrder.getLimitPrice();
-    onFill.accept(new Fill(takerOrder.getApiKey(), takerTrade));
-    onFill.accept(new Fill(makerOrder.getApiKey(), makerTrade));
+    recordFill(new Fill(takerOrder.getApiKey(), takerTrade, true));
+    recordFill(new Fill(makerOrder.getApiKey(), makerTrade, false));
   }
 
   private void accumulate(BookOrder bookOrder, UserTrade trade) {
@@ -278,5 +272,16 @@ final class MatchingEngine {
       result.add(new LimitOrder.Builder(ASK, currencyPair).originalAmount(amount).limitPrice(price).build());
     }
     return result;
+  }
+
+  private void recordFill(Fill fill) {
+    if (fill.isTaker()) {
+      publicTrades.push(fill.getTrade());
+      if (publicTrades.size() > TRADE_HISTORY_SIZE) {
+        publicTrades.removeLast();
+      }
+    }
+    userTrades.put(fill.getApiKey(), fill.getTrade());
+    onFill.accept(fill);
   }
 }

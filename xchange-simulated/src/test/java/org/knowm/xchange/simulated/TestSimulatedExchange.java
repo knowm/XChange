@@ -69,7 +69,28 @@ public class TestSimulatedExchange {
     assertThat(ticker.getBid(), equalTo(new BigDecimal(97)));
     assertThat(ticker.getLast(), nullValue());
     assertThat(getOpenOrders().getAllOpenOrders(), empty());
-    assertThat(getTradeHistory().getTrades(), empty());
+    assertThat(getTradeHistory(exchange).getTrades(), empty());
+  }
+
+  @Test
+  public void testTradeHistoryIsolation() throws IOException {
+
+    // Given
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(SimulatedExchange.class);
+    exchangeSpecification.setApiKey("SomeoneElse");
+    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, matchingEngineFactory);
+    Exchange someoneElsesExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
+    // When
+    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(ASK, BTC_USD)
+        .originalAmount(new BigDecimal("0.7"))
+        .build());
+
+    // Then
+    assertThat(exchange.getMarketDataService().getTrades(BTC_USD).getTrades(), hasSize(3));
+    assertThat(someoneElsesExchange.getMarketDataService().getTrades(BTC_USD).getTrades(), hasSize(3));
+    assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
+    assertThat(getTradeHistory(someoneElsesExchange).getTrades(), empty());
   }
 
   @Test
@@ -88,7 +109,7 @@ public class TestSimulatedExchange {
     assertThat(ticker.getAsk(), equalTo(new BigDecimal(98)));
     assertThat(ticker.getBid(), equalTo(new BigDecimal(96)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(96)));
-    assertThat(getTradeHistory().getTrades(), hasSize(3));
+    assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
   }
 
   @Test
@@ -117,7 +138,7 @@ public class TestSimulatedExchange {
     assertThat(orders.getOpenOrders().get(0).getId(), equalTo(orderId));
     assertThat(orders.getOpenOrders().get(0).getStatus(), equalTo(PARTIALLY_FILLED));
 
-    assertThat(getTradeHistory().getTrades(), hasSize(1));
+    assertThat(getTradeHistory(exchange).getTrades(), hasSize(1));
   }
 
   @Test
@@ -136,7 +157,7 @@ public class TestSimulatedExchange {
     assertThat(ticker.getAsk(), equalTo(new BigDecimal(99)));
     assertThat(ticker.getBid(), equalTo(new BigDecimal(97)));
     assertThat(ticker.getLast(), equalTo(new BigDecimal(99)));
-    assertThat(getTradeHistory().getTrades(), hasSize(3));
+    assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
   }
 
   @Test
@@ -174,7 +195,7 @@ public class TestSimulatedExchange {
     assertThat(order2.getAveragePrice(), nullValue());
     assertThat(order2.getStatus(), equalTo(NEW));
 
-    assertThat(getTradeHistory().getTrades(), hasSize(3));
+    assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
   }
 
   private void mockMarket() throws IOException {
@@ -208,9 +229,9 @@ public class TestSimulatedExchange {
     return exchange.getTradeService().getOpenOrders(params);
   }
 
-  private UserTrades getTradeHistory() throws IOException {
-    TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) exchange.getTradeService().createTradeHistoryParams();
+  private UserTrades getTradeHistory(Exchange exchangeToUse) throws IOException {
+    TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) exchangeToUse.getTradeService().createTradeHistoryParams();
     params.setCurrencyPair(BTC_USD);
-    return exchange.getTradeService().getTradeHistory(params);
+    return exchangeToUse.getTradeService().getTradeHistory(params);
   }
 }

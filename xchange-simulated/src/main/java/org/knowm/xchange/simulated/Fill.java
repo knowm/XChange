@@ -8,4 +8,5 @@ import lombok.Data;
 final class Fill {
   private final String apiKey;
   private final UserTrade trade;
+  private final boolean taker;
 }
