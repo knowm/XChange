@@ -2,11 +2,14 @@ package org.knowm.xchange.simulated;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -86,13 +89,20 @@ public class SimulatedExchange extends BaseExchange {
     engineFactory = (MatchingEngineFactory) exchangeSpecification.getExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM);
     accountFactory = (AccountFactory) exchangeSpecification.getExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM);
     exceptionThrower = (ExceptionThrower) exchangeSpecification.getExchangeSpecificParametersItem(EXCEPTION_THROWER_PARAM);
-    getAccount().initialize(getExchangeMetaData().getCurrencies().keySet());
     tradeService = new SimulatedTradeService(this);
     marketDataService = new SimulatedMarketDataService(this);
     accountService = new SimulatedAccountService(this);
   }
 
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey()))
+      getAccount().initialize(getExchangeMetaData().getCurrencies().keySet());
+  }
+
   Account getAccount() {
+    if (StringUtils.isEmpty(exchangeSpecification.getApiKey()))
+        throw new ExchangeSecurityException("API key required for account access");
     return accountFactory.get(exchangeSpecification.getApiKey());
   }
 
