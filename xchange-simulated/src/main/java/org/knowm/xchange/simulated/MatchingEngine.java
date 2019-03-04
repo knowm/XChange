@@ -275,7 +275,8 @@ final class MatchingEngine {
   }
 
   private void recordFill(Fill fill) {
-    if (fill.isTaker()) {
+    // XChange is unusual in this respect (see https://github.com/knowm/XChange/issues/2468)
+    if (!fill.isTaker()) {
       publicTrades.push(fill.getTrade());
       if (publicTrades.size() > TRADE_HISTORY_SIZE) {
         publicTrades.removeLast();
