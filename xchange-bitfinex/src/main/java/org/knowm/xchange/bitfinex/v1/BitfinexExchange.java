@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
@@ -56,34 +58,40 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    BitfinexMarketDataServiceRaw dataService =
-        (BitfinexMarketDataServiceRaw) this.marketDataService;
-    List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
+    try {
+      BitfinexMarketDataServiceRaw dataService =
+          (BitfinexMarketDataServiceRaw) this.marketDataService;
+      List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
+      exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 
-    // Get the last-price of each pair. It is needed to infer XChange's priceScale out of Bitfinex's
-    // pricePercision
-    org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw dataServiceV2 =
-        new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
-    Map<CurrencyPair, BigDecimal> lastPrices =
-        Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
-            .map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
-            .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
+      // Get the last-price of each pair. It is needed to infer XChange's priceScale out of
+      // Bitfinex's pricePercision
+      org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw dataServiceV2 =
+          new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
+      Map<CurrencyPair, BigDecimal> lastPrices =
+          Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
+              .map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
+              .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
 
-    final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
-    exchangeMetaData = BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails, lastPrices);
+      final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
+      exchangeMetaData =
+          BitfinexAdapters.adaptMetaData(exchangeMetaData, symbolDetails, lastPrices);
 
-    if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
-      // Additional remoteInit configuration for authenticated instances
-      BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
-      final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
-      exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
+      if (exchangeSpecification.getApiKey() != null
+          && exchangeSpecification.getSecretKey() != null) {
+        // Additional remoteInit configuration for authenticated instances
+        BitfinexAccountService accountService = (BitfinexAccountService) this.accountService;
+        final BitfinexAccountFeesResponse accountFees = accountService.getAccountFees();
+        exchangeMetaData = BitfinexAdapters.adaptMetaData(accountFees, exchangeMetaData);
 
-      BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
-      final BitfinexAccountInfosResponse[] bitfinexAccountInfos =
-          tradeService.getBitfinexAccountInfos();
+        BitfinexTradeService tradeService = (BitfinexTradeService) this.tradeService;
+        final BitfinexAccountInfosResponse[] bitfinexAccountInfos =
+            tradeService.getBitfinexAccountInfos();
 
-      exchangeMetaData = BitfinexAdapters.adaptMetaData(bitfinexAccountInfos, exchangeMetaData);
+        exchangeMetaData = BitfinexAdapters.adaptMetaData(bitfinexAccountInfos, exchangeMetaData);
+      }
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
     }
   }
 }

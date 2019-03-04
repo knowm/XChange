@@ -99,6 +99,19 @@ public final class BitfinexAdapters {
     return bitfinexSymbol.toUpperCase();
   }
 
+  public static String adaptOrderType(OrderType type) {
+    switch (type) {
+      case BID:
+      case EXIT_BID:
+        return "buy";
+      case ASK:
+      case EXIT_ASK:
+        return "sell";
+    }
+
+    throw new IllegalArgumentException(String.format("Unexpected type of order: %s", type));
+  }
+
   public static BitfinexOrderType adaptOrderFlagsToType(Set<Order.IOrderFlags> flags) {
     if (flags.contains(BitfinexOrderFlags.MARGIN)) {
       if (flags.contains(BitfinexOrderFlags.FILL_OR_KILL)) {
