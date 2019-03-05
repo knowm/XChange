@@ -6,18 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "clientOrderId",
-        "orderId",
-        "symbol",
-        "side",
-        "quantity",
-        "fee",
-        "price",
-        "timestamp"
-})
 public class CoindealTradeHistory {
 
     @JsonProperty("id")
