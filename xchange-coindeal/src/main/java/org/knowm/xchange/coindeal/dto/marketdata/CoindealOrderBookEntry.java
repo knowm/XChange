@@ -7,12 +7,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 
 public class CoindealOrderBookEntry {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonPropertyOrder({
-            "price",
-            "amount"
-    })
+
+    @JsonProperty("price")
     private final BigDecimal price;
+    @JsonProperty("amount")
     private final BigDecimal amount;
 
     public CoindealOrderBookEntry(

@@ -6,7 +6,9 @@ import java.util.List;
 
 public class CoindealOrderBook {
 
+    @JsonProperty("asks")
     private final List<CoindealOrderBookEntry> asks;
+    @JsonProperty("bids")
     private final List<CoindealOrderBookEntry> bids;
 
     public CoindealOrderBook(
