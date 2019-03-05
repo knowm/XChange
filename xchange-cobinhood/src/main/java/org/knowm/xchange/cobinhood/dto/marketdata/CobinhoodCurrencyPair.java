@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class CobinhoodCurrencyPair {
+
     private final String id;
     private final BigDecimal last_price;
     private final BigDecimal lowest_ask;
