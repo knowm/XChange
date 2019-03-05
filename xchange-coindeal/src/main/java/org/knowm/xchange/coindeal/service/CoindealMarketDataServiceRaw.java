@@ -2,6 +2,7 @@ package org.knowm.xchange.coindeal.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.Coindeal;
+import org.knowm.xchange.coindeal.CoindealAdapters;
 import org.knowm.xchange.coindeal.CoindealUtils;
 import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
@@ -22,7 +23,7 @@ public class CoindealMarketDataServiceRaw extends BaseExchangeService {
 
     public CoindealOrderBook getCoindealOrderbook(CurrencyPair currencyPair){
         try{
-            return coindeal.getOrderBook(CoindealUtils.currencyPairToString(currencyPair));
+            return coindeal.getOrderBook(CoindealAdapters.currencyPairToString(currencyPair));
         }catch (Exception e){
             throw new CoindealException();
         }

@@ -34,4 +34,9 @@ public final class CoindealAdapters {
     public static String adaptOrderType(Order.OrderType orderType){
         return orderType.equals(Order.OrderType.ASK) ? "sell" : "buy";
     }
+
+    public static String currencyPairToString(CurrencyPair currencyPair){
+        return currencyPair.toString().replace("/","");
+
+    }
 }
