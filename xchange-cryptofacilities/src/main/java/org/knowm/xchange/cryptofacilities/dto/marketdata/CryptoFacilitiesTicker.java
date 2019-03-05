@@ -3,15 +3,12 @@ package org.knowm.xchange.cryptofacilities.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /** @author Jean-Christophe Laruelle */
 public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final BigDecimal bid;
   private final BigDecimal ask;
@@ -62,7 +59,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     this.last = last;
     this.askSize = askSize;
     this.symbol = symbol;
-    this.lastTime = strLastTime == null ? null : DATE_FORMAT.parse(strLastTime);
+    this.lastTime = Util.parseDate(strLastTime);
     this.low24H = low24H;
     this.bidSize = bidSize;
     this.suspended = suspended;
@@ -168,7 +165,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
         + ", lastSize="
         + lastSize
         + ", lastTime="
-        + (lastTime == null ? "null" : DATE_FORMAT.format(lastTime))
+        + lastTime
         + ", open24H="
         + open24H
         + ", low24H="
