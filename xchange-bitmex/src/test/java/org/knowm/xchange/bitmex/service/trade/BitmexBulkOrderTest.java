@@ -1,11 +1,5 @@
-package org.knowm.xchange.bitmex.service;
+package org.knowm.xchange.bitmex.service.trade;
 
-import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
-import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -15,10 +9,19 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.dto.trade.PlaceOrderCommand;
+import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
+import org.knowm.xchange.bitmex.service.BitmexTradeService;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
+import static org.knowm.xchange.currency.CurrencyPair.XBT_USD;
 
 /** @author Nikita Belenkiy on 18/05/2018. */
 public class BitmexBulkOrderTest {
