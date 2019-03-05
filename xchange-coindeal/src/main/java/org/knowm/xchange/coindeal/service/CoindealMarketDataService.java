@@ -8,6 +8,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,12 +22,12 @@ public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
 
     @Override
     public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public List<Ticker> getTickers(Params params) throws IOException {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
@@ -36,6 +37,6 @@ public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
 
     @Override
     public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-        return null;
+        throw new NotImplementedException();
     }
 }
