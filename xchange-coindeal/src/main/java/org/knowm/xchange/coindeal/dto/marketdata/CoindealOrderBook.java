@@ -25,7 +25,6 @@ public class CoindealOrderBook {
     }
 
 
-
     @Override
     public String toString() {
         return "CoindealOrderBook{" +
