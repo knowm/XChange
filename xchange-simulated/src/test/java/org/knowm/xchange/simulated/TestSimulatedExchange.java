@@ -18,7 +18,6 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -58,9 +57,11 @@ public class TestSimulatedExchange {
     mockMarket();
 
     // This is what we'll use for trade testing
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(SimulatedExchange.class);
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(SimulatedExchange.class);
     exchangeSpecification.setApiKey("Tester");
-    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, matchingEngineFactory);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        ENGINE_FACTORY_PARAM, matchingEngineFactory);
     exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
     exchange = (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
@@ -75,7 +76,8 @@ public class TestSimulatedExchange {
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
     Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
-    Balance counterBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
 
     // Then
     assertThat(orderBook.getAsks(), hasSize(4));
@@ -97,49 +99,59 @@ public class TestSimulatedExchange {
 
   @Test(expected = ExchangeException.class)
   public void testInsufficientLiquidityBid() throws IOException {
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(BID, BTC_USD)
-        .originalAmount(new BigDecimal("250"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("250")).build());
   }
 
   @Test(expected = ExchangeException.class)
   public void testInsufficientLiquidityAsk() throws IOException {
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(ASK, BTC_USD)
-        .originalAmount(new BigDecimal("1002.1"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("1002.1")).build());
   }
 
   @Test(expected = FundsExceededException.class)
   public void testInsufficientFundsBid() throws IOException {
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(BID, BTC_USD)
-        .originalAmount(new BigDecimal("150"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("150")).build());
   }
 
   @Test(expected = FundsExceededException.class)
   public void testInsufficientFundsAsk() throws IOException {
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(ASK, BTC_USD)
-        .originalAmount(new BigDecimal("1000.01"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(ASK, BTC_USD)
+                .originalAmount(new BigDecimal("1000.01"))
+                .build());
   }
 
   @Test
   public void testTradeHistoryIsolation() throws IOException {
 
     // Given
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(SimulatedExchange.class);
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(SimulatedExchange.class);
     exchangeSpecification.setApiKey("SomeoneElse");
-    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, matchingEngineFactory);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        ENGINE_FACTORY_PARAM, matchingEngineFactory);
     Exchange someoneElsesExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // When
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(ASK, BTC_USD)
-        .originalAmount(new BigDecimal("0.7"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("0.7")).build());
 
     // Then
     assertThat(exchange.getMarketDataService().getTrades(BTC_USD).getTrades(), hasSize(3));
-    assertThat(someoneElsesExchange.getMarketDataService().getTrades(BTC_USD).getTrades(), hasSize(3));
+    assertThat(
+        someoneElsesExchange.getMarketDataService().getTrades(BTC_USD).getTrades(), hasSize(3));
     assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
     assertThat(getTradeHistory(someoneElsesExchange).getTrades(), empty());
   }
@@ -148,13 +160,15 @@ public class TestSimulatedExchange {
   public void testTradingMarketAsk() throws IOException {
 
     // When
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(ASK, BTC_USD)
-        .originalAmount(new BigDecimal("0.7"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("0.7")).build());
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
     Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
-    Balance counterBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
 
     // Then
     assertThat(orderBook.getAsks(), hasSize(4));
@@ -164,9 +178,12 @@ public class TestSimulatedExchange {
     assertThat(ticker.getLast(), equalTo(new BigDecimal(96)));
     assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
 
-    BigDecimal expectedUsdProceeds = new BigDecimal(97).multiply(new BigDecimal("0.40"))
-        .add(new BigDecimal(96).multiply(new BigDecimal("0.30")));
-    assertThat(baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70"))));
+    BigDecimal expectedUsdProceeds =
+        new BigDecimal(97)
+            .multiply(new BigDecimal("0.40"))
+            .add(new BigDecimal(96).multiply(new BigDecimal("0.30")));
+    assertThat(
+        baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70"))));
     assertThat(baseBalance.getTotal(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70"))));
     assertThat(baseBalance.getFrozen(), equalTo(ZERO));
     assertThat(counterBalance.getAvailable(), equalTo(INITIAL_BALANCE.add(expectedUsdProceeds)));
@@ -178,14 +195,19 @@ public class TestSimulatedExchange {
   public void testTradingLimitAsk() throws IOException {
 
     // When
-    String orderId = exchange.getTradeService().placeLimitOrder(new LimitOrder.Builder(ASK, BTC_USD)
-        .limitPrice(new BigDecimal(97))
-        .originalAmount(new BigDecimal("0.7"))
-        .build());
+    String orderId =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(ASK, BTC_USD)
+                    .limitPrice(new BigDecimal(97))
+                    .originalAmount(new BigDecimal("0.7"))
+                    .build());
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
     Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
-    Balance counterBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
 
     // THen
     assertThat(orderBook.getAsks(), hasSize(5));
@@ -207,7 +229,8 @@ public class TestSimulatedExchange {
     BigDecimal expectedUsdProceeds = new BigDecimal(97).multiply(new BigDecimal("0.4"));
     assertThat(baseBalance.getTotal(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.4"))));
     assertThat(baseBalance.getFrozen(), equalTo(new BigDecimal("0.3")));
-    assertThat(baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.7"))));
+    assertThat(
+        baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.subtract(new BigDecimal("0.7"))));
     assertThat(counterBalance.getTotal(), equalTo(INITIAL_BALANCE.add(expectedUsdProceeds)));
     assertThat(counterBalance.getFrozen(), equalTo(ZERO));
     assertThat(counterBalance.getAvailable(), equalTo(INITIAL_BALANCE.add(expectedUsdProceeds)));
@@ -217,13 +240,15 @@ public class TestSimulatedExchange {
   public void testTradingMarketBid() throws IOException {
 
     // When
-    exchange.getTradeService().placeMarketOrder(new MarketOrder.Builder(BID, BTC_USD)
-        .originalAmount(new BigDecimal("0.56"))
-        .build());
+    exchange
+        .getTradeService()
+        .placeMarketOrder(
+            new MarketOrder.Builder(BID, BTC_USD).originalAmount(new BigDecimal("0.56")).build());
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
     Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
-    Balance counterBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
 
     // THen
     assertThat(orderBook.getAsks(), hasSize(3));
@@ -233,8 +258,10 @@ public class TestSimulatedExchange {
     assertThat(ticker.getLast(), equalTo(new BigDecimal(99)));
     assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
 
-    BigDecimal expectedUsdCost = new BigDecimal(98).multiply(new BigDecimal("0.3"))
-        .add(new BigDecimal(99).multiply(new BigDecimal("0.26")));
+    BigDecimal expectedUsdCost =
+        new BigDecimal(98)
+            .multiply(new BigDecimal("0.3"))
+            .add(new BigDecimal(99).multiply(new BigDecimal("0.26")));
     assertThat(baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.add(new BigDecimal("0.56"))));
     assertThat(baseBalance.getTotal(), equalTo(INITIAL_BALANCE.add(new BigDecimal("0.56"))));
     assertThat(baseBalance.getFrozen(), equalTo(ZERO));
@@ -247,18 +274,27 @@ public class TestSimulatedExchange {
   public void testTradingLimitBid() throws IOException {
 
     // When
-    String orderId1 = exchange.getTradeService().placeLimitOrder(new LimitOrder.Builder(BID, BTC_USD)
-        .limitPrice(new BigDecimal(99))
-        .originalAmount(new BigDecimal("0.7"))
-        .build());
-    String orderId2 = exchange.getTradeService().placeLimitOrder(new LimitOrder.Builder(BID, BTC_USD)
-        .limitPrice(new BigDecimal(90))
-        .originalAmount(new BigDecimal("1"))
-        .build());
+    String orderId1 =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(BID, BTC_USD)
+                    .limitPrice(new BigDecimal(99))
+                    .originalAmount(new BigDecimal("0.7"))
+                    .build());
+    String orderId2 =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(BID, BTC_USD)
+                    .limitPrice(new BigDecimal(90))
+                    .originalAmount(new BigDecimal("1"))
+                    .build());
     OrderBook orderBook = exchange.getMarketDataService().getOrderBook(BTC_USD);
     Ticker ticker = exchange.getMarketDataService().getTicker(BTC_USD);
     Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
-    Balance counterBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
+    Balance counterBalance =
+        exchange.getAccountService().getAccountInfo().getWallet().getBalance(USD);
 
     // THen
     assertThat(orderBook.getAsks(), hasSize(2));
@@ -269,8 +305,16 @@ public class TestSimulatedExchange {
 
     OpenOrders orders = getOpenOrders();
     assertThat(orders.getOpenOrders(), hasSize(2));
-    Order order1 = orders.getAllOpenOrders().stream().filter(o -> o.getId().equals(orderId1)).findFirst().get();
-    Order order2 = orders.getAllOpenOrders().stream().filter(o -> o.getId().equals(orderId2)).findFirst().get();
+    Order order1 =
+        orders.getAllOpenOrders().stream()
+            .filter(o -> o.getId().equals(orderId1))
+            .findFirst()
+            .get();
+    Order order2 =
+        orders.getAllOpenOrders().stream()
+            .filter(o -> o.getId().equals(orderId2))
+            .findFirst()
+            .get();
     assertThat(order1.getRemainingAmount(), equalTo(new BigDecimal("0.10")));
     assertThat(order1.getCumulativeAmount(), equalTo(new BigDecimal("0.60")));
     assertThat(order1.getAveragePrice(), equalTo(new BigDecimal("98.50")));
@@ -282,23 +326,34 @@ public class TestSimulatedExchange {
 
     assertThat(getTradeHistory(exchange).getTrades(), hasSize(3));
 
-    BigDecimal expectedUsdCost = new BigDecimal(98).multiply(new BigDecimal("0.30"))
-        .add(new BigDecimal(99).multiply(new BigDecimal("0.30")));
-    BigDecimal expectedUsdReserved = new BigDecimal(99).multiply(new BigDecimal("0.10"))
-        .add(new BigDecimal(90).multiply(new BigDecimal(1)));
+    BigDecimal expectedUsdCost =
+        new BigDecimal(98)
+            .multiply(new BigDecimal("0.30"))
+            .add(new BigDecimal(99).multiply(new BigDecimal("0.30")));
+    BigDecimal expectedUsdReserved =
+        new BigDecimal(99)
+            .multiply(new BigDecimal("0.10"))
+            .add(new BigDecimal(90).multiply(new BigDecimal(1)));
     assertThat(baseBalance.getTotal(), equalTo(INITIAL_BALANCE.add(new BigDecimal("0.60"))));
     assertThat(baseBalance.getFrozen(), equalTo(ZERO));
     assertThat(baseBalance.getAvailable(), equalTo(INITIAL_BALANCE.add(new BigDecimal("0.60"))));
     assertThat(counterBalance.getTotal(), equalTo(INITIAL_BALANCE.subtract(expectedUsdCost)));
     assertThat(counterBalance.getFrozen(), equalTo(expectedUsdReserved));
-    assertThat(counterBalance.getAvailable(), equalTo(INITIAL_BALANCE.subtract(expectedUsdCost).subtract(expectedUsdReserved)));
+    assertThat(
+        counterBalance.getAvailable(),
+        equalTo(INITIAL_BALANCE.subtract(expectedUsdCost).subtract(expectedUsdReserved)));
   }
 
-  private void placeOrder(Exchange exchange, OrderType orderType, BigDecimal price, BigDecimal amount) throws IOException {
-    exchange.getTradeService().placeLimitOrder(new LimitOrder.Builder(orderType, BTC_USD)
-        .limitPrice(price)
-        .originalAmount(amount)
-        .build());
+  private void placeOrder(
+      Exchange exchange, OrderType orderType, BigDecimal price, BigDecimal amount)
+      throws IOException {
+    exchange
+        .getTradeService()
+        .placeLimitOrder(
+            new LimitOrder.Builder(orderType, BTC_USD)
+                .limitPrice(price)
+                .originalAmount(amount)
+                .build());
   }
 
   private OpenOrders getOpenOrders() throws IOException {
@@ -308,17 +363,21 @@ public class TestSimulatedExchange {
   }
 
   private UserTrades getTradeHistory(Exchange exchangeToUse) throws IOException {
-    TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) exchangeToUse.getTradeService().createTradeHistoryParams();
+    TradeHistoryParamCurrencyPair params =
+        (TradeHistoryParamCurrencyPair) exchangeToUse.getTradeService().createTradeHistoryParams();
     params.setCurrencyPair(BTC_USD);
     return exchangeToUse.getTradeService().getTradeHistory(params);
   }
 
   private void mockMarket() throws IOException {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(SimulatedExchange.class);
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(SimulatedExchange.class);
     exchangeSpecification.setApiKey("MarketMakers");
-    exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, matchingEngineFactory);
+    exchangeSpecification.setExchangeSpecificParametersItem(
+        ENGINE_FACTORY_PARAM, matchingEngineFactory);
     exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
-    SimulatedExchange marketMakerExchange = (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    SimulatedExchange marketMakerExchange =
+        (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     marketMakerExchange.getAccountService().deposit(USD, new BigDecimal(10000));
     marketMakerExchange.getAccountService().deposit(BTC, new BigDecimal(10000));
     placeOrder(marketMakerExchange, ASK, new BigDecimal(10000), new BigDecimal("200"));

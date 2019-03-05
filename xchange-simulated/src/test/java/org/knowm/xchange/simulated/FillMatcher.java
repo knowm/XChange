@@ -43,9 +43,13 @@ final class FillMatcher extends BaseMatcher<Fill> {
 
   @Override
   public void describeTo(Description description) {
-    description.appendText("Fill with ")
-      .appendText("apiKey that matches [").appendDescriptionOf(apiKey)
-      .appendText("], trade that matches [").appendDescriptionOf(trade)
-      .appendText("], taker that matches [").appendDescriptionOf(taker);
+    description
+        .appendText("Fill with ")
+        .appendText("apiKey that matches [")
+        .appendDescriptionOf(apiKey)
+        .appendText("], trade that matches [")
+        .appendDescriptionOf(trade)
+        .appendText("], taker that matches [")
+        .appendDescriptionOf(taker);
   }
 }

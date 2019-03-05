@@ -6,16 +6,19 @@ import static org.knowm.xchange.dto.Order.OrderType.ASK;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+import lombok.Builder;
+import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import lombok.Builder;
-import lombok.Data;
-
+/**
+ * An order placed on the {@link SimulatedExchange} order book.
+ *
+ * @author Graham Crockford
+ */
 @Data
 @Builder
 final class BookOrder {
@@ -26,9 +29,10 @@ final class BookOrder {
     return BookOrder.builder()
         .apiKey(apiKey)
         .id(randomUUID().toString())
-        .limitPrice(original instanceof LimitOrder
-            ? ((LimitOrder) original).getLimitPrice()
-            : original.getType() == ASK ? ZERO : INF)
+        .limitPrice(
+            original instanceof LimitOrder
+                ? ((LimitOrder) original).getLimitPrice()
+                : original.getType() == ASK ? ZERO : INF)
         .originalAmount(original.getOriginalAmount())
         .timestamp(new Date())
         .type(original.getType())
@@ -66,11 +70,12 @@ final class BookOrder {
         .cumulativeAmount(cumulativeAmount)
         .fee(fee)
         .limitPrice(limitPrice)
-        .orderStatus(cumulativeAmount.compareTo(ZERO) == 0
-            ? OrderStatus.NEW
-            : cumulativeAmount.compareTo(originalAmount) == 0
-                ? OrderStatus.FILLED
-                : OrderStatus.PARTIALLY_FILLED)
+        .orderStatus(
+            cumulativeAmount.compareTo(ZERO) == 0
+                ? OrderStatus.NEW
+                : cumulativeAmount.compareTo(originalAmount) == 0
+                    ? OrderStatus.FILLED
+                    : OrderStatus.PARTIALLY_FILLED)
         .originalAmount(originalAmount)
         .timestamp(timestamp)
         .build();
