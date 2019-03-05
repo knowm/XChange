@@ -18,7 +18,6 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** DTO representing the exchange order book */
-@JsonDeserialize(builder = OrderBook.class)
 public final class OrderBook implements Serializable {
 
   /** the asks */
