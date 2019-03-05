@@ -78,7 +78,8 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   CryptoFacilitiesFills fills(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("lastFillTime") String lastFillTime)
       throws IOException;
 
   @GET

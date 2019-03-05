@@ -1,9 +1,8 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOpenOrder extends BittrexOrderBase {
 
@@ -27,9 +26,23 @@ public class BittrexOpenOrder extends BittrexOrderBase {
       @JsonProperty("IsConditional") Boolean isConditional,
       @JsonProperty("Condition") String condition,
       @JsonProperty("ConditionTarget") Object conditionTarget) {
-    super(orderUuid, exchange, orderType, quantity, quantityRemaining, limit, commissionPaid,
-        price, pricePerUnit, opened, closed, cancelInitiated, immediateOrCancel, isConditional,
-        condition, conditionTarget);
+    super(
+        orderUuid,
+        exchange,
+        orderType,
+        quantity,
+        quantityRemaining,
+        limit,
+        commissionPaid,
+        price,
+        pricePerUnit,
+        opened,
+        closed,
+        cancelInitiated,
+        immediateOrCancel,
+        isConditional,
+        condition,
+        conditionTarget);
     this.uuid = uuid;
   }
 
