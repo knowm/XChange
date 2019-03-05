@@ -35,6 +35,11 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 
+/**
+ * The "exchange" which backs {@link SimulatedExchange}.
+ *
+ * @author Graham Crockford
+ */
 final class MatchingEngine {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MatchingEngine.class);

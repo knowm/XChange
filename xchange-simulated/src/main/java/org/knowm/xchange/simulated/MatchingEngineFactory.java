@@ -6,7 +6,18 @@ import java.util.function.Consumer;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
-public final class MatchingEngineFactory {
+/**
+ * Represents a single virtual cryptocurrency exchange - effectively a set
+ * of order books for each currency where trades can be placed as
+ * maker orders and taker orders can be matched.
+ *
+ * <p>If shared between instances of {@link SimulatedExchange}, this ensures
+ * that all users will be trading against the same order books and thus
+ * each other.</p>
+ *
+ * @author Graham Crockford
+ */
+public class MatchingEngineFactory {
 
   private final ConcurrentMap<CurrencyPair, MatchingEngine> engines = new ConcurrentHashMap<>();
 

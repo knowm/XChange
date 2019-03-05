@@ -20,8 +20,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * for integration testing of higher order components.
  *
  * <p>This is not remotely suitable for use as a real-world exchange. The
- * concurrency model is extremely slow and most data transforms involve mutation
- * and no transactional control.  If any errors occur midway through a trade, they
+ * concurrency is extremely coarse-grained and most data transforms involve data mutation
+ * with no .  If any errors occur midway through a trade, they
  * are likely to leave the system in an inconsistent state. And nothing gets saved
  * to a database anyway.<p>
  *
@@ -58,13 +58,13 @@ public class SimulatedExchange extends BaseExchange {
   public static final String ACCOUNT_FACTORY_PARAM = "AccountFactory";
 
   /**
-   * Provides an {@link ExceptionThrower}.
+   * Provides a {@link SimulatedExchangeOperationListener}.
    */
-  public static final String EXCEPTION_THROWER_PARAM = "ExceptionThrower";
+  public static final String ON_OPERATION_PARAM = "OnExchangeOperation";
 
   private MatchingEngineFactory engineFactory;
   private AccountFactory accountFactory;
-  private ExceptionThrower exceptionThrower;
+  private SimulatedExchangeOperationListener exceptionThrower;
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -80,7 +80,7 @@ public class SimulatedExchange extends BaseExchange {
     AccountFactory accountFactory = new AccountFactory();
     exchangeSpecification.setExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM, new MatchingEngineFactory(accountFactory));
     exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
-    exchangeSpecification.setExchangeSpecificParametersItem(EXCEPTION_THROWER_PARAM, (ExceptionThrower) () -> {});
+    exchangeSpecification.setExchangeSpecificParametersItem(ON_OPERATION_PARAM, (SimulatedExchangeOperationListener) () -> {});
     return exchangeSpecification;
   }
 
@@ -88,7 +88,7 @@ public class SimulatedExchange extends BaseExchange {
   protected void initServices() {
     engineFactory = (MatchingEngineFactory) exchangeSpecification.getExchangeSpecificParametersItem(ENGINE_FACTORY_PARAM);
     accountFactory = (AccountFactory) exchangeSpecification.getExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM);
-    exceptionThrower = (ExceptionThrower) exchangeSpecification.getExchangeSpecificParametersItem(EXCEPTION_THROWER_PARAM);
+    exceptionThrower = (SimulatedExchangeOperationListener) exchangeSpecification.getExchangeSpecificParametersItem(ON_OPERATION_PARAM);
     tradeService = new SimulatedTradeService(this);
     marketDataService = new SimulatedMarketDataService(this);
     accountService = new SimulatedAccountService(this);
@@ -107,7 +107,7 @@ public class SimulatedExchange extends BaseExchange {
   }
 
   void maybeThrow() throws IOException {
-    exceptionThrower.run();
+    exceptionThrower.onSimulatedExchangeOperation();
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
