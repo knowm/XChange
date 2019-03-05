@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
-public final class MatchingEngineFactory {
+public class MatchingEngineFactory {
 
   private final ConcurrentMap<CurrencyPair, MatchingEngine> engines = new ConcurrentHashMap<>();
 
