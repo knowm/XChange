@@ -4,6 +4,13 @@ import org.knowm.xchange.dto.trade.UserTrade;
 
 import lombok.Data;
 
+/**
+ * Represents a trade against a {@link Level3OrderBook} for a
+ * given {@link #getApiKey()} (user), indicating whether the fill
+ * was executed as the market maker.
+ *
+ * @author Graham Crockford
+ */
 @Data
 final class Fill {
   private final String apiKey;

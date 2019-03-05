@@ -6,6 +6,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 import lombok.Data;
 
+/**
+ * A full order book, consisting of every single limit order on the book
+ * on both the ask and bid sides.
+ *
+ * @author Graham Crockford
+ */
 @Data
 public class Level3OrderBook {
   private final List<LimitOrder> asks;

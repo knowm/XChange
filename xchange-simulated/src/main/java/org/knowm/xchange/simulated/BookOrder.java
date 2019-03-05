@@ -16,6 +16,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * An order placed on the {@link SimulatedExchange} order book.
+ *
+ * @author Graham Crockford
+ */
 @Data
 @Builder
 final class BookOrder {

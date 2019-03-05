@@ -17,13 +17,13 @@ import org.slf4j.LoggerFactory;
  * selection of commnplace transient issues which could happen at any time
  * in real life and should therefore be handled gracefully in client code.
  * Pass this to {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)}
- * using the parameter name {@link SimulatedExchange#EXCEPTION_THROWER_PARAM} during
+ * using the parameter name {@link SimulatedExchange#ON_OPERATION_PARAM} during
  * long-running integration testing to inject an appropriate bit of chaos into
  * proceedings.
  *
  * @author Graham Crockford
  */
-public class RandomExceptionThrower implements ExceptionThrower {
+public class RandomExceptionThrower implements SimulatedExchangeOperationListener {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MatchingEngine.class);
   private static final String GENERIC_GUIDE = "Application code should handle this gracefully.";
@@ -48,7 +48,7 @@ public class RandomExceptionThrower implements ExceptionThrower {
   }
 
   @Override
-  public void run() throws IOException {
+  public void onSimulatedExchangeOperation() throws IOException {
     int val = random.nextInt(1000);
     if (val == 1) {
       throw new NonceException("Exchanges often complain about nonce issues. " + GENERIC_GUIDE);
