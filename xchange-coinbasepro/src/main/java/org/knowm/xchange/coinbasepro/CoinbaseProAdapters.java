@@ -348,8 +348,8 @@ public class CoinbaseProAdapters {
               trade.getPrice(),
               parseDate(trade.getTimestamp()),
               String.valueOf(trade.getTradeId()));
-      t.setMaker_order_id(trade.getMakerOrderId());
-      t.setTaker_order_id(trade.getTakerOrderId());
+      t.setMakerOrderId(trade.getMakerOrderId());
+      t.setTakerOrderId(trade.getTakerOrderId());
       trades.add(t);
     }
 
