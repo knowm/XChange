@@ -14,10 +14,6 @@ public class CmcExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-  public CmcExchange() {
-    initServices();
-  }
-
   @Override
   protected void initServices() {
     if (this.marketDataService == null) {
@@ -43,11 +39,6 @@ public class CmcExchange extends BaseExchange implements Exchange {
     if (this.exchangeSpecification == null)
       this.exchangeSpecification = getDefaultExchangeSpecification();
     return exchangeSpecification;
-  }
-
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    this.exchangeSpecification = exchangeSpecification;
   }
 
   @Override

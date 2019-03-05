@@ -2,12 +2,6 @@ package org.knowm.xchange.binance;
 
 import static java.math.BigDecimal.ZERO;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
@@ -20,6 +14,12 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BinanceAdapters {
 
@@ -109,6 +109,12 @@ public class BinanceAdapters {
     int pairLength = symbol.length();
     if (symbol.endsWith("USDT")) {
       return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+    } else if (symbol.endsWith("USDC")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
+    } else if (symbol.endsWith("TUSD")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
+    } else if (symbol.endsWith("USDS")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS");
     } else {
       return new CurrencyPair(
           symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));

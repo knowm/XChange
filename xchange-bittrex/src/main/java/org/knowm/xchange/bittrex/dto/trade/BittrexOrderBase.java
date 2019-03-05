@@ -155,7 +155,8 @@ public abstract class BittrexOrderBase {
         + getCondition()
         + ", conditionTarget="
         + getConditionTarget()
-        + ", " + additionalToString()
+        + ", "
+        + additionalToString()
         + "]";
   }
 

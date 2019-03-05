@@ -1,9 +1,8 @@
 package org.knowm.xchange.bittrex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexOrder extends BittrexOrderBase {
 
@@ -39,7 +38,23 @@ public class BittrexOrder extends BittrexOrderBase {
       @JsonProperty("IsConditional") Boolean isConditional,
       @JsonProperty("Condition") String condition,
       @JsonProperty("ConditionTarget") String conditionTarget) {
-    super(orderUuid, exchange, type, quantity, quantityRemaining, limit, commissionPaid, price, pricePerUnit, opened, closed, cancelInitiated, immediateOrCancel, isConditional, condition, conditionTarget);
+    super(
+        orderUuid,
+        exchange,
+        type,
+        quantity,
+        quantityRemaining,
+        limit,
+        commissionPaid,
+        price,
+        pricePerUnit,
+        opened,
+        closed,
+        cancelInitiated,
+        immediateOrCancel,
+        isConditional,
+        condition,
+        conditionTarget);
     this.accountId = accountId;
     this.reserved = reserved;
     this.reserveRemaining = reserveRemaining;
@@ -79,8 +94,19 @@ public class BittrexOrder extends BittrexOrderBase {
 
   @Override
   protected String additionalToString() {
-    return "accountId=" + accountId + ", reserved=" + reserved + ", reserveRemaining=" + reserveRemaining
-        + ", commissionReserved=" + commissionReserved + ", commissionReserveRemaining=" + commissionReserveRemaining
-        + ", isOpen=" + isOpen + ", sentinel=" + sentinel;
+    return "accountId="
+        + accountId
+        + ", reserved="
+        + reserved
+        + ", reserveRemaining="
+        + reserveRemaining
+        + ", commissionReserved="
+        + commissionReserved
+        + ", commissionReserveRemaining="
+        + commissionReserveRemaining
+        + ", isOpen="
+        + isOpen
+        + ", sentinel="
+        + sentinel;
   }
 }
