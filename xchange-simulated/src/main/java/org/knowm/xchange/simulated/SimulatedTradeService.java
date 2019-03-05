@@ -1,7 +1,6 @@
 package org.knowm.xchange.simulated;
 
 import java.io.IOException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -19,7 +18,8 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange> implements TradeService {
+public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange>
+    implements TradeService {
 
   protected SimulatedTradeService(SimulatedExchange exchange) {
     super(exchange);
@@ -44,7 +44,8 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
     if (!(params instanceof OpenOrdersParamCurrencyPair)) {
       throw new ExchangeException("Currency pair required");
     }
-    MatchingEngine engine = exchange.getEngine(((OpenOrdersParamCurrencyPair)params).getCurrencyPair());
+    MatchingEngine engine =
+        exchange.getEngine(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
     exchange.maybeThrow();
     return new OpenOrders(engine.openOrders(getApiKey()));
   }
@@ -54,7 +55,8 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
     if (!(params instanceof TradeHistoryParamCurrencyPair)) {
       throw new ExchangeException("Currency pair required");
     }
-    MatchingEngine engine = exchange.getEngine(((TradeHistoryParamCurrencyPair)params).getCurrencyPair());
+    MatchingEngine engine =
+        exchange.getEngine(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     exchange.maybeThrow();
     return new UserTrades(engine.tradeHistory(getApiKey()), TradeSortType.SortByTimestamp);
   }
