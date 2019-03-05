@@ -1,7 +1,6 @@
 package org.knowm.xchange.simulated;
 
 import java.math.BigDecimal;
-
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -75,13 +74,21 @@ final class UserTradeMatcher extends BaseMatcher<UserTrade> {
 
   @Override
   public void describeTo(Description description) {
-    description.appendText("UserTrade with ")
-      .appendText("orderId that matches [").appendDescriptionOf(orderId)
-      .appendText("], id that matches [").appendDescriptionOf(id)
-      .appendText("], fee that matches [").appendDescriptionOf(fee)
-      .appendText("], feeCurrency that matches [").appendDescriptionOf(feeCurrency)
-      .appendText("], originalAmount that matches [").appendDescriptionOf(originalAmount)
-      .appendText("], price that matches [").appendDescriptionOf(price)
-      .appendText("], type that matches [").appendDescriptionOf(type);
+    description
+        .appendText("UserTrade with ")
+        .appendText("orderId that matches [")
+        .appendDescriptionOf(orderId)
+        .appendText("], id that matches [")
+        .appendDescriptionOf(id)
+        .appendText("], fee that matches [")
+        .appendDescriptionOf(fee)
+        .appendText("], feeCurrency that matches [")
+        .appendDescriptionOf(feeCurrency)
+        .appendText("], originalAmount that matches [")
+        .appendDescriptionOf(originalAmount)
+        .appendText("], price that matches [")
+        .appendDescriptionOf(price)
+        .appendText("], type that matches [")
+        .appendDescriptionOf(type);
   }
 }

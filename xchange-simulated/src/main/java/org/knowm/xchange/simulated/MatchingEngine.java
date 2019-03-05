@@ -7,6 +7,11 @@ import static java.util.stream.Collectors.toList;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -28,12 +32,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 
 /**
  * The "exchange" which backs {@link SimulatedExchange}.
@@ -59,11 +57,14 @@ final class MatchingEngine {
   private volatile BigDecimal last;
 
   MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale) {
-    this(accountFactory, currencyPair, priceScale,  f -> {});
-
+    this(accountFactory, currencyPair, priceScale, f -> {});
   }
 
-  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale, Consumer<Fill> onFill) {
+  MatchingEngine(
+      AccountFactory accountFactory,
+      CurrencyPair currencyPair,
+      int priceScale,
+      Consumer<Fill> onFill) {
     this.accountFactory = accountFactory;
     this.currencyPair = currencyPair;
     this.priceScale = priceScale;
@@ -106,15 +107,16 @@ final class MatchingEngine {
     if (order instanceof LimitOrder) {
       account.checkBalance((LimitOrder) order);
     } else {
-      BigDecimal marketCostOrProceeds = marketCostOrProceeds(order.getType(), order.getOriginalAmount());
-      BigDecimal marketAmount = order.getType().equals(OrderType.BID)
-          ? marketCostOrProceeds
-          : order.getOriginalAmount();
+      BigDecimal marketCostOrProceeds =
+          marketCostOrProceeds(order.getType(), order.getOriginalAmount());
+      BigDecimal marketAmount =
+          order.getType().equals(OrderType.BID) ? marketCostOrProceeds : order.getOriginalAmount();
       account.checkBalance(order, marketAmount);
     }
   }
 
-  private void insertIntoBook(LinkedList<BookLevel> book, BookOrder order, OrderType type, Account account) {
+  private void insertIntoBook(
+      LinkedList<BookLevel> book, BookOrder order, OrderType type, Account account) {
     Iterator<BookLevel> iter = book.iterator();
     int i = 0;
     while (iter.hasNext()) {
@@ -150,29 +152,28 @@ final class MatchingEngine {
     BigDecimal remaining = amount;
     BigDecimal cost = ZERO;
     List<BookLevel> orderbookSide = orderType.equals(BID) ? asks : bids;
-    for (BookOrder order : FluentIterable.from(orderbookSide).transformAndConcat(BookLevel::getOrders)) {
+    for (BookOrder order :
+        FluentIterable.from(orderbookSide).transformAndConcat(BookLevel::getOrders)) {
       BigDecimal available = order.getRemainingAmount();
       BigDecimal tradeAmount = remaining.compareTo(available) >= 0 ? available : remaining;
       BigDecimal tradeCost = tradeAmount.multiply(order.getLimitPrice());
       cost = cost.add(tradeCost);
       remaining = remaining.subtract(tradeAmount);
-      if (remaining.compareTo(ZERO) == 0)
-        return cost;
+      if (remaining.compareTo(ZERO) == 0) return cost;
     }
     throw new ExchangeException("Insufficient liquidity in book");
   }
 
   public synchronized Level3OrderBook book() {
     return new Level3OrderBook(
-      FluentIterable.from(asks)
-        .transformAndConcat(BookLevel::getOrders)
-        .transform(o -> o.toOrder(currencyPair))
-        .toList(),
-      FluentIterable.from(bids)
-        .transformAndConcat(BookLevel::getOrders)
-        .transform(o -> o.toOrder(currencyPair))
-        .toList()
-    );
+        FluentIterable.from(asks)
+            .transformAndConcat(BookLevel::getOrders)
+            .transform(o -> o.toOrder(currencyPair))
+            .toList(),
+        FluentIterable.from(bids)
+            .transformAndConcat(BookLevel::getOrders)
+            .transform(o -> o.toOrder(currencyPair))
+            .toList());
   }
 
   public synchronized Ticker ticker() {
@@ -184,9 +185,7 @@ final class MatchingEngine {
   }
 
   public synchronized List<Trade> publicTrades() {
-    return FluentIterable.from(publicTrades)
-        .transform(t -> Trade.Builder.from(t).build())
-        .toList();
+    return FluentIterable.from(publicTrades).transform(t -> Trade.Builder.from(t).build()).toList();
   }
 
   public synchronized List<UserTrade> tradeHistory(String apiKey) {
@@ -207,9 +206,10 @@ final class MatchingEngine {
           return;
         }
 
-        BigDecimal tradeAmount = takerOrder.getRemainingAmount().compareTo(makerOrder.getRemainingAmount()) > 0
-            ? makerOrder.getRemainingAmount()
-            : takerOrder.getRemainingAmount();
+        BigDecimal tradeAmount =
+            takerOrder.getRemainingAmount().compareTo(makerOrder.getRemainingAmount()) > 0
+                ? makerOrder.getRemainingAmount()
+                : takerOrder.getRemainingAmount();
 
         LOGGER.debug("Matches for {}", tradeAmount);
         matchOff(takerOrder, makerOrder, tradeAmount);
@@ -228,38 +228,42 @@ final class MatchingEngine {
   private void matchOff(BookOrder takerOrder, BookOrder makerOrder, BigDecimal tradeAmount) {
     Date timestamp = new Date();
 
-    UserTrade takerTrade = new UserTrade.Builder()
-        .currencyPair(currencyPair)
-        .id(randomUUID().toString())
-        .originalAmount(tradeAmount)
-        .price(makerOrder.getLimitPrice())
-        .timestamp(timestamp)
-        .type(takerOrder.getType())
-        .orderId(takerOrder.getId())
-        .feeAmount(takerOrder.getType() == ASK
-            ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
-            : tradeAmount.multiply(FEE_RATE))
-        .feeCurrency(takerOrder.getType() == ASK ? currencyPair.counter : currencyPair.base)
-        .build();
+    UserTrade takerTrade =
+        new UserTrade.Builder()
+            .currencyPair(currencyPair)
+            .id(randomUUID().toString())
+            .originalAmount(tradeAmount)
+            .price(makerOrder.getLimitPrice())
+            .timestamp(timestamp)
+            .type(takerOrder.getType())
+            .orderId(takerOrder.getId())
+            .feeAmount(
+                takerOrder.getType() == ASK
+                    ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
+                    : tradeAmount.multiply(FEE_RATE))
+            .feeCurrency(takerOrder.getType() == ASK ? currencyPair.counter : currencyPair.base)
+            .build();
 
     LOGGER.debug("Created taker trade: {}", takerTrade);
 
     accumulate(takerOrder, takerTrade);
 
     OrderType makerType = takerOrder.getType() == OrderType.ASK ? OrderType.BID : OrderType.ASK;
-    UserTrade makerTrade = new UserTrade.Builder()
-        .currencyPair(currencyPair)
-        .id(randomUUID().toString())
-        .originalAmount(tradeAmount)
-        .price(makerOrder.getLimitPrice())
-        .timestamp(timestamp)
-        .type(makerType)
-        .orderId(makerOrder.getId())
-        .feeAmount(makerType == ASK
-            ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
-            : tradeAmount.multiply(FEE_RATE))
-        .feeCurrency(makerType == ASK ? currencyPair.counter : currencyPair.base)
-        .build();
+    UserTrade makerTrade =
+        new UserTrade.Builder()
+            .currencyPair(currencyPair)
+            .id(randomUUID().toString())
+            .originalAmount(tradeAmount)
+            .price(makerOrder.getLimitPrice())
+            .timestamp(timestamp)
+            .type(makerType)
+            .orderId(makerOrder.getId())
+            .feeAmount(
+                makerType == ASK
+                    ? tradeAmount.multiply(makerOrder.getLimitPrice()).multiply(FEE_RATE)
+                    : tradeAmount.multiply(FEE_RATE))
+            .feeCurrency(makerType == ASK ? currencyPair.counter : currencyPair.base)
+            .build();
 
     LOGGER.debug("Created maker trade: {}", makerOrder);
     accumulate(makerOrder, makerTrade);
@@ -278,7 +282,8 @@ final class MatchingEngine {
       bookOrder.setAveragePrice(price);
     } else {
       bookOrder.setAveragePrice(
-          bookOrder.getAveragePrice()
+          bookOrder
+              .getAveragePrice()
               .multiply(bookOrder.getCumulativeAmount())
               .add(price.multiply(amount))
               .divide(newTotal, priceScale, HALF_UP));
@@ -310,13 +315,21 @@ final class MatchingEngine {
       BookOrder bookOrder = iter.next();
       amount = amount.add(bookOrder.getRemainingAmount());
       if (price != null && bookOrder.getLimitPrice().compareTo(price) != 0) {
-        result.add(new LimitOrder.Builder(ASK, currencyPair).originalAmount(amount).limitPrice(price).build());
+        result.add(
+            new LimitOrder.Builder(ASK, currencyPair)
+                .originalAmount(amount)
+                .limitPrice(price)
+                .build());
         amount = ZERO;
       }
       price = bookOrder.getLimitPrice();
     }
     if (price != null) {
-      result.add(new LimitOrder.Builder(ASK, currencyPair).originalAmount(amount).limitPrice(price).build());
+      result.add(
+          new LimitOrder.Builder(ASK, currencyPair)
+              .originalAmount(amount)
+              .limitPrice(price)
+              .build());
     }
     return result;
   }

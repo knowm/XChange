@@ -1,14 +1,12 @@
 package org.knowm.xchange.simulated;
 
 import java.util.List;
-
+import lombok.Data;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import lombok.Data;
-
 /**
- * A full order book, consisting of every single limit order on the book
- * on both the ask and bid sides.
+ * A full order book, consisting of every single limit order on the book on both the ask and bid
+ * sides.
  *
  * @author Graham Crockford
  */
