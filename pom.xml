@@ -8,10 +8,11 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <groupId>org.knowm.xchange</groupId>
-    <artifactId>xchange-parent</artifactId>
-    <version>4.3.16-SNAPSHOT</version>
-    <packaging>pom</packaging>
+
+	<groupId>org.knowm.xchange</groupId>
+	<artifactId>xchange-parent</artifactId>
+	<version>4.3.17-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
     <name>XChange</name>
     <description>XChange is a Java library providing a simple and consistent API for interacting with
