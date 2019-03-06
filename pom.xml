@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,11 +7,10 @@
         <maven>3.0</maven>
     </prerequisites>
 
-
-	<groupId>org.knowm.xchange</groupId>
-	<artifactId>xchange-parent</artifactId>
-	<version>4.3.17-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>org.knowm.xchange</groupId>
+    <artifactId>xchange-parent</artifactId>
+    <version>4.3.17-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>XChange</name>
     <description>XChange is a Java library providing a simple and consistent API for interacting with
@@ -38,12 +36,12 @@
         <version.fasterxml>2.9.8</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
-        <version.knowm.xchart>3.5.2</version.knowm.xchart>
-        <version.lombok>1.18.4</version.lombok>
+        <version.lombok>1.18.6</version.lombok>
+        <version.knowm.xchart>3.5.4</version.knowm.xchart>
         <version.powermock>2.0.0</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.8.0-beta2</version.slf4j>
+        <version.slf4j>1.8.0-beta4</version.slf4j>
         <version.crypto>4.1.1</version.crypto>
         <version.java-jwt>3.7.0</version.java-jwt>
 
@@ -131,6 +129,7 @@
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
         <module>xchange-cobinhood</module>
+        <!--<module>xchange-coinex</module>-->
         <module>xchange-coinbase</module>
         <module>xchange-coinbasepro</module>
         <module>xchange-coindeal</module>
@@ -170,8 +169,8 @@
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
-        <module>xchange-lykke</module>
         <module>xchange-luno</module>
+        <module>xchange-lykke</module>
         <module>xchange-mercadobitcoin</module>
         <module>xchange-okcoin</module>
         <module>xchange-openexchangerates</module>
@@ -189,7 +188,6 @@
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
-        <!--<module>xchange-coinex</module>-->
     </modules>
 
     <repositories>
@@ -359,6 +357,7 @@
             <version>${version.assertj}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <profiles>
