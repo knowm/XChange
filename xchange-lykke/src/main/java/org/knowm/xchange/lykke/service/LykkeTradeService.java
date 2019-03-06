@@ -49,7 +49,7 @@ public class LykkeTradeService extends LykkeTradeServiceRaw implements TradeServ
     }
 
     @Override
-    public boolean cancelOrder(String orderId) throws IOException,LykkeException {
+    public boolean cancelOrder(String orderId) throws IOException {
         return cancelLykkeOrder(orderId);
     }
 
