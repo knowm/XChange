@@ -2,20 +2,14 @@ package org.knowm.xchange.simulated;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
-import org.knowm.xchange.exceptions.RateLimitExceededException;
-
-import com.google.common.util.concurrent.RateLimiter;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -39,8 +33,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author Graham Crockford
  */
 public class SimulatedExchange extends BaseExchange {
-
-  private static final String RATE_LIMIT_EXCEEDED = "Rate limit exceeded. Are you gracefully backing off when this happens?";
 
   /**
    * Allows the scope of the simulated exchange to be controlled. Pass to {@link
@@ -70,7 +62,6 @@ public class SimulatedExchange extends BaseExchange {
   private MatchingEngineFactory engineFactory;
   private AccountFactory accountFactory;
   private SimulatedExchangeOperationListener exceptionThrower;
-  private RateLimiter rateLimiter;
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -113,8 +104,6 @@ public class SimulatedExchange extends BaseExchange {
   public void remoteInit() throws IOException, ExchangeException {
     if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey()))
       getAccount().initialize(getExchangeMetaData().getCurrencies().keySet());
-    RateLimit rateLimit = getExchangeMetaData().getPublicRateLimits()[0];
-    rateLimiter = RateLimiter.create(1D / (rateLimit.getPollDelayMillis() / 1000D));
   }
 
   Account getAccount() {
@@ -124,18 +113,7 @@ public class SimulatedExchange extends BaseExchange {
   }
 
   void maybeThrow() throws IOException {
-
-    // Call any supplied hook
     exceptionThrower.onSimulatedExchangeOperation();
-
-    // Always enforce the rate limit.
-    if (!rateLimiter.tryAcquire()) {
-      if (RandomUtils.nextBoolean()) {
-        throw new RateLimitExceededException(RATE_LIMIT_EXCEEDED);
-      } else {
-        throw new FrequencyLimitExceededException(RATE_LIMIT_EXCEEDED);
-      }
-    }
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
