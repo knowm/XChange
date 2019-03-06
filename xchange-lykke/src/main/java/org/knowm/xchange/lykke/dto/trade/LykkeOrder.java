@@ -4,14 +4,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeOrder {
 
-  private String id;
-  private String status;
-  private String assetPairId;
-  private double volume;
-  private double price;
-  private double remainingVolume;
-  private String lastMatchTime;
-  private String createdAt;
+  @JsonProperty("Id")
+  private final String id;
+
+  @JsonProperty("Status")
+  private final String status;
+
+  @JsonProperty("AssetPairId")
+  private final String assetPairId;
+
+  @JsonProperty("Volume")
+  private final double volume;
+
+  @JsonProperty("Price")
+  private final double price;
+
+  @JsonProperty("RemainingVolume")
+  private final double remainingVolume;
+
+  @JsonProperty("LastMatchTime")
+  private final String lastMatchTime;
+
+  @JsonProperty("CreatedAt")
+  private final String createdAt;
 
   public LykkeOrder(
       @JsonProperty("Id") String id,
@@ -36,64 +51,32 @@ public class LykkeOrder {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getStatus() {
     return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
   }
 
   public String getAssetPairId() {
     return assetPairId;
   }
 
-  public void setAssetPairId(String assetPairId) {
-    this.assetPairId = assetPairId;
-  }
-
   public double getVolume() {
     return volume;
-  }
-
-  public void setVolume(double volume) {
-    this.volume = volume;
   }
 
   public double getPrice() {
     return price;
   }
 
-  public void setPrice(double price) {
-    this.price = price;
-  }
-
   public double getRemainingVolume() {
     return remainingVolume;
-  }
-
-  public void setRemainingVolume(double remainingVolume) {
-    this.remainingVolume = remainingVolume;
   }
 
   public String getLastMatchTime() {
     return lastMatchTime;
   }
 
-  public void setLastMatchTime(String lastMatchTime) {
-    this.lastMatchTime = lastMatchTime;
-  }
-
   public String getCreatedAt() {
     return createdAt;
-  }
-
-  public void setCreatedAt(String createdAt) {
-    this.createdAt = createdAt;
   }
 
   @Override

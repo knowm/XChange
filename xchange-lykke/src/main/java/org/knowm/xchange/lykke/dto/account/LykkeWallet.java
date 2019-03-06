@@ -3,10 +3,14 @@ package org.knowm.xchange.lykke.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeWallet {
+  @JsonProperty("AssetId")
+  private final String assetId;
 
-  private String assetId;
-  private double balance;
-  private double reserved;
+  @JsonProperty("Balance")
+  private final double balance;
+
+  @JsonProperty("Reserved")
+  private final double reserved;
 
   public LykkeWallet(
       @JsonProperty("AssetId") String assetId,
@@ -21,24 +25,12 @@ public class LykkeWallet {
     return assetId;
   }
 
-  public void setAssetId(String assetId) {
-    this.assetId = assetId;
-  }
-
   public double getBalance() {
     return balance;
   }
 
-  public void setBalance(double balance) {
-    this.balance = balance;
-  }
-
   public double getReserved() {
     return reserved;
-  }
-
-  public void setReserved(double reserved) {
-    this.reserved = reserved;
   }
 
   @Override

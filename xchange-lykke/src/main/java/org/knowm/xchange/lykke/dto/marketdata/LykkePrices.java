@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkePrices {
 
-  private double volume;
-  private double price;
+  @JsonProperty("Volume")
+  private final double volume;
 
-  public LykkePrices(@JsonProperty("Volume") double volume, @JsonProperty("Price") double price) {
+  @JsonProperty("Price")
+  private final double price;
+
+  public LykkePrices(
+          @JsonProperty("Volume") double volume,
+          @JsonProperty("Price") double price) {
     this.volume = volume;
     this.price = price;
   }
@@ -16,16 +21,8 @@ public class LykkePrices {
     return volume;
   }
 
-  public void setVolume(double volume) {
-    this.volume = volume;
-  }
-
   public double getPrice() {
     return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
   }
 
   @Override

@@ -3,14 +3,26 @@ package org.knowm.xchange.lykke.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeAsset {
+  @JsonProperty("id")
+  private final String id;
 
-  private String id;
-  private String name;
-  private String displayId;
-  private String bitcoinAssetId;
-  private String bitcoinAssetAddress;
-  private String symbol;
-  private int accuracy;
+  @JsonProperty("name")
+  private final String name;
+
+  @JsonProperty("displayId")
+  private final String displayId;
+
+  @JsonProperty("bitcoinAssetId")
+  private final String bitcoinAssetId;
+
+  @JsonProperty("bitcoinAssetAddress")
+  private final String bitcoinAssetAddress;
+
+  @JsonProperty("symbol")
+  private final String symbol;
+
+  @JsonProperty("accuracy")
+  private final int accuracy;
 
   public LykkeAsset(
       @JsonProperty("id") String id,
@@ -33,56 +45,28 @@ public class LykkeAsset {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public String getDisplayId() {
     return displayId;
   }
 
-  public void setDisplayId(String displayId) {
-    this.displayId = displayId;
-  }
-
   public String getBitcoinAssetId() {
     return bitcoinAssetId;
-  }
-
-  public void setBitcoinAssetId(String bitcoinAssetId) {
-    this.bitcoinAssetId = bitcoinAssetId;
   }
 
   public String getBitcoinAssetAddress() {
     return bitcoinAssetAddress;
   }
 
-  public void setBitcoinAssetAddress(String bitcoinAssetAddress) {
-    this.bitcoinAssetAddress = bitcoinAssetAddress;
-  }
-
   public String getSymbol() {
     return symbol;
   }
 
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
-  }
-
   public int getAccuracy() {
     return accuracy;
-  }
-
-  public void setAccuracy(int accuracy) {
-    this.accuracy = accuracy;
   }
 
   @Override

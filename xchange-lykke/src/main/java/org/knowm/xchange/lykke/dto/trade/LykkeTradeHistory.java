@@ -3,14 +3,30 @@ package org.knowm.xchange.lykke.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeTradeHistory {
-  private String id;
-  private String datetime;
-  private LykkeTradeState state;
-  private double amount;
-  private String asset;
-  private String assetPair;
-  private double price;
-  private LykkeFee fee;
+
+  @JsonProperty("Id")
+  private final String id;
+
+  @JsonProperty("DateTime")
+  private final String datetime;
+
+  @JsonProperty("State")
+  private final LykkeTradeState state;
+
+  @JsonProperty("Amount")
+  private final double amount;
+
+  @JsonProperty("Asset")
+  private final String asset;
+
+  @JsonProperty("AssetPair")
+  private final String assetPair;
+
+  @JsonProperty("Price")
+  private final double price;
+
+  @JsonProperty("Fee")
+  private final LykkeFee fee;
 
   public LykkeTradeHistory(
       @JsonProperty("Id") String id,
@@ -35,64 +51,32 @@ public class LykkeTradeHistory {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getDatetime() {
     return datetime;
-  }
-
-  public void setDatetime(String datetime) {
-    this.datetime = datetime;
   }
 
   public LykkeTradeState getState() {
     return state;
   }
 
-  public void setState(LykkeTradeState state) {
-    this.state = state;
-  }
-
   public double getAmount() {
     return amount;
-  }
-
-  public void setAmount(double amount) {
-    this.amount = amount;
   }
 
   public String getAsset() {
     return asset;
   }
 
-  public void setAsset(String asset) {
-    this.asset = asset;
-  }
-
   public String getAssetPair() {
     return assetPair;
-  }
-
-  public void setAssetPair(String assetPair) {
-    this.assetPair = assetPair;
   }
 
   public double getPrice() {
     return price;
   }
 
-  public void setPrice(double price) {
-    this.price = price;
-  }
-
   public LykkeFee getFee() {
     return fee;
-  }
-
-  public void setFee(LykkeFee fee) {
-    this.fee = fee;
   }
 
   @Override
