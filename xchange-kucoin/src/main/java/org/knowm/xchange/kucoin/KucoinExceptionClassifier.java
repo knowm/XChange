@@ -1,10 +1,13 @@
 package org.knowm.xchange.kucoin;
 
-import com.kucoin.sdk.exception.KucoinApiException;
 import java.io.IOException;
+
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
+import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.NonceException;
+
+import com.kucoin.sdk.exception.KucoinApiException;
 
 public final class KucoinExceptionClassifier {
 
@@ -24,6 +27,9 @@ public final class KucoinExceptionClassifier {
   }
 
   public static RuntimeException classify(KucoinApiException e) {
+    if (e.getMessage().equalsIgnoreCase("Service unavailable")) {
+      return new ExchangeUnavailableException(e.getMessage(), e);
+    }
     if (e.getMessage().contains("check environment variables")) {
       return new ExchangeSecurityException(e.getMessage(), e);
     }
@@ -48,7 +54,7 @@ public final class KucoinExceptionClassifier {
       case "400005":
         return new NonceException(e.getMessage(), e);
       default:
-        return e;
+        return new ExchangeException(e.getMessage(), e);
     }
   }
 
