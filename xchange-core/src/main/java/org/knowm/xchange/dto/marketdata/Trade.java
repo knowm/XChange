@@ -30,6 +30,7 @@ public class Trade implements Serializable {
   protected final String id;
 
   private String makerOrderId;
+
   private String takerOrderId;
 
   /**

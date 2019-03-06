@@ -35,9 +35,4 @@ public class CoinexBalancesTest {
         assertThat(balanceInfo.getAvailable()).isEqualTo("32590.16");
     }
 
-    @Test
-    public void getBalanceTest() throws IOException{
-
-        System.out.println(CoinexKeys.getExchange().getAccountService().getAccountInfo().getWallet());
-    }
 }
