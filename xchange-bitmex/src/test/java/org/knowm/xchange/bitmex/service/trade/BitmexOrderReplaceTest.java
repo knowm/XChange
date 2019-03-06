@@ -1,5 +1,9 @@
 package org.knowm.xchange.bitmex.service.trade;
 
+import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -12,11 +16,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.CertHelper;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
-import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
 /** @author Nikita Belenkiy on 18/05/2018. */
 public class BitmexOrderReplaceTest {
