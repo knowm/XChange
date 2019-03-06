@@ -1,5 +1,8 @@
 package org.knowm.xchange.bitmex;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -16,10 +19,6 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 

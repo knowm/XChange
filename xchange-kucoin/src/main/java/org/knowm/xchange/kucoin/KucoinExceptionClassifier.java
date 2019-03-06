@@ -1,13 +1,11 @@
 package org.knowm.xchange.kucoin;
 
+import com.kucoin.sdk.exception.KucoinApiException;
 import java.io.IOException;
-
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.NonceException;
-
-import com.kucoin.sdk.exception.KucoinApiException;
 
 public final class KucoinExceptionClassifier {
 
