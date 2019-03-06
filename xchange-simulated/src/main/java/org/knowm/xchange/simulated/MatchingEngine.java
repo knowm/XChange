@@ -7,19 +7,17 @@ import static java.util.stream.Collectors.toList;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -32,6 +30,12 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 
 /**
  * The "exchange" which backs {@link SimulatedExchange}.
@@ -49,12 +53,12 @@ final class MatchingEngine {
   private final int priceScale;
   private final Consumer<Fill> onFill;
 
-  private final LinkedList<BookLevel> asks = new LinkedList<>();
-  private final LinkedList<BookLevel> bids = new LinkedList<>();
-  private final LinkedList<Trade> publicTrades = new LinkedList<>();
+  private final List<BookLevel> asks = new LinkedList<>();
+  private final List<BookLevel> bids = new LinkedList<>();
+  private final Deque<Trade> publicTrades = new ConcurrentLinkedDeque<>();
   private final Multimap<String, UserTrade> userTrades = LinkedListMultimap.create();
 
-  private volatile BigDecimal last;
+  private volatile Ticker ticker = new Ticker.Builder().build();
 
   MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale) {
     this(accountFactory, currencyPair, priceScale, f -> {});
@@ -115,10 +119,12 @@ final class MatchingEngine {
     }
   }
 
-  private void insertIntoBook(
-      LinkedList<BookLevel> book, BookOrder order, OrderType type, Account account) {
-    Iterator<BookLevel> iter = book.iterator();
+  private void insertIntoBook(List<BookLevel> book, BookOrder order, OrderType type, Account account) {
+
     int i = 0;
+    boolean insert = false;
+
+    Iterator<BookLevel> iter = book.iterator();
     while (iter.hasNext()) {
       BookLevel level = iter.next();
       int signum = level.getPrice().compareTo(order.getLimitPrice());
@@ -126,18 +132,31 @@ final class MatchingEngine {
         level.getOrders().add(order);
         return;
       } else if (signum < 0 && type == BID || signum > 0 && type == ASK) {
-        BookLevel newLevel = new BookLevel(order.getLimitPrice());
-        newLevel.getOrders().add(order);
-        book.add(i, newLevel);
-        account.reserve(order.toOrder(currencyPair));
-        return;
+        insert = true;
+        break;
       }
       i++;
     }
+
+    account.reserve(order.toOrder(currencyPair));
+
     BookLevel newLevel = new BookLevel(order.getLimitPrice());
     newLevel.getOrders().add(order);
-    book.add(newLevel);
-    account.reserve(order.toOrder(currencyPair));
+    if (insert) {
+      book.add(i, newLevel);
+    } else {
+      book.add(newLevel);
+    }
+
+    ticker = newTickerFromBook()
+        .last(ticker.getLast())
+        .build();
+  }
+
+  private Ticker.Builder newTickerFromBook() {
+    return new Ticker.Builder()
+      .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
+      .bid(bids.isEmpty() ? null : bids.get(0).getPrice());
   }
 
   /**
@@ -176,15 +195,11 @@ final class MatchingEngine {
             .toList());
   }
 
-  public synchronized Ticker ticker() {
-    return new Ticker.Builder()
-        .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
-        .bid(bids.isEmpty() ? null : bids.get(0).getPrice())
-        .last(last)
-        .build();
+  public Ticker ticker() {
+    return ticker;
   }
 
-  public synchronized List<Trade> publicTrades() {
+  public List<Trade> publicTrades() {
     return FluentIterable.from(publicTrades).transform(t -> Trade.Builder.from(t).build()).toList();
   }
 
@@ -268,9 +283,12 @@ final class MatchingEngine {
     LOGGER.debug("Created maker trade: {}", makerOrder);
     accumulate(makerOrder, makerTrade);
 
-    last = makerOrder.getLimitPrice();
     recordFill(new Fill(takerOrder.getApiKey(), takerTrade, true));
     recordFill(new Fill(makerOrder.getApiKey(), makerTrade, false));
+
+    ticker = newTickerFromBook()
+        .last(makerOrder.getLimitPrice())
+        .build();
   }
 
   private void accumulate(BookOrder bookOrder, UserTrade trade) {

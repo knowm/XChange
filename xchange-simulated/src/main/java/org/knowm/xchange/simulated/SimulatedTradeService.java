@@ -1,6 +1,7 @@
 package org.knowm.xchange.simulated;
 
 import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -29,6 +30,18 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     MatchingEngine engine = exchange.getEngine(limitOrder.getCurrencyPair());
     exchange.maybeThrow();
+    return engine.postOrder(getApiKey(), limitOrder).getId();
+  }
+
+  /**
+   * Use instead of {@link #placeLimitOrder(LimitOrder)} to bypass rate limitations
+   * and transient errors when building up a simulated order book.
+   *
+   * @param limitOrder The limit order.
+   * @return The id of the resulting order.
+   */
+  public String placeLimitOrderUnrestricted(LimitOrder limitOrder) {
+    MatchingEngine engine = exchange.getEngine(limitOrder.getCurrencyPair());
     return engine.postOrder(getApiKey(), limitOrder).getId();
   }
 
