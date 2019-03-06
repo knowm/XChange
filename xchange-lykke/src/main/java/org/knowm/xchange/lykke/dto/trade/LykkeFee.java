@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeFee {
 
-  private double amount;
-  private LykkeFeeType type;
+  @JsonProperty("Amount")
+  private final double amount;
 
-  public LykkeFee(@JsonProperty("Amount") double amount, @JsonProperty("Type") LykkeFeeType type) {
+  @JsonProperty("Type")
+  private final LykkeFeeType type;
+
+  public LykkeFee(
+          @JsonProperty("Amount") double amount,
+          @JsonProperty("Type") LykkeFeeType type) {
     this.amount = amount;
     this.type = type;
   }
@@ -16,16 +21,8 @@ public class LykkeFee {
     return amount;
   }
 
-  public void setAmount(double amount) {
-    this.amount = amount;
-  }
-
   public LykkeFeeType getType() {
     return type;
-  }
-
-  public void setType(LykkeFeeType type) {
-    this.type = type;
   }
 
   @Override

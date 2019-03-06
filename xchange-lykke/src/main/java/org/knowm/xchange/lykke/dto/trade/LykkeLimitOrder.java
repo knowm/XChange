@@ -1,13 +1,21 @@
 package org.knowm.xchange.lykke.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class LykkeLimitOrder {
 
-  private String assetPairId;
-  private LykkeOrderType orderAction;
-  private double volume;
-  private double price;
+  @JsonProperty("AssetPairId")
+  private final String assetPairId;
+
+  @JsonProperty("OrderAction")
+  private final LykkeOrderType orderAction;
+
+  @JsonPropertyOrder("Volume")
+  private final double volume;
+
+  @JsonPropertyOrder("Price")
+  private final double price;
 
   public LykkeLimitOrder(
       @JsonProperty("AssetPairId") String assetPairId,
@@ -24,32 +32,16 @@ public class LykkeLimitOrder {
     return assetPairId;
   }
 
-  public void setAssetPairId(String assetPairId) {
-    this.assetPairId = assetPairId;
-  }
-
   public LykkeOrderType getOrderAction() {
     return orderAction;
-  }
-
-  public void setOrderAction(LykkeOrderType orderAction) {
-    this.orderAction = orderAction;
   }
 
   public double getVolume() {
     return volume;
   }
 
-  public void setVolume(double volume) {
-    this.volume = volume;
-  }
-
   public double getPrice() {
     return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
   }
 
   @Override

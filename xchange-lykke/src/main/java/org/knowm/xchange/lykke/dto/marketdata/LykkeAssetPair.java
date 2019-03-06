@@ -3,15 +3,29 @@ package org.knowm.xchange.lykke.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LykkeAssetPair {
+  @JsonProperty("Id")
+  private final String id;
 
-  private String id;
-  private String name;
-  private int accuracy;
-  private int invertedAccuracy;
-  private String baseAssetId;
-  private String quotingAssetId;
-  private double minVolume;
-  private double minInvertedVolume;
+  @JsonProperty("Name")
+  private final String name;
+
+  @JsonProperty("Accuracy")
+  private final int accuracy;
+
+  @JsonProperty("InvertedAccuracy")
+  private final int invertedAccuracy;
+
+  @JsonProperty("BaseAssetId")
+  private final String baseAssetId;
+
+  @JsonProperty("QuotingAssetId")
+  private final String quotingAssetId;
+
+  @JsonProperty("MinVolume")
+  private final double minVolume;
+
+  @JsonProperty("MinInvertedVolume")
+  private final double minInvertedVolume;
 
   public LykkeAssetPair(
       @JsonProperty("Id") String id,
@@ -36,64 +50,32 @@ public class LykkeAssetPair {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public int getAccuracy() {
     return accuracy;
   }
 
-  public void setAccuracy(int accuracy) {
-    this.accuracy = accuracy;
-  }
-
   public int getInvertedAccuracy() {
     return invertedAccuracy;
-  }
-
-  public void setInvertedAccuracy(int invertedAccuracy) {
-    this.invertedAccuracy = invertedAccuracy;
   }
 
   public String getBaseAssetId() {
     return baseAssetId;
   }
 
-  public void setBaseAssetId(String baseAssetId) {
-    this.baseAssetId = baseAssetId;
-  }
-
   public String getQuotingAssetId() {
     return quotingAssetId;
-  }
-
-  public void setQuotingAssetId(String quotingAssetId) {
-    this.quotingAssetId = quotingAssetId;
   }
 
   public double getMinVolume() {
     return minVolume;
   }
 
-  public void setMinVolume(double minVolume) {
-    this.minVolume = minVolume;
-  }
-
   public double getMinInvertedVolume() {
     return minInvertedVolume;
-  }
-
-  public void setMinInvertedVolume(double minInvertedVolume) {
-    this.minInvertedVolume = minInvertedVolume;
   }
 
   @Override

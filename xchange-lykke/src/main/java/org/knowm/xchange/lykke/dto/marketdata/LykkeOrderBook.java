@@ -5,10 +5,17 @@ import java.util.List;
 
 public class LykkeOrderBook {
 
-  private String assetPair;
-  private boolean isBuy;
-  private String timestamp;
-  private List<LykkePrices> prices;
+  @JsonProperty("AssetPair")
+  private final String assetPair;
+
+  @JsonProperty("IsBuy")
+  private final boolean isBuy;
+
+  @JsonProperty("Timestamp")
+  private final String timestamp;
+
+  @JsonProperty("Prices")
+  private final List<LykkePrices> prices;
 
   public LykkeOrderBook(
       @JsonProperty("AssetPair") String assetPair,
@@ -25,32 +32,16 @@ public class LykkeOrderBook {
     return assetPair;
   }
 
-  public void setAssetPair(String assetPair) {
-    this.assetPair = assetPair;
-  }
-
   public boolean isBuy() {
     return isBuy;
-  }
-
-  public void setBuy(boolean buy) {
-    isBuy = buy;
   }
 
   public String getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(String timestamp) {
-    this.timestamp = timestamp;
-  }
-
   public List<LykkePrices> getPrices() {
     return prices;
-  }
-
-  public void setPrices(List<LykkePrices> prices) {
-    this.prices = prices;
   }
 
   @Override
