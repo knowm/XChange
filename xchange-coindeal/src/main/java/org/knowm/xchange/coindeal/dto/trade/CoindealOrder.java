@@ -5,68 +5,81 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CoindealOrder {
 
   @JsonProperty("id")
-  private String id;
+  private final String id;
 
   @JsonProperty("clientOrderId")
-  private String clientOrderId;
+  private final String clientOrderId;
 
   @JsonProperty("symbol")
-  private String symbol;
+  private final String symbol;
 
   @JsonProperty("side")
-  private String side;
+  private final String side;
 
   @JsonProperty("status")
-  private String status;
+  private final String status;
 
   @JsonProperty("quantity")
-  private double quantity;
+  private final double quantity;
 
   @JsonProperty("price")
-  private double price;
+  private final double price;
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
+  public CoindealOrder(
+          @JsonProperty("id") String id,
+          @JsonProperty("clientOrderId") String clientOrderId,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("side") String side,
+          @JsonProperty("status") String status,
+          @JsonProperty("quantity") double quantity,
+          @JsonProperty("price") double price) {
     this.id = id;
-  }
-
-  public String getClientOrderId() {
-    return clientOrderId;
-  }
-
-  public double getPrice() {
-    return price;
-  }
-
-  public void setPrice(double price) {
+    this.clientOrderId = clientOrderId;
+    this.symbol = symbol;
+    this.side = side;
+    this.status = status;
+    this.quantity = quantity;
     this.price = price;
   }
 
-  @Override
-  public String toString() {
-    return "CoindealOrder{"
-        + "id='"
-        + id
-        + '\''
-        + ", clientOrderId='"
-        + clientOrderId
-        + '\''
-        + ", symbol='"
-        + symbol
-        + '\''
-        + ", side='"
-        + side
-        + '\''
-        + ", status='"
-        + status
-        + '\''
-        + ", quantity="
-        + quantity
-        + ", price="
-        + price
-        + '}';
-  }
+    public String getId() {
+        return id;
+    }
+
+    public String getClientOrderId() {
+        return clientOrderId;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "CoindealOrder{" +
+                "id='" + id + '\'' +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", side='" + side + '\'' +
+                ", status='" + status + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }

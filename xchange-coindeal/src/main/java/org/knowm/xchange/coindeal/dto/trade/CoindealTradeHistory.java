@@ -7,33 +7,52 @@ import java.util.Map;
 public class CoindealTradeHistory {
 
   @JsonProperty("id")
-  private Long id;
+  private final Long id;
 
   @JsonProperty("clientOrderId")
-  private String clientOrderId;
+  private final String clientOrderId;
 
   @JsonProperty("orderId")
-  private String orderId;
+  private final String orderId;
 
   @JsonProperty("symbol")
-  private String symbol;
+  private final String symbol;
 
   @JsonProperty("side")
-  private String side;
+  private final String side;
 
   @JsonProperty("quantity")
-  private String quantity;
+  private final String quantity;
 
   @JsonProperty("fee")
-  private String fee;
+  private final String fee;
 
   @JsonProperty("price")
-  private String price;
+  private final String price;
 
   @JsonProperty("timestamp")
-  private String timestamp;
+  private final String timestamp;
 
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  public CoindealTradeHistory(
+      @JsonProperty("id") Long id,
+      @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("orderId") String orderId,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("side") String side,
+      @JsonProperty("quantity") String quantity,
+      @JsonProperty("fee") String fee,
+      @JsonProperty("price") String price,
+      @JsonProperty("timestamp") String timestamp) {
+    this.id = id;
+    this.clientOrderId = clientOrderId;
+    this.orderId = orderId;
+    this.symbol = symbol;
+    this.side = side;
+    this.quantity = quantity;
+    this.fee = fee;
+    this.price = price;
+    this.timestamp = timestamp;
+  }
 
   @JsonProperty("id")
   public Long getId() {
@@ -65,11 +84,6 @@ public class CoindealTradeHistory {
     return timestamp;
   }
 
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-    return this.additionalProperties;
-  }
-
   @Override
   public String toString() {
     return "CoindealTradeHistory{"
@@ -99,8 +113,6 @@ public class CoindealTradeHistory {
         + ", timestamp='"
         + timestamp
         + '\''
-        + ", additionalProperties="
-        + additionalProperties
         + '}';
   }
 }
