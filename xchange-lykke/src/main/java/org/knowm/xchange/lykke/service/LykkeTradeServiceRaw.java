@@ -1,19 +1,17 @@
 package org.knowm.xchange.lykke.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.lykke.LykkeException;
 import org.knowm.xchange.lykke.LykkeAdapter;
+import org.knowm.xchange.lykke.LykkeException;
 import org.knowm.xchange.lykke.dto.trade.LykkeLimitOrder;
 import org.knowm.xchange.lykke.dto.trade.LykkeOrder;
 import org.knowm.xchange.lykke.dto.trade.LykkeTradeHistory;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.xml.ws.http.HTTPException;
-import java.io.IOException;
-import java.util.List;
 
 public class LykkeTradeServiceRaw extends LykkeBaseService {
 
@@ -23,7 +21,8 @@ public class LykkeTradeServiceRaw extends LykkeBaseService {
     super(exchange);
   }
 
-  public List<LykkeTradeHistory> getLykkeTradeHistory(TradeHistoryParamsAll paramsAll) throws IOException {
+  public List<LykkeTradeHistory> getLykkeTradeHistory(TradeHistoryParamsAll paramsAll)
+      throws IOException {
     try {
       return lykke.getTradeHistory(
           LykkeAdapter.adaptToAssetPair(paramsAll.getCurrencyPair()),

@@ -38,16 +38,16 @@ public class BatchStatus {
     // The status of the order placement
     placed, // the order was placed successfully
     attempted, // the post-order will be attempted. If it is successful it will be shown in open
-               // orders
+    // orders
     invalidOrderType, // the order was not placed because orderType is invalid
     invalidSide, // the order was not placed because side is invalid
     invalidSize, // the order was not placed because size is invalid
     invalidPrice, // the order was not placed because limitPrice and/or stopPrice are invalid
     insufficientAvailableFunds, // the order was not placed because available funds are insufficient
     selfFill, // the order was not placed because it would be filled against an existing order
-              // belonging to the same account
+    // belonging to the same account
     tooManySmallOrders, // the order was not placed because the number of small open orders would
-                        // exceed the permissible limit
+    // exceed the permissible limit
     marketSuspended, // the order was not placed because the market is suspended
     marketInactive, // the order was not placed because the market is inactive
     clientOrderIdAlreadyExist, // the specified client id already exist
@@ -57,7 +57,7 @@ public class BatchStatus {
     cancelled, // the order was found untouched and the entire size was cancelled successfully
     filled, // the order was found completely filled and could not be cancelled
     notFound, // the order was not found, either because it had already been cancelled or it never
-              // existed
+    // existed
     requiredArgumentMissing // the request does not contain order_id and/or cliOrdId parameters
   }
 

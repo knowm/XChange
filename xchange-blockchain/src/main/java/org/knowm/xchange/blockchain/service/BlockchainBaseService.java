@@ -8,13 +8,14 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class BlockchainBaseService extends BaseExchangeService implements BaseService {
 
-    protected final String apiKey;
-    protected final Blockchain blockchain;
+  protected final String apiKey;
+  protected final Blockchain blockchain;
 
-    protected BlockchainBaseService(Exchange exchange) {
-        super(exchange);
-        this.blockchain = RestProxyFactory
-                .createProxy(Blockchain.class,exchange.getExchangeSpecification().getSslUri(),getClientConfig());
-        this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    }
+  protected BlockchainBaseService(Exchange exchange) {
+    super(exchange);
+    this.blockchain =
+        RestProxyFactory.createProxy(
+            Blockchain.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+  }
 }

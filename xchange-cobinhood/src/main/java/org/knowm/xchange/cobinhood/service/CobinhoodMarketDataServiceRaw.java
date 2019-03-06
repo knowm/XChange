@@ -2,8 +2,8 @@ package org.knowm.xchange.cobinhood.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cobinhood.CobinhoodException;
 import org.knowm.xchange.cobinhood.CobinhoodAdapters;
+import org.knowm.xchange.cobinhood.CobinhoodException;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;

@@ -17,8 +17,8 @@ public class AddressJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AddressJSONTest.class
-            .getResourceAsStream("/org/knowm/xchange/blockchain/address.json");
+    InputStream is =
+        AddressJSONTest.class.getResourceAsStream("/org/knowm/xchange/blockchain/address.json");
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

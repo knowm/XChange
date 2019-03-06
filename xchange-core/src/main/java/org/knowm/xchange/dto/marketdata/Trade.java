@@ -126,16 +126,27 @@ public class Trade implements Serializable {
 
   @Override
   public String toString() {
-    return "Trade{" +
-            "type=" + type +
-            ", originalAmount=" + originalAmount +
-            ", currencyPair=" + currencyPair +
-            ", price=" + price +
-            ", timestamp=" + timestamp +
-            ", id='" + id + '\'' +
-            ", makerOrderId='" + makerOrderId + '\'' +
-            ", takerOrderId='" + takerOrderId + '\'' +
-            '}';
+    return "Trade{"
+        + "type="
+        + type
+        + ", originalAmount="
+        + originalAmount
+        + ", currencyPair="
+        + currencyPair
+        + ", price="
+        + price
+        + ", timestamp="
+        + timestamp
+        + ", id='"
+        + id
+        + '\''
+        + ", makerOrderId='"
+        + makerOrderId
+        + '\''
+        + ", takerOrderId='"
+        + takerOrderId
+        + '\''
+        + '}';
   }
 
   public static class Builder {
