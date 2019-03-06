@@ -9,21 +9,20 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class LykkeBaseService extends BaseExchangeService implements BaseService {
 
-    protected final String apiKey;
-    protected final LykkeAuthenticated lykke;
-    protected final Lykke lykkePublic;
+  protected final String apiKey;
+  protected final LykkeAuthenticated lykke;
+  protected final Lykke lykkePublic;
 
-    protected LykkeBaseService(Exchange exchange) {
-        super(exchange);
-        this.lykke = RestProxyFactory.createProxy(
-                LykkeAuthenticated.class,
-                exchange.getExchangeSpecification().getSslUri(),
-                getClientConfig());
-        this.lykkePublic = RestProxyFactory.createProxy(
-                LykkeAuthenticated.class,
-                "https://public-api.lykke.com/",
-                getClientConfig());
-        this.apiKey = exchange.getExchangeSpecification().getApiKey();
-
-    }
+  protected LykkeBaseService(Exchange exchange) {
+    super(exchange);
+    this.lykke =
+        RestProxyFactory.createProxy(
+            LykkeAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+    this.lykkePublic =
+        RestProxyFactory.createProxy(
+            LykkeAuthenticated.class, "https://public-api.lykke.com/", getClientConfig());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+  }
 }

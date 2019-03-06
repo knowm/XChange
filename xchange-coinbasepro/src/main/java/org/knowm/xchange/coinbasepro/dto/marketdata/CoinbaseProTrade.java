@@ -33,15 +33,15 @@ public class CoinbaseProTrade {
     this.size = size;
     this.side = side;
   }
+
   public CoinbaseProTrade(
-          @JsonProperty("time") String timestamp,
-          @JsonProperty("trade_id") long tradeId,
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("size") BigDecimal size,
-          @JsonProperty("side") String side,
-          @JsonProperty("makerOrderId") String makerOrderId,
-          @JsonProperty("takerOrderId") String takerOrderId)
-  {
+      @JsonProperty("time") String timestamp,
+      @JsonProperty("trade_id") long tradeId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("side") String side,
+      @JsonProperty("makerOrderId") String makerOrderId,
+      @JsonProperty("takerOrderId") String takerOrderId) {
 
     this.timestamp = timestamp;
     this.tradeId = tradeId;
@@ -79,7 +79,6 @@ public class CoinbaseProTrade {
   public String getTakerOrderId() {
     return takerOrderId;
   }
-
 
   @Override
   public String toString() {

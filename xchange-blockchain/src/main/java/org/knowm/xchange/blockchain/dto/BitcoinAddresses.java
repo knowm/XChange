@@ -25,8 +25,6 @@ public final class BitcoinAddresses {
 
   @Override
   public String toString() {
-    return "BitcoinAddresses{" +
-            "bitcoinAddresses=" + bitcoinAddresses +
-            '}';
+    return "BitcoinAddresses{" + "bitcoinAddresses=" + bitcoinAddresses + '}';
   }
 }

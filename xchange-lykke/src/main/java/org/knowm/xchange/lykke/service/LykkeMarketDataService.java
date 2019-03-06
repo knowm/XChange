@@ -1,5 +1,7 @@
 package org.knowm.xchange.lykke.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,37 +13,33 @@ import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-import java.io.IOException;
-import java.util.List;
+public class LykkeMarketDataService extends LykkeMarketDataServiceRaw implements MarketDataService {
 
-public class LykkeMarketDataService extends LykkeMarketDataServiceRaw
-        implements MarketDataService {
+  public LykkeMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
-    public LykkeMarketDataService(Exchange exchange) {
-        super(exchange);
-    }
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public List<Ticker> getTickers(Params params) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return LykkeAdapter.adaptOrderBook(getLykkeOrderBook(currencyPair), currencyPair);
+  }
 
-    @Override
-    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-        return LykkeAdapter.adaptOrderBook(getLykkeOrderBook(currencyPair),currencyPair);
-    }
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
-
-    public List<LykkeAssetPair> getAssetPairs() throws IOException{
-        return lykke.getAssetPairs();
-    }
+  public List<LykkeAssetPair> getAssetPairs() throws IOException {
+    return lykke.getAssetPairs();
+  }
 }
