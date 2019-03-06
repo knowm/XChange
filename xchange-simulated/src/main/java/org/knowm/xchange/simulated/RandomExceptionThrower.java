@@ -3,10 +3,9 @@ package org.knowm.xchange.simulated;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Random;
+
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.NonceException;
-import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.exceptions.SystemOverloadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,12 +54,6 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
     } else if (val == 3) {
       throw new SystemOverloadException(
           "System overloads are a common error on some exchanges. " + GENERIC_GUIDE);
-    } else if (val == 4) {
-      throw new RateLimitExceededException(
-          "Are you gracefully backing off when you get rate limit errors?");
-    } else if (val == 5) {
-      throw new FrequencyLimitExceededException(
-          "Are you gracefully backing off when you get rate limit errors?");
     }
   }
 }
