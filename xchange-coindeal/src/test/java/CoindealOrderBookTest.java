@@ -12,9 +12,6 @@ import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
 
 public class CoindealOrderBookTest {
 
-  ExchangeSpecification exSpec = new CoindealExchange().getDefaultExchangeSpecification();
-  Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
-
   @Test
   public void coindealOrderbookDtoTest() throws IOException {
 
