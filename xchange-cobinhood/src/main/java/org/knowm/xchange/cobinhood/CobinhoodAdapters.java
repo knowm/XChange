@@ -103,7 +103,7 @@ public class CobinhoodAdapters {
 
     return new LimitOrder(
         orderType,
-        cobinhoodLimitOrder.get(1),
+        cobinhoodLimitOrder.get(2),
         currencyPair,
         null,
         null,
