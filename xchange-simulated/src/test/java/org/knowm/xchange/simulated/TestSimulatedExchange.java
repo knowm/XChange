@@ -18,6 +18,7 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -344,12 +345,12 @@ public class TestSimulatedExchange {
         equalTo(INITIAL_BALANCE.subtract(expectedUsdCost).subtract(expectedUsdReserved)));
   }
 
-  private void placeOrder(
-      Exchange exchange, OrderType orderType, BigDecimal price, BigDecimal amount)
+  private void placeMMOrder(
+      SimulatedExchange exchange, OrderType orderType, BigDecimal price, BigDecimal amount)
       throws IOException {
     exchange
         .getTradeService()
-        .placeLimitOrder(
+        .placeLimitOrderUnrestricted(
             new LimitOrder.Builder(orderType, BTC_USD)
                 .limitPrice(price)
                 .originalAmount(amount)
@@ -380,18 +381,18 @@ public class TestSimulatedExchange {
         (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     marketMakerExchange.getAccountService().deposit(USD, new BigDecimal(10000));
     marketMakerExchange.getAccountService().deposit(BTC, new BigDecimal(10000));
-    placeOrder(marketMakerExchange, ASK, new BigDecimal(10000), new BigDecimal("200"));
-    placeOrder(marketMakerExchange, ASK, new BigDecimal(100), new BigDecimal("0.1"));
-    placeOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.05"));
-    placeOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.25"));
-    placeOrder(marketMakerExchange, ASK, new BigDecimal(98), new BigDecimal("0.3"));
+    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(10000), new BigDecimal("200"));
+    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(100), new BigDecimal("0.1"));
+    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.05"));
+    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.25"));
+    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(98), new BigDecimal("0.3"));
     // ----
-    placeOrder(marketMakerExchange, BID, new BigDecimal(97), new BigDecimal("0.4"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(95), new BigDecimal("0.6"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(94), new BigDecimal("0.7"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(93), new BigDecimal("0.8"));
-    placeOrder(marketMakerExchange, BID, new BigDecimal(1), new BigDecimal("1002"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(97), new BigDecimal("0.4"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(95), new BigDecimal("0.6"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(94), new BigDecimal("0.7"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(93), new BigDecimal("0.8"));
+    placeMMOrder(marketMakerExchange, BID, new BigDecimal(1), new BigDecimal("1002"));
   }
 }
