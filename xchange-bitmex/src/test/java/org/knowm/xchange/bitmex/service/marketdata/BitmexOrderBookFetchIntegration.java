@@ -1,16 +1,18 @@
 package org.knowm.xchange.bitmex.service.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitmex.BitmexExchange;
+import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BitmexOrderBookFetchIntegration {
 
@@ -26,7 +28,7 @@ public class BitmexOrderBookFetchIntegration {
 
   @Test
   public void getOrderBookTest() throws IOException {
-    CurrencyPair pair = new CurrencyPair("XBT", "M19");
+    CurrencyPair pair = bitmexExchange.determineActiveContract("ETH", "USD", BitmexPrompt.MONTHLY);
     OrderBook orderBook = marketDataService.getOrderBook(pair);
 
     assertThat(orderBook).isNotNull();
