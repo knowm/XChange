@@ -30,7 +30,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <version.java>1.8</version.java>
-        <version.assertj>3.11.1</version.assertj>
+        <version.assertj>3.12.1</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.8.1</version.commons.lang3>
         <version.fasterxml>2.9.8</version.fasterxml>
@@ -129,13 +129,13 @@
         <module>xchange-ccex</module>
         <module>xchange-cexio</module>
         <module>xchange-cobinhood</module>
-        <!--<module>xchange-coinex</module>-->
         <module>xchange-coinbase</module>
         <module>xchange-coinbasepro</module>
         <module>xchange-coindeal</module>
         <module>xchange-coindirect</module>
         <module>xchange-coinbene</module>
         <module>xchange-coinegg</module>
+        <module>xchange-coinex</module>
         <module>xchange-coinone</module>
         <module>xchange-coinfloor</module>
         <module>xchange-coingi</module>
@@ -169,8 +169,8 @@
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
-        <module>xchange-luno</module>
         <module>xchange-lykke</module>
+        <module>xchange-luno</module>
         <module>xchange-mercadobitcoin</module>
         <module>xchange-okcoin</module>
         <module>xchange-openexchangerates</module>
