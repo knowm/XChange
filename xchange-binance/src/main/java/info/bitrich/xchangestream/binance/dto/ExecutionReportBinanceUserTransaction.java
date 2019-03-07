@@ -187,7 +187,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         if (executionType != ExecutionType.TRADE)
             throw new IllegalStateException("Not a trade");
         return new UserTrade.Builder()
-            .type(BinanceAdapters.convertType(buyerMarketMaker))
+            .type(BinanceAdapters.convert(side))
             .originalAmount(lastExecutedQuantity)
             .currencyPair(currencyPair)
             .price(lastExecutedPrice)
