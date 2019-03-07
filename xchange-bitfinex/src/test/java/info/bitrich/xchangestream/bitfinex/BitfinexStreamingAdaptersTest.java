@@ -266,37 +266,9 @@ public class BitfinexStreamingAdaptersTest {
             "tBTCUSD", //pair
             1548674247684L, //mtsCreate
             21895093123L, //orderId
-            new BigDecimal("0.00341448"), //execAmount
-            new BigDecimal("3495.4"), //execPrice
-            "buy", //orderType
-            new BigDecimal("3495.9"), //orderPrice
-            1548674247683L, //maker
-            new BigDecimal("-0.00000682896"), //fee
-            "BTC" //feeCurrency
-        );
-        UserTrade adapted = BitfinexStreamingAdapters.adaptUserTrade(bitfinexWebSocketAuthTrade);
-        assertEquals(CurrencyPair.BTC_USD, adapted.getCurrencyPair());
-        assertEquals(new BigDecimal("-0.00000682896"), adapted.getFeeAmount());
-        assertEquals(CurrencyPair.BTC_USD.base, adapted.getFeeCurrency());
-        assertEquals("335015622", adapted.getId());
-        assertEquals("21895093123", adapted.getOrderId());
-        assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
-        assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
-        assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
-        assertEquals(OrderType.BID, adapted.getType());
-    }
-
-
-    @Test
-    public void testTradeSell() {
-        BitfinexWebSocketAuthTrade bitfinexWebSocketAuthTrade = new BitfinexWebSocketAuthTrade(
-            335015622L, //id
-            "tBTCUSD", //pair
-            1548674247684L, //mtsCreate
-            21895093123L, //orderId
             new BigDecimal("-0.00341448"), //execAmount
             new BigDecimal("3495.4"), //execPrice
-            "sell", //orderType
+            "buy", //orderType
             new BigDecimal("3495.9"), //orderPrice
             1548674247683L, //maker
             new BigDecimal("-0.00000682896"), //fee
@@ -312,5 +284,33 @@ public class BitfinexStreamingAdaptersTest {
         assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
         assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
         assertEquals(OrderType.ASK, adapted.getType());
+    }
+
+
+    @Test
+    public void testTradeSell() {
+        BitfinexWebSocketAuthTrade bitfinexWebSocketAuthTrade = new BitfinexWebSocketAuthTrade(
+            335015622L, //id
+            "tBTCUSD", //pair
+            1548674247684L, //mtsCreate
+            21895093123L, //orderId
+            new BigDecimal("-0.00341448"), //execAmount
+            new BigDecimal("3495.4"), //execPrice
+            "sell", //orderType
+            new BigDecimal("3495.9"), //orderPrice
+            1548674247683L, //maker
+            new BigDecimal("0.00000682896"), //fee
+            "BTC" //feeCurrency
+        );
+        UserTrade adapted = BitfinexStreamingAdapters.adaptUserTrade(bitfinexWebSocketAuthTrade);
+        assertEquals(CurrencyPair.BTC_USD, adapted.getCurrencyPair());
+        assertEquals(new BigDecimal("0.00000682896"), adapted.getFeeAmount());
+        assertEquals(CurrencyPair.BTC_USD.base, adapted.getFeeCurrency());
+        assertEquals("335015622", adapted.getId());
+        assertEquals("21895093123", adapted.getOrderId());
+        assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
+        assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
+        assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
+        assertEquals(OrderType.BID, adapted.getType());
     }
 }

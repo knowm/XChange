@@ -224,18 +224,14 @@ class BitfinexStreamingAdapters {
     }
 
     static UserTrade adaptUserTrade(BitfinexWebSocketAuthTrade authTrade) {
-        OrderType orderType = authTrade.getOrderType().equalsIgnoreCase("buy") ? BID : ASK;
+        OrderType orderType = authTrade.getOrderType().equalsIgnoreCase("buy") ? ASK : BID;
         return new UserTrade.Builder()
             .currencyPair(BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair())))
-            .feeAmount(orderType.equals(BID)
-                    ? authTrade.getFee()
-                    : authTrade.getFee().negate())
+            .feeAmount(authTrade.getFee().abs())
             .feeCurrency(Currency.getInstance(authTrade.getFeeCurrency()))
             .id(Long.toString(authTrade.getId()))
             .orderId(Long.toString(authTrade.getOrderId()))
-            .originalAmount(orderType.equals(BID)
-                    ? authTrade.getExecAmount()
-                    : authTrade.getExecAmount().negate())
+            .originalAmount(authTrade.getExecAmount().abs())
             .price(authTrade.getExecPrice())
             .timestamp(DateUtils.fromMillisUtc(authTrade.getMtsCreate()))
             .type(orderType)
