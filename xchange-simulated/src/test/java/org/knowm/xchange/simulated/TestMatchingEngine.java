@@ -28,6 +28,7 @@ import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.math.BigDecimal;
 import java.util.function.Consumer;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -56,7 +57,66 @@ public class TestMatchingEngine {
   public void setup() {
     MockitoAnnotations.initMocks(this);
     Mockito.when(accountFactory.get(Mockito.anyString())).thenReturn(account);
-    matchingEngine = new MatchingEngine(accountFactory, BTC_USD, 2, onFill);
+    matchingEngine = new MatchingEngine(accountFactory, BTC_USD, 2, new BigDecimal("0.001"), onFill);
+  }
+
+  @Test
+  public void testValidationOK() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .limitPrice(new BigDecimal("100.01"))
+            .originalAmount(new BigDecimal("0.001"))
+            .build());
+  }
+
+  @Test(expected = ExchangeException.class)
+  public void testValidationNoPriceViolation() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .originalAmount(new BigDecimal("0.000999999"))
+            .build());
+  }
+
+  @Test(expected = ExchangeException.class)
+  public void testValidationMinimumAmountViolation() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .limitPrice(new BigDecimal("100.01"))
+            .originalAmount(new BigDecimal("0.000999999"))
+            .build());
+  }
+
+  @Test(expected = ExchangeException.class)
+  public void testValidationPriceScaleViolation() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .limitPrice(new BigDecimal("100.011"))
+            .originalAmount(new BigDecimal("0.001"))
+            .build());
+  }
+
+  @Test(expected = ExchangeException.class)
+  public void testValidationZeroPriceViolation() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .limitPrice(new BigDecimal(0))
+            .originalAmount(new BigDecimal("0.001"))
+            .build());
+  }
+
+  @Test(expected = ExchangeException.class)
+  public void testValidationNegativePriceViolation() {
+    matchingEngine.postOrder(
+        TAKER,
+        new LimitOrder.Builder(ASK, BTC_USD)
+            .limitPrice(new BigDecimal("-0.0001"))
+            .originalAmount(new BigDecimal("0.001"))
+            .build());
   }
 
   @Test
