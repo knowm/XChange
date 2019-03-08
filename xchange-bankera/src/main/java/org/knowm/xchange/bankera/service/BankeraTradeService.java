@@ -21,8 +21,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.*;
 
 public class BankeraTradeService extends BankeraTradeServiceRaw implements TradeService {
 
@@ -86,8 +85,7 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new BankeraOpenOrderParams();
   }
 
   @Override
@@ -101,5 +99,49 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     }
 
     return orders;
+  }
+
+  public static class BankeraOpenOrderParams implements
+          OpenOrdersParams,
+          OpenOrdersParamLimit,
+          OpenOrdersParamCurrencyPair,
+  		  OpenOrdersParamOffset {
+
+    private Integer limit = 100;
+    private Integer offset = 0;
+    private CurrencyPair currencyPair;
+
+    public BankeraOpenOrderParams() {}
+
+    @Override
+    public boolean accept(LimitOrder order) {
+      return OpenOrdersParamCurrencyPair.super.accept(order);
+    }
+
+    @Override
+    public Integer getLimit() {
+      return limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
+
+    @Override
+	public Integer getOffset() { return offset; }
+
+	@Override
+	public void setOffset(Integer offset) { this.offset = offset; }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+      this.currencyPair = pair;
+    }
   }
 }
