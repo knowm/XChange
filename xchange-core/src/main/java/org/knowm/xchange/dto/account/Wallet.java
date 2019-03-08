@@ -122,6 +122,11 @@ public final class Wallet implements Serializable {
   }
 
   @Override
+  public int hashCode() {
+    return Objects.hash(id, name, balances);
+  }
+
+  @Override
   public String toString() {
 
     return "Wallet [id=" + id + ", name=" + name + ", balances=" + balances.values() + "]";
