@@ -129,7 +129,7 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     }
 
     @Override
-	public Integer getOffset() { return offset; }
+    public Integer getOffset() { return offset; }
 
     @Override
     public void setOffset(Integer offset) { this.offset = offset; }
