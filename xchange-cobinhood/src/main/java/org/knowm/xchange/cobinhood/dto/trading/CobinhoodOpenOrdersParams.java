@@ -1,6 +1,6 @@
 package org.knowm.xchange.cobinhood.dto.trading;
 
-import org.knowm.xchange.cobinhood.dto.CobinhoodAdapters;
+import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 
