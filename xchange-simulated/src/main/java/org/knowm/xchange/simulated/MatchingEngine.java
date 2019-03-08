@@ -113,7 +113,7 @@ final class MatchingEngine {
 
   private void validate(Order order) {
     if (order.getOriginalAmount().compareTo(minimumAmount) < 0) {
-      throw new ExchangeException("Minimum trade amount is " + minimumAmount);
+      throw new ExchangeException("Trade amount is " + order.getOriginalAmount() + ", minimum is " + minimumAmount);
     }
     if (order instanceof LimitOrder) {
       LimitOrder limitOrder = (LimitOrder) order;
@@ -121,7 +121,7 @@ final class MatchingEngine {
         throw new ExchangeException("No price");
       }
       if (limitOrder.getLimitPrice().compareTo(ZERO) <= 0) {
-        throw new ExchangeException("Limit price must be positive");
+        throw new ExchangeException("Limit price is " + limitOrder.getLimitPrice() + ", must be positive");
       }
       int scale = limitOrder.getLimitPrice().stripTrailingZeros().scale();
       if (scale > priceScale) {
