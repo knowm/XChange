@@ -51,6 +51,7 @@ final class MatchingEngine {
   private final AccountFactory accountFactory;
   private final CurrencyPair currencyPair;
   private final int priceScale;
+  private final BigDecimal minimumAmount;
   private final Consumer<Fill> onFill;
 
   private final List<BookLevel> asks = new LinkedList<>();
@@ -60,23 +61,26 @@ final class MatchingEngine {
 
   private volatile Ticker ticker = new Ticker.Builder().build();
 
-  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale) {
-    this(accountFactory, currencyPair, priceScale, f -> {});
+  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale, BigDecimal minimumAmount) {
+    this(accountFactory, currencyPair, priceScale, minimumAmount, f -> {});
   }
 
   MatchingEngine(
       AccountFactory accountFactory,
       CurrencyPair currencyPair,
       int priceScale,
+      BigDecimal minimumAmount,
       Consumer<Fill> onFill) {
     this.accountFactory = accountFactory;
     this.currencyPair = currencyPair;
     this.priceScale = priceScale;
+    this.minimumAmount = minimumAmount;
     this.onFill = onFill;
   }
 
   public synchronized LimitOrder postOrder(String apiKey, Order original) {
     LOGGER.debug("User {} posting order: {}", apiKey, original);
+    validate(original);
     Account account = accountFactory.get(apiKey);
     checkBalance(original, account);
     BookOrder takerOrder = BookOrder.fromOrder(original, apiKey);
@@ -105,6 +109,25 @@ final class MatchingEngine {
         throw new ExchangeException("Unsupported order type: " + takerOrder.getType());
     }
     return takerOrder.toOrder(currencyPair);
+  }
+
+  private void validate(Order order) {
+    if (order.getOriginalAmount().compareTo(minimumAmount) < 0) {
+      throw new ExchangeException("Minimum trade amount is " + minimumAmount);
+    }
+    if (order instanceof LimitOrder) {
+      LimitOrder limitOrder = (LimitOrder) order;
+      if (limitOrder.getLimitPrice() == null) {
+        throw new ExchangeException("No price");
+      }
+      if (limitOrder.getLimitPrice().compareTo(ZERO) <= 0) {
+        throw new ExchangeException("Limit price must be positive");
+      }
+      int scale = limitOrder.getLimitPrice().stripTrailingZeros().scale();
+      if (scale > priceScale) {
+        throw new ExchangeException("Price scale is " + scale + ", maximum is " + priceScale);
+      }
+    }
   }
 
   private void checkBalance(Order order, Account account) {
