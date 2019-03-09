@@ -96,7 +96,7 @@ public class WexMarketDataService extends WexMarketDataServiceRaw implements Mar
     String pairs = WexAdapters.getPair(currencyPair);
     int numberOfItems = FULL_SIZE;
     if (args != null && args.length > 0) {
-      if (args[0] instanceof Number) {
+      if (args[0] instanceof Integer) {
         numberOfItems = (Integer) args[0];
       }
     }
