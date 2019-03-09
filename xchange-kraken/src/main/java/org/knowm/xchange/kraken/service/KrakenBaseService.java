@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
@@ -24,6 +26,7 @@ import org.knowm.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -81,9 +84,13 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
       } else if ("EOrder:Insufficient funds".equals(error)) {
         throw new FundsExceededException(error);
-      }
-      if ("EAPI:Rate limit exceeded".equals(error)) {
+
+      } else if ("EAPI:Rate limit exceeded".equals(error)) {
         throw new RateLimitExceededException(error);
+
+      } else if ("EService:Unavailable".equals(error)) {
+        throw new ExchangeUnavailableException(error);
+
       }
 
       throw new ExchangeException(Arrays.toString(errors));
