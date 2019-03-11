@@ -1,9 +1,8 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PoloniexDeposit {
 
@@ -15,9 +14,14 @@ public class PoloniexDeposit {
   private final Date timestamp;
   private final String status;
 
-  public PoloniexDeposit(@JsonProperty("currency") String currency, @JsonProperty("address") String address,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("confirmations") int confirmations, @JsonProperty("txid") String txid,
-      @JsonProperty("timestamp") long timestamp, @JsonProperty("status") String status) {
+  public PoloniexDeposit(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("address") String address,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("confirmations") int confirmations,
+      @JsonProperty("txid") String txid,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("status") String status) {
     super();
     this.currency = currency;
     this.address = address;
@@ -58,7 +62,20 @@ public class PoloniexDeposit {
 
   @Override
   public String toString() {
-    return "PoloniexDeposit [currency=" + currency + ", address=" + address + ", amount=" + amount + ", confirmations=" + confirmations + ", txid="
-        + txid + ", timestamp=" + timestamp + ", status=" + status + "]";
+    return "PoloniexDeposit [currency="
+        + currency
+        + ", address="
+        + address
+        + ", amount="
+        + amount
+        + ", confirmations="
+        + confirmations
+        + ", txid="
+        + txid
+        + ", timestamp="
+        + timestamp
+        + ", status="
+        + status
+        + "]";
   }
 }

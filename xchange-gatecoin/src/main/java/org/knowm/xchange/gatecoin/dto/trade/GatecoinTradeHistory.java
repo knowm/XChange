@@ -1,12 +1,9 @@
 package org.knowm.xchange.gatecoin.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author sumedha
- */
+/** @author sumedha */
 public class GatecoinTradeHistory {
   private final long transactionId;
   private final String transactionTime;
@@ -18,9 +15,15 @@ public class GatecoinTradeHistory {
   private final String way;
   private final BigDecimal feeRate;
 
-  public GatecoinTradeHistory(@JsonProperty("transactionId") long transactionId, @JsonProperty("transactionTime") String transactionTime,
-      @JsonProperty("askOrderID") String askOrderID, @JsonProperty("bidOrderID") String bidOrderID, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("currencyPair") String currencyPair, @JsonProperty("way") String way,
+  public GatecoinTradeHistory(
+      @JsonProperty("transactionId") long transactionId,
+      @JsonProperty("transactionTime") String transactionTime,
+      @JsonProperty("askOrderID") String askOrderID,
+      @JsonProperty("bidOrderID") String bidOrderID,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("currencyPair") String currencyPair,
+      @JsonProperty("way") String way,
       @JsonProperty("feeRate") BigDecimal feeRate) {
     this.transactionId = transactionId;
     this.transactionTime = transactionTime;
@@ -71,8 +74,23 @@ public class GatecoinTradeHistory {
 
   @Override
   public String toString() {
-    return "Transaction Id= " + transactionId + ",transaction Time= " + transactionTime + ",askOrderID= " + askOrderID + ",bidOrderID= " + bidOrderID
-        + ",price= " + price + ",quantity= " + quantity + ",currencyPair= " + currencyPair + ",way= " + way + ",feeRate= " + feeRate;
+    return "Transaction Id= "
+        + transactionId
+        + ",transaction Time= "
+        + transactionTime
+        + ",askOrderID= "
+        + askOrderID
+        + ",bidOrderID= "
+        + bidOrderID
+        + ",price= "
+        + price
+        + ",quantity= "
+        + quantity
+        + ",currencyPair= "
+        + currencyPair
+        + ",way= "
+        + way
+        + ",feeRate= "
+        + feeRate;
   }
-
 }

@@ -83,6 +83,22 @@
     "BCH/USD": {
       "price_scale": 2,
       "min_amount": 0.01
+    },
+    "XRP/EUR": {
+      "price_scale": 2,
+      "min_amount": 1
+    },
+    "XRP/USD": {
+      "price_scale": 2,
+      "min_amount": 1
+    },
+    "FLIXX/ETH": {
+      "price_scale": 8,
+      "min_amount": 10
+    },
+    "FLIXX/BTC": {
+      "price_scale": 8,
+      "min_amount": 10
     }
   },
   "currencies": {
@@ -98,6 +114,9 @@
     "ETH": {
       "scale": 8
     },
+    "XRP": {
+      "scale": 8
+    },
     "EUR": {
       "scale": 2
     },
@@ -106,6 +125,9 @@
     },
     "AUD": {
       "scale": 2
+    },
+    "FLIXX": {
+      "scale": 8
     }
   }
 }

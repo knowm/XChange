@@ -2,12 +2,12 @@ package org.knowm.xchange.examples.hitbtc.account;
 
 import java.io.IOException;
 import java.util.Arrays;
-
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
-import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
-import org.knowm.xchange.hitbtc.service.HitbtcAccountServiceRaw;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 
 public class HitbtcAccountDemo {
@@ -29,7 +29,7 @@ public class HitbtcAccountDemo {
 
   private static void raw(HitbtcAccountServiceRaw accountService) throws IOException {
 
-    HitbtcBalance[] accountInfo = accountService.getWalletRaw();
-    System.out.println(Arrays.toString(accountInfo));
+    List<HitbtcBalance> accountInfo = accountService.getMainBalance();
+    System.out.println(Arrays.toString(accountInfo.toArray()));
   }
 }

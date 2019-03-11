@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.bleutrade.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,7 +16,8 @@ public class BleutradeMarketDataDemo {
   public static void main(String[] args) throws IOException, InterruptedException {
 
     //    Exchange bleutrade = BleutradeDemoUtils.getExchange();
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BleutradeExchange.class.getName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BleutradeExchange.class.getName());
     Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     MarketDataService dataService = bleutrade.getMarketDataService();
@@ -26,7 +26,8 @@ public class BleutradeMarketDataDemo {
     raw((BleutradeMarketDataServiceRaw) dataService);
   }
 
-  private static void generic(MarketDataService dataService) throws IOException, InterruptedException {
+  private static void generic(MarketDataService dataService)
+      throws IOException, InterruptedException {
 
     System.out.println(dataService.getTicker(currencyPair));
     Thread.sleep(1000);
@@ -36,10 +37,10 @@ public class BleutradeMarketDataDemo {
 
     System.out.println(dataService.getTrades(currencyPair, 100));
     Thread.sleep(1000);
-
   }
 
-  private static void raw(BleutradeMarketDataServiceRaw dataService) throws IOException, InterruptedException {
+  private static void raw(BleutradeMarketDataServiceRaw dataService)
+      throws IOException, InterruptedException {
 
     System.out.println(dataService.getBleutradeTicker(currencyPair));
     Thread.sleep(1000);
@@ -49,5 +50,4 @@ public class BleutradeMarketDataDemo {
 
     System.out.println(dataService.getBleutradeMarketHistory(currencyPair, 100));
   }
-
 }

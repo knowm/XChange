@@ -1,8 +1,7 @@
 package org.knowm.xchange.ccex.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CCEXMarket {
   private final String MarketCurrency;
@@ -14,10 +13,15 @@ public class CCEXMarket {
   private final Boolean IsActive;
   private final String Created;
 
-  public CCEXMarket(@JsonProperty("MarketCurrency") String marketCurrency, @JsonProperty("BaseCurrency") String baseCurrency,
-      @JsonProperty("MarketCurrencyLong") String marketCurrencyLong, @JsonProperty("BaseCurrencyLong") String baseCurrencyLong,
-      @JsonProperty("MinTradeSize") BigDecimal minTradeSize, @JsonProperty("MarketName") String marketName,
-      @JsonProperty("IsActive") Boolean isActive, @JsonProperty("Created") String created) {
+  public CCEXMarket(
+      @JsonProperty("MarketCurrency") String marketCurrency,
+      @JsonProperty("BaseCurrency") String baseCurrency,
+      @JsonProperty("MarketCurrencyLong") String marketCurrencyLong,
+      @JsonProperty("BaseCurrencyLong") String baseCurrencyLong,
+      @JsonProperty("MinTradeSize") BigDecimal minTradeSize,
+      @JsonProperty("MarketName") String marketName,
+      @JsonProperty("IsActive") Boolean isActive,
+      @JsonProperty("Created") String created) {
     super();
     MarketCurrency = marketCurrency;
     BaseCurrency = baseCurrency;
@@ -63,8 +67,22 @@ public class CCEXMarket {
 
   @Override
   public String toString() {
-    return "CCEXMarket [MarketCurrency=" + MarketCurrency + ", BaseCurrency=" + BaseCurrency + ", MarketCurrencyLong=" + MarketCurrencyLong
-        + ", BaseCurrencyLong=" + BaseCurrencyLong + ", MinTradeSize=" + MinTradeSize + ", MarketName=" + MarketName + ", IsActive=" + IsActive
-        + ", Created=" + Created + "]";
+    return "CCEXMarket [MarketCurrency="
+        + MarketCurrency
+        + ", BaseCurrency="
+        + BaseCurrency
+        + ", MarketCurrencyLong="
+        + MarketCurrencyLong
+        + ", BaseCurrencyLong="
+        + BaseCurrencyLong
+        + ", MinTradeSize="
+        + MinTradeSize
+        + ", MarketName="
+        + MarketName
+        + ", IsActive="
+        + IsActive
+        + ", Created="
+        + Created
+        + "]";
   }
 }

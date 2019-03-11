@@ -4,83 +4,106 @@ import static org.knowm.xchange.gemini.v1.GeminiUtils.convertToGeminiCcyName;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTrailingVolumeResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfer;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiTransfersRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiAccountServiceRaw extends GeminiBaseService {
 
+  protected final List<CurrencyPair> allCurrencyPairs;
   /**
    * Constructor
    *
    * @param exchange
    */
   public GeminiAccountServiceRaw(Exchange exchange) {
-
     super(exchange);
+    this.allCurrencyPairs =
+        new ArrayList<CurrencyPair>(exchange.getExchangeMetaData().getCurrencyPairs().keySet());
+  }
+
+  public List<GeminiTransfer> transfers(Date from, Integer limit) throws IOException {
+    SynchronizedValueFactory<Long> nonceFactory = exchange.getNonceFactory();
+    GeminiTransfersRequest geminiTransfersRequest =
+        GeminiTransfersRequest.create(from, limit, nonceFactory);
+    return gemini.transfers(apiKey, payloadCreator, signatureCreator, geminiTransfersRequest);
   }
 
   public GeminiBalancesResponse[] getGeminiAccountInfo() throws IOException {
     try {
-      GeminiBalancesRequest request = new GeminiBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue()));
-      GeminiBalancesResponse[] balances = Gemini.balances(
-          apiKey,
-          payloadCreator,
-          signatureCreator,
-          request);
+      GeminiBalancesRequest request =
+          new GeminiBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue()));
+      GeminiBalancesResponse[] balances =
+          gemini.balances(apiKey, payloadCreator, signatureCreator, request);
       return balances;
     } catch (GeminiException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
     }
   }
 
   public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    String ccy = convertToGeminiCcyName(currency.getCurrencyCode());
-    GeminiWithdrawalRequest request = new GeminiWithdrawalRequest(
-        String.valueOf(exchange.getNonceFactory().createValue()),
-        ccy,
-        amount,
-        address);
+    try {
+      String ccy = convertToGeminiCcyName(currency.getCurrencyCode());
+      GeminiWithdrawalRequest request =
+          new GeminiWithdrawalRequest(
+              String.valueOf(exchange.getNonceFactory().createValue()), ccy, amount, address);
 
-    GeminiWithdrawalResponse withdrawRepsonse = Gemini.withdraw(
-        apiKey,
-        payloadCreator,
-        signatureCreator,
-        ccy,
-        request);
+      GeminiWithdrawalResponse withdrawRepsonse =
+          gemini.withdraw(apiKey, payloadCreator, signatureCreator, ccy, request);
 
-    return withdrawRepsonse.txHash;
+      return withdrawRepsonse.txHash;
+    } catch (GeminiException e) {
+      throw handleException(e);
+    }
   }
 
-  public GeminiDepositAddressResponse requestDepositAddressRaw(Currency currency) throws IOException {
+  public GeminiDepositAddressResponse requestDepositAddressRaw(Currency currency)
+      throws IOException {
     try {
       String ccy = convertToGeminiCcyName(currency.getCurrencyCode());
 
-      GeminiDepositAddressRequest exchange = new GeminiDepositAddressRequest(
-          String.valueOf(this.exchange.getNonceFactory().createValue()), ccy, null);
+      GeminiDepositAddressRequest exchange =
+          new GeminiDepositAddressRequest(
+              String.valueOf(this.exchange.getNonceFactory().createValue()), ccy, null);
 
-      GeminiDepositAddressResponse requestDepositAddressResponse = Gemini.requestNewAddress(
-          apiKey,
-          payloadCreator,
-          signatureCreator,
-          ccy,
-          exchange);
+      GeminiDepositAddressResponse requestDepositAddressResponse =
+          gemini.requestNewAddress(apiKey, payloadCreator, signatureCreator, ccy, exchange);
       if (requestDepositAddressResponse != null) {
         return requestDepositAddressResponse;
       } else {
         return null;
       }
     } catch (GeminiException e) {
-      throw new ExchangeException(e);
+      throw handleException(e);
+    }
+  }
+
+  public GeminiTrailingVolumeResponse Get30DayTrailingVolumeDescription() throws IOException {
+    try {
+      GeminiTrailingVolumeRequest request =
+          new GeminiTrailingVolumeRequest(String.valueOf(exchange.getNonceFactory().createValue()));
+
+      GeminiTrailingVolumeResponse trailingVolResp =
+          gemini.TrailingVolume(apiKey, payloadCreator, signatureCreator, request);
+      return trailingVolResp;
+    } catch (GeminiException e) {
+      throw handleException(e);
     }
   }
 }

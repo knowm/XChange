@@ -2,7 +2,6 @@ package org.knowm.xchange.gemini.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@SuppressWarnings("serial")
 public class GeminiException extends RuntimeException {
 
   @JsonProperty("message")
@@ -18,5 +17,4 @@ public class GeminiException extends RuntimeException {
 
     return message;
   }
-
 }

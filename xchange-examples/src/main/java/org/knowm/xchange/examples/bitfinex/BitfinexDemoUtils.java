@@ -21,5 +21,4 @@ public class BitfinexDemoUtils {
 
     return bfx;
   }
-
 }

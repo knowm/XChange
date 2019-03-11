@@ -26,7 +26,7 @@
       "price_scale": 5
     },
     "ETH/BTC": {
-      "min_amount": 0.01000000,
+      "min_amount": 0.00010000,
       "max_amount": 100000.00000000,
       "price_scale": 5
     },
@@ -55,8 +55,13 @@
       "max_amount": 100000.00000000,
       "price_scale": 5
     },
+    "ETH/USD": {
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
+    },
     "DOGE/BTC": {
-      "min_amount": 10000.00000000,
+      "min_amount": 5000.00000000,
       "max_amount": 10000000000.00000000,
       "price_scale": 8
     },
@@ -94,7 +99,7 @@
       "price_scale": 8
     },
     "LTC/BTC": {
-      "min_amount": 1.00000000,
+      "min_amount": 0.10000000,
       "max_amount": 10000000.00000000,
       "price_scale": 5
     },
@@ -131,7 +136,7 @@
       "price_scale": 8
     },
     "XRP/BTC": {
-      "min_amount": 750.00000,
+      "min_amount": 100.00000,
       "max_amount": 100000.00000000,
       "price_scale": 8
     }
@@ -204,8 +209,8 @@
       "scale": 8
     }
   },
-  "maker_trading_fee": 0.003,
-  "taker_trading_fee": 0.006,
+  "maker_trading_fee": 0.001,
+  "taker_trading_fee": 0.002,
   "private_rate_limits": [
     {
       "calls": 30,

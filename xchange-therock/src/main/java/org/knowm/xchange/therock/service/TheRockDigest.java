@@ -1,14 +1,11 @@
 package org.knowm.xchange.therock.service;
 
 import java.math.BigInteger;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HeaderParam;
-
 import org.knowm.xchange.therock.TheRockAuthenticated;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -30,7 +27,10 @@ public class TheRockDigest implements ParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    final String nonce = restInvocation.getParamValue(HeaderParam.class, TheRockAuthenticated.X_TRT_NONCE).toString();
+    final String nonce =
+        restInvocation
+            .getParamValue(HeaderParam.class, TheRockAuthenticated.X_TRT_NONCE)
+            .toString();
     mac.update(nonce.getBytes());
     mac.update(restInvocation.getInvocationUrl().getBytes());
 

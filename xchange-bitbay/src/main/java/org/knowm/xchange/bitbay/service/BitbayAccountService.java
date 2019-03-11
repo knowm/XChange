@@ -3,24 +3,21 @@ package org.knowm.xchange.bitbay.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
+import org.knowm.xchange.bitbay.service.account.params.BitbayWithdrawFundsSwiftParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
-/**
- * @author Z. Dolezal
- */
+/** @author Z. Dolezal */
 public class BitbayAccountService extends BitbayAccountServiceRaw implements AccountService {
 
   public BitbayAccountService(Exchange exchange) {
@@ -29,24 +26,39 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return BitbayAdapters.adaptAccountInfo(exchange.getExchangeSpecification().getUserName(), getBitbayAccountInfo());
+    return BitbayAdapters.adaptAccountInfo(
+        exchange.getExchangeSpecification().getUserName(), getBitbayAccountInfo());
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      transfer(defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      return "Success";
+    } else if (params instanceof BitbayWithdrawFundsSwiftParams) {
+      BitbayWithdrawFundsSwiftParams bicParams = (BitbayWithdrawFundsSwiftParams) params;
+      withdraw(
+          bicParams.getCurrency(),
+          bicParams.getAmount(),
+          bicParams.getAccount(),
+          bicParams.isExpress(),
+          bicParams.getBic());
+      return "Success";
+    }
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -55,7 +67,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     Currency currency = null;
     if (params instanceof TradeHistoryParamCurrency) {
       TradeHistoryParamCurrency tradeHistoryParamCurrency = (TradeHistoryParamCurrency) params;
@@ -70,7 +82,8 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
     return history(currency, limit);
   }
 
-  public static class BitbayFundingHistory implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
+  public static class BitbayFundingHistory
+      implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
 
     private Currency currency;
     private Integer limit;
@@ -80,7 +93,11 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
       this.limit = limit;
     }
 
-    public BitbayFundingHistory() {
+    public BitbayFundingHistory() {}
+
+    @Override
+    public Currency getCurrency() {
+      return currency;
     }
 
     @Override
@@ -89,18 +106,13 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
     }
 
     @Override
-    public Currency getCurrency() {
-      return currency;
+    public Integer getLimit() {
+      return limit;
     }
 
     @Override
     public void setLimit(Integer limit) {
       this.limit = limit;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return limit;
     }
   }
 }

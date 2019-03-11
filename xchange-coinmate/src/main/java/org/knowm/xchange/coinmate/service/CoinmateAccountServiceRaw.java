@@ -25,18 +25,15 @@ package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-
+import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateAccountServiceRaw extends CoinmateBaseService {
 
   private final CoinmateDigest signatureCreator;
@@ -45,25 +42,42 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
   public CoinmateAccountServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
-        getClientConfig());
-    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.coinmateAuthenticated =
+        RestProxyFactory.createProxy(
+            CoinmateAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
+    this.signatureCreator =
+        CoinmateDigest.createInstance(
+            exchange.getExchangeSpecification().getSecretKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            exchange.getExchangeSpecification().getApiKey());
   }
 
   public CoinmateBalance getCoinmateBalance() throws IOException {
 
-    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getApiKey(),
-        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory());
+    CoinmateBalance coinmateBalance =
+        coinmateAuthenticated.getBalances(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory());
 
     throwExceptionIfError(coinmateBalance);
 
     return coinmateBalance;
   }
 
-  public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getApiKey(),
-        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), amount, address);
+  public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address)
+      throws IOException {
+    CoinmateTradeResponse response =
+        coinmateAuthenticated.bitcoinWithdrawal(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            amount,
+            address);
 
     throwExceptionIfError(response);
 
@@ -71,12 +85,32 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateDepositAddresses coinmateBitcoinDepositAddresses() throws IOException {
-    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getApiKey(),
-        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory());
+    CoinmateDepositAddresses addresses =
+        coinmateAuthenticated.bitcoinDepositAddresses(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory());
 
     throwExceptionIfError(addresses);
 
     return addresses;
   }
 
+  public CoinmateTransactionHistory getCoinmateTransactionHistory(
+      int offset, Integer limit, String sort) throws IOException {
+    CoinmateTransactionHistory tradeHistory =
+        coinmateAuthenticated.getTransactionHistory(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            offset,
+            limit,
+            sort);
+
+    throwExceptionIfError(tradeHistory);
+
+    return tradeHistory;
+  }
 }

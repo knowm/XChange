@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -47,13 +46,45 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private final Map<String, Map<String, IRippleTradeTransaction>> rawTradeStore = new ConcurrentHashMap<>();
+  private final Map<String, Map<String, IRippleTradeTransaction>> rawTradeStore =
+      new ConcurrentHashMap<>();
 
   public RippleTradeServiceRaw(final Exchange exchange) {
     super(exchange);
   }
 
-  public String placeOrder(final RippleLimitOrder order, final boolean validate) throws RippleException, IOException {
+  /**
+   * The expected counterparty transfer fee for an order that results in a transfer of the supplied
+   * amount of currency. The fee rate is payable when sending the currency (not receiving it) and it
+   * set by the issuing counterparty. The rate may be zero. Transfer fees are not applicable to
+   * sending XRP. More details can be found <a href="https://wiki.ripple.com/Transit_Fee">here</a>.
+   *
+   * @return transfer fee of the supplied currency
+   */
+  public static BigDecimal getExpectedTransferFee(
+      final ITransferFeeSource transferFeeSource,
+      final String counterparty,
+      final String currency,
+      final BigDecimal quantity,
+      final OrderType type)
+      throws IOException {
+    if (currency.equals("XRP")) {
+      return BigDecimal.ZERO;
+    }
+    if (counterparty.isEmpty()) {
+      return BigDecimal.ZERO;
+    }
+    final BigDecimal transferFeeRate = transferFeeSource.getTransferFeeRate(counterparty);
+    if ((transferFeeRate.compareTo(BigDecimal.ZERO) > 0) && (type == OrderType.ASK)) {
+      // selling/sending the base currency so will incur a transaction fee on it
+      return quantity.multiply(transferFeeRate).abs();
+    } else {
+      return BigDecimal.ZERO;
+    }
+  }
+
+  public String placeOrder(final RippleLimitOrder order, final boolean validate)
+      throws RippleException, IOException {
     final RippleOrderEntryRequest entry = new RippleOrderEntryRequest();
     entry.setSecret(exchange.getExchangeSpecification().getSecretKey());
 
@@ -79,7 +110,9 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getBaseCounterparty();
       if (counterparty.isEmpty()) {
-        throw new ExchangeException(String.format("base counterparty must be populated for currency %s", baseAmount.getCurrency()));
+        throw new ExchangeException(
+            String.format(
+                "base counterparty must be populated for currency %s", baseAmount.getCurrency()));
       }
       baseAmount.setCounterparty(counterparty);
     }
@@ -90,21 +123,31 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getCounterCounterparty();
       if (counterparty.isEmpty()) {
-        throw new ExchangeException(String.format("counter counterparty must be populated for currency %s", counterAmount.getCurrency()));
+        throw new ExchangeException(
+            String.format(
+                "counter counterparty must be populated for currency %s",
+                counterAmount.getCurrency()));
       }
       counterAmount.setCounterparty(counterparty);
     }
 
-    final RippleOrderEntryResponse response = rippleAuthenticated.orderEntry(exchange.getExchangeSpecification().getApiKey(), validate, entry);
+    final RippleOrderEntryResponse response =
+        rippleAuthenticated.orderEntry(
+            exchange.getExchangeSpecification().getApiKey(), validate, entry);
     return Long.toString(response.getOrder().getSequence());
   }
 
-  public boolean cancelOrder(final String orderId, final boolean validate) throws RippleException, IOException {
+  public boolean cancelOrder(final String orderId, final boolean validate)
+      throws RippleException, IOException {
     final RippleOrderCancelRequest cancel = new RippleOrderCancelRequest();
     cancel.setSecret(exchange.getExchangeSpecification().getSecretKey());
 
-    final RippleOrderCancelResponse response = rippleAuthenticated.orderCancel(exchange.getExchangeSpecification().getApiKey(), Long.valueOf(orderId),
-        validate, cancel);
+    final RippleOrderCancelResponse response =
+        rippleAuthenticated.orderCancel(
+            exchange.getExchangeSpecification().getApiKey(),
+            Long.valueOf(orderId),
+            validate,
+            cancel);
     return response.isSuccess();
   }
 
@@ -112,15 +155,26 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return ripplePublic.openAccountOrders(exchange.getExchangeSpecification().getApiKey());
   }
 
-  public RippleNotifications getNotifications(final String account, final Boolean excludeFailed, final Boolean earliestFirst,
-      final Integer resultsPerPage, final Integer page, final Long startLedger, final Long endLedger) throws RippleException, IOException {
-    return ripplePublic.notifications(account, excludeFailed, earliestFirst, resultsPerPage, page, startLedger, endLedger);
+  public RippleNotifications getNotifications(
+      final String account,
+      final Boolean excludeFailed,
+      final Boolean earliestFirst,
+      final Integer resultsPerPage,
+      final Integer page,
+      final Long startLedger,
+      final Long endLedger)
+      throws RippleException, IOException {
+    return ripplePublic.notifications(
+        account, excludeFailed, earliestFirst, resultsPerPage, page, startLedger, endLedger);
   }
 
   /**
-   * Retrieve order details from local store if they have been previously stored otherwise query external server.
+   * Retrieve order details from local store if they have been previously stored otherwise query
+   * external server.
    */
-  public IRippleTradeTransaction getTrade(final String account, final RippleNotification notification) throws RippleException, IOException {
+  public IRippleTradeTransaction getTrade(
+      final String account, final RippleNotification notification)
+      throws RippleException, IOException {
     final RippleExchange ripple = (RippleExchange) exchange;
     if (ripple.isStoreTradeTransactionDetails()) {
       Map<String, IRippleTradeTransaction> cache = rawTradeStore.get(account);
@@ -140,15 +194,24 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       } else if (notification.getType().equals("payment")) {
         trade = ripplePublic.paymentTransaction(account, notification.getHash());
       } else {
-        throw new IllegalArgumentException(String.format("unexpected notification %s type for transaction[%s] and account[%s]",
-            notification.getType(), notification.getHash(), notification.getAccount()));
+        throw new IllegalArgumentException(
+            String.format(
+                "unexpected notification %s type for transaction[%s] and account[%s]",
+                notification.getType(), notification.getHash(), notification.getAccount()));
       }
 
     } catch (final RippleException e) {
       if (e.getHttpStatusCode() == 500 && e.getErrorType().equals("transaction")) {
-        // Do not let an individual transaction parsing bug in the Ripple REST service cause a total trade   
-        // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of this situation. 
-        logger.error("exception reading {} transaction[{}] for account[{}]", notification.getType(), notification.getHash(), account, e);
+        // Do not let an individual transaction parsing bug in the Ripple REST service cause a total
+        // trade
+        // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of
+        // this situation.
+        logger.error(
+            "exception reading {} transaction[{}] for account[{}]",
+            notification.getType(),
+            notification.getHash(),
+            account,
+            e);
         return null;
       } else {
         throw e;
@@ -160,8 +223,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return trade;
   }
 
-  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params,
-      final String account) throws RippleException, IOException {
+  public List<IRippleTradeTransaction> getTradesForAccount(
+      final TradeHistoryParams params, final String account) throws RippleException, IOException {
     final Integer pageLength;
     final Integer pageNumber;
     if (params instanceof TradeHistoryParamPaging) {
@@ -207,8 +270,15 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
     final List<IRippleTradeTransaction> trades = new ArrayList<>();
 
-    final RippleNotifications notifications = ripplePublic.notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber,
-        START_LEDGER, END_LEDGER);
+    final RippleNotifications notifications =
+        ripplePublic.notifications(
+            account,
+            EXCLUDE_FAILED,
+            EARLIEST_FIRST,
+            pageLength,
+            pageNumber,
+            START_LEDGER,
+            END_LEDGER);
     if (rippleCount != null) {
       rippleCount.incrementApiCallCount();
     }
@@ -218,13 +288,16 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
     // Notifications are returned with the most recent at bottom of the result page. Therefore,
     // in order to consider the most recent first, loop through using a reverse order iterator.
-    final ListIterator<RippleNotification> iterator = notifications.getNotifications().listIterator(notifications.getNotifications().size());
+    final ListIterator<RippleNotification> iterator =
+        notifications.getNotifications().listIterator(notifications.getNotifications().size());
     while (iterator.hasPrevious()) {
       if (rippleCount != null) {
-        if (rippleCount.getTradeCountLimit() > 0 && rippleCount.getTradeCount() >= rippleCount.getTradeCountLimit()) {
+        if (rippleCount.getTradeCountLimit() > 0
+            && rippleCount.getTradeCount() >= rippleCount.getTradeCountLimit()) {
           return trades; // found enough trades
         }
-        if (rippleCount.getApiCallCountLimit() > 0 && rippleCount.getApiCallCount() >= rippleCount.getApiCallCountLimit()) {
+        if (rippleCount.getApiCallCountLimit() > 0
+            && rippleCount.getApiCallCount() >= rippleCount.getApiCallCountLimit()) {
           return trades; // reached the query limit
         }
       }
@@ -241,7 +314,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
       if (notification.getType().equals("order")) {
         // standard on single order book trade
-      } else if (notification.getType().equals("payment") && notification.getDirection().equals("passthrough")) {
+      } else if (notification.getType().equals("payment")
+          && notification.getDirection().equals("passthrough")) {
         // indirect trade passing through this order book
       } else {
         continue; // not a trade related notification
@@ -257,11 +331,13 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
       final List<RippleAmount> balanceChanges = trade.getBalanceChanges();
       if (balanceChanges.size() < 2 || balanceChanges.size() > 3) {
-        continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency balances
+        continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency//
+        // balances
       }
 
       if (currencyFilter.isEmpty()
-          || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
+          || (currencyFilter.contains(balanceChanges.get(0).getCurrency())
+              && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
         // no currency filter has been applied || currency filter match
         trades.add(trade);
         if (rippleCount != null) {
@@ -289,12 +365,11 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     }
 
     return trades;
-
   }
 
   /**
-   * The Ripple network transaction fee varies depending on how busy the network is as described
-   * <a href="https://wiki.ripple.com/Transaction_Fee">here</a>.
+   * The Ripple network transaction fee varies depending on how busy the network is as described <a
+   * href="https://wiki.ripple.com/Transaction_Fee">here</a>.
    *
    * @return current network transaction fee in units of XRP
    */
@@ -302,9 +377,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return ripplePublic.getTransactionFee().getFee().stripTrailingZeros();
   }
 
-  /**
-   * @return transfer fee for the base leg of the order in the base currency
-   */
+  /** @return transfer fee for the base leg of the order in the base currency */
   public BigDecimal getExpectedBaseTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getBaseCounterparty();
@@ -314,9 +387,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
   }
 
-  /**
-   * @return transfer fee for the counter leg of the order in the counter currency
-   */
+  /** @return transfer fee for the counter leg of the order in the counter currency */
   public BigDecimal getExpectedCounterTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getAccountService();
     final String counterparty = order.getCounterCounterparty();
@@ -331,33 +402,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
   }
 
-  /**
-   * The expected counterparty transfer fee for an order that results in a transfer of the supplied amount of currency. The fee rate is payable when
-   * sending the currency (not receiving it) and it set by the issuing counterparty. The rate may be zero. Transfer fees are not applicable to sending
-   * XRP. More details can be found <a href="https://wiki.ripple.com/Transit_Fee">here</a>.
-   *
-   * @return transfer fee of the supplied currency
-   */
-  public static BigDecimal getExpectedTransferFee(final ITransferFeeSource transferFeeSource, final String counterparty, final String currency,
-      final BigDecimal quantity, final OrderType type) throws IOException {
-    if (currency.equals("XRP")) {
-      return BigDecimal.ZERO;
-    }
-    if (counterparty.isEmpty()) {
-      return BigDecimal.ZERO;
-    }
-    final BigDecimal transferFeeRate = transferFeeSource.getTransferFeeRate(counterparty);
-    if ((transferFeeRate.compareTo(BigDecimal.ZERO) > 0) && (type == OrderType.ASK)) {
-      // selling/sending the base currency so will incur a transaction fee on it
-      return quantity.multiply(transferFeeRate).abs();
-    } else {
-      return BigDecimal.ZERO;
-    }
-  }
-
-  /**
-   * Clear any stored order details to allow memory to be released.
-   */
+  /** Clear any stored order details to allow memory to be released. */
   public void clearOrderDetailsStore() {
     for (final Map<String, IRippleTradeTransaction> cache : rawTradeStore.values()) {
       cache.clear();

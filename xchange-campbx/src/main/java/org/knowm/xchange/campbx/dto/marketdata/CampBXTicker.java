@@ -1,20 +1,18 @@
 package org.knowm.xchange.campbx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.campbx.dto.CampBXResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class CampBXTicker extends CampBXResponse {
 
   @JsonProperty("Last Trade")
   private BigDecimal last;
+
   @JsonProperty("Best Bid")
   private BigDecimal bid;
+
   @JsonProperty("Best Ask")
   private BigDecimal ask;
 
@@ -51,8 +49,18 @@ public final class CampBXTicker extends CampBXResponse {
   @Override
   public String toString() {
 
-    return "CampBXTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo()
-        + ", getError()=" + getError() + "]";
+    return "CampBXTicker [last="
+        + last
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + ", getSuccess()="
+        + getSuccess()
+        + ", getInfo()="
+        + getInfo()
+        + ", getError()="
+        + getError()
+        + "]";
   }
-
 }

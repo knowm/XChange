@@ -1,10 +1,5 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.knowm.xchange.kraken.dto.marketdata.KrakenFee.KrakenFeeDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -12,9 +7,12 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenFee.KrakenFeeDeserializer;
 
 @JsonDeserialize(using = KrakenFeeDeserializer.class)
-public class KrakenFee {
+public class KrakenFee implements Comparable<KrakenFee> {
 
   private final BigDecimal volume;
   private final BigDecimal percentFee;
@@ -23,6 +21,10 @@ public class KrakenFee {
 
     this.volume = volume;
     this.percentFee = percentFee;
+  }
+
+  public int compareTo(KrakenFee other) {
+    return volume.compareTo(other.volume);
   }
 
   public BigDecimal getVolume() {
@@ -44,7 +46,8 @@ public class KrakenFee {
   static class KrakenFeeDeserializer extends JsonDeserializer<KrakenFee> {
 
     @Override
-    public KrakenFee deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenFee deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

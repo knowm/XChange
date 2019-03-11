@@ -1,13 +1,10 @@
 package org.knowm.xchange.anx.v2.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing trades from ANX
- */
+/** Data object representing trades from ANX */
 public final class ANXTradeResult {
 
   private final String tradeId;
@@ -18,9 +15,13 @@ public final class ANXTradeResult {
   private final String currencyPair;
   private final String side;
 
-  public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") Date timestamp,
+  public ANXTradeResult(
+      @JsonProperty("tradeId") String tradeId,
+      @JsonProperty("orderId") String orderId,
+      @JsonProperty("timestamp") Date timestamp,
       @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount,
-      @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount, @JsonProperty("ccyPair") String currencyPair,
+      @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount,
+      @JsonProperty("ccyPair") String currencyPair,
       @JsonProperty("side") String side) {
 
     this.tradeId = tradeId;
@@ -70,8 +71,25 @@ public final class ANXTradeResult {
   @Override
   public String toString() {
 
-    return "ANXOrderResultTrade{" + "tradeId='" + tradeId + '\'' + ", orderId='" + orderId + '\'' + ", timestamp=" + timestamp
-        + ", tradedCurrencyFillAmount=" + tradedCurrencyFillAmount + ", settlementCurrencyFillAmount=" + settlementCurrencyFillAmount
-        + ", currencyPair='" + currencyPair + '\'' + ", side='" + side + '\'' + '}';
+    return "ANXOrderResultTrade{"
+        + "tradeId='"
+        + tradeId
+        + '\''
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", timestamp="
+        + timestamp
+        + ", tradedCurrencyFillAmount="
+        + tradedCurrencyFillAmount
+        + ", settlementCurrencyFillAmount="
+        + settlementCurrencyFillAmount
+        + ", currencyPair='"
+        + currencyPair
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + '}';
   }
 }

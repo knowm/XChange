@@ -1,12 +1,9 @@
 package org.knowm.xchange.lakebtc.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCTradeResponse {
 
   private final String type;
@@ -16,15 +13,18 @@ public class LakeBTCTradeResponse {
   private final long at;
   private final String id;
 
-  public LakeBTCTradeResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("total") BigDecimal total, @JsonProperty("at") long at) {
+  public LakeBTCTradeResponse(
+      @JsonProperty("type") String type,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("total") BigDecimal total,
+      @JsonProperty("at") long at) {
     this.type = type;
     this.currency = currency;
     this.amount = amount;
     this.total = total;
     this.at = at;
     this.id = total.toString() + "_" + at;
-
   }
 
   public String getType() {

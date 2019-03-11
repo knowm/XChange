@@ -1,7 +1,6 @@
 package org.knowm.xchange.yobit;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,12 +10,12 @@ import org.knowm.xchange.yobit.service.YoBitAccountService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataService;
 import org.knowm.xchange.yobit.service.YoBitMarketDataServiceRaw;
 import org.knowm.xchange.yobit.service.YoBitTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class YoBitExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -25,7 +24,8 @@ public class YoBitExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://yobit.net");
     exchangeSpecification.setHost("yobit.net");
     exchangeSpecification.setPort(80);

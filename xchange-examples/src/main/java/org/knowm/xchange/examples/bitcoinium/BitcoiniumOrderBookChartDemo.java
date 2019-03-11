@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.bitcoinium;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -27,19 +26,22 @@ public class BitcoiniumOrderBookChartDemo {
 
   public static void main(String[] args) throws Exception {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public market data feed (no authentication)
-    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
+    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService =
+        (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook("BTC", "BITSTAMP_USD", "TEN_PERCENT");
+    BitcoiniumOrderbook bitcoiniumOrderbook =
+        bitcoiniumMarketDataService.getBitcoiniumOrderbook("BTC", "BITSTAMP_USD", "TEN_PERCENT");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
     System.out.println("received data.");
@@ -47,8 +49,14 @@ public class BitcoiniumOrderBookChartDemo {
     System.out.println("plotting...");
 
     // Create Chart
-    XYChart chart = new XYChartBuilder().width(800).height(600).title("Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC").yAxisTitle("USD")
-        .build();
+    XYChart chart =
+        new XYChartBuilder()
+            .width(800)
+            .height(600)
+            .title("Bitcoinium Order Book - BITSTAMP_BTC_USD")
+            .xAxisTitle("BTC")
+            .yAxisTitle("USD")
+            .build();
 
     // Customize Chart
     chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
@@ -70,7 +78,11 @@ public class BitcoiniumOrderBookChartDemo {
     // ASKS
 
     // Asks Series
-    series = chart.addSeries("asks", getPriceData(bitcoiniumOrderbook.getAsks()), getVolumeData(bitcoiniumOrderbook.getAsks()));
+    series =
+        chart.addSeries(
+            "asks",
+            getPriceData(bitcoiniumOrderbook.getAsks()),
+            getVolumeData(bitcoiniumOrderbook.getAsks()));
     series.setMarker(SeriesMarkers.NONE);
 
     new SwingWrapper(chart).displayChart();

@@ -4,9 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
-/**
- * @author Felipe Micaroni Lalli
- */
+/** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinBaseService extends BaseExchangeService implements BaseService {
 
   /**

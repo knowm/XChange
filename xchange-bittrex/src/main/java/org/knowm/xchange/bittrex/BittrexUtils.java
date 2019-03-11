@@ -4,13 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-/**
- * A central place for shared Bittrex properties
- */
+/** A central place for shared Bittrex properties */
 public final class BittrexUtils {
 
   private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -18,17 +15,24 @@ public final class BittrexUtils {
 
   private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
-  /**
-   * private Constructor
-   */
-  private BittrexUtils() {
-  }
+  /** private Constructor */
+  private BittrexUtils() {}
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
+    return currencyPair.counter.getCurrencyCode().toUpperCase()
+        + "-"
+        + currencyPair.base.getCurrencyCode().toUpperCase();
+  }
+
+  public static CurrencyPair toCurrencyPair(String pairString) {
+    String[] pairStringSplit = pairString.split("-");
+    return new CurrencyPair(pairStringSplit[1], pairStringSplit[0]);
   }
 
   public static Date toDate(String dateString) {
+
+    if (dateString == null) return null;
+
     try {
       return dateParser().parse(dateString);
     } catch (ParseException e) {
@@ -51,5 +55,4 @@ public final class BittrexUtils {
     dateParser.setTimeZone(TIME_ZONE);
     return dateParser;
   }
-
 }

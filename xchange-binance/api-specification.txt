@@ -6,4 +6,4 @@ This api provides access to such information as tickers, trades, orderbooks and 
 
 Documentation
 -------------
-https://www.binance.com/restapipub.html
+https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md

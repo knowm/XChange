@@ -1,8 +1,7 @@
 package org.knowm.xchange.luno.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class LunoTickers {
 

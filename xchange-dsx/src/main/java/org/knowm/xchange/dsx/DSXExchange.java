@@ -1,7 +1,6 @@
 package org.knowm.xchange.dsx;
 
 import java.io.InputStream;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,15 +10,13 @@ import org.knowm.xchange.dsx.service.DSXAccountService;
 import org.knowm.xchange.dsx.service.DSXMarketDataService;
 import org.knowm.xchange.dsx.service.DSXTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author Mikhail Wall
- */
+/** @author Mikhail Wall */
 public class DSXExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private DSXMetaData dsxMetaData;
   private DSXExchangeInfo dsxExchangeInfo;
 
@@ -46,12 +43,14 @@ public class DSXExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://dsx.uk");
     exchangeSpecification.setHost("dsx.uk");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("DSX");
-    exchangeSpecification.setExchangeDescription("DSX the UK first Digital Securities Exchange run by the FCA regulated ePayments.");
+    exchangeSpecification.setExchangeDescription(
+        "DSX the UK first Digital Securities Exchange run by the FCA regulated ePayments.");
 
     return exchangeSpecification;
   }

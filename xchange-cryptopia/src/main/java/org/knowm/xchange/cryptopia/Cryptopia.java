@@ -1,10 +1,10 @@
 package org.knowm.xchange.cryptopia;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -14,16 +14,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.cryptopia.dto.CryptopiaBaseResponse;
+import org.knowm.xchange.cryptopia.dto.CryptopiaException;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrderBook;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTicker;
 import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import si.mazi.rescu.ParamsDigest;
 
 @Path("api")
@@ -32,100 +29,129 @@ public interface Cryptopia {
 
   @GET
   @Path("GetCurrencies")
-  CryptopiaBaseResponse<List<CryptopiaCurrency>> getCurrencies() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaCurrency>> getCurrencies()
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetTradePairs")
-  CryptopiaBaseResponse<List<CryptopiaTradePair>> getTradePairs() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTradePair>> getTradePairs()
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets")
-  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets() throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets() throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets/{baseMarket}")
-  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(@PathParam("baseMarket") String baseMarket) throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(
+      @PathParam("baseMarket") String baseMarket) throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarkets/{baseMarket}/{hours}")
-  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(@PathParam("baseMarket") String baseMarket, @PathParam("hours") long hours) throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaTicker>> getMarkets(
+      @PathParam("baseMarket") String baseMarket, @PathParam("hours") long hours)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarket/{market}")
-  CryptopiaBaseResponse<CryptopiaTicker> getMarket(@PathParam("market") String market) throws IOException;
+  CryptopiaBaseResponse<CryptopiaTicker> getMarket(@PathParam("market") String market)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarket/{market}/{hours}")
-  CryptopiaBaseResponse<CryptopiaTicker> getMarket(@PathParam("market") String market, @PathParam("hours") long hours) throws IOException;
+  CryptopiaBaseResponse<CryptopiaTicker> getMarket(
+      @PathParam("market") String market, @PathParam("hours") long hours)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketHistory/{market}")
-  CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(@PathParam("market") String market) throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(
+      @PathParam("market") String market) throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketHistory/{market}/{hours}")
-  CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(@PathParam("market") String market, @PathParam("hours") long hours) throws IOException;
+  CryptopiaBaseResponse<List<CryptopiaMarketHistory>> getMarketHistory(
+      @PathParam("market") String market, @PathParam("hours") long hours)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketOrders/{market}")
-  CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(@PathParam("market") String market) throws IOException;
+  CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(@PathParam("market") String market)
+      throws CryptopiaException, IOException;
 
   @GET
   @Path("GetMarketOrders/{market}/{orderCount}")
-  CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(@PathParam("market") String pair, @PathParam("orderCount") long orderCount) throws IOException;
+  CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(
+      @PathParam("market") String pair, @PathParam("orderCount") long orderCount)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetBalance")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<List<Map>> getBalance(@HeaderParam("Authorization") ParamsDigest signature, Object o) throws IOException;
+  CryptopiaBaseResponse<List<Map>> getBalance(
+      @HeaderParam("Authorization") ParamsDigest signature, Object o)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetDepositAddress")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<Map> getDepositAddress(@HeaderParam("Authorization") ParamsDigest signature, GetDepositAddressRequest request) throws IOException;
+  CryptopiaBaseResponse<Map> getDepositAddress(
+      @HeaderParam("Authorization") ParamsDigest signature, GetDepositAddressRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitWithdraw")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<Long> submitWithdraw(@HeaderParam("Authorization") ParamsDigest signature, SubmitWithdrawRequest request) throws IOException;
+  CryptopiaBaseResponse<Long> submitWithdraw(
+      @HeaderParam("Authorization") ParamsDigest signature, SubmitWithdrawRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<List<Map>> getTransactions(@HeaderParam("Authorization") ParamsDigest signature, GetTransactionsRequest request) throws IOException;
+  CryptopiaBaseResponse<List<Map>> getTransactions(
+      @HeaderParam("Authorization") ParamsDigest signature, GetTransactionsRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetOpenOrders")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<List<Map>> getOpenOrders(@HeaderParam("Authorization") ParamsDigest signature, GetOpenOrdersRequest request) throws IOException;
+  CryptopiaBaseResponse<List<Map>> getOpenOrders(
+      @HeaderParam("Authorization") ParamsDigest signature, GetOpenOrdersRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitTrade")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<Map> submitTrade(@HeaderParam("Authorization") ParamsDigest signature, SubmitTradeRequest request) throws IOException;
+  CryptopiaBaseResponse<Map> submitTrade(
+      @HeaderParam("Authorization") ParamsDigest signature, SubmitTradeRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("CancelTrade")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<List> cancelTrade(@HeaderParam("Authorization") ParamsDigest signature, CancelTradeRequest request) throws IOException;
+  CryptopiaBaseResponse<List> cancelTrade(
+      @HeaderParam("Authorization") ParamsDigest signature, CancelTradeRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("GetTradeHistory")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<List<Map>> getTradeHistory(@HeaderParam("Authorization") ParamsDigest signature, GetTradeHistoryRequest request) throws IOException;
+  CryptopiaBaseResponse<List<Map>> getTradeHistory(
+      @HeaderParam("Authorization") ParamsDigest signature, GetTradeHistoryRequest request)
+      throws CryptopiaException, IOException;
 
   @POST
   @Path("SubmitTransfer")
   @Consumes(MediaType.APPLICATION_JSON)
-  CryptopiaBaseResponse<String> submitTransfer(@HeaderParam("Authorization") ParamsDigest signature, SubmitTransferRequest request) throws IOException;
+  CryptopiaBaseResponse<String> submitTransfer(
+      @HeaderParam("Authorization") ParamsDigest signature, SubmitTransferRequest request)
+      throws CryptopiaException, IOException;
 
   class SubmitTransferRequest {
-    public final @JsonProperty("Currency")
-    String currency;
-    public final @JsonProperty("Username")
-    String username;
-    public final @JsonProperty("Amount")
-    BigDecimal amount;
+    public final @JsonProperty("Currency") String currency;
+    public final @JsonProperty("Username") String username;
+    public final @JsonProperty("Amount") BigDecimal amount;
 
     public SubmitTransferRequest(String currency, String username, BigDecimal amount) {
       this.currency = currency;
@@ -135,11 +161,10 @@ public interface Cryptopia {
   }
 
   class GetTradeHistoryRequest {
-    public final @JsonProperty("Market")
-    String market;
+    public final @JsonProperty("Market") String market;
+
     @Nullable
-    public final @JsonProperty("Count")
-    Integer count;
+    public final @JsonProperty("Count") Integer count;
 
     public GetTradeHistoryRequest(String market, @Nullable Integer count) {
       this.market = market;
@@ -148,12 +173,9 @@ public interface Cryptopia {
   }
 
   class CancelTradeRequest {
-    public final @JsonProperty("Type")
-    String type;
-    public final @JsonProperty("OrderId")
-    String orderId;
-    public final @JsonProperty("TradePairId")
-    Long tradePairId;
+    public final @JsonProperty("Type") String type;
+    public final @JsonProperty("OrderId") String orderId;
+    public final @JsonProperty("TradePairId") Long tradePairId;
 
     public CancelTradeRequest(String type, String orderId, Long tradePairId) {
       this.type = type;
@@ -163,14 +185,10 @@ public interface Cryptopia {
   }
 
   class SubmitTradeRequest {
-    public final @JsonProperty("Market")
-    String market;
-    public final @JsonProperty("Type")
-    String type;
-    public final @JsonProperty("Rate")
-    BigDecimal rate;
-    public final @JsonProperty("Amount")
-    BigDecimal amount;
+    public final @JsonProperty("Market") String market;
+    public final @JsonProperty("Type") String type;
+    public final @JsonProperty("Rate") BigDecimal rate;
+    public final @JsonProperty("Amount") BigDecimal amount;
 
     public SubmitTradeRequest(String market, String type, BigDecimal rate, BigDecimal amount) {
       this.market = market;
@@ -181,12 +199,10 @@ public interface Cryptopia {
   }
 
   class GetOpenOrdersRequest {
-    public final @JsonProperty("Market")
-    String market;
+    public final @JsonProperty("Market") String market;
 
     @Nullable
-    public final @JsonProperty("Count")
-    Integer count;
+    public final @JsonProperty("Count") Integer count;
 
     public GetOpenOrdersRequest(String market, @Nullable Integer count) {
       this.market = market;
@@ -195,11 +211,10 @@ public interface Cryptopia {
   }
 
   class GetTransactionsRequest {
-    public final @JsonProperty("Type")
-    String type;
+    public final @JsonProperty("Type") String type;
+
     @Nullable
-    public final @JsonProperty("Count")
-    Integer count;
+    public final @JsonProperty("Count") Integer count;
 
     public GetTransactionsRequest(String type, @Nullable Integer count) {
       this.type = type;
@@ -208,8 +223,7 @@ public interface Cryptopia {
   }
 
   class GetDepositAddressRequest {
-    public final @JsonProperty("Currency")
-    String currency;
+    public final @JsonProperty("Currency") String currency;
 
     public GetDepositAddressRequest(String currency) {
       this.currency = currency;
@@ -217,16 +231,13 @@ public interface Cryptopia {
   }
 
   class SubmitWithdrawRequest {
-    public final @JsonProperty("Currency")
-    String currency;
-    public final @JsonProperty("Address")
-    String address;
-    public final @JsonProperty("PaymentId")
-    String paymentId;
-    public final @JsonProperty("Amount")
-    BigDecimal amount;
+    public final @JsonProperty("Currency") String currency;
+    public final @JsonProperty("Address") String address;
+    public final @JsonProperty("PaymentId") String paymentId;
+    public final @JsonProperty("Amount") BigDecimal amount;
 
-    public SubmitWithdrawRequest(String currency, String address, String paymentId, BigDecimal amount) {
+    public SubmitWithdrawRequest(
+        String currency, String address, String paymentId, BigDecimal amount) {
       this.currency = currency;
       this.address = address;
       this.paymentId = paymentId;

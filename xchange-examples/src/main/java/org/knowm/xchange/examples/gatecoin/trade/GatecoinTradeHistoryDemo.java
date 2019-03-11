@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.gatecoin.trade;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.gatecoin.GatecoinDemoUtils;
@@ -11,9 +10,7 @@ import org.knowm.xchange.gatecoin.service.GatecoinTradeService;
 import org.knowm.xchange.gatecoin.service.GatecoinTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 
-/**
- * @author sumedha
- */
+/** @author sumedha */
 public class GatecoinTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
@@ -29,12 +26,14 @@ public class GatecoinTradeHistoryDemo {
     UserTrades result = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trade history returned " + result);
 
-    //with count parameter
+    // with count parameter
     result = tradeService.getTradeHistory(new GatecoinTradeService.GatecoinTradeHistoryParams(10));
     System.out.println("Trade history returned " + result);
 
-    //with count and tradeId parameter
-    result = tradeService.getTradeHistory(new GatecoinTradeService.GatecoinTradeHistoryParams(10, "24561"));
+    // with count and tradeId parameter
+    result =
+        tradeService.getTradeHistory(
+            new GatecoinTradeService.GatecoinTradeHistoryParams(10, "24561"));
     System.out.println("Trade history returned " + result);
   }
 
@@ -43,7 +42,8 @@ public class GatecoinTradeHistoryDemo {
     printRawTradeHistory(tradeService);
   }
 
-  private static void printRawTradeHistory(GatecoinTradeServiceRaw tradeService) throws IOException {
+  private static void printRawTradeHistory(GatecoinTradeServiceRaw tradeService)
+      throws IOException {
 
     GatecoinTradeHistoryResult tradeHistoryResult = tradeService.getGatecoinUserTrades();
     System.out.println("Trades: " + tradeHistoryResult.getTransactions().length);

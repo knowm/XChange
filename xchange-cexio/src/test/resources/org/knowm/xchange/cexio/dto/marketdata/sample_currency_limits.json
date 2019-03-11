@@ -1,0 +1,278 @@
+{
+  "e": "currency_limits",
+  "ok": "ok",
+  "data": {
+    "pairs": [
+      {
+        "symbol1": "BTC",
+        "symbol2": "USD",
+        "minLotSize": 0.002,
+        "minLotSizeS2": 20,
+        "maxLotSize": 30,
+        "minPrice": "1500",
+        "maxPrice": "35000"
+      },
+      {
+        "symbol1": "ETH",
+        "symbol2": "USD",
+        "minLotSize": 0.05,
+        "minLotSizeS2": 20,
+        "maxLotSize": 1000,
+        "minPrice": "70",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "BCH",
+        "symbol2": "USD",
+        "minLotSize": 0.02,
+        "minLotSizeS2": 20,
+        "maxLotSize": 30,
+        "minPrice": "150",
+        "maxPrice": "8192"
+      },
+      {
+        "symbol1": "BTG",
+        "symbol2": "USD",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "5",
+        "maxPrice": "2048"
+      },
+      {
+        "symbol1": "DASH",
+        "symbol2": "USD",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "100",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "XRP",
+        "symbol2": "USD",
+        "minLotSize": 40,
+        "minLotSizeS2": 10,
+        "maxLotSize": null,
+        "minPrice": "0.05",
+        "maxPrice": "50"
+      },
+      {
+        "symbol1": "XLM",
+        "symbol2": "USD",
+        "minLotSize": 70,
+        "minLotSizeS2": 10,
+        "maxLotSize": null,
+        "minPrice": "0.03",
+        "maxPrice": "50"
+      },
+      {
+        "symbol1": "ZEC",
+        "symbol2": "USD",
+        "minLotSize": 0.07,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "50",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "BTC",
+        "symbol2": "EUR",
+        "minLotSize": 0.002,
+        "minLotSizeS2": 20,
+        "maxLotSize": 30,
+        "minPrice": "1500",
+        "maxPrice": "35000"
+      },
+      {
+        "symbol1": "ETH",
+        "symbol2": "EUR",
+        "minLotSize": 0.05,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "70",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "BCH",
+        "symbol2": "EUR",
+        "minLotSize": 0.02,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "150",
+        "maxPrice": "8192"
+      },
+      {
+        "symbol1": "BTG",
+        "symbol2": "EUR",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "5",
+        "maxPrice": "2048"
+      },
+      {
+        "symbol1": "DASH",
+        "symbol2": "EUR",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "100",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "XRP",
+        "symbol2": "EUR",
+        "minLotSize": 40,
+        "minLotSizeS2": 10,
+        "maxLotSize": null,
+        "minPrice": "0.05",
+        "maxPrice": "50"
+      },
+      {
+        "symbol1": "XLM",
+        "symbol2": "EUR",
+        "minLotSize": 70,
+        "minLotSizeS2": 10,
+        "maxLotSize": null,
+        "minPrice": "0.03",
+        "maxPrice": "50"
+      },
+      {
+        "symbol1": "ZEC",
+        "symbol2": "EUR",
+        "minLotSize": 0.07,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "50",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "BTC",
+        "symbol2": "GBP",
+        "minLotSize": 0.002,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "1300",
+        "maxPrice": "30000"
+      },
+      {
+        "symbol1": "ETH",
+        "symbol2": "GBP",
+        "minLotSize": 0.05,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "60",
+        "maxPrice": "5128"
+      },
+      {
+        "symbol1": "BCH",
+        "symbol2": "GBP",
+        "minLotSize": 0.02,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "150",
+        "maxPrice": "8192"
+      },
+      {
+        "symbol1": "DASH",
+        "symbol2": "GBP",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "100",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "ZEC",
+        "symbol2": "GBP",
+        "minLotSize": 0.07,
+        "minLotSizeS2": 20,
+        "maxLotSize": null,
+        "minPrice": "40",
+        "maxPrice": "4096"
+      },
+      {
+        "symbol1": "BTC",
+        "symbol2": "RUB",
+        "minLotSize": 0.001,
+        "minLotSizeS2": 1000,
+        "maxLotSize": null,
+        "minPrice": "10000",
+        "maxPrice": "2000000"
+      },
+      {
+        "symbol1": "ETH",
+        "symbol2": "BTC",
+        "minLotSize": 0.025,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": 1000,
+        "minPrice": "0.025",
+        "maxPrice": "2"
+      },
+      {
+        "symbol1": "BCH",
+        "symbol2": "BTC",
+        "minLotSize": 0.007,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": 30,
+        "minPrice": "0.005",
+        "maxPrice": "2"
+      },
+      {
+        "symbol1": "BTG",
+        "symbol2": "BTC",
+        "minLotSize": 0.01,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": null,
+        "minPrice": "0.001",
+        "maxPrice": "2"
+      },
+      {
+        "symbol1": "DASH",
+        "symbol2": "BTC",
+        "minLotSize": 0.015,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": null,
+        "minPrice": "0.005",
+        "maxPrice": "2"
+      },
+      {
+        "symbol1": "XRP",
+        "symbol2": "BTC",
+        "minLotSize": 40,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": null,
+        "minPrice": "0.000003",
+        "maxPrice": "0.001"
+      },
+      {
+        "symbol1": "XLM",
+        "symbol2": "BTC",
+        "minLotSize": 70,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": null,
+        "minPrice": "0.000001",
+        "maxPrice": "0.0005"
+      },
+      {
+        "symbol1": "ZEC",
+        "symbol2": "BTC",
+        "minLotSize": 0.03,
+        "minLotSizeS2": 0.001,
+        "maxLotSize": null,
+        "minPrice": "0.005",
+        "maxPrice": "2"
+      },
+      {
+        "symbol1": "GHS",
+        "symbol2": "BTC",
+        "minLotSize": 100,
+        "minLotSizeS2": 0.00001,
+        "maxLotSize": null,
+        "minPrice": "0.000001",
+        "maxPrice": "0.01"
+      }
+    ]
+  }
+}

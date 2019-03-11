@@ -1,11 +1,10 @@
 package org.knowm.xchange.ripple.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import java.math.BigDecimal;
 
 @JsonPropertyOrder({"currency", "counterparty", "value"})
 public final class RippleAmount {
@@ -53,6 +52,8 @@ public final class RippleAmount {
 
   @Override
   public String toString() {
-    return String.format("%s [currency=%s, counterparty=%s, value=%s]", getClass().getSimpleName(), currency, counterparty, value);
+    return String.format(
+        "%s [currency=%s, counterparty=%s, value=%s]",
+        getClass().getSimpleName(), currency, counterparty, value);
   }
 }

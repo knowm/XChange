@@ -6,7 +6,6 @@ import org.knowm.xchange.btctrade.BTCTrade;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.CertHelper;
-
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -27,10 +26,13 @@ public class BTCTradeBaseService extends BaseExchangeService implements BaseServ
 
     ClientConfig config = getClientConfig();
     // btctrade is using an ssl certificate for 33option.com
-    config.setHostnameVerifier(CertHelper.createIncorrectHostnameVerifier(exchangeSpecification.getHost(),
-        "CN=www.33option.com,OU=IT,O=OPTIONFORTUNE TRADE LIMITED,L=KOWLOON,ST=HONGKONG,C=HK"));
+    config.setHostnameVerifier(
+        CertHelper.createIncorrectHostnameVerifier(
+            exchangeSpecification.getHost(),
+            "CN=www.33option.com,OU=IT,O=OPTIONFORTUNE TRADE LIMITED,L=KOWLOON,ST=HONGKONG,C=HK"));
 
-    btcTrade = RestProxyFactory.createProxy(BTCTrade.class, exchangeSpecification.getSslUri(), config);
+    btcTrade =
+        RestProxyFactory.createProxy(BTCTrade.class, exchangeSpecification.getSslUri(), config);
   }
 
   protected long toLong(Object object) {

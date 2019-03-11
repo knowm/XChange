@@ -9,8 +9,8 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 
 /**
- * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
- * valid api and secret keys
+ * Integration tests for Wallet retrieval. For these tests to function, a file
+ * 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys
  *
  * @author Mikhail Wall
  */
@@ -20,7 +20,7 @@ public class AccountInfoFetchIntegration {
   public void fetchAccountInfoTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
-      return; //forces pass if not configuration is available
+      return; // forces pass if not configuration is available
     }
     AccountService service = exchange.getAccountService();
     assertNotNull(service);

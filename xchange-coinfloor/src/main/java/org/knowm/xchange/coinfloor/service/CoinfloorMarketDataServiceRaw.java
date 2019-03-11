@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinfloor.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinfloor.CoinfloorPublic;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
@@ -10,7 +9,6 @@ import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
-
 import si.mazi.rescu.RestProxyFactory;
 
 public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
@@ -20,7 +18,11 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
   protected CoinfloorMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
 
-    coinfloor = RestProxyFactory.createProxy(CoinfloorPublic.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    coinfloor =
+        RestProxyFactory.createProxy(
+            CoinfloorPublic.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
   }
 
   public CoinfloorTicker getCoinfloorTicker(CurrencyPair pair) throws IOException {
@@ -31,7 +33,8 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
     return coinfloor.getOrderBook(normalise(pair.base), normalise(pair.counter));
   }
 
-  public CoinfloorTransaction[] getCoinfloorTransactions(CurrencyPair pair, CoinfloorInterval interval) throws IOException {
+  public CoinfloorTransaction[] getCoinfloorTransactions(
+      CurrencyPair pair, CoinfloorInterval interval) throws IOException {
     return coinfloor.getTransactions(normalise(pair.base), normalise(pair.counter), interval);
   }
 
@@ -44,7 +47,9 @@ public class CoinfloorMarketDataServiceRaw extends BaseExchangeService {
   }
 
   public enum CoinfloorInterval {
-    DAY, HOUR, MINUTE;
+    DAY,
+    HOUR,
+    MINUTE;
 
     @Override
     public String toString() {

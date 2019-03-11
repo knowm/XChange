@@ -52,7 +52,5 @@ public class CurrencyPairTest {
 
     assertThat(CurrencyPair.BTC_CAD.base.getCurrencyCode()).isEqualTo("BTC");
     assertThat(CurrencyPair.BTC_CAD.counter.getCurrencyCode()).isEqualTo("CAD");
-
   }
-
 }

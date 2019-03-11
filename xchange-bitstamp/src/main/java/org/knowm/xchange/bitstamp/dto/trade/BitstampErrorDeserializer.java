@@ -1,17 +1,17 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
 
 public class BitstampErrorDeserializer extends JsonDeserializer<String> {
 
   @Override
-  public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+  public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+      throws IOException {
 
     ObjectCodec oc = jsonParser.getCodec();
     JsonNode node = oc.readTree(jsonParser);

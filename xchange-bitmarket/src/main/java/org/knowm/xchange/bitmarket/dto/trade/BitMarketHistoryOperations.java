@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketHistoryOperations {
 
   private final int total;
@@ -22,7 +19,10 @@ public class BitMarketHistoryOperations {
    * @param count
    * @param operations
    */
-  public BitMarketHistoryOperations(@JsonProperty("total") int total, @JsonProperty("start") int start, @JsonProperty("count") int count,
+  public BitMarketHistoryOperations(
+      @JsonProperty("total") int total,
+      @JsonProperty("start") int start,
+      @JsonProperty("count") int count,
       @JsonProperty("results") List<BitMarketHistoryOperation> operations) {
 
     this.total = total;

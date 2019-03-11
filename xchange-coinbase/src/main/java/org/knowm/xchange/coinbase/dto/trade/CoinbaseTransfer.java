@@ -1,17 +1,5 @@
 package org.knowm.xchange.coinbase.dto.trade;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
-import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
-import org.knowm.xchange.utils.DateUtils;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -19,10 +7,18 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
+import org.knowm.xchange.utils.DateUtils;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 @JsonDeserialize(using = CoinbaseTransferDeserializer.class)
 public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
@@ -41,10 +37,23 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   private final CoinbaseMoney total;
   private final String description;
 
-  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt,
-      final CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final Date payoutDate, final String transactionId,
-      final CoinbaseTransferStatus status, final CoinbaseMoney btcAmount, final CoinbaseMoney subtotal, final CoinbaseMoney total,
-      final String description, final boolean success, final List<String> errors) {
+  public CoinbaseTransfer(
+      String id,
+      final CoinbaseTransferType type,
+      final String fundingType,
+      final String code,
+      final Date createdAt,
+      final CoinbaseMoney coinbaseFee,
+      final CoinbaseMoney bankFee,
+      final Date payoutDate,
+      final String transactionId,
+      final CoinbaseTransferStatus status,
+      final CoinbaseMoney btcAmount,
+      final CoinbaseMoney subtotal,
+      final CoinbaseMoney total,
+      final String description,
+      final boolean success,
+      final List<String> errors) {
 
     super(success, errors);
     this.id = id;
@@ -136,20 +145,49 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   @Override
   public String toString() {
 
-    return "CoinbaseTransfer [id=" + id + ", type=" + type + ", fundingType=" + fundingType + ", code=" + code + ", createdAt=" + createdAt
-        + ", coinbaseFee=" + coinbaseFee + ", bankFee=" + bankFee + ", payoutDate=" + payoutDate + ", transactionId=" + transactionId + ", status="
-        + status + ", btcAmount=" + btcAmount + ", subtotal=" + subtotal + ", total=" + total + ", description=" + description + "]";
+    return "CoinbaseTransfer [id="
+        + id
+        + ", type="
+        + type
+        + ", fundingType="
+        + fundingType
+        + ", code="
+        + code
+        + ", createdAt="
+        + createdAt
+        + ", coinbaseFee="
+        + coinbaseFee
+        + ", bankFee="
+        + bankFee
+        + ", payoutDate="
+        + payoutDate
+        + ", transactionId="
+        + transactionId
+        + ", status="
+        + status
+        + ", btcAmount="
+        + btcAmount
+        + ", subtotal="
+        + subtotal
+        + ", total="
+        + total
+        + ", description="
+        + description
+        + "]";
   }
 
   public enum CoinbaseTransferStatus {
-
-    PENDING, COMPLETED, CANCELED, REVERSED
+    PENDING,
+    COMPLETED,
+    CANCELED,
+    REVERSED
   }
 
   static class CoinbaseTransferDeserializer extends JsonDeserializer<CoinbaseTransfer> {
 
     @Override
-    public CoinbaseTransfer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseTransfer deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode node = oc.readTree(jp);
@@ -161,29 +199,52 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
         success = successNode.asBoolean();
         final JsonNode errorsNode = node.path("errors");
         if (errorsNode.isArray())
-          for (JsonNode errorNode : errorsNode)
-            errors.add(errorNode.asText());
+          for (JsonNode errorNode : errorsNode) errors.add(errorNode.asText());
       }
 
       final JsonNode transferNode = node.path("transfer");
       final String id = transferNode.path("id").asText();
       final String fundingType = transferNode.path("_type").asText();
-      final CoinbaseTransferType type = CoinbaseTransferType.valueOf(transferNode.path("type").asText().toUpperCase());
+      final CoinbaseTransferType type =
+          CoinbaseTransferType.valueOf(transferNode.path("type").asText().toUpperCase());
       final String code = transferNode.path("code").asText();
-      final Date createdAt = DateUtils.fromISO8601DateString(transferNode.path("created_at").asText());
+      final Date createdAt =
+          DateUtils.fromISO8601DateString(transferNode.path("created_at").asText());
       final JsonNode feesNode = transferNode.path("fees");
-      final CoinbaseMoney coinbaseFee = CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("coinbase"));
-      final CoinbaseMoney bankFee = CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("bank"));
-      final Date payoutDate = DateUtils.fromISO8601DateString(transferNode.path("payout_date").asText());
+      final CoinbaseMoney coinbaseFee =
+          CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("coinbase"));
+      final CoinbaseMoney bankFee =
+          CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("bank"));
+      final Date payoutDate =
+          DateUtils.fromISO8601DateString(transferNode.path("payout_date").asText());
       final String transactionId = transferNode.path("transaction_id").asText();
-      final CoinbaseTransferStatus status = CoinbaseTransferStatus.valueOf(transferNode.path("status").asText().toUpperCase());
-      final CoinbaseMoney btcAmount = CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("btc"));
-      final CoinbaseMoney subtotal = CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("subtotal"));
-      final CoinbaseMoney total = CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("total"));
+      final CoinbaseTransferStatus status =
+          CoinbaseTransferStatus.valueOf(transferNode.path("status").asText().toUpperCase());
+      final CoinbaseMoney btcAmount =
+          CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("btc"));
+      final CoinbaseMoney subtotal =
+          CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("subtotal"));
+      final CoinbaseMoney total =
+          CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("total"));
       final String description = transferNode.path("description").asText();
 
-      return new CoinbaseTransfer(id, type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount,
-          subtotal, total, description, success, errors);
+      return new CoinbaseTransfer(
+          id,
+          type,
+          fundingType,
+          code,
+          createdAt,
+          coinbaseFee,
+          bankFee,
+          payoutDate,
+          transactionId,
+          status,
+          btcAmount,
+          subtotal,
+          total,
+          description,
+          success,
+          errors);
     }
   }
 }

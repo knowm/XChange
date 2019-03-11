@@ -8,18 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.QuadrigaCxException;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxOrder;
@@ -54,12 +50,13 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     Collection<CurrencyPair> currencyPairs;
     if (params instanceof OpenOrdersParamMultiCurrencyPair) {
       currencyPairs = ((OpenOrdersParamMultiCurrencyPair) params).getCurrencyPairs();
     } else if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPairs = Collections.singletonList(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
+      currencyPairs =
+          Collections.singletonList(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
     } else {
       currencyPairs = exchange.getExchangeSymbols();
     }
@@ -74,7 +71,14 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
         String id = quadrigaCxOrder.getId();
         BigDecimal price = quadrigaCxOrder.getPrice();
 
-        limitOrders.add(new LimitOrder(orderType, quadrigaCxOrder.getAmount(), pair, id, quadrigaCxOrder.getTime(), price));
+        limitOrders.add(
+            new LimitOrder(
+                orderType,
+                quadrigaCxOrder.getAmount(),
+                pair,
+                id,
+                quadrigaCxOrder.getTime(),
+                price));
       }
     }
 
@@ -86,9 +90,11 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
     QuadrigaCxOrder quadrigacxOrder;
     if (marketOrder.getType() == BID) {
-      quadrigacxOrder = buyQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
+      quadrigacxOrder =
+          buyQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
     } else {
-      quadrigacxOrder = sellQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
+      quadrigacxOrder =
+          sellQuadrigaCxOrder(marketOrder.getCurrencyPair(), marketOrder.getOriginalAmount());
     }
     if (quadrigacxOrder.getErrorMessage() != null) {
       throw new ExchangeException(quadrigacxOrder.getErrorMessage());
@@ -102,9 +108,17 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
     QuadrigaCxOrder quadrigacxOrder;
     if (limitOrder.getType() == BID) {
-      quadrigacxOrder = buyQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
+      quadrigacxOrder =
+          buyQuadrigaCxOrder(
+              limitOrder.getCurrencyPair(),
+              limitOrder.getOriginalAmount(),
+              limitOrder.getLimitPrice());
     } else {
-      quadrigacxOrder = sellQuadrigaCxOrder(limitOrder.getCurrencyPair(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
+      quadrigacxOrder =
+          sellQuadrigaCxOrder(
+              limitOrder.getCurrencyPair(),
+              limitOrder.getOriginalAmount(),
+              limitOrder.getLimitPrice());
     }
     if (quadrigacxOrder.getErrorMessage() != null) {
       throw new ExchangeException(quadrigacxOrder.getErrorMessage());
@@ -120,21 +134,22 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
    * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
-   * <p/>
-   * Warning: using a limit here can be misleading. The underlying call retrieves trades, withdrawals, and deposits. So the example here will limit
-   * the result to 17 of those types and from those 17 only trades are returned. It is recommended to use the raw service demonstrated below if you
-   * want to use this feature.
+   *
+   * <p>Warning: using a limit here can be misleading. The underlying call retrieves trades,
+   * withdrawals, and deposits. So the example here will limit the result to 17 of those types and
+   * from those 17 only trades are returned. It is recommended to use the raw service demonstrated
+   * below if you want to use this feature.
    */
-
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -154,10 +169,8 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
     if (params instanceof TradeHistoryParamsSorted) {
       TradeHistoryParamsSorted.Order order = ((TradeHistoryParamsSorted) params).getOrder();
       if (order != null) {
-        if (order.equals(TradeHistoryParamsSorted.Order.asc))
-          sort = "asc";
-        else
-          sort = "desc";
+        if (order.equals(TradeHistoryParamsSorted.Order.asc)) sort = "asc";
+        else sort = "desc";
       }
     }
 
@@ -165,7 +178,8 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
       currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
 
-    QuadrigaCxUserTransaction[] txs = getQuadrigaCxUserTransactions(currencyPair, limit, offset, sort);
+    QuadrigaCxUserTransaction[] txs =
+        getQuadrigaCxUserTransactions(currencyPair, limit, offset, sort);
 
     return QuadrigaCxAdapters.adaptTradeHistory(txs, currencyPair);
   }
@@ -180,11 +194,4 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

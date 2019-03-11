@@ -1,88 +1,97 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.util.Base64;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
-
+import javax.ws.rs.QueryParam;
+import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.Params;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-public class HuobiDigest implements ParamsDigest {
+public class HuobiDigest extends BaseParamsDigest {
 
-  private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private final Field invocationUrlField;
+  private static final String PLACEHOLDER = "HUOBI_PLACEHOLDER";
 
-  private final String secretKey;
-  private final String secretKeyDigestName;
-  private final MessageDigest md;
-  private final Comparator<Entry<String, String>> comparator = new Comparator<Map.Entry<String, String>>() {
-
-    @Override
-    public int compare(Entry<String, String> o1, Entry<String, String> o2) {
-
-      return o1.getKey().compareTo(o2.getKey());
-    }
-  };
-
-  public HuobiDigest(String secretKey, String secretKeySignatureName) {
-
-    this.secretKey = secretKey;
-    this.secretKeyDigestName = secretKeySignatureName;
-
+  private HuobiDigest(String secretKey) {
+    super(secretKey, HMAC_SHA_256);
     try {
-      md = MessageDigest.getInstance("MD5");
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Problem instantiating message digest.");
+      invocationUrlField = RestInvocation.class.getDeclaredField("invocationUrl");
+      invocationUrlField.setAccessible(true);
+    } catch (NoSuchFieldException e) {
+      throw new IllegalStateException("rescu library has been updated");
     }
   }
 
-  private static char[] encodeHex(byte[] data, char[] toDigits) {
-
-    int l = data.length;
-    char[] out = new char[l << 1];
-    // two characters form the hex value.
-    for (int i = 0, j = 0; i < l; i++) {
-      out[j++] = toDigits[(0xF0 & data[i]) >>> 4];
-      out[j++] = toDigits[0x0F & data[i]];
-    }
-    return out;
+  static HuobiDigest createInstance(String secretKey) {
+    return secretKey == null ? null : new HuobiDigest(secretKey);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+    String httpMethod = restInvocation.getHttpMethod();
+    String host = getHost(restInvocation.getBaseUrl());
+    String method = "/" + restInvocation.getMethodPath();
+    String query =
+        Stream.of(
+                restInvocation.getParamsMap().get(FormParam.class),
+                restInvocation.getParamsMap().get(QueryParam.class))
+            .map(Params::asHttpHeaders)
+            .map(Map::entrySet)
+            .flatMap(Collection::stream)
+            .filter(e -> !"Signature".equals(e.getKey()))
+            .sorted(Map.Entry.comparingByKey())
+            .map(e -> e.getKey() + "=" + encodeValue(e.getValue()))
+            .collect(Collectors.joining("&"));
+    String toSign = String.format("%s\n%s\n%s\n%s", httpMethod, host, method, query);
+    Mac mac = getMac();
+    String signature =
+        encodeValue(Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim());
+    replaceSignatureUrl(restInvocation, signature);
+    return signature;
+  }
 
-    final Params params = restInvocation.getParamsMap().get(FormParam.class);
-    final Map<String, String> nameValueMap = params.asHttpHeaders();
-    nameValueMap.remove("sign");
-    nameValueMap.put(secretKeyDigestName, secretKey);
-
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
-    Collections.sort(nameValueList, comparator);
-
-    final Params newParams = Params.of();
-    for (int i = 0; i < nameValueList.size(); i++) {
-      Map.Entry<String, String> param = nameValueList.get(i);
-      newParams.add(param.getKey(), param.getValue());
-    }
-
-    final String message = newParams.asQueryString();
-
+  private String getHost(String url) {
+    URI uri;
     try {
-      md.reset();
-
-      byte[] digest = md.digest(message.getBytes("UTF-8"));
-
-      return String.valueOf(encodeHex(digest, DIGITS_LOWER));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Codec error", e);
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      throw new IllegalStateException(e.getMessage());
     }
+    return uri.getHost();
+  }
+
+  private String encodeValue(String value) {
+    String ret;
+    try {
+      ret = URLEncoder.encode(value, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException(e.getMessage());
+    }
+    return ret;
+  }
+
+  private void replaceSignatureUrl(RestInvocation restInvocation, String signature) {
+    String invocationUrl = restInvocation.getInvocationUrl();
+    String newInvocationUrl = invocationUrl.replace(PLACEHOLDER, signature);
+    try {
+      invocationUrlField.set(restInvocation, newInvocationUrl);
+    } catch (IllegalAccessException e) {
+      throw new IllegalStateException("rescu library has been updated");
+    }
+  }
+
+  @Override
+  public String toString() {
+    return PLACEHOLDER;
   }
 }

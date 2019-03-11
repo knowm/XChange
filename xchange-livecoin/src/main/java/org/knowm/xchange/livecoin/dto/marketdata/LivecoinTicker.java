@@ -1,10 +1,10 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.livecoin.dto.LivecoinBaseResponse;
 
-public class LivecoinTicker {
+public class LivecoinTicker extends LivecoinBaseResponse {
   private final String cur;
   private final String symbol;
   private final BigDecimal last;
@@ -17,13 +17,20 @@ public class LivecoinTicker {
   private final BigDecimal bestBid;
   private final BigDecimal bestAsk;
 
-  public LivecoinTicker(@JsonProperty("cur") String cur, @JsonProperty("symbol") String symbol,
-                        @JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high,
-                        @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-                        @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("max_bid") BigDecimal maxBid,
-                        @JsonProperty("min_ask") BigDecimal minAsk, @JsonProperty("best_bid") BigDecimal bestBid,
-                        @JsonProperty("best_ask") BigDecimal bestAsk) {
-
+  public LivecoinTicker(
+      @JsonProperty("success") Boolean success,
+      @JsonProperty("cur") String cur,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("max_bid") BigDecimal maxBid,
+      @JsonProperty("min_ask") BigDecimal minAsk,
+      @JsonProperty("best_bid") BigDecimal bestBid,
+      @JsonProperty("best_ask") BigDecimal bestAsk) {
+    super(success);
     this.cur = cur;
     this.symbol = symbol;
     this.last = last;
@@ -35,7 +42,6 @@ public class LivecoinTicker {
     this.minAsk = minAsk;
     this.bestBid = bestBid;
     this.bestAsk = bestAsk;
-
   }
 
   public BigDecimal getLast() {
@@ -84,18 +90,29 @@ public class LivecoinTicker {
 
   @Override
   public String toString() {
-    return "LivecoinTicker{" +
-        "cur=" + cur +
-        ", symbol=" + symbol +
-        ", last=" + last +
-        ", high=" + high +
-        ", low=" + low +
-        ", volume=" + volume +
-        ", vwap=" + vwap +
-        ", maxBid=" + maxBid +
-        ", minAsk=" + minAsk +
-        ", bestBid=" + bestBid +
-        ", bestAsk=" + bestAsk +
-        '}';
+    return "LivecoinTicker{"
+        + "cur="
+        + cur
+        + ", symbol="
+        + symbol
+        + ", last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", vwap="
+        + vwap
+        + ", maxBid="
+        + maxBid
+        + ", minAsk="
+        + minAsk
+        + ", bestBid="
+        + bestBid
+        + ", bestAsk="
+        + bestAsk
+        + '}';
   }
 }

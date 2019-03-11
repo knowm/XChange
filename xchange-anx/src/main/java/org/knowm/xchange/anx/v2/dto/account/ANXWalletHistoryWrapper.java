@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author deveth0
- */
+/** @author deveth0 */
 public class ANXWalletHistoryWrapper {
 
   private final String result;
@@ -18,7 +16,9 @@ public class ANXWalletHistoryWrapper {
    * @param anxWalletHistory
    * @param error
    */
-  public ANXWalletHistoryWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWalletHistory anxWalletHistory,
+  public ANXWalletHistoryWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXWalletHistory anxWalletHistory,
       @JsonProperty("error") String error) {
 
     this.result = result;

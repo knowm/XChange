@@ -2,7 +2,6 @@ package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
@@ -23,7 +22,8 @@ public class BTCTradeTradeServiceRaw extends BTCTradeBaseTradeService {
   public BTCTradeOrder[] getBTCTradeOrders(long since, String type) throws IOException {
 
     synchronized (session) {
-      return btcTrade.getOrders(since, type, exchange.getNonceFactory(), publicKey, getSignatureCreator());
+      return btcTrade.getOrders(
+          since, type, exchange.getNonceFactory(), publicKey, getSignatureCreator());
     }
   }
 
@@ -44,15 +44,24 @@ public class BTCTradeTradeServiceRaw extends BTCTradeBaseTradeService {
   public BTCTradePlaceOrderResult buy(BigDecimal amount, BigDecimal price) throws IOException {
 
     synchronized (session) {
-      return btcTrade.buy(amount.toPlainString(), price.toPlainString(), exchange.getNonceFactory(), publicKey, getSignatureCreator());
+      return btcTrade.buy(
+          amount.toPlainString(),
+          price.toPlainString(),
+          exchange.getNonceFactory(),
+          publicKey,
+          getSignatureCreator());
     }
   }
 
   public BTCTradePlaceOrderResult sell(BigDecimal amount, BigDecimal price) throws IOException {
 
     synchronized (session) {
-      return btcTrade.sell(amount.toPlainString(), price.toPlainString(), exchange.getNonceFactory(), publicKey, getSignatureCreator());
+      return btcTrade.sell(
+          amount.toPlainString(),
+          price.toPlainString(),
+          exchange.getNonceFactory(),
+          publicKey,
+          getSignatureCreator());
     }
   }
-
 }

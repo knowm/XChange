@@ -23,13 +23,10 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateTransactionHistoryEntry {
 
   private final long transactionId;
@@ -45,11 +42,19 @@ public class CoinmateTransactionHistoryEntry {
   private final String status;
   private final long orderId; // ?
 
-  public CoinmateTransactionHistoryEntry(@JsonProperty("transactionId") long transactionId, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("transactionType") String transactionType, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("amountCurrency") String amountCurrency, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("priceCurrency") String priceCurrency, @JsonProperty("fee") BigDecimal fee, @JsonProperty("feeCurrency") String feeCurrency,
-      @JsonProperty("description") String description, @JsonProperty("status") String status, @JsonProperty("orderId") long orderId) {
+  public CoinmateTransactionHistoryEntry(
+      @JsonProperty("transactionId") long transactionId,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("transactionType") String transactionType,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("amountCurrency") String amountCurrency,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("priceCurrency") String priceCurrency,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("feeCurrency") String feeCurrency,
+      @JsonProperty("description") String description,
+      @JsonProperty("status") String status,
+      @JsonProperty("orderId") long orderId) {
 
     this.transactionId = transactionId;
     this.timestamp = timestamp;
@@ -112,5 +117,4 @@ public class CoinmateTransactionHistoryEntry {
   public long getOrderId() {
     return orderId;
   }
-
 }

@@ -1,8 +1,7 @@
 package org.knowm.xchange.itbit.v1.dto.account;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
 public class ItBitDepositResponse {
 
@@ -11,8 +10,11 @@ public class ItBitDepositResponse {
   private final String depositAddress;
   private final Map<String, String> metadata;
 
-  public ItBitDepositResponse(@JsonProperty("id") String id, @JsonProperty("walletID") String walletId,
-      @JsonProperty("depositAddress") String depositAddress, @JsonProperty("metadata") Map<String, String> metadata) {
+  public ItBitDepositResponse(
+      @JsonProperty("id") String id,
+      @JsonProperty("walletID") String walletId,
+      @JsonProperty("depositAddress") String depositAddress,
+      @JsonProperty("metadata") Map<String, String> metadata) {
 
     this.id = id;
     this.walletId = walletId;

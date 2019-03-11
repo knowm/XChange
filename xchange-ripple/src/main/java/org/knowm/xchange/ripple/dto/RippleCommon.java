@@ -5,12 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class RippleCommon {
   @JsonProperty("hash")
   protected String hash;
+
   @JsonProperty("ledger")
   protected long ledger;
+
   @JsonProperty("success")
   protected Boolean success;
+
   @JsonProperty("state")
   protected String state;
+
   @JsonProperty("validated")
   protected Boolean validated;
 

@@ -7,7 +7,8 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
 
-public class LivecoinBaseService<T extends Livecoin> extends BaseExchangeService implements BaseService {
+public class LivecoinBaseService<T extends Livecoin> extends BaseExchangeService
+    implements BaseService {
 
   protected final T service;
   protected final LivecoinDigest signatureCreator;
@@ -16,8 +17,11 @@ public class LivecoinBaseService<T extends Livecoin> extends BaseExchangeService
   public LivecoinBaseService(Class<T> type, Exchange exchange) {
     super(exchange);
 
-    this.service = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    this.service =
+        RestProxyFactory.createProxy(
+            type, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = LivecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
+    this.signatureCreator =
+        LivecoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
   }
 }

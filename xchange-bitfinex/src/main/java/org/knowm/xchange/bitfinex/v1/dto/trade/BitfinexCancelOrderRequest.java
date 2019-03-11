@@ -32,5 +32,4 @@ public class BitfinexCancelOrderRequest {
 
     return String.valueOf(orderId);
   }
-
 }

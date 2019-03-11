@@ -1,13 +1,10 @@
 package org.knowm.xchange.vircurex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Data object representing depth from Vircurex
- */
+/** Data object representing depth from Vircurex */
 public class VircurexDepth {
 
   private final List<BigDecimal[]> asks;
@@ -19,7 +16,9 @@ public class VircurexDepth {
    * @param asks
    * @param bids
    */
-  public VircurexDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+  public VircurexDepth(
+      @JsonProperty("asks") List<BigDecimal[]> asks,
+      @JsonProperty("bids") List<BigDecimal[]> bids) {
 
     this.asks = asks;
     this.bids = bids;
@@ -40,5 +39,4 @@ public class VircurexDepth {
 
     return "VircurexDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
-
 }

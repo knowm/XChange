@@ -3552,6 +3552,21 @@
     }
   },
   "currencies": {
+    "BTC": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    }
   },
   "share_rate_limits": true
 }

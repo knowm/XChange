@@ -1,8 +1,7 @@
 package org.knowm.xchange.luno.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class LunoFeeInfo {
 
@@ -10,9 +9,10 @@ public class LunoFeeInfo {
   public final BigDecimal takerFee;
   public final BigDecimal thirtyDayVolume;
 
-  public LunoFeeInfo(@JsonProperty(value = "maker_fee", required = true) BigDecimal makerFee
-      , @JsonProperty(value = "taker_fee", required = true) BigDecimal takerFee
-      , @JsonProperty(value = "thirty_day_volume", required = true) BigDecimal thirtyDayVolume) {
+  public LunoFeeInfo(
+      @JsonProperty(value = "maker_fee", required = true) BigDecimal makerFee,
+      @JsonProperty(value = "taker_fee", required = true) BigDecimal takerFee,
+      @JsonProperty(value = "thirty_day_volume", required = true) BigDecimal thirtyDayVolume) {
     this.makerFee = makerFee;
     this.takerFee = takerFee;
     this.thirtyDayVolume = thirtyDayVolume;
@@ -20,6 +20,12 @@ public class LunoFeeInfo {
 
   @Override
   public String toString() {
-    return "LunoFeeInfo [makerFee=" + makerFee + ", takerFee=" + takerFee + ", thirtyDayVolume=" + thirtyDayVolume + "]";
+    return "LunoFeeInfo [makerFee="
+        + makerFee
+        + ", takerFee="
+        + takerFee
+        + ", thirtyDayVolume="
+        + thirtyDayVolume
+        + "]";
   }
 }

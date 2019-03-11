@@ -2,27 +2,25 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test KrakenDepth JSON parsing
- */
+/** Test KrakenDepth JSON parsing */
 public class KrakenDepthJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is =
+        KrakenDepthJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

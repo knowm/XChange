@@ -1,27 +1,25 @@
 package org.knowm.xchange.dto.meta;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class CurrencyPairMetaData implements Serializable {
 
-  /**
-   * Trading fee (fraction)
-   */
+  /** Trading fee (fraction) */
   @JsonProperty("trading_fee")
   private final BigDecimal tradingFee;
 
-  /**
-   * Minimum trade amount
-   */
+  /** Trading fee tiers by volume (fraction). Sorted in ascending order by quantity */
+  @JsonProperty("fee_tiers")
+  private final FeeTier[] feeTiers;
+
+  /** Minimum trade amount */
   @JsonProperty("min_amount")
   private final BigDecimal minimumAmount;
 
-  /**
-   * Maximum trade amount
-   */
+  /** Maximum trade amount */
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
 
@@ -36,13 +34,21 @@ public class CurrencyPairMetaData implements Serializable {
    * @param maximumAmount Maximum trade amount
    * @param priceScale Price scale
    */
-  public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount,
-      @JsonProperty("max_amount") BigDecimal maximumAmount, @JsonProperty("price_scale") Integer priceScale) {
+  public CurrencyPairMetaData(
+      @JsonProperty("trading_fee") BigDecimal tradingFee,
+      @JsonProperty("min_amount") BigDecimal minimumAmount,
+      @JsonProperty("max_amount") BigDecimal maximumAmount,
+      @JsonProperty("price_scale") Integer priceScale,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
     this.priceScale = priceScale;
+    if (feeTiers != null) {
+      Arrays.sort(feeTiers);
+    }
+    this.feeTiers = feeTiers;
   }
 
   public BigDecimal getTradingFee() {
@@ -65,11 +71,22 @@ public class CurrencyPairMetaData implements Serializable {
     return priceScale;
   }
 
+  public FeeTier[] getFeeTiers() {
+
+    return feeTiers;
+  }
+
   @Override
   public String toString() {
 
-    return "CurrencyPairMetaData [tradingFee=" + tradingFee + ", minimumAmount=" + minimumAmount + ", maximumAmount=" + maximumAmount
-        + ", priceScale=" + priceScale + "]";
+    return "CurrencyPairMetaData [tradingFee="
+        + tradingFee
+        + ", minimumAmount="
+        + minimumAmount
+        + ", maximumAmount="
+        + maximumAmount
+        + ", priceScale="
+        + priceScale
+        + "]";
   }
-
 }

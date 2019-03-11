@@ -3,10 +3,8 @@ package org.knowm.xchange.therock.dto.trade;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-/**
- * @author Pnk
- */
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+/** @author Pnk */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TheRockMetaItem {
 
   private int page;
@@ -19,5 +17,4 @@ public class TheRockMetaItem {
   public String getHref() {
     return href;
   }
-
 }

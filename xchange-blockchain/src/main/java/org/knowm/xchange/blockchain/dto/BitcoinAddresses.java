@@ -1,12 +1,9 @@
 package org.knowm.xchange.blockchain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class BitcoinAddresses {
 
   private final List<BitcoinAddress> bitcoinAddresses;
@@ -26,4 +23,8 @@ public final class BitcoinAddresses {
     return bitcoinAddresses;
   }
 
+  @Override
+  public String toString() {
+    return "BitcoinAddresses{" + "bitcoinAddresses=" + bitcoinAddresses + '}';
+  }
 }

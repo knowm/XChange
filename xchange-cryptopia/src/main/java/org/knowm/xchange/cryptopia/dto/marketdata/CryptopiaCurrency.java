@@ -1,8 +1,7 @@
 package org.knowm.xchange.cryptopia.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class CryptopiaCurrency {
 
@@ -21,10 +20,20 @@ public final class CryptopiaCurrency {
   private final String statusMessage;
   private final String listingStatus;
 
-  public CryptopiaCurrency(@JsonProperty("Id") long id, @JsonProperty("Name") String name, @JsonProperty("Symbol") String symbol, @JsonProperty("Algorithm") String algorithm,
-      @JsonProperty("WithdrawFee") BigDecimal withdrawFee, @JsonProperty("MinWithdraw") BigDecimal minWithdraw, @JsonProperty("MaxWithdraw") BigDecimal maxWithdraw,
-      @JsonProperty("MinBaseTrade") BigDecimal minBaseTrade, @JsonProperty("IsTipEnabled") boolean isTipEnabled, @JsonProperty("MinTip") BigDecimal minTip,
-      @JsonProperty("DepositConfirmations") long depositConfirmations, @JsonProperty("Status") String status, @JsonProperty("StatusMessage") String statusMessage,
+  public CryptopiaCurrency(
+      @JsonProperty("Id") long id,
+      @JsonProperty("Name") String name,
+      @JsonProperty("Symbol") String symbol,
+      @JsonProperty("Algorithm") String algorithm,
+      @JsonProperty("WithdrawFee") BigDecimal withdrawFee,
+      @JsonProperty("MinWithdraw") BigDecimal minWithdraw,
+      @JsonProperty("MaxWithdraw") BigDecimal maxWithdraw,
+      @JsonProperty("MinBaseTrade") BigDecimal minBaseTrade,
+      @JsonProperty("IsTipEnabled") boolean isTipEnabled,
+      @JsonProperty("MinTip") BigDecimal minTip,
+      @JsonProperty("DepositConfirmations") long depositConfirmations,
+      @JsonProperty("Status") String status,
+      @JsonProperty("StatusMessage") String statusMessage,
       @JsonProperty("ListingStatus") String listingStatus) {
     this.id = id;
     this.name = name;
@@ -100,21 +109,41 @@ public final class CryptopiaCurrency {
 
   @Override
   public String toString() {
-    return "CryptopiaCurrency{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", symbol='" + symbol + '\'' +
-        ", algorithm='" + algorithm + '\'' +
-        ", withdrawFee=" + withdrawFee +
-        ", minWithdraw=" + minWithdraw +
-        ", maxWithdraw=" + maxWithdraw +
-        ", minBaseTrade=" + minBaseTrade +
-        ", isTipEnabled=" + isTipEnabled +
-        ", minTip=" + minTip +
-        ", depositConfirmations=" + depositConfirmations +
-        ", status='" + status + '\'' +
-        ", statusMessage='" + statusMessage + '\'' +
-        ", listingStatus='" + listingStatus + '\'' +
-        '}';
+    return "CryptopiaCurrency{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", algorithm='"
+        + algorithm
+        + '\''
+        + ", withdrawFee="
+        + withdrawFee
+        + ", minWithdraw="
+        + minWithdraw
+        + ", maxWithdraw="
+        + maxWithdraw
+        + ", minBaseTrade="
+        + minBaseTrade
+        + ", isTipEnabled="
+        + isTipEnabled
+        + ", minTip="
+        + minTip
+        + ", depositConfirmations="
+        + depositConfirmations
+        + ", status='"
+        + status
+        + '\''
+        + ", statusMessage='"
+        + statusMessage
+        + '\''
+        + ", listingStatus='"
+        + listingStatus
+        + '\''
+        + '}';
   }
 }

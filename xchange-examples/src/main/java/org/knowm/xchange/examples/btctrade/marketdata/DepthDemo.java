@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.btctrade.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
@@ -11,9 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * Demonstrate requesting order book at BTCTrade.
- */
+/** Demonstrate requesting order book at BTCTrade. */
 public class DepthDemo {
 
   public static void main(String[] args) throws IOException {
@@ -40,11 +37,11 @@ public class DepthDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
+    BTCTradeMarketDataServiceRaw marketDataService =
+        (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the order book data for BTC/CNY.
     BTCTradeDepth depth = marketDataService.getBTCTradeDepth();
     System.out.println("size: " + (depth.getAsks().length + depth.getBids().length));
   }
-
 }

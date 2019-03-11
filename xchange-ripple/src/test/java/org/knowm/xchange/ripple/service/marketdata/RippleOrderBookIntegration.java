@@ -20,7 +20,8 @@ public class RippleOrderBookIntegration {
   public void getOrderBookTest() throws Exception {
     final int depthLimit = 15;
 
-    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
     final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();
@@ -42,12 +43,14 @@ public class RippleOrderBookIntegration {
     assertThat(orderBook.getBids()).hasSize(depthLimit);
     for (final LimitOrder order : orderBook.getBids()) {
       assertThat(order).isInstanceOf(RippleLimitOrder.class);
-      assertThat(((RippleLimitOrder) order).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+      assertThat(((RippleLimitOrder) order).getCounterCounterparty())
+          .isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     }
     assertThat(orderBook.getAsks()).hasSize(depthLimit);
     for (final LimitOrder order : orderBook.getAsks()) {
       assertThat(order).isInstanceOf(RippleLimitOrder.class);
-      assertThat(((RippleLimitOrder) order).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+      assertThat(((RippleLimitOrder) order).getCounterCounterparty())
+          .isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     }
     System.out.println(orderBook);
   }
@@ -56,7 +59,8 @@ public class RippleOrderBookIntegration {
   public void invalidOrderBookTest() throws Exception {
     final int depthLimit = 15;
 
-    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange =
+        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
     final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();
@@ -74,9 +78,10 @@ public class RippleOrderBookIntegration {
     } catch (final RippleException e) {
       assertThat(e.getError()).containsIgnoringCase("restINVALID_PARAMETER");
       assertThat(e.getErrorType()).containsIgnoringCase("invalid_request");
-      assertThat(e.getMessage()).containsIgnoringCase("Invalid parameter: base. Must be a currency string in the form currency+counterparty");
+      assertThat(e.getMessage())
+          .containsIgnoringCase(
+              "Invalid parameter: base. Must be a currency string in the form currency+counterparty");
       throw e;
     }
-
   }
 }

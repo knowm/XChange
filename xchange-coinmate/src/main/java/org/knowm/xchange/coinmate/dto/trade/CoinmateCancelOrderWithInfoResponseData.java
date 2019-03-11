@@ -23,36 +23,29 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class CoinmateCancelOrderWithInfoResponseData {
 
   private final BigDecimal remainingAmount;
   private final boolean success;
 
-  public CoinmateCancelOrderWithInfoResponseData(@JsonProperty("success") boolean success,
+  public CoinmateCancelOrderWithInfoResponseData(
+      @JsonProperty("success") boolean success,
       @JsonProperty("remainingAmount") BigDecimal remainingAmount) {
     this.success = success;
     this.remainingAmount = remainingAmount;
   }
 
-  /**
-   * @return the remainingAmount
-   */
+  /** @return the remainingAmount */
   public BigDecimal getRemainingAmount() {
     return remainingAmount;
   }
 
-  /**
-   * @return the success
-   */
+  /** @return the success */
   public boolean isSuccess() {
     return success;
   }
-
 }

@@ -1,0 +1,20 @@
+{
+  "currency_pairs": {
+    "BTC/AUD": {
+      "price_scale": 2,
+      "trading_fee": 0
+    },
+    "ETH/AUD": {
+      "price_scale": 2,
+      "trading_fee": 0
+    }
+  },
+  "currencies": {
+    "AUD": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
+    }
+  },
+  "public_rate_limits": null,
+  "private_rate_limits": null
+}

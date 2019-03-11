@@ -7,7 +7,7 @@ import java.util.TimeZone;
 public class OkCoinUtils {
 
   public static Long toEpoch(Date dateTime, String timeZone) {
-    //Epoch of midnight in local time zone
+    // Epoch of midnight in local time zone
     Calendar timeOffset = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
     timeOffset.set(Calendar.MILLISECOND, 0);
     timeOffset.set(Calendar.SECOND, 0);
@@ -21,9 +21,22 @@ public class OkCoinUtils {
   }
 
   public static String getErrorMessage(int errorCode) {
-
+    // https://www.okex.com/rest_request.html
     switch (errorCode) {
-
+      case (1002):
+        return "The transaction amount exceed the balance";
+      case (1003):
+        return "The transaction amount is less than the minimum requirement";
+      case (1004):
+        return "The transaction amount is less than 0";
+      case (1007):
+        return "No trading market information";
+      case (1008):
+        return "No latest market information";
+      case (1009):
+        return "No order";
+      case (1010):
+        return "Different user of the cancelled order and the original order";
       case (10000):
         return "Required field can not be null";
       case (10001):
@@ -56,6 +69,20 @@ public class OkCoinUtils {
         return "Order price can not be ≤ 0 or ≥ 1,000,000";
       case (10015):
         return "Order price differs from current market price too much";
+      case (10016):
+        return "Insufficient coins balance";
+      case (10017):
+        return "API authorization error";
+      case (10018):
+        return "borrow amount less than lower limit";
+      case (10019):
+        return "loan agreement not checked";
+      case (10020):
+        return "rate cannot exceed 1%\n";
+      case (10021):
+        return "rate cannot less than 0.01%";
+      case (10023):
+        return "fail to get latest ticker";
       case (10216):
         return "Non-public API";
       case (20001):

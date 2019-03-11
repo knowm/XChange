@@ -7,7 +7,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 public class BitstampTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset, TradeHistoryParamPaging {
+    implements TradeHistoryParamCurrencyPair,
+        TradeHistoryParamsSorted,
+        TradeHistoryParamOffset,
+        TradeHistoryParamPaging {
   private CurrencyPair currencyPair;
   private Order order;
   private Integer offset;
@@ -58,16 +61,16 @@ public class BitstampTradeHistoryParams
   }
 
   @Override
+  public Integer getPageNumber() {
+    return (offset == null || pageLength == null) ? null : offset / pageLength;
+  }
+
+  @Override
   public void setPageNumber(Integer pageNumber) {
     if (pageNumber == null) {
       setOffset(null);
     } else if (pageLength != null) {
       this.offset = pageNumber * pageLength;
     }
-  }
-
-  @Override
-  public Integer getPageNumber() {
-    return (offset == null || pageLength == null) ? null : offset / pageLength;
   }
 }

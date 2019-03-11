@@ -1,31 +1,28 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Neil Panchen
- */
-
+/** @author Neil Panchen */
 public class CryptoFacilitiesTickers extends CryptoFacilitiesResult {
-
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final Date serverTime;
   private final List<CryptoFacilitiesTicker> tickers;
 
-  public CryptoFacilitiesTickers(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
-      @JsonProperty("error") String error, @JsonProperty("tickers") List<CryptoFacilitiesTicker> tickers) throws ParseException {
+  public CryptoFacilitiesTickers(
+      @JsonProperty("result") String result,
+      @JsonProperty("serverTime") String strServerTime,
+      @JsonProperty("error") String error,
+      @JsonProperty("tickers") List<CryptoFacilitiesTicker> tickers)
+      throws ParseException {
 
     super(result, error);
 
-    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
+    this.serverTime = Util.parseDate(strServerTime);
     this.tickers = tickers;
   }
 
@@ -52,7 +49,8 @@ public class CryptoFacilitiesTickers extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      StringBuilder res = new StringBuilder("CryptoFacilitiesTickers [serverTime=" + DATE_FORMAT.format(serverTime) + ", tickers=");
+      StringBuilder res =
+          new StringBuilder("CryptoFacilitiesTickers [serverTime=" + serverTime + ", tickers=");
       for (CryptoFacilitiesTicker ticker : tickers) {
         res.append(ticker.toString()).append(", ");
       }
@@ -63,5 +61,4 @@ public class CryptoFacilitiesTickers extends CryptoFacilitiesResult {
       return super.toString();
     }
   }
-
 }

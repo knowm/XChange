@@ -6,16 +6,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.dto.DefaultOrderBookRequestParams;
@@ -39,13 +35,14 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return getTickers(new DefaultTickerRequestParams(currencyPair)).iterator().next();
   }
 
   public Iterable<Ticker> getTickers(TickersRequestParams params) throws IOException {
     if (params instanceof MultiCurrencyPairTickersRequestParams) {
-      MultiCurrencyPairTickersRequestParams request = (MultiCurrencyPairTickersRequestParams) params;
+      MultiCurrencyPairTickersRequestParams request =
+          (MultiCurrencyPairTickersRequestParams) params;
 
       YoBitTickersReturn yoBitTickers = getYoBitTickers(request.currencyPairs);
 
@@ -76,15 +73,18 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
 
   public Iterable<OrderBook> getOrderBooks(OrderBooksRequestParam params) throws IOException {
     if (params instanceof MultiCurrencyOrderBooksRequestParams) {
-      MultiCurrencyOrderBooksRequestParams booksRequestParam = (MultiCurrencyOrderBooksRequestParams) params;
+      MultiCurrencyOrderBooksRequestParams booksRequestParam =
+          (MultiCurrencyOrderBooksRequestParams) params;
 
       List<OrderBook> res = new ArrayList<>();
 
-      YoBitOrderBooksReturn orderBooks = getOrderBooks(booksRequestParam.currencyPairs, booksRequestParam.desiredDepth);
+      YoBitOrderBooksReturn orderBooks =
+          getOrderBooks(booksRequestParam.currencyPairs, booksRequestParam.desiredDepth);
 
       for (String ccyPair : orderBooks.orderBooks.keySet()) {
         CurrencyPair currencyPair = YoBitAdapters.adaptCurrencyPair(ccyPair);
-        OrderBook orderBook = YoBitAdapters.adaptOrderBook(orderBooks.orderBooks.get(ccyPair), currencyPair);
+        OrderBook orderBook =
+            YoBitAdapters.adaptOrderBook(orderBooks.orderBooks.get(ccyPair), currencyPair);
         res.add(orderBook);
       }
 
@@ -101,23 +101,28 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
 
   public Trades getTrades(PublicTradesRequestParams params) throws IOException {
     if (params instanceof MultiCurrencyPublicTradesDataRequestParams) {
-      MultiCurrencyPublicTradesDataRequestParams multiCurrencyPublicTradesDataRequestParams = (MultiCurrencyPublicTradesDataRequestParams) params;
-      YoBitTrades publicTrades = getPublicTrades(multiCurrencyPublicTradesDataRequestParams.currencyPairs);
+      MultiCurrencyPublicTradesDataRequestParams multiCurrencyPublicTradesDataRequestParams =
+          (MultiCurrencyPublicTradesDataRequestParams) params;
+      YoBitTrades publicTrades =
+          getPublicTrades(multiCurrencyPublicTradesDataRequestParams.currencyPairs);
 
       List<Trade> all = new ArrayList<>();
       Map<String, List<YoBitTrade>> tradesByCcyPair = publicTrades.getTrades();
       for (String ccyPair : tradesByCcyPair.keySet()) {
         CurrencyPair currencyPair = YoBitAdapters.adaptCurrencyPair(ccyPair);
-        List<Trade> trades = YoBitAdapters.adaptTrades(tradesByCcyPair.get(ccyPair), currencyPair).getTrades();
+        List<Trade> trades =
+            YoBitAdapters.adaptTrades(tradesByCcyPair.get(ccyPair), currencyPair).getTrades();
         all.addAll(trades);
       }
 
-      Collections.sort(all, new Comparator<Trade>() {
-        @Override
-        public int compare(Trade a, Trade b) {
-          return a.getTimestamp().compareTo(b.getTimestamp());
-        }
-      });
+      Collections.sort(
+          all,
+          new Comparator<Trade>() {
+            @Override
+            public int compare(Trade a, Trade b) {
+              return a.getTimestamp().compareTo(b.getTimestamp());
+            }
+          });
 
       return new Trades(all, Trades.TradeSortType.SortByID);
     }

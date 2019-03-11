@@ -1,0 +1,28 @@
+{
+  "result": "true",
+  "orders": [
+    {
+      "id": "3",
+      "orderNumber": "0",
+      "type": "sell",
+      "rate": 0.0693,
+      "amount": "100000",
+      "total": "980",
+      "currencyPair": "eth_btc",
+      "timestamp": "1470648164",
+      "status": "open"
+    },
+    {
+      "id": "5",
+      "orderNumber": "0",
+      "type": "sell",
+      "rate": 0.00000204,
+      "amount": "1000204",
+      "total": "2.04041616",
+      "currencyPair": "doge_btc",
+      "timestamp": "1470648850",
+      "status": "open"
+    }
+  ],
+  "message": "Success"
+}

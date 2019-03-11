@@ -1,0 +1,6 @@
+Bibox Exchange API specification
+================================
+
+Documentation
+-------------
+https://corp.zaif.jp/api-docs/

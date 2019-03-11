@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTransactionStatus {
 
   private final long id;
@@ -21,9 +17,16 @@ public class DSXTransactionStatus {
   private final BigDecimal commission;
   private final String txId;
 
-  public DSXTransactionStatus(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") Type type,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("confirmationsCount") long confirmationsCount,
-      @JsonProperty("address") String address, @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission,
+  public DSXTransactionStatus(
+      @JsonProperty("id") long id,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("type") Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("confirmationsCount") long confirmationsCount,
+      @JsonProperty("address") String address,
+      @JsonProperty("status") Status status,
+      @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("txid") String txId) {
 
     this.id = id;
@@ -90,25 +93,42 @@ public class DSXTransactionStatus {
 
   @Override
   public String toString() {
-    return "DSXTransactionStatus{" +
-        "id=" + id +
-        ", timestamp=" + timestamp +
-        ", type=" + type +
-        ", amount=" + amount +
-        ", currency='" + currency + '\'' +
-        ", confirmationsCount=" + confirmationsCount +
-        ", address='" + address + '\'' +
-        ", status=" + status +
-        ", commission=" + commission +
-        ", txid=" + txId +
-        '}';
+    return "DSXTransactionStatus{"
+        + "id="
+        + id
+        + ", timestamp="
+        + timestamp
+        + ", type="
+        + type
+        + ", amount="
+        + amount
+        + ", currency='"
+        + currency
+        + '\''
+        + ", confirmationsCount="
+        + confirmationsCount
+        + ", address='"
+        + address
+        + '\''
+        + ", status="
+        + status
+        + ", commission="
+        + commission
+        + ", txid="
+        + txId
+        + '}';
   }
 
   public enum Type {
-    Withdraw, Incoming
+    Withdraw,
+    Incoming
   }
 
   public enum Status {
-    reserved0, Failed, Completed, Processing, Rejected
+    reserved0,
+    Failed,
+    Completed,
+    Processing,
+    Rejected
   }
 }

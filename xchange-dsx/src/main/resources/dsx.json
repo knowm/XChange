@@ -29,10 +29,25 @@
     },
     "BTC/RUB": {
       "price_scale": 5
+    },
+    "BCH/BTC": {
+      "price_scale": 5
+    },
+    "BCH/EUR": {
+      "price_scale": 5
+    },
+    "BCH/USD": {
+      "price_scale": 5
+    },
+    "BCH/GBP": {
+      "price_scale": 5
     }
   },
   "currencies": {
     "BTC": {
+      "scale": 8
+    },
+    "BCH": {
       "scale": 8
     },
     "EUR": {

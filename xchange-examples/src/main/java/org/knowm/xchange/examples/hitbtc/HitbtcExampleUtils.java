@@ -3,7 +3,7 @@ package org.knowm.xchange.examples.hitbtc;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.hitbtc.HitbtcExchange;
+import org.knowm.xchange.hitbtc.v2.HitbtcExchange;
 
 public class HitbtcExampleUtils {
 

@@ -1,22 +1,28 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
 
-public class BitstampRippleDepositAddress {
+@JsonDeserialize(using = BitstampRippleDepositAddress.BitstampDepositAddressDeserializer.class)
+public class BitstampRippleDepositAddress extends BitstampDepositAddress {
 
   @JsonProperty("address")
   private final String addressAndDt;
 
-  @JsonIgnore
   private String address = null;
 
-  @JsonIgnore
   private Long destinationTag = null;
 
-  protected BitstampRippleDepositAddress(@JsonProperty("address") String addressAndDt) {
-
-    this.addressAndDt = addressAndDt;
+  public BitstampRippleDepositAddress(String error, String depositAddress) {
+    super(error, depositAddress);
+    this.addressAndDt = depositAddress;
     final String[] split = addressAndDt.split("\\?dt=");
     if (split.length == 2) {
       address = split[0];
@@ -42,6 +48,27 @@ public class BitstampRippleDepositAddress {
   @Override
   public String toString() {
 
-    return (address == null ? addressAndDt : String.format("RippleAddress[%s, dt=%s]", address, destinationTag));
+    return (address == null
+        ? addressAndDt
+        : String.format("RippleAddress[%s, dt=%s]", address, destinationTag));
+  }
+
+  static class BitstampDepositAddressDeserializer extends JsonDeserializer<BitstampDepositAddress> {
+
+    @Override
+    public BitstampRippleDepositAddress deserialize(
+        JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
+
+      ObjectCodec oc = jsonParser.getCodec();
+      JsonNode node = oc.readTree(jsonParser);
+      if (node.get("error") != null) {
+        return new BitstampRippleDepositAddress(node.path("error").asText(), "");
+      } else if (node.get("address") != null) {
+        return new BitstampRippleDepositAddress(null, node.get("address").asText());
+      } else {
+        return new BitstampRippleDepositAddress(null, node.asText());
+      }
+    }
   }
 }

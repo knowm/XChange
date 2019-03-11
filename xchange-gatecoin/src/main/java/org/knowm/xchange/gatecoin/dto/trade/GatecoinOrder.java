@@ -1,12 +1,9 @@
 package org.knowm.xchange.gatecoin.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Sumedha
- */
+/** @author Sumedha */
 public final class GatecoinOrder {
 
   private final String code;
@@ -21,10 +18,17 @@ public final class GatecoinOrder {
   private final int type;
   private final String date;
 
-  public GatecoinOrder(@JsonProperty("code") String code, @JsonProperty("clOrderId") String clOrderId, @JsonProperty("side") int side,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("initialQuantity") BigDecimal initialQuantity,
-      @JsonProperty("remainingQuantity") BigDecimal remainingQuantity, @JsonProperty("status") int status,
-      @JsonProperty("statusDesc") String statusDesc, @JsonProperty("tranSeqNo") String tranSeqNo, @JsonProperty("type") int type,
+  public GatecoinOrder(
+      @JsonProperty("code") String code,
+      @JsonProperty("clOrderId") String clOrderId,
+      @JsonProperty("side") int side,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("initialQuantity") BigDecimal initialQuantity,
+      @JsonProperty("remainingQuantity") BigDecimal remainingQuantity,
+      @JsonProperty("status") int status,
+      @JsonProperty("statusDesc") String statusDesc,
+      @JsonProperty("tranSeqNo") String tranSeqNo,
+      @JsonProperty("type") int type,
       @JsonProperty("date") String date) {
     this.code = code;
     this.clOrderId = clOrderId;
@@ -86,7 +90,8 @@ public final class GatecoinOrder {
   @Override
   public String toString() {
 
-    return String.format("Order{id=%s, datetime=%s, type=%s, price=%s, initialQuantity=%s,remainingQuantity=%s}", clOrderId, date, type, price,
-        initialQuantity, remainingQuantity);
+    return String.format(
+        "Order{id=%s, datetime=%s, type=%s, price=%s, initialQuantity=%s,remainingQuantity=%s}",
+        clOrderId, date, type, price, initialQuantity, remainingQuantity);
   }
 }

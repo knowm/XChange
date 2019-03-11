@@ -1,8 +1,7 @@
 package org.knowm.xchange.coinfloor.dto.markedata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CoinfloorTicker {
   private final BigDecimal last;
@@ -13,8 +12,13 @@ public class CoinfloorTicker {
   private final BigDecimal bid;
   private final BigDecimal ask;
 
-  public CoinfloorTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
+  public CoinfloorTicker(
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("bid") BigDecimal bid,
       @JsonProperty("ask") BigDecimal ask) {
 
     this.last = last;
@@ -56,7 +60,20 @@ public class CoinfloorTicker {
 
   @Override
   public String toString() {
-    return "CoinfloorTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask="
-        + ask + "]";
+    return "CoinfloorTicker [last="
+        + last
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", vwap="
+        + vwap
+        + ", volume="
+        + volume
+        + ", bid="
+        + bid
+        + ", ask="
+        + ask
+        + "]";
   }
 }

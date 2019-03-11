@@ -1,13 +1,11 @@
 package org.knowm.xchange.ripple.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.RippleCommon;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RippleOrderTransaction extends RippleCommon implements IRippleTradeTransaction {
 
@@ -64,12 +62,12 @@ public class RippleOrderTransaction extends RippleCommon implements IRippleTrade
     this.direction = value;
   }
 
-  public void setOrder(final RippleOrderResponseBody value) {
-    order = value;
-  }
-
   public List<RippleOrderResponseBody> getOrderChanges() {
     return orderChanges;
+  }
+
+  public void setOrderChanges(final List<RippleOrderResponseBody> value) {
+    orderChanges = value;
   }
 
   public List<RippleAmount> getBalanceChanges() {
@@ -84,8 +82,8 @@ public class RippleOrderTransaction extends RippleCommon implements IRippleTrade
     return order;
   }
 
-  public void setOrderChanges(final List<RippleOrderResponseBody> value) {
-    orderChanges = value;
+  public void setOrder(final RippleOrderResponseBody value) {
+    order = value;
   }
 
   @Override
@@ -101,6 +99,17 @@ public class RippleOrderTransaction extends RippleCommon implements IRippleTrade
   public String toString() {
     return String.format(
         "%s [hash=%s, ledger=%d, validated=%s, success=%s timestamp=%s, fee=%s, action=%s, direction=%s, order=%s, balance_changes=%s order_changes=%s]",
-        getClass().getSimpleName(), hash, ledger, validated, success, timestamp, fee, action, direction, order, balanceChanges, orderChanges);
+        getClass().getSimpleName(),
+        hash,
+        ledger,
+        validated,
+        success,
+        timestamp,
+        fee,
+        action,
+        direction,
+        order,
+        balanceChanges,
+        orderChanges);
   }
 }

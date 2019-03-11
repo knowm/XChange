@@ -1,17 +1,13 @@
 package org.knowm.xchange.dsx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTransaction {
 
   private final long id;
@@ -24,9 +20,16 @@ public class DSXTransaction {
   private final BigDecimal commission;
   private final String txId;
 
-  public DSXTransaction(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") Type type,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("address") String address,
-      @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission, @JsonProperty("txid") String txId) {
+  public DSXTransaction(
+      @JsonProperty("id") long id,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("type") Type type,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("address") String address,
+      @JsonProperty("status") Status status,
+      @JsonProperty("commission") BigDecimal commission,
+      @JsonProperty("txid") String txId) {
 
     this.id = id;
     this.timestamp = new Date(timestamp * 1000);
@@ -75,18 +78,40 @@ public class DSXTransaction {
     return txId;
   }
 
+  @Override
+  public String toString() {
+    return "DSXTransaction [id="
+        + id
+        + ", timestamp="
+        + timestamp
+        + ", type="
+        + type
+        + ", amount="
+        + amount
+        + ", currency="
+        + currency
+        + ", address="
+        + address
+        + ", status="
+        + status
+        + ", commission="
+        + commission
+        + ", txId="
+        + txId
+        + "]";
+  }
+
   public enum Type {
-    Withdraw, Incoming
+    Withdraw,
+    Incoming
   }
 
   public enum Status {
-    Failed(1), Completed(2), Processing(3), Rejected(4), Cancelling(5);
-
-    private final int status;
-
-    Status(int status) {
-      this.status = status;
-    }
+    Failed(1),
+    Completed(2),
+    Processing(3),
+    Rejected(4),
+    Cancelling(5);
 
     private static final Map<Integer, Status> STATUS_MAP;
 
@@ -97,19 +122,20 @@ public class DSXTransaction {
       }
     }
 
+    private final int status;
+
+    Status(int status) {
+      this.status = status;
+    }
+
     @JsonCreator
     public static Status create(int status) {
       Status result = STATUS_MAP.get(status);
       if (result == null) {
-        throw new RuntimeException("Unknown transaction status: " + status + ", known are: " + STATUS_MAP.keySet());
+        throw new RuntimeException(
+            "Unknown transaction status: " + status + ", known are: " + STATUS_MAP.keySet());
       }
       return result;
     }
-  }
-
-  @Override
-  public String toString() {
-    return "DSXTransaction [id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency="
-        + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
   }
 }

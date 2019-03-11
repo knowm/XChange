@@ -1,0 +1,8 @@
+BitFlyer Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://lightning.bitflyer.jp/docs

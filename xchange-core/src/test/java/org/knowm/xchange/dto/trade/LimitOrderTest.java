@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -13,10 +12,6 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
 
 public class LimitOrderTest {
-  private enum TestFlags implements IOrderFlags {
-    TEST1, TEST2, TEST3
-  }
-
   @Test
   public void testBuilder() {
     final OrderType type = OrderType.BID;
@@ -27,8 +22,15 @@ public class LimitOrderTest {
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).originalAmount(originalAmount).limitPrice(limitPrice).orderStatus(status)
-        .timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
+    final LimitOrder copy =
+        new LimitOrder.Builder(type, currencyPair)
+            .originalAmount(originalAmount)
+            .limitPrice(limitPrice)
+            .orderStatus(status)
+            .timestamp(timestamp)
+            .id(id)
+            .flag(TestFlags.TEST1)
+            .build();
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
@@ -52,7 +54,8 @@ public class LimitOrderTest {
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder original = new LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice);
+    final LimitOrder original =
+        new LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
     original.setOrderStatus(status);
@@ -75,26 +78,44 @@ public class LimitOrderTest {
   @Test
   public void testCompareTo() {
     // bid@1
-    LimitOrder bid1 = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("1")).build();
-    LimitOrder anotherBid1 = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("1")).build();
+    LimitOrder bid1 =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("1"))
+            .build();
+    LimitOrder anotherBid1 =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("1"))
+            .build();
     assertEquals(0, bid1.compareTo(anotherBid1));
     assertEquals(0, anotherBid1.compareTo(bid1));
 
     // bid@2
-    LimitOrder bid2 = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("2")).build();
+    LimitOrder bid2 =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("2"))
+            .build();
 
     // Sorted: bid@2, bid@1
     assertEquals(-1, bid2.compareTo(bid1));
     assertEquals(1, bid1.compareTo(bid2));
 
     // ask@3
-    LimitOrder ask3 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("3")).build();
-    LimitOrder anotherAsk3 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("3")).build();
+    LimitOrder ask3 =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("3"))
+            .build();
+    LimitOrder anotherAsk3 =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("3"))
+            .build();
     assertEquals(0, ask3.compareTo(anotherAsk3));
     assertEquals(0, anotherAsk3.compareTo(ask3));
 
     // ask@4
-    LimitOrder ask4 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("4")).build();
+    LimitOrder ask4 =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("4"))
+            .build();
 
     // Sorted: ask@3, ask@4
     assertEquals(-1, ask3.compareTo(ask4));
@@ -105,7 +126,10 @@ public class LimitOrderTest {
     assertEquals(1, ask3.compareTo(bid1));
 
     // ask@1
-    LimitOrder ask1 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("1")).build();
+    LimitOrder ask1 =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD)
+            .limitPrice(new BigDecimal("1"))
+            .build();
 
     // Sorted: bid@1, ask@1
     assertEquals(-1, bid1.compareTo(ask1));
@@ -114,5 +138,11 @@ public class LimitOrderTest {
     // Sorted: bid@2, ask@1
     assertEquals(-1, bid2.compareTo(ask1));
     assertEquals(1, ask1.compareTo(bid2));
+  }
+
+  private enum TestFlags implements IOrderFlags {
+    TEST1,
+    TEST2,
+    TEST3
   }
 }

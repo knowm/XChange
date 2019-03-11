@@ -1,15 +1,10 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.xml.bind.DatatypeConverter;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: Kamil Zbikowski Date: 4/16/15
- */
+/** Author: Kamil Zbikowski Date: 4/16/15 */
 public class IndependentReserveTrade {
   private final String tradeGuid;
   private final Date tradeTimestamp;
@@ -21,16 +16,22 @@ public class IndependentReserveTrade {
   private final String primaryCurrencyCode;
   private final String secondaryCurrencyCode;
 
-  public IndependentReserveTrade(@JsonProperty("OrderGuid") String orderGuid, @JsonProperty("TradeGuid") String tradeGuid,
-      @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc, @JsonProperty("OrderType") String orderType,
-      @JsonProperty("OrderTimestampUtc") String orderTimestampUtc, @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
-      @JsonProperty("Price") BigDecimal price, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
-      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) {
+  public IndependentReserveTrade(
+      @JsonProperty("OrderGuid") String orderGuid,
+      @JsonProperty("TradeGuid") String tradeGuid,
+      @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc,
+      @JsonProperty("OrderType") String orderType,
+      @JsonProperty("OrderTimestampUtc") String orderTimestampUtc,
+      @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
+      @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode)
+      throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.orderGuid = orderGuid;
     this.tradeGuid = tradeGuid;
-    this.tradeTimestamp = DatatypeConverter.parseDateTime(tradeTimestampUtc).getTime();
+    tradeTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(tradeTimestampUtc);
     this.orderType = orderType;
-    this.orderTimestamp = DatatypeConverter.parseDateTime(orderTimestampUtc).getTime();
+    orderTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(orderTimestampUtc);
     this.volumeTraded = volumeTraded;
     this.price = price;
     this.primaryCurrencyCode = primaryCurrencyCode;

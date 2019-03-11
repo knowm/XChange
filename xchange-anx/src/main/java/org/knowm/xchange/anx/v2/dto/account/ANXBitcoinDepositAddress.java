@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing the content of a response message from ANX after requesting a bitcoin deposit address
+ * Data object representing the content of a response message from ANX after requesting a bitcoin
+ * deposit address
  */
 public final class ANXBitcoinDepositAddress {
 
@@ -31,5 +32,4 @@ public final class ANXBitcoinDepositAddress {
 
     return "ANXBitcoinDepositAddress [address=" + address + "]";
   }
-
 }

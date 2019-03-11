@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeLevel;
@@ -66,7 +65,8 @@ public class BleutradeAdapters {
     return builder.build();
   }
 
-  public static OrderBook adaptBleutradeOrderBook(BleutradeOrderBook bleutradeOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptBleutradeOrderBook(
+      BleutradeOrderBook bleutradeOrderBook, CurrencyPair currencyPair) {
 
     List<BleutradeLevel> bleutradeAsks = bleutradeOrderBook.getSell();
     List<BleutradeLevel> bleutradeBids = bleutradeOrderBook.getBuy();
@@ -79,6 +79,7 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.ASK, currencyPair);
       builder.limitPrice(ask.getRate());
       builder.originalAmount(ask.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       asks.add(builder.build());
     }
 
@@ -87,13 +88,15 @@ public class BleutradeAdapters {
       LimitOrder.Builder builder = new LimitOrder.Builder(OrderType.BID, currencyPair);
       builder.limitPrice(bid.getRate());
       builder.originalAmount(bid.getQuantity());
+      builder.cumulativeAmount(BigDecimal.ZERO);
       bids.add(builder.build());
     }
 
     return new OrderBook(null, asks, bids);
   }
 
-  public static Trades adaptBleutradeMarketHistory(List<BleutradeTrade> bleutradeTrades, CurrencyPair currencyPair) {
+  public static Trades adaptBleutradeMarketHistory(
+      List<BleutradeTrade> bleutradeTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
 
@@ -116,9 +119,12 @@ public class BleutradeAdapters {
     List<Balance> balances = new ArrayList<>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
-      balances.add(new Balance(Currency.getInstance(bleutradeBalance.getCurrency()), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(),
-          bleutradeBalance.getPending()));
-
+      balances.add(
+          new Balance(
+              Currency.getInstance(bleutradeBalance.getCurrency()),
+              bleutradeBalance.getBalance(),
+              bleutradeBalance.getAvailable(),
+              bleutradeBalance.getPending()));
     }
 
     return new Wallet(null, balances);
@@ -145,22 +151,26 @@ public class BleutradeAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
+  public static ExchangeMetaData adaptToExchangeMetaData(
+      List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
 
     Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
-      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8));
+      currencyMetaDataMap.put(
+          Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8, null));
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%
     BigDecimal txFee = new BigDecimal("0.0025");
 
     for (BleutradeMarket bleutradeMarket : bleutradeMarkets) {
-      CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
-      CurrencyPairMetaData marketMetaData = new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), null, 8);
+      CurrencyPair currencyPair =
+          CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
+      CurrencyPairMetaData marketMetaData =
+          new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), null, 8, null);
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
 
@@ -179,7 +189,6 @@ public class BleutradeAdapters {
         trade.orderId,
         trade.orderId,
         null,
-        null
-    );
+        null);
   }
 }

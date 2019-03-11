@@ -7,12 +7,9 @@ import org.knowm.xchange.gatecoin.service.GatecoinAccountService;
 import org.knowm.xchange.gatecoin.service.GatecoinMarketDataService;
 import org.knowm.xchange.gatecoin.service.GatecoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author Sumedha
- */
+/** @author Sumedha */
 public class GatecoinExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -34,7 +31,8 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.gatecoin.com");
     exchangeSpecification.setHost("api.gatecoin.com");
     exchangeSpecification.setPort(80);
@@ -47,5 +45,4 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
 }

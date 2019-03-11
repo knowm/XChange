@@ -1,20 +1,20 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: Kamil Zbikowski Date: 4/16/15
- */
+/** Author: Kamil Zbikowski Date: 4/16/15 */
 public class IndependentReserveTradeHistoryResponse {
   private final List<IndependentReserveTrade> independentReserveTrades;
-  private final String pageSize;
-  private final String totalItems;
-  private final String totalPages;
+  private final int pageSize;
+  private final long totalItems;
+  private final int totalPages;
 
-  public IndependentReserveTradeHistoryResponse(@JsonProperty("Data") List<IndependentReserveTrade> independentReserveTrades,
-      @JsonProperty("PageSize") String pageSize, @JsonProperty("TotalItems") String totalItems, @JsonProperty("TotalPages") String totalPages) {
+  public IndependentReserveTradeHistoryResponse(
+      @JsonProperty("Data") List<IndependentReserveTrade> independentReserveTrades,
+      @JsonProperty("PageSize") int pageSize,
+      @JsonProperty("TotalItems") long totalItems,
+      @JsonProperty("TotalPages") int totalPages) {
     this.independentReserveTrades = independentReserveTrades;
     this.pageSize = pageSize;
     this.totalItems = totalItems;
@@ -25,15 +25,15 @@ public class IndependentReserveTradeHistoryResponse {
     return independentReserveTrades;
   }
 
-  public String getPageSize() {
+  public int getPageSize() {
     return pageSize;
   }
 
-  public String getTotalItems() {
+  public long getTotalItems() {
     return totalItems;
   }
 
-  public String getTotalPages() {
+  public int getTotalPages() {
     return totalPages;
   }
 }

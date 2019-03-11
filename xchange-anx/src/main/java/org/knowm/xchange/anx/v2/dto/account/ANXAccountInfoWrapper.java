@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXAccountInfoWrapper {
 
   private final String result;
@@ -18,7 +16,9 @@ public class ANXAccountInfoWrapper {
    * @param anxAccountInfo
    * @param error
    */
-  public ANXAccountInfoWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXAccountInfo anxAccountInfo,
+  public ANXAccountInfoWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXAccountInfo anxAccountInfo,
       @JsonProperty("error") String error) {
 
     this.result = result;
@@ -40,5 +40,4 @@ public class ANXAccountInfoWrapper {
 
     return error;
   }
-
 }

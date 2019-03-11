@@ -3,21 +3,16 @@ package org.knowm.xchange.gemini.v1;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 
-/**
- * A central place for shared Gemini properties
- */
+/** A central place for shared Gemini properties */
 public final class GeminiUtils {
 
-  /**
-   * private Constructor
-   */
-  private GeminiUtils() {
-
-  }
+  /** private Constructor */
+  private GeminiUtils() {}
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
+    return currencyPair.base.toString().toLowerCase()
+        + currencyPair.counter.toString().toLowerCase();
   }
 
   /**
@@ -28,10 +23,8 @@ public final class GeminiUtils {
    */
   public static String convertToGeminiCcyName(String currency) {
 
-    if (currency.toUpperCase().equals("BTC"))
-      return "btc";
-    if (currency.toUpperCase().equals("ETH"))
-      return "eth";
+    if (currency.toUpperCase().equals("BTC")) return "btc";
+    if (currency.toUpperCase().equals("ETH")) return "eth";
 
     throw new GeminiException("Cannot determine withdrawal type.");
   }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.anx.v2.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.ANXExchange;
@@ -30,7 +29,5 @@ public class ANXTickerDemo {
     // Get the latest ticker data showing BTC to GBP
     ticker = marketDataService.getTicker(CurrencyPair.BTC_GBP);
     System.out.println(ticker.toString());
-
   }
-
 }

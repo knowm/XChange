@@ -3,14 +3,16 @@ package org.knowm.xchange.bleutrade.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.knowm.xchange.bleutrade.BleutradeAssert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,33 +35,59 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
+import org.mockito.runners.MockitoJUnitRunner;
+import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSupport {
 
   private BleutradeTradeService tradeService;
 
+  @Mock private BleutradeAuthenticated bleutrade;
+
+  private static BleutradeOpenOrder anOrder() {
+    BleutradeOpenOrder order = new BleutradeOpenOrder();
+    order.setType("buy");
+    order.setExchange("BTC_AUD");
+    order.setCreated("2000-01-02 01:02:03.456");
+    return order;
+  }
+
+  private static BluetradeExecutedTrade aTrade() {
+    return new BluetradeExecutedTrade(
+        "id",
+        "BTC_AUD",
+        "buy",
+        new BigDecimal("99"),
+        "0",
+        new BigDecimal("10"),
+        "",
+        "2000-01-02 01:02:03.456",
+        new BigDecimal("44"),
+        "");
+  }
+
   @Before
   public void setUp() {
-    BleutradeExchange exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
+    BleutradeExchange exchange =
+        (BleutradeExchange)
+            ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
     specification.setUserName(SPECIFICATION_USERNAME);
     specification.setApiKey(SPECIFICATION_API_KEY);
     specification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
-    tradeService = new BleutradeTradeService(exchange);
-  }
+    IRestProxyFactory restProxyFactory = mock(IRestProxyFactory.class);
+    when(restProxyFactory.createProxy(
+            eq(BleutradeAuthenticated.class), any(String.class), any(ClientConfig.class)))
+        .thenReturn(bleutrade);
 
-  @Test
-  public void constructor() {
-    assertThat((String)Whitebox.getInternalState(tradeService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
+    tradeService = new BleutradeTradeService(exchange, restProxyFactory);
   }
 
   @Test
@@ -70,11 +98,11 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     openOrdersReturn.setMessage("test message");
     openOrdersReturn.setResult(expectedBleutradeOpenOrdersList());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito
-        .when(bleutrade.getOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+    when(bleutrade.getOrders(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenReturn(openOrdersReturn);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedOrders = expectedOrders();
 
@@ -98,42 +126,46 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     openOrdersReturn.setMessage("test message");
     openOrdersReturn.setResult(expectedBleutradeOpenOrdersList());
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito
-        .when(bleutrade.getOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+    when(bleutrade.getOrders(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenReturn(openOrdersReturn);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     // when
     tradeService.getOpenOrders();
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException when open orders request was unsuccessful");
+    fail(
+        "BleutradeAccountService should throw ExchangeException when open orders request was unsuccessful");
   }
 
   @Test(expected = ExchangeException.class)
   public void shouldFailOnGetOpenOrdersError() throws IOException {
     // given
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito
-        .when(bleutrade.getOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+    when(bleutrade.getOrders(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class)))
         .thenThrow(BleutradeException.class);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     // when
     tradeService.getOpenOrders();
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException when open orders request throw error");
+    fail(
+        "BleutradeAccountService should throw ExchangeException when open orders request throw error");
   }
 
   @Test(expected = NotAvailableFromExchangeException.class)
   public void shouldFailOnPlaceMarketOrder() throws IOException {
     // when
-    tradeService.placeMarketOrder(new MarketOrder(Order.OrderType.ASK, BigDecimal.TEN, CurrencyPair.BTC_AUD));
+    tradeService.placeMarketOrder(
+        new MarketOrder(Order.OrderType.ASK, BigDecimal.TEN, CurrencyPair.BTC_AUD));
 
     // then
-    fail("BleutradeAccountService should throw NotAvailableFromExchangeException when placeMarketOrder is called");
+    fail(
+        "BleutradeAccountService should throw NotAvailableFromExchangeException when placeMarketOrder is called");
   }
 
   @Test
@@ -149,14 +181,22 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     placeSellOrderReturn.setMessage("test message");
     placeSellOrderReturn.setResult(createBleutradeOrderId("22222"));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.buyLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("10.00000000"), Mockito.eq("1.1")))
+    when(bleutrade.buyLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("10.00000000"),
+            eq("1.1")))
         .thenReturn(placeBuyOrderReturn);
-    PowerMockito.when(bleutrade.sellLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("20.00000000"), Mockito.eq("2.2")))
+    when(bleutrade.sellLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("20.00000000"),
+            eq("2.2")))
         .thenReturn(placeSellOrderReturn);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
 
@@ -177,11 +217,14 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     placeBuyOrderReturn.setMessage("test message");
     placeBuyOrderReturn.setResult(createBleutradeOrderId("11111"));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.buyLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("10.00000000"), Mockito.eq("1.1")))
+    when(bleutrade.buyLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("10.00000000"),
+            eq("1.1")))
         .thenReturn(placeBuyOrderReturn);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
 
@@ -189,7 +232,8 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     tradeService.placeLimitOrder(expectedPlacedOrders[0]);
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException on unsuccessful place buy limit order request");
+    fail(
+        "BleutradeAccountService should throw ExchangeException on unsuccessful place buy limit order request");
   }
 
   @Test(expected = ExchangeException.class)
@@ -200,11 +244,14 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     placeSellOrderReturn.setMessage("test message");
     placeSellOrderReturn.setResult(createBleutradeOrderId("22222"));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.sellLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("20.00000000"), Mockito.eq("2.2")))
+    when(bleutrade.sellLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("20.00000000"),
+            eq("2.2")))
         .thenReturn(placeSellOrderReturn);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
 
@@ -212,17 +259,21 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     tradeService.placeLimitOrder(expectedPlacedOrders[1]);
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException on unsuccessful place sell limit order request");
+    fail(
+        "BleutradeAccountService should throw ExchangeException on unsuccessful place sell limit order request");
   }
 
   @Test(expected = ExchangeException.class)
   public void shouldFailOnPlaceBuyLimitOrderError() throws IOException {
     // given
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.buyLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("10.00000000"), Mockito.eq("1.1")))
+    when(bleutrade.buyLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("10.00000000"),
+            eq("1.1")))
         .thenThrow(BleutradeException.class);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
 
@@ -230,17 +281,21 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     tradeService.placeLimitOrder(expectedPlacedOrders[0]);
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException when place buy limit order request throw error");
+    fail(
+        "BleutradeAccountService should throw ExchangeException when place buy limit order request throw error");
   }
 
   @Test(expected = ExchangeException.class)
   public void shouldFailOnPlaceSellLimitOrderError() throws IOException {
     // given
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.sellLimit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC_AUD"), Mockito.eq("20.00000000"), Mockito.eq("2.2")))
+    when(bleutrade.sellLimit(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("BTC_AUD"),
+            eq("20.00000000"),
+            eq("2.2")))
         .thenThrow(BleutradeException.class);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
 
@@ -248,7 +303,8 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     tradeService.placeLimitOrder(expectedPlacedOrders[1]);
 
     // then
-    fail("BleutradeAccountService should throw ExchangeException when place sell limit order request throw error");
+    fail(
+        "BleutradeAccountService should throw ExchangeException when place sell limit order request throw error");
   }
 
   @Test
@@ -264,12 +320,18 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     cancelOrderReturnFailed.setMessage("test message");
     cancelOrderReturnFailed.setResult(Collections.singletonList("11111"));
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.cancel(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("12345"))).thenReturn(cancelOrderReturnPassed);
-    PowerMockito.when(bleutrade.cancel(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("11111"))).thenReturn(cancelOrderReturnFailed);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+    when(bleutrade.cancel(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("12345")))
+        .thenReturn(cancelOrderReturnPassed);
+    when(bleutrade.cancel(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("11111")))
+        .thenReturn(cancelOrderReturnFailed);
 
     // when
     boolean passed1 = tradeService.cancelOrder("12345");
@@ -283,10 +345,12 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
   @Test(expected = ExchangeException.class)
   public void shouldFailCancelOrderError() throws IOException {
     // given
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.cancel(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("12345"))).thenThrow(BleutradeException.class);
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+    when(bleutrade.cancel(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            eq("12345")))
+        .thenThrow(BleutradeException.class);
 
     // when
     tradeService.cancelOrder("12345");
@@ -302,17 +366,15 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
 
     BluetradeExecutedTradesWrapper response = new BluetradeExecutedTradesWrapper(true, "", result);
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getTrades(
-        Mockito.eq(SPECIFICATION_API_KEY),
-        Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class),
-        Mockito.matches("ALL"),
-        Mockito.any(String.class),
-        Mockito.any(String.class)
-    )).thenReturn(response);
-
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+    when(bleutrade.getTrades(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            Mockito.matches("ALL"),
+            any(String.class),
+            any(String.class),
+            any(Integer.class)))
+        .thenReturn(response);
 
     // when
     UserTrades tradeHistory = tradeService.getTradeHistory(null);
@@ -326,20 +388,21 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
 
     BluetradeExecutedTradesWrapper response = new BluetradeExecutedTradesWrapper(true, "", result);
 
-    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getTrades(
-        Mockito.eq(SPECIFICATION_API_KEY),
-        Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class),
-        Mockito.matches("BTC_AUD"),
-        Mockito.matches("status"),
-        Mockito.matches("type")
-    )).thenReturn(response);
-
-    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+    when(bleutrade.getTrades(
+            eq(SPECIFICATION_API_KEY),
+            any(ParamsDigest.class),
+            any(SynchronizedValueFactory.class),
+            Mockito.matches("BTC_AUD"),
+            Mockito.matches("status"),
+            Mockito.matches("type"),
+            any(Integer.class)))
+        .thenReturn(response);
 
     // when
-    UserTrades tradeHistory = tradeService.getTradeHistory(new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(CurrencyPair.BTC_AUD, "status", "type"));
+    UserTrades tradeHistory =
+        tradeService.getTradeHistory(
+            new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(
+                CurrencyPair.BTC_AUD, "status", "type", 100));
     assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 
@@ -349,29 +412,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
     tradeService.createTradeHistoryParams();
 
     // then
-    fail("BleutradeAccountService should throw NotAvailableFromExchangeException when createTradeHistoryParams is called");
-  }
-
-  private static BleutradeOpenOrder anOrder() {
-    BleutradeOpenOrder order = new BleutradeOpenOrder();
-    order.setType("buy");
-    order.setExchange("BTC_AUD");
-    order.setCreated("2000-01-02 01:02:03.456");
-    return order;
-  }
-
-  private static BluetradeExecutedTrade aTrade() {
-    return new BluetradeExecutedTrade(
-        "id",
-        "BTC_AUD",
-        "buy",
-        new BigDecimal("99"),
-        "0",
-        new BigDecimal("10"),
-        "",
-        "2000-01-02 01:02:03.456",
-        new BigDecimal("44"),
-        ""
-    );
+    fail(
+        "BleutradeAccountService should throw NotAvailableFromExchangeException when createTradeHistoryParams is called");
   }
 }

@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTradeHistoryResult {
 
   private final String pair;
@@ -20,8 +16,14 @@ public class DSXTradeHistoryResult {
   private BigDecimal commission;
   private String commissionCurrency;
 
-  public DSXTradeHistoryResult(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal amount,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("orderId") Long orderId, @JsonProperty("timestamp") Long timestamp, @JsonProperty("commission") BigDecimal commission,
+  public DSXTradeHistoryResult(
+      @JsonProperty("pair") String pair,
+      @JsonProperty("type") Type type,
+      @JsonProperty("volume") BigDecimal amount,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("orderId") Long orderId,
+      @JsonProperty("timestamp") Long timestamp,
+      @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("commissionCurrency") String commissionCurrency) {
 
     this.pair = pair;
@@ -69,12 +71,14 @@ public class DSXTradeHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, orderId={4}, timestamp={5}, " +
-            "commission={6}, commissionCurrency={7}]",
+    return MessageFormat.format(
+        "DSXOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, orderId={4}, timestamp={5}, "
+            + "commission={6}, commissionCurrency={7}]",
         pair, type, amount, rate, orderId, timestamp, commission, commissionCurrency);
   }
 
   public enum Type {
-    buy, sell
+    buy,
+    sell
   }
 }

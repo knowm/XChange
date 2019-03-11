@@ -1,15 +1,16 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BitfinexFee {
   private final String pairs;
   private final BigDecimal makerFees;
   private final BigDecimal takerFees;
 
-  public BitfinexFee(@JsonProperty("pairs") String pairs, @JsonProperty("maker_fees") BigDecimal makerFees,
+  public BitfinexFee(
+      @JsonProperty("pairs") String pairs,
+      @JsonProperty("maker_fees") BigDecimal makerFees,
       @JsonProperty("taker_fees") BigDecimal takerFees) {
     this.pairs = pairs;
     this.makerFees = makerFees;

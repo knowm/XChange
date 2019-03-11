@@ -2,9 +2,7 @@ package org.knowm.xchange.bitmarket.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author kfonal
- */
+/** @author kfonal */
 public class BitMarketAccountInfo {
   private final BitMarketBalance balance;
 

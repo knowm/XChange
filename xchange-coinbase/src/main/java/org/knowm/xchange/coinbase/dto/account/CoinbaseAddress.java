@@ -1,17 +1,13 @@
 package org.knowm.xchange.coinbase.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseAddress extends CoinbaseBaseResponse {
 
   private final String address;
@@ -19,7 +15,8 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
   private final String label;
   private final Date createdAt;
 
-  CoinbaseAddress(String address, final String callbackUrl, final String label, final Date createdAt) {
+  CoinbaseAddress(
+      String address, final String callbackUrl, final String label, final Date createdAt) {
 
     super(true, null);
     this.address = address;
@@ -28,10 +25,14 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
     this.createdAt = createdAt;
   }
 
-  private CoinbaseAddress(@JsonProperty("address") final String address, @JsonProperty("callback_url") final String callbackUrl,
+  private CoinbaseAddress(
+      @JsonProperty("address") final String address,
+      @JsonProperty("callback_url") final String callbackUrl,
       @JsonProperty("label") final String label,
-      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-      @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class)
+          final Date createdAt,
+      @JsonProperty("success") final boolean success,
+      @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.address = address;
@@ -63,7 +64,14 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
   @Override
   public String toString() {
 
-    return "CoinbaseAddress [address=" + address + ", callbackUrl=" + callbackUrl + ", label=" + label + ", createdAt=" + createdAt + "]";
+    return "CoinbaseAddress [address="
+        + address
+        + ", callbackUrl="
+        + callbackUrl
+        + ", label="
+        + label
+        + ", createdAt="
+        + createdAt
+        + "]";
   }
-
 }
