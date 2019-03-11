@@ -2,10 +2,7 @@ package org.knowm.xchange.dsx.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXCryptoWithdraw {
 
   private final long transactionId;
@@ -22,8 +19,6 @@ public class DSXCryptoWithdraw {
 
   @Override
   public String toString() {
-    return "DSXCryptoWithdraw{" +
-        "transactionId=" + transactionId +
-        '}';
+    return "DSXCryptoWithdraw{" + "transactionId=" + transactionId + '}';
   }
 }

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -30,26 +29,35 @@ public class LunoMarketDataService extends LunoBaseService implements MarketData
     super(exchange);
   }
 
-  @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    LunoTicker t = lunoAPI.ticker(LunoUtil.toLunoPair(currencyPair));
-    return new Ticker.Builder().currencyPair(currencyPair).ask(t.ask).bid(t.bid).last(t.lastTrade).timestamp(t.getTimestamp())
-        .volume(t.rolling24HourVolume).build();
-  }
-
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    LunoOrderBook ob = lunoAPI.orderbook(LunoUtil.toLunoPair(currencyPair));
-    return new OrderBook(ob.getTimestamp(), convert(ob.getAsks(), currencyPair, OrderType.ASK), convert(ob.getBids(),
-        currencyPair, OrderType.BID));
-  }
-
-  private static List<LimitOrder> convert(Map<BigDecimal, BigDecimal> map, CurrencyPair currencyPair, OrderType type) {
+  private static List<LimitOrder> convert(
+      Map<BigDecimal, BigDecimal> map, CurrencyPair currencyPair, OrderType type) {
     List<LimitOrder> result = new ArrayList<>();
     for (Entry<BigDecimal, BigDecimal> e : map.entrySet()) {
       result.add(new LimitOrder(type, e.getValue(), currencyPair, null, null, e.getKey()));
     }
     return result;
+  }
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    LunoTicker t = lunoAPI.ticker(LunoUtil.toLunoPair(currencyPair));
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .ask(t.ask)
+        .bid(t.bid)
+        .last(t.lastTrade)
+        .timestamp(t.getTimestamp())
+        .volume(t.rolling24HourVolume)
+        .build();
+  }
+
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    LunoOrderBook ob = lunoAPI.orderbook(LunoUtil.toLunoPair(currencyPair));
+    return new OrderBook(
+        ob.getTimestamp(),
+        convert(ob.getAsks(), currencyPair, OrderType.ASK),
+        convert(ob.getBids(), currencyPair, OrderType.BID));
   }
 
   @Override
@@ -69,7 +77,14 @@ public class LunoMarketDataService extends LunoBaseService implements MarketData
     LunoTrades lunoTrades = lunoAPI.trades(LunoUtil.toLunoPair(currencyPair), since);
     List<Trade> list = new ArrayList<>();
     for (org.knowm.xchange.luno.dto.marketdata.LunoTrades.Trade lt : lunoTrades.getTrades()) {
-      list.add(new Trade(lt.buy ? OrderType.BID : OrderType.ASK, lt.volume, currencyPair, lt.price, lt.getTimestamp(), null));
+      list.add(
+          new Trade(
+              lt.buy ? OrderType.BID : OrderType.ASK,
+              lt.volume,
+              currencyPair,
+              lt.price,
+              lt.getTimestamp(),
+              null));
     }
     return new Trades(list, TradeSortType.SortByTimestamp);
   }

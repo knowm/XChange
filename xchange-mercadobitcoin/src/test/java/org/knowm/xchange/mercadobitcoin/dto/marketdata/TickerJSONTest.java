@@ -2,13 +2,11 @@ package org.knowm.xchange.mercadobitcoin.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test MercadoBitcoinTicker JSON parsing
@@ -21,7 +19,9 @@ public class TickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is =
+        TickerJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/mercadobitcoin/dto/marketdata/example-ticker-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
     MercadoBitcoinTicker mercadoBitcoinTicker = mapper.readValue(is, MercadoBitcoinTicker.class);
@@ -35,5 +35,4 @@ public class TickerJSONTest {
     assertThat(mercadoBitcoinTicker.getTicker().getSell()).isEqualTo(new BigDecimal("1020"));
     assertThat(mercadoBitcoinTicker.getTicker().getDate()).isEqualTo(1417226432L);
   }
-
 }

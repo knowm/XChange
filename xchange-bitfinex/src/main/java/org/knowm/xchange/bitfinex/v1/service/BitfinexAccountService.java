@@ -4,20 +4,24 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -39,7 +43,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(BitfinexAdapters.adaptWallet(getBitfinexAccountInfo()));
+    return new AccountInfo(BitfinexAdapters.adaptWallets(getBitfinexAccountInfo()));
   }
 
   /**
@@ -52,31 +56,93 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
    * @throws IOException
    */
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    //determine withdrawal type
-    String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
-    //Bitfinex withdeawal can be from different type of wallets    *
-    // we have to use one of these for now: Exchange -
-    //to be able to withdraw instantly after trading for example
-    //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
-    String walletSelected = "exchange";
-    //We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
-    return withdraw(type, walletSelected, amount, address);
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    try {
+      // determine withdrawal type
+      String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
+      // Bitfinex withdeawal can be from different type of wallets    *
+      // we have to use one of these for now: Exchange -
+      // to be able to withdraw instantly after trading for example
+      // The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
+      String walletSelected = "exchange";
+      // We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin”
+      // or
+      // “ether” or “tether” or “wire”.
+      return withdraw(type, walletSelected, amount, address);
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
+  }
+
+  /**
+   * Used for XRP withdrawals
+   *
+   * @param currency
+   * @param amount
+   * @param address
+   * @param tagOrPaymentId
+   * @return
+   * @throws IOException
+   */
+  public String withdrawFunds(
+      Currency currency, BigDecimal amount, String address, String tagOrPaymentId)
+      throws IOException {
+    try {
+      // determine withdrawal type
+      String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
+      // Bitfinex withdeawal can be from different type of wallets    *
+      // we have to use one of these for now: Exchange -
+      // to be able to withdraw instantly after trading for example
+      // The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
+      String walletSelected = "exchange";
+      // We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin”
+      // or
+      // “ether” or “tether” or “wire”.
+      return withdraw(type, walletSelected, amount, address, tagOrPaymentId);
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    if (params instanceof DefaultWithdrawFundsParams) {
-      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+    try {
+      if (params instanceof RippleWithdrawFundsParams) {
+        RippleWithdrawFundsParams xrpParams = (RippleWithdrawFundsParams) params;
+        return withdrawFunds(
+            xrpParams.getCurrency(),
+            xrpParams.getAmount(),
+            xrpParams.getAddress(),
+            xrpParams.getTag());
+      } else if (params instanceof MoneroWithdrawFundsParams) {
+        MoneroWithdrawFundsParams xmrParams = (MoneroWithdrawFundsParams) params;
+        return withdrawFunds(
+            xmrParams.getCurrency(),
+            xmrParams.getAmount(),
+            xmrParams.getAddress(),
+            xmrParams.getPaymentId());
+      } else if (params instanceof DefaultWithdrawFundsParams) {
+        DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+        return withdrawFunds(
+            defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
+      }
+
+      throw new IllegalStateException("Don't know how to withdraw: " + params);
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
     }
-    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-    final BitfinexDepositAddressResponse response = super.requestDepositAddressRaw(currency.getCurrencyCode());
-    return response.getAddress();
+    try {
+      final BitfinexDepositAddressResponse response =
+          super.requestDepositAddressRaw(currency.getCurrencyCode());
+      return response.getAddress();
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -86,27 +152,44 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    String currency = null;
-    if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
-      currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
-    } else {
-      throw new ExchangeException("Currency must be supplied");
-    }
+    try {
+      String currency = null;
+      if (params instanceof TradeHistoryParamCurrency
+          && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
+        currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
+      } else {
+        throw new ExchangeException("Currency must be supplied");
+      }
 
-    Date startTime = null;
-    Date endTime = null;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
-    }
+      Date startTime = null;
+      Date endTime = null;
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+        endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+      }
 
-    Integer limit = null;
-    if (params instanceof TradeHistoryParamLimit) {
-      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) params;
-      limit = limitParams.getLimit();
-    }
+      Integer limit = null;
+      if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) params;
+        limit = limitParams.getLimit();
+      }
 
-    return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(currency, null, startTime, endTime, limit));
+      return BitfinexAdapters.adaptFundingHistory(
+          getDepositWithdrawalHistory(currency, null, startTime, endTime, limit));
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    try {
+      List<CurrencyPair> allCurrencyPairs = exchange.getExchangeSymbols();
+      return BitfinexAdapters.adaptDynamicTradingFees(
+          getBitfinexDynamicTradingFees(), allCurrencyPairs);
+    } catch (BitfinexException e) {
+      throw BitfinexErrorAdapter.adapt(e);
+    }
   }
 
   public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
@@ -115,16 +198,12 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     private Integer limit;
     private Currency currency;
 
-    public BitfinexFundingHistoryParams(final Date startTime, final Date endTime, final Integer limit, final Currency currency) {
+    public BitfinexFundingHistoryParams(
+        final Date startTime, final Date endTime, final Integer limit, final Currency currency) {
 
       super(startTime, endTime);
 
       this.limit = limit;
-      this.currency = currency;
-    }
-
-    @Override
-    public void setCurrency(Currency currency) {
       this.currency = currency;
     }
 
@@ -134,13 +213,18 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     }
 
     @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
     }
 
     @Override
     public Integer getLimit() {
       return this.limit;
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
     }
   }
 }

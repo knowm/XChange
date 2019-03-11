@@ -1,0 +1,36 @@
+{
+  "error": [
+
+  ],
+  "result": {
+    "OHR2QC-2XDSQ-WHOFMW": {
+      "refid": null,
+      "userref": null,
+      "status": "closed",
+      "reason": null,
+      "opentm": 1515442630.8949,
+      "closetm": 1515442633.0244,
+      "starttm": 0,
+      "expiretm": 0,
+      "descr": {
+        "pair": "LTCUSD",
+        "type": "sell",
+        "ordertype": "market",
+        "price": "0",
+        "price2": "0",
+        "leverage": "none",
+        "order": "sell 0.84962599 LTCUSD @ market"
+      },
+      "vol": "0.84962599",
+      "vol_exec": "0.84962599",
+      "cost": "221.09",
+      "fee": "0.53",
+      "price": "260.23",
+      "misc": "",
+      "oflags": "fciq",
+      "trades": [
+        "TJ56AQ-EXSYI-H4FAWY"
+      ]
+    }
+  }
+}

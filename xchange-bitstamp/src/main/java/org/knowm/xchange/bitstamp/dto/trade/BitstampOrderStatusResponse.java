@@ -10,10 +10,15 @@ public class BitstampOrderStatusResponse {
 
   /**
    * @param status In Queue, Open or Finished.
-   * @param transactions Each transaction in dictionary is represented as a list of tid, usd, price, fee, btc, datetime and type (0 - deposit; 1 - withdrawal; 2 - market trade).
+   * @param transactions Each transaction in dictionary is represented as a list of tid, usd, price,
+   *     fee, btc, datetime and type (0 - deposit; 1 - withdrawal; 2 - market trade).
    */
-  public BitstampOrderStatusResponse(@JsonProperty("status") @JsonDeserialize(using = BitstampOrderStatus.BitstampOrderStatusDeserializer.class) BitstampOrderStatus status,
-      @JsonProperty("transactions") BitstampOrderTransaction[] transactions, @JsonProperty("error") String error) {
+  public BitstampOrderStatusResponse(
+      @JsonProperty("status")
+          @JsonDeserialize(using = BitstampOrderStatus.BitstampOrderStatusDeserializer.class)
+          BitstampOrderStatus status,
+      @JsonProperty("transactions") BitstampOrderTransaction[] transactions,
+      @JsonProperty("error") String error) {
 
     this.status = status;
     this.transactions = transactions;

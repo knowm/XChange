@@ -2,11 +2,7 @@ package org.knowm.xchange.bitcoinium.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * <p>
- * Data object representing a Ticker History from Bitcoinium Web Service
- * </p>
- */
+/** Data object representing a Ticker History from Bitcoinium Web Service */
 public final class BitcoiniumTickerHistory {
 
   private final BitcoiniumTicker bitcoiniumTicker;
@@ -18,7 +14,8 @@ public final class BitcoiniumTickerHistory {
    * @param bitcoiniumTicker
    * @param condensedTickers
    */
-  public BitcoiniumTickerHistory(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker,
+  public BitcoiniumTickerHistory(
+      @JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker,
       @JsonProperty("condensedTickers") BitcoiniumTicker[] condensedTickers) {
 
     this.bitcoiniumTicker = bitcoiniumTicker;

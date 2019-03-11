@@ -1,13 +1,10 @@
 package org.knowm.xchange.lakebtc.dto;
 
-import org.knowm.xchange.lakebtc.LakeBTCUtil;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
+import org.knowm.xchange.lakebtc.LakeBTCUtil;
 
-/**
- * User: cristian.lucaci Date: 10/3/2014 Time: 5:18 PM
- */
+/** User: cristian.lucaci Date: 10/3/2014 Time: 5:18 PM */
 public class LakeBTCRequest {
 
   @JsonProperty("id")

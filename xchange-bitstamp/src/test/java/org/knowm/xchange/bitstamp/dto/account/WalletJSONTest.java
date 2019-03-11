@@ -2,27 +2,25 @@ package org.knowm.xchange.bitstamp.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance.Balance;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Test BitStamp Full Depth JSON parsing
- */
+/** Test BitStamp Full Depth JSON parsing */
 public class WalletJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WalletJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is =
+        WalletJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitstamp/dto/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

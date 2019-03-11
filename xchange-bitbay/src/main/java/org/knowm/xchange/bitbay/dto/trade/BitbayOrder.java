@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitbay.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Z. Dolezal
- */
+/** @author Z. Dolezal */
 public class BitbayOrder {
 
   private final long id;
@@ -21,15 +18,24 @@ public class BitbayOrder {
   private final BigDecimal startPrice;
 
   /**
-   * order_id : id of offer order_currency : main currency (e.g. “LTC”) order_date : time, when offer was changed recently payment_currency : shortcut
-   * of currency used to pay for offer type : bid/ask status : “active” if order is active, “inactive” if order is unactive units : current amount of
-   * main currency in order start_units : amount of main currency when order was added current_price : price for whole amount of main currency
-   * start_price : starting price for whole amount when offer was added
+   * order_id : id of offer order_currency : main currency (e.g. “LTC”) order_date : time, when
+   * offer was changed recently payment_currency : shortcut of currency used to pay for offer type :
+   * bid/ask status : “active” if order is active, “inactive” if order is unactive units : current
+   * amount of main currency in order start_units : amount of main currency when order was added
+   * current_price : price for whole amount of main currency start_price : starting price for whole
+   * amount when offer was added
    */
-  public BitbayOrder(@JsonProperty("order_id") long id, @JsonProperty("order_currency") String currency, @JsonProperty("order_date") String date,
-      @JsonProperty("payment_currency") String paymentCurrency, @JsonProperty("type") String type, @JsonProperty("status") String status,
-      @JsonProperty("units") BigDecimal amount, @JsonProperty("start_units") BigDecimal startAmount,
-      @JsonProperty("current_price") BigDecimal currentPrice, @JsonProperty("start_price") BigDecimal startPrice) {
+  public BitbayOrder(
+      @JsonProperty("order_id") long id,
+      @JsonProperty("order_currency") String currency,
+      @JsonProperty("order_date") String date,
+      @JsonProperty("payment_currency") String paymentCurrency,
+      @JsonProperty("type") String type,
+      @JsonProperty("status") String status,
+      @JsonProperty("units") BigDecimal amount,
+      @JsonProperty("start_units") BigDecimal startAmount,
+      @JsonProperty("current_price") BigDecimal currentPrice,
+      @JsonProperty("start_price") BigDecimal startPrice) {
 
     this.id = id;
     this.currency = currency;

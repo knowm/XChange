@@ -3,12 +3,9 @@ package org.knowm.xchange.anx.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>
- * Data object representing a Market Depth Change from ANX
- * <p>
- * Auto-generated using the simplest types possible with conversion delegated to the adapter
- * <p>
- * Note: deprecated fields are not included in this value object
+ * * Data object representing a Market Depth Change from ANX Auto-generated using the simplest types
+ * possible with conversion delegated to the adapter Note: deprecated fields are not included in
+ * this value object
  */
 public final class ANXDepthUpdate {
 
@@ -31,9 +28,14 @@ public final class ANXDepthUpdate {
    * @param now
    * @param totalVolumeInt
    */
-  public ANXDepthUpdate(@JsonProperty("type_str") String tradeType, @JsonProperty("price_int") long priceInt,
-      @JsonProperty("volume_int") long volumeInt, @JsonProperty("item") String item, @JsonProperty("currency") String currency,
-      @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
+  public ANXDepthUpdate(
+      @JsonProperty("type_str") String tradeType,
+      @JsonProperty("price_int") long priceInt,
+      @JsonProperty("volume_int") long volumeInt,
+      @JsonProperty("item") String item,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("now") long now,
+      @JsonProperty("total_volume_int") long totalVolumeInt) {
 
     this.tradeType = tradeType;
     this.priceInt = priceInt;
@@ -82,8 +84,20 @@ public final class ANXDepthUpdate {
   @Override
   public String toString() {
 
-    return "ANXDepthUpdate [tradeType=" + tradeType + ", priceInt=" + priceInt + ", volumeInt=" + volumeInt + ", item=" + item + ", currency="
-        + currency + ", now=" + now + ", totalVolumeInt=" + totalVolumeInt + "]";
+    return "ANXDepthUpdate [tradeType="
+        + tradeType
+        + ", priceInt="
+        + priceInt
+        + ", volumeInt="
+        + volumeInt
+        + ", item="
+        + item
+        + ", currency="
+        + currency
+        + ", now="
+        + now
+        + ", totalVolumeInt="
+        + totalVolumeInt
+        + "]";
   }
-
 }

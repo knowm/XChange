@@ -1,0 +1,30 @@
+{
+  "ok": "ok",
+  "e": "get_myfee",
+  "data": {
+    "ETH:USD": {
+      "sell": "0.15",
+      "buyMaker": "0",
+      "buy": "0.15",
+      "sellMaker": "0"
+    },
+    "BCH:GBP": {
+      "sell": "0.15",
+      "buyMaker": "0",
+      "buy": "0.15",
+      "sellMaker": "0"
+    },
+    "ZEC:BTC": {
+      "sell": "0.15",
+      "buyMaker": "0",
+      "buy": "0.15",
+      "sellMaker": "0"
+    },
+    "ZEC:GBP": {
+      "sell": "0.15",
+      "buyMaker": "0",
+      "buy": "0.15",
+      "sellMaker": "0"
+    }
+  }
+}

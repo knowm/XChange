@@ -3,7 +3,6 @@ package org.knowm.xchange.oer.service;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -15,9 +14,7 @@ import org.knowm.xchange.oer.OERAdapters;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class OERMarketDataService extends OERMarketDataServiceRaw implements MarketDataService {
 
   /**
@@ -33,12 +30,12 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Mar
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    OERRates rates = getOERTicker();
+    OERRates rates = getOERTicker(currencyPair);
 
     // Use reflection to get at data.
     Method method = null;
     try {
-      method = OERRates.class.getMethod("get" + currencyPair.base.getCurrencyCode(), null);
+      method = OERRates.class.getMethod("get" + currencyPair.counter.getCurrencyCode(), null);
     } catch (SecurityException | NoSuchMethodException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     }
@@ -65,5 +62,4 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Mar
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

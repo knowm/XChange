@@ -1,0 +1,11 @@
+Bit-Z Exchange Future Features
+================================
+
+Last Revision : 04/01/2018
+
+- Implement Full Trading Service
+- Implement Exchange Specific MarketData Service Features
+- Implement Exchange Specific Trading Service Features
+- Add More Units Tests
+- Add More Examples Of Usage
+- Implement New ICOs To Currency

@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
@@ -28,44 +27,72 @@ import org.knowm.xchange.utils.DateUtils;
 
 public final class BitsoAdapters {
 
-  private BitsoAdapters() {
-  }
+  private BitsoAdapters() {}
 
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(t.getLast())
+        .bid(t.getBid())
+        .ask(t.getAsk())
+        .high(t.getHigh())
+        .low(t.getLow())
+        .vwap(t.getVwap())
+        .volume(t.getVolume())
+        .timestamp(t.getTimestamp())
+        .build();
   }
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
-    Balance mxnBalance = new Balance(Currency.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
-    Balance btcBalance = new Balance(Currency.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
+    Balance mxnBalance =
+        new Balance(
+            Currency.MXN,
+            bitsoBalance.getMxnBalance(),
+            bitsoBalance.getMxnAvailable(),
+            bitsoBalance.getMxnReserved());
+    Balance btcBalance =
+        new Balance(
+            Currency.BTC,
+            bitsoBalance.getBtcBalance(),
+            bitsoBalance.getBtcAvailable(),
+            bitsoBalance.getBtcReserved());
 
     return new Wallet(mxnBalance, btcBalance);
   }
 
-  public static OrderBook adaptOrderBook(BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {
+  public static OrderBook adaptOrderBook(
+      BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getBids());
-    Date date = new Date(bitsoOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    List<LimitOrder> asks =
+        createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getAsks());
+    List<LimitOrder> bids =
+        createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getBids());
+    Date date =
+        new Date(
+            bitsoOrderBook.getTimestamp()
+                * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new OrderBook(date, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(
+      CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
-      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+      checkArgument(
+          ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(
+      CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(
+        orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
 
   /**
@@ -95,8 +122,14 @@ public final class BitsoAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades
-          .add(new Trade(type, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades.add(
+          new Trade(
+              type,
+              tx.getAmount(),
+              currencyPair,
+              tx.getPrice(),
+              DateUtils.fromMillisUtc(tx.getDate() * 1000L),
+              String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -114,7 +147,11 @@ public final class BitsoAdapters {
     List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitsoUserTransaction bitsoUserTransaction : bitsoUserTransactions) {
-      if (bitsoUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+      if (bitsoUserTransaction
+          .getType()
+          .equals(
+              BitsoUserTransaction.TransactionType
+                  .trade)) { // skip account deposits and withdrawals.
         boolean sell = bitsoUserTransaction.getMxn().doubleValue() > 0.0;
         Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
         BigDecimal originalAmount = bitsoUserTransaction.getBtc();
@@ -129,9 +166,19 @@ public final class BitsoAdapters {
         final BigDecimal feeAmount = bitsoUserTransaction.getFee();
         final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.MXN);
 
-        String feeCurrency = sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
-        UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            Currency.getInstance(feeCurrency));
+        String feeCurrency =
+            sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
+        UserTrade trade =
+            new UserTrade(
+                orderType,
+                originalAmount,
+                currencyPair,
+                price,
+                timestamp,
+                tradeId,
+                orderId,
+                feeAmount,
+                Currency.getInstance(feeCurrency));
         trades.add(trade);
       }
     }

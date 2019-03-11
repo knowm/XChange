@@ -1,13 +1,15 @@
 package org.knowm.xchange.quoine.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
@@ -16,28 +18,19 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * <p>
  * XChange service to provide the following to {@link org.knowm.xchange.Exchange}:
- * </p>
+ *
  * <ul>
- * <li>ANX specific methods to handle account-related operations</li>
+ *   <li>ANX specific methods to handle account-related operations
  * </ul>
  */
 public class QuoineAccountService extends QuoineAccountServiceRaw implements AccountService {
 
   private final boolean useMargin;
 
-  /**
-   * Constructor
-   */
+  /** Constructor */
   public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
 
     super(baseExchange);
@@ -47,7 +40,7 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    //need to make 2 calls
+    // need to make 2 calls
 
     FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
     List<Wallet> fiatBalances = QuoineAdapters.adapt(quoineFiatAccountInfo);
@@ -63,14 +56,10 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -78,8 +67,7 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     BitcoinAccount[] quoineCryptoAccountInfo = getQuoineCryptoAccountInfo();
     for (BitcoinAccount bitcoinAccount : quoineCryptoAccountInfo) {
       Currency ccy = Currency.getInstance(bitcoinAccount.getCurrency());
-      if (ccy.equals(currency))
-        return bitcoinAccount.getAddress();
+      if (ccy.equals(currency)) return bitcoinAccount.getAddress();
     }
     return null;
   }
@@ -90,7 +78,7 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     Integer page = 1;
     Integer limit = null;
     Currency currency = null;
@@ -115,7 +103,8 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     return res;
   }
 
-  public static class QuoineFundingHistoryParam implements TradeHistoryParamCurrency, TradeHistoryParamPaging {
+  public static class QuoineFundingHistoryParam
+      implements TradeHistoryParamCurrency, TradeHistoryParamPaging {
     private Currency currency;
     private Integer pageLength;
     private Integer pageNumber;
@@ -126,7 +115,11 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
       this.pageNumber = pageNumber;
     }
 
-    public QuoineFundingHistoryParam() {
+    public QuoineFundingHistoryParam() {}
+
+    @Override
+    public Currency getCurrency() {
+      return currency;
     }
 
     @Override
@@ -135,8 +128,8 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     }
 
     @Override
-    public Currency getCurrency() {
-      return currency;
+    public Integer getPageLength() {
+      return pageLength;
     }
 
     @Override
@@ -145,18 +138,13 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     }
 
     @Override
-    public Integer getPageLength() {
-      return pageLength;
+    public Integer getPageNumber() {
+      return pageNumber;
     }
 
     @Override
     public void setPageNumber(Integer pageNumber) {
       this.pageNumber = pageNumber;
-    }
-
-    @Override
-    public Integer getPageNumber() {
-      return pageNumber;
     }
   }
 }

@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public final class DSXTrade {
 
   private final BigDecimal amount;
@@ -16,8 +12,11 @@ public final class DSXTrade {
   private final long tid;
   private final String tradeType;
 
-  public DSXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("timestamp") long date, @JsonProperty("tid") long tid,
+  public DSXTrade(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("timestamp") long date,
+      @JsonProperty("tid") long tid,
       @JsonProperty("type") String tradeType) {
 
     this.amount = amount;
@@ -55,13 +54,18 @@ public final class DSXTrade {
   @Override
   public String toString() {
 
-    return "DSXTrade{" +
-        "amount=" + amount +
-        ", price=" + price +
-        ", timestamp=" + date +
-        ", tid=" + tid +
-        ", tradeType='" + tradeType + '\'' +
-        '}';
+    return "DSXTrade{"
+        + "amount="
+        + amount
+        + ", price="
+        + price
+        + ", timestamp="
+        + date
+        + ", tid="
+        + tid
+        + ", tradeType='"
+        + tradeType
+        + '\''
+        + '}';
   }
-
 }

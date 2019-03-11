@@ -35,5 +35,4 @@ public class KrakenSpread {
 
     return "KrakenSpread [time=" + time + ", bid=" + bid + ", ask=" + ask + "]";
   }
-
 }

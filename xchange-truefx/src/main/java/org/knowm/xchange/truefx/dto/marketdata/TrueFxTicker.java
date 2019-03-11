@@ -1,8 +1,5 @@
 package org.knowm.xchange.truefx.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.core.JsonParser;
@@ -12,8 +9,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import java.io.IOException;
+import java.math.BigDecimal;
 
-@JsonPropertyOrder(value = {"pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open"})
+@JsonPropertyOrder(
+    value = {"pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open"})
 public class TrueFxTicker {
   private static final BigDecimal BASIS_POINT_MULTIPLIER = new BigDecimal("0.00001");
 
@@ -28,9 +28,16 @@ public class TrueFxTicker {
   private final BigDecimal high;
   private final BigDecimal open;
 
-  public TrueFxTicker(@JsonProperty("pair") String pair, @JsonProperty("timestamp") long timestamp, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("bidBP") BigDecimal bidBP, @JsonProperty("ask") BigDecimal ask, @JsonProperty("askBP") BigDecimal askBP,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open) {
+  public TrueFxTicker(
+      @JsonProperty("pair") String pair,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("bidBP") BigDecimal bidBP,
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("askBP") BigDecimal askBP,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("open") BigDecimal open) {
     this.pair = pair;
     this.timestamp = timestamp;
     this.bid = bid;
@@ -88,7 +95,17 @@ public class TrueFxTicker {
 
   @Override
   public String toString() {
-    return "TrueFxTicker [pair=" + pair + ", bid=" + calcBid() + ", ask=" + calcAsk() + ", low=" + low + ", high=" + high + "]";
+    return "TrueFxTicker [pair="
+        + pair
+        + ", bid="
+        + calcBid()
+        + ", ask="
+        + calcAsk()
+        + ", low="
+        + low
+        + ", high="
+        + high
+        + "]";
   }
 
   public static class TrueFxTickerDeserializer extends JsonDeserializer<TrueFxTicker> {
@@ -96,7 +113,8 @@ public class TrueFxTicker {
     private final CsvSchema schema = mapper.schemaFor(TrueFxTicker.class);
 
     @Override
-    public TrueFxTicker deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public TrueFxTicker deserialize(JsonParser parser, DeserializationContext context)
+        throws IOException, JsonProcessingException {
       ArrayNode array = mapper.readerFor(TrueFxTicker.class).with(schema).readTree(parser);
 
       String pair = array.get(0).asText();

@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.anx.v2.marketdata;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepth;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
@@ -29,11 +28,15 @@ public class ANXMarketdataDemo {
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
-    System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
+    System.out.println(
+        "Current Order Book size for BTC / USD: "
+            + orderBook.getAsks().size()
+            + orderBook.getBids().size());
 
     // Get the current full orderbook
     // OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currency.BTC, Currency.USD);
-    // System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
+    // System.out.println("Current Full Order Book size for BTC / USD: " +
+    // fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
     // Get trades
     // Trades trades = marketDataService.getTrades(Currency.BTC, Currency.PLN);
@@ -42,13 +45,14 @@ public class ANXMarketdataDemo {
     ANXMarketDataServiceRaw marketDataServiceRaw = (ANXMarketDataServiceRaw) marketDataService;
 
     // Get all tickers
-    Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(anx.getExchangeMetaData().getCurrencyPairs().keySet());
+    Map<String, ANXTicker> tickers =
+        marketDataServiceRaw.getANXTickers(anx.getExchangeMetaData().getCurrencyPairs().keySet());
     System.out.println(tickers);
 
     // Get all orderbooks
-    Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(anx.getExchangeMetaData().getCurrencyPairs().keySet());
+    Map<String, ANXDepth> orderbooks =
+        marketDataServiceRaw.getANXFullOrderBooks(
+            anx.getExchangeMetaData().getCurrencyPairs().keySet());
     System.out.println(orderbooks);
-
   }
-
 }

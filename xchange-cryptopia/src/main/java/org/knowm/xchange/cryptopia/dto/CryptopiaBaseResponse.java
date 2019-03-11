@@ -2,25 +2,28 @@ package org.knowm.xchange.cryptopia.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class CryptopiaBaseResponse<T> {
 
-  private final boolean success;
   private final String message;
   private final T data;
-  private final String error;
 
   @JsonCreator
-  public CryptopiaBaseResponse(@JsonProperty("Success") boolean success, @JsonProperty("Message") String message,
-      @JsonProperty("Data") T data, @JsonProperty("Error") String error) {
-    this.success = success;
+  public CryptopiaBaseResponse(
+      @JsonProperty("Success") boolean success,
+      @JsonProperty("Message") String message,
+      @JsonProperty("Data") T data,
+      @JsonProperty("Error") String error) {
+    if (!success) {
+      throw new ExceptionalReturnContentException("Success set to false in response");
+    }
+    if (StringUtils.isNotEmpty(error)) {
+      throw new ExceptionalReturnContentException("Error field not empty in repsonse");
+    }
     this.message = message;
     this.data = data;
-    this.error = error;
-  }
-
-  public boolean isSuccess() {
-    return success;
   }
 
   public String getMessage() {
@@ -31,17 +34,15 @@ public class CryptopiaBaseResponse<T> {
     return data;
   }
 
-  public String getError() {
-    return error;
-  }
-
   @Override
   public String toString() {
-    return "CryptopiaBaseResponse{" +
-        "success=" + success +
-        ", message='" + message + '\'' +
-        ", data=" + data +
-        ", error='" + error + '\'' +
-        '}';
+    return "CryptopiaBaseResponse{"
+        + ", message='"
+        + message
+        + '\''
+        + ", data="
+        + data
+        + '\''
+        + '}';
   }
 }

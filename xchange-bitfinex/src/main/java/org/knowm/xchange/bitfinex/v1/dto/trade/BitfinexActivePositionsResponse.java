@@ -1,10 +1,8 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.dto.Order.OrderType;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import org.knowm.xchange.dto.Order.OrderType;
 
 public class BitfinexActivePositionsResponse {
 
@@ -18,9 +16,15 @@ public class BitfinexActivePositionsResponse {
   private final BigDecimal pnl;
   private final OrderType orderType;
 
-  public BitfinexActivePositionsResponse(@JsonProperty("id") long id, @JsonProperty("symbol") String symbol, @JsonProperty("status") String status,
-      @JsonProperty("base") BigDecimal base, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp,
-      @JsonProperty("swap") BigDecimal swap, @JsonProperty("pl") BigDecimal pnl) {
+  public BitfinexActivePositionsResponse(
+      @JsonProperty("id") long id,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("status") String status,
+      @JsonProperty("base") BigDecimal base,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("timestamp") BigDecimal timestamp,
+      @JsonProperty("swap") BigDecimal swap,
+      @JsonProperty("pl") BigDecimal pnl) {
 
     this.id = id;
     this.symbol = symbol;

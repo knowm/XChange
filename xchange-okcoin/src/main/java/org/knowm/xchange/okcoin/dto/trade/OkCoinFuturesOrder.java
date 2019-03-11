@@ -1,9 +1,8 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinFuturesOrder {
 
@@ -21,11 +20,20 @@ public class OkCoinFuturesOrder {
   private final BigDecimal unitAmount;
   private final int leverRate;
 
-  public OkCoinFuturesOrder(@JsonProperty("amount") BigDecimal amount, @JsonProperty("contract_name") String contractName,
-      @JsonProperty("create_date") Date createdDate, @JsonProperty("deal_amount") BigDecimal dealAmount, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("order_id") String orderId, @JsonProperty("price") BigDecimal price, @JsonProperty("price_avg") BigDecimal avgPrice,
-      @JsonProperty("status") int status, @JsonProperty("symbol") String symbol, @JsonProperty("type") String type,
-      @JsonProperty("unit_amount") BigDecimal unitAmount, @JsonProperty("lever_rate") int leverRate) {
+  public OkCoinFuturesOrder(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("contract_name") String contractName,
+      @JsonProperty("create_date") Date createdDate,
+      @JsonProperty("deal_amount") BigDecimal dealAmount,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("order_id") String orderId,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("price_avg") BigDecimal avgPrice,
+      @JsonProperty("status") int status,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("type") String type,
+      @JsonProperty("unit_amount") BigDecimal unitAmount,
+      @JsonProperty("lever_rate") int leverRate) {
 
     this.amount = amount;
     this.contractName = contractName;
@@ -107,4 +115,39 @@ public class OkCoinFuturesOrder {
     return leverRate;
   }
 
+  @Override
+  public String toString() {
+    return "OkCoinFuturesOrder{"
+        + "amount="
+        + amount
+        + ", contractName='"
+        + contractName
+        + '\''
+        + ", createdDate="
+        + createdDate
+        + ", dealAmount="
+        + dealAmount
+        + ", fee="
+        + fee
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", price="
+        + price
+        + ", avgPrice="
+        + avgPrice
+        + ", status="
+        + status
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", unitAmount="
+        + unitAmount
+        + ", leverRate="
+        + leverRate
+        + '}';
+  }
 }

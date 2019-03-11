@@ -2,18 +2,15 @@ package org.knowm.xchange.poloniex.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
-import org.knowm.xchange.poloniex.PoloniexException;
+import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import si.mazi.rescu.InvocationResult;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestMethodMetadata;
@@ -25,7 +22,8 @@ public class PoloniexOrderTest {
 
   @Test
   public void orderEntryResponseTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-entry.json");
+    final InputStream is =
+        getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
 
@@ -43,7 +41,9 @@ public class PoloniexOrderTest {
 
   @Test
   public void responseImmediateOrCancelTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-entry-ioc.json");
+    final InputStream is =
+        getClass()
+            .getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-entry-ioc.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
 
@@ -55,14 +55,26 @@ public class PoloniexOrderTest {
   @Test(expected = PoloniexException.class)
   public void buyRejectTest() throws Exception {
 
-    InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
+    InvocationResult invocationResult =
+        new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("buy", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod =
+        PoloniexAuthenticated.class.getDeclaredMethod(
+            "buy",
+            String.class,
+            ParamsDigest.class,
+            SynchronizedValueFactory.class,
+            String.class,
+            String.class,
+            String.class,
+            Integer.class,
+            Integer.class,
+            Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false).read(invocationResult, data);
+      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+          .read(invocationResult, data);
     } catch (PoloniexException e) {
       Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
       throw e;
@@ -71,7 +83,8 @@ public class PoloniexOrderTest {
 
   @Test
   public void moveOrderTest() throws IOException {
-    final InputStream is = getClass().getResourceAsStream("/trade/order-move.json");
+    final InputStream is =
+        getClass().getResourceAsStream("/org/knowm/xchange/poloniex/dto/trade/order-move.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexMoveResponse response = mapper.readValue(is, PoloniexMoveResponse.class);
 
@@ -90,14 +103,26 @@ public class PoloniexOrderTest {
   @Test(expected = PoloniexException.class)
   public void sellRejectTest() throws Exception {
 
-    InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
+    InvocationResult invocationResult =
+        new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("sell", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod =
+        PoloniexAuthenticated.class.getDeclaredMethod(
+            "sell",
+            String.class,
+            ParamsDigest.class,
+            SynchronizedValueFactory.class,
+            String.class,
+            String.class,
+            String.class,
+            Integer.class,
+            Integer.class,
+            Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false).read(invocationResult, data);
+      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+          .read(invocationResult, data);
     } catch (PoloniexException e) {
       Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
       throw e;
@@ -107,14 +132,25 @@ public class PoloniexOrderTest {
   @Test(expected = PoloniexException.class)
   public void moveOrderRejectTest() throws Exception {
 
-    InvocationResult invocationResult = new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
+    InvocationResult invocationResult =
+        new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("moveOrder", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class, Integer.class, Integer.class);
+    Method apiMethod =
+        PoloniexAuthenticated.class.getDeclaredMethod(
+            "moveOrder",
+            String.class,
+            ParamsDigest.class,
+            SynchronizedValueFactory.class,
+            String.class,
+            String.class,
+            String.class,
+            Integer.class,
+            Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
-      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false).read(invocationResult, data);
+      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false)
+          .read(invocationResult, data);
     } catch (PoloniexException e) {
       Assert.assertTrue(e.getMessage().startsWith("Not enough LTC."));
       throw e;

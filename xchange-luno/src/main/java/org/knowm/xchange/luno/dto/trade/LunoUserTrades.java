@@ -1,10 +1,9 @@
 package org.knowm.xchange.luno.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LunoUserTrades {
 
@@ -39,18 +38,17 @@ public class LunoUserTrades {
     public final boolean buy;
 
     public UserTrade(
-        @JsonProperty(value = "pair", required = false) String pair
-        , @JsonProperty(value = "order_id", required = true) String orderId
-        , @JsonProperty(value = "type", required = false) OrderType type
-        , @JsonProperty(value = "timestamp", required = true) long timestamp
-        , @JsonProperty(value = "price", required = true) BigDecimal price
-        , @JsonProperty(value = "volume", required = true) BigDecimal volume
-        , @JsonProperty(value = "base", required = true) BigDecimal base
-        , @JsonProperty(value = "counter", required = true) BigDecimal counter
-        , @JsonProperty(value = "fee_base", required = true) BigDecimal feeBase
-        , @JsonProperty(value = "fee_counter", required = true) BigDecimal feeCounter
-        , @JsonProperty(value = "is_buy", required = true) boolean buy
-    ) {
+        @JsonProperty(value = "pair", required = false) String pair,
+        @JsonProperty(value = "order_id", required = true) String orderId,
+        @JsonProperty(value = "type", required = false) OrderType type,
+        @JsonProperty(value = "timestamp", required = true) long timestamp,
+        @JsonProperty(value = "price", required = true) BigDecimal price,
+        @JsonProperty(value = "volume", required = true) BigDecimal volume,
+        @JsonProperty(value = "base", required = true) BigDecimal base,
+        @JsonProperty(value = "counter", required = true) BigDecimal counter,
+        @JsonProperty(value = "fee_base", required = true) BigDecimal feeBase,
+        @JsonProperty(value = "fee_counter", required = true) BigDecimal feeCounter,
+        @JsonProperty(value = "is_buy", required = true) boolean buy) {
       this.pair = pair;
       this.orderId = orderId;
       this.type = type;
@@ -70,10 +68,29 @@ public class LunoUserTrades {
 
     @Override
     public String toString() {
-      return "UserTrade [base=" + base + ", counter=" + counter + ", feeBase=" + feeBase + ", feeCounter=" + feeCounter
-          + ", buy=" + buy + ", orderId=" + orderId + ", pair=" + pair + ", price=" + price + ", timestamp=" + getTimestamp()
-          + ", type=" + type + ", volume=" + volume + "]";
+      return "UserTrade [base="
+          + base
+          + ", counter="
+          + counter
+          + ", feeBase="
+          + feeBase
+          + ", feeCounter="
+          + feeCounter
+          + ", buy="
+          + buy
+          + ", orderId="
+          + orderId
+          + ", pair="
+          + pair
+          + ", price="
+          + price
+          + ", timestamp="
+          + getTimestamp()
+          + ", type="
+          + type
+          + ", volume="
+          + volume
+          + "]";
     }
-
   }
 }

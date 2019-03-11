@@ -1,0 +1,14 @@
+{
+   "withdrawMinFee":0.05,
+   "withdrawMinAmount":0.1,
+   "withdrawFeeRate":0.001,
+   "confirmationCount":12,
+   "withdrawRemark":"",
+   "infoUrl":null,
+   "name":"RaiBlocks",
+   "tradePrecision":6,
+   "depositRemark":"",
+   "enableWithdraw":true,
+   "enableDeposit":true,
+   "coin":"XRB"
+}

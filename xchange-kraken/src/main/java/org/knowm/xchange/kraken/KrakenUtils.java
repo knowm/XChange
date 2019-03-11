@@ -2,36 +2,33 @@ package org.knowm.xchange.kraken;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class KrakenUtils {
 
   private static Map<String, CurrencyPair> assetPairMap = new HashMap<String, CurrencyPair>();
-  private static Map<CurrencyPair, String> assetPairMapReverse = new HashMap<CurrencyPair, String>();
+  private static Map<CurrencyPair, String> assetPairMapReverse =
+      new HashMap<CurrencyPair, String>();
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
-  /**
-   * Private Constructor
-   */
-  private KrakenUtils() {
-
-  }
+  /** Private Constructor */
+  private KrakenUtils() {}
 
   public static void setKrakenAssetPairs(Map<String, KrakenAssetPair> pairs) {
     if (assetPairMap.isEmpty()) {
       for (Map.Entry<String, KrakenAssetPair> entry : pairs.entrySet()) {
         //  skip dark markets!
         if (!entry.getKey().endsWith(".d")) {
-          CurrencyPair pair = new CurrencyPair(translateKrakenCurrencyCode(entry.getValue().getBase()), translateKrakenCurrencyCode(entry.getValue().getQuote()));
+          CurrencyPair pair =
+              new CurrencyPair(
+                  translateKrakenCurrencyCode(entry.getValue().getBase()),
+                  translateKrakenCurrencyCode(entry.getValue().getQuote()));
           assetPairMap.put(entry.getKey(), pair);
           assetPairMapReverse.put(pair, entry.getKey());
         }
@@ -53,39 +50,32 @@ public class KrakenUtils {
   }
 
   public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {
-	  CurrencyPair pair = assetPairMap.get(currencyPairIn);
-	  if (pair == null) 
-	  {
-		  // kraken can give short pairs back from open orders ?
-		  if (currencyPairIn.length() == 6)
-		  {
-			  Currency base = new Currency(currencyPairIn.substring(0, 3));
-   		      if (base.getCommonlyUsedCurrency() != null) 
-			  {
-   		    	base = base.getCommonlyUsedCurrency();
-			  }
-			  Currency counter = new Currency(currencyPairIn.substring(3,6));
-   		      if (counter.getCommonlyUsedCurrency() != null) 
-			  {
-   		    	counter = counter.getCommonlyUsedCurrency();
-			  }
-			  pair = new CurrencyPair(base, counter);
-		  } else if (currencyPairIn.length() == 7) 
-		  {
-			  Currency base = new Currency(currencyPairIn.substring(0, 4));
-   		      if (base.getCommonlyUsedCurrency() != null) 
-			  {
-   		    	base = base.getCommonlyUsedCurrency();
-			  }
-			  Currency counter = new Currency(currencyPairIn.substring(4,7));
-   		      if (counter.getCommonlyUsedCurrency() != null) 
-			  {
-   		    	counter = counter.getCommonlyUsedCurrency();
-			  }
-			  pair = new CurrencyPair(base, counter);
-		  }
-	  }
-	  return pair;
+    CurrencyPair pair = assetPairMap.get(currencyPairIn);
+    if (pair == null) {
+      // kraken can give short pairs back from open orders ?
+      if (currencyPairIn.length() == 6) {
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+        if (base.getCommonlyUsedCurrency() != null) {
+          base = base.getCommonlyUsedCurrency();
+        }
+        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
+        if (counter.getCommonlyUsedCurrency() != null) {
+          counter = counter.getCommonlyUsedCurrency();
+        }
+        pair = new CurrencyPair(base, counter);
+      } else if (currencyPairIn.length() == 7) {
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
+        if (base.getCommonlyUsedCurrency() != null) {
+          base = base.getCommonlyUsedCurrency();
+        }
+        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        if (counter.getCommonlyUsedCurrency() != null) {
+          counter = counter.getCommonlyUsedCurrency();
+        }
+        pair = new CurrencyPair(base, counter);
+      }
+    }
+    return pair;
   }
 
   public static String createKrakenCurrencyPair(Currency tradableIdentifier, Currency currency) {
@@ -109,5 +99,12 @@ public class KrakenUtils {
       throw new ExchangeException("Kraken does not support the currency code " + currencyIn);
     }
     return currencyOut.getCommonlyUsedCurrency();
+  }
+
+  public static void clearAssets() {
+    assetPairMap.clear();
+    assetPairMapReverse.clear();
+    assetsMap.clear();
+    assetsMapReverse.clear();
   }
 }

@@ -3,13 +3,10 @@ package org.knowm.xchange.itbit.v1.service;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Map;
-
 import javax.crypto.Mac;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
 
 public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
@@ -23,7 +20,8 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
+   *     key is invalid).
    */
   private ItBitHmacPostBodyDigest(String apiKey, String secretKeyBase64) {
 
@@ -44,7 +42,8 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
     try {
       md = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+      throw new RuntimeException(
+          "Illegal algorithm for post body digest. Check the implementation.");
     }
 
     Map<String, String> httpHeaders = restInvocation.getHttpHeadersFromParams();
@@ -61,8 +60,19 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
 
     String verb = restInvocation.getHttpMethod().trim();
     String invocationUrl = restInvocation.getInvocationUrl().trim();
-    String jsonEncodedArray = new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR)
-        .append(requestBody).append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
+    String jsonEncodedArray =
+        new StringBuilder("[\"")
+            .append(verb)
+            .append(FIELD_SEPARATOR)
+            .append(invocationUrl)
+            .append(FIELD_SEPARATOR)
+            .append(requestBody)
+            .append(FIELD_SEPARATOR)
+            .append(currentNonce)
+            .append(FIELD_SEPARATOR)
+            .append(currentTimestamp)
+            .append("\"]")
+            .toString();
     md.update(currentNonce.getBytes(charset));
     md.update(jsonEncodedArray.getBytes(charset));
     byte[] messageHash = md.digest();
@@ -72,6 +82,6 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
     mac512.update(messageHash);
 
     byte[] hmacDigest = mac512.doFinal();
-    return apiKey + ":" + Base64.encodeBytes(hmacDigest);
+    return apiKey + ":" + Base64.getEncoder().encodeToString(hmacDigest);
   }
 }

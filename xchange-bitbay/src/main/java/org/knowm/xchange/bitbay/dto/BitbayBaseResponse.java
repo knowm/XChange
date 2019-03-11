@@ -3,9 +3,7 @@ package org.knowm.xchange.bitbay.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Z. Dolezal
- */
+/** @author Z. Dolezal */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbayBaseResponse {
 
@@ -13,7 +11,10 @@ public class BitbayBaseResponse {
   private final int code;
   private final String message;
 
-  public BitbayBaseResponse(@JsonProperty("success") boolean success, @JsonProperty("code") int code, @JsonProperty("message") String errorMsg) {
+  public BitbayBaseResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("code") int code,
+      @JsonProperty("message") String errorMsg) {
     this.success = success;
     this.code = code;
     this.message = errorMsg;

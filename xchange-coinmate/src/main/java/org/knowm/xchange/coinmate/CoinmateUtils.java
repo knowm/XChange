@@ -36,7 +36,9 @@ public class CoinmateUtils {
     if (currencyPair == null) {
       return null;
     }
-    return currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase();
+    return currencyPair.base.getCurrencyCode().toUpperCase()
+        + "_"
+        + currencyPair.counter.getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair getPair(String currencyPair) {
@@ -46,9 +48,10 @@ public class CoinmateUtils {
       return CurrencyPair.BTC_CZK;
     } else if ("LTC_BTC".equals(currencyPair)) {
       return CurrencyPair.LTC_BTC;
+    } else if ("BCH_BTC".equals(currencyPair)) {
+      return CurrencyPair.BCH_BTC;
     } else {
       return null;
     }
   }
-
 }

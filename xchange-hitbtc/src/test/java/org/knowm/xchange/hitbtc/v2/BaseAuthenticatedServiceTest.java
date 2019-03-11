@@ -19,12 +19,11 @@ public class BaseAuthenticatedServiceTest extends BaseServiceTest {
 
   @BeforeClass
   public static void setUpBaseClass() {
-    
+
     exchangeSpecification = new ExchangeSpecification(HitbtcExchange.class);
     exchangeSpecification.setApiKey(getApiKey());
     exchangeSpecification.setSecretKey(getSecret());
 
     exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
-
 }

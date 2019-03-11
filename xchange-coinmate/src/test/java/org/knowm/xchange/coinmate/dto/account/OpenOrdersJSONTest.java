@@ -25,26 +25,24 @@ package org.knowm.xchange.coinmate.dto.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.OrderBookJSONTest;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * @author Martin Stachon
- */
+/** @author Martin Stachon */
 public class OpenOrdersJSONTest {
 
   @Test
   public void testUnmarshall() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-open-orders.json");
+    InputStream is =
+        OrderBookJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coinmate/dto/account/example-open-orders.json");
 
     ObjectMapper mapper = new ObjectMapper();
     CoinmateOpenOrders coinmateOrders = mapper.readValue(is, CoinmateOpenOrders.class);

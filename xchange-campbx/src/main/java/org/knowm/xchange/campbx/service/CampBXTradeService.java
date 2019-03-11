@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.CampBX;
 import org.knowm.xchange.campbx.dto.CampBXOrder;
@@ -20,7 +18,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -29,14 +26,11 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeService {
 
-  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
-
   private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
+  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
 
   /**
    * Constructor
@@ -54,8 +48,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
     MyOpenOrders myOpenOrders = getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -70,7 +63,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
         } else {
           String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
-          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
+          orders.add(
+              new LimitOrder(
+                  Order.OrderType.BID,
+                  cbo.getQuantity(),
+                  CurrencyPair.BTC_USD,
+                  id,
+                  cbo.getOrderEntered(),
+                  price));
         }
       }
       for (CampBXOrder cbo : myOpenOrders.getSell()) {
@@ -80,7 +80,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
           String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
-          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
+          orders.add(
+              new LimitOrder(
+                  Order.OrderType.ASK,
+                  cbo.getQuantity(),
+                  CurrencyPair.BTC_USD,
+                  id,
+                  cbo.getOrderEntered(),
+                  price));
         }
       }
       return new OpenOrders(orders);
@@ -129,22 +136,24 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   private String composeOrderId(String id, Order.OrderType orderType) {
 
-    CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
+    CampBX.OrderType type =
+        orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
     return composeOrderId(type, id);
   }
 
   private String composeOrderId(CampBX.OrderType type, String id) {
 
-    return ID_FORMAT.format(new Object[]{type, id});
+    return ID_FORMAT.format(new Object[] {type, id});
   }
 
   @Override
@@ -163,11 +172,4 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

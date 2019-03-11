@@ -1,33 +1,35 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
+import java.util.Date;
+import javax.annotation.Generated;
 
-/**
- * @author npinot
- */
+/** @author npinot */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"Id", "Amount", "Currency", "LastUpdated", "TxId", "CryptoAddress"})
 public class BittrexDepositHistory {
   @JsonProperty("Id")
   private Long id;
+
   @JsonProperty("Amount")
   private BigDecimal amount;
+
   @JsonProperty("Currency")
   private String currency;
+
   @JsonProperty("Confirmations")
   private Integer confirmations;
+
   @JsonProperty("LastUpdated")
   private Date lastUpdated;
+
   @JsonProperty("TxId")
   private String txId;
+
   @JsonProperty("CryptoAddress")
   private String cryptoAddress;
 
@@ -114,5 +116,4 @@ public class BittrexDepositHistory {
 
     this.cryptoAddress = cryptoAddress;
   }
-
 }

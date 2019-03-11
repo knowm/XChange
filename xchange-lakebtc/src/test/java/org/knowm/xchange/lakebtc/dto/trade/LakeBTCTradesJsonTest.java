@@ -2,24 +2,22 @@ package org.knowm.xchange.lakebtc.dto.trade;
 
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
+/** Created by cristian.lucaci on 12/19/2014. */
 public class LakeBTCTradesJsonTest {
 
   @Test
   public void testDeserializeBuyOrder() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCTradesJsonTest.class.getResourceAsStream("/trade/example-past-trades-data.json");
+    InputStream is =
+        LakeBTCTradesJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/lakebtc/dto/trade/example-past-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -37,6 +35,5 @@ public class LakeBTCTradesJsonTest {
     assertEquals(new BigDecimal("233.37"), responses[1].getTotal());
     assertEquals(1403078141, responses[1].getAt());
     assertEquals("sell", responses[1].getType());
-
   }
 }

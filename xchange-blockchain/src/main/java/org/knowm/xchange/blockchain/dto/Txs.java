@@ -1,12 +1,9 @@
 package org.knowm.xchange.blockchain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public final class Txs {
 
   private final long blockHeight;
@@ -38,10 +35,19 @@ public final class Txs {
    * @param vin_sz
    * @param vout_sz
    */
-  public Txs(@JsonProperty("block_height") long block_height, @JsonProperty("hash") String hash, @JsonProperty("inputs") List<Inputs> inputs,
-      @JsonProperty("out") List<Out> out, @JsonProperty("relayed_by") String relayed_by, @JsonProperty("result") long result,
-      @JsonProperty("size") long size, @JsonProperty("time") long time, @JsonProperty("tx_index") long tx_index, @JsonProperty("ver") int ver,
-      @JsonProperty("vin_sz") int vin_sz, @JsonProperty("vout_sz") int vout_sz) {
+  public Txs(
+      @JsonProperty("block_height") long block_height,
+      @JsonProperty("hash") String hash,
+      @JsonProperty("inputs") List<Inputs> inputs,
+      @JsonProperty("out") List<Out> out,
+      @JsonProperty("relayed_by") String relayed_by,
+      @JsonProperty("result") long result,
+      @JsonProperty("size") long size,
+      @JsonProperty("time") long time,
+      @JsonProperty("tx_index") long tx_index,
+      @JsonProperty("ver") int ver,
+      @JsonProperty("vin_sz") int vin_sz,
+      @JsonProperty("vout_sz") int vout_sz) {
 
     this.blockHeight = block_height;
     this.hash = hash;
@@ -117,4 +123,35 @@ public final class Txs {
     return this.voutSz;
   }
 
+  @Override
+  public String toString() {
+    return "Txs{"
+        + "blockHeight="
+        + blockHeight
+        + ", hash='"
+        + hash
+        + '\''
+        + ", inputs="
+        + inputs
+        + ", out="
+        + out
+        + ", relayedBy='"
+        + relayedBy
+        + '\''
+        + ", result="
+        + result
+        + ", size="
+        + size
+        + ", time="
+        + time
+        + ", txIndex="
+        + txIndex
+        + ", ver="
+        + ver
+        + ", vinSz="
+        + vinSz
+        + ", voutSz="
+        + voutSz
+        + '}';
+  }
 }

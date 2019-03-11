@@ -1,54 +1,136 @@
 package org.knowm.xchange.huobi.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
 import java.io.IOException;
-import java.math.BigDecimal;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.huobi.dto.trade.HuobiCancelOrderResult;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.huobi.HuobiUtils;
+import org.knowm.xchange.huobi.dto.trade.HuobiCreateOrderRequest;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
-import org.knowm.xchange.huobi.dto.trade.HuobiOrderInfo;
-import org.knowm.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
+import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
+import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
+import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
+import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
-public class HuobiTradeServiceRaw extends HuobiBaseTradeService implements TradeServiceRaw {
+class HuobiTradeServiceRaw extends HuobiBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  public HuobiTradeServiceRaw(Exchange exchange) {
+  HuobiTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
-  @Override
-  public HuobiOrder[] getOrders(int coinType) throws IOException {
-    return huobi.getOrders(accessKey, coinType, nextCreated(), "get_orders", digest);
+  HuobiOrder[] getHuobiTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+    String tradeStates = "partial-filled,partial-canceled,filled";
+    HuobiOrdersResult result =
+        huobi.getOpenOrders(
+            tradeStates,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
   }
 
-  @Override
-  public HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws IOException {
-    return huobi.getOrderInfo(accessKey, orderId, coinType, nextCreated(), "order_info", digest);
+  HuobiOrder[] getHuobiOpenOrders() throws IOException {
+    String states = "pre-submitted,submitted,partial-filled";
+    HuobiOrdersResult result =
+        huobi.getOpenOrders(
+            states,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
   }
 
-  @Override
-  public HuobiPlaceOrderResult placeLimitOrder(OrderType type, int coinType, BigDecimal price, BigDecimal amount) throws IOException {
-    String method = type == BID ? "buy" : "sell";
-
-    return huobi.placeLimitOrder(accessKey, amount.toPlainString(), coinType, nextCreated(), price.toPlainString(), method, digest);
+  String cancelHuobiOrder(String orderId) throws IOException {
+    HuobiCancelOrderResult result =
+        huobi.cancelOrder(
+            orderId,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
   }
 
-  @Override
-  public HuobiPlaceOrderResult placeMarketOrder(OrderType type, int coinType, BigDecimal amount) throws IOException {
-    final String method = type == BID ? "buy_market" : "sell_market";
+  String placeHuobiLimitOrder(LimitOrder limitOrder) throws IOException {
+    String type;
+    if (limitOrder.getType() == OrderType.BID) {
+      type = "buy-limit";
+    } else if (limitOrder.getType() == OrderType.ASK) {
+      type = "sell-limit";
+    } else {
+      throw new ExchangeException("Unsupported order type.");
+    }
 
-    return huobi.placeMarketOrder(accessKey, amount.toPlainString(), coinType, nextCreated(), method, digest);
+    HuobiOrderResult result =
+        huobi.placeLimitOrder(
+            new HuobiCreateOrderRequest(
+                getAccountId(),
+                limitOrder.getOriginalAmount().toString(),
+                limitOrder.getLimitPrice().toString(),
+                HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
+                type),
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+
+    return checkResult(result);
   }
 
-  @Override
-  public HuobiCancelOrderResult cancelOrder(int coinType, long id) throws IOException {
-    return huobi.cancelOrder(accessKey, coinType, nextCreated(), id, "cancel_order", digest);
+  String placeHuobiMarketOrder(MarketOrder limitOrder) throws IOException {
+    String type;
+    if (limitOrder.getType() == OrderType.BID) {
+      type = "buy-market";
+    } else if (limitOrder.getType() == OrderType.ASK) {
+      type = "sell-market";
+    } else {
+      throw new ExchangeException("Unsupported order type.");
+    }
+    HuobiOrderResult result =
+        huobi.placeMarketOrder(
+            new HuobiCreateOrderRequest(
+                getAccountId(),
+                limitOrder.getOriginalAmount().toString(),
+                null,
+                HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
+                type),
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
+  }
+
+  List<HuobiOrder> getHuobiOrder(String... orderIds) throws IOException {
+    List<HuobiOrder> orders = new ArrayList<>();
+    for (String orderId : orderIds) {
+      HuobiOrderInfoResult orderInfoResult =
+          huobi.getOrder(
+              orderId,
+              exchange.getExchangeSpecification().getApiKey(),
+              HuobiDigest.HMAC_SHA_256,
+              2,
+              HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+              signatureCreator);
+      orders.add(checkResult(orderInfoResult));
+    }
+    return orders;
+  }
+
+  private String getAccountId() throws IOException {
+    return String.valueOf(
+        ((HuobiAccountServiceRaw) exchange.getAccountService()).getAccounts()[0].getId());
   }
 }

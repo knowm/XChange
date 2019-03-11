@@ -4,26 +4,18 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-/**
- * A central place for shared ANX properties
- */
+/** A central place for shared ANX properties */
 public final class ANXUtils {
 
-  /**
-   * private Constructor
-   */
-  private ANXUtils() {
-
-  }
-
   public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2 = 100000000;
-
   public static final int VOLUME_AND_AMOUNT_MAX_SCALE = 8;
+
+  /** private Constructor */
+  private ANXUtils() {}
 
   /**
    * Find and match an order with id in orders
@@ -39,7 +31,8 @@ public final class ANXUtils {
 
     for (LimitOrder openOrder : orders) {
       if (openOrder.getId().equalsIgnoreCase(id)) {
-        if (order.getCurrencyPair().equals(openOrder.getCurrencyPair()) && (order.getOriginalAmount().compareTo(openOrder.getOriginalAmount()) == 0)
+        if (order.getCurrencyPair().equals(openOrder.getCurrencyPair())
+            && (order.getOriginalAmount().compareTo(openOrder.getOriginalAmount()) == 0)
             && (order.getLimitPrice().compareTo(openOrder.getLimitPrice()) == 0)) {
           found = true;
         }

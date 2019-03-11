@@ -17,7 +17,10 @@ public class KrakenAsset {
    * @param scale
    * @param displayScale
    */
-  public KrakenAsset(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale,
+  public KrakenAsset(
+      @JsonProperty("altname") String altName,
+      @JsonProperty("aclass") String assetClass,
+      @JsonProperty("decimals") int scale,
       @JsonProperty("display_decimals") int displayScale) {
 
     this.altName = altName;
@@ -49,6 +52,14 @@ public class KrakenAsset {
   @Override
   public String toString() {
 
-    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
+    return "KrakenAssetInfo [altName="
+        + altName
+        + ", assetClass="
+        + assetClass
+        + ", scale="
+        + scale
+        + ", displayScale="
+        + displayScale
+        + "]";
   }
 }

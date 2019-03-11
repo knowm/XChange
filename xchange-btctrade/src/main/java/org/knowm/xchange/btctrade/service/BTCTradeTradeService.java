@@ -1,23 +1,18 @@
 package org.knowm.xchange.btctrade.service;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradeOrder;
 import org.knowm.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -45,8 +40,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
@@ -76,19 +70,20 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   }
 
   @Override
-  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
    * Optional parameters: start time (default 0 = all) of {@link TradeHistoryParamsTimeSpan}
-   * <p/>
-   * Required parameters: none
-   * <p/>
-   * Note this method makes 1+N remote calls, where N is the number of returned trades
+   *
+   * <p>Required parameters: none
+   *
+   * <p>Note this method makes 1+N remote calls, where N is the number of returned trades
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -103,9 +98,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
     return BTCTradeAdapters.adaptTrades(orders, orderDetails);
   }
 
-  /**
-   * @return an instance of {@link TradeHistoryParamsTimeSpan}
-   */
+  /** @return an instance of {@link TradeHistoryParamsTimeSpan} */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamsTimeSpan(new Date(0));
@@ -115,11 +108,4 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
-
-  @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
 }

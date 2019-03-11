@@ -1,10 +1,9 @@
 package org.knowm.xchange.okcoin.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinRecords {
 
@@ -26,10 +25,16 @@ public class OkCoinRecords {
 
   private final Integer status;
 
-  public OkCoinRecords(@JsonProperty("addr") final String address, @JsonProperty("account") final String account,
-      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("bank") final String bank,
-      @JsonProperty("benificiary_addr") final String benificiaryAddress, @JsonProperty("transaction_value") final BigDecimal transactionValue,
-      @JsonProperty("fee") final BigDecimal fee, @JsonProperty("date") final Long date, @JsonProperty("status") final Integer status) {
+  public OkCoinRecords(
+      @JsonProperty("addr") final String address,
+      @JsonProperty("account") final String account,
+      @JsonProperty("amount") final BigDecimal amount,
+      @JsonProperty("bank") final String bank,
+      @JsonProperty("benificiary_addr") final String benificiaryAddress,
+      @JsonProperty("transaction_value") final BigDecimal transactionValue,
+      @JsonProperty("fee") final BigDecimal fee,
+      @JsonProperty("date") final Long date,
+      @JsonProperty("status") final Integer status) {
 
     this.address = address;
     this.account = account;
@@ -89,13 +94,14 @@ public class OkCoinRecords {
   public enum RechargeStatus {
     FAILURE(-1, "Failure"),
     WAIT_CONFIRMATION(0, "Wait Confirmation"),
-    COMPLETE(1, "Complete"),;
+    COMPLETE(1, "Complete"),
+    ;
 
-    private static final Map<Integer, RechargeStatus> fromInt = new HashMap<Integer, RechargeStatus>();
+    private static final Map<Integer, RechargeStatus> fromInt =
+        new HashMap<Integer, RechargeStatus>();
 
     static {
-      for (RechargeStatus status : values())
-        fromInt.put(status.code, status);
+      for (RechargeStatus status : values()) fromInt.put(status.code, status);
     }
 
     private int code;
@@ -106,12 +112,12 @@ public class OkCoinRecords {
       this.status = status;
     }
 
-    public String getStatus() {
-      return status;
-    }
-
     public static RechargeStatus fromInt(int statusInt) {
       return fromInt.get(statusInt);
+    }
+
+    public String getStatus() {
+      return status;
     }
   }
 
@@ -124,13 +130,14 @@ public class OkCoinRecords {
     COMPLETE(2, "Complete"),
     EMAIL_CONFIRMATION(3, "Email Confirmation"),
     VERIFYING(4, "Verifying"),
-    WAIT_CONFIRMATION(5, "Wait Confirmation"),;
+    WAIT_CONFIRMATION(5, "Wait Confirmation"),
+    ;
 
-    private static final Map<Integer, WithdrawalStatus> fromInt = new HashMap<Integer, WithdrawalStatus>();
+    private static final Map<Integer, WithdrawalStatus> fromInt =
+        new HashMap<Integer, WithdrawalStatus>();
 
     static {
-      for (WithdrawalStatus status : values())
-        fromInt.put(status.code, status);
+      for (WithdrawalStatus status : values()) fromInt.put(status.code, status);
     }
 
     private int code;
@@ -141,12 +148,12 @@ public class OkCoinRecords {
       this.status = status;
     }
 
-    public String getStatus() {
-      return status;
-    }
-
     public static WithdrawalStatus fromInt(int statusInt) {
       return fromInt.get(statusInt);
+    }
+
+    public String getStatus() {
+      return status;
     }
   }
 }

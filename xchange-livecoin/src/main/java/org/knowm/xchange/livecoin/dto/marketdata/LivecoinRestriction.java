@@ -1,7 +1,6 @@
 package org.knowm.xchange.livecoin.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class LivecoinRestriction {
@@ -10,8 +9,10 @@ public class LivecoinRestriction {
   private BigDecimal minLimitQuantity;
   private Integer priceScale;
 
-  public LivecoinRestriction(@JsonProperty("currencyPair") String currencyPair, @JsonProperty("minLimitQuantity") BigDecimal minLimitQuantity,
-                             @JsonProperty("priceScale") Integer priceScale) {
+  public LivecoinRestriction(
+      @JsonProperty("currencyPair") String currencyPair,
+      @JsonProperty("minLimitQuantity") BigDecimal minLimitQuantity,
+      @JsonProperty("priceScale") Integer priceScale) {
     super();
     this.currencyPair = currencyPair;
     this.minLimitQuantity = minLimitQuantity;
@@ -29,5 +30,4 @@ public class LivecoinRestriction {
   public Integer getPriceScale() {
     return priceScale;
   }
-
 }

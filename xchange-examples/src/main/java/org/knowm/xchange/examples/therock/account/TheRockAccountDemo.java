@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.therock.account;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.therock.TheRockExampleUtils;
@@ -22,7 +21,8 @@ public class TheRockAccountDemo {
   }
 
   private static void raw(Exchange loyalbitExchange) throws IOException {
-    TheRockAccountServiceRaw rawTheRockAcctService = (TheRockAccountServiceRaw) loyalbitExchange.getAccountService();
+    TheRockAccountServiceRaw rawTheRockAcctService =
+        (TheRockAccountServiceRaw) loyalbitExchange.getAccountService();
     System.out.println("Balance Info: " + rawTheRockAcctService.balances());
   }
 }

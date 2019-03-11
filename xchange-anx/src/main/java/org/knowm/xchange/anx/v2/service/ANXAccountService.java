@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.knowm.xchange.BaseExchange;
+import java.util.Objects;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
@@ -15,33 +15,29 @@ import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponseWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import si.mazi.rescu.IRestProxyFactory;
 
 /**
- * <p>
  * XChange service to provide the following to {@link org.knowm.xchange.Exchange}:
- * </p>
+ *
  * <ul>
- * <li>ANX specific methods to handle account-related operations</li>
+ *   <li>ANX specific methods to handle account-related operations
  * </ul>
  */
 public class ANXAccountService extends ANXAccountServiceRaw implements AccountService {
 
-  /**
-   * Constructor
-   */
-  public ANXAccountService(BaseExchange baseExchange) {
+  /** Constructor */
+  public ANXAccountService(Exchange exchange, IRestProxyFactory restProxyFactory) {
 
-    super(baseExchange);
+    super(exchange, restProxyFactory);
   }
 
   @Override
@@ -51,23 +47,51 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
 
     if (amount.scale() > ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE) {
-      throw new IllegalArgumentException("Amount scale exceed " + ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE);
+      throw new IllegalArgumentException(
+          "Amount scale exceed " + ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE);
     }
 
     if (address == null) {
-      throw new IllegalArgumentException("Amount cannot be null");
+      throw new IllegalArgumentException("Address cannot be null");
     }
 
     ANXWithdrawalResponseWrapper wrapper = anxWithdrawFunds(currency.toString(), amount, address);
+    return handleWithdrawalResponse(wrapper);
+  }
+
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address, String tag)
+      throws IOException {
+
+    if (amount.scale() > ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE) {
+      throw new IllegalArgumentException(
+          "Amount scale exceed " + ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE);
+    }
+
+    if (address == null) {
+      throw new IllegalArgumentException("Address cannot be null");
+    }
+
+    if (tag == null) {
+      throw new IllegalArgumentException("destinationTag cannot be null");
+    }
+
+    ANXWithdrawalResponseWrapper wrapper =
+        anxWithdrawFunds(currency.toString(), amount, address, tag);
+    return handleWithdrawalResponse(wrapper);
+  }
+
+  private String handleWithdrawalResponse(ANXWithdrawalResponseWrapper wrapper) {
     ANXWithdrawalResponse response = wrapper.getAnxWithdrawalResponse();
 
-    //eg: {  "result": "error",  "data": {    "message": "min size, params, or available funds problem."  }}
+    // eg: {  "result": "error",  "data": {    "message": "min size, params, or available funds
+    // problem."  }}
     if (wrapper.getResult().equals("error")) {
       throw new IllegalStateException("Failed to withdraw funds: " + response.getMessage());
-    } else if (wrapper.getError() != null) {//does this ever happen?
+    } else if (wrapper.getError() != null) { // does this ever happen?
       throw new IllegalStateException("Failed to withdraw funds: " + wrapper.getError());
     } else {
       return response.getTransactionId();
@@ -75,10 +99,20 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
+
+    if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams rippleWithdrawFundsParams = (RippleWithdrawFundsParams) params;
+      return withdrawFunds(
+          rippleWithdrawFundsParams.getCurrency(),
+          rippleWithdrawFundsParams.getAmount(),
+          rippleWithdrawFundsParams.getAddress(),
+          rippleWithdrawFundsParams.getTag());
+    }
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+      return withdrawFunds(
+          defaultParams.getCurrency(), defaultParams.getAmount(), defaultParams.getAddress());
     }
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
@@ -91,7 +125,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    return new AnxFundingHistoryParams();
   }
 
   @Override
@@ -102,24 +136,43 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     List<ANXWalletHistoryEntry> walletHistory = getWalletHistory(params);
     for (ANXWalletHistoryEntry entry : walletHistory) {
 
-      if (!entry.getType().equalsIgnoreCase("deposit") && !entry.getType().equalsIgnoreCase("withdraw"))
-        continue;
+      if (!entry.getType().equalsIgnoreCase("deposit")
+          && !entry.getType().equalsIgnoreCase("withdraw")) continue;
 
-      results.add(ANXAdapters.adaptFundingRecord(entry));
+      // ANX returns the fee in a separate WalletHistoryEntry, but with the same transaction id.
+      // merging the two into
+      // a single FundingRecord
+      ANXWalletHistoryEntry feeEntry =
+          walletHistory
+              .parallelStream()
+              .filter(
+                  anxWalletHistoryEntry ->
+                      "fee".equalsIgnoreCase(anxWalletHistoryEntry.getType())
+                          && ((entry.getTransactionId() != null
+                                  && Objects.equals(
+                                      anxWalletHistoryEntry.getTransactionId(),
+                                      entry.getTransactionId()))
+                              || (entry.getInfo() != null
+                                  && Objects.equals(
+                                      anxWalletHistoryEntry.getInfo(), entry.getInfo()))))
+              .findFirst()
+              .orElse(null);
+
+      results.add(ANXAdapters.adaptFundingRecord(entry, feeEntry));
     }
     return results;
   }
 
-  public static class AnxFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
+  public static class AnxFundingHistoryParams
+      implements TradeHistoryParamCurrency, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
 
     private Currency currency;
     private Integer pageNumber;
-    private Integer pageLength;//not supported
+    private Integer pageLength; // not supported
     private Date startTime;
     private Date endTime;
 
-    public AnxFundingHistoryParams() {
-    }
+    AnxFundingHistoryParams() {}
 
     public AnxFundingHistoryParams(Currency currency, Date startTime, Date endTime) {
       this.currency = currency;
@@ -128,23 +181,28 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public void setCurrency(Currency currency) {
-      this.currency = currency;
-    }
-
-    @Override
     public Currency getCurrency() {
       return currency;
     }
 
     @Override
-    public void setPageLength(Integer pageLength) {
-      //not supported, failed quietly
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
     }
 
     @Override
     public Integer getPageLength() {
       return pageLength;
+    }
+
+    @Override
+    public void setPageLength(Integer pageLength) {
+      // not supported, failed quietly
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return pageNumber;
     }
 
     @Override
@@ -155,8 +213,8 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public Integer getPageNumber() {
-      return pageNumber;
+    public Date getStartTime() {
+      return startTime;
     }
 
     @Override
@@ -165,18 +223,13 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public Date getStartTime() {
-      return startTime;
+    public Date getEndTime() {
+      return endTime;
     }
 
     @Override
     public void setEndTime(Date endTime) {
       this.endTime = endTime;
-    }
-
-    @Override
-    public Date getEndTime() {
-      return endTime;
     }
   }
 }

@@ -21,7 +21,26 @@
     "REP/BTC": {
       "price_scale": 8
     },
+    "BCH/BTC": {
+      "price_scale": 5,
+      "min_amount": 0.001
+    },
+    "LTC/BTC": {
+      "price_scale": 8
+    },
+    "LTC/ETH": {
+      "price_scale": 8
+    },
     "DGD/BTC": {
+      "price_scale": 8
+    },
+    "LTC/EUR": {
+      "price_scale": 2
+    },
+    "LTC/USD": {
+      "price_scale": 2
+    },
+    "TRX/BTC": {
       "price_scale": 8
     }
   },
@@ -34,6 +53,27 @@
     },
     "USD": {
       "scale": 2
+    },
+    "HKD": {
+      "scale": 2
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "DGD": {
+      "scale": 8
+    },
+    "BCH": {
+      "scale": 8
+    },
+    "REP": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "TRX": {
+      "scale": 8
     }
   }
 }

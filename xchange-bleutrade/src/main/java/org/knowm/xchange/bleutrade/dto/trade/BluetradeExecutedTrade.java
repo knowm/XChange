@@ -1,8 +1,7 @@
 package org.knowm.xchange.bleutrade.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class BluetradeExecutedTrade {
   public final String orderId;
@@ -16,10 +15,17 @@ public class BluetradeExecutedTrade {
   public final BigDecimal quantityBaseTraded;
   public final String comments;
 
-  public BluetradeExecutedTrade(@JsonProperty("OrderId") String orderId, @JsonProperty("Exchange") String exchange, @JsonProperty("Type") String type,
-      @JsonProperty("Quantity") BigDecimal quantity, @JsonProperty("QuantityRemaining") String quantityRemaining,
-      @JsonProperty("Price") BigDecimal price, @JsonProperty("Status") String status, @JsonProperty("Created") String created,
-      @JsonProperty("QuantityBaseTraded") BigDecimal quantityBaseTraded, @JsonProperty("Comments") String comments) {
+  public BluetradeExecutedTrade(
+      @JsonProperty("OrderId") String orderId,
+      @JsonProperty("Exchange") String exchange,
+      @JsonProperty("Type") String type,
+      @JsonProperty("Quantity") BigDecimal quantity,
+      @JsonProperty("QuantityRemaining") String quantityRemaining,
+      @JsonProperty("Price") BigDecimal price,
+      @JsonProperty("Status") String status,
+      @JsonProperty("Created") String created,
+      @JsonProperty("QuantityBaseTraded") BigDecimal quantityBaseTraded,
+      @JsonProperty("Comments") String comments) {
     this.orderId = orderId;
     this.exchange = exchange;
     this.type = type;

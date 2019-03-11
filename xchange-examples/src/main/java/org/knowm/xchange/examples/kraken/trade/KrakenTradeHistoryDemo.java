@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kraken.trade;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
@@ -36,8 +35,7 @@ public class KrakenTradeHistoryDemo {
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     // Get the trade history
-    Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();
+    Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory().getTrades();
     System.out.println(trades);
-
   }
 }

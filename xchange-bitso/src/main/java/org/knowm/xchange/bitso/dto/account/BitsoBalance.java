@@ -1,12 +1,9 @@
 package org.knowm.xchange.bitso.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public final class BitsoBalance {
 
   private final BigDecimal mxnBalance;
@@ -25,10 +22,15 @@ public final class BitsoBalance {
 
   private final String error;
 
-  public BitsoBalance(@JsonProperty("mxn_balance") BigDecimal mxnBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
-      @JsonProperty("mxn_reserved") BigDecimal mxnReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
-      @JsonProperty("mxn_available") BigDecimal mxnAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+  public BitsoBalance(
+      @JsonProperty("mxn_balance") BigDecimal mxnBalance,
+      @JsonProperty("btc_balance") BigDecimal btcBalance,
+      @JsonProperty("mxn_reserved") BigDecimal mxnReserved,
+      @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("mxn_available") BigDecimal mxnAvailable,
+      @JsonProperty("btc_available") BigDecimal btcAvailable,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("error") String error) {
 
     this.mxnBalance = mxnBalance;
     this.btcBalance = btcBalance;
@@ -83,7 +85,8 @@ public final class BitsoBalance {
   @Override
   public String toString() {
 
-    return String.format("Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}",
+    return String.format(
+        "Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}",
         mxnBalance, btcBalance, mxnReserved, btcReserved, mxnAvailable, btcAvailable, fee);
   }
 }

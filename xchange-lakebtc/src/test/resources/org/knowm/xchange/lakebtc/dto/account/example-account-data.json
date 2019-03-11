@@ -1,0 +1,12 @@
+{
+  "profile": {
+    "email": "foo@bar.com",
+    "id": "U826459145",
+    "btc_deposit_addres": "16pVfBxNog3pxtbaEBVDEVRZJhJ8PZoxnX"
+  },
+  "balance": {
+    "USD": 4829.33,
+    "CNY": 1008215.55,
+    "BTC": 20.8613
+  }
+}

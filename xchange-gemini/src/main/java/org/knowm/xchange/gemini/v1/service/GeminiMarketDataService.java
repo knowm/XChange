@@ -3,7 +3,6 @@ package org.knowm.xchange.gemini.v1.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.LoanOrderBook;
@@ -21,14 +20,14 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
- * <p>
  * Implementation of the market data service for Gemini
- * </p>
+ *
  * <ul>
- * <li>Provides access to various market data values</li>
+ *   <li>Provides access to various market data values
  * </ul>
  */
-public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implements MarketDataService {
+public class GeminiMarketDataService extends GeminiMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -43,12 +42,11 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return GeminiAdapters.adaptTicker(getGeminiTicker(GeminiUtils.toPairString(currencyPair)), currencyPair);
+    return GeminiAdapters.adaptTicker(
+        getGeminiTicker(GeminiUtils.toPairString(currencyPair)), currencyPair);
   }
 
-  /**
-   * @param args If two integers are provided, then those count as limit bid and limit ask count
-   */
+  /** @param args If two integers are provided, then those count as limit bid and limit ask count */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -71,7 +69,8 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
       }
     }
 
-    GeminiDepth GeminiDepth = getGeminiOrderBook(GeminiUtils.toPairString(currencyPair), limitBids, limitAsks);
+    GeminiDepth GeminiDepth =
+        getGeminiOrderBook(GeminiUtils.toPairString(currencyPair), limitBids, limitAsks);
 
     OrderBook orderBook = GeminiAdapters.adaptOrderBook(GeminiDepth, currencyPair);
 
@@ -101,18 +100,24 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
 
     GeminiLendDepth GeminiLendDepth = getGeminiLendBook(currency, limitBids, limitAsks);
 
-    List<FixedRateLoanOrder> fixedRateAsks = GeminiAdapters.adaptFixedRateLoanOrders(GeminiLendDepth.getAsks(), currency, "ask", "");
-    List<FixedRateLoanOrder> fixedRateBids = GeminiAdapters.adaptFixedRateLoanOrders(GeminiLendDepth.getBids(), currency, "bid", "");
-    List<FloatingRateLoanOrder> floatingRateAsks = GeminiAdapters.adaptFloatingRateLoanOrders(GeminiLendDepth.getAsks(), currency, "ask", "");
-    List<FloatingRateLoanOrder> floatingRateBids = GeminiAdapters.adaptFloatingRateLoanOrders(GeminiLendDepth.getBids(), currency, "bid", "");
+    List<FixedRateLoanOrder> fixedRateAsks =
+        GeminiAdapters.adaptFixedRateLoanOrders(GeminiLendDepth.getAsks(), currency, "ask", "");
+    List<FixedRateLoanOrder> fixedRateBids =
+        GeminiAdapters.adaptFixedRateLoanOrders(GeminiLendDepth.getBids(), currency, "bid", "");
+    List<FloatingRateLoanOrder> floatingRateAsks =
+        GeminiAdapters.adaptFloatingRateLoanOrders(GeminiLendDepth.getAsks(), currency, "ask", "");
+    List<FloatingRateLoanOrder> floatingRateBids =
+        GeminiAdapters.adaptFloatingRateLoanOrders(GeminiLendDepth.getBids(), currency, "bid", "");
 
-    return new LoanOrderBook(null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
+    return new LoanOrderBook(
+        null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
   }
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
-   * @param args One argument may be supplied which is the timestamp after which trades should be collected. Trades before this time are not reported.
-   * The argument may be of type java.util.Date or Number (milliseconds since Jan 1, 1970)
+   * @param args One argument may be supplied which is the timestamp after which trades should be
+   *     collected. Trades before this time are not reported. The argument may be of type
+   *     java.util.Date or Number (milliseconds since Jan 1, 1970)
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -132,18 +137,22 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
       // parameter 0, if present, is the last trade timestamp
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
-        lastTradeTime = arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
+        lastTradeTime =
+            arg.longValue() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else if (args[0] instanceof Date) {
         Date arg = (Date) args[0];
-        lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
+        lastTradeTime =
+            arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
         throw new IllegalArgumentException(
-            "Argument 0, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Argument 0, the last trade time, must be a Date or Long (millisecond timestamp) (was "
+                + args[0].getClass()
+                + ")");
       }
     }
-    GeminiTrade[] trades = getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime, limitTrades);
+    GeminiTrade[] trades =
+        getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime, limitTrades);
 
     return GeminiAdapters.adaptTrades(trades, currencyPair);
   }
-
 }

@@ -1,14 +1,13 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class HitbtcCandleJsonTest {
 
@@ -16,7 +15,9 @@ public class HitbtcCandleJsonTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = HitbtcCandleJsonTest.class.getResourceAsStream("/marketdata/example-candles-data.json");
+    InputStream is =
+        HitbtcCandleJsonTest.class.getResourceAsStream(
+            "/org/knowm/xchange/hitbtc/v2/dto/marketdata/example-candles-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

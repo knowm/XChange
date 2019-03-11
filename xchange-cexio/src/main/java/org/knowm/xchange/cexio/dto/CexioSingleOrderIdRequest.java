@@ -1,9 +1,12 @@
 package org.knowm.xchange.cexio.dto;
 
-public class CexioSingleOrderIdRequest extends CexIORequest {
-    public final String orderId;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public CexioSingleOrderIdRequest(String orderId) {
-        this.orderId = orderId;
-    }
+public class CexioSingleOrderIdRequest extends CexIORequest {
+  @JsonProperty("id")
+  public final String orderId;
+
+  public CexioSingleOrderIdRequest(String orderId) {
+    this.orderId = orderId;
+  }
 }

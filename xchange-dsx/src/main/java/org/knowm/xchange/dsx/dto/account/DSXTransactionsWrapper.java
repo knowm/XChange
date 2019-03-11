@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXTransactionsWrapper {
 
   private final Map<String, DSXTransaction[]> transactionsMap;
@@ -34,8 +30,6 @@ public class DSXTransactionsWrapper {
 
   @Override
   public String toString() {
-    return "DSXTransactionsWrapper{" +
-        "transactionsMap=" + transactionsMap +
-        '}';
+    return "DSXTransactionsWrapper{" + "transactionsMap=" + transactionsMap + '}';
   }
 }

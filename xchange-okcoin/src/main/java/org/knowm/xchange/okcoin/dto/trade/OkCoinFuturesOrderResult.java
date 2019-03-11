@@ -6,7 +6,9 @@ public class OkCoinFuturesOrderResult extends OkCoinErrorResult {
 
   private final OkCoinFuturesOrder[] orders;
 
-  public OkCoinFuturesOrderResult(@JsonProperty("result") final boolean result, @JsonProperty("error_code") final int errorCode,
+  public OkCoinFuturesOrderResult(
+      @JsonProperty("result") final boolean result,
+      @JsonProperty("error_code") final int errorCode,
       @JsonProperty("orders") final OkCoinFuturesOrder[] orders) {
 
     super(result, errorCode);

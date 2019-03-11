@@ -1,0 +1,7 @@
+Bibox Exchange API specification
+================================
+
+Documentation
+-------------
+https://github.com/Biboxcom/api_reference/wiki/home_en
+https://github.com/Biboxcom/api_reference/wiki/api_reference

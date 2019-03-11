@@ -3,9 +3,7 @@ package org.knowm.xchange.examples.bittrex.account;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.Bittrex;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.service.BittrexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -33,7 +31,6 @@ public class BittrexAccountDemo {
     System.out.println(balances);
 
     System.out.println(accountService.requestDepositAddress(Currency.BTC));
-
   }
 
   private static void raw(BittrexAccountServiceRaw accountService) throws IOException {

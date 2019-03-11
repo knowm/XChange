@@ -1,18 +1,12 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.UnsupportedEncodingException;
-
+import java.util.Base64;
 import javax.crypto.Mac;
-import javax.xml.bind.DatatypeConverter;
-
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
 
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public class DSXHmacPostBodyDigest extends BaseParamsDigest {
 
   private DSXHmacPostBodyDigest(String secretKeyBase64) {
@@ -32,7 +26,7 @@ public class DSXHmacPostBodyDigest extends BaseParamsDigest {
       String postBody = restInvocation.getRequestBody();
       Mac mac = getMac();
       mac.update(postBody.getBytes("UTF-8"));
-      return DatatypeConverter.printBase64Binary(mac.doFinal());
+      return Base64.getEncoder().encodeToString(mac.doFinal());
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Illegal encoding, check the code.", e);
     }

@@ -1,13 +1,10 @@
 package org.knowm.xchange.vircurex.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.List;
 
-/**
- * Created by David Henry on 2/20/14.
- */
+/** Created by David Henry on 2/20/14. */
 @JsonDeserialize(using = VircurexOpenOrdersDeserializer.class)
 public class VircurexOpenOrdersReturn {
 
@@ -19,8 +16,12 @@ public class VircurexOpenOrdersReturn {
   private final int status;
   private List<VircurexOpenOrder> openOrders;
 
-  public VircurexOpenOrdersReturn(@JsonProperty("numberorders") int orderCount, @JsonProperty("account") String userName,
-      @JsonProperty("timestamp") String timestamp, @JsonProperty("token") String token, @JsonProperty("status") int status,
+  public VircurexOpenOrdersReturn(
+      @JsonProperty("numberorders") int orderCount,
+      @JsonProperty("account") String userName,
+      @JsonProperty("timestamp") String timestamp,
+      @JsonProperty("token") String token,
+      @JsonProperty("status") int status,
       @JsonProperty("function") String function) {
 
     this.orderCount = orderCount;

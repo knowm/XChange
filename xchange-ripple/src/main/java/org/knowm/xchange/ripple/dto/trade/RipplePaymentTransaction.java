@@ -1,12 +1,10 @@
 package org.knowm.xchange.ripple.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.knowm.xchange.ripple.dto.RippleAmount;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RipplePaymentTransaction implements IRippleTradeTransaction {
 
@@ -69,6 +67,30 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
 
   public void setSuccess(final boolean value) {
     success = value;
+  }
+
+  @Override
+  public List<RippleAmount> getBalanceChanges() {
+    return payment.getBalanceChanges();
+  }
+
+  @Override
+  public BigDecimal getFee() {
+    return payment.getFee();
+  }
+
+  @Override
+  public long getOrderId() {
+    if (payment.orderChanges.size() == 1) {
+      return payment.orderChanges.get(0).getSequence();
+    } else {
+      return 0; // cannot identify a single order
+    }
+  }
+
+  @Override
+  public Date getTimestamp() {
+    return getPayment().getTimestamp();
   }
 
   public static class OrderChange {
@@ -377,29 +399,5 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
     public void setOrderChanges(final List<OrderChange> value) {
       orderChanges = value;
     }
-  }
-
-  @Override
-  public List<RippleAmount> getBalanceChanges() {
-    return payment.getBalanceChanges();
-  }
-
-  @Override
-  public BigDecimal getFee() {
-    return payment.getFee();
-  }
-
-  @Override
-  public long getOrderId() {
-    if (payment.orderChanges.size() == 1) {
-      return payment.orderChanges.get(0).getSequence();
-    } else {
-      return 0; // cannot identify a single order
-    }
-  }
-
-  @Override
-  public Date getTimestamp() {
-    return getPayment().getTimestamp();
   }
 }

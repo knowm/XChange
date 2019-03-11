@@ -1,51 +1,45 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.huobi.BitVc;
-import org.knowm.xchange.huobi.HuobiExchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.huobi.HuobiUtils;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
-import org.knowm.xchange.huobi.dto.marketdata.HuobiOrderBookTAS;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
-
-import si.mazi.rescu.RestProxyFactory;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
 
 public class HuobiMarketDataServiceRaw extends HuobiBaseService {
 
-  private final BitVc bitvc;
-
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public HuobiMarketDataServiceRaw(Exchange exchange) {
-
     super(exchange);
-
-    final String baseUrl = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA);
-    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl, getClientConfig());
   }
 
-  public HuobiTicker getBitVcTicker(String symbol) throws IOException {
-
-    return bitvc.getTicker(symbol);
+  public HuobiTicker getHuobiTicker(CurrencyPair currencyPair) throws IOException {
+    String huobiCurrencyPair = HuobiUtils.createHuobiCurrencyPair(currencyPair);
+    HuobiTickerResult tickerResult = huobi.getTicker(huobiCurrencyPair);
+    return checkResult(tickerResult);
   }
 
-  public HuobiDepth getBitVcDepth(String symbol) throws IOException {
-
-    return bitvc.getDepth(symbol);
+  public HuobiAssetPair[] getHuobiAssetPairs() throws IOException {
+    HuobiAssetPairsResult assetPairsResult = huobi.getAssetPairs();
+    return checkResult(assetPairsResult);
   }
 
-  public String[][] getBitVcKline(String symbol, String period) throws IOException {
-
-    return bitvc.getKline(symbol, period);
+  public HuobiDepth getHuobiDepth(CurrencyPair currencyPair, String depthType) throws IOException {
+    String huobiCurrencyPair = HuobiUtils.createHuobiCurrencyPair(currencyPair);
+    HuobiDepthResult depthResult = huobi.getDepth(huobiCurrencyPair, depthType);
+    return checkResult(depthResult);
   }
 
-  public HuobiOrderBookTAS getBitVcDetail(String symbol) throws IOException {
-
-    return bitvc.getDetail(symbol);
+  public HuobiTradeWrapper[] getHuobiTrades(CurrencyPair currencyPair, int size)
+      throws IOException {
+    String huobiCurrencyPair = HuobiUtils.createHuobiCurrencyPair(currencyPair);
+    HuobiTradesResult tradesResult = huobi.getTrades(huobiCurrencyPair, size);
+    return checkResult(tradesResult);
   }
-
 }

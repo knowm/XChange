@@ -1,8 +1,7 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
 
@@ -10,9 +9,7 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
   private final long amount;
   private final long timestamp;
   private final TransactionType type;
-  /**
-   * USD amount, negative -> BID, positive -> ASK
-   */
+  /** USD amount, negative -> BID, positive -> ASK */
   private final BigDecimal price;
 
   /**
@@ -23,9 +20,12 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
    * @param type
    * @param tid
    */
-
-  public OkCoinFuturesTradeHistoryResult(@JsonProperty("error_code") final int errorCode, @JsonProperty("date") long timestamp,
-      @JsonProperty("amount") long amount, @JsonProperty("tid") long tid, @JsonProperty("type") TransactionType type,
+  public OkCoinFuturesTradeHistoryResult(
+      @JsonProperty("error_code") final int errorCode,
+      @JsonProperty("date") long timestamp,
+      @JsonProperty("amount") long amount,
+      @JsonProperty("tid") long tid,
+      @JsonProperty("type") TransactionType type,
       @JsonProperty("price") BigDecimal price) {
 
     super(true, errorCode);
@@ -34,7 +34,6 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
     this.timestamp = timestamp;
     this.type = type;
     this.price = price;
-
   }
 
   public long getTimestamp() {
@@ -64,13 +63,15 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
   @Override
   public String toString() {
 
-    return String.format("UserTransaction{timestamp=%s, tid=%d, type=%s, price=%s, amount=%s}", timestamp, tid, type, price);
+    return String.format(
+        "UserTransaction{timestamp=%s, tid=%d, type=%s, price=%s, amount=%s}",
+        timestamp, tid, type, price);
   }
 
   public enum TransactionType {
-    buy, sell /*
-               * reseved so parsing won 't break in case Bitstamp adds new types
-               */
+    buy,
+    sell /*
+          * reseved so parsing won 't break in case Bitstamp adds new types
+          */
   }
-
 }

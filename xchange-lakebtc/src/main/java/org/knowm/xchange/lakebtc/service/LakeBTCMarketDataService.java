@@ -1,7 +1,7 @@
 package org.knowm.xchange.lakebtc.service;
 
 import java.io.IOException;
-
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,13 +11,11 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.lakebtc.LakeBTCAdapters;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
-import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author kpysniak
- */
-public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implements MarketDataService {
+/** @author kpysniak */
+public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw
+    implements MarketDataService {
 
   /**
    * Constructor
@@ -33,15 +31,10 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     LakeBTCTicker lakeBTCTicker;
-    LakeBTCTickers lakeBTCTickers = getLakeBTCTickers();
+    Map<String, LakeBTCTicker> lakeBTCTickers = getLakeBTCTickers();
 
-    if (CurrencyPair.BTC_USD.equals(currencyPair)) {
-      lakeBTCTicker = lakeBTCTickers.getUsd();
-    } else if (CurrencyPair.BTC_CNY.equals(currencyPair)) {
-      lakeBTCTicker = lakeBTCTickers.getCny();
-    } else {
-      throw new NotAvailableFromExchangeException();
-    }
+    lakeBTCTicker = lakeBTCTickers.get(LakeBTCAdapters.adaptCurrencyPair(currencyPair));
+    if (lakeBTCTicker == null) throw new NotAvailableFromExchangeException();
 
     return LakeBTCAdapters.adaptTicker(lakeBTCTicker, currencyPair);
   }
@@ -59,5 +52,4 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

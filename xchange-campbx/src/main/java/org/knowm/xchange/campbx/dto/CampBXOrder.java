@@ -1,41 +1,46 @@
 package org.knowm.xchange.campbx.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
+import java.math.BigDecimal;
+import java.util.Date;
 import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
 import si.mazi.rescu.serialization.jackson.serializers.YesNoBooleanDeserializerImpl;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class CampBXOrder extends CampBXResponse {
 
   @JsonProperty("Order Entered")
   @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderEntered;
+
   @JsonProperty("Order Expiry")
   @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderExpiry;
+
   @JsonProperty("Order Type")
   private String orderType;
+
   @JsonProperty("Margin Percent")
   private String marginPercent;
+
   @JsonProperty("Quantity")
   private BigDecimal quantity;
+
   @JsonProperty("Price")
   private BigDecimal price;
+
   @JsonProperty("Stop-loss")
   @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
   private Boolean stopLoss;
+
   @JsonProperty("Fill Type")
   private String fillType;
+
   @JsonProperty("Dark Pool")
   @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
   private Boolean darkPool;
+
   @JsonProperty("Order ID")
   private String orderID;
 
@@ -164,6 +169,15 @@ public class CampBXOrder extends CampBXResponse {
 
     return String.format(
         "CampBXOrder{orderEntered=%s, orderExpiry=%s, orderType='%s', marginPercent='%s', quantity=%s, price=%s, stopLoss='%s', fillType='%s', darkPool='%s', orderID='%s'}",
-        orderEntered, orderExpiry, orderType, marginPercent, quantity, price, stopLoss, fillType, darkPool, orderID);
+        orderEntered,
+        orderExpiry,
+        orderType,
+        marginPercent,
+        quantity,
+        price,
+        stopLoss,
+        fillType,
+        darkPool,
+        orderID);
   }
 }

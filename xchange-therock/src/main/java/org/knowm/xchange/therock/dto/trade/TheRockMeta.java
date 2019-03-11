@@ -3,10 +3,8 @@ package org.knowm.xchange.therock.dto.trade;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-/**
- * @author Pnk
- */
-@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+/** @author Pnk */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class TheRockMeta {
 
   private long totalCount;

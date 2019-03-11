@@ -1,13 +1,28 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.0002
     },
     "BTC/CZK": {
-      "price_scale": 2
+      "price_scale": 2,
+      "min_amount": 0.0002
     },
     "LTC/BTC": {
-      "price_scale": 5
+      "price_scale": 5,
+      "min_amount": 0.01
+    },
+    "LTC/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.01
+    },
+    "LTC/CZK": {
+      "price_scale": 2,
+      "min_amount": 0.01
+    },
+    "BCH/BTC": {
+      "price_scale": 5,
+      "min_amount": 0.0002
     }
   },
   "currencies": {
@@ -22,11 +37,14 @@
     },
     "LTC": {
       "scale": 8
+    },
+    "BCH": {
+      "scale": 8
     }
   },
   "private_rate_limits": [
     {
-      "calls": 600,
+      "calls": 100,
       "time_unit": "minutes"
     }
   ],

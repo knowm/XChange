@@ -23,19 +23,18 @@
  */
 package org.knowm.xchange.coinmate.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+/** @author Martin Stachon */
+public class CoinmateTransactionHistory
+    extends CoinmateBaseResponse<CoinmateTransactionHistoryData> {
 
-/**
- * @author Martin Stachon
- */
-public class CoinmateTransactionHistory extends CoinmateBaseResponse<CoinmateTransactionHistoryData> {
-
-  public CoinmateTransactionHistory(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
+  public CoinmateTransactionHistory(
+      @JsonProperty("error") boolean error,
+      @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("data") CoinmateTransactionHistoryData data) {
 
     super(error, errorMessage, data);
   }
-
 }

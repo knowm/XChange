@@ -1,8 +1,7 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 
 public class BittrexDepth {
 
@@ -15,7 +14,8 @@ public class BittrexDepth {
    * @param asks
    * @param bids
    */
-  public BittrexDepth(@JsonProperty("sell") BittrexLevel[] asks, @JsonProperty("buy") BittrexLevel[] bids) {
+  public BittrexDepth(
+      @JsonProperty("sell") BittrexLevel[] asks, @JsonProperty("buy") BittrexLevel[] bids) {
 
     this.asks = asks;
     this.bids = bids;
@@ -36,5 +36,4 @@ public class BittrexDepth {
 
     return "BittrexDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
-
 }

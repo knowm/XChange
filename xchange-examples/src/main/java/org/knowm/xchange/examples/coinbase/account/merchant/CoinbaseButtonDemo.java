@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.coinbase.account.merchant;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonBuilder;
@@ -11,9 +10,7 @@ import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
 
-/**
- * @author jamespedwards42
- */
+/** @author jamespedwards42 */
 public class CoinbaseButtonDemo {
 
   public static void main(String[] args) throws IOException {
@@ -22,8 +19,12 @@ public class CoinbaseButtonDemo {
     CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getAccountService();
 
     CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", "BTC", ".001");
-    buttonBuilder.withDescription("Coinbase button demo for Coinbase.").withIncludeEmail(true).withStyle(CoinbaseButtonStyle.DONATION_LARGE)
-        .withType(CoinbaseButtonType.DONATION).withVariablePrice(true);
+    buttonBuilder
+        .withDescription("Coinbase button demo for Coinbase.")
+        .withIncludeEmail(true)
+        .withStyle(CoinbaseButtonStyle.DONATION_LARGE)
+        .withType(CoinbaseButtonType.DONATION)
+        .withVariablePrice(true);
 
     CoinbaseButton createdButton = accountService.createCoinbaseButton(buttonBuilder.buildButton());
     System.out.println(createdButton);

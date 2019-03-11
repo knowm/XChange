@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "code": "OK",
+  "msg": "Operation succeeded.",
+  "timestamp": 1516210452950,
+  "data": {
+    "coinType": "XAS",
+    "trading": true,
+    "symbol": "XAS-BTC",
+    "lastDealPrice": 0.000073,
+    "buy": 0.00007199,
+    "sell": 0.00007479,
+    "change": -0.000007,
+    "coinTypePair": "BTC",
+    "sort": 0,
+    "feeRate": 0.001,
+    "volValue": 10.47014496,
+    "high": 0.000088,
+    "datetime": 1516210452000,
+    "vol": 143660.02334,
+    "low": 0.00006611,
+    "changeRate": -0.0875
+  }
+}

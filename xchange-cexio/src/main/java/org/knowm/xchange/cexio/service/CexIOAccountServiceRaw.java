@@ -1,14 +1,18 @@
 package org.knowm.xchange.cexio.service;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
-import org.knowm.xchange.cexio.dto.CexIORequest;
-import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
-import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
-import org.knowm.xchange.exceptions.ExchangeException;
+import static org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
 
 import java.io.IOException;
 import java.util.Map;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
+import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
+import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
+import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
+import org.knowm.xchange.cexio.dto.account.GHashIOWorker;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class CexIOAccountServiceRaw extends CexIOBaseService {
 
@@ -26,6 +30,15 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
     return info;
   }
 
+  public CexIOCryptoAddress getCexIOCryptoAddress(String isoCode) throws IOException {
+    CexIOCryptoAddress cryptoAddress =
+        cexIOAuthenticated.getCryptoAddress(
+            signatureCreator, new CexioCryptoAddressRequest(isoCode));
+    if (cryptoAddress.getOk().equals("ok")) return cryptoAddress;
+
+    throw new ExchangeException(cryptoAddress.getE() + ": " + cryptoAddress.getError());
+  }
+
   public GHashIOHashrate getHashrate() throws IOException {
     return cexIOAuthenticated.getHashrate(signatureCreator);
   }
@@ -34,4 +47,7 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
     return cexIOAuthenticated.getWorkers(signatureCreator).getWorkers();
   }
 
+  public Map<CurrencyPair, FeeDetails> getMyFee() throws IOException {
+    return cexIOAuthenticated.getMyFee(signatureCreator, new CexIORequest()).getData();
+  }
 }

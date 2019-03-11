@@ -13,7 +13,7 @@ public class GeminiOrderStatusRequest {
 
   @JsonProperty("order_id")
   @JsonRawValue
-  private int orderId;
+  private long orderId;
 
   /**
    * Constructor
@@ -21,7 +21,7 @@ public class GeminiOrderStatusRequest {
    * @param nonce
    * @param orderId
    */
-  public GeminiOrderStatusRequest(String nonce, int orderId) {
+  public GeminiOrderStatusRequest(String nonce, long orderId) {
 
     this.request = "/v1/order/status";
     this.orderId = orderId;
@@ -32,5 +32,4 @@ public class GeminiOrderStatusRequest {
 
     return String.valueOf(orderId);
   }
-
 }

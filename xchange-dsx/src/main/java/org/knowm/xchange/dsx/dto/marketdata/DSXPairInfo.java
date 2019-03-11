@@ -1,13 +1,9 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * @author Mikhail Wall
- */
-
+/** @author Mikhail Wall */
 public final class DSXPairInfo {
 
   private final int decimalsPrice;
@@ -17,11 +13,19 @@ public final class DSXPairInfo {
   private final int hidden;
   private final BigDecimal fee;
   private final int decimalVolume;
+  public final String quotedCurrency;
+  public final String baseCurrency;
 
-  public DSXPairInfo(@JsonProperty("decimal_places") int decimalsPrice, @JsonProperty("min_price") BigDecimal minPrice,
-      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount,
-      @JsonProperty("hidden") int hidden, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("amount_decimal_places") int decimalVolume) {
+  public DSXPairInfo(
+      @JsonProperty("decimal_places") int decimalsPrice,
+      @JsonProperty("min_price") BigDecimal minPrice,
+      @JsonProperty("max_price") BigDecimal maxPrice,
+      @JsonProperty("min_amount") BigDecimal minAmount,
+      @JsonProperty("hidden") int hidden,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("amount_decimal_places") int decimalVolume,
+      @JsonProperty("quoted_currency") String quotedCurrency,
+      @JsonProperty("base_currency") String baseCurrency) {
 
     this.decimalsPrice = decimalsPrice;
     this.minPrice = minPrice;
@@ -30,6 +34,8 @@ public final class DSXPairInfo {
     this.hidden = hidden;
     this.fee = fee;
     this.decimalVolume = decimalVolume;
+    this.quotedCurrency = quotedCurrency;
+    this.baseCurrency = baseCurrency;
   }
 
   public int getDecimalsPrice() {
@@ -70,15 +76,21 @@ public final class DSXPairInfo {
   @Override
   public String toString() {
 
-    return "DSXPairInfo{" +
-        "decimalsPrice=" + decimalsPrice +
-        ", minPrice=" + minPrice +
-        ", maxPrice=" + maxPrice +
-        ", minAmount=" + minAmount +
-        ", hidden=" + hidden +
-        ", fee=" + fee +
-        ", decimalVolume=" + decimalVolume +
-        '}';
+    return "DSXPairInfo{"
+        + "decimalsPrice="
+        + decimalsPrice
+        + ", minPrice="
+        + minPrice
+        + ", maxPrice="
+        + maxPrice
+        + ", minAmount="
+        + minAmount
+        + ", hidden="
+        + hidden
+        + ", fee="
+        + fee
+        + ", decimalVolume="
+        + decimalVolume
+        + '}';
   }
-
 }

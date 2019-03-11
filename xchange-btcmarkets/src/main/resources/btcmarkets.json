@@ -6,31 +6,31 @@
     },
     "ETH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.001
     },
     "LTC/AUD": {
       "price_scale": 2,
-      "min_amount": 0.00000001
+      "min_amount": 0.001
     },
     "ETH/AUD": {
       "price_scale": 2,
-      "min_amount": 0.00000001
+      "min_amount": 0.001
     },
     "XRP/AUD": {
       "price_scale": 2,
-      "min_amount": 0.00000001
+      "min_amount": 0.01
     },
     "LTC/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.001
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.01
     },
     "BCH/BTC": {
       "price_scale": 8,
-      "min_amount": 0.00000001
+      "min_amount": 0.001
     }
   },
   "currencies": {

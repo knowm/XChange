@@ -1,17 +1,18 @@
 package org.knowm.xchange.okcoin;
 
+import static org.knowm.xchange.currency.Currency.BCH;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.LTC;
 import static org.knowm.xchange.currency.Currency.USD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
+import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -19,6 +20,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -31,7 +33,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -51,22 +52,12 @@ public final class OkCoinAdapters {
 
   private static final Balance zeroUsdBalance = new Balance(USD, BigDecimal.ZERO);
 
-  private OkCoinAdapters() {
-
-  }
-
-  private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-
-    if (map != null && map.containsKey(key)) {
-      return map.get(key);
-    } else {
-      return BigDecimal.ZERO;
-    }
-  }
+  private OkCoinAdapters() {}
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
 
-    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
+    return (currencyPair.base.getCurrencyCode() + "_" + currencyPair.counter.getCurrencyCode())
+        .toLowerCase();
   }
 
   public static String adaptSymbol(Currency currency) {
@@ -80,27 +71,40 @@ public final class OkCoinAdapters {
     return new CurrencyPair(currencies[0], currencies[1]);
   }
 
+  public static String adaptCurrencyToAccountRecordPair(Currency currency) {
+    // Currency pair must be used with usd
+    // This is due to https://github.com/okcoin-okex/API-docs-OKEx.com/issues/115
+    return adaptSymbol(new CurrencyPair(currency, Currency.USD));
+  }
+
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
     final Date date = adaptDate(tickerResponse.getDate());
-    return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow())
-        .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast())
-        .volume(tickerResponse.getTicker().getVol()).timestamp(date).build();
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .high(tickerResponse.getTicker().getHigh())
+        .low(tickerResponse.getTicker().getLow())
+        .bid(tickerResponse.getTicker().getBuy())
+        .ask(tickerResponse.getTicker().getSell())
+        .last(tickerResponse.getTicker().getLast())
+        .volume(tickerResponse.getTicker().getVol())
+        .timestamp(date)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
-
-    List<LimitOrder> asks = adaptLimitOrders(OrderType.ASK, depth.getAsks(), currencyPair);
-    Collections.reverse(asks);
-
-    List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
+    Stream<LimitOrder> asks =
+        adaptLimitOrders(OrderType.ASK, depth.getAsks(), depth.getTimestamp(), currencyPair)
+            .sorted();
+    Stream<LimitOrder> bids =
+        adaptLimitOrders(OrderType.BID, depth.getBids(), depth.getTimestamp(), currencyPair)
+            .sorted();
     return new OrderBook(depth.getTimestamp(), asks, bids);
   }
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>(trades.length);
-    for (int i = 0; i < trades.length; i++) {
-      OkCoinTrade trade = trades[i];
+    for (OkCoinTrade trade : trades) {
       tradeList.add(adaptTrade(trade, currencyPair));
     }
     long lastTid = trades.length > 0 ? (trades[trades.length - 1].getTid()) : 0L;
@@ -114,7 +118,11 @@ public final class OkCoinAdapters {
     Map<String, Balance.Builder> builders = new TreeMap<>();
 
     for (Map.Entry<String, BigDecimal> available : funds.getFree().entrySet()) {
-      builders.put(available.getKey(), new Balance.Builder().currency(Currency.getInstance(available.getKey())).available(available.getValue()));
+      builders.put(
+          available.getKey(),
+          new Balance.Builder()
+              .currency(Currency.getInstance(available.getKey()))
+              .available(available.getValue()));
     }
 
     for (Map.Entry<String, BigDecimal> frozen : funds.getFreezed().entrySet()) {
@@ -133,7 +141,7 @@ public final class OkCoinAdapters {
       builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
     }
 
-    List<Balance> wallet = new ArrayList(builders.size());
+    List<Balance> wallet = new ArrayList<>(builders.size());
 
     for (Balance.Builder builder : builders.values()) {
       wallet.add(builder.build());
@@ -143,24 +151,23 @@ public final class OkCoinAdapters {
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
-    OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
-    OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
-    OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
+    OkcoinFuturesFundsCross btcFunds = futureUserInfo.getFunds(Currency.BTC);
+    OkcoinFuturesFundsCross ltcFunds = futureUserInfo.getFunds(Currency.LTC);
+    OkcoinFuturesFundsCross bchFunds = futureUserInfo.getFunds(Currency.BCH);
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
+    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
 
-    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
     List<LimitOrder> openOrders = new ArrayList<>();
 
-    for (int i = 0; i < orderResults.size(); i++) {
-      OkCoinOrderResult orderResult = orderResults.get(i);
+    for (OkCoinOrderResult orderResult : orderResults) {
       OkCoinOrder[] orders = orderResult.getOrders();
-      for (int j = 0; j < orders.length; j++) {
-        OkCoinOrder singleOrder = orders[j];
+      for (OkCoinOrder singleOrder : orders) {
         openOrders.add(adaptOpenOrder(singleOrder));
       }
     }
@@ -170,11 +177,9 @@ public final class OkCoinAdapters {
   public static OpenOrders adaptOpenOrdersFutures(List<OkCoinFuturesOrderResult> orderResults) {
     List<LimitOrder> openOrders = new ArrayList<>();
 
-    for (int i = 0; i < orderResults.size(); i++) {
-      OkCoinFuturesOrderResult orderResult = orderResults.get(i);
+    for (OkCoinFuturesOrderResult orderResult : orderResults) {
       OkCoinFuturesOrder[] orders = orderResult.getOrders();
-      for (int j = 0; j < orders.length; j++) {
-        OkCoinFuturesOrder singleOrder = orders[j];
+      for (OkCoinFuturesOrder singleOrder : orders) {
         openOrders.add(adaptOpenOrderFutures(singleOrder));
       }
     }
@@ -211,43 +216,61 @@ public final class OkCoinAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  private static List<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, CurrencyPair currencyPair) {
-
-    List<LimitOrder> limitOrders = new ArrayList<>(list.length);
-    for (int i = 0; i < list.length; i++) {
-      BigDecimal[] data = list[i];
-      limitOrders.add(adaptLimitOrder(type, data, currencyPair, null, null));
-    }
-    return limitOrders;
+  private static Stream<LimitOrder> adaptLimitOrders(
+      OrderType type, BigDecimal[][] list, Date timestamp, CurrencyPair currencyPair) {
+    return Arrays.stream(list)
+        .map(data -> adaptLimitOrder(type, data, currencyPair, null, timestamp));
   }
 
-  private static LimitOrder adaptLimitOrder(OrderType type, BigDecimal[] data, CurrencyPair currencyPair, String id, Date timestamp) {
+  private static LimitOrder adaptLimitOrder(
+      OrderType type, BigDecimal[] data, CurrencyPair currencyPair, String id, Date timestamp) {
 
     return new LimitOrder(type, data[1], currencyPair, id, timestamp, data[0]);
   }
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(),
-        trade.getDate(), "" + trade.getTid());
+    return new Trade(
+        trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK,
+        trade.getAmount(),
+        currencyPair,
+        trade.getPrice(),
+        trade.getDate(),
+        "" + trade.getTid());
   }
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice(), order.getAveragePrice(),
-        order.getDealAmount(), adaptOrderStatus(order.getStatus()));
+    return new LimitOrder(
+        adaptOrderType(order.getType()),
+        order.getAmount(),
+        adaptSymbol(order.getSymbol()),
+        String.valueOf(order.getOrderId()),
+        order.getCreateDate(),
+        order.getPrice(),
+        order.getAveragePrice(),
+        order.getDealAmount(),
+        null,
+        adaptOrderStatus(order.getStatus()));
   }
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
-        order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(), adaptOrderStatus(order.getStatus()));
+    return new LimitOrder(
+        adaptOrderType(order.getType()),
+        order.getAmount(),
+        adaptSymbol(order.getSymbol()),
+        String.valueOf(order.getOrderId()),
+        order.getCreatedDate(),
+        order.getPrice(),
+        order.getAvgPrice(),
+        order.getDealAmount(),
+        order.getFee(),
+        adaptOrderStatus(order.getStatus()));
   }
 
   public static OrderType adaptOrderType(String type) {
 
     switch (type) {
-
       case "buy":
         return OrderType.BID;
       case "buy_market":
@@ -267,12 +290,10 @@ public final class OkCoinAdapters {
       default:
         return null;
     }
-
   }
 
   public static OrderStatus adaptOrderStatus(int status) {
     switch (status) {
-
       case -1:
         return OrderStatus.CANCELED;
       case 0:
@@ -286,28 +307,50 @@ public final class OkCoinAdapters {
       default:
         return null;
     }
-
   }
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
 
-    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
+    // Order fill status is being adapted to a trade, there is no dedicated tradeId, so user orderId
+    // instead.
+    String tradeId, orderId;
+    tradeId = orderId = String.valueOf(order.getOrderId());
+    return new UserTrade(
+        adaptOrderType(order.getType()),
+        order.getDealAmount(),
+        adaptSymbol(order.getSymbol()),
+        order.getAveragePrice(),
+        order.getCreateDate(),
+        tradeId,
+        orderId,
+        null,
+        null);
   }
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
-    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreatedDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
+    return new UserTrade(
+        adaptOrderType(order.getType()),
+        order.getDealAmount(),
+        adaptSymbol(order.getSymbol()),
+        order.getPrice(),
+        order.getCreatedDate(),
+        null,
+        String.valueOf(order.getOrderId()),
+        null,
+        (Currency) null);
   }
 
-  public static UserTrades adaptTradeHistory(OkCoinFuturesTradeHistoryResult[] okCoinFuturesTradeHistoryResult) {
+  public static UserTrades adaptTradeHistory(
+      OkCoinFuturesTradeHistoryResult[] okCoinFuturesTradeHistoryResult) {
 
     List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (OkCoinFuturesTradeHistoryResult okCoinFuturesTrade : okCoinFuturesTradeHistoryResult) {
-      //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
-      OrderType orderType = okCoinFuturesTrade.getType().equals(TransactionType.sell) ? OrderType.ASK : OrderType.BID;
+      //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.))
+      // { // skip account deposits and withdrawals.
+      OrderType orderType =
+          okCoinFuturesTrade.getType().equals(TransactionType.sell) ? OrderType.ASK : OrderType.BID;
       BigDecimal originalAmount = BigDecimal.valueOf(okCoinFuturesTrade.getAmount());
       BigDecimal price = okCoinFuturesTrade.getPrice();
       Date timestamp = new Date(okCoinFuturesTrade.getTimestamp());
@@ -320,10 +363,18 @@ public final class OkCoinAdapters {
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       BigDecimal feeAmont = BigDecimal.ZERO;
-      UserTrade trade = new UserTrade(orderType, originalAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmont,
-          Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+      UserTrade trade =
+          new UserTrade(
+              orderType,
+              originalAmount,
+              currencyPair,
+              price,
+              timestamp,
+              tradeId,
+              orderId,
+              feeAmont,
+              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(trade);
-
     }
 
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
@@ -333,49 +384,46 @@ public final class OkCoinAdapters {
     return DateUtils.fromMillisUtc(date);
   }
 
-  public static List<FundingRecord> adaptFundingHistory(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
+  public static List<FundingRecord> adaptFundingHistory(
+      final OkCoinAccountRecords okCoinAccountRecordsList, FundingRecord.Type type) {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
-    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0) {
-      final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
-      if (depositRecord != null) {
-        final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
-        for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
+    if (okCoinAccountRecordsList != null) {
+      final Currency c = Currency.getInstance(okCoinAccountRecordsList.getSymbol());
+      for (OkCoinRecords okCoinRecordEntry : okCoinAccountRecordsList.getRecords()) {
 
-          FundingRecord.Status status = null;
-          if (okCoinRecordEntry.getStatus() != null) {
-            final OkCoinRecords.RechargeStatus rechargeStatus = OkCoinRecords.RechargeStatus.fromInt(okCoinRecordEntry.getStatus());
+        FundingRecord.Status status = null;
+        if (okCoinRecordEntry.getStatus() != null) {
+          if (type == Type.DEPOSIT) {
+            final OkCoinRecords.RechargeStatus rechargeStatus =
+                OkCoinRecords.RechargeStatus.fromInt(okCoinRecordEntry.getStatus());
             if (rechargeStatus != null) {
               status = FundingRecord.Status.resolveStatus(rechargeStatus.getStatus());
             }
-          }
-
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()),
-              depositCurrency, okCoinRecordEntry.getAmount(), null, null,
-              FundingRecord.Type.DEPOSIT, status, null, okCoinRecordEntry.getFee(), null)
-          );
-        }
-      }
-      final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
-      if (withdrawalRecord != null) {
-        final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
-        for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
-
-          FundingRecord.Status status = null;
-          if (okCoinRecordEntry.getStatus() != null) {
-            final OkCoinRecords.WithdrawalStatus withdrawalStatus = OkCoinRecords.WithdrawalStatus.fromInt(okCoinRecordEntry.getStatus());
+          } else { // WITHDRAWAL
+            final OkCoinRecords.WithdrawalStatus withdrawalStatus =
+                OkCoinRecords.WithdrawalStatus.fromInt(okCoinRecordEntry.getStatus());
             if (withdrawalStatus != null) {
               status = FundingRecord.Status.resolveStatus(withdrawalStatus.getStatus());
             }
           }
-
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()),
-              withdrawalCurrency, okCoinRecordEntry.getAmount(), null, null,
-              FundingRecord.Type.WITHDRAWAL, status, null, okCoinRecordEntry.getFee(), null)
-          );
         }
+
+        fundingRecords.add(
+            new FundingRecord(
+                okCoinRecordEntry.getAddress(),
+                adaptDate(okCoinRecordEntry.getDate()),
+                c,
+                okCoinRecordEntry.getAmount(),
+                null,
+                null,
+                type,
+                status,
+                null,
+                okCoinRecordEntry.getFee(),
+                null));
       }
     }
+
     return fundingRecords;
   }
-
 }

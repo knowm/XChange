@@ -1,8 +1,11 @@
 package org.knowm.xchange.livecoin;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.service.LivecoinAccountService;
 import org.knowm.xchange.livecoin.service.LivecoinMarketDataService;
@@ -10,9 +13,6 @@ import org.knowm.xchange.livecoin.service.LivecoinMarketDataServiceRaw;
 import org.knowm.xchange.livecoin.service.LivecoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 public class LivecoinExchange extends BaseExchange implements Exchange {
 
@@ -25,11 +25,13 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.livecoin.net");
     exchangeSpecification.setHost("api.livecoin.net");
     exchangeSpecification.setExchangeName("Livecoin");
-    exchangeSpecification.setExchangeDescription("Livecoin - A convenient way to buy and sell Bitcoin");
+    exchangeSpecification.setExchangeDescription(
+        "Livecoin - A convenient way to buy and sell Bitcoin");
     return exchangeSpecification;
   }
 
@@ -42,7 +44,12 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-    List<LivecoinRestriction> products = ((LivecoinMarketDataServiceRaw) marketDataService).getRestrictions();
-    exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    try {
+      List<LivecoinRestriction> products =
+          ((LivecoinMarketDataServiceRaw) marketDataService).getRestrictions();
+      exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    } catch (LivecoinException e) {
+      throw LivecoinErrorAdapter.adapt(e);
+    }
   }
 }

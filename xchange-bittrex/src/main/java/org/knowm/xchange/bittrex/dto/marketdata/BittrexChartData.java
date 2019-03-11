@@ -1,11 +1,9 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.bittrex.BittrexUtils;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BittrexChartData {
   private final Date timeStamp;
@@ -63,7 +61,20 @@ public class BittrexChartData {
 
   @Override
   public String toString() {
-    return "BittrexChartData [timeStamp=" + timeStamp + ", open=" + open + ", close=" + close + ", high=" + high +
-        ", low=" + low + ", volume=" + volume + ", baseVolume=" + baseVolume + "]";
+    return "BittrexChartData [timeStamp="
+        + timeStamp
+        + ", open="
+        + open
+        + ", close="
+        + close
+        + ", high="
+        + high
+        + ", low="
+        + low
+        + ", volume="
+        + volume
+        + ", baseVolume="
+        + baseVolume
+        + "]";
   }
 }

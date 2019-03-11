@@ -1,7 +1,6 @@
 package org.knowm.xchange.examples.okcoin.marketdata;
 
 import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -26,5 +25,4 @@ public class OkCoinCurrencyPairsDemo {
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = okcoinExchange.getMarketDataService();
   }
-
 }

@@ -3,17 +3,23 @@ package org.knowm.xchange.service.trade.params;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
- * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting
- * exceptions, if that all the required fields are non-null) passed to any implementation of {@link TradeService#getTradeHistory(TradeHistoryParams)}
- * .
+ * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the
+ * hierarchy and can be safely (without getting exceptions, if that all the required fields are
+ * non-null) passed to any implementation of {@link
+ * TradeService#getTradeHistory(TradeHistoryParams)} .
  */
-public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset,
-    TradeHistoryParamCurrencyPair, TradeHistoryParamMultiCurrencyPair {
+public class TradeHistoryParamsAll
+    implements TradeHistoryParamsTimeSpan,
+        TradeHistoryParamPaging,
+        TradeHistoryParamsIdSpan,
+        TradeHistoryParamOffset,
+        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamLimit {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -24,17 +30,18 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   private Long offset;
   private CurrencyPair pair;
   private Collection<CurrencyPair> pairs = Collections.emptySet();
-
-  @Override
-  public void setPageLength(Integer count) {
-
-    this.pageLength = count;
-  }
+  private Integer limit;
 
   @Override
   public Integer getPageLength() {
 
     return pageLength;
+  }
+
+  @Override
+  public void setPageLength(Integer count) {
+
+    this.pageLength = count;
   }
 
   @Override
@@ -44,9 +51,9 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setEndId(String endId) {
+  public void setStartId(String from) {
 
-    this.endId = endId;
+    startId = from;
   }
 
   @Override
@@ -56,15 +63,9 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setStartId(String from) {
+  public void setEndId(String endId) {
 
-    startId = from;
-  }
-
-  @Override
-  public void setEndTime(Date to) {
-
-    endTime = to;
+    this.endId = endId;
   }
 
   @Override
@@ -74,9 +75,9 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setEndTime(Date to) {
 
-    this.startTime = startTime;
+    endTime = to;
   }
 
   @Override
@@ -86,18 +87,22 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setOffset(Long offset) {
+  public void setStartTime(Date startTime) {
 
-    this.offset = offset;
+    this.startTime = startTime;
   }
 
   @Override
   public Long getOffset() {
 
-    if (offset != null || pageLength == null || pageNumber == null)
-      return offset;
-    else
-      return (long) pageLength * pageNumber;
+    if (offset != null || pageLength == null || pageNumber == null) return offset;
+    else return (long) pageLength * pageNumber;
+  }
+
+  @Override
+  public void setOffset(Long offset) {
+
+    this.offset = offset;
   }
 
   @Override
@@ -125,14 +130,24 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
+  public Collection<CurrencyPair> getCurrencyPairs() {
+
+    return pairs;
+  }
+
+  @Override
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
 
     pairs = value;
   }
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
+  public Integer getLimit() {
+    return limit;
+  }
 
-    return pairs;
+  @Override
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 }

@@ -3,7 +3,8 @@ package org.knowm.xchange.oer.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The exchange rates. Purposely made not immutable due to lack of motivation to create monster constructor
+ * The exchange rates. Purposely made not immutable due to lack of motivation to create monster
+ * constructor
  *
  * @author timmolter
  */
@@ -1945,27 +1946,328 @@ public class OERRates {
   @Override
   public String toString() {
 
-    return "OERRates [aED=" + aED + ", aFN=" + aFN + ", aLL=" + aLL + ", aMD=" + aMD + ", aNG=" + aNG + ", aOA=" + aOA + ", aRS=" + aRS + ", aUD="
-        + aUD + ", aWG=" + aWG + ", aZN=" + aZN + ", bAM=" + bAM + ", bBD=" + bBD + ", bDT=" + bDT + ", bGN=" + bGN + ", bHD=" + bHD + ", bIF=" + bIF
-        + ", bMD=" + bMD + ", bND=" + bND + ", bOB=" + bOB + ", bRL=" + bRL + ", bSD=" + bSD + ", bTC=" + bTC + ", bTN=" + bTN + ", bWP=" + bWP
-        + ", bYR=" + bYR + ", bZD=" + bZD + ", cAD=" + cAD + ", cDF=" + cDF + ", cHF=" + cHF + ", cLF=" + cLF + ", cLP=" + cLP + ", cNY=" + cNY
-        + ", cOP=" + cOP + ", cRC=" + cRC + ", cUP=" + cUP + ", cVE=" + cVE + ", cZK=" + cZK + ", dJF=" + dJF + ", dKK=" + dKK + ", dOP=" + dOP
-        + ", dZD=" + dZD + ", eEK=" + eEK + ", eGP=" + eGP + ", eTB=" + eTB + ", eUR=" + eUR + ", fJD=" + fJD + ", fKP=" + fKP + ", gBP=" + gBP
-        + ", gEL=" + gEL + ", gHS=" + gHS + ", gIP=" + gIP + ", gMD=" + gMD + ", gNF=" + gNF + ", gTQ=" + gTQ + ", gYD=" + gYD + ", hKD=" + hKD
-        + ", hNL=" + hNL + ", hRK=" + hRK + ", hTG=" + hTG + ", hUF=" + hUF + ", iDR=" + iDR + ", iLS=" + iLS + ", iNR=" + iNR + ", iQD=" + iQD
-        + ", iRR=" + iRR + ", iSK=" + iSK + ", jEP=" + jEP + ", jMD=" + jMD + ", jOD=" + jOD + ", jPY=" + jPY + ", kES=" + kES + ", kGS=" + kGS
-        + ", kHR=" + kHR + ", kMF=" + kMF + ", kPW=" + kPW + ", kRW=" + kRW + ", kWD=" + kWD + ", kYD=" + kYD + ", kZT=" + kZT + ", lAK=" + lAK
-        + ", lBP=" + lBP + ", lKR=" + lKR + ", lRD=" + lRD + ", lSL=" + lSL + ", lTL=" + lTL + ", lVL=" + lVL + ", lYD=" + lYD + ", mAD=" + mAD
-        + ", mDL=" + mDL + ", mGA=" + mGA + ", mKD=" + mKD + ", mMK=" + mMK + ", mNT=" + mNT + ", mOP=" + mOP + ", mRO=" + mRO + ", mUR=" + mUR
-        + ", mVR=" + mVR + ", mWK=" + mWK + ", mXN=" + mXN + ", mYR=" + mYR + ", mZN=" + mZN + ", nAD=" + nAD + ", nGN=" + nGN + ", nIO=" + nIO
-        + ", nOK=" + nOK + ", nPR=" + nPR + ", nZD=" + nZD + ", oMR=" + oMR + ", pAB=" + pAB + ", pEN=" + pEN + ", pGK=" + pGK + ", pHP=" + pHP
-        + ", pKR=" + pKR + ", pLN=" + pLN + ", pYG=" + pYG + ", qAR=" + qAR + ", rON=" + rON + ", rSD=" + rSD + ", rUB=" + rUB + ", rWF=" + rWF
-        + ", sAR=" + sAR + ", sBD=" + sBD + ", sCR=" + sCR + ", sDG=" + sDG + ", sEK=" + sEK + ", sGD=" + sGD + ", sHP=" + sHP + ", sLL=" + sLL
-        + ", sOS=" + sOS + ", sRD=" + sRD + ", sTD=" + sTD + ", sVC=" + sVC + ", sYP=" + sYP + ", sZL=" + sZL + ", tHB=" + tHB + ", tJS=" + tJS
-        + ", tMT=" + tMT + ", tND=" + tND + ", tOP=" + tOP + ", tRY=" + tRY + ", tTD=" + tTD + ", tWD=" + tWD + ", tZS=" + tZS + ", uAH=" + uAH
-        + ", uGX=" + uGX + ", uSD=" + uSD + ", uYU=" + uYU + ", uZS=" + uZS + ", vEF=" + vEF + ", vND=" + vND + ", vUV=" + vUV + ", wST=" + wST
-        + ", xAF=" + xAF + ", xCD=" + xCD + ", xDR=" + xDR + ", xOF=" + xOF + ", xPF=" + xPF + ", yER=" + yER + ", zAR=" + zAR + ", zMK=" + zMK
-        + ", zWL=" + zWL + "]";
+    return "OERRates [aED="
+        + aED
+        + ", aFN="
+        + aFN
+        + ", aLL="
+        + aLL
+        + ", aMD="
+        + aMD
+        + ", aNG="
+        + aNG
+        + ", aOA="
+        + aOA
+        + ", aRS="
+        + aRS
+        + ", aUD="
+        + aUD
+        + ", aWG="
+        + aWG
+        + ", aZN="
+        + aZN
+        + ", bAM="
+        + bAM
+        + ", bBD="
+        + bBD
+        + ", bDT="
+        + bDT
+        + ", bGN="
+        + bGN
+        + ", bHD="
+        + bHD
+        + ", bIF="
+        + bIF
+        + ", bMD="
+        + bMD
+        + ", bND="
+        + bND
+        + ", bOB="
+        + bOB
+        + ", bRL="
+        + bRL
+        + ", bSD="
+        + bSD
+        + ", bTC="
+        + bTC
+        + ", bTN="
+        + bTN
+        + ", bWP="
+        + bWP
+        + ", bYR="
+        + bYR
+        + ", bZD="
+        + bZD
+        + ", cAD="
+        + cAD
+        + ", cDF="
+        + cDF
+        + ", cHF="
+        + cHF
+        + ", cLF="
+        + cLF
+        + ", cLP="
+        + cLP
+        + ", cNY="
+        + cNY
+        + ", cOP="
+        + cOP
+        + ", cRC="
+        + cRC
+        + ", cUP="
+        + cUP
+        + ", cVE="
+        + cVE
+        + ", cZK="
+        + cZK
+        + ", dJF="
+        + dJF
+        + ", dKK="
+        + dKK
+        + ", dOP="
+        + dOP
+        + ", dZD="
+        + dZD
+        + ", eEK="
+        + eEK
+        + ", eGP="
+        + eGP
+        + ", eTB="
+        + eTB
+        + ", eUR="
+        + eUR
+        + ", fJD="
+        + fJD
+        + ", fKP="
+        + fKP
+        + ", gBP="
+        + gBP
+        + ", gEL="
+        + gEL
+        + ", gHS="
+        + gHS
+        + ", gIP="
+        + gIP
+        + ", gMD="
+        + gMD
+        + ", gNF="
+        + gNF
+        + ", gTQ="
+        + gTQ
+        + ", gYD="
+        + gYD
+        + ", hKD="
+        + hKD
+        + ", hNL="
+        + hNL
+        + ", hRK="
+        + hRK
+        + ", hTG="
+        + hTG
+        + ", hUF="
+        + hUF
+        + ", iDR="
+        + iDR
+        + ", iLS="
+        + iLS
+        + ", iNR="
+        + iNR
+        + ", iQD="
+        + iQD
+        + ", iRR="
+        + iRR
+        + ", iSK="
+        + iSK
+        + ", jEP="
+        + jEP
+        + ", jMD="
+        + jMD
+        + ", jOD="
+        + jOD
+        + ", jPY="
+        + jPY
+        + ", kES="
+        + kES
+        + ", kGS="
+        + kGS
+        + ", kHR="
+        + kHR
+        + ", kMF="
+        + kMF
+        + ", kPW="
+        + kPW
+        + ", kRW="
+        + kRW
+        + ", kWD="
+        + kWD
+        + ", kYD="
+        + kYD
+        + ", kZT="
+        + kZT
+        + ", lAK="
+        + lAK
+        + ", lBP="
+        + lBP
+        + ", lKR="
+        + lKR
+        + ", lRD="
+        + lRD
+        + ", lSL="
+        + lSL
+        + ", lTL="
+        + lTL
+        + ", lVL="
+        + lVL
+        + ", lYD="
+        + lYD
+        + ", mAD="
+        + mAD
+        + ", mDL="
+        + mDL
+        + ", mGA="
+        + mGA
+        + ", mKD="
+        + mKD
+        + ", mMK="
+        + mMK
+        + ", mNT="
+        + mNT
+        + ", mOP="
+        + mOP
+        + ", mRO="
+        + mRO
+        + ", mUR="
+        + mUR
+        + ", mVR="
+        + mVR
+        + ", mWK="
+        + mWK
+        + ", mXN="
+        + mXN
+        + ", mYR="
+        + mYR
+        + ", mZN="
+        + mZN
+        + ", nAD="
+        + nAD
+        + ", nGN="
+        + nGN
+        + ", nIO="
+        + nIO
+        + ", nOK="
+        + nOK
+        + ", nPR="
+        + nPR
+        + ", nZD="
+        + nZD
+        + ", oMR="
+        + oMR
+        + ", pAB="
+        + pAB
+        + ", pEN="
+        + pEN
+        + ", pGK="
+        + pGK
+        + ", pHP="
+        + pHP
+        + ", pKR="
+        + pKR
+        + ", pLN="
+        + pLN
+        + ", pYG="
+        + pYG
+        + ", qAR="
+        + qAR
+        + ", rON="
+        + rON
+        + ", rSD="
+        + rSD
+        + ", rUB="
+        + rUB
+        + ", rWF="
+        + rWF
+        + ", sAR="
+        + sAR
+        + ", sBD="
+        + sBD
+        + ", sCR="
+        + sCR
+        + ", sDG="
+        + sDG
+        + ", sEK="
+        + sEK
+        + ", sGD="
+        + sGD
+        + ", sHP="
+        + sHP
+        + ", sLL="
+        + sLL
+        + ", sOS="
+        + sOS
+        + ", sRD="
+        + sRD
+        + ", sTD="
+        + sTD
+        + ", sVC="
+        + sVC
+        + ", sYP="
+        + sYP
+        + ", sZL="
+        + sZL
+        + ", tHB="
+        + tHB
+        + ", tJS="
+        + tJS
+        + ", tMT="
+        + tMT
+        + ", tND="
+        + tND
+        + ", tOP="
+        + tOP
+        + ", tRY="
+        + tRY
+        + ", tTD="
+        + tTD
+        + ", tWD="
+        + tWD
+        + ", tZS="
+        + tZS
+        + ", uAH="
+        + uAH
+        + ", uGX="
+        + uGX
+        + ", uSD="
+        + uSD
+        + ", uYU="
+        + uYU
+        + ", uZS="
+        + uZS
+        + ", vEF="
+        + vEF
+        + ", vND="
+        + vND
+        + ", vUV="
+        + vUV
+        + ", wST="
+        + wST
+        + ", xAF="
+        + xAF
+        + ", xCD="
+        + xCD
+        + ", xDR="
+        + xDR
+        + ", xOF="
+        + xOF
+        + ", xPF="
+        + xPF
+        + ", yER="
+        + yER
+        + ", zAR="
+        + zAR
+        + ", zMK="
+        + zMK
+        + ", zWL="
+        + zWL
+        + "]";
   }
-
 }

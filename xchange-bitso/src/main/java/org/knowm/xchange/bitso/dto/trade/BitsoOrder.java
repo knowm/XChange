@@ -1,25 +1,20 @@
 package org.knowm.xchange.bitso.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.bitso.BitsoUtils;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.util.Date;
+import org.knowm.xchange.bitso.BitsoUtils;
 
-/**
- * @author Piotr Ładyżyński
- */
+/** @author Piotr Ładyżyński */
 public final class BitsoOrder {
 
   private final String id;
   private final String datetime;
-  /**
-   * 0 - buy (bid); 1 - sell (ask)
-   */
+  /** 0 - buy (bid); 1 - sell (ask) */
   private final int type;
+
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String errorMessage;
@@ -33,9 +28,14 @@ public final class BitsoOrder {
    * @param price
    * @param amount
    */
-  public BitsoOrder(@JsonProperty("id") String id, @JsonProperty("datetime") String datetime, @JsonProperty("type") int type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("error") @JsonDeserialize(using = BitsoErrorDeserializer.class) String errorMessage) {
+  public BitsoOrder(
+      @JsonProperty("id") String id,
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("type") int type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("error") @JsonDeserialize(using = BitsoErrorDeserializer.class)
+          String errorMessage) {
 
     this.id = id;
     this.datetime = datetime;
@@ -85,7 +85,10 @@ public final class BitsoOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage
-        : String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
+    return errorMessage != null
+        ? errorMessage
+        : String.format(
+            "Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}",
+            id, datetime, type, price, amount);
   }
 }

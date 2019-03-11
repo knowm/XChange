@@ -2,13 +2,16 @@ package org.knowm.xchange.therock.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
-
+import java.util.LinkedList;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.TheRock;
@@ -19,11 +22,24 @@ import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class TheRockDtoTest {
 
   private static ObjectMapper mapper = new ObjectMapper();
+
+  private static <T> T parse(Class<T> theClass) throws IOException {
+    LinkedList<String> linkedList =
+        new LinkedList<>(
+            Arrays.asList(new Object() {}.getClass().getPackage().getName().split("\\.")));
+    linkedList.add(theClass.getSimpleName() + ".json");
+    String filename =
+        Paths.get(linkedList.removeFirst(), linkedList.toArray(new String[0])).toString();
+    return parse(filename, theClass);
+  }
+
+  private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {
+    InputStream is = TheRockDtoTest.class.getResourceAsStream("/" + filename);
+    return mapper.readValue(is, type);
+  }
 
   @Test
   public void testTicker() throws Exception {
@@ -82,7 +98,8 @@ public class TheRockDtoTest {
     final TheRockException json = parse(TheRockException.class);
     assertThat(json.getMessage()).contains("CNYUSD is not a valid value for param fund_id");
     assertThat(json.getErrors()).hasSize(1);
-    assertThat(json.getErrors().get(0).getMessage()).isEqualTo("CNYUSD is not a valid value for param fund_id");
+    assertThat(json.getErrors().get(0).getMessage())
+        .isEqualTo("CNYUSD is not a valid value for param fund_id");
     assertThat(json.getErrors().get(0).getCode()).isEqualTo(11);
   }
 
@@ -94,14 +111,5 @@ public class TheRockDtoTest {
 
   private Date getDate(String dateStr) throws ParseException {
     return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(dateStr);
-  }
-
-  private static <T> T parse(Class<T> theClass) throws IOException {
-    return parse(theClass.getSimpleName() + ".json", theClass);
-  }
-
-  private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {
-    InputStream is = TheRockDtoTest.class.getResourceAsStream("/" + filename);
-    return mapper.readValue(is, type);
   }
 }

@@ -5,9 +5,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 
-/**
- * @author Matija Mazi
- */
+/** @author Matija Mazi */
 public class BitstampDemoUtils {
 
   public static Exchange createExchange() {

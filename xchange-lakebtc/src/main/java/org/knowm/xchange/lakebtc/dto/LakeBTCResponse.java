@@ -2,9 +2,7 @@ package org.knowm.xchange.lakebtc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * User: cristian.lucaci Date: 10/3/2014 Time: 5:31 PM
- */
+/** User: cristian.lucaci Date: 10/3/2014 Time: 5:31 PM */
 public class LakeBTCResponse<V> {
 
   private final String id;

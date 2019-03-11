@@ -2,9 +2,7 @@ package org.knowm.xchange.anx.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
+/** @author timmolter */
 public class ANXWithdrawalResponseWrapper {
 
   private final String result;
@@ -18,7 +16,9 @@ public class ANXWithdrawalResponseWrapper {
    * @param anxWithdrawalResponse
    * @param error
    */
-  public ANXWithdrawalResponseWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWithdrawalResponse anxWithdrawalResponse,
+  public ANXWithdrawalResponseWrapper(
+      @JsonProperty("result") String result,
+      @JsonProperty("data") ANXWithdrawalResponse anxWithdrawalResponse,
       @JsonProperty("error") String error) {
 
     this.result = result;
@@ -40,5 +40,4 @@ public class ANXWithdrawalResponseWrapper {
 
     return error;
   }
-
 }
