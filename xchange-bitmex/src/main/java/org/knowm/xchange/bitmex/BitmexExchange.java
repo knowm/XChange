@@ -1,5 +1,8 @@
 package org.knowm.xchange.bitmex;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,15 +20,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
-
   protected RateLimitUpdateListener rateLimitUpdateListener;
+
+  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -134,14 +133,24 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     if (bitmexSymbol.contains(baseSymbol)) {
       counterSymbol = bitmexSymbol.substring(baseSymbol.length(), bitmexSymbol.length());
+    }
+    // quick workaround for bug
+    else if (bitmexSymbol.equals("XBTKRW")) {
+      counterSymbol = "XBT";
+    } else if (bitmexSymbol.equals("XBTJPY")) {
+      counterSymbol = "XBT";
     } else {
       throw new ExchangeException(
           "Not clear how to create currency pair for symbol: " + bitmexSymbol);
     }
 
-    activeCurrencyPairs.add(new CurrencyPair(baseSymbol, counterSymbol));
-    activeCurrencies.add(new Currency(baseSymbol));
-    activeCurrencies.add(new Currency(counterSymbol));
+    if (bitmexSymbol.equals("XBTKRW") || bitmexSymbol.equals("XBTJPY")) {
+      logger.info("skipping buggy stuff");
+    } else {
+      activeCurrencyPairs.add(new CurrencyPair(baseSymbol, counterSymbol));
+      activeCurrencies.add(new Currency(baseSymbol));
+      activeCurrencies.add(new Currency(counterSymbol));
+    }
   }
 
   private Integer getPriceScale(List<BitmexTicker> tickers, CurrencyPair cp) {
@@ -175,7 +184,11 @@ public class BitmexExchange extends BaseExchange implements Exchange {
             .orElseThrow(
                 () ->
                     new ExchangeException(
-                        "Instrument for " + symbols + " " + contractTimeframe + " is not active or does not exist"));
+                        "Instrument for "
+                            + symbols
+                            + " "
+                            + contractTimeframe
+                            + " is not active or does not exist"));
 
     String contractTypeSymbol = bitmexSymbol.substring(3, bitmexSymbol.length());
     return new CurrencyPair(baseSymbol, contractTypeSymbol);

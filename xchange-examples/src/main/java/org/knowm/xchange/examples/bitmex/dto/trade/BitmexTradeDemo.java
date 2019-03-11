@@ -22,6 +22,8 @@ public class BitmexTradeDemo {
     System.out.println(trades);
     System.out.println(book);
 
+
+
     // tradesInfo(tradeService);
     // positionsInfo(tradeService);
   }

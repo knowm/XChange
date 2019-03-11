@@ -7,18 +7,20 @@ import org.knowm.xchange.bitmex.BitmexExchange;
 
 public class BitmexDemoUtils {
 
-  public static Exchange createExchange() {
+    public static Exchange createExchange() {
 
-    // Use the factory to get Bitmex exchange API using default settings
-    Exchange bitmex = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
+        // Use the factory to get Bitmex exchange API using default settings
+        Exchange bitmex = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
 
-    ExchangeSpecification bitmexSpec = bitmex.getDefaultExchangeSpecification();
+        ExchangeSpecification bitmexSpec = bitmex.getDefaultExchangeSpecification();
 
-    // bitmexSpec.setApiKey("");
-    // bitmexSpec.setSecretKey("");
+        bitmexSpec.setExchangeSpecificParametersItem("Use_Sandbox", true);
 
-    bitmex.applySpecification(bitmexSpec);
+        // bitmexSpec.setApiKey("");
+        // bitmexSpec.setSecretKey("");
 
-    return bitmex;
-  }
+        bitmex.applySpecification(bitmexSpec);
+
+        return bitmex;
+    }
 }
