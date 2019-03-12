@@ -52,6 +52,7 @@ public class BatchStatus {
     marketInactive, // the order was not placed because the market is inactive
     clientOrderIdAlreadyExist, // the specified client id already exist
     clientOrderIdTooLong, // the client id is longer than the permissible limit
+    maxPositionViolation, // not documented
 
     // The status of order cancellation
     cancelled, // the order was found untouched and the entire size was cancelled successfully
