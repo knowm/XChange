@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cobinhood.dto.CobinhoodAdapters;
+import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTrades;
 import org.knowm.xchange.currency.CurrencyPair;

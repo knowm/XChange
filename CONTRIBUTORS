@@ -16,6 +16,7 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+Aaron Jang
 Achterhoeker
 Adam Walczak
 Adam from WALCZAK.IT
@@ -27,6 +28,7 @@ Alexey Z
 Allen Day
 Alvin Singh
 Andraž
+Andre Reiter
 Andrea Fossi
 André Reiter
 Anthony Tsang
@@ -83,6 +85,7 @@ Gary Rowe
 Gianluigi
 Giedrius Koksta
 Giedrius Kokšta
+Gilbert Kimutai
 Giridhar Nandigam
 Graham Crockford
 Guillaume Labbé-Morissette
@@ -98,12 +101,14 @@ Iury V. Vinogradov
 JH
 JK
 Jack McKenzie
+Jakub Kalicki
 James
 James Edwards
 James Fleming
 Jan Akerman
 Jan Vojt
 Jan X Marek
+Jan-Terje Sørensen
 Janosch Gräf
 Jean-Pierre Froud
 Jim Northrup
@@ -136,6 +141,7 @@ Krzysztof Cieślak
 Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
+Luca Forni
 Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
@@ -151,12 +157,15 @@ Matt Whitlock
 Matthew Downey
 Matthew Peacock
 Maxim Fefilov
+Mert Güner
+MertGuner
 Micah Lerner
 Michael Lagace
 Michael Lagacé
 Mike Gerlyand
 Mikelle
 Mikhail Wall
+Mindaugas Rolius
 Miso Oprendek
 Muffon
 Nathan King
@@ -306,6 +315,7 @@ matija.mazi@gmail.com
 matt pearson
 mazi
 mdeverdelhan
+mert güner
 mfarid
 mharris021
 michaelscheung
@@ -360,4 +370,4 @@ wvr
 ww3456
 zholmes
 陈晔
-小田謙太郎
+小田謙太
