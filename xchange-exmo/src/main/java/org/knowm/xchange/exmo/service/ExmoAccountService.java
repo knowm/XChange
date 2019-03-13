@@ -66,8 +66,8 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
       throw new IllegalStateException("Don't understand " + params);
     }
 
-    Integer success = (Integer) result.get("success");
-    if (success != 0) {
+    Boolean resultBool = (Boolean) result.get("result");
+    if (resultBool != null && resultBool) {
       return result.get("task_id").toString();
     } else {
       throw new ExchangeException("Withdrawal failed: " + result.get("error").toString());
