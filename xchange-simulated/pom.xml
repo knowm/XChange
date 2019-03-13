@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.16-SNAPSHOT</version>
+		<version>4.3.17-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-simulated</artifactId>
 
-	<name>XChange - Simulated</name>
+	<name>XChange Simulated</name>
 	<description>A simulated/mock exchange, for use in integration testing.</description>
 
 	<url>http://knowm.org/open-source/xchange/</url>
