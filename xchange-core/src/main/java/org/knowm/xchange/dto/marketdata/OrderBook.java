@@ -234,8 +234,8 @@ public final class OrderBook implements Serializable {
   /**
    * Identical to {@link #equals(Object) equals} method except that this ignores different
    * timestamps. In other words, this version of equals returns true if the order internal to the
-   * OrderBooks are equal but their timestamps are unequal. It returns false if any order
-   * between the two are different.
+   * OrderBooks are equal but their timestamps are unequal. It returns false if any order between
+   * the two are different.
    *
    * @param ob
    * @return
