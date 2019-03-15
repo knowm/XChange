@@ -1,5 +1,8 @@
 package org.knowm.xchange.cexio.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -15,10 +18,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 public class TradeServiceIntegration {
   private CexIOTradeService tradeService;
   private LimitOrder order;
@@ -28,8 +27,8 @@ public class TradeServiceIntegration {
     CexioProperties properties = new CexioProperties();
 
     if (!properties.isValid()) {
-        Assume.assumeTrue("Ignore tests because credentials are missing", properties.isValid());
-        return;
+      Assume.assumeTrue("Ignore tests because credentials are missing", properties.isValid());
+      return;
     }
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class.getName());
