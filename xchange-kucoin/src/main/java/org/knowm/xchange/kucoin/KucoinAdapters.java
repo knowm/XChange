@@ -10,14 +10,6 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -48,6 +40,14 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
+import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 
 public class KucoinAdapters {
 
