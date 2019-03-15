@@ -25,7 +25,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -345,18 +344,6 @@ public class TestSimulatedExchange {
         equalTo(INITIAL_BALANCE.subtract(expectedUsdCost).subtract(expectedUsdReserved)));
   }
 
-  private void placeMMOrder(
-      SimulatedExchange exchange, OrderType orderType, BigDecimal price, BigDecimal amount)
-      throws IOException {
-    exchange
-        .getTradeService()
-        .placeLimitOrderUnrestricted(
-            new LimitOrder.Builder(orderType, BTC_USD)
-                .limitPrice(price)
-                .originalAmount(amount)
-                .build());
-  }
-
   private OpenOrders getOpenOrders() throws IOException {
     OpenOrdersParamCurrencyPair params = exchange.getTradeService().createOpenOrdersParams();
     params.setCurrencyPair(BTC_USD);
@@ -381,18 +368,6 @@ public class TestSimulatedExchange {
         (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     marketMakerExchange.getAccountService().deposit(USD, new BigDecimal(10000));
     marketMakerExchange.getAccountService().deposit(BTC, new BigDecimal(10000));
-    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(10000), new BigDecimal("200"));
-    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(100), new BigDecimal("0.1"));
-    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.05"));
-    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(99), new BigDecimal("0.25"));
-    placeMMOrder(marketMakerExchange, ASK, new BigDecimal(98), new BigDecimal("0.3"));
-    // ----
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(97), new BigDecimal("0.4"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(96), new BigDecimal("0.25"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(95), new BigDecimal("0.6"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(94), new BigDecimal("0.7"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(93), new BigDecimal("0.8"));
-    placeMMOrder(marketMakerExchange, BID, new BigDecimal(1), new BigDecimal("1002"));
+    MockMarket.mockMarket(marketMakerExchange);
   }
 }
