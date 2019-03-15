@@ -10,8 +10,8 @@
 
 	<artifactId>xchange-simulated</artifactId>
 
-	<name>XChange - Simulated</name>
-	<description>A simulated/mock exchange, for use in integration testing.</description>
+	<name>Orko XChange Fork - Simulated</name>
+	<description>Development fork. Not for general use.</description>
 
 	<url>http://knowm.org/open-source/xchange/</url>
 	<inceptionYear>2012</inceptionYear>
