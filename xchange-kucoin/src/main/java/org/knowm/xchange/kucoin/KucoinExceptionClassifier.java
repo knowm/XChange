@@ -9,8 +9,6 @@ import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.service.KucoinApiException;
 
-import com.kucoin.sdk.exception.KucoinApiException;
-
 public final class KucoinExceptionClassifier {
 
   KucoinExceptionClassifier() {}
