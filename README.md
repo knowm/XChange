@@ -111,8 +111,6 @@ Listening for live updates of
 - :x: - not supported by the exchange
 - :question: - exchange support level not known
 
-GDAX authenticated live updates are not yet supported, hopefully it will be added in the near future.
-
 If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty.
 
 ## Open Source Projects Using XChange-Stream
