@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.kucoin.trade;
 
-import com.kucoin.sdk.exception.KucoinApiException;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.OrderCancelResponse;
-import com.kucoin.sdk.rest.response.OrderCreateResponse;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +11,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeServiceRaw;
+import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderCreateResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
@@ -96,7 +96,7 @@ public class KucoinTradeDemo {
       if (tradeService.cancelOrder("NONEXISTENT")) {
         throw new AssertionError("Shouldn't be able to cancel a non-existent order");
       }
-    } catch (KucoinApiException e) {
+    } catch (ExchangeException e) {
       // Fine
     }
 
