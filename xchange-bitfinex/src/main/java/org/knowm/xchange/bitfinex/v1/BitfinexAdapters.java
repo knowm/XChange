@@ -666,7 +666,7 @@ public final class BitfinexAdapters {
 
         // Address will only be present for crypto payments. It will be null for all fiat payments
         if (address != null) {
-          cleanedDescription = cleanedDescription.replace(address.toLowerCase(), "");
+          cleanedDescription = cleanedDescription.replace(address.toLowerCase(), "").trim();
         }
 
         // check its just some hex characters, and if so lets assume its the txn hash

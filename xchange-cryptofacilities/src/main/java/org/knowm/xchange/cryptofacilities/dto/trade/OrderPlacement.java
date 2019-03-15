@@ -54,4 +54,19 @@ public class OrderPlacement implements OrderCommand {
     this.stopPrice = stopPrice;
     this.cliOrdId = cliOrdId;
   }
+
+  @Override
+  public String toString() {
+    return "OrderPlacement ["
+        + (order != null ? "order=" + order + ", " : "")
+        + (orderTag != null ? "orderTag=" + orderTag + ", " : "")
+        + (orderType != null ? "orderType=" + orderType + ", " : "")
+        + (symbol != null ? "symbol=" + symbol + ", " : "")
+        + (side != null ? "side=" + side + ", " : "")
+        + (size != null ? "size=" + size + ", " : "")
+        + (limitPrice != null ? "limitPrice=" + limitPrice + ", " : "")
+        + (stopPrice != null ? "stopPrice=" + stopPrice + ", " : "")
+        + (cliOrdId != null ? "cliOrdId=" + cliOrdId : "")
+        + "]";
+  }
 }

@@ -48,7 +48,8 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException("Binance uses timestamp/recvwindow rather than a nonce");
+    throw new UnsupportedOperationException(
+        "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
   @Override

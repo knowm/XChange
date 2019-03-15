@@ -1,0 +1,53 @@
+{
+  "currency_pairs": {
+    "BTC/EUR": {
+      "price_scale": 2,
+      "trading_fee": 0.004,
+      "min_amount": 1
+    },
+    "BCH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.004,
+      "min_amount": 0.0000001
+    },
+    "ETH/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.004,
+      "min_amount": 0.0000001
+    },
+    "LTC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.004,
+      "min_amount": 0.0000001
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0
+    },
+    "EUR": {
+      "scale": 2,
+      "withdrawal_fee": 0
+    },
+    "LTC": {
+      "scale": 8,
+      "withdrawal_fee": 0
+    },
+    "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0
+    },
+    "BCH": {
+      "scale": 8,
+      "withdrawal_fee": 0
+    }
+  },
+  "private_rate_limits": [
+    {
+      "calls": 60,
+      "time_unit": "minutes"
+    }
+  ],
+  "share_rate_limits": false
+}
