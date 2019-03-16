@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.util.concurrent.RateLimiter;
 
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
@@ -18,6 +19,8 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
@@ -28,6 +31,7 @@ import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +39,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
@@ -62,6 +68,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
     private final Runnable onApiCall;
+
+    private final AtomicBoolean fallenBack = new AtomicBoolean();
+    private final AtomicReference<Runnable> fallbackOnApiCall = new AtomicReference<>(() -> {});
 
     public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, Runnable onApiCall) {
         this.service = service;
@@ -145,27 +154,19 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         AtomicLong lastUpdateId = new AtomicLong(0L);
         OrderBook orderBook;
         Observable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
-        AtomicLong lastSyncTime = new AtomicLong(0L);
 
         void invalidateSnapshot() {
             snapshotlastUpdateId = 0L;
         }
 
         void initSnapshotIfInvalid(CurrencyPair currencyPair) {
-
             if (snapshotlastUpdateId != 0L)
                 return;
-
-            // Don't attempt reconnects too often to avoid bans. 3 seconds will do it.
-            long now = System.currentTimeMillis();
-            if (now - lastSyncTime.get() < 3000) {
-                return;
-            }
-
             try {
                 LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
                 onApiCall.run();
-                BinanceOrderbook book = marketDataService.getBinanceOrderbook(currencyPair, 1000);
+                fallbackOnApiCall.get().run();
+                BinanceOrderbook book = fetchBinanceOrderBook(currencyPair);
                 snapshotlastUpdateId = book.lastUpdateId;
                 lastUpdateId.set(book.lastUpdateId);
                 orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
@@ -175,7 +176,32 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 lastUpdateId.set(0L);
                 orderBook = null;
             }
-            lastSyncTime.set(now);
+
+        }
+
+        private BinanceOrderbook fetchBinanceOrderBook(CurrencyPair currencyPair) throws IOException, InterruptedException {
+            try {
+                return marketDataService.getBinanceOrderbook(currencyPair, 1000);
+            } catch (BinanceException e) {
+                if (BinanceErrorAdapter.adapt(e) instanceof RateLimitExceededException) {
+                    if (fallenBack.compareAndSet(false, true)) {
+                        LOG.error("API Rate limit was hit when fetching Binance order book snapshot. Provide a \n"
+                                + "rate limiter. Apache Commons and Google Guava provide the TimedSemaphore\n"
+                                + "and RateLimiter classes which are effective for this purpose. Example:\n"
+                                + "\n"
+                                + "  exchangeSpecification.setExchangeSpecificParametersItem(\n"
+                                + "      info.bitrich.xchangestream.util.Events.BEFORE_API_CALL_HANDLER,\n"
+                                + "      () -> rateLimiter.acquire())\n"
+                                + "\n"
+                                + "Pausing for 15sec and falling back to one call per three seconds, but you\n"
+                                + "will get more optimal performance by handling your own rate limiting.");
+                        RateLimiter rateLimiter = RateLimiter.create(0.333);
+                        fallbackOnApiCall.set(rateLimiter::acquire);
+                        Thread.sleep(15000);
+                    }
+                }
+                throw e;
+            }
         }
     }
 
