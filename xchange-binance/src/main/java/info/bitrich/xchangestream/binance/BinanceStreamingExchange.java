@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.util.Events;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -35,8 +36,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     private BinanceStreamingTradeService streamingTradeService;
 
     private BinanceUserDataChannel userDataChannel;
+    private final Runnable onApiCall;
 
     public BinanceStreamingExchange() {
+        this.onApiCall = Events.onApiCall(exchangeSpecification);
     }
 
     /**
@@ -71,7 +74,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                 getExchangeSpecification().getSslUri(),
                 new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig()
             );
-            userDataChannel = new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey());
+            userDataChannel = new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
             try {
                 completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
             } catch (NoActiveChannelException e) {
@@ -79,10 +82,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             }
         }
 
-        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService);
+        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
         streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
         streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
-
 
         return Completable.concat(completables)
             .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
