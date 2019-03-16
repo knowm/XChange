@@ -44,7 +44,6 @@
         <version.slf4j>1.8.0-beta4</version.slf4j>
         <version.crypto>4.1.1</version.crypto>
         <version.java-jwt>3.8.0</version.java-jwt>
-        <version.hamcrest>2.1</version.hamcrest>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -300,14 +299,6 @@
                 <artifactId>powermock-reflect</artifactId>
                 <version>${version.powermock}</version>
                 <scope>test</scope>
-            </dependency>
-      
-            <!-- Hamcrest for testing -->
-            <dependency>
-              <groupId>org.hamcrest</groupId>
-              <artifactId>hamcrest-core</artifactId>
-              <version>${version.hamcrest}</version>
-              <scope>test</scope>
             </dependency>
 
             <!-- SLF4J implementation for use in examples -->
