@@ -260,7 +260,7 @@ public class KucoinAdapters {
     return adaptOrder(marketOrder).type("market").build();
   }
 
-  public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
+  private static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
     boolean hasClientId = false;
     for (IOrderFlags flag : order.getOrderFlags()) {
