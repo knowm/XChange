@@ -61,10 +61,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
+    private final Runnable onApiCall;
 
-    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService) {
+    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, Runnable onApiCall) {
         this.service = service;
         this.marketDataService = marketDataService;
+        this.onApiCall = onApiCall;
     }
 
     @Override
@@ -162,6 +164,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
             try {
                 LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
+                onApiCall.run();
                 BinanceOrderbook book = marketDataService.getBinanceOrderbook(currencyPair, 1000);
                 snapshotlastUpdateId = book.lastUpdateId;
                 lastUpdateId.set(book.lastUpdateId);

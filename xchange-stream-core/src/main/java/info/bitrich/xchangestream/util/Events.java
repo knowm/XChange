@@ -31,7 +31,7 @@ public class Events {
      * @param exchangeSpecification The exchange specification.
      * @return The handler.
      */
-    public Runnable onApiCall(ExchangeSpecification exchangeSpecification) {
+    public static Runnable onApiCall(ExchangeSpecification exchangeSpecification) {
       Object onApiCall = exchangeSpecification.getExchangeSpecificParametersItem(BEFORE_API_CALL_HANDLER);
       return onApiCall == null ? () -> {} : (Runnable) onApiCall;
     }

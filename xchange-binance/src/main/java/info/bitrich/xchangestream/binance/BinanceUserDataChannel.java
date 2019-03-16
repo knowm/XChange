@@ -32,6 +32,7 @@ class BinanceUserDataChannel implements AutoCloseable {
 
     private final BinanceAuthenticated binance;
     private final String apiKey;
+    private final Runnable onApiCall;
     private final Disposable keepAlive;
 
     private String listenKey;
@@ -44,10 +45,12 @@ class BinanceUserDataChannel implements AutoCloseable {
      *
      * @param binance
      * @param apiKey
+     * @param onApiCall
      */
-    BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey) {
+    BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey, Runnable onApiCall) {
         this.binance = binance;
         this.apiKey = apiKey;
+        this.onApiCall = onApiCall;
         openChannel();
         // Send a keepalive every 30 minutes as recommended by Binance
         this.keepAlive = Observable.interval(30, TimeUnit.MINUTES)
@@ -68,6 +71,7 @@ class BinanceUserDataChannel implements AutoCloseable {
             return;
         try {
             LOG.debug("Keeping user data channel alive");
+            onApiCall.run();
             binance.keepAliveUserDataStream(apiKey, listenKey);
             LOG.debug("User data channel keepalive sent successfully");
         } catch (Exception e) {
@@ -92,6 +96,7 @@ class BinanceUserDataChannel implements AutoCloseable {
     private void openChannel() {
         try {
             LOG.debug("Opening new user data channel");
+            onApiCall.run();
             this.listenKey = binance.startUserDataStream(apiKey).getListenKey();
             LOG.debug("Opened new user data channel");
         } catch (IOException e) {
