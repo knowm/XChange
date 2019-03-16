@@ -94,6 +94,13 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>2.9.8</version>
             </dependency>
+            
+            <!-- This is introduced by XChange anyway, depending on the implementation used -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>27.0.1-jre</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -144,6 +151,7 @@
             <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
+        
     </dependencies>
 
     <build>
