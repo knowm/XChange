@@ -1,9 +1,9 @@
 package org.knowm.xchange.simulated;
 
+import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Random;
-
 import org.apache.commons.lang3.RandomUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
@@ -12,8 +12,6 @@ import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.exceptions.SystemOverloadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.util.concurrent.RateLimiter;
 
 /**
  * This will cause {@link SimulatedExchange} to fail 0.5% of the time with a selection of commnplace
@@ -29,7 +27,8 @@ public class RandomExceptionThrower implements SimulatedExchangeOperationListene
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MatchingEngine.class);
   private static final String GENERIC_GUIDE = "Application code should handle this gracefully.";
-  private static final String RATE_LIMIT_EXCEEDED = "Rate limit exceeded. Are you gracefully backing off when this happens?";
+  private static final String RATE_LIMIT_EXCEEDED =
+      "Rate limit exceeded. Are you gracefully backing off when this happens?";
 
   private final Random random;
   private final RateLimiter rateLimiter;

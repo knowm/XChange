@@ -6,7 +6,6 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 

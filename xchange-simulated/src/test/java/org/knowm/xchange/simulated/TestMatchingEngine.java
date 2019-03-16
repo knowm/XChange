@@ -22,7 +22,6 @@ import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.math.BigDecimal;
 import java.util.function.Consumer;
-
 import org.assertj.core.matcher.AssertionMatcher;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,8 @@ public class TestMatchingEngine {
   public void setup() {
     MockitoAnnotations.initMocks(this);
     Mockito.when(accountFactory.get(Mockito.anyString())).thenReturn(account);
-    matchingEngine = new MatchingEngine(accountFactory, BTC_USD, 2, new BigDecimal("0.001"), onFill);
+    matchingEngine =
+        new MatchingEngine(accountFactory, BTC_USD, 2, new BigDecimal("0.001"), onFill);
   }
 
   @Test
@@ -69,9 +69,7 @@ public class TestMatchingEngine {
   public void testValidationNoPriceViolation() {
     matchingEngine.postOrder(
         TAKER,
-        new LimitOrder.Builder(ASK, BTC_USD)
-            .originalAmount(new BigDecimal("0.000999999"))
-            .build());
+        new LimitOrder.Builder(ASK, BTC_USD).originalAmount(new BigDecimal("0.000999999")).build());
   }
 
   @Test(expected = ExchangeException.class)
@@ -216,9 +214,7 @@ public class TestMatchingEngine {
                 new AssertionMatcher<Fill>() {
                   @Override
                   public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual)
-                        .hasApiKey(TAKER)
-                        .isTaker();
+                    assertThat(actual).hasApiKey(TAKER).isTaker();
                     assertThat(actual.getTrade())
                         .hasOrderId(taker.getId())
                         .hasId()
@@ -236,9 +232,7 @@ public class TestMatchingEngine {
                 new AssertionMatcher<Fill>() {
                   @Override
                   public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual)
-                        .hasApiKey(MAKER)
-                        .isNotTaker();
+                    assertThat(actual).hasApiKey(MAKER).isNotTaker();
                     assertThat(actual.getTrade())
                         .hasOrderId(maker.getId())
                         .hasId()
@@ -296,9 +290,7 @@ public class TestMatchingEngine {
                 new AssertionMatcher<Fill>() {
                   @Override
                   public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual)
-                        .hasApiKey(TAKER)
-                        .isTaker();
+                    assertThat(actual).hasApiKey(TAKER).isTaker();
                     assertThat(actual.getTrade())
                         .hasOrderId(taker.getId())
                         .hasId()
@@ -316,9 +308,7 @@ public class TestMatchingEngine {
                 new AssertionMatcher<Fill>() {
                   @Override
                   public void assertion(Fill actual) throws AssertionError {
-                    assertThat(actual)
-                        .hasApiKey(MAKER)
-                        .isNotTaker();
+                    assertThat(actual).hasApiKey(MAKER).isNotTaker();
                     assertThat(actual.getTrade())
                         .hasOrderId(maker.getId())
                         .hasId()
@@ -453,12 +443,42 @@ public class TestMatchingEngine {
 
     verify(onFill, atLeastOnce()).accept(fillCaptor1.capture());
     assertThat(fillCaptor1.getAllValues()).hasSize(6);
-    assertFill(fillCaptor1.getAllValues().get(0), TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(1), MAKER, maker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(2), TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(3), MAKER, maker4, maker4.getOriginalAmount(), maker4.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(4), TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(5), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(0),
+        TAKER,
+        taker1,
+        maker1.getOriginalAmount(),
+        maker1.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(1),
+        MAKER,
+        maker1,
+        maker1.getOriginalAmount(),
+        maker1.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(2),
+        TAKER,
+        taker1,
+        maker4.getOriginalAmount(),
+        maker4.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(3),
+        MAKER,
+        maker4,
+        maker4.getOriginalAmount(),
+        maker4.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(4),
+        TAKER,
+        taker1,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(5),
+        MAKER,
+        maker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
 
     verifyNoMoreInteractions(onFill);
     reset(onFill);
@@ -477,10 +497,30 @@ public class TestMatchingEngine {
 
     verify(onFill, atLeastOnce()).accept(fillCaptor2.capture());
     assertThat(fillCaptor2.getAllValues()).hasSize(4);
-    assertFill(fillCaptor2.getAllValues().get(0), TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(1), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(2), TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(3), MAKER, maker3, new BigDecimal(4), maker3.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(0),
+        TAKER,
+        taker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(1),
+        MAKER,
+        maker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(2),
+        TAKER,
+        taker2,
+        new BigDecimal(4),
+        maker3.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(3),
+        MAKER,
+        maker3,
+        new BigDecimal(4),
+        maker3.getLimitPrice());
 
     Level3OrderBook book = matchingEngine.book();
     assertThat(book.getBids()).isEmpty();
@@ -535,12 +575,42 @@ public class TestMatchingEngine {
 
     verify(onFill, atLeastOnce()).accept(fillCaptor1.capture());
     assertThat(fillCaptor1.getAllValues()).hasSize(6);
-    assertFill(fillCaptor1.getAllValues().get(0), TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(1), MAKER, maker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(2), TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(3), MAKER, maker4, maker4.getOriginalAmount(), maker4.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(4), TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor1.getAllValues().get(5), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(0),
+        TAKER,
+        taker1,
+        maker1.getOriginalAmount(),
+        maker1.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(1),
+        MAKER,
+        maker1,
+        maker1.getOriginalAmount(),
+        maker1.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(2),
+        TAKER,
+        taker1,
+        maker4.getOriginalAmount(),
+        maker4.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(3),
+        MAKER,
+        maker4,
+        maker4.getOriginalAmount(),
+        maker4.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(4),
+        TAKER,
+        taker1,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor1.getAllValues().get(5),
+        MAKER,
+        maker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
 
     verifyNoMoreInteractions(onFill);
     reset(onFill);
@@ -559,10 +629,30 @@ public class TestMatchingEngine {
 
     verify(onFill, atLeastOnce()).accept(fillCaptor2.capture());
     assertThat(fillCaptor2.getAllValues()).hasSize(4);
-    assertFill(fillCaptor2.getAllValues().get(0), TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(1), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(2), TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice());
-    assertFill(fillCaptor2.getAllValues().get(3), MAKER, maker3, new BigDecimal(4), maker3.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(0),
+        TAKER,
+        taker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(1),
+        MAKER,
+        maker2,
+        new BigDecimal(1),
+        maker2.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(2),
+        TAKER,
+        taker2,
+        new BigDecimal(4),
+        maker3.getLimitPrice());
+    assertFill(
+        fillCaptor2.getAllValues().get(3),
+        MAKER,
+        maker3,
+        new BigDecimal(4),
+        maker3.getLimitPrice());
 
     Level3OrderBook book = matchingEngine.book();
     assertThat(book.getBids()).isEmpty();
@@ -578,9 +668,9 @@ public class TestMatchingEngine {
     };
   }
 
-  private void assertFill(Fill fill, String apiKey, LimitOrder order, BigDecimal amount, BigDecimal price) {
-    assertThat(fill)
-        .hasApiKey(apiKey);
+  private void assertFill(
+      Fill fill, String apiKey, LimitOrder order, BigDecimal amount, BigDecimal price) {
+    assertThat(fill).hasApiKey(apiKey);
     assertThat(fill.getTrade())
         .hasOrderId(order.getId())
         .hasId()
