@@ -169,7 +169,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 snapshotlastUpdateId = book.lastUpdateId;
                 lastUpdateId.set(book.lastUpdateId);
                 orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 LOG.error("Failed to fetch initial order book for " + currencyPair, e);
                 snapshotlastUpdateId = 0L;
                 lastUpdateId.set(0L);
