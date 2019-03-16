@@ -14,7 +14,6 @@ import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -147,8 +146,8 @@ public class TestSimulatedExchange {
 
     // Then
     assertThat(exchange.getMarketDataService().getTrades(BTC_USD).getTrades()).hasSize(3);
-    assertThat(
-        someoneElsesExchange.getMarketDataService().getTrades(BTC_USD).getTrades()).hasSize(3);
+    assertThat(someoneElsesExchange.getMarketDataService().getTrades(BTC_USD).getTrades())
+        .hasSize(3);
     assertThat(getTradeHistory(exchange).getTrades()).hasSize(3);
     assertThat(getTradeHistory(someoneElsesExchange).getTrades()).isEmpty();
   }
@@ -179,8 +178,8 @@ public class TestSimulatedExchange {
         new BigDecimal(97)
             .multiply(new BigDecimal("0.40"))
             .add(new BigDecimal(96).multiply(new BigDecimal("0.30")));
-    assertThat(
-        baseBalance.getAvailable()).isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70")));
+    assertThat(baseBalance.getAvailable())
+        .isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70")));
     assertThat(baseBalance.getTotal()).isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.70")));
     assertThat(baseBalance.getFrozen()).isEqualTo(ZERO);
     assertThat(counterBalance.getAvailable()).isEqualTo(INITIAL_BALANCE.add(expectedUsdProceeds));
@@ -216,7 +215,8 @@ public class TestSimulatedExchange {
     OpenOrders orders = getOpenOrders();
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getRemainingAmount()).isEqualTo(new BigDecimal("0.3"));
-    assertThat(orders.getOpenOrders().get(0).getCumulativeAmount()).isEqualTo(new BigDecimal("0.4"));
+    assertThat(orders.getOpenOrders().get(0).getCumulativeAmount())
+        .isEqualTo(new BigDecimal("0.4"));
     assertThat(orders.getOpenOrders().get(0).getAveragePrice()).isEqualTo(new BigDecimal(97));
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo(orderId);
     assertThat(orders.getOpenOrders().get(0).getStatus()).isEqualTo(PARTIALLY_FILLED);
@@ -226,8 +226,8 @@ public class TestSimulatedExchange {
     BigDecimal expectedUsdProceeds = new BigDecimal(97).multiply(new BigDecimal("0.4"));
     assertThat(baseBalance.getTotal()).isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.4")));
     assertThat(baseBalance.getFrozen()).isEqualTo(new BigDecimal("0.3"));
-    assertThat(
-        baseBalance.getAvailable()).isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.7")));
+    assertThat(baseBalance.getAvailable())
+        .isEqualTo(INITIAL_BALANCE.subtract(new BigDecimal("0.7")));
     assertThat(counterBalance.getTotal()).isEqualTo(INITIAL_BALANCE.add(expectedUsdProceeds));
     assertThat(counterBalance.getFrozen()).isEqualTo(ZERO);
     assertThat(counterBalance.getAvailable()).isEqualTo(INITIAL_BALANCE.add(expectedUsdProceeds));

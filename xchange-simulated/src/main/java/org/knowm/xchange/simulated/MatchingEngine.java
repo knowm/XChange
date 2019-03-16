@@ -7,6 +7,11 @@ import static java.util.stream.Collectors.toList;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,7 +22,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -30,12 +34,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 
 /**
  * The "exchange" which backs {@link SimulatedExchange}.
@@ -61,7 +59,11 @@ final class MatchingEngine {
 
   private volatile Ticker ticker = new Ticker.Builder().build();
 
-  MatchingEngine(AccountFactory accountFactory, CurrencyPair currencyPair, int priceScale, BigDecimal minimumAmount) {
+  MatchingEngine(
+      AccountFactory accountFactory,
+      CurrencyPair currencyPair,
+      int priceScale,
+      BigDecimal minimumAmount) {
     this(accountFactory, currencyPair, priceScale, minimumAmount, f -> {});
   }
 
@@ -113,7 +115,8 @@ final class MatchingEngine {
 
   private void validate(Order order) {
     if (order.getOriginalAmount().compareTo(minimumAmount) < 0) {
-      throw new ExchangeException("Trade amount is " + order.getOriginalAmount() + ", minimum is " + minimumAmount);
+      throw new ExchangeException(
+          "Trade amount is " + order.getOriginalAmount() + ", minimum is " + minimumAmount);
     }
     if (order instanceof LimitOrder) {
       LimitOrder limitOrder = (LimitOrder) order;
@@ -121,7 +124,8 @@ final class MatchingEngine {
         throw new ExchangeException("No price");
       }
       if (limitOrder.getLimitPrice().compareTo(ZERO) <= 0) {
-        throw new ExchangeException("Limit price is " + limitOrder.getLimitPrice() + ", must be positive");
+        throw new ExchangeException(
+            "Limit price is " + limitOrder.getLimitPrice() + ", must be positive");
       }
       int scale = limitOrder.getLimitPrice().stripTrailingZeros().scale();
       if (scale > priceScale) {
@@ -142,7 +146,8 @@ final class MatchingEngine {
     }
   }
 
-  private void insertIntoBook(List<BookLevel> book, BookOrder order, OrderType type, Account account) {
+  private void insertIntoBook(
+      List<BookLevel> book, BookOrder order, OrderType type, Account account) {
 
     int i = 0;
     boolean insert = false;
@@ -171,15 +176,13 @@ final class MatchingEngine {
       book.add(newLevel);
     }
 
-    ticker = newTickerFromBook()
-        .last(ticker.getLast())
-        .build();
+    ticker = newTickerFromBook().last(ticker.getLast()).build();
   }
 
   private Ticker.Builder newTickerFromBook() {
     return new Ticker.Builder()
-      .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
-      .bid(bids.isEmpty() ? null : bids.get(0).getPrice());
+        .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
+        .bid(bids.isEmpty() ? null : bids.get(0).getPrice());
   }
 
   /**
@@ -309,9 +312,7 @@ final class MatchingEngine {
     recordFill(new Fill(takerOrder.getApiKey(), takerTrade, true));
     recordFill(new Fill(makerOrder.getApiKey(), makerTrade, false));
 
-    ticker = newTickerFromBook()
-        .last(makerOrder.getLimitPrice())
-        .build();
+    ticker = newTickerFromBook().last(makerOrder.getLimitPrice()).build();
   }
 
   private void accumulate(BookOrder bookOrder, UserTrade trade) {
