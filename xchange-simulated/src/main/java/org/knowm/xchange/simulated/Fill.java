@@ -1,7 +1,8 @@
 package org.knowm.xchange.simulated;
 
-import lombok.Data;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import lombok.Data;
 
 /**
  * Represents a trade against a {@link Level3OrderBook} for a given {@link #getApiKey()} (user),

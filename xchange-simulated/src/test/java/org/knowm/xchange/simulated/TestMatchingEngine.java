@@ -1,11 +1,6 @@
 package org.knowm.xchange.simulated;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
@@ -14,8 +9,7 @@ import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
 import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.simulated.FillMatcher.fillMatcher;
-import static org.knowm.xchange.simulated.UserTradeMatcher.userTradeMatcher;
+import static org.knowm.xchange.simulated.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
@@ -29,6 +23,7 @@ import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import java.math.BigDecimal;
 import java.util.function.Consumer;
 
+import org.assertj.core.matcher.AssertionMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -134,14 +129,14 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(result.getId(), notNullValue());
-    assertThat(result.getStatus(), equalTo(NEW));
+    assertThat(result.getId()).isNotNull();
+    assertThat(result.getStatus()).isEqualTo(NEW);
     verifyZeroInteractions(onFill);
     verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
     verify(account, times(1)).reserve(any(LimitOrder.class));
     verify(account, never()).release(any(LimitOrder.class));
-    assertThat(matchingEngine.book().getAsks(), contains(result));
-    assertThat(matchingEngine.book().getBids(), empty());
+    assertThat(matchingEngine.book().getAsks()).contains(result);
+    assertThat(matchingEngine.book().getBids()).isEmpty();
   }
 
   @Test
@@ -158,16 +153,16 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(result.getId(), notNullValue());
-    assertThat(result.getStatus(), equalTo(NEW));
+    assertThat(result.getId()).isNotNull();
+    assertThat(result.getStatus()).isEqualTo(NEW);
     verifyZeroInteractions(onFill);
     verify(account, never()).fill(any(UserTrade.class), any(Boolean.class));
     verify(account, times(1)).reserve(any(LimitOrder.class));
     verify(account, never()).release(any(LimitOrder.class));
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), contains(result));
-    assertThat(book.getAsks(), empty());
+    assertThat(book.getBids()).contains(result);
+    assertThat(book.getAsks()).isEmpty();
   }
 
   @Test(expected = ExchangeException.class)
@@ -213,45 +208,53 @@ public class TestMatchingEngine {
     verify(account, never()).release(any(LimitOrder.class));
 
     // Then
-    assertThat(taker.getStatus(), equalTo(FILLED));
+    assertThat(taker.getStatus()).isEqualTo(FILLED);
 
     verify(onFill)
         .accept(
             argThat(
-                fillMatcher()
-                    .whereApiKey(equalTo(TAKER))
-                    .whereTaker(equalTo(true))
-                    .whereTrade(
-                        userTradeMatcher()
-                            .whereOrderId(equalTo(taker.getId()))
-                            .whereId(notNullValue(String.class))
-                            .whereFeeAmount(equalTo(new BigDecimal("0.500")))
-                            .whereFeeCurrency(equalTo(USD))
-                            .whereOriginalAmount(equalTo(new BigDecimal(5)))
-                            .wherePrice(equalTo(new BigDecimal(100)))
-                            .whereType(equalTo(ASK)))));
+                new AssertionMatcher<Fill>() {
+                  @Override
+                  public void assertion(Fill actual) throws AssertionError {
+                    assertThat(actual)
+                        .hasApiKey(TAKER)
+                        .isTaker();
+                    assertThat(actual.getTrade())
+                        .hasOrderId(taker.getId())
+                        .hasId()
+                        .hasFeeAmount(new BigDecimal("0.500"))
+                        .hasFeeCurrency(USD)
+                        .hasOriginalAmount(new BigDecimal(5))
+                        .hasPrice(new BigDecimal(100))
+                        .hasType(ASK);
+                  }
+                }));
 
     verify(onFill)
         .accept(
             argThat(
-                fillMatcher()
-                    .whereApiKey(equalTo(MAKER))
-                    .whereTaker(equalTo(false))
-                    .whereTrade(
-                        userTradeMatcher()
-                            .whereOrderId(equalTo(maker.getId()))
-                            .whereId(notNullValue(String.class))
-                            .whereFeeAmount(equalTo(new BigDecimal("0.005")))
-                            .whereFeeCurrency(equalTo(BTC))
-                            .whereOriginalAmount(equalTo(new BigDecimal(5)))
-                            .wherePrice(equalTo(new BigDecimal(100)))
-                            .whereType(equalTo(BID)))));
+                new AssertionMatcher<Fill>() {
+                  @Override
+                  public void assertion(Fill actual) throws AssertionError {
+                    assertThat(actual)
+                        .hasApiKey(MAKER)
+                        .isNotTaker();
+                    assertThat(actual.getTrade())
+                        .hasOrderId(maker.getId())
+                        .hasId()
+                        .hasFeeAmount(new BigDecimal("0.005"))
+                        .hasFeeCurrency(BTC)
+                        .hasOriginalAmount(new BigDecimal(5))
+                        .hasPrice(new BigDecimal(100))
+                        .hasType(BID);
+                  }
+                }));
 
     verifyNoMoreInteractions(onFill);
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), empty());
-    assertThat(book.getAsks(), empty());
+    assertThat(book.getBids()).isEmpty();
+    assertThat(book.getAsks()).isEmpty();
   }
 
   @Test
@@ -285,45 +288,53 @@ public class TestMatchingEngine {
     verify(account, never()).release(any(LimitOrder.class));
 
     // Then
-    assertThat(taker.getStatus(), equalTo(FILLED));
+    assertThat(taker.getStatus()).isEqualTo(FILLED);
 
     verify(onFill)
         .accept(
             argThat(
-                fillMatcher()
-                    .whereApiKey(equalTo(TAKER))
-                    .whereTaker(equalTo(true))
-                    .whereTrade(
-                        userTradeMatcher()
-                            .whereOrderId(equalTo(taker.getId()))
-                            .whereId(notNullValue(String.class))
-                            .whereFeeAmount(equalTo(new BigDecimal("0.005")))
-                            .whereFeeCurrency(equalTo(BTC))
-                            .whereOriginalAmount(equalTo(new BigDecimal(5)))
-                            .wherePrice(equalTo(new BigDecimal(100)))
-                            .whereType(equalTo(BID)))));
+                new AssertionMatcher<Fill>() {
+                  @Override
+                  public void assertion(Fill actual) throws AssertionError {
+                    assertThat(actual)
+                        .hasApiKey(TAKER)
+                        .isTaker();
+                    assertThat(actual.getTrade())
+                        .hasOrderId(taker.getId())
+                        .hasId()
+                        .hasFeeAmount(new BigDecimal("0.005"))
+                        .hasFeeCurrency(BTC)
+                        .hasOriginalAmount(new BigDecimal(5))
+                        .hasPrice(new BigDecimal(100))
+                        .hasType(BID);
+                  }
+                }));
 
     verify(onFill)
         .accept(
             argThat(
-                fillMatcher()
-                    .whereApiKey(equalTo(MAKER))
-                    .whereTaker(equalTo(false))
-                    .whereTrade(
-                        userTradeMatcher()
-                            .whereOrderId(equalTo(maker.getId()))
-                            .whereId(notNullValue(String.class))
-                            .whereFeeAmount(equalTo(new BigDecimal("0.500")))
-                            .whereFeeCurrency(equalTo(USD))
-                            .whereOriginalAmount(equalTo(new BigDecimal(5)))
-                            .wherePrice(equalTo(new BigDecimal(100)))
-                            .whereType(equalTo(ASK)))));
+                new AssertionMatcher<Fill>() {
+                  @Override
+                  public void assertion(Fill actual) throws AssertionError {
+                    assertThat(actual)
+                        .hasApiKey(MAKER)
+                        .isNotTaker();
+                    assertThat(actual.getTrade())
+                        .hasOrderId(maker.getId())
+                        .hasId()
+                        .hasFeeAmount(new BigDecimal("0.500"))
+                        .hasFeeCurrency(USD)
+                        .hasOriginalAmount(new BigDecimal(5))
+                        .hasPrice(new BigDecimal(100))
+                        .hasType(ASK);
+                  }
+                }));
 
     verifyNoMoreInteractions(onFill);
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), empty());
-    assertThat(book.getAsks(), empty());
+    assertThat(book.getBids()).isEmpty();
+    assertThat(book.getAsks()).isEmpty();
   }
 
   @Test
@@ -348,16 +359,16 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker.getStatus(), equalTo(PARTIALLY_FILLED));
+    assertThat(taker.getStatus()).isEqualTo(PARTIALLY_FILLED);
 
     verify(onFill).accept(argThat(useAmount(TAKER, taker, new BigDecimal(5))));
     verify(onFill).accept(argThat(useAmount(MAKER, maker, new BigDecimal(5))));
     verifyNoMoreInteractions(onFill);
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), empty());
-    assertThat(book.getAsks(), hasSize(1));
-    assertThat(book.getAsks().get(0).getCumulativeAmount(), equalTo(new BigDecimal(5)));
+    assertThat(book.getBids()).isEmpty();
+    assertThat(book.getAsks()).hasSize(1);
+    assertThat(book.getAsks().get(0).getCumulativeAmount()).isEqualTo(new BigDecimal(5));
   }
 
   @Test
@@ -382,16 +393,16 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker.getStatus(), equalTo(PARTIALLY_FILLED));
+    assertThat(taker.getStatus()).isEqualTo(PARTIALLY_FILLED);
 
     verify(onFill).accept(argThat(useAmount(TAKER, taker, new BigDecimal(5))));
     verify(onFill).accept(argThat(useAmount(MAKER, maker, new BigDecimal(5))));
     verifyNoMoreInteractions(onFill);
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), hasSize(1));
-    assertThat(book.getAsks(), empty());
-    assertThat(book.getBids().get(0).getCumulativeAmount(), equalTo(new BigDecimal(5)));
+    assertThat(book.getBids()).hasSize(1);
+    assertThat(book.getAsks()).isEmpty();
+    assertThat(book.getBids().get(0).getCumulativeAmount()).isEqualTo(new BigDecimal(5));
   }
 
   @SuppressWarnings("unchecked")
@@ -438,18 +449,16 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker1.getStatus(), equalTo(FILLED));
+    assertThat(taker1.getStatus()).isEqualTo(FILLED);
 
     verify(onFill, atLeastOnce()).accept(fillCaptor1.capture());
-    assertThat(
-        fillCaptor1.getAllValues(),
-        contains(
-            useAmount(TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice()),
-            useAmount(MAKER, maker1, maker1.getOriginalAmount()),
-            useAmount(TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice()),
-            useAmount(MAKER, maker4, maker4.getOriginalAmount()),
-            useAmount(TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice()),
-            useAmount(MAKER, maker2, new BigDecimal(1))));
+    assertThat(fillCaptor1.getAllValues()).hasSize(6);
+    assertFill(fillCaptor1.getAllValues().get(0), TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(1), MAKER, maker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(2), TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(3), MAKER, maker4, maker4.getOriginalAmount(), maker4.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(4), TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(5), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
 
     verifyNoMoreInteractions(onFill);
     reset(onFill);
@@ -464,20 +473,18 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker2.getStatus(), equalTo(FILLED));
+    assertThat(taker2.getStatus()).isEqualTo(FILLED);
 
     verify(onFill, atLeastOnce()).accept(fillCaptor2.capture());
-    assertThat(
-        fillCaptor2.getAllValues(),
-        contains(
-            useAmount(TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice()),
-            useAmount(MAKER, maker2, new BigDecimal(1)),
-            useAmount(TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice()),
-            useAmount(MAKER, maker3, new BigDecimal(4))));
+    assertThat(fillCaptor2.getAllValues()).hasSize(4);
+    assertFill(fillCaptor2.getAllValues().get(0), TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(1), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(2), TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(3), MAKER, maker3, new BigDecimal(4), maker3.getLimitPrice());
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), empty());
-    assertThat(book.getAsks(), empty());
+    assertThat(book.getBids()).isEmpty();
+    assertThat(book.getAsks()).isEmpty();
   }
 
   @SuppressWarnings("unchecked")
@@ -524,18 +531,16 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker1.getStatus(), equalTo(FILLED));
+    assertThat(taker1.getStatus()).isEqualTo(FILLED);
 
     verify(onFill, atLeastOnce()).accept(fillCaptor1.capture());
-    assertThat(
-        fillCaptor1.getAllValues(),
-        contains(
-            useAmount(TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice()),
-            useAmount(MAKER, maker1, maker1.getOriginalAmount()),
-            useAmount(TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice()),
-            useAmount(MAKER, maker4, maker4.getOriginalAmount()),
-            useAmount(TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice()),
-            useAmount(MAKER, maker2, new BigDecimal(1))));
+    assertThat(fillCaptor1.getAllValues()).hasSize(6);
+    assertFill(fillCaptor1.getAllValues().get(0), TAKER, taker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(1), MAKER, maker1, maker1.getOriginalAmount(), maker1.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(2), TAKER, taker1, maker4.getOriginalAmount(), maker4.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(3), MAKER, maker4, maker4.getOriginalAmount(), maker4.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(4), TAKER, taker1, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor1.getAllValues().get(5), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
 
     verifyNoMoreInteractions(onFill);
     reset(onFill);
@@ -550,36 +555,37 @@ public class TestMatchingEngine {
                 .build());
 
     // Then
-    assertThat(taker2.getStatus(), equalTo(FILLED));
+    assertThat(taker2.getStatus()).isEqualTo(FILLED);
 
     verify(onFill, atLeastOnce()).accept(fillCaptor2.capture());
-    assertThat(
-        fillCaptor2.getAllValues(),
-        contains(
-            useAmount(TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice()),
-            useAmount(MAKER, maker2, new BigDecimal(1)),
-            useAmount(TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice()),
-            useAmount(MAKER, maker3, new BigDecimal(4))));
+    assertThat(fillCaptor2.getAllValues()).hasSize(4);
+    assertFill(fillCaptor2.getAllValues().get(0), TAKER, taker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(1), MAKER, maker2, new BigDecimal(1), maker2.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(2), TAKER, taker2, new BigDecimal(4), maker3.getLimitPrice());
+    assertFill(fillCaptor2.getAllValues().get(3), MAKER, maker3, new BigDecimal(4), maker3.getLimitPrice());
 
     Level3OrderBook book = matchingEngine.book();
-    assertThat(book.getBids(), empty());
-    assertThat(book.getAsks(), empty());
+    assertThat(book.getBids()).isEmpty();
+    assertThat(book.getAsks()).isEmpty();
   }
 
-  private FillMatcher useAmount(String apiKey, LimitOrder order, BigDecimal amount) {
-    return useAmount(apiKey, order, amount, order.getLimitPrice());
+  private AssertionMatcher<Fill> useAmount(String apiKey, LimitOrder order, BigDecimal amount) {
+    return new AssertionMatcher<Fill>() {
+      @Override
+      public void assertion(Fill actual) throws AssertionError {
+        assertFill(actual, apiKey, order, amount, order.getLimitPrice());
+      }
+    };
   }
 
-  private FillMatcher useAmount(
-      String apiKey, LimitOrder order, BigDecimal amount, BigDecimal price) {
-    return fillMatcher()
-        .whereApiKey(equalTo(apiKey))
-        .whereTrade(
-            userTradeMatcher()
-                .whereOrderId(equalTo(order.getId()))
-                .whereId(notNullValue(String.class))
-                .whereOriginalAmount(equalTo(amount))
-                .wherePrice(equalTo(price))
-                .whereType(equalTo(order.getType())));
+  private void assertFill(Fill fill, String apiKey, LimitOrder order, BigDecimal amount, BigDecimal price) {
+    assertThat(fill)
+        .hasApiKey(apiKey);
+    assertThat(fill.getTrade())
+        .hasOrderId(order.getId())
+        .hasId()
+        .hasOriginalAmount(amount)
+        .hasPrice(price)
+        .hasType(order.getType());
   }
 }
