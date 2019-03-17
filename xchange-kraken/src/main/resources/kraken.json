@@ -123,16 +123,6 @@
       "min_amount": 0.030,
       "trading_fee": 0.0026
     },
-    "ICN/BTC": {
-      "price_scale": 6,
-      "min_amount": 2.000,
-      "trading_fee": 0.0026
-    },
-    "ICN/ETH": {
-      "price_scale": 6,
-      "min_amount": 2.000,
-      "trading_fee": 0.0026
-    },
     "LTC/EUR": {
       "price_scale": 2,
       "min_amount": 0.100,
