@@ -16,7 +16,7 @@ import org.knowm.xchange.blockchain.dto.BitcoinAddresses;
 public interface Blockchain {
 
   @GET
-  @Path("address/{address}?format=json")
+  @Path("rawaddr/{address}?format=json")
   BitcoinAddress getBitcoinAddress(@PathParam("address") String address) throws IOException;
 
   /**

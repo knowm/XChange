@@ -1,32 +1,14 @@
 package org.knowm.xchange.bitmex;
 
-import com.google.common.collect.BiMap;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexDepth;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrder;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTrade;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrder;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderDescription;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderResponse;
-import org.knowm.xchange.bitmex.dto.trade.BitmexOrderStatus;
-import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
+import org.knowm.xchange.bitmex.dto.marketdata.*;
+import org.knowm.xchange.bitmex.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -39,14 +21,14 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 public class BitmexAdapters {
+
+  private static final BigDecimal SATOSHIS_BY_BTC = BigDecimal.valueOf(100_000_000L);
 
   public static OrderBook adaptOrderBook(BitmexDepth bitmexDepth, CurrencyPair currencyPair) {
 
@@ -61,14 +43,16 @@ public class BitmexAdapters {
         bidsOrdersContainer.getLimitOrders());
   }
 
-  public static BitmexDepth adaptDepth(BitmexPublicOrderList orders, CurrencyPair currencyPair) {
+  public static BitmexDepth adaptDepth(BitmexPublicOrderList orders) {
 
     BitmexDepth bitmexDepth = new BitmexDepth(new ArrayList<>(), new ArrayList<>());
 
     for (BitmexPublicOrder bitmexOrder : orders) {
-      if (bitmexOrder.getSide().equals(BitmexSide.BUY)) bitmexDepth.getBids().add(bitmexOrder);
-      else if (bitmexOrder.getSide().equals(BitmexSide.SELL))
+      if (bitmexOrder.getSide().equals(BitmexSide.BUY)) {
+        bitmexDepth.getBids().add(bitmexOrder);
+      } else if (bitmexOrder.getSide().equals(BitmexSide.SELL)) {
         bitmexDepth.getAsks().add(bitmexOrder);
+      }
     }
 
     return bitmexDepth;
@@ -115,7 +99,7 @@ public class BitmexAdapters {
   public static LimitOrder adaptOrder(BitmexPrivateOrder rawOrder) {
     OrderType type = rawOrder.getSide() == BitmexSide.BUY ? OrderType.BID : OrderType.ASK;
 
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(rawOrder.getSymbol());
+    CurrencyPair pair = adaptSymbolToCurrencyPair(rawOrder.getSymbol());
 
     return new LimitOrder(
         type,
@@ -166,28 +150,11 @@ public class BitmexAdapters {
 
     List<Balance> balances = new ArrayList<>(bitmexWallet.size());
     for (Entry<String, BigDecimal> balancePair : bitmexWallet.entrySet()) {
-      Currency currency = adaptCurrency(balancePair.getKey());
+      Currency currency = new Currency(balancePair.getKey());
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
     return new Wallet(balances);
-  }
-
-  public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> bitmexCurrencyPairs) {
-
-    Set<CurrencyPair> currencyPairs = new HashSet<>();
-    for (String bitmexCurrencyPair : bitmexCurrencyPairs) {
-      CurrencyPair currencyPair = BitmexUtils.translateBitmexCurrencyPair(bitmexCurrencyPair);
-      if (currencyPair != null) {
-        currencyPairs.add(currencyPair);
-      }
-    }
-    return currencyPairs;
-  }
-
-  public static Currency adaptCurrency(String bitmexCurrencyCode) {
-
-    return BitmexUtils.translateBitmexCurrencyCode(bitmexCurrencyCode);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
@@ -215,7 +182,7 @@ public class BitmexAdapters {
 
     BigDecimal originalAmount = bitmexOrder.getVolume();
     BigDecimal filledAmount = bitmexOrder.getVolumeExecuted();
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(orderDescription.getAssetPair());
+    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (bitmexOrder.getOpenTimestamp() * 1000L));
 
     OrderStatus status = adaptOrderStatus(bitmexOrder.getStatus());
@@ -248,69 +215,6 @@ public class BitmexAdapters {
 
     List<String> orderIds = orderResponse.getTransactionIds();
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
-  }
-
-  public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData originalMetaData,
-      List<BitmexTicker> tickers,
-      BiMap<BitmexPrompt, String> contracts) {
-
-    // So we will create 3 maps.
-    // A pairs map ( "ETC/BTC" -> price_scale:, min_amount:)
-    // A currencies map : "BTC"->"scale": 5,"withdrawal_fee": 0.001
-    // A bitmexContracts Map XMRZ17->XMR.BTC.MONTHLY
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
-    BitmexUtils.setBitmexAssetPairs(tickers);
-
-    pairs.putAll(originalMetaData.getCurrencyPairs());
-    currencies.putAll(originalMetaData.getCurrencies());
-
-    for (BitmexTicker ticker : tickers) {
-      String quote = ticker.getQuoteCurrency();
-      String base = ticker.getRootSymbol();
-      Currency baseCurrencyCode = BitmexAdapters.adaptCurrency(base);
-      Currency quoteCurrencyCode = BitmexAdapters.adaptCurrency(quote);
-
-      CurrencyPair pair = new CurrencyPair(baseCurrencyCode, quoteCurrencyCode);
-      pairs.put(pair, adaptPair(ticker, pairs.get(pair)));
-      if (!BitmexUtils.bitmexCurrencies.containsKey(baseCurrencyCode)
-          && !BitmexUtils.bitmexCurrencies.containsValue(base))
-        BitmexUtils.bitmexCurrencies.put(baseCurrencyCode, base);
-      if (!BitmexUtils.bitmexCurrencies.containsKey(quoteCurrencyCode)
-          && !BitmexUtils.bitmexCurrencies.containsValue(quote))
-        BitmexUtils.bitmexCurrencies.put(quoteCurrencyCode, quote);
-
-      int scale = Math.max(0, ticker.getTickSize().stripTrailingZeros().scale());
-      BigDecimal baseWithdrawalFee =
-          originalMetaData.getCurrencies().get(baseCurrencyCode) == null
-              ? null
-              : originalMetaData.getCurrencies().get(baseCurrencyCode).getWithdrawalFee();
-      BigDecimal quoteWithdrawalFee =
-          originalMetaData.getCurrencies().get(quoteCurrencyCode) == null
-              ? null
-              : originalMetaData.getCurrencies().get(quoteCurrencyCode).getWithdrawalFee();
-
-      currencies.put(baseCurrencyCode, new CurrencyMetaData(scale, baseWithdrawalFee));
-      currencies.put(quoteCurrencyCode, new CurrencyMetaData(scale, quoteWithdrawalFee));
-      BitmexPrompt prompt =
-          contracts.inverse().get(ticker.getSymbol().replaceFirst(ticker.getRootSymbol(), ""))
-                  != null
-              ? contracts.inverse().get(ticker.getSymbol().replaceFirst(ticker.getRootSymbol(), ""))
-              : BitmexPrompt.PERPETUAL;
-
-      BitmexContract contract = new BitmexContract(pair, prompt);
-      if (!BitmexUtils.bitmexContracts.containsKey(ticker.getSymbol())
-          && !BitmexUtils.bitmexContracts.containsValue(contract))
-        BitmexUtils.bitmexContracts.put(ticker.getSymbol(), contract);
-    }
-
-    return new ExchangeMetaData(
-        pairs,
-        currencies,
-        originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
-        originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
-        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
   }
 
   private static CurrencyPairMetaData adaptPair(
@@ -376,6 +280,15 @@ public class BitmexAdapters {
         : currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
   }
 
+  public static CurrencyPair adaptSymbolToCurrencyPair(String bitmexSymbol) {
+
+    // Assuming that base symbol has 3 characters
+    String baseSymbol = bitmexSymbol.substring(0, 3);
+    String counterSymbol = bitmexSymbol.substring(3);
+
+    return new CurrencyPair(baseSymbol, counterSymbol);
+  }
+
   public static class OrdersContainer {
 
     private final long timestamp;
@@ -403,7 +316,7 @@ public class BitmexAdapters {
   }
 
   public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
-    CurrencyPair pair = BitmexUtils.translateBitmexCurrencyPair(exec.symbol);
+    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
     // the "lastQty" parameter is in the USD currency for ???/USD pairs
     OrderType orderType = convertType(exec.side);
     return orderType == null
@@ -455,7 +368,7 @@ public class BitmexAdapters {
         walletTransaction.getAddress(),
         dateFunding,
         Currency.getInstance(currency),
-        walletTransaction.getAmount().divide(BigDecimal.valueOf(100_000_000L)),
+        walletTransaction.getAmount().divide(SATOSHIS_BY_BTC),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
         walletTransaction.getTransactType().equals("Deposit")
@@ -463,7 +376,9 @@ public class BitmexAdapters {
             : FundingRecord.Type.WITHDRAWAL,
         FundingRecord.Status.COMPLETE,
         null,
-        walletTransaction.getFee(),
+        walletTransaction.getFee() != null
+            ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC)
+            : null,
         walletTransaction.getText());
   }
 }

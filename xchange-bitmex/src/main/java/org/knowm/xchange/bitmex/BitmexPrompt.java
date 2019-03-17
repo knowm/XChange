@@ -3,6 +3,7 @@ package org.knowm.xchange.bitmex;
 /** Delivery dates for future date currencies */
 public enum BitmexPrompt {
   PERPETUAL("perpetual"),
+  DAILY("daily"),
   WEEKLY("weekly"),
   MONTHLY("monthly"),
   QUARTERLY("quarterly"),

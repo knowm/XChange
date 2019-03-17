@@ -2,6 +2,7 @@ package org.knowm.xchange.cryptofacilities.service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -46,7 +47,6 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
     }
 
     String decodedQuery = null;
-
     try {
       decodedQuery = URLDecoder.decode(restInvocation.getQueryString(), "UTF-8");
     } catch (UnsupportedEncodingException e) {
@@ -54,12 +54,19 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
     }
 
     sha256.update(decodedQuery.getBytes());
+    try {
+      sha256.update(
+          URLDecoder.decode(restInvocation.getRequestBody(), StandardCharsets.UTF_8.name())
+              .getBytes());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Could not SHA256 the POST data.");
+    }
+
     sha256.update(restInvocation.getParamValue(HeaderParam.class, "Nonce").toString().getBytes());
-    sha256.update((restInvocation.getPath()).getBytes());
+    sha256.update(restInvocation.getPath().getBytes());
 
     Mac mac512 = getMac();
     mac512.update(sha256.digest());
-
     return Base64.getEncoder().encodeToString(mac512.doFinal()).trim();
   }
 }
