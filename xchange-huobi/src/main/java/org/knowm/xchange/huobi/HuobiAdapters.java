@@ -88,7 +88,9 @@ public class HuobiAdapters {
     BigDecimal minQty =
         metadata == null
             ? null
-            : metadata.getMinimumAmount().setScale(Integer.parseInt(pair.getAmountPrecision()));
+            : metadata
+                .getMinimumAmount()
+                .setScale(Integer.parseInt(pair.getAmountPrecision()), RoundingMode.DOWN);
     FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
     return new CurrencyPairMetaData(
         fee,

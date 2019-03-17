@@ -220,6 +220,8 @@ public abstract class Order implements Serializable {
         + timestamp
         + ", status="
         + status
+        + ", flags="
+        + flags
         + "]";
   }
 
