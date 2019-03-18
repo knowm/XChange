@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -74,7 +75,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
               .collect(Collectors.toList());
-      return new AccountInfo(new Wallet(balances));
+      return new AccountInfo(new Date(acc.updateTime), new Wallet(balances));
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
