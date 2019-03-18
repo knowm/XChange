@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
 
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,9 @@ public class BinanceManualExample {
                 .addTicker(CurrencyPair.LTC_BTC)
                 .addOrderbook(CurrencyPair.LTC_BTC)
                 .addTrades(CurrencyPair.BTC_USDT)
+                .addOrders(CurrencyPair.ETH_BTC)
+                .addBalances(Currency.BTC)
+                .addUserTrades(CurrencyPair.ETH_BTC)
                 .build();
 
         exchange.connect(subscription).blockingAwait();
@@ -63,14 +67,14 @@ public class BinanceManualExample {
 
             // Level 1 (generic) APIs
             orderChanges = exchange.getStreamingTradeService()
-                .getOrderChanges()
+                .getOrderChanges(CurrencyPair.ETH_BTC)
                 .subscribe(oc -> LOG.info("Order change: {}", oc));
             userTrades = exchange.getStreamingTradeService()
-                .getUserTrades()
+                .getUserTrades(CurrencyPair.ETH_BTC)
                 .subscribe(trade -> LOG.info("User trade: {}", trade));
             balances = exchange.getStreamingAccountService()
-                .getBalanceChanges()
-                .subscribe(trade -> LOG.info("Balance: {}", trade));
+                .getBalanceChanges(Currency.BTC)
+                .subscribe(trade -> LOG.info("Balance: {}", trade), e -> LOG.error("Error in balance stream", e));
 
             // Level 2 (exchange-specific) APIs
             executionReports = exchange.getStreamingTradeService()
