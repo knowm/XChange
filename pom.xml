@@ -180,6 +180,7 @@
         <module>xchange-quadrigacx</module>
         <module>xchange-quoine</module>
         <module>xchange-ripple</module>
+        <module>xchange-simulated</module>
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
