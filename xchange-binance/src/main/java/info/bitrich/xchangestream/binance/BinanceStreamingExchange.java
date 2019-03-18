@@ -15,7 +15,6 @@ import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,10 +70,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             completables.add(streamingService.connect());
         }
 
-        if (subscriptions.hasAuthenticated()) {
-            if (exchangeSpecification.getApiKey() == null) {
-                throw new ExchangeSecurityException("Cannot subscribe to authenticated streams without API key");
-            }
+        if (exchangeSpecification.getApiKey() != null) {
             LOG.info("Connecting to authenticated web socket");
             BinanceAuthenticated binance = RestProxyFactory.createProxy(
                 BinanceAuthenticated.class,
@@ -95,7 +91,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
         return Completable.concat(completables)
             .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
-            .doOnComplete(() -> streamingAccountService.openSubscriptions(subscriptions))
+            .doOnComplete(() -> streamingAccountService.openSubscriptions())
             .doOnComplete(() -> streamingTradeService.openSubscriptions());
     }
 

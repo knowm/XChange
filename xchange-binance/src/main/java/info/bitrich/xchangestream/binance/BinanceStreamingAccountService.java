@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
-import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
@@ -44,7 +43,6 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
     private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
     private final BinanceAccountService accountService;
     private final Runnable onApiCall;
-    private ProductSubscription subscriptions;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
@@ -53,28 +51,33 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
         this.accountService = accountService;
         this.onApiCall = onApiCall;
 
+        Date beginningOfTime = new Date(0);
+        AtomicReference<Date> lastTimestamp = new AtomicReference<>(beginningOfTime);
+
         // Post a fresh balance snapshot from REST every time the websocket reconnects since
         // we have no idea what we missed.
-        binanceUserDataStreamingService.subscribeConnectionSuccess()
-                .subscribe(x -> postInitialAccountSnapshot());
+        if (binanceUserDataStreamingService != null) {
+            binanceUserDataStreamingService.subscribeConnectionSuccess()
+                    .subscribe(x -> {
+                        lastTimestamp.set(beginningOfTime);
+                        postInitialAccountSnapshot();
+                    });
+        }
 
         // Combine the websocket data and any manually fetched snapshots into a single
         // stream
-        AtomicReference<Date> lastTimestamp = new AtomicReference<>(new Date(0));
         this.balanceChanges = accountInfoPublisher
                 .map(a -> new BalancesAndTimestamp(
                         a.getBalances().stream()
                                 .map(BinanceWebsocketBalance::toBalance)
-                                // For consistency with manually fetched balances
-                                .filter(b -> subscriptions.getBalances().contains(b.getCurrency()))
                                 .collect(toList()),
                         a.getEventTime())
                 )
                 .mergeWith(manuallyFetchedBalancesPublisher)
                 .filter(a -> lastTimestamp.getAndAccumulate(a.timestamp, (x, y) -> x.before(y) ? y : x)
                         .before(a.timestamp))
-                .share()
-                .flatMap(a -> Observable.fromIterable(a.balances));
+                .flatMap(a -> Observable.fromIterable(a.balances))
+                .share();
     }
 
     public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
@@ -102,11 +105,8 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
      *
      * As we receive messages as soon as the connection is open, we need to register subscribers to handle these before the
      * first messages arrive.
-     *
-     * @param subscriptions The subscriptions to open.
      */
-    public void openSubscriptions(ProductSubscription subscriptions) {
-        this.subscriptions = subscriptions;
+    public void openSubscriptions() {
         if (binanceUserDataStreamingService != null) {
             accountInfo = binanceUserDataStreamingService
                 .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_INFO)
@@ -142,7 +142,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
         if (accountInfo != null && !accountInfo.isDisposed())
             accountInfo.dispose();
         this.binanceUserDataStreamingService = binanceUserDataStreamingService;
-        openSubscriptions(this.subscriptions);
+        openSubscriptions();
     }
 
     private OutboundAccountInfoBinanceWebsocketTransaction accountInfo(JsonNode json) {
