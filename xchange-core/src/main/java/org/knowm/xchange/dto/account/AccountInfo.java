@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -30,10 +29,11 @@ public final class AccountInfo implements Serializable {
   /** The wallets owned by this account */
   private final Map<String, Wallet> wallets;
 
-  /** The timestamp at which this account information was generated. May be
-   * null if not provided by the exchange. */
-  @Nullable
-  private final Date timestamp;
+  /**
+   * The timestamp at which this account information was generated. May be null if not provided by
+   * the exchange.
+   */
+  @Nullable private final Date timestamp;
 
   /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(Wallet... wallets) {
@@ -80,7 +80,6 @@ public final class AccountInfo implements Serializable {
     this(username, tradingFee, wallets, null);
   }
 
-
   /**
    * Constructs an {@link AccountInfo}.
    *
@@ -89,7 +88,8 @@ public final class AccountInfo implements Serializable {
    * @param wallets the user's wallets
    * @param timestamp the timestamp for the account snapshot.
    */
-  public AccountInfo(String username, BigDecimal tradingFee, Collection<Wallet> wallets, Date timestamp) {
+  public AccountInfo(
+      String username, BigDecimal tradingFee, Collection<Wallet> wallets, Date timestamp) {
 
     this.username = username;
     this.tradingFee = tradingFee;
@@ -156,8 +156,8 @@ public final class AccountInfo implements Serializable {
   }
 
   /**
-   * @return The timestamp at which this account information was generated. May be null if
-   * not provided by the exchange.
+   * @return The timestamp at which this account information was generated. May be null if not
+   *     provided by the exchange.
    */
   public Date getTimestamp() {
     return timestamp;
