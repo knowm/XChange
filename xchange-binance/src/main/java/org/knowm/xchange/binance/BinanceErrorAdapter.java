@@ -6,6 +6,7 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
+import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 
@@ -24,6 +25,14 @@ public final class BinanceErrorAdapter {
         return new ExchangeSecurityException(message, e);
       case -1003:
         return new RateLimitExceededException(message, e);
+      case -1010:
+      case -2010:
+      case -2011:
+        if (e.getMessage().contains("insufficient balance")) {
+          return new FundsExceededException(e.getMessage(), e);
+        } else {
+          return new ExchangeException(message, e);
+        }
       case -1016:
         return new ExchangeUnavailableException(message, e);
       case -1021:
