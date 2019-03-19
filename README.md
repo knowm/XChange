@@ -119,7 +119,7 @@ If you missing a specific exchange implementation, feel free to propose a pull r
 This is an, not so complete, list of projects that use XChange-Stream, feel free to add your project below.
 - [XChange-Trade-Bot](https://github.com/yurivin/xchange-trade-bot) by yurivin
 - [Crypto Websockets](https://github.com/firepol/crypto-websockets) by firepol
-- [CryptoRealTime - A Google Cloud Dataflow/Cloud Bigtable Websockets example with real time visualization](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/cryptorealtime) + [Medium post](https://medium.com/@igalic/bigtable-beam-dataflow-cryptocurrencies-gcp-terraform-java-maven-4e7873811e86) by galic1987
+- [CryptoRealTime](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/cryptorealtime) by galic1987
 
 ## License
 Copyright 2017 Zdenek Dolezal, Michal Oprendek
