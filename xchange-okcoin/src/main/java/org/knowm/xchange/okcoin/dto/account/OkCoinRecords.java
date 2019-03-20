@@ -94,7 +94,8 @@ public class OkCoinRecords {
   public enum RechargeStatus {
     FAILURE(-1, "Failure"),
     WAIT_CONFIRMATION(0, "Wait Confirmation"),
-    COMPLETE(1, "Complete"),
+    CONFIRMATION_ACCOUNT(1, "Confirmation Account;"),
+    RECHARGE_SUCCESS(2, "Complete")
     ;
 
     private static final Map<Integer, RechargeStatus> fromInt =
