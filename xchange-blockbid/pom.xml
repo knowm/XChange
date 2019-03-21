@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.knowm.xchange</groupId>
+    <artifactId>xchange-parent</artifactId>
+    <version>4.3.17-SNAPSHOT</version>
+  </parent>
+    
+  <artifactId>xchange-blockbid</artifactId>
+  
+  <name>XChange blockbid</name>
+  <description>XChange implementation for Blockbid</description>
+  
+  <url>http://knowm.org/open-source/xchange/</url>
+  <inceptionYear>2012</inceptionYear>
+  
+  <organization>
+  	<name>Knowm Inc.</name>
+  	<url>http://knowm.org/open-source/xchange/</url>
+  </organization>
+  
+  <dependencies>
+  
+    <!-- <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency> -->
+    
+    <dependency>
+    	<groupId>org.knowm.xchange</groupId>
+    	<artifactId>xchange-core</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    
+  </dependencies>
+</project>

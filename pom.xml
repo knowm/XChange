@@ -188,7 +188,8 @@
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
-    </modules>
+    <module>xchange-blockbid</module>
+  </modules>
 
     <repositories>
         <repository>
