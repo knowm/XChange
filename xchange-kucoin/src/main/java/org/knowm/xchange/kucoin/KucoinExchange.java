@@ -5,9 +5,12 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
+
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   /**
    * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)} to specify
@@ -62,7 +65,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    throw new UnsupportedOperationException("Kucoin does not use a nonce factory.");
+    return nonceFactory;
   }
 
   @Override

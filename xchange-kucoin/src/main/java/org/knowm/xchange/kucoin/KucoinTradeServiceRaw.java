@@ -2,13 +2,13 @@ package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.OrderCancelResponse;
-import com.kucoin.sdk.rest.response.OrderCreateResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.Pagination;
-import com.kucoin.sdk.rest.response.TradeResponse;
 import java.io.IOException;
+import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderCreateResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.Pagination;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
 
@@ -18,32 +18,60 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
 
   public Pagination<OrderResponse> getKucoinOpenOrders(String symbol, int page, int pageSize)
       throws IOException {
+    checkAuthenticated();
     return classifyingExceptions(
         () ->
-            kucoinRestClient
-                .orderAPI()
-                .listOrders(symbol, null, null, "active", null, null, pageSize, page));
+            orderApi.queryOrders(
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                symbol,
+                null,
+                null,
+                "active",
+                null,
+                null,
+                pageSize,
+                page));
   }
 
   public Pagination<TradeResponse> getKucoinFills(String symbol, int page, int pageSize)
       throws IOException {
+    checkAuthenticated();
     return classifyingExceptions(
         () ->
-            kucoinRestClient
-                .fillAPI()
-                .listFills(symbol, null, null, null, null, null, pageSize, page));
+            fillApi.queryTrades(
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                symbol,
+                null,
+                null,
+                null,
+                null,
+                null,
+                pageSize,
+                page));
   }
 
   public OrderCancelResponse kucoinCancelAllOrders(String symbol) throws IOException {
-    return classifyingExceptions(() -> kucoinRestClient.orderAPI().cancelAllOrders(symbol));
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> orderApi.cancelOrders(apiKey, digest, nonceFactory, passphrase, symbol));
   }
 
   public OrderCancelResponse kucoinCancelOrder(String orderId) throws IOException {
-    return classifyingExceptions(() -> kucoinRestClient.orderAPI().cancelOrder(orderId));
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> orderApi.cancelOrder(apiKey, digest, nonceFactory, passphrase, orderId));
   }
 
   public OrderCreateResponse kucoinCreateOrder(OrderCreateApiRequest opsRequest)
       throws IOException {
-    return classifyingExceptions(() -> kucoinRestClient.orderAPI().createOrder(opsRequest));
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> orderApi.createOrder(apiKey, digest, nonceFactory, passphrase, opsRequest));
   }
 }
