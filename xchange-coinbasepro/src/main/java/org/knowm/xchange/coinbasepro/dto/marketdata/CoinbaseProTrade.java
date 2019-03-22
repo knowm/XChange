@@ -13,27 +13,6 @@ public class CoinbaseProTrade {
   private String makerOrderId;
   private String takerOrderId;
 
-  /**
-   * @param timestamp
-   * @param tradeId
-   * @param price
-   * @param size
-   * @param side
-   */
-  public CoinbaseProTrade(
-      @JsonProperty("time") String timestamp,
-      @JsonProperty("trade_id") long tradeId,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("side") String side) {
-
-    this.timestamp = timestamp;
-    this.tradeId = tradeId;
-    this.price = price;
-    this.size = size;
-    this.side = side;
-  }
-
   public CoinbaseProTrade(
       @JsonProperty("time") String timestamp,
       @JsonProperty("trade_id") long tradeId,
