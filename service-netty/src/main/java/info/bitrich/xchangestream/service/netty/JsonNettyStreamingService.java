@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public abstract class JsonNettyStreamingService extends NettyStreamingService<JsonNode> {
     private static final Logger LOG = LoggerFactory.getLogger(JsonNettyStreamingService.class);
@@ -20,6 +21,10 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
 
     public JsonNettyStreamingService(String apiUrl, int maxFramePayloadLength) {
         super(apiUrl, maxFramePayloadLength);
+    }
+
+    public JsonNettyStreamingService(String apiUrl, int maxFramePayloadLength, Duration connectionTimeout, Duration retryDuration, int idleTimeoutSeconds) {
+        super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     }
 
     @Override
