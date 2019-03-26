@@ -74,6 +74,10 @@ public class BitstampTradeHistoryParams
     return startTime;
   }
 
+  /**
+   * This will fetch historic user trades with a timestamp greater than or equal to startTime.
+   * @param startTime a start time with seconds precision. Milliseconds will be truncated.
+   */
   @Override
   public void setStartTime(Date startTime) {
     this.startTime = startTime;
