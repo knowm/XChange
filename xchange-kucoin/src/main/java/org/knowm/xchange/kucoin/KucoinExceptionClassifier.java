@@ -1,26 +1,24 @@
 package org.knowm.xchange.kucoin;
 
-import com.kucoin.sdk.exception.KucoinApiException;
 import java.io.IOException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
+import org.knowm.xchange.kucoin.service.KucoinApiException;
 
 public final class KucoinExceptionClassifier {
 
   KucoinExceptionClassifier() {}
 
-  public static <T> T classifyingExceptions(IOExceptionThrowingSupplier<T> apiCall)
+  public static <T> T classifyingExceptions(IOExceptionThrowingSupplier<KucoinResponse<T>> apiCall)
       throws IOException {
-    try {
-      T result = apiCall.get();
-      if (result == null) {
-        throw new ExchangeException("Empty response from Kucoin. Check logs.");
-      }
-      return result;
-    } catch (KucoinApiException e) {
-      throw classify(e);
+    KucoinResponse<T> response = apiCall.get();
+    if (response.isSuccessful()) {
+      return response.getData();
+    } else {
+      throw classify(new KucoinApiException(response.getCode(), response.getMessage()));
     }
   }
 
