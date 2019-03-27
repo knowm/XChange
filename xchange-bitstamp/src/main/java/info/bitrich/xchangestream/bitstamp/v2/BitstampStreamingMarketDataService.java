@@ -1,11 +1,10 @@
-package info.bitrich.xchangestream.bitstamp;
+package info.bitrich.xchangestream.bitstamp.v2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampOrderBook;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,10 +15,14 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
 import java.util.Date;
 
+/**
+ * Bitstamp WebSocket V2 Streaming Market Data Service implementation
+ * Created by Pavel Chertalev on 15.03.2018.
+ */
 public class BitstampStreamingMarketDataService implements StreamingMarketDataService {
-    private final PusherStreamingService service;
+    private final BitstampStreamingService service;
 
-    BitstampStreamingMarketDataService(PusherStreamingService service) {
+    public BitstampStreamingMarketDataService(BitstampStreamingService service) {
         this.service = service;
     }
 
@@ -38,7 +41,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
         return service.subscribeChannel(channelName, "data")
                 .map(s -> {
                     ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-                    BitstampOrderBook orderBook = mapper.readValue(s, BitstampOrderBook.class);
+                    BitstampOrderBook orderBook = mapper.treeToValue(s.get("data"), BitstampOrderBook.class);
                     org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook bitstampOrderBook =
                             new org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook(
                                     orderBook.getTimestamp(),
@@ -61,7 +64,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
         return service.subscribeChannel(channelName, "trade")
                 .map(s -> {
                     ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-                    BitstampWebSocketTransaction transactions = mapper.readValue(s, BitstampWebSocketTransaction.class);
+                    BitstampWebSocketTransaction transactions = mapper.treeToValue(s.get("data"), BitstampWebSocketTransaction.class);
                     transactions = new BitstampWebSocketTransaction(new Date().getTime() / 1000L, transactions.getTid(),
                             transactions.getPrice(), transactions.getAmount(), transactions.getType());
                     return BitstampAdapters.adaptTrade(transactions, currencyPair, 1000);
@@ -69,9 +72,6 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
     }
 
     private String getChannelPostfix(CurrencyPair currencyPair) {
-        if (currencyPair.equals(CurrencyPair.BTC_USD)) {
-            return "";
-        }
         return "_" + currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
     }
 }
