@@ -188,6 +188,7 @@
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
+        <module>xchange-globitex</module>
     </modules>
 
     <repositories>
