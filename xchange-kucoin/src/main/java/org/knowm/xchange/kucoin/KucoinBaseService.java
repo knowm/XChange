@@ -1,27 +1,58 @@
 package org.knowm.xchange.kucoin;
 
-import com.kucoin.sdk.KucoinClientBuilder;
-import com.kucoin.sdk.KucoinRestClient;
-import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.ExchangeSpecification;
+import com.google.common.base.Strings;
+import org.knowm.xchange.kucoin.service.AccountAPI;
+import org.knowm.xchange.kucoin.service.FillAPI;
+import org.knowm.xchange.kucoin.service.HistoryAPI;
+import org.knowm.xchange.kucoin.service.KucoinApiException;
+import org.knowm.xchange.kucoin.service.KucoinDigest;
+import org.knowm.xchange.kucoin.service.OrderAPI;
+import org.knowm.xchange.kucoin.service.OrderBookAPI;
+import org.knowm.xchange.kucoin.service.SymbolAPI;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinBaseService extends BaseExchangeService<KucoinExchange> implements BaseService {
 
-  protected final KucoinRestClient kucoinRestClient;
+  protected final SymbolAPI symbolApi;
+  protected final OrderBookAPI orderBookApi;
+  protected final HistoryAPI historyApi;
+  protected final AccountAPI accountApi;
+  protected final OrderAPI orderApi;
+  protected final FillAPI fillApi;
+
+  protected KucoinDigest digest;
+  protected String apiKey;
+  protected String passphrase;
+  protected SynchronizedValueFactory<Long> nonceFactory;
 
   protected KucoinBaseService(KucoinExchange exchange) {
     super(exchange);
-    ExchangeSpecification spec = exchange.getExchangeSpecification();
-    KucoinClientBuilder builder = new KucoinClientBuilder().withBaseUrl(spec.getSslUri());
-    if (StringUtils.isNotEmpty(spec.getApiKey())) {
-      builder.withApiKey(
-          spec.getApiKey(),
-          spec.getSecretKey(),
-          (String)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase"));
-    }
-    kucoinRestClient = builder.buildRestClient();
+    this.symbolApi = service(exchange, SymbolAPI.class);
+    this.orderBookApi = service(exchange, OrderBookAPI.class);
+    this.historyApi = service(exchange, HistoryAPI.class);
+    this.accountApi = service(exchange, AccountAPI.class);
+    this.orderApi = service(exchange, OrderAPI.class);
+    this.fillApi = service(exchange, FillAPI.class);
+
+    this.digest = KucoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.passphrase =
+        (String)
+            exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
+    this.nonceFactory = exchange.getNonceFactory();
+  }
+
+  private <T> T service(KucoinExchange exchange, Class<T> clazz) {
+    return RestProxyFactory.createProxy(
+        clazz, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+  }
+
+  protected void checkAuthenticated() {
+    if (Strings.isNullOrEmpty(this.apiKey)) throw new KucoinApiException("Missing API key");
+    if (this.digest == null) throw new KucoinApiException("Missing secret key");
+    if (Strings.isNullOrEmpty(this.passphrase)) throw new KucoinApiException("Missing passphrase");
   }
 }

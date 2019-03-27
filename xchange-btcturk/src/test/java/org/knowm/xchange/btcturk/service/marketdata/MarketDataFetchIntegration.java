@@ -24,7 +24,7 @@ import org.knowm.xchange.service.marketdata.params.Params;
  * @author semihunaldi
  * @author mertguner
  */
-public class MarketDataFetchIntegrationTest {
+public class MarketDataFetchIntegration {
 
   private Exchange btcTurk;
   private BTCTurkMarketDataService btcTurkMarketDataService;
