@@ -42,8 +42,8 @@
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.8.0-beta4</version.slf4j>
-        <version.crypto>4.1.1</version.crypto>
-        <version.java-jwt>3.7.0</version.java-jwt>
+        <version.crypto>4.2.0</version.crypto>
+        <version.java-jwt>3.8.0</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -169,8 +169,8 @@
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
-        <module>xchange-lykke</module>
         <module>xchange-luno</module>
+        <module>xchange-lykke</module>
         <module>xchange-mercadobitcoin</module>
         <module>xchange-okcoin</module>
         <module>xchange-openexchangerates</module>
@@ -180,6 +180,7 @@
         <module>xchange-quadrigacx</module>
         <module>xchange-quoine</module>
         <module>xchange-ripple</module>
+        <module>xchange-simulated</module>
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
@@ -404,7 +405,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -467,7 +468,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

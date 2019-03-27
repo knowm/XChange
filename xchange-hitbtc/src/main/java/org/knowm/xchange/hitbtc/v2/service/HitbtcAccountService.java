@@ -79,7 +79,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
     List<HitbtcTransaction> transactions;
 
-    if (params instanceof TradeHistoryParams) {
+    if (params instanceof HitbtcFundingHistoryParams) {
       HitbtcFundingHistoryParams hitbtcTradeHistoryParams = (HitbtcFundingHistoryParams) params;
 
       String currency =
