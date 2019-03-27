@@ -2,9 +2,9 @@ package org.knowm.xchange.kucoin;
 
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 
 public class KucoinAccountServiceRaw extends KucoinBaseService {
 
@@ -13,6 +13,8 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
   }
 
   public List<AccountBalancesResponse> getKucoinAccounts() throws IOException {
-    return classifyingExceptions(() -> kucoinRestClient.accountAPI().listAccounts(null, null));
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> accountApi.getAccountList(apiKey, digest, nonceFactory, passphrase, null, null));
   }
 }

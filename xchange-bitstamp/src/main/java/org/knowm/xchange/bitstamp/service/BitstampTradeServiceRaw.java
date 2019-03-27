@@ -116,6 +116,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           new BitstampV2.Pair(pair),
           numberOfTransactions,
           null,
+          null,
           null);
     } catch (BitstampException e) {
       throw handleError(e);
@@ -124,12 +125,12 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions)
       throws IOException {
-    return getBitstampUserTransactions(numberOfTransactions, null, null);
+    return getBitstampUserTransactions(numberOfTransactions, null, null, null);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, CurrencyPair pair, Long offset, String sort) throws IOException {
-
+      Long numberOfTransactions, CurrencyPair pair, Long offset, String sort, Long sinceTimestamp)
+      throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
           apiKey,
@@ -138,17 +139,24 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           new BitstampV2.Pair(pair),
           numberOfTransactions,
           offset,
-          sort);
+          sort,
+          sinceTimestamp);
     } catch (BitstampException e) {
       throw handleError(e);
     }
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort) throws IOException {
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp) throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
-          apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
+          apiKey,
+          signatureCreator,
+          nonceFactory,
+          numberOfTransactions,
+          offset,
+          sort,
+          sinceTimestamp);
     } catch (BitstampException e) {
       throw handleError(e);
     }

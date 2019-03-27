@@ -2,11 +2,11 @@ package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toList;
 
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.service.account.AccountService;
 
 public class KucoinAccountService extends KucoinAccountServiceRaw implements AccountService {
