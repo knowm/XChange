@@ -63,7 +63,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
-      @FormParam("sort") String sort)
+      @FormParam("sort") String sort,
+      @FormParam("since_timestamp") Long sinceTimestamp)
       throws BitstampException, IOException;
 
   @POST
@@ -75,7 +76,8 @@ public interface BitstampAuthenticatedV2 {
       @PathParam("pair") BitstampV2.Pair pair,
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
-      @FormParam("sort") String sort)
+      @FormParam("sort") String sort,
+      @FormParam("since_timestamp") Long sinceTimestamp)
       throws BitstampException, IOException;
 
   @POST
