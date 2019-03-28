@@ -1,12 +1,7 @@
 package org.knowm.xchange.bittrex;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
@@ -14,13 +9,13 @@ import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
-import org.knowm.xchange.bittrex.dto.trade.BittrexLimitOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrderBase;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -33,7 +28,6 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,31 +59,32 @@ public final class BittrexAdapters {
     List<LimitOrder> openOrders = new ArrayList<>();
 
     for (BittrexOpenOrder order : bittrexOpenOrders) {
-      openOrders.add(adaptOpenOrder(order));
+      openOrders.add(adaptOrder(order));
     }
 
     return openOrders;
   }
 
-  public static BittrexLimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
+  public static LimitOrder adaptOrder(BittrexOrderBase order, OrderStatus status) {
 
     OrderType type =
-        bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL")
-            ? OrderType.ASK
-            : OrderType.BID;
-    String[] currencies = bittrexOpenOrder.getExchange().split("-");
+        order.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
+    String[] currencies = order.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new BittrexLimitOrder(
-        type,
-        bittrexOpenOrder.getQuantity(),
-        pair,
-        bittrexOpenOrder.getOrderUuid(),
-        BittrexUtils.toDate(bittrexOpenOrder.getOpened()),
-        bittrexOpenOrder.getLimit(),
-        bittrexOpenOrder.getQuantityRemaining(),
-        null,
-        bittrexOpenOrder.getPricePerUnit());
+    return new LimitOrder.Builder(type, pair)
+        .originalAmount(order.getQuantity())
+        .id(order.getOrderUuid())
+        .timestamp(order.getOpened())
+        .limitPrice(order.getLimit())
+        .averagePrice(order.getPricePerUnit())
+        .cumulativeAmount(
+            order.getQuantityRemaining() == null
+                ? null
+                : order.getQuantity().subtract(order.getQuantityRemaining()))
+        .fee(order.getCommissionPaid())
+        .orderStatus(status)
+        .build();
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -121,49 +116,17 @@ public final class BittrexAdapters {
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
 
-  public static Order adaptOrder(BittrexOrder order) {
-
-    if (order.getType().startsWith("LIMIT")) {
-      OrderType type =
-          order.getType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
-      String[] currencies = order.getExchange().split("-");
-      CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
-
-      Order.OrderStatus status = getOrderStatus(order);
-
-      return new BittrexLimitOrder(
-          type,
-          order.getQuantity(),
-          pair,
-          order.getOrderUuid(),
-          order.getOpened(),
-          order.getLimit(),
-          order.getQuantityRemaining(),
-          order.getPricePerUnit(),
-          null,
-          status);
-    } else {
-      OrderType type =
-          order.getType().equalsIgnoreCase("MARKET_SELL") ? OrderType.ASK : OrderType.BID;
-      String[] currencies = order.getExchange().split("-");
-      CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
-
-      Order.OrderStatus status = getOrderStatus(order);
-
-      return new MarketOrder(
-          type,
-          order.getQuantity(),
-          pair,
-          order.getOrderUuid(),
-          order.getOpened(),
-          order.getPricePerUnit(),
-          order.getPrice(),
-          order.getCommissionPaid(),
-          status);
-    }
+  public static LimitOrder adaptOrder(BittrexOrder order) {
+    return adaptOrder(order, adaptOrderStatus(order));
   }
 
-  private static Order.OrderStatus getOrderStatus(BittrexOrder order) {
+  public static LimitOrder adaptOrder(BittrexOpenOrder order) {
+    return adaptOrder(order, adaptOrderStatus(order));
+  }
+
+  private static OrderStatus adaptOrderStatus(BittrexOrder order) {
+    OrderStatus status = OrderStatus.NEW;
+
     BigDecimal qty = order.getQuantity();
     BigDecimal qtyRem =
         order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
@@ -172,20 +135,37 @@ public final class BittrexAdapters {
     int qtyRemainingToQty = qtyRem.compareTo(qty);
     int qtyRemainingIsZero = qtyRem.compareTo(BigDecimal.ZERO);
 
-    Order.OrderStatus status = Order.OrderStatus.NEW;
-
     if (isOpen && !isCancelling && qtyRemainingToQty < 0) {
       /* The order is open and remaining quantity less than order quantity */
-      status = Order.OrderStatus.PARTIALLY_FILLED;
+      status = OrderStatus.PARTIALLY_FILLED;
     } else if (!isOpen && !isCancelling && qtyRemainingIsZero <= 0) {
       /* The order is closed and remaining quantity is zero */
-      status = Order.OrderStatus.FILLED;
+      status = OrderStatus.FILLED;
     } else if (isOpen && isCancelling) {
       /* The order is open and the isCancelling flag has been set */
-      status = Order.OrderStatus.PENDING_CANCEL;
+      status = OrderStatus.PENDING_CANCEL;
     } else if (!isOpen && isCancelling) {
       /* The order is closed and the isCancelling flag has been set */
-      status = Order.OrderStatus.CANCELED;
+      status = OrderStatus.CANCELED;
+    }
+    return status;
+  }
+
+  private static OrderStatus adaptOrderStatus(BittrexOpenOrder order) {
+    OrderStatus status = OrderStatus.NEW;
+
+    BigDecimal qty = order.getQuantity();
+    BigDecimal qtyRem =
+        order.getQuantityRemaining() != null ? order.getQuantityRemaining() : order.getQuantity();
+    Boolean isCancelling = order.getCancelInitiated();
+    int qtyRemainingToQty = qtyRem.compareTo(qty);
+
+    if (!isCancelling && qtyRemainingToQty < 0) {
+      /* The order is open and remaining quantity less than order quantity */
+      status = OrderStatus.PARTIALLY_FILLED;
+    } else if (isCancelling) {
+      /* The order is open and the isCancelling flag has been set */
+      status = OrderStatus.PENDING_CANCEL;
     }
     return status;
   }
@@ -223,20 +203,8 @@ public final class BittrexAdapters {
     BigDecimal high = marketSummary.getHigh();
     BigDecimal low = marketSummary.getLow();
     BigDecimal volume = marketSummary.getVolume();
-    BigDecimal baseVolume = marketSummary.getBaseVolume();
 
     Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
-
-    BigDecimal priceChange = null;
-    BigDecimal priceChangePercent = null;
-    if (last != null) {
-      final BigDecimal prevDay = marketSummary.getPrevDay();
-      if (prevDay != null && prevDay.compareTo(BigDecimal.ZERO) != 0) {
-        priceChange = marketSummary.getLast().subtract(prevDay);
-        priceChangePercent =
-            priceChange.divide(prevDay, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100L));
-      }
-    }
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -245,12 +213,21 @@ public final class BittrexAdapters {
         .ask(ask)
         .high(high)
         .low(low)
-        .priceChange(priceChange)
-        .priceChangePercent(priceChangePercent)
         .volume(volume)
-        .quoteVolume(baseVolume)
         .timestamp(timestamp)
         .build();
+  }
+
+  protected static BigDecimal calculateFrozenBalance(BittrexBalance balance) {
+    if (balance.getBalance() == null) {
+      return BigDecimal.ZERO;
+    }
+    final BigDecimal[] frozenBalance = {balance.getBalance()};
+    Optional.ofNullable(balance.getAvailable())
+        .ifPresent(available -> frozenBalance[0] = frozenBalance[0].subtract(available));
+    Optional.ofNullable(balance.getPending())
+        .ifPresent(pending -> frozenBalance[0] = frozenBalance[0].subtract(pending));
+    return frozenBalance[0];
   }
 
   public static Wallet adaptWallet(List<BittrexBalance> balances) {
@@ -261,13 +238,13 @@ public final class BittrexAdapters {
       wallets.add(
           new Balance(
               Currency.getInstance(balance.getCurrency().toUpperCase()),
-              balance.getBalance(),
-              balance.getAvailable(),
-              balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
+              Optional.ofNullable(balance.getBalance()).orElse(BigDecimal.ZERO),
+              Optional.ofNullable(balance.getAvailable()).orElse(BigDecimal.ZERO),
+              calculateFrozenBalance(balance),
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               BigDecimal.ZERO,
-              balance.getPending()));
+              Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO)));
     }
 
     return new Wallet(wallets);
@@ -276,13 +253,13 @@ public final class BittrexAdapters {
   public static Balance adaptBalance(BittrexBalance balance) {
     return new Balance(
         Currency.getInstance(balance.getCurrency().toUpperCase()),
-        balance.getBalance(),
-        balance.getAvailable(),
-        balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
+        Optional.ofNullable(balance.getBalance()).orElse(BigDecimal.ZERO),
+        Optional.ofNullable(balance.getAvailable()).orElse(BigDecimal.ZERO),
+        calculateFrozenBalance(balance),
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        balance.getPending());
+        Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO));
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {

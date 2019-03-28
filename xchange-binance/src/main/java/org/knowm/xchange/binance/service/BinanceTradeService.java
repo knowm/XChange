@@ -106,8 +106,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-
     return Long.toString(placeOrder(OrderType.MARKET, mo, null, null, null).orderId);
+  }
+
+  public BinanceNewOrder placeMarketOrder2(MarketOrder mo) throws IOException {
+    return placeOrder(OrderType.MARKET, mo, null, null, null);
   }
 
   @Override
