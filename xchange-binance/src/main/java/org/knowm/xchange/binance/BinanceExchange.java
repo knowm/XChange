@@ -22,7 +22,6 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
@@ -34,8 +33,6 @@ public class BinanceExchange extends BaseExchange {
 
   private static final int DEFAULT_PRECISION = 8;
 
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private BinanceExchangeInfo exchangeInfo;
   private Long deltaServerTimeExpire;
   private Long deltaServerTime;
@@ -50,8 +47,8 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
+    throw new UnsupportedOperationException(
+        "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
   @Override

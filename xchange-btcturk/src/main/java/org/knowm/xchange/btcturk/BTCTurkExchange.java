@@ -21,12 +21,9 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-
     this.marketDataService = new BTCTurkMarketDataService(this);
-    if (exchangeSpecification.getApiKey() != null) {
-      this.accountService = new BTCTurkAccountService(this);
-      this.tradeService = new BTCTurkTradeService(this);
-    }
+    this.accountService = new BTCTurkAccountService(this);
+    this.tradeService = new BTCTurkTradeService(this);
   }
 
   @Override
