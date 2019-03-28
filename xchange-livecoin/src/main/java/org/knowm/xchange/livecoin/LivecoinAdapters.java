@@ -34,11 +34,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrder;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
-import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinAdapters {
@@ -66,13 +66,13 @@ public class LivecoinAdapters {
   }
 
   private static List<LimitOrder> toLimitOrderList(
-      LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
+      List<LivecoinOrder> levels, OrderType orderType, CurrencyPair currencyPair) {
 
-    if (levels == null || levels.length == 0) {
+    if (levels == null || levels.isEmpty()) {
       return Collections.EMPTY_LIST;
     }
-    List<LimitOrder> allLevels = new ArrayList<>(levels.length);
-    for (LivecoinAsksBidsData ask : levels) {
+    List<LimitOrder> allLevels = new ArrayList<>(levels.size());
+    for (LivecoinOrder ask : levels) {
       if (ask != null) {
         allLevels.add(
             new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
