@@ -4,10 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coindeal.CoindealExchange;
 import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
 
 public class CoindealOrderBookTest {
