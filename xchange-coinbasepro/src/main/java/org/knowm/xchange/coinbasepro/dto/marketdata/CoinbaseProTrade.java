@@ -10,8 +10,8 @@ public class CoinbaseProTrade {
   private final BigDecimal price;
   private final BigDecimal size;
   private final String side;
-  private String makerOrderId;
-  private String takerOrderId;
+  private final String maker_order_id;
+  private final String taker_order_id;
 
   /**
    * @param timestamp
@@ -19,37 +19,25 @@ public class CoinbaseProTrade {
    * @param price
    * @param size
    * @param side
+   * @param maker_order_id
+   * @param taker_order_id
    */
   public CoinbaseProTrade(
       @JsonProperty("time") String timestamp,
       @JsonProperty("trade_id") long tradeId,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("size") BigDecimal size,
-      @JsonProperty("side") String side) {
-
-    this.timestamp = timestamp;
-    this.tradeId = tradeId;
-    this.price = price;
-    this.size = size;
-    this.side = side;
-  }
-
-  public CoinbaseProTrade(
-      @JsonProperty("time") String timestamp,
-      @JsonProperty("trade_id") long tradeId,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("size") BigDecimal size,
       @JsonProperty("side") String side,
-      @JsonProperty("makerOrderId") String makerOrderId,
-      @JsonProperty("takerOrderId") String takerOrderId) {
+      @JsonProperty("maker_order_id") String maker_order_id,
+      @JsonProperty("taker_order_id") String taker_order_id) {
 
     this.timestamp = timestamp;
     this.tradeId = tradeId;
     this.price = price;
     this.size = size;
     this.side = side;
-    this.makerOrderId = makerOrderId;
-    this.takerOrderId = takerOrderId;
+    this.maker_order_id = maker_order_id;
+    this.taker_order_id = taker_order_id;
   }
 
   public String getTimestamp() {
@@ -73,11 +61,11 @@ public class CoinbaseProTrade {
   }
 
   public String getMakerOrderId() {
-    return makerOrderId;
+    return maker_order_id;
   }
 
   public String getTakerOrderId() {
-    return takerOrderId;
+    return taker_order_id;
   }
 
   @Override
