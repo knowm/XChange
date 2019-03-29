@@ -32,21 +32,25 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-        if (message.has(JSON_CHANNEL)) {
-            return message.get(JSON_CHANNEL).asText();
+        JsonNode jsonNode = message.get(JSON_CHANNEL);
+        if (jsonNode != null) {
+            return jsonNode.asText();
         }
         throw new IOException("Channel name can't be evaluated from message");
     }
 
     @Override
     protected void handleMessage(JsonNode message) {
-        if (!message.has(JSON_CHANNEL) || !message.has(JSON_EVENT)) {
+        JsonNode channelJsonNode = message.get(JSON_CHANNEL);
+        JsonNode eventJsonNode = message.get(JSON_EVENT);
+
+        if (channelJsonNode == null || eventJsonNode == null) {
             LOG.error("Received JSON message does not contain {} and {} fields. Skipped...", JSON_CHANNEL, JSON_EVENT);
             return;
         }
 
-        String channel = message.get(JSON_CHANNEL).asText();
-        String event = message.get(JSON_EVENT).asText();
+        String channel = channelJsonNode.asText();
+        String event = eventJsonNode.asText();
 
         if (!channels.containsKey(channel)) {
             LOG.warn("The message has been received from disconnected channel '{}'. Skipped.", channel);

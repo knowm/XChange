@@ -68,4 +68,7 @@ public class BitstampStreamingExchange extends BitstampExchange implements Strea
     }
 
     @Override
-    public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }}
+    public void useCompressedMessages(boolean compressedMessages) {
+        streamingService.useCompressedMessages(compressedMessages);
+    }
+}
