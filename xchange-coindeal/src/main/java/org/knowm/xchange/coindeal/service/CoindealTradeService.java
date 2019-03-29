@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -20,17 +21,17 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -41,32 +42,32 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -77,11 +78,11 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 }
