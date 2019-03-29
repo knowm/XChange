@@ -7,6 +7,7 @@ import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -25,8 +26,8 @@ public class CoindealAccountDtoTest {
                 mapper.readValue(is, new TypeReference<List<CoindealBalance>>(){});
 
         // verify that the example data was unmarshalled correctly
-        assertThat(coindealBalances.get(0).getCurrency()).isEqualTo("currency");
-        assertThat(coindealBalances.get(0).getAvailable()).isEqualTo("available");
-        assertThat(coindealBalances.get(0).getReserved()).isEqualTo("reserved");
+        assertThat(coindealBalances.get(0).getCurrency()).isEqualTo("Bitcoin");
+        assertThat(coindealBalances.get(0).getAvailable()).isEqualTo(new BigDecimal("10.00"));
+        assertThat(coindealBalances.get(0).getReserved()).isEqualTo(new BigDecimal("11.00"));
     }
 }

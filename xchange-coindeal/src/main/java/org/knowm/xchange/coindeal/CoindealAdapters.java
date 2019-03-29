@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.knowm.xchange.coindeal.dto.account.CoindealBalance;
 import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -39,6 +44,31 @@ public final class CoindealAdapters {
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
+  public static AccountInfo adaptToAccountInfo(List<CoindealBalance> coindealBalances){
+      List<Balance> balances = new ArrayList<>();
+      Currency currency = null;
+      for (CoindealBalance coindealBalance : coindealBalances) {
+          switch (coindealBalance.getCurrency()){
+              case "Bitcoin":
+                  currency = Currency.BTC;
+                  break;
+              case "Ethereum":
+                  currency = Currency.ETH;
+                  break;
+              case "Bitcoin Cash":
+                  currency = Currency.BCH;
+                  break;
+          }
+          balances.add(new Balance(
+                  currency,
+                  coindealBalance.getAvailable().add(coindealBalance.getReserved()),
+                  coindealBalance.getAvailable(),
+                  coindealBalance.getReserved()
+          ));
+      }
+
+      return new AccountInfo(new Wallet(balances));
+  }
   public static OrderBook adaptOrderBook(
       CoindealOrderBook coindealOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks = new ArrayList<>();
