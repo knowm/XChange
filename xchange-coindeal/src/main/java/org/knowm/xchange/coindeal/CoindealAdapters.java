@@ -58,6 +58,8 @@ public final class CoindealAdapters {
               case "Bitcoin Cash":
                   currency = Currency.BCH;
                   break;
+              case "Euro":
+                  currency = Currency.EUR;
           }
           balances.add(new Balance(
                   currency,

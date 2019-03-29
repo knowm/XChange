@@ -1,6 +1,7 @@
 package org.knowm.xchange.coindeal.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coindeal.CoindealAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -24,7 +25,7 @@ public class CoindealAccountService extends CoindealAccountServiceRaw implements
 
     @Override
     public AccountInfo getAccountInfo() throws IOException {
-        throw new NotYetImplementedForExchangeException();
+        return CoindealAdapters.adaptToAccountInfo(getCoindealBalances());
     }
 
     @Override
