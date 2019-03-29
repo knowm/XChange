@@ -17,4 +17,5 @@ public interface Coindeal {
   @Path("/public/orderbook/{currencyPair}")
   CoindealOrderBook getOrderBook(@PathParam("currencyPair") String currencyPair)
       throws IOException, CoindealException;
+
 }
