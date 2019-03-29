@@ -2,16 +2,42 @@ package org.knowm.xchange.coindeal;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
+import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public final class CoindealAdapters {
 
-  /** private Constructor */
-  private CoindealAdapters() {}
+  public static UserTrades adaptToUserTrades(List<CoindealTradeHistory> coindealTradeHistoryList)
+          throws InvalidFormatException {
+      List<UserTrade> userTrades = new ArrayList<>();
+
+      for (CoindealTradeHistory coindealTradeHistory : coindealTradeHistoryList) {
+          userTrades.add(new UserTrade(
+                  (coindealTradeHistory.getSide().equals("BUY")) ? Order.OrderType.BID : Order.OrderType.ASK,
+                  coindealTradeHistory.getQuantity(),
+                  CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol()),
+                  coindealTradeHistory.getPrice(),
+                  DateUtils.fromRfc3339DateString(coindealTradeHistory.getTimestamp()),
+                  coindealTradeHistory.getId(),
+                  coindealTradeHistory.getOrderId(),
+                  coindealTradeHistory.getFee(),
+                  null
+          ));
+      }
+
+    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+  }
 
   public static OrderBook adaptOrderBook(
       CoindealOrderBook coindealOrderBook, CurrencyPair currencyPair) {
@@ -46,7 +72,7 @@ public final class CoindealAdapters {
     return new OrderBook(null, asks, bids, true);
   }
 
-  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+  public static String adaptCurrencyPairToString(CurrencyPair currencyPair) {
     return currencyPair.toString().replace("/", "");
   }
 
@@ -54,7 +80,4 @@ public final class CoindealAdapters {
     return orderType.equals(Order.OrderType.ASK) ? "sell" : "buy";
   }
 
-  public static String currencyPairToString(CurrencyPair currencyPair) {
-    return currencyPair.toString().replace("/", "");
-  }
 }

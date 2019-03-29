@@ -3,6 +3,7 @@ package org.knowm.xchange.coindeal.service;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coindeal.CoindealAdapters;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
@@ -10,6 +11,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -36,7 +38,7 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    CoindealOrder order = placeOrder(limitOrder);
+    CoindealOrder order = placeCoindealOrder(limitOrder);
     return order.getClientOrderId();
   }
 
@@ -57,12 +59,13 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    return CoindealAdapters.adaptToUserTrades(getCoindealTradeHistory((TradeHistoryParamsAll)params));
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    return new TradeHistoryParamsAll();
   }
 
   @Override

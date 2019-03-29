@@ -1,25 +1,23 @@
+package org.knowm.xchange.coindeal.dto.marketdata;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coindeal.CoindealExchange;
-import org.knowm.xchange.coindeal.dto.marketdata.CoindealOrderBook;
 
-public class CoindealOrderBookTest {
+public class CoindealMarketDataDtoTest {
+
+  ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void coindealOrderbookDtoTest() throws IOException {
 
     InputStream is =
         ClassLoader.getSystemClassLoader()
-            .getResourceAsStream("org/knowm/xchange/coindeal/dto/example-orderbook.json");
+            .getResourceAsStream("org/knowm/xchange/coindeal/dto/marketdata/example-orderbook.json");
 
-    ObjectMapper mapper = new ObjectMapper();
     CoindealOrderBook coindealOrderBook = mapper.readValue(is, CoindealOrderBook.class);
 
     // verify that the example data was unmarshalled correctly
