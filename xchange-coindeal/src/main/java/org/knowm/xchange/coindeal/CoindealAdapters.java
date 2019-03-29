@@ -55,18 +55,28 @@ public final class CoindealAdapters {
               case "Ethereum":
                   currency = Currency.ETH;
                   break;
-              case "Bitcoin Cash":
+              case "Bitcoin Cash ABC":
                   currency = Currency.BCH;
                   break;
               case "Euro":
                   currency = Currency.EUR;
+                  break;
+              case "Litecoin":
+                  currency = Currency.LTC;
+                  break;
+              case "US Dollar":
+                  currency = Currency.USD;
+                  break;
           }
-          balances.add(new Balance(
-                  currency,
-                  coindealBalance.getAvailable().add(coindealBalance.getReserved()),
-                  coindealBalance.getAvailable(),
-                  coindealBalance.getReserved()
-          ));
+          if (currency != null) {
+              balances.add(
+                      new Balance(
+                              currency,
+                              coindealBalance.getAvailable().add(coindealBalance.getReserved()),
+                              coindealBalance.getAvailable(),
+                              coindealBalance.getReserved()));
+          }
+          currency = null;
       }
 
       return new AccountInfo(new Wallet(balances));
