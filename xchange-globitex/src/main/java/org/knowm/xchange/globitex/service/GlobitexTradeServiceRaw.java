@@ -24,7 +24,7 @@ public class GlobitexTradeServiceRaw extends GlobitexBaseService {
                     "ts",
                     0,
                     params.getLimit(),
-                    null,
+                    params.getCurrencyPair().toString(),
                     "MAK239A01"
             );
 

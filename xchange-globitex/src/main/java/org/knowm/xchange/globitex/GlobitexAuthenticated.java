@@ -29,9 +29,9 @@ public interface GlobitexAuthenticated extends Globitex{
             @HeaderParam("X-Signature") ParamsDigest signature,
             @QueryParam("by") String sortBy,
             @QueryParam("startIndex") int startIndex,
-            @DefaultValue("50") @QueryParam("maxResults") int limit,
+            @QueryParam("maxResults") int limit,
             @QueryParam("symbols") String currencies,
-            @QueryParam("acccount") String account
+            @QueryParam("account") String account
     ) throws IOException;
 
 }
