@@ -21,14 +21,12 @@ public class GlobitexMarketDataService extends GlobitexMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return GlobitexAdapters.adaptToTicker(
-        getGlobitexTickerBySymbol(currencyPair), exchange.getExchangeMetaData().getCurrencies());
+    return GlobitexAdapters.adaptToTicker(getGlobitexTickerBySymbol(currencyPair));
   }
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    return GlobitexAdapters.adaptToListTicker(
-        getGlobitexTickers(), exchange.getExchangeMetaData().getCurrencies());
+    return GlobitexAdapters.adaptToListTicker(getGlobitexTickers());
   }
 
   @Override

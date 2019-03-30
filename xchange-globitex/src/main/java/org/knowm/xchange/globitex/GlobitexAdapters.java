@@ -18,13 +18,16 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.globitex.dto.account.GlobitexAccounts;
 import org.knowm.xchange.globitex.dto.marketdata.*;
+import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrade;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class GlobitexAdapters {
 
@@ -47,21 +50,21 @@ public class GlobitexAdapters {
     return (symbol.contains("XBT")) ? symbol.replace("XBT", "BTC") : symbol;
   }
 
-  private static CurrencyPair adaptGlobitexSymbolToCurrencyPair(
-      String symbol, Map<Currency, CurrencyMetaData> currencies) {
-    String counter = "";
-
-    for (Currency currency : currencies.keySet()) {
-      if (symbol.endsWith(currency.toString())) {
-        counter = currency.toString();
-      }
-    }
-    if (counter.equals("")) {
-      throw new ExchangeException("The symbol " + symbol + " doesn't exists in the exchange!");
-    }
-
-    return new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter);
-  }
+//  private static CurrencyPair adaptGlobitexSymbolToCurrencyPair(
+//      String symbol, Map<Currency, CurrencyMetaData> currencies) {
+//    String counter = "";
+//
+//    for (Currency currency : currencies.keySet()) {
+//      if (symbol.endsWith(currency.toString())) {
+//        counter = currency.toString();
+//      }
+//    }
+//    if (counter.equals("")) {
+//      throw new ExchangeException("The symbol " + symbol + " doesn't exists in the exchange!");
+//    }
+//
+//    return new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter);
+//  }
 
   public static Trades adaptToTrades(GlobitexTrades globitexTrades, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
@@ -86,8 +89,7 @@ public class GlobitexAdapters {
         String.valueOf(globitexTrade.getTid()));
   }
 
-  public static Ticker adaptToTicker(
-      GlobitexTicker globitexTicker, Map<Currency, CurrencyMetaData> currencies) {
+  public static Ticker adaptToTicker(GlobitexTicker globitexTicker) {
     String symbol = convertXBTtoBTC(globitexTicker.getSymbol());
 
     return new Ticker.Builder()
@@ -98,19 +100,19 @@ public class GlobitexAdapters {
         .open(globitexTicker.getOpen())
         .quoteVolume(globitexTicker.getVolumeQuote())
         .volume(globitexTicker.getVolume())
-        .currencyPair(adaptGlobitexSymbolToCurrencyPair(symbol, currencies))
+        .currencyPair(CurrencyPairDeserializer.getCurrencyPairFromString(symbol))
         .build();
   }
 
   public static List<Ticker> adaptToListTicker(
-      GlobitexTickers globitexTickers, Map<Currency, CurrencyMetaData> currencies) {
+      GlobitexTickers globitexTickers) {
     List<Ticker> tickers = new ArrayList<>();
 
     globitexTickers
         .getGlobitexTickerList()
         .forEach(
             globitexTicker -> {
-              tickers.add(adaptToTicker(globitexTicker, currencies));
+              tickers.add(adaptToTicker(globitexTicker));
             });
 
     return tickers;
@@ -176,32 +178,52 @@ public class GlobitexAdapters {
   }
 
   public static UserTrades adaptToUserTrades(
-      GlobitexUserTrades globitexUserTrades, Map<Currency, CurrencyMetaData> currencies) {
+      GlobitexUserTrades globitexUserTrades) {
     List<UserTrade> userTrades = new ArrayList<>();
 
     globitexUserTrades
         .getUserTrades()
         .forEach(
             globitexUserTrade -> {
-              userTrades.add(adaptToUserTrade(globitexUserTrade, currencies));
+              userTrades.add(adaptToUserTrade(globitexUserTrade));
             });
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
   private static UserTrade adaptToUserTrade(
-      GlobitexUserTrade globitexUserTrade, Map<Currency, CurrencyMetaData> currencies) {
+      GlobitexUserTrade globitexUserTrade) {
     return new UserTrade(
         (globitexUserTrade.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID),
         globitexUserTrade.getQuantity(),
-        adaptGlobitexSymbolToCurrencyPair(
-            convertXBTtoBTC(globitexUserTrade.getSymbol()), currencies),
+        CurrencyPairDeserializer.getCurrencyPairFromString(convertXBTtoBTC(globitexUserTrade.getSymbol())),
         globitexUserTrade.getPrice(),
         globitexUserTrade.getTimestamp(),
         String.valueOf(globitexUserTrade.getTradeId()),
         globitexUserTrade.getOriginalOrderId(),
         globitexUserTrade.getFee(),
         new Currency(convertXBTtoBTC(globitexUserTrade.getFeeCurrency())));
+  }
+
+  public static OpenOrders adaptToOpenOrders(GlobitexActiveOrders globitexActiveOrders){
+    List<LimitOrder> openOrders = new ArrayList<>();
+
+    globitexActiveOrders.getOrders().forEach(globitexActiveOrder -> {
+      openOrders.add(new LimitOrder(
+              (globitexActiveOrder.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID),
+              globitexActiveOrder.getOrderQuantity(),
+              CurrencyPairDeserializer.getCurrencyPairFromString(globitexActiveOrder.getSymbol()),
+              globitexActiveOrder.getOrderId(),
+              globitexActiveOrder.getLastTimestamp(),
+              globitexActiveOrder.getOrderPrice(),
+              globitexActiveOrder.getAvgPrice(),
+              globitexActiveOrder.getCumQuantity(),
+              null,
+              Order.OrderStatus.valueOf(globitexActiveOrder.getOrderStatus())
+      ));
+    });
+
+    return new OpenOrders(openOrders);
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(GlobitexSymbols globitexSymbols) {
