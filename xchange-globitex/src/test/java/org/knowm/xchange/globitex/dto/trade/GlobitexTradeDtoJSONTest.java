@@ -37,4 +37,35 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(usertrades.getUserTrades().get(0).getFeeCurrency()).isEqualTo("EUR");
     assertThat(usertrades.getUserTrades().get(0).getAccount()).isEqualTo("ADE922A21");
   }
+
+  @Test
+  public void globitexActiveOrdersJsonTest() throws IOException{
+    // Read in the JSON from the example resources
+    InputStream is =
+            GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/globitex/dto/trade/globitex-activeorders-example.json");
+
+    GlobitexActiveOrders activeOrders = mapper.readValue(is, GlobitexActiveOrders.class);
+
+    assertThat(activeOrders.getOrders().size()).isEqualTo(3);
+    assertThat(activeOrders.getOrders().get(0).getOrderId()).isEqualTo("7242835");
+    assertThat(activeOrders.getOrders().get(0).getOrderStatus()).isEqualTo("new");
+    assertThat(activeOrders.getOrders().get(0).getLastTimestamp()).isEqualTo(new Date(1495038022000L));
+    assertThat(activeOrders.getOrders().get(0).getOrderPrice()).isEqualTo("2000.000");
+    assertThat(activeOrders.getOrders().get(0).getOrderQuantity()).isEqualTo("1.00000");
+    assertThat(activeOrders.getOrders().get(0).getAvgPrice()).isEqualTo("0");
+    assertThat(activeOrders.getOrders().get(0).getType()).isEqualTo("limit");
+    assertThat(activeOrders.getOrders().get(0).getTimeInForce()).isEqualTo("GTC");
+    assertThat(activeOrders.getOrders().get(0).getClientOrderId()).isEqualTo("1495038022448");
+    assertThat(activeOrders.getOrders().get(0).getSymbol()).isEqualTo("XBTEUR");
+    assertThat(activeOrders.getOrders().get(0).getSide()).isEqualTo("sell");
+    assertThat(activeOrders.getOrders().get(0).getAccount()).isEqualTo("ZAN034A01");
+    assertThat(activeOrders.getOrders().get(0).getOrderSource()).isEqualTo("WEB");
+    assertThat(activeOrders.getOrders().get(0).getLeavesQuantity()).isEqualTo("1.00000");
+    assertThat(activeOrders.getOrders().get(0).getCumQuantity()).isEqualTo("0.00000");
+    assertThat(activeOrders.getOrders().get(0).getExecQuantity()).isEqualTo("0.00000");
+    assertThat(activeOrders.getOrders().get(1).getExpireTime()).isEqualTo(new Date(2241464400000L));
+    assertThat(activeOrders.getOrders().get(2).getStopPrice()).isEqualTo("808.000");
+
+  }
 }
