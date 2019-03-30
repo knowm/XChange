@@ -4,7 +4,6 @@ import static org.knowm.xchange.currency.Currency.getInstance;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -34,23 +32,14 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrder;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
-import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinAdapters {
-
-  private static final SimpleDateFormat dateFormat =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
-  static {
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
-
-  private LivecoinAdapters() {}
 
   public static CurrencyPair adaptCurrencyPair(LivecoinRestriction product) {
     String[] data = product.getCurrencyPair().split("\\/");
@@ -66,13 +55,13 @@ public class LivecoinAdapters {
   }
 
   private static List<LimitOrder> toLimitOrderList(
-      LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
+      List<LivecoinOrder> levels, OrderType orderType, CurrencyPair currencyPair) {
 
-    if (levels == null || levels.length == 0) {
-      return Collections.EMPTY_LIST;
+    if (levels == null || levels.isEmpty()) {
+      return Collections.emptyList();
     }
-    List<LimitOrder> allLevels = new ArrayList<>(levels.length);
-    for (LivecoinAsksBidsData ask : levels) {
+    List<LimitOrder> allLevels = new ArrayList<>(levels.size());
+    for (LivecoinOrder ask : levels) {
       if (ask != null) {
         allLevels.add(
             new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
@@ -135,7 +124,7 @@ public class LivecoinAdapters {
   public static Trades adaptTrades(List<LivecoinTrade> tradesRaw, CurrencyPair currencyPair) {
 
     if (tradesRaw.isEmpty()) {
-      return new Trades(Collections.EMPTY_LIST);
+      return new Trades(Collections.emptyList());
     }
     List<Trade> trades = new ArrayList<>(tradesRaw.size());
 
