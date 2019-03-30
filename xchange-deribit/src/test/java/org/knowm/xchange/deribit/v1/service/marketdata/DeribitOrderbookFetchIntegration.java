@@ -5,14 +5,15 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.deribit.v1.DeribitExchange;
-import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitCurrency;
+import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitInstrument;
+import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitOrderbook;
 import org.knowm.xchange.deribit.v1.service.DeribitMarketDataService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DeribitCurrencyFetchIntegration {
+public class DeribitOrderbookFetchIntegration {
 
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
@@ -25,9 +26,9 @@ public class DeribitCurrencyFetchIntegration {
   }
 
   @Test
-  public void getDeribitCurrenciesTest() throws Exception {
-    List<DeribitCurrency> currencies = deribitMarketDataService.getDeribitCurrencies();
+  public void getDeribitOrderbookTest() throws Exception {
+    DeribitOrderbook orderbook = deribitMarketDataService.getDeribitOrderbook("BTC-PERPETUAL");
 
-    assertThat(currencies).isNotEmpty();
+    assertThat(orderbook).isNotNull();
   }
 }
