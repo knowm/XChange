@@ -26,13 +26,13 @@ public class CoindealOrder {
   private final double price;
 
   public CoindealOrder(
-          @JsonProperty("id") String id,
-          @JsonProperty("clientOrderId") String clientOrderId,
-          @JsonProperty("symbol") String symbol,
-          @JsonProperty("side") String side,
-          @JsonProperty("status") String status,
-          @JsonProperty("quantity") double quantity,
-          @JsonProperty("price") double price) {
+      @JsonProperty("id") String id,
+      @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("side") String side,
+      @JsonProperty("status") String status,
+      @JsonProperty("quantity") double quantity,
+      @JsonProperty("price") double price) {
     this.id = id;
     this.clientOrderId = clientOrderId;
     this.symbol = symbol;
@@ -42,44 +42,54 @@ public class CoindealOrder {
     this.price = price;
   }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getClientOrderId() {
-        return clientOrderId;
-    }
+  public String getClientOrderId() {
+    return clientOrderId;
+  }
 
-    public String getSymbol() {
-        return symbol;
-    }
+  public String getSymbol() {
+    return symbol;
+  }
 
-    public String getSide() {
-        return side;
-    }
+  public String getSide() {
+    return side;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public double getQuantity() {
-        return quantity;
-    }
+  public double getQuantity() {
+    return quantity;
+  }
 
-    public double getPrice() {
-        return price;
-    }
+  public double getPrice() {
+    return price;
+  }
 
-    @Override
-    public String toString() {
-        return "CoindealOrder{" +
-                "id='" + id + '\'' +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", side='" + side + '\'' +
-                ", status='" + status + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "CoindealOrder{" + "id='" + id
+        + '\''
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", quantity="
+        + quantity
+        + ", price="
+        + price
+        + '}';
+  }
 }
