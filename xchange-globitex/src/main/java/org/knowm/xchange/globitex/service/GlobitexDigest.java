@@ -25,11 +25,12 @@ public class GlobitexDigest extends BaseParamsDigest {
     @Override
     public String digestParams(RestInvocation restInvocation) {
 
+        System.out.println(restInvocation.getPath());
         Mac mac512 = getMac();
         mac512.update((restInvocation.getParamValue(HeaderParam.class,"X-API-Key").toString()+"&").getBytes());
         mac512.update(restInvocation.getParamValue(HeaderParam.class, "X-Nonce").toString().getBytes());
-        mac512.update(restInvocation.getPath().getBytes());
-        mac512.update(restInvocation.getRequestBody().getBytes());
+        mac512.update((restInvocation.getPath()+"?"+restInvocation.getQueryString()).getBytes());
+//        mac512.update(restInvocation.getRequestBody().getBytes());
 
 
         return bytesToHex(mac512.doFinal()).toLowerCase();
