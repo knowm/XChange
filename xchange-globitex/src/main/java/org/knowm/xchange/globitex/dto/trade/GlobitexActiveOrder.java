@@ -1,5 +1,6 @@
 package org.knowm.xchange.globitex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,36 +10,59 @@ public class GlobitexActiveOrder implements Serializable {
 
     @JsonProperty("orderId")
     private final String orderId;
+
     @JsonProperty("orderStatus")
     private final String orderStatus;
+
     @JsonProperty("lastTimestamp")
     private final long lastTimestamp;
+
     @JsonProperty("orderPrice")
     private final BigDecimal orderPrice;
+
     @JsonProperty("orderQuantity")
     private final BigDecimal orderQuantity;
+
     @JsonProperty("avgPrice")
     private final BigDecimal avgPrice;
+
     @JsonProperty("type")
     private final String type;
+
     @JsonProperty("timeInForce")
     private final String timeInForce;
+
     @JsonProperty("clientOrderId")
     private final String clientOrderId;
+
     @JsonProperty("symbol")
     private final String symbol;
+
     @JsonProperty("side")
     private final String side;
+
     @JsonProperty("account")
     private final String account;
+
     @JsonProperty("orderSource")
     private final String orderSource;
+
     @JsonProperty("leavesQuantity")
     private final BigDecimal leavesQuantity;
+
     @JsonProperty("cumQuantity")
     private final BigDecimal cumQuantity;
+
     @JsonProperty("execQuantity")
     private final BigDecimal execQuantity;
+
+    @JsonProperty("stopPrice")
+    @JsonIgnore
+    private final BigDecimal stopPrice;
+
+    @JsonProperty("expireTime")
+    @JsonIgnore
+    private final long expireTime;
 
     public GlobitexActiveOrder(
             @JsonProperty("orderId") String orderId,
@@ -56,7 +80,9 @@ public class GlobitexActiveOrder implements Serializable {
             @JsonProperty("orderSource") String orderSource,
             @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
             @JsonProperty("cumQuantity") BigDecimal cumQuantity,
-            @JsonProperty("execQuantity") BigDecimal execQuantity) {
+            @JsonProperty("execQuantity") BigDecimal execQuantity,
+            @JsonProperty("stopPrice") BigDecimal stopPrice,
+            @JsonProperty("expireTime") long expireTime) {
         super();
         this.orderId = orderId;
         this.orderStatus = orderStatus;
@@ -74,6 +100,8 @@ public class GlobitexActiveOrder implements Serializable {
         this.leavesQuantity = leavesQuantity;
         this.cumQuantity = cumQuantity;
         this.execQuantity = execQuantity;
+        this.stopPrice = stopPrice;
+        this.expireTime = expireTime;
     }
 
     public String getOrderId() {
@@ -140,15 +168,23 @@ public class GlobitexActiveOrder implements Serializable {
         return execQuantity;
     }
 
+    public BigDecimal getStopPrice() {
+        return stopPrice;
+    }
+
+    public Date getExpireTime() {
+        return new Date(expireTime);
+    }
+
     @Override
     public String toString() {
         return "GlobitexActiveOrder{" +
                 "orderId='" + orderId + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", lastTimestamp=" + lastTimestamp +
-                ", orderPrice='" + orderPrice + '\'' +
-                ", orderQuantity='" + orderQuantity + '\'' +
-                ", avgPrice='" + avgPrice + '\'' +
+                ", orderPrice=" + orderPrice +
+                ", orderQuantity=" + orderQuantity +
+                ", avgPrice=" + avgPrice +
                 ", type='" + type + '\'' +
                 ", timeInForce='" + timeInForce + '\'' +
                 ", clientOrderId='" + clientOrderId + '\'' +
@@ -156,9 +192,11 @@ public class GlobitexActiveOrder implements Serializable {
                 ", side='" + side + '\'' +
                 ", account='" + account + '\'' +
                 ", orderSource='" + orderSource + '\'' +
-                ", leavesQuantity='" + leavesQuantity + '\'' +
-                ", cumQuantity='" + cumQuantity + '\'' +
-                ", execQuantity='" + execQuantity + '\'' +
+                ", leavesQuantity=" + leavesQuantity +
+                ", cumQuantity=" + cumQuantity +
+                ", execQuantity=" + execQuantity +
+                ", stopPrice=" + stopPrice +
+                ", expireTime=" + expireTime +
                 '}';
     }
 }
