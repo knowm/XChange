@@ -1,9 +1,11 @@
 package org.knowm.xchange.deribit.v1.service;
 
+import org.knowm.xchange.deribit.v1.DeribitExchange;
+import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitCurrency;
+import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitInstrument;
+
 import java.io.IOException;
 import java.util.List;
-import org.knowm.xchange.deribit.v1.DeribitExchange;
-import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitInstrument;
 
 /**
  * Implementation of the market data service for Bitmex
@@ -26,7 +28,11 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
   }
 
   public List<DeribitInstrument> getInstruments() throws IOException {
-
     return deribit.getInstruments().getResult();
   }
+
+  public List<DeribitCurrency> getCurrencies() throws IOException {
+    return deribit.getCurrencies().getResult();
+  }
+
 }

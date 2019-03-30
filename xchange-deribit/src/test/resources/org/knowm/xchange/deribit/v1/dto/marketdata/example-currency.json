@@ -1,0 +1,9 @@
+{
+  "txFee": 0.0001,
+  "minConfirmation": 1,
+  "isActive": true,
+  "currencyLong": "Bitcoin",
+  "currency": "BTC",
+  "coinType": "BITCOIN",
+  "baseaddress": null
+}

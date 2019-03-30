@@ -1,6 +1,6 @@
 package org.knowm.xchange.deribit.v1.dto;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** V represents result class of the queried endpoint */
 public class DeribitResponse<V> {
