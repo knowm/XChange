@@ -2,8 +2,6 @@ package org.knowm.xchange.coinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class CoinexResponse<T> {
 
     private final int code;
