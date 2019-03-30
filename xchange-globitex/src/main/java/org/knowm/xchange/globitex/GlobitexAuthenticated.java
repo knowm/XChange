@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.globitex.dto.account.GlobitexAccounts;
+import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -32,4 +33,15 @@ public interface GlobitexAuthenticated extends Globitex {
       @QueryParam("symbols") String currencies,
       @QueryParam("account") String account)
       throws IOException;
+
+  @GET
+  @Path("trading/orders/active")
+  GlobitexActiveOrders getActiveOrders(
+          @HeaderParam("X-API-Key") String apiKey,
+          @HeaderParam("X-Nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("X-Signature") ParamsDigest signature,
+          @QueryParam("symbol") String symbol,
+          @QueryParam("clientOrderId") String clientOrderId,
+          @QueryParam("account") String account
+  ) throws IOException;
 }
