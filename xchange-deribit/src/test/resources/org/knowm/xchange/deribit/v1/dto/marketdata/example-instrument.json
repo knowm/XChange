@@ -1,0 +1,14 @@
+{
+  "kind": "future",
+  "baseCurrency": "ETH",
+  "currency": "USD",
+  "minTradeSize": 1,
+  "instrumentName": "ETH-PERPETUAL",
+  "isActive": true,
+  "settlement": "perpetual",
+  "created": "2019-01-16 14:02:07 GMT",
+  "tickSize": 0.01,
+  "pricePrecision": 2,
+  "expiration": "3000-01-01 15:00:00 GMT",
+  "contractSize": 1
+}
