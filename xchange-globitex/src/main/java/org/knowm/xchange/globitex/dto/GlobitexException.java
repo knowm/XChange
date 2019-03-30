@@ -1,37 +1,34 @@
 package org.knowm.xchange.globitex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.HttpStatusExceptionSupport;
+import java.util.ArrayList;
+import java.util.List;
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.InvocationResult;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class GlobitexException extends HttpStatusIOException {
 
-    @JsonProperty("errors")
-    private final List<GlobitexError> errors = new ArrayList<>();
+  @JsonProperty("errors")
+  private final List<GlobitexError> errors = new ArrayList<>();
 
-    public GlobitexException(String message, InvocationResult invocationResult) {
-        super(message, invocationResult);
-        System.out.println("Test "+message);
-    }
+  public GlobitexException(String message, InvocationResult invocationResult) {
+    super(message, invocationResult);
+    System.out.println("Test " + message);
+  }
 
-    //    public GlobitexException(
-//            @JsonProperty("errors") List<GlobitexError> errors) {
-//        this.errors = errors;
-//    }
+  //    public GlobitexException(
+  //            @JsonProperty("errors") List<GlobitexError> errors) {
+  //        this.errors = errors;
+  //    }
 
-    public List<GlobitexError> getErrors() {
-        return errors;
-    }
-//
-//    @Override
-//    public String toString() {
-//        return "GlobitexException{" +
-//                "erros=" + errors +
-//                '}';
-//    }
+  public List<GlobitexError> getErrors() {
+    return errors;
+  }
+  //
+  //    @Override
+  //    public String toString() {
+  //        return "GlobitexException{" +
+  //                "erros=" + errors +
+  //                '}';
+  //    }
 }

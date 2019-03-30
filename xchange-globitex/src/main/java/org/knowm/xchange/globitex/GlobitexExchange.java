@@ -1,5 +1,6 @@
 package org.knowm.xchange.globitex;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,12 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
+/*@author makarid*/
 
+/*username is needed in order to get UserTrades.
+* username is globitex account number*/
 public class GlobitexExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   Logger test = LoggerFactory.getLogger(GlobitexExchange.class);
+
   @Override
   protected void initServices() {
     this.marketDataService = new GlobitexMarketDataService(this);
@@ -40,7 +44,6 @@ public class GlobitexExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
-
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
@@ -49,8 +52,8 @@ public class GlobitexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     super.remoteInit();
-    GlobitexSymbols globitexSymbols = ((GlobitexMarketDataServiceRaw) marketDataService).getGlobitexSymbols();
+    GlobitexSymbols globitexSymbols =
+        ((GlobitexMarketDataServiceRaw) marketDataService).getGlobitexSymbols();
     exchangeMetaData = GlobitexAdapters.adaptToExchangeMetaData(globitexSymbols);
-    logger.info("test");
   }
 }

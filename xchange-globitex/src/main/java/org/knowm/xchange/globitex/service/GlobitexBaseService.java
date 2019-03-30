@@ -9,17 +9,19 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class GlobitexBaseService extends BaseExchangeService implements BaseService {
 
-    protected GlobitexAuthenticated globitex;
-    protected ParamsDigest signatureCreator;
+  protected GlobitexAuthenticated globitex;
+  protected ParamsDigest signatureCreator;
 
-    public GlobitexBaseService(Exchange exchange) {
-        super(exchange);
+  public GlobitexBaseService(Exchange exchange) {
+    super(exchange);
 
-        globitex = RestProxyFactory.createProxy(
-                GlobitexAuthenticated.class,
-                exchange.getExchangeSpecification().getSslUri(),
-                getClientConfig());
+    globitex =
+        RestProxyFactory.createProxy(
+            GlobitexAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
 
-        signatureCreator = GlobitexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    }
+    signatureCreator =
+        GlobitexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+  }
 }
