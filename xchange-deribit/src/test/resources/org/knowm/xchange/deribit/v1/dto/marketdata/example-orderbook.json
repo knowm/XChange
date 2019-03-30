@@ -1,0 +1,45 @@
+{
+        "state": "open",
+        "settlementPrice": 141.78,
+        "instrument": "ETH-PERPETUAL",
+        "bids": [
+            {
+                "quantity": 300,
+                "amount": 300,
+                "price": 141.42,
+                "cm": 300,
+                "cm_amount": 300
+            },
+            {
+                "quantity": 1227,
+                "amount": 1227,
+                "price": 141.41,
+                "cm": 1527,
+                "cm_amount": 1527
+            }
+        ],
+        "asks": [
+            {
+                "quantity": 200,
+                "amount": 200,
+                "price": 141.51,
+                "cm": 200,
+                "cm_amount": 200
+            },
+            {
+                "quantity": 45200,
+                "amount": 45200,
+                "price": 141.52,
+                "cm": 45400,
+                "cm_amount": 45400
+            }
+        ],
+        "tstamp": 1553979085190,
+        "last": 141.74,
+        "low": 139.8,
+        "high": 145.01,
+        "mark": 141.47,
+        "contractMultiplier": 1,
+        "min": 138.64,
+        "max": 144.3
+    }

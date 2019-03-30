@@ -25,8 +25,8 @@ public class DeribitInstrumentFetchIntegration {
   }
 
   @Test
-  public void getInstrumentsTest() throws Exception {
-    List<DeribitInstrument> instruments = deribitMarketDataService.getInstruments();
+  public void getDeribitInstrumentsTest() throws Exception {
+    List<DeribitInstrument> instruments = deribitMarketDataService.getDeribitInstruments();
 
     assertThat(instruments).isNotEmpty();
   }

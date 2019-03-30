@@ -3,6 +3,7 @@ package org.knowm.xchange.deribit.v1.service;
 import org.knowm.xchange.deribit.v1.DeribitExchange;
 import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitInstrument;
+import org.knowm.xchange.deribit.v1.dto.marketdata.DeribitOrderbook;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,12 +28,20 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     super(exchange);
   }
 
-  public List<DeribitInstrument> getInstruments() throws IOException {
+  public List<DeribitInstrument> getDeribitInstruments() throws IOException {
     return deribit.getInstruments().getResult();
   }
 
-  public List<DeribitCurrency> getCurrencies() throws IOException {
+  public List<DeribitCurrency> getDeribitCurrencies() throws IOException {
     return deribit.getCurrencies().getResult();
+  }
+
+  public DeribitOrderbook getDeribitOrderbook(String instrument) throws IOException {
+    return deribit.getOrderbook(instrument).getResult();
+  }
+
+  public DeribitOrderbook getDeribitOrderbook(String instrument, int depth) throws IOException {
+    return deribit.getOrderbook(instrument, depth).getResult();
   }
 
 }
