@@ -3,14 +3,14 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 
 public class BithumbTransactionHistory {
 
-  public static final SimpleDateFormat TRANSACTION_DATE_FORMAT =
-      new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  public static final FastDateFormat TRANSACTION_DATE_FORMAT =
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
   private final long contNo;
   private final String transactionDate;
   private final BithumbAdapters.OrderType type;
