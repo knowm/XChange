@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DeribitOrderbookTest {
 
     @Test
-    public void deserializeCurrencyTest() throws Exception {
+    public void deserializeOrderbookTest() throws Exception {
 
         // given
         InputStream is =
