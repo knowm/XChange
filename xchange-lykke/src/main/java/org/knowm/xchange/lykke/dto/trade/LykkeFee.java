@@ -10,9 +10,7 @@ public class LykkeFee {
   @JsonProperty("Type")
   private final LykkeFeeType type;
 
-  public LykkeFee(
-          @JsonProperty("Amount") double amount,
-          @JsonProperty("Type") LykkeFeeType type) {
+  public LykkeFee(@JsonProperty("Amount") double amount, @JsonProperty("Type") LykkeFeeType type) {
     this.amount = amount;
     this.type = type;
   }
