@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ public class DeribitOrderTest {
 
         assertThat(order.getQuantity()).isEqualTo(300);
         assertThat(order.getAmount()).isEqualTo(300);
-        assertThat(order.getPrice()).isEqualTo(141.42f);
+        assertThat(order.getPrice()).isEqualTo(new BigDecimal("141.42"));
         assertThat(order.getCm()).isEqualTo(300);
         assertThat(order.getCmAmount()).isEqualTo(300);
     }

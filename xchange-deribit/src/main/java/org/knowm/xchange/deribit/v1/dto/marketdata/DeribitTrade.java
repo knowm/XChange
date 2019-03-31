@@ -3,6 +3,8 @@ package org.knowm.xchange.deribit.v1.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitTrade {
 
@@ -12,11 +14,11 @@ public class DeribitTrade {
     @JsonProperty("timeStamp") public long timeStamp;
     @JsonProperty("quantity") public int quantity;
     @JsonProperty("amount") public int amount;
-    @JsonProperty("price") public float price;
+    @JsonProperty("price") public BigDecimal price;
     @JsonProperty("direction") public String direction;
     @JsonProperty("tickDirection") public int tickDirection;
-    @JsonProperty("indexPrice") public float indexPrice;
-    @JsonProperty("iv") public float iv;
+    @JsonProperty("indexPrice") public BigDecimal indexPrice;
+    @JsonProperty("iv") public BigDecimal iv;
 
 
     public int getTradeId() {
@@ -43,7 +45,7 @@ public class DeribitTrade {
         return amount;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -55,11 +57,11 @@ public class DeribitTrade {
         return tickDirection;
     }
 
-    public float getIndexPrice() {
+    public BigDecimal getIndexPrice() {
         return indexPrice;
     }
 
-    public float getIv() {
+    public BigDecimal getIv() {
         return iv;
     }
 }

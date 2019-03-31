@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,10 +31,10 @@ public class DeribitTradeTest {
         assertThat(trade.getTimeStamp()).isEqualTo(1503439494351L);
         assertThat(trade.getQuantity()).isEqualTo(5);
         assertThat(trade.getAmount()).isEqualTo(5);
-        assertThat(trade.getPrice()).isEqualTo(0.055f);
+        assertThat(trade.getPrice()).isEqualTo(new BigDecimal("0.055"));
         assertThat(trade.getDirection()).isEqualTo("buy");
         assertThat(trade.getTickDirection()).isEqualTo(1);
-        assertThat(trade.getIndexPrice()).isEqualTo(4101.46f);
-        assertThat(trade.getIv()).isEqualTo(70.71f);
+        assertThat(trade.getIndexPrice()).isEqualTo(new BigDecimal("4101.46"));
+        assertThat(trade.getIv()).isEqualTo(new BigDecimal("70.71"));
     }
 }

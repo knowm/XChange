@@ -7,33 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitCurrency {
 
-    @JsonProperty("txFee")
-    private Float txFee;
-
-    @JsonProperty("minConfirmation")
-    private Integer minConfirmation;
-
-    @JsonProperty("isActive")
-    private Boolean isActive;
-
-    @JsonProperty("currencyLong")
-    private String currencyLong;
-
-    @JsonProperty("currency")
-    private String currency;
-
-    @JsonProperty("coinType")
-    private String coinType;
-
-    @JsonProperty("baseaddress")
-    private Object baseAddress;
+    @JsonProperty("txFee") private float txFee;
+    @JsonProperty("minConfirmation") private int minConfirmation;
+    @JsonProperty("isActive") private Boolean isActive;
+    @JsonProperty("currencyLong") private String currencyLong;
+    @JsonProperty("currency") private String currency;
+    @JsonProperty("coinType") private String coinType;
+    @JsonProperty("baseaddress") private String baseAddress;
 
 
-    public Float getTxFee() {
+    public float getTxFee() {
         return txFee;
     }
 
-    public Integer getMinConfirmation() {
+    public int getMinConfirmation() {
         return minConfirmation;
     }
 
@@ -53,7 +40,7 @@ public class DeribitCurrency {
         return coinType;
     }
 
-    public Object getBaseAddress() {
+    public String getBaseAddress() {
         return baseAddress;
     }
 }
