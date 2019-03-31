@@ -52,7 +52,7 @@ import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 public class KucoinAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
