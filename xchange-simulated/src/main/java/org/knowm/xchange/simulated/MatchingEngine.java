@@ -1,27 +1,6 @@
 package org.knowm.xchange.simulated;
 
-import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.HALF_UP;
-import static java.util.UUID.randomUUID;
-import static java.util.stream.Collectors.toList;
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
+import com.google.common.collect.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -34,6 +13,19 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
+import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_UP;
+import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.toList;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 /**
  * The "exchange" which backs {@link SimulatedExchange}.
@@ -387,5 +379,30 @@ final class MatchingEngine {
     userTrades.put(fill.getApiKey(), fill.getTrade());
     accountFactory.get(fill.getApiKey()).fill(fill.getTrade(), !fill.isTaker());
     onFill.accept(fill);
+  }
+
+  public void cancelOrder(String orderId, Order.OrderType type) {
+
+    switch (type) {
+      case ASK:
+        asks.stream()
+            .forEach(
+                bookLevel ->
+                    bookLevel
+                        .getOrders()
+                        .removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+        break;
+      case BID:
+        bids.stream()
+            .forEach(
+                bookLevel ->
+                    bookLevel
+                        .getOrders()
+                        .removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+
+        break;
+      default:
+        throw new ExchangeException("Unsupported order type: " + type);
+    }
   }
 }
