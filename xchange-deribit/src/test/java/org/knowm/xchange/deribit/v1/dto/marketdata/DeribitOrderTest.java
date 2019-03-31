@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DeribitOrderTest {
 
     @Test
-    public void deserializeCurrencyTest() throws Exception {
+    public void deserializeOrderTest() throws Exception {
 
         // given
         InputStream is =

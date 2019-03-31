@@ -1,0 +1,19 @@
+{
+  "currentFunding": -0.00034500919497000614,
+  "funding8h": -0.00016358808971835147,
+  "instrumentName": "BTC-PERPETUAL",
+  "openInterest": 13673303.5,
+  "openInterestAmount": 136733035,
+  "high": 4099.75,
+  "low": 4056,
+  "volume": 1388007,
+  "volumeUsd": 13880070,
+  "volumeBtc": 3402.11339229,
+  "last": 4091,
+  "bidPrice": 4091,
+  "askPrice": 4091.25,
+  "midPrice": 4091.13,
+  "estDelPrice": 4094.63,
+  "markPrice": 4091.17,
+  "created": "2019-03-31 13:41:37 GMT"
+}
