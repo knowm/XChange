@@ -3,7 +3,6 @@ package org.knowm.xchange.simulated;
 import static java.math.BigDecimal.ZERO;
 
 import java.io.IOException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,7 +11,6 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

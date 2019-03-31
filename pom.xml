@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
 
 	<groupId>com.gruelbox</groupId>
-	<artifactId>xchange-parent</artifactId>
+    <artifactId>xchange-parent</artifactId>
 	<version>4.3.17.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <packaging>pom</packaging>
 
 	<name>Orko XChange Fork</name>
 	<description>This is the public fork of XChange (https://github.com/knowm/XChange) used by Orko
@@ -19,20 +19,20 @@
 	        as pull requests, but will not have been reviewed yet. It is not advised for other projects
 	        to track or use this fork. Please use the main project.</description>
 
-	<url>http://knowm.org/open-source/xchange</url>
-	<inceptionYear>2012</inceptionYear>
+    <url>http://knowm.org/open-source/xchange</url>
+    <inceptionYear>2012</inceptionYear>
 
-	<organization>
-		<name>Knowm Inc.</name>
-		<url>http://knowm.org/open-source/xchange/</url>
-	</organization>
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <version.java>1.8</version.java>
-        <version.assertj>3.12.1</version.assertj>
+        <version.assertj>3.12.2</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.8.1</version.commons.lang3>
         <version.fasterxml>2.9.8</version.fasterxml>
@@ -44,351 +44,342 @@
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.8.0-beta4</version.slf4j>
-        <version.crypto>4.1.1</version.crypto>
+        <version.crypto>4.2.0</version.crypto>
         <version.java-jwt>3.8.0</version.java-jwt>
-        <version.hamcrest>2.1</version.hamcrest>
 
-		<skipIntegrationTests>true</skipIntegrationTests>
-	</properties>
+        <skipIntegrationTests>true</skipIntegrationTests>
+    </properties>
 
-	<developers>
-		<developer>
-			<name>Tim Molter</name>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Tim Molter</name>
+        </developer>
+    </developers>
 
-	<licenses>
-		<license>
-			<name>MIT</name>
-			<url>http://www.opensource.org/licenses/mit-license.php</url>
-			<distribution>repo</distribution>
-			<comments>All source code is under the MIT license.</comments>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+    </licenses>
 
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/knowm/XChange/issues</url>
-	</issueManagement>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/knowm/XChange/issues</url>
+    </issueManagement>
 
-	<distributionManagement>
-		<snapshotRepository>
+    <distributionManagement>
+        <snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
+        </snapshotRepository>
+        <repository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+        </repository>
+    </distributionManagement>
 
-	<scm>
+    <scm>
 		<connection>scm:git:git@github.com:gruelbox/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:gruelbox/XChange.git</developerConnection>
 		<url>git@github.com:gruelbox/XChange.git</url>
-		<tag>HEAD</tag>
-	</scm>
+        <tag>HEAD</tag>
+    </scm>
 
-	<ciManagement>
+    <ciManagement>
 		<url>https://travis-ci.org/gruelbox/XChange</url>
-	</ciManagement>
+    </ciManagement>
 
-	<modules>
+    <modules>
 <!--
-		<module>xchange-abucoins</module>
-		<module>xchange-acx</module>
-		<module>xchange-anx</module>
-		<module>xchange-bankera</module>
-		<module>xchange-bibox</module>
+        <module>xchange-abucoins</module>
+        <module>xchange-acx</module>
+        <module>xchange-anx</module>
+        <module>xchange-bankera</module>
+        <module>xchange-bibox</module>
 -->
-		<module>xchange-binance</module>
+        <module>xchange-binance</module>
 <!--
-		<module>xchange-bitbay</module>
-		<module>xchange-bitcoinaverage</module>
-		<module>xchange-bitcoincharts</module>
-		<module>xchange-bitcoincore</module>
-		<module>xchange-bitcoinde</module>
-		<module>xchange-bitcoinium</module>
-		<module>xchange-bitcointoyou</module>
+        <module>xchange-bitbay</module>
+        <module>xchange-bitcoinaverage</module>
+        <module>xchange-bitcoincharts</module>
+        <module>xchange-bitcoincore</module>
+        <module>xchange-bitcoinde</module>
+        <module>xchange-bitcoinium</module>
+        <module>xchange-bitcointoyou</module>
 -->
-		<module>xchange-bitfinex</module>
+        <module>xchange-bitfinex</module>
 <!--
-		<module>xchange-bitflyer</module>
-		<module>xchange-bithumb</module>
-		<module>xchange-bitmarket</module>
+        <module>xchange-bitflyer</module>
+        <module>xchange-bithumb</module>
+        <module>xchange-bitmarket</module>
 -->
-		<module>xchange-bitmex</module>
+        <module>xchange-bitmex</module>
 <!--
-		<module>xchange-bitso</module>
-		<module>xchange-bitstamp</module>
+        <module>xchange-bitso</module>
+        <module>xchange-bitstamp</module>
 -->
-		<module>xchange-bittrex</module>
+        <module>xchange-bittrex</module>
 <!--
-		<module>xchange-bity</module>
-		<module>xchange-bitz</module>
-		<module>xchange-bl3p</module>
-		<module>xchange-bleutrade</module>
-		<module>xchange-blockchain</module>
-		<module>xchange-btcc</module>
-		<module>xchange-btcmarkets</module>
-		<module>xchange-btctrade</module>
-		<module>xchange-btcturk</module>
-		<module>xchange-bx</module>
-		<module>xchange-campbx</module>
-		<module>xchange-ccex</module>
-		<module>xchange-cexio</module>
-		<module>xchange-cobinhood</module>
-		<module>xchange-coinbase</module>
+        <module>xchange-bity</module>
+        <module>xchange-bitz</module>
+        <module>xchange-bl3p</module>
+        <module>xchange-bleutrade</module>
+        <module>xchange-blockchain</module>
+        <module>xchange-btcc</module>
+        <module>xchange-btcmarkets</module>
+        <module>xchange-btctrade</module>
+        <module>xchange-btcturk</module>
+        <module>xchange-bx</module>
+        <module>xchange-campbx</module>
+        <module>xchange-ccex</module>
+        <module>xchange-cexio</module>
+        <module>xchange-cobinhood</module>
+        <module>xchange-coinbase</module>
 -->
-		<module>xchange-coinbasepro</module>
+        <module>xchange-coinbasepro</module>
 <!--
-		<module>xchange-coindeal</module>
-		<module>xchange-coindirect</module>
-		<module>xchange-coinbene</module>
-		<module>xchange-coinegg</module>
-		<module>xchange-coinex</module>   	  
-		<module>xchange-coinone</module>
-		<module>xchange-coinfloor</module>
-		<module>xchange-coingi</module>
-		<module>xchange-coinmarketcap</module>
-		<module>xchange-coinmate</module>
+        <module>xchange-coindeal</module>
+        <module>xchange-coindirect</module>
+        <module>xchange-coinbene</module>
+        <module>xchange-coinegg</module>
+        <module>xchange-coinex</module>
+        <module>xchange-coinone</module>
+        <module>xchange-coinfloor</module>
+        <module>xchange-coingi</module>
+        <module>xchange-coinmarketcap</module>
+        <module>xchange-coinmate</module>
 -->
-		<module>xchange-core</module>
+        <module>xchange-core</module>
 <!--
-		<module>xchange-cryptofacilities</module>
-		<module>xchange-cryptonit</module>
-		<module>xchange-cryptopia</module>
-		<module>xchange-coinsuper</module>
-		<module>xchange-dsx</module>
-		<module>xchange-dragonex</module>
-		<module>xchange-dvchain</module>
-		<module>xchange-exmo</module>
-		<module>xchange-exx</module>
-		<module>xchange-examples</module>
-		<module>xchange-fcoin</module>
-		<module>xchange-gatecoin</module>
-		<module>xchange-gateio</module>
-		<module>xchange-gemini</module>
-		<module>xchange-hitbtc</module>
-		<module>xchange-huobi</module>
-		<module>xchange-idex</module>
-		<module>xchange-independentreserve</module>
-		<module>xchange-itbit</module>
-		<module>xchange-koineks</module>
-		<module>xchange-koinim</module>
+        <module>xchange-cryptofacilities</module>
+        <module>xchange-cryptonit</module>
+        <module>xchange-cryptopia</module>
+        <module>xchange-coinsuper</module>
+        <module>xchange-dsx</module>
+        <module>xchange-dragonex</module>
+        <module>xchange-dvchain</module>
+        <module>xchange-exmo</module>
+        <module>xchange-exx</module>
+        <module>xchange-examples</module>
+        <module>xchange-fcoin</module>
+        <module>xchange-gatecoin</module>
+        <module>xchange-gateio</module>
+        <module>xchange-gemini</module>
+        <module>xchange-hitbtc</module>
+        <module>xchange-huobi</module>
+        <module>xchange-idex</module>
+        <module>xchange-independentreserve</module>
+        <module>xchange-itbit</module>
+        <module>xchange-koineks</module>
+        <module>xchange-koinim</module>
 -->
-		<module>xchange-kraken</module>
-		<module>xchange-kucoin</module>
+        <module>xchange-kraken</module>
+        <module>xchange-kucoin</module>
 <!--
-		<module>xchange-kuna</module>
-		<module>xchange-lakebtc</module>
-		<module>xchange-liqui</module>
-		<module>xchange-livecoin</module>
-		<module>xchange-luno</module>
-		<module>xchange-lykke</module> 
-		<module>xchange-mercadobitcoin</module>
-		<module>xchange-okcoin</module>
-		<module>xchange-openexchangerates</module>
-		<module>xchange-paribu</module>
-		<module>xchange-paymium</module>
-		<module>xchange-poloniex</module>
-		<module>xchange-quadrigacx</module>
-		<module>xchange-quoine</module>
-		<module>xchange-ripple</module>
+        <module>xchange-kuna</module>
+        <module>xchange-lakebtc</module>
+        <module>xchange-liqui</module>
+        <module>xchange-livecoin</module>
+        <module>xchange-luno</module>
+        <module>xchange-lykke</module>
+        <module>xchange-mercadobitcoin</module>
+        <module>xchange-okcoin</module>
+        <module>xchange-openexchangerates</module>
+        <module>xchange-paribu</module>
+        <module>xchange-paymium</module>
+        <module>xchange-poloniex</module>
+        <module>xchange-quadrigacx</module>
+        <module>xchange-quoine</module>
+        <module>xchange-ripple</module>
 -->
-		<module>xchange-simulated</module>
+        <module>xchange-simulated</module>
 <!--
-		<module>xchange-therock</module>
-		<module>xchange-truefx</module>
-		<module>xchange-upbit</module>
-		<module>xchange-vaultoro</module>
-		<module>xchange-vircurex</module>
-		<module>xchange-wex</module>
-		<module>xchange-yobit</module>
-		<module>xchange-zaif</module>
+        <module>xchange-therock</module>
+        <module>xchange-truefx</module>
+        <module>xchange-upbit</module>
+        <module>xchange-vaultoro</module>
+        <module>xchange-vircurex</module>
+        <module>xchange-wex</module>
+        <module>xchange-yobit</module>
+        <module>xchange-zaif</module>
 -->
-	</modules>
+    </modules>
 
-	<repositories>
-		<repository>
-			<id>sonatype-oss-public</id>
-			<url>https://oss.sonatype.org/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>sonatype-oss-public</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<dependencyManagement>
-		<dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-			<!-- Rest client -->
-			<dependency>
-				<groupId>com.github.mmazi</groupId>
-				<artifactId>rescu</artifactId>
-				<version>${version.github.mmazi}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-codec</groupId>
-						<artifactId>commons-codec</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${version.commons.io}</version>
-			</dependency>
-
-			<!--For String Joining, etc. -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${version.commons.lang3}</version>
-			</dependency>
-
-			<!-- Charting -->
-			<dependency>
-				<groupId>org.knowm.xchart</groupId>
-				<artifactId>xchart</artifactId>
-				<version>${version.knowm.xchart}</version>
-			</dependency>
-
-			<!-- Reflections - java runtime metadata analysis for integration testing -->
-			<dependency>
-				<groupId>org.reflections</groupId>
-				<artifactId>reflections</artifactId>
-				<version>${version.reflections}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-csv</artifactId>
-				<version>${version.fasterxml}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.web3j</groupId>
-				<artifactId>crypto</artifactId>
-				<version>${version.crypto}</version>
-			</dependency>
-
-			<!-- for bi-direction maps only -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>27.0.1-jre</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>2.23.4</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.github.tomakehurst</groupId>
-				<artifactId>wiremock</artifactId>
-				<version>2.21.0</version>
-				<scope>test</scope>
-			</dependency>
-
-			<!-- PowerMockito for unit tests -->
-			<!-- when removing powermock, please upgrade mockito -->
-			<dependency>
-				<groupId>org.powermock</groupId>
-				<artifactId>powermock-module-junit4</artifactId>
-				<version>${version.powermock}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.powermock</groupId>
-				<artifactId>powermock-api-mockito2</artifactId>
-				<version>${version.powermock}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.powermock</groupId>
-				<artifactId>powermock-reflect</artifactId>
-				<version>${version.powermock}</version>
-				<scope>test</scope>
-			</dependency>
-      
-            <!-- Hamcrest for testing -->
+            <!-- Rest client -->
             <dependency>
-              <groupId>org.hamcrest</groupId>
-              <artifactId>hamcrest-core</artifactId>
-              <version>${version.hamcrest}</version>
-              <scope>test</scope>
+                <groupId>com.github.mmazi</groupId>
+                <artifactId>rescu</artifactId>
+                <version>${version.github.mmazi}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
-			<!-- SLF4J implementation for use in examples -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${version.qos.logback}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${version.lombok}</version>
-				<scope>provided</scope>
-			</dependency>
-			<!-- jwt for auth -->
-			<dependency>
-				<groupId>com.auth0</groupId>
-				<artifactId>java-jwt</artifactId>
-				<version>${version.java-jwt}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons.io}</version>
+            </dependency>
 
-	<!-- All children will have these dependencies -->
-	<dependencies>
-		<!-- Logging is through SLF4J -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${version.slf4j}</version>
-		</dependency>
+            <!--For String Joining, etc. -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons.lang3}</version>
+            </dependency>
 
-		<!-- javax APIs -->
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
-		</dependency>
+            <!-- Charting -->
+            <dependency>
+                <groupId>org.knowm.xchart</groupId>
+                <artifactId>xchart</artifactId>
+                <version>${version.knowm.xchart}</version>
+            </dependency>
 
-		<!-- SLF4J implementation for use in examples -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
-		</dependency>
+            <!-- Reflections - java runtime metadata analysis for integration testing -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${version.reflections}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-csv</artifactId>
+                <version>${version.fasterxml}</version>
+            </dependency>
 
-		<!-- JUnit for testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${version.junit}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>${version.assertj}</version>
-			<scope>test</scope>
-		</dependency>
+            <dependency>
+                <groupId>org.web3j</groupId>
+                <artifactId>crypto</artifactId>
+                <version>${version.crypto}</version>
+            </dependency>
 
-	</dependencies>
-	
-	<profiles>
-	  <profile>
+            <!-- for bi-direction maps only -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>27.1-jre</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.23.4</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>2.21.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- PowerMockito for unit tests -->
+            <!-- when removing powermock, please upgrade mockito -->
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${version.powermock}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito2</artifactId>
+                <version>${version.powermock}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-reflect</artifactId>
+                <version>${version.powermock}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- SLF4J implementation for use in examples -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.qos.logback}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${version.lombok}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- jwt for auth -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${version.java-jwt}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- All children will have these dependencies -->
+    <dependencies>
+        <!-- Logging is through SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <!-- javax APIs -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <!-- SLF4J implementation for use in examples -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${version.assertj}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
 			<id>all</id>
 				<modules>
 					<module>xchange-abucoins</module>
@@ -484,65 +475,65 @@
 			<properties>
 				<gpg.executable>gpg2</gpg.executable>
  			</properties>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
 								<configuration>
 									<keyname>${gpg.keyname}</keyname>
 									<passphraseServerId>${gpg.keyname}</passphraseServerId>
 								</configuration>
-							</execution>
-						</executions>
-					</plugin>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-					<!-- Generates a source code JAR during package -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- Generates JavaDocs during package -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-								<configuration>
-									<doclint>none</doclint>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					
+                    <!-- Generates a source code JAR during package -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Generates JavaDocs during package -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <doclint>none</doclint>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
 					<!-- Auto release from OSSRH staging -->
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
@@ -556,114 +547,114 @@
 						</configuration>
 					</plugin>
 
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-	<build>
+    <build>
 
-		<plugins>
-			<!-- Ensure compilation is done under Java 8 in all environments -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>${version.java}</source>
-					<target>${version.java}</target>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
-			<!-- for deploying to Maven Central -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
-			</plugin>
+        <plugins>
+            <!-- Ensure compilation is done under Java 8 in all environments -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>${version.java}</source>
+                    <target>${version.java}</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <!-- for deploying to Maven Central -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<skipSource>false</skipSource>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<quiet>true</quiet>
-					<skip>false</skip>
-					<doclint>none</doclint>
-					<source>${version.java}</source>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M3</version>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipSource>false</skipSource>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <skip>false</skip>
+                    <doclint>none</doclint>
+                    <source>${version.java}</source>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0-M3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<skipTests>${skipIntegrationTests}</skipTests>
-					<includes>
-						<include>**/*Integration.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.coveo</groupId>
-				<artifactId>fmt-maven-plugin</artifactId>
-				<version>2.8</version>
-				<configuration>
-					<filesNamePattern>.*\.java</filesNamePattern>
-					<skip>false</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipTests>${skipIntegrationTests}</skipTests>
+                    <includes>
+                        <include>**/*Integration.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <filesNamePattern>.*\.java</filesNamePattern>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 
 </project>
