@@ -1,8 +1,9 @@
 package org.knowm.xchange.deribit.v1;
 
-import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitCurrencyResponse;
-import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitInstrumentResponse;
+import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitCurrenciesResponse;
+import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitInstrumentsResponse;
 import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitOrderbookResponse;
+import org.knowm.xchange.deribit.v1.dto.marketdata.response.DeribitTradesResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,11 +18,11 @@ public interface Deribit {
 
   @GET
   @Path("getinstruments")
-  DeribitInstrumentResponse getInstruments() throws IOException;
+  DeribitInstrumentsResponse getInstruments() throws IOException;
 
   @GET
   @Path("getcurrencies")
-  DeribitCurrencyResponse getCurrencies() throws IOException;
+  DeribitCurrenciesResponse getCurrencies() throws IOException;
 
   @GET
   @Path("getorderbook")
@@ -35,4 +36,11 @@ public interface Deribit {
           @QueryParam("instrument") String instrument,
           @QueryParam("depth") int depth
   ) throws IOException;
+
+  @GET
+  @Path("getlasttrades")
+  DeribitTradesResponse getLastTrades(
+          @QueryParam("instrument") String instrument
+  ) throws IOException;
+
 }
