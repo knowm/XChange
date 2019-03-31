@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DeribitCurrencyFetchIntegration {
+public class DeribitCurrenciesFetchIntegration {
 
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
