@@ -244,12 +244,14 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(limitOrder))
-        .type("limit").price(limitOrder.getLimitPrice()).build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .build();
   }
 
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(stopOrder))
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
         .price(stopOrder.getLimitPrice())
         .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
@@ -258,13 +260,14 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(marketOrder))
-        .type("market").build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
+        .type("market")
+        .build();
   }
 
   /**
-   * Returns {@code Object} instead of the Lombok builder in order to avoid
-   * a Lombok limitation with Javadoc.
+   * Returns {@code Object} instead of the Lombok builder in order to avoid a Lombok limitation with
+   * Javadoc.
    */
   private static Object adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
