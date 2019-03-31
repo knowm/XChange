@@ -98,6 +98,7 @@ public class BinanceExchange extends BaseExchange {
 
             BigDecimal minQty = null;
             BigDecimal maxQty = null;
+            BigDecimal stepSize = null;
 
             Filter[] filters = symbol.getFilters();
 
@@ -108,6 +109,7 @@ public class BinanceExchange extends BaseExchange {
                 amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
                 maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+                stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
               }
             }
 
@@ -118,8 +120,9 @@ public class BinanceExchange extends BaseExchange {
                     minQty, // Min amount
                     maxQty, // Max amount
                     pairPrecision, // precision
-                    null /* TODO get fee tiers, although this is not necessary now
-                         because their API returns current fee directly */));
+                    null, /* TODO get fee tiers, although this is not necessary now
+                         because their API returns current fee directly */
+                    stepSize));
             currencies.put(
                 pair.base,
                 new CurrencyMetaData(
