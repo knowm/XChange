@@ -1,21 +1,17 @@
 package org.knowm.xchange.cryptonit2;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /** A central place for shared Cryptonit properties */
 public final class CryptonitUtils {
 
   public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
-  private static final SimpleDateFormat DATE_FORMAT;
-
-  static {
-    DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
+  private static final FastDateFormat DATE_FORMAT =
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC"));
 
   /** private Constructor */
   private CryptonitUtils() {}
