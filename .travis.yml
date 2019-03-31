@@ -11,11 +11,11 @@ jobs:
       script:
         - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
         - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
-        - mvn clean deploy --settings etc/settings.xml -B -U -T 2C -Prelease
+        - mvn clean deploy --settings etc/settings.xml -B -U -Prelease
     - if: (NOT repo = gruelbox/XChange) OR (NOT branch = orko AND NOT tag IS present) OR (type = pull_request)
       name: "Test"
       script:
-        - mvn clean test -B -U -T 2C
+        - mvn clean test -B -U
 cache:
   directories:
     - "$HOME/.m2/repository"
