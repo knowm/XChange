@@ -23,8 +23,13 @@ public class CurrencyPairMetaData implements Serializable {
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
 
+  /** Decimal places in price */
   @JsonProperty("price_scale")
   private final Integer priceScale;
+
+  /** Amount step size. If set, any amounts must be a multiple of this */
+  @JsonProperty("amount_step_size")
+  private final BigDecimal amountStepSize;
 
   /**
    * Constructor
@@ -35,11 +40,30 @@ public class CurrencyPairMetaData implements Serializable {
    * @param priceScale Price scale
    */
   public CurrencyPairMetaData(
+      BigDecimal tradingFee,
+      BigDecimal minimumAmount,
+      BigDecimal maximumAmount,
+      Integer priceScale,
+      FeeTier[] feeTiers) {
+    this(tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers, null);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param tradingFee Trading fee (fraction)
+   * @param minimumAmount Minimum trade amount
+   * @param maximumAmount Maximum trade amount
+   * @param priceScale Price scale
+   * @param amountStepSize Amounts must be a multiple of this amount if set.
+   */
+  public CurrencyPairMetaData(
       @JsonProperty("trading_fee") BigDecimal tradingFee,
       @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount,
       @JsonProperty("price_scale") Integer priceScale,
-      @JsonProperty("fee_tiers") FeeTier[] feeTiers) {
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers,
+      @JsonProperty("amount_step_size") BigDecimal amountStepSize) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -49,6 +73,7 @@ public class CurrencyPairMetaData implements Serializable {
       Arrays.sort(feeTiers);
     }
     this.feeTiers = feeTiers;
+    this.amountStepSize = amountStepSize;
   }
 
   public BigDecimal getTradingFee() {
@@ -76,6 +101,11 @@ public class CurrencyPairMetaData implements Serializable {
     return feeTiers;
   }
 
+  public BigDecimal getAmountStepSize() {
+
+    return amountStepSize;
+  }
+
   @Override
   public String toString() {
 
@@ -87,6 +117,8 @@ public class CurrencyPairMetaData implements Serializable {
         + maximumAmount
         + ", priceScale="
         + priceScale
+        + ", amountStepSize="
+        + amountStepSize
         + "]";
   }
 }
