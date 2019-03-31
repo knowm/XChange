@@ -3,6 +3,7 @@ package org.knowm.xchange.deribit.v1.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -13,25 +14,25 @@ public class DeribitOrderbook {
     @JsonProperty("bids") public List<DeribitOrder> bids = null;
     @JsonProperty("asks") public List<DeribitOrder> asks = null;
     @JsonProperty("tstamp") public long tstamp;
-    @JsonProperty("last") public float last;
-    @JsonProperty("low") public float low;
-    @JsonProperty("high") public float high;
-    @JsonProperty("mark") public float mark;
+    @JsonProperty("last") public BigDecimal last;
+    @JsonProperty("low") public BigDecimal low;
+    @JsonProperty("high") public BigDecimal high;
+    @JsonProperty("mark") public BigDecimal mark;
     @JsonProperty("state") public String state;
-    @JsonProperty("settlementPrice") public float settlementPrice;
-    @JsonProperty("deliveryPrice") public float deliveryPrice;
-    @JsonProperty("uPx") public float uPx;
+    @JsonProperty("settlementPrice") public BigDecimal settlementPrice;
+    @JsonProperty("deliveryPrice") public BigDecimal deliveryPrice;
+    @JsonProperty("uPx") public BigDecimal uPx;
     @JsonProperty("uIx") public String uIx;
-    @JsonProperty("iR") public float iR;
-    @JsonProperty("markIv") public float markIv;
-    @JsonProperty("askIv") public float askIv;
-    @JsonProperty("bidIv") public float bidIv;
-    @JsonProperty("delta") public float delta;
-    @JsonProperty("gamma") public float gamma;
-    @JsonProperty("vega") public float vega;
-    @JsonProperty("theta") public float theta;
-    @JsonProperty("max") public float max;
-    @JsonProperty("min") public float min;
+    @JsonProperty("iR") public BigDecimal iR;
+    @JsonProperty("markIv") public BigDecimal markIv;
+    @JsonProperty("askIv") public BigDecimal askIv;
+    @JsonProperty("bidIv") public BigDecimal bidIv;
+    @JsonProperty("delta") public BigDecimal delta;
+    @JsonProperty("gamma") public BigDecimal gamma;
+    @JsonProperty("vega") public BigDecimal vega;
+    @JsonProperty("theta") public BigDecimal theta;
+    @JsonProperty("max") public BigDecimal max;
+    @JsonProperty("min") public BigDecimal min;
     @JsonProperty("contractMultiplier") public int contractMultiplier;
 
 
@@ -51,19 +52,19 @@ public class DeribitOrderbook {
         return tstamp;
     }
 
-    public float getLast() {
+    public BigDecimal getLast() {
         return last;
     }
 
-    public float getLow() {
+    public BigDecimal getLow() {
         return low;
     }
 
-    public float getHigh() {
+    public BigDecimal getHigh() {
         return high;
     }
 
-    public float getMark() {
+    public BigDecimal getMark() {
         return mark;
     }
 
@@ -71,15 +72,15 @@ public class DeribitOrderbook {
         return state;
     }
 
-    public float getSettlementPrice() {
+    public BigDecimal getSettlementPrice() {
         return settlementPrice;
     }
 
-    public float getDeliveryPrice() {
+    public BigDecimal getDeliveryPrice() {
         return deliveryPrice;
     }
 
-    public float getuPx() {
+    public BigDecimal getuPx() {
         return uPx;
     }
 
@@ -87,43 +88,43 @@ public class DeribitOrderbook {
         return uIx;
     }
 
-    public float getiR() {
+    public BigDecimal getiR() {
         return iR;
     }
 
-    public float getMarkIv() {
+    public BigDecimal getMarkIv() {
         return markIv;
     }
 
-    public float getAskIv() {
+    public BigDecimal getAskIv() {
         return askIv;
     }
 
-    public float getBidIv() {
+    public BigDecimal getBidIv() {
         return bidIv;
     }
 
-    public float getDelta() {
+    public BigDecimal getDelta() {
         return delta;
     }
 
-    public float getGamma() {
+    public BigDecimal getGamma() {
         return gamma;
     }
 
-    public float getVega() {
+    public BigDecimal getVega() {
         return vega;
     }
 
-    public float getTheta() {
+    public BigDecimal getTheta() {
         return theta;
     }
 
-    public float getMax() {
+    public BigDecimal getMax() {
         return max;
     }
 
-    public float getMin() {
+    public BigDecimal getMin() {
         return min;
     }
 
