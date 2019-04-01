@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.gruelbox</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.17.1</version>
+		<version>4.3.17.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-bibox</artifactId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.gruelbox</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>4.3.17.1</version>
+			<version>4.3.17.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

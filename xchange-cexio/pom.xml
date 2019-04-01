@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>com.gruelbox</groupId>
-        <version>4.3.17.1</version>
+        <version>4.3.17.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-cexio</artifactId>
