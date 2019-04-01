@@ -14,7 +14,7 @@
 
 	<name>Orko XChange Fork</name>
 	<description>This is the public fork of XChange (https://github.com/knowm/XChange) used by Orko
-		(https://github.com/gruelbox/orko), which is usually the development branch of XChange plu
+		(https://github.com/gruelbox/orko), which is usually the development branch of XChange plus
 		some urgent fixes. Those fixes will be or will have already been submitted to XChange
 	        as pull requests, but will not have been reviewed yet. It is not advised for other projects
 	        to track or use this fork. Please use the main project.</description>
@@ -93,15 +93,12 @@
     </ciManagement>
 
     <modules>
-<!--
         <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
         <module>xchange-bankera</module>
         <module>xchange-bibox</module>
--->
         <module>xchange-binance</module>
-<!--
         <module>xchange-bitbay</module>
         <module>xchange-bitcoinaverage</module>
         <module>xchange-bitcoincharts</module>
@@ -109,20 +106,14 @@
         <module>xchange-bitcoinde</module>
         <module>xchange-bitcoinium</module>
         <module>xchange-bitcointoyou</module>
--->
         <module>xchange-bitfinex</module>
-<!--
         <module>xchange-bitflyer</module>
         <module>xchange-bithumb</module>
         <module>xchange-bitmarket</module>
--->
         <module>xchange-bitmex</module>
-<!--
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
--->
         <module>xchange-bittrex</module>
-<!--
         <module>xchange-bity</module>
         <module>xchange-bitz</module>
         <module>xchange-bl3p</module>
@@ -138,9 +129,7 @@
         <module>xchange-cexio</module>
         <module>xchange-cobinhood</module>
         <module>xchange-coinbase</module>
--->
         <module>xchange-coinbasepro</module>
-<!--
         <module>xchange-coindeal</module>
         <module>xchange-coindirect</module>
         <module>xchange-coinbene</module>
@@ -151,9 +140,7 @@
         <module>xchange-coingi</module>
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinmate</module>
--->
         <module>xchange-core</module>
-<!--
         <module>xchange-cryptofacilities</module>
         <module>xchange-cryptonit</module>
         <module>xchange-cryptopia</module>
@@ -175,10 +162,8 @@
         <module>xchange-itbit</module>
         <module>xchange-koineks</module>
         <module>xchange-koinim</module>
--->
         <module>xchange-kraken</module>
         <module>xchange-kucoin</module>
-<!--
         <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-liqui</module>
@@ -194,9 +179,7 @@
         <module>xchange-quadrigacx</module>
         <module>xchange-quoine</module>
         <module>xchange-ripple</module>
--->
         <module>xchange-simulated</module>
-<!--
         <module>xchange-therock</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
@@ -205,7 +188,6 @@
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
--->
     </modules>
 
     <repositories>
