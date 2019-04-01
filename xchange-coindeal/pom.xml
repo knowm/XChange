@@ -24,9 +24,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
+            <groupId>com.gruelbox</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.17-SNAPSHOT</version>
+            <version>4.3.17.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
