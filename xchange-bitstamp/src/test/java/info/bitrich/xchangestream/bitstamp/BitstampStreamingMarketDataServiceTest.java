@@ -60,8 +60,8 @@ public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMar
     }
 
     @Test
-    public void testGetDifferentialOrderBook() throws Exception {
-        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getDifferentialOrderBook(CurrencyPair.BTC_EUR).test());
+    public void testGetFullOrderBook() throws Exception {
+        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getfullOrderBook(CurrencyPair.BTC_EUR).test());
     }
 
     @Test
