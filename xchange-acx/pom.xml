@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.gruelbox</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.17.1-SNAPSHOT</version>
+        <version>4.3.17.1</version>
     </parent>
     <artifactId>xchange-acx</artifactId>
     <name>Orko XChange Fork - ACX.IO</name>

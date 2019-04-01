@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>com.gruelbox</groupId>
-        <version>4.3.17.1-SNAPSHOT</version>
+        <version>4.3.17.1</version>
     </parent>
 
     <artifactId>xchange-binance</artifactId>
