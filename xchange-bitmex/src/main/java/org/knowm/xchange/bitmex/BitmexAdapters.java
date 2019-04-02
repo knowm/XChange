@@ -207,7 +207,9 @@ public class BitmexAdapters {
   }
 
   public static OrderType adaptOrderType(BitmexSide bitmexType) {
-    return bitmexType == null ? null : bitmexType.equals(BitmexSide.BUY) ? OrderType.BID : OrderType.ASK;
+    return bitmexType == null
+        ? null
+        : bitmexType.equals(BitmexSide.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
   public static String adaptOrderId(BitmexOrderResponse orderResponse) {
