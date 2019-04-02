@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class GlobitexActiveOrder implements Serializable {
 
@@ -112,8 +111,8 @@ public class GlobitexActiveOrder implements Serializable {
         return orderStatus;
     }
 
-    public Date getLastTimestamp() {
-        return new Date(lastTimestamp);
+    public long getLastTimestamp() {
+        return lastTimestamp;
     }
 
     public BigDecimal getOrderPrice() {
@@ -172,8 +171,8 @@ public class GlobitexActiveOrder implements Serializable {
         return stopPrice;
     }
 
-    public Date getExpireTime() {
-        return new Date(expireTime);
+    public long getExpireTime() {
+        return expireTime;
     }
 
     @Override

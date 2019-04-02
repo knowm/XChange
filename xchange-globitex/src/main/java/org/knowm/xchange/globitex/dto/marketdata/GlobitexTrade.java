@@ -3,8 +3,6 @@ package org.knowm.xchange.globitex.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class GlobitexTrade implements Serializable {
 
@@ -36,8 +34,8 @@ public class GlobitexTrade implements Serializable {
     this.side = side;
   }
 
-  public Date getTimestamp() {
-    return new Date(new Timestamp(timestamp).getTime());
+  public long getTimestamp() {
+    return timestamp;
   }
 
   public BigDecimal getPrice() {

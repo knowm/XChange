@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -126,9 +124,8 @@ public class GlobitexTicker implements Serializable {
     return volumeQuote;
   }
 
-  public Date getTimestamp() {
-    Timestamp ts = new Timestamp(timestamp);
-    return new Date(ts.getTime());
+  public long getTimestamp() {
+    return timestamp;
   }
 
   @Override
