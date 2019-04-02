@@ -42,12 +42,12 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return placeGlobitexMarketOrder(marketOrder).getObject().getOrderId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return placeGlobitexLimitOrder(limitOrder).getObject().getOrderId();
   }
 
   @Override
@@ -62,7 +62,7 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return (globitexCancelOrder(orderId).getObject().getOrderStatus().equals("cancelled"));
   }
 
   @Override
