@@ -34,7 +34,7 @@ public class BitstampManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
         exchange.connect().blockingAwait();
 
-        Disposable orderBookDisposable = ((BitstampStreamingMarketDataService) exchange.getStreamingMarketDataService()).getDifferentialOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
+        Disposable orderBookDisposable = ((BitstampStreamingMarketDataService) exchange.getStreamingMarketDataService()).getFullOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
             LOG.info("First ask: {}", orderBook.getAsks().get(0));
             LOG.info("First bid: {}", orderBook.getBids().get(0));
         });

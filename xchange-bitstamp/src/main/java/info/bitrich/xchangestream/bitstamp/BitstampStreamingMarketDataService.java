@@ -23,7 +23,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
         this.service = service;
     }
 
-    public Observable<OrderBook> getfullOrderBook(CurrencyPair currencyPair, Object... args) {
+    public Observable<OrderBook> getDifferentialOrderBook(CurrencyPair currencyPair, Object... args) {
         return getOrderBook("diff_order_book", currencyPair, args);
     }
 
