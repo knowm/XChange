@@ -1,6 +1,8 @@
 package info.bitrich.xchangestream.bitstamp;
 
-import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
+import com.fasterxml.jackson.databind.JsonNode;
+import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
+import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingService;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
@@ -15,20 +17,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMarketDataServiceBaseTest {
+public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingMarketDataServiceBaseTest {
     @Mock
-    private PusherStreamingService streamingService;
+    private BitstampStreamingService streamingService;
     private BitstampStreamingMarketDataService marketDataService;
 
     @Before
@@ -39,7 +38,7 @@ public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMar
 
     public void testOrderbookCommon(String channelName, Supplier<TestObserver<OrderBook>> updater) throws Exception {
         // Given order book in JSON
-        String orderBook = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
+        JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
 
         when(streamingService.subscribeChannel(eq(channelName), eq("data"))).thenReturn(Observable.just(orderBook));
 
@@ -61,7 +60,7 @@ public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMar
 
     @Test
     public void testGetDifferentialOrderBook() throws Exception {
-        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getDifferentialOrderBook(CurrencyPair.BTC_EUR).test());
+        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getFullOrderBook(CurrencyPair.BTC_EUR).test());
     }
 
     @Test
@@ -72,9 +71,9 @@ public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMar
     @Test
     public void testGetTrades() throws Exception {
         // Given order book in JSON
-        String trade = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("trade.json").toURI())));
+        JsonNode trade = mapper.readTree(this.getClass().getResource("/trade-v2.json"));
 
-        when(streamingService.subscribeChannel(eq("live_trades"), eq("trade"))).thenReturn(Observable.just(trade));
+        when(streamingService.subscribeChannel(eq("live_trades_btcusd"), eq("trade"))).thenReturn(Observable.just(trade));
 
         Trade expected = new Trade(Order.OrderType.ASK, new BigDecimal("34.390000000000001"), CurrencyPair.BTC_USD, new BigDecimal("914.38999999999999"), new Date(1484858423000L), "177827396");
 
@@ -86,7 +85,7 @@ public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMar
     }
 
     @Test(expected = NotAvailableFromExchangeException.class)
-    public void testGetTicker() {
+    public void testGetTicker() throws Exception {
         marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
     }
 }
