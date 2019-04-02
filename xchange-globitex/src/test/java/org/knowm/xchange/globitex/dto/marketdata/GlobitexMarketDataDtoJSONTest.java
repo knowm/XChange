@@ -88,7 +88,7 @@ public class GlobitexMarketDataDtoJSONTest {
 
     GlobitexTrade trade = mapper.readValue(is, GlobitexTrade.class);
 
-    assertThat(trade.getTimestamp()).isEqualTo(new Date(141104569));
+    assertThat(trade.getTimestamp()).isEqualTo(141104569);
     assertThat(trade.getPrice()).isEqualTo("442.12");
     assertThat(trade.getAmount()).isEqualTo("0.09");
     assertThat(trade.getTid()).isEqualTo(1413901);
@@ -106,6 +106,6 @@ public class GlobitexMarketDataDtoJSONTest {
 
     assertThat(trades.getRecentTrades().size()).isEqualTo(10);
     assertThat(trades.getRecentTrades().get(1).getPrice()).isEqualTo("442.02");
-    assertThat(trades.getRecentTrades().get(1).getTimestamp()).isEqualTo(new Date(1411045690003L));
+    assertThat(trades.getRecentTrades().get(1).getTimestamp()).isEqualTo(1411045690003L);
   }
 }

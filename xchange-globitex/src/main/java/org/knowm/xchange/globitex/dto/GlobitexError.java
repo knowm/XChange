@@ -2,7 +2,9 @@ package org.knowm.xchange.globitex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GlobitexError {
+import java.io.Serializable;
+
+public class GlobitexError implements Serializable {
 
   @JsonProperty("code")
   private final int code;

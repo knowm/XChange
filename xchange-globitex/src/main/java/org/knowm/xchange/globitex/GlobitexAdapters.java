@@ -88,7 +88,7 @@ public class GlobitexAdapters {
         globitexTrade.getAmount(),
         currencyPair,
         globitexTrade.getPrice(),
-        globitexTrade.getTimestamp(),
+        new Date(globitexTrade.getTimestamp()),
         String.valueOf(globitexTrade.getTid()));
   }
 
@@ -201,7 +201,7 @@ public class GlobitexAdapters {
         globitexUserTrade.getQuantity(),
         CurrencyPairDeserializer.getCurrencyPairFromString(convertXBTtoBTC(globitexUserTrade.getSymbol())),
         globitexUserTrade.getPrice(),
-        globitexUserTrade.getTimestamp(),
+        new Date(globitexUserTrade.getTimestamp()),
         String.valueOf(globitexUserTrade.getTradeId()),
         globitexUserTrade.getOriginalOrderId(),
         globitexUserTrade.getFee(),
@@ -217,7 +217,7 @@ public class GlobitexAdapters {
               globitexActiveOrder.getOrderQuantity(),
               CurrencyPairDeserializer.getCurrencyPairFromString(globitexActiveOrder.getSymbol()),
               globitexActiveOrder.getOrderId(),
-              globitexActiveOrder.getLastTimestamp(),
+              new Date(globitexActiveOrder.getLastTimestamp()),
               globitexActiveOrder.getOrderPrice(),
               globitexActiveOrder.getAvgPrice(),
               globitexActiveOrder.getCumQuantity(),

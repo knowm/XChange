@@ -32,8 +32,7 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(usertrades.getUserTrades().get(0).getClientOrderId()).isEqualTo("FTO18jd4ou41--25");
     assertThat(usertrades.getUserTrades().get(0).getQuantity()).isEqualTo("10");
     assertThat(usertrades.getUserTrades().get(0).getPrice()).isEqualTo("150");
-    assertThat(usertrades.getUserTrades().get(0).getTimestamp())
-        .isEqualTo(new Date(1395231854030L));
+    assertThat(usertrades.getUserTrades().get(0).getTimestamp()).isEqualTo(1395231854030L);
     assertThat(usertrades.getUserTrades().get(0).getFee()).isEqualTo("0.03");
     assertThat(usertrades.getUserTrades().get(0).isLiqProvided()).isEqualTo(false);
     assertThat(usertrades.getUserTrades().get(0).getFeeCurrency()).isEqualTo("EUR");
@@ -52,7 +51,7 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(activeOrders.getOrders().size()).isEqualTo(3);
     assertThat(activeOrders.getOrders().get(0).getOrderId()).isEqualTo("7242835");
     assertThat(activeOrders.getOrders().get(0).getOrderStatus()).isEqualTo("new");
-    assertThat(activeOrders.getOrders().get(0).getLastTimestamp()).isEqualTo(new Date(1495038022000L));
+    assertThat(activeOrders.getOrders().get(0).getLastTimestamp()).isEqualTo(1495038022000L);
     assertThat(activeOrders.getOrders().get(0).getOrderPrice()).isEqualTo("2000.000");
     assertThat(activeOrders.getOrders().get(0).getOrderQuantity()).isEqualTo("1.00000");
     assertThat(activeOrders.getOrders().get(0).getAvgPrice()).isEqualTo("0");
@@ -66,7 +65,7 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(activeOrders.getOrders().get(0).getLeavesQuantity()).isEqualTo("1.00000");
     assertThat(activeOrders.getOrders().get(0).getCumQuantity()).isEqualTo("0.00000");
     assertThat(activeOrders.getOrders().get(0).getExecQuantity()).isEqualTo("0.00000");
-    assertThat(activeOrders.getOrders().get(1).getExpireTime()).isEqualTo(new Date(2241464400000L));
+    assertThat(activeOrders.getOrders().get(1).getExpireTime()).isEqualTo(2241464400000L);
     assertThat(activeOrders.getOrders().get(2).getStopPrice()).isEqualTo("808.000");
 
   }

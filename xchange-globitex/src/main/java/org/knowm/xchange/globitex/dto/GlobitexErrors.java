@@ -1,9 +1,11 @@
 package org.knowm.xchange.globitex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class GlobitexErrors {
+public class GlobitexErrors implements Serializable {
 
   @JsonProperty("errors")
   private final List<GlobitexError> errors;
@@ -18,6 +20,6 @@ public class GlobitexErrors {
 
   @Override
   public String toString() {
-    return "GlobitexException{" + "erros=" + errors + '}';
+    return "GlobitexErrors{" + "erros=" + errors + '}';
   }
 }
