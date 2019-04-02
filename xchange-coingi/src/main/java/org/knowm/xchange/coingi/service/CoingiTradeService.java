@@ -69,7 +69,7 @@ public class CoingiTradeService extends CoingiTradeServiceRaw implements TradeSe
               .setCurrencyPair(CoingiAdapters.adaptCurrency(order.getCurrencyPair()))
               .setOrderType(order.getType().equals(BID) ? 0 : 1)
               .setPrice(order.getLimitPrice())
-              .setVolume(order.getRemainingAmount());
+              .setVolume(order.getOriginalAmount());
 
       return placeCoingiLimitOrder(request).getResult();
     } catch (CoingiException e) {
