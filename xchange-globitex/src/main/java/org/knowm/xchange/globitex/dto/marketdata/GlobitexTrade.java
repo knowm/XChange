@@ -1,5 +1,6 @@
 package org.knowm.xchange.globitex.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class GlobitexTrade implements Serializable {
   private final long tid;
 
   @JsonProperty("side")
+  @JsonIgnore
   private final String side;
 
   public GlobitexTrade(
