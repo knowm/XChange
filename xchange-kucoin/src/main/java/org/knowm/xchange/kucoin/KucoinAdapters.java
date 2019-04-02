@@ -7,6 +7,9 @@ import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
 import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
@@ -52,7 +55,7 @@ import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 public class KucoinAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
@@ -244,12 +247,17 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(limitOrder))
-        .type("limit").price(limitOrder.getLimitPrice()).build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .postOnly(limitOrder.hasFlag(POST_ONLY))
+        .hidden(limitOrder.hasFlag(HIDDEN))
+        .iceberg(limitOrder.hasFlag(ICEBERG))
+        .build();
   }
 
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(stopOrder))
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
         .price(stopOrder.getLimitPrice())
         .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
@@ -258,13 +266,14 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder)adaptOrder(marketOrder))
-        .type("market").build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
+        .type("market")
+        .build();
   }
 
   /**
-   * Returns {@code Object} instead of the Lombok builder in order to avoid
-   * a Lombok limitation with Javadoc.
+   * Returns {@code Object} instead of the Lombok builder in order to avoid a Lombok limitation with
+   * Javadoc.
    */
   private static Object adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();

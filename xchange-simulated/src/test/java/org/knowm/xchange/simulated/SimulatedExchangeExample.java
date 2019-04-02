@@ -1,22 +1,28 @@
 package org.knowm.xchange.simulated;
 
+import com.google.common.util.concurrent.RateLimiter;
+import org.junit.Test;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.exceptions.SystemOverloadException;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import static org.knowm.xchange.currency.Currency.BTC;
 import static org.knowm.xchange.currency.Currency.USD;
 import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.simulated.SimulatedExchange.ACCOUNT_FACTORY_PARAM;
-import static org.knowm.xchange.simulated.SimulatedExchange.ENGINE_FACTORY_PARAM;
-import static org.knowm.xchange.simulated.SimulatedExchange.ON_OPERATION_PARAM;
-
-import com.google.common.util.concurrent.RateLimiter;
-import java.io.IOException;
-import java.math.BigDecimal;
-import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.exceptions.NonceException;
-import org.knowm.xchange.exceptions.SystemOverloadException;
+import static org.knowm.xchange.simulated.SimulatedExchange.*;
 
 public class SimulatedExchangeExample {
 
@@ -50,6 +56,81 @@ public class SimulatedExchangeExample {
     System.out.println("Ticker: " + exchange.getMarketDataService().getTicker(BTC_USD));
     System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
     System.out.println("Trades: " + exchange.getMarketDataService().getTrades(BTC_USD));
+  }
+
+  /** Demonstrates cancelling an order. */
+  @Test
+  public void cancel() throws IOException {
+
+    // If you don't provide an API key you get read-only access. No secret is needed.
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(SimulatedExchange.class);
+    exchangeSpecification.setApiKey("Tester");
+    SimulatedExchange exchange =
+        (SimulatedExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
+    // Provide an initial balance and fill the exchange with orders. By default
+    // every order book is completely empty.
+    exchange.getAccountService().deposit(USD, new BigDecimal(10000));
+    exchange.getAccountService().deposit(BTC, new BigDecimal(10000));
+    MockMarket.mockMarket(exchange);
+
+    // Accounts
+    System.out.println("Account: " + exchange.getAccountService().getAccountInfo());
+
+    // Trades
+    String orderId =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(BID, BTC_USD)
+                    .originalAmount(new BigDecimal("0.1"))
+                    .limitPrice(new BigDecimal("90")) // this wont execute
+                    .build());
+
+    // Market data
+    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
+
+    exchange.getTradeService()  // this tests both getOrder and cancelOrder
+            .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD,orderId))
+            .stream().forEach(order -> {
+              try {
+                exchange.getTradeService().cancelOrder(new CancelOrderAllParams(order.getCurrencyPair(), orderId, order.getType()));
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+        });
+
+    System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
+  }
+
+  static class CancelOrderAllParams
+      implements CancelOrderByCurrencyPair, CancelOrderByIdParams, CancelOrderByOrderTypeParams {
+    private CurrencyPair currencyPair;
+    private String orderId;
+    private Order.OrderType orderType;
+
+    public CancelOrderAllParams(
+        CurrencyPair currencyPair, String orderId, Order.OrderType orderType) {
+      this.currencyPair = currencyPair;
+      this.orderId = orderId;
+      this.orderType = orderType;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public Order.OrderType getOrderType() {
+      return orderType;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
   }
 
   /** Demonstrates advanced features. */

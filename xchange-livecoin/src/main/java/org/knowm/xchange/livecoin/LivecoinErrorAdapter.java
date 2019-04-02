@@ -18,14 +18,14 @@ public class LivecoinErrorAdapter {
   public static ExchangeException adapt(LivecoinException e) {
     String message = e.getErrorMessage();
     if (StringUtils.isEmpty(message)) {
-      return new ExchangeException("Operation failed without any error message");
+      return new ExchangeException("Operation failed without any error message", e);
     }
     if (UNKNOWN_CURRENCY_MESSAGE.matcher(message).matches()) {
-      return new CurrencyPairNotValidException(message);
+      return new CurrencyPairNotValidException(message, e);
     }
     if (TRADE_SUSPENDED_MESSAGE.matcher(message).matches()) {
-      return new MarketSuspendedException(message);
+      return new MarketSuspendedException(message, e);
     }
-    return new ExchangeException(message);
+    return new ExchangeException(message, e);
   }
 }
