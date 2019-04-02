@@ -13,8 +13,7 @@ public interface OpenOrdersParamCurrencyPair extends OpenOrdersParams {
   @Override
   default boolean accept(Order order) {
     return order != null
-        && getCurrencyPair() != null
-        && getCurrencyPair().equals(order.getCurrencyPair());
+        && (getCurrencyPair() == null || getCurrencyPair().equals(order.getCurrencyPair()));
   }
 
   CurrencyPair getCurrencyPair();
