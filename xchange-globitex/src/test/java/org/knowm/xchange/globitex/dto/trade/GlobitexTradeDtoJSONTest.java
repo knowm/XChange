@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
+
 import org.junit.Test;
 import org.knowm.xchange.globitex.dto.marketdata.GlobitexMarketDataDtoJSONTest;
 

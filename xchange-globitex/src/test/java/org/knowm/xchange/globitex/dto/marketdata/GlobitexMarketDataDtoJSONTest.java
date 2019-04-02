@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class GlobitexMarketDataDtoJSONTest {
             "/org/knowm/xchange/globitex/dto/marketdata/globitex-symbols-example.json");
 
     GlobitexSymbols symbols = mapper.readValue(is, GlobitexSymbols.class);
-    Assert.assertEquals(2, symbols.getSymbols().size());
+    Assert.assertEquals(1, symbols.getSymbols().size());
     assertThat(symbols.getSymbols().get(0).getSymbol()).isEqualTo("XBTEUR");
     assertThat(symbols.getSymbols().get(0).getPriceIncrement()).isEqualTo("0.01");
     assertThat(symbols.getSymbols().get(0).getSizeIncrement()).isEqualTo("0.00000001");
@@ -49,7 +49,7 @@ public class GlobitexMarketDataDtoJSONTest {
     assertThat(ticker.getOpen()).isEqualTo("449.73");
     assertThat(ticker.getVolume()).isEqualTo("567.90");
     assertThat(ticker.getVolumeQuote()).isEqualTo("289002.81");
-    assertThat(ticker.getTimestamp()).isEqualTo(new Date(1393492619));
+    assertThat(ticker.getTimestamp()).isEqualTo(1393492619000L);
   }
 
   @Test
@@ -84,11 +84,11 @@ public class GlobitexMarketDataDtoJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
-            "/org/knowm/xchange/globitex/dto/marketdata/globitex-trade-example.json");
+                "/org/knowm/xchange/globitex/dto/marketdata/globitex-trade-example.json");
 
     GlobitexTrade trade = mapper.readValue(is, GlobitexTrade.class);
 
-    assertThat(trade.getTimestamp()).isEqualTo(141104569);
+    assertThat(trade.getTimestamp()).isEqualTo(1411045690003L);
     assertThat(trade.getPrice()).isEqualTo("442.12");
     assertThat(trade.getAmount()).isEqualTo("0.09");
     assertThat(trade.getTid()).isEqualTo(1413901);
