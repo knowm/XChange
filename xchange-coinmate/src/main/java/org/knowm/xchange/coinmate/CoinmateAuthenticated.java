@@ -111,7 +111,10 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price,
-      @FormParam("currencyPair") String currencyPair)
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("hidden") Integer hidden,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel)
       throws IOException;
 
   @POST
@@ -123,7 +126,10 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price,
-      @FormParam("currencyPair") String currencyPair)
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("hidden") Integer hidden,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel)
       throws IOException;
 
   @POST
