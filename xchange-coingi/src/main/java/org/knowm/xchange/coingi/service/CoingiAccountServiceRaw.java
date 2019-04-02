@@ -47,4 +47,10 @@ public class CoingiAccountServiceRaw extends CoingiBaseService {
     handleAuthentication(request);
     return coingiAuthenticated.createWithdrawal(request);
   }
+
+  public CoingiDepositWalletResponse depositWallet(CoingiDepositWalletRequest request)
+      throws IOException {
+    handleAuthentication(request);
+    return coingiAuthenticated.depositWallet(request);
+  }
 }
