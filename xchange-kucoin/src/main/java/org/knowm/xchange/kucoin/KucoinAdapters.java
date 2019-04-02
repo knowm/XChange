@@ -7,6 +7,9 @@ import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
 import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
@@ -247,6 +250,9 @@ public class KucoinAdapters {
     return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
         .type("limit")
         .price(limitOrder.getLimitPrice())
+        .postOnly(limitOrder.hasFlag(POST_ONLY))
+        .hidden(limitOrder.hasFlag(HIDDEN))
+        .iceberg(limitOrder.hasFlag(ICEBERG))
         .build();
   }
 
