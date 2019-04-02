@@ -1,19 +1,5 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -55,6 +41,20 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class BitfinexAdapters {
 
@@ -573,10 +573,8 @@ public final class BitfinexAdapters {
                           : currencyPairs
                               .get(currencyPair)
                               .getTradingFee(), // Take tradingFee from static metaData if exists
-                      bitfinexSymbolDetail
-                          .getMinimum_order_size()
-                          .setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
-                      bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
+                      bitfinexSymbolDetail.getMinimum_order_size(),
+                      bitfinexSymbolDetail.getMaximum_order_size(),
                       priceScale,
                       null);
               currencyPairs.put(currencyPair, newMetaData);
