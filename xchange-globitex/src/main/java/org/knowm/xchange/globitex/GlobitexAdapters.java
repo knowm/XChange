@@ -50,6 +50,9 @@ public class GlobitexAdapters {
     return (symbol.contains("XBT")) ? symbol.replace("XBT", "BTC") : symbol;
   }
 
+  public static String adaptOrderType(Order.OrderType orderType){
+    return (orderType.equals(Order.OrderType.ASK))? "sell": "buy";
+  }
 //  private static CurrencyPair adaptGlobitexSymbolToCurrencyPair(
 //      String symbol, Map<Currency, CurrencyMetaData> currencies) {
 //    String counter = "";

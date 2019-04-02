@@ -1,10 +1,12 @@
 package org.knowm.xchange.globitex;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.globitex.dto.account.GlobitexAccounts;
 import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
+import org.knowm.xchange.globitex.dto.trade.GlobitexExecutionReport;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -43,5 +45,28 @@ public interface GlobitexAuthenticated extends Globitex {
           @QueryParam("symbol") String symbol,
           @QueryParam("clientOrderId") String clientOrderId,
           @QueryParam("account") String account
+  ) throws IOException;
+
+  @POST
+  @Path("trading/new_order")
+  GlobitexExecutionReport placeNewOrder(
+          @HeaderParam("X-API-Key") String apiKey,
+          @HeaderParam("X-Nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("X-Signature") ParamsDigest signature,
+          @FormParam("account") String account,
+          @FormParam("symbol") String symbol,
+          @FormParam("side") String side,
+          @FormParam("price")BigDecimal price,
+          @FormParam("quantity") BigDecimal quantity
+          )throws IOException;
+
+
+  @POST
+  @Path("trading/cancel_order")
+  GlobitexExecutionReport cancelOrder(
+          @HeaderParam("X-API-Key") String apiKey,
+          @HeaderParam("X-Nonce") SynchronizedValueFactory<Long> nonce,
+          @HeaderParam("X-Signature") ParamsDigest signature,
+          @FormParam("clientOrderId") String clientOrderId
   ) throws IOException;
 }
