@@ -1,10 +1,8 @@
 package info.bitrich.xchangestream.bitstamp;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
@@ -24,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -63,7 +60,7 @@ public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingM
 
     @Test
     public void testGetDifferentialOrderBook() throws Exception {
-        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getDifferentialOrderBook(CurrencyPair.BTC_EUR).test());
+        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getFullOrderBook(CurrencyPair.BTC_EUR).test());
     }
 
     @Test
