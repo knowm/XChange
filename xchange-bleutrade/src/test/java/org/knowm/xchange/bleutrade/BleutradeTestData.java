@@ -4,6 +4,7 @@ import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -185,8 +186,8 @@ public class BleutradeTestData {
 
   protected static String[] expectedMetaDataStr() {
     return new String[] {
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]",
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]"
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8, amountStepSize=null]",
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8, amountStepSize=null]"
     };
   }
 }
