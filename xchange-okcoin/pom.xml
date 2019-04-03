@@ -28,6 +28,12 @@
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.okcoin.commons</groupId>
+            <artifactId>okex-java-sdk-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
     </dependencies>
 

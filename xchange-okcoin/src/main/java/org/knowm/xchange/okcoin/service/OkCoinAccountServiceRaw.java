@@ -2,17 +2,30 @@ package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoFixed;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 
+import com.alibaba.fastjson.JSONObject;
+import com.okcoin.commons.okex.open.api.bean.account.param.Transfer;
+import com.okcoin.commons.okex.open.api.bean.account.result.Wallet;
+import com.okcoin.commons.okex.open.api.config.APIConfiguration;
+import com.okcoin.commons.okex.open.api.service.account.AccountAPIService;
+import com.okcoin.commons.okex.open.api.service.account.impl.AccountAPIServiceImpl;
+
 public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
   private final String tradepwd;
-
+  public AccountAPIService accountAPIService;
   /**
    * Constructor
    *
@@ -22,10 +35,35 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 
     super(exchange);
 
-    tradepwd =
-        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("tradepwd");
+    tradepwd = (String) exchange
+    		.getExchangeSpecification()
+    		.getExchangeSpecificParametersItem("tradepwd");
+    
+    this.accountAPIService = new AccountAPIServiceImpl(this.config());
+    
   }
 
+  public APIConfiguration config() {
+	  ExchangeSpecification exchangeSpecification = exchange.getExchangeSpecification();
+	  
+      APIConfiguration config = new APIConfiguration();
+
+      // config.setEndpoint(exchangeSpecification.getSslUri());
+//      config.setApiKey(exchangeSpecification.getApiKey());
+//      config.setSecretKey(exchangeSpecification.getSecretKey());
+//      config.setPassphrase(tradepwd);
+      config.setEndpoint("https://www.okex.com");
+      config.setApiKey("516825d8-5c99-491b-a504-a84095499e4e");
+      config.setSecretKey("39EABBADE7DF7C486BFF1674FDC4F178");
+      config.setPassphrase("okex19851985");
+      
+      config.setPrint(true);
+      config.setConnectTimeout(exchangeSpecification.getHttpConnTimeout());
+      config.setReadTimeout(exchangeSpecification.getHttpReadTimeout());
+     
+      return config;
+  }
+  
   /**
    * 获取用户信息
    *
@@ -135,14 +173,23 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 
   public boolean moveFunds(String symbol, BigDecimal amount, AccountType from, AccountType to)
       throws IOException {
-    return okCoin
-        .fundsTransfer(
-            apikey,
-            symbol,
-            amount.toPlainString(),
-            from.getValue(),
-            to.getValue(),
-            signatureCreator())
-        .isResult();
+	
+	Transfer transfer = new Transfer();
+    transfer.setFrom(from.getValue());
+    transfer.setTo(to.getValue());
+    transfer.setCurrency(symbol);
+    transfer.setAmount(amount);
+    JSONObject result = this.accountAPIService.transfer(transfer);
+	return result.getBoolean("result");
+  }
+  
+  public org.knowm.xchange.dto.account.Wallet getWallet(Currency currency) {
+	  Wallet okexWallet = this.accountAPIService.getWallet(OkCoinAdapters.adaptSymbol(currency)).get(0);
+	  Balance balance = new Balance(
+			  currency, 
+			  okexWallet.getBalance(),
+			  okexWallet.getAvailable(),
+			  okexWallet.getFrozen() == null ? BigDecimal.ZERO : okexWallet.getFrozen());
+	  return new org.knowm.xchange.dto.account.Wallet(balance);
   }
 }

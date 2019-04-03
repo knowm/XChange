@@ -26,6 +26,10 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements AccountService {
 
   /**
@@ -54,8 +58,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
             .equals(true);
 
     String currencySymbol =
-        OkCoinAdapters.adaptSymbol(
-            new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
+        OkCoinAdapters.adaptSymbol(currency);
 
     BigDecimal staticFee =
         this.exchange.getExchangeMetaData().getCurrencies().get(currency).getWithdrawalFee();
@@ -87,7 +90,10 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    JSONArray result = this.accountAPIService.getDepositAddress(OkCoinAdapters.adaptSymbol(currency));
+    JSONObject object = result.getJSONObject(0);
+    String address = object.getString("address");
+    return address;
   }
 
   @Override
