@@ -54,7 +54,7 @@ public class TheRockTransaction {
     return currency;
   }
 
-  public long getOrderId() {
+  public Long getOrderId() {
     return orderId;
   }
 

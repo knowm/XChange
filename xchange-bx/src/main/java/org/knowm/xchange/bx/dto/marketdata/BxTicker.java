@@ -12,11 +12,6 @@ public class BxTicker {
   private final BigDecimal lastPrice;
   private final BigDecimal volume24hours;
   private final BxOrderBook orderBook;
-  private BigDecimal open = null;
-  private BigDecimal high = null;
-  private BigDecimal low = null;
-  private BigDecimal avg = null;
-  private BigDecimal volume = null;
 
   public BxTicker(
       @JsonProperty("pairing_id") String pairingId,
@@ -61,46 +56,6 @@ public class BxTicker {
 
   public BxOrderBook getOrderBook() {
     return orderBook;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
-  }
-
-  public BigDecimal getHigh() {
-    return high;
-  }
-
-  public BigDecimal getLow() {
-    return low;
-  }
-
-  public BigDecimal getAvg() {
-    return avg;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public void setOpen(BigDecimal open) {
-    this.open = open;
-  }
-
-  public void setHigh(BigDecimal high) {
-    this.high = high;
-  }
-
-  public void setLow(BigDecimal low) {
-    this.low = low;
-  }
-
-  public void setAvg(BigDecimal avg) {
-    this.avg = avg;
-  }
-
-  public void setVolume(BigDecimal volume) {
-    this.volume = volume;
   }
 
   @Override

@@ -72,7 +72,7 @@ public interface BitstampAuthenticated {
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("id") int orderId)
+      @FormParam("id") long orderId)
       throws BitstampException, IOException;
 
   /** @return true if order has been canceled. */
@@ -151,6 +151,14 @@ public interface BitstampAuthenticated {
   @POST
   @Path("v2/ltc_address/")
   BitstampDepositAddress getLitecoinDepositAddress(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("v2/bch_address/")
+  BitstampDepositAddress getBitcoinCashDepositAddress(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)

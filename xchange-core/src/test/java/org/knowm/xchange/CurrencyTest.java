@@ -39,4 +39,10 @@ public class CurrencyTest {
     assertEquals(Currency.XBT, btc);
     assertNotEquals(Currency.LTC, btc);
   }
+
+  @Test
+  public void testToString() {
+    assertEquals("XBT", Currency.XBT.toString());
+    assertEquals("BTC", Currency.BTC.toString());
+  }
 }

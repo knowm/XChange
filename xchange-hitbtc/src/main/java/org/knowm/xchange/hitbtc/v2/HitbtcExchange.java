@@ -4,10 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcAccountService;
@@ -96,10 +104,31 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
 
   @Override
   public void remoteInit() throws IOException {
-    List<HitbtcSymbol> hitbtcSymbols =
-        ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
+    HitbtcMarketDataServiceRaw dataService = ((HitbtcMarketDataServiceRaw) marketDataService);
+    List<HitbtcSymbol> hitbtcSymbols = dataService.getHitbtcSymbols();
+    Map<Currency, CurrencyMetaData> currencies =
+        dataService.getHitbtcCurrencies().stream()
+            .collect(
+                Collectors.toMap(
+                    hitbtcCurrency -> new Currency(hitbtcCurrency.getId()),
+                    hitbtcCurrency -> new CurrencyMetaData(null, hitbtcCurrency.getPayoutFee())));
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        hitbtcSymbols.stream()
+            .collect(
+                Collectors.toMap(
+                    hitbtcSymbol ->
+                        new CurrencyPair(
+                            new Currency(hitbtcSymbol.getBaseCurrency()),
+                            new Currency(hitbtcSymbol.getQuoteCurrency())),
+                    hitbtcSymbol ->
+                        new CurrencyPairMetaData(
+                            (BigDecimal) null,
+                            hitbtcSymbol.getQuantityIncrement(),
+                            (BigDecimal) null,
+                            hitbtcSymbol.getTickSize().scale(),
+                            (FeeTier[]) null)));
     exchangeMetaData =
-        HitbtcAdapters.adaptToExchangeMetaData(
-            hitbtcSymbols, hitbtcMetaData.getCurrencies(), hitbtcMetaData.getCurrencyPairs());
+        HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, currencies, currencyPairs);
   }
 }

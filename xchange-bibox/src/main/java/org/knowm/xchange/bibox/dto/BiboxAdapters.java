@@ -87,14 +87,10 @@ public class BiboxAdapters {
   public static OrderBook adaptOrderBook(BiboxOrderBook orderBook, CurrencyPair currencyPair) {
     return new OrderBook(
         new Date(orderBook.getUpdateTime()),
-        orderBook
-            .getAsks()
-            .stream()
+        orderBook.getAsks().stream()
             .map(e -> adaptOrderBookOrder(e, OrderType.ASK, currencyPair))
             .collect(Collectors.toList()),
-        orderBook
-            .getBids()
-            .stream()
+        orderBook.getBids().stream()
             .map(e -> adaptOrderBookOrder(e, OrderType.BID, currencyPair))
             .collect(Collectors.toList()));
   }
@@ -109,9 +105,7 @@ public class BiboxAdapters {
 
   public static OpenOrders adaptOpenOrders(BiboxOrders biboxOpenOrders) {
     return new OpenOrders(
-        biboxOpenOrders
-            .getItems()
-            .stream()
+        biboxOpenOrders.getItems().stream()
             .map(BiboxAdapters::adaptLimitOpenOrder)
             .collect(Collectors.toList()));
   }
@@ -135,16 +129,14 @@ public class BiboxAdapters {
     for (BiboxMarket biboxMarket : markets) {
       pairMeta.put(
           new CurrencyPair(biboxMarket.getCoinSymbol(), biboxMarket.getCurrencySymbol()),
-          new CurrencyPairMetaData(null, null, null, null));
+          new CurrencyPairMetaData(null, null, null, null, null));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 
   public static UserTrades adaptUserTrades(BiboxOrders biboxOrderHistory) {
     List<UserTrade> trades =
-        biboxOrderHistory
-            .getItems()
-            .stream()
+        biboxOrderHistory.getItems().stream()
             .map(BiboxAdapters::adaptUserTrade)
             .collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByID);
@@ -165,8 +157,7 @@ public class BiboxAdapters {
   }
 
   public static List<OrderBook> adaptAllOrderBooks(List<BiboxOrderBook> biboxOrderBooks) {
-    return biboxOrderBooks
-        .stream()
+    return biboxOrderBooks.stream()
         .map(ob -> BiboxAdapters.adaptOrderBook(ob, adaptCurrencyPair(ob.getPair())))
         .collect(Collectors.toList());
   }
@@ -224,8 +215,7 @@ public class BiboxAdapters {
 
   public static Trades adaptDeals(List<BiboxDeals> biboxDeals, CurrencyPair currencyPair) {
     List<Trade> trades =
-        biboxDeals
-            .stream()
+        biboxDeals.stream()
             .map(
                 d ->
                     new Trade(

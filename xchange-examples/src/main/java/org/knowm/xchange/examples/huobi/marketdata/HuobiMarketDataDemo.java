@@ -44,8 +44,7 @@ public class HuobiMarketDataDemo {
           }
         });
 
-    tickers
-        .stream()
+    tickers.stream()
         .forEach(
             t -> {
               System.out.println(t.getId() + " => " + String.format("%s", t.toString()));

@@ -19,6 +19,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistor
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeeResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
@@ -104,6 +106,15 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexBalancesRequest balancesRequest)
+      throws IOException, BitfinexException;
+
+  @POST
+  @Path("account_infos")
+  BitfinexTradingFeeResponse[] tradingFees(
+      @HeaderParam("X-BFX-APIKEY") String apiKey,
+      @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexTradingFeesRequest tradingFeeRequest)
       throws IOException, BitfinexException;
 
   @POST

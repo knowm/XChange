@@ -19,8 +19,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
@@ -32,14 +32,13 @@ public class BinanceExchange extends BaseExchange {
 
   private static final int DEFAULT_PRECISION = 8;
 
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
   private BinanceExchangeInfo exchangeInfo;
   private Long deltaServerTimeExpire;
   private Long deltaServerTime;
 
   @Override
   protected void initServices() {
+
     this.marketDataService = new BinanceMarketDataService(this);
     this.tradeService = new BinanceTradeService(this);
     this.accountService = new BinanceAccountService(this);
@@ -47,12 +46,13 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
+    throw new UnsupportedOperationException(
+        "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
     spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
@@ -64,11 +64,13 @@ public class BinanceExchange extends BaseExchange {
   }
 
   public BinanceExchangeInfo getExchangeInfo() {
+
     return exchangeInfo;
   }
 
   @Override
   public void remoteInit() {
+
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
       Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
@@ -94,18 +96,18 @@ public class BinanceExchange extends BaseExchange {
 
             BigDecimal minQty = null;
             BigDecimal maxQty = null;
+            BigDecimal stepSize = null;
 
             Filter[] filters = symbol.getFilters();
 
             for (Filter filter : filters) {
               if (filter.getFilterType().equals("PRICE_FILTER")) {
-
-                pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getMinPrice()));
-
+                pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
               } else if (filter.getFilterType().equals("LOT_SIZE")) {
                 amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
                 minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
                 maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+                stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
               }
             }
 
@@ -115,8 +117,10 @@ public class BinanceExchange extends BaseExchange {
                     new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                     minQty, // Min amount
                     maxQty, // Max amount
-                    pairPrecision // precision
-                    ));
+                    pairPrecision, // precision
+                    null, /* TODO get fee tiers, although this is not necessary now
+                         because their API returns current fee directly */
+                    stepSize));
             currencies.put(
                 pair.base,
                 new CurrencyMetaData(
@@ -135,15 +139,17 @@ public class BinanceExchange extends BaseExchange {
         }
       }
     } catch (Exception e) {
-      logger.warn("An exception occurred while loading the metadata", e);
+      throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
   }
 
   private int numberOfDecimals(String value) {
+
     return new BigDecimal(value).stripTrailingZeros().scale();
   }
 
   public void clearDeltaServerTime() {
+
     deltaServerTime = null;
   }
 
@@ -155,7 +161,6 @@ public class BinanceExchange extends BaseExchange {
       Binance binance =
           RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
       Date serverTime = new Date(binance.time().getServerTime().getTime());
-      serverTime = new Date(binance.time().getServerTime().getTime());
 
       // Assume that we are closer to the server time when we get the repose
       Date systemTime = new Date(System.currentTimeMillis());

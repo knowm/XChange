@@ -203,7 +203,8 @@ public class LiquiAdapters {
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
       final int priceScale = entry.getValue().getDecimalPlaces();
 
-      currencyPairs.put(pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale));
+      currencyPairs.put(
+          pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale, null));
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 
@@ -221,9 +222,7 @@ public class LiquiAdapters {
   public static AccountInfo adaptAccountInfo(final LiquiAccountInfo info) {
     final Map<Currency, BigDecimal> funds = info.getFunds().getFunds();
     final List<Balance> balances =
-        funds
-            .entrySet()
-            .stream()
+        funds.entrySet().stream()
             .map(entry -> new Balance(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
 
