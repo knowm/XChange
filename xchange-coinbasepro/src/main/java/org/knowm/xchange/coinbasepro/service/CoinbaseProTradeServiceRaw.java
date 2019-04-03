@@ -4,12 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceLimitOrder;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceMarketOrder;
-import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -46,20 +41,19 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     Integer afterTradeId = null;
     Integer beforeTradeId = null;
 
-    if (tradeHistoryParams instanceof GdaxTradeHistoryParams) {
-      GdaxTradeHistoryParams historyParams = (GdaxTradeHistoryParams) tradeHistoryParams;
-      orderId = historyParams.txId;
-      CurrencyPair currencyPair = historyParams.getCurrencyPair();
-      if (currencyPair != null) {
-        productId = CoinbaseProAdapters.adaptProductID(currencyPair);
-      }
-      afterTradeId = historyParams.afterTradeId;
-      beforeTradeId = historyParams.beforeTradeId;
-    } else if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
+    if (tradeHistoryParams instanceof CoinbaseProTradeHistoryParams) {
+      CoinbaseProTradeHistoryParams historyParams = (CoinbaseProTradeHistoryParams) tradeHistoryParams;
+      afterTradeId = historyParams.getAfterTradeId();
+      beforeTradeId = historyParams.getBeforeTradeId();
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
       TradeHistoryParamTransactionId tnxIdParams =
           (TradeHistoryParamTransactionId) tradeHistoryParams;
       orderId = tnxIdParams.getTransactionId();
-    } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
       TradeHistoryParamCurrencyPair ccyPairParams =
           (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
@@ -67,6 +61,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
         productId = CoinbaseProAdapters.adaptProductID(currencyPair);
       }
     }
+
     try {
       return coinbasePro.getFills(
           apiKey,
@@ -141,51 +136,6 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
       return coinbasePro.getListOrders(apiKey, digest, nonceFactory, passphrase, status);
     } catch (CoinbaseProException e) {
       throw handleError(e);
-    }
-  }
-
-  public static class GdaxTradeHistoryParams
-      implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
-
-    private CurrencyPair currencyPair;
-    private String txId;
-    private Integer afterTradeId;
-    private Integer beforeTradeId;
-
-    public Integer getAfterTradeId() {
-      return afterTradeId;
-    }
-
-    public void setAfterTradeId(Integer startingOrderId) {
-      this.afterTradeId = startingOrderId;
-    }
-
-    public Integer getBeforeTradeId() {
-      return beforeTradeId;
-    }
-
-    public void setBeforeTradeId(Integer beforeTradeId) {
-      this.beforeTradeId = beforeTradeId;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-      return currencyPair;
-    }
-
-    @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
-      this.currencyPair = currencyPair;
-    }
-
-    @Override
-    public String getTransactionId() {
-      return txId;
-    }
-
-    @Override
-    public void setTransactionId(String txId) {
-      this.txId = txId;
     }
   }
 }
