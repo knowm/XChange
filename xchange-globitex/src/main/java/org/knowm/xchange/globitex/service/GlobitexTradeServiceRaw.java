@@ -78,8 +78,8 @@ public class GlobitexTradeServiceRaw extends GlobitexBaseService {
               exchange.getExchangeSpecification().getUserName(),
               GlobitexAdapters.adaptCurrencyPairToGlobitexSymbol(limitOrder.getCurrencyPair()),
               GlobitexAdapters.adaptOrderType(limitOrder.getType()),
-              limitOrder.getLimitPrice(),
-              limitOrder.getOriginalAmount()
+              limitOrder.getLimitPrice().toString(),
+              limitOrder.getOriginalAmount().toString()
       );
     }catch (HttpStatusIOException e){
       throw new ExchangeException(e.getHttpBody());
@@ -96,7 +96,7 @@ public class GlobitexTradeServiceRaw extends GlobitexBaseService {
               GlobitexAdapters.adaptCurrencyPairToGlobitexSymbol(marketOrder.getCurrencyPair()),
               GlobitexAdapters.adaptOrderType(marketOrder.getType()),
               null,
-              marketOrder.getOriginalAmount()
+              marketOrder.getOriginalAmount().toString()
       );
     }catch (HttpStatusIOException e){
       throw new ExchangeException(e.getHttpBody());

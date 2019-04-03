@@ -56,8 +56,8 @@ public interface GlobitexAuthenticated extends Globitex {
           @FormParam("account") String account,
           @FormParam("symbol") String symbol,
           @FormParam("side") String side,
-          @FormParam("price")BigDecimal price,
-          @FormParam("quantity") BigDecimal quantity
+          @FormParam("price") String price,
+          @FormParam("quantity") String quantity
           )throws IOException;
 
 
