@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.dragonex.dto.DragonResult;
 import org.knowm.xchange.dragonex.dto.DragonexException;
 import org.knowm.xchange.dragonex.dto.marketdata.Coin;
+import org.knowm.xchange.dragonex.dto.marketdata.Depth;
 import org.knowm.xchange.dragonex.dto.marketdata.Order;
 import org.knowm.xchange.dragonex.dto.marketdata.Symbol;
 import org.knowm.xchange.dragonex.dto.marketdata.Ticker;
@@ -43,6 +44,13 @@ public interface Dragonex {
   @GET
   @Path("market/sell/")
   DragonResult<List<Order>> marketSellOrders(@QueryParam("symbol_id") long symbolId)
+      throws DragonexException, IOException;
+
+  /** Query orders quotes */
+  @GET
+  @Path("market/depth/")
+  DragonResult<Depth> marketDepth(
+      @QueryParam("symbol_id") long symbolId, @QueryParam("count") int count)
       throws DragonexException, IOException;
 
   /** Query real time quotes */
