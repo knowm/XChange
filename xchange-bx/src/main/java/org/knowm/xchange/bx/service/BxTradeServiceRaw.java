@@ -11,6 +11,7 @@ import org.knowm.xchange.bx.dto.trade.results.BxCancelOrderResult;
 import org.knowm.xchange.bx.dto.trade.results.BxCreateOrderResult;
 import org.knowm.xchange.bx.dto.trade.results.BxOrdersResult;
 import org.knowm.xchange.bx.dto.trade.results.BxTradeHistoryResult;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -22,10 +23,11 @@ public class BxTradeServiceRaw extends BxBaseService {
     super(exchange);
   }
 
-  public boolean cancelBxOrder(String orderId) throws IOException {
+  public boolean cancelBxOrder(String orderId, CurrencyPair currencyPair) throws IOException {
+    String pairId = BxUtils.createBxCurrencyPair(currencyPair);
     BxCancelOrderResult result =
         bx.cancelOrder(
-            null,
+            pairId,
             orderId,
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory(),

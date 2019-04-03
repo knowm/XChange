@@ -2,6 +2,7 @@ package org.knowm.xchange.oer.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.oer.OER;
 import org.knowm.xchange.oer.dto.marketdata.OERRates;
@@ -26,18 +27,17 @@ public class OERMarketDataServiceRaw extends OERBaseService {
             OER.class, exchange.getExchangeSpecification().getPlainTextUri(), getClientConfig());
   }
 
-  public OERRates getOERTicker() throws IOException {
+  public OERRates getOERTicker(CurrencyPair pair) throws IOException {
 
     // Request data
     OERTickers oERTickers =
-        openExchangeRates.getTickers(exchange.getExchangeSpecification().getApiKey());
+        openExchangeRates.getTickers(
+            exchange.getExchangeSpecification().getApiKey(),
+            pair.base.toString(),
+            pair.counter.toString());
     if (oERTickers == null) {
       throw new ExchangeException("Null response returned from Open Exchange Rates!");
     }
-
-    OERRates rates = oERTickers.getRates();
-
-    // Adapt to XChange DTOs
-    return rates;
+    return oERTickers.getRates();
   }
 }

@@ -132,9 +132,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         Arrays.stream(orderQueryParams)
             .map(orderQueryParams1 -> Long.valueOf(orderQueryParams1.getOrderId()))
             .collect(Collectors.toList());
-    return getOrderDetails(orderIds)
-        .getOrders()
-        .stream()
+    return getOrderDetails(orderIds).getOrders().stream()
         .map(BTCMarketsAdapters::adaptOrder)
         .collect(Collectors.toList());
   }

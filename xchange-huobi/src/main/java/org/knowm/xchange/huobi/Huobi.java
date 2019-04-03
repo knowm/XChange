@@ -20,6 +20,7 @@ import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
 import org.knowm.xchange.huobi.dto.trade.HuobiCreateOrderRequest;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
@@ -38,6 +39,11 @@ public interface Huobi {
   @GET
   @Path("market/depth")
   HuobiDepthResult getDepth(@QueryParam("symbol") String symbol, @QueryParam("type") String type)
+      throws IOException;
+
+  @GET
+  @Path("market/history/trade")
+  HuobiTradesResult getTrades(@QueryParam("symbol") String symbol, @QueryParam("size") int size)
       throws IOException;
 
   @GET

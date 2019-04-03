@@ -8,6 +8,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -30,8 +31,12 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultWithdrawFundsParams = (DefaultWithdrawFundsParams) params;
+      String address = defaultWithdrawFundsParams.address;
+      if (params instanceof RippleWithdrawFundsParams) {
+        address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
+      }
       withdrawCrypto(
-          defaultWithdrawFundsParams.getAddress(),
+          address,
           defaultWithdrawFundsParams.getAmount(),
           defaultWithdrawFundsParams.getCurrency());
       // The BTCMarkets API doesn't return a useful value such as an id but the fixed value 'Pending

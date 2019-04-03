@@ -1,0 +1,27 @@
+[{
+  "maker_fees":"0.1",
+  "taker_fees":"0.2",
+  "fees":[{
+    "pairs":"BTC",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+   },{
+    "pairs":"LTC",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+   },
+   {
+    "pairs":"ETH",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+  }]
+},
+{
+  "maker_fees":"0.025",
+  "taker_fees":"0.01",
+  "fees":[{
+    "pairs":"DGC",
+    "maker_fees":"0.025",
+    "taker_fees":"0.01"
+   }]
+}]

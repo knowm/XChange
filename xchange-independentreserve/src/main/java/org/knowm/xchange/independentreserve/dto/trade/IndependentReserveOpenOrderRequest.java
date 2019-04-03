@@ -10,8 +10,8 @@ public class IndependentReserveOpenOrderRequest extends AuthAggregate {
       Long nonce,
       String primaryCurrencyCode,
       String secondaryCurrencyCode,
-      String pageIndex,
-      String pageSize) {
+      int pageIndex,
+      int pageSize) {
     super(apiKey, nonce);
 
     if (primaryCurrencyCode != null) {

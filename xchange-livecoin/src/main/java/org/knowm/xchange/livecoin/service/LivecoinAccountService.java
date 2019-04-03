@@ -84,8 +84,7 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
       }
 
       List<Map> fundingRaw = funding(start, end, limit, offset);
-      return fundingRaw
-          .stream()
+      return fundingRaw.stream()
           .map(LivecoinAdapters::adaptFundingRecord)
           .collect(Collectors.toList());
     } catch (LivecoinException e) {

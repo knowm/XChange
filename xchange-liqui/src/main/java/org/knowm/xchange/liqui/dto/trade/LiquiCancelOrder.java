@@ -15,9 +15,7 @@ public class LiquiCancelOrder {
       @JsonProperty("funds") final Map<String, String> funds) {
     this.orderId = orderId;
     this.funds =
-        funds
-            .entrySet()
-            .stream()
+        funds.entrySet().stream()
             .collect(Collectors.toMap((Map.Entry::getKey), (e -> new BigDecimal(e.getValue()))));
   }
 

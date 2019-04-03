@@ -32,9 +32,7 @@ public class LiquiMarketDataService extends LiquiMarketDataServiceRaw implements
         (params instanceof CurrencyPairsParam)
             ? new ArrayList<>(((CurrencyPairsParam) params).getCurrencyPairs())
             : new ArrayList<>();
-    return getAllTickers()
-        .entrySet()
-        .stream()
+    return getAllTickers().entrySet().stream()
         .map(
             entry ->
                 LiquiAdapters.adaptTicker(

@@ -39,8 +39,7 @@ public class AccountServiceIntegration {
     Assert.assertTrue(accounts.size() > 0);
 
     CoinbaseAccount btcAccount =
-        accounts
-            .stream()
+        accounts.stream()
             .filter(t -> t.getName().equals("BTC Wallet"))
             .collect(Collectors.toList())
             .get(0);
