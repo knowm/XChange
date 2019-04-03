@@ -22,7 +22,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class GlobitexExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-  Logger test = LoggerFactory.getLogger(GlobitexExchange.class);
+  Logger logger = LoggerFactory.getLogger(GlobitexExchange.class);
 
   @Override
   protected void initServices() {
