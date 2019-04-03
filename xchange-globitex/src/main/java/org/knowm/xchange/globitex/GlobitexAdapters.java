@@ -202,8 +202,8 @@ public class GlobitexAdapters {
         CurrencyPairDeserializer.getCurrencyPairFromString(convertXBTtoBTC(globitexUserTrade.getSymbol())),
         globitexUserTrade.getPrice(),
         new Date(globitexUserTrade.getTimestamp()),
-        String.valueOf(globitexUserTrade.getTradeId()),
-        globitexUserTrade.getOriginalOrderId(),
+        String.valueOf(globitexUserTrade.getOriginalOrderId()),
+        globitexUserTrade.getClientOrderId(),
         globitexUserTrade.getFee(),
         new Currency(convertXBTtoBTC(globitexUserTrade.getFeeCurrency())));
   }
@@ -216,13 +216,13 @@ public class GlobitexAdapters {
               (globitexActiveOrder.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID),
               globitexActiveOrder.getOrderQuantity(),
               CurrencyPairDeserializer.getCurrencyPairFromString(globitexActiveOrder.getSymbol()),
-              globitexActiveOrder.getOrderId(),
+              globitexActiveOrder.getClientOrderId(),
               new Date(globitexActiveOrder.getLastTimestamp()),
               globitexActiveOrder.getOrderPrice(),
               globitexActiveOrder.getAvgPrice(),
               globitexActiveOrder.getCumQuantity(),
               null,
-              Order.OrderStatus.valueOf(globitexActiveOrder.getOrderStatus())
+              Order.OrderStatus.valueOf(globitexActiveOrder.getOrderStatus().toUpperCase())
       ));
     });
 
@@ -247,7 +247,7 @@ public class GlobitexAdapters {
                       BigDecimal.valueOf(0.002),
                       globitexSymbol.getSizeMin(),
                       null,
-                      globitexSymbol.getSizeIncrement().scale(),
+                      globitexSymbol.getPriceIncrement().scale(),
                       resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()])));
               currencies.put(
                   new Currency(convertXBTtoBTC(globitexSymbol.getCurrency())),
