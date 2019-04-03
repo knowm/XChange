@@ -90,7 +90,7 @@
       "withdrawal_fee": 0
     },
     "XRP": {
-      "scale": 8,
+      "scale": 6,
       "withdrawal_fee": 0
     },
     "LTC": {

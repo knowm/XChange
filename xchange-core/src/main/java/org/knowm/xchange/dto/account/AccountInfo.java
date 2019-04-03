@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * DTO representing account information
@@ -27,12 +29,26 @@ public final class AccountInfo implements Serializable {
   /** The wallets owned by this account */
   private final Map<String, Wallet> wallets;
 
+  /**
+   * The timestamp at which this account information was generated. May be null if not provided by
+   * the exchange.
+   */
+  @Nullable private final Date timestamp;
+
   /** @see #AccountInfo(String, BigDecimal, Collection) */
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at
     // least two wallets
     this(null, null, wallets);
+  }
+
+  /** @see #AccountInfo(String, BigDecimal, Collection, Date) */
+  public AccountInfo(Date timestamp, Wallet... wallets) {
+
+    // TODO when refactoring for separate feature interfaces, change this constructor to require at
+    // least two wallets
+    this(null, null, Arrays.asList(wallets), timestamp);
   }
 
   /** @see #AccountInfo(String, BigDecimal, Collection) */
@@ -61,9 +77,23 @@ public final class AccountInfo implements Serializable {
    * @param wallets the user's wallets
    */
   public AccountInfo(String username, BigDecimal tradingFee, Collection<Wallet> wallets) {
+    this(username, tradingFee, wallets, null);
+  }
+
+  /**
+   * Constructs an {@link AccountInfo}.
+   *
+   * @param username the user name.
+   * @param tradingFee the trading fee.
+   * @param wallets the user's wallets
+   * @param timestamp the timestamp for the account snapshot.
+   */
+  public AccountInfo(
+      String username, BigDecimal tradingFee, Collection<Wallet> wallets, Date timestamp) {
 
     this.username = username;
     this.tradingFee = tradingFee;
+    this.timestamp = timestamp;
 
     if (wallets.size() == 0) {
       this.wallets = Collections.emptyMap();
@@ -123,6 +153,14 @@ public final class AccountInfo implements Serializable {
   public BigDecimal getTradingFee() {
 
     return tradingFee;
+  }
+
+  /**
+   * @return The timestamp at which this account information was generated. May be null if not
+   *     provided by the exchange.
+   */
+  public Date getTimestamp() {
+    return timestamp;
   }
 
   @Override
