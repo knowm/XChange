@@ -1,0 +1,20 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea
+logs
+transaction-logs
+target/
+.mvn/
+**/.DS_Store
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+.settings
+
+#logs
+/logs/
+/transaction-logs/
