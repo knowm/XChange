@@ -18,6 +18,7 @@ import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.okcoin.commons.okex.open.api.bean.account.param.Transfer;
+import com.okcoin.commons.okex.open.api.bean.account.param.Withdraw;
 import com.okcoin.commons.okex.open.api.bean.account.result.Wallet;
 import com.okcoin.commons.okex.open.api.config.APIConfiguration;
 import com.okcoin.commons.okex.open.api.service.account.AccountAPIService;
@@ -25,6 +26,8 @@ import com.okcoin.commons.okex.open.api.service.account.impl.AccountAPIServiceIm
 
 public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
   private final String tradepwd;
+  private final String apiKeyV3;
+  private final String secretKeyV3;
   public AccountAPIService accountAPIService;
   /**
    * Constructor
@@ -39,6 +42,16 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
     		.getExchangeSpecification()
     		.getExchangeSpecificParametersItem("tradepwd");
     
+    // For using API v3 methods (withdraw, request deposit address), user
+    // must provide API key and secret 
+    apiKeyV3 = (String) exchange
+    		.getExchangeSpecification()
+    		.getExchangeSpecificParametersItem("apikey_v3");
+    
+	secretKeyV3 = (String) exchange
+    		.getExchangeSpecification()
+    		.getExchangeSpecificParametersItem("secretkey_v3");
+	
     this.accountAPIService = new AccountAPIServiceImpl(this.config());
     
   }
@@ -48,15 +61,10 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 	  
       APIConfiguration config = new APIConfiguration();
 
-      // config.setEndpoint(exchangeSpecification.getSslUri());
-//      config.setApiKey(exchangeSpecification.getApiKey());
-//      config.setSecretKey(exchangeSpecification.getSecretKey());
-//      config.setPassphrase(tradepwd);
-      config.setEndpoint("https://www.okex.com");
-      config.setApiKey("516825d8-5c99-491b-a504-a84095499e4e");
-      config.setSecretKey("39EABBADE7DF7C486BFF1674FDC4F178");
-      config.setPassphrase("okex19851985");
-      
+      config.setEndpoint("https://" + exchangeSpecification.getHost());
+      config.setApiKey(apiKeyV3);
+      config.setSecretKey(secretKeyV3);
+      config.setPassphrase(tradepwd);
       config.setPrint(true);
       config.setConnectTimeout(exchangeSpecification.getHttpConnTimeout());
       config.setReadTimeout(exchangeSpecification.getHttpReadTimeout());
@@ -108,42 +116,56 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
   public OKCoinWithdraw withdraw(
       String currencySymbol, String withdrawAddress, BigDecimal amount, String target)
       throws IOException {
-    String fee = null;
-    if (target.equals("address")) { // External address
-      if (currencySymbol.startsWith("btc")) fee = "0.002";
-      else if (currencySymbol.startsWith("ltc")) fee = "0.001";
-      else if (currencySymbol.startsWith("eth")) fee = "0.01";
-      else throw new IllegalArgumentException("Unsupported withdraw currency");
+	  
+	BigDecimal fee;
+	if (target.equals("address")) { // External address
+	  fee = getWithdrawalFee(currencySymbol);
+    
     } else if (target.equals("okex")
         || target.equals("okcn")
         || target.equals("okcom")) { // Internal address
-      fee = "0";
+      fee = BigDecimal.ZERO;
     } else {
       throw new IllegalArgumentException("Unsupported withdraw target");
     }
-
     return withdraw(currencySymbol, withdrawAddress, amount, target, fee);
   }
-
+  
   public OKCoinWithdraw withdraw(
-      String currencySymbol, String withdrawAddress, BigDecimal amount, String target, String fee)
+      String currencySymbol, String withdrawAddress, BigDecimal amount, String target, BigDecimal fee)
       throws IOException {
 
     if (tradepwd == null) {
       throw new ExchangeException(
           "You need to provide the 'trade/admin password' using exchange.getExchangeSpecification().setExchangeSpecificParametersItem(\"tradepwd\", \"SECRET\");");
     }
-    OKCoinWithdraw withdrawResult =
-        okCoin.withdraw(
-            exchange.getExchangeSpecification().getApiKey(),
-            currencySymbol,
-            signatureCreator(),
-            fee,
-            tradepwd,
-            withdrawAddress,
-            amount.toString(),
-            target);
-
+    Withdraw withdraw = new Withdraw();
+    withdraw.setTo_address(withdrawAddress);
+    withdraw.setAmount(amount);
+    withdraw.setCurrency(currencySymbol);
+    withdraw.setFee(fee);
+    withdraw.setTrade_pwd(tradepwd);
+    // Default withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
+    // for internal withdraw
+    int destination;
+    if (target.equals("address")) { // External address
+    	destination = 4;
+    } else if (target.equals("okex")
+            || target.equals("okcn")) {
+    	destination = 3;
+    } else if (target.equals("okcom")) { // Internal address
+    	destination = 2;
+    } else {
+    	throw new IllegalArgumentException("Unsupported withdraw target");
+    }
+    withdraw.setDestination(destination);  // 2:OKCoin International 3:OKEx 4:others
+    
+    // Execute withdrawal
+    JSONObject result = this.accountAPIService.withdraw(withdraw);
+    OKCoinWithdraw withdrawResult = new OKCoinWithdraw(
+    		result.getBoolean("result"), 
+    		200,  // Mock HTTP.OK as response
+    		result.getString("withdrawal_id"));
     return returnOrThrow(withdrawResult);
   }
 
@@ -191,5 +213,9 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
 			  okexWallet.getAvailable(),
 			  okexWallet.getFrozen() == null ? BigDecimal.ZERO : okexWallet.getFrozen());
 	  return new org.knowm.xchange.dto.account.Wallet(balance);
+  }
+  
+  public BigDecimal getWithdrawalFee(String symbol) {
+	  return this.accountAPIService.getWithdrawFee(symbol).get(0).getMin_fee();
   }
 }

@@ -29,6 +29,8 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.okcoin.commons.okex.open.api.bean.account.param.Withdraw;
+import com.okcoin.commons.okex.open.api.bean.account.result.WithdrawFee;
 
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements AccountService {
 
@@ -60,23 +62,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     String currencySymbol =
         OkCoinAdapters.adaptSymbol(currency);
 
-    BigDecimal staticFee =
-        this.exchange.getExchangeMetaData().getCurrencies().get(currency).getWithdrawalFee();
-
-    if (staticFee == null) {
-      throw new IllegalArgumentException("Unsupported withdraw currency " + currency);
-    }
-
-    NumberFormat format = new DecimalFormat("0.####"); // lowest fee is 0.0005
-    String fee = format.format(staticFee);
-
-    // Default withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
-    // for internal withdraw
-    OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "address", fee);
-
-    if (result != null) return result.getWithdrawId();
-
-    return "";
+    return this.withdraw(currencySymbol, address, amount, "address").getWithdrawId();
   }
 
   @Override
@@ -94,6 +80,13 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     JSONObject object = result.getJSONObject(0);
     String address = object.getString("address");
     return address;
+  }
+  
+  public BigDecimal getWithdrawalFee(Currency currency) {
+	  return this.accountAPIService
+			  .getWithdrawFee(OkCoinAdapters.adaptSymbol(currency))
+			  .get(0)
+			  .getMin_fee();
   }
 
   @Override
