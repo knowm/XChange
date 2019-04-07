@@ -1,7 +1,6 @@
 package org.knowm.xchange.globitex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 public class GlobitexError implements Serializable {

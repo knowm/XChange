@@ -12,7 +12,7 @@ public final class BitstampUtils {
   public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
 
   private static final FastDateFormat DATE_FORMAT =
-          FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC"));
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("UTC"));
 
   /** private Constructor */
   private BitstampUtils() {}

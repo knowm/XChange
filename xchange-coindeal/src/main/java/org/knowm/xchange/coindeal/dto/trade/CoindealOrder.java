@@ -72,7 +72,9 @@ public class CoindealOrder {
 
   @Override
   public String toString() {
-    return "CoindealOrder{" + "id='" + id
+    return "CoindealOrder{"
+        + "id='"
+        + id
         + '\''
         + ", clientOrderId='"
         + clientOrderId

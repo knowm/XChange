@@ -9,8 +9,7 @@ public class GlobitexTrades implements Serializable {
   @JsonProperty("trades")
   private final List<GlobitexTrade> recentTrades;
 
-  public GlobitexTrades(
-          @JsonProperty("trades") List<GlobitexTrade> recentTrades) {
+  public GlobitexTrades(@JsonProperty("trades") List<GlobitexTrade> recentTrades) {
     this.recentTrades = recentTrades;
   }
 

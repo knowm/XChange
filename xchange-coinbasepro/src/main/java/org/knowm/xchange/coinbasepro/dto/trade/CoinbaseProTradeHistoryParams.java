@@ -4,7 +4,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 
-public class CoinbaseProTradeHistoryParams implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
+public class CoinbaseProTradeHistoryParams
+    implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair {
 
   private CurrencyPair currencyPair;
   private String txId;
