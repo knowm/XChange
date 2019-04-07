@@ -155,6 +155,7 @@
         <module>xchange-fcoin</module>
         <module>xchange-gatecoin</module>
         <module>xchange-gateio</module>
+        <module>xchange-globitex</module>
         <module>xchange-gemini</module>
         <module>xchange-hitbtc</module>
         <module>xchange-huobi</module>

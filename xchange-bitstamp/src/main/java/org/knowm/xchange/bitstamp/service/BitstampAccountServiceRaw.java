@@ -379,7 +379,13 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
-          apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort, sinceTimestamp);
+          apiKey,
+          signatureCreator,
+          nonceFactory,
+          numberOfTransactions,
+          offset,
+          sort,
+          sinceTimestamp);
     } catch (BitstampException e) {
       throw handleError(e);
     }

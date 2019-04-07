@@ -2,7 +2,6 @@ package org.knowm.xchange.examples.kucoin.account;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;

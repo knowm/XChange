@@ -8,9 +8,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
     implements MarketDataService {
@@ -21,12 +21,12 @@ public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotImplementedException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    throw new NotImplementedException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -36,6 +36,6 @@ public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotImplementedException();
+    throw new NotYetImplementedForExchangeException();
   }
 }
