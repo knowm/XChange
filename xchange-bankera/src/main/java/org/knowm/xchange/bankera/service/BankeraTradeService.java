@@ -101,11 +101,11 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     return orders;
   }
 
-  public static class BankeraOpenOrderParams implements
-          OpenOrdersParams,
+  public static class BankeraOpenOrderParams
+      implements OpenOrdersParams,
           OpenOrdersParamLimit,
           OpenOrdersParamCurrencyPair,
-  		  OpenOrdersParamOffset {
+          OpenOrdersParamOffset {
 
     private Integer limit = 100;
     private Integer offset = 0;

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import org.junit.Test;
 import org.knowm.xchange.globitex.dto.marketdata.GlobitexMarketDataDtoJSONTest;
 
@@ -40,11 +39,11 @@ public class GlobitexTradeDtoJSONTest {
   }
 
   @Test
-  public void globitexActiveOrdersJsonTest() throws IOException{
+  public void globitexActiveOrdersJsonTest() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-            GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/globitex/dto/trade/globitex-activeorders-example.json");
+        GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/globitex/dto/trade/globitex-activeorders-example.json");
 
     GlobitexActiveOrders activeOrders = mapper.readValue(is, GlobitexActiveOrders.class);
 
@@ -67,14 +66,13 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(activeOrders.getOrders().get(0).getExecQuantity()).isEqualTo("0.00000");
     assertThat(activeOrders.getOrders().get(1).getExpireTime()).isEqualTo(2241464400000L);
     assertThat(activeOrders.getOrders().get(2).getStopPrice()).isEqualTo("808.000");
-
   }
 
   @Test
-  public void executionReportObjectTest() throws IOException{
+  public void executionReportObjectTest() throws IOException {
     InputStream is =
-            GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/globitex/dto/trade/globitex-executionReport-example.json");
+        GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/globitex/dto/trade/globitex-executionReport-example.json");
 
     GlobitexExecutionReport activeOrders = mapper.readValue(is, GlobitexExecutionReport.class);
 
@@ -83,7 +81,8 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(activeOrders.getObject().getOrderStatus()).isEqualTo("canceled");
     assertThat(activeOrders.getObject().getSymbol()).isEqualTo("XBTEUR");
     assertThat(activeOrders.getObject().getSide()).isEqualTo("buy");
-    assertThat(activeOrders.getObject().getPrice()).isEqualTo(new BigDecimal(0.1).setScale(1, RoundingMode.HALF_EVEN));
+    assertThat(activeOrders.getObject().getPrice())
+        .isEqualTo(new BigDecimal(0.1).setScale(1, RoundingMode.HALF_EVEN));
     assertThat(activeOrders.getObject().getQuantity()).isEqualTo(new BigDecimal(100));
     assertThat(activeOrders.getObject().getType()).isEqualTo("limit");
     assertThat(activeOrders.getObject().getTimeInForce()).isEqualTo("GTC");
@@ -102,6 +101,5 @@ public class GlobitexTradeDtoJSONTest {
     assertThat(activeOrders.getObject().getExecReportType()).isEqualTo("canceled");
     assertThat(activeOrders.getObject().getAccount()).isEqualTo("VER564A02");
     assertThat(activeOrders.getObject().getOrderSource()).isEqualTo("REST");
-
   }
 }

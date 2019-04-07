@@ -42,7 +42,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     Integer beforeTradeId = null;
 
     if (tradeHistoryParams instanceof CoinbaseProTradeHistoryParams) {
-      CoinbaseProTradeHistoryParams historyParams = (CoinbaseProTradeHistoryParams) tradeHistoryParams;
+      CoinbaseProTradeHistoryParams historyParams =
+          (CoinbaseProTradeHistoryParams) tradeHistoryParams;
       afterTradeId = historyParams.getAfterTradeId();
       beforeTradeId = historyParams.getBeforeTradeId();
     }
