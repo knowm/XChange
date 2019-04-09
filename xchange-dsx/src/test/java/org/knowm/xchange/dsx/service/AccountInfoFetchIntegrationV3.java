@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.DSXExchangeV3;
 import org.knowm.xchange.dsx.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
@@ -13,13 +13,13 @@ import org.knowm.xchange.service.account.AccountService;
  * Integration tests for Wallet retrieval. For these tests to function, a file
  * 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys
  *
- * @author Mikhail Wall
+ * @author Pavel Chertalev
  */
-public class AccountInfoFetchIntegration {
+public class AccountInfoFetchIntegrationV3 {
 
   @Test
   public void fetchAccountInfoTest() throws Exception {
-    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(DSXExchange.class);
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(DSXExchangeV3.class);
     if (exchange == null) {
       return; // forces pass if not configuration is available
     }
