@@ -1,24 +1,25 @@
 package org.knowm.xchange.examples.dsx.meta;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.DSXExchangeV3;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.knowm.xchange.dsx.dto.meta.DSXMetaData;
-import org.knowm.xchange.dsx.service.DSXMarketDataService;
+import org.knowm.xchange.dsx.service.DSXMarketDataServiceV3;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 /** @author Mikhail Wall */
-public class DSXMetaDataDemo {
+public class DSXMetaDataDemoV3 {
 
   public static void main(String[] args) throws IOException {
 
-    DSXExchange dsx = (DSXExchange) DSXExamplesUtils.createExchange(DSXExchange.class);
+    DSXExchangeV3 dsx = (DSXExchangeV3) DSXExamplesUtils.createExchange(DSXExchangeV3.class);
     rawLocal(dsx);
 
     rawRemote(dsx);
@@ -26,7 +27,7 @@ public class DSXMetaDataDemo {
     generic(dsx);
   }
 
-  private static void rawLocal(DSXExchange exchange) throws IOException {
+  private static void rawLocal(DSXExchangeV3 exchange) throws IOException {
 
     DSXMetaData dsxMetaData = exchange.getDsxMetaData();
     System.out.println(
@@ -38,7 +39,7 @@ public class DSXMetaDataDemo {
 
   private static void rawRemote(Exchange dsx) throws IOException {
 
-    DSXExchangeInfo dsxInfo = ((DSXMarketDataService) dsx.getMarketDataService()).getDSXInfo();
+    DSXExchangeInfo dsxInfo = ((DSXMarketDataServiceV3) dsx.getMarketDataService()).getDSXInfo();
     System.out.println("DSX remote meta data: " + dsxInfo);
   }
 

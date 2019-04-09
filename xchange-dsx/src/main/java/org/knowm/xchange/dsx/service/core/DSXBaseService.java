@@ -1,4 +1,4 @@
-package org.knowm.xchange.dsx.service;
+package org.knowm.xchange.dsx.service.core;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
@@ -13,12 +13,13 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 /** @author Mikhail Wall */
-public class DSXBaseService extends BaseExchangeService implements BaseService {
+public class DSXBaseService<T extends DSXAuthenticatedV2> extends BaseExchangeService
+    implements BaseService {
 
   private static final String ERR_MSG_NONCE = "Parameter: nonce is invalid";
 
   protected final String apiKey;
-  protected final DSXAuthenticatedV2 dsx;
+  protected final T dsx;
   protected final ParamsDigest signatureCreator;
 
   /**
@@ -27,13 +28,11 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
    * @param exchange
    * @throws IOException
    */
-  protected DSXBaseService(Exchange exchange) {
+  protected DSXBaseService(Exchange exchange, Class<T> clazz) {
     super(exchange);
     this.dsx =
         RestProxyFactory.createProxy(
-            DSXAuthenticatedV2.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+            clazz, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         DSXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

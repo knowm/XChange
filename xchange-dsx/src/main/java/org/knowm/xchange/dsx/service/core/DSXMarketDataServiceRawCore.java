@@ -1,14 +1,17 @@
-package org.knowm.xchange.dsx.service;
+package org.knowm.xchange.dsx.service.core;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTradesWrapper;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author Mikhail Wall */
-public class DSXMarketDataServiceRaw extends DSXBaseService {
+public class DSXMarketDataServiceRawCore<T extends DSXAuthenticatedV2> extends DSXBaseService<T>
+    implements MarketDataService {
 
   protected static final int FULL_SIZE = 2000;
 
@@ -17,9 +20,9 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
    *
    * @param exchange
    */
-  protected DSXMarketDataServiceRaw(Exchange exchange) {
+  protected DSXMarketDataServiceRawCore(Exchange exchange, Class<T> clazz) {
 
-    super(exchange);
+    super(exchange, clazz);
   }
 
   /**

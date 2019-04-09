@@ -1,16 +1,12 @@
 package org.knowm.xchange.examples.dsx.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.DSXExchangeV3;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
-import org.knowm.xchange.dsx.service.DSXTradeService;
+import org.knowm.xchange.dsx.service.DSXTradeServiceV3;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -18,12 +14,17 @@ import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+
 /** @author Mikhail Wall */
-public class DSXTradeDemo {
+public class DSXTradeDemoV3 {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange dsx = DSXExamplesUtils.createExchange(DSXExchange.class);
+    Exchange dsx = DSXExamplesUtils.createExchange(DSXExchangeV3.class);
     generic(dsx);
     raw(dsx);
   }
@@ -61,7 +62,7 @@ public class DSXTradeDemo {
 
   private static void rawCancelAllOrders(Exchange exchange) throws IOException {
 
-    DSXTradeService tradeService = (DSXTradeService) exchange.getTradeService();
+    DSXTradeServiceV3 tradeService = (DSXTradeServiceV3) exchange.getTradeService();
 
     printRawOpenOrders(tradeService);
 
@@ -107,7 +108,7 @@ public class DSXTradeDemo {
   }
 
   private static void raw(Exchange exchange) throws IOException {
-    DSXTradeService tradeService = (DSXTradeService) exchange.getTradeService();
+    DSXTradeServiceV3 tradeService = (DSXTradeServiceV3) exchange.getTradeService();
 
     printRawOpenOrders(tradeService);
 
@@ -147,7 +148,7 @@ public class DSXTradeDemo {
     System.out.println("Open Orders: " + openOrders.toString());
   }
 
-  private static void printRawOpenOrders(DSXTradeService tradeService) throws IOException {
+  private static void printRawOpenOrders(DSXTradeServiceV3 tradeService) throws IOException {
 
     Map<Long, DSXOrder> openOrders = tradeService.getDSXActiveOrders(null);
     for (Map.Entry<Long, DSXOrder> entry : openOrders.entrySet()) {

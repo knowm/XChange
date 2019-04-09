@@ -17,7 +17,7 @@ import org.knowm.xchange.dsx.service.trade.params.DSXTransHistoryParams;
  *
  * @author Mikhail Wall
  */
-public class TransHistoryFetchIntegration {
+public class TransHistoryFetchIntegrationV3 {
 
   @Test
   public void defaultFetchTest() throws Exception {
@@ -34,7 +34,7 @@ public class TransHistoryFetchIntegration {
   public void defaultFetchTestV3() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(DSXExchangeV3.class);
     if (exchange == null) return; // forces pass if not configuration is available
-    DSXTradeService service = (DSXTradeService) exchange.getTradeService();
+    DSXTradeServiceV3 service = (DSXTradeServiceV3) exchange.getTradeService();
     assertNotNull(service);
     DSXTransHistoryParams params = new DSXTransHistoryParams();
     Map<Long, DSXTransHistoryResult> dsxTransHistory = service.getTransHistory(params);
