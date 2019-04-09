@@ -117,34 +117,40 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
       String currencySymbol, String withdrawAddress, BigDecimal amount, String target)
       throws IOException {
 	  
-	BigDecimal fee;
-	if (target.equals("address")) { // External address
-	  fee = getWithdrawalFee(currencySymbol);
-    
-    } else if (target.equals("okex")
-        || target.equals("okcn")
-        || target.equals("okcom")) { // Internal address
-      fee = BigDecimal.ZERO;
-    } else {
-      throw new IllegalArgumentException("Unsupported withdraw target");
-    }
-    return withdraw(currencySymbol, withdrawAddress, amount, target, fee);
+    return withdraw(currencySymbol, withdrawAddress, amount, target, null, null);
   }
   
   public OKCoinWithdraw withdraw(
-      String currencySymbol, String withdrawAddress, BigDecimal amount, String target, BigDecimal fee)
+      String currencySymbol, String withdrawAddress, BigDecimal amount, String target, BigDecimal fee, String tag)
       throws IOException {
 
     if (tradepwd == null) {
       throw new ExchangeException(
           "You need to provide the 'trade/admin password' using exchange.getExchangeSpecification().setExchangeSpecificParametersItem(\"tradepwd\", \"SECRET\");");
     }
+    
+    if (fee == null) {
+    	if (target.equals("address")) { // External address
+    	  fee = getWithdrawalFee(currencySymbol);
+        
+        } else if (target.equals("okex")
+            || target.equals("okcn")
+            || target.equals("okcom")) { // Internal address
+          fee = BigDecimal.ZERO;
+        } else {
+          throw new IllegalArgumentException("Unsupported withdraw target");
+        }
+    }
+    
     Withdraw withdraw = new Withdraw();
     withdraw.setTo_address(withdrawAddress);
     withdraw.setAmount(amount);
     withdraw.setCurrency(currencySymbol);
     withdraw.setFee(fee);
     withdraw.setTrade_pwd(tradepwd);
+    if (tag != null) { 
+    	withdraw.setTag(tag);
+    }
     // Default withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
     // for internal withdraw
     int destination;

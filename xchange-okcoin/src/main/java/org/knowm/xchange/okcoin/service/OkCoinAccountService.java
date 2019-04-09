@@ -21,6 +21,7 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -53,21 +54,28 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    boolean useIntl =
-        this.exchange
-            .getExchangeSpecification()
-            .getExchangeSpecificParametersItem("Use_Intl")
-            .equals(true);
-
-    String currencySymbol =
-        OkCoinAdapters.adaptSymbol(currency);
-
-    return this.withdraw(currencySymbol, address, amount, "address").getWithdrawId();
+    
+    return this.withdraw(
+    		OkCoinAdapters.adaptSymbol(currency), 
+    		address, 
+    		amount, 
+    		"address").getWithdrawId();
   }
 
   @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if (params instanceof DefaultWithdrawFundsParams) {
+    
+	if (params instanceof RippleWithdrawFundsParams) {
+      RippleWithdrawFundsParams defaultParams = (RippleWithdrawFundsParams) params;
+      return withdraw(
+        OkCoinAdapters.adaptSymbol(defaultParams.getCurrency()),
+        defaultParams.getAddress(),
+        defaultParams.getAmount(),
+        "address",
+        null,
+        defaultParams.getTag()).getWithdrawId();
+      
+    } else if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
     }
