@@ -1,4 +1,4 @@
-package org.knowm.xchange.dsx.service;
+package org.knowm.xchange.dsx.service.core;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;

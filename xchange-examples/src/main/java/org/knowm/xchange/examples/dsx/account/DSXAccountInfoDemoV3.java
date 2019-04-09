@@ -1,22 +1,23 @@
 package org.knowm.xchange.examples.dsx.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.DSXExchangeV3;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
 import org.knowm.xchange.dsx.service.DSXAccountService;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.service.account.AccountService;
 
-/** @author Mikhail Wall */
-public class DSXAccountInfoDemo {
+import java.io.IOException;
+import java.math.BigDecimal;
+
+/** @author Pavel Chertalev */
+public class DSXAccountInfoDemoV3 {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange dsx = DSXExamplesUtils.createExchange(DSXExchange.class);
+    Exchange dsx = DSXExamplesUtils.createExchange(DSXExchangeV3.class);
     generic(dsx);
     //    raw(dsx);
     //    generice(dsx);
