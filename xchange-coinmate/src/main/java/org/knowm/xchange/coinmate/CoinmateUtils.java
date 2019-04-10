@@ -33,25 +33,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class CoinmateUtils {
 
   public static String getPair(CurrencyPair currencyPair) {
-    if (currencyPair == null) {
-      return null;
-    }
+//    if (currencyPair == null) {
+//      return null;
+//    }
     return currencyPair.base.getCurrencyCode().toUpperCase()
         + "_"
         + currencyPair.counter.getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair getPair(String currencyPair) {
-    if ("BTC_EUR".equals(currencyPair)) {
-      return CurrencyPair.BTC_EUR;
-    } else if ("BTC_CZK".equals(currencyPair)) {
-      return CurrencyPair.BTC_CZK;
-    } else if ("LTC_BTC".equals(currencyPair)) {
-      return CurrencyPair.LTC_BTC;
-    } else if ("BCH_BTC".equals(currencyPair)) {
-      return CurrencyPair.BCH_BTC;
-    } else {
-      return null;
-    }
+    return new CurrencyPair(currencyPair.replace("_","/"));
   }
 }
