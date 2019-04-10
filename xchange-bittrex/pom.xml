@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>4.3.15</version>
+        <version>4.3.16</version>
     </parent>
 
     <artifactId>xchange-bittrex-custom</artifactId>
-    <version>4.3.15.2</version>
+    <version>4.3.16.1</version>
 
     <name>XChange Bittrex</name>
     <description>XChange implementation for the Bittrex Exchange</description>
@@ -39,12 +39,21 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core-custom</artifactId>
-            <version>4.3.15</version>
+            <version>4.3.16</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.mmazi</groupId>
+            <artifactId>rescu</artifactId>
         </dependency>
     </dependencies>
 

@@ -47,10 +47,9 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
     }
   }
 
-  public MarketOrder placeMarketOrder2(MarketOrder marketOrder) throws IOException {
+  public LimitOrder placeMarketOrder2(MarketOrder marketOrder) throws IOException {
     try {
-      return (MarketOrder)
-          BittrexAdapters.adaptOrder(this.getBittrexOrder(placeBittrexMarketOrder(marketOrder)));
+      return BittrexAdapters.adaptOrder(this.getBittrexOrder(placeBittrexMarketOrder(marketOrder)));
     } catch (BittrexException e) {
       throw BittrexErrorAdapter.adapt(e);
     }

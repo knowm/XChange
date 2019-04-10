@@ -55,6 +55,7 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
       String amount = item.get("amount").toString();
       String account = item.get("account").toString();
       String provider = item.get("provider").toString();
+      String txid = item.get("txid").toString();
       String description = (account + " " + provider).trim();
 
       String address = null;
@@ -75,7 +76,7 @@ public class ExmoAccountServiceRaw extends BaseExmoService {
               Currency.getInstance(curr),
               new BigDecimal(amount).abs(),
               null,
-              null,
+              txid,
               type.equalsIgnoreCase("deposit")
                   ? FundingRecord.Type.DEPOSIT
                   : FundingRecord.Type.WITHDRAWAL,
