@@ -1,3 +1,5 @@
+package org.knowm.xchange.coindeal;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

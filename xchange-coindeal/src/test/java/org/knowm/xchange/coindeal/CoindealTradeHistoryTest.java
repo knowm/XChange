@@ -1,3 +1,5 @@
+package org.knowm.xchange.coindeal;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
 
-public class CoindealPlaceOrderTest {
+public class CoindealTradeHistoryTest {
 
   @Test
   public void testUnmarshall() throws IOException {
