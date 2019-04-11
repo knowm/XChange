@@ -3,7 +3,7 @@ package org.knowm.xchange.examples.itbit;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
+import org.knowm.xchange.itbit.ItBitExchange;
 
 /** Created by joseph on 6/15/17. */
 public class ItBitDemoUtils {
