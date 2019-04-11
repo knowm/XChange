@@ -33,9 +33,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class CoinmateUtils {
 
   public static String getPair(CurrencyPair currencyPair) {
-//    if (currencyPair == null) {
-//      return null;
-//    }
+    if (currencyPair == null) {
+      return null;
+    }
     return currencyPair.base.getCurrencyCode().toUpperCase()
         + "_"
         + currencyPair.counter.getCurrencyCode().toUpperCase();
