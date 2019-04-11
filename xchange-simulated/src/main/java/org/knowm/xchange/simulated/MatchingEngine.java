@@ -1,6 +1,18 @@
 package org.knowm.xchange.simulated;
 
+import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_UP;
+import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.toList;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
 import com.google.common.collect.*;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -13,19 +25,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-
-import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.HALF_UP;
-import static java.util.UUID.randomUUID;
-import static java.util.stream.Collectors.toList;
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 /**
  * The "exchange" which backs {@link SimulatedExchange}.
@@ -388,17 +387,13 @@ final class MatchingEngine {
         asks.stream()
             .forEach(
                 bookLevel ->
-                    bookLevel
-                        .getOrders()
-                        .removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
         break;
       case BID:
         bids.stream()
             .forEach(
                 bookLevel ->
-                    bookLevel
-                        .getOrders()
-                        .removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
 
         break;
       default:

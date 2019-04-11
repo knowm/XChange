@@ -2,7 +2,6 @@ package org.knowm.xchange.globitex.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
@@ -22,7 +21,8 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return GlobitexAdapters.adaptToUserTrades(getGlobitexUserTrades((TradeHistoryParamsAll) params));
+    return GlobitexAdapters.adaptToUserTrades(
+        getGlobitexUserTrades((TradeHistoryParamsAll) params));
   }
 
   @Override
@@ -37,7 +37,8 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return GlobitexAdapters.adaptToOpenOrders(getGlobitexActiveOrders((OpenOrdersParamCurrencyPair) params));
+    return GlobitexAdapters.adaptToOpenOrders(
+        getGlobitexActiveOrders((OpenOrdersParamCurrencyPair) params));
   }
 
   @Override

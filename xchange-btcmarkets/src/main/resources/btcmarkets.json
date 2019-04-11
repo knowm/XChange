@@ -17,7 +17,7 @@
       "min_amount": 0.001
     },
     "XRP/AUD": {
-      "price_scale": 2,
+      "price_scale": 4,
       "min_amount": 0.01
     },
     "LTC/BTC": {
