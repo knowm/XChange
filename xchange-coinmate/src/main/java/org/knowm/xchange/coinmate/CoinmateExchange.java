@@ -35,7 +35,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author Martin Stachon */
 public class CoinmateExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new TimestampIncrementingNonceFactory();
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {

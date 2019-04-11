@@ -1,4 +1,4 @@
-package org.knowm.xchange.dsx.service;
+package org.knowm.xchange.dsx.service.core;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,18 +14,19 @@ import org.knowm.xchange.dsx.dto.account.DSXTransaction;
 import org.knowm.xchange.dsx.dto.account.DSXTransactionReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
+import org.knowm.xchange.service.account.AccountService;
 
 /** @author Mikhail Wall */
-public class DSXAccountServiceRaw extends DSXBaseService {
+public class DSXAccountServiceRawCore<T extends DSXAuthenticatedV2> extends DSXBaseService<T>
+    implements AccountService {
 
   /**
    * Constructor
    *
    * @param exchange
    */
-  public DSXAccountServiceRaw(Exchange exchange) {
-
-    super(exchange);
+  public DSXAccountServiceRawCore(Exchange exchange, Class<T> clazz) {
+    super(exchange, clazz);
   }
 
   /**

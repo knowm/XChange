@@ -18,7 +18,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /*@author makarid*/
 
 /*username is needed in order to get UserTrades.
-* username is globitex account number*/
+ * username is globitex account number*/
 public class GlobitexExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();

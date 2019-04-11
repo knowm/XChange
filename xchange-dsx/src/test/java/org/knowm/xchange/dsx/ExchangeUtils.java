@@ -14,9 +14,10 @@ public class ExchangeUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(ExchangeUtils.class);
 
-  public static Exchange createExchangeFromJsonConfiguration() throws IOException {
+  public static Exchange createExchangeFromJsonConfiguration(
+      Class<? extends Exchange> exchangeClass) throws IOException {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(DSXExchange.class);
+    ExchangeSpecification exSpec = new ExchangeSpecification(exchangeClass);
     ObjectMapper mapper = new ObjectMapper();
     InputStream is =
         ExchangeUtils.class.getClassLoader().getResourceAsStream("exchangeConfiguration.json");
