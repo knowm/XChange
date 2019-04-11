@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -84,7 +83,7 @@ public class GlobitexMarketDataDtoJSONTest {
     // Read in the JSON from the example resources
     InputStream is =
         GlobitexMarketDataDtoJSONTest.class.getResourceAsStream(
-                "/org/knowm/xchange/globitex/dto/marketdata/globitex-trade-example.json");
+            "/org/knowm/xchange/globitex/dto/marketdata/globitex-trade-example.json");
 
     GlobitexTrade trade = mapper.readValue(is, GlobitexTrade.class);
 

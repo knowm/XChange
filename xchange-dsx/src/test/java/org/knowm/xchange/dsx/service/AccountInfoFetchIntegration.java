@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.DSXExchange;
 import org.knowm.xchange.dsx.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.service.account.AccountService;
@@ -18,7 +19,7 @@ public class AccountInfoFetchIntegration {
 
   @Test
   public void fetchAccountInfoTest() throws Exception {
-    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration(DSXExchange.class);
     if (exchange == null) {
       return; // forces pass if not configuration is available
     }

@@ -52,12 +52,8 @@ public class GlobitexMarketDataServiceRaw extends GlobitexBaseService {
   public GlobitexTrades getGlobitexTradesBySymbol(CurrencyPair currencyPair) throws IOException {
     try {
       return globitex.getRecentTradesBySymbol(
-              GlobitexAdapters.adaptCurrencyPairToGlobitexSymbol(currencyPair),
-              100,
-              "object",
-              true
+          GlobitexAdapters.adaptCurrencyPairToGlobitexSymbol(currencyPair), 100, "object", true);
 
-      );
     } catch (HttpStatusIOException e) {
       throw new ExchangeException(e.getHttpBody());
     }

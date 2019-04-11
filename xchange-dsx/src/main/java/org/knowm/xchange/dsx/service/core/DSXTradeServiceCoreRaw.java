@@ -1,4 +1,4 @@
-package org.knowm.xchange.dsx.service;
+package org.knowm.xchange.dsx.service.core;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,9 +23,11 @@ import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
+import org.knowm.xchange.service.trade.TradeService;
 
 /** @author Mikhail Wall */
-public class DSXTradeServiceRaw extends DSXBaseService {
+public class DSXTradeServiceCoreRaw<T extends DSXAuthenticatedV2> extends DSXBaseService<T>
+    implements TradeService {
 
   private static final String MSG_NO_TRADES = "no trades";
   private static final String MSG_BAD_STATUS = "bad status";
@@ -36,9 +38,8 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    *
    * @param exchange
    */
-  protected DSXTradeServiceRaw(Exchange exchange) {
-
-    super(exchange);
+  protected DSXTradeServiceCoreRaw(Exchange exchange, Class<T> clazz) {
+    super(exchange, clazz);
   }
 
   /**
