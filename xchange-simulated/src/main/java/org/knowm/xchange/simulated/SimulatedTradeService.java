@@ -1,5 +1,11 @@
 package org.knowm.xchange.simulated;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -14,13 +20,6 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.*;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange>
     implements TradeService {
@@ -102,7 +101,8 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
           exchange.getEngine(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
       exchange.maybeThrow();
 
-      if (orderParams instanceof CancelOrderByIdParams && orderParams instanceof CancelOrderByOrderTypeParams) {
+      if (orderParams instanceof CancelOrderByIdParams
+          && orderParams instanceof CancelOrderByOrderTypeParams) {
         String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
         Order.OrderType type = ((CancelOrderByOrderTypeParams) orderParams).getOrderType();
 
