@@ -133,7 +133,13 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTradeResponse buyCoinmateLimit(
-      BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
+      BigDecimal amount,
+      BigDecimal price,
+      String currencyPair,
+      BigDecimal stopPrice,
+      Integer hidden,
+      Integer immediateOrCancel)
+      throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.buyLimit(
             exchange.getExchangeSpecification().getApiKey(),
@@ -142,7 +148,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             amount,
             price,
-            currencyPair);
+            currencyPair,
+            stopPrice,
+            hidden,
+            immediateOrCancel);
 
     throwExceptionIfError(response);
 
@@ -150,7 +159,13 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTradeResponse sellCoinmateLimit(
-      BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
+      BigDecimal amount,
+      BigDecimal price,
+      String currencyPair,
+      BigDecimal stopPrice,
+      Integer hidden,
+      Integer immediateOrCancel)
+      throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.sellLimit(
             exchange.getExchangeSpecification().getApiKey(),
@@ -159,7 +174,10 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getNonceFactory(),
             amount,
             price,
-            currencyPair);
+            currencyPair,
+            stopPrice,
+            hidden,
+            immediateOrCancel);
 
     throwExceptionIfError(response);
 

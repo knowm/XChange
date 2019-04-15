@@ -121,7 +121,7 @@ public class BinanceExchange extends BaseExchange {
                     maxQty, // Max amount
                     pairPrecision, // precision
                     null, /* TODO get fee tiers, although this is not necessary now
-                         because their API returns current fee directly */
+                          because their API returns current fee directly */
                     stepSize));
             currencies.put(
                 pair.base,

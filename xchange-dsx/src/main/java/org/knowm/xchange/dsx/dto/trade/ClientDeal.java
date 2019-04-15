@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 /** @author Mikhail Wall */
 public class ClientDeal {
 
+  private final Long number;
   private final String pair;
   private final String type;
   private final BigDecimal volume;
@@ -16,6 +17,7 @@ public class ClientDeal {
   private final String commissionCurrency;
 
   public ClientDeal(
+      @JsonProperty("number") Long number,
       @JsonProperty("pair") String pair,
       @JsonProperty("type") String type,
       @JsonProperty("volume") BigDecimal volume,
@@ -24,6 +26,7 @@ public class ClientDeal {
       @JsonProperty("timestamp") long timestamp,
       @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("commissionCurrency") String commissionCurrency) {
+    this.number = number;
     this.pair = pair;
     this.type = type;
     this.volume = volume;
@@ -32,6 +35,10 @@ public class ClientDeal {
     this.orderId = orderId;
     this.commission = commission;
     this.commissionCurrency = commissionCurrency;
+  }
+
+  public Long getNumber() {
+    return number;
   }
 
   public String getPair() {

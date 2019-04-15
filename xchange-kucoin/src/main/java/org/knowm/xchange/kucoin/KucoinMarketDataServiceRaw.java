@@ -5,6 +5,7 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
@@ -21,13 +22,17 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
     return classifyingExceptions(() -> symbolApi.getTicker(KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
+  public AllTickersResponse getKucoinTickers() throws IOException {
+    return classifyingExceptions(symbolApi::getTickers);
+  }
+
   public SymbolTickResponse getKucoin24hrStats(CurrencyPair pair) throws IOException {
     return classifyingExceptions(
         () -> symbolApi.getMarketStats(KucoinAdapters.adaptCurrencyPair(pair)));
   }
 
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
-    return classifyingExceptions(() -> symbolApi.getSymbols());
+    return classifyingExceptions(symbolApi::getSymbols);
   }
 
   public OrderBookResponse getKucoinOrderBookPartial(CurrencyPair pair) throws IOException {

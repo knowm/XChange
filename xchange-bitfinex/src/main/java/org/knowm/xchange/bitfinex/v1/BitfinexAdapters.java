@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -573,10 +572,8 @@ public final class BitfinexAdapters {
                           : currencyPairs
                               .get(currencyPair)
                               .getTradingFee(), // Take tradingFee from static metaData if exists
-                      bitfinexSymbolDetail
-                          .getMinimum_order_size()
-                          .setScale(2, RoundingMode.DOWN), // Bitfinex amount's scale is always 2
-                      bitfinexSymbolDetail.getMaximum_order_size().setScale(2, RoundingMode.DOWN),
+                      bitfinexSymbolDetail.getMinimum_order_size(),
+                      bitfinexSymbolDetail.getMaximum_order_size(),
                       priceScale,
                       null);
               currencyPairs.put(currencyPair, newMetaData);
