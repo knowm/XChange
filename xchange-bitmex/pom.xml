@@ -7,7 +7,8 @@
 		<version>4.3.16</version>
 	</parent>
 
-	<artifactId>xchange-bitmex</artifactId>
+	<artifactId>xchange-bitmex-custom</artifactId>
+	<version>4.3.16.1</version>
 
 
 	<name>XChange BitMex</name>
@@ -21,6 +22,17 @@
 		<url>http://knowm.org/open-source/xchange/</url>
 	</organization>
 
+	<distributionManagement>
+		<repository>
+			<id>myMavenRepoWrite</id>
+			<url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+		</repository>
+		<snapshotRepository>
+			<id>myMavenRepoWrite</id>
+			<url>https://mymavenrepo.com/repo/Rsa6p5lI8EMjZNyAAu6Z/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
@@ -28,9 +40,14 @@
 		<dependency>
 			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>${project.version}</version>
+			<version>4.3.16</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.knowm.xchange</groupId>
+			<artifactId>xchange-bitmex</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
