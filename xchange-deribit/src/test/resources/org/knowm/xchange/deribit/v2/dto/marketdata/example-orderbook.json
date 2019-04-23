@@ -1,45 +1,41 @@
 {
-        "state": "open",
-        "settlementPrice": 141.78,
-        "instrument": "ETH-PERPETUAL",
-        "bids": [
-            {
-                "quantity": 300,
-                "amount": 300,
-                "price": 141.42,
-                "cm": 300,
-                "cm_amount": 300
-            },
-            {
-                "quantity": 1227,
-                "amount": 1227,
-                "price": 141.41,
-                "cm": 1527,
-                "cm_amount": 1527
-            }
-        ],
-        "asks": [
-            {
-                "quantity": 200,
-                "amount": 200,
-                "price": 141.51,
-                "cm": 200,
-                "cm_amount": 200
-            },
-            {
-                "quantity": 45200,
-                "amount": 45200,
-                "price": 141.52,
-                "cm": 45400,
-                "cm_amount": 45400
-            }
-        ],
-        "tstamp": 1553979085190,
-        "last": 141.74,
-        "low": 139.8,
-        "high": 145.01,
-        "mark": 141.47,
-        "contractMultiplier": 1,
-        "min": 138.64,
-        "max": 144.3
-    }
+  "timestamp":1550757626706,
+  "stats":{
+    "volume":93.35589552,
+    "low":3940.75,
+    "high":3976.25
+  },
+  "state":"open",
+  "settlement_price":3925.85,
+  "open_interest":45.27600333464605,
+  "min_price":3932.22,
+  "max_price":3971.74,
+  "mark_price":3931.97,
+  "last_price":3955.75,
+  "instrument_name":"BTC-PERPETUAL",
+  "index_price":3910.46,
+  "funding_8h":0.00455263,
+  "current_funding":0.00500063,
+  "change_id":474988,
+  "bids":[
+    [
+      3955.75,
+      30.0
+    ],
+    [
+      3940.75,
+      102020.0
+    ],
+    [
+      3423.0,
+      42840.0
+    ]
+  ],
+  "best_bid_price":3955.75,
+  "best_bid_amount":30.0,
+  "best_ask_price":0.0,
+  "best_ask_amount":0.0,
+  "asks":[
+
+  ]
+}

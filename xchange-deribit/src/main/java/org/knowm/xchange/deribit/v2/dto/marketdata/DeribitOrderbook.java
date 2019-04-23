@@ -10,62 +10,34 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitOrderbook {
 
-    @JsonProperty("instrument") public String instrument;
-    @JsonProperty("bids") public List<DeribitOrder> bids = null;
-    @JsonProperty("asks") public List<DeribitOrder> asks = null;
-    @JsonProperty("tstamp") public long tstamp;
-    @JsonProperty("last") public BigDecimal last;
-    @JsonProperty("low") public BigDecimal low;
-    @JsonProperty("high") public BigDecimal high;
-    @JsonProperty("mark") public BigDecimal mark;
+    @JsonProperty("timestamp") public long timestamp;
+    @JsonProperty("stats") public DeribitStats stats;
     @JsonProperty("state") public String state;
-    @JsonProperty("settlementPrice") public BigDecimal settlementPrice;
-    @JsonProperty("deliveryPrice") public BigDecimal deliveryPrice;
-    @JsonProperty("uPx") public BigDecimal uPx;
-    @JsonProperty("uIx") public String uIx;
-    @JsonProperty("iR") public BigDecimal iR;
-    @JsonProperty("markIv") public BigDecimal markIv;
-    @JsonProperty("askIv") public BigDecimal askIv;
-    @JsonProperty("bidIv") public BigDecimal bidIv;
-    @JsonProperty("delta") public BigDecimal delta;
-    @JsonProperty("gamma") public BigDecimal gamma;
-    @JsonProperty("vega") public BigDecimal vega;
-    @JsonProperty("theta") public BigDecimal theta;
-    @JsonProperty("max") public BigDecimal max;
-    @JsonProperty("min") public BigDecimal min;
-    @JsonProperty("contractMultiplier") public int contractMultiplier;
+    @JsonProperty("settlement_price") public BigDecimal settlementPrice;
+    @JsonProperty("open_interest") public BigDecimal openInterest;
+    @JsonProperty("min_price") public BigDecimal minPrice;
+    @JsonProperty("max_price") public BigDecimal maxPrice;
+    @JsonProperty("mark_price") public BigDecimal markPrice;
+    @JsonProperty("last_price") public BigDecimal lastPrice;
+    @JsonProperty("instrument_name") public String instrumentName;
+    @JsonProperty("index_price") public BigDecimal indexPrice;
+    @JsonProperty("funding_8h") public BigDecimal funding8h;
+    @JsonProperty("current_funding") public BigDecimal currentFunding;
+    @JsonProperty("change_id") public int changeId;
+    @JsonProperty("bids") public List<List<BigDecimal>> bids = null;
+    @JsonProperty("best_bid_price") public BigDecimal bestBidPrice;
+    @JsonProperty("best_bid_amount") public BigDecimal bestBidAmount;
+    @JsonProperty("best_ask_price") public BigDecimal bestAskPrice;
+    @JsonProperty("best_ask_amount") public BigDecimal bestAskAmount;
+    @JsonProperty("asks") public List<List<BigDecimal>> asks;
 
 
-    public String getInstrument() {
-        return instrument;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public List<DeribitOrder> getBids() {
-        return bids;
-    }
-
-    public List<DeribitOrder> getAsks() {
-        return asks;
-    }
-
-    public long getTstamp() {
-        return tstamp;
-    }
-
-    public BigDecimal getLast() {
-        return last;
-    }
-
-    public BigDecimal getLow() {
-        return low;
-    }
-
-    public BigDecimal getHigh() {
-        return high;
-    }
-
-    public BigDecimal getMark() {
-        return mark;
+    public DeribitStats getStats() {
+        return stats;
     }
 
     public String getState() {
@@ -76,59 +48,67 @@ public class DeribitOrderbook {
         return settlementPrice;
     }
 
-    public BigDecimal getDeliveryPrice() {
-        return deliveryPrice;
+    public BigDecimal getOpenInterest() {
+        return openInterest;
     }
 
-    public BigDecimal getuPx() {
-        return uPx;
+    public BigDecimal getMinPrice() {
+        return minPrice;
     }
 
-    public String getuIx() {
-        return uIx;
+    public BigDecimal getMaxPrice() {
+        return maxPrice;
     }
 
-    public BigDecimal getiR() {
-        return iR;
+    public BigDecimal getMarkPrice() {
+        return markPrice;
     }
 
-    public BigDecimal getMarkIv() {
-        return markIv;
+    public BigDecimal getLastPrice() {
+        return lastPrice;
     }
 
-    public BigDecimal getAskIv() {
-        return askIv;
+    public String getInstrumentName() {
+        return instrumentName;
     }
 
-    public BigDecimal getBidIv() {
-        return bidIv;
+    public BigDecimal getIndexPrice() {
+        return indexPrice;
     }
 
-    public BigDecimal getDelta() {
-        return delta;
+    public BigDecimal getFunding8h() {
+        return funding8h;
     }
 
-    public BigDecimal getGamma() {
-        return gamma;
+    public BigDecimal getCurrentFunding() {
+        return currentFunding;
     }
 
-    public BigDecimal getVega() {
-        return vega;
+    public int getChangeId() {
+        return changeId;
     }
 
-    public BigDecimal getTheta() {
-        return theta;
+    public List<List<BigDecimal>> getBids() {
+        return bids;
     }
 
-    public BigDecimal getMax() {
-        return max;
+    public BigDecimal getBestBidPrice() {
+        return bestBidPrice;
     }
 
-    public BigDecimal getMin() {
-        return min;
+    public BigDecimal getBestBidAmount() {
+        return bestBidAmount;
     }
 
-    public int getContractMultiplier() {
-        return contractMultiplier;
+    public BigDecimal getBestAskPrice() {
+        return bestAskPrice;
+    }
+
+    public BigDecimal getBestAskAmount() {
+        return bestAskAmount;
+    }
+
+    public List<List<BigDecimal>> getAsks() {
+        return asks;
     }
 }
