@@ -18,7 +18,7 @@ public class DeribitCurrency {
     @JsonProperty("min_confirmations") public int minConfirmations;
     @JsonProperty("min_withdrawal_fee") public BigDecimal minWithdrawalFee;
     @JsonProperty("withdrawal_fee") public BigDecimal withdrawalFee;
-    @JsonProperty("withdrawal_priorities") public List<WithdrawalPriority> withdrawalPriorities = null;
+    @JsonProperty("withdrawal_priorities") public List<DeribitWithdrawalPriority> withdrawalPriorities = null;
 
 
     public String getCoinType() {
@@ -53,7 +53,7 @@ public class DeribitCurrency {
         return withdrawalFee;
     }
 
-    public List<WithdrawalPriority> getWithdrawalPriorities() {
+    public List<DeribitWithdrawalPriority> getWithdrawalPriorities() {
         return withdrawalPriorities;
     }
 }
