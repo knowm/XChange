@@ -14,8 +14,10 @@ import java.io.IOException;
 public interface Deribit {
 
   @GET
-  @Path("getinstruments")
-  DeribitInstrumentsResponse getInstruments() throws IOException;
+  @Path("get_instruments")
+  DeribitInstrumentsResponse getInstruments(
+          @QueryParam("currency") String currency
+  ) throws IOException;
 
   @GET
   @Path("getcurrencies")

@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
@@ -26,7 +27,7 @@ public class DeribitInstrumentsFetchIntegration {
 
   @Test
   public void getDeribitInstrumentsTest() throws Exception {
-    List<DeribitInstrument> instruments = deribitMarketDataService.getDeribitInstruments();
+    List<DeribitInstrument> instruments = deribitMarketDataService.getDeribitInstruments(Currency.BTC.getCurrencyCode());
 
     assertThat(instruments).isNotEmpty();
   }

@@ -28,8 +28,8 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     super(exchange);
   }
 
-  public List<DeribitInstrument> getDeribitInstruments() throws IOException {
-    return deribit.getInstruments().getResult();
+  public List<DeribitInstrument> getDeribitInstruments(String currency) throws IOException {
+    return deribit.getInstruments(currency).getResult();
   }
 
   public List<DeribitCurrency> getDeribitCurrencies() throws IOException {
