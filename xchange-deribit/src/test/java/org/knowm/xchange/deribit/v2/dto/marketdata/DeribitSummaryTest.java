@@ -29,12 +29,11 @@ public class DeribitSummaryTest {
         assertThat(summary.getUnderlyingPrice()).isEqualTo(new BigDecimal("121.38"));
         assertThat(summary.getUnderlyingIndex()).isEqualTo("index_price");
         assertThat(summary.getQuoteCurrency()).isEqualTo("USD");
-        assertThat(summary.getOpenInterest()).isEqualTo("0.55");
+        assertThat(summary.getOpenInterest()).isEqualTo(new BigDecimal("0.55"));
         assertThat(summary.getMidPrice()).isEqualTo(new BigDecimal("0.2444"));
         assertThat(summary.getMarkPrice()).isEqualTo(new BigDecimal("0.179112"));
         assertThat(summary.getLow()).isEqualTo(new BigDecimal("0.34"));
         assertThat(summary.getLast()).isEqualTo(new BigDecimal("0.34"));
-        assertThat(summary.getInterestRate()).isEqualTo(new BigDecimal("0.207"));
         assertThat(summary.getInstrumentName()).isEqualTo("ETH-22FEB19-140-P");
         assertThat(summary.getHigh()).isEqualTo(new BigDecimal("0.34"));
         assertThat(summary.getCreationTimestamp()).isEqualTo(1550227952163L);

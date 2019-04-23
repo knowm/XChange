@@ -43,22 +43,8 @@ public interface Deribit {
   ) throws IOException;
 
   @GET
-  @Path("getsummary")
+  @Path("get_book_summary_by_instrument")
   DeribitSummaryResponse getSummary(
-          @QueryParam("instrument") String instrument
+          @QueryParam("instrument_name") String instrumentName
   ) throws IOException;
-
-  @GET
-  @Path("getsummary")
-  DeribitSummariesResponse getSummaries(
-          @QueryParam("instrument") String instrument
-  ) throws IOException;
-
-  @GET
-  @Path("getsummary")
-  DeribitSummariesResponse getSummaries(
-          @QueryParam("instrument") String instrument,
-          @QueryParam("currency") String currency
-  ) throws IOException;
-
 }
