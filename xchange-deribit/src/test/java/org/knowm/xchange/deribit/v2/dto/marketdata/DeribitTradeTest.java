@@ -25,16 +25,14 @@ public class DeribitTradeTest {
         // then
         assertThat(trade).isNotNull();
 
-        assertThat(trade.getTradeId()).isEqualTo(49366);
-        assertThat(trade.getInstrument()).isEqualTo("BTC-25AUG17-3900-C");
-        assertThat(trade.getTradeSeq()).isEqualTo(1);
-        assertThat(trade.getTimeStamp()).isEqualTo(1503439494351L);
-        assertThat(trade.getQuantity()).isEqualTo(5);
-        assertThat(trade.getAmount()).isEqualTo(5);
-        assertThat(trade.getPrice()).isEqualTo(new BigDecimal("0.055"));
-        assertThat(trade.getDirection()).isEqualTo("buy");
-        assertThat(trade.getTickDirection()).isEqualTo(1);
-        assertThat(trade.getIndexPrice()).isEqualTo(new BigDecimal("4101.46"));
-        assertThat(trade.getIv()).isEqualTo(new BigDecimal("70.71"));
+        assertThat(trade.getTradeSeq()).isEqualTo(2427);
+        assertThat(trade.getTradeId()).isEqualTo("48470");
+        assertThat(trade.getTickDirection()).isEqualTo(2);
+        assertThat(trade.getPrice()).isEqualTo(3610);
+        assertThat(trade.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
+        assertThat(trade.getIndexPrice()).isEqualTo(new BigDecimal("3579.08"));
+        assertThat(trade.getDirection()).isEqualTo("sell");
+        assertThat(trade.getAmount()).isEqualTo(10);
+
     }
 }

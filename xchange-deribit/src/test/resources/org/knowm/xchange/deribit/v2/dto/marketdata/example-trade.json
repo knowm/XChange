@@ -1,13 +1,11 @@
 {
-  "tradeId": 49366,
-  "instrument": "BTC-25AUG17-3900-C",
-  "tradeSeq": 1,
-  "timeStamp": 1503439494351,
-  "quantity": 5,
-  "amount": 5,
-  "price": 0.055,
-  "direction": "buy",
-  "tickDirection": 1,
-  "indexPrice": 4101.46,
-  "iv": 70.71
+  "trade_seq": 2427,
+  "trade_id": "48470",
+  "timestamp": 1550050591859,
+  "tick_direction": 2,
+  "price": 3610,
+  "instrument_name": "BTC-PERPETUAL",
+  "index_price": 3579.08,
+  "direction": "sell",
+  "amount": 10
 }
