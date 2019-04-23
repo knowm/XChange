@@ -44,8 +44,8 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     return deribit.getOrderbook(instrumentName, depth).getResult();
   }
 
-  public List<DeribitTrade> getDeribitLastTrades(String instrument) throws IOException {
-    return deribit.getLastTrades(instrument).getResult();
+  public DeribitTrades getDeribitLastTrades(String instrumentName) throws IOException {
+    return deribit.getLastTrades(instrumentName).getResult();
   }
 
   public DeribitSummary getSummary(String instrument) throws IOException {
