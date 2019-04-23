@@ -22,8 +22,9 @@ public class DeribitOrderbook {
     @JsonProperty("instrument_name") public String instrumentName;
     @JsonProperty("index_price") public BigDecimal indexPrice;
     @JsonProperty("funding_8h") public BigDecimal funding8h;
+    @JsonProperty("greeks") public DeribitGreeks greeks;
     @JsonProperty("current_funding") public BigDecimal currentFunding;
-    @JsonProperty("change_id") public int changeId;
+    @JsonProperty("change_id") public long changeId;
     @JsonProperty("bids") public List<List<BigDecimal>> bids = null;
     @JsonProperty("best_bid_price") public BigDecimal bestBidPrice;
     @JsonProperty("best_bid_amount") public BigDecimal bestBidAmount;
@@ -80,11 +81,15 @@ public class DeribitOrderbook {
         return funding8h;
     }
 
+    public DeribitGreeks getGreeks() {
+        return greeks;
+    }
+
     public BigDecimal getCurrentFunding() {
         return currentFunding;
     }
 
-    public int getChangeId() {
+    public long getChangeId() {
         return changeId;
     }
 

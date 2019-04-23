@@ -24,15 +24,15 @@ public interface Deribit {
   DeribitCurrenciesResponse getCurrencies() throws IOException;
 
   @GET
-  @Path("getorderbook")
+  @Path("get_order_book")
   DeribitOrderbookResponse getOrderbook(
-          @QueryParam("instrument") String instrument
+          @QueryParam("instrument_name") String instrumentName
   ) throws IOException;
 
   @GET
-  @Path("getorderbook")
+  @Path("get_order_book")
   DeribitOrderbookResponse getOrderbook(
-          @QueryParam("instrument") String instrument,
+          @QueryParam("instrument_name") String instrumentName,
           @QueryParam("depth") int depth
   ) throws IOException;
 

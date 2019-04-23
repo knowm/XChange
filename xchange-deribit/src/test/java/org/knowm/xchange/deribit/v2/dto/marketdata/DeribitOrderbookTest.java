@@ -38,7 +38,7 @@ public class DeribitOrderbookTest {
         assertThat(orderbook.getIndexPrice()).isEqualTo(new BigDecimal("3910.46"));
         assertThat(orderbook.getFunding8h()).isEqualTo(new BigDecimal("0.00455263"));
         assertThat(orderbook.getCurrentFunding()).isEqualTo(new BigDecimal("0.00500063"));
-        assertThat(orderbook.getChangeId()).isEqualTo(474988);
+        assertThat(orderbook.getChangeId()).isEqualTo(474988L);
         assertThat(orderbook.getBids()).isNotEmpty();
         assertThat(orderbook.getBestBidPrice()).isEqualTo(new BigDecimal("3955.75"));
         assertThat(orderbook.getBestBidAmount()).isEqualTo(new BigDecimal("30.0"));
