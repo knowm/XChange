@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,17 +21,19 @@ public class DeribitCurrencyTest {
 
         // when
         ObjectMapper mapper = new ObjectMapper();
-        DeribitCurrency instrument = mapper.readValue(is, DeribitCurrency.class);
+        DeribitCurrency currency = mapper.readValue(is, DeribitCurrency.class);
 
         // then
-        assertThat(instrument).isNotNull();
+        assertThat(currency).isNotNull();
 
-        assertThat(instrument.getTxFee()).isEqualTo(0.0001f);
-        assertThat(instrument.getMinConfirmation()).isEqualTo(1);
-        assertThat(instrument.getActive()).isTrue();
-        assertThat(instrument.getCurrencyLong()).isEqualTo(Currency.BTC.getDisplayName());
-        assertThat(instrument.getCurrency()).isEqualTo(Currency.BTC.getSymbol());
-        assertThat(instrument.getCoinType()).isEqualTo("BITCOIN");
-        assertThat(instrument.getBaseAddress()).isNull();
+        assertThat(currency.getCoinType()).isEqualTo("BITCOIN");
+        assertThat(currency.getCurrency()).isEqualTo("BTC");
+        assertThat(currency.getCurrencyLong()).isEqualTo("Bitcoin");
+        assertThat(currency.isDisabledDepositAddressCreation()).isFalse();
+        assertThat(currency.getFeePrecision()).isEqualTo(4);
+        assertThat(currency.getMinConfirmations()).isEqualTo(1);
+        assertThat(currency.getMinWithdrawalFee()).isEqualTo(new BigDecimal("0.0001"));
+        assertThat(currency.getWithdrawalFee()).isEqualTo(new BigDecimal("0.0001"));
+        assertThat(currency.getWithdrawalPriorities()).isNotEmpty();
     }
 }
