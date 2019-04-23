@@ -16,7 +16,7 @@ public class DeribitOrderbookTest {
         // given
         InputStream is =
                 DeribitOrderbook.class.getResourceAsStream(
-                        "/org/knowm/xchange/deribit/v1/dto/marketdata/example-orderbook.json");
+                        "/org/knowm/xchange/deribit/v2/dto/marketdata/example-orderbook.json");
 
         // when
         ObjectMapper mapper = new ObjectMapper();

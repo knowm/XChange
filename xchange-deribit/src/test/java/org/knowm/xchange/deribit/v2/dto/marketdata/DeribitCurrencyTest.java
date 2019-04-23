@@ -16,7 +16,7 @@ public class DeribitCurrencyTest {
         // given
         InputStream is =
                 DeribitCurrency.class.getResourceAsStream(
-                        "/org/knowm/xchange/deribit/v1/dto/marketdata/example-currency.json");
+                        "/org/knowm/xchange/deribit/v2/dto/marketdata/example-currency.json");
 
         // when
         ObjectMapper mapper = new ObjectMapper();
