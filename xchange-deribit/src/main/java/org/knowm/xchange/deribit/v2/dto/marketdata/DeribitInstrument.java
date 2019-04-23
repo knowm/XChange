@@ -3,78 +3,65 @@ package org.knowm.xchange.deribit.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitInstrument {
 
-  @JsonProperty("kind") private String kind;
-  @JsonProperty("baseCurrency") private String baseCurrency;
-  @JsonProperty("currency") private String currency;
-  @JsonProperty("minTradeSize") private double minTradeSize;
-  @JsonProperty("instrumentName") private String instrumentName;
-  @JsonProperty("isActive") private Boolean isActive;
-  @JsonProperty("settlement") private String settlement;
-  @JsonProperty("created") private String created;
-  @JsonProperty("tickSize") private double tickSize;
-  @JsonProperty("pricePrecision") private int pricePrecision;
-  @JsonProperty("expiration") private String expiration;
-  @JsonProperty("strike") private int strike;
-  @JsonProperty("optionType") private String optionType;
-  @JsonProperty("contractSize") private int contractSize;
+  @JsonProperty("tick_size") public BigDecimal tickSize;
+  @JsonProperty("settlement_period") public String settlementPeriod;
+  @JsonProperty("quote_currency") public String quoteCurrency;
+  @JsonProperty("min_trade_amount") public int minTradeAmount;
+  @JsonProperty("kind") public String kind;
+  @JsonProperty("is_active") public boolean isActive;
+  @JsonProperty("instrument_name") public String instrumentName;
+  @JsonProperty("expiration_timestamp") public long expirationTimestamp;
+  @JsonProperty("creation_timestamp") public long creationTimestamp;
+  @JsonProperty("contract_size") public int contractSize;
+  @JsonProperty("base_currency") public String baseCurrency;
 
+
+  public BigDecimal getTickSize() {
+    return tickSize;
+  }
+
+  public String getSettlementPeriod() {
+    return settlementPeriod;
+  }
+
+  public String getQuoteCurrency() {
+    return quoteCurrency;
+  }
+
+  public int getMinTradeAmount() {
+    return minTradeAmount;
+  }
 
   public String getKind() {
     return kind;
   }
 
-  public String getBaseCurrency() {
-    return baseCurrency;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public double getMinTradeSize() {
-    return minTradeSize;
+  public boolean isActive() {
+    return isActive;
   }
 
   public String getInstrumentName() {
     return instrumentName;
   }
 
-  public Boolean isActive() {
-    return isActive;
+  public long getExpirationTimestamp() {
+    return expirationTimestamp;
   }
 
-  public String getSettlement() {
-    return settlement;
-  }
-
-  public String getCreated() {
-    return created;
-  }
-
-  public double getTickSize() {
-    return tickSize;
-  }
-
-  public int getPricePrecision() {
-    return pricePrecision;
-  }
-
-  public String getExpiration() {
-    return expiration;
-  }
-
-  public int getStrike() {
-    return strike;
-  }
-
-  public String getOptionType() {
-    return optionType;
+  public long getCreationTimestamp() {
+    return creationTimestamp;
   }
 
   public int getContractSize() {
     return contractSize;
+  }
+
+  public String getBaseCurrency() {
+    return baseCurrency;
   }
 }

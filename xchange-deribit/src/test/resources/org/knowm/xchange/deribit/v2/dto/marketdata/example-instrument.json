@@ -1,14 +1,13 @@
 {
+  "tick_size": 0.01,
+  "settlement_period": "week",
+  "quote_currency": "USD",
+  "min_trade_amount": 1,
   "kind": "future",
-  "baseCurrency": "ETH",
-  "currency": "USD",
-  "minTradeSize": 1,
-  "instrumentName": "ETH-PERPETUAL",
-  "isActive": true,
-  "settlement": "perpetual",
-  "created": "2019-01-16 14:02:07 GMT",
-  "tickSize": 0.01,
-  "pricePrecision": 2,
-  "expiration": "3000-01-01 15:00:00 GMT",
-  "contractSize": 1
+  "is_active": true,
+  "instrument_name": "BTC-15FEB19",
+  "expiration_timestamp": 1550228400000,
+  "creation_timestamp": 1549537259000,
+  "contract_size": 10,
+  "base_currency": "BTC"
 }
