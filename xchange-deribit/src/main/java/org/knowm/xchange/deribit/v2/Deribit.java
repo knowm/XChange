@@ -37,9 +37,9 @@ public interface Deribit {
   ) throws IOException;
 
   @GET
-  @Path("getlasttrades")
+  @Path("get_last_trades_by_instrument")
   DeribitTradesResponse getLastTrades(
-          @QueryParam("instrument") String instrument
+          @QueryParam("instrument_name") String instrumentName
   ) throws IOException;
 
   @GET

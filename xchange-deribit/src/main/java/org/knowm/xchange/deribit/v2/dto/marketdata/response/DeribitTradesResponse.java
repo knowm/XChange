@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 
 import java.util.List;
 
-public class DeribitTradesResponse extends DeribitResponse<List<DeribitTrade>> {
+public class DeribitTradesResponse extends DeribitResponse<DeribitTrades> {
 
   public DeribitTradesResponse(
           @JsonProperty("id") long id,
-          @JsonProperty("result") List<DeribitTrade> result,
+          @JsonProperty("result") DeribitTrades result,
           @JsonProperty("error") DeribitError error,
           @JsonProperty("testnet") boolean testnet,
           @JsonProperty("usOut") long usOut,

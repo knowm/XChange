@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public class DeribitTradesFetchIntegration {
 
   @Test
   public void getDeribitCurrenciesTest() throws Exception {
-    List<DeribitTrade> trades = deribitMarketDataService.getDeribitLastTrades("BTC-PERPETUAL");
+    DeribitTrades trades = deribitMarketDataService.getDeribitLastTrades("BTC-PERPETUAL");
 
-    assertThat(trades).isNotEmpty();
+    assertThat(trades.getTrades()).isNotEmpty();
   }
 }
