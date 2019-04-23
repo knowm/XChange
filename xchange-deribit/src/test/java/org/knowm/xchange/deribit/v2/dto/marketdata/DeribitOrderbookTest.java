@@ -25,18 +25,25 @@ public class DeribitOrderbookTest {
         // then
         assertThat(orderbook).isNotNull();
 
+        assertThat(orderbook.getTimestamp()).isEqualTo(1550757626706L);
+        assertThat(orderbook.getStats()).isNotNull();
         assertThat(orderbook.getState()).isEqualTo("open");
-        assertThat(orderbook.getSettlementPrice()).isEqualTo(new BigDecimal("141.78"));
-        assertThat(orderbook.getInstrument()).isEqualTo("ETH-PERPETUAL");
+        assertThat(orderbook.getSettlementPrice()).isEqualTo(new BigDecimal("3925.85"));
+        assertThat(orderbook.getOpenInterest()).isEqualTo(new BigDecimal("45.27600333464605"));
+        assertThat(orderbook.getMinPrice()).isEqualTo(new BigDecimal("3932.22"));
+        assertThat(orderbook.getMaxPrice()).isEqualTo(new BigDecimal("3971.74"));
+        assertThat(orderbook.getMarkPrice()).isEqualTo(new BigDecimal("3931.97"));
+        assertThat(orderbook.getLastPrice()).isEqualTo(new BigDecimal("3955.75"));
+        assertThat(orderbook.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
+        assertThat(orderbook.getIndexPrice()).isEqualTo(new BigDecimal("3910.46"));
+        assertThat(orderbook.getFunding8h()).isEqualTo(new BigDecimal("0.00455263"));
+        assertThat(orderbook.getCurrentFunding()).isEqualTo(new BigDecimal("0.00500063"));
+        assertThat(orderbook.getChangeId()).isEqualTo(474988);
         assertThat(orderbook.getBids()).isNotEmpty();
-        assertThat(orderbook.getAsks()).isNotEmpty();
-        assertThat(orderbook.getTstamp()).isEqualTo(1553979085190L);
-        assertThat(orderbook.getLast()).isEqualTo(new BigDecimal("141.74"));
-        assertThat(orderbook.getLow()).isEqualTo(new BigDecimal("139.8"));
-        assertThat(orderbook.getHigh()).isEqualTo(new BigDecimal("145.01"));
-        assertThat(orderbook.getMark()).isEqualTo(new BigDecimal("141.47"));
-        assertThat(orderbook.getContractMultiplier()).isEqualTo(1);
-        assertThat(orderbook.getMin()).isEqualTo(new BigDecimal("138.64"));
-        assertThat(orderbook.getMax()).isEqualTo(new BigDecimal("144.3"));
+        assertThat(orderbook.getBestBidPrice()).isEqualTo(new BigDecimal("3955.75"));
+        assertThat(orderbook.getBestBidAmount()).isEqualTo(new BigDecimal("30.0"));
+        assertThat(orderbook.getBestAskPrice()).isEqualTo(new BigDecimal("0.0"));
+        assertThat(orderbook.getBestAskAmount()).isEqualTo(new BigDecimal("0.0"));
+        assertThat(orderbook.getAsks()).isNotNull();
     }
 }
