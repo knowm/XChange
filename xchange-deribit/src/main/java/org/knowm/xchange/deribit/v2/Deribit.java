@@ -20,7 +20,7 @@ public interface Deribit {
   ) throws IOException;
 
   @GET
-  @Path("getcurrencies")
+  @Path("get_currencies")
   DeribitCurrenciesResponse getCurrencies() throws IOException;
 
   @GET
