@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WithdrawalPriority {
+public class DeribitWithdrawalPriority {
 
     @JsonProperty("value") public float value;
     @JsonProperty("name") public String name;
