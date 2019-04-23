@@ -9,77 +9,42 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitSummary {
 
-    @JsonProperty("currentFunding") public BigDecimal currentFunding;
-    @JsonProperty("funding8h") public BigDecimal funding8h;
-    @JsonProperty("instrumentName") public String instrumentName;
-    @JsonProperty("openInterest") public BigDecimal openInterest;
-    @JsonProperty("openInterestAmount") public BigDecimal openInterestAmount;
-    @JsonProperty("high") public BigDecimal high;
-    @JsonProperty("low") public BigDecimal low;
     @JsonProperty("volume") public BigDecimal volume;
-    @JsonProperty("volumeUsd") public BigDecimal volumeUsd;
-    @JsonProperty("volumeBtc") public BigDecimal volumeBtc;
+    @JsonProperty("underlying_price") public BigDecimal underlyingPrice;
+    @JsonProperty("underlying_index") public String underlyingIndex;
+    @JsonProperty("quote_currency") public String quoteCurrency;
+    @JsonProperty("open_interest") public BigDecimal openInterest;
+    @JsonProperty("mid_price") public BigDecimal midPrice;
+    @JsonProperty("mark_price") public BigDecimal markPrice;
+    @JsonProperty("low") public BigDecimal low;
     @JsonProperty("last") public BigDecimal last;
-    @JsonProperty("bidPrice") public BigDecimal bidPrice;
-    @JsonProperty("askPrice") public BigDecimal askPrice;
-    @JsonProperty("midPrice") public BigDecimal midPrice;
-    @JsonProperty("markPrice") public BigDecimal markPrice;
-    @JsonProperty("uPx") public BigDecimal uPx;
-    @JsonProperty("uIx") public String uIx;
-    @JsonProperty("iR") public BigDecimal iR;
-    @JsonProperty("created") public String created;
-    @JsonProperty("estDelPrice") public BigDecimal estDelPrice;
+    @JsonProperty("interest_rate") public BigDecimal interestRate;
+    @JsonProperty("instrument_name") public String instrumentName;
+    @JsonProperty("high") public BigDecimal high;
+    @JsonProperty("creation_timestamp") public long creationTimestamp;
+    @JsonProperty("bid_price") public BigDecimal bidPrice;
+    @JsonProperty("base_currency") public String baseCurrency;
+    @JsonProperty("ask_price") public BigDecimal askPrice;
 
-    public BigDecimal getCurrentFunding() {
-        return currentFunding;
-    }
-
-    public BigDecimal getFunding8h() {
-        return funding8h;
-    }
-
-    public String getInstrumentName() {
-        return instrumentName;
-    }
-
-    public BigDecimal getOpenInterest() {
-        return openInterest;
-    }
-
-    public BigDecimal getOpenInterestAmount() {
-        return openInterestAmount;
-    }
-
-    public BigDecimal getHigh() {
-        return high;
-    }
-
-    public BigDecimal getLow() {
-        return low;
-    }
 
     public BigDecimal getVolume() {
         return volume;
     }
 
-    public BigDecimal getVolumeUsd() {
-        return volumeUsd;
+    public BigDecimal getUnderlyingPrice() {
+        return underlyingPrice;
     }
 
-    public BigDecimal getVolumeBtc() {
-        return volumeBtc;
+    public String getUnderlyingIndex() {
+        return underlyingIndex;
     }
 
-    public BigDecimal getLast() {
-        return last;
+    public String getQuoteCurrency() {
+        return quoteCurrency;
     }
 
-    public BigDecimal getBidPrice() {
-        return bidPrice;
-    }
-
-    public BigDecimal getAskPrice() {
-        return askPrice;
+    public BigDecimal getOpenInterest() {
+        return openInterest;
     }
 
     public BigDecimal getMidPrice() {
@@ -90,23 +55,39 @@ public class DeribitSummary {
         return markPrice;
     }
 
-    public BigDecimal getuPx() {
-        return uPx;
+    public BigDecimal getLow() {
+        return low;
     }
 
-    public String getuIx() {
-        return uIx;
+    public BigDecimal getLast() {
+        return last;
     }
 
-    public BigDecimal getiR() {
-        return iR;
+    public BigDecimal getInterestRate() {
+        return interestRate;
     }
 
-    public String getCreated() {
-        return created;
+    public String getInstrumentName() {
+        return instrumentName;
     }
 
-    public BigDecimal getEstDelPrice() {
-        return estDelPrice;
+    public BigDecimal getHigh() {
+        return high;
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public BigDecimal getBidPrice() {
+        return bidPrice;
+    }
+
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public BigDecimal getAskPrice() {
+        return askPrice;
     }
 }
