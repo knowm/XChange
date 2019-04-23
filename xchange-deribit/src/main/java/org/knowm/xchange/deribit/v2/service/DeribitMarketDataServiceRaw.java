@@ -48,36 +48,7 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     return deribit.getLastTrades(instrumentName).getResult();
   }
 
-  public DeribitSummary getSummary(String instrument) throws IOException {
-    if(StringUtils.containsAny(instrument, "all", "futures", "options")) {
-      throw new ExchangeException("Pass specific instrument or use other methods specified for fetching multiple summaries");
-    }
-
-    return deribit.getSummary(instrument).getResult();
+  public List<DeribitSummary> getSummary(String instrumentName) throws IOException {
+    return deribit.getSummary(instrumentName).getResult();
   }
-
-  public List<DeribitSummary> getAllSummaries() throws IOException {
-    return deribit.getSummaries("all").getResult();
-  }
-
-  public List<DeribitSummary> getAllSummaries(String currency) throws IOException {
-    return deribit.getSummaries("all", currency).getResult();
-  }
-
-  public List<DeribitSummary> getFuturesSummaries() throws IOException {
-    return deribit.getSummaries("futures").getResult();
-  }
-
-  public List<DeribitSummary> getFuturesSummaries(String currency) throws IOException {
-    return deribit.getSummaries("futures", currency).getResult();
-  }
-
-  public List<DeribitSummary> getOptionsSummaries() throws IOException {
-    return deribit.getSummaries("options").getResult();
-  }
-
-  public List<DeribitSummary> getOptionsSummaries(String currency) throws IOException {
-    return deribit.getSummaries("options", currency).getResult();
-  }
-
 }

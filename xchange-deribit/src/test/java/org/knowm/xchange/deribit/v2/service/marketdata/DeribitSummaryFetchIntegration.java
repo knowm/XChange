@@ -26,16 +26,9 @@ public class DeribitSummaryFetchIntegration {
 
   @Test
   public void getDeribitSummaryTest() throws Exception {
-    DeribitSummary summary = deribitMarketDataService.getSummary("BTC-PERPETUAL");
+    List<DeribitSummary> summary = deribitMarketDataService.getSummary("BTC-PERPETUAL");
 
-    assertThat(summary).isNotNull();
-    assertThat(summary.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
-  }
-
-  @Test
-  public void getDeribitAllSummariesTest() throws Exception {
-    List<DeribitSummary> summaries = deribitMarketDataService.getAllSummaries();
-
-    assertThat(summaries).isNotEmpty();
+    assertThat(summary).isNotEmpty();
+    assertThat(summary.get(0).getInstrumentName()).isEqualTo("BTC-PERPETUAL");
   }
 }

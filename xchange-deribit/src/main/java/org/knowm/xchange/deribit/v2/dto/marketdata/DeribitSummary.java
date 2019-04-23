@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitSummary {
 
+    @JsonProperty("volume_usd") public BigDecimal volumeUsd;
     @JsonProperty("volume") public BigDecimal volume;
     @JsonProperty("underlying_price") public BigDecimal underlyingPrice;
     @JsonProperty("underlying_index") public String underlyingIndex;
@@ -18,14 +18,20 @@ public class DeribitSummary {
     @JsonProperty("mark_price") public BigDecimal markPrice;
     @JsonProperty("low") public BigDecimal low;
     @JsonProperty("last") public BigDecimal last;
-    @JsonProperty("interest_rate") public BigDecimal interestRate;
     @JsonProperty("instrument_name") public String instrumentName;
     @JsonProperty("high") public BigDecimal high;
+    @JsonProperty("funding_8h") public BigDecimal funding8h;
+    @JsonProperty("estimated_delivery_price") public BigDecimal estimatedDeliveryPrice;
+    @JsonProperty("current_funding") public BigDecimal currentFunding;
     @JsonProperty("creation_timestamp") public long creationTimestamp;
     @JsonProperty("bid_price") public BigDecimal bidPrice;
     @JsonProperty("base_currency") public String baseCurrency;
     @JsonProperty("ask_price") public BigDecimal askPrice;
 
+
+    public BigDecimal getVolumeUsd() {
+        return volumeUsd;
+    }
 
     public BigDecimal getVolume() {
         return volume;
@@ -63,16 +69,24 @@ public class DeribitSummary {
         return last;
     }
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
-
     public String getInstrumentName() {
         return instrumentName;
     }
 
     public BigDecimal getHigh() {
         return high;
+    }
+
+    public BigDecimal getFunding8h() {
+        return funding8h;
+    }
+
+    public BigDecimal getEstimatedDeliveryPrice() {
+        return estimatedDeliveryPrice;
+    }
+
+    public BigDecimal getCurrentFunding() {
+        return currentFunding;
     }
 
     public long getCreationTimestamp() {
@@ -91,3 +105,4 @@ public class DeribitSummary {
         return askPrice;
     }
 }
+
