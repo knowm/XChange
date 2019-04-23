@@ -1,12 +1,14 @@
 package org.knowm.xchange.deribit.v2.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** V represents result class of the queried endpoint */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitResponse<V> {
 
   @JsonProperty("id")
-  private long success;
+  private long id;
 
   @JsonProperty("result")
   private V result;
@@ -26,8 +28,8 @@ public class DeribitResponse<V> {
   @JsonProperty("usDiff")
   private long usDiff;
 
-  public DeribitResponse(long success, V result, DeribitError error, boolean testnet, long usIn, long usOut, long usDiff) {
-    this.success = success;
+  public DeribitResponse(long id, V result, DeribitError error, boolean testnet, long usIn, long usOut, long usDiff) {
+    this.id = id;
     this.result = result;
     this.error = error;
     this.testnet = testnet;
@@ -36,8 +38,8 @@ public class DeribitResponse<V> {
     this.usDiff = usDiff;
   }
 
-  public long getSuccess() {
-    return success;
+  public long getId() {
+    return id;
   }
 
   public V getResult() {

@@ -16,7 +16,7 @@ public class DeribitInstrumentTest {
         // given
         InputStream is =
                 DeribitInstrument.class.getResourceAsStream(
-                        "/org/knowm/xchange/deribit/v1/dto/marketdata/example-instrument.json");
+                        "/org/knowm/xchange/deribit/v2/dto/marketdata/example-instrument.json");
 
         // when
         ObjectMapper mapper = new ObjectMapper();

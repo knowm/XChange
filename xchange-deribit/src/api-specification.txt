@@ -14,10 +14,3 @@ API paths
 
 Authentication
 -------------
-X-Deribit-Sig header with signature is required.
-The signature string consists of the following keys:
->  _, the nonce, the current timestamp in ms.
-> _ackey, your access key
-> _acsec, your secret key
-> _action, the full path of the API call, e.g. /api/v1/private/buy
-> All of the arguments to your call, in alphabetical order.
