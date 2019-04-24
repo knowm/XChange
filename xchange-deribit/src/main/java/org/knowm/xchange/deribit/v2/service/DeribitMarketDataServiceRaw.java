@@ -51,4 +51,8 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
   public List<DeribitSummary> getSummary(String instrumentName) throws IOException {
     return deribit.getSummary(instrumentName).getResult();
   }
+
+  public DeribitTicker getTicker(String instrumentName) throws IOException {
+    return deribit.getTicker(instrumentName).getResult();
+  }
 }

@@ -47,4 +47,10 @@ public interface Deribit {
   DeribitSummaryResponse getSummary(
           @QueryParam("instrument_name") String instrumentName
   ) throws IOException;
+
+  @GET
+  @Path("ticker")
+  DeribitTickerResponse getTicker(
+          @QueryParam("instrument_name") String instrumentName
+  ) throws IOException;
 }
