@@ -27,7 +27,7 @@ public class DeribitInstrumentsFetchIntegration {
 
   @Test
   public void getDeribitInstrumentsTest() throws Exception {
-    List<DeribitInstrument> instruments = deribitMarketDataService.getDeribitInstruments(Currency.BTC.getCurrencyCode());
+    List<DeribitInstrument> instruments = deribitMarketDataService.getDeribitActiveInstruments(Currency.BTC.getCurrencyCode());
 
     assertThat(instruments).isNotEmpty();
   }
