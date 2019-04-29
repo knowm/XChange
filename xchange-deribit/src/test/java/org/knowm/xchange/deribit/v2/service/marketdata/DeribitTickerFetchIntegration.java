@@ -4,9 +4,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 import java.math.BigDecimal;
 
@@ -31,5 +33,14 @@ public class DeribitTickerFetchIntegration {
     assertThat(ticker).isNotNull();
     assertThat(ticker.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
     assertThat(ticker.getLastPrice()).isGreaterThan(new BigDecimal("0"));
+  }
+
+  @Test
+  public void getTickerTest() throws Exception {
+    CurrencyPair pair = new CurrencyPair("BTC", "PERPETUAL");
+    Ticker ticker = deribitMarketDataService.getTicker(pair);
+
+    assertThat(ticker).isNotNull();
+    assertThat(ticker.getCurrencyPair()).isEqualTo(pair);
   }
 }

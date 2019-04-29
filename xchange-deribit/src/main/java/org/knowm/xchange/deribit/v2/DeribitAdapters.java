@@ -23,6 +23,10 @@ public class DeribitAdapters {
         return new CurrencyPair(temp[0], temp[1]);
     }
 
+    public static String adaptInstrumentName(CurrencyPair pair){
+        return pair.base.getSymbol() + "-" + pair.counter.getSymbol();
+    }
+
     public static Ticker adaptTicker(DeribitTicker deribitTicker){
 
         return new Ticker.Builder()
