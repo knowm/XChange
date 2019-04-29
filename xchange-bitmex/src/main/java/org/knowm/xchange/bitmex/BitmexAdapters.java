@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitmex;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.marketdata.*;
@@ -25,6 +20,12 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class BitmexAdapters {
 
@@ -123,7 +124,7 @@ public class BitmexAdapters {
     builder.last(bitmexTicker.getLastPrice());
     builder.high(bitmexTicker.getHighPrice());
     builder.low(bitmexTicker.getLowPrice());
-    builder.vwap(new BigDecimal(bitmexTicker.getVwap().longValue()));
+    builder.vwap(bitmexTicker.getVwap());
     builder.volume(bitmexTicker.getVolume24h());
     builder.currencyPair(currencyPair);
     return builder.build();

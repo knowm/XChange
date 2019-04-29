@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -214,10 +214,10 @@ public class BitmexTicker {
   private BigDecimal maintMargin;
 
   @JsonProperty("riskLimit")
-  private BigInteger riskLimit;
+  private BigDecimal riskLimit;
 
   @JsonProperty("riskStep")
-  private BigInteger riskStep;
+  private BigDecimal riskStep;
 
   @JsonProperty("limit")
   private BigDecimal limit;
@@ -307,22 +307,22 @@ public class BitmexTicker {
   private BigDecimal volume24h;
 
   @JsonProperty("prevTotalTurnover")
-  private BigInteger prevTotalTurnover;
+  private BigDecimal prevTotalTurnover;
 
   @JsonProperty("totalTurnover")
-  private BigInteger totalTurnover;
+  private BigDecimal totalTurnover;
 
   @JsonProperty("turnover")
-  private BigInteger turnover;
+  private BigDecimal turnover;
 
   @JsonProperty("turnover24h")
-  private BigInteger turnover24h;
+  private BigDecimal turnover24h;
 
   @JsonProperty("prevPrice24h")
-  private BigInteger prevPrice24h;
+  private BigDecimal prevPrice24h;
 
   @JsonProperty("vwap")
-  private BigInteger vwap;
+  private BigDecimal vwap;
 
   @JsonProperty("highPrice")
   private BigDecimal highPrice;
@@ -537,11 +537,11 @@ public class BitmexTicker {
     return maintMargin;
   }
 
-  public BigInteger getRiskLimit() {
+  public BigDecimal getRiskLimit() {
     return riskLimit;
   }
 
-  public BigInteger getRiskStep() {
+  public BigDecimal getRiskStep() {
     return riskStep;
   }
 
@@ -661,27 +661,27 @@ public class BitmexTicker {
     return volume24h;
   }
 
-  public BigInteger getPrevTotalTurnover() {
+  public BigDecimal getPrevTotalTurnover() {
     return prevTotalTurnover;
   }
 
-  public BigInteger getTotalTurnover() {
+  public BigDecimal getTotalTurnover() {
     return totalTurnover;
   }
 
-  public BigInteger getTurnover() {
+  public BigDecimal getTurnover() {
     return turnover;
   }
 
-  public BigInteger getTurnover24h() {
+  public BigDecimal getTurnover24h() {
     return turnover24h;
   }
 
-  public BigInteger getPrevPrice24h() {
+  public BigDecimal getPrevPrice24h() {
     return prevPrice24h;
   }
 
-  public BigInteger getVwap() {
+  public BigDecimal getVwap() {
     return vwap;
   }
 
