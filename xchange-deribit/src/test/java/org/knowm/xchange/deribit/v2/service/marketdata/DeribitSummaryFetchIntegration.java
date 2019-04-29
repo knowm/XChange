@@ -26,7 +26,7 @@ public class DeribitSummaryFetchIntegration {
 
   @Test
   public void getDeribitSummaryTest() throws Exception {
-    List<DeribitSummary> summary = deribitMarketDataService.getSummary("BTC-PERPETUAL");
+    List<DeribitSummary> summary = deribitMarketDataService.getDeribitSummary("BTC-PERPETUAL");
 
     assertThat(summary).isNotEmpty();
     assertThat(summary.get(0).getInstrumentName()).isEqualTo("BTC-PERPETUAL");

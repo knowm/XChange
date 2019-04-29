@@ -6,7 +6,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
-import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 
 import java.math.BigDecimal;
@@ -27,7 +26,7 @@ public class DeribitTickerFetchIntegration {
 
   @Test
   public void getDeribitCurrenciesTest() throws Exception {
-    DeribitTicker ticker = deribitMarketDataService.getTicker("BTC-PERPETUAL");
+    DeribitTicker ticker = deribitMarketDataService.getDeribitTicker("BTC-PERPETUAL");
 
     assertThat(ticker).isNotNull();
     assertThat(ticker.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
