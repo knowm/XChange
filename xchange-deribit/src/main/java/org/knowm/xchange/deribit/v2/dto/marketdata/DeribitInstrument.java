@@ -8,10 +8,11 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitInstrument {
 
+  @JsonProperty("strike") public BigDecimal strike;
   @JsonProperty("tick_size") public BigDecimal tickSize;
   @JsonProperty("settlement_period") public String settlementPeriod;
   @JsonProperty("quote_currency") public String quoteCurrency;
-  @JsonProperty("min_trade_amount") public int minTradeAmount;
+  @JsonProperty("min_trade_amount") public BigDecimal minTradeAmount;
   @JsonProperty("kind") public String kind;
   @JsonProperty("is_active") public boolean isActive;
   @JsonProperty("instrument_name") public String instrumentName;
@@ -20,6 +21,9 @@ public class DeribitInstrument {
   @JsonProperty("contract_size") public int contractSize;
   @JsonProperty("base_currency") public String baseCurrency;
 
+  public BigDecimal getStrike() {
+    return strike;
+  }
 
   public BigDecimal getTickSize() {
     return tickSize;
@@ -33,7 +37,7 @@ public class DeribitInstrument {
     return quoteCurrency;
   }
 
-  public int getMinTradeAmount() {
+  public BigDecimal getMinTradeAmount() {
     return minTradeAmount;
   }
 

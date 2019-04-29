@@ -10,17 +10,17 @@ import java.math.BigDecimal;
 public class DeribitTicker {
 
     @JsonProperty("ask_iv") public BigDecimal askIv;
-    @JsonProperty("best_ask_amount") public int bestAskAmount;
+    @JsonProperty("best_ask_amount") public BigDecimal bestAskAmount;
     @JsonProperty("best_ask_price") public BigDecimal bestAskPrice;
-    @JsonProperty("best_bid_amount") public int bestBidAmount;
+    @JsonProperty("best_bid_amount") public BigDecimal bestBidAmount;
     @JsonProperty("best_bid_price") public BigDecimal bestBidPrice;
     @JsonProperty("bid_iv") public BigDecimal bidIv;
     @JsonProperty("greeks") public DeribitGreeks greeks;
-    @JsonProperty("current_funding") public int currentFunding;
+    @JsonProperty("current_funding") public BigDecimal currentFunding;
     @JsonProperty("funding_8h") public BigDecimal funding8h;
     @JsonProperty("index_price") public BigDecimal indexPrice;
     @JsonProperty("instrument_name") public String instrumentName;
-    @JsonProperty("interest_rate") public int interestRate;
+    @JsonProperty("interest_rate") public BigDecimal interestRate;
     @JsonProperty("last_price") public BigDecimal lastPrice;
     @JsonProperty("mark_iv") public BigDecimal markIv;
     @JsonProperty("mark_price") public BigDecimal markPrice;
@@ -39,7 +39,7 @@ public class DeribitTicker {
         return askIv;
     }
 
-    public int getBestAskAmount() {
+    public BigDecimal getBestAskAmount() {
         return bestAskAmount;
     }
 
@@ -47,7 +47,7 @@ public class DeribitTicker {
         return bestAskPrice;
     }
 
-    public int getBestBidAmount() {
+    public BigDecimal getBestBidAmount() {
         return bestBidAmount;
     }
 
@@ -63,7 +63,7 @@ public class DeribitTicker {
         return greeks;
     }
 
-    public int getCurrentFunding() {
+    public BigDecimal getCurrentFunding() {
         return currentFunding;
     }
 
@@ -79,7 +79,7 @@ public class DeribitTicker {
         return instrumentName;
     }
 
-    public int getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 

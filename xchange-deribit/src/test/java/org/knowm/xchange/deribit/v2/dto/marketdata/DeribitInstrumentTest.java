@@ -28,7 +28,7 @@ public class DeribitInstrumentTest {
         assertThat(instrument.getTickSize()).isEqualTo(new BigDecimal("0.01"));
         assertThat(instrument.getSettlementPeriod()).isEqualTo("week");
         assertThat(instrument.getQuoteCurrency()).isEqualTo("USD");
-        assertThat(instrument.getMinTradeAmount()).isEqualTo(1);
+        assertThat(instrument.getMinTradeAmount()).isEqualTo(new BigDecimal("1"));
         assertThat(instrument.getKind()).isEqualTo("future");
         assertThat(instrument.isActive()).isTrue();
         assertThat(instrument.getInstrumentName()).isEqualTo("BTC-15FEB19");
