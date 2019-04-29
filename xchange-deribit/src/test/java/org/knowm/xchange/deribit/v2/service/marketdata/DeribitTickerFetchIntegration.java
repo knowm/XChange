@@ -25,7 +25,7 @@ public class DeribitTickerFetchIntegration {
   }
 
   @Test
-  public void getDeribitCurrenciesTest() throws Exception {
+  public void getDeribitTickerTest() throws Exception {
     DeribitTicker ticker = deribitMarketDataService.getDeribitTicker("BTC-PERPETUAL");
 
     assertThat(ticker).isNotNull();
