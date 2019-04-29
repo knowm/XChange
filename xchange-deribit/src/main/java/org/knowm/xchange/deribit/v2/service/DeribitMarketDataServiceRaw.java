@@ -1,9 +1,7 @@
 package org.knowm.xchange.deribit.v2.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.*;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,11 +46,11 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     return deribit.getLastTrades(instrumentName).getResult();
   }
 
-  public List<DeribitSummary> getSummary(String instrumentName) throws IOException {
+  public List<DeribitSummary> getDeribitSummary(String instrumentName) throws IOException {
     return deribit.getSummary(instrumentName).getResult();
   }
 
-  public DeribitTicker getTicker(String instrumentName) throws IOException {
+  public DeribitTicker getDeribitTicker(String instrumentName) throws IOException {
     return deribit.getTicker(instrumentName).getResult();
   }
 }
