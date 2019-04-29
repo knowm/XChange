@@ -28,7 +28,8 @@ public class DeribitResponse<V> {
   @JsonProperty("usDiff")
   private long usDiff;
 
-  public DeribitResponse(long id, V result, DeribitError error, boolean testnet, long usIn, long usOut, long usDiff) {
+  public DeribitResponse(
+      long id, V result, DeribitError error, boolean testnet, long usIn, long usOut, long usDiff) {
     this.id = id;
     this.result = result;
     this.error = error;
