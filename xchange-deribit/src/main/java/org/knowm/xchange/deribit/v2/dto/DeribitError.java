@@ -6,30 +6,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitError {
 
-    @JsonProperty("code")
-    private int code;
+  @JsonProperty("code")
+  private int code;
 
-    @JsonProperty("message")
-    private String message;
+  @JsonProperty("message")
+  private String message;
 
-    @JsonProperty("data")
-    private Object data;
+  @JsonProperty("data")
+  private Object data;
 
-    public DeribitError(int code, String message, Object data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
+  public DeribitError(int code, String message, Object data) {
+    this.code = code;
+    this.message = message;
+    this.data = data;
+  }
 
-    public int getCode() {
-        return code;
-    }
+  public int getCode() {
+    return code;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public Object getData() {
-        return data;
-    }
+  public Object getData() {
+    return data;
+  }
 }

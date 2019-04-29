@@ -2,132 +2,176 @@ package org.knowm.xchange.deribit.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeribitTicker {
 
-    @JsonProperty("ask_iv") public BigDecimal askIv;
-    @JsonProperty("best_ask_amount") public BigDecimal bestAskAmount;
-    @JsonProperty("best_ask_price") public BigDecimal bestAskPrice;
-    @JsonProperty("best_bid_amount") public BigDecimal bestBidAmount;
-    @JsonProperty("best_bid_price") public BigDecimal bestBidPrice;
-    @JsonProperty("bid_iv") public BigDecimal bidIv;
-    @JsonProperty("greeks") public DeribitGreeks greeks;
-    @JsonProperty("current_funding") public BigDecimal currentFunding;
-    @JsonProperty("funding_8h") public BigDecimal funding8h;
-    @JsonProperty("index_price") public BigDecimal indexPrice;
-    @JsonProperty("instrument_name") public String instrumentName;
-    @JsonProperty("interest_rate") public BigDecimal interestRate;
-    @JsonProperty("last_price") public BigDecimal lastPrice;
-    @JsonProperty("mark_iv") public BigDecimal markIv;
-    @JsonProperty("mark_price") public BigDecimal markPrice;
-    @JsonProperty("max_price") public BigDecimal maxPrice;
-    @JsonProperty("min_price") public BigDecimal minPrice;
-    @JsonProperty("open_interest") public BigDecimal openInterest;
-    @JsonProperty("settlement_price") public BigDecimal settlementPrice;
-    @JsonProperty("state") public String state;
-    @JsonProperty("stats") public DeribitStats stats;
-    @JsonProperty("timestamp") public long timestamp;
-    @JsonProperty("underlying_index") public String underlyingIndex;
-    @JsonProperty("underlying_price") public BigDecimal underlyingPrice;
+  @JsonProperty("ask_iv")
+  public BigDecimal askIv;
 
+  @JsonProperty("best_ask_amount")
+  public BigDecimal bestAskAmount;
 
-    public BigDecimal getAskIv() {
-        return askIv;
-    }
+  @JsonProperty("best_ask_price")
+  public BigDecimal bestAskPrice;
 
-    public BigDecimal getBestAskAmount() {
-        return bestAskAmount;
-    }
+  @JsonProperty("best_bid_amount")
+  public BigDecimal bestBidAmount;
 
-    public BigDecimal getBestAskPrice() {
-        return bestAskPrice;
-    }
+  @JsonProperty("best_bid_price")
+  public BigDecimal bestBidPrice;
 
-    public BigDecimal getBestBidAmount() {
-        return bestBidAmount;
-    }
+  @JsonProperty("bid_iv")
+  public BigDecimal bidIv;
 
-    public BigDecimal getBestBidPrice() {
-        return bestBidPrice;
-    }
+  @JsonProperty("greeks")
+  public DeribitGreeks greeks;
 
-    public BigDecimal getBidIv() {
-        return bidIv;
-    }
+  @JsonProperty("current_funding")
+  public BigDecimal currentFunding;
 
-    public DeribitGreeks getGreeks() {
-        return greeks;
-    }
+  @JsonProperty("funding_8h")
+  public BigDecimal funding8h;
 
-    public BigDecimal getCurrentFunding() {
-        return currentFunding;
-    }
+  @JsonProperty("index_price")
+  public BigDecimal indexPrice;
 
-    public BigDecimal getFunding8h() {
-        return funding8h;
-    }
+  @JsonProperty("instrument_name")
+  public String instrumentName;
 
-    public BigDecimal getIndexPrice() {
-        return indexPrice;
-    }
+  @JsonProperty("interest_rate")
+  public BigDecimal interestRate;
 
-    public String getInstrumentName() {
-        return instrumentName;
-    }
+  @JsonProperty("last_price")
+  public BigDecimal lastPrice;
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
+  @JsonProperty("mark_iv")
+  public BigDecimal markIv;
 
-    public BigDecimal getLastPrice() {
-        return lastPrice;
-    }
+  @JsonProperty("mark_price")
+  public BigDecimal markPrice;
 
-    public BigDecimal getMarkIv() {
-        return markIv;
-    }
+  @JsonProperty("max_price")
+  public BigDecimal maxPrice;
 
-    public BigDecimal getMarkPrice() {
-        return markPrice;
-    }
+  @JsonProperty("min_price")
+  public BigDecimal minPrice;
 
-    public BigDecimal getMaxPrice() {
-        return maxPrice;
-    }
+  @JsonProperty("open_interest")
+  public BigDecimal openInterest;
 
-    public BigDecimal getMinPrice() {
-        return minPrice;
-    }
+  @JsonProperty("settlement_price")
+  public BigDecimal settlementPrice;
 
-    public BigDecimal getOpenInterest() {
-        return openInterest;
-    }
+  @JsonProperty("state")
+  public String state;
 
-    public BigDecimal getSettlementPrice() {
-        return settlementPrice;
-    }
+  @JsonProperty("stats")
+  public DeribitStats stats;
 
-    public String getState() {
-        return state;
-    }
+  @JsonProperty("timestamp")
+  public long timestamp;
 
-    public DeribitStats getStats() {
-        return stats;
-    }
+  @JsonProperty("underlying_index")
+  public String underlyingIndex;
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+  @JsonProperty("underlying_price")
+  public BigDecimal underlyingPrice;
 
-    public String getUnderlyingIndex() {
-        return underlyingIndex;
-    }
+  public BigDecimal getAskIv() {
+    return askIv;
+  }
 
-    public BigDecimal getUnderlyingPrice() {
-        return underlyingPrice;
-    }
+  public BigDecimal getBestAskAmount() {
+    return bestAskAmount;
+  }
+
+  public BigDecimal getBestAskPrice() {
+    return bestAskPrice;
+  }
+
+  public BigDecimal getBestBidAmount() {
+    return bestBidAmount;
+  }
+
+  public BigDecimal getBestBidPrice() {
+    return bestBidPrice;
+  }
+
+  public BigDecimal getBidIv() {
+    return bidIv;
+  }
+
+  public DeribitGreeks getGreeks() {
+    return greeks;
+  }
+
+  public BigDecimal getCurrentFunding() {
+    return currentFunding;
+  }
+
+  public BigDecimal getFunding8h() {
+    return funding8h;
+  }
+
+  public BigDecimal getIndexPrice() {
+    return indexPrice;
+  }
+
+  public String getInstrumentName() {
+    return instrumentName;
+  }
+
+  public BigDecimal getInterestRate() {
+    return interestRate;
+  }
+
+  public BigDecimal getLastPrice() {
+    return lastPrice;
+  }
+
+  public BigDecimal getMarkIv() {
+    return markIv;
+  }
+
+  public BigDecimal getMarkPrice() {
+    return markPrice;
+  }
+
+  public BigDecimal getMaxPrice() {
+    return maxPrice;
+  }
+
+  public BigDecimal getMinPrice() {
+    return minPrice;
+  }
+
+  public BigDecimal getOpenInterest() {
+    return openInterest;
+  }
+
+  public BigDecimal getSettlementPrice() {
+    return settlementPrice;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public DeribitStats getStats() {
+    return stats;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
+  }
+
+  public String getUnderlyingIndex() {
+    return underlyingIndex;
+  }
+
+  public BigDecimal getUnderlyingPrice() {
+    return underlyingPrice;
+  }
 }

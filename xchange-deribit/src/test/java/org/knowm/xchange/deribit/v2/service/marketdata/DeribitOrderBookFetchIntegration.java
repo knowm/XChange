@@ -1,5 +1,7 @@
 package org.knowm.xchange.deribit.v2.service.marketdata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -9,8 +11,6 @@ import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeribitOrderBookFetchIntegration {
 

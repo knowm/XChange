@@ -1,5 +1,8 @@
 package org.knowm.xchange.deribit.v2.service.marketdata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -9,10 +12,6 @@ import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.dto.marketdata.Ticker;
-
-import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeribitTickerFetchIntegration {
 
