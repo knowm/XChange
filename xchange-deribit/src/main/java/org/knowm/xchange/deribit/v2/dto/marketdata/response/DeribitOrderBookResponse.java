@@ -3,13 +3,13 @@ package org.knowm.xchange.deribit.v2.dto.marketdata.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
-import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderbook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 
-public class DeribitOrderbookResponse extends DeribitResponse<DeribitOrderbook> {
+public class DeribitOrderBookResponse extends DeribitResponse<DeribitOrderBook> {
 
-  public DeribitOrderbookResponse(
+  public DeribitOrderBookResponse(
           @JsonProperty("id") long id,
-          @JsonProperty("result") DeribitOrderbook result,
+          @JsonProperty("result") DeribitOrderBook result,
           @JsonProperty("error") DeribitError error,
           @JsonProperty("testnet") boolean testnet,
           @JsonProperty("usOut") long usOut,

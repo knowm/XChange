@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DeribitOrderbook {
+public class DeribitOrderBook {
 
     @JsonProperty("timestamp") public long timestamp;
     @JsonProperty("stats") public DeribitStats stats;

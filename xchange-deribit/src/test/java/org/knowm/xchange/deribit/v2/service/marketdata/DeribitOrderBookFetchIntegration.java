@@ -5,12 +5,12 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
-import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderbook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DeribitOrderbookFetchIntegration {
+public class DeribitOrderBookFetchIntegration {
 
   private static Exchange exchange;
   private static DeribitMarketDataService deribitMarketDataService;
@@ -23,9 +23,9 @@ public class DeribitOrderbookFetchIntegration {
   }
 
   @Test
-  public void getDeribitOrderbookTest() throws Exception {
-    DeribitOrderbook orderbook = deribitMarketDataService.getDeribitOrderbook("BTC-PERPETUAL");
+  public void getDeribitOrderBookTest() throws Exception {
+    DeribitOrderBook orderBook = deribitMarketDataService.getDeribitOrderbook("BTC-PERPETUAL");
 
-    assertThat(orderbook).isNotNull();
+    assertThat(orderBook).isNotNull();
   }
 }
