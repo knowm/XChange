@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderbook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
 import org.knowm.xchange.dto.Order;
@@ -69,7 +69,7 @@ public class DeribitAdaptersTest {
                 DeribitTrade.class.getResourceAsStream(
                         "/org/knowm/xchange/deribit/v2/dto/marketdata/example-orderbook.json");
         ObjectMapper mapper = new ObjectMapper();
-        DeribitOrderbook deribitOrderbook = mapper.readValue(is, DeribitOrderbook.class);
+        DeribitOrderBook deribitOrderbook = mapper.readValue(is, DeribitOrderBook.class);
 
         // when
         OrderBook orderBook = DeribitAdapters.adaptOrderBook(deribitOrderbook);

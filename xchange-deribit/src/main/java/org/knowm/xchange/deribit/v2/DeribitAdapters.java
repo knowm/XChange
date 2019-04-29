@@ -1,7 +1,7 @@
 package org.knowm.xchange.deribit.v2;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderbook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
@@ -40,7 +40,7 @@ public class DeribitAdapters {
                 .build();
     }
 
-    public static OrderBook adaptOrderBook(DeribitOrderbook deribitOrderBook) {
+    public static OrderBook adaptOrderBook(DeribitOrderBook deribitOrderBook) {
 
         CurrencyPair pair = adaptCurrencyPair(deribitOrderBook.getInstrumentName());
 

@@ -34,12 +34,12 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
     return deribit.getCurrencies().getResult();
   }
 
-  public DeribitOrderbook getDeribitOrderbook(String instrumentName) throws IOException {
-    return deribit.getOrderbook(instrumentName).getResult();
+  public DeribitOrderBook getDeribitOrderbook(String instrumentName) throws IOException {
+    return deribit.getOrderBook(instrumentName).getResult();
   }
 
-  public DeribitOrderbook getDeribitOrderbook(String instrumentName, int depth) throws IOException {
-    return deribit.getOrderbook(instrumentName, depth).getResult();
+  public DeribitOrderBook getDeribitOrderbook(String instrumentName, int depth) throws IOException {
+    return deribit.getOrderBook(instrumentName, depth).getResult();
   }
 
   public DeribitTrades getDeribitLastTrades(String instrumentName) throws IOException {
