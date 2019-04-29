@@ -12,11 +12,11 @@ public class DeribitTrade {
     @JsonProperty("trade_id") public String tradeId;
     @JsonProperty("timestamp") public long timestamp;
     @JsonProperty("tick_direction") public int tickDirection;
-    @JsonProperty("price") public int price;
+    @JsonProperty("price") public BigDecimal price;
     @JsonProperty("instrument_name") public String instrumentName;
     @JsonProperty("index_price") public BigDecimal indexPrice;
     @JsonProperty("direction") public String direction;
-    @JsonProperty("amount") public int amount;
+    @JsonProperty("amount") public BigDecimal amount;
 
 
     public int getTradeSeq() {
@@ -35,7 +35,7 @@ public class DeribitTrade {
         return tickDirection;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -51,7 +51,7 @@ public class DeribitTrade {
         return direction;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 }

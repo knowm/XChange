@@ -28,11 +28,10 @@ public class DeribitTradeTest {
         assertThat(trade.getTradeSeq()).isEqualTo(2427);
         assertThat(trade.getTradeId()).isEqualTo("48470");
         assertThat(trade.getTickDirection()).isEqualTo(2);
-        assertThat(trade.getPrice()).isEqualTo(3610);
+        assertThat(trade.getPrice()).isEqualTo(new BigDecimal("3610"));
         assertThat(trade.getInstrumentName()).isEqualTo("BTC-PERPETUAL");
         assertThat(trade.getIndexPrice()).isEqualTo(new BigDecimal("3579.08"));
         assertThat(trade.getDirection()).isEqualTo("sell");
-        assertThat(trade.getAmount()).isEqualTo(10);
-
+        assertThat(trade.getAmount()).isEqualTo(new BigDecimal("10"));
     }
 }
