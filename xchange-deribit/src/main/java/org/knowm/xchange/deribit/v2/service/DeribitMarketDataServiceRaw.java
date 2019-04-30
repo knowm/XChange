@@ -2,8 +2,12 @@ package org.knowm.xchange.deribit.v2.service;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.knowm.xchange.deribit.v2.DeribitErrorAdapter;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.*;
+import org.knowm.xchange.deribit.v2.dto.marketdata.response.*;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * Implementation of the market data service for Bitmex
@@ -26,30 +30,93 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
   }
 
   public List<DeribitInstrument> getDeribitActiveInstruments(String currency) throws IOException {
-    return deribit.getInstruments(currency).getResult();
+
+    DeribitInstrumentsResponse response = null;
+
+    try {
+      response = deribit.getInstruments(currency);
+    } catch (HttpStatusIOException ex) {
+      DeribitErrorAdapter.adapt(ex);
+    }
+
+    return response.getResult();
   }
 
   public List<DeribitCurrency> getDeribitCurrencies() throws IOException {
-    return deribit.getCurrencies().getResult();
+
+      DeribitCurrenciesResponse response = null;
+
+      try {
+          response = deribit.getCurrencies();
+      } catch (HttpStatusIOException ex) {
+          DeribitErrorAdapter.adapt(ex);
+      }
+
+      return response.getResult();
   }
 
   public DeribitOrderBook getDeribitOrderBook(String instrumentName) throws IOException {
-    return deribit.getOrderBook(instrumentName).getResult();
+
+      DeribitOrderBookResponse response = null;
+
+      try {
+          response = deribit.getOrderBook(instrumentName);
+      } catch (HttpStatusIOException ex) {
+          DeribitErrorAdapter.adapt(ex);
+      }
+
+      return response.getResult();
   }
 
   public DeribitOrderBook getDeribitOrderBook(String instrumentName, int depth) throws IOException {
-    return deribit.getOrderBook(instrumentName, depth).getResult();
+
+      DeribitOrderBookResponse response = null;
+
+      try {
+          response = deribit.getOrderBook(instrumentName, depth);
+      } catch (HttpStatusIOException ex) {
+          DeribitErrorAdapter.adapt(ex);
+      }
+
+      return response.getResult();
   }
 
   public DeribitTrades getDeribitLastTrades(String instrumentName) throws IOException {
-    return deribit.getLastTrades(instrumentName).getResult();
+
+      DeribitTradesResponse response = null;
+
+      try {
+          response = deribit.getLastTrades(instrumentName);
+      } catch (HttpStatusIOException ex) {
+          DeribitErrorAdapter.adapt(ex);
+      }
+
+      return response.getResult();
   }
 
   public List<DeribitSummary> getDeribitSummary(String instrumentName) throws IOException {
-    return deribit.getSummary(instrumentName).getResult();
+
+      DeribitSummaryResponse response = null;
+
+      try {
+          response = deribit.getSummary(instrumentName);
+      } catch (HttpStatusIOException ex) {
+          DeribitErrorAdapter.adapt(ex);
+      }
+
+      return response.getResult();
   }
 
   public DeribitTicker getDeribitTicker(String instrumentName) throws IOException {
-    return deribit.getTicker(instrumentName).getResult();
+
+    DeribitTickerResponse response = null;
+
+    try {
+      response = deribit.getTicker(instrumentName);
+    } catch (HttpStatusIOException ex) {
+      DeribitErrorAdapter.adapt(ex);
+    }
+
+    return response.getResult();
   }
 }
