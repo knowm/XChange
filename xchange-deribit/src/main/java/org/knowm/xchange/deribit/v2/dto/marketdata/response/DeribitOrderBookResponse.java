@@ -8,6 +8,7 @@ import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 public class DeribitOrderBookResponse extends DeribitResponse<DeribitOrderBook> {
 
   public DeribitOrderBookResponse(
+      @JsonProperty("jsonrpc") String jsonRPC,
       @JsonProperty("id") long id,
       @JsonProperty("result") DeribitOrderBook result,
       @JsonProperty("error") DeribitError error,
@@ -16,6 +17,6 @@ public class DeribitOrderBookResponse extends DeribitResponse<DeribitOrderBook> 
       @JsonProperty("usIn") long usIn,
       @JsonProperty("usDiff") long usDiff) {
 
-    super(id, result, error, testnet, usOut, usIn, usDiff);
+    super(jsonRPC, id, result, error, testnet, usOut, usIn, usDiff);
   }
 }

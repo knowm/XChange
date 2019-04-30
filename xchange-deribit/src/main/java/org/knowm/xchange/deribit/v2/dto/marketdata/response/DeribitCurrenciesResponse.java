@@ -9,6 +9,7 @@ import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 public class DeribitCurrenciesResponse extends DeribitResponse<List<DeribitCurrency>> {
 
   public DeribitCurrenciesResponse(
+      @JsonProperty("jsonrpc") String jsonRPC,
       @JsonProperty("id") long id,
       @JsonProperty("result") List<DeribitCurrency> result,
       @JsonProperty("error") DeribitError error,
@@ -17,6 +18,6 @@ public class DeribitCurrenciesResponse extends DeribitResponse<List<DeribitCurre
       @JsonProperty("usIn") long usIn,
       @JsonProperty("usDiff") long usDiff) {
 
-    super(id, result, error, testnet, usOut, usIn, usDiff);
+    super(jsonRPC, id, result, error, testnet, usOut, usIn, usDiff);
   }
 }

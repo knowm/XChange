@@ -9,6 +9,7 @@ import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitSummary;
 public class DeribitSummaryResponse extends DeribitResponse<List<DeribitSummary>> {
 
   public DeribitSummaryResponse(
+      @JsonProperty("jsonrpc") String jsonRPC,
       @JsonProperty("id") long id,
       @JsonProperty("result") List<DeribitSummary> result,
       @JsonProperty("error") DeribitError error,
@@ -17,6 +18,6 @@ public class DeribitSummaryResponse extends DeribitResponse<List<DeribitSummary>
       @JsonProperty("usIn") long usIn,
       @JsonProperty("usDiff") long usDiff) {
 
-    super(id, result, error, testnet, usOut, usIn, usDiff);
+    super(jsonRPC, id, result, error, testnet, usOut, usIn, usDiff);
   }
 }
