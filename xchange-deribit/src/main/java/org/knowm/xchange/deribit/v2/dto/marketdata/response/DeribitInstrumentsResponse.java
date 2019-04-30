@@ -9,6 +9,7 @@ import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 public class DeribitInstrumentsResponse extends DeribitResponse<List<DeribitInstrument>> {
 
   public DeribitInstrumentsResponse(
+      @JsonProperty("jsonrpc") String jsonRPC,
       @JsonProperty("id") long id,
       @JsonProperty("result") List<DeribitInstrument> result,
       @JsonProperty("error") DeribitError error,
@@ -17,6 +18,6 @@ public class DeribitInstrumentsResponse extends DeribitResponse<List<DeribitInst
       @JsonProperty("usIn") long usIn,
       @JsonProperty("usDiff") long usDiff) {
 
-    super(id, result, error, testnet, usOut, usIn, usDiff);
+    super(jsonRPC, id, result, error, testnet, usOut, usIn, usDiff);
   }
 }
