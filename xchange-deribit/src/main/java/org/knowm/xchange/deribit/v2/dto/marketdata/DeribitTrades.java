@@ -8,16 +8,33 @@ import java.util.List;
 public class DeribitTrades {
 
   @JsonProperty("trades")
-  public List<DeribitTrade> trades;
+  private List<DeribitTrade> trades;
 
   @JsonProperty("has_more")
-  public boolean hasMore;
+  private boolean hasMore;
+
 
   public List<DeribitTrade> getTrades() {
     return trades;
   }
 
+  public void setTrades(List<DeribitTrade> trades) {
+    this.trades = trades;
+  }
+
   public boolean isHasMore() {
     return hasMore;
+  }
+
+  public void setHasMore(boolean hasMore) {
+    this.hasMore = hasMore;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitTrades{" +
+            "trades=" + trades +
+            ", hasMore=" + hasMore +
+            '}';
   }
 }

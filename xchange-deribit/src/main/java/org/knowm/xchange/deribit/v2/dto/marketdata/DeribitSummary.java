@@ -8,135 +8,237 @@ import java.math.BigDecimal;
 public class DeribitSummary {
 
   @JsonProperty("volume_usd")
-  public BigDecimal volumeUsd;
+  private BigDecimal volumeUsd;
 
   @JsonProperty("volume")
-  public BigDecimal volume;
+  private BigDecimal volume;
 
   @JsonProperty("underlying_price")
-  public BigDecimal underlyingPrice;
+  private BigDecimal underlyingPrice;
 
   @JsonProperty("underlying_index")
-  public String underlyingIndex;
+  private String underlyingIndex;
 
   @JsonProperty("quote_currency")
-  public String quoteCurrency;
+  private String quoteCurrency;
 
   @JsonProperty("open_interest")
-  public BigDecimal openInterest;
+  private BigDecimal openInterest;
 
   @JsonProperty("mid_price")
-  public BigDecimal midPrice;
+  private BigDecimal midPrice;
 
   @JsonProperty("mark_price")
-  public BigDecimal markPrice;
+  private BigDecimal markPrice;
 
   @JsonProperty("low")
-  public BigDecimal low;
+  private BigDecimal low;
 
   @JsonProperty("last")
-  public BigDecimal last;
+  private BigDecimal last;
 
   @JsonProperty("instrument_name")
-  public String instrumentName;
+  private String instrumentName;
 
   @JsonProperty("high")
-  public BigDecimal high;
+  private BigDecimal high;
 
   @JsonProperty("funding_8h")
-  public BigDecimal funding8h;
+  private BigDecimal funding8h;
 
   @JsonProperty("estimated_delivery_price")
-  public BigDecimal estimatedDeliveryPrice;
+  private BigDecimal estimatedDeliveryPrice;
 
   @JsonProperty("current_funding")
-  public BigDecimal currentFunding;
+  private BigDecimal currentFunding;
 
   @JsonProperty("creation_timestamp")
-  public long creationTimestamp;
+  private long creationTimestamp;
 
   @JsonProperty("bid_price")
-  public BigDecimal bidPrice;
+  private BigDecimal bidPrice;
 
   @JsonProperty("base_currency")
-  public String baseCurrency;
+  private String baseCurrency;
 
   @JsonProperty("ask_price")
-  public BigDecimal askPrice;
+  private BigDecimal askPrice;
+
 
   public BigDecimal getVolumeUsd() {
     return volumeUsd;
+  }
+
+  public void setVolumeUsd(BigDecimal volumeUsd) {
+    this.volumeUsd = volumeUsd;
   }
 
   public BigDecimal getVolume() {
     return volume;
   }
 
+  public void setVolume(BigDecimal volume) {
+    this.volume = volume;
+  }
+
   public BigDecimal getUnderlyingPrice() {
     return underlyingPrice;
+  }
+
+  public void setUnderlyingPrice(BigDecimal underlyingPrice) {
+    this.underlyingPrice = underlyingPrice;
   }
 
   public String getUnderlyingIndex() {
     return underlyingIndex;
   }
 
+  public void setUnderlyingIndex(String underlyingIndex) {
+    this.underlyingIndex = underlyingIndex;
+  }
+
   public String getQuoteCurrency() {
     return quoteCurrency;
+  }
+
+  public void setQuoteCurrency(String quoteCurrency) {
+    this.quoteCurrency = quoteCurrency;
   }
 
   public BigDecimal getOpenInterest() {
     return openInterest;
   }
 
+  public void setOpenInterest(BigDecimal openInterest) {
+    this.openInterest = openInterest;
+  }
+
   public BigDecimal getMidPrice() {
     return midPrice;
+  }
+
+  public void setMidPrice(BigDecimal midPrice) {
+    this.midPrice = midPrice;
   }
 
   public BigDecimal getMarkPrice() {
     return markPrice;
   }
 
+  public void setMarkPrice(BigDecimal markPrice) {
+    this.markPrice = markPrice;
+  }
+
   public BigDecimal getLow() {
     return low;
+  }
+
+  public void setLow(BigDecimal low) {
+    this.low = low;
   }
 
   public BigDecimal getLast() {
     return last;
   }
 
+  public void setLast(BigDecimal last) {
+    this.last = last;
+  }
+
   public String getInstrumentName() {
     return instrumentName;
+  }
+
+  public void setInstrumentName(String instrumentName) {
+    this.instrumentName = instrumentName;
   }
 
   public BigDecimal getHigh() {
     return high;
   }
 
+  public void setHigh(BigDecimal high) {
+    this.high = high;
+  }
+
   public BigDecimal getFunding8h() {
     return funding8h;
+  }
+
+  public void setFunding8h(BigDecimal funding8h) {
+    this.funding8h = funding8h;
   }
 
   public BigDecimal getEstimatedDeliveryPrice() {
     return estimatedDeliveryPrice;
   }
 
+  public void setEstimatedDeliveryPrice(BigDecimal estimatedDeliveryPrice) {
+    this.estimatedDeliveryPrice = estimatedDeliveryPrice;
+  }
+
   public BigDecimal getCurrentFunding() {
     return currentFunding;
+  }
+
+  public void setCurrentFunding(BigDecimal currentFunding) {
+    this.currentFunding = currentFunding;
   }
 
   public long getCreationTimestamp() {
     return creationTimestamp;
   }
 
+  public void setCreationTimestamp(long creationTimestamp) {
+    this.creationTimestamp = creationTimestamp;
+  }
+
   public BigDecimal getBidPrice() {
     return bidPrice;
+  }
+
+  public void setBidPrice(BigDecimal bidPrice) {
+    this.bidPrice = bidPrice;
   }
 
   public String getBaseCurrency() {
     return baseCurrency;
   }
 
+  public void setBaseCurrency(String baseCurrency) {
+    this.baseCurrency = baseCurrency;
+  }
+
   public BigDecimal getAskPrice() {
     return askPrice;
+  }
+
+  public void setAskPrice(BigDecimal askPrice) {
+    this.askPrice = askPrice;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitSummary{" +
+            "volumeUsd=" + volumeUsd +
+            ", volume=" + volume +
+            ", underlyingPrice=" + underlyingPrice +
+            ", underlyingIndex='" + underlyingIndex + '\'' +
+            ", quoteCurrency='" + quoteCurrency + '\'' +
+            ", openInterest=" + openInterest +
+            ", midPrice=" + midPrice +
+            ", markPrice=" + markPrice +
+            ", low=" + low +
+            ", last=" + last +
+            ", instrumentName='" + instrumentName + '\'' +
+            ", high=" + high +
+            ", funding8h=" + funding8h +
+            ", estimatedDeliveryPrice=" + estimatedDeliveryPrice +
+            ", currentFunding=" + currentFunding +
+            ", creationTimestamp=" + creationTimestamp +
+            ", bidPrice=" + bidPrice +
+            ", baseCurrency='" + baseCurrency + '\'' +
+            ", askPrice=" + askPrice +
+            '}';
   }
 }
