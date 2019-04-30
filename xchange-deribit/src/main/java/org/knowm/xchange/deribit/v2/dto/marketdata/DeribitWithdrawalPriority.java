@@ -13,7 +13,6 @@ public class DeribitWithdrawalPriority {
   @JsonProperty("name")
   private String name;
 
-
   public BigDecimal getValue() {
     return value;
   }
@@ -32,9 +31,6 @@ public class DeribitWithdrawalPriority {
 
   @Override
   public String toString() {
-    return "DeribitWithdrawalPriority{" +
-            "value=" + value +
-            ", name='" + name + '\'' +
-            '}';
+    return "DeribitWithdrawalPriority{" + "value=" + value + ", name='" + name + '\'' + '}';
   }
 }

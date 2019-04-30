@@ -43,7 +43,6 @@ public class DeribitInstrument {
   @JsonProperty("base_currency")
   private String baseCurrency;
 
-
   public BigDecimal getStrike() {
     return strike;
   }
@@ -142,19 +141,36 @@ public class DeribitInstrument {
 
   @Override
   public String toString() {
-    return "DeribitInstrument{" +
-            "strike=" + strike +
-            ", tickSize=" + tickSize +
-            ", settlementPeriod='" + settlementPeriod + '\'' +
-            ", quoteCurrency='" + quoteCurrency + '\'' +
-            ", minTradeAmount=" + minTradeAmount +
-            ", kind='" + kind + '\'' +
-            ", isActive=" + isActive +
-            ", instrumentName='" + instrumentName + '\'' +
-            ", expirationTimestamp=" + expirationTimestamp +
-            ", creationTimestamp=" + creationTimestamp +
-            ", contractSize=" + contractSize +
-            ", baseCurrency='" + baseCurrency + '\'' +
-            '}';
+    return "DeribitInstrument{"
+        + "strike="
+        + strike
+        + ", tickSize="
+        + tickSize
+        + ", settlementPeriod='"
+        + settlementPeriod
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", minTradeAmount="
+        + minTradeAmount
+        + ", kind='"
+        + kind
+        + '\''
+        + ", isActive="
+        + isActive
+        + ", instrumentName='"
+        + instrumentName
+        + '\''
+        + ", expirationTimestamp="
+        + expirationTimestamp
+        + ", creationTimestamp="
+        + creationTimestamp
+        + ", contractSize="
+        + contractSize
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + '}';
   }
 }

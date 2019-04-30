@@ -35,7 +35,6 @@ public class DeribitCurrency {
   @JsonProperty("withdrawal_priorities")
   private List<DeribitWithdrawalPriority> withdrawalPriorities = null;
 
-
   public String getCoinType() {
     return coinType;
   }
@@ -110,16 +109,28 @@ public class DeribitCurrency {
 
   @Override
   public String toString() {
-    return "DeribitCurrency{" +
-            "coinType='" + coinType + '\'' +
-            ", currency='" + currency + '\'' +
-            ", currencyLong='" + currencyLong + '\'' +
-            ", disabledDepositAddressCreation=" + disabledDepositAddressCreation +
-            ", feePrecision=" + feePrecision +
-            ", minConfirmations=" + minConfirmations +
-            ", minWithdrawalFee=" + minWithdrawalFee +
-            ", withdrawalFee=" + withdrawalFee +
-            ", withdrawalPriorities=" + withdrawalPriorities +
-            '}';
+    return "DeribitCurrency{"
+        + "coinType='"
+        + coinType
+        + '\''
+        + ", currency='"
+        + currency
+        + '\''
+        + ", currencyLong='"
+        + currencyLong
+        + '\''
+        + ", disabledDepositAddressCreation="
+        + disabledDepositAddressCreation
+        + ", feePrecision="
+        + feePrecision
+        + ", minConfirmations="
+        + minConfirmations
+        + ", minWithdrawalFee="
+        + minWithdrawalFee
+        + ", withdrawalFee="
+        + withdrawalFee
+        + ", withdrawalPriorities="
+        + withdrawalPriorities
+        + '}';
   }
 }

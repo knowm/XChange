@@ -34,7 +34,6 @@ public class DeribitTrade {
   @JsonProperty("amount")
   private BigDecimal amount;
 
-
   public int getTradeSeq() {
     return tradeSeq;
   }
@@ -109,16 +108,28 @@ public class DeribitTrade {
 
   @Override
   public String toString() {
-    return "DeribitTrade{" +
-            "tradeSeq=" + tradeSeq +
-            ", tradeId='" + tradeId + '\'' +
-            ", timestamp=" + timestamp +
-            ", tickDirection=" + tickDirection +
-            ", price=" + price +
-            ", instrumentName='" + instrumentName + '\'' +
-            ", indexPrice=" + indexPrice +
-            ", direction='" + direction + '\'' +
-            ", amount=" + amount +
-            '}';
+    return "DeribitTrade{"
+        + "tradeSeq="
+        + tradeSeq
+        + ", tradeId='"
+        + tradeId
+        + '\''
+        + ", timestamp="
+        + timestamp
+        + ", tickDirection="
+        + tickDirection
+        + ", price="
+        + price
+        + ", instrumentName='"
+        + instrumentName
+        + '\''
+        + ", indexPrice="
+        + indexPrice
+        + ", direction='"
+        + direction
+        + '\''
+        + ", amount="
+        + amount
+        + '}';
   }
 }

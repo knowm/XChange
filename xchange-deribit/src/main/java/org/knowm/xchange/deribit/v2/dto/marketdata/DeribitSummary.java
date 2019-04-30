@@ -64,7 +64,6 @@ public class DeribitSummary {
   @JsonProperty("ask_price")
   private BigDecimal askPrice;
 
-
   public BigDecimal getVolumeUsd() {
     return volumeUsd;
   }
@@ -219,26 +218,49 @@ public class DeribitSummary {
 
   @Override
   public String toString() {
-    return "DeribitSummary{" +
-            "volumeUsd=" + volumeUsd +
-            ", volume=" + volume +
-            ", underlyingPrice=" + underlyingPrice +
-            ", underlyingIndex='" + underlyingIndex + '\'' +
-            ", quoteCurrency='" + quoteCurrency + '\'' +
-            ", openInterest=" + openInterest +
-            ", midPrice=" + midPrice +
-            ", markPrice=" + markPrice +
-            ", low=" + low +
-            ", last=" + last +
-            ", instrumentName='" + instrumentName + '\'' +
-            ", high=" + high +
-            ", funding8h=" + funding8h +
-            ", estimatedDeliveryPrice=" + estimatedDeliveryPrice +
-            ", currentFunding=" + currentFunding +
-            ", creationTimestamp=" + creationTimestamp +
-            ", bidPrice=" + bidPrice +
-            ", baseCurrency='" + baseCurrency + '\'' +
-            ", askPrice=" + askPrice +
-            '}';
+    return "DeribitSummary{"
+        + "volumeUsd="
+        + volumeUsd
+        + ", volume="
+        + volume
+        + ", underlyingPrice="
+        + underlyingPrice
+        + ", underlyingIndex='"
+        + underlyingIndex
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", openInterest="
+        + openInterest
+        + ", midPrice="
+        + midPrice
+        + ", markPrice="
+        + markPrice
+        + ", low="
+        + low
+        + ", last="
+        + last
+        + ", instrumentName='"
+        + instrumentName
+        + '\''
+        + ", high="
+        + high
+        + ", funding8h="
+        + funding8h
+        + ", estimatedDeliveryPrice="
+        + estimatedDeliveryPrice
+        + ", currentFunding="
+        + currentFunding
+        + ", creationTimestamp="
+        + creationTimestamp
+        + ", bidPrice="
+        + bidPrice
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", askPrice="
+        + askPrice
+        + '}';
   }
 }

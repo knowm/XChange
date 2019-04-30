@@ -79,7 +79,6 @@ public class DeribitTicker {
   @JsonProperty("underlying_price")
   private BigDecimal underlyingPrice;
 
-
   public BigDecimal getAskIv() {
     return askIv;
   }
@@ -274,31 +273,58 @@ public class DeribitTicker {
 
   @Override
   public String toString() {
-    return "DeribitTicker{" +
-            "askIv=" + askIv +
-            ", bestAskAmount=" + bestAskAmount +
-            ", bestAskPrice=" + bestAskPrice +
-            ", bestBidAmount=" + bestBidAmount +
-            ", bestBidPrice=" + bestBidPrice +
-            ", bidIv=" + bidIv +
-            ", greeks=" + greeks +
-            ", currentFunding=" + currentFunding +
-            ", funding8h=" + funding8h +
-            ", indexPrice=" + indexPrice +
-            ", instrumentName='" + instrumentName + '\'' +
-            ", interestRate=" + interestRate +
-            ", lastPrice=" + lastPrice +
-            ", markIv=" + markIv +
-            ", markPrice=" + markPrice +
-            ", maxPrice=" + maxPrice +
-            ", minPrice=" + minPrice +
-            ", openInterest=" + openInterest +
-            ", settlementPrice=" + settlementPrice +
-            ", state='" + state + '\'' +
-            ", stats=" + stats +
-            ", timestamp=" + timestamp +
-            ", underlyingIndex='" + underlyingIndex + '\'' +
-            ", underlyingPrice=" + underlyingPrice +
-            '}';
+    return "DeribitTicker{"
+        + "askIv="
+        + askIv
+        + ", bestAskAmount="
+        + bestAskAmount
+        + ", bestAskPrice="
+        + bestAskPrice
+        + ", bestBidAmount="
+        + bestBidAmount
+        + ", bestBidPrice="
+        + bestBidPrice
+        + ", bidIv="
+        + bidIv
+        + ", greeks="
+        + greeks
+        + ", currentFunding="
+        + currentFunding
+        + ", funding8h="
+        + funding8h
+        + ", indexPrice="
+        + indexPrice
+        + ", instrumentName='"
+        + instrumentName
+        + '\''
+        + ", interestRate="
+        + interestRate
+        + ", lastPrice="
+        + lastPrice
+        + ", markIv="
+        + markIv
+        + ", markPrice="
+        + markPrice
+        + ", maxPrice="
+        + maxPrice
+        + ", minPrice="
+        + minPrice
+        + ", openInterest="
+        + openInterest
+        + ", settlementPrice="
+        + settlementPrice
+        + ", state='"
+        + state
+        + '\''
+        + ", stats="
+        + stats
+        + ", timestamp="
+        + timestamp
+        + ", underlyingIndex='"
+        + underlyingIndex
+        + '\''
+        + ", underlyingPrice="
+        + underlyingPrice
+        + '}';
   }
 }
