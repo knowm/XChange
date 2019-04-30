@@ -1,63 +1,35 @@
 {
   "currency_pairs": {
-    "XBT/USD": {
-      "price_scale": 1,
+    "BTC/PERPETUAL": {
+      "price_scale": 4,
       "min_amount": 1
     },
-    "ETH/USD": {
-      "price_scale": 2,
+    "ETH/PERPETUAL": {
+      "price_scale": 4,
       "min_amount": 1
     }
   },
   "currencies": {
-    "XBT": {
-      "scale": "",
+    "BTC": {
+      "scale": "4",
       "withdrawal_fee": 0
-    },
-    "XRP": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "BCH": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "ADA": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "EOS": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "TRX": {
-      "scale": "",
-      "withdrawal_fee": ""
     },
     "ETH": {
       "scale": "",
       "withdrawal_fee": ""
-    },
-    "LTC": {
-      "scale": "",
-      "withdrawal_fee": ""
-    },
-    "USD": {
-      "scale": "",
-      "withdrawal_fee": ""
     }
-},
+  },
   "public_rate_limits": [
     {
-      "calls": 150,
-      "time_span": 300,
+      "calls": 200,
+      "time_span": 1,
       "time_unit": "seconds"
     }
   ],
   "private_rate_limits": [
     {
-      "calls": 300,
-      "time_span": 300,
+      "calls": 200,
+      "time_span": 1,
       "time_unit": "seconds"
     }
   ],
