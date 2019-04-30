@@ -13,7 +13,6 @@ public class DeribitTrades {
   @JsonProperty("has_more")
   private boolean hasMore;
 
-
   public List<DeribitTrade> getTrades() {
     return trades;
   }
@@ -32,9 +31,6 @@ public class DeribitTrades {
 
   @Override
   public String toString() {
-    return "DeribitTrades{" +
-            "trades=" + trades +
-            ", hasMore=" + hasMore +
-            '}';
+    return "DeribitTrades{" + "trades=" + trades + ", hasMore=" + hasMore + '}';
   }
 }

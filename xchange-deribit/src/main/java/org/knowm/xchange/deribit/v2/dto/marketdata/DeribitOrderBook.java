@@ -241,28 +241,51 @@ public class DeribitOrderBook {
 
   @Override
   public String toString() {
-    return "DeribitOrderBook{" +
-            "timestamp=" + timestamp +
-            ", stats=" + stats +
-            ", state='" + state + '\'' +
-            ", settlementPrice=" + settlementPrice +
-            ", openInterest=" + openInterest +
-            ", minPrice=" + minPrice +
-            ", maxPrice=" + maxPrice +
-            ", markPrice=" + markPrice +
-            ", lastPrice=" + lastPrice +
-            ", instrumentName='" + instrumentName + '\'' +
-            ", indexPrice=" + indexPrice +
-            ", funding8h=" + funding8h +
-            ", greeks=" + greeks +
-            ", currentFunding=" + currentFunding +
-            ", changeId=" + changeId +
-            ", bids=" + bids +
-            ", bestBidPrice=" + bestBidPrice +
-            ", bestBidAmount=" + bestBidAmount +
-            ", bestAskPrice=" + bestAskPrice +
-            ", bestAskAmount=" + bestAskAmount +
-            ", asks=" + asks +
-            '}';
+    return "DeribitOrderBook{"
+        + "timestamp="
+        + timestamp
+        + ", stats="
+        + stats
+        + ", state='"
+        + state
+        + '\''
+        + ", settlementPrice="
+        + settlementPrice
+        + ", openInterest="
+        + openInterest
+        + ", minPrice="
+        + minPrice
+        + ", maxPrice="
+        + maxPrice
+        + ", markPrice="
+        + markPrice
+        + ", lastPrice="
+        + lastPrice
+        + ", instrumentName='"
+        + instrumentName
+        + '\''
+        + ", indexPrice="
+        + indexPrice
+        + ", funding8h="
+        + funding8h
+        + ", greeks="
+        + greeks
+        + ", currentFunding="
+        + currentFunding
+        + ", changeId="
+        + changeId
+        + ", bids="
+        + bids
+        + ", bestBidPrice="
+        + bestBidPrice
+        + ", bestBidAmount="
+        + bestBidAmount
+        + ", bestAskPrice="
+        + bestAskPrice
+        + ", bestAskAmount="
+        + bestAskAmount
+        + ", asks="
+        + asks
+        + '}';
   }
 }

@@ -22,7 +22,6 @@ public class DeribitGreeks {
   @JsonProperty("delta")
   private BigDecimal delta;
 
-
   public BigDecimal getVega() {
     return vega;
   }
@@ -65,12 +64,17 @@ public class DeribitGreeks {
 
   @Override
   public String toString() {
-    return "DeribitGreeks{" +
-            "vega=" + vega +
-            ", theta=" + theta +
-            ", rho=" + rho +
-            ", gamma=" + gamma +
-            ", delta=" + delta +
-            '}';
+    return "DeribitGreeks{"
+        + "vega="
+        + vega
+        + ", theta="
+        + theta
+        + ", rho="
+        + rho
+        + ", gamma="
+        + gamma
+        + ", delta="
+        + delta
+        + '}';
   }
 }

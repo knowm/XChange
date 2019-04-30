@@ -31,11 +31,17 @@ public class DeribitResponse<V> {
   @JsonProperty("usDiff")
   private long usDiff;
 
-  public DeribitResponse() {
-  }
+  public DeribitResponse() {}
 
   public DeribitResponse(
-          String jsonRPC, long id, V result, DeribitError error, boolean testnet, long usIn, long usOut, long usDiff) {
+      String jsonRPC,
+      long id,
+      V result,
+      DeribitError error,
+      boolean testnet,
+      long usIn,
+      long usOut,
+      long usDiff) {
     this.jsonRPC = jsonRPC;
     this.id = id;
     this.result = result;

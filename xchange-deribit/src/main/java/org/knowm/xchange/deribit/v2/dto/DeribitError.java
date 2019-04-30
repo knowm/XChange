@@ -15,7 +15,6 @@ public class DeribitError {
   @JsonProperty("data")
   private Object data;
 
-
   public int getCode() {
     return code;
   }
@@ -42,10 +41,14 @@ public class DeribitError {
 
   @Override
   public String toString() {
-    return "DeribitError{" +
-            "code=" + code +
-            ", message='" + message + '\'' +
-            ", data=" + data +
-            '}';
+    return "DeribitError{"
+        + "code="
+        + code
+        + ", message='"
+        + message
+        + '\''
+        + ", data="
+        + data
+        + '}';
   }
 }

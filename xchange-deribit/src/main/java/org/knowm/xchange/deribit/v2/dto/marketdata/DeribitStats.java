@@ -42,10 +42,6 @@ public class DeribitStats {
 
   @Override
   public String toString() {
-    return "DeribitStats{" +
-            "volume=" + volume +
-            ", low=" + low +
-            ", high=" + high +
-            '}';
+    return "DeribitStats{" + "volume=" + volume + ", low=" + low + ", high=" + high + '}';
   }
 }
