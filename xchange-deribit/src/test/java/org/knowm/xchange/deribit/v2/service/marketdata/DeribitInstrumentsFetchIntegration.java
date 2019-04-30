@@ -1,8 +1,5 @@
 package org.knowm.xchange.deribit.v2.service.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -11,6 +8,10 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeribitInstrumentsFetchIntegration {
 
@@ -30,5 +31,10 @@ public class DeribitInstrumentsFetchIntegration {
         deribitMarketDataService.getDeribitActiveInstruments(Currency.BTC.getCurrencyCode());
 
     assertThat(instruments).isNotEmpty();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getDeribitInstrumentsThrowsIllegalArgumentExceptionTest() throws Exception {
+    deribitMarketDataService.getDeribitActiveInstruments(null);
   }
 }
