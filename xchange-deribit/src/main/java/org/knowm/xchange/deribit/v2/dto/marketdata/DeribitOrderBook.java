@@ -9,149 +9,260 @@ import java.util.List;
 public class DeribitOrderBook {
 
   @JsonProperty("timestamp")
-  public long timestamp;
+  private long timestamp;
 
   @JsonProperty("stats")
-  public DeribitStats stats;
+  private DeribitStats stats;
 
   @JsonProperty("state")
-  public String state;
+  private String state;
 
   @JsonProperty("settlement_price")
-  public BigDecimal settlementPrice;
+  private BigDecimal settlementPrice;
 
   @JsonProperty("open_interest")
-  public BigDecimal openInterest;
+  private BigDecimal openInterest;
 
   @JsonProperty("min_price")
-  public BigDecimal minPrice;
+  private BigDecimal minPrice;
 
   @JsonProperty("max_price")
-  public BigDecimal maxPrice;
+  private BigDecimal maxPrice;
 
   @JsonProperty("mark_price")
-  public BigDecimal markPrice;
+  private BigDecimal markPrice;
 
   @JsonProperty("last_price")
-  public BigDecimal lastPrice;
+  private BigDecimal lastPrice;
 
   @JsonProperty("instrument_name")
-  public String instrumentName;
+  private String instrumentName;
 
   @JsonProperty("index_price")
-  public BigDecimal indexPrice;
+  private BigDecimal indexPrice;
 
   @JsonProperty("funding_8h")
-  public BigDecimal funding8h;
+  private BigDecimal funding8h;
 
   @JsonProperty("greeks")
-  public DeribitGreeks greeks;
+  private DeribitGreeks greeks;
 
   @JsonProperty("current_funding")
-  public BigDecimal currentFunding;
+  private BigDecimal currentFunding;
 
   @JsonProperty("change_id")
-  public long changeId;
+  private long changeId;
 
   @JsonProperty("bids")
-  public List<List<BigDecimal>> bids = null;
+  private List<List<BigDecimal>> bids = null;
 
   @JsonProperty("best_bid_price")
-  public BigDecimal bestBidPrice;
+  private BigDecimal bestBidPrice;
 
   @JsonProperty("best_bid_amount")
-  public BigDecimal bestBidAmount;
+  private BigDecimal bestBidAmount;
 
   @JsonProperty("best_ask_price")
-  public BigDecimal bestAskPrice;
+  private BigDecimal bestAskPrice;
 
   @JsonProperty("best_ask_amount")
-  public BigDecimal bestAskAmount;
+  private BigDecimal bestAskAmount;
 
   @JsonProperty("asks")
-  public List<List<BigDecimal>> asks;
+  private List<List<BigDecimal>> asks;
 
   public long getTimestamp() {
     return timestamp;
+  }
+
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
   }
 
   public DeribitStats getStats() {
     return stats;
   }
 
+  public void setStats(DeribitStats stats) {
+    this.stats = stats;
+  }
+
   public String getState() {
     return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
   }
 
   public BigDecimal getSettlementPrice() {
     return settlementPrice;
   }
 
+  public void setSettlementPrice(BigDecimal settlementPrice) {
+    this.settlementPrice = settlementPrice;
+  }
+
   public BigDecimal getOpenInterest() {
     return openInterest;
+  }
+
+  public void setOpenInterest(BigDecimal openInterest) {
+    this.openInterest = openInterest;
   }
 
   public BigDecimal getMinPrice() {
     return minPrice;
   }
 
+  public void setMinPrice(BigDecimal minPrice) {
+    this.minPrice = minPrice;
+  }
+
   public BigDecimal getMaxPrice() {
     return maxPrice;
+  }
+
+  public void setMaxPrice(BigDecimal maxPrice) {
+    this.maxPrice = maxPrice;
   }
 
   public BigDecimal getMarkPrice() {
     return markPrice;
   }
 
+  public void setMarkPrice(BigDecimal markPrice) {
+    this.markPrice = markPrice;
+  }
+
   public BigDecimal getLastPrice() {
     return lastPrice;
+  }
+
+  public void setLastPrice(BigDecimal lastPrice) {
+    this.lastPrice = lastPrice;
   }
 
   public String getInstrumentName() {
     return instrumentName;
   }
 
+  public void setInstrumentName(String instrumentName) {
+    this.instrumentName = instrumentName;
+  }
+
   public BigDecimal getIndexPrice() {
     return indexPrice;
+  }
+
+  public void setIndexPrice(BigDecimal indexPrice) {
+    this.indexPrice = indexPrice;
   }
 
   public BigDecimal getFunding8h() {
     return funding8h;
   }
 
+  public void setFunding8h(BigDecimal funding8h) {
+    this.funding8h = funding8h;
+  }
+
   public DeribitGreeks getGreeks() {
     return greeks;
+  }
+
+  public void setGreeks(DeribitGreeks greeks) {
+    this.greeks = greeks;
   }
 
   public BigDecimal getCurrentFunding() {
     return currentFunding;
   }
 
+  public void setCurrentFunding(BigDecimal currentFunding) {
+    this.currentFunding = currentFunding;
+  }
+
   public long getChangeId() {
     return changeId;
+  }
+
+  public void setChangeId(long changeId) {
+    this.changeId = changeId;
   }
 
   public List<List<BigDecimal>> getBids() {
     return bids;
   }
 
+  public void setBids(List<List<BigDecimal>> bids) {
+    this.bids = bids;
+  }
+
   public BigDecimal getBestBidPrice() {
     return bestBidPrice;
+  }
+
+  public void setBestBidPrice(BigDecimal bestBidPrice) {
+    this.bestBidPrice = bestBidPrice;
   }
 
   public BigDecimal getBestBidAmount() {
     return bestBidAmount;
   }
 
+  public void setBestBidAmount(BigDecimal bestBidAmount) {
+    this.bestBidAmount = bestBidAmount;
+  }
+
   public BigDecimal getBestAskPrice() {
     return bestAskPrice;
+  }
+
+  public void setBestAskPrice(BigDecimal bestAskPrice) {
+    this.bestAskPrice = bestAskPrice;
   }
 
   public BigDecimal getBestAskAmount() {
     return bestAskAmount;
   }
 
+  public void setBestAskAmount(BigDecimal bestAskAmount) {
+    this.bestAskAmount = bestAskAmount;
+  }
+
   public List<List<BigDecimal>> getAsks() {
     return asks;
+  }
+
+  public void setAsks(List<List<BigDecimal>> asks) {
+    this.asks = asks;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitOrderBook{" +
+            "timestamp=" + timestamp +
+            ", stats=" + stats +
+            ", state='" + state + '\'' +
+            ", settlementPrice=" + settlementPrice +
+            ", openInterest=" + openInterest +
+            ", minPrice=" + minPrice +
+            ", maxPrice=" + maxPrice +
+            ", markPrice=" + markPrice +
+            ", lastPrice=" + lastPrice +
+            ", instrumentName='" + instrumentName + '\'' +
+            ", indexPrice=" + indexPrice +
+            ", funding8h=" + funding8h +
+            ", greeks=" + greeks +
+            ", currentFunding=" + currentFunding +
+            ", changeId=" + changeId +
+            ", bids=" + bids +
+            ", bestBidPrice=" + bestBidPrice +
+            ", bestBidAmount=" + bestBidAmount +
+            ", bestAskPrice=" + bestAskPrice +
+            ", bestAskAmount=" + bestAskAmount +
+            ", asks=" + asks +
+            '}';
   }
 }

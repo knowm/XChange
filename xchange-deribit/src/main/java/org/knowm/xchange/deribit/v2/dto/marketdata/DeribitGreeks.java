@@ -8,37 +8,69 @@ import java.math.BigDecimal;
 public class DeribitGreeks {
 
   @JsonProperty("vega")
-  public BigDecimal vega;
+  private BigDecimal vega;
 
   @JsonProperty("theta")
-  public BigDecimal theta;
+  private BigDecimal theta;
 
   @JsonProperty("rho")
-  public BigDecimal rho;
+  private BigDecimal rho;
 
   @JsonProperty("gamma")
-  public BigDecimal gamma;
+  private BigDecimal gamma;
 
   @JsonProperty("delta")
-  public BigDecimal delta;
+  private BigDecimal delta;
+
 
   public BigDecimal getVega() {
     return vega;
+  }
+
+  public void setVega(BigDecimal vega) {
+    this.vega = vega;
   }
 
   public BigDecimal getTheta() {
     return theta;
   }
 
+  public void setTheta(BigDecimal theta) {
+    this.theta = theta;
+  }
+
   public BigDecimal getRho() {
     return rho;
+  }
+
+  public void setRho(BigDecimal rho) {
+    this.rho = rho;
   }
 
   public BigDecimal getGamma() {
     return gamma;
   }
 
+  public void setGamma(BigDecimal gamma) {
+    this.gamma = gamma;
+  }
+
   public BigDecimal getDelta() {
     return delta;
+  }
+
+  public void setDelta(BigDecimal delta) {
+    this.delta = delta;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitGreeks{" +
+            "vega=" + vega +
+            ", theta=" + theta +
+            ", rho=" + rho +
+            ", gamma=" + gamma +
+            ", delta=" + delta +
+            '}';
   }
 }

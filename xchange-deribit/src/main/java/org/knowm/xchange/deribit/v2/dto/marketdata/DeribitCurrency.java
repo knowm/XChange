@@ -9,65 +9,117 @@ import java.util.List;
 public class DeribitCurrency {
 
   @JsonProperty("coin_type")
-  public String coinType;
+  private String coinType;
 
   @JsonProperty("currency")
-  public String currency;
+  private String currency;
 
   @JsonProperty("currency_long")
-  public String currencyLong;
+  private String currencyLong;
 
   @JsonProperty("disabled_deposit_address_creation")
-  public boolean disabledDepositAddressCreation;
+  private boolean disabledDepositAddressCreation;
 
   @JsonProperty("fee_precision")
-  public int feePrecision;
+  private int feePrecision;
 
   @JsonProperty("min_confirmations")
-  public int minConfirmations;
+  private int minConfirmations;
 
   @JsonProperty("min_withdrawal_fee")
-  public BigDecimal minWithdrawalFee;
+  private BigDecimal minWithdrawalFee;
 
   @JsonProperty("withdrawal_fee")
-  public BigDecimal withdrawalFee;
+  private BigDecimal withdrawalFee;
 
   @JsonProperty("withdrawal_priorities")
-  public List<DeribitWithdrawalPriority> withdrawalPriorities = null;
+  private List<DeribitWithdrawalPriority> withdrawalPriorities = null;
+
 
   public String getCoinType() {
     return coinType;
+  }
+
+  public void setCoinType(String coinType) {
+    this.coinType = coinType;
   }
 
   public String getCurrency() {
     return currency;
   }
 
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
   public String getCurrencyLong() {
     return currencyLong;
+  }
+
+  public void setCurrencyLong(String currencyLong) {
+    this.currencyLong = currencyLong;
   }
 
   public boolean isDisabledDepositAddressCreation() {
     return disabledDepositAddressCreation;
   }
 
+  public void setDisabledDepositAddressCreation(boolean disabledDepositAddressCreation) {
+    this.disabledDepositAddressCreation = disabledDepositAddressCreation;
+  }
+
   public int getFeePrecision() {
     return feePrecision;
+  }
+
+  public void setFeePrecision(int feePrecision) {
+    this.feePrecision = feePrecision;
   }
 
   public int getMinConfirmations() {
     return minConfirmations;
   }
 
+  public void setMinConfirmations(int minConfirmations) {
+    this.minConfirmations = minConfirmations;
+  }
+
   public BigDecimal getMinWithdrawalFee() {
     return minWithdrawalFee;
+  }
+
+  public void setMinWithdrawalFee(BigDecimal minWithdrawalFee) {
+    this.minWithdrawalFee = minWithdrawalFee;
   }
 
   public BigDecimal getWithdrawalFee() {
     return withdrawalFee;
   }
 
+  public void setWithdrawalFee(BigDecimal withdrawalFee) {
+    this.withdrawalFee = withdrawalFee;
+  }
+
   public List<DeribitWithdrawalPriority> getWithdrawalPriorities() {
     return withdrawalPriorities;
+  }
+
+  public void setWithdrawalPriorities(List<DeribitWithdrawalPriority> withdrawalPriorities) {
+    this.withdrawalPriorities = withdrawalPriorities;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitCurrency{" +
+            "coinType='" + coinType + '\'' +
+            ", currency='" + currency + '\'' +
+            ", currencyLong='" + currencyLong + '\'' +
+            ", disabledDepositAddressCreation=" + disabledDepositAddressCreation +
+            ", feePrecision=" + feePrecision +
+            ", minConfirmations=" + minConfirmations +
+            ", minWithdrawalFee=" + minWithdrawalFee +
+            ", withdrawalFee=" + withdrawalFee +
+            ", withdrawalPriorities=" + withdrawalPriorities +
+            '}';
   }
 }

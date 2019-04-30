@@ -8,16 +8,33 @@ import java.math.BigDecimal;
 public class DeribitWithdrawalPriority {
 
   @JsonProperty("value")
-  public BigDecimal value;
+  private BigDecimal value;
 
   @JsonProperty("name")
-  public String name;
+  private String name;
+
 
   public BigDecimal getValue() {
     return value;
   }
 
+  public void setValue(BigDecimal value) {
+    this.value = value;
+  }
+
   public String getName() {
     return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitWithdrawalPriority{" +
+            "value=" + value +
+            ", name='" + name + '\'' +
+            '}';
   }
 }

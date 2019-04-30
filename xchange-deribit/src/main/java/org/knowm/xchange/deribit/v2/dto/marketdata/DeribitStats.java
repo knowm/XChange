@@ -8,23 +8,44 @@ import java.math.BigDecimal;
 public class DeribitStats {
 
   @JsonProperty("volume")
-  public BigDecimal volume;
+  private BigDecimal volume;
 
   @JsonProperty("low")
-  public BigDecimal low;
+  private BigDecimal low;
 
   @JsonProperty("high")
-  public BigDecimal high;
+  private BigDecimal high;
 
   public BigDecimal getVolume() {
     return volume;
+  }
+
+  public void setVolume(BigDecimal volume) {
+    this.volume = volume;
   }
 
   public BigDecimal getLow() {
     return low;
   }
 
+  public void setLow(BigDecimal low) {
+    this.low = low;
+  }
+
   public BigDecimal getHigh() {
     return high;
+  }
+
+  public void setHigh(BigDecimal high) {
+    this.high = high;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitStats{" +
+            "volume=" + volume +
+            ", low=" + low +
+            ", high=" + high +
+            '}';
   }
 }
