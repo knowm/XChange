@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.huobi.HuobiUtils;
+import org.knowm.xchange.huobi.dto.HuobiResult;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.huobi.dto.account.HuobiBalance;
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
@@ -16,7 +17,6 @@ import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiFundingHistoryResult;
-import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
 
 public class HuobiAccountServiceRaw extends HuobiBaseService {
   private HuobiAccount[] accountCache = null;
@@ -93,7 +93,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
   }
 
   public HuobiWithdrawFeeRange getWithdrawFeeRange(String currency) throws IOException {
-    HuobiWithdrawFeeRangeResult result =
+    HuobiResult<HuobiWithdrawFeeRange> result =
         huobi.getWithdrawFeeRange(
             currency.toLowerCase(),
             exchange.getExchangeSpecification().getApiKey(),
