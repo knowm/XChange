@@ -6,7 +6,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.trade.EnigmaRiskLimit;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 public class EnigmaAccountServiceRaw extends EnigmaBaseService {

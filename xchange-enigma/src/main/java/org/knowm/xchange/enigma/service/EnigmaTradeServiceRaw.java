@@ -6,7 +6,6 @@ import org.knowm.xchange.enigma.dto.trade.EnigmaExecuteQuoteRequest;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrder;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {
@@ -15,7 +14,8 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
     super(exchange);
   }
 
-  public EnigmaNewOrder submitOrder(String accessToken, EnigmaNewOrderRequest orderRequest) throws IOException {
+  public EnigmaNewOrder submitOrder(String accessToken, EnigmaNewOrderRequest orderRequest)
+      throws IOException {
     try {
       return this.enigmaAuthenticated.submitOrder(accessToken, orderRequest);
     } catch (HttpStatusIOException httpStatusIOException) {
@@ -32,8 +32,8 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
     }
   }
 
-  public EnigmaExecutedQuote executeQuoteRequest(String accessToken, EnigmaExecuteQuoteRequest quoteRequest)
-      throws IOException {
+  public EnigmaExecutedQuote executeQuoteRequest(
+      String accessToken, EnigmaExecuteQuoteRequest quoteRequest) throws IOException {
     try {
       return this.enigmaAuthenticated.executeQuoteRequest(accessToken, quoteRequest);
     } catch (HttpStatusIOException httpStatusIOException) {
