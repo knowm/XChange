@@ -2,6 +2,7 @@ package org.knowm.xchange.deribit.v2.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 /** V represents result class of the queried endpoint */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -15,9 +16,6 @@ public class DeribitResponse<V> {
 
   @JsonProperty("result")
   private V result;
-
-  @JsonProperty("error")
-  private DeribitError error;
 
   @JsonProperty("testnet")
   private boolean testnet;
@@ -42,10 +40,15 @@ public class DeribitResponse<V> {
       long usIn,
       long usOut,
       long usDiff) {
+
+    /** This will cause parsing the response body as an DeribitException */
+    if(error != null) {
+      throw new ExceptionalReturnContentException("Error occurred");
+    }
+
     this.jsonRPC = jsonRPC;
     this.id = id;
     this.result = result;
-    this.error = error;
     this.testnet = testnet;
     this.usIn = usIn;
     this.usOut = usOut;
@@ -62,10 +65,6 @@ public class DeribitResponse<V> {
 
   public V getResult() {
     return result;
-  }
-
-  public DeribitError getError() {
-    return error;
   }
 
   public boolean isTestnet() {
