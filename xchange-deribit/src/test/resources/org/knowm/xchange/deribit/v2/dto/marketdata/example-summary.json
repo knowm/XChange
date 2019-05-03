@@ -1,0 +1,17 @@
+{
+  "volume": 0.55,
+  "underlying_price": 121.38,
+  "underlying_index": "index_price",
+  "quote_currency": "USD",
+  "open_interest": 0.55,
+  "mid_price": 0.2444,
+  "mark_price": 0.179112,
+  "low": 0.34,
+  "last": 0.34,
+  "instrument_name": "ETH-22FEB19-140-P",
+  "high": 0.34,
+  "creation_timestamp": 1550227952163,
+  "bid_price": 0.1488,
+  "base_currency": "ETH",
+  "ask_price": 0.34
+}
