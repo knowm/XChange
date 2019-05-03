@@ -1,15 +1,15 @@
 package org.knowm.xchange.enigma.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.account.EnigmaLoginRequest;
 import org.knowm.xchange.enigma.dto.account.EnigmaLoginResponse;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
-import org.knowm.xchange.enigma.dto.trade.EnigmaRiskLimit;
-import si.mazi.rescu.HttpStatusIOException;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlResponse;
 
 public class EnigmaAccountServiceRaw extends EnigmaBaseService {
 
@@ -23,37 +23,25 @@ public class EnigmaAccountServiceRaw extends EnigmaBaseService {
     String password = currentSpec.getPassword();
     EnigmaLoginResponse loginResponse = null;
 
-    try {
-      loginResponse = this.enigmaAuthenticated.login(new EnigmaLoginRequest(username, password));
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+    loginResponse = this.enigmaAuthenticated.login(new EnigmaLoginRequest(username, password));
     currentSpec.setApiKey(loginResponse.getKey());
     exchange.applySpecification(currentSpec);
     return loginResponse;
   }
 
-  public EnigmaRiskLimit getRiskLimits() throws IOException {
-    try {
-      return this.enigmaAuthenticated.getAccountRiskLimits(accessToken());
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+  public Map<String, BigDecimal> getRiskLimits() throws IOException {
+    return this.enigmaAuthenticated.getAccountRiskLimits(accessToken());
   }
 
-  public EnigmaBalance getBalance(String infrastructure) throws IOException {
-    try {
-      return this.enigmaAuthenticated.getBalance(accessToken(), infrastructure);
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+  public Map<String, BigDecimal> getBalance(String infrastructure) throws IOException {
+    return this.enigmaAuthenticated.getBalance(accessToken(), infrastructure);
   }
 
   public List<EnigmaProduct> getProducts() throws IOException {
-    try {
-      return this.enigmaAuthenticated.getProducts(accessToken());
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+    return this.enigmaAuthenticated.getProducts(accessToken());
+  }
+
+  public List<EnigmaWithdrawlResponse> getWithdrawls() throws IOException {
+    return this.enigmaAuthenticated.getAllWithdrawals(accessToken());
   }
 }

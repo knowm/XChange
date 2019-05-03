@@ -1,7 +1,9 @@
 package org.knowm.xchange.enigma;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -10,14 +12,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecuteQuoteRequest;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrder;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
-import org.knowm.xchange.enigma.dto.trade.EnigmaRiskLimit;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlResponse;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,7 +38,7 @@ public interface EnigmaAuthenticated extends Enigma {
 
   @GET
   @Path("risk/limit")
-  EnigmaRiskLimit getAccountRiskLimits(@HeaderParam("Authorization") String accessToken)
+  Map<String, BigDecimal> getAccountRiskLimits(@HeaderParam("Authorization") String accessToken)
       throws IOException;
 
   @POST
@@ -62,7 +64,16 @@ public interface EnigmaAuthenticated extends Enigma {
 
   @GET
   @Path("balance/{infra}")
-  EnigmaBalance getBalance(
+  Map<String, BigDecimal> getBalance(
       @HeaderParam("Authorization") String accessToken, @PathParam("infra") String infrastructure)
       throws IOException;
+
+  @GET
+  @Path("withdrawal/list")
+  List<EnigmaWithdrawlResponse> getAllWithdrawals(@HeaderParam("Authorization") String accessToken);
+
+  @POST
+  @Path("withdrawal/new")
+  EnigmaWithdrawlResponse withdrawl(
+      @HeaderParam("Authorization") String accessToken, EnigmaWithdrawlRequest withdrawlRequest);
 }

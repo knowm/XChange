@@ -3,8 +3,9 @@ package org.knowm.xchange.enigma.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.enigma.dto.BaseResponse;
 
-public class EnigmaExecutedQuote {
+public class EnigmaExecutedQuote extends BaseResponse {
 
   private boolean result;
   private String message;
@@ -20,20 +21,20 @@ public class EnigmaExecutedQuote {
   private String infrastructure;
 
   public EnigmaExecutedQuote(
-      @JsonProperty boolean result,
-      @JsonProperty String message,
+      @JsonProperty("code") Integer code,
+      @JsonProperty("message") String message,
+      @JsonProperty("result") Boolean result,
       @JsonProperty("order_id") int orderId,
       @JsonProperty("rfq_client_id") String rfqClientId,
       @JsonProperty("product_id") int productId,
       @JsonProperty("product_name") String productName,
-      @JsonProperty String side,
+      @JsonProperty("side") String side,
       @JsonProperty("created_at") Date createdAt,
-      @JsonProperty BigDecimal quantity,
-      @JsonProperty BigDecimal price,
-      @JsonProperty BigDecimal nominal,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("nominal") BigDecimal nominal,
       @JsonProperty("infra") String infrastructure) {
-    this.result = result;
-    this.message = message;
+    super(code, message, result);
     this.orderId = orderId;
     this.rfqClientId = rfqClientId;
     this.productId = productId;

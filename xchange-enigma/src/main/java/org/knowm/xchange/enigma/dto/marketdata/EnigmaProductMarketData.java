@@ -1,16 +1,17 @@
 package org.knowm.xchange.enigma.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class EnigmaProductMarketData {
   private String productName;
-  private double bid;
-  private double ask;
+  private BigDecimal bid;
+  private BigDecimal ask;
 
   public EnigmaProductMarketData(
       @JsonProperty("product_name") String productName,
-      @JsonProperty double bid,
-      @JsonProperty double ask) {
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask) {
     this.productName = productName;
     this.ask = ask;
     this.bid = bid;
@@ -20,11 +21,11 @@ public class EnigmaProductMarketData {
     return this.productName;
   }
 
-  public double getBid() {
+  public BigDecimal getBid() {
     return this.bid;
   }
 
-  public double getAsk() {
+  public BigDecimal getAsk() {
     return this.ask;
   }
 }

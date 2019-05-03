@@ -6,7 +6,6 @@ import org.knowm.xchange.enigma.dto.trade.EnigmaExecuteQuoteRequest;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrder;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
-import si.mazi.rescu.HttpStatusIOException;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {
 
@@ -15,28 +14,16 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
   }
 
   public EnigmaNewOrder submitOrder(EnigmaNewOrderRequest orderRequest) throws IOException {
-    try {
-      return this.enigmaAuthenticated.submitOrder(accessToken(), orderRequest);
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+    return this.enigmaAuthenticated.submitOrder(accessToken(), orderRequest);
   }
 
   public EnigmaExecutedQuote askForQuote(EnigmaExecuteQuoteRequest quoteRequest)
       throws IOException {
-    try {
-      return this.enigmaAuthenticated.askForQuote(accessToken(), quoteRequest);
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+    return this.enigmaAuthenticated.askForQuote(accessToken(), quoteRequest);
   }
 
   public EnigmaExecutedQuote executeQuoteRequest(EnigmaExecuteQuoteRequest quoteRequest)
       throws IOException {
-    try {
-      return this.enigmaAuthenticated.executeQuoteRequest(accessToken(), quoteRequest);
-    } catch (HttpStatusIOException httpStatusIOException) {
-      throw handleError(httpStatusIOException);
-    }
+    return this.enigmaAuthenticated.executeQuoteRequest(accessToken(), quoteRequest);
   }
 }

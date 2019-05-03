@@ -3,11 +3,10 @@ package org.knowm.xchange.enigma.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.enigma.dto.BaseResponse;
 
-public class EnigmaQuote {
+public class EnigmaQuote extends BaseResponse {
 
-  private boolean result;
-  private String message;
   private String rfqClientId;
   private int productId;
   private String productName;
@@ -19,18 +18,18 @@ public class EnigmaQuote {
   private BigDecimal nominal;
 
   public EnigmaQuote(
-      @JsonProperty boolean result,
-      @JsonProperty String message,
+      @JsonProperty("code") Integer code,
+      @JsonProperty("message") String message,
+      @JsonProperty("result") Boolean result,
       @JsonProperty("rfq_client_id") String rfqClientId,
       @JsonProperty("product_id") int productId,
       @JsonProperty("product_name") String productName,
-      @JsonProperty String side,
+      @JsonProperty("side") String side,
       @JsonProperty("created_at") Date createdAt,
-      @JsonProperty BigDecimal quantity,
-      @JsonProperty BigDecimal price,
-      @JsonProperty BigDecimal nominal) {
-    this.result = result;
-    this.message = message;
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("nominal") BigDecimal nominal) {
+    super(code, message, result);
     this.rfqClientId = rfqClientId;
     this.productId = productId;
     this.productName = productName;

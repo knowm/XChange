@@ -1,19 +1,19 @@
 package org.knowm.xchange.enigma.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.enigma.dto.BaseResponse;
 
-public class EnigmaLoginResponse {
+public class EnigmaLoginResponse extends BaseResponse {
 
-  private boolean result;
   private String key;
 
-  public EnigmaLoginResponse(@JsonProperty boolean result, @JsonProperty String key) {
-    this.result = result;
+  public EnigmaLoginResponse(
+      @JsonProperty("code") Integer code,
+      @JsonProperty("message") String message,
+      @JsonProperty("result") Boolean result,
+      @JsonProperty("key") String key) {
+    super(code, message, result);
     this.key = key;
-  }
-
-  public boolean getResult() {
-    return this.result;
   }
 
   public String getKey() {
