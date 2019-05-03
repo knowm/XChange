@@ -421,6 +421,11 @@
 			<artifactId>xchange-lgo</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-deribit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>
