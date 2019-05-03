@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.huobi.HuobiUtils;
+import org.knowm.xchange.huobi.dto.HuobiResult;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.huobi.dto.account.HuobiBalance;
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
 import org.knowm.xchange.huobi.dto.account.HuobiDepositAddressWithTag;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
+import org.knowm.xchange.huobi.dto.account.HuobiWithdrawFeeRange;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
@@ -88,6 +90,18 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
             HuobiUtils.createUTCDate(exchange.getNonceFactory()),
             signatureCreator);
     return checkResult(fundingHistoryResult);
+  }
+
+  public HuobiWithdrawFeeRange getWithdrawFeeRange(String currency) throws IOException {
+    HuobiResult<HuobiWithdrawFeeRange> result =
+        huobi.getWithdrawFeeRange(
+            currency.toLowerCase(),
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
   }
 
   public long createWithdraw(
