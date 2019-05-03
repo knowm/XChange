@@ -3,6 +3,7 @@ package org.knowm.xchange.enigma.dto.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnigmaLoginResponse {
+
   private boolean result;
   private String key;
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class EnigmaQuoteRequest {
+
   @JsonProperty("product_id")
   private int productId;
 

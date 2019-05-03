@@ -14,28 +14,27 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
     super(exchange);
   }
 
-  public EnigmaNewOrder submitOrder(String accessToken, EnigmaNewOrderRequest orderRequest)
-      throws IOException {
+  public EnigmaNewOrder submitOrder(EnigmaNewOrderRequest orderRequest) throws IOException {
     try {
-      return this.enigmaAuthenticated.submitOrder(accessToken, orderRequest);
+      return this.enigmaAuthenticated.submitOrder(accessToken(), orderRequest);
     } catch (HttpStatusIOException httpStatusIOException) {
       throw handleError(httpStatusIOException);
     }
   }
 
-  public EnigmaExecutedQuote askForQuote(String accessToken, EnigmaExecuteQuoteRequest quoteRequest)
+  public EnigmaExecutedQuote askForQuote(EnigmaExecuteQuoteRequest quoteRequest)
       throws IOException {
     try {
-      return this.enigmaAuthenticated.askForQuote(accessToken, quoteRequest);
+      return this.enigmaAuthenticated.askForQuote(accessToken(), quoteRequest);
     } catch (HttpStatusIOException httpStatusIOException) {
       throw handleError(httpStatusIOException);
     }
   }
 
-  public EnigmaExecutedQuote executeQuoteRequest(
-      String accessToken, EnigmaExecuteQuoteRequest quoteRequest) throws IOException {
+  public EnigmaExecutedQuote executeQuoteRequest(EnigmaExecuteQuoteRequest quoteRequest)
+      throws IOException {
     try {
-      return this.enigmaAuthenticated.executeQuoteRequest(accessToken, quoteRequest);
+      return this.enigmaAuthenticated.executeQuoteRequest(accessToken(), quoteRequest);
     } catch (HttpStatusIOException httpStatusIOException) {
       throw handleError(httpStatusIOException);
     }

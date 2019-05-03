@@ -12,6 +12,7 @@ public final class EnigmaNewOrderRequest {
   private int sideId;
 
   @JsonProperty private BigDecimal quantity;
+
   @JsonProperty private BigDecimal nominal;
 
   @JsonProperty("infra")

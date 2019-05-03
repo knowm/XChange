@@ -13,7 +13,6 @@ public abstract class EnigmaBaseService extends BaseExchangeService implements B
 
   protected final EnigmaAuthenticated enigmaAuthenticated;
   protected final SynchronizedValueFactory<Long> nonceFactory;
-  protected String accessToken;
 
   /**
    * Constructor
@@ -28,6 +27,10 @@ public abstract class EnigmaBaseService extends BaseExchangeService implements B
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
     this.nonceFactory = exchange.getNonceFactory();
+  }
+
+  protected String accessToken() {
+    return exchange.getExchangeSpecification().getApiKey();
   }
 
   protected RuntimeException handleError(HttpStatusIOException httpStatusIOException) {
