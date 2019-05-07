@@ -40,8 +40,7 @@ public class DSXDepthDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    DSXMarketDataService marketDataService =
-        (DSXMarketDataService) exchange.getMarketDataService();
+    DSXMarketDataService marketDataService = (DSXMarketDataService) exchange.getMarketDataService();
 
     Map<String, DSXOrderbook> depth =
         marketDataService.getDSXOrderbook("ltcusd", "LIVE").getOrderbookMap();

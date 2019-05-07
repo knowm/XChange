@@ -54,7 +54,7 @@ public class BatchStatus {
     clientOrderIdTooLong, // the client id is longer than the permissible limit
     maxPositionViolation, // not documented
     outsidePriceCollar, // the limit order crosses the spread but is an order of magnitude away from
-                        // the mark price - fat finger control
+    // the mark price - fat finger control
     postWouldExecute, // the post-only order would be filled upon placement, thus is cancelled
     iocWouldNotExecute, // the immediate-or-cancel order would not call
 
