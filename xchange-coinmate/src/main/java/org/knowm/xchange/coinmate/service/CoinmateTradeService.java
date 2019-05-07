@@ -86,7 +86,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     CoinmateTradeResponse response;
     boolean hidden = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.HIDDEN);
-    boolean immediateOrCancel = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
+    boolean immediateOrCancel =
+        limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
       response =
@@ -117,7 +118,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   public String placeStopOrder(StopOrder stopOrder) throws IOException {
     CoinmateTradeResponse response;
     boolean hidden = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.HIDDEN);
-    boolean immediateOrCancel = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
+    boolean immediateOrCancel =
+        stopOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
 
     if (stopOrder.getType().equals(Order.OrderType.ASK)) {
       response =
