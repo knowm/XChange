@@ -38,7 +38,7 @@
         <version.junit>4.12</version.junit>
         <version.lombok>1.18.8</version.lombok>
         <version.knowm.xchart>3.5.4</version.knowm.xchart>
-        <version.powermock>2.0.0</version.powermock>
+        <version.powermock>2.0.2</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.8.0-beta4</version.slf4j>
