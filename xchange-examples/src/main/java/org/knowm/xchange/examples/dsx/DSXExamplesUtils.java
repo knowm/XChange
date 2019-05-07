@@ -4,12 +4,12 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dsx.DSXExchange;
 
 /** @author Mikhail Wall */
 public class DSXExamplesUtils {
 
-  public static Exchange createExchange(Class<? extends Exchange> exchangeClass) throws IOException {
+  public static Exchange createExchange(Class<? extends Exchange> exchangeClass)
+      throws IOException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(exchangeClass);
     exSpec.setSecretKey("6FY66EC0YJ7YL4OHAC1X5ZEYAUUFRJBFI21I9S7A5PW7");
