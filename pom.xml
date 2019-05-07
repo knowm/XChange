@@ -36,7 +36,7 @@
         <version.fasterxml>2.9.8</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
-        <version.lombok>1.18.6</version.lombok>
+        <version.lombok>1.18.8</version.lombok>
         <version.knowm.xchart>3.5.4</version.knowm.xchart>
         <version.powermock>2.0.0</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
