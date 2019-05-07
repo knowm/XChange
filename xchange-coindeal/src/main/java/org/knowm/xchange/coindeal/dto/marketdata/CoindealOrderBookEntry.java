@@ -12,8 +12,7 @@ public class CoindealOrderBookEntry {
   private final BigDecimal amount;
 
   public CoindealOrderBookEntry(
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount) {
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
     this.price = price;
     this.amount = amount;
   }

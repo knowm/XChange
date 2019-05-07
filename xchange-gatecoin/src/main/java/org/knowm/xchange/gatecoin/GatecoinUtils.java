@@ -8,7 +8,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 /** A central place for shared Gatecoin properties */
 public final class GatecoinUtils {
 
-  private static final FastDateFormat DATE_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
+  private static final FastDateFormat DATE_FORMAT =
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
 
   /** private Constructor */
   private GatecoinUtils() {}
