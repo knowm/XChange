@@ -11,12 +11,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -77,26 +72,26 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public UserTrades getTradeHistory(TradeHistoryParams params)
       throws ExchangeException, IOException {
 
-    final Long startTime;
-    final Long endTime;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-      startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
-      endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
-    } else {
-      startTime = null;
-      endTime = null;
-    }
+      final Long startTime;
+      final Long endTime;
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+        startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
+        endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
+      } else {
+        startTime = null;
+        endTime = null;
+      }
 
-    final Long offset;
-    if (params instanceof TradeHistoryParamOffset) {
-      offset = ((TradeHistoryParamOffset) params).getOffset();
-    } else {
-      offset = null;
-    }
+      final Long offset;
+      if (params instanceof TradeHistoryParamOffset) {
+        offset = ((TradeHistoryParamOffset) params).getOffset();
+      } else {
+        offset = null;
+      }
 
-    return KrakenAdapters.adaptTradesHistory(
-        getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
+      return KrakenAdapters.adaptTradesHistory(
+              getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
   }
 
   @Override

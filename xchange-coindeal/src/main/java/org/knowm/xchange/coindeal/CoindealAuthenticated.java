@@ -2,25 +2,44 @@ package org.knowm.xchange.coindeal;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
+import org.knowm.xchange.coindeal.dto.account.CoindealBalance;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
 import si.mazi.rescu.ParamsDigest;
 
-@Path("api/v1/")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-public interface CoindealAuthenticated {
+import java.io.IOException;
+import java.util.List;
+
+@Path("api/")
+@Produces(MediaType.APPLICATION_JSON)
+public interface CoindealAuthenticated extends Coindeal{
 
   String HEADER_AUTH = "authorization";
 
   @GET
-  @Path("history/trades")
-  CoindealTradeHistory[] getTradeHistory(
+  @Path("v1/trading/balance")
+  List<CoindealBalance> getBalances(
+          @HeaderParam(HEADER_AUTH) ParamsDigest credentials
+  ) throws IOException;
+
+
+  @GET
+  @Path("v2/history/trades")
+  List<CoindealTradeHistory> getTradeHistory(
       @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
       @QueryParam("symbol") String currencyPair,
-      @QueryParam("limit") int limit);
+      @QueryParam("limit") int limit) throws IOException;
+
+  @GET
+  @Path("v1/order")
+  List<CoindealOrder> getActiveOrders(
+          @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
+          @QueryParam("symbol") String currencyPair
+  )throws IOException;
 
   @POST
-  @Path("order")
+  @Path("v1/order")
   CoindealOrder placeOrder(
       @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
       @FormParam("symbol") String symbol,
@@ -28,16 +47,17 @@ public interface CoindealAuthenticated {
       @FormParam("type") String type,
       @FormParam("timeInForce") String timeInForce,
       @FormParam("quantity") double quantity,
-      @FormParam("price") double price);
+      @FormParam("price") double price) throws IOException;
 
   @DELETE
-  @Path("order")
-  CoindealOrder[] deleteOrders(
-      @HeaderParam(HEADER_AUTH) ParamsDigest credentials, @FormParam("symbol") String symbol);
+  @Path("v1/order")
+  List<CoindealOrder> deleteOrders(
+      @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
+      @FormParam("symbol") String symbol) throws IOException;
 
   @DELETE
-  @Path("order/{clientOrderId}")
+  @Path("v1/order/{clientOrderId}")
   CoindealOrder deleteOrderById(
       @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
-      @PathParam("clientOrderId") String cliendOrderId);
+      @PathParam("clientOrderId") String cliendOrderId) throws IOException;
 }
