@@ -1,11 +1,18 @@
 package org.knowm.xchange.coindeal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coindeal.service.CoindealAccountService;
 import org.knowm.xchange.coindeal.service.CoindealMarketDataService;
+import org.knowm.xchange.coindeal.service.CoindealTradeService;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 public class CoindealExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -13,8 +20,8 @@ public class CoindealExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new CoindealMarketDataService(this);
-    this.accountService = accountService;
-    this.tradeService = tradeService;
+    this.accountService = new CoindealAccountService(this);
+    this.tradeService = new CoindealTradeService(this);
   }
 
   @Override
@@ -30,7 +37,13 @@ public class CoindealExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("www.coindeal.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Coindeal");
-    exchangeSpecification.setExchangeDescription("Coindeal is a exchange based in Cyprus.");
+    exchangeSpecification.setExchangeDescription("Coindeal is a exchange based in Malta.");
     return exchangeSpecification;
+  }
+
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    super.remoteInit();
+
   }
 }

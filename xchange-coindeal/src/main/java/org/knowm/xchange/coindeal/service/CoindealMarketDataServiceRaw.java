@@ -24,7 +24,7 @@ public class CoindealMarketDataServiceRaw extends BaseExchangeService {
 
   public CoindealOrderBook getCoindealOrderbook(CurrencyPair currencyPair) throws IOException {
     try {
-      return coindeal.getOrderBook(CoindealAdapters.currencyPairToString(currencyPair));
+      return coindeal.getOrderBook(CoindealAdapters.adaptCurrencyPairToString(currencyPair));
     } catch (CoindealException e) {
       throw new ExchangeException(e.getMessage());
     }
