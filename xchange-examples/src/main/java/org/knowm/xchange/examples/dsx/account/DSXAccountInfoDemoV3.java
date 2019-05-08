@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.dsx.account;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.DSXExchangeV3;
@@ -8,9 +10,6 @@ import org.knowm.xchange.dsx.service.DSXAccountService;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /** @author Pavel Chertalev */
 public class DSXAccountInfoDemoV3 {

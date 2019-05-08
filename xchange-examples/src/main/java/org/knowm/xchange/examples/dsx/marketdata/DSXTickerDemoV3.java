@@ -1,5 +1,6 @@
 package org.knowm.xchange.examples.dsx.marketdata;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -9,8 +10,6 @@ import org.knowm.xchange.dsx.service.DSXMarketDataServiceV3;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
-
-import java.io.IOException;
 
 /** @author Mikhail Wall */
 public class DSXTickerDemoV3 {

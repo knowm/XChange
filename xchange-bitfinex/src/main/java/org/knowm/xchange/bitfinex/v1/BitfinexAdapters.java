@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -58,6 +59,8 @@ import org.slf4j.LoggerFactory;
 public final class BitfinexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
+
+  private static final AtomicBoolean warnedStopLimit = new AtomicBoolean();
 
   private BitfinexAdapters() {}
 
@@ -423,41 +426,68 @@ public final class BitfinexAdapters {
           Arrays.stream(BitfinexOrderType.values())
               .filter(v -> v.getValue().equals(order.getType()))
               .findFirst();
-      switch (bitfinexOrderType.orElse(null)) {
-        case FILL_OR_KILL:
-          limitOrder = limitOrderCreator.get();
-          limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
-          break;
-        case MARGIN_FILL_OR_KILL:
-          limitOrder = limitOrderCreator.get();
-          limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
-          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
-          break;
-        case MARGIN_LIMIT:
-          limitOrder = limitOrderCreator.get();
-          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
-          break;
-        case MARGIN_STOP:
-          stopOrder = stopOrderCreator.get();
-          stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
-          stopOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
-          break;
-        case MARGIN_TRAILING_STOP:
-          limitOrder = limitOrderCreator.get();
-          limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
-          limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
-          break;
-        case STOP:
-          stopOrder = stopOrderCreator.get();
-          stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
-          break;
-        case TRAILING_STOP:
-          limitOrder = limitOrderCreator.get();
-          limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
-          break;
-        default:
-          limitOrder = limitOrderCreator.get();
-          break;
+
+      if (bitfinexOrderType.isPresent()) {
+        switch (bitfinexOrderType.get()) {
+          case FILL_OR_KILL:
+            limitOrder = limitOrderCreator.get();
+            limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
+            break;
+          case MARGIN_FILL_OR_KILL:
+            limitOrder = limitOrderCreator.get();
+            limitOrder.addOrderFlag(BitfinexOrderFlags.FILL_OR_KILL);
+            limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+            break;
+          case MARGIN_LIMIT:
+            limitOrder = limitOrderCreator.get();
+            limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+            break;
+          case MARGIN_STOP:
+            stopOrder = stopOrderCreator.get();
+            stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+            stopOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+            break;
+          case MARGIN_STOP_LIMIT:
+            stopLimitWarning();
+            stopOrder = stopOrderCreator.get();
+            stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+            stopOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+            break;
+          case MARGIN_TRAILING_STOP:
+            limitOrder = limitOrderCreator.get();
+            limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
+            limitOrder.addOrderFlag(BitfinexOrderFlags.MARGIN);
+            break;
+          case STOP:
+            stopOrder = stopOrderCreator.get();
+            stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+            break;
+          case STOP_LIMIT:
+            stopLimitWarning();
+            stopOrder = stopOrderCreator.get();
+            stopOrder.addOrderFlag(BitfinexOrderFlags.STOP);
+            break;
+          case TRAILING_STOP:
+            limitOrder = limitOrderCreator.get();
+            limitOrder.addOrderFlag(BitfinexOrderFlags.TRAILING_STOP);
+            break;
+          case LIMIT:
+            limitOrder = limitOrderCreator.get();
+            break;
+          case MARGIN_MARKET:
+          case MARKET:
+            log.warn("Unexpected market order on book. Defaulting to limit order");
+            limitOrder = limitOrderCreator.get();
+            break;
+          default:
+            log.warn(
+                "Unhandled Bitfinex order type [{}]. Defaulting to limit order", order.getType());
+            limitOrder = limitOrderCreator.get();
+            break;
+        }
+      } else {
+        log.warn("Unknown Bitfinex order type [{}]. Defaulting to limit order", order.getType());
+        limitOrder = limitOrderCreator.get();
       }
 
       if (limitOrder != null) {
@@ -468,6 +498,15 @@ public final class BitfinexAdapters {
     }
 
     return new OpenOrders(limitOrders, hiddenOrders);
+  }
+
+  private static void stopLimitWarning() {
+    if (warnedStopLimit.compareAndSet(false, true)) {
+      log.warn(
+          "Found a stop-limit order. Bitfinex v1 API does not return limit prices for stop-limit "
+              + "orders so these are returned as stop-at-market orders. This warning will only appear "
+              + "once.");
+    }
   }
 
   public static UserTrades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
@@ -543,9 +582,9 @@ public final class BitfinexAdapters {
    * Flipped order of arguments to avoid type-erasure clash with {@link #adaptMetaData(List,
    * ExchangeMetaData)}
    *
-   * @param exchangeMetaData
-   * @param symbolDetails
-   * @return
+   * @param exchangeMetaData The exchange metadata provided from bitfinex.json.
+   * @param symbolDetails The symbol data fetced from Bitfinex.
+   * @return The combined result.
    */
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData,
@@ -699,8 +738,8 @@ public final class BitfinexAdapters {
     /**
      * Constructor
      *
-     * @param timestamp
-     * @param limitOrders
+     * @param timestamp The timestamp for the data fetched.
+     * @param limitOrders The orders.
      */
     public OrdersContainer(long timestamp, List<LimitOrder> limitOrders) {
 

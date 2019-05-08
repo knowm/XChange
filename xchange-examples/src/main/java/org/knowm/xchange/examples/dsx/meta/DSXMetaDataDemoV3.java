@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.dsx.meta;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXExchangeV3;
@@ -10,9 +12,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /** @author Mikhail Wall */
 public class DSXMetaDataDemoV3 {

@@ -32,8 +32,7 @@ public class DSXTradesDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    DSXMarketDataService marketDataService =
-        (DSXMarketDataService) exchange.getMarketDataService();
+    DSXMarketDataService marketDataService = (DSXMarketDataService) exchange.getMarketDataService();
 
     Map<String, DSXTrade[]> trades =
         marketDataService.getDSXTrades("btcusd", 7, "LIVE").getTradesMap();
