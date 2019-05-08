@@ -1,9 +1,6 @@
 package org.knowm.xchange.coindeal;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;

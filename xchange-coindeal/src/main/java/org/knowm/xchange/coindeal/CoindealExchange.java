@@ -1,13 +1,11 @@
 package org.knowm.xchange.coindeal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coindeal.service.CoindealAccountService;
 import org.knowm.xchange.coindeal.service.CoindealMarketDataService;
 import org.knowm.xchange.coindeal.service.CoindealTradeService;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
