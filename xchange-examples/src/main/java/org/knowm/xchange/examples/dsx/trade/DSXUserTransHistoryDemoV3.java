@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.dsx.trade;
 
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dsx.DSXExchangeV3;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
@@ -8,9 +10,6 @@ import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.service.DSXTradeServiceV3;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.util.Map;
 
 /** @author Mikhail Wall */
 public class DSXUserTransHistoryDemoV3 {

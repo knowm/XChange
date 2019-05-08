@@ -1,0 +1,16 @@
+Deribit Exchange API specification
+================================
+
+Documentation
+-------------
+https://docs.deribit.com/v2/#deribit-api-v2-0-0
+
+
+API paths
+-------------
+/api/v2/public
+/api/v2/private
+
+
+Authentication
+-------------

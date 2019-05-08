@@ -39,8 +39,7 @@ public class DSXTickerDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    DSXMarketDataService marketDataService =
-        (DSXMarketDataService) exchange.getMarketDataService();
+    DSXMarketDataService marketDataService = (DSXMarketDataService) exchange.getMarketDataService();
 
     DSXTickerWrapper ticker = marketDataService.getDSXTicker("btcusd", "LIVE");
     System.out.println(ticker.toString());

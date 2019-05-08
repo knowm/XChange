@@ -30,9 +30,9 @@ public class LivecoinOrdersDeserializer extends JsonDeserializer<List<LivecoinOr
       if (!order.isArray() || order.size() < 2) {
         throw new JsonParseException(order.traverse(), "Expected array of at least two elements");
       }
-      BigDecimal quantity = toBigDecimal(order.get(0));
-      BigDecimal rate = toBigDecimal(order.get(1));
-      result.add(new LivecoinOrder(quantity, rate));
+      BigDecimal rate = toBigDecimal(order.get(0));
+      BigDecimal quantity = toBigDecimal(order.get(1));
+      result.add(new LivecoinOrder(rate, quantity));
     }
     return result;
   }
