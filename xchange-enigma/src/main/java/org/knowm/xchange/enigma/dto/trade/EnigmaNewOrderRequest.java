@@ -1,9 +1,8 @@
 package org.knowm.xchange.enigma.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public final class EnigmaNewOrderRequest {
@@ -25,8 +24,8 @@ public final class EnigmaNewOrderRequest {
   @JsonProperty("infra")
   private String infrastructure;
 
-  public EnigmaNewOrderRequest(int productId, int sideId, BigDecimal quantity, BigDecimal nominal,
-      String infrastructure) {
+  public EnigmaNewOrderRequest(
+      int productId, int sideId, BigDecimal quantity, BigDecimal nominal, String infrastructure) {
     this.productId = productId;
     this.sideId = sideId;
     this.quantity = quantity;

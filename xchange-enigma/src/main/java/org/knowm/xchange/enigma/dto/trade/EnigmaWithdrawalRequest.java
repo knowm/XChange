@@ -3,23 +3,23 @@ package org.knowm.xchange.enigma.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-public class EnigmaWithdrawlRequest {
+public class EnigmaWithdrawalRequest {
 
   @JsonProperty("withdrawal_type_id")
-  private int withdrawlTypeId;
+  private int withdrawalTypeId;
 
   @JsonProperty private BigDecimal amount;
 
   @JsonProperty private String currency;
 
-  public EnigmaWithdrawlRequest(int withdrawlTypeId, BigDecimal amount, String currency) {
-    this.withdrawlTypeId = withdrawlTypeId;
+  public EnigmaWithdrawalRequest(int withdrawalTypeId, BigDecimal amount, String currency) {
+    this.withdrawalTypeId = withdrawalTypeId;
     this.amount = amount;
     this.currency = currency;
   }
 
-  public int getWithdrawlTypeId() {
-    return this.withdrawlTypeId;
+  public int getWithdrawalTypeId() {
+    return this.withdrawalTypeId;
   }
 
   public BigDecimal getAmount() {

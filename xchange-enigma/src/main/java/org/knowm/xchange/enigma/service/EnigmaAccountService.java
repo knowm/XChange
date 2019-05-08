@@ -7,11 +7,6 @@ import org.knowm.xchange.service.account.AccountService;
 
 public class EnigmaAccountService extends EnigmaAccountServiceRaw implements AccountService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public EnigmaAccountService(Exchange exchange) {
     super(exchange);
   }

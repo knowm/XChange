@@ -18,8 +18,8 @@ import org.knowm.xchange.enigma.dto.trade.EnigmaExecuteQuoteRequest;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrder;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
-import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlRequest;
-import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlResponse;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalResponse;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -70,10 +70,11 @@ public interface EnigmaAuthenticated extends Enigma {
 
   @GET
   @Path("withdrawal/list")
-  List<EnigmaWithdrawlResponse> getAllWithdrawals(@HeaderParam("Authorization") String accessToken);
+  List<EnigmaWithdrawalResponse> getAllWithdrawals(
+      @HeaderParam("Authorization") String accessToken);
 
   @POST
   @Path("withdrawal/new")
-  EnigmaWithdrawlResponse withdrawl(
-      @HeaderParam("Authorization") String accessToken, EnigmaWithdrawlRequest withdrawlRequest);
+  EnigmaWithdrawalResponse withdrawal(
+      @HeaderParam("Authorization") String accessToken, EnigmaWithdrawalRequest withdrawalRequest);
 }

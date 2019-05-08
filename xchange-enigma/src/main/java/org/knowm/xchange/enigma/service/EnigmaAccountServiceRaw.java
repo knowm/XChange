@@ -9,7 +9,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.enigma.dto.account.EnigmaLoginRequest;
 import org.knowm.xchange.enigma.dto.account.EnigmaLoginResponse;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
-import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlResponse;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalRequest;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalResponse;
 
 public class EnigmaAccountServiceRaw extends EnigmaBaseService {
 
@@ -41,7 +42,12 @@ public class EnigmaAccountServiceRaw extends EnigmaBaseService {
     return this.enigmaAuthenticated.getProducts(accessToken());
   }
 
-  public List<EnigmaWithdrawlResponse> getWithdrawls() throws IOException {
+  public List<EnigmaWithdrawalResponse> getWithdrawals() throws IOException {
     return this.enigmaAuthenticated.getAllWithdrawals(accessToken());
+  }
+
+  public EnigmaWithdrawalResponse withdrawal(EnigmaWithdrawalRequest withdrawalRequest)
+      throws IOException {
+    return this.enigmaAuthenticated.withdrawal(accessToken(), withdrawalRequest);
   }
 }

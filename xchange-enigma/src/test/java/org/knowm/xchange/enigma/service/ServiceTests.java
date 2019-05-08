@@ -13,15 +13,14 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrder;
 import org.knowm.xchange.enigma.dto.trade.EnigmaNewOrderRequest;
-import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawlResponse;
+import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalResponse;
 import org.knowm.xchange.enigma.model.Infrastructure;
 import org.knowm.xchange.enigma.model.Side;
 
 public class ServiceTests {
 
-
-  private final static String username = null /* set value to test */ ;
-  private final static String password = null /* set value to test */ ;
+  private static final String username = null /* set value to test */;
+  private static final String password = null /* set value to test */;
   private EnigmaExchange enigmaExchange;
   private EnigmaAccountService accountService;
   private EnigmaMarketDataService marketDataService;
@@ -75,10 +74,10 @@ public class ServiceTests {
 
   @Ignore()
   @Test
-  public void getAllWithdrawls() throws IOException {
-    List<EnigmaWithdrawlResponse> withdrawlResponses = accountService.getWithdrawls();
-    for (EnigmaWithdrawlResponse withdrawlResponse : withdrawlResponses) {
-      System.out.println("key: " + withdrawlResponse.getCode());
+  public void getAllWithdrawals() throws IOException {
+    List<EnigmaWithdrawalResponse> withdrawalResponses = accountService.getWithdrawals();
+    for (EnigmaWithdrawalResponse withdrawalResponse : withdrawalResponses) {
+      System.out.println("key: " + withdrawalResponse.getCode());
     }
   }
 
@@ -91,8 +90,13 @@ public class ServiceTests {
 
   @Test
   public void submitOrder() throws IOException {
-    EnigmaNewOrder newOrder = tradeService.submitOrder(
-        new EnigmaNewOrderRequest(5, Side.BUY.getValue(), null, BigDecimal.valueOf(100.00), Infrastructure.DEVELOPMENT.getValue()));
+    EnigmaNewOrder newOrder =
+        tradeService.submitOrder(
+            new EnigmaNewOrderRequest(
+                5,
+                Side.BUY.getValue(),
+                null,
+                BigDecimal.valueOf(100.00),
+                Infrastructure.DEVELOPMENT.getValue()));
   }
-
 }

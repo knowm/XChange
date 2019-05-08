@@ -29,12 +29,12 @@ public class EnigmaExchange extends BaseExchange {
     exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("Enigma");
     exchangeSpecification.setExchangeDescription("Enigma is a Bitcoin exchange");
+    exchangeSpecification.setShouldLoadRemoteMetaData(false);
     return exchangeSpecification;
   }
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
     return nonceFactory;
   }
 }

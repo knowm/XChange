@@ -1,12 +1,12 @@
 package org.knowm.xchange.enigma.model;
 
-public enum Withdrawl {
+public enum Withdrawal {
   CRYPTO_SETTLEMENT(1),
   CASH(2);
 
   private int value;
 
-  private Withdrawl(int value) {
+  private Withdrawal(int value) {
     this.value = value;
   }
 

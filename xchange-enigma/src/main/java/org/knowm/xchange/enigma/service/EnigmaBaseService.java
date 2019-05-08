@@ -12,11 +12,6 @@ public abstract class EnigmaBaseService extends BaseExchangeService implements B
   protected final EnigmaAuthenticated enigmaAuthenticated;
   protected final SynchronizedValueFactory<Long> nonceFactory;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   protected EnigmaBaseService(Exchange exchange) {
     super(exchange);
     this.enigmaAuthenticated =
