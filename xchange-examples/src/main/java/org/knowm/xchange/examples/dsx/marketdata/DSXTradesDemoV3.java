@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.dsx.marketdata;
 
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -8,9 +10,6 @@ import org.knowm.xchange.dsx.dto.marketdata.DSXTrade;
 import org.knowm.xchange.dsx.service.DSXMarketDataServiceV3;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.util.Map;
 
 /** @author Mikhail Wall */
 public class DSXTradesDemoV3 {

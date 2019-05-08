@@ -13,18 +13,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.itbit.dto.ItBitException;
 import org.knowm.xchange.itbit.dto.ItBitFundingHistoryResponse;
-import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
-import org.knowm.xchange.itbit.dto.trade.ItBitPlaceOrderRequest;
-import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.dto.account.ItBitAccountInfoReturn;
 import org.knowm.xchange.itbit.dto.account.ItBitDepositRequest;
 import org.knowm.xchange.itbit.dto.account.ItBitDepositResponse;
 import org.knowm.xchange.itbit.dto.account.ItBitWithdrawalRequest;
 import org.knowm.xchange.itbit.dto.account.ItBitWithdrawalResponse;
 import org.knowm.xchange.itbit.dto.marketdata.ItBitTicker;
+import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.dto.trade.ItBitPlaceOrderRequest;
+import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
