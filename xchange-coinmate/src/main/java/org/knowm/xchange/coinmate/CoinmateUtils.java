@@ -42,6 +42,6 @@ public class CoinmateUtils {
   }
 
   public static CurrencyPair getPair(String currencyPair) {
-    return new CurrencyPair(currencyPair.replace("_","/"));
+    return new CurrencyPair(currencyPair.replace("_", "/"));
   }
 }

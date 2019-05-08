@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
@@ -36,6 +37,15 @@ public interface SymbolAPI {
   @GET
   @Path("/market/orderbook/level1")
   KucoinResponse<TickerResponse> getTicker(@QueryParam("symbol") String symbol) throws IOException;
+
+  /**
+   * Request market tickers for all the trading pairs in the market (including 24h volume).
+   *
+   * @return The allTickersTickerResponse.
+   */
+  @GET
+  @Path("/market/allTickers")
+  KucoinResponse<AllTickersResponse> getTickers() throws IOException;
 
   /**
    * Get 24 hr stats for the symbol. volume is in base currency units. open, high, low are in quote

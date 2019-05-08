@@ -35,12 +35,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.itbit.dto.ItBitFunding;
 import org.knowm.xchange.itbit.dto.account.ItBitAccountBalance;
 import org.knowm.xchange.itbit.dto.account.ItBitAccountInfoReturn;
-import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
-import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
-import org.knowm.xchange.itbit.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.itbit.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.dto.marketdata.ItBitTrade;
 import org.knowm.xchange.itbit.dto.marketdata.ItBitTrades;
+import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
+import org.knowm.xchange.itbit.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 public final class ItBitAdapters {
