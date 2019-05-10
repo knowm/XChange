@@ -23,7 +23,11 @@ public class CurrencyPairMetaData implements Serializable {
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
 
-  /** Decimal places in price */
+  /** Decimal places for base amount */
+  @JsonProperty("base_scale")
+  private final Integer baseScale;
+
+  /** Decimal places for counter amount */
   @JsonProperty("price_scale")
   private final Integer priceScale;
 
@@ -45,7 +49,7 @@ public class CurrencyPairMetaData implements Serializable {
       BigDecimal maximumAmount,
       Integer priceScale,
       FeeTier[] feeTiers) {
-    this(tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers, null);
+    this(tradingFee, minimumAmount, maximumAmount, null, priceScale, feeTiers, null);
   }
 
   /**
@@ -61,6 +65,7 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("trading_fee") BigDecimal tradingFee,
       @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount,
+      @JsonProperty("base_scale") Integer baseScale,
       @JsonProperty("price_scale") Integer priceScale,
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
       @JsonProperty("amount_step_size") BigDecimal amountStepSize) {
@@ -68,6 +73,7 @@ public class CurrencyPairMetaData implements Serializable {
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
+    this.baseScale = baseScale;
     this.priceScale = priceScale;
     if (feeTiers != null) {
       Arrays.sort(feeTiers);
@@ -89,6 +95,10 @@ public class CurrencyPairMetaData implements Serializable {
   public BigDecimal getMaximumAmount() {
 
     return maximumAmount;
+  }
+
+  public Integer getBaseScale() {
+    return baseScale;
   }
 
   public Integer getPriceScale() {
@@ -115,6 +125,8 @@ public class CurrencyPairMetaData implements Serializable {
         + minimumAmount
         + ", maximumAmount="
         + maximumAmount
+        + ", baseScale="
+        + baseScale
         + ", priceScale="
         + priceScale
         + ", amountStepSize="

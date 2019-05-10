@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
@@ -81,13 +82,15 @@ public class BinanceExchange extends BaseExchange {
       exchangeInfo = marketDataService.getExchangeInfo();
       Symbol[] symbols = exchangeInfo.getSymbols();
 
+      BinanceAccountService accountService = (BinanceAccountService) getAccountService();
+      Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
       for (BinancePrice price : marketDataService.tickerAllPrices()) {
         CurrencyPair pair = price.getCurrencyPair();
+        String baseCode = pair.base.getCurrencyCode();
+        String counterCode = pair.counter.getCurrencyCode();
 
         for (Symbol symbol : symbols) {
-          if (symbol
-              .getSymbol()
-              .equals(pair.base.getCurrencyCode() + pair.counter.getCurrencyCode())) {
+          if (symbol.getSymbol().equals(baseCode + counterCode)) {
 
             int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
             int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
@@ -117,24 +120,24 @@ public class BinanceExchange extends BaseExchange {
                     new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                     minQty, // Min amount
                     maxQty, // Max amount
-                    pairPrecision, // precision
+                    amountPrecision, // base precision
+                    pairPrecision, // counter precision
                     null, /* TODO get fee tiers, although this is not necessary now
                           because their API returns current fee directly */
                     stepSize));
-            currencies.put(
-                pair.base,
-                new CurrencyMetaData(
-                    basePrecision,
-                    currencies.containsKey(pair.base)
-                        ? currencies.get(pair.base).getWithdrawalFee()
-                        : null));
-            currencies.put(
-                pair.counter,
-                new CurrencyMetaData(
-                    counterPrecision,
-                    currencies.containsKey(pair.counter)
-                        ? currencies.get(pair.counter).getWithdrawalFee()
-                        : null));
+            if (!currencies.containsKey(pair.base)) {
+              AssetDetail baseAsset = assetDetailMap.get(baseCode);
+              BigDecimal baseWithdrawlFee =
+                  baseAsset != null ? baseAsset.getWithdrawFee().stripTrailingZeros() : null;
+              currencies.put(pair.base, new CurrencyMetaData(basePrecision, baseWithdrawlFee));
+            }
+            if (!currencies.containsKey(pair.counter)) {
+              AssetDetail counterAsset = assetDetailMap.get(counterCode);
+              BigDecimal counterWithdrawlFee =
+                  counterAsset != null ? counterAsset.getWithdrawFee().stripTrailingZeros() : null;
+              currencies.put(
+                  pair.counter, new CurrencyMetaData(counterPrecision, counterWithdrawlFee));
+            }
           }
         }
       }

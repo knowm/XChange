@@ -7,13 +7,8 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
-import org.knowm.xchange.binance.dto.account.DepositAddress;
-import org.knowm.xchange.binance.dto.account.DepositList;
+import org.knowm.xchange.binance.dto.account.*;
 import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
-import org.knowm.xchange.binance.dto.account.WapiResponse;
-import org.knowm.xchange.binance.dto.account.WithdrawList;
-import org.knowm.xchange.binance.dto.account.WithdrawRequest;
 import org.knowm.xchange.currency.Currency;
 
 public class BinanceAccountServiceRaw extends BinanceBaseService {
@@ -97,6 +92,12 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         getTimestamp(),
         apiKey,
         super.signatureCreator);
+  }
+
+  public AssetDetailResponse requestAssetDetail() throws IOException {
+    Long recvWindow =
+        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    return binance.assetDetail(recvWindow, getTimestamp(), apiKey, super.signatureCreator);
   }
 
   public List<BinanceDeposit> depositHistory(
