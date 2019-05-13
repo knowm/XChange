@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dragonex.dto.DragonResult;
 import org.knowm.xchange.dragonex.dto.DragonexException;
 import org.knowm.xchange.dragonex.dto.marketdata.Coin;
+import org.knowm.xchange.dragonex.dto.marketdata.Depth;
 import org.knowm.xchange.dragonex.dto.marketdata.Order;
 import org.knowm.xchange.dragonex.dto.marketdata.Symbol;
 import org.knowm.xchange.dragonex.dto.marketdata.Ticker;
@@ -35,6 +36,11 @@ public class DragonexMarketDataServiceRaw extends DragonexBaseService {
     DragonResult<List<Order>> marketSellOrders =
         exchange.dragonexPublic().marketSellOrders(symbolId);
     return marketSellOrders.getResult();
+  }
+
+  public Depth marketDepth(long symbolId, int count) throws DragonexException, IOException {
+    DragonResult<Depth> marketDepth = exchange.dragonexPublic().marketDepth(symbolId, count);
+    return marketDepth.getResult();
   }
 
   List<Ticker> ticker(long symbolId) throws DragonexException, IOException {

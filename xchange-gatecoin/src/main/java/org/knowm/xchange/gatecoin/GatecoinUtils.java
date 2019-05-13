@@ -1,14 +1,15 @@
 package org.knowm.xchange.gatecoin;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /** A central place for shared Gatecoin properties */
 public final class GatecoinUtils {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static final FastDateFormat DATE_FORMAT =
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
 
   /** private Constructor */
   private GatecoinUtils() {}
