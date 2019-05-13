@@ -6,9 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
-import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
-import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.*;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,6 +16,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -79,9 +78,25 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
+    } else if (orderParams instanceof CancelOrderByCurrencyPair) {
+      cancelCexIOOrders(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+      return true;
     } else {
-      return false;
+      throw new IllegalArgumentException(
+          String.format("Unknown parameter type: %s", orderParams.getClass()));
     }
+  }
+
+  @Override
+  public String changeOrder(LimitOrder limitOrder) throws IOException {
+    CexIOCancelReplaceOrderResponse response =
+        cancelReplaceCexIOOrder(
+            limitOrder.getCurrencyPair(),
+            limitOrder.getType(),
+            limitOrder.getId(),
+            limitOrder.getOriginalAmount(),
+            limitOrder.getLimitPrice());
+    return response.getId();
   }
 
   @Override

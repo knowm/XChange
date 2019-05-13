@@ -69,7 +69,7 @@ public interface CexIOAuthenticated extends CexIO {
       @HeaderParam("_ignored_") ParamsDigest signer,
       @PathParam("currencyA") String currencyA,
       @PathParam("currencyB") String currencyB,
-      PlaceOrderRequest placeOrderRequest)
+      CexioPlaceOrderRequest placeOrderRequest)
       throws IOException;
 
   // GHash.IO calls
@@ -103,7 +103,7 @@ public interface CexIOAuthenticated extends CexIO {
 
   @POST
   @Path("get_order_tx/")
-  Map getOrderTransactions(
+  CexIOOrderTransactionsResponse getOrderTransactions(
       @HeaderParam("_ignored_") ParamsDigest signer, CexioSingleOrderIdRequest request)
       throws IOException;
 

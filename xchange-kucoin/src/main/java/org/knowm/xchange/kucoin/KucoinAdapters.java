@@ -7,17 +7,12 @@ import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
 import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -48,11 +43,19 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
+import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 
 public class KucoinAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
@@ -244,11 +247,17 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
-    return adaptOrder(limitOrder).type("limit").price(limitOrder.getLimitPrice()).build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .postOnly(limitOrder.hasFlag(POST_ONLY))
+        .hidden(limitOrder.hasFlag(HIDDEN))
+        .iceberg(limitOrder.hasFlag(ICEBERG))
+        .build();
   }
 
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
-    return adaptOrder(stopOrder)
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
         .price(stopOrder.getLimitPrice())
         .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
@@ -257,10 +266,16 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return adaptOrder(marketOrder).type("market").build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
+        .type("market")
+        .build();
   }
 
-  public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
+  /**
+   * Returns {@code Object} instead of the Lombok builder in order to avoid a Lombok limitation with
+   * Javadoc.
+   */
+  private static Object adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
     boolean hasClientId = false;
     for (IOrderFlags flag : order.getOrderFlags()) {

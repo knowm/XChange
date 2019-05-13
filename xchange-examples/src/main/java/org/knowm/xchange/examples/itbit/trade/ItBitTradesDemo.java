@@ -11,8 +11,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.itbit.ItBitDemoUtils;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
-import org.knowm.xchange.itbit.v1.service.ItBitTradeServiceRaw;
+import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.service.ItBitTradeServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 

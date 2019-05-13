@@ -1,0 +1,37 @@
+{
+  "currency_pairs": {
+    "BTC/PERPETUAL": {
+      "price_scale": 4,
+      "min_amount": 1
+    },
+    "ETH/PERPETUAL": {
+      "price_scale": 4,
+      "min_amount": 1
+    }
+  },
+  "currencies": {
+    "BTC": {
+      "scale": "4",
+      "withdrawal_fee": 0
+    },
+    "ETH": {
+      "scale": "",
+      "withdrawal_fee": ""
+    }
+  },
+  "public_rate_limits": [
+    {
+      "calls": 200,
+      "time_span": 1,
+      "time_unit": "seconds"
+    }
+  ],
+  "private_rate_limits": [
+    {
+      "calls": 200,
+      "time_span": 1,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits": true
+}
