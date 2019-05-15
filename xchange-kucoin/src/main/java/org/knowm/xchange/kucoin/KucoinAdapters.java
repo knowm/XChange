@@ -15,6 +15,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +46,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
@@ -78,6 +80,23 @@ public class KucoinAdapters {
         .quoteVolume(stats.getVolValue())
         .open(stats.getOpen())
         .timestamp(new Date(stats.getTime()));
+  }
+
+  public static List<Ticker> adaptAllTickers(AllTickersResponse allTickersResponse) {
+    return Arrays.stream(allTickersResponse.getTicker())
+                 .map(
+                     ticker ->
+                         new Ticker.Builder()
+                             .currencyPair(adaptCurrencyPair(ticker.getSymbol()))
+                             .bid(ticker.getBuy())
+                             .ask(ticker.getSell())
+                             .last(ticker.getLast())
+                             .high(ticker.getHigh())
+                             .low(ticker.getLow())
+                             .volume(ticker.getVol())
+                             .quoteVolume(ticker.getVolValue())
+                             .build())
+                 .collect(Collectors.toList());
   }
 
   /**
