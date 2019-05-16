@@ -29,7 +29,8 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency> -->
-    
+	
+    <!-- XChange Blockbid support -->
     <dependency>
     	<groupId>org.knowm.xchange</groupId>
     	<artifactId>xchange-core</artifactId>
