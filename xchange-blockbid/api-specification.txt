@@ -1,0 +1,6 @@
+Blockbid Exchange API specification
+================================
+
+Documentation
+-------------
+https://app.swaggerhub.com/apis/B3975/blockbid-api-docs/1.0.0
