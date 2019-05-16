@@ -1,41 +1,50 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.knowm.xchange</groupId>
-    <artifactId>xchange-parent</artifactId>
-    <version>4.3.17-SNAPSHOT</version>
-  </parent>
-    
-  <artifactId>xchange-blockbid</artifactId>
-  
-  <name>XChange blockbid</name>
-  <description>XChange implementation for Blockbid</description>
-  
-  <url>http://knowm.org/open-source/xchange/</url>
-  <inceptionYear>2012</inceptionYear>
-  
-  <organization>
-  	<name>Knowm Inc.</name>
-  	<url>http://knowm.org/open-source/xchange/</url>
-  </organization>
-  
-  <dependencies>
-  
-    <!-- <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency> -->
-	
-    <!-- XChange Blockbid support -->
-    <dependency>
-    	<groupId>org.knowm.xchange</groupId>
-    	<artifactId>xchange-core</artifactId>
-    	<version>${project.version}</version>
-    </dependency>
-    
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.knowm.xchange</groupId>
+		<artifactId>xchange-parent</artifactId>
+		<version>4.3.19-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>xchange-blockbid</artifactId>
+
+	<name>XChange Blockbid</name>
+	<description>XChange implementation for Blockbid</description>
+
+	<url>http://knowm.org/open-source/xchange/</url>
+	<inceptionYear>2012</inceptionYear>
+
+	<organization>
+		<name>Knowm Inc.</name>
+		<url>http://knowm.org/open-source/xchange/</url>
+	</organization>
+
+	<!-- Parent provides default configuration for dependencies -->
+	<dependencies>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.knowm.xchart</groupId>
+			<artifactId>xchart</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+		</dependency>
+
+		<!-- XChange dependencies -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Open Exchange Rates exchange support -->
+	</dependencies>
+
 </project>
