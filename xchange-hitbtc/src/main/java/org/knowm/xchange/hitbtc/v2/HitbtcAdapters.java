@@ -26,43 +26,12 @@ import org.knowm.xchange.hitbtc.v2.dto.*;
 
 public class HitbtcAdapters {
 
-  /** known counter currencies at HitBTC */
-  private static final Set<String> counters =
-      new HashSet<>(Arrays.asList("TUSD", "EURS", "USD", "BTC", "ETH", "DAI", "EOS"));
-  /**
-   * Known TUSD symbols. We use this because it is hard to parse such symbols as STRATUSD: is
-   * counter currency USD or TUSD?
-   */
-  private static final Set<String> TUSD_SYMBOLS =
-      new HashSet<>(
-          Arrays.asList(
-              "USDTUSD",
-              "XMRTUSD",
-              "BTCTUSD",
-              "LTCTUSD",
-              "NEOTUSD",
-              "ETHTUSD",
-              "DAITUSD",
-              "BCHTUSD",
-              "EURSTUSD",
-              "ZRXTUSD"));
-
   public static CurrencyPair adaptSymbol(String symbol) {
-    // In order to differentiate xxxTUSD and xxxUSD
-    String tempSymbol =
-        symbol.endsWith("USD") && !TUSD_SYMBOLS.contains(symbol) ? symbol + "T" : symbol;
-    return counters.stream()
-        .map(counter -> "USD".equals(counter) ? "USDT" : counter)
-        .filter(tempSymbol::endsWith)
-        .map(
-            counter ->
-                counter.substring(0, counter.length() - tempSymbol.length() + symbol.length()))
-        .map(
-            counter ->
-                new CurrencyPair(symbol.substring(0, symbol.length() - counter.length()), counter))
-        .findAny()
+    CurrencyPair adaptedSymbol = HitbtcExchange.translateSymbol(symbol);
+    return adaptedSymbol != null
+        ? adaptedSymbol
         // We try our best if the counter currency is not in the list
-        .orElse(new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3)));
+        : new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
