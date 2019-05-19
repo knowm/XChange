@@ -1,7 +1,11 @@
 package org.knowm.xchange.hitbtc.v2;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,13 +27,29 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 
 public class HitbtcAdapters {
 
+  private static Map<String, CurrencyPair> symbols = new HashMap<>();
+
   public static CurrencyPair adaptSymbol(String symbol) {
-    CurrencyPair adaptedSymbol = HitbtcExchange.translateSymbol(symbol);
-    return adaptedSymbol != null
-        ? adaptedSymbol
+    if (symbols.isEmpty()) {
+      HitbtcExchange exchange = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class);
+      try {
+        symbols = new HitbtcMarketDataServiceRaw(exchange).getHitbtcSymbols().stream()
+                                                          .collect(
+                                                              Collectors.toMap(
+                                                                  hitbtcSymbol ->
+                                                                      hitbtcSymbol.getBaseCurrency() + hitbtcSymbol.getQuoteCurrency(),
+                                                                  hitbtcSymbol ->
+                                                                      new CurrencyPair(
+                                                                          hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency())));
+      } catch (IOException ignored) {
+      }
+    }
+    return symbols.containsKey(symbol)
+        ? symbols.get(symbol)
         // We try our best if the counter currency is not in the list
         : new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3));
   }
@@ -292,7 +312,7 @@ public class HitbtcAdapters {
    * @param type
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible types: payout, payin,
-   *     deposit, withdraw, bankToExchange, exchangeToBank
+   * deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
     switch (type) {
@@ -312,7 +332,7 @@ public class HitbtcAdapters {
   /**
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible statusses: created,
-   *     pending, failed, success
+   * pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
@@ -333,7 +353,7 @@ public class HitbtcAdapters {
    *
    * @return
    * @see https://api.hitbtc.com/#order-model Order Model possible statuses: new, suspended,
-   *     partiallyFilled, filled, canceled, expired
+   * partiallyFilled, filled, canceled, expired
    */
   private static Order.OrderStatus convertOrderStatus(String status) {
     switch (status) {
