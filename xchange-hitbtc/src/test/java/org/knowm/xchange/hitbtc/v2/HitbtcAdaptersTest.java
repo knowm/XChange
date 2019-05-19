@@ -5,10 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+
+import sun.util.resources.es.CurrencyNames_es_PA;
 
 public class HitbtcAdaptersTest {
 
@@ -37,4 +42,21 @@ public class HitbtcAdaptersTest {
       assertThat(e.getMessage().equals("2 wallets in account"));
     }
   }
+
+  @Test
+  public void testGuessSymbol() {
+    String symbol1 = "LTCUSDT";
+    String symbol2 = "LTCBTC";
+    String symbol3 = "USDTBTC";
+    String symbol4 = "STRATUSDT";
+    String symbol5 = "STRATBTC";
+
+    Assert.assertEquals(new CurrencyPair(Currency.LTC, Currency.USDT), HitbtcAdapters.guessSymbol(symbol1));
+    Assert.assertEquals(CurrencyPair.LTC_BTC, HitbtcAdapters.guessSymbol(symbol2));
+    Assert.assertEquals(new CurrencyPair(Currency.USDT, Currency.BTC), HitbtcAdapters.guessSymbol(symbol3));
+    Assert.assertEquals(new CurrencyPair(Currency.STRAT, Currency.USDT), HitbtcAdapters.guessSymbol(symbol4));
+    Assert.assertEquals(new CurrencyPair(Currency.STRAT, Currency.BTC), HitbtcAdapters.guessSymbol(symbol5));
+  }
+
+
 }

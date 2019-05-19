@@ -1,6 +1,5 @@
 package org.knowm.xchange.hitbtc.v2;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,10 +50,17 @@ public class HitbtcAdapters {
       } catch (Exception ignored) {
       }
     }
+
     return symbols.containsKey(symbol)
         ? symbols.get(symbol)
-        // We try our best if the counter currency is not in the list
-        : new CurrencyPair(symbol.substring(0, symbol.length() - 3), symbol.substring(3));
+        : guessSymbol(symbol);
+  }
+
+  static CurrencyPair guessSymbol(String symbol) {
+    int splitIndex = symbol.endsWith("USDT")
+        ? symbol.lastIndexOf("USDT")
+        : symbol.length() - 3;
+    return new CurrencyPair(symbol.substring(0, splitIndex), symbol.substring(splitIndex));
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
