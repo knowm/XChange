@@ -31,7 +31,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Exchange {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HitbtcExchange.class);
-  private static Map<String, CurrencyPair> symbols = new HashMap<>();
 
   static {
     setupPatchSupport();
@@ -132,20 +131,5 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
                             (FeeTier[]) null)));
     exchangeMetaData =
         HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, currencies, currencyPairs);
-
-    symbols =
-        ((HitbtcMarketDataServiceRaw) marketDataService)
-            .getHitbtcSymbols().stream()
-                .collect(
-                    Collectors.toMap(
-                        hitbtcSymbol ->
-                            hitbtcSymbol.getBaseCurrency() + hitbtcSymbol.getQuoteCurrency(),
-                        hitbtcSymbol ->
-                            new CurrencyPair(
-                                hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency())));
-  }
-
-  public static CurrencyPair translateSymbol(String symbol) {
-    return symbols.get(symbol);
   }
 }
