@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -37,14 +36,17 @@ public class HitbtcAdapters {
     if (symbols.isEmpty()) {
       HitbtcExchange exchange = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class);
       try {
-        symbols = new HitbtcMarketDataServiceRaw(exchange).getHitbtcSymbols().stream()
-                                                          .collect(
-                                                              Collectors.toMap(
-                                                                  hitbtcSymbol ->
-                                                                      hitbtcSymbol.getBaseCurrency() + hitbtcSymbol.getQuoteCurrency(),
-                                                                  hitbtcSymbol ->
-                                                                      new CurrencyPair(
-                                                                          hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency())));
+        symbols =
+            new HitbtcMarketDataServiceRaw(exchange)
+                .getHitbtcSymbols().stream()
+                    .collect(
+                        Collectors.toMap(
+                            hitbtcSymbol ->
+                                hitbtcSymbol.getBaseCurrency() + hitbtcSymbol.getQuoteCurrency(),
+                            hitbtcSymbol ->
+                                new CurrencyPair(
+                                    hitbtcSymbol.getBaseCurrency(),
+                                    hitbtcSymbol.getQuoteCurrency())));
       } catch (IOException ignored) {
       }
     }
@@ -312,7 +314,7 @@ public class HitbtcAdapters {
    * @param type
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible types: payout, payin,
-   * deposit, withdraw, bankToExchange, exchangeToBank
+   *     deposit, withdraw, bankToExchange, exchangeToBank
    */
   private static Type convertType(String type) {
     switch (type) {
@@ -332,7 +334,7 @@ public class HitbtcAdapters {
   /**
    * @return
    * @see https://api.hitbtc.com/api/2/explore/ Transaction Model possible statusses: created,
-   * pending, failed, success
+   *     pending, failed, success
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
@@ -353,7 +355,7 @@ public class HitbtcAdapters {
    *
    * @return
    * @see https://api.hitbtc.com/#order-model Order Model possible statuses: new, suspended,
-   * partiallyFilled, filled, canceled, expired
+   *     partiallyFilled, filled, canceled, expired
    */
   private static Order.OrderStatus convertOrderStatus(String status) {
     switch (status) {
