@@ -33,7 +33,7 @@ public interface Exmo {
 
   @POST
   @Path("/order_book/")
-  Map<String, Map<String, Object>> orderBook(@QueryParam("pair") String pair) throws IOException;
+  Map<String, Map<String, Object>> orderBook(@FormParam("pair") String pair) throws IOException;
 
   @POST
   @Path("/user_info/")
@@ -107,7 +107,7 @@ public interface Exmo {
       @HeaderParam("Sign") ExmoDigest signatureCreator,
       @HeaderParam("Key") String publicKey,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory,
-      @QueryParam("date") long date);
+      @FormParam("date") long date);
 
   @POST
   @Path("/withdraw_crypt/")
@@ -116,8 +116,8 @@ public interface Exmo {
       @HeaderParam("Sign") ExmoDigest signatureCreator,
       @HeaderParam("Key") String publicKey,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonceFactory,
-      @QueryParam("amount") BigDecimal amount,
-      @QueryParam("currency") String currency,
-      @QueryParam("address") String address,
-      @QueryParam("invoice") String invoice);
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("currency") String currency,
+      @FormParam("address") String address,
+      @FormParam("invoice") String invoice);
 }
