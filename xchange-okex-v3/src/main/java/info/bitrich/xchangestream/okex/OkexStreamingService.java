@@ -14,10 +14,13 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.ObservableEmitter;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,17 +33,33 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
+    protected ExchangeSpecification exchangeSpecification;
+
     public OkexStreamingService(String apiUrl) {
         super(apiUrl);
+    }
+
+    public void setExchangeSpecification(ExchangeSpecification exchangeSpecification) {
+        this.exchangeSpecification = exchangeSpecification;
     }
 
     @Override
     public Completable connect() {
         Completable conn = super.connect();
+        if (this.exchangeSpecification.getApiKey() == null) {
+            return conn;
+        }
         return conn.andThen((CompletableSource) (completable) -> {
             try {
+                String apiKey = exchangeSpecification.getApiKey();
+                String apiSecret = exchangeSpecification.getSecretKey();
+                String passphrase = exchangeSpecification.getPassword();
+                if (passphrase == null) {
+                    passphrase = exchangeSpecification.getExchangeSpecificParametersItem("passphrase").toString();
+                }
+                sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
                 completable.onComplete();
-            } catch (Exception e) {
+            } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
                 completable.onError(e);
             }
         });

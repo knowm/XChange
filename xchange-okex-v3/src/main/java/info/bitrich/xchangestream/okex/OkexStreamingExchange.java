@@ -25,6 +25,7 @@ public class OkexStreamingExchange extends OkCoinExchange implements StreamingEx
     @Override
     protected void initServices() {
         super.initServices();
+        streamingService.setExchangeSpecification(this.exchangeSpecification);
         streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
     }
 
