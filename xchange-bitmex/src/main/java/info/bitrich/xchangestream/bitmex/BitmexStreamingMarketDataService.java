@@ -1,9 +1,6 @@
 package info.bitrich.xchangestream.bitmex;
 
-import info.bitrich.xchangestream.bitmex.dto.BitmexLimitOrder;
-import info.bitrich.xchangestream.bitmex.dto.BitmexOrderbook;
-import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
-import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
+import info.bitrich.xchangestream.bitmex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.bitmex.BitmexExchange;
@@ -98,6 +95,11 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             }
             return trades;
         });
+    }
+
+    public Observable<BitmexFunding> getFunding() {
+        String channelName = "funding";
+        return streamingService.subscribeBitmexChannel(channelName).map(BitmexWebSocketTransaction::toBitmexFunding);
     }
 
 }
