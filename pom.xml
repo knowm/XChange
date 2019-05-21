@@ -78,14 +78,18 @@
         <!--</repository>-->
     </distributionManagement>
 
-    <!--<repositories>-->
-        <!--&lt;!&ndash; For XChange SNAPSHOT dependency &ndash;&gt;-->
+    <repositories>
+        <repository>
+            <id>hetang</id>
+            <url>http://repo.maven.fqt.fund/repository/hetang/</url>
+        </repository>
+        <!-- For XChange SNAPSHOT dependency -->
         <!--<repository>-->
             <!--<id>sonatype-oss-snapshot</id>-->
             <!--<snapshots />-->
             <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
         <!--</repository>-->
-    <!--</repositories>-->
+    </repositories>
 
     <properties>
         <xchange.version>4.3.19-SNAPSHOT</xchange.version>
