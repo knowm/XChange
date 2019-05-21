@@ -65,7 +65,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
-        if ("error".equals(message.get("event").asText())) {
+        if (message.has("event") && "error".equals(message.get("event").asText())) {
             LOG.error("Error Message Received: {}", message);
             return;
         }
