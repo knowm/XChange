@@ -121,4 +121,48 @@ public class BitmexOrder extends BitmexMarketDataEvent {
             return ((LimitOrder.Builder) order).build();
         }
     }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public int getAccount() {
+        return account;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public BigDecimal getAvgPx() {
+        return avgPx;
+    }
+
+    public String getOrdType() {
+        return ordType;
+    }
+
+    public OrderStatus getOrdStatus() {
+        return ordStatus;
+    }
+
+    public String getClOrdID() {
+        return clOrdID;
+    }
+
+    public BigDecimal getOrderQty() {
+        return orderQty;
+    }
+
+    public BigDecimal getCumQty() {
+        return cumQty;
+    }
+
+    public boolean isWorkingIndicator() {
+        return workingIndicator;
+    }
 }

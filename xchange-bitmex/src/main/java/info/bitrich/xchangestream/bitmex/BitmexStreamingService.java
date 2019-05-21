@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
-    protected final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
     protected ExchangeSpecification exchangeSpecification;
@@ -55,6 +55,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         cmd.put("op", "authKey");
         cmd.put("args", args);
         this.sendMessage(mapper.writeValueAsString(cmd));
+
     }
 
     @Override
@@ -116,11 +117,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         super.handleMessage(message);
     }
 
-    @Override
-    protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-        return null;
-    }
-
     public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
         return subscribeChannel(channelName).map(s -> {
             BitmexWebSocketTransaction transaction = mapper.readValue(s.toString(), BitmexWebSocketTransaction.class);
@@ -131,8 +127,11 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-        String instrument = message.get("data").get(0).get("symbol").asText();
         String table = message.get("table").asText();
+        if (table.equals("order") || table.equals("funding") || table.equals("position")) {
+            return table;
+        }
+        String instrument = message.get("data").get(0).get("symbol").asText();
         return String.format("%s:%s", table, instrument);
     }
 
@@ -150,8 +149,14 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
+    @Override
+    protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+        return null;
+    }
+
     public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
         delayEmitters.add(delayEmitter);
     }
+
 
 }
