@@ -79,7 +79,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                 }
                 if (data.get("timestamp") != null && !delayEmitted) {
                     delayEmitted = true;
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     format.setTimeZone(TimeZone.getTimeZone("UTC"));
                     for (ObservableEmitter<Long> emitter : delayEmitters) {
                         try {

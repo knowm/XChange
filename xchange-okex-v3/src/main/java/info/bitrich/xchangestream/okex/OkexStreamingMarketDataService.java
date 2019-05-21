@@ -93,7 +93,7 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
                                 okCoinOrderbook.updateLevels(bidLevels, Order.OrderType.BID);
                             }
                         }
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                         format.setTimeZone(TimeZone.getTimeZone("UTC"));
                         long epoch = format.parse(data.get("timestamp").asText()).getTime();
                         return OkCoinAdapters.adaptOrderBook(okCoinOrderbook.toOkCoinDepth(epoch), currencyPair);
