@@ -43,7 +43,7 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
                 handleMessage(jsonNode);
             }
         } catch (Exception exception) {
-            LOG.error("Error while handling message '{}': {}", message, exception);
+            LOG.trace("Error while handling message '{}': {}", message, exception);
         }
     }
 }
