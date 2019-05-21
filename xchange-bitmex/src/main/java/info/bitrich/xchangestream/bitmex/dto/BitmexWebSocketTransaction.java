@@ -83,6 +83,16 @@ public class BitmexWebSocketTransaction {
         return orders;
     }
 
+    public BitmexFunding toBitmexFunding() {
+        BitmexFunding funding = null;
+        try {
+            funding = this.mapper.readValue(this.data.get(0).toString(), BitmexFunding.class);
+        } catch (IOException var5) {
+            var5.printStackTrace();
+        }
+        return funding;
+    }
+
     public String getTable() {
         return table;
     }
