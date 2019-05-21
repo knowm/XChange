@@ -30,7 +30,7 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
         return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
             BitmexOrder[] bitmexOrders = s.toBitmexOrders();
             return Arrays.stream(bitmexOrders)
-                    .filter(bitmexOrder -> bitmexOrder.getSymbol() == instrument)
+                    .filter(bitmexOrder -> bitmexOrder.getSymbol().equals(instrument))
                     .filter(BitmexOrder::isNotWorkingIndicator)
                     .map(BitmexOrder::toOrder).collect(Collectors.toList());
         });

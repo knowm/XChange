@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.bitmex.dto.BitmexTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
-import org.knowm.xchange.bitmex.BitmexContract;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -25,20 +25,21 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     protected final BitmexStreamingService streamingService;
 
+    protected final BitmexExchange bitmexExchange;
+
     private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
 
-    public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
+    public BitmexStreamingMarketDataService(BitmexStreamingService streamingService, BitmexExchange bitmexExchange) {
         this.streamingService = streamingService;
+        this.bitmexExchange = bitmexExchange;
     }
 
     private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
         if (args.length > 0) {
             BitmexPrompt prompt = (BitmexPrompt) args[0];
-            BitmexContract contract = new BitmexContract(currencyPair, prompt);
-            return BitmexUtils.translateBitmexContract(contract);
-        } else {
-            return currencyPair.base.toString() + currencyPair.counter.toString();
+            currencyPair = bitmexExchange.determineActiveContract(currencyPair.base.toString(), currencyPair.counter.toString(), prompt);
         }
+        return currencyPair.base.toString() + currencyPair.counter.toString();
     }
 
     @Override

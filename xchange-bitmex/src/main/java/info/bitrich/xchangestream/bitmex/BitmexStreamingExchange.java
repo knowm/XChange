@@ -30,8 +30,7 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     @Override
     protected void initServices() {
         super.initServices();
-        BitmexUtils.initBitmexContracts();
-        streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
+        streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService, this);
         streamingService.setExchangeSpecification(this.getExchangeSpecification());
     }
 

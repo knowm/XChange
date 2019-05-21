@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.bitmex.BitmexUtils;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -84,9 +84,9 @@ public class BitmexOrder extends BitmexMarketDataEvent {
     public Order toOrder() {
         Order.Builder order;
         if (ordType.equals("Market")) {
-            order = new MarketOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, BitmexUtils.translateBitmexCurrencyPair(symbol));
+            order = new MarketOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
         } else {
-            order = new LimitOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, BitmexUtils.translateBitmexCurrencyPair(symbol));
+            order = new LimitOrder.Builder(side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK, new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
         }
         order.id(orderID)
                 .averagePrice(avgPx)
