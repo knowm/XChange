@@ -53,8 +53,10 @@ public class OkexStreamingService extends JsonNettyStreamingService {
             try {
                 String apiKey = exchangeSpecification.getApiKey();
                 String apiSecret = exchangeSpecification.getSecretKey();
-                String passphrase = exchangeSpecification.getPassword();
-                if (passphrase == null) {
+                String passphrase;
+                if (exchangeSpecification.getExchangeSpecificParametersItem("passphrase") == null) {
+                    passphrase = exchangeSpecification.getPassword();
+                } else {
                     passphrase = exchangeSpecification.getExchangeSpecificParametersItem("passphrase").toString();
                 }
                 sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
