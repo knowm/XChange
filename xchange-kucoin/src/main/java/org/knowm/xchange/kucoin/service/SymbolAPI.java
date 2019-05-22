@@ -29,8 +29,7 @@ public interface SymbolAPI {
   KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException;
 
   /**
-   * Ticker include only the inside (i.e. best) bid and ask data , last price and
-   * last trade size.
+   * Ticker include only the inside (i.e. best) bid and ask data , last price and last trade size.
    *
    * @param symbol The currency
    * @return The ticker.

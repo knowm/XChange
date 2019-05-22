@@ -53,6 +53,10 @@ public class BatchStatus {
     clientOrderIdAlreadyExist, // the specified client id already exist
     clientOrderIdTooLong, // the client id is longer than the permissible limit
     maxPositionViolation, // not documented
+    outsidePriceCollar, // the limit order crosses the spread but is an order of magnitude away from
+    // the mark price - fat finger control
+    postWouldExecute, // the post-only order would be filled upon placement, thus is cancelled
+    iocWouldNotExecute, // the immediate-or-cancel order would not call
 
     // The status of order cancellation
     cancelled, // the order was found untouched and the entire size was cancelled successfully
