@@ -52,7 +52,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       symbol = KucoinAdapters.adaptCurrencyPair(pairParams.getCurrencyPair());
     }
     return convertOpenOrders(
-        getKucoinOpenOrders(symbol, 0, TRADE_HISTORIES_TO_FETCH).getItems(), params);
+        getKucoinOpenOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems(), params);
   }
 
   @Override
@@ -65,7 +65,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
     }
-    return convertUserTrades(getKucoinFills(symbol, 0, 1000).getItems());
+    return convertUserTrades(getKucoinFills(symbol, 1, 1000).getItems());
   }
 
   @Override
