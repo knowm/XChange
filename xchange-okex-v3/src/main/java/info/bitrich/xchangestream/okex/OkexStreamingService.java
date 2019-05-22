@@ -24,7 +24,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.Inflater;
 
 public class OkexStreamingService extends JsonNettyStreamingService {
@@ -36,8 +35,6 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
     protected ExchangeSpecification exchangeSpecification;
-
-    private ConcurrentHashMap<String, JsonNode> eventResponse = new ConcurrentHashMap<>();
 
     public OkexStreamingService(String apiUrl) {
         super(apiUrl);
@@ -63,20 +60,12 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                 } else {
                     passphrase = exchangeSpecification.getExchangeSpecificParametersItem("Passphrase").toString();
                 }
-                eventResponse.remove("error");
-                eventResponse.remove("login");
                 sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
-                while (!eventResponse.containsKey("error") && !eventResponse.containsKey("login")) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                    }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
                 }
-                if (eventResponse.containsKey("login")) {
-                    completable.onComplete();
-                } else {
-                    completable.onError(new Exception(eventResponse.get("error").asText()));
-                }
+                completable.onComplete();
             } catch (IOException | NoSuchAlgorithmException | InvalidKeyException e) {
                 completable.onError(e);
             }
@@ -103,11 +92,11 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     @Override
     protected void handleMessage(JsonNode message) {
         if (message.has("event")) {
-            eventResponse.put(message.get("event").asText(), message);
             if ("error".equals(message.get("event").asText())) {
                 LOG.error("Error Message Received: {}", message);
                 return;
             }
+            LOG.info("Event Message: {}", message);
         }
         if (message.get("table") != null && message.get("data") != null) {
             String table = message.get("table").asText();
