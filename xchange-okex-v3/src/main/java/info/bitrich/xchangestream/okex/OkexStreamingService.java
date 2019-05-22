@@ -63,9 +63,9 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                 } else {
                     passphrase = exchangeSpecification.getExchangeSpecificParametersItem("Passphrase").toString();
                 }
-                sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
                 eventResponse.remove("error");
                 eventResponse.remove("login");
+                sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
                 while (!eventResponse.containsKey("error") && !eventResponse.containsKey("login")) {
                     try {
                         Thread.sleep(1);
