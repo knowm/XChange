@@ -16,6 +16,7 @@ import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiFundingHistoryResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
@@ -95,6 +96,18 @@ public interface Huobi {
   @Consumes(MediaType.APPLICATION_JSON)
   HuobiCreateWithdrawResult createWithdraw(
       HuobiCreateWithdrawRequest body,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("v1/dw/withdraw-virtual/fee-range")
+  @Consumes(MediaType.APPLICATION_JSON)
+  HuobiWithdrawFeeRangeResult getWithdrawFeeRange(
+      @QueryParam("currency") String currency,
       @QueryParam("AccessKeyId") String apiKey,
       @QueryParam("SignatureMethod") String signatureMethod,
       @QueryParam("SignatureVersion") int signatureVersion,

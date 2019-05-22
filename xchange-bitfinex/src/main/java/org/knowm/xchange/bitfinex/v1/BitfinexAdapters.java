@@ -480,7 +480,8 @@ public final class BitfinexAdapters {
             limitOrder = limitOrderCreator.get();
             break;
           default:
-            log.warn("Unhandled Bitfinex order type [{}]. Defaulting to limit order", order.getType());
+            log.warn(
+                "Unhandled Bitfinex order type [{}]. Defaulting to limit order", order.getType());
             limitOrder = limitOrderCreator.get();
             break;
         }
@@ -501,9 +502,10 @@ public final class BitfinexAdapters {
 
   private static void stopLimitWarning() {
     if (warnedStopLimit.compareAndSet(false, true)) {
-      log.warn("Found a stop-limit order. Bitfinex v1 API does not return limit prices for stop-limit "
-          + "orders so these are returned as stop-at-market orders. This warning will only appear "
-          + "once.");
+      log.warn(
+          "Found a stop-limit order. Bitfinex v1 API does not return limit prices for stop-limit "
+              + "orders so these are returned as stop-at-market orders. This warning will only appear "
+              + "once.");
     }
   }
 
@@ -599,21 +601,24 @@ public final class BitfinexAdapters {
 
               // Infer price-scale from last and price-precision
               BigDecimal last = lastPrices.get(currencyPair);
-              int pricePercision = bitfinexSymbolDetail.getPrice_precision();
-              int priceScale = last.scale() + (pricePercision - last.precision());
 
-              CurrencyPairMetaData newMetaData =
-                  new CurrencyPairMetaData(
-                      currencyPairs.get(currencyPair) == null
-                          ? null
-                          : currencyPairs
-                              .get(currencyPair)
-                              .getTradingFee(), // Take tradingFee from static metaData if exists
-                      bitfinexSymbolDetail.getMinimum_order_size(),
-                      bitfinexSymbolDetail.getMaximum_order_size(),
-                      priceScale,
-                      null);
-              currencyPairs.put(currencyPair, newMetaData);
+              if (last !=  null) {
+                  int pricePercision = bitfinexSymbolDetail.getPrice_precision();
+                  int priceScale = last.scale() + (pricePercision - last.precision());
+
+                  CurrencyPairMetaData newMetaData =
+                      new CurrencyPairMetaData(
+                          currencyPairs.get(currencyPair) == null
+                              ? null
+                              : currencyPairs
+                                  .get(currencyPair)
+                                  .getTradingFee(), // Take tradingFee from static metaData if exists
+                          bitfinexSymbolDetail.getMinimum_order_size(),
+                          bitfinexSymbolDetail.getMaximum_order_size(),
+                          priceScale,
+                          null);
+                  currencyPairs.put(currencyPair, newMetaData);
+              }
             });
     return exchangeMetaData;
   }

@@ -41,18 +41,32 @@ public class AccountServiceIntegration {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchange.getExchangeMetaData().getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
+    CurrencyPair currPair;
+    Currency curr;
 
-    CurrencyPair currPair =
+    currPair =
         currencyPairs.keySet().stream()
             .filter(cp -> "ETH/BTC".equals(cp.toString()))
             .collect(StreamUtils.singletonCollector());
     Assert.assertNotNull(currPair);
 
-    Currency cur =
-        currencies.keySet().stream()
-            .filter(c -> Currency.BTC == c)
+    currPair =
+        currencyPairs.keySet().stream()
+            .filter(cp -> "IOTX/ETH".equals(cp.toString()))
             .collect(StreamUtils.singletonCollector());
-    Assert.assertNotNull(cur);
+    Assert.assertNotNull(currPair);
+
+    curr =
+        currencies.keySet().stream()
+            .filter(c -> Currency.BTC.equals(c))
+            .collect(StreamUtils.singletonCollector());
+    Assert.assertNotNull(curr);
+
+    curr =
+        currencies.keySet().stream()
+            .filter(c -> c.equals(new Currency("IOTX")))
+            .collect(StreamUtils.singletonCollector());
+    Assert.assertNotNull(curr);
   }
 
   @Test

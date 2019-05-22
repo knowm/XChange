@@ -1,0 +1,20 @@
+{
+  "withdrawal_priorities": [
+    {
+      "value": 0.15,
+      "name": "very_low"
+    },
+    {
+      "value": 1.5,
+      "name": "very_high"
+    }
+  ],
+  "withdrawal_fee": 0.0001,
+  "min_withdrawal_fee": 0.0001,
+  "min_confirmations": 1,
+  "fee_precision": 4,
+  "disabled_deposit_address_creation": false,
+  "currency_long": "Bitcoin",
+  "currency": "BTC",
+  "coin_type": "BITCOIN"
+}
