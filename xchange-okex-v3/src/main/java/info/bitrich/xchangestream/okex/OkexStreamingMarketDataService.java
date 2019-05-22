@@ -6,22 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.okex.dto.OkCoinOrderbook;
 import io.reactivex.Observable;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
-import org.knowm.xchange.okex.v3.OkexExchange;
-import org.knowm.xchange.okex.v3.dto.marketdata.FuturesInstrument;
-import org.knowm.xchange.okex.v3.service.OkexFuturesMarketDataServiceRaw;
+import org.knowm.xchange.okex.v3.OkexFuturesPrompt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,39 +30,22 @@ public class OkexStreamingMarketDataService implements StreamingMarketDataServic
     private final Logger LOG = LoggerFactory.getLogger(OkexStreamingMarketDataService.class);
 
     private final OkexStreamingService service;
-    private final Exchange okexFuturesExchange;
-    private final FuturesInstrument[] futuresInstruments;
-
+    private final OkexStreamingExchange exchange;
     private final ObjectMapper mapper = new ObjectMapper();
     private final Map<String, OkCoinOrderbook> orderbooks = new HashMap<>();
 
-    OkexStreamingMarketDataService(OkexStreamingService service) {
+    OkexStreamingMarketDataService(OkexStreamingService service, OkexStreamingExchange exchange) {
         this.service = service;
+        this.exchange = exchange;
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        ExchangeSpecification specification = new ExchangeSpecification(OkexExchange.class);
-        specification.setExchangeSpecificParametersItem("Use_Futures", true);
-        okexFuturesExchange = ExchangeFactory.INSTANCE.createExchange(specification);
-        futuresInstruments = ((OkexFuturesMarketDataServiceRaw) okexFuturesExchange.getMarketDataService()).getInstruments();
     }
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        if (args.length > 0 && args[0] instanceof FuturesContract) {
-            FuturesContract contract = (FuturesContract) args[0];
-            String instId = null;
-            for (FuturesInstrument instrument : futuresInstruments) {
-                if (instrument.getUnderlyingIndex().toUpperCase().equals(currencyPair.base.toString().toUpperCase())
-                        && instrument.getQuoteCurrency().toUpperCase().equals(currencyPair.counter.toString().toUpperCase())
-                        && instrument.getAlias().equals(contract.getName())) {
-                    instId = instrument.getInstrumentId();
-                    break;
-                }
-            }
-            if (instId == null) {
-                throw new ExchangeException("No such futures contract");
-            }
-            final String instrumentId = instId;
-            String channel = "futures/depth:" + instId;
+        if (args.length > 0 && args[0] instanceof OkexFuturesPrompt) {
+            OkexFuturesPrompt contract = (OkexFuturesPrompt) args[0];
+            final String instrumentId = exchange.determineFuturesInstrumentId(currencyPair, contract);
+            String channel = "futures/depth:" + instrumentId;
             return this.service.subscribeChannel(channel).map((s) -> {
                 OkCoinOrderbook okCoinOrderbook;
                 for (JsonNode data : s.get("data")) {

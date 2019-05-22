@@ -6,9 +6,9 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import org.knowm.xchange.okcoin.OkCoinExchange;
+import org.knowm.xchange.okex.v3.OkexExchange;
 
-public class OkexStreamingExchange extends OkCoinExchange implements StreamingExchange {
+public class OkexStreamingExchange extends OkexExchange implements StreamingExchange {
     private static final String API_URI = "wss://real.okex.com:10442/ws/v3";
 
     protected final OkexStreamingService streamingService;
@@ -26,7 +26,7 @@ public class OkexStreamingExchange extends OkCoinExchange implements StreamingEx
     protected void initServices() {
         super.initServices();
         streamingService.setExchangeSpecification(this.exchangeSpecification);
-        streamingMarketDataService = new OkexStreamingMarketDataService(streamingService);
+        streamingMarketDataService = new OkexStreamingMarketDataService(streamingService, exchange);
     }
 
     @Override
