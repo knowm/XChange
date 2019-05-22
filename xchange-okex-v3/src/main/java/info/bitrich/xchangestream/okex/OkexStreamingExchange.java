@@ -26,7 +26,7 @@ public class OkexStreamingExchange extends OkexExchange implements StreamingExch
     protected void initServices() {
         super.initServices();
         streamingService.setExchangeSpecification(this.exchangeSpecification);
-        streamingMarketDataService = new OkexStreamingMarketDataService(streamingService, exchange);
+        streamingMarketDataService = new OkexStreamingMarketDataService(streamingService, this);
     }
 
     @Override
