@@ -388,7 +388,8 @@ public class CoinbaseProAdapters {
               baseScale,
               priceScale,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
-              null);
+              null,
+              pair.counter);
       currencyPairs.put(pair, cpmd);
     }
 
