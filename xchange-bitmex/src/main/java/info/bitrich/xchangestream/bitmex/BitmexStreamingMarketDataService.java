@@ -32,7 +32,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
-        if (args.length > 0) {
+        if (args.length > 0 && args[0] != null) {
             BitmexPrompt prompt = (BitmexPrompt) args[0];
             currencyPair = bitmexExchange.determineActiveContract(currencyPair.base.toString(), currencyPair.counter.toString(), prompt);
         }

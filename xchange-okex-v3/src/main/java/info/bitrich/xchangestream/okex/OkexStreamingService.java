@@ -2,8 +2,9 @@ package info.bitrich.xchangestream.okex;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import info.bitrich.xchangestream.okex.dto.RequestMessage;
-import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
@@ -13,7 +14,9 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
+import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +27,16 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.Inflater;
 
-public class OkexStreamingService extends JsonNettyStreamingService {
+public class OkexStreamingService extends NettyStreamingService<JsonNode> {
 
     private final Logger LOG = LoggerFactory.getLogger(OkexStreamingService.class);
+
+    private io.reactivex.Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
+
+    private Disposable pingPongSubscription;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -52,6 +60,7 @@ public class OkexStreamingService extends JsonNettyStreamingService {
         }
         return conn.andThen((CompletableSource) (completable) -> {
             try {
+                // login
                 String apiKey = exchangeSpecification.getApiKey();
                 String apiSecret = exchangeSpecification.getSecretKey();
                 String passphrase;
@@ -61,6 +70,13 @@ public class OkexStreamingService extends JsonNettyStreamingService {
                     passphrase = exchangeSpecification.getExchangeSpecificParametersItem("Passphrase").toString();
                 }
                 sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
+                // ping pong
+                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+                    pingPongSubscription.dispose();
+                }
+                pingPongSubscription = pingPongSrc.subscribe(o -> {
+                    this.sendMessage("ping");
+                });
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -90,8 +106,43 @@ public class OkexStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
+    public void messageHandler(String message) {
+        try {
+            LOG.debug("Received message: {}", message);
+            if ("pong".equals(message)) {
+                // just ignore pong now
+                return;
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode;
+
+            // Parse incoming message to JSON
+            try {
+                jsonNode = objectMapper.readTree(message);
+            } catch (IOException e) {
+                LOG.error("Error parsing incoming message to JSON: {}", message);
+                return;
+            }
+
+            // In case of array - handle every message separately.
+            if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
+                for (JsonNode node : jsonNode) {
+                    handleMessage(node);
+                }
+            } else {
+                handleMessage(jsonNode);
+            }
+        } catch (Exception exception) {
+            LOG.error("Error while handling message: {}, exception: {}", message, exception);
+        }
+    }
+
+    @Override
     protected void handleMessage(JsonNode message) {
         if (message.has("event")) {
+            if ("pong".equals(message.get("event").asText())) {
+                return;
+            }
             if ("error".equals(message.get("event").asText())) {
                 LOG.error("Error Message Received: {}", message);
                 return;
