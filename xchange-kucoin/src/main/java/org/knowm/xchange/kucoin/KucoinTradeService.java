@@ -32,8 +32,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
-  private static final int TRADE_HISTORIES_TO_FETCH = 1000;
-  private static final int ORDERS_TO_FETCH = 1000;
+  private static final int TRADE_HISTORIES_TO_FETCH = 500;
+  private static final int ORDERS_TO_FETCH = 500;
 
   KucoinTradeService(KucoinExchange exchange) {
     super(exchange);
