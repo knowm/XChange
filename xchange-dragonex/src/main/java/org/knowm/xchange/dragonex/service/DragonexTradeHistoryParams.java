@@ -57,4 +57,14 @@ public class DragonexTradeHistoryParams
   public void setPageNumber(Integer pageNumber) {
     this.pageNumber = pageNumber;
   }
+
+  @Override
+  public String toString() {
+    return "DragonexTradeHistoryParams ["
+        + (currency != null ? "currency=" + currency + ", " : "")
+        + (pageLength != null ? "pageLength=" + pageLength + ", " : "")
+        + (pageNumber != null ? "pageNumber=" + pageNumber + ", " : "")
+        + (type != null ? "type=" + type : "")
+        + "]";
+  }
 }
