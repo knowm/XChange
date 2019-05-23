@@ -59,6 +59,7 @@ public class OkexStreamingService extends NettyStreamingService<JsonNode> {
         }
         Completable conn = super.connect().andThen((CompletableSource) (completable) -> {
             pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+            completable.onComplete();
         });
         if (this.exchangeSpecification.getApiKey() == null) {
             return conn;
