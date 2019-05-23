@@ -54,7 +54,12 @@ public class OkexStreamingService extends NettyStreamingService<JsonNode> {
 
     @Override
     public Completable connect() {
-        Completable conn = super.connect();
+        if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
+            pingPongSubscription.dispose();
+        }
+        Completable conn = super.connect().andThen((CompletableSource) (completable) -> {
+            pingPongSubscription = pingPongSrc.subscribe(o -> this.sendMessage("ping"));
+        });
         if (this.exchangeSpecification.getApiKey() == null) {
             return conn;
         }
@@ -70,13 +75,6 @@ public class OkexStreamingService extends NettyStreamingService<JsonNode> {
                     passphrase = exchangeSpecification.getExchangeSpecificParametersItem("Passphrase").toString();
                 }
                 sendMessage(objectMapper.writeValueAsString(OkexAuthenticator.authenticateMessage(apiKey, apiSecret, passphrase)));
-                // ping pong
-                if (pingPongSubscription != null && !pingPongSubscription.isDisposed()) {
-                    pingPongSubscription.dispose();
-                }
-                pingPongSubscription = pingPongSrc.subscribe(o -> {
-                    this.sendMessage("ping");
-                });
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
