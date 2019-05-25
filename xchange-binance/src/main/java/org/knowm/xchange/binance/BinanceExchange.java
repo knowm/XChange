@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
@@ -28,8 +29,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceExchange extends BaseExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceExchange.class);
-
-  private static final int DEFAULT_PRECISION = 8;
 
   private BinanceExchangeInfo exchangeInfo;
   private Long deltaServerTimeExpire;
@@ -80,6 +79,8 @@ public class BinanceExchange extends BaseExchange {
       exchangeInfo = marketDataService.getExchangeInfo();
       Symbol[] symbols = exchangeInfo.getSymbols();
 
+      BinanceAccountService accountService = (BinanceAccountService) getAccountService();
+      Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
       for (Symbol symbol : symbols) {
         if (!symbol.getStatus().equals("BREAK")) { // Symbols with status "BREAK" are delisted
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
@@ -107,30 +108,31 @@ public class BinanceExchange extends BaseExchange {
             }
           }
 
-          currencyPairs.put(
-              currentCurrencyPair,
-              new CurrencyPairMetaData(
-                  new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
-                  minQty, // Min amount
-                  maxQty, // Max amount
-                  pairPrecision, // precision
-                  null, /* TODO get fee tiers, although this is not necessary now
-                        because their API returns current fee directly */
-                  stepSize));
-          currencies.put(
-              new Currency(symbol.getBaseAsset()),
-              new CurrencyMetaData(
-                  basePrecision,
-                  currencies.containsKey(currentCurrencyPair.base)
-                      ? currencies.get(currentCurrencyPair.base).getWithdrawalFee()
-                      : null));
-          currencies.put(
-              new Currency(symbol.getQuoteAsset()),
-              new CurrencyMetaData(
-                  counterPrecision,
-                  currencies.containsKey(currentCurrencyPair.counter)
-                      ? currencies.get(currentCurrencyPair.counter).getWithdrawalFee()
-                      : null));
+        currencyPairs.put(
+                currentCurrencyPair,
+            new CurrencyPairMetaData(
+                new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
+                minQty, // Min amount
+                maxQty, // Max amount
+                amountPrecision, // base precision
+                pairPrecision, // counter precision
+                null, /* TODO get fee tiers, although this is not necessary now
+                      because their API returns current fee directly */
+                stepSize,
+                null));
+        if (!currencies.containsKey(currentCurrencyPair.base)) {
+          AssetDetail baseAsset = assetDetailMap.get(currentCurrencyPair.base.getCurrencyCode());
+          BigDecimal baseWithdrawlFee =
+              baseAsset != null ? baseAsset.getWithdrawFee().stripTrailingZeros() : null;
+          currencies.put(currentCurrencyPair.base, new CurrencyMetaData(basePrecision, baseWithdrawlFee));
+        }
+        if (!currencies.containsKey(currentCurrencyPair.counter)) {
+          AssetDetail counterAsset = assetDetailMap.get(currentCurrencyPair.counter.getCurrencyCode());
+          BigDecimal counterWithdrawlFee =
+              counterAsset != null ? counterAsset.getWithdrawFee().stripTrailingZeros() : null;
+          currencies.put(currentCurrencyPair.counter, new CurrencyMetaData(counterPrecision, counterWithdrawlFee));
+        }
+
         }
       }
     } catch (Exception e) {
