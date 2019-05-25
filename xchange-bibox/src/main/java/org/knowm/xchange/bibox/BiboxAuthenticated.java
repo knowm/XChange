@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
 import org.knowm.xchange.bibox.dto.BiboxPagedResponses;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
+import org.knowm.xchange.bibox.dto.account.BiboxAssetsResult;
 import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
@@ -30,6 +31,30 @@ public interface BiboxAuthenticated extends Bibox {
   @POST
   @Path("transfer")
   BiboxSingleResponse<List<BiboxCoin>> coinList(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Retrieve balances of the account
+   *
+   * @return list of coins
+   */
+  @POST
+  @Path("transfer")
+  BiboxSingleResponse<BiboxAssetsResult> assets(
+      @FormParam(FORM_CMDS) String cmds,
+      @FormParam(FORM_APIKEY) String apiKey,
+      @FormParam(FORM_SIGNATURE) ParamsDigest signature);
+
+  /**
+   * Retrieve balances of the account
+   *
+   * @return list of coins
+   */
+  @POST
+  @Path("transfer")
+  Object mainAssets(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
       @FormParam(FORM_SIGNATURE) ParamsDigest signature);
