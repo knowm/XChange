@@ -602,22 +602,22 @@ public final class BitfinexAdapters {
               // Infer price-scale from last and price-precision
               BigDecimal last = lastPrices.get(currencyPair);
 
-              if (last !=  null) {
-                  int pricePercision = bitfinexSymbolDetail.getPrice_precision();
-                  int priceScale = last.scale() + (pricePercision - last.precision());
+              if (last != null) {
+                int pricePercision = bitfinexSymbolDetail.getPrice_precision();
+                int priceScale = last.scale() + (pricePercision - last.precision());
 
-                  CurrencyPairMetaData newMetaData =
-                      new CurrencyPairMetaData(
-                          currencyPairs.get(currencyPair) == null
-                              ? null
-                              : currencyPairs
-                                  .get(currencyPair)
-                                  .getTradingFee(), // Take tradingFee from static metaData if exists
-                          bitfinexSymbolDetail.getMinimum_order_size(),
-                          bitfinexSymbolDetail.getMaximum_order_size(),
-                          priceScale,
-                          null);
-                  currencyPairs.put(currencyPair, newMetaData);
+                CurrencyPairMetaData newMetaData =
+                    new CurrencyPairMetaData(
+                        currencyPairs.get(currencyPair) == null
+                            ? null
+                            : currencyPairs
+                                .get(currencyPair)
+                                .getTradingFee(), // Take tradingFee from static metaData if exists
+                        bitfinexSymbolDetail.getMinimum_order_size(),
+                        bitfinexSymbolDetail.getMaximum_order_size(),
+                        priceScale,
+                        null);
+                currencyPairs.put(currencyPair, newMetaData);
               }
             });
     return exchangeMetaData;

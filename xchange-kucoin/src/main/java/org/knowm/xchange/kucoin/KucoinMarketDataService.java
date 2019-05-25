@@ -3,7 +3,6 @@ package org.knowm.xchange.kucoin;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
