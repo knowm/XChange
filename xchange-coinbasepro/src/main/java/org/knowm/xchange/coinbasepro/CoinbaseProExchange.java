@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbasepro;
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
@@ -70,9 +71,11 @@ public class CoinbaseProExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-
     CoinbaseProProduct[] products =
         ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProProducts();
-    exchangeMetaData = CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    CoinbaseProCurrency[] currencies =
+        ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProCurrencies();
+    exchangeMetaData =
+        CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
   }
 }

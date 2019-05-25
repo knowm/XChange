@@ -22,12 +22,7 @@ import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
@@ -43,6 +38,10 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CoinbasePro {
+
+  @GET
+  @Path("currencies")
+  CoinbaseProCurrency[] getCurrencies() throws CoinbaseProException, IOException;
 
   @GET
   @Path("products")
