@@ -72,7 +72,8 @@ public class CurrencyPairMetaData implements Serializable {
       Integer priceScale,
       FeeTier[] feeTiers,
       BigDecimal amountStepSize) {
-    this(tradingFee, minimumAmount, maximumAmount, null, priceScale, feeTiers, amountStepSize, null);
+    this(
+        tradingFee, minimumAmount, maximumAmount, null, priceScale, feeTiers, amountStepSize, null);
   }
 
   /**

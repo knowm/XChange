@@ -108,31 +108,34 @@ public class BinanceExchange extends BaseExchange {
             }
           }
 
-        currencyPairs.put(
-                currentCurrencyPair,
-            new CurrencyPairMetaData(
-                new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
-                minQty, // Min amount
-                maxQty, // Max amount
-                amountPrecision, // base precision
-                pairPrecision, // counter precision
-                null, /* TODO get fee tiers, although this is not necessary now
-                      because their API returns current fee directly */
-                stepSize,
-                null));
-        if (!currencies.containsKey(currentCurrencyPair.base)) {
-          AssetDetail baseAsset = assetDetailMap.get(currentCurrencyPair.base.getCurrencyCode());
-          BigDecimal baseWithdrawlFee =
-              baseAsset != null ? baseAsset.getWithdrawFee().stripTrailingZeros() : null;
-          currencies.put(currentCurrencyPair.base, new CurrencyMetaData(basePrecision, baseWithdrawlFee));
-        }
-        if (!currencies.containsKey(currentCurrencyPair.counter)) {
-          AssetDetail counterAsset = assetDetailMap.get(currentCurrencyPair.counter.getCurrencyCode());
-          BigDecimal counterWithdrawlFee =
-              counterAsset != null ? counterAsset.getWithdrawFee().stripTrailingZeros() : null;
-          currencies.put(currentCurrencyPair.counter, new CurrencyMetaData(counterPrecision, counterWithdrawlFee));
-        }
-
+          currencyPairs.put(
+              currentCurrencyPair,
+              new CurrencyPairMetaData(
+                  new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
+                  minQty, // Min amount
+                  maxQty, // Max amount
+                  amountPrecision, // base precision
+                  pairPrecision, // counter precision
+                  null, /* TODO get fee tiers, although this is not necessary now
+                        because their API returns current fee directly */
+                  stepSize,
+                  null));
+          if (!currencies.containsKey(currentCurrencyPair.base)) {
+            AssetDetail baseAsset = assetDetailMap.get(currentCurrencyPair.base.getCurrencyCode());
+            BigDecimal baseWithdrawlFee =
+                baseAsset != null ? baseAsset.getWithdrawFee().stripTrailingZeros() : null;
+            currencies.put(
+                currentCurrencyPair.base, new CurrencyMetaData(basePrecision, baseWithdrawlFee));
+          }
+          if (!currencies.containsKey(currentCurrencyPair.counter)) {
+            AssetDetail counterAsset =
+                assetDetailMap.get(currentCurrencyPair.counter.getCurrencyCode());
+            BigDecimal counterWithdrawlFee =
+                counterAsset != null ? counterAsset.getWithdrawFee().stripTrailingZeros() : null;
+            currencies.put(
+                currentCurrencyPair.counter,
+                new CurrencyMetaData(counterPrecision, counterWithdrawlFee));
+          }
         }
       }
     } catch (Exception e) {
