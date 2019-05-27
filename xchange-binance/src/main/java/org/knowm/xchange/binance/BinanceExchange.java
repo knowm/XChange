@@ -120,27 +120,33 @@ public class BinanceExchange extends BaseExchange {
                         because their API returns current fee directly */
                   stepSize,
                   null));
-          if (!currencies.containsKey(currentCurrencyPair.base)) {
-            AssetDetail baseAsset = assetDetailMap.get(currentCurrencyPair.base.getCurrencyCode());
-            BigDecimal baseWithdrawlFee =
-                baseAsset != null ? baseAsset.getWithdrawFee().stripTrailingZeros() : null;
-            currencies.put(
-                currentCurrencyPair.base, new CurrencyMetaData(basePrecision, baseWithdrawlFee));
-          }
-          if (!currencies.containsKey(currentCurrencyPair.counter)) {
-            AssetDetail counterAsset =
-                assetDetailMap.get(currentCurrencyPair.counter.getCurrencyCode());
-            BigDecimal counterWithdrawlFee =
-                counterAsset != null ? counterAsset.getWithdrawFee().stripTrailingZeros() : null;
-            currencies.put(
-                currentCurrencyPair.counter,
-                new CurrencyMetaData(counterPrecision, counterWithdrawlFee));
-          }
+
+          Currency baseCurrency = currentCurrencyPair.base;
+          BigDecimal baseWithdrawalFee = getWithdrawalFee(currencies, baseCurrency, assetDetailMap);
+          currencies.put(baseCurrency, new CurrencyMetaData(basePrecision, baseWithdrawalFee));
+
+          Currency counterCurrency = currentCurrencyPair.counter;
+          BigDecimal counterWithdrawalFee =
+              getWithdrawalFee(currencies, counterCurrency, assetDetailMap);
+          currencies.put(
+              counterCurrency, new CurrencyMetaData(counterPrecision, counterWithdrawalFee));
         }
       }
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
+  }
+
+  private BigDecimal getWithdrawalFee(
+      Map<Currency, CurrencyMetaData> currencies,
+      Currency currency,
+      Map<String, AssetDetail> assetDetailMap) {
+    if (assetDetailMap != null) {
+      AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
+      return asset != null ? asset.getWithdrawFee().stripTrailingZeros() : null;
+    }
+
+    return currencies.containsKey(currency) ? currencies.get(currency).getWithdrawalFee() : null;
   }
 
   private int numberOfDecimals(String value) {
