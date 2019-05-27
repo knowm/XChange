@@ -57,6 +57,9 @@ public class BitmexOrderbook {
             boolean shouldDelete = action.equals("delete");
             String id = level.getId();
             BigDecimal price = orderBookSideIds.get(id);
+            if (price == null) {
+                return;
+            }
             orderBookSide.remove(price);
             orderBookSideIds.remove(id);
             if (!shouldDelete) {
