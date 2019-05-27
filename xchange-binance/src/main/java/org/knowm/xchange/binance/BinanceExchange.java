@@ -3,6 +3,7 @@ package org.knowm.xchange.binance;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -81,6 +82,11 @@ public class BinanceExchange extends BaseExchange {
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      if (assetDetailMap == null) {
+        // this happens if you do not pass any credentials because you just want to use the public
+        // API
+        assetDetailMap = Collections.EMPTY_MAP;
+      }
       for (Symbol symbol : symbols) {
         if (!symbol.getStatus().equals("BREAK")) { // Symbols with status "BREAK" are delisted
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
