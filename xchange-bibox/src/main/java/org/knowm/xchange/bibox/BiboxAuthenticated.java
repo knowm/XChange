@@ -1,6 +1,5 @@
 package org.knowm.xchange.bibox;
 
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -10,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bibox.dto.BiboxMultipleResponses;
 import org.knowm.xchange.bibox.dto.BiboxPagedResponses;
 import org.knowm.xchange.bibox.dto.BiboxSingleResponse;
-import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxAssetsResult;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.trade.BiboxOrders;
@@ -29,7 +28,7 @@ public interface BiboxAuthenticated extends Bibox {
    */
   @POST
   @Path("transfer")
-  BiboxSingleResponse<List<BiboxCoin>> coinList(
+  BiboxSingleResponse<BiboxAssetsResult> assets(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
       @FormParam(FORM_SIGNATURE) ParamsDigest signature);
@@ -89,7 +88,7 @@ public interface BiboxAuthenticated extends Bibox {
    */
   @POST
   @Path("orderpending")
-  BiboxSingleResponse<Integer> trade(
+  BiboxSingleResponse<String> trade(
       @FormParam(FORM_CMDS) String cmds,
       @FormParam(FORM_APIKEY) String apiKey,
       @FormParam(FORM_SIGNATURE) ParamsDigest signature);
