@@ -27,12 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.*;
 import si.mazi.rescu.RestProxyFactory;
 
 /** @author Martin Stachon */
@@ -56,9 +51,9 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getExchangeSpecification().getApiKey());
   }
 
-  public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, Integer limit, String sort)
+  public CoinmateTransactionHistory getCoinmateTransactionHistory(int offset, Integer limit, String sort)
       throws IOException {
-    CoinmateTransactionHistory tradeHistory =
+    CoinmateTransactionHistory transactionHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getExchangeSpecification().getUserName(),
@@ -68,9 +63,50 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             limit,
             sort);
 
+    throwExceptionIfError(transactionHistory);
+
+    return transactionHistory;
+  }
+
+  public CoinmateTradeHistory getCoinmateTradeHistory(int limit, String order)
+      throws IOException {
+    CoinmateTradeHistory tradeHistory =
+        coinmateAuthenticated.getTradeHistory(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            limit,
+            null,
+            order,
+            null,
+            null,
+            null,
+            null);
+
     throwExceptionIfError(tradeHistory);
 
     return tradeHistory;
+  }
+
+  public CoinmateTransferHistory getCoinmateTransferHistory()
+      throws IOException {
+    CoinmateTransferHistory transferHistory =
+        coinmateAuthenticated.getTransferHistory(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
+
+    throwExceptionIfError(transferHistory);
+
+    return transferHistory;
   }
 
   public CoinmateOrderHistory getCoinmateOrderHistory(String currencyPair, int limit)
