@@ -33,12 +33,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import org.knowm.xchange.coinmate.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -188,5 +183,38 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("currencyPair") String currencyPair,
       @FormParam("limit") int limit)
+      throws IOException;
+
+  @POST
+  @Path("tradeHistory")
+  CoinmateTradeHistory getTradeHistory(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("limit") Integer limit,
+      @FormParam("lastId") Integer lastId,
+      @FormParam("sort") String sort,
+      @FormParam("timestampFrom") Long timestampFrom,
+      @FormParam("timestampTo") Long timestampTo,
+      @FormParam("currencyPair") Long currencyPair,
+      @FormParam("orderId") String orderId
+      )
+      throws IOException;
+
+  @POST
+  @Path("transferHistory")
+  CoinmateTransferHistory getTransferHistory(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("limit") Integer limit,
+      @FormParam("lastId") Integer lastId,
+      @FormParam("sort") String sort,
+      @FormParam("timestampFrom") Long timestampFrom,
+      @FormParam("timestampTo") Long timestampTo,
+      @FormParam("currency") String currency
+      )
       throws IOException;
 }

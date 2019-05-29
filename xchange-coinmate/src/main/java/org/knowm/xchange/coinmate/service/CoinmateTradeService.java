@@ -186,9 +186,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       order = ((TradeHistoryParamsSorted) params).getOrder();
     }
 
-    CoinmateTransactionHistory coinmateTradeHistory =
-        getCoinmateTradeHistory(offset, limit, CoinmateAdapters.adaptSortOrder(order));
-    return CoinmateAdapters.adaptTransactionHistory(coinmateTradeHistory);
+    CoinmateTradeHistory coinmateTradeHistory =
+        getCoinmateTradeHistory(limit, CoinmateAdapters.adaptSortOrder(order));
+    return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
   @Override
