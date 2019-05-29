@@ -2,6 +2,7 @@ package org.knowm.xchange.kucoin;
 
 import com.google.common.base.Strings;
 import org.knowm.xchange.kucoin.service.AccountAPI;
+import org.knowm.xchange.kucoin.service.DepositAPI;
 import org.knowm.xchange.kucoin.service.FillAPI;
 import org.knowm.xchange.kucoin.service.HistoryAPI;
 import org.knowm.xchange.kucoin.service.KucoinApiException;
@@ -9,6 +10,7 @@ import org.knowm.xchange.kucoin.service.KucoinDigest;
 import org.knowm.xchange.kucoin.service.OrderAPI;
 import org.knowm.xchange.kucoin.service.OrderBookAPI;
 import org.knowm.xchange.kucoin.service.SymbolAPI;
+import org.knowm.xchange.kucoin.service.WithdrawalAPI;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
@@ -20,6 +22,8 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
   protected final OrderBookAPI orderBookApi;
   protected final HistoryAPI historyApi;
   protected final AccountAPI accountApi;
+  protected final WithdrawalAPI withdrawalAPI;
+  protected final DepositAPI depositAPI;
   protected final OrderAPI orderApi;
   protected final FillAPI fillApi;
 
@@ -34,6 +38,8 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
     this.orderBookApi = service(exchange, OrderBookAPI.class);
     this.historyApi = service(exchange, HistoryAPI.class);
     this.accountApi = service(exchange, AccountAPI.class);
+    this.withdrawalAPI = service(exchange, WithdrawalAPI.class);
+    this.depositAPI = service(exchange, DepositAPI.class);
     this.orderApi = service(exchange, OrderAPI.class);
     this.fillApi = service(exchange, FillAPI.class);
 
