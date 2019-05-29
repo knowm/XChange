@@ -138,7 +138,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
-      Integer immediateOrCancel)
+      Integer immediateOrCancel,
+      Integer trailing)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.buyLimit(
@@ -151,7 +152,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
-            immediateOrCancel);
+            immediateOrCancel,
+            trailing);
 
     throwExceptionIfError(response);
 
@@ -164,7 +166,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
-      Integer immediateOrCancel)
+      Integer immediateOrCancel,
+      Integer trailing)
       throws IOException {
     CoinmateTradeResponse response =
         coinmateAuthenticated.sellLimit(
@@ -177,7 +180,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
-            immediateOrCancel);
+            immediateOrCancel,
+            trailing);
 
     throwExceptionIfError(response);
 

@@ -114,7 +114,8 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
-      @FormParam("immediateOrCancel") Integer immediateOrCancel)
+      @FormParam("immediateOrCancel") Integer immediateOrCancel,
+      @FormParam("trailing") Integer trailing)
       throws IOException;
 
   @POST
@@ -129,7 +130,8 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
-      @FormParam("immediateOrCancel") Integer immediateOrCancel)
+      @FormParam("immediateOrCancel") Integer immediateOrCancel,
+      @FormParam("trailing") Integer trailing)
       throws IOException;
 
   @POST
