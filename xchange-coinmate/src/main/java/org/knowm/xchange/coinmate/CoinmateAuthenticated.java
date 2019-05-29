@@ -217,4 +217,62 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currency") String currency
       )
       throws IOException;
+
+  @POST
+  @Path("replaceByBuyLimit")
+  CoinmateReplaceResponse replaceByBuyLimit(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price,
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("hidden") Integer hidden,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel,
+      @FormParam("trailing") Integer trailing)
+      throws IOException;
+
+  @POST
+  @Path("replaceBySellLimit")
+  CoinmateReplaceResponse replaceBySellLimit(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price,
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("hidden") Integer hidden,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel,
+      @FormParam("trailing") Integer trailing)
+      throws IOException;
+
+  @POST
+  @Path("replaceByBuyInstant")
+  CoinmateReplaceResponse replaceByBuyInstant(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("total") BigDecimal total,
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced)
+      throws IOException;
+
+  @POST
+  @Path("replaceBySellInstant")
+  CoinmateReplaceResponse replaceBySellInstant(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("currencyPair") String currencyPair,
+      @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced)
+      throws IOException;
 }
