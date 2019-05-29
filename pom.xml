@@ -146,6 +146,7 @@
         <module>xchange-cryptonit</module>
         <module>xchange-cryptopia</module>
         <module>xchange-coinsuper</module>
+        <module>xchange-deribit</module>
         <module>xchange-dsx</module>
         <module>xchange-dragonex</module>
         <module>xchange-dvchain</module>
@@ -530,3 +531,4 @@
     </build>
 
 </project>
+
