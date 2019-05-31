@@ -215,7 +215,7 @@ public class CoinmateAdapters {
               Long.toString(entry.getTransactionId()),
               Long.toString(entry.getOrderId()),
               entry.getFee(),
-              null // TODO: what currency are fees in?
+              CoinmateUtils.getPair(entry.getCurrencyPair()).counter
           );
       trades.add(trade);
     }
