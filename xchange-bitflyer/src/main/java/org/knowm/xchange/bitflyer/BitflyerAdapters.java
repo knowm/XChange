@@ -157,7 +157,7 @@ public class BitflyerAdapters {
                             new CurrencyPair(result.getProductCode().replace("_", "/")))
                         .id(result.getChildOrderId())
                         .orderStatus(adaptOrderStatus(result.getChildOrderState()))
-                        .timestamp(BitflyerUtils.parseShortDate(result.getChildOrderDate()))
+                        .timestamp(BitflyerUtils.parseDate(result.getChildOrderDate()))
                         .limitPrice(result.getPrice())
                         .averagePrice(result.getAveragePrice())
                         .originalAmount(result.getSize())
