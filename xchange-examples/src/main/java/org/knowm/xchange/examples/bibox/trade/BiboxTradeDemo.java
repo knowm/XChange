@@ -58,7 +58,7 @@ public class BiboxTradeDemo {
 
   private static void raw(BiboxTradeServiceRaw tradeService) throws IOException {
     try {
-      Integer orderId = tradeService.placeBiboxLimitOrder(LIMIT_ORDER);
+      String orderId = tradeService.placeBiboxLimitOrder(LIMIT_ORDER);
       System.out.println("Order successfully placed. ID=" + orderId);
 
       Thread.sleep(1000); // wait for order to propagate
@@ -67,7 +67,7 @@ public class BiboxTradeDemo {
       System.out.println(tradeService.getBiboxOpenOrders());
 
       System.out.println("Attempting to cancel order " + orderId);
-      tradeService.cancelBiboxOrder(orderId.toString());
+      tradeService.cancelBiboxOrder(orderId);
 
       Thread.sleep(1000); // wait for cancellation to propagate
 
