@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.19-SNAPSHOT</version>
+        <version>4.3.19</version>
     </parent>
 
     <artifactId>xchange-fcoin</artifactId>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.19-SNAPSHOT</version>
+            <version>4.3.19</version>
         </dependency>
 
         <dependency>
