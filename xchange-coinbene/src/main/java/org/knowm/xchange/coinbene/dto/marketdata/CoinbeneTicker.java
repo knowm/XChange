@@ -104,6 +104,10 @@ public class CoinbeneTicker {
       return tickers.get(0);
     }
 
+    public List<CoinbeneTicker> getTickers() {
+      return tickers;
+    }
+
     public long getTimestamp() {
       return timestamp;
     }
