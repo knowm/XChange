@@ -1,15 +1,22 @@
 package info.bitrich.xchangestream.bitmex;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import info.bitrich.xchangestream.bitmex.dto.BitmexMarketDataEvent;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +25,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,7 +33,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class BitmexStreamingService extends JsonNettyStreamingService {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
+    private final ObjectMapper mapper = new ObjectMapper();
+    private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
+    protected ExchangeSpecification exchangeSpecification;
 
     private final String apiKey;
     private final String secretKey;
@@ -45,9 +55,74 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         this.secretKey = secretKey;
     }
 
-	 @Override
+    public void setExchangeSpecification(ExchangeSpecification exchangeSpecification) {
+        this.exchangeSpecification = exchangeSpecification;
+    }
+
+    private void login() throws JsonProcessingException {
+        long expires = System.currentTimeMillis() + 30;
+        String apiKey = this.exchangeSpecification.getApiKey();
+        String apiSecret = this.exchangeSpecification.getSecretKey();
+        String path = "/realtime";
+        String signature = BitmexAuthenticator.generateSignature(apiSecret,
+                "GET", path, String.valueOf(expires), "");
+
+        List<Object> args = Arrays.asList(apiKey, expires, signature);
+
+        Map<String, Object> cmd = new HashMap<>();
+        cmd.put("op", "authKey");
+        cmd.put("args", args);
+        this.sendMessage(mapper.writeValueAsString(cmd));
+
+    }
+
+    @Override
+    public Completable connect() {
+        // Note that we must override connect method in streaming service instead of streaming exchange, because of the auto reconnect feature of NettyStreamingService.
+        // We must ensure the authentication message is also resend when the connection is rebuilt.
+        Completable conn = super.connect();
+        if (this.exchangeSpecification.getApiKey() == null) {
+            return conn;
+        }
+        return conn.andThen((CompletableSource) (completable) -> {
+            try {
+                login();
+                completable.onComplete();
+            } catch (IOException e) {
+                completable.onError(e);
+            }
+        });
+    }
+
+    @Override
     protected void handleMessage(JsonNode message) {
-         if (message.has("info") || message.has("success")) {
+         if (!delayEmitters.isEmpty() && message.has("data")) {
+            String table = "";
+            if (message.has("table")) {
+                table = message.get("table").asText();
+            }
+            JsonNode data = message.get("data");
+            if (data.getNodeType().equals(JsonNodeType.ARRAY)) {
+                Long current = System.currentTimeMillis();
+                SimpleDateFormat formatter;
+                formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                JsonNode d = data.get(0);
+                if (d != null && d.has("timestamp") &&
+                        (!"order".equals(table) || d.has("ordStatus") && "NEW".equals(d.get("ordStatus").asText()))) {
+                    try {
+                        String timestamp = d.get("timestamp").asText();
+                        Date date = formatter.parse(timestamp);
+                        long delay = current - date.getTime();
+                        for (ObservableEmitter<Long> emitter : delayEmitters) {
+                            emitter.onNext(delay);
+                        }
+                    } catch (ParseException e) {
+                        LOG.error("Parsing timestamp error: ", e);
+                    }
+                }
+            }
+        }if (message.has("info") || message.has("success")) {
              return;
          }
          if (message.has("error")) {
@@ -117,9 +192,12 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+        String table = message.get("table").asText();
+        if (table.equals("order") || table.equals("funding") || table.equals("position")) {
+            return table;
+        }
         JsonNode data = message.get("data");
         String instrument = data.size() > 0 ? data.get(0).get("symbol").asText() : message.get("filter").get("symbol").asText();
-        String table = message.get("table").asText();
         return String.format("%s:%s", table, instrument);
     }
 
@@ -161,4 +239,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         return dmsCancelTime > 0 && System.currentTimeMillis() < dmsCancelTime;
     }
 
+    public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
+        delayEmitters.add(delayEmitter);
+    }
 }

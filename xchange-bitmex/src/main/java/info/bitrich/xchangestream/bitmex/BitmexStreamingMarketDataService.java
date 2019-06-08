@@ -6,9 +6,8 @@ import info.bitrich.xchangestream.bitmex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import org.knowm.xchange.bitmex.BitmexContract;
+import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.BitmexPrompt;
-import org.knowm.xchange.bitmex.BitmexUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -29,25 +28,25 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     private final BitmexStreamingService streamingService;
 
+    private final BitmexExchange bitmexExchange;
+
     private final SortedMap<String, BitmexOrderbook> orderbooks = new TreeMap<>();
 
-
-    public BitmexStreamingMarketDataService(BitmexStreamingService streamingService) {
+    public BitmexStreamingMarketDataService(BitmexStreamingService streamingService, BitmexExchange bitmexExchange) {
         this.streamingService = streamingService;
         this.streamingService.subscribeConnectionSuccess().subscribe(o -> {
             LOG.info("Bitmex connection succeeded. Clearing orderbooks.");
             orderbooks.clear();
         });
+        this.bitmexExchange = bitmexExchange;
     }
 
     private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
-        if (args.length > 0) {
+        if (args.length > 0 && args[0] != null) {
             BitmexPrompt prompt = (BitmexPrompt) args[0];
-            BitmexContract contract = new BitmexContract(currencyPair, prompt);
-            return BitmexUtils.translateBitmexContract(contract);
-        } else {
-            return currencyPair.base.toString() + currencyPair.counter.toString();
+            currencyPair = bitmexExchange.determineActiveContract(currencyPair.base.toString(), currencyPair.counter.toString(), prompt);
         }
+        return currencyPair.base.toString() + currencyPair.counter.toString();
     }
 
     @Override
@@ -65,7 +64,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 orderbook = orderbooks.get(instrument);
                 //ignore updates until first "partial"
                 if (orderbook == null) {
-                    return new OrderBook(null, Collections.emptyList(), Collections.emptyList());
+                    return new OrderBook(new Date(), Collections.emptyList(), Collections.emptyList());
                 }
                 BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
                 orderbook.updateLevels(levels, action);
@@ -139,4 +138,10 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     public void disableDeadMansSwitch() throws IOException {
         streamingService.disableDeadMansSwitch();
     }
+
+    public Observable<BitmexFunding> getFunding() {
+        String channelName = "funding";
+        return streamingService.subscribeBitmexChannel(channelName).map(BitmexWebSocketTransaction::toBitmexFunding);
+    }
+
 }
