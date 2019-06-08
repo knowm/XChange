@@ -16,7 +16,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +35,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     private final ObjectMapper mapper = new ObjectMapper();
     private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
-    protected ExchangeSpecification exchangeSpecification;
-
     private final String apiKey;
     private final String secretKey;
 
@@ -55,16 +52,10 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         this.secretKey = secretKey;
     }
 
-    public void setExchangeSpecification(ExchangeSpecification exchangeSpecification) {
-        this.exchangeSpecification = exchangeSpecification;
-    }
-
     private void login() throws JsonProcessingException {
         long expires = System.currentTimeMillis() + 30;
-        String apiKey = this.exchangeSpecification.getApiKey();
-        String apiSecret = this.exchangeSpecification.getSecretKey();
         String path = "/realtime";
-        String signature = BitmexAuthenticator.generateSignature(apiSecret,
+        String signature = BitmexAuthenticator.generateSignature(secretKey,
                 "GET", path, String.valueOf(expires), "");
 
         List<Object> args = Arrays.asList(apiKey, expires, signature);
@@ -81,7 +72,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
         // Note that we must override connect method in streaming service instead of streaming exchange, because of the auto reconnect feature of NettyStreamingService.
         // We must ensure the authentication message is also resend when the connection is rebuilt.
         Completable conn = super.connect();
-        if (this.exchangeSpecification.getApiKey() == null) {
+        if (apiKey == null) {
             return conn;
         }
         return conn.andThen((CompletableSource) (completable) -> {
@@ -218,14 +209,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
             LOG.warn("You already have Dead Man's switch enabled. Doing nothing");
             return;
         }
-        final BitmexWebSocketSubscriptionMessage subscriptionMessage = new BitmexWebSocketSubscriptionMessage("cancelAllAfter", new Object[]{DMS_CANCEL_ALL_IN});
+        final BitmexWebSocketSubscriptionMessage subscriptionMessage = new BitmexWebSocketSubscriptionMessage("cancelAllAfter", new Object[]{timeout});
         String message = objectMapper.writeValueAsString(subscriptionMessage);
-        dmsDisposable = Schedulers.single().schedulePeriodicallyDirect(new Runnable() {
-            @Override
-            public void run() {
-                sendMessage(message);
-            }
-        }, 0, DMS_RESUBSCRIBE, TimeUnit.MILLISECONDS);
+        dmsDisposable = Schedulers.single().schedulePeriodicallyDirect(() -> sendMessage(message), 0, rate, TimeUnit.MILLISECONDS);
         Schedulers.single().start();
     }
 

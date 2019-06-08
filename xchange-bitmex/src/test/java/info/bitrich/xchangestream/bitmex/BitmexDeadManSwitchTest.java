@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.bitmex;
 
+import info.bitrich.xchangestream.bitmex.dto.BitmexLimitOrder;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,7 +11,9 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.CertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +42,12 @@ public class BitmexDeadManSwitchTest {
         defaultExchangeSpecification.setApiKey("QW8Ao_gx38e-8KFvDkFn-Ym4");
         defaultExchangeSpecification.setSecretKey("tn7rpzvOXSKThZD0f-xXehtydt4OTHZVf42gCCyxPixiiVOb");
 
-        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
-        defaultExchangeSpecification.setProxyHost("localhost");
-        defaultExchangeSpecification.setProxyPort(9999);
+//        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
+//        defaultExchangeSpecification.setProxyHost("localhost");
+//        defaultExchangeSpecification.setProxyPort(9999);
 
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");
-        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_PORT, 8889);
+//        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_HOST, "localhost");
+//        defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.SOCKS_PROXY_PORT, 8889);
 
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.USE_SANDBOX, true);
         defaultExchangeSpecification.setExchangeSpecificParametersItem(StreamingExchange.ACCEPT_ALL_CERITICATES, true);
@@ -79,7 +82,8 @@ public class BitmexDeadManSwitchTest {
         BigDecimal originalOrderSize = new BigDecimal("300");
         //    BigDecimal price = new BigDecimal("10000");
         BigDecimal price = orderBook.getBids().get(0).getLimitPrice().add(new BigDecimal("100"));
-        BitmexPrivateOrder xbtusd = tradeService.placeLimitOrder("XBTUSD", originalOrderSize, price, BitmexSide.SELL, nosOrdId, null);
+        LimitOrder limitOrder = new LimitOrder.Builder(Order.OrderType.ASK, CurrencyPair.XBT_USD).originalAmount(originalOrderSize).limitPrice(price).id(nosOrdId).build();
+        String xbtusd = tradeService.placeLimitOrder(limitOrder);
         logger.info("!!!!!PRIVATE_ORDER!!!! {}",xbtusd);
         Thread.sleep(100000);
         System.out.println();

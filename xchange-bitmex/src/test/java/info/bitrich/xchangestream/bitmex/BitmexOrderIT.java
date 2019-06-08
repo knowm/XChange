@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
+import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
@@ -69,13 +70,8 @@ public class BitmexOrderIT {
         LOG.info("Got best ask = {}, best bid = {}", topPriceAsk, topPriceBid);
         Assert.assertTrue("Got empty order book", topPriceAsk != null || topPriceBid != null);
 
-        if (topPriceAsk != null) {
-            testAskPrice = topPriceAsk.add(priceShift);
-            testBidPrice = topPriceAsk.subtract(priceShift);
-        } else {
-            testAskPrice = topPriceBid.add(priceShift);
-            testBidPrice = topPriceBid.subtract(priceShift);
-        }
+        testAskPrice = topPriceAsk;
+        testBidPrice = topPriceBid;
 
         tradeService = (BitmexTradeService) exchange.getTradeService();
     }
@@ -151,14 +147,14 @@ public class BitmexOrderIT {
         String orderId = placeLimitOrder(clOrdId, testAskPrice, "10", Order.OrderType.ASK);
 
         final String replaceId = clOrdId + "replace";
+        BitmexReplaceOrderParameters params = new BitmexReplaceOrderParameters.Builder()
+                .setOrderQuantity(new BigDecimal("5"))
+                .setOrderId(orderId)
+                .setOrigClOrdId(clOrdId)
+                .setClOrdId(replaceId)
+                .build();
         BitmexPrivateOrder bitmexPrivateOrder =
-                tradeService.replaceLimitOrder(
-                        "XBTUSD",
-                        new BigDecimal("5"),
-                        null,
-                        orderId,
-                        replaceId,
-                        clOrdId);
+                tradeService.replaceOrder(params);
         LOG.info("Order was replaced = {}", bitmexPrivateOrder);
 
         checkPrivateOrder(orderId, testAskPrice, "5", BitmexSide.SELL, bitmexPrivateOrder);
