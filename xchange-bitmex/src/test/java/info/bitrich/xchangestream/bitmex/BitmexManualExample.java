@@ -44,19 +44,19 @@ public class BitmexManualExample {
                 .subscribe(trade -> LOG.info("TRADE: {}", trade),
                         throwable -> LOG.error("ERROR in getting trades: ", throwable));
 
-        // Quarterly Contract
-        streamingMarketDataService.getOrderBook(xbtUsd, BitmexPrompt.QUARTERLY).subscribe(orderBook -> {
-            LOG.info("Quarterly Contract First ask: {}", orderBook.getAsks().get(0));
-            LOG.info("Quarterly Contract First bid: {}", orderBook.getBids().get(0));
-        }, throwable -> LOG.error("ERROR in getting Quarterly Contract order book: ", throwable));
+        // BIQUARTERLY Contract
+        streamingMarketDataService.getOrderBook(xbtUsd, BitmexPrompt.BIQUARTERLY).subscribe(orderBook -> {
+            LOG.info("BIQUARTERLY Contract First ask: {}", orderBook.getAsks().get(0));
+            LOG.info("BIQUARTERLY Contract First bid: {}", orderBook.getBids().get(0));
+        }, throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract order book: ", throwable));
 
-        streamingMarketDataService.getTicker(xbtUsd, BitmexPrompt.QUARTERLY).subscribe(ticker -> {
-            LOG.info("Quarterly Contract TICKER: {}", ticker);
-        }, throwable -> LOG.error("ERROR in getting Quarterly Contract ticker: ", throwable));
+        streamingMarketDataService.getTicker(xbtUsd, BitmexPrompt.BIQUARTERLY).subscribe(ticker -> {
+            LOG.info("BIQUARTERLY Contract TICKER: {}", ticker);
+        }, throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract ticker: ", throwable));
 
-        exchange.getStreamingMarketDataService().getTrades(xbtUsd, BitmexPrompt.QUARTERLY)
-                .subscribe(trade -> LOG.info("Quarterly Contract TRADE: {}", trade),
-                        throwable -> LOG.error("ERROR in getting Quarterly Contract trades: ", throwable));
+        exchange.getStreamingMarketDataService().getTrades(xbtUsd, BitmexPrompt.BIQUARTERLY)
+                .subscribe(trade -> LOG.info("BIQUARTERLY Contract TRADE: {}", trade),
+                        throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract trades: ", throwable));
 
         try {
             Thread.sleep(100000);

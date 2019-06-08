@@ -17,7 +17,7 @@ public class BitmexTestsCommons {
 
         defaultExchangeSpecification.setApiKey(localConfig.getApiKey());
         defaultExchangeSpecification.setSecretKey(localConfig.getSecretKey());
-        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
+//        defaultExchangeSpecification.setShouldLoadRemoteMetaData(true);
         return defaultExchangeSpecification;
     }
 
