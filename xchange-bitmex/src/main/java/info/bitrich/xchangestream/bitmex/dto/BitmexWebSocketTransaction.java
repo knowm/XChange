@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -68,6 +67,31 @@ public class BitmexWebSocketTransaction {
         return trades;
     }
 
+    public BitmexOrder[] toBitmexOrders() {
+        BitmexOrder[] orders = new BitmexOrder[this.data.size()];
+        for(int i = 0; i < this.data.size(); ++i) {
+            JsonNode jsonOrder = this.data.get(i);
+
+            try {
+                orders[i] = (BitmexOrder) this.mapper.readValue(jsonOrder.toString(), BitmexOrder.class);
+            } catch (IOException var5) {
+                var5.printStackTrace();
+            }
+        }
+
+        return orders;
+    }
+
+    public BitmexFunding toBitmexFunding() {
+        BitmexFunding funding = null;
+        try {
+            funding = this.mapper.readValue(this.data.get(0).toString(), BitmexFunding.class);
+        } catch (IOException var5) {
+            var5.printStackTrace();
+        }
+        return funding;
+    }
+
     public String getTable() {
         return table;
     }
@@ -79,4 +103,6 @@ public class BitmexWebSocketTransaction {
     public JsonNode getData() {
         return data;
     }
+
+
 }
