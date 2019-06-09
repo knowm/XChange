@@ -5,10 +5,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -120,6 +122,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     try {
       return super.requestDepositAddress(currency).address;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
+  }
+
+  public Map<String, AssetDetail> getAssetDetails() throws IOException {
+    try {
+      return super.requestAssetDetail().getAssetDetail();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
