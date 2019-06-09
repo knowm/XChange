@@ -1,11 +1,6 @@
 package org.knowm.xchange.coinbene.dto;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrder;
@@ -55,9 +50,7 @@ public class CoinbeneAdapters {
     }
   }
 
-  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
-    CoinbeneTicker ticker = container.getTicker();
-
+  private static Ticker adaptCoinbeneTicker(CoinbeneTicker ticker, long timestamp) {
     return new Ticker.Builder()
         .currencyPair(adaptSymbol(ticker.getSymbol()))
         .bid(ticker.getBid())
@@ -66,8 +59,20 @@ public class CoinbeneAdapters {
         .low(ticker.getDayLow())
         .last(ticker.getLast())
         .volume(ticker.getDayVolume())
-        .timestamp(new Date(container.getTimestamp()))
+        .timestamp(new Date(timestamp))
         .build();
+  }
+
+  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
+    return adaptCoinbeneTicker(container.getTicker(), container.getTimestamp());
+  }
+
+  public static List<Ticker> adaptTickers(CoinbeneTicker.Container container) {
+    long timestamp = container.getTimestamp();
+
+    return container.getTickers().stream()
+        .map(coinbeneTicker -> adaptCoinbeneTicker(coinbeneTicker, timestamp))
+        .collect(Collectors.toList());
   }
 
   public static OrderBook adaptOrderBook(
