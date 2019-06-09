@@ -1,8 +1,10 @@
 package org.knowm.xchange.coinbene.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
 import java.util.List;
+import org.knowm.xchange.coinbene.CoinbeneBigDecimalDeserializer;
 import org.knowm.xchange.coinbene.dto.CoinbeneResponse;
 
 public class CoinbeneTicker {
@@ -20,8 +22,10 @@ public class CoinbeneTicker {
       @JsonProperty("24hrHigh") BigDecimal dayHigh,
       @JsonProperty("24hrLow") BigDecimal dayLow,
       @JsonProperty("last") BigDecimal last,
-      @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") @JsonDeserialize(using = CoinbeneBigDecimalDeserializer.class)
+          BigDecimal ask,
+      @JsonProperty("bid") @JsonDeserialize(using = CoinbeneBigDecimalDeserializer.class)
+          BigDecimal bid,
       @JsonProperty("24hrVol") BigDecimal dayVolume,
       @JsonProperty("24hrAmt") BigDecimal dayAmount) {
     this.symbol = symbol;
@@ -102,6 +106,10 @@ public class CoinbeneTicker {
 
     public CoinbeneTicker getTicker() {
       return tickers.get(0);
+    }
+
+    public List<CoinbeneTicker> getTickers() {
+      return tickers;
     }
 
     public long getTimestamp() {
