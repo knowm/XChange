@@ -256,7 +256,9 @@ public interface BinanceAuthenticated extends Binance {
    * Get trades for a specific account and symbol.
    *
    * @param symbol
-   * @param limit optional, default 500; max 500.
+   * @param startTime optional
+   * @param endTime optional
+   * @param limit optional, default 500; max 1000.
    * @param fromId optional, tradeId to fetch from. Default gets most recent trades.
    * @param recvWindow optional
    * @param timestamp
@@ -269,6 +271,8 @@ public interface BinanceAuthenticated extends Binance {
   List<BinanceTrade> myTrades(
       @QueryParam("symbol") String symbol,
       @QueryParam("limit") Integer limit,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("fromId") Long fromId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") long timestamp,
