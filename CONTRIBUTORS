@@ -16,7 +16,6 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
-
 小田謙太郎
 =
 Aaron Jang
@@ -26,10 +25,12 @@ Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex Nugent
+Alexander
 Alexey Syrtsev
 Alexey Z
 Allen Day
 Alvin Singh
+Amjad
 Andraž
 Andre Reiter
 Andrea Fossi
@@ -92,6 +93,7 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 Graham Crockford
+Gregor Gaertner
 Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
@@ -104,6 +106,7 @@ Igor Velichkevich
 Igor.Velichkevich
 Iury V. Vinogradov
 JH
+JJag
 JK
 Jack McKenzie
 Jakub Kalicki
@@ -111,6 +114,7 @@ James
 James Edwards
 James Fleming
 Jan Akerman
+Jan Handrich
 Jan Vojt
 Jan X Marek
 Jan-Terje Sørensen
@@ -282,8 +286,10 @@ caleb
 coinlover75
 cymp
 cyril
+danielgarciaperez
 datbui
 david-yam
+dependabot-preview[bot]
 dependabot[bot]
 desinerlee
 deveth0

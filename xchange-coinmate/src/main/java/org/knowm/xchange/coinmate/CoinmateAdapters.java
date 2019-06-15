@@ -184,8 +184,7 @@ public class CoinmateAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static UserTrades adaptTradeHistory(
-      CoinmateTradeHistory coinmateTradeHistory) {
+  public static UserTrades adaptTradeHistory(CoinmateTradeHistory coinmateTradeHistory) {
     List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().size());
 
     for (CoinmateTradeHistoryEntry entry : coinmateTradeHistory.getData()) {
@@ -215,8 +214,7 @@ public class CoinmateAdapters {
               Long.toString(entry.getTransactionId()),
               Long.toString(entry.getOrderId()),
               entry.getFee(),
-              CoinmateUtils.getPair(entry.getCurrencyPair()).counter
-          );
+              CoinmateUtils.getPair(entry.getCurrencyPair()).counter);
       trades.add(trade);
     }
 
