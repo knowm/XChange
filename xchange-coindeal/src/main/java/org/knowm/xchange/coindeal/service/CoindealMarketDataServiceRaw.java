@@ -22,11 +22,9 @@ public class CoindealMarketDataServiceRaw extends BaseExchangeService {
             Coindeal.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
   }
 
-  public CoindealOrderBook getCoindealOrderbook(CurrencyPair currencyPair) throws IOException {
-    try {
-      return coindeal.getOrderBook(CoindealAdapters.adaptCurrencyPairToString(currencyPair));
-    } catch (CoindealException e) {
-      throw new ExchangeException(e.getMessage());
-    }
+  public CoindealOrderBook getCoindealOrderbook(CurrencyPair currencyPair) throws IOException,CoindealException {
+
+    return coindeal.getOrderBook(CoindealAdapters.adaptCurrencyPairToString(currencyPair));
+
   }
 }

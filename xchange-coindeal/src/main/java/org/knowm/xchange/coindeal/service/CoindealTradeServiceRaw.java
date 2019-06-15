@@ -20,25 +20,21 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
     super(exchange);
   }
 
-  public List<CoindealTradeHistory> getCoindealTradeHistory(TradeHistoryParamsAll params) throws IOException{
+  public List<CoindealTradeHistory> getCoindealTradeHistory(TradeHistoryParamsAll params) throws IOException,CoindealException{
     return coindeal.getTradeHistory(
             basicAuthentication,
             CoindealAdapters.adaptCurrencyPairToString(params.getCurrencyPair()),
             params.getLimit());
   }
 
-  public List<CoindealOrder> getCoindealOpenOrders(CurrencyPair currencyPair)throws IOException{
-    try{
+  public List<CoindealOrder> getCoindealOpenOrders(CurrencyPair currencyPair)throws IOException,CoindealException{
         return coindeal.getActiveOrders(
                 basicAuthentication,
                 CoindealAdapters.adaptCurrencyPairToString(currencyPair));
-    }catch (CoindealException e){
-      throw new ExchangeException(e.getMessage());
-    }
+
   }
 
-  public CoindealOrder placeCoindealOrder(LimitOrder limitOrder) throws IOException {
-    try {
+  public CoindealOrder placeCoindealOrder(LimitOrder limitOrder) throws IOException,CoindealException {
       return coindeal.placeOrder(
           basicAuthentication,
           CoindealAdapters.adaptCurrencyPairToString(limitOrder.getCurrencyPair()),
@@ -47,25 +43,14 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
           "GTC",
           limitOrder.getOriginalAmount().doubleValue(),
           limitOrder.getLimitPrice().doubleValue());
-    } catch (CoindealException e) {
-      throw new ExchangeException(e.getMessage());
-    }
   }
 
-  public List<CoindealOrder> deleteCoindealOrders(CurrencyPair currencyPair) throws IOException{
-    try{
+  public List<CoindealOrder> deleteCoindealOrders(CurrencyPair currencyPair) throws IOException,CoindealException{
         return coindeal.deleteOrders(
             basicAuthentication, CoindealAdapters.adaptCurrencyPairToString(currencyPair));
-    }catch (CoindealException e){
-      throw new ExchangeException(e.getMessage());
-    }
   }
 
-  public CoindealOrder deleteCoindealOrderById(String orderId) throws IOException{
-    try{
+  public CoindealOrder deleteCoindealOrderById(String orderId) throws IOException,CoindealException{
       return coindeal.deleteOrderById(basicAuthentication, orderId);
-    }catch (CoindealException e){
-      throw new ExchangeException(e.getMessage());
-    }
   }
 }
