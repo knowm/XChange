@@ -14,11 +14,7 @@ public class CoindealAccountServiceRaw extends CoindealBaseService {
         super(exchange);
     }
 
-    public List<CoindealBalance> getCoindealBalances() throws IOException{
-        try{
-            return coindeal.getBalances(basicAuthentication);
-        }catch (CoindealException e){
-            throw new ExchangeException(e.getMessage());
-        }
+    public List<CoindealBalance> getCoindealBalances() throws IOException,CoindealException{
+        return coindeal.getBalances(basicAuthentication);
     }
 }

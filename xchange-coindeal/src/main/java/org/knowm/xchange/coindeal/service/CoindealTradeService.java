@@ -6,9 +6,11 @@ import java.util.Collection;
 import com.sun.istack.internal.NotNull;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
+import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
@@ -28,15 +30,23 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return CoindealAdapters.adaptToOpenOrders(getCoindealOpenOrders(null));
+    try{
+      return CoindealAdapters.adaptToOpenOrders(getCoindealOpenOrders(null));
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
+    }
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if(params instanceof OpenOrdersParamCurrencyPair){
-      return CoindealAdapters.adaptToOpenOrders(getCoindealOpenOrders(((OpenOrdersParamCurrencyPair)params).getCurrencyPair()));
-    }else {
-      throw new IOException("OpenOrdersParams must be instance of OpenOrdersParamCurrencyPair.");
+    try {
+      if (params instanceof OpenOrdersParamCurrencyPair) {
+        return CoindealAdapters.adaptToOpenOrders(getCoindealOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
+      } else {
+        throw new IOException("OpenOrdersParams must be instance of OpenOrdersParamCurrencyPair.");
+      }
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -47,7 +57,11 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeCoindealOrder(limitOrder).getClientOrderId();
+    try {
+      return placeCoindealOrder(limitOrder).getClientOrderId();
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
+    }
   }
 
   @Override
@@ -57,22 +71,33 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return deleteCoindealOrderById(orderId) != null;
+    try {
+      return deleteCoindealOrderById(orderId) != null;
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
+    }
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if(orderParams instanceof CancelOrderByCurrencyPair){
-      return deleteCoindealOrders(((CancelOrderByCurrencyPair)orderParams).getCurrencyPair()) != null;
-    }else {
-      throw new IOException("CancelOrderParams must be instance of CancelOrderByCurrencyPair.");
+    try{
+      if(orderParams instanceof CancelOrderByCurrencyPair){
+        return deleteCoindealOrders(((CancelOrderByCurrencyPair)orderParams).getCurrencyPair()) != null;
+      }else {
+        throw new IOException("CancelOrderParams must be instance of CancelOrderByCurrencyPair.");
+      }
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
     }
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    return CoindealAdapters.adaptToUserTrades(getCoindealTradeHistory((TradeHistoryParamsAll)params));
+    try {
+      return CoindealAdapters.adaptToUserTrades(getCoindealTradeHistory((TradeHistoryParamsAll) params));
+    }catch (CoindealException e){
+      throw new ExchangeException(e.getMessage());
+    }
   }
 
   @Override

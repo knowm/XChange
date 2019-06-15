@@ -2,11 +2,13 @@ package org.knowm.xchange.coindeal.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
+import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -25,7 +27,11 @@ public class CoindealAccountService extends CoindealAccountServiceRaw implements
 
     @Override
     public AccountInfo getAccountInfo() throws IOException {
-        return CoindealAdapters.adaptToAccountInfo(getCoindealBalances());
+        try {
+            return CoindealAdapters.adaptToAccountInfo(getCoindealBalances());
+        }catch (CoindealException e){
+            throw new ExchangeException(e.getMessage());
+        }
     }
 
     @Override
