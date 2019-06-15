@@ -31,8 +31,8 @@ public class DeribitInstrumentTest {
     assertThat(instrument.getKind()).isEqualTo("future");
     assertThat(instrument.isActive()).isTrue();
     assertThat(instrument.getInstrumentName()).isEqualTo("BTC-15FEB19");
-    assertThat(instrument.getExpirationTimestamp()).isEqualTo(1550228400000L);
-    assertThat(instrument.getCreationTimestamp()).isEqualTo(1549537259000L);
+    assertThat(instrument.getExpirationTimestamp().getTime()).isEqualTo(1550228400000L);
+    assertThat(instrument.getCreationTimestamp().getTime()).isEqualTo(1549537259000L);
     assertThat(instrument.getContractSize()).isEqualTo(10);
     assertThat(instrument.getBaseCurrency()).isEqualTo("BTC");
   }
