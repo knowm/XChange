@@ -1,15 +1,13 @@
 package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Iterator;

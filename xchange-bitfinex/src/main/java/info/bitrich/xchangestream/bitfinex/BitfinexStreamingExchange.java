@@ -2,9 +2,11 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
 
@@ -12,24 +14,26 @@ import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
  * Created by Lukas Zaoralek on 7.11.17.
  */
 public class BitfinexStreamingExchange extends BitfinexExchange implements StreamingExchange {
-    private static final String API_URI = "wss://api.bitfinex.com/ws/2";
+
+    static final String API_URI = "wss://api.bitfinex.com/ws/2";
 
     private BitfinexStreamingService streamingService;
     private BitfinexStreamingMarketDataService streamingMarketDataService;
 
-    public BitfinexStreamingExchange() {
-    }
-
     @Override
     protected void initServices() {
         super.initServices();
-        streamingService = createStreamingService();
-        streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
+        this.streamingService = createStreamingService();
+        this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
     }
 
     private BitfinexStreamingService createStreamingService() {
-        BitfinexStreamingService streamingService = new BitfinexStreamingService(API_URI);
+        BitfinexStreamingService streamingService = new BitfinexStreamingService(API_URI, getNonceFactory());
         applyStreamingSpecification(getExchangeSpecification(), streamingService);
+        if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
+            streamingService.setApiKey(exchangeSpecification.getApiKey());
+            streamingService.setApiSecret(exchangeSpecification.getSecretKey());
+        }
         return streamingService;
     }
 
@@ -67,11 +71,14 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     }
 
     @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
+    public BitfinexStreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
     }
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
 
+    public boolean isAuthenticatedAlive() {
+        return streamingService != null && streamingService.isAuthenticated();
+    }
 }

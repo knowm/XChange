@@ -17,6 +17,7 @@ import io.reactivex.Observable;
  */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
     private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
+    private static final String SANDBOX_API_URI = "wss://ws-feed-public.sandbox.pro.coinbase.com";
 
     private CoinbaseProStreamingService streamingService;
     private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -33,10 +34,12 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        this.streamingService = new CoinbaseProStreamingService(API_URI, () -> authData(exchangeSpec));
+        String apiUri = exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)
+            ? SANDBOX_API_URI
+            : API_URI;
+        this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
         this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);
-
         return streamingService.connect();
     }
 
