@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.bitstamp;
 
+import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingExchange;
+import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.service.ConnectableService;
@@ -9,11 +11,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -25,7 +22,7 @@ public class BitstampManualExample {
         try {
             rateLimiter.acquire();
         } catch (InterruptedException e) {
-            LOG.warn("Bitfinex connection throttle control has been interrupted");
+            LOG.warn("Bitstamp connection throttle control has been interrupted");
         }
     }
 
@@ -37,12 +34,12 @@ public class BitstampManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
         exchange.connect().blockingAwait();
 
-        exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
+        Disposable orderBookDisposable = ((BitstampStreamingMarketDataService) exchange.getStreamingMarketDataService()).getFullOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
             LOG.info("First ask: {}", orderBook.getAsks().get(0));
             LOG.info("First bid: {}", orderBook.getBids().get(0));
         });
 
-        Disposable subscribe = exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
+        Disposable tradesDisposable = exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
             LOG.info("Trade {}", trade);
         });
 
@@ -52,7 +49,8 @@ public class BitstampManualExample {
             e.printStackTrace();
         }
 
-        subscribe.dispose();
+        orderBookDisposable.dispose();
+        tradesDisposable.dispose();
         exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
       
         rateLimiter.shutdown();

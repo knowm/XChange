@@ -41,7 +41,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http</artifactId>
-            <version>4.1.21.Final</version>
+            <version>4.1.36.Final</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.github.akarnokd</groupId>
             <artifactId>rxjava2-interop</artifactId>
-            <version>0.8.3</version>
+            <version>0.13.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.reactivex.rxjava2</groupId>
