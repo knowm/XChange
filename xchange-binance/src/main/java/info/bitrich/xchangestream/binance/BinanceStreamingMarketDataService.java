@@ -4,16 +4,24 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction;
+import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -24,6 +32,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,17 +51,24 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
     private final BinanceStreamingService service;
-    private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
 
+    private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions = new HashMap<>();
+
+    private final PublishSubject<ExecutionReportBinanceUserTransaction> executionReportsPublisher = PublishSubject.create();
+    private volatile Disposable executionReports;
+    private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
+
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     private final BinanceMarketDataService marketDataService;
 
-    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService) {
+    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, BinanceUserDataStreamingService binanceUserDataStreamingService) {
         this.service = service;
         this.marketDataService = marketDataService;
+        this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
@@ -77,6 +93,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         return tradeSubscriptions.get(currencyPair);
     }
 
+    public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
+        if (executionReportsPublisher == null) {
+            throw new UnsupportedOperationException("Binance exchange only supports up front subscriptions - subscribe at connect time");
+        }
+        return executionReportsPublisher;
+    }
+
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         return getRawTicker(currencyPair)
@@ -85,15 +108,36 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        return getRawTrades(currencyPair)
-                .map(rawTrade -> new Trade(
-                        BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
-                        rawTrade.getQuantity(),
-                        currencyPair,
-                        rawTrade.getPrice(),
-                        new Date(rawTrade.getTimestamp()),
-                        String.valueOf(rawTrade.getTradeId())
-                ));
+        Observable<Trade> publicTrades = getRawTrades(currencyPair, args)
+            .map(rawTrade -> new Trade(
+                BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
+                rawTrade.getQuantity(),
+                currencyPair,
+                rawTrade.getPrice(),
+                new Date(rawTrade.getTimestamp()),
+                String.valueOf(rawTrade.getTradeId())
+            ));
+        if (binanceUserDataStreamingService != null) {
+            return publicTrades.mergeWith(getUserTrades(currencyPair, args));
+        } else {
+            return publicTrades;
+        }
+    }
+
+    public Observable<UserTrade> getUserTrades() {
+        return getRawExecutionReports()
+        		.filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
+    			  .map(ExecutionReportBinanceUserTransaction::toUserTrade);
+    }
+
+    public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+        return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
+    }
+
+    private Observable<ExecutionReportBinanceUserTransaction> rawExecutionReports() {
+        return binanceUserDataStreamingService
+            .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.EXECUTION_REPORT)
+            .map((JsonNode s) -> executionReport(s.toString()));
     }
 
     private static String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
@@ -117,6 +161,25 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         productSubscription.getTrades()
                 .forEach(currencyPair ->
                         tradeSubscriptions.put(currencyPair, triggerObservableBody(rawTradeStream(currencyPair).share())));
+        connectUserSubscriptions();
+    }
+
+    /**
+     * User data subscriptions may have to persist across multiple socket connections to different
+     * URLs and therefore must act in a publisher fashion so that subscribers get an uninterrupted
+     * stream.
+     */
+    void setUserDataStreamingService(BinanceUserDataStreamingService binanceUserDataStreamingService) {
+        if (executionReports != null && !executionReports.isDisposed())
+            executionReports.dispose();
+        this.binanceUserDataStreamingService = binanceUserDataStreamingService;
+        connectUserSubscriptions();
+    }
+
+    private void connectUserSubscriptions() {
+        if (binanceUserDataStreamingService != null) {
+            executionReports = rawExecutionReports().subscribe(executionReportsPublisher::onNext);
+        }
     }
 
     private Observable<BinanceTicker24h> rawTickerStream(CurrencyPair currencyPair) {
@@ -179,7 +242,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
 
         return subscription;
-    }
+                      }
 
     private Observable<OrderBook> orderBookStream(CurrencyPair currencyPair) {
         OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, pair -> connectOrderBook(pair));
@@ -298,4 +361,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         }
     }
 
+    private ExecutionReportBinanceUserTransaction executionReport(String s) {
+      try {
+          return mapper.readValue(s, ExecutionReportBinanceUserTransaction.class);
+      } catch (IOException e) {
+          throw new ExchangeException("Unable to parse execution report", e);
+      }
+    }
 }

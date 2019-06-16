@@ -26,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-public class BitstampStreamingMarketDataServiceTest {
+public class BitstampStreamingMarketDataServiceTest extends BitstampStreamingMarketDataServiceBaseTest {
     @Mock
     private PusherStreamingService streamingService;
     private BitstampStreamingMarketDataService marketDataService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         marketDataService = new BitstampStreamingMarketDataService(streamingService);
     }
@@ -56,11 +56,7 @@ public class BitstampStreamingMarketDataServiceTest {
         TestObserver<OrderBook> test = updater.get();
 
         // We get order book object in correct order
-        test.assertValue(orderBook1 -> {
-            assertThat(orderBook1.getAsks()).as("Asks").isEqualTo(asks);
-            assertThat(orderBook1.getBids()).as("Bids").isEqualTo(bids);
-            return true;
-        });
+        validateOrderBook(bids, asks, test);
     }
 
     @Test
@@ -86,19 +82,11 @@ public class BitstampStreamingMarketDataServiceTest {
         TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
 
         // We get order book object in correct order
-        test.assertValue(trade1 -> {
-            assertThat(trade1.getId()).as("Id").isEqualTo(expected.getId());
-            assertThat(trade1.getCurrencyPair()).as("Currency pair").isEqualTo(expected.getCurrencyPair());
-            assertThat(trade1.getPrice()).as("Price").isEqualTo(expected.getPrice());
-            // assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected.getTimestamp());
-            assertThat(trade1.getOriginalAmount()).as("Amount").isEqualTo(expected.getOriginalAmount());
-            assertThat(trade1.getType()).as("Type").isEqualTo(expected.getType());
-            return true;
-        });
+        validateTrades(expected, test);
     }
 
     @Test(expected = NotAvailableFromExchangeException.class)
-    public void testGetTicker() throws Exception {
+    public void testGetTicker() {
         marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
     }
 }

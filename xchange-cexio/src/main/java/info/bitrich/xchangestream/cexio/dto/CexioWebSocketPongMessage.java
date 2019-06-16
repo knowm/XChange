@@ -5,20 +5,17 @@ import info.bitrich.xchangestream.cexio.CexioStreamingRawService;
 
 public class CexioWebSocketPongMessage {
 
-    @JsonProperty("e")
-    private final String e = CexioStreamingRawService.PONG;
+  @JsonProperty("e")
+  private final String e = CexioStreamingRawService.PONG;
 
-    public CexioWebSocketPongMessage() {}
+  public CexioWebSocketPongMessage() {}
 
-    public String getE() {
-        return e;
-    }
+  public String getE() {
+    return e;
+  }
 
-    @Override
-    public String toString() {
-        return "CexioWebSocketPongMessage{" +
-                "e='" + e + '\'' +
-                '}';
-    }
-
+  @Override
+  public String toString() {
+    return "CexioWebSocketPongMessage{" + "e='" + e + '\'' + '}';
+  }
 }
