@@ -42,11 +42,6 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     }
 
     @Override
-    public SynchronizedValueFactory<Long> getNonceFactory() {
-        return null;
-    }
-
-    @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
         spec.setShouldLoadRemoteMetaData(false);
