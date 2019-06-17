@@ -1,9 +1,7 @@
 package info.bitrich.xchangestream.bitmex;
 
-import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.CertHelper;
@@ -55,7 +53,7 @@ public class BitmexAuthenticatedExample {
        /* streamingMarketDataService.getTrades(xbtUsd)
                 .subscribe(trade -> LOG.info("TRADE: {}", trade),
                         throwable -> LOG.error("ERROR in getting trades: ", throwable));*/
-        streamingMarketDataService.getExecutions("XBTUSD").subscribe(bitmexExecution -> {
+        streamingMarketDataService.getRawExecutions("XBTUSD").subscribe(bitmexExecution -> {
             LOG.info("bitmexExecution = {}", bitmexExecution);
         });
         try {

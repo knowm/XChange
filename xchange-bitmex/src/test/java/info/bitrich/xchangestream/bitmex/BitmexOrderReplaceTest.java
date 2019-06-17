@@ -62,12 +62,12 @@ public class BitmexOrderReplaceTest {
 
         final BitmexStreamingMarketDataService streamingMarketDataService = (BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService();
 //        streamingMarketDataService.authenticate();
-        CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
+        CurrencyPair xbtUsd = exchange.determineActiveContract(CurrencyPair.XBT_USD.base.toString(), CurrencyPair.XBT_USD.counter.toString(), PERPETUAL);
 
-        streamingMarketDataService.getExecutions("XBTUSD").subscribe(bitmexExecution -> {
+        streamingMarketDataService.getRawExecutions("XBTUSD").subscribe(bitmexExecution -> {
             logger.info("!!!!EXECUTION!!!! = {}", bitmexExecution);
         });
-        OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XBT_USD, PERPETUAL);
+        OrderBook orderBook = marketDataService.getOrderBook(xbtUsd);
         //    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.ADA,
         // Currency.BTC), BitmexPrompt.QUARTERLY);
         //    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.BTC,

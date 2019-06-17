@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.bitmex.BitmexExchange;
-import org.knowm.xchange.bitmex.BitmexPrompt;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -41,17 +40,13 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         this.bitmexExchange = bitmexExchange;
     }
 
-    private String getBitmexSymbol(CurrencyPair currencyPair, Object... args) {
-        if (args.length > 0 && args[0] != null) {
-            BitmexPrompt prompt = (BitmexPrompt) args[0];
-            currencyPair = bitmexExchange.determineActiveContract(currencyPair.base.toString(), currencyPair.counter.toString(), prompt);
-        }
+    private String getBitmexSymbol(CurrencyPair currencyPair) {
         return currencyPair.base.toString() + currencyPair.counter.toString();
     }
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = getBitmexSymbol(currencyPair);
         String channelName = String.format("orderBookL2:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -74,8 +69,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         });
     }
 
-    public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+    public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair) {
+        String instrument = getBitmexSymbol(currencyPair);
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toBitmexTicker());
@@ -83,7 +78,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = getBitmexSymbol(currencyPair);
         String channelName = String.format("quote:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).map(s -> {
@@ -94,7 +89,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String instrument = getBitmexSymbol(currencyPair, args);
+        String instrument = getBitmexSymbol(currencyPair);
         String channelName = String.format("trade:%s", instrument);
 
         return streamingService.subscribeBitmexChannel(channelName).flatMapIterable(s -> {
@@ -108,7 +103,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     }
 
 
-    public Observable<BitmexExecution> getExecutions(String symbol) {
+    public Observable<BitmexExecution> getRawExecutions(String symbol) {
         return streamingService.subscribeBitmexChannel("execution:" + symbol).flatMapIterable(s -> {
             JsonNode executions = s.getData();
             List<BitmexExecution> bitmexExecutions = new ArrayList<>(executions.size());
@@ -139,7 +134,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         streamingService.disableDeadMansSwitch();
     }
 
-    public Observable<BitmexFunding> getFunding() {
+    public Observable<BitmexFunding> getRawFunding() {
         String channelName = "funding";
         return streamingService.subscribeBitmexChannel(channelName).map(BitmexWebSocketTransaction::toBitmexFunding);
     }
