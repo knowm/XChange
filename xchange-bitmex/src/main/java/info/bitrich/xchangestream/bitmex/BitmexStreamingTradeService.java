@@ -33,8 +33,4 @@ public class BitmexStreamingTradeService {
                     .map(BitmexOrder::toOrder).collect(Collectors.toList());
         });
     }
-
-    public void submitOrder(Order order, CurrencyPair var1, Object... var2) {
-        throw new NotYetImplementedForExchangeException();
-    }
 }
