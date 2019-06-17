@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.bitmex;
 
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Declan
  */
-public class BitmexStreamingTradeService implements StreamingTradeService {
+public class BitmexStreamingTradeService {
 
     private final BitmexStreamingService streamingService;
 
@@ -23,7 +22,6 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
         this.streamingService = streamingService;
     }
 
-    @Override
     public Observable<Order> getOrders(CurrencyPair currencyPair, Object... args) {
         String channelName = "order";
         String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
@@ -36,7 +34,6 @@ public class BitmexStreamingTradeService implements StreamingTradeService {
         });
     }
 
-    @Override
     public void submitOrder(Order order, CurrencyPair var1, Object... var2) {
         throw new NotYetImplementedForExchangeException();
     }

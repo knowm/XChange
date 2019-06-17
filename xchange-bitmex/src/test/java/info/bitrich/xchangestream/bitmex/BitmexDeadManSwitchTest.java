@@ -1,13 +1,10 @@
 package info.bitrich.xchangestream.bitmex;
 
-import info.bitrich.xchangestream.bitmex.dto.BitmexLimitOrder;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
-import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataService;
 import org.knowm.xchange.bitmex.service.BitmexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
 
@@ -62,13 +58,13 @@ public class BitmexDeadManSwitchTest {
 
         final BitmexStreamingMarketDataService streamingMarketDataService = (BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService();
 //        streamingMarketDataService.authenticate();
-        CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
+        CurrencyPair xbtUsd = exchange.determineActiveContract(CurrencyPair.XBT_USD.base.toString(), CurrencyPair.XBT_USD.counter.toString(), PERPETUAL);
 
-        streamingMarketDataService.getExecutions("XBTUSD").subscribe(bitmexExecution -> {
+        streamingMarketDataService.getRawExecutions("XBTUSD").subscribe(bitmexExecution -> {
             logger.info("!!!!EXECUTION!!!! = {}", bitmexExecution);
         });
 
-        OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XBT_USD, PERPETUAL);
+        OrderBook orderBook = marketDataService.getOrderBook(xbtUsd);
         //    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.ADA,
         // Currency.BTC), BitmexPrompt.QUARTERLY);
         //    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.BTC,

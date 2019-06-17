@@ -37,7 +37,7 @@ import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
  * @author Nikita Belenkiy on 18/05/2018.
  */
 public class BitmexOrderIT {
-    private static final CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
+    private CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 
     private static final BigDecimal priceShift = new BigDecimal("50");
@@ -46,22 +46,24 @@ public class BitmexOrderIT {
     private BigDecimal testBidPrice;
 
     private BitmexTradeService tradeService;
-    private StreamingExchange exchange;
+    private BitmexStreamingExchange exchange;
 
     @Before
     public void setup() throws IOException {
         LocalExchangeConfig localConfig = PropsLoader.loadKeys(
                 "bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
-        exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
+        exchange = (BitmexStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
 
         exchange.applySpecification(BitmexTestsCommons.getExchangeSpecification(localConfig,
                 exchange.getDefaultExchangeSpecification()));
         exchange.connect().blockingAwait();
 
+        xbtUsd = exchange.determineActiveContract(CurrencyPair.XBT_USD.base.toString(), CurrencyPair.XBT_USD.counter.toString(), PERPETUAL);
+
         BitmexMarketDataService marketDataService =
                 (BitmexMarketDataService) exchange.getMarketDataService();
 
-        OrderBook orderBook = marketDataService.getOrderBook(xbtUsd, PERPETUAL);
+        OrderBook orderBook = marketDataService.getOrderBook(xbtUsd);
         List<LimitOrder> asks = orderBook.getAsks();
         // todo : for the streaming service best ask is at 0 pos
         BigDecimal topPriceAsk = getPrice(asks, asks.size() - 1);
@@ -206,7 +208,7 @@ public class BitmexOrderIT {
         }, 1, TimeUnit.SECONDS);
 
         Observable<BitmexExecution> executionObservable = ((BitmexStreamingMarketDataService)
-                exchange.getStreamingMarketDataService()).getExecutions("XBTUSD");
+                exchange.getStreamingMarketDataService()).getRawExecutions("XBTUSD");
         executionObservable.test()
                 .awaitCount(5)
                 .assertNever(execution -> Objects.equals(execution.getClOrdID(), clOrdId))

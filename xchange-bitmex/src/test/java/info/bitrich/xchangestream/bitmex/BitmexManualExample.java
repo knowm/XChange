@@ -15,7 +15,7 @@ public class BitmexManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexManualExample.class);
 
     public static void main(String[] args) {
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
+        BitmexStreamingExchange exchange = (BitmexStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
         exchange.messageDelay().subscribe(delay -> LOG.info("Message delay: " + delay));
@@ -45,16 +45,17 @@ public class BitmexManualExample {
                         throwable -> LOG.error("ERROR in getting trades: ", throwable));
 
         // BIQUARTERLY Contract
-        streamingMarketDataService.getOrderBook(xbtUsd, BitmexPrompt.BIQUARTERLY).subscribe(orderBook -> {
+        CurrencyPair xbtUsdBiquarterly = exchange.determineActiveContract(CurrencyPair.XBT_USD.base.toString(), CurrencyPair.XBT_USD.counter.toString(), BitmexPrompt.BIQUARTERLY);
+        streamingMarketDataService.getOrderBook(xbtUsdBiquarterly).subscribe(orderBook -> {
             LOG.info("BIQUARTERLY Contract First ask: {}", orderBook.getAsks().get(0));
             LOG.info("BIQUARTERLY Contract First bid: {}", orderBook.getBids().get(0));
         }, throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract order book: ", throwable));
 
-        streamingMarketDataService.getTicker(xbtUsd, BitmexPrompt.BIQUARTERLY).subscribe(ticker -> {
+        streamingMarketDataService.getTicker(xbtUsdBiquarterly).subscribe(ticker -> {
             LOG.info("BIQUARTERLY Contract TICKER: {}", ticker);
         }, throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract ticker: ", throwable));
 
-        exchange.getStreamingMarketDataService().getTrades(xbtUsd, BitmexPrompt.BIQUARTERLY)
+        exchange.getStreamingMarketDataService().getTrades(xbtUsdBiquarterly)
                 .subscribe(trade -> LOG.info("BIQUARTERLY Contract TRADE: {}", trade),
                         throwable -> LOG.error("ERROR in getting BIQUARTERLY Contract trades: ", throwable));
 
