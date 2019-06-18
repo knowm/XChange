@@ -26,7 +26,6 @@ import org.knowm.xchange.okcoin.v3.dto.trade.OkexTransaction;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementRequest.OrderPlacementRequestBuilder;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.Side;
 import org.knowm.xchange.service.trade.TradeService;
@@ -55,14 +54,15 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     // Kill 3: Immediatel Or Cancel
     String orderType = o.hasFlag(OkexOrderFlags.POST_ONLY) ? "1" : "0";
 
-    OrderPlacementRequestBuilder req =
+    OrderPlacementRequest req =
         OrderPlacementRequest.builder()
             .instrumentId(OkexAdaptersV3.toInstrument(o.getCurrencyPair()))
             .price(o.getLimitPrice().toString())
             .size(o.getOriginalAmount().toString())
             .side(o.getType() == OrderType.ASK ? Side.sell : Side.buy)
-            .orderType(orderType);
-    OrderPlacementResponse placed = placeAnOrder(req.build());
+            .orderType(orderType)
+            .build();
+    OrderPlacementResponse placed = placeAnOrder(req);
     return placed.getOrderId();
   }
 
