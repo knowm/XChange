@@ -12,8 +12,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexTokenPairInformation;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
@@ -35,6 +39,8 @@ public interface OkexV3 {
   public static final String OK_ACCESS_KEY = "OK-ACCESS-KEY";
   public static final String OK_ACCESS_SIGN = "OK-ACCESS-SIGN";
   public static final String OK_ACCESS_TIMESTAMP = "OK-ACCESS-TIMESTAMP";
+
+  /* Funding Account API */
 
   @GET
   @Path("/account/v3/wallet")
@@ -68,6 +74,37 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
       FundsTransferRequest req)
       throws IOException, OkexException;
+
+  @POST
+  @Path("/account/v3/withdrawal")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexWithdrawalResponse withdrawal(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      OkexWithdrawalRequest req)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/account/v3/withdrawal/history")
+  List<OkexWithdrawalRecord> recentWithdrawalHistory(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/account/v3/deposit/history")
+  List<OkexDepositRecord> recentDepositHistory(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  /* Token Trading API */
 
   @GET
   @Path("/spot/v3/accounts")
