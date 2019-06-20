@@ -27,8 +27,8 @@ public class CobinhoodMarketDataDtoTest {
             is, new TypeReference<CobinhoodResponse<List<CobinhoodCurrencyPair>>>() {});
 
     //        verify that the example data was unmarshalled correctly
-    assertThat(cobinhoodResponse.getResult().get(0).getId()).isEqualTo("ABT-BTC");
-    assertThat(cobinhoodResponse.getResult().get(0).getLast_price()).isEqualTo("0.000041");
-    assertThat(cobinhoodResponse.getResult().get(0).getLowest_ask()).isEqualTo("0.00006697");
+    assertThat(cobinhoodResponse.getResult().get(0).getId()).isEqualTo("BCHSV-USDT");
+    assertThat(cobinhoodResponse.getResult().get(0).getBaseMaxSize()).isEqualTo("4590.393");
+    assertThat(cobinhoodResponse.getResult().get(0).getTakerFee()).isEqualTo("0");
   }
 }
