@@ -12,7 +12,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
-import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -86,7 +85,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         }
 
         streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
-        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService, (BinanceAccountService) accountService);
+        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
         streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
         return Completable.concat(completables)
