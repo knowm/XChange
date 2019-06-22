@@ -10,7 +10,7 @@ It is build on top of the [XChange library](https://github.com/timmolter/XChange
 - Easy to use - no need to hack WebSocket and other backends.
 - Consistent & simple API across all implemented exchanges.
 - Extends well-known & active Java library [XChange](http://knowm.org/open-source/xchange/).
-- [Reactive streams](http://reactivex.io/) are fun to work with.
+- [Reactive streams](http://reactivex.io/) are fun to work with. 
 - Modular extensibility.
 
 ## Getting started
@@ -48,7 +48,7 @@ For snapshots version (built from develop branch), add the following repository 
 </repository>
 ```
 
-#### Versioning
+#### Versioning 
 
 XChange-stream follows major and minor version from XChange library. So version 4.2.x is based on latest 4.2. release of XChange.
 
@@ -85,40 +85,43 @@ subscription.dispose();
 // Disconnect from exchange (non-blocking)
 exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
 ```
-More information about reactive streams can be found at [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki).
+More information about reactive streams can be found at [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki). 
 
 ## What is supported
 
 Listening for live updates of
 
-| Exchange         | order books        | trades (public)    | tickers            | balances           | trades (user)      | open orders        |
-| ---------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| **Binance**      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **Bitfinex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **Bitflyer**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         |
-| **BitMEX**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         |
-| **Bitstamp**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         |
-| **Coinmate**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         |
-| **OKCoin**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         |
-| **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         |
-| **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         |
-| **Coinbase Pro** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         |
-| **Wex**          | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         |
+| Exchange         | order books        | trades (public)    | tickers            | balances           | trades (user)      | open orders        | notes |
+| ---------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ----- |
+| **Binance**      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Bitfinex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Bitflyer**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **BitMEX**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | We are short of maintainers able to review pull requests and provide support for Bitmex, so there is a backlog of pull requests and support is likely broken. Can you help? |
+| **Bitstamp**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **CEX.IO**       | :heavy_check_mark: | :x:                | :x:                | :question:         | :question:         | :question:         | New support, not widely tested  |
+| **Coinbase Pro** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Coinmate**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **OKCoin**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **Wex**          | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
 - :x: - not supported by the exchange
 - :question: - exchange support level not known
 
-If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty.
-
+If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty. 
+ 
 ## Open Source Projects Using XChange-Stream
 
 This is an, not so complete, list of projects that use XChange-Stream, feel free to add your project below.
 - [XChange-Trade-Bot](https://github.com/yurivin/xchange-trade-bot) by yurivin
 - [Crypto Websockets](https://github.com/firepol/crypto-websockets) by firepol
-- [CryptoRealTime - A Google Cloud Dataflow/Cloud Bigtable Websockets example with real time visualization](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/cryptorealtime) + [Medium post](https://medium.com/@igalic/bigtable-beam-dataflow-cryptocurrencies-gcp-terraform-java-maven-4e7873811e86) by galic1987
+- [CryptoRealTime](https://github.com/GoogleCloudPlatform/professional-services/tree/master/examples/cryptorealtime) by galic1987
+- [Orko - Multi-exchange trading](https://github.com/gruelbox/orko) by gruelbox/badgerwithagun
 
 ## License
 Copyright 2017 Zdenek Dolezal, Michal Oprendek

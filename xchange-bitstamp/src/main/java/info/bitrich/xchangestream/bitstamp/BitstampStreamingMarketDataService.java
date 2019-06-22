@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.bitstamp;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampOrderBook;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampWebSocketTransaction;

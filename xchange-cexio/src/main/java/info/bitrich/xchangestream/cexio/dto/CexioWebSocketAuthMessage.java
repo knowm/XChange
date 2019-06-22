@@ -5,28 +5,25 @@ import info.bitrich.xchangestream.cexio.CexioStreamingRawService;
 
 public class CexioWebSocketAuthMessage {
 
-    @JsonProperty("e")
-    private final String e = CexioStreamingRawService.AUTH;
-    private final CexioWebSocketAuth auth;
+  @JsonProperty("e")
+  private final String e = CexioStreamingRawService.AUTH;
 
-    public CexioWebSocketAuthMessage(@JsonProperty("auth") CexioWebSocketAuth auth) {
-        this.auth = auth;
-    }
+  private final CexioWebSocketAuth auth;
 
-    public String getE() {
-        return e;
-    }
+  public CexioWebSocketAuthMessage(@JsonProperty("auth") CexioWebSocketAuth auth) {
+    this.auth = auth;
+  }
 
-    public CexioWebSocketAuth getAuth() {
-        return auth;
-    }
+  public String getE() {
+    return e;
+  }
 
-    @Override
-    public String toString() {
-        return "CexioWebSocketAuthMessage{" +
-                "e='" + e + '\'' +
-                ", auth=" + auth +
-                '}';
-    }
+  public CexioWebSocketAuth getAuth() {
+    return auth;
+  }
 
+  @Override
+  public String toString() {
+    return "CexioWebSocketAuthMessage{" + "e='" + e + '\'' + ", auth=" + auth + '}';
+  }
 }
