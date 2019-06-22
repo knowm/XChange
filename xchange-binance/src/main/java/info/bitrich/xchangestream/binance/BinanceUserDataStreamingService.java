@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.time.Duration;
 
 public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
 
@@ -24,13 +23,7 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
     }
 
     private BinanceUserDataStreamingService(String url) {
-        // Binance sends a ping every 3 minutes, so it would take that long to tell if
-        // the host is lost. During that time, we could lose connectivity, miss updates,
-        // regain connectivity, receive a ping and have no idea we missed an update. As
-        // a result, we will consider the connection "idle" if we don't receive anything
-        // for 2.5 minutes. This means that in the absence of any "real" updates, we'll
-        // force an API update once every 2.5 minutes.
-        super(url, Integer.MAX_VALUE, Duration.ofSeconds(10), Duration.ofSeconds(15), 150);
+        super(url, Integer.MAX_VALUE);
     }
 
     public Observable<JsonNode> subscribeChannel(BinanceWebSocketTypes eventType) {
