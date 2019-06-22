@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.util.Events;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -10,7 +9,6 @@ import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
 
 /**
  * Created by Lukas Zaoralek on 7.11.17.
@@ -27,11 +25,10 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
     @Override
     protected void initServices() {
         super.initServices();
-        Runnable onApiCall = Events.onApiCall(exchangeSpecification);
         this.streamingService = createStreamingService();
         this.streamingMarketDataService = new BitfinexStreamingMarketDataService(streamingService);
-        this.streamingTradeService = new BitfinexStreamingTradeService(streamingService, (BitfinexTradeService) tradeService, onApiCall);
-        this.streamingAccountService = new BitfinexStreamingAccountService(streamingService, streamingTradeService);
+        this.streamingTradeService = new BitfinexStreamingTradeService(streamingService);
+        this.streamingAccountService = new BitfinexStreamingAccountService(streamingService);
     }
 
     private BitfinexStreamingService createStreamingService() {

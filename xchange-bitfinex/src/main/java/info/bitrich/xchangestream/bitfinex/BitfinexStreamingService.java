@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -97,7 +96,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     public BitfinexStreamingService(String apiUrl,
                                     SynchronizedValueFactory<Long> nonceFactory) {
-        super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(10), Duration.ofSeconds(15), 10);
+        super(apiUrl, Integer.MAX_VALUE);
         this.nonceFactory = nonceFactory;
     }
 
