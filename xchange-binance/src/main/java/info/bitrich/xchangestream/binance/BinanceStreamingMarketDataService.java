@@ -217,7 +217,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
 
     private Observable<OrderBook> orderBookStream(CurrencyPair currencyPair) {
-        OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, pair -> connectOrderBook(pair));
+        OrderbookSubscription subscription = orderbooks.computeIfAbsent(currencyPair, this::connectOrderBook);
 
         return subscription.stream
 
@@ -233,25 +233,17 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 // 4. Drop any event where u is <= lastUpdateId in the snapshot
                 .filter(depth -> depth.getLastUpdateId() > subscription.snapshotlastUpdateId)
 
-                // 5. The first processed should have U <= lastUpdateId+1 AND u >= lastUpdateId+1
-                .filter(depth -> {
-                    long lastUpdateId = subscription.lastUpdateId.get();
-                    if (lastUpdateId == 0L) {
-                        return depth.getFirstUpdateId() <= lastUpdateId + 1 &&
-                               depth.getLastUpdateId() >= lastUpdateId + 1;
-                    } else {
-                        return true;
-                    }
-                })
-
-                // 6. While listening to the stream, each new event's U should be equal to the previous event's u+1
+                // 5. The first processed should have U <= lastUpdateId+1 AND u >= lastUpdateId+1, and subsequent events would
+                // normally have u == lastUpdateId + 1 which is stricter version of the above - let's be more relaxed
+                // each update has absolute numbers so even if there's an overlap it does no harm
                 .filter(depth -> {
                     long lastUpdateId = subscription.lastUpdateId.get();
                     boolean result;
                     if (lastUpdateId == 0L) {
                         result = true;
                     } else {
-                        result = depth.getFirstUpdateId() == lastUpdateId + 1;
+                        result = depth.getFirstUpdateId() <= lastUpdateId + 1 &&
+                                depth.getLastUpdateId() >= lastUpdateId + 1;
                     }
                     if (result) {
                         subscription.lastUpdateId.set(depth.getLastUpdateId());

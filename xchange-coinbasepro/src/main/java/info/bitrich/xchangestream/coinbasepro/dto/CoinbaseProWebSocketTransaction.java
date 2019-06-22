@@ -168,7 +168,7 @@ public class CoinbaseProWebSocketTransaction {
     }
 
     public CoinbaseProTrade toCoinbaseProTrade() {
-        return new CoinbaseProTrade(time, tradeId, price, size, side);
+        return new CoinbaseProTrade(time, tradeId, price, size, side, makerOrderId, takerOrderId);
     }
 
     public CoinbaseProFill toCoinbaseProFill() {

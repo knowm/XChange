@@ -2,10 +2,9 @@ package info.bitrich.xchangestream.core;
 
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
-
+import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -60,6 +59,29 @@ public interface StreamingExchange extends Exchange {
     }
 
     /**
+     * Observable for disconnection event.
+     *
+     * @return Observable with the exception during reconnection.
+     */
+    default Observable<ChannelHandlerContext> disconnectObservable() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    /**
+     * Observable for message delay measure.
+     * Every time when the client received a message with a timestamp, the delay time is calculated and pushed to subscribers.
+     *
+     * @return Observable with the message delay measure.
+     */
+    default Observable<Long> messageDelay() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    default void resubscribeChannels() {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    /**
      * Returns service that can be used to access streaming market data.
      */
     StreamingMarketDataService getStreamingMarketDataService();
@@ -85,7 +107,7 @@ public interface StreamingExchange extends Exchange {
      */
     void useCompressedMessages(boolean compressedMessages);
 
-    default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService<?> streamingService){
+    default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService streamingService){
         streamingService.setSocksProxyHost((String) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_HOST));
         streamingService.setSocksProxyPort((Integer) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_PORT));
         streamingService.setBeforeConnectionHandler((Runnable) exchangeSpec.getExchangeSpecificParametersItem(ConnectableService.BEFORE_CONNECTION_HANDLER));
