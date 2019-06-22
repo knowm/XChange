@@ -1,16 +1,16 @@
 package info.bitrich.xchangestream.coinbasepro.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.currency.CurrencyPair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 

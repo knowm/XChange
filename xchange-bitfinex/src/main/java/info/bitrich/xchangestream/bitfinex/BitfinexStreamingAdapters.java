@@ -234,7 +234,7 @@ class BitfinexStreamingAdapters {
             .originalAmount(authTrade.getExecAmount().abs())
             .price(authTrade.getExecPrice())
             .timestamp(DateUtils.fromMillisUtc(authTrade.getMtsCreate()))
-            .type(orderType)
+            .type(orderType) // FIXME seems to get this wrong a lot
             .build();
     }
 
