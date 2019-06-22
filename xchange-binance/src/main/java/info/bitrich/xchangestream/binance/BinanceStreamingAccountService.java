@@ -14,70 +14,25 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
-import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+public class BinanceStreamingAccountService implements StreamingAccountService  {
 
-public class BinanceStreamingAccountService implements StreamingAccountService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingAccountService.class);
-
-    private final Subject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher = BehaviorSubject.<OutboundAccountInfoBinanceWebsocketTransaction>create().toSerialized();
-    private final Subject<BalancesAndTimestamp> manuallyFetchedBalancesPublisher = BehaviorSubject.<BalancesAndTimestamp>create().toSerialized();
-    private final Observable<Balance> balanceChanges;
+    private final BehaviorSubject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoLast = BehaviorSubject.create();
+    private final Subject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher = accountInfoLast.toSerialized();
 
     private volatile Disposable accountInfo;
     private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
-    private final BinanceAccountService accountService;
-    private final Runnable onApiCall;
 
     private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    public BinanceStreamingAccountService(BinanceUserDataStreamingService binanceUserDataStreamingService, BinanceAccountService accountService, Runnable onApiCall) {
+    public BinanceStreamingAccountService(BinanceUserDataStreamingService binanceUserDataStreamingService) {
         this.binanceUserDataStreamingService = binanceUserDataStreamingService;
-        this.accountService = accountService;
-        this.onApiCall = onApiCall;
-
-        Date beginningOfTime = new Date(0);
-        AtomicReference<Date> lastTimestamp = new AtomicReference<>(beginningOfTime);
-
-        // Post a fresh balance snapshot from REST every time the websocket reconnects since
-        // we have no idea what we missed.
-        if (binanceUserDataStreamingService != null) {
-            binanceUserDataStreamingService.subscribeConnectionSuccess()
-                    .subscribe(x -> {
-                        lastTimestamp.set(beginningOfTime);
-                        postInitialAccountSnapshot();
-                    });
-        }
-
-        // Combine the websocket data and any manually fetched snapshots into a single
-        // stream
-        this.balanceChanges = accountInfoPublisher
-                .map(a -> new BalancesAndTimestamp(
-                        a.getBalances().stream()
-                                .map(BinanceWebsocketBalance::toBalance)
-                                .collect(toList()),
-                        a.getEventTime())
-                )
-                .mergeWith(manuallyFetchedBalancesPublisher)
-                .filter(a -> lastTimestamp.getAndAccumulate(a.timestamp, (x, y) -> x.before(y) ? y : x)
-                        .before(a.timestamp))
-                .flatMap(a -> Observable.fromIterable(a.balances))
-                .share();
     }
 
     public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
@@ -87,7 +42,10 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
 
     public Observable<Balance> getBalanceChanges() {
         checkConnected();
-        return balanceChanges;
+        return getRawAccountInfo()
+                .map(OutboundAccountInfoBinanceWebsocketTransaction::getBalances)
+                .flatMap((List<BinanceWebsocketBalance> balances) -> Observable.fromIterable(balances))
+                .map(BinanceWebsocketBalance::toBalance);
     }
 
     private void checkConnected() {
@@ -111,25 +69,9 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
             accountInfo = binanceUserDataStreamingService
                 .subscribeChannel(BaseBinanceWebSocketTransaction.BinanceWebSocketTypes.OUTBOUND_ACCOUNT_INFO)
                 .map(this::accountInfo)
+                .filter(m -> accountInfoLast.getValue() == null ||
+                             accountInfoLast.getValue().getEventTime().before(m.getEventTime()))
                 .subscribe(accountInfoPublisher::onNext);
-        }
-    }
-
-    /**
-     * Pushes the current account balances to the stream any time the socket
-     * (re)connects.
-     */
-    private void postInitialAccountSnapshot() {
-        try {
-            LOG.info("Fetching initial balance snapshot");
-            onApiCall.run();
-            AccountInfo info = accountService.getAccountInfo();
-            BalancesAndTimestamp balancesAndTimestamp = new BalancesAndTimestamp(
-                    info.getWallet().getBalances().values(),
-                    info.getTimestamp());
-            manuallyFetchedBalancesPublisher.onNext(balancesAndTimestamp);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
         }
     }
 
@@ -150,21 +92,6 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
             return mapper.treeToValue(json, OutboundAccountInfoBinanceWebsocketTransaction.class);
         } catch (Exception e) {
             throw new ExchangeException("Unable to parse account info", e);
-        }
-    }
-
-    private static final class BalancesAndTimestamp {
-        final Collection<Balance> balances;
-        final Date timestamp;
-
-        BalancesAndTimestamp(Collection<Balance> balances, Date timestamp) {
-            this.balances = balances;
-            this.timestamp = timestamp;
-        }
-
-        @Override
-        public String toString() {
-            return "BalancesAndTimestamp [balances=" + balances + ", timestamp=" + timestamp + "]";
         }
     }
 }

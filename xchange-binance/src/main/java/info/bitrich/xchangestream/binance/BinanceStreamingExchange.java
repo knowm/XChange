@@ -86,7 +86,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         }
 
         streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
-        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService, (BinanceAccountService) accountService, onApiCall);
+        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService, (BinanceAccountService) accountService);
         streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
         return Completable.concat(completables)
