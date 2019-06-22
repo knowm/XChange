@@ -26,9 +26,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Created by Lukas Zaoralek on 7.11.17.
- */
 public class BitfinexStreamingTradeService implements StreamingTradeService {
 
     private final BitfinexStreamingService service;
