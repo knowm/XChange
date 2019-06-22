@@ -111,7 +111,7 @@ Listening for live updates of
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
 - :x: - not supported by the exchange
-- :question: - exchange support level not known
+- :question: - exchange support level not known (please fill in)
 
 If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty. 
  

@@ -1,11 +1,12 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Observable;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.account.AccountService;
+
+import io.reactivex.Observable;
 
 public interface StreamingAccountService {
 
@@ -16,10 +17,9 @@ public interface StreamingAccountService {
      * arrive in order, that messages will not be skipped, or that any initial state
      * message will be sent on connection. Most exchanges have a recommended approach
      * for managing this, involving timestamps, sequence numbers and a separate REST
-     * API for re-sync when inconsistencies appear. The intention is for this to be
-     * managed automatically by this method, but this doesn't currently happen. See
-     * https://github.com/bitrich-info/xchange-stream/issues/274 for progress towards
-     * this.</p>
+     * API for re-sync when inconsistencies appear. You should implement these approaches,
+     * if required, by combining calls to this method with
+     * {@link AccountService#getAccountInfo()}.
      *
      * <p><strong>Emits</strong> {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
      * not connected to the WebSocket API.</p>

@@ -15,9 +15,6 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by Lukas Zaoralek on 7.11.17.
- */
 public class BitfinexStreamingAccountService implements StreamingAccountService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingAccountService.class);

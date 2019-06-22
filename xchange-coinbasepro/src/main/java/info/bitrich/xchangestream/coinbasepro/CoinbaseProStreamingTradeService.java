@@ -17,9 +17,6 @@ import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransactio
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Observable;
 
-/**
- * Created by luca on 4/3/17.
- */
 public class CoinbaseProStreamingTradeService implements StreamingTradeService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoinbaseProStreamingTradeService.class);
@@ -60,9 +57,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
     /**
      * <p><strong>Warning:</strong> the order change stream is not yet fully
      * implemented for Coinbase Pro. Orders are not fully populated, containing only
-     * the values changed since the last update. Other values will be null. The
-     * intention is to resolve this. See
-     * https://github.com/bitrich-info/xchange-stream/issues/274 for progress.</p>
+     * the values changed since the last update. Other values will be null.</p>
      */
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
