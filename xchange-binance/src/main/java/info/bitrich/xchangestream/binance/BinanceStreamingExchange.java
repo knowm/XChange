@@ -49,7 +49,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
      * connection pass a `ProductSubscription` in at connection time.
      *
      * @param args A single `ProductSubscription` to define the subscriptions required to be available during this connection.
-     * @return
+     * @return A completable which fulfils once connection is complete.
      */
     @Override
     public Completable connect(ProductSubscription... args) {
@@ -69,7 +69,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             completables.add(streamingService.connect());
         }
 
-        if (exchangeSpecification.getApiKey() != null) {
+        if (subscriptions.hasAuthenticated()) {
+            if (exchangeSpecification.getApiKey() == null) {
+                throw new IllegalArgumentException("API key required for authenticated streams");
+            }
+
             LOG.info("Connecting to authenticated web socket");
             BinanceAuthenticated binance = RestProxyFactory.createProxy(
                 BinanceAuthenticated.class,

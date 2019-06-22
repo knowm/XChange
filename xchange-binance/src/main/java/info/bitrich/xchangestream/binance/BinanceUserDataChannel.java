@@ -43,9 +43,9 @@ class BinanceUserDataChannel implements AutoCloseable {
      * (immediately available from {@link #getListenKey()}) and
      * starting timers to ensure the channel is kept alive.
      *
-     * @param binance
-     * @param apiKey
-     * @param onApiCall
+     * @param binance Access to binance services.
+     * @param apiKey The API key.
+     * @param onApiCall A callback to perform prior to any service calls.
      */
     BinanceUserDataChannel(BinanceAuthenticated binance, String apiKey, Runnable onApiCall) {
         this.binance = binance;

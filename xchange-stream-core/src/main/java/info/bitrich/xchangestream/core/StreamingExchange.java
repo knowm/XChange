@@ -107,7 +107,7 @@ public interface StreamingExchange extends Exchange {
      */
     void useCompressedMessages(boolean compressedMessages);
 
-    default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService streamingService){
+    default void applyStreamingSpecification(ExchangeSpecification exchangeSpec, NettyStreamingService<?> streamingService){
         streamingService.setSocksProxyHost((String) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_HOST));
         streamingService.setSocksProxyPort((Integer) exchangeSpec.getExchangeSpecificParametersItem(SOCKS_PROXY_PORT));
         streamingService.setBeforeConnectionHandler((Runnable) exchangeSpec.getExchangeSpecificParametersItem(ConnectableService.BEFORE_CONNECTION_HANDLER));

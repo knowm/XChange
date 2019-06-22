@@ -44,7 +44,7 @@ public interface StreamingTradeService {
      * for managing this, involving timestamps, sequence numbers and a separate REST
      * API for re-sync when inconsistencies appear. You should implement these approaches,
      * if required, by combining calls to this method with
-     * {@link TradeService#getTradeHistory(org.knowm.xchange.service.trade.params.TradeHistoryParams)()}.</p>
+     * {@link TradeService#getTradeHistory(org.knowm.xchange.service.trade.params.TradeHistoryParams)}</p>
      *
      * <p><strong>Emits</strong> {@link info.bitrich.xchangestream.service.exception.NotConnectedException} When
      * not connected to the WebSocket API.</p>
