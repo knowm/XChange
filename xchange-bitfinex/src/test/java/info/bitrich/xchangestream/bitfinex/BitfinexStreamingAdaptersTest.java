@@ -266,9 +266,9 @@ public class BitfinexStreamingAdaptersTest {
             "tBTCUSD", //pair
             1548674247684L, //mtsCreate
             21895093123L, //orderId
-            new BigDecimal("-0.00341448"), //execAmount
+            new BigDecimal("0.00341448"), //execAmount
             new BigDecimal("3495.4"), //execPrice
-            "buy", //orderType
+            "SHOULDNT MATTER", //orderType
             new BigDecimal("3495.9"), //orderPrice
             1548674247683L, //maker
             new BigDecimal("-0.00000682896"), //fee
@@ -283,7 +283,7 @@ public class BitfinexStreamingAdaptersTest {
         assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
         assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
         assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
-        assertEquals(OrderType.ASK, adapted.getType());
+        assertEquals(OrderType.BID, adapted.getType());
     }
 
 
@@ -296,7 +296,7 @@ public class BitfinexStreamingAdaptersTest {
             21895093123L, //orderId
             new BigDecimal("-0.00341448"), //execAmount
             new BigDecimal("3495.4"), //execPrice
-            "sell", //orderType
+            "SHOULDNT MATTER", //orderType
             new BigDecimal("3495.9"), //orderPrice
             1548674247683L, //maker
             new BigDecimal("0.00000682896"), //fee
@@ -311,6 +311,6 @@ public class BitfinexStreamingAdaptersTest {
         assertEquals(new BigDecimal("0.00341448"), adapted.getOriginalAmount());
         assertEquals(new BigDecimal("3495.4"), adapted.getPrice());
         assertEquals(new Date(1548674247684L).getTime(), adapted.getTimestamp().getTime());
-        assertEquals(OrderType.BID, adapted.getType());
+        assertEquals(OrderType.ASK, adapted.getType());
     }
 }

@@ -224,7 +224,6 @@ class BitfinexStreamingAdapters {
     }
 
     static UserTrade adaptUserTrade(BitfinexWebSocketAuthTrade authTrade) {
-        OrderType orderType = authTrade.getOrderType().equalsIgnoreCase("buy") ? ASK : BID;
         return new UserTrade.Builder()
             .currencyPair(BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair())))
             .feeAmount(authTrade.getFee().abs())
@@ -234,7 +233,7 @@ class BitfinexStreamingAdapters {
             .originalAmount(authTrade.getExecAmount().abs())
             .price(authTrade.getExecPrice())
             .timestamp(DateUtils.fromMillisUtc(authTrade.getMtsCreate()))
-            .type(orderType) // FIXME seems to get this wrong a lot
+            .type(authTrade.getExecAmount().signum() == 1 ? BID : ASK)
             .build();
     }
 
