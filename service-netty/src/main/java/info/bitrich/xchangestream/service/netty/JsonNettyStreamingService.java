@@ -22,6 +22,10 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
         super(apiUrl, maxFramePayloadLength);
     }
 
+    public boolean processSeparateArrayItems() {
+        return true;
+    }
+
     @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
@@ -35,10 +39,14 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
             return;
         }
 
-        // In case of array - handle every message separately.
-        if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
-            for (JsonNode node : jsonNode) {
-                handleMessage(node);
+        if (processSeparateArrayItems()) {
+            // In case of array - handle every message separately.
+            if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
+                for (JsonNode node : jsonNode) {
+                    handleMessage(node);
+                }
+            } else {
+                handleMessage(jsonNode);
             }
         } else {
             handleMessage(jsonNode);
