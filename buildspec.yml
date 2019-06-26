@@ -7,7 +7,8 @@ phases:
   build:
     commands:
       - echo "Starting Build..."
-      - mvn clean deploy -DskipTests --batch-mode -DAWS_DEFAULT_REGION=us-east-2
+      - mvn clean compile -DskipTests --batch-mode -DAWS_DEFAULT_REGION=us-east-2
+      - mvn deploy -DskipTests --batch-mode -DAWS_DEFAULT_REGION=us-east-2
 
 artifacts:
   files:
