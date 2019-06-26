@@ -2,6 +2,8 @@ package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -50,69 +52,22 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
             .getExchangeSpecification()
             .getExchangeSpecificParametersItem("Use_Intl")
             .equals(true);
+
     String currencySymbol =
         OkCoinAdapters.adaptSymbol(
             new CurrencyPair(currency, useIntl ? Currency.USD : Currency.CNY));
 
-    String fee;
-    switch (currency.getCurrencyCode()) {
-      case "BTC":
-        fee = "0.0015";
-        break;
-      case "LTC":
-      case "ETC":
-      case "BTG":
-      case "ZEC":
-        fee = "0.001";
-        break;
-      case "ETH":
-      case "XLM":
-      case "QTUM":
-        fee = "0.01";
-        break;
-      case "OMG":
-        fee = "0.1";
-        break;
-      case "BCH":
-        fee = "0.0001";
-        break;
-      case "XRP":
-        fee = "0.15";
-        break;
-      case "DASH":
-        fee = "0.002";
-        break;
-      case "NEO":
-        fee = "0";
-        break;
-      case "AVT":
-        fee = "1";
-        break;
-      case "EOS":
-        fee = "1.5";
-        break;
-      case "ELF":
-        fee = "3";
-        break;
-      case "XEM":
-        fee = "4";
-        break;
-      case "FUN":
-        fee = "40";
-        break;
-      case "MANA":
-      case "USDT":
-      case "RCN":
-        fee = "20";
-        break;
-      case "SNT":
-        fee = "50";
-        break;
-      default:
-        throw new IllegalArgumentException("Unsupported withdraw currency " + currency);
+    BigDecimal staticFee =
+        this.exchange.getExchangeMetaData().getCurrencies().get(currency).getWithdrawalFee();
+
+    if (staticFee == null) {
+      throw new IllegalArgumentException("Unsupported withdraw currency " + currency);
     }
 
-    // Defualt withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
+    NumberFormat format = new DecimalFormat("0.####"); // lowest fee is 0.0005
+    String fee = format.format(staticFee);
+
+    // Default withdraw target is external address. Use withdraw function in OkCoinAccountServiceRaw
     // for internal withdraw
     OKCoinWithdraw result = withdraw(currencySymbol, address, amount, "address", fee);
 
@@ -145,7 +100,10 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrency
         && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
-      symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrency) params).getCurrency());
+
+      symbol =
+          OkCoinAdapters.adaptCurrencyToAccountRecordPair(
+              ((TradeHistoryParamCurrency) params).getCurrency());
     }
     if (symbol == null) {
       throw new ExchangeException("Symbol must be supplied");

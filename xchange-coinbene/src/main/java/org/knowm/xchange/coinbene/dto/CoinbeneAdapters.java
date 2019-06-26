@@ -1,12 +1,11 @@
 package org.knowm.xchange.coinbene.dto;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrder;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
 import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrade;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneLimitOrder;
@@ -20,6 +19,8 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -49,9 +50,7 @@ public class CoinbeneAdapters {
     }
   }
 
-  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
-    CoinbeneTicker ticker = container.getTicker();
-
+  private static Ticker adaptCoinbeneTicker(CoinbeneTicker ticker, long timestamp) {
     return new Ticker.Builder()
         .currencyPair(adaptSymbol(ticker.getSymbol()))
         .bid(ticker.getBid())
@@ -60,8 +59,20 @@ public class CoinbeneAdapters {
         .low(ticker.getDayLow())
         .last(ticker.getLast())
         .volume(ticker.getDayVolume())
-        .timestamp(new Date(container.getTimestamp()))
+        .timestamp(new Date(timestamp))
         .build();
+  }
+
+  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
+    return adaptCoinbeneTicker(container.getTicker(), container.getTimestamp());
+  }
+
+  public static List<Ticker> adaptTickers(CoinbeneTicker.Container container) {
+    long timestamp = container.getTimestamp();
+
+    return container.getTickers().stream()
+        .map(coinbeneTicker -> adaptCoinbeneTicker(coinbeneTicker, timestamp))
+        .collect(Collectors.toList());
   }
 
   public static OrderBook adaptOrderBook(
@@ -89,10 +100,12 @@ public class CoinbeneAdapters {
 
   public static OpenOrders adaptOpenOrders(CoinbeneOrders orders) {
 
+    if (orders == null) {
+      return new OpenOrders(Collections.EMPTY_LIST);
+    }
+
     return new OpenOrders(
-        orders
-            .getOrders()
-            .stream()
+        orders.getOrders().stream()
             .map(CoinbeneAdapters::adaptLimitOrder)
             .collect(Collectors.toList()));
   }
@@ -101,9 +114,7 @@ public class CoinbeneAdapters {
     Wallet wallet =
         new Wallet(
             null,
-            balances
-                .getBalances()
-                .stream()
+            balances.getBalances().stream()
                 .map(
                     balance ->
                         new Balance(
@@ -133,5 +144,15 @@ public class CoinbeneAdapters {
         .cumulativeAmount(order.getFilledQuantity())
         .originalAmount(order.getOrderQuantity())
         .build();
+  }
+
+  public static ExchangeMetaData adaptMetadata(List<CoinbeneSymbol> markets) {
+    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    for (CoinbeneSymbol ticker : markets) {
+      pairMeta.put(
+          new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
+          new CurrencyPairMetaData(null, ticker.getMinQuantity(), null, null, null));
+    }
+    return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 }

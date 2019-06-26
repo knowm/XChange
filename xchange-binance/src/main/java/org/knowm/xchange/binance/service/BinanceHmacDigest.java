@@ -37,12 +37,7 @@ public class BinanceHmacDigest extends BaseParamsDigest {
   /** @return the query string except of the "signature" parameter */
   private static String getQuery(RestInvocation restInvocation) {
     final Params p = Params.of();
-    restInvocation
-        .getParamsMap()
-        .get(QueryParam.class)
-        .asHttpHeaders()
-        .entrySet()
-        .stream()
+    restInvocation.getParamsMap().get(QueryParam.class).asHttpHeaders().entrySet().stream()
         .filter(e -> !BinanceAuthenticated.SIGNATURE.equals(e.getKey()))
         .forEach(e -> p.add(e.getKey(), e.getValue()));
     return p.asQueryString();

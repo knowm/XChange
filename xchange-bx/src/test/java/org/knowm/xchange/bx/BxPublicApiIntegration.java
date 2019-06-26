@@ -18,9 +18,14 @@ public class BxPublicApiIntegration {
   public void getTickerTest() throws IOException {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("THB", "BTC"));
-    System.out.println(ticker.toString());
-    assertThat(ticker).isNotNull();
+    CurrencyPair pair = new CurrencyPair("THB", "BTC");
+    Ticker ticker = marketDataService.getTicker(pair);
+    System.out.println(ticker);
+    assertThat(ticker.getCurrencyPair()).isEqualTo(pair);
+    assertThat(ticker.getLast()).isPositive();
+    assertThat(ticker.getBid()).isPositive();
+    assertThat(ticker.getAsk()).isPositive();
+    assertThat(ticker.getVolume()).isPositive();
   }
 
   @Test

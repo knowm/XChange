@@ -2,12 +2,15 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
@@ -79,9 +82,12 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
       } else if ("EOrder:Insufficient funds".equals(error)) {
         throw new FundsExceededException(error);
-      }
-      if ("EAPI:Rate limit exceeded".equals(error)) {
+
+      } else if ("EAPI:Rate limit exceeded".equals(error)) {
         throw new RateLimitExceededException(error);
+
+      } else if ("EService:Unavailable".equals(error)) {
+        throw new ExchangeUnavailableException(error);
       }
 
       throw new ExchangeException(Arrays.toString(errors));
@@ -125,22 +131,12 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
   }
 
   protected String delimitAssetPairs(CurrencyPair[] currencyPairs) throws IOException {
-
-    String assetPairsString = null;
-    if (currencyPairs != null && currencyPairs.length > 0) {
-      StringBuilder delimitStringBuilder = null;
-      for (CurrencyPair currencyPair : currencyPairs) {
-        String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
-        if (delimitStringBuilder == null) {
-          delimitStringBuilder = new StringBuilder(krakenAssetPair);
-        } else {
-          delimitStringBuilder.append(",").append(krakenAssetPair);
-        }
-      }
-      assetPairsString = delimitStringBuilder.toString();
-    }
-
-    return assetPairsString;
+    return currencyPairs != null && currencyPairs.length > 0
+        ? Arrays.stream(currencyPairs)
+            .map(KrakenUtils::createKrakenCurrencyPair)
+            .filter(Objects::nonNull)
+            .collect(Collectors.joining(","))
+        : null;
   }
 
   protected String delimitSet(Set<IOrderFlags> items) {

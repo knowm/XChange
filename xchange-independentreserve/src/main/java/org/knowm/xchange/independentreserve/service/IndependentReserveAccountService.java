@@ -91,8 +91,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
         (IndependentReserveTradeHistoryParams) params;
     final IndependentReserveBalance bal = getIndependentReserveBalance();
     final Currency currency = historyParams.getCurrency();
-    return bal.getIndependentReserveAccounts()
-        .stream()
+    return bal.getIndependentReserveAccounts().stream()
         .filter(acc -> currency == null || currency.getCurrencyCode().equals(acc.getCurrencyCode()))
         .map(
             acc -> {
@@ -104,8 +103,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
                         historyParams.transactionTypes,
                         historyParams.getPageNumber(),
                         historyParams.getPageLength())
-                    .getIndependentReserveTranasactions()
-                    .stream()
+                    .getIndependentReserveTranasactions().stream()
                     .map(IndependentReserveAdapters::adaptTransaction);
               } catch (IndependentReserveHttpStatusException | IOException e) {
                 throw new ExchangeException(e);

@@ -54,7 +54,7 @@ public class TickerDemo {
         (OERMarketDataServiceRaw) openExchangeRates.getMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    OERRates oERRates = oERMarketDataServiceRaw.getOERTicker();
+    OERRates oERRates = oERMarketDataServiceRaw.getOERTicker(CurrencyPair.BTC_EUR);
 
     System.out.println(oERRates.toString());
   }

@@ -5,11 +5,7 @@ import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -32,17 +28,8 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
+import org.knowm.xchange.poloniex.dto.trade.*;
 
 /**
  * @author Zach Holmes
@@ -286,7 +273,7 @@ public class PoloniexAdapters {
               d.getTimestamp(),
               Currency.getInstance(d.getCurrency()),
               d.getAmount(),
-              null,
+              String.valueOf(d.getDepositNumber()),
               d.getTxid(),
               DEPOSIT,
               FundingRecord.Status.resolveStatus(d.getStatus()),
@@ -299,6 +286,10 @@ public class PoloniexAdapters {
       final String statusStr = statusParts[0];
       final FundingRecord.Status status = FundingRecord.Status.resolveStatus(statusStr);
       final String externalId = statusParts.length == 1 ? null : statusParts[1];
+
+      // Poloniex returns the fee as an absolute value, that behaviour differs from UserTrades
+      final BigDecimal feeAmount = w.getFee();
+
       fundingRecords.add(
           new FundingRecord(
               w.getAddress(),
@@ -310,7 +301,7 @@ public class PoloniexAdapters {
               WITHDRAWAL,
               status,
               null,
-              null,
+              feeAmount,
               w.getStatus()));
     }
     return fundingRecords;
@@ -337,8 +328,7 @@ public class PoloniexAdapters {
     }
 
     BigDecimal weightedAveragePrice =
-        weightedPrices
-            .stream()
+        weightedPrices.stream()
             .reduce(new BigDecimal(0), (a, b) -> a.add(b))
             .divide(amount, RoundingMode.HALF_UP);
 

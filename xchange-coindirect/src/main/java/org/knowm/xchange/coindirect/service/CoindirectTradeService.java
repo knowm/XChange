@@ -86,8 +86,7 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
     List<CoindirectOrder> coindirectOrders = listExchangeOrders(null, true, fromOffset, max);
 
     List<UserTrade> trades =
-        coindirectOrders
-            .stream()
+        coindirectOrders.stream()
             .map(
                 t -> {
                   if (t.executedAmount == null || t.executedAmount.signum() == 0) {

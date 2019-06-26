@@ -1,16 +1,12 @@
 package org.knowm.xchange.examples.kucoin.account;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
-import org.knowm.xchange.kucoin.dto.KucoinResponse;
-import org.knowm.xchange.kucoin.dto.KucoinSimpleResponse;
-import org.knowm.xchange.kucoin.dto.account.KucoinCoinBalances;
-import org.knowm.xchange.kucoin.dto.account.KucoinDepositAddress;
-import org.knowm.xchange.kucoin.service.KucoinAccountServiceRaw;
+import org.knowm.xchange.kucoin.KucoinAccountServiceRaw;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.service.account.AccountService;
 
 public class KucoinAccountDemo {
@@ -29,22 +25,22 @@ public class KucoinAccountDemo {
 
     System.out.println("----------GENERIC---------");
 
-    Map<Currency, Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
-    System.out.println(balances);
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println(accountInfo);
 
-    System.out.println(accountService.requestDepositAddress(Currency.BTC));
+    // Not yet implemented
+    //    System.out.println(accountService.requestDepositAddress(Currency.BTC));
   }
 
   private static void raw(KucoinAccountServiceRaw accountService) throws IOException {
 
     System.out.println("------------RAW-----------");
 
-    KucoinSimpleResponse<KucoinCoinBalances> responseBalances =
-        accountService.getKucoinBalances(20, 1);
-    System.out.println(responseBalances.getData());
+    List<AccountBalancesResponse> responseBalances = accountService.getKucoinAccounts();
+    System.out.println(responseBalances);
 
-    KucoinResponse<KucoinDepositAddress> responseAddress =
-        accountService.getKucoinDepositAddress(Currency.BTC);
-    System.out.println(responseAddress.getData().getAddress());
+    // Not yet implemented
+    //    ????? responseAddress = accountService.getKucoinDepositAddress(Currency.BTC);
+    //    System.out.println(responseAddress.?????);
   }
 }

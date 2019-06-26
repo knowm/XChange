@@ -46,8 +46,7 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw
       if (params instanceof CurrencyPairsParam) {
         currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
       }
-      return getCryptopiaMarkets()
-          .stream()
+      return getCryptopiaMarkets().stream()
           .map(
               cryptopiaTicker ->
                   CryptopiaAdapters.adaptTicker(

@@ -8,9 +8,9 @@ import java.util.List;
 import org.knowm.xchange.coinsuper.dto.CoinsuperResponse;
 import org.knowm.xchange.coinsuper.dto.account.CoinsuperUserAssetInfo;
 import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperOrderbook;
-import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperTicker;
 import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperOrderbook.Ask;
 import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperOrderbook.Bid;
+import org.knowm.xchange.coinsuper.dto.marketdata.CoinsuperTicker;
 import org.knowm.xchange.coinsuper.dto.trade.CoinsuperGenericOrder;
 import org.knowm.xchange.coinsuper.dto.trade.OrderDetail;
 import org.knowm.xchange.coinsuper.dto.trade.OrderList;
@@ -31,213 +31,199 @@ import org.knowm.xchange.dto.trade.UserTrades;
 
 public class CoinsuperAdapters {
 
-    private CoinsuperAdapters() {}
+  private CoinsuperAdapters() {}
 
-    /**
-     *
-     * @param pair
-     * @return
-     */
-    public static String toSymbol(CurrencyPair pair) {
-        if (pair.equals(CurrencyPair.IOTA_BTC)) {
-            return "IOTABTC";
-        }
-        return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+  /**
+   * @param pair
+   * @return
+   */
+  public static String toSymbol(CurrencyPair pair) {
+    if (pair.equals(CurrencyPair.IOTA_BTC)) {
+      return "IOTABTC";
+    }
+    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+  }
+
+  /**
+   * @param currency
+   * @return
+   */
+  public static String toSymbol(Currency currency) {
+    if (Currency.IOT.equals(currency)) {
+      return "IOTA";
+    }
+    return currency.getSymbol();
+  }
+
+  public static String toMarket(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+  }
+
+  /**
+   * @param coinsuperTicker
+   * @return
+   */
+  public static Ticker convertTicker(CoinsuperTicker coinsuperTicker) {
+    return new Ticker.Builder()
+        .ask(coinsuperTicker.getPrice())
+        .bid(coinsuperTicker.getPrice())
+        .high(coinsuperTicker.getPrice())
+        .low(coinsuperTicker.getPrice())
+        .volume(coinsuperTicker.getVolume())
+        .last(coinsuperTicker.getPrice())
+        .timestamp(CommonUtil.timeStampToDate(coinsuperTicker.getTimestamp()))
+        .build();
+  }
+
+  /**
+   * Adapts a to a OrderBook Object
+   *
+   * @param currencyPair (e.g. BTC/USD)
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @return The XChange OrderBook
+   */
+  public static OrderBook adaptOrderBook(
+      CoinsuperResponse<CoinsuperOrderbook> coinsuperOrderbook, CurrencyPair currencyPair) {
+    List<LimitOrder> asks = new ArrayList<LimitOrder>();
+    List<LimitOrder> bids = new ArrayList<LimitOrder>();
+
+    for (Ask coinsuperAsk : coinsuperOrderbook.getData().getResult().getAsks()) {
+      asks.add(
+          new LimitOrder(
+              OrderType.ASK,
+              new BigDecimal(coinsuperAsk.getQuantity()),
+              currencyPair,
+              null,
+              null,
+              new BigDecimal(coinsuperAsk.getLimitPrice())));
     }
 
-    /**
-     *
-     * @param currency
-     * @return
-     */
-    public static String toSymbol(Currency currency) {
-        if (Currency.IOT.equals(currency)) {
-            return "IOTA";
-        }
-        return currency.getSymbol();
+    for (Bid coinsuperBid : coinsuperOrderbook.getData().getResult().getBids()) {
+      bids.add(
+          new LimitOrder(
+              OrderType.BID,
+              new BigDecimal(coinsuperBid.getQuantity()),
+              currencyPair,
+              null,
+              null,
+              new BigDecimal(coinsuperBid.getLimitPrice())));
     }
 
-    public static String toMarket(CurrencyPair currencyPair) {
-        return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+    return new OrderBook(new Date(), asks, bids);
+  }
+
+  /**
+   * @param coinsuperBalances
+   * @return
+   */
+  public static AccountInfo convertBalance(
+      CoinsuperResponse<CoinsuperUserAssetInfo> coinsuperBalances) {
+    List<Balance> balances = new ArrayList<Balance>();
+
+    ArrayList<String> currencies =
+        new ArrayList<String>(
+            Arrays.asList(
+                "AAB", "AMR", "BCH", "BTC", "BUC", "CCCX", "CEEK", "CEN", "DASH", "DX", "EOS",
+                "ETC", "ETH", "ETK", "HOLD", "IOVC", "LTC", "MEDX", "NEO", "NEWOS", "OMG", "PRL",
+                "QTUM", "RLM", "TEST", "THRT", "USD", "UST", "XCCC", "XEM", "XRP"));
+
+    for (String currency : currencies) {
+      balances.add(
+          new Balance.Builder()
+              .currency(Currency.getInstance(currency))
+              .available(
+                  coinsuperBalances
+                      .getData()
+                      .getResult()
+                      .getAsset()
+                      .getAnyAssetBalance(currency)
+                      .getAvailable())
+              .total(
+                  coinsuperBalances
+                      .getData()
+                      .getResult()
+                      .getAsset()
+                      .getAnyAssetBalance(currency)
+                      .getTotal())
+              .frozen(new BigDecimal("0"))
+              .build());
     }
 
-    /**
-     *
-     * @param coinsuperTicker
-     * @return
-     */
-    public static Ticker convertTicker(CoinsuperTicker coinsuperTicker) {
-        return new Ticker.Builder()
-                .ask(coinsuperTicker.getPrice())
-                .bid(coinsuperTicker.getPrice())
-                .high(coinsuperTicker.getPrice())
-                .low(coinsuperTicker.getPrice())
-                .volume(coinsuperTicker.getVolume())
-                .last(coinsuperTicker.getPrice())
-                .timestamp(CommonUtil.timeStampToDate(coinsuperTicker.getTimestamp()))
-                .build();
+    return new AccountInfo(new Wallet(balances));
+  }
+
+  /**
+   * There is no method to discern market versus limit order type - so this returns a generic
+   * GenericOrder as a status
+   *
+   * @param
+   * @return
+   */
+  public static CoinsuperGenericOrder adaptOrder(String orderId, OrderList orderList) {
+    BigDecimal averagePrice = new BigDecimal(orderList.getPriceLimit());
+    BigDecimal cumulativeAmount = new BigDecimal(orderList.getQuantity());
+    BigDecimal totalFee = new BigDecimal(orderList.getFee());
+
+    BigDecimal amount = new BigDecimal(orderList.getQuantity());
+    OrderType action = OrderType.ASK;
+    if (orderList.getAction().equals("Buy")) {
+      action = OrderType.BID;
+    }
+    // Order Status UNDEAL:Not Executed，PARTDEAL:Partially Executed，DEAL:Order Complete，CANCEL:
+    // Canceled
+    OrderStatus orderStatus = OrderStatus.PENDING_NEW;
+    if (orderList.getState().equals("UNDEAL")) {
+      orderStatus = OrderStatus.PENDING_NEW;
+    } else if (orderList.getState().equals("Canceled")) {
+      orderStatus = OrderStatus.CANCELED;
     }
 
-    /**
-     * Adapts a to a OrderBook Object
-     *
-     * @param currencyPair (e.g. BTC/USD)
-     * @param timeScale polled order books provide a timestamp in seconds, stream in ms
-     * @return The XChange OrderBook
-     */
-    public static OrderBook adaptOrderBook(CoinsuperResponse<CoinsuperOrderbook> coinsuperOrderbook, CurrencyPair currencyPair) {
-        List<LimitOrder> asks = new ArrayList<LimitOrder>();
-        List<LimitOrder> bids = new ArrayList<LimitOrder>();
+    CoinsuperGenericOrder coinsuperGenericOrder =
+        new CoinsuperGenericOrder(
+            action,
+            amount,
+            new CurrencyPair(orderList.getSymbol()),
+            orderId,
+            CommonUtil.timeStampToDate(orderList.getUtcCreate()),
+            averagePrice,
+            cumulativeAmount,
+            totalFee,
+            orderStatus);
 
-        for (Ask coinsuperAsk : coinsuperOrderbook.getData().getResult().getAsks()) {
-            asks.add(new LimitOrder(
-                    OrderType.ASK,
-                    new BigDecimal(coinsuperAsk.getQuantity()),
-                    currencyPair,
-                    null,
-                    null,
-                    new BigDecimal(coinsuperAsk.getLimitPrice())));
-        }
+    return coinsuperGenericOrder;
+  }
 
-        for (Bid coinsuperBid : coinsuperOrderbook.getData().getResult().getBids()) {
-            bids.add(
-                    new LimitOrder(
-                            OrderType.BID,
-                            new BigDecimal(coinsuperBid.getQuantity()),
-                            currencyPair,
-                            null,
-                            null,
-                            new BigDecimal(coinsuperBid.getLimitPrice())));
-        }
+  /**
+   * Adapt the user's trades
+   *
+   * @param CoinsuperUserTransaction
+   * @return
+   */
+  public static UserTrades adaptTradeHistory(CoinsuperResponse<List<OrderDetail>> OrderDetails) {
+    List<UserTrade> trades = new ArrayList<>();
+    long lastTradeId = 0;
 
-        return new OrderBook(new Date(), asks, bids);
+    for (OrderDetail orderDetail : OrderDetails.getData().getResult()) {
+      OrderType orderType = OrderType.BID;
+
+      if (orderDetail.getAction().equals("SELL")) {
+        orderType = OrderType.ASK;
+      }
+
+      UserTrade trade =
+          new UserTrade(
+              orderType,
+              orderDetail.getAmount().abs(),
+              new CurrencyPair(orderDetail.getSymbol()),
+              orderDetail.getPriceLimit().abs(),
+              new Date(),
+              Long.toString(orderDetail.getOrderNo()),
+              Long.toString(orderDetail.getOrderNo()),
+              new BigDecimal(orderDetail.getFee()),
+              Currency.getInstance(orderDetail.getSymbol().toUpperCase()));
+      lastTradeId = orderDetail.getOrderNo();
+      trades.add(trade);
     }
-
-    /**
-     *
-     * @param coinsuperBalances
-     * @return
-     */
-    public static AccountInfo convertBalance(CoinsuperResponse<CoinsuperUserAssetInfo> coinsuperBalances) {
-        List<Balance> balances = new ArrayList<Balance>();
-
-        ArrayList<String> currencies = new ArrayList<String>(
-                Arrays.asList("AAB",
-                        "AMR",
-                        "BCH",
-                        "BTC",
-                        "BUC",
-                        "CCCX",
-                        "CEEK",
-                        "CEN",
-                        "DASH",
-                        "DX",
-                        "EOS",
-                        "ETC",
-                        "ETH",
-                        "ETK",
-                        "HOLD",
-                        "IOVC",
-                        "LTC",
-                        "MEDX",
-                        "NEO",
-                        "NEWOS",
-                        "OMG",
-                        "PRL",
-                        "QTUM",
-                        "RLM",
-                        "TEST",
-                        "THRT",
-                        "USD",
-                        "UST",
-                        "XCCC",
-                        "XEM",
-                        "XRP"));
-
-        for (String currency: currencies) {
-            balances.add(
-                    new Balance.Builder()
-                            .currency(Currency.getInstance(currency))
-                            .available(coinsuperBalances.getData().getResult().getAsset().getAnyAssetBalance(currency).getAvailable())
-                            .total(coinsuperBalances.getData().getResult().getAsset().getAnyAssetBalance(currency).getTotal())
-                            .frozen(new BigDecimal("0"))
-                            .build());
-        }
-
-        return new AccountInfo(new Wallet(balances));
-    }
-
-    /**
-     * There is no method to discern market versus limit order type - so this returns a generic
-     * GenericOrder as a status
-     *
-     * @param
-     * @return
-     */
-    public static CoinsuperGenericOrder adaptOrder(String orderId, OrderList orderList) {
-        BigDecimal averagePrice = new BigDecimal(orderList.getPriceLimit());
-        BigDecimal cumulativeAmount = new BigDecimal(orderList.getQuantity());
-        BigDecimal totalFee = new BigDecimal(orderList.getFee());
-
-        BigDecimal amount = new BigDecimal(orderList.getQuantity());
-        OrderType action = OrderType.ASK;
-        if(orderList.getAction().equals("Buy")) {
-            action = OrderType.BID;
-        }
-        //Order Status UNDEAL:Not Executed，PARTDEAL:Partially Executed，DEAL:Order Complete，CANCEL: Canceled
-        OrderStatus orderStatus = OrderStatus.PENDING_NEW;
-        if(orderList.getState().equals("UNDEAL")) {
-            orderStatus = OrderStatus.PENDING_NEW;
-        } else if(orderList.getState().equals("Canceled")) {
-            orderStatus = OrderStatus.CANCELED;
-        }
-
-        CoinsuperGenericOrder coinsuperGenericOrder =
-                new CoinsuperGenericOrder(
-                        action,
-                        amount,
-                        new CurrencyPair(orderList.getSymbol()),
-                        orderId,
-                        CommonUtil.timeStampToDate(orderList.getUtcCreate()),
-                        averagePrice,
-                        cumulativeAmount,
-                        totalFee,
-                        orderStatus);
-
-        return coinsuperGenericOrder;
-    }
-
-    /**
-     * Adapt the user's trades
-     *
-     * @param CoinsuperUserTransaction
-     * @return
-     */
-    public static UserTrades adaptTradeHistory(CoinsuperResponse<List<OrderDetail>> OrderDetails) {
-        List<UserTrade> trades = new ArrayList<>();
-        long lastTradeId = 0;
-
-        for (OrderDetail orderDetail : OrderDetails.getData().getResult()) {
-            OrderType orderType = OrderType.BID;
-
-            if(orderDetail.getAction().equals("SELL")) {
-                orderType = OrderType.ASK;
-            }
-
-            UserTrade trade =
-                    new UserTrade(
-                            orderType,
-                            orderDetail.getAmount().abs(),
-                            new CurrencyPair(orderDetail.getSymbol()),
-                            orderDetail.getPriceLimit().abs(),
-                            new Date(),
-                            Long.toString(orderDetail.getOrderNo()),
-                            Long.toString(orderDetail.getOrderNo()),
-                            new BigDecimal(orderDetail.getFee()),
-                            Currency.getInstance(orderDetail.getSymbol().toUpperCase()));
-            lastTradeId =  orderDetail.getOrderNo();
-            trades.add(trade);
-        }
-        return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
-    }
+    return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
+  }
 }

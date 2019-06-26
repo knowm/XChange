@@ -54,9 +54,22 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw
     HitbtcSort sortDirection = (HitbtcSort) args[2]; // "asc" or "desc"
     long startIndex = (Long) args[3]; // 0
     long max_results = (Long) args[4]; // max is 1000
+    long offset = (Long) args[5]; // max is 100000
 
     return HitbtcAdapters.adaptTrades(
-        getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results),
+        getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results, offset),
         currencyPair);
+  }
+
+  public Trades getTradesCustom(
+      CurrencyPair currencyPair,
+      long fromTradeId,
+      HitbtcTrade.HitbtcTradesSortField sortBy,
+      HitbtcSort sortDirection,
+      long limit)
+      throws IOException {
+
+    return HitbtcAdapters.adaptTrades(
+        getHitbtcTrades(currencyPair, fromTradeId, sortBy, sortDirection, limit), currencyPair);
   }
 }

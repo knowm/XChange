@@ -1,9 +1,10 @@
 package org.knowm.xchange.acx;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -14,16 +15,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
+import org.knowm.xchange.acx.service.trade.AcxTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.known.xchange.acx.AcxApi;
-import org.known.xchange.acx.AcxMapper;
-import org.known.xchange.acx.AcxSignatureCreator;
-import org.known.xchange.acx.dto.marketdata.AcxOrder;
-import org.known.xchange.acx.service.trade.AcxTradeService;
 
 public class AcxTradingServiceTest {
 
@@ -83,7 +81,7 @@ public class AcxTradingServiceTest {
 
     boolean result = service.cancelOrder(orderId);
 
-    assertEquals(true, result);
+    assertTrue(result);
   }
 
   private <T> T read(String path, Class<T> clz) throws IOException {
