@@ -11,5 +11,5 @@ phases:
 
 artifacts:
   files:
-    - */target/xchange-*-SNAPSHOT.jar
+    - target/xchange-*-SNAPSHOT.jar
   discard-paths: yes
