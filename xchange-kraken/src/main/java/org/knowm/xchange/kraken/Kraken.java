@@ -23,7 +23,7 @@ public interface Kraken {
 
   @GET
   @Path("public/Ticker")
-  KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs);
+  KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs) throws IOException;
 
   @GET
   @Path("public/OHLC")

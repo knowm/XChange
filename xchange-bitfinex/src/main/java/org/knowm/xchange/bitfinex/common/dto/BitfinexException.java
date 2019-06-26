@@ -16,7 +16,12 @@ public class BitfinexException extends RuntimeException {
     this.message = message;
   }
 
+  @Override
   public String getMessage() {
     return message == null ? error : message;
+  }
+
+  public String getError() {
+    return error;
   }
 }

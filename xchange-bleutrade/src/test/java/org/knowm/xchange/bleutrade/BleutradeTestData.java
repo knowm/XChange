@@ -176,15 +176,17 @@ public class BleutradeTestData {
 
   protected static CurrencyPairMetaData[] expectedMetaDataList() {
     return new CurrencyPairMetaData[] {
-      new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.10000000"), null, 8),
-      new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.00000001"), null, 8)
+      new CurrencyPairMetaData(
+          new BigDecimal("0.0025"), new BigDecimal("0.10000000"), null, 8, null),
+      new CurrencyPairMetaData(
+          new BigDecimal("0.0025"), new BigDecimal("0.00000001"), null, 8, null)
     };
   }
 
   protected static String[] expectedMetaDataStr() {
     return new String[] {
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]",
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]"
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]",
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]"
     };
   }
 }

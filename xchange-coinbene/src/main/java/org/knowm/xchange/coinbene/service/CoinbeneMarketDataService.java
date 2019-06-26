@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbene.dto.CoinbeneAdapters;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
     implements MarketDataService {
@@ -28,6 +31,11 @@ public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinbeneAdapters.adaptTicker(getCoinbeneTicker(currencyPair));
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return CoinbeneAdapters.adaptTickers(getCoinbeneTickers());
   }
 
   @Override
@@ -54,11 +62,15 @@ public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
     }
 
     List<Trade> trades =
-        getCoinbeneTrades(currencyPair, limit)
-            .getTrades()
-            .stream()
+        getCoinbeneTrades(currencyPair, limit).getTrades().stream()
             .map(trade -> CoinbeneAdapters.adaptTrade(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public ExchangeMetaData getMetadata() throws IOException {
+
+    List<CoinbeneSymbol> symbol = getSymbol().getSymbol();
+    return CoinbeneAdapters.adaptMetadata(symbol);
   }
 }

@@ -1,0 +1,28 @@
+{
+  "id": 1,
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "slug": "bitcoin",
+  "circulating_supply": 17519062,
+  "total_supply": 17519062,
+  "max_supply": 21000000,
+  "date_added": "2013-04-28T00:00:00.000Z",
+  "num_market_pairs": 6513,
+  "tags": [
+    "mineable"
+  ],
+  "platform": null,
+  "cmc_rank": 1,
+  "last_updated": "2019-02-04T16:34:24.000Z",
+  "quote": {
+    "USD": {
+      "price": 3463.69103385,
+      "volume_24h": 5327785294.41072,
+      "percent_change_1h": 0.25934,
+      "percent_change_24h": -0.342853,
+      "percent_change_7d": 0.070337,
+      "market_cap": 60680617970.86225,
+      "last_updated": "2019-02-04T16:34:24.000Z"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coingi.Coingi;
 import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
+import org.knowm.xchange.coingi.dto.marketdata.CoingiTicker;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
@@ -30,5 +31,11 @@ public class CoingiMarketDataServiceRaw extends CoingiBaseService {
   public List<CoingiTransaction> getTransactions(CurrencyPair currencyPair, int maxCount)
       throws IOException {
     return coingi.getTransaction(CoingiAdapters.adaptCurrency(currencyPair), maxCount);
+  }
+
+  public List<CoingiTicker> getTickers(
+      CurrencyPair currencyPair, Integer aggregationIntervalSize, int maxCount) throws IOException {
+    return coingi.getTicker(
+        CoingiAdapters.adaptCurrency(currencyPair), aggregationIntervalSize, maxCount);
   }
 }

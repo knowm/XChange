@@ -13,11 +13,8 @@ public class CexIOOrder {
   private final BigDecimal amount;
   private final BigDecimal pending;
   private final String errorMessage;
-
-  /** non-JSON fields */
-  private String tradableIdentifier;
-
-  private String transactionCurrency;
+  private final String symbol1;
+  private final String symbol2;
 
   /**
    * Constructor
@@ -28,6 +25,8 @@ public class CexIOOrder {
    * @param price
    * @param amount
    * @param pending
+   * @param symbol1
+   * @param symbol2
    */
   public CexIOOrder(
       @JsonProperty("id") long id,
@@ -36,6 +35,8 @@ public class CexIOOrder {
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("pending") BigDecimal pending,
+      @JsonProperty("symbol1") String symbol1,
+      @JsonProperty("symbol2") String symbol2,
       @JsonProperty("error") String errorMessage) {
 
     this.id = id;
@@ -44,6 +45,8 @@ public class CexIOOrder {
     this.price = price;
     this.amount = amount;
     this.pending = pending;
+    this.symbol1 = symbol1;
+    this.symbol2 = symbol2;
     this.errorMessage = errorMessage;
   }
 
@@ -82,24 +85,14 @@ public class CexIOOrder {
     return errorMessage;
   }
 
-  public String getTradableIdentifier() {
+  public String getSymbol1() {
 
-    return tradableIdentifier;
+    return symbol1;
   }
 
-  public void setTradableIdentifier(String tradableIdentifier) {
+  public String getSymbol2() {
 
-    this.tradableIdentifier = tradableIdentifier;
-  }
-
-  public String getTransactionCurrency() {
-
-    return transactionCurrency;
-  }
-
-  public void setTransactionCurrency(String transactionCurrency) {
-
-    this.transactionCurrency = transactionCurrency;
+    return symbol2;
   }
 
   @Override
@@ -108,8 +101,8 @@ public class CexIOOrder {
     return errorMessage != null
         ? errorMessage
         : String.format(
-            "Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}",
-            id, time, type, price, amount, pending);
+            "Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s, symbol1=%s, symbol2=%s}",
+            id, time, type, price, amount, pending, symbol1, symbol2);
   }
 
   public enum Type {

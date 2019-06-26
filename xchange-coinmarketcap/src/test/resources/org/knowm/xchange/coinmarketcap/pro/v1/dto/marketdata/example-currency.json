@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "slug": "bitcoin",
+  "is_active": 1,
+  "first_historical_data": "2013-04-28T18:47:21.000Z",
+  "last_historical_data": "2019-02-15T20:39:01.000Z",
+  "platform": null
+}

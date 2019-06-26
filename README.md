@@ -11,9 +11,7 @@ The world of Bitcoin changes quickly and XChange is no exception. For the latest
 
 ## Description
 
-XChange is a library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges, including support for Bitcoin. 
-
-A complete list of implemented exchanges, data providers and brokers can be found on our [Exchange Support](https://github.com/knowm/XChange/wiki/Exchange-Support) page. 
+XChange is a library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges.
 
 Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
 
@@ -103,17 +101,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>4.3.9</version>
+      <version>4.3.19</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>4.3.9</version>
+      <version>4.3.19</version>
     </dependency>
     <dependency>
       <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>4.3.9</version>
+      <version>4.3.19</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -126,7 +124,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.3.10-SNAPSHOT
+    4.3.20-SNAPSHOT
     
 ## Building with Maven
 

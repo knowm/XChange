@@ -26,8 +26,7 @@ public final class BitfinexAdapters {
   private BitfinexAdapters() {}
 
   public static String adaptCurrencyPairsToTickersParam(Collection<CurrencyPair> currencyPairs) {
-    return currencyPairs
-        .stream()
+    return currencyPairs.stream()
         .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
         .collect(Collectors.joining(","));
   }

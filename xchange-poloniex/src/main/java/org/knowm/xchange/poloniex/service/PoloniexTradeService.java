@@ -247,15 +247,12 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
     OpenOrders openOrders = getOpenOrders();
     List<Order> returnValue =
-        openOrders
-            .getOpenOrders()
-            .stream()
+        openOrders.getOpenOrders().stream()
             .filter(f -> orderIdList.contains(f.getId()))
             .collect(Collectors.toList());
 
     returnValue.addAll(
-        orderIdList
-            .stream()
+        orderIdList.stream()
             .filter(
                 f -> !returnValue.stream().filter(a -> a.getId().equals(f)).findFirst().isPresent())
             .map(

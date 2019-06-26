@@ -2,8 +2,10 @@ package org.knowm.xchange.cryptofacilities;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -14,6 +16,8 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
+import org.knowm.xchange.cryptofacilities.dto.trade.BatchOrder;
+import org.knowm.xchange.cryptofacilities.dto.trade.BatchOrderResult;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -23,15 +27,15 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
 
   @GET
-  @Path("/accounts")
+  @Path("accounts")
   CryptoFacilitiesAccounts accounts(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
-  @GET
-  @Path("/sendorder")
+  @POST
+  @Path("sendorder")
   CryptoFacilitiesOrder sendOrder(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -43,8 +47,17 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @QueryParam("limitPrice") BigDecimal limitPrice)
       throws IOException;
 
-  @GET
-  @Path("/cancelorder")
+  @POST
+  @Path("batchorder")
+  BatchOrderResult batchOrder(
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("json") BatchOrder orderCommands)
+      throws IOException;
+
+  @POST
+  @Path("cancelorder")
   CryptoFacilitiesCancel cancelOrder(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -53,7 +66,7 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       throws IOException;
 
   @GET
-  @Path("/openorders")
+  @Path("openorders")
   CryptoFacilitiesOpenOrders openOrders(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
@@ -61,15 +74,16 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       throws IOException;
 
   @GET
-  @Path("/fills")
+  @Path("fills")
   CryptoFacilitiesFills fills(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce)
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("lastFillTime") String lastFillTime)
       throws IOException;
 
   @GET
-  @Path("/openpositions")
+  @Path("openpositions")
   CryptoFacilitiesOpenPositions openPositions(
       @HeaderParam("APIKey") String apiKey,
       @HeaderParam("Authent") ParamsDigest signer,

@@ -1,0 +1,14 @@
+{
+    "Price": "900",
+    "PricePrecision": "00",
+    "Amount": "0",
+    "AmountPrecision": "0123",
+    "OrderType": 1,
+    "OrderMethod": 0,
+    "PairSymbol": "ETHTRY",
+    "DenominatorPrecision": 2,
+    "Total": "0",
+    "TotalPrecision": "00",
+    "TriggerPrice": "0",
+    "TriggerPricePrecision": "00"
+}

@@ -120,6 +120,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   @Override
   public String toString() {
+
     return "LimitOrder [limitPrice=" + printLimitPrice() + ", " + super.toString() + "]";
   }
 
@@ -262,6 +263,11 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public Builder flags(Set<IOrderFlags> flags) {
 
       return (Builder) super.flags(flags);
+    }
+
+    @Override
+    public Builder fee(BigDecimal fee) {
+      return (Builder) super.fee(fee);
     }
 
     public Builder limitPrice(BigDecimal limitPrice) {

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,16 +41,10 @@ public class OkCoinAdaptersTest {
     OkCoinAccountRecords okCoinAccountWithdrawalRecords =
         mapper.readValue(is, OkCoinAccountRecords.class);
 
-    List<FundingRecord> deposits =
+    List<FundingRecord> records =
         OkCoinAdapters.adaptFundingHistory(okCoinAccountDepositRecords, FundingRecord.Type.DEPOSIT);
-    List<FundingRecord> withdrawals =
-        OkCoinAdapters.adaptFundingHistory(
-            okCoinAccountWithdrawalRecords, FundingRecord.Type.WITHDRAWAL);
-    final List<FundingRecord> records = new ArrayList<>();
-    records.addAll(deposits);
-    records.addAll(withdrawals);
 
-    assertThat(records.size()).isEqualTo(3);
+    assertThat(records.size()).isEqualTo(2);
     FundingRecord depositRecord = records.get(1);
     assertThat(depositRecord).isInstanceOf(FundingRecord.class);
     assertThat(depositRecord.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
@@ -61,14 +54,17 @@ public class OkCoinAdaptersTest {
         .isEqualTo(new BigDecimal("0.07").doubleValue());
     assertThat(depositRecord.getAddress()).isEqualTo("1lEWjmlkmlhTqcYj3l33sg980slkjtdqd");
 
-    FundingRecord withdrawalRecord = records.get(2);
+    records =
+        OkCoinAdapters.adaptFundingHistory(
+            okCoinAccountDepositRecords, FundingRecord.Type.WITHDRAWAL);
+    FundingRecord withdrawalRecord = records.get(1);
     assertThat(withdrawalRecord).isInstanceOf(FundingRecord.class);
     assertThat(withdrawalRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
     assertThat(withdrawalRecord.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
-    assertThat(withdrawalRecord.getAmount()).isEqualTo(new BigDecimal("33"));
+    assertThat(withdrawalRecord.getAmount()).isEqualTo(new BigDecimal("50"));
     assertThat(withdrawalRecord.getFee().doubleValue())
-        .isEqualTo(new BigDecimal("0.05").doubleValue());
-    assertThat(withdrawalRecord.getAddress()).isEqualTo("8OKSDF39aOIUl34lksUIYW3kl3l39d");
+        .isEqualTo(new BigDecimal("0.07").doubleValue());
+    assertThat(withdrawalRecord.getAddress()).isEqualTo("1lEWjmlkmlhTqcYj3l33sg980slkjtdqd");
   }
 
   @Test
@@ -114,9 +110,7 @@ public class OkCoinAdaptersTest {
                 new LimitOrder(
                     Order.OrderType.ASK, ask3Amount, CurrencyPair.ETH_BTC, null, date, ask3Price)));
     Assert.assertTrue(
-        orderBook
-            .getAsks()
-            .stream()
+        orderBook.getAsks().stream()
             .sorted()
             .collect(Collectors.toList())
             .equals(orderBook.getAsks()));
@@ -135,9 +129,7 @@ public class OkCoinAdaptersTest {
                 new LimitOrder(
                     Order.OrderType.BID, bid2Amount, CurrencyPair.ETH_BTC, null, date, bid2Price)));
     Assert.assertTrue(
-        orderBook
-            .getBids()
-            .stream()
+        orderBook.getBids().stream()
             .sorted()
             .collect(Collectors.toList())
             .equals(orderBook.getBids()));

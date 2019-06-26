@@ -5,7 +5,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.upbit.service.UpbitAccountService;
 import org.knowm.xchange.upbit.service.UpbitMarketDataService;
+import org.knowm.xchange.upbit.service.UpbitTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -15,6 +17,8 @@ public class UpbitExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new UpbitMarketDataService(this);
+    this.accountService = new UpbitAccountService(this);
+    this.tradeService = new UpbitTradeService(this);
   }
 
   @Override

@@ -30,7 +30,7 @@ public class IdexExchange extends BaseExchange {
 
   private ReturnCurrenciesResponse allCurrenciesStatic;
 
-  CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0);
+  CurrencyPairMetaData unavailableCPMeta = new CurrencyPairMetaData(ZERO, ZERO, ZERO, 0, null);
 
   public final CurrencyPairMetaData getUnavailableCPMeta() {
     return unavailableCPMeta;

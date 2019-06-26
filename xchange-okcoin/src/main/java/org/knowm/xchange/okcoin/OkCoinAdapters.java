@@ -33,7 +33,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -70,6 +69,12 @@ public final class OkCoinAdapters {
 
     String[] currencies = symbol.toUpperCase().split("_");
     return new CurrencyPair(currencies[0], currencies[1]);
+  }
+
+  public static String adaptCurrencyToAccountRecordPair(Currency currency) {
+    // Currency pair must be used with usd
+    // This is due to https://github.com/okcoin-okex/API-docs-OKEx.com/issues/115
+    return adaptSymbol(new CurrencyPair(currency, Currency.USD));
   }
 
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
@@ -146,10 +151,9 @@ public final class OkCoinAdapters {
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
-    OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
-    OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
-    OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
-    OkcoinFuturesFundsCross bchFunds = info.getBchFunds();
+    OkcoinFuturesFundsCross btcFunds = futureUserInfo.getFunds(Currency.BTC);
+    OkcoinFuturesFundsCross ltcFunds = futureUserInfo.getFunds(Currency.LTC);
+    OkcoinFuturesFundsCross bchFunds = futureUserInfo.getFunds(Currency.BCH);
 
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
