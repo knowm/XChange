@@ -135,8 +135,8 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     if (bitmexSymbol.contains(baseSymbol)) {
       counterSymbol = bitmexSymbol.substring(baseSymbol.length(), bitmexSymbol.length());
     } else {
-      throw new ExchangeException(
-          "Not clear how to create currency pair for symbol: " + bitmexSymbol);
+      logger.error("Not clear how to create currency pair for symbol: " + bitmexSymbol);
+      return;
     }
 
     activeCurrencyPairs.add(new CurrencyPair(baseSymbol, counterSymbol));

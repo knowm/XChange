@@ -1,8 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.LoanOrderBook;
@@ -18,6 +15,10 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Implementation of the market data service for Gemini
@@ -150,6 +151,8 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw
                 + ")");
       }
     }
+    if (lastTradeTime == 0) lastTradeTime = new Date().getTime() - 5000;
+
     GeminiTrade[] trades =
         getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime, limitTrades);
 

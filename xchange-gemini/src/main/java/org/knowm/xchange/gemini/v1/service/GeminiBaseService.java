@@ -42,6 +42,9 @@ public class GeminiBaseService extends BaseExchangeService implements BaseServic
         || e.getMessage().contains("you do not have enough available"))
       return new FundsExceededException(e);
 
+    if (e.getMessage().contains("has not increased since your last call to the Gemini API."))
+      while (exchange.getNonceFactory().createValue() < System.currentTimeMillis()) ;
+
     return new ExchangeException(e);
   }
 }
