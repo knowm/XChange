@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+  build:
+    commands:
+      - echo "Starting Build..."
+      - mvn clean deploy -DskipTests --batch-mode -DAWS_DEFAULT_REGION=us-east-2
+
+artifacts:
+  files:
+    - target/*.jar
+  discard-paths: yes

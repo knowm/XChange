@@ -70,16 +70,13 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>mainbloq-maven-repo</id>
+            <url>s3://mainbloq-maven-repo/snapshot</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>mainbloq-maven-repo</id>
+            <url>s3://mainbloq-maven-repo/release</url>
         </repository>
-        <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
     </distributionManagement>
 
     <scm>
@@ -527,6 +524,13 @@
             </plugin>
 
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>com.gkatzioura.maven.cloud</groupId>
+                <artifactId>s3-storage-wagon</artifactId>
+                <version>1.9</version>
+            </extension>
+        </extensions>
     </build>
 
 </project>
