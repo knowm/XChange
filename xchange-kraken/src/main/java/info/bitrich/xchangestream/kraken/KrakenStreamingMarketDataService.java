@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +42,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     public static final String KRAKEN_CHANNEL_DELIMITER = "-";
 
     private final KrakenStreamingService service;
-    private final HashMap<String, KrakenOrderBookStorage> orderBooks = new HashMap<>();
+    private final Map<String, KrakenOrderBookStorage> orderBooks = new ConcurrentHashMap<>();
 
     public KrakenStreamingMarketDataService(KrakenStreamingService service) {
         this.service = service;
