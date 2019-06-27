@@ -5,7 +5,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.16-SNAPSHOT</version>
+    <version>4.3.17-SNAPSHOT</version>
 
     <modules>
         <module>xchange-stream-core</module>
