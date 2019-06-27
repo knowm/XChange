@@ -3,12 +3,12 @@ package info.bitrich.xchangestream.kraken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionConfig;
 import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionMessage;
-import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.kraken.dto.KrakenSubscriptionStatusMessage;
 import info.bitrich.xchangestream.kraken.dto.KrakenSystemStatus;
+import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
+import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType.subscribe;
 
@@ -33,7 +34,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     private final Map<Integer, String> channels = new HashMap<>();
     private ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    private final Map<Integer, String> subscriptionRequestMap = new HashMap<>();
+    private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
 
     public KrakenStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
