@@ -22,32 +22,50 @@ public class KrakenOrderBookStorage {
 
     private final int maxDepth;
 
-    public KrakenOrderBookStorage(KrakenOrderBook orderbookTransaction, int maxDepth) {
+    /**
+     * Constructor is used for snapshots only
+     * @param orderBookUpdate order book update items
+     * @param maxDepth order book size can rise up, so depth value need for order book truncating
+     */
+    public KrakenOrderBookStorage(KrakenOrderBook orderBookUpdate, int maxDepth) {
         this.maxDepth = maxDepth;
-        createFromLevels(orderbookTransaction);
+        createFromLevels(orderBookUpdate);
     }
 
-    private void createFromLevels(KrakenOrderBook orderbookTransaction) {
+    /**
+     * Create order book from snapshot
+     * @param orderBookUpdate order book snapshot
+     */
+    private void createFromLevels(KrakenOrderBook orderBookUpdate) {
         this.asks = new TreeMap<>(BigDecimal::compareTo);
         this.bids = new TreeMap<>(reverseOrder(BigDecimal::compareTo));
 
-        for (KrakenPublicOrder orderBookItem : orderbookTransaction.getAsk()) {
+        for (KrakenPublicOrder orderBookItem : orderBookUpdate.getAsk()) {
             asks.put(orderBookItem.getPrice(), orderBookItem);
         }
 
-        for (KrakenPublicOrder orderBookItem : orderbookTransaction.getBid()) {
+        for (KrakenPublicOrder orderBookItem : orderBookUpdate.getBid()) {
             bids.put(orderBookItem.getPrice(), orderBookItem);
         }
     }
+
+    /**
+     * Converting to Kraken XChange format
+     * @return
+     */
     public KrakenDepth toKrakenDepth() {
         List<KrakenPublicOrder> askLimits = new ArrayList<>(asks.values());
         List<KrakenPublicOrder> bidLimits = new ArrayList<>(bids.values());
         return new KrakenDepth(askLimits, bidLimits);
     }
 
-    public void updateOrderBook(KrakenOrderBook orderBookTransaction) {
-        updateOrderBookItems(orderBookTransaction.getAsk(), asks);
-        updateOrderBookItems(orderBookTransaction.getBid(), bids);
+    /**
+     * Order book incremental update
+     * @param orderBookUpdate order book update
+     */
+    public void updateOrderBook(KrakenOrderBook orderBookUpdate) {
+        updateOrderBookItems(orderBookUpdate.getAsk(), asks);
+        updateOrderBookItems(orderBookUpdate.getBid(), bids);
     }
 
     private void updateOrderBookItems(KrakenPublicOrder[] itemsToUpdate, Map<BigDecimal, KrakenPublicOrder> localItems) {

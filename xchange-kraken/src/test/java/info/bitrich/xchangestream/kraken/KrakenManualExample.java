@@ -3,22 +3,18 @@ package info.bitrich.xchangestream.kraken;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
-import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class KrakenStreamingTest {
+public class KrakenManualExample {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KrakenManualExample.class);
 
-    @Test
-    public void orderBookTest() throws InterruptedException {
-
+    public static void main(String[] args) throws InterruptedException {
 
         ExchangeSpecification exchangeSpecification = new ExchangeSpecification(KrakenStreamingExchange.class);
 
@@ -52,6 +48,8 @@ public class KrakenStreamingTest {
         btcUsdOrderBookDis.dispose();
         tickerDis.dispose();
         tradeDis.dispose();
+
+        krakenExchange.disconnect().subscribe(() -> LOG.info("Disconnected"));
     }
 
 }

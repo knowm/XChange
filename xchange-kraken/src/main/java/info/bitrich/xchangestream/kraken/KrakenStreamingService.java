@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.kraken;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
@@ -38,11 +37,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
     public KrakenStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override
-    public boolean processSeparateArrayItems() {
+    public boolean processArrayMassageSeparately() {
         return false;
     }
 
@@ -56,7 +54,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             if (event != null && (krakenEvent = KrakenEventType.getEvent(event.textValue())) != null) {
                 switch (krakenEvent) {
                     case heartbeat:
-                        LOG.info("Heartbeat received");
+                        LOG.debug("Heartbeat received");
                         break;
                     case systemStatus:
                         KrakenSystemStatus systemStatus = mapper.treeToValue(message, KrakenSystemStatus.class);
