@@ -91,7 +91,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    public boolean processSeparateArrayItems() {
+    public boolean processArrayMassageSeparately() {
         return false;
     }
 
