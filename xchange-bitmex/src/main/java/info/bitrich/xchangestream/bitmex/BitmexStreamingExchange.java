@@ -3,32 +3,30 @@ package info.bitrich.xchangestream.bitmex;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmex.BitmexExchange;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Created by Lukas Zaoralek on 12.11.17.
  */
 public class BitmexStreamingExchange extends BitmexExchange implements StreamingExchange {
     private static final String API_URI = "wss://www.bitmex.com/realtime";
+    private static final String TESTNET_API_URI = "wss://testnet.bitmex.com/realtime";
 
-    private final BitmexStreamingService streamingService;
+    private BitmexStreamingService streamingService;
     private BitmexStreamingMarketDataService streamingMarketDataService;
 
     public BitmexStreamingExchange() {
-        this.streamingService = new BitmexStreamingService(API_URI);
-    }
-
-    protected BitmexStreamingExchange(BitmexStreamingService streamingService) {
-        this.streamingService = streamingService;
     }
 
     @Override
     protected void initServices() {
         super.initServices();
-        streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService);
+        streamingService = createStreamingService();
+        streamingMarketDataService = new BitmexStreamingMarketDataService(streamingService, this);
     }
 
     @Override
@@ -36,14 +34,18 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
         return streamingService.connect();
     }
 
-    @Override
-    public Completable disconnect() {
-        return streamingService.disconnect();
+    private BitmexStreamingService createStreamingService() {
+        ExchangeSpecification exchangeSpec = getExchangeSpecification();
+        Boolean useSandbox = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(USE_SANDBOX);
+        String uri = useSandbox == null || !useSandbox ? API_URI : TESTNET_API_URI;
+        BitmexStreamingService streamingService = new BitmexStreamingService(uri, exchangeSpec.getApiKey(), exchangeSpec.getSecretKey());
+        applyStreamingSpecification(exchangeSpec, streamingService);
+        return streamingService;
     }
 
     @Override
-    public SynchronizedValueFactory<Long> getNonceFactory() {
-        return null;
+    public Completable disconnect() {
+        return streamingService.disconnect();
     }
 
     @Override
@@ -59,10 +61,32 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
     }
 
     @Override
+    public Observable<Throwable> reconnectFailure() {
+        return streamingService.subscribeReconnectFailure();
+    }
+
+    @Override
+    public Observable<Object> connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+
+    @Override
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+
+    @Override
+    public Observable<Long> messageDelay() {
+        return Observable.create(delayEmitter -> {
+            streamingService.addDelayEmitter(delayEmitter);
+        });
+    }
+
+    @Override
+    public void resubscribeChannels() {
+        streamingService.resubscribeChannels();
+    }
 }

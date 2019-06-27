@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xchange-stream-parent</artifactId>
         <groupId>info.bitrich.xchange-stream</groupId>
-        <version>4.3.15</version>
+        <version>4.3.16</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.pubnub</groupId>
             <artifactId>pubnub-gson</artifactId>
-            <version>4.19.0</version>
+            <version>4.25.0</version>
         </dependency>
 
         <dependency>
