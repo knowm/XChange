@@ -94,7 +94,7 @@ public class KrakenOrderBookUtils {
     }
 
     private static long timestampToMs(String timestamp) {
-        return new BigDecimal(timestamp).multiply(new BigDecimal(1000).abs()).longValue();
+        return new BigDecimal(timestamp).multiply(new BigDecimal(1000)).longValue();
     }
 
 }
