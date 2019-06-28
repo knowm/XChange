@@ -31,7 +31,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
     private static final String EVENT = "event";
-    private final Map<Integer, String> channels = new HashMap<>();
+    private final Map<Integer, String> channels = new ConcurrentHashMap<>();
     private ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
     private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
