@@ -37,7 +37,12 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected void handleMessage(JsonNode message) {
+
         if (message.isArray()) {
+            if (message.size() < 3) {
+                if (message.get(0).asText().equals(HEARTBEAT)) return;
+                else if (message.get(0).asText().equals("1002")) return;
+            }
             Integer channelId = new Integer(message.get(0).toString());
             if (channelId > 0 && channelId < 1000) {
                 JsonNode events = message.get(2);
@@ -61,24 +66,8 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    public void messageHandler(String message) {
-        LOG.debug("Received message: {}", message);
-        JsonNode jsonNode;
-
-        // Parse incoming message to JSON
-        try {
-            jsonNode = objectMapper.readTree(message);
-        } catch (IOException e) {
-            LOG.error("Error parsing incoming message to JSON: {}", message);
-            return;
-        }
-
-        if (jsonNode.isArray() && jsonNode.size() < 3) {
-            if (jsonNode.get(0).asText().equals(HEARTBEAT)) return;
-            else if (jsonNode.get(0).asText().equals("1002")) return;
-        }
-
-        handleMessage(jsonNode);
+    public boolean processArrayMassageSeparately() {
+        return false;
     }
 
     @Override
