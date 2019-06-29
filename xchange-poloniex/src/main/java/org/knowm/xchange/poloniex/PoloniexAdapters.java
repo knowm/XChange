@@ -40,9 +40,12 @@ public class PoloniexAdapters {
 
   public static Ticker adaptPoloniexTicker(
       PoloniexTicker poloniexTicker, CurrencyPair currencyPair) {
-
     PoloniexMarketData marketData = poloniexTicker.getPoloniexMarketData();
+    return adaptPoloniexTicker(marketData, currencyPair);
+  }
 
+  public static Ticker adaptPoloniexTicker(
+      PoloniexMarketData marketData, CurrencyPair currencyPair) {
     BigDecimal last = marketData.getLast();
     BigDecimal bid = marketData.getHighestBid();
     BigDecimal ask = marketData.getLowestAsk();
