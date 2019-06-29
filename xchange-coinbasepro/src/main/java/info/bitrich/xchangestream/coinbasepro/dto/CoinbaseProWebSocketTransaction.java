@@ -153,6 +153,7 @@ public class CoinbaseProWebSocketTransaction {
     }
 
     public OrderBook toOrderBook(SortedMap<BigDecimal, BigDecimal> bids, SortedMap<BigDecimal, BigDecimal> asks, int maxDepth, CurrencyPair currencyPair) {
+        // For efficiency, we go straight to XChange format
         List<LimitOrder> gdaxOrderBookBids = coinbaseProOrderBookChanges("buy", OrderType.BID, currencyPair, changes != null ? changes : this.bids,
                 bids, maxDepth);
         List<LimitOrder> gdaxOrderBookAsks = coinbaseProOrderBookChanges("sell", OrderType.ASK, currencyPair, changes != null ? changes : this.asks,
