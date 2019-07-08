@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.coinbasepro.dto;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -123,7 +124,11 @@ public class CoinbaseProWebSocketTransaction {
     private List<LimitOrder> coinbaseProOrderBookChanges(String side, OrderType orderType, CurrencyPair currencyPair, String[][] changes, SortedMap<BigDecimal, BigDecimal> sideEntries,
                                             int maxDepth) {
         if (changes.length == 0) {
-            return null;
+            return Collections.emptyList();
+        }
+
+        if (sideEntries == null) {
+            return Collections.emptyList();
         }
 
         for (String[] level : changes) {
