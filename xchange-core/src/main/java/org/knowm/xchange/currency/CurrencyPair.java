@@ -105,6 +105,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair DCR_BTC = new CurrencyPair(Currency.DCR, Currency.BTC);
 
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
+  public static final CurrencyPair XRP_ETH = new CurrencyPair(Currency.XRP, Currency.ETH);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
   public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
   public static final CurrencyPair XRP_USDT = new CurrencyPair(Currency.XRP, Currency.USDT);
@@ -347,6 +348,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BNK_BTC = new CurrencyPair(Currency.BNK, Currency.BTC);
   public static final CurrencyPair BNK_ETH = new CurrencyPair(Currency.BNK, Currency.ETH);
   public static final CurrencyPair BNK_USDT = new CurrencyPair(Currency.BNK, Currency.USDT);
+  public static final CurrencyPair XRP_BNK = new CurrencyPair(Currency.XRP, Currency.BNK);
 
   public final Currency base;
   public final Currency counter;
