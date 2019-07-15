@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.service.netty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,10 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
         super(apiUrl, maxFramePayloadLength);
     }
 
+    public boolean processArrayMassageSeparately() {
+        return true;
+    }
+
     @Override
     public void messageHandler(String message) {
         LOG.debug("Received message: {}", message);
@@ -35,8 +38,8 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
             return;
         }
 
-        // In case of array - handle every message separately.
-        if (jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
+        if (processArrayMassageSeparately() && jsonNode.isArray()) {
+            // In case of array - handle every message separately.
             for (JsonNode node : jsonNode) {
                 handleMessage(node);
             }
