@@ -1,8 +1,5 @@
 package org.knowm.xchange.kraken;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -10,6 +7,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
@@ -239,7 +240,6 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("aclass") String assetPairs,
       @FormParam("asset") String assets,
       @FormParam("method") String method,
-      @FormParam("new") boolean newAddress,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
