@@ -69,7 +69,6 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
             null,
             currency,
             method,
-            newAddress,
             exchange.getExchangeSpecification().getApiKey(),
             signatureCreator,
             exchange.getNonceFactory());
