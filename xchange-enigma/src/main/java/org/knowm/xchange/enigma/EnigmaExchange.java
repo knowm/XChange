@@ -2,21 +2,19 @@ package org.knowm.xchange.enigma;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.enigma.dto.account.EnigmaCredentials;
-import org.knowm.xchange.enigma.dto.account.EnigmaLoginResponse;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
 import org.knowm.xchange.enigma.service.EnigmaTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-
 public class EnigmaExchange extends BaseExchange {
 
   private static final String SSL_URI = "https://test.enigma-securities.io/";
+  private static final String HOST = "test.enigma-securities.io";
+
   //  private static final String SSL_URI = "https://api.enigma-securities.io/";
-  private static final String HOST = "api.enigma-securities.io";
+  //  private static final String HOST = "api.enigma-securities.io";
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
