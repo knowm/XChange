@@ -1,0 +1,82 @@
+[
+  {
+    "product_id": "1",
+    "product_name": "BTC-EUR"
+  },
+  {
+    "product_id": "2",
+    "product_name": "BTC-USD"
+  },
+  {
+    "product_id": "3",
+    "product_name": "BTC-CAD"
+  },
+  {
+    "product_id": "4",
+    "product_name": "LTC-EUR"
+  },
+  {
+    "product_id": "5",
+    "product_name": "LTC-USD"
+  },
+  {
+    "product_id": "6",
+    "product_name": "LTC-CAD"
+  },
+  {
+    "product_id": "7",
+    "product_name": "ETH-EUR"
+  },
+  {
+    "product_id": "8",
+    "product_name": "ETH-USD"
+  },
+  {
+    "product_id": "9",
+    "product_name": "ETH-CAD"
+  },
+  {
+    "product_id": "10",
+    "product_name": "XRP-EUR"
+  },
+  {
+    "product_id": "11",
+    "product_name": "XRP-USD"
+  },
+  {
+    "product_id": "12",
+    "product_name": "XRP-CAD"
+  },
+  {
+    "product_id": "13",
+    "product_name": "BCH-EUR"
+  },
+  {
+    "product_id": "14",
+    "product_name": "BCH-USD"
+  },
+  {
+    "product_id": "15",
+    "product_name": "BCH-CAD"
+  },
+  {
+    "product_id": "16",
+    "product_name": "BTC-GBP"
+  },
+  {
+    "product_id": "17",
+    "product_name": "LTC-GBP"
+  },
+  {
+    "product_id": "18",
+    "product_name": "ETH-GBP"
+  },
+  {
+    "product_id": "19",
+    "product_name": "XRP-GBP"
+  },
+  {
+    "product_id": "20",
+    "product_name": "BCH-GBP"
+  }
+]
