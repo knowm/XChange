@@ -28,6 +28,7 @@
         <module>xchange-wex</module>
         <module>xchange-binance</module>
         <module>xchange-hitbtc</module>
+        <module>xchange-bankera</module>
         <module>xchange-kraken</module>
     </modules>
 
