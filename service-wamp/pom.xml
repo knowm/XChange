@@ -46,12 +46,12 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
-            <version>4.1.36.Final</version>
+            <version>4.1.37.Final</version>
         </dependency>
         <dependency>
             <groupId>com.github.akarnokd</groupId>
             <artifactId>rxjava2-interop</artifactId>
-            <version>0.13.6</version>
+            <version>0.13.7</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.reactivex.rxjava2</groupId>
