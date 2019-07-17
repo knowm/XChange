@@ -4,6 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
+/**
+ * CoinDeal API exception
+ * 
+ * CoinDeals error response format is wildly inconsistent - its like totally different in various
+ * situations. As a consiquence this class will have many properties that are sometimes set and
+ * sometimes null.
+ */
 public class CoindealException extends HttpStatusExceptionSupport {
 
   @JsonProperty("errors")
