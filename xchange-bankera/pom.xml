@@ -3,29 +3,27 @@
     <parent>
         <artifactId>xchange-stream-parent</artifactId>
         <groupId>info.bitrich.xchange-stream</groupId>
-        <version>4.3.17-SNAPSHOT</version>
+        <version>4.3.14-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-netty</artifactId>
+    <artifactId>xchange-bankera</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-core</artifactId>
+            <artifactId>xchange-stream-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
-        <!-- Netty version compatible with service-wamp -->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.37.Final</version>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>service-netty</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-bankera</artifactId>
+            <version>${xchange.version}</version>
         </dependency>
     </dependencies>
 </project>
