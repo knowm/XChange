@@ -1,31 +1,34 @@
 package org.knowm.xchange.okcoin.v3.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
+import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.okcoin.v3.service.OkexException;
+import si.mazi.rescu.HttpResponseAware;
 
 @Setter
-public abstract class OkexResponse {
+public abstract class OkexResponse implements HttpResponseAware {
 
-  /** result of the order. Error message will be returned if the order failed. */
-  private boolean result;
+  @Getter private Map<String, List<String>> responseHeaders;
 
-  /** Error code for order placement. Success = 0. Failure = error code */
+  @Setter private String httpBody;
+
+  @Getter private Boolean result;
+
   @JsonProperty("error_code")
   private String errorCode;
 
-  /**
-   * It will be blank if order placement is success. Error message will be returned if order
-   * placement fails.
-   */
   @JsonProperty("error_message")
   private String errorMessage;
 
   public void checkResult() {
-    if (!result) {
+    if ((errorMessage != null && !errorMessage.isEmpty())
+        || (errorCode != null && !errorCode.isEmpty())) {
       OkexException e = new OkexException();
       e.setCode(errorCode);
-      e.setMessage(errorMessage);
+      e.setMessage(errorMessage + "\nbody: " + httpBody + "\nheaders: " + responseHeaders);
       throw e;
     }
   }

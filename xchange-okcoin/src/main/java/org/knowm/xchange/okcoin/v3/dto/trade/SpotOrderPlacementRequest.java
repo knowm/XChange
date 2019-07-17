@@ -3,13 +3,14 @@ package org.knowm.xchange.okcoin.v3.dto.trade;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 @JsonInclude(Include.NON_NULL)
-public class OrderPlacementRequest {
+public class SpotOrderPlacementRequest {
 
   // Common Request Parameters
 
@@ -43,16 +44,16 @@ public class OrderPlacementRequest {
    * limit order) 1: Post only 2: Fill Or Kill 3: Immediatel Or Cancel
    */
   @JsonProperty("order_type")
-  private String orderType;
+  private OrderPlacementType orderType;
 
   /** required, quantity bought or sold */
-  private String size;
+  private BigDecimal size;
 
   // Limit Order Parameters
   /** required, price */
-  private String price;
+  private BigDecimal price;
 
   // Market Order Parameters
   /** required, amount bought. (for orders bought at market price only) */
-  private String notional;
+  private BigDecimal notional;
 }
