@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
-import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.coindeal.dto.trade.CoindealTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 
 public class CoindealTradeServiceRaw extends CoindealBaseService {
@@ -33,18 +31,14 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
   }
 
   public CoindealOrder placeOrder(LimitOrder limitOrder) throws IOException {
-    try {
-      return coindeal.placeOrder(
-          basicAuthentication,
-          CoindealAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair()),
-          CoindealAdapters.adaptOrderType(limitOrder.getType()),
-          "limit",
-          "GTC",
-          limitOrder.getOriginalAmount().doubleValue(),
-          limitOrder.getLimitPrice().doubleValue());
-    } catch (CoindealException e) {
-      throw new ExchangeException(e.getMessage());
-    }
+    return coindeal.placeOrder(
+        basicAuthentication,
+        CoindealAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair()),
+        CoindealAdapters.adaptOrderType(limitOrder.getType()),
+        "limit",
+        "GTC",
+        limitOrder.getOriginalAmount().doubleValue(),
+        limitOrder.getLimitPrice().doubleValue());
   }
 
   public CoindealOrder[] deleteOrders(CurrencyPair currencyPair) {
