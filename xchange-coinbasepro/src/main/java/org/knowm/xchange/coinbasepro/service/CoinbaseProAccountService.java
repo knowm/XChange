@@ -15,6 +15,7 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.DepositAddress;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -44,12 +45,22 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, DepositAddress address)
+      throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
+
+  @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       CoinbaseProWithdrawCryptoResponse response =
           withdrawCrypto(
-              defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
+              defaultParams.getAddress(),
+              defaultParams.getAmount(),
+              defaultParams.getCurrency(),
+              defaultParams.getDestinationTag(),
+              defaultParams.getDestinationTag() == null);
       return response.id;
     }
 
@@ -79,9 +90,8 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     return null;
   }
 
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
+  private CoinbaseProAccountAddress accountAddress(Currency currency, String... args)
+      throws IOException {
     CoinbaseProAccount[] coinbaseAccounts = getCoinbaseAccounts();
     CoinbaseProAccount depositAccount = null;
 
@@ -95,8 +105,22 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
       }
     }
 
-    CoinbaseProAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    CoinbaseProAccountAddress accountAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    return accountAddress;
+  }
+
+  @Deprecated
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
     return depositAddress.getAddress();
+  }
+
+  @Override
+  public DepositAddress requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
+    return new DepositAddress(depositAddress.getAddress(), depositAddress.getDestinationTag());
   }
 
   @Override
