@@ -1,6 +1,9 @@
 {
   "currency_pairs": {},
   "currencies": {
+    "ALGO": {
+      "withdrawal_fee": 0.0025
+    },
     "ATOM": {
       "withdrawal_fee": 0.005
     },
@@ -14,7 +17,7 @@
       "withdrawal_fee": 0.001
     },
     "ETH": {
-      "withdrawal_fee": 0.005
+      "withdrawal_fee": 0.01
     },
     "LEO": {
       "withdrawal_fee": 0.5
@@ -35,7 +38,7 @@
       "withdrawal_fee": 1
     },
     "USDT": {
-      "withdrawal_fee": 2
+      "withdrawal_fee": 8
     },
     "VEE": {
       "withdrawal_fee": 100

@@ -40,9 +40,23 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
     List<OkexSpotAccountRecord> spotTradingAccount = super.spotTradingAccount();
     Collection<Balance> tradingBalances =
         spotTradingAccount.stream().map(OkexAdaptersV3::convert).collect(Collectors.toList());
+
+    /*
+     * commented out, since using this method we are running into [30014] Too Many Requests
+    FuturesAccountsResponse futuresAccounts = super.getFuturesAccounts();
+    Collection<Balance> futuresBalances =
+        futuresAccounts.getInfo().getAccounts().entrySet().stream()
+            .map(e -> OkexAdaptersV3.convert(e.getKey(), e.getValue()))
+            .collect(Collectors.toList());
+
+    List<SwapAccountInfo> swapAccounts = super.getSwapAccounts();
+    Collection<Balance> swapBalances =
+        swapAccounts.stream().map(OkexAdaptersV3::convert).collect(Collectors.toList());*/
     return new AccountInfo(
-        new Wallet("Funding Account", "Funding Account", fundingBalances),
-        new Wallet("Trading Account", "Trading Account", tradingBalances));
+        new Wallet("Funding", fundingBalances), new Wallet("Trading", tradingBalances)
+        // new Wallet("Futures",futuresBalances),
+        // new Wallet("Swap", swapBalances)
+        );
   }
 
   @Override
