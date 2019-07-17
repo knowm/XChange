@@ -18,6 +18,9 @@ public final class FundingRecord implements Serializable {
   /** Crypto currency address for deposit/withdrawal */
   private final String address;
 
+  /** Crypto currency destination tag for deposit/withdrawal */
+  private String destinationTag;
+
   /** Date/Time of transaction */
   private final Date date;
 
@@ -144,9 +147,60 @@ public final class FundingRecord implements Serializable {
     this.description = description;
   }
 
+  /**
+   * Constructs a {@link FundingRecord}.
+   *
+   * @param address Crypto currency address for deposit/withdrawal
+   * @param destinationTag Crypto address destination tag for deposit/withdrawal
+   * @param date Date/Time of transaction
+   * @param currency The transaction currency
+   * @param amount Amount deposited/withdrawn (always positive)
+   * @param internalId Internal transaction identifier, specific to the Exchange
+   * @param blockchainTransactionHash Transaction hash/id that identifies the transaction within the
+   *     public ledger
+   * @param type Transaction Type {@link Type}
+   * @param status Status of the transaction whenever available
+   * @param balance Balance of the associated account after the transaction is performed
+   * @param fee Transaction Fee Amount (always positive)
+   * @param description Description of the transaction. It is a good idea to put here any extra info
+   *     sent back from the exchange that doesn't fit elsewhere so users can still access it.
+   */
+  public FundingRecord(
+      final String address,
+      final String destinationTag,
+      final Date date,
+      final Currency currency,
+      final BigDecimal amount,
+      final String internalId,
+      final String blockchainTransactionHash,
+      final Type type,
+      final Status status,
+      final BigDecimal balance,
+      final BigDecimal fee,
+      final String description) {
+    this(
+        address,
+        date,
+        currency,
+        amount,
+        internalId,
+        blockchainTransactionHash,
+        type,
+        status,
+        balance,
+        fee,
+        description);
+
+    this.destinationTag = destinationTag;
+  }
+
   /** @return Crypto currency address */
   public String getAddress() {
     return address;
+  }
+
+  public String getDestinationTag() {
+    return destinationTag;
   }
 
   /** @return Date/Time of transaction */

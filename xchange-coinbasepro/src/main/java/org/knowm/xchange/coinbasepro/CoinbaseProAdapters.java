@@ -503,6 +503,7 @@ public class CoinbaseProAdapters {
 
     return new FundingRecord(
         address,
+        coinbaseProTransfer.getDetails().getDestinationTag(),
         timestamp,
         currency,
         coinbaseProTransfer.amount(),
