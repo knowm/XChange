@@ -7,26 +7,12 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class OkexTokenPairInformation {
-
-  @JsonProperty("best_ask")
-  private BigDecimal bestAsk;
-
-  @JsonProperty("best_bid")
-  private BigDecimal bestBid;
+public class OkexSwapTicker {
 
   @JsonProperty("instrument_id")
   private String instrumentId;
 
-  @JsonProperty("product_id")
-  private String productId;
-
   private BigDecimal last;
-  private BigDecimal ask;
-  private BigDecimal bid;
-
-  @JsonProperty("open_24h")
-  private BigDecimal open24h;
 
   @JsonProperty("high_24h")
   private BigDecimal high24h;
@@ -34,13 +20,16 @@ public class OkexTokenPairInformation {
   @JsonProperty("low_24h")
   private BigDecimal low24h;
 
-  @JsonProperty("base_volume_24h")
-  private BigDecimal baseVolume24h;
+  @JsonProperty("volume_24h")
+  private BigDecimal volume24h;
+
+  @JsonProperty("best_ask")
+  private BigDecimal bestAsk;
+
+  @JsonProperty("best_bid")
+  private BigDecimal bestBid;
 
   private String timestamp;
-
-  @JsonProperty("quote_volume_24h")
-  private BigDecimal quoteVolume24h;
 
   public Date getTimestamp() {
     return Date.from(Instant.parse(timestamp));

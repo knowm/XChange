@@ -25,9 +25,10 @@ import org.knowm.xchange.okcoin.v3.dto.trade.OkexTradeHistoryParams;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexTransaction;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementType;
 import org.knowm.xchange.okcoin.v3.dto.trade.Side;
+import org.knowm.xchange.okcoin.v3.dto.trade.SpotOrderPlacementRequest;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -52,17 +53,20 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
     // 0: Normal limit order (Unfilled and 0 represent normal limit order) 1: Post only 2: Fill Or
     // Kill 3: Immediatel Or Cancel
-    String orderType = o.hasFlag(OkexOrderFlags.POST_ONLY) ? "1" : "0";
+    OrderPlacementType orderType =
+        o.hasFlag(OkexOrderFlags.POST_ONLY)
+            ? OrderPlacementType.post_only
+            : OrderPlacementType.normal;
 
-    OrderPlacementRequest req =
-        OrderPlacementRequest.builder()
-            .instrumentId(OkexAdaptersV3.toInstrument(o.getCurrencyPair()))
-            .price(o.getLimitPrice().toString())
-            .size(o.getOriginalAmount().toString())
+    SpotOrderPlacementRequest req =
+        SpotOrderPlacementRequest.builder()
+            .instrumentId(OkexAdaptersV3.toSpotInstrument(o.getCurrencyPair()))
+            .price(o.getLimitPrice())
+            .size(o.getOriginalAmount())
             .side(o.getType() == OrderType.ASK ? Side.sell : Side.buy)
             .orderType(orderType)
             .build();
-    OrderPlacementResponse placed = placeAnOrder(req);
+    OrderPlacementResponse placed = spotPlaceOrder(req);
     return placed.getOrderId();
   }
 
@@ -81,11 +85,12 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
     String id = ((CancelOrderByIdParams) orderParams).getOrderId();
     String instrumentId =
-        OkexAdaptersV3.toInstrument(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
+        OkexAdaptersV3.toSpotInstrument(
+            ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
 
     OrderCancellationRequest req =
         OrderCancellationRequest.builder().instrumentId(instrumentId).build();
-    OrderCancellationResponse o = cancelAnOrder(id, req);
+    OrderCancellationResponse o = spotCancelOrder(id, req);
     return true;
   }
 
@@ -107,7 +112,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     }
     CurrencyPair pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
 
-    final String instrument = OkexAdaptersV3.toInstrument(pair);
+    final String instrument = OkexAdaptersV3.toSpotInstrument(pair);
     final String state = "6"; // "6": Incomplete（open+partially filled）
 
     String from = null;
@@ -115,7 +120,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     boolean stop = false;
     do {
 
-      List<OkexOpenOrder> l = getOrderList(instrument, from, null, orders_limit, state);
+      List<OkexOpenOrder> l = getSpotOrderList(instrument, from, null, orders_limit, state);
       all.addAll(l);
       stop = l.size() < orders_limit;
       if (!stop) {
@@ -138,26 +143,28 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           "Getting open orders is only available for a single market.");
     }
     final String instrument =
-        OkexAdaptersV3.toInstrument(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
 
-    String to = null;
-    if (params instanceof OkexTradeHistoryParams) {
-      OkexTradeHistoryParams okexParams = (OkexTradeHistoryParams) params;
-      to = okexParams.getSinceOrderId();
-    }
+    // the 'to' parameter means, fetch all orders newer than that
+    final String to =
+        params instanceof OkexTradeHistoryParams
+            ? ((OkexTradeHistoryParams) params).getSinceOrderId()
+            : null;
+
     final String state = "2"; // "2":Fully Filled
 
     String from = null;
     List<OkexOpenOrder> allOrdersWithTrades = new ArrayList<>();
     boolean stop = false;
     do {
-      List<OkexOpenOrder> l = getOrderList(instrument, from, to, orders_limit, state);
+      List<OkexOpenOrder> l = getSpotOrderList(instrument, from, to, orders_limit, state);
       allOrdersWithTrades.addAll(l);
       stop = l.size() < orders_limit;
       if (!stop) {
         from = l.get(l.size() - 1).getOrderId();
       }
     } while (!stop);
+    // instrumentId, from, to, limit, state)
 
     List<UserTrade> userTrades = new ArrayList<>();
     allOrdersWithTrades.forEach(
@@ -221,11 +228,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     boolean stop = false;
     do {
       List<OkexTransaction> l =
-          getTransactionDetails(o.getOrderId(), o.getInstrumentId(), null, null, null);
+          getSpotTransactionDetails(o.getOrderId(), o.getInstrumentId(), from, null, null);
       all.addAll(l);
       stop = l.size() < transactions_limit;
       if (!stop) {
-        from = l.get(l.size() - 1).getOrderId();
+        from = l.get(l.size() - 1).getLedgerId();
       }
     } while (!stop);
     return all;

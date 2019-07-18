@@ -14,9 +14,11 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
-import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexTokenPairInformation;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse.FuturesAccount;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
 import org.knowm.xchange.okcoin.v3.dto.trade.Side;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse.SwapAccountInfo;
 
 public class OkexAdaptersV3 {
 
@@ -38,15 +40,40 @@ public class OkexAdaptersV3 {
         .build();
   }
 
-  public static String toInstrument(CurrencyPair pair) {
+  public static Balance convert(String currency, FuturesAccount acc) {
+    return new Balance.Builder()
+        .currency(Currency.getInstance(currency.toUpperCase()))
+        .total(acc.getEquity())
+        .build();
+  }
+
+  public static Balance convert(SwapAccountInfo rec) {
+    return new Balance.Builder()
+        .currency(toPair(rec.getInstrumentId()).base)
+        .total(rec.getEquity())
+        .build();
+  }
+
+  public static String toSpotInstrument(CurrencyPair pair) {
     return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
+  /**
+   * there are different types of instruments: spot (ie 'ETH-BTC'), future (ie 'BCH-USD-190927'),
+   * swap (ie 'ETH-USD-SWAP')
+   *
+   * @param instrument
+   * @return
+   */
   public static CurrencyPair toPair(String instrument) {
-    return instrument == null ? null : new CurrencyPair(instrument.replace('-', '/'));
+    String[] split = instrument.split("-");
+    if (split == null || split.length < 2) {
+      throw new ExchangeException("Not supported instrument: " + instrument);
+    }
+    return new CurrencyPair(split[0], split[1]);
   }
 
-  public static Ticker convert(OkexTokenPairInformation i) {
+  public static Ticker convert(OkexSpotTicker i) {
     return new Ticker.Builder()
         .currencyPair(toPair(i.getInstrumentId()))
         .last(i.getLast())
@@ -124,11 +151,12 @@ public class OkexAdaptersV3 {
     switch (status) {
       case "0":
       case "1":
+      case "6":
         return Status.PROCESSING;
       case "2":
         return Status.COMPLETE;
       default:
-        throw new ExchangeException("Unknown withdrawal status: " + status);
+        throw new ExchangeException("Unknown deposit status: " + status);
     }
   }
 }
