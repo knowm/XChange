@@ -1,0 +1,14 @@
+{
+  "result": true,
+  "message": "Order executed",
+  "order_id": "195",
+  "product_id": 2,
+  "product_name": "BTC-USD",
+  "side": "sell",
+  "sent_at": "2019-07-15 07:29:39",
+  "quantity": "0.0050",
+  "price": "10200.5865",
+  "nominal": "51.0029",
+  "user_name": "iSemyonova",
+  "infra": "dev"
+}
