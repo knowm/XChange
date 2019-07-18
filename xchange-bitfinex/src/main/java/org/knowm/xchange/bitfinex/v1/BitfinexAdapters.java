@@ -140,9 +140,20 @@ public final class BitfinexAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
 
-    String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
-    String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
-    return new CurrencyPair(tradableIdentifier, transactionCurrency);
+    String tradableIdentifier;
+    String transactionCurrency;
+    if (bitfinexSymbol.contains(":")) {
+      // ie 'dusk:usd'
+      int idx = bitfinexSymbol.indexOf(":");
+      tradableIdentifier = bitfinexSymbol.substring(0, idx);
+      transactionCurrency = bitfinexSymbol.substring(idx + 1);
+    } else {
+      tradableIdentifier = bitfinexSymbol.substring(0, 3);
+      transactionCurrency = bitfinexSymbol.substring(3);
+    }
+
+    return new CurrencyPair(
+        adaptBitfinexCurrency(tradableIdentifier), adaptBitfinexCurrency(transactionCurrency));
   }
 
   public static OrderStatus adaptOrderStatus(BitfinexOrderStatusResponse order) {
