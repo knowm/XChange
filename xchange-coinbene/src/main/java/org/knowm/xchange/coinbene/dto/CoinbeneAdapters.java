@@ -1,18 +1,12 @@
 package org.knowm.xchange.coinbene.dto;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrder;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrade;
+import org.knowm.xchange.coinbene.dto.marketdata.*;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneLimitOrder;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneOrders;
 import org.knowm.xchange.currency.Currency;
@@ -20,12 +14,14 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -55,9 +51,7 @@ public class CoinbeneAdapters {
     }
   }
 
-  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
-    CoinbeneTicker ticker = container.getTicker();
-
+  private static Ticker adaptCoinbeneTicker(CoinbeneTicker ticker, long timestamp) {
     return new Ticker.Builder()
         .currencyPair(adaptSymbol(ticker.getSymbol()))
         .bid(ticker.getBid())
@@ -66,8 +60,20 @@ public class CoinbeneAdapters {
         .low(ticker.getDayLow())
         .last(ticker.getLast())
         .volume(ticker.getDayVolume())
-        .timestamp(new Date(container.getTimestamp()))
+        .timestamp(new Date(timestamp))
         .build();
+  }
+
+  public static Ticker adaptTicker(CoinbeneTicker.Container container) {
+    return adaptCoinbeneTicker(container.getTicker(), container.getTimestamp());
+  }
+
+  public static List<Ticker> adaptTickers(CoinbeneTicker.Container container) {
+    long timestamp = container.getTimestamp();
+
+    return container.getTickers().stream()
+        .map(coinbeneTicker -> adaptCoinbeneTicker(coinbeneTicker, timestamp))
+        .collect(Collectors.toList());
   }
 
   public static OrderBook adaptOrderBook(
@@ -146,7 +152,17 @@ public class CoinbeneAdapters {
     for (CoinbeneSymbol ticker : markets) {
       pairMeta.put(
           new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
-          new CurrencyPairMetaData(null, ticker.getMinQuantity(), null, null, null));
+          new CurrencyPairMetaData(
+              ticker.getTakerFee(),
+              ticker.getMinQuantity(),
+              null,
+              ticker.getTickSize(),
+              new FeeTier[] {
+                new FeeTier(BigDecimal.ZERO, new Fee(ticker.getMakerFee(), ticker.getTakerFee()))
+              },
+              new BigDecimal(
+                  Math.pow(10.0, -ticker.getLotStepSize()),
+                  new MathContext(Math.max(0, ticker.getLotStepSize()), RoundingMode.HALF_UP))));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

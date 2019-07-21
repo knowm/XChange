@@ -1,10 +1,9 @@
 package org.knowm.xchange.deribit.v2.service;
 
-import org.knowm.xchange.deribit.v2.DeribitExchange;
-import org.knowm.xchange.deribit.v2.dto.marketdata.*;
-
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.deribit.v2.DeribitExchange;
+import org.knowm.xchange.deribit.v2.dto.marketdata.*;
 
 /**
  * Implementation of the market data service for Bitmex

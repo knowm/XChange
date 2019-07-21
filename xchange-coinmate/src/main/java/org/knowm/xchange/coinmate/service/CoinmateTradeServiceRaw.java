@@ -51,8 +51,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             exchange.getExchangeSpecification().getApiKey());
   }
 
-  public CoinmateTransactionHistory getCoinmateTransactionHistory(int offset, Integer limit, String sort)
-      throws IOException {
+  public CoinmateTransactionHistory getCoinmateTransactionHistory(
+      int offset, Integer limit, String sort) throws IOException {
     CoinmateTransactionHistory transactionHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -68,8 +68,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return transactionHistory;
   }
 
-  public CoinmateTradeHistory getCoinmateTradeHistory(int limit, String order)
-      throws IOException {
+  public CoinmateTradeHistory getCoinmateTradeHistory(int limit, String order) throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -89,8 +88,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return tradeHistory;
   }
 
-  public CoinmateTransferHistory getCoinmateTransferHistory()
-      throws IOException {
+  public CoinmateTransferHistory getCoinmateTransferHistory() throws IOException {
     CoinmateTransferHistory transferHistory =
         coinmateAuthenticated.getTransferHistory(
             exchange.getExchangeSpecification().getApiKey(),
@@ -316,8 +314,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
-  public CoinmateReplaceResponse coinmateReplaceByBuyInstant(String orderId, BigDecimal total, String currencyPair)
-      throws IOException {
+  public CoinmateReplaceResponse coinmateReplaceByBuyInstant(
+      String orderId, BigDecimal total, String currencyPair) throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceByBuyInstant(
             exchange.getExchangeSpecification().getApiKey(),
@@ -333,8 +331,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
-  public CoinmateReplaceResponse coinmateReplaceBySellInstant(String orderId, BigDecimal total, String currencyPair)
-      throws IOException {
+  public CoinmateReplaceResponse coinmateReplaceBySellInstant(
+      String orderId, BigDecimal total, String currencyPair) throws IOException {
     CoinmateReplaceResponse response =
         coinmateAuthenticated.replaceBySellInstant(
             exchange.getExchangeSpecification().getApiKey(),

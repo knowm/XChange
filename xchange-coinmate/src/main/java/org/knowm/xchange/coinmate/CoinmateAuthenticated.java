@@ -152,6 +152,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       throws IOException;
 
   // withdrawal and deposits
+  // bitcoin
   @POST
   @Path("bitcoinWithdrawal")
   CoinmateTradeResponse bitcoinWithdrawal(
@@ -166,6 +167,115 @@ public interface CoinmateAuthenticated extends Coinmate {
   @POST
   @Path("bitcoinDepositAddresses")
   CoinmateDepositAddresses bitcoinDepositAddresses(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  // litecoin
+  @POST
+  @Path("litecoinWithdrawal")
+  CoinmateTradeResponse litecoinWithdrawal(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws IOException;
+
+  @POST
+  @Path("litecoinDepositAddresses")
+  CoinmateDepositAddresses litecoinDepositAddresses(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  // bitcoin cash
+
+  @POST
+  @Path("bitcoinCashWithdrawal")
+  CoinmateTradeResponse bitcoinCashWithdrawal(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws IOException;
+
+  @POST
+  @Path("bitcoinCashDepositAddresses")
+  CoinmateDepositAddresses bitcoinCashDepositAddresses(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  // ethereum
+
+  @POST
+  @Path("ethereumWithdrawal")
+  CoinmateTradeResponse ethereumWithdrawal(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws IOException;
+
+  @POST
+  @Path("ethereumDepositAddresses")
+  CoinmateDepositAddresses ethereumDepositAddresses(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  // ripple
+
+  @POST
+  @Path("rippleWithdrawal")
+  CoinmateTradeResponse rippleWithdrawal(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws IOException;
+
+  @POST
+  @Path("rippleDepositAddresses")
+  CoinmateDepositAddresses rippleDepositAddresses(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws IOException;
+
+  // dash
+
+  @POST
+  @Path("dashWithdrawal")
+  CoinmateTradeResponse dashWithdrawal(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address)
+      throws IOException;
+
+  @POST
+  @Path("dashDepositAddresses")
+  CoinmateDepositAddresses dashDepositAddresses(
       @FormParam("publicKey") String publicKey,
       @FormParam("clientId") String clientId,
       @FormParam("signature") ParamsDigest signer,
@@ -198,8 +308,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("timestampFrom") Long timestampFrom,
       @FormParam("timestampTo") Long timestampTo,
       @FormParam("currencyPair") Long currencyPair,
-      @FormParam("orderId") String orderId
-      )
+      @FormParam("orderId") String orderId)
       throws IOException;
 
   @POST
@@ -214,8 +323,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("sort") String sort,
       @FormParam("timestampFrom") Long timestampFrom,
       @FormParam("timestampTo") Long timestampTo,
-      @FormParam("currency") String currency
-      )
+      @FormParam("currency") String currency)
       throws IOException;
 
   @POST

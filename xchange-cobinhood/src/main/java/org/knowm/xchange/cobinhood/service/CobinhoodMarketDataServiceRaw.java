@@ -65,6 +65,14 @@ public class CobinhoodMarketDataServiceRaw extends CobinhoodBaseService {
     }
   }
 
+  public CobinhoodResponse<CobinhoodTradingPairs> getCobinhoodTradingPairs() throws IOException {
+    try {
+      return checkSuccess(cobinhood.tradingPairs());
+    } catch (CobinhoodException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
   public static <D> CobinhoodResponse<D> checkSuccess(CobinhoodResponse<D> response) {
 
     if (response.isSuccess()) {

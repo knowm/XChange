@@ -1,11 +1,11 @@
 package org.knowm.xchange.deribit.v2;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DeribitErrorAdapter {
 
@@ -17,13 +17,13 @@ public class DeribitErrorAdapter {
     DeribitError error = ex.getError();
 
     if (error != null
-            && error.getClass().equals(DeribitError.class)
-            && isNotEmpty(error.getMessage())) {
+        && error.getClass().equals(DeribitError.class)
+        && isNotEmpty(error.getMessage())) {
 
       int code = error.getCode();
       String msg = error.getMessage();
       String data = error.getData().toString();
-      if(isNotEmpty(data)) {
+      if (isNotEmpty(data)) {
         msg += " - " + data;
       }
 
