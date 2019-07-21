@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bibox.dto.account.BiboxAsset;
-import org.knowm.xchange.bibox.dto.account.BiboxCoin;
 import org.knowm.xchange.bibox.service.BiboxAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;

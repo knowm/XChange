@@ -191,14 +191,12 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
-
   @Override
   public String changeOrder(LimitOrder limitOrder) throws IOException {
     boolean hidden = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.HIDDEN);
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
-
 
     CoinmateReplaceResponse response;
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {

@@ -42,7 +42,7 @@ public class DeribitResponse<V> {
       long usDiff) {
 
     /** This will cause parsing the response body as an DeribitException */
-    if(error != null) {
+    if (error != null) {
       throw new ExceptionalReturnContentException("Error occurred");
     }
 

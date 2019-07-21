@@ -1,9 +1,9 @@
 package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -182,5 +183,21 @@ public class BinanceAdapters {
     }
     result.setOrderFlags(flags);
     return result;
+  }
+
+  private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
+    return new Ticker.Builder()
+        .currencyPair(adaptSymbol(priceQuantity.symbol))
+        .ask(priceQuantity.askPrice)
+        .askSize(priceQuantity.askQty)
+        .bid(priceQuantity.bidPrice)
+        .bidSize(priceQuantity.bidQty)
+        .build();
+  }
+
+  public static List<Ticker> adaptPriceQuantities(List<BinancePriceQuantity> priceQuantities) {
+    return priceQuantities.stream()
+        .map(BinanceAdapters::adaptPriceQuantity)
+        .collect(Collectors.toList());
   }
 }
