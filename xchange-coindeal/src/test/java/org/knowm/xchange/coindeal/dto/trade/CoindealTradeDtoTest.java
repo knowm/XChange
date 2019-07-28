@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.assertj.core.api.BigDecimalAssert;
 import org.junit.Test;
 import org.knowm.xchange.dto.Order;
 
@@ -22,10 +20,10 @@ public class CoindealTradeDtoTest {
 
     InputStream is =
         CoindealTradeDtoTest.class.getResourceAsStream(
-                "/org/knowm/xchange/coindeal/dto/trade/example-tradehistory.json");
+            "/org/knowm/xchange/coindeal/dto/trade/example-tradehistory.json");
 
     List<CoindealTradeHistory> coindealTradeHistory =
-            mapper.readValue(is, new TypeReference<List<CoindealTradeHistory>>(){});
+        mapper.readValue(is, new TypeReference<List<CoindealTradeHistory>>() {});
 
     // verify that the example data was unmarshalled correctly
     assertThat(coindealTradeHistory.size()).isEqualTo(2);
@@ -44,11 +42,11 @@ public class CoindealTradeDtoTest {
   public void testUnmarshallCoindealOrder() throws IOException {
 
     InputStream is =
-            CoindealTradeDtoTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/coindeal/dto/trade/example-coindealOrder.json");
+        CoindealTradeDtoTest.class.getResourceAsStream(
+            "/org/knowm/xchange/coindeal/dto/trade/example-coindealOrder.json");
 
     List<CoindealOrder> coindealOrders =
-            mapper.readValue(is, new TypeReference<List<CoindealOrder>>(){});
+        mapper.readValue(is, new TypeReference<List<CoindealOrder>>() {});
 
     // verify that the example data was unmarshalled correctly
     assertThat(coindealOrders.size()).isEqualTo(2);

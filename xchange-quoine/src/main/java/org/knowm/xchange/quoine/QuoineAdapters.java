@@ -163,29 +163,31 @@ public class QuoineAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static Wallet adapt(FiatAccount[] fiatBalances,BitcoinAccount[] cryptoBalances) {
+  public static Wallet adapt(FiatAccount[] fiatBalances, BitcoinAccount[] cryptoBalances) {
     List<Balance> balanceList = new ArrayList<>();
 
     for (FiatAccount nativeBalance : fiatBalances) {
-      balanceList.add( new Balance(
+      balanceList.add(
+          new Balance(
               Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
     }
     for (BitcoinAccount cryptoBalance : cryptoBalances) {
-      balanceList.add( new Balance(
+      balanceList.add(
+          new Balance(
               Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance()));
     }
     return new Wallet(balanceList);
   }
 
-//  public static Wallet adapt(BitcoinAccount[] balances) {
-//    List<Balance> balanceList = new ArrayList<>();
-//    for (BitcoinAccount nativeBalance : balances) {
-//     balanceList.add(
-//          new Balance(
-//              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
-//    }
-//    return new Wallet("crypto",balanceList);
-//  }
+  //  public static Wallet adapt(BitcoinAccount[] balances) {
+  //    List<Balance> balanceList = new ArrayList<>();
+  //    for (BitcoinAccount nativeBalance : balances) {
+  //     balanceList.add(
+  //          new Balance(
+  //              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
+  //    }
+  //    return new Wallet("crypto",balanceList);
+  //  }
 
   public static List<UserTrade> adapt(List<QuoineExecution> executions, CurrencyPair currencyPair) {
     List<UserTrade> res = new ArrayList<>();

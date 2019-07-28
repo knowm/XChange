@@ -1,7 +1,6 @@
 package org.knowm.xchange.coindeal.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
@@ -17,11 +16,12 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
     super(exchange);
   }
 
-  public List<CoindealTradeHistory> getTradeHistory(TradeHistoryParamsAll params) throws IOException{
-        return coindeal.getTradeHistory(
-            basicAuthentication,
-            CoindealAdapters.adaptCurrencyPairToString(params.getCurrencyPair()),
-            params.getLimit());
+  public List<CoindealTradeHistory> getTradeHistory(TradeHistoryParamsAll params)
+      throws IOException {
+    return coindeal.getTradeHistory(
+        basicAuthentication,
+        CoindealAdapters.adaptCurrencyPairToString(params.getCurrencyPair()),
+        params.getLimit());
   }
 
   public CoindealOrder placeOrder(LimitOrder limitOrder) throws IOException {
@@ -35,12 +35,12 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
         limitOrder.getLimitPrice().doubleValue());
   }
 
-  public List<CoindealOrder> deleteOrders(CurrencyPair currencyPair) throws IOException{
+  public List<CoindealOrder> deleteOrders(CurrencyPair currencyPair) throws IOException {
     return coindeal.deleteOrders(
         basicAuthentication, CoindealAdapters.adaptCurrencyPairToString(currencyPair));
   }
 
-  public CoindealOrder deleteOrderById(String orderId) throws IOException{
+  public CoindealOrder deleteOrderById(String orderId) throws IOException {
     return coindeal.deleteOrderById(basicAuthentication, orderId);
   }
 }

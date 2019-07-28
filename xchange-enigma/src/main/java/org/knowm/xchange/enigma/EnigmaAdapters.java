@@ -1,5 +1,9 @@
 package org.knowm.xchange.enigma;
 
+import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -10,11 +14,6 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
 
 public final class EnigmaAdapters {
 
