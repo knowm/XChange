@@ -37,6 +37,6 @@ public class TradeOgreMarketDataServiceRawTest {
   public void testGetTickers() throws IOException {
     List<Ticker> tickers = tradeOgreExchange.getMarketDataService().getTickers(null);
     Assert.assertNotNull(tickers);
-    Assert.assertNotEquals(tickers.size(), 0);
+    Assert.assertFalse(tickers.isEmpty());
   }
 }
