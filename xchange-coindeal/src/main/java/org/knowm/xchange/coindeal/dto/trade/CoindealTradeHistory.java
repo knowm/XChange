@@ -1,10 +1,7 @@
 package org.knowm.xchange.coindeal.dto.trade;
 
 import com.fasterxml.jackson.annotation.*;
-
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CoindealTradeHistory {
 
@@ -94,16 +91,34 @@ public class CoindealTradeHistory {
 
   @Override
   public String toString() {
-    return "CoindealTradeHistory{" +
-            "id='" + id + '\'' +
-            ", clientOrderId='" + clientOrderId + '\'' +
-            ", orderId='" + orderId + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", side='" + side + '\'' +
-            ", quantity='" + quantity + '\'' +
-            ", fee='" + fee + '\'' +
-            ", price='" + price + '\'' +
-            ", timestamp='" + timestamp + '\'' +
-            '}';
+    return "CoindealTradeHistory{"
+        + "id='"
+        + id
+        + '\''
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", quantity='"
+        + quantity
+        + '\''
+        + ", fee='"
+        + fee
+        + '\''
+        + ", price='"
+        + price
+        + '\''
+        + ", timestamp='"
+        + timestamp
+        + '\''
+        + '}';
   }
 }

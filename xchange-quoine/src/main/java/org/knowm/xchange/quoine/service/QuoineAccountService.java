@@ -45,7 +45,7 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
     FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
     BitcoinAccount[] cryptoBalances = getQuoineCryptoAccountInfo();
 
-    Wallet allBalances = QuoineAdapters.adapt(quoineFiatAccountInfo,cryptoBalances);
+    Wallet allBalances = QuoineAdapters.adapt(quoineFiatAccountInfo, cryptoBalances);
 
     return new AccountInfo(allBalances);
   }

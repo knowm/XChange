@@ -72,26 +72,26 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public UserTrades getTradeHistory(TradeHistoryParams params)
       throws ExchangeException, IOException {
 
-      final Long startTime;
-      final Long endTime;
-      if (params instanceof TradeHistoryParamsTimeSpan) {
-        TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-        startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
-        endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
-      } else {
-        startTime = null;
-        endTime = null;
-      }
+    final Long startTime;
+    final Long endTime;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
+      endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
+    } else {
+      startTime = null;
+      endTime = null;
+    }
 
-      final Long offset;
-      if (params instanceof TradeHistoryParamOffset) {
-        offset = ((TradeHistoryParamOffset) params).getOffset();
-      } else {
-        offset = null;
-      }
+    final Long offset;
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset) params).getOffset();
+    } else {
+      offset = null;
+    }
 
-      return KrakenAdapters.adaptTradesHistory(
-              getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
+    return KrakenAdapters.adaptTradesHistory(
+        getKrakenTradeHistory(null, false, startTime, endTime, offset).getTrades());
   }
 
   @Override

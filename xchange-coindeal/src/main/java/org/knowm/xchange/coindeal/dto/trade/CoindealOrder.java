@@ -1,7 +1,6 @@
 package org.knowm.xchange.coindeal.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class CoindealOrder {
@@ -119,19 +118,39 @@ public class CoindealOrder {
 
   @Override
   public String toString() {
-    return "CoindealOrder{" +
-            "id='" + id + '\'' +
-            ", clientOrderId='" + clientOrderId + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", side='" + side + '\'' +
-            ", status='" + status + '\'' +
-            ", quantity=" + quantity +
-            ", price=" + price +
-            ", cumQuantity=" + cumQuantity +
-            ", createdAt='" + createdAt + '\'' +
-            ", updatedAt='" + updatedAt + '\'' +
-            ", stopPrice=" + stopPrice +
-            ", expireTime='" + expireTime + '\'' +
-            '}';
+    return "CoindealOrder{"
+        + "id='"
+        + id
+        + '\''
+        + ", clientOrderId='"
+        + clientOrderId
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", side='"
+        + side
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", quantity="
+        + quantity
+        + ", price="
+        + price
+        + ", cumQuantity="
+        + cumQuantity
+        + ", createdAt='"
+        + createdAt
+        + '\''
+        + ", updatedAt='"
+        + updatedAt
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", expireTime='"
+        + expireTime
+        + '\''
+        + '}';
   }
 }

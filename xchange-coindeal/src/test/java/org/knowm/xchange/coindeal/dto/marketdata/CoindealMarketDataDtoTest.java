@@ -16,7 +16,8 @@ public class CoindealMarketDataDtoTest {
 
     InputStream is =
         ClassLoader.getSystemClassLoader()
-            .getResourceAsStream("org/knowm/xchange/coindeal/dto/marketdata/example-orderbook.json");
+            .getResourceAsStream(
+                "org/knowm/xchange/coindeal/dto/marketdata/example-orderbook.json");
 
     CoindealOrderBook coindealOrderBook = mapper.readValue(is, CoindealOrderBook.class);
 

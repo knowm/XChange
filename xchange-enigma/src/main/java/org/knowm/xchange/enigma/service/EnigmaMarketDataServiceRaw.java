@@ -1,11 +1,10 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
-
-import java.io.IOException;
-import java.util.List;
 
 public class EnigmaMarketDataServiceRaw extends EnigmaBaseService {
 
