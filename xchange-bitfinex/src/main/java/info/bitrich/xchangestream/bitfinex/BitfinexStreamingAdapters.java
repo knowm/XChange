@@ -9,6 +9,16 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 
 import io.reactivex.annotations.Nullable;
 
+import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +26,15 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import static java.util.stream.StreamSupport.stream;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 class BitfinexStreamingAdapters {
 
     private static final Logger LOG = LoggerFactory.getLogger(BitfinexStreamingAdapters.class);
+
+    private static final BigDecimal THOUSAND = new BigDecimal(1000);
+
 
     @Nullable
     static BitfinexWebSocketAuthPreTrade adaptPreTrade(JsonNode preTrade) {
@@ -147,6 +162,86 @@ class BitfinexStreamingAdapters {
                 id, groupId, cid, symbol, mtsCreate, mtsUpdate, amount, amountOrig,
                 type, typePrev, orderStatus, price, priceAvg, priceTrailing,
                 priceAuxLimit, placedId, flags
+        );
+    }
+
+    private static BitfinexOrderType adaptV2OrderTypeToV1(String orderType) {
+        switch(orderType) {
+            case "LIMIT": return BitfinexOrderType.MARGIN_LIMIT;
+            case "MARKET": return BitfinexOrderType.MARGIN_MARKET;
+            case "STOP": return BitfinexOrderType.MARGIN_STOP;
+            case "TRAILING STOP": return BitfinexOrderType.MARGIN_TRAILING_STOP;
+            case "EXCHANGE MARKET": return BitfinexOrderType.MARKET;
+            case "EXCHANGE LIMIT": return BitfinexOrderType.LIMIT;
+            case "EXCHANGE STOP": return BitfinexOrderType.STOP;
+            case "EXCHANGE TRAILING STOP": return BitfinexOrderType.TRAILING_STOP;
+            case "FOK": return BitfinexOrderType.MARGIN_FILL_OR_KILL;
+            case "EXCHANGE FOK": return BitfinexOrderType.FILL_OR_KILL;
+            default: return BitfinexOrderType.LIMIT; // Safe fallback
+        }
+    }
+
+    private static String adaptV2SymbolToV1(String symbol) {
+        return symbol.substring(1);
+    }
+
+    /**
+     * We adapt the websocket message to what we expect from the V1 REST API, so that
+     * we don't re-implement the complex logic which works out whether we need
+     * limit orders, stop orders, market orders etc.
+     */
+    private static BitfinexOrderStatusResponse adaptOrderToRestResponse(BitfinexWebSocketAuthOrder authOrder) {
+        int signum = authOrder.getAmountOrig().signum();
+        return new BitfinexOrderStatusResponse(
+            authOrder.getId(),
+            adaptV2SymbolToV1(authOrder.getSymbol()),
+            authOrder.getPrice(),
+            authOrder.getPriceAvg(),
+            signum > 0 ? "buy" : "sell",
+            adaptV2OrderTypeToV1(authOrder.getType()).getValue(),
+            new BigDecimal(authOrder.getMtsCreate()).divide(THOUSAND),
+            "ACTIVE".equals(authOrder.getOrderStatus()),
+            "CANCELED".equals(authOrder.getOrderStatus()),
+            false, //wasForced,
+            signum >= 0 ? authOrder.getAmountOrig() : authOrder.getAmountOrig().negate(),
+            signum >= 0 ? authOrder.getAmount() : authOrder.getAmount().negate(),
+            signum >= 0
+                ? authOrder.getAmountOrig().subtract(authOrder.getAmount())
+                : authOrder.getAmountOrig().subtract(authOrder.getAmount()).negate()
+        );
+    }
+
+    static Order adaptOrder(BitfinexWebSocketAuthOrder authOrder) {
+        BitfinexOrderStatusResponse[] orderStatus = { adaptOrderToRestResponse(authOrder)};
+        OpenOrders orders = BitfinexAdapters.adaptOrders(orderStatus);
+        if (orders.getOpenOrders().isEmpty()) {
+            if (orders.getHiddenOrders().isEmpty()) {
+                throw new IllegalStateException("No order in message");
+            }
+            return orders.getHiddenOrders().get(0);
+        }
+        return orders.getOpenOrders().get(0);
+    }
+
+    static UserTrade adaptUserTrade(BitfinexWebSocketAuthTrade authTrade) {
+        return new UserTrade.Builder()
+            .currencyPair(BitfinexAdapters.adaptCurrencyPair(adaptV2SymbolToV1(authTrade.getPair())))
+            .feeAmount(authTrade.getFee().abs())
+            .feeCurrency(Currency.getInstance(authTrade.getFeeCurrency()))
+            .id(Long.toString(authTrade.getId()))
+            .orderId(Long.toString(authTrade.getOrderId()))
+            .originalAmount(authTrade.getExecAmount().abs())
+            .price(authTrade.getExecPrice())
+            .timestamp(DateUtils.fromMillisUtc(authTrade.getMtsCreate()))
+            .type(authTrade.getExecAmount().signum() == 1 ? BID : ASK)
+            .build();
+    }
+
+    static Balance adaptBalance(BitfinexWebSocketAuthBalance authBalance) {
+        return new Balance(
+            Currency.getInstance(authBalance.getCurrency()),
+            authBalance.getBalance(),
+            authBalance.getBalanceAvailable()
         );
     }
 }

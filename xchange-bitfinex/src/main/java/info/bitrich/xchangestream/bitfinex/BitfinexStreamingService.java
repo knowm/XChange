@@ -15,10 +15,13 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +34,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import static org.knowm.xchange.service.BaseParamsDigest.HMAC_SHA_384;
 
@@ -65,6 +75,9 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     private static final String EVENT = "event";
     private static final String VERSION = "version";
 
+    private static final int CALCULATION_BATCH_SIZE = 8;
+    private static final List<String> WALLETS = Arrays.asList("exchange", "margin", "funding");
+
     private final PublishSubject<BitfinexWebSocketAuthPreTrade> subjectPreTrade = PublishSubject.create();
     private final PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
     private final PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
@@ -76,13 +89,29 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     private String apiSecret;
 
     private final Map<String, String> subscribedChannels = new HashMap<>();
-
     private final SynchronizedValueFactory<Long> nonceFactory;
+
+    private final BlockingQueue<String> calculationQueue = new LinkedBlockingQueue<>();
+    private Disposable calculator;
 
     public BitfinexStreamingService(String apiUrl,
                                     SynchronizedValueFactory<Long> nonceFactory) {
         super(apiUrl, Integer.MAX_VALUE);
         this.nonceFactory = nonceFactory;
+    }
+
+    @Override
+    public Completable connect() {
+        return super.connect().doOnComplete(() -> {
+            this.calculator = Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs());
+        });
+    }
+
+    @Override
+    public Completable disconnect() {
+        if (calculator != null)
+            calculator.dispose();
+        return super.disconnect();
     }
 
     @Override
@@ -196,7 +225,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
                     subjectBalance.onNext(balance);
                 break;
             default:
-                // In case bitfinex adds new channels, ignore
+                LOG.debug("Unknown Bitfinex authenticated message type {}. Content=", type, object);
         }
     }
 
@@ -211,13 +240,16 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     @Override
     protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-        String chanId;
+        String chanId = null;
         if (message.has(CHANNEL_ID)) {
             chanId = message.get(CHANNEL_ID).asText();
         } else {
-            chanId = message.get(0).asText();
+            JsonNode jsonNode = message.get(0);
+            if (jsonNode != null) {
+                chanId = message.get(0).asText();
+            }
         }
-        if (chanId == null) throw new IOException("Can't find CHANNEL_ID value");
+        if (chanId == null) throw new IOException("Can't find CHANNEL_ID value in socket message: " + message.toString());
         String subscribedChannel = subscribedChannels.get(chanId);
         if (subscribedChannel != null)
             return subscribedChannel;
@@ -304,5 +336,52 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     Observable<BitfinexWebSocketAuthBalance> getAuthenticatedBalances() {
         return subjectBalance.share();
+    }
+
+    /**
+     * Call on receipt of a partial balance (missing available amount) to
+     * schedule the release of a full calculated amount at some point
+     * shortly.
+     *
+     * @param currency The currency code.
+     */
+    void scheduleCalculatedBalanceFetch(String currency) {
+        LOG.debug("Scheduling request for full calculated balances for: {}", currency);
+        calculationQueue.add(currency);
+    }
+
+    /**
+     * Bitfinex generally doesn't supply calculated data, such as the available amount
+     * in a balance, unless this is specifically requested. You have to send a message
+     * down the socket requesting the full information. However, this is rate limited
+     * to 8 calculations a second and 30 per batch, so we queue up requests and dispatch
+     * them in batches of 8, once a second. See {@link #scheduleCalculatedBalanceFetch(String)}.
+     *
+     * <p>Details: https://docs.bitfinex.com/v2/docs/changelog#section--calc-input-message</p>
+     */
+    private void requestCalcs() {
+        Set<String> currencies = new HashSet<>();
+        do {
+            String nextRequest = calculationQueue.poll();
+            if (nextRequest == null)
+                break;
+            if (currencies.size() >= CALCULATION_BATCH_SIZE)
+                break;
+            currencies.add(nextRequest);
+        } while (true);
+
+        if (currencies.isEmpty())
+            return;
+
+        Object[] subscriptions = currencies.stream()
+            .map(BitfinexAdapters::adaptBitfinexCurrency)
+            .flatMap(currency -> WALLETS.stream().map(wallet -> "wallet_" + wallet + "_" + currency))
+            .map(calcName -> new String[] { calcName })
+            .toArray();
+        Object[] message = new Object[] {0, "calc", null, subscriptions};
+
+        LOG.debug("Requesting full calculated balances for: {} in {}", currencies, WALLETS);
+
+        sendObjectMessage(message);
     }
 }

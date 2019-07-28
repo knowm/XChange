@@ -7,9 +7,14 @@ import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 
 import io.reactivex.Observable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataStreamingService.class);
 
 	private static final String USER_API_BASE_URI = "wss://stream.binance.com:9443/ws/";
 
@@ -27,12 +32,18 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
 
     @Override
     public void messageHandler(String message) {
+        LOG.debug("Received message: {}", message);
         super.messageHandler(message);
     }
 
     @Override
     protected void handleMessage(JsonNode message) {
-        super.handleMessage(message);
+        try {
+            super.handleMessage(message);
+        } catch (Exception e) {
+            LOG.error("Error handling message: " + message, e);
+            return;
+        }
     }
 
     @Override
