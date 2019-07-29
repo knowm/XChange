@@ -133,6 +133,22 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       type = "bcash";
     } else if (currency.equalsIgnoreCase("BTG")) {
       type = "bgold";
+    } else if (currency.equalsIgnoreCase("DASH")) {
+      type = "dash";
+    } else if (currency.equalsIgnoreCase("EOS")) {
+      type = "eos";
+    } else if (currency.equalsIgnoreCase("XMR")) {
+      type = "monero";
+    } else if (currency.equalsIgnoreCase("NEO")) {
+      type = "neo";
+    } else if (currency.equalsIgnoreCase("XRP")) {
+      type = "ripple";
+    } else if (currency.equalsIgnoreCase("XLM")) {
+      type = "xlm";
+    } else if (currency.equalsIgnoreCase("TRX")) {
+      type = "trx";
+    } else if (currency.equalsIgnoreCase("ZEC")) {
+      type = "zcash";
     }
 
     BitfinexDepositAddressResponse requestDepositAddressResponse =
