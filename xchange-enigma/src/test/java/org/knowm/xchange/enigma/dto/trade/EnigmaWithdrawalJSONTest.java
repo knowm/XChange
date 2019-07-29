@@ -1,13 +1,12 @@
 package org.knowm.xchange.enigma.dto.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class EnigmaWithdrawalJSONTest {
 
@@ -19,6 +18,7 @@ public class EnigmaWithdrawalJSONTest {
     assertThat(withdrawal[0].getWithdrawalType()).isEqualTo("cash");
     assertThat(withdrawal[0].getAmount()).isEqualTo(new BigDecimal("1"));
     assertThat(withdrawal[0].getCurrency()).isEqualTo("USD");
-    assertThat(withdrawal[0].getWithdrawalKey()).isEqualTo("5d25aacfbfcf1-5d25aacfbfcf3-5d25aacfbfcf4");
+    assertThat(withdrawal[0].getWithdrawalKey())
+        .isEqualTo("5d25aacfbfcf1-5d25aacfbfcf3-5d25aacfbfcf4");
   }
 }
