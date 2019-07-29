@@ -1,7 +1,6 @@
 package org.knowm.xchange.coindeal.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
@@ -17,23 +16,18 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
     super(exchange);
   }
 
-  public List<CoindealTradeHistory> getTradeHistory(TradeHistoryParamsAll params) {
-    List<CoindealTradeHistory> tradeHistoryList = new ArrayList<>();
-    CoindealTradeHistory[] tradeHistory =
-        coindeal.getTradeHistory(
-            basicAuthentication,
-            CoindealAdapters.adaptCurrencyPair(params.getCurrencyPair()),
-            params.getLimit());
-    for (CoindealTradeHistory tradeHistory1 : tradeHistory) {
-      tradeHistoryList.add(tradeHistory1);
-    }
-    return tradeHistoryList;
+  public List<CoindealTradeHistory> getTradeHistory(TradeHistoryParamsAll params)
+      throws IOException {
+    return coindeal.getTradeHistory(
+        basicAuthentication,
+        CoindealAdapters.adaptCurrencyPairToString(params.getCurrencyPair()),
+        params.getLimit());
   }
 
   public CoindealOrder placeOrder(LimitOrder limitOrder) throws IOException {
     return coindeal.placeOrder(
         basicAuthentication,
-        CoindealAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair()),
+        CoindealAdapters.adaptCurrencyPairToString(limitOrder.getCurrencyPair()),
         CoindealAdapters.adaptOrderType(limitOrder.getType()),
         "limit",
         "GTC",
@@ -41,12 +35,12 @@ public class CoindealTradeServiceRaw extends CoindealBaseService {
         limitOrder.getLimitPrice().doubleValue());
   }
 
-  public CoindealOrder[] deleteOrders(CurrencyPair currencyPair) {
+  public List<CoindealOrder> deleteOrders(CurrencyPair currencyPair) throws IOException {
     return coindeal.deleteOrders(
-        basicAuthentication, CoindealAdapters.adaptCurrencyPair(currencyPair));
+        basicAuthentication, CoindealAdapters.adaptCurrencyPairToString(currencyPair));
   }
 
-  public CoindealOrder deleteOrderById(String orderId) {
+  public CoindealOrder deleteOrderById(String orderId) throws IOException {
     return coindeal.deleteOrderById(basicAuthentication, orderId);
   }
 }

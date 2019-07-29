@@ -1,11 +1,10 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.enigma.EnigmaAdapters;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
 
 public class EnigmaAccountService extends EnigmaAccountServiceRaw implements AccountService {
 
