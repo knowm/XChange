@@ -17,8 +17,8 @@ public class BaseBinanceWebSocketTransaction {
 
         /**
          * Get a type from the `type` string of a `ProductBinanceWebSocketTransaction`.
-         * @param value
-         * @return
+         * @param value The string representation.
+         * @return THe enum value.
          */
         public static BinanceWebSocketTypes fromTransactionValue(String value) {
             for (BinanceWebSocketTypes type : BinanceWebSocketTypes.values()) {

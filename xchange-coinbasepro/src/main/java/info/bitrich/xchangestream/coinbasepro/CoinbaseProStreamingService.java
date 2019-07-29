@@ -1,20 +1,25 @@
 package info.bitrich.xchangestream.coinbasepro;
 
+import static io.netty.util.internal.StringUtil.isNullOrEmpty;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
+import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.coinbasepro.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
@@ -62,6 +67,25 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
         }
 
         return subscriptions.get(channelName);
+    }
+
+    /**
+     * Subscribes to web socket transactions related to the specified currency, in their raw format.
+     *
+     * @param currencyPair The currency pair.
+     * @return The stream.
+     */
+    public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(CurrencyPair currencyPair, boolean filterChannelName) {
+        String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+        return subscribeChannel(channelName)
+                .map(s -> mapper.readValue(s.toString(), CoinbaseProWebSocketTransaction.class))
+                .filter(t -> channelName.equals(t.getProductId()))
+                .filter(t -> !isNullOrEmpty(t.getType()));
+    }
+
+    boolean isAuthenticated() {
+        return authData.get() != null;
     }
 
     @Override
