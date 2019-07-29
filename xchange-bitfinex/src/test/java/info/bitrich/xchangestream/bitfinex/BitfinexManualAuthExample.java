@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,19 +29,43 @@ public class BitfinexManualAuthExample {
 
         exchange.connect().blockingAwait();
         try {
-            exchange.getStreamingMarketDataService().getRawAuthenticatedTrades().subscribe(
+
+            // L1 (generic) APIs
+            exchange.getStreamingTradeService().getUserTrades().subscribe(
+                t -> LOG.info("GENERIC USER TRADE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingTradeService().getOrderChanges().subscribe(
+                t -> LOG.info("GENERIC ORDER: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "exchange").subscribe(
+                t -> LOG.info("GENERIC EXCHANGE BALANCE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "margin").subscribe(
+                t -> LOG.info("GENERIC MARGIN BALANCE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+            exchange.getStreamingAccountService().getBalanceChanges(Currency.BTC, "funding").subscribe(
+                t -> LOG.info("GENERIC FUNDING BALANCE: {}", t),
+                throwable -> LOG.error("ERROR: ", throwable)
+            );
+
+            // L2 (exchange specific) APIs
+            exchange.getStreamingTradeService().getRawAuthenticatedTrades().subscribe(
                 t -> LOG.info("AUTH TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedPreTrades().subscribe(
+            exchange.getStreamingTradeService().getRawAuthenticatedPreTrades().subscribe(
                 t -> LOG.info("AUTH PRE TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedOrders().subscribe(
+            exchange.getStreamingTradeService().getRawAuthenticatedOrders().subscribe(
                 t -> LOG.info("AUTH ORDER: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
-            exchange.getStreamingMarketDataService().getRawAuthenticatedBalances().subscribe(
+            exchange.getStreamingAccountService().getRawAuthenticatedBalances().subscribe(
                 t -> LOG.info("AUTH BALANCE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
@@ -50,8 +75,9 @@ public class BitfinexManualAuthExample {
                 t -> LOG.info("PUBLIC TRADE: {}", t),
                 throwable -> LOG.error("ERROR: ", throwable)
             );
+
             try {
-                Thread.sleep(10000);
+                Thread.sleep(100000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

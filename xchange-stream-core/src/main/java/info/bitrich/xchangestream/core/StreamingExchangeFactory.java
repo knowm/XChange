@@ -50,7 +50,7 @@ public enum StreamingExchangeFactory {
         try {
 
             // Attempt to locate the exchange provider on the classpath
-            Class exchangeProviderClass = Class.forName(exchangeClassName);
+            Class<?> exchangeProviderClass = Class.forName(exchangeClassName);
 
             // Test that the class implements Exchange
             if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
@@ -106,7 +106,7 @@ public enum StreamingExchangeFactory {
         try {
 
             // Attempt to locate the exchange provider on the classpath
-            Class exchangeProviderClass = Class.forName(exchangeClassName);
+            Class<?> exchangeProviderClass = Class.forName(exchangeClassName);
 
             // Test that the class implements Exchange
             if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
