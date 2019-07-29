@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.enigma.marketdata;
 
+import java.io.IOException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
@@ -7,9 +9,6 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataServiceRaw;
 import org.knowm.xchange.examples.enigma.EnigmaDemoUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 public class EnigmaMarketDataDemo {

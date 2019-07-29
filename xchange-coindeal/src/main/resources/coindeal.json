@@ -473,11 +473,6 @@
       "withdrawal_fee": 0
     }
   },
-  "private_rate_limits": [
-    {
-      "calls": 60,
-      "time_unit": "minutes"
-    }
-  ],
+  "private_rate_limits": [],
   "share_rate_limits": false
 }
