@@ -11,9 +11,15 @@ import si.mazi.rescu.RestInvocation;
 public class DeribitAuth extends BaseParamsDigest {
   private final String clientId;
 
-  public DeribitAuth(String clientId, String clientSecret) {
+  private DeribitAuth(String clientId, String clientSecret) {
     super(clientSecret, HMAC_SHA_256);
     this.clientId = clientId;
+  }
+
+  public static DeribitAuth createDeribitAuth(String clientId, String clientSecret) {
+    return clientId == null || clientSecret == null
+        ? null
+        : new DeribitAuth(clientId, clientSecret);
   }
 
   @Override
