@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
+
 import org.knowm.xchange.dto.Order.OrderType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexPublicTrade {
@@ -39,7 +41,7 @@ public class BitfinexPublicTrade {
 
   public OrderType getType() {
 
-    return getAmount().signum() == -1 ? OrderType.BID : OrderType.ASK;
+    return getAmount().signum() == -1 ? OrderType.ASK : OrderType.BID;
   }
 
   public BigDecimal getPrice() {
