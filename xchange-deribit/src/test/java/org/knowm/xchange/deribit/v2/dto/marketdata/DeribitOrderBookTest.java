@@ -24,7 +24,7 @@ public class DeribitOrderBookTest {
     // then
     assertThat(orderBook).isNotNull();
 
-    assertThat(orderBook.getTimestamp()).isEqualTo(1550757626706L);
+    assertThat(orderBook.getTimestamp().getTime()).isEqualTo(1550757626706L);
     assertThat(orderBook.getStats()).isNotNull();
     assertThat(orderBook.getState()).isEqualTo("open");
     assertThat(orderBook.getSettlementPrice()).isEqualTo(new BigDecimal("3925.85"));

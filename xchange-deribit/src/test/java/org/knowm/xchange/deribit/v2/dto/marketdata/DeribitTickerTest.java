@@ -26,7 +26,7 @@ public class DeribitTickerTest {
 
     assertThat(ticker.getUnderlyingPrice()).isEqualTo(new BigDecimal("5433.06"));
     assertThat(ticker.getUnderlyingIndex()).isEqualTo("SYN.BTC-3MAY19");
-    assertThat(ticker.getTimestamp()).isEqualTo(1556125162701L);
+    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1556125162701L);
     assertThat(ticker.getStats()).isNotNull();
     assertThat(ticker.getState()).isEqualTo("open");
     assertThat(ticker.getSettlementPrice()).isEqualTo(new BigDecimal("0.01"));

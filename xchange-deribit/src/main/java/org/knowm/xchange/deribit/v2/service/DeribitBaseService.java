@@ -47,7 +47,7 @@ public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
             getClientConfig());
 
     deribitAuth =
-        new DeribitAuth(
+        DeribitAuth.createDeribitAuth(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getExchangeSpecification().getSecretKey());
   }
