@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
@@ -18,7 +17,6 @@ import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 /**
@@ -95,10 +93,11 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       List<CurrencyPair> currencyPairs) throws IOException {
     return bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
   }
-  
-  public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers() throws IOException {
-        return bitfinexV2.getTickers("ALL");
-      }
+
+  public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers()
+      throws IOException {
+    return bitfinexV2.getTickers("ALL");
+  }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker getBitfinexTickerV2(
       CurrencyPair currencyPair) throws IOException {

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -23,7 +22,6 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
