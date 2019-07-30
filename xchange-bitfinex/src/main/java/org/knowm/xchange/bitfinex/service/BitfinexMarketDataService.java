@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
@@ -46,7 +45,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    //return getTickerV1(currencyPair, args);
+    // return getTickerV1(currencyPair, args);
     return getTickerV2(currencyPair, args);
   }
 
@@ -146,8 +145,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    //return getTradesV1(currencyPair, args);
-     return getTradesV2(currencyPair, args);
+    // return getTradesV1(currencyPair, args);
+    return getTradesV2(currencyPair, args);
   }
 
   /**

@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
@@ -821,7 +820,8 @@ public final class BitfinexAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getTimestamp());
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(orderType, amount == null ? null : amount.abs(), currencyPair, price, date, tradeId);
+    return new Trade(
+        orderType, amount == null ? null : amount.abs(), currencyPair, price, date, tradeId);
   }
 
   public static Trades adaptPublicTrades(BitfinexPublicTrade[] trades, CurrencyPair currencyPair) {

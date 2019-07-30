@@ -1,10 +1,8 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
-import java.math.BigDecimal;
-
-import org.knowm.xchange.dto.Order.OrderType;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.math.BigDecimal;
+import org.knowm.xchange.dto.Order.OrderType;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class BitfinexPublicTrade {
