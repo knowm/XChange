@@ -15,6 +15,8 @@ import org.knowm.xchange.dto.Order;
  */
 public class StopOrder extends Order implements Comparable<StopOrder> {
 
+  private static final long serialVersionUID = -7341286101341375106L;
+
   /** The stop price */
   protected final BigDecimal stopPrice;
   /**
