@@ -432,6 +432,11 @@
             <artifactId>xchange-enigma</artifactId>
             <version>${project.version}</version>
         </dependency>
+		<dependency>
+			<groupId>org.knowm.xchange</groupId>
+			<artifactId>xchange-lgo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
     </dependencies>
 
 </project>
