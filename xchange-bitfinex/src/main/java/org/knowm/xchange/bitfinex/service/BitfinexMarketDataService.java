@@ -12,6 +12,7 @@ import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.LoanOrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -21,6 +22,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
@@ -233,7 +235,13 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
-      return Arrays.stream(getBitfinexTickers())
+
+      BitfinexTicker[] bitfinexTickers =
+          params instanceof CurrencyPairsParam
+              ? getBitfinexTickers(((CurrencyPairsParam) params).getCurrencyPairs())
+              : getBitfinexTickers(null);
+
+      return Arrays.stream(bitfinexTickers)
           .map(BitfinexAdapters::adaptTicker)
           .collect(Collectors.toList());
     } catch (BitfinexException e) {

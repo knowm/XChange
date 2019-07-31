@@ -90,13 +90,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   //////// v2
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(
-      List<CurrencyPair> currencyPairs) throws IOException {
+      Collection<CurrencyPair> currencyPairs) throws IOException {
     return bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
-  }
-
-  public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers()
-      throws IOException {
-    return bitfinexV2.getTickers("ALL");
   }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker getBitfinexTickerV2(

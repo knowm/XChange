@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
@@ -780,9 +781,11 @@ public final class BitfinexAdapters {
   ////// v2
 
   public static String adaptCurrencyPairsToTickersParam(Collection<CurrencyPair> currencyPairs) {
-    return currencyPairs.stream()
-        .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
-        .collect(Collectors.joining(","));
+    return currencyPairs == null || currencyPairs.isEmpty()
+        ? "ALL"
+        : currencyPairs.stream()
+            .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
+            .collect(Collectors.joining(","));
   }
 
   public static Ticker adaptTicker(
