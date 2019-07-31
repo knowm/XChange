@@ -69,7 +69,7 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
       // Bitfinex's pricePercision
 
       Map<CurrencyPair, BigDecimal> lastPrices =
-          Arrays.stream(dataService.getBitfinexTickers())
+          Arrays.stream(dataService.getBitfinexTickers(null))
               .map(BitfinexAdapters::adaptTicker)
               .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
 
