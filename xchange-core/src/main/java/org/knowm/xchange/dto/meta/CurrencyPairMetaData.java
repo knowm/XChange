@@ -24,6 +24,14 @@ public class CurrencyPairMetaData implements Serializable {
   @JsonProperty("max_amount")
   private final BigDecimal maximumAmount;
 
+  /** Minimum trade amount */
+  @JsonProperty("counter_min_amount")
+  private final BigDecimal counterMinimumAmount;
+
+  /** Maximum trade amount */
+  @JsonProperty("counter_max_amount")
+  private final BigDecimal counterMaximumAmount;
+
   /** Decimal places for base amount */
   @JsonProperty("base_scale")
   private final Integer baseScale;
@@ -53,7 +61,7 @@ public class CurrencyPairMetaData implements Serializable {
       BigDecimal maximumAmount,
       Integer priceScale,
       FeeTier[] feeTiers) {
-    this(tradingFee, minimumAmount, maximumAmount, null, priceScale, feeTiers, null, null);
+    this(tradingFee, minimumAmount, maximumAmount, null, null, null, priceScale, feeTiers, null, null);
   }
 
   /**
@@ -73,7 +81,7 @@ public class CurrencyPairMetaData implements Serializable {
       FeeTier[] feeTiers,
       BigDecimal amountStepSize) {
     this(
-        tradingFee, minimumAmount, maximumAmount, null, priceScale, feeTiers, amountStepSize, null);
+        tradingFee, minimumAmount, maximumAmount, null, null, null, priceScale, feeTiers, amountStepSize, null);
   }
 
   /**
@@ -89,6 +97,8 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("trading_fee") BigDecimal tradingFee,
       @JsonProperty("min_amount") BigDecimal minimumAmount,
       @JsonProperty("max_amount") BigDecimal maximumAmount,
+      @JsonProperty("counter_min_amount") BigDecimal counterMinimumAmount,
+      @JsonProperty("counter_max_amount") BigDecimal counterMaximumAmount,
       @JsonProperty("base_scale") Integer baseScale,
       @JsonProperty("price_scale") Integer priceScale,
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
@@ -98,6 +108,8 @@ public class CurrencyPairMetaData implements Serializable {
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
+    this.counterMinimumAmount = counterMinimumAmount;
+    this.counterMaximumAmount = counterMaximumAmount;
     this.baseScale = baseScale;
     this.priceScale = priceScale;
     if (feeTiers != null) {
@@ -144,6 +156,14 @@ public class CurrencyPairMetaData implements Serializable {
 
   public Currency getTradingFeeCurrency() {
     return tradingFeeCurrency;
+  }
+
+  public BigDecimal getCounterMinimumAmount() {
+    return counterMinimumAmount;
+  }
+
+  public BigDecimal getCounterMaximumAmount() {
+    return counterMaximumAmount;
   }
 
   @Override
