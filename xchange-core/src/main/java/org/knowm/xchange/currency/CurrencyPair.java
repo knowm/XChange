@@ -1,7 +1,8 @@
 package org.knowm.xchange.currency;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Value object to provide the following to API:
@@ -262,6 +263,16 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair UTC_LTC = new CurrencyPair(Currency.UTC, Currency.LTC);
 
   // Kraken additional pairs
+  public static final CurrencyPair ADA_USD = new CurrencyPair(Currency.ADA, Currency.USD);
+  public static final CurrencyPair ADA_EUR = new CurrencyPair(Currency.ADA, Currency.EUR);
+  public static final CurrencyPair ADA_CAD = new CurrencyPair(Currency.ADA, Currency.CAD);
+
+  public static final CurrencyPair ATOM_BTC = new CurrencyPair(Currency.ATOM, Currency.BTC);
+  public static final CurrencyPair ATOM_ETH = new CurrencyPair(Currency.ATOM, Currency.ETH);
+  public static final CurrencyPair ATOM_USD = new CurrencyPair(Currency.ATOM, Currency.USD);
+  public static final CurrencyPair ATOM_EUR = new CurrencyPair(Currency.ATOM, Currency.EUR);
+  public static final CurrencyPair ATOM_CAD = new CurrencyPair(Currency.ATOM, Currency.CAD);
+
   public static final CurrencyPair ETC_BTC = new CurrencyPair(Currency.ETC, Currency.BTC);
   public static final CurrencyPair ETC_EUR = new CurrencyPair(Currency.ETC, Currency.EUR);
   public static final CurrencyPair ETC_ETH = new CurrencyPair(Currency.ETC, Currency.ETH);

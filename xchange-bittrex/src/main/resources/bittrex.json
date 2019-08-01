@@ -120,6 +120,16 @@
       "min_amount": 30.00000000,
       "trading_fee": 0.0025
     },
+    "EOS/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.5,
+      "trading_fee": 0.0025
+    },
+    "EOS/ETH": {
+      "price_scale": 8,
+      "min_amount": 1.0,
+      "trading_fee": 0.0025
+    },
     "ETC/BTC": {
       "price_scale": 8,
       "min_amount": 0.30000000,
@@ -288,6 +298,11 @@
     "RDD/BTC": {
       "price_scale": 8,
       "min_amount": 600.00000000,
+      "trading_fee": 0.0025
+    },
+    "RVN/BTC": {
+      "price_scale": 8,
+      "min_amount": 150.0,
       "trading_fee": 0.0025
     },
     "STEEM/BTC": {
@@ -560,6 +575,10 @@
       "scale": 8,
       "withdrawal_fee": 0.2
     },
+    "EOS": {
+      "scale": 8,
+      "withdrawal_fee": 0.1
+    },
     "ETC": {
       "scale": 8,
       "withdrawal_fee": 0.01
@@ -639,6 +658,10 @@
     "REP": {
       "scale": 8,
       "withdrawal_fee": 0.1
+    },
+    "RVN": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
     },
     "SC": {
       "scale": 8,
