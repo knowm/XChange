@@ -42,9 +42,8 @@ public class DeribitMarketDataService extends DeribitMarketDataServiceRaw
     try {
       deribitTicker = super.getDeribitTicker(deribitInstrumentName);
     } catch (DeribitException ex) {
-      throw new ExchangeException(ex);
+      throw DeribitAdapters.adapt(ex);
     }
-
     return DeribitAdapters.adaptTicker(deribitTicker);
   }
 
