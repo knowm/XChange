@@ -13,6 +13,7 @@ import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.GrantType;
 import org.knowm.xchange.deribit.v2.dto.account.DeribitAuthentication;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.service.BaseService;
@@ -94,7 +95,7 @@ public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
   private DeribitAuthentication authOverClientSignature(String clientId, String clientSecret)
       throws DeribitException, IOException {
     if (clientId == null || clientId.isEmpty()) {
-      throw new ExchangeException("API key must not be empty.");
+      throw new ExchangeSecurityException("API key must not be empty.");
     }
     if (clientSecret == null || clientSecret.isEmpty()) {
       throw new ExchangeException("API secret must not be empty.");
