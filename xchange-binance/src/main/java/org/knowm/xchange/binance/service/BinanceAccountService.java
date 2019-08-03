@@ -12,6 +12,7 @@ import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
@@ -90,7 +91,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, DepositAddress address)
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
           throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
@@ -131,10 +132,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
-  public DepositAddress requestDepositAddressData(Currency currency, String... args)
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
           throws IOException {
-    org.knowm.xchange.binance.dto.account.DepositAddress depositAddress = super.requestDepositAddress(currency);
-    return new DepositAddress(depositAddress.address, depositAddress.addressTag);
+    DepositAddress depositAddress = super.requestDepositAddress(currency);
+    return new AddressWithTag(depositAddress.address, depositAddress.addressTag);
   }
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {

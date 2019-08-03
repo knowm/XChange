@@ -3,7 +3,7 @@ package org.knowm.xchange.service.trade.params;
 import java.math.BigDecimal;
 import javax.annotation.Nullable;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.DepositAddress;
+import org.knowm.xchange.dto.account.AddressWithTag;
 
 public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   public final String address;
@@ -20,7 +20,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     this(address, currency, amount, null);
   }
 
-  public DefaultWithdrawFundsParams(DepositAddress address, Currency currency, BigDecimal amount) {
+  public DefaultWithdrawFundsParams(AddressWithTag address, Currency currency, BigDecimal amount) {
     this(address, currency, amount, null);
   }
 
@@ -34,7 +34,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   }
 
   public DefaultWithdrawFundsParams(
-      DepositAddress address, Currency currency, BigDecimal amount, BigDecimal commission) {
+          AddressWithTag address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address.getAddress();
     this.destinationTag = address.getDestinationTag();
     this.currency = currency;
