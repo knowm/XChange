@@ -15,7 +15,7 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.DepositAddress;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -45,7 +45,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, DepositAddress address)
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
       throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
@@ -117,10 +117,10 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   }
 
   @Override
-  public DepositAddress requestDepositAddressData(Currency currency, String... args)
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
     CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
-    return new DepositAddress(depositAddress.getAddress(), depositAddress.getDestinationTag());
+    return new AddressWithTag(depositAddress.getAddress(), depositAddress.getDestinationTag());
   }
 
   @Override

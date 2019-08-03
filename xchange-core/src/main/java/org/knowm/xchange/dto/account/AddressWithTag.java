@@ -3,13 +3,13 @@ package org.knowm.xchange.dto.account;
 import java.io.Serializable;
 import java.util.Objects;
 
-public final class DepositAddress implements Serializable {
+public final class AddressWithTag implements Serializable {
 
   private final String address;
 
   private final String destinationTag;
 
-  public DepositAddress(String address, String destinationTag) {
+  public AddressWithTag(String address, String destinationTag) {
     this.address = address;
     this.destinationTag = destinationTag;
   }
@@ -38,7 +38,7 @@ public final class DepositAddress implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    DepositAddress that = (DepositAddress) o;
+    AddressWithTag that = (AddressWithTag) o;
     return Objects.equals(address, that.address)
         && Objects.equals(destinationTag, that.destinationTag);
   }
