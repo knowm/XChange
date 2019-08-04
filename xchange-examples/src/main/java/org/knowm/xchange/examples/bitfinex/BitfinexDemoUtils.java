@@ -3,7 +3,7 @@ package org.knowm.xchange.examples.bitfinex;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
 
 public class BitfinexDemoUtils {
 

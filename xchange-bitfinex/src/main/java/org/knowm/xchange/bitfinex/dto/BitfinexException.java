@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitfinex.common.dto;
+package org.knowm.xchange.bitfinex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

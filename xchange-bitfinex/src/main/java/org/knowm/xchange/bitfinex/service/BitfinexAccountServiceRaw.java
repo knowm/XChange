@@ -1,10 +1,10 @@
-package org.knowm.xchange.bitfinex.v1.service;
+package org.knowm.xchange.bitfinex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
