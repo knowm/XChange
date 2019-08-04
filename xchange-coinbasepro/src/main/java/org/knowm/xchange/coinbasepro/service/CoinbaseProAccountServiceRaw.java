@@ -47,14 +47,19 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   public CoinbaseProWithdrawCryptoResponse withdrawCrypto(
-      String address, BigDecimal amount, Currency currency)
+      String address,
+      BigDecimal amount,
+      Currency currency,
+      String destinationTag,
+      boolean noDestinationTag)
       throws CoinbaseProException, IOException {
     return coinbasePro.withdrawCrypto(
         apiKey,
         digest,
         nonceFactory,
         passphrase,
-        new CoinbaseProWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
+        new CoinbaseProWithdrawFundsRequest(
+            amount, currency.getCurrencyCode(), address, destinationTag, noDestinationTag));
   }
 
   public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {

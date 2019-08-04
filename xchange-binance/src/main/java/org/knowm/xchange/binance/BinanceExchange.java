@@ -92,6 +92,9 @@ public class BinanceExchange extends BaseExchange {
           BigDecimal maxQty = null;
           BigDecimal stepSize = null;
 
+          BigDecimal counterMinQty = null;
+          BigDecimal counterMaxQty = null;
+
           Filter[] filters = symbol.getFilters();
 
           CurrencyPair currentCurrencyPair =
@@ -105,6 +108,9 @@ public class BinanceExchange extends BaseExchange {
               minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
+            } else if (filter.getFilterType().equals("MARKET_LOT_SIZE")) {
+              counterMinQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
+              counterMaxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
             }
           }
 
@@ -114,6 +120,8 @@ public class BinanceExchange extends BaseExchange {
                   new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                   minQty, // Min amount
                   maxQty, // Max amount
+                  counterMinQty,
+                  counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
                   null, /* TODO get fee tiers, although this is not necessary now
