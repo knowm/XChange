@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitfinex.common.service;
+package org.knowm.xchange.bitfinex.service;
 
 import java.math.BigInteger;
 import java.util.Base64;
