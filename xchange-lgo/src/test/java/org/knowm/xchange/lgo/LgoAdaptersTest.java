@@ -45,7 +45,7 @@ public class LgoAdaptersTest {
   private SimpleDateFormat dateFormat;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
@@ -166,15 +166,6 @@ public class LgoAdaptersTest {
   }
 
   @Test
-  public void adaptsDate() throws ParseException {
-    String formattedDate = "2019-07-19T12:25:05.860Z";
-
-    Date date = LgoAdapters.adaptDate(formattedDate);
-
-    assertThat(date).isEqualTo(dateFormat.parse(formattedDate));
-  }
-
-  @Test
   public void adaptsProductId() {
     assertThat(LgoAdapters.adaptProductId("BTC-USD")).isEqualTo(CurrencyPair.BTC_USD);
   }
@@ -219,7 +210,16 @@ public class LgoAdaptersTest {
   }
 
   private LgoUserTrade lgoTrade(String side, String liquidity) {
-    return new LgoUserTrade("1", "2", "BTC-USD", "1", "1", "", "1", side, liquidity);
+    return new LgoUserTrade(
+        "1",
+        "2",
+        "BTC-USD",
+        new BigDecimal("1"),
+        new BigDecimal("1"),
+        null,
+        new BigDecimal("1"),
+        side,
+        liquidity);
   }
 
   private ExchangeMetaData emptyMeta() {

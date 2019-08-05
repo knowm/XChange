@@ -1,8 +1,6 @@
 package org.knowm.xchange.lgo;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,20 +29,10 @@ import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrade;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class LgoAdapters {
 
-  private static final Logger LOG = LoggerFactory.getLogger(LgoAdapters.class);
-  private static final SimpleDateFormat dateFormat;
-
   private LgoAdapters() {}
-
-  static {
-    dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
 
   public static ExchangeMetaData adaptMetadata(
       ExchangeMetaData metaData, LgoProducts products, LgoCurrencies currencies) {
@@ -128,34 +116,22 @@ public final class LgoAdapters {
   private static UserTrade adaptUserTrade(LgoUserTrade lgoUserTrade) {
     OrderType type = adaptUserTradeType(lgoUserTrade);
     CurrencyPair currencyPair = adaptProductId(lgoUserTrade.getProductId());
-    Date creationDate = adaptDate(lgoUserTrade.getCreationDate());
-    BigDecimal originalAmount = new BigDecimal(lgoUserTrade.getQuantity());
-    BigDecimal price = new BigDecimal(lgoUserTrade.getPrice());
-    BigDecimal feeAmount = new BigDecimal(lgoUserTrade.getFees());
+    Date creationDate = lgoUserTrade.getCreationDate();
     return new UserTrade(
         type,
-        originalAmount,
+        lgoUserTrade.getQuantity(),
         currencyPair,
-        price,
+        lgoUserTrade.getPrice(),
         creationDate,
         lgoUserTrade.getId(),
         lgoUserTrade.getOrderId(),
-        feeAmount,
+        lgoUserTrade.getFees(),
         currencyPair.counter);
   }
 
   public static CurrencyPair adaptProductId(String productId) {
     String[] pair = productId.split("-");
     return new CurrencyPair(pair[0], pair[1]);
-  }
-
-  public static Date adaptDate(String date) {
-    try {
-      return dateFormat.parse(date);
-    } catch (ParseException e) {
-      LOG.error("Error while parsing trade date", e);
-      return null;
-    }
   }
 
   public static OrderType adaptUserTradeType(LgoUserTrade trade) {
