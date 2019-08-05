@@ -1,18 +1,23 @@
-package org.knowm.xchange.bitfinex.v1.service;
+package org.knowm.xchange.bitfinex.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * Implementation of the market data service for Bitfinex
@@ -80,5 +85,51 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   public List<BitfinexSymbolDetail> getSymbolDetails() throws IOException {
     return bitfinex.getSymbolsDetails();
+  }
+
+  //////// v2
+
+  public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(
+      Collection<CurrencyPair> currencyPairs) throws IOException {
+    return bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
+  }
+
+  public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker getBitfinexTickerV2(
+      CurrencyPair currencyPair) throws IOException {
+    org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] ticker =
+        bitfinexV2.getTickers(
+            BitfinexAdapters.adaptCurrencyPairsToTickersParam(
+                Collections.singletonList(currencyPair)));
+    if (ticker.length == 0) {
+      throw new BitfinexException("Unknown Symbol");
+    } else {
+      return ticker[0];
+    }
+  }
+
+  public BitfinexPublicTrade[] getBitfinexPublicTrades(
+      CurrencyPair currencyPair, int limitTrades, long startTimestamp, long endTimestamp, int sort)
+      throws IOException {
+    try {
+      return bitfinexV2.getPublicTrades(
+          "t" + currencyPair.base.toString() + currencyPair.counter.toString(),
+          limitTrades,
+          startTimestamp,
+          endTimestamp,
+          sort);
+    } catch (HttpStatusIOException e) {
+      throw new BitfinexException(e.getHttpBody());
+    }
+  }
+
+  public BitfinexPublicFundingTrade[] getBitfinexPublicFundingTrades(
+      Currency currency, int limitTrades, long startTimestamp, long endTimestamp, int sort)
+      throws IOException {
+    try {
+      return bitfinexV2.getPublicFundingTrades(
+          "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
+    } catch (HttpStatusIOException e) {
+      throw new BitfinexException(e.getHttpBody());
+    }
   }
 }

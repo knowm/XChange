@@ -374,6 +374,8 @@ public class CoinbaseProAdapters {
     for (CoinbaseProProduct product : products) {
       BigDecimal minSize = product.getBaseMinSize();
       BigDecimal maxSize = product.getBaseMaxSize();
+      BigDecimal minMarketFunds = product.getMinMarketFunds();
+      BigDecimal maxMarketFunds = product.getMaxMarketFunds();
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
@@ -385,6 +387,8 @@ public class CoinbaseProAdapters {
               new BigDecimal("0.25"), // Trading fee at Coinbase is 0.25 %
               minSize,
               maxSize,
+              minMarketFunds,
+              maxMarketFunds,
               baseScale,
               priceScale,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
@@ -503,6 +507,7 @@ public class CoinbaseProAdapters {
 
     return new FundingRecord(
         address,
+        coinbaseProTransfer.getDetails().getDestinationTag(),
         timestamp,
         currency,
         coinbaseProTransfer.amount(),
