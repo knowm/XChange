@@ -1,8 +1,9 @@
 package org.knowm.xchange.lgo;
 
+import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.service.LgoMarketDataService;
@@ -29,9 +30,13 @@ public class LgoExchange extends BaseExchange {
   }
 
   @Override
-  public void remoteInit() throws ExchangeException {
-    products = getMarketDataService().getProducts();
-    currencies = getMarketDataService().getCurrencies();
+  public void remoteInit() throws IOException {
+    try {
+      products = getMarketDataService().getProducts();
+      currencies = getMarketDataService().getCurrencies();
+    } catch (LgoException e) {
+      throw LgoErrorAdapter.adapt(e);
+    }
     LgoAdapters.adaptMetadata(getExchangeMetaData(), products, currencies);
   }
 

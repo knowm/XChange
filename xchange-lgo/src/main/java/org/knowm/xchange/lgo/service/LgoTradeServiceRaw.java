@@ -1,12 +1,12 @@
 package org.knowm.xchange.lgo.service;
 
+import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-import si.mazi.rescu.HttpStatusIOException;
 
 public class LgoTradeServiceRaw extends LgoBaseService {
 
@@ -21,7 +21,7 @@ public class LgoTradeServiceRaw extends LgoBaseService {
       Integer maxResults,
       String page,
       TradeHistoryParamsSorted.Order sort)
-      throws HttpStatusIOException {
+      throws IOException {
     return proxy.getLastTrades(
         nextLong,
         signatureService,

@@ -10,13 +10,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoErrorAdapter;
 import org.knowm.xchange.lgo.LgoExchange;
+import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import si.mazi.rescu.HttpStatusIOException;
 
 public class LgoTradeService extends LgoTradeServiceRaw implements TradeService {
 
@@ -33,16 +33,14 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     Integer maxResults = getMaxResults(params);
     String page = getPage(params);
     TradeHistoryParamsSorted.Order sort = getSort(params);
-    UserTrades lastTrades = null;
     try {
       WithCursor<LgoUserTrades> lgoTrades =
           super.getLastTrades(
               random.nextLong(), exchange.getSignatureService(), productId, maxResults, page, sort);
-      lastTrades = LgoAdapters.adaptUserTrades(lgoTrades);
-    } catch (HttpStatusIOException e) {
-      LgoErrorAdapter.adapt(e);
+      return LgoAdapters.adaptUserTrades(lgoTrades);
+    } catch (LgoException e) {
+      throw LgoErrorAdapter.adapt(e);
     }
-    return lastTrades;
   }
 
   private TradeHistoryParamsSorted.Order getSort(TradeHistoryParams params) {

@@ -1,16 +1,17 @@
 package org.knowm.xchange.lgo;
 
+import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
-import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,13 +29,13 @@ public interface Lgo {
   @Path("products")
   LgoProducts getProducts(
       @HeaderParam(X_LGO_DATE) long timestamp, @HeaderParam(AUTHORIZATION) ParamsDigest signature)
-      throws HttpStatusIOException;
+      throws IOException, LgoException;
 
   @GET
   @Path("currencies")
   LgoCurrencies getCurrencies(
       @HeaderParam(X_LGO_DATE) long timestamp, @HeaderParam(AUTHORIZATION) ParamsDigest signature)
-      throws HttpStatusIOException;
+      throws IOException, LgoException;
 
   @GET
   @Path("trades")
@@ -45,5 +46,5 @@ public interface Lgo {
       @QueryParam(MAX_RESULTS) int maxResults,
       @QueryParam(PAGE) String page,
       @QueryParam(SORT) String sort)
-      throws HttpStatusIOException;
+      throws IOException, LgoException;
 }
