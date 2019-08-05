@@ -6,7 +6,7 @@ public class LgoCurrency {
 
   private final String name;
   private final String code;
-  public final int decimals;
+  private final int decimals;
 
   public LgoCurrency(
       @JsonProperty("name") String name,

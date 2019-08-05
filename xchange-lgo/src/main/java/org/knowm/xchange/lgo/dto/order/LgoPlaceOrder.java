@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public abstract class LgoPlaceOrder {
 
-  private long reference;
+  private final long reference;
   private final Instant timestamp;
 
   public LgoPlaceOrder(long reference, Instant timestamp) {
@@ -16,10 +16,6 @@ public abstract class LgoPlaceOrder {
 
   public long getReference() {
     return reference;
-  }
-
-  public void setReference(long reference) {
-    this.reference = reference;
   }
 
   public Instant getTimestamp() {
