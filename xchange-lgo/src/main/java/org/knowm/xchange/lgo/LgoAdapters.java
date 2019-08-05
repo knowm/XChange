@@ -53,7 +53,7 @@ public final class LgoAdapters {
     for (LgoCurrency lgoCurrency : currencies.getCurrencies()) {
       currency.put(
           Currency.getInstance(lgoCurrency.getCode()),
-          new CurrencyMetaData(lgoCurrency.decimals, null));
+          new CurrencyMetaData(lgoCurrency.getDecimals(), null));
     }
     for (LgoProduct product : products.getProducts()) {
       BigDecimal minAmount = product.getBase().getLimits().getMin();
@@ -68,6 +68,8 @@ public final class LgoAdapters {
               null,
               minAmount,
               maxAmount,
+              null,
+              null,
               baseScale,
               priceScale,
               new FeeTier[0],
