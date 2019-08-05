@@ -1,8 +1,9 @@
-package org.knowm.xchange.bitfinex.v1;
+package org.knowm.xchange.bitfinex.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
+import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
@@ -28,6 +31,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -53,6 +57,7 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -770,5 +775,68 @@ public final class BitfinexAdapters {
 
       return limitOrders;
     }
+  }
+
+  ////// v2
+
+  public static String adaptCurrencyPairsToTickersParam(Collection<CurrencyPair> currencyPairs) {
+    return currencyPairs == null || currencyPairs.isEmpty()
+        ? "ALL"
+        : currencyPairs.stream()
+            .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
+            .collect(Collectors.joining(","));
+  }
+
+  public static Ticker adaptTicker(
+      org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker bitfinexTicker) {
+
+    BigDecimal last = bitfinexTicker.getLastPrice();
+    BigDecimal bid = bitfinexTicker.getBid();
+    BigDecimal bidSize = bitfinexTicker.getBidSize();
+    BigDecimal ask = bitfinexTicker.getAsk();
+    BigDecimal askSize = bitfinexTicker.getAskSize();
+    BigDecimal high = bitfinexTicker.getHigh();
+    BigDecimal low = bitfinexTicker.getLow();
+    BigDecimal volume = bitfinexTicker.getVolume();
+
+    CurrencyPair currencyPair =
+        CurrencyPairDeserializer.getCurrencyPairFromString(bitfinexTicker.getSymbol().substring(1));
+
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .bidSize(bidSize)
+        .askSize(askSize)
+        .build();
+  }
+
+  public static Trade adaptPublicTrade(BitfinexPublicTrade trade, CurrencyPair currencyPair) {
+
+    OrderType orderType = trade.getType();
+    BigDecimal amount = trade.getAmount();
+    BigDecimal price = trade.getPrice();
+    Date date = DateUtils.fromMillisUtc(trade.getTimestamp());
+    final String tradeId = String.valueOf(trade.getTradeId());
+    return new Trade(
+        orderType, amount == null ? null : amount.abs(), currencyPair, price, date, tradeId);
+  }
+
+  public static Trades adaptPublicTrades(BitfinexPublicTrade[] trades, CurrencyPair currencyPair) {
+
+    List<Trade> tradesList = new ArrayList<>(trades.length);
+    long lastTradeId = 0;
+    for (BitfinexPublicTrade trade : trades) {
+      long tradeId = trade.getTradeId();
+      if (tradeId > lastTradeId) {
+        lastTradeId = tradeId;
+      }
+      tradesList.add(adaptPublicTrade(trade, currencyPair));
+    }
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 }

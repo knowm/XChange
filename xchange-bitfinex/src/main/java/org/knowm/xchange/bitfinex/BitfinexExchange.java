@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitfinex.v1;
+package org.knowm.xchange.bitfinex;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,15 +9,15 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitfinex.common.BitfinexErrorAdapter;
-import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.service.BitfinexAccountService;
+import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.service.BitfinexMarketDataService;
+import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
+import org.knowm.xchange.bitfinex.service.BitfinexTradeService;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataService;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
@@ -66,11 +66,10 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
       // Get the last-price of each pair. It is needed to infer XChange's priceScale out of
       // Bitfinex's pricePercision
-      org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw dataServiceV2 =
-          new org.knowm.xchange.bitfinex.v2.service.BitfinexMarketDataServiceRaw(this);
+
       Map<CurrencyPair, BigDecimal> lastPrices =
-          Arrays.stream(dataServiceV2.getBitfinexTickers(currencyPairs))
-              .map(org.knowm.xchange.bitfinex.v2.BitfinexAdapters::adaptTicker)
+          Arrays.stream(dataService.getBitfinexTickers(null))
+              .map(BitfinexAdapters::adaptTicker)
               .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));
 
       final List<BitfinexSymbolDetail> symbolDetails = dataService.getSymbolDetails();
