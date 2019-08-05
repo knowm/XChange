@@ -1,11 +1,17 @@
 package org.knowm.xchange.lgo.service;
 
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
@@ -27,8 +33,15 @@ public final class CryptoUtils {
       byte[] cipherData =
           cipher.doFinal(lgoPlaceOrder.toPayload().getBytes(StandardCharsets.UTF_8));
       return Base64.getEncoder().encodeToString(cipherData);
-    } catch (Exception e) {
-      throw new ExchangeException("Error encrypting order", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new ExchangeException("Error encrypting order: algorithm instance not available", e);
+    } catch (NoSuchPaddingException e) {
+      throw new ExchangeException("Error encrypting order: padding instance not available", e);
+    } catch (IllegalBlockSizeException
+        | BadPaddingException
+        | InvalidKeySpecException
+        | InvalidKeyException e) {
+      throw new ExchangeException("Error encrypting order: provided data invalid", e);
     }
   }
 

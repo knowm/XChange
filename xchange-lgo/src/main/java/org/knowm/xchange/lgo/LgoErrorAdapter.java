@@ -1,27 +1,29 @@
 package org.knowm.xchange.lgo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.InternalServerException;
-import si.mazi.rescu.HttpStatusIOException;
+import org.knowm.xchange.lgo.dto.LgoException;
 
 public class LgoErrorAdapter {
 
   private LgoErrorAdapter() {}
 
-  /** Parse errors from HTTP exceptions */
-  public static void adapt(HttpStatusIOException httpStatusException) {
-    int statusCode = httpStatusException.getHttpStatusCode();
-    if (statusCode == 401) {
-      throw new ExchangeSecurityException(httpStatusException);
+  public static ExchangeException adapt(LgoException exception) {
+    String message = exception.getMessage();
+    if (StringUtils.isEmpty(message)) {
+      message = "Operation failed without any error message";
     }
-    if (statusCode == 429) {
-      throw new FrequencyLimitExceededException(httpStatusException.getMessage());
+    switch (exception.getHttpStatusCode()) {
+      case 401:
+        return new ExchangeSecurityException(message, exception);
+      case 429:
+        return new FrequencyLimitExceededException(message);
+      case 500:
+        return new InternalServerException(message, exception);
     }
-    if (statusCode == 500) {
-      throw new InternalServerException(httpStatusException);
-    }
-    throw new ExchangeException(httpStatusException.getMessage(), httpStatusException);
+    return new ExchangeException(message, exception);
   }
 }
