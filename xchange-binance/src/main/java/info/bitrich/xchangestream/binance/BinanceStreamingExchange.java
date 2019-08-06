@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.binance;
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.util.Events;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -30,10 +30,18 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
     private BinanceStreamingService streamingService;
     private BinanceUserDataStreamingService userDataStreamingService;
-    private BinanceStreamingMarketDataService streamingMarketDataService;
-    private BinanceUserDataChannel userDataChannel;
 
-    public BinanceStreamingExchange() {
+    private BinanceStreamingMarketDataService streamingMarketDataService;
+    private BinanceStreamingAccountService streamingAccountService;
+    private BinanceStreamingTradeService streamingTradeService;
+
+    private BinanceUserDataChannel userDataChannel;
+    private Runnable onApiCall;
+
+    @Override
+    protected void initServices() {
+        super.initServices();
+        this.onApiCall = Events.onApiCall(exchangeSpecification);
     }
 
     /**
@@ -41,7 +49,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
      * connection pass a `ProductSubscription` in at connection time.
      *
      * @param args A single `ProductSubscription` to define the subscriptions required to be available during this connection.
-     * @return
+     * @return A completable which fulfils once connection is complete.
      */
     @Override
     public Completable connect(ProductSubscription... args) {
@@ -57,18 +65,22 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
         List<Completable> completables = new ArrayList<>();
 
-        if (!subscriptions.isEmpty()) {
+        if (subscriptions.hasUnauthenticated()) {
             completables.add(streamingService.connect());
         }
 
-        if (exchangeSpecification.getApiKey() != null) {
+        if (subscriptions.hasAuthenticated()) {
+            if (exchangeSpecification.getApiKey() == null) {
+                throw new IllegalArgumentException("API key required for authenticated streams");
+            }
+
             LOG.info("Connecting to authenticated web socket");
             BinanceAuthenticated binance = RestProxyFactory.createProxy(
                 BinanceAuthenticated.class,
                 getExchangeSpecification().getSslUri(),
                 new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig()
             );
-            userDataChannel = new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey());
+            userDataChannel = new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
             try {
                 completables.add(createAndConnectUserDataService(userDataChannel.getListenKey()));
             } catch (NoActiveChannelException e) {
@@ -76,10 +88,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             }
         }
 
-        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, userDataStreamingService);
+        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
+        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
+        streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
         return Completable.concat(completables)
-            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions));
+            .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
+            .doOnComplete(() -> streamingAccountService.openSubscriptions())
+            .doOnComplete(() -> streamingTradeService.openSubscriptions());
     }
 
     private Completable createAndConnectUserDataService(String listenKey) {
@@ -87,9 +103,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         return userDataStreamingService.connect().doOnComplete(() -> {
             LOG.info("Connected to authenticated web socket");
             userDataChannel.onChangeListenKey(newListenKey -> {
-                userDataStreamingService.disconnect().blockingAwait();
-                createAndConnectUserDataService(newListenKey).blockingAwait();
-                streamingMarketDataService.setUserDataStreamingService(userDataStreamingService);
+                userDataStreamingService.disconnect().doOnComplete(() -> {
+                    createAndConnectUserDataService(newListenKey).doOnComplete(() -> {
+                        streamingAccountService.setUserDataStreamingService(userDataStreamingService);
+                        streamingTradeService.setUserDataStreamingService(userDataStreamingService);
+                    });
+                });
             });
         });
     }
@@ -127,8 +146,18 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     }
 
     @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
+    public BinanceStreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+
+    @Override
+    public BinanceStreamingAccountService getStreamingAccountService() {
+        return streamingAccountService;
+    }
+
+    @Override
+    public BinanceStreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
     }
 
     private BinanceStreamingService createStreamingService(ProductSubscription subscription) {

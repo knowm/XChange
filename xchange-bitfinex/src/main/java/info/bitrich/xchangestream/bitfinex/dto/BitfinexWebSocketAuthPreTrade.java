@@ -4,19 +4,19 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class BitfinexWebSocketAuthPreTrade {
-    private long id;
-    private String pair;
-    private long mtsCreate;
-    private long orderId;
-    private BigDecimal execAmount;
-    private BigDecimal execPrice;
-    private String orderType;
-    private BigDecimal orderPrice;
-    private int maker;
+    private final long id;
+    private final String pair;
+    private final long mtsCreate;
+    private final long orderId;
+    private final BigDecimal execAmount;
+    private final BigDecimal execPrice;
+    private final String orderType;
+    private final BigDecimal orderPrice;
+    private final long maker;
 
     public BitfinexWebSocketAuthPreTrade(long id, String pair, long mtsCreate, long orderId,
                                                   BigDecimal execAmount, BigDecimal execPrice,
-                                                  String orderType, BigDecimal orderPrice, int maker) {
+                                                  String orderType, BigDecimal orderPrice, long maker) {
         this.id = id;
         this.pair = pair;
         this.mtsCreate = mtsCreate;
@@ -60,7 +60,7 @@ public class BitfinexWebSocketAuthPreTrade {
         return orderPrice;
     }
 
-    public int getMaker() {
+    public long getMaker() {
         return maker;
     }
 

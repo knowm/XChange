@@ -3,10 +3,6 @@ package info.bitrich.xchangestream.bitfinex;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexOrderbook;
-import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
-import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
-import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
-import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketOrderbookTransaction;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSnapshotOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSnapshotTrades;
@@ -106,21 +102,5 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
                     Trades adaptedTrades = adaptTrades(s.toBitfinexTrades(), currencyPair);
                     return adaptedTrades.getTrades();
                 });
-    }
-
-    public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
-        return service.getAuthenticatedOrders();
-    }
-
-    public Observable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {
-        return service.getAuthenticatedPreTrades();
-    }
-
-    public Observable<BitfinexWebSocketAuthTrade> getRawAuthenticatedTrades() {
-        return service.getAuthenticatedTrades();
-    }
-
-    public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
-        return service.getAuthenticatedBalances();
     }
 }
