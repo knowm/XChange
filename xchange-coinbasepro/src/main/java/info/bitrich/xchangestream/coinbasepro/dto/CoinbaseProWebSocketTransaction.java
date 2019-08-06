@@ -173,7 +173,16 @@ public class CoinbaseProWebSocketTransaction {
 
     public CoinbaseProFill toCoinbaseProFill() {
         boolean taker = userId != null && takerUserId != null && userId.equals(takerUserId);
-        return new CoinbaseProFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, side);
+        // buy/sell are flipped on the taker side.
+        String useSide = side;
+        if (taker && side != null) {
+            if ("buy".equals(side)) {
+                useSide = "sell";
+            } else {
+                useSide = "buy";
+            }
+        }
+        return new CoinbaseProFill(String.valueOf(tradeId), productId, price, size, taker ? takerOrderId : makerOrderId, time, null, null, true, useSide);
     }
 
     public String getType() {
@@ -295,6 +304,7 @@ public class CoinbaseProWebSocketTransaction {
         sb.append(", orderId='").append(orderId).append('\'');
         sb.append(", orderType='").append(orderType).append('\'');
         sb.append(", size=").append(size);
+        sb.append(", remainingSize=").append(remainingSize);
         sb.append(", price=").append(price);
         sb.append(", bestBid=").append(bestBid);
         sb.append(", bestAsk=").append(bestAsk);
@@ -304,10 +314,15 @@ public class CoinbaseProWebSocketTransaction {
         sb.append(", low24h=").append(low24h);
         sb.append(", high24h=").append(high24h);
         sb.append(", side='").append(side).append('\'');
+        sb.append(", bids=").append(bids);
+        sb.append(", asks=").append(asks);
+        sb.append(", changes=").append(asks);
         sb.append(", clientOid='").append(clientOid).append('\'');
         sb.append(", productId='").append(productId).append('\'');
         sb.append(", sequence=").append(sequence);
         sb.append(", time='").append(time).append('\'');
+        sb.append(", reason='").append(reason).append('\'');
+        sb.append(", trade_id='").append(tradeId).append('\'');
         if ( userId != null )
         	sb.append(", userId='").append(userId).append('\'');
         if ( profileId != null )

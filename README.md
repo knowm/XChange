@@ -91,25 +91,27 @@ More information about reactive streams can be found at [RxJava wiki](https://gi
 
 Listening for live updates of
 
-Exchange | order books | trades | tickers | notes |
--------- | ----------- | ------ | ------- |-------|
-**Binance** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**Bitfinex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**Bitflyer** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**BitMEX** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | We are short of maintainers able to review pull requests and provide support for Bitmex, so there is a backlog of pull requests and support is likely broken. Can you help? |
-**Bitstamp** | :heavy_check_mark: | :heavy_check_mark: | :x: | |
-**CEX.IO** | :heavy_check_mark: | :x: | :x: | New support, not widely tested  |
-**Coinbase Pro** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x: | |
-**OKCoin** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**OKEx** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**Poloniex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-**Gemini** | :heavy_check_mark: | :heavy_check_mark: | :x: | |
-**Wex** | :heavy_check_mark: | :heavy_check_mark: | :x: | |
+| Exchange         | order books        | trades (public)    | tickers            | balances           | trades (user)      | open orders        | notes |
+| ---------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ----- |
+| **Binance**      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Bitfinex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Bitflyer**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **BitMEX**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | We are short of maintainers able to review pull requests and provide support for Bitmex, so there is a backlog of pull requests and support is likely broken. Can you help? |
+| **Bitstamp**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **CEX.IO**       | :heavy_check_mark: | :x:                | :x:                | :question:         | :question:         | :question:         | New support, not widely tested  |
+| **Coinbase Pro** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Coinmate**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **OKCoin**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
+| **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+| **Wex**          | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
+
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
 - :x: - not supported by the exchange
+- :question: - exchange support level not known (please fill in)
 
 If you missing a specific exchange implementation, feel free to propose a pull request or open an issue with some sweet BTC bounty. 
  

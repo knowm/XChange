@@ -2,11 +2,17 @@ package info.bitrich.xchangestream.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.OrderSide;
+import org.knowm.xchange.binance.dto.trade.OrderStatus;
+import org.knowm.xchange.binance.dto.trade.OrderType;
+import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import java.math.BigDecimal;
 
 public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSocketTransaction {
 
@@ -15,15 +21,15 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     }
 
     private final String clientOrderId;
-    private final String side;
-    private final String orderType;
-    private final String timeInForce;
+    private final OrderSide side;
+    private final OrderType orderType;
+    private final TimeInForce timeInForce;
     private final BigDecimal orderQuantity;
     private final BigDecimal orderPrice;
     private final BigDecimal stopPrice;
     private final BigDecimal icebergQuantity;
     private final ExecutionType executionType;
-    private final String currentOrderStatus;
+    private final OrderStatus currentOrderStatus;
     private final String orderRejectReason;
     private final long orderId;
     private final BigDecimal lastExecutedQuantity;
@@ -66,15 +72,15 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     {
         super(eventType, eventTime, symbol);
         this.clientOrderId = clientOrderId;
-        this.side = side;
-        this.orderType = orderType;
-        this.timeInForce = timeInForce;
+        this.side = OrderSide.valueOf(side);
+        this.orderType = OrderType.valueOf(orderType);
+        this.timeInForce = TimeInForce.valueOf(timeInForce);
         this.orderQuantity = quantity;
         this.orderPrice = price;
         this.stopPrice = stopPrice;
         this.icebergQuantity = icebergQuantity;
         this.executionType = ExecutionType.valueOf(currentExecutionType);
-        this.currentOrderStatus = currentOrderStatus;
+        this.currentOrderStatus = OrderStatus.valueOf(currentOrderStatus);
         this.orderRejectReason = orderRejectReason;
         this.orderId = orderId;
         this.lastExecutedQuantity = lastExecutedQuantity;
@@ -93,15 +99,15 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         return clientOrderId;
     }
 
-    public String getSide() {
+    public OrderSide getSide() {
         return side;
     }
 
-    public String getOrderType() {
+    public OrderType getOrderType() {
         return orderType;
     }
 
-    public String getTimeInForce() {
+    public TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
@@ -125,7 +131,7 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
         return executionType;
     }
 
-    public String getCurrentOrderStatus() {
+    public OrderStatus getCurrentOrderStatus() {
         return currentOrderStatus;
     }
 
@@ -178,9 +184,39 @@ public class ExecutionReportBinanceUserTransaction extends ProductBinanceWebSock
     }
 
     public UserTrade toUserTrade() {
-        return new UserTrade(BinanceAdapters.convertType(buyerMarketMaker), lastExecutedQuantity, currencyPair,
-                lastExecutedPrice, getEventTime(), Long.toString(tradeId), Long.toString(orderId), commissionAmount,
-                Currency.getInstance(commissionAsset));
+        if (executionType != ExecutionType.TRADE)
+            throw new IllegalStateException("Not a trade");
+        return new UserTrade.Builder()
+            .type(BinanceAdapters.convert(side))
+            .originalAmount(lastExecutedQuantity)
+            .currencyPair(currencyPair)
+            .price(lastExecutedPrice)
+            .timestamp(getEventTime())
+            .id(Long.toString(tradeId))
+            .orderId(Long.toString(orderId))
+            .feeAmount(commissionAmount)
+            .feeCurrency(Currency.getInstance(commissionAsset))
+            .build();
+    }
+
+    public Order toOrder() {
+       return BinanceAdapters.adaptOrder(
+           new BinanceOrder(
+               BinanceAdapters.toSymbol(getCurrencyPair()),
+               orderId,
+               clientOrderId,
+               orderPrice,
+               orderQuantity,
+               cumulativeFilledQuantity,
+               currentOrderStatus,
+               timeInForce,
+               orderType,
+               side,
+               stopPrice,
+               BigDecimal.ZERO,
+               timestamp
+           )
+       );
     }
 
     @Override
