@@ -33,7 +33,7 @@ public class StopOrderTest {
             .orderStatus(status)
             .timestamp(timestamp)
             .id(id)
-            .flag(StopOrderTest.TestFlags.TEST1)
+            .flag(TestFlags.TEST1)
             .fee(fee)
             .build();
 
@@ -47,8 +47,8 @@ public class StopOrderTest {
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
     assertThat(copy.getId()).isEqualTo(id);
     assertThat(copy.getOrderFlags()).hasSize(1);
-    assertThat(copy.getOrderFlags()).containsExactly(StopOrderTest.TestFlags.TEST1);
-    assertThat(copy.hasFlag(StopOrderTest.TestFlags.TEST1));
+    assertThat(copy.getOrderFlags()).containsExactly(TestFlags.TEST1);
+    assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
   }
@@ -80,8 +80,8 @@ public class StopOrderTest {
             cumulativeAmount,
             fee,
             status);
-    original.addOrderFlag(StopOrderTest.TestFlags.TEST1);
-    original.addOrderFlag(StopOrderTest.TestFlags.TEST3);
+    original.addOrderFlag(TestFlags.TEST1);
+    original.addOrderFlag(TestFlags.TEST3);
     final StopOrder copy = StopOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
