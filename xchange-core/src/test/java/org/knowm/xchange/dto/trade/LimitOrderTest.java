@@ -34,7 +34,7 @@ public class LimitOrderTest {
             .orderStatus(status)
             .timestamp(timestamp)
             .id(id)
-            .flag(LimitOrderTest.TestFlags.TEST1)
+            .flag(TestFlags.TEST1)
             .fee(fee)
             .build();
     assertThat(copy.getType()).isEqualTo(type);
