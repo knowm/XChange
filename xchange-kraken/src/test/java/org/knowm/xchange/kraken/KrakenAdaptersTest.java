@@ -115,7 +115,7 @@ public class KrakenAdaptersTest {
 
     Set<CurrencyPair> pairs =
         KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    assertThat(pairs).hasSize(56);
+    assertThat(pairs).hasSize(75);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }
@@ -186,9 +186,12 @@ public class KrakenAdaptersTest {
 
     Wallet wallet = KrakenAdapters.adaptWallet(krakenBalance.getResult());
 
+
+
     assertThat(wallet.getBalance(Currency.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
     assertThat(wallet.getBalance(Currency.BTC).getTotal())
         .isEqualTo(new BigDecimal("0.4888583300"));
+      assertThat(wallet.getBalance(Currency.getInstance("XDAO")).getTotal()).isEqualTo(new BigDecimal("10.123"));
   }
 
   @Test
