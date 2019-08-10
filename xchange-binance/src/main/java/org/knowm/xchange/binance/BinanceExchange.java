@@ -3,6 +3,7 @@ package org.knowm.xchange.binance;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -82,7 +83,7 @@ public class BinanceExchange extends BaseExchange {
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
       for (Symbol symbol : symbols) {
-        if (!symbol.getStatus().equals("BREAK")) { // Symbols with status "BREAK" are delisted
+        if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
           int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
           int pairPrecision = 8;
@@ -114,6 +115,7 @@ public class BinanceExchange extends BaseExchange {
             }
           }
 
+          boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
           currencyPairs.put(
               currentCurrencyPair,
               new CurrencyPairMetaData(
@@ -127,7 +129,8 @@ public class BinanceExchange extends BaseExchange {
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,
-                  null));
+                  null,
+                  marketOrderAllowed));
 
           Currency baseCurrency = currentCurrencyPair.base;
           BigDecimal baseWithdrawalFee = getWithdrawalFee(currencies, baseCurrency, assetDetailMap);
