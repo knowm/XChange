@@ -14,6 +14,8 @@ public class CoinbaseProProduct {
   private final BigDecimal maxMarketFunds;
   private final BigDecimal baseIncrement;
   private final BigDecimal quoteIncrement;
+  private final boolean limitOnly;
+  private final String status;
 
   public CoinbaseProProduct(
       @JsonProperty("id") String id,
@@ -24,7 +26,9 @@ public class CoinbaseProProduct {
       @JsonProperty("min_market_funds") BigDecimal minMarketFunds,
       @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
       @JsonProperty("base_increment") BigDecimal baseIncrement,
-      @JsonProperty("quote_increment") BigDecimal quoteIncrement) {
+      @JsonProperty("quote_increment") BigDecimal quoteIncrement,
+      @JsonProperty("limit_only") boolean limitOnly,
+      @JsonProperty("status") String status) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;
@@ -35,6 +39,8 @@ public class CoinbaseProProduct {
     this.maxMarketFunds = maxMarketFunds;
     this.baseIncrement = baseIncrement;
     this.quoteIncrement = quoteIncrement;
+    this.limitOnly = limitOnly;
+    this.status = status;
   }
 
   public String getId() {
@@ -77,5 +83,13 @@ public class CoinbaseProProduct {
 
   public BigDecimal getMaxMarketFunds() {
     return maxMarketFunds;
+  }
+
+  public boolean isLimitOnly() {
+    return limitOnly;
+  }
+
+  public String getStatus() {
+    return status;
   }
 }
