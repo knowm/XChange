@@ -2,7 +2,11 @@ package org.knowm.xchange.lgo;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -62,7 +66,8 @@ public final class LgoAdapters {
               priceScale,
               new FeeTier[0],
               increment,
-              Currency.USD));
+              Currency.USD,
+              true));
     }
     return metaData;
   }

@@ -26,7 +26,6 @@ import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
   "marginBalance",
   "timestamp"
 })
-
 public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
 
   @JsonProperty("transactID")
