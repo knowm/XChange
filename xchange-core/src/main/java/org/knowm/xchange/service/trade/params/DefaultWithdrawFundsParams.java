@@ -34,7 +34,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   }
 
   public DefaultWithdrawFundsParams(
-          AddressWithTag address, Currency currency, BigDecimal amount, BigDecimal commission) {
+      AddressWithTag address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address.getAddress();
     this.destinationTag = address.getDestinationTag();
     this.currency = currency;

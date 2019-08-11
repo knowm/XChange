@@ -47,6 +47,9 @@ public class CurrencyPairMetaData implements Serializable {
   /** Currency that will be used to change for this trade. */
   private final Currency tradingFeeCurrency;
 
+  /** Is market order type allowed on this pair. */
+  private final boolean marketOrderEnabled;
+
   /**
    * Constructor
    *
@@ -61,7 +64,18 @@ public class CurrencyPairMetaData implements Serializable {
       BigDecimal maximumAmount,
       Integer priceScale,
       FeeTier[] feeTiers) {
-    this(tradingFee, minimumAmount, maximumAmount, null, null, null, priceScale, feeTiers, null, null);
+    this(
+        tradingFee,
+        minimumAmount,
+        maximumAmount,
+        null,
+        null,
+        null,
+        priceScale,
+        feeTiers,
+        null,
+        null,
+        true);
   }
 
   /**
@@ -81,7 +95,17 @@ public class CurrencyPairMetaData implements Serializable {
       FeeTier[] feeTiers,
       BigDecimal amountStepSize) {
     this(
-        tradingFee, minimumAmount, maximumAmount, null, null, null, priceScale, feeTiers, amountStepSize, null);
+        tradingFee,
+        minimumAmount,
+        maximumAmount,
+        null,
+        null,
+        null,
+        priceScale,
+        feeTiers,
+        amountStepSize,
+        null,
+        true);
   }
 
   /**
@@ -103,7 +127,8 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("price_scale") Integer priceScale,
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
       @JsonProperty("amount_step_size") BigDecimal amountStepSize,
-      @JsonProperty("trading_fee_currency") Currency tradingFeeCurrency) {
+      @JsonProperty("trading_fee_currency") Currency tradingFeeCurrency,
+      @JsonProperty("market_order_enabled") boolean marketOrderEnabled) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -118,6 +143,7 @@ public class CurrencyPairMetaData implements Serializable {
     this.feeTiers = feeTiers;
     this.amountStepSize = amountStepSize;
     this.tradingFeeCurrency = tradingFeeCurrency;
+    this.marketOrderEnabled = marketOrderEnabled;
   }
 
   public BigDecimal getTradingFee() {
@@ -164,6 +190,10 @@ public class CurrencyPairMetaData implements Serializable {
 
   public BigDecimal getCounterMaximumAmount() {
     return counterMaximumAmount;
+  }
+
+  public boolean isMarketOrderEnabled() {
+    return marketOrderEnabled;
   }
 
   @Override

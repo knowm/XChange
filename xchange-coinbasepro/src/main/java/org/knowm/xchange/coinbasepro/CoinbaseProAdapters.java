@@ -372,6 +372,10 @@ public class CoinbaseProAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (CoinbaseProProduct product : products) {
+      if (!product.getStatus().equals("online")) {
+        continue;
+      }
+
       BigDecimal minSize = product.getBaseMinSize();
       BigDecimal maxSize = product.getBaseMaxSize();
       BigDecimal minMarketFunds = product.getMinMarketFunds();
@@ -382,6 +386,7 @@ public class CoinbaseProAdapters {
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
       int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
+      boolean marketOrderAllowed = !product.isLimitOnly();
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
               new BigDecimal("0.25"), // Trading fee at Coinbase is 0.25 %
@@ -393,16 +398,21 @@ public class CoinbaseProAdapters {
               priceScale,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
               null,
-              pair.counter);
+              pair.counter,
+              marketOrderAllowed);
       currencyPairs.put(pair, cpmd);
     }
 
-    for (CoinbaseProCurrency currency : cbCurrencies) {
-      Currency cur = adaptCurrency(currency);
-      int scale = numberOfDecimals(currency.getMaxPrecision());
-      // Coinbase has a 0 withdrawal fee
-      currencies.put(cur, new CurrencyMetaData(scale, BigDecimal.ZERO));
-    }
+    Arrays.stream(cbCurrencies)
+        .filter(currency -> currency.getStatus().equals("online"))
+        .forEach(
+            currency -> {
+              Currency cur = adaptCurrency(currency);
+              int scale = numberOfDecimals(currency.getMaxPrecision());
+              // Coinbase has a 0 withdrawal fee
+              currencies.put(cur, new CurrencyMetaData(scale, BigDecimal.ZERO));
+            });
+
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
