@@ -3,174 +3,77 @@ package org.knowm.xchange.deribit.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.Date;
+import lombok.Data;
+import org.knowm.xchange.deribit.v2.dto.Kind;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
 public class DeribitInstrument {
 
-  @JsonProperty("strike")
-  private BigDecimal strike;
-
+  /**
+   * specifies minimal price change and, as follows, the number of decimal places for instrument
+   * prices
+   */
   @JsonProperty("tick_size")
   private BigDecimal tickSize;
 
+  /** The settlement period */
   @JsonProperty("settlement_period")
   private String settlementPeriod;
 
+  /** The currency in which the instrument prices are quoted */
   @JsonProperty("quote_currency")
   private String quoteCurrency;
 
+  /**
+   * Minimum amount for trading. For perpetual and futures - in USD units, for options it is amount
+   * of corresponding cryptocurrency contracts, e.g., BTC or ETH.
+   */
   @JsonProperty("min_trade_amount")
   private BigDecimal minTradeAmount;
 
+  /** Instrument kind, "future" or "option" */
   @JsonProperty("kind")
-  private String kind;
+  private Kind kind;
 
+  /** Indicates if the instrument can currently be traded */
   @JsonProperty("is_active")
   private boolean isActive;
 
+  /** Unique instrument identifier */
   @JsonProperty("instrument_name")
   private String instrumentName;
 
+  /** The time when the instrument will expire (milliseconds) */
   @JsonProperty("expiration_timestamp")
   private long expirationTimestamp;
 
+  /** The time when the instrument was first created (milliseconds) */
   @JsonProperty("creation_timestamp")
   private long creationTimestamp;
 
+  /** Contract size for instrument */
   @JsonProperty("contract_size")
   private int contractSize;
 
+  /** The underlying currency being traded */
   @JsonProperty("base_currency")
   private String baseCurrency;
 
-  public BigDecimal getStrike() {
-    return strike;
+  /** The strike value. (only for options) */
+  @JsonProperty("strike")
+  private BigDecimal strike;
+
+  /** The option type (only for options) */
+  @JsonProperty("option_type")
+  private String optionType;
+
+  public Date getExpirationTimestamp() {
+    return new Date(expirationTimestamp);
   }
 
-  public void setStrike(BigDecimal strike) {
-    this.strike = strike;
-  }
-
-  public BigDecimal getTickSize() {
-    return tickSize;
-  }
-
-  public void setTickSize(BigDecimal tickSize) {
-    this.tickSize = tickSize;
-  }
-
-  public String getSettlementPeriod() {
-    return settlementPeriod;
-  }
-
-  public void setSettlementPeriod(String settlementPeriod) {
-    this.settlementPeriod = settlementPeriod;
-  }
-
-  public String getQuoteCurrency() {
-    return quoteCurrency;
-  }
-
-  public void setQuoteCurrency(String quoteCurrency) {
-    this.quoteCurrency = quoteCurrency;
-  }
-
-  public BigDecimal getMinTradeAmount() {
-    return minTradeAmount;
-  }
-
-  public void setMinTradeAmount(BigDecimal minTradeAmount) {
-    this.minTradeAmount = minTradeAmount;
-  }
-
-  public String getKind() {
-    return kind;
-  }
-
-  public void setKind(String kind) {
-    this.kind = kind;
-  }
-
-  public boolean isActive() {
-    return isActive;
-  }
-
-  public void setActive(boolean active) {
-    isActive = active;
-  }
-
-  public String getInstrumentName() {
-    return instrumentName;
-  }
-
-  public void setInstrumentName(String instrumentName) {
-    this.instrumentName = instrumentName;
-  }
-
-  public long getExpirationTimestamp() {
-    return expirationTimestamp;
-  }
-
-  public void setExpirationTimestamp(long expirationTimestamp) {
-    this.expirationTimestamp = expirationTimestamp;
-  }
-
-  public long getCreationTimestamp() {
-    return creationTimestamp;
-  }
-
-  public void setCreationTimestamp(long creationTimestamp) {
-    this.creationTimestamp = creationTimestamp;
-  }
-
-  public int getContractSize() {
-    return contractSize;
-  }
-
-  public void setContractSize(int contractSize) {
-    this.contractSize = contractSize;
-  }
-
-  public String getBaseCurrency() {
-    return baseCurrency;
-  }
-
-  public void setBaseCurrency(String baseCurrency) {
-    this.baseCurrency = baseCurrency;
-  }
-
-  @Override
-  public String toString() {
-    return "DeribitInstrument{"
-        + "strike="
-        + strike
-        + ", tickSize="
-        + tickSize
-        + ", settlementPeriod='"
-        + settlementPeriod
-        + '\''
-        + ", quoteCurrency='"
-        + quoteCurrency
-        + '\''
-        + ", minTradeAmount="
-        + minTradeAmount
-        + ", kind='"
-        + kind
-        + '\''
-        + ", isActive="
-        + isActive
-        + ", instrumentName='"
-        + instrumentName
-        + '\''
-        + ", expirationTimestamp="
-        + expirationTimestamp
-        + ", creationTimestamp="
-        + creationTimestamp
-        + ", contractSize="
-        + contractSize
-        + ", baseCurrency='"
-        + baseCurrency
-        + '\''
-        + '}';
+  public Date getCreationTimestamp() {
+    return new Date(creationTimestamp);
   }
 }

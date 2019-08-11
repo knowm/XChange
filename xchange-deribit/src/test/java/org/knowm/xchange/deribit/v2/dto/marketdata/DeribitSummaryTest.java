@@ -35,7 +35,7 @@ public class DeribitSummaryTest {
     assertThat(summary.getLast()).isEqualTo(new BigDecimal("0.34"));
     assertThat(summary.getInstrumentName()).isEqualTo("ETH-22FEB19-140-P");
     assertThat(summary.getHigh()).isEqualTo(new BigDecimal("0.34"));
-    assertThat(summary.getCreationTimestamp()).isEqualTo(1550227952163L);
+    assertThat(summary.getCreationTimestamp().getTime()).isEqualTo(1550227952163L);
     assertThat(summary.getBidPrice()).isEqualTo(new BigDecimal("0.1488"));
     assertThat(summary.getBaseCurrency()).isEqualTo("ETH");
     assertThat(summary.getAskPrice()).isEqualTo(new BigDecimal("0.34"));
