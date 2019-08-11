@@ -43,23 +43,23 @@ public class KrakenAssetPair {
    * @param marginStop
    */
   public KrakenAssetPair(
-          @JsonProperty("altname") String altName,
-          @JsonProperty("wsname") String wsName,
-          @JsonProperty("aclass_base") String classBase,
-          @JsonProperty("base") String base,
-          @JsonProperty("aclass_quote") String classQuote,
-          @JsonProperty("quote") String quote,
-          @JsonProperty("lot") String volumeLotSize,
-          @JsonProperty("pair_decimals") int pairScale,
-          @JsonProperty("lot_decimals") int volumeLotScale,
-          @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier,
-          @JsonProperty("fees") List<KrakenFee> fees,
-          @JsonProperty("fees_maker") List<KrakenFee> fees_maker,
-          @JsonProperty("fee_volume_currency") String feeVolumeCurrency,
-          @JsonProperty("margin_call") BigDecimal marginCall,
-          @JsonProperty("margin_stop") BigDecimal marginStop,
-          @JsonProperty("leverage_buy") List<String> leverage_buy,
-          @JsonProperty("leverage_sell") List<String> leverage_sell) {
+      @JsonProperty("altname") String altName,
+      @JsonProperty("wsname") String wsName,
+      @JsonProperty("aclass_base") String classBase,
+      @JsonProperty("base") String base,
+      @JsonProperty("aclass_quote") String classQuote,
+      @JsonProperty("quote") String quote,
+      @JsonProperty("lot") String volumeLotSize,
+      @JsonProperty("pair_decimals") int pairScale,
+      @JsonProperty("lot_decimals") int volumeLotScale,
+      @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier,
+      @JsonProperty("fees") List<KrakenFee> fees,
+      @JsonProperty("fees_maker") List<KrakenFee> fees_maker,
+      @JsonProperty("fee_volume_currency") String feeVolumeCurrency,
+      @JsonProperty("margin_call") BigDecimal marginCall,
+      @JsonProperty("margin_stop") BigDecimal marginStop,
+      @JsonProperty("leverage_buy") List<String> leverage_buy,
+      @JsonProperty("leverage_sell") List<String> leverage_sell) {
 
     this.altName = altName;
     this.wsName = wsName;
@@ -169,8 +169,8 @@ public class KrakenAssetPair {
 
     return "KrakenAssetPairInfo [altName="
         + altName
-            + ", classBase="
-            + classBase
+        + ", wsName="
+        + wsName
         + ", classBase="
         + classBase
         + ", base="
