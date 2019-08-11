@@ -85,6 +85,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    *     acceptable price
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
    * @param status the status of the order at the exchange or broker
    */
   public LimitOrder(
@@ -184,15 +185,15 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public static Builder from(Order order) {
 
       Builder builder =
-          (Builder)
-              new Builder(order.getType(), order.getCurrencyPair())
-                  .originalAmount(order.getOriginalAmount())
-                  .cumulativeAmount(order.getCumulativeAmount())
-                  .timestamp(order.getTimestamp())
-                  .id(order.getId())
-                  .flags(order.getOrderFlags())
-                  .orderStatus(order.getStatus())
-                  .averagePrice(order.getAveragePrice());
+          new Builder(order.getType(), order.getCurrencyPair())
+              .originalAmount(order.getOriginalAmount())
+              .cumulativeAmount(order.getCumulativeAmount())
+              .timestamp(order.getTimestamp())
+              .id(order.getId())
+              .flags(order.getOrderFlags())
+              .orderStatus(order.getStatus())
+              .fee(order.getFee())
+              .averagePrice(order.getAveragePrice());
       if (order instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) order;
         builder.limitPrice(limitOrder.getLimitPrice());
