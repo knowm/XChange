@@ -2,7 +2,6 @@ package org.knowm.xchange.kraken;
 
 import java.io.IOException;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
