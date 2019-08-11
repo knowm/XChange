@@ -41,7 +41,7 @@
         <version.powermock>2.0.2</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.8.0-beta4</version.slf4j>
+        <version.slf4j>1.7.26</version.slf4j>
         <version.crypto>4.2.0</version.crypto>
         <version.java-jwt>3.8.1</version.java-jwt>
 
@@ -168,6 +168,7 @@
         <module>xchange-kucoin</module>
         <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
+        <module>xchange-lgo</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
         <module>xchange-luno</module>
