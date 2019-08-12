@@ -7,7 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
