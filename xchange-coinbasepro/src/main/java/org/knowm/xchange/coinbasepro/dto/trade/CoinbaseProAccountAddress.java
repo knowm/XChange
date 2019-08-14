@@ -14,6 +14,7 @@ public class CoinbaseProAccountAddress {
   private final String callbackUrl;
   private final String id;
   private final String name;
+  private final String destinationTag;
 
   public CoinbaseProAccountAddress(
       @JsonProperty("resource") String resource,
@@ -25,7 +26,8 @@ public class CoinbaseProAccountAddress {
       @JsonProperty("address") String address,
       @JsonProperty("callback_url") String callbackUrl,
       @JsonProperty("id") String id,
-      @JsonProperty("name") String name) {
+      @JsonProperty("name") String name,
+      @JsonProperty("destination_tag") String destinationTag) {
     super();
     this.resource = resource;
     this.network = network;
@@ -37,6 +39,7 @@ public class CoinbaseProAccountAddress {
     this.callbackUrl = callbackUrl;
     this.id = id;
     this.name = name;
+    this.destinationTag = destinationTag;
   }
 
   public String getResource() {
@@ -77,5 +80,9 @@ public class CoinbaseProAccountAddress {
 
   public String getName() {
     return name;
+  }
+
+  public String getDestinationTag() {
+    return destinationTag;
   }
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindeal.CoindealAdapters;
+import org.knowm.xchange.coindeal.CoindealErrorAdapter;
+import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -31,7 +33,11 @@ public class CoindealMarketDataService extends CoindealMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return CoindealAdapters.adaptOrderBook(getCoindealOrderbook(currencyPair), currencyPair);
+    try {
+      return CoindealAdapters.adaptOrderBook(getCoindealOrderbook(currencyPair), currencyPair);
+    } catch (CoindealException e) {
+      throw CoindealErrorAdapter.adapt(e);
+    }
   }
 
   @Override

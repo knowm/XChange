@@ -1,13 +1,12 @@
 package org.knowm.xchange.coinbene.dto;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrder;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
-import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrade;
+import org.knowm.xchange.coinbene.dto.marketdata.*;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneLimitOrder;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneOrders;
 import org.knowm.xchange.currency.Currency;
@@ -15,12 +14,14 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -151,7 +152,17 @@ public class CoinbeneAdapters {
     for (CoinbeneSymbol ticker : markets) {
       pairMeta.put(
           new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
-          new CurrencyPairMetaData(null, ticker.getMinQuantity(), null, null, null));
+          new CurrencyPairMetaData(
+              ticker.getTakerFee(),
+              ticker.getMinQuantity(),
+              null,
+              ticker.getTickSize(),
+              new FeeTier[] {
+                new FeeTier(BigDecimal.ZERO, new Fee(ticker.getMakerFee(), ticker.getTakerFee()))
+              },
+              new BigDecimal(
+                  Math.pow(10.0, -ticker.getLotStepSize()),
+                  new MathContext(Math.max(0, ticker.getLotStepSize()), RoundingMode.HALF_UP))));
     }
     return new ExchangeMetaData(pairMeta, null, null, null, null);
   }

@@ -17,16 +17,4 @@ public class OrderCancellationRequest {
    */
   @JsonProperty("instrument_id")
   private String instrumentId;
-
-  /**
-   * optional the order ID created by yourself, The client_oid type should be comprised of alphabets
-   * + numbers or only alphabets within 1 – 32 characters， both uppercase and lowercase letters are
-   * supported
-   */
-  @JsonProperty("client_oid")
-  private String clientOid;
-
-  /** optional, order ID */
-  @JsonProperty("order_id")
-  private String orderId;
 }

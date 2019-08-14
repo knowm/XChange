@@ -22,13 +22,17 @@ public class ItBitPlaceOrderRequest {
   @JsonProperty("instrument")
   private String instrument;
 
+  @JsonProperty("postOnly")
+  private boolean postOnly;
+
   public ItBitPlaceOrderRequest(
       String side,
       String type,
       String baseCurrency,
       String amount,
       String price,
-      String instrument) {
+      String instrument,
+      boolean postOnly) {
 
     super();
     this.side = side;
@@ -37,6 +41,7 @@ public class ItBitPlaceOrderRequest {
     this.amount = amount;
     this.price = price;
     this.instrument = instrument;
+    this.postOnly = postOnly;
   }
 
   public String getSide() {
@@ -67,5 +72,9 @@ public class ItBitPlaceOrderRequest {
   public String getInstrument() {
 
     return instrument;
+  }
+
+  public boolean isPostOnly() {
+    return postOnly;
   }
 }

@@ -1,5 +1,6 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.enigma.EnigmaAuthenticated;
@@ -9,8 +10,6 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
 
 public abstract class EnigmaBaseService extends BaseExchangeService implements BaseService {
 
