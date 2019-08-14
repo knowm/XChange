@@ -2,6 +2,7 @@ package org.knowm.xchange.enigma.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.enigma.dto.BaseResponse;
 import org.knowm.xchange.enigma.dto.trade.*;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {
@@ -21,5 +22,9 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
   public EnigmaExecutedQuote executeQuoteRequest(EnigmaExecuteQuoteRequest quoteRequest)
       throws IOException {
     return this.enigmaAuthenticated.executeQuoteRequest(accessToken(), quoteRequest);
+  }
+
+  public BaseResponse cancelOrder(Integer orderId) throws IOException {
+    return new BaseResponse(200, "order cannot be canceled, only market order accepted", false);
   }
 }
