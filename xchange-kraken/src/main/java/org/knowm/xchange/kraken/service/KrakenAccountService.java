@@ -63,9 +63,43 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     KrakenDepositAddress[] depositAddresses;
     if (Currency.BTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin");
     } else if (Currency.LTC.equals(currency)) {
-      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin", false);
+      depositAddresses = getDepositAddresses(currency.toString(), "Litecoin");
+    } else if (Currency.ETH.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Ether (Hex)");
+    } else if (Currency.ZEC.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Zcash (Transparent)");
+    } else if (Currency.ADA.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "ADA");
+    } else if (Currency.XMR.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Monero");
+    } else if (Currency.XRP.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Ripple XRP");
+    } else if (Currency.XLM.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Stellar XLM");
+    } else if (Currency.BCH.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin Cash");
+    } else if (Currency.REP.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "REP");
+    } else if (Currency.USD.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "SynapsePay (US Wire)");
+    } else if (Currency.XDG.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Dogecoin");
+    } else if (Currency.MLN.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "MLN");
+    } else if (Currency.GNO.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "GNO");
+    } else if (Currency.QTUM.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "QTUM");
+    } else if (Currency.XTZ.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "XTZ");
+    } else if (Currency.ATOM.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Cosmos");
+    } else if (Currency.EOS.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "EOS");
+    } else if (Currency.DASH.equals(currency)) {
+      depositAddresses = getDepositAddresses(currency.toString(), "Dash");
     } else {
       throw new RuntimeException("Not implemented yet, Kraken works only for BTC and LTC");
     }

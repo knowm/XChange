@@ -57,6 +57,7 @@ public class CoinbaseProTransfer {
     public final String cryptoTransactionHash;
     public final String sentToAddress;
     public final String coinbaseWithdrawalId;
+    private final String destinationTag;
 
     public Detail(
         @JsonProperty("crypto_address") String cryptoAddress,
@@ -65,7 +66,8 @@ public class CoinbaseProTransfer {
         @JsonProperty("coinbase_transaction_id") String coinbaseTransactionId,
         @JsonProperty("crypto_transaction_hash") String cryptoTransactionHash,
         @JsonProperty("sent_to_address") String sentToAddress,
-        @JsonProperty("coinbase_withdrawal_id") String coinbaseWithdrawalId) {
+        @JsonProperty("coinbase_withdrawal_id") String coinbaseWithdrawalId,
+        @JsonProperty("destination_tag") String destinationTag) {
       this.cryptoAddress = cryptoAddress;
       this.coinbaseAccountId = coinbaseAccountId;
       this.cryptoTransactionId = cryptoTransactionId;
@@ -73,6 +75,7 @@ public class CoinbaseProTransfer {
       this.cryptoTransactionHash = cryptoTransactionHash;
       this.sentToAddress = sentToAddress;
       this.coinbaseWithdrawalId = coinbaseWithdrawalId;
+      this.destinationTag = destinationTag;
     }
 
     public String getCryptoAddress() {
@@ -103,11 +106,18 @@ public class CoinbaseProTransfer {
       return coinbaseWithdrawalId;
     }
 
+    public String getDestinationTag() {
+      return destinationTag;
+    }
+
     @Override
     public String toString() {
       return "Detail{"
           + "cryptoAddress='"
           + cryptoAddress
+          + '\''
+          + "destinationTag='"
+          + destinationTag
           + '\''
           + ", coinbaseAccountId='"
           + coinbaseAccountId

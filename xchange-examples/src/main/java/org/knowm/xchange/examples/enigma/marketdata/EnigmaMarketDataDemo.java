@@ -1,5 +1,7 @@
 package org.knowm.xchange.examples.enigma.marketdata;
 
+import java.io.IOException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,11 +14,9 @@ import org.knowm.xchange.enigma.service.EnigmaMarketDataServiceRaw;
 import org.knowm.xchange.examples.enigma.EnigmaDemoUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
-
-import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 
 @Slf4j
 public class EnigmaMarketDataDemo {

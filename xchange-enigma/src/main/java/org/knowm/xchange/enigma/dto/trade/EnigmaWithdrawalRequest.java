@@ -1,9 +1,8 @@
 package org.knowm.xchange.enigma.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-
 import java.math.BigDecimal;
+import lombok.*;
 
 @Data
 @NoArgsConstructor

@@ -1,10 +1,9 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.enigma.dto.BaseResponse;
 import org.knowm.xchange.enigma.dto.trade.*;
-
-import java.io.IOException;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {
 

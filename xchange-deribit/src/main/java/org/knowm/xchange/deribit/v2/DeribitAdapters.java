@@ -1,8 +1,14 @@
 package org.knowm.xchange.deribit.v2;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.deribit.v2.dto.DeribitError;
+import org.knowm.xchange.deribit.v2.dto.DeribitException;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
@@ -13,7 +19,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class DeribitAdapters {
 
@@ -22,8 +29,13 @@ public class DeribitAdapters {
     return new CurrencyPair(temp[0], temp[1]);
   }
 
-  public static String adaptInstrumentName(CurrencyPair pair) {
-    return pair.base.getSymbol() + "-" + pair.counter.getSymbol();
+  public static String adaptInstrumentName(CurrencyPair pair, Object[] args) {
+    if (args == null || args.length == 0) {
+      throw new ExchangeException(
+          "You need to provide a postfix for the instrument name in the first parameter of the array, ie: PERPETUAL, 28JUN19...");
+    }
+    String instrumentPostfix = args[0].toString();
+    return pair.base.getSymbol() + "-" + instrumentPostfix;
   }
 
   public static Ticker adaptTicker(DeribitTicker deribitTicker) {
@@ -39,40 +51,37 @@ public class DeribitAdapters {
         .volume(deribitTicker.getStats().getVolume())
         .bidSize(deribitTicker.getBestBidAmount())
         .askSize(deribitTicker.getBestAskAmount())
-        .timestamp(DateUtils.fromUnixTime(deribitTicker.getTimestamp()))
+        .timestamp(deribitTicker.getTimestamp())
         .build();
   }
 
   public static OrderBook adaptOrderBook(DeribitOrderBook deribitOrderBook) {
-
     CurrencyPair pair = adaptCurrencyPair(deribitOrderBook.getInstrumentName());
+    List<LimitOrder> bids = adaptOrdersList(deribitOrderBook.getBids(), Order.OrderType.BID, pair);
+    List<LimitOrder> asks = adaptOrdersList(deribitOrderBook.getAsks(), Order.OrderType.ASK, pair);
+    return new OrderBook(deribitOrderBook.getTimestamp(), asks, bids);
+  }
 
-    List<LimitOrder> bids =
-        deribitOrderBook.getBids().stream()
-            .map(
-                bid ->
-                    new LimitOrder(Order.OrderType.BID, bid.get(1), pair, null, null, bid.get(0)))
-            .collect(Collectors.toList());
-
-    List<LimitOrder> asks =
-        deribitOrderBook.getAsks().stream()
-            .map(
-                ask ->
-                    new LimitOrder(Order.OrderType.ASK, ask.get(1), pair, null, null, ask.get(0)))
-            .collect(Collectors.toList());
-
-    return new OrderBook(DateUtils.fromUnixTime(deribitOrderBook.getTimestamp()), asks, bids);
+  /** convert orders map (price -> amount) to a list of limit orders */
+  private static List<LimitOrder> adaptOrdersList(
+      TreeMap<BigDecimal, BigDecimal> map, Order.OrderType type, CurrencyPair pair) {
+    return map.entrySet().stream()
+        .map(e -> new LimitOrder(type, e.getValue(), pair, null, null, e.getKey()))
+        .collect(Collectors.toList());
   }
 
   public static Trade adaptTrade(DeribitTrade deribitTrade) {
 
     Order.OrderType type = null;
-    String direction = deribitTrade.getDirection();
-
-    if (direction.equals("buy")) {
-      type = Order.OrderType.BID;
-    } else if (direction.equals("sell")) {
-      type = Order.OrderType.ASK;
+    switch (deribitTrade.getDirection()) {
+      case buy:
+        type = Order.OrderType.BID;
+        break;
+      case sell:
+        type = Order.OrderType.ASK;
+        break;
+      default:
+        break;
     }
 
     return new Trade(
@@ -80,7 +89,7 @@ public class DeribitAdapters {
         deribitTrade.getAmount(),
         adaptCurrencyPair(deribitTrade.getInstrumentName()),
         deribitTrade.getPrice(),
-        DateUtils.fromUnixTime(deribitTrade.getTimestamp()),
+        deribitTrade.getTimestamp(),
         deribitTrade.getTradeId());
   }
 
@@ -90,5 +99,31 @@ public class DeribitAdapters {
         deribitTrades.getTrades().stream()
             .map(trade -> adaptTrade(trade))
             .collect(Collectors.toList()));
+  }
+
+  /** Parse errors from HTTP exceptions */
+  public static ExchangeException adapt(DeribitException ex) {
+
+    DeribitError error = ex.getError();
+
+    if (error != null
+        && error.getClass().equals(DeribitError.class)
+        && isNotEmpty(error.getMessage())) {
+
+      int code = error.getCode();
+      String msg = error.getMessage();
+      String data = error.getData().toString();
+      if (isNotEmpty(data)) {
+        msg += " - " + data;
+      }
+
+      switch (code) {
+        case -32602:
+          return new CurrencyPairNotValidException(data, ex);
+        default:
+          return new ExchangeException(msg, ex);
+      }
+    }
+    return new ExchangeException("Operation failed without any error message", ex);
   }
 }
