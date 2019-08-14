@@ -11,7 +11,7 @@ else
 fi"
 
 jdk:
-  - oraclejdk8
+  - openjdk8
   - openjdk11
 
 # whitelist
