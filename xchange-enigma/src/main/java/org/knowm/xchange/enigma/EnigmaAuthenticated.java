@@ -1,7 +1,7 @@
 package org.knowm.xchange.enigma;
 
-import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
-import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
+import org.knowm.xchange.enigma.dto.BaseResponse;
+import org.knowm.xchange.enigma.dto.marketdata.*;
 import org.knowm.xchange.enigma.dto.trade.*;
 
 import javax.ws.rs.*;
@@ -21,6 +21,22 @@ public interface EnigmaAuthenticated extends Enigma {
       throws IOException;
 
   @GET
+  @Path("indicative/market/data/{product-id}")
+  EnigmaTicker getTicker(
+      @HeaderParam("Authorization") String accessToken, @PathParam("product-id") int productId)
+      throws IOException;
+
+  @GET
+  @Path("orderbook")
+  EnigmaOrderBook getOrderBook(@HeaderParam("Authorization") String accessToken) throws IOException;
+
+  @GET
+  @Path("order/client/list/false/{infra}")
+  EnigmaTransaction[] getTransactions(
+      @HeaderParam("Authorization") String accessToken, @PathParam("infra") String infrastructure)
+      throws IOException;
+
+  @GET
   @Path("spot/{product-id}")
   EnigmaProductMarketData getProductMarketData(
       @HeaderParam("Authorization") String accessToken, @PathParam("product-id") int productId)
@@ -36,6 +52,12 @@ public interface EnigmaAuthenticated extends Enigma {
   @Consumes(MediaType.APPLICATION_JSON)
   EnigmaOrderSubmission submitOrder(
       @HeaderParam("Authorization") String accessToken, EnigmaNewOrderRequest orderRequest)
+      throws IOException;
+
+  @GET
+  @Path("cancel/order/")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BaseResponse cancelOrder(@HeaderParam("Authorization") String accessToken)
       throws IOException;
 
   @POST

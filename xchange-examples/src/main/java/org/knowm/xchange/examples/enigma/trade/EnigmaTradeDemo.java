@@ -19,7 +19,12 @@ public class EnigmaTradeDemo {
     Exchange enigma = EnigmaDemoUtils.createExchange();
     TradeService tradeService = enigma.getTradeService();
 
+    generic(tradeService);
     raw((EnigmaTradeServiceRaw) tradeService);
+  }
+
+  private static void generic(TradeService tradeService) throws IOException{
+    tradeService.cancelOrder("10");
   }
 
   private static void raw(EnigmaTradeServiceRaw tradeService) throws IOException {
