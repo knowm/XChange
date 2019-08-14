@@ -3,6 +3,7 @@ package org.knowm.xchange.binance;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -82,7 +83,7 @@ public class BinanceExchange extends BaseExchange {
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
       for (Symbol symbol : symbols) {
-        if (!symbol.getStatus().equals("BREAK")) { // Symbols with status "BREAK" are delisted
+        if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
           int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
           int pairPrecision = 8;
@@ -91,6 +92,9 @@ public class BinanceExchange extends BaseExchange {
           BigDecimal minQty = null;
           BigDecimal maxQty = null;
           BigDecimal stepSize = null;
+
+          BigDecimal counterMinQty = null;
+          BigDecimal counterMaxQty = null;
 
           Filter[] filters = symbol.getFilters();
 
@@ -105,21 +109,28 @@ public class BinanceExchange extends BaseExchange {
               minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
+            } else if (filter.getFilterType().equals("MARKET_LOT_SIZE")) {
+              counterMinQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
+              counterMaxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
             }
           }
 
+          boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
           currencyPairs.put(
               currentCurrencyPair,
               new CurrencyPairMetaData(
                   new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                   minQty, // Min amount
                   maxQty, // Max amount
+                  counterMinQty,
+                  counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,
-                  null));
+                  null,
+                  marketOrderAllowed));
 
           Currency baseCurrency = currentCurrencyPair.base;
           BigDecimal baseWithdrawalFee = getWithdrawalFee(currencies, baseCurrency, assetDetailMap);

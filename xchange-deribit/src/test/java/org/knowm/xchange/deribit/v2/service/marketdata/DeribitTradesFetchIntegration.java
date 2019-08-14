@@ -26,7 +26,9 @@ public class DeribitTradesFetchIntegration {
 
   @Test
   public void getDeribitLastTradesTest() throws Exception {
-    DeribitTrades trades = deribitMarketDataService.getDeribitLastTrades("BTC-PERPETUAL");
+    DeribitTrades trades =
+        deribitMarketDataService.getDeribitLastTrades(
+            "BTC-PERPETUAL", null, null, null, null, null);
 
     assertThat(trades.getTrades()).isNotEmpty();
   }
