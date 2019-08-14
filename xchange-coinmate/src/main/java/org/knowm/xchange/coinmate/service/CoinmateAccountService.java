@@ -74,7 +74,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     } else if (currency.equals(Currency.DASH)) {
       response = coinmateDashWithdrawal(amount, address);
     } else {
-      throw new IOException("Wallet for currency" + currency.getCurrencyCode() + " is currently not supported" );
+      throw new IOException(
+          "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
     }
 
     return Long.toString(response.getData());
@@ -106,9 +107,9 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     } else if (currency.equals(Currency.DASH)) {
       addresses = coinmateDashDepositAddresses();
     } else {
-      throw new IOException("Wallet for currency" + currency.getCurrencyCode() + " is currently not supported" );
+      throw new IOException(
+          "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
     }
-
 
     if (addresses.getData().isEmpty()) {
       return null;

@@ -24,6 +24,8 @@ public class MarketOrder extends Order {
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
    * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
    * @param status the status of the order at the exchange or broker
    */
   public MarketOrder(
@@ -98,10 +100,12 @@ public class MarketOrder extends Order {
 
       return new Builder(order.getType(), order.getCurrencyPair())
           .originalAmount(order.getOriginalAmount())
+          .cumulativeAmount(order.getCumulativeAmount())
           .timestamp(order.getTimestamp())
           .id(order.getId())
           .flags(order.getOrderFlags())
           .averagePrice(order.getAveragePrice())
+          .fee(order.getFee())
           .orderStatus(order.getStatus());
     }
 
@@ -132,7 +136,7 @@ public class MarketOrder extends Order {
     @Override
     public Builder fee(BigDecimal fee) {
 
-      return (Builder) super.cumulativeAmount(fee);
+      return (Builder) super.fee(fee);
     }
 
     @Override

@@ -3,46 +3,52 @@ package org.knowm.xchange.deribit.v2.service;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
-import org.knowm.xchange.deribit.v2.dto.marketdata.*;
+import org.knowm.xchange.deribit.v2.dto.Kind;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitSummary;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 
 /**
- * Implementation of the market data service for Bitmex
+ * Implementation of the market data service for Deribit
  *
  * <ul>
  *   <li>Provides access to various market data values
  * </ul>
  */
-@SuppressWarnings({"WeakerAccess", "JavaDoc"})
-public class DeribitMarketDataServiceRaw extends DeribitBaseExchange {
+public class DeribitMarketDataServiceRaw extends DeribitBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public DeribitMarketDataServiceRaw(DeribitExchange exchange) {
-
     super(exchange);
   }
 
-  public List<DeribitInstrument> getDeribitActiveInstruments(String currency) throws IOException {
-    return deribit.getInstruments(currency).getResult();
+  public List<DeribitInstrument> getDeribitInstruments(String currency, Kind kind, Boolean expired)
+      throws IOException {
+    return deribit.getInstruments(currency, kind, expired).getResult();
   }
 
   public List<DeribitCurrency> getDeribitCurrencies() throws IOException {
     return deribit.getCurrencies().getResult();
   }
 
-  public DeribitOrderBook getDeribitOrderBook(String instrumentName) throws IOException {
-    return deribit.getOrderBook(instrumentName).getResult();
-  }
-
-  public DeribitOrderBook getDeribitOrderBook(String instrumentName, int depth) throws IOException {
+  public DeribitOrderBook getDeribitOrderBook(String instrumentName, Integer depth)
+      throws IOException {
     return deribit.getOrderBook(instrumentName, depth).getResult();
   }
 
-  public DeribitTrades getDeribitLastTrades(String instrumentName) throws IOException {
-    return deribit.getLastTrades(instrumentName).getResult();
+  public DeribitTrades getDeribitLastTrades(
+      String instrumentName,
+      Integer startSeq,
+      Integer endSeq,
+      Integer count,
+      Boolean includeOld,
+      String sorting)
+      throws IOException {
+    return deribit
+        .getLastTrades(instrumentName, startSeq, endSeq, count, includeOld, sorting)
+        .getResult();
   }
 
   public List<DeribitSummary> getDeribitSummary(String instrumentName) throws IOException {

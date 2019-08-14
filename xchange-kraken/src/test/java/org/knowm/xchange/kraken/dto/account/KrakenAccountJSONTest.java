@@ -30,7 +30,7 @@ public class KrakenAccountJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-    Assert.assertEquals(2, krakenBalance.getResult().size());
+    Assert.assertEquals(3, krakenBalance.getResult().size());
     assertThat(krakenBalance.getResult().get("ZUSD")).isNull();
     assertThat(krakenBalance.getResult().get("ZEUR")).isEqualTo("1.0539");
   }

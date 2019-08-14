@@ -2,23 +2,19 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
+import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -65,13 +61,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
+  private BinanceAccountInformation getBinanceAccountInformation() throws IOException {
+    Long recvWindow =
+        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    return super.account(recvWindow, getTimestamp());
+  }
+
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      Long recvWindow =
-          (Long)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-      BinanceAccountInformation acc = super.account(recvWindow, getTimestamp());
+      BinanceAccountInformation acc = getBinanceAccountInformation();
       List<Balance> balances =
           acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
@@ -83,6 +82,21 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   }
 
   @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    BinanceAccountInformation acc = getBinanceAccountInformation();
+
+    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+
+    pairs.forEach(
+        pair -> {
+          tradingFees.put(pair, new Fee(acc.makerCommission, acc.takerCommission));
+        });
+
+    return tradingFees;
+  }
+
+  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     try {
@@ -90,6 +104,12 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
+      throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
 
   @Override
@@ -110,7 +130,12 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 rippleParams.getAmount());
       } else {
         DefaultWithdrawFundsParams p = (DefaultWithdrawFundsParams) params;
-        id = super.withdraw(p.getCurrency().getCurrencyCode(), p.getAddress(), p.getAmount());
+        id =
+            super.withdraw(
+                p.getCurrency().getCurrencyCode(),
+                p.getAddress(),
+                p.getDestinationTag(),
+                p.getAmount());
       }
       return id;
     } catch (BinanceException e) {
@@ -125,6 +150,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  @Override
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    DepositAddress depositAddress = super.requestDepositAddress(currency);
+    return new AddressWithTag(depositAddress.address, depositAddress.addressTag);
   }
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
@@ -185,6 +217,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                   result.add(
                       new FundingRecord(
                           w.address,
+                          w.destinationTag,
                           new Date(w.applyTime),
                           Currency.getInstance(w.asset),
                           w.amount,

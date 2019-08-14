@@ -1,9 +1,27 @@
 {
   "error": [],
   "result": {
+    "ADA": {
+      "aclass": "currency",
+      "altname": "ADA",
+      "decimals": 8,
+      "display_decimals": 6
+    },
+    "ATOM": {
+      "aclass": "currency",
+      "altname": "ATOM",
+      "decimals": 8,
+      "display_decimals": 6
+    },
     "BCH": {
       "aclass": "currency",
       "altname": "BCH",
+      "decimals": 10,
+      "display_decimals": 5
+    },
+    "BSV": {
+      "aclass": "currency",
+      "altname": "BSV",
       "decimals": 10,
       "display_decimals": 5
     },
@@ -31,17 +49,17 @@
       "decimals": 2,
       "display_decimals": 2
     },
+    "QTUM": {
+      "aclass": "currency",
+      "altname": "QTUM",
+      "decimals": 10,
+      "display_decimals": 6
+    },
     "USDT": {
       "aclass": "currency",
       "altname": "USDT",
       "decimals": 8,
       "display_decimals": 4
-    },
-    "XDAO": {
-      "aclass": "currency",
-      "altname": "DAO",
-      "decimals": 10,
-      "display_decimals": 3
     },
     "XETC": {
       "aclass": "currency",
@@ -52,12 +70,6 @@
     "XETH": {
       "aclass": "currency",
       "altname": "ETH",
-      "decimals": 10,
-      "display_decimals": 5
-    },
-    "XICN": {
-      "aclass": "currency",
-      "altname": "ICN",
       "decimals": 10,
       "display_decimals": 5
     },
@@ -73,16 +85,16 @@
       "decimals": 10,
       "display_decimals": 5
     },
-    "XNMC": {
-      "aclass": "currency",
-      "altname": "NMC",
-      "decimals": 10,
-      "display_decimals": 5
-    },
     "XREP": {
       "aclass": "currency",
       "altname": "REP",
       "decimals": 10,
+      "display_decimals": 5
+    },
+    "XTZ": {
+      "aclass": "currency",
+      "altname": "XTZ",
+      "decimals": 8,
       "display_decimals": 5
     },
     "XXBT": {
@@ -115,12 +127,6 @@
       "decimals": 8,
       "display_decimals": 5
     },
-    "XXVN": {
-      "aclass": "currency",
-      "altname": "XVN",
-      "decimals": 4,
-      "display_decimals": 2
-    },
     "XZEC": {
       "aclass": "currency",
       "altname": "ZEC",
@@ -148,12 +154,6 @@
     "ZJPY": {
       "aclass": "currency",
       "altname": "JPY",
-      "decimals": 2,
-      "display_decimals": 0
-    },
-    "ZKRW": {
-      "aclass": "currency",
-      "altname": "KRW",
       "decimals": 2,
       "display_decimals": 0
     },

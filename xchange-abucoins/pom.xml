@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.21-SNAPSHOT</version>
+        <version>4.3.22-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-abucoins</artifactId>
