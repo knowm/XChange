@@ -5,13 +5,15 @@ install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then 
-    travis_wait 30 mvn clean deploy --batch-mode --settings etc/settings.xml;
+    mvn clean deploy --batch-mode --settings etc/settings.xml;
 else 
-    travis_wait 30 mvn clean verify --batch-mode --settings etc/settings.xml;
+    mvn clean verify --batch-mode --settings etc/settings.xml;
 fi"
 
+dist: trusty
+
 jdk:
-  - openjdk8
+  - oraclejdk8
   - openjdk11
 
 # whitelist
