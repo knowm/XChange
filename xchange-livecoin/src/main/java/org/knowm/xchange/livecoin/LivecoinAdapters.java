@@ -5,6 +5,7 @@ import static org.knowm.xchange.currency.Currency.getInstance;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +30,9 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrder;
@@ -37,6 +40,7 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinUserOrder;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinAdapters {
@@ -167,54 +171,60 @@ public class LivecoinAdapters {
         .build();
   }
 
-  public static LimitOrder adaptOpenOrder(Map map) {
-    String typeName = map.get("type").toString();
+  public static Collection<Order> adaptUserOrders(Collection<LivecoinUserOrder> orders) {
+    return orders.stream().map(LivecoinAdapters::adaptUserOrder).collect(Collectors.toList());
+  }
 
+  public static Order adaptUserOrder(LivecoinUserOrder order) {
     OrderType type;
-    switch (typeName) {
+    boolean limit;
+    switch (order.getType()) {
       case "MARKET_SELL":
         type = OrderType.ASK;
+        limit = false;
         break;
       case "LIMIT_SELL":
         type = OrderType.ASK;
+        limit = true;
         break;
       case "LIMIT_BUY":
         type = OrderType.BID;
+        limit = true;
         break;
       case "MARKET_BUY":
         type = OrderType.BID;
+        limit = false;
         break;
       default:
-        throw new IllegalStateException("Don't understand " + map);
+        throw new ExchangeException(
+            "Order id=" + order.getId() + " has unknown type " + order.getType());
+    }
+    CurrencyPair pair = new CurrencyPair(order.getCurrencyPair());
+    Order.OrderStatus status;
+    if (order.getRemainingQuantity().compareTo(BigDecimal.ZERO) == 0) {
+      status = Order.OrderStatus.FILLED;
+    } else {
+      status =
+          order.getRemainingQuantity().compareTo(order.getQuantity()) < 0
+              ? Order.OrderStatus.PARTIALLY_FILLED
+              : Order.OrderStatus.PENDING_NEW;
     }
 
-    String ccyPair = map.get("currencyPair").toString();
-    String[] pair = ccyPair.split("/");
-    Currency ccyA = getInstance(pair[0]);
-    Currency ccyB = getInstance(pair[1]);
-
-    BigDecimal startingQuantity = new BigDecimal(map.get("quantity").toString());
-    BigDecimal remainingQuantity = new BigDecimal(map.get("remainingQuantity").toString());
-
-    Order.OrderStatus status =
-        remainingQuantity.compareTo(startingQuantity) < 0
-            ? Order.OrderStatus.PARTIALLY_FILLED
-            : Order.OrderStatus.PENDING_NEW;
-
-    return new LimitOrder(
-        type,
-        remainingQuantity,
-        new CurrencyPair(ccyA, ccyB),
-        map.get("id").toString(),
-        DateUtils.fromUnixTime(Double.valueOf(map.get("issueTime").toString()).longValue()),
-        Optional.ofNullable(map.get("price"))
-            .map(Object::toString)
-            .map(BigDecimal::new)
-            .orElse(null),
-        null,
-        null,
-        null,
-        status);
+    Order.Builder builder;
+    if (limit) {
+      builder =
+          new LimitOrder.Builder(type, pair)
+              .limitPrice(order.getPrice())
+              .remainingAmount(order.getRemainingQuantity());
+    } else {
+      builder = new MarketOrder.Builder(type, pair);
+    }
+    return builder
+        .originalAmount(order.getQuantity())
+        .id(order.getId().toString())
+        .timestamp(DateUtils.fromUnixTime(order.getIssueTime()))
+        .orderStatus(status)
+        .build();
   }
 
   public static UserTrade adaptUserTrade(Map map) {
