@@ -217,7 +217,7 @@ public class LivecoinAdapters {
               .limitPrice(order.getPrice())
               .remainingAmount(order.getRemainingQuantity());
     } else {
-      builder = new MarketOrder.Builder(type, pair);
+      builder = new MarketOrder.Builder(type, pair).averagePrice(order.getPrice());
     }
     return builder
         .originalAmount(order.getQuantity())
