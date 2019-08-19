@@ -1,0 +1,50 @@
+{
+  "payload": [
+    {
+      "quantity": "2.00000000",
+      "time": "2019-07-24T08:37:19.116Z",
+      "side": "B",
+      "price": "8000.0000",
+      "type": "pending",
+      "order_type": "L",
+      "order_id": "156395743911600001"
+    },
+    {
+      "time": "2019-07-24T08:37:19.849Z",
+      "type": "open",
+      "order_id": "156395743911600001"
+    },
+    {
+      "liquidity": "T",
+      "time": "2019-07-24T08:37:19.849Z",
+      "order_id": "156345266189100001",
+      "remaining_quantity": "0.60000000",
+      "filled_quantity": "0.40000000",
+      "type": "match",
+      "price": "955.3000",
+      "trade_id": "4441691",
+      "fees": "0.2388"
+    },
+    {
+      "liquidity": "T",
+      "time": "2019-07-24T08:37:19.849Z",
+      "order_id": "156345266189100001",
+      "remaining_quantity": "0.00000000",
+      "filled_quantity": "0.60000000",
+      "type": "match",
+      "price": "955.4000",
+      "trade_id": "4441692",
+      "fees": "0.4600"
+    },
+    {
+      "reason": "filled",
+      "type": "done",
+      "time": "2019-07-24T08:37:19.849Z",
+      "order_id": "156345266189100001"
+    }
+  ],
+  "batch_id": 6317543,
+  "type": "update",
+  "channel": "user",
+  "product_id": "BTC-USD"
+}

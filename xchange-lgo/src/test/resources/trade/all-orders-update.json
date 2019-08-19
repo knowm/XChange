@@ -1,0 +1,22 @@
+{
+  "payload": [
+    {
+      "time": "2019-07-25T07:16:21.600Z",
+      "side": "S",
+      "order_id": "156403898160000001",
+      "quantity": "3.00000000",
+      "type": "pending",
+      "order_type": "L",
+      "price": "7000.0000"
+    },
+    {
+      "time": "2019-07-25T07:16:22.959Z",
+      "type": "open",
+      "order_id": "156403898160000001"
+    }
+  ],
+  "batch_id": 6393996,
+  "type": "update",
+  "channel": "user",
+  "product_id": "BTC-USD"
+}
