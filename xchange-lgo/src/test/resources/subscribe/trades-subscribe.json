@@ -1,0 +1,9 @@
+{
+  "type": "subscribe",
+  "channels": [
+    {
+      "name": "trades",
+      "product_id": "BTC-USD"
+    }
+  ]
+}
