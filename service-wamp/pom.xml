@@ -41,12 +41,12 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http</artifactId>
-            <version>4.1.37.Final</version>
+            <version>4.1.38.Final</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
-            <version>4.1.37.Final</version>
+            <version>4.1.38.Final</version>
         </dependency>
         <dependency>
             <groupId>com.github.akarnokd</groupId>
