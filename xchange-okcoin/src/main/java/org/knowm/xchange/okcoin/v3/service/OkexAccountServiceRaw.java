@@ -11,8 +11,14 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.*;
+import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsByCurrencyResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse.SwapAccountInfo;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
 
 public class OkexAccountServiceRaw extends OkexBaseService {
 
