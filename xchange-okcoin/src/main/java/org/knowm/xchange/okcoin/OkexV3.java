@@ -25,31 +25,7 @@ import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTicker;
-import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderCancellationResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOpenOrdersResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexFuturesTransaction;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexSwapTransaction;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexTransaction;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderBatchCancellationRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SpotOrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapFuturesMultipleOrderPlacementResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapMultipleOrderCancellationResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapMultipleOrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapOpenOrdersResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderBatchCancellationRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderPlacementRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
+import org.knowm.xchange.okcoin.v3.dto.trade.*;
 import org.knowm.xchange.okcoin.v3.service.OkexException;
 import si.mazi.rescu.ParamsDigest;
 
@@ -277,6 +253,16 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/futures/v3/accounts/{currency}")
+  FuturesAccountsByCurrencyResponse getFuturesAccounts(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("currency") String currency)
       throws IOException, OkexException;
 
   @GET
