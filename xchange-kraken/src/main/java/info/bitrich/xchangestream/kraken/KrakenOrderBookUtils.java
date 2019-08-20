@@ -42,7 +42,7 @@ public class KrakenOrderBookUtils {
             Map<String, List<List<String>>> orderBookItems = getTypedValue(iterator, Map.class, "order book items");
             Map<String, List<List<String>>> orderBookItemsMap = new HashMap(orderBookItems);
             int index = 2;
-            if (jsonParseResult.size() > 4) {
+            if (jsonParseResult.size() > EXPECTED_ORDER_BOOK_ARRAY_SIZE) {
                 orderBookItems = getTypedValue(iterator, Map.class, "order book items");
                 orderBookItemsMap.putAll(orderBookItems);
                 index = 3;
@@ -55,11 +55,11 @@ public class KrakenOrderBookUtils {
             List<List<String>> asksValues;
             List<List<String>> bidsValues;
             if (orderBookType == KrakenOrderBookMessageType.SNAPSHOT) {
-                asksValues = orderBookItems.get(ASK_SNAPSHOT);
-                bidsValues = orderBookItems.get(BID_SNAPSHOT);
+                asksValues = orderBookItemsMap.get(ASK_SNAPSHOT);
+                bidsValues = orderBookItemsMap.get(BID_SNAPSHOT);
             } else {
-                asksValues = orderBookItems.get(ASK_UPDATE);
-                bidsValues = orderBookItems.get(BID_UPDATE);
+                asksValues = orderBookItemsMap.get(ASK_UPDATE);
+                bidsValues = orderBookItemsMap.get(BID_UPDATE);
             }
             return new KrakenOrderBook(channelID, channelName, pair, orderBookType, getItemsArray(asksValues), getItemsArray(bidsValues));
 
