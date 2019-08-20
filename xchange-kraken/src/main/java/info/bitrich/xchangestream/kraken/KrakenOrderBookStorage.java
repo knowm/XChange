@@ -53,7 +53,7 @@ public class KrakenOrderBookStorage {
      * Converting to Kraken XChange format
      * @return
      */
-    public KrakenDepth toKrakenDepth() {
+    public synchronized KrakenDepth toKrakenDepth() {
         List<KrakenPublicOrder> askLimits = new ArrayList<>(asks.values());
         List<KrakenPublicOrder> bidLimits = new ArrayList<>(bids.values());
         return new KrakenDepth(askLimits, bidLimits);
@@ -63,7 +63,7 @@ public class KrakenOrderBookStorage {
      * Order book incremental update
      * @param orderBookUpdate order book update
      */
-    public void updateOrderBook(KrakenOrderBook orderBookUpdate) {
+    public synchronized void updateOrderBook(KrakenOrderBook orderBookUpdate) {
         updateOrderBookItems(orderBookUpdate.getAsk(), asks);
         updateOrderBookItems(orderBookUpdate.getBid(), bids);
     }
