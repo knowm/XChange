@@ -1,8 +1,19 @@
 package info.bitrich.xchangestream.service.netty;
 
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.ContinuationWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
 import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +92,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     }
 
     private void dealWithTextFrame(TextWebSocketFrame frame) {
-        if(frame.isFinalFragment()) {
+        if (frame.isFinalFragment()) {
             handler.onMessage(frame.text());
             return;
         }
@@ -90,7 +101,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
     private void dealWithContinuation(ContinuationWebSocketFrame frame) {
         currentMessage.append(frame.text());
-        if(frame.isFinalFragment()) {
+        if (frame.isFinalFragment()) {
             handler.onMessage(currentMessage.toString());
             currentMessage.setLength(0);
         }
