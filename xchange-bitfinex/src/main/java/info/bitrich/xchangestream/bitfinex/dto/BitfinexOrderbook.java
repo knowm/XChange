@@ -40,7 +40,7 @@ public class BitfinexOrderbook {
         }
     }
 
-    public BitfinexDepth toBitfinexDepth() {
+    public synchronized BitfinexDepth toBitfinexDepth() {
         SortedMap<BigDecimal, BitfinexOrderbookLevel> bitfinexLevelAsks = new TreeMap<>();
         SortedMap<BigDecimal, BitfinexOrderbookLevel> bitfinexLevelBids = new TreeMap<>(java.util.Collections.reverseOrder());
 
@@ -65,7 +65,7 @@ public class BitfinexOrderbook {
                 bidLevels.toArray(new BitfinexLevel[bidLevels.size()]));
     }
 
-    public void updateLevel(BitfinexOrderbookLevel level) {
+    public synchronized void updateLevel(BitfinexOrderbookLevel level) {
 
 
         Map<BigDecimal, BitfinexOrderbookLevel> side;
