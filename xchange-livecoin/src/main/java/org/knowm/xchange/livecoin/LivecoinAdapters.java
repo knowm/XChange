@@ -45,6 +45,11 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinAdapters {
 
+  private static final int FALLBACK_PRICE_SCALE = 8;
+
+  // user for all their pairs
+  private static final int LIVECOIN_BASE_SCALE = 8;
+
   public static CurrencyPair adaptCurrencyPair(LivecoinRestriction product) {
     String[] data = product.getCurrencyPair().split("\\/");
     return new CurrencyPair(data[0], data[1]);
@@ -95,31 +100,28 @@ public class LivecoinAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (LivecoinRestriction product : products) {
-      BigDecimal minSize =
-          product.getMinLimitQuantity() == null ? BigDecimal.ZERO : product.getMinLimitQuantity();
-      minSize = minSize.setScale(product.getPriceScale(), BigDecimal.ROUND_UNNECESSARY);
-
       CurrencyPair pair = adaptCurrencyPair(product);
-
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
-      int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
-
-      if (currencyPairs.containsKey(pair)) {
-        CurrencyPairMetaData existing = currencyPairs.get(pair);
-        currencyPairs.put(
-            pair,
-            new CurrencyPairMetaData(
-                existing.getTradingFee(),
-                minSize,
-                existing.getMaximumAmount(),
-                priceScale,
-                existing.getFeeTiers()));
+      CurrencyPairMetaData.Builder builder;
+      if (staticMetaData == null) {
+        builder = new CurrencyPairMetaData.Builder();
       } else {
-        currencyPairs.put(pair, new CurrencyPairMetaData(null, minSize, null, priceScale, null));
+        builder = CurrencyPairMetaData.Builder.from(staticMetaData);
       }
+      if (product.getPriceScale() != null) {
+        builder.priceScale(product.getPriceScale());
+      } else if (staticMetaData != null && staticMetaData.getPriceScale() == null) {
+        builder.priceScale(FALLBACK_PRICE_SCALE);
+      }
+      if (!(staticMetaData != null && staticMetaData.getBaseScale() != null)) {
+        builder.baseScale(LIVECOIN_BASE_SCALE);
+      }
+      if (product.getMinLimitQuantity() != null) {
+        builder.minimumAmount(product.getMinLimitQuantity());
+      }
+      currencyPairs.put(pair, builder.build());
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-
       if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
