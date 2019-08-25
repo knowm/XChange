@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>xchange-binance-custom</artifactId>
-    <version>4.3.16.1</version>
+    <version>4.3.22.0</version>
 
     <name>XChange Binance</name>
     <description>XChange implementation for the Binance Exchange</description>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core-custom</artifactId>
-            <version>4.3.16</version>
+            <version>4.3.22-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
