@@ -7,19 +7,15 @@ import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
 import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-import com.kucoin.sdk.rest.request.OrderCreateApiRequest;
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +30,9 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -48,11 +47,22 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
+import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
+import org.knowm.xchange.kucoin.dto.response.DepositResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
 public class KucoinAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
+    return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
@@ -75,6 +85,23 @@ public class KucoinAdapters {
         .quoteVolume(stats.getVolValue())
         .open(stats.getOpen())
         .timestamp(new Date(stats.getTime()));
+  }
+
+  public static List<Ticker> adaptAllTickers(AllTickersResponse allTickersResponse) {
+    return Arrays.stream(allTickersResponse.getTicker())
+        .map(
+            ticker ->
+                new Ticker.Builder()
+                    .currencyPair(adaptCurrencyPair(ticker.getSymbol()))
+                    .bid(ticker.getBuy())
+                    .ask(ticker.getSell())
+                    .last(ticker.getLast())
+                    .high(ticker.getHigh())
+                    .low(ticker.getLow())
+                    .volume(ticker.getVol())
+                    .quoteVolume(ticker.getVolValue())
+                    .build())
+        .collect(Collectors.toList());
   }
 
   /**
@@ -244,11 +271,17 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptLimitOrder(LimitOrder limitOrder) {
-    return adaptOrder(limitOrder).type("limit").price(limitOrder.getLimitPrice()).build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(limitOrder))
+        .type("limit")
+        .price(limitOrder.getLimitPrice())
+        .postOnly(limitOrder.hasFlag(POST_ONLY))
+        .hidden(limitOrder.hasFlag(HIDDEN))
+        .iceberg(limitOrder.hasFlag(ICEBERG))
+        .build();
   }
 
   public static OrderCreateApiRequest adaptStopOrder(StopOrder stopOrder) {
-    return adaptOrder(stopOrder)
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(stopOrder))
         .type(stopOrder.getLimitPrice() == null ? "market" : "limit")
         .price(stopOrder.getLimitPrice())
         .stop(stopOrder.getType().equals(ASK) ? "loss" : "entry")
@@ -257,10 +290,16 @@ public class KucoinAdapters {
   }
 
   public static OrderCreateApiRequest adaptMarketOrder(MarketOrder marketOrder) {
-    return adaptOrder(marketOrder).type("market").build();
+    return ((OrderCreateApiRequest.OrderCreateApiRequestBuilder) adaptOrder(marketOrder))
+        .type("market")
+        .build();
   }
 
-  public static OrderCreateApiRequest.OrderCreateApiRequestBuilder adaptOrder(Order order) {
+  /**
+   * Returns {@code Object} instead of the Lombok builder in order to avoid a Lombok limitation with
+   * Javadoc.
+   */
+  private static Object adaptOrder(Order order) {
     OrderCreateApiRequest.OrderCreateApiRequestBuilder request = OrderCreateApiRequest.builder();
     boolean hasClientId = false;
     for (IOrderFlags flag : order.getOrderFlags()) {
@@ -289,5 +328,51 @@ public class KucoinAdapters {
       this.price = new BigDecimal(data.get(0));
       this.size = new BigDecimal(data.get(1));
     }
+  }
+
+  public static FundingRecord adaptFundingRecord(WithdrawalResponse wr) {
+    FundingRecord.Builder b = new FundingRecord.Builder();
+    return b.setAddress(wr.getAddress())
+        .setAmount(wr.getAmount())
+        .setCurrency(Currency.getInstance(wr.getCurrency()))
+        .setFee(wr.getFee())
+        .setType(Type.WITHDRAWAL)
+        .setStatus(convertStatus(wr.getStatus()))
+        .setInternalId(wr.getId())
+        .setBlockchainTransactionHash(wr.getWalletTxId())
+        .setDescription(wr.getMemo())
+        .setDate(wr.getCreatedAt())
+        .build();
+  }
+
+  private static Status convertStatus(String status) {
+    if (status == null) {
+      return null;
+    }
+    switch (status) {
+      case "WALLET_PROCESSING":
+      case "PROCESSING":
+        return Status.PROCESSING;
+      case "SUCCESS":
+        return Status.COMPLETE;
+      case "FAILURE":
+        return Status.FAILED;
+      default:
+        throw new ExchangeException("Not supported status: " + status);
+    }
+  }
+
+  public static FundingRecord adaptFundingRecord(DepositResponse dr) {
+    FundingRecord.Builder b = new FundingRecord.Builder();
+    return b.setAddress(dr.getAddress())
+        .setAmount(dr.getAmount())
+        .setCurrency(Currency.getInstance(dr.getCurrency()))
+        .setFee(dr.getFee())
+        .setType(Type.DEPOSIT)
+        .setStatus(convertStatus(dr.getStatus()))
+        .setBlockchainTransactionHash(dr.getWalletTxId())
+        .setDescription(dr.getMemo())
+        .setDate(dr.getCreatedAt())
+        .build();
   }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.knowm.xchange.bibox.dto.account.BiboxCoin;
+import org.knowm.xchange.bibox.dto.account.BiboxAsset;
 import org.knowm.xchange.bibox.dto.account.BiboxDeposit;
 import org.knowm.xchange.bibox.dto.account.BiboxWithdrawal;
 import org.knowm.xchange.bibox.dto.marketdata.BiboxMarket;
@@ -64,23 +64,23 @@ public class BiboxAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(List<BiboxCoin> coins) {
+  public static AccountInfo adaptAccountInfo(List<BiboxAsset> coins) {
     Wallet wallet = adaptWallet(coins);
     return new AccountInfo(wallet);
   }
 
-  private static Wallet adaptWallet(List<BiboxCoin> coins) {
+  private static Wallet adaptWallet(List<BiboxAsset> coins) {
     List<Balance> balances =
         coins.stream().map(BiboxAdapters::adaptBalance).collect(Collectors.toList());
     return new Wallet(balances);
   }
 
-  private static Balance adaptBalance(BiboxCoin coin) {
+  private static Balance adaptBalance(BiboxAsset asset) {
     return new Balance.Builder()
-        .currency(Currency.getInstance(coin.getSymbol()))
-        .available(coin.getBalance())
-        .frozen(coin.getFreeze())
-        .total(coin.getBalance().add(coin.getFreeze()))
+        .currency(asset.getCoin_symbol())
+        .available(asset.getBalance())
+        .frozen(asset.getFreeze())
+        .total(asset.getBalance().add(asset.getFreeze()))
         .build();
   }
 
@@ -144,8 +144,8 @@ public class BiboxAdapters {
 
   private static UserTrade adaptUserTrade(BiboxOrder order) {
     return new UserTrade.Builder()
-        .orderId(Long.toString(order.getId()))
-        .id(Long.toString(order.getId()))
+        .orderId(order.getId())
+        .id(order.getId())
         .currencyPair(new CurrencyPair(order.getCoinSymbol(), order.getCurrencySymbol()))
         .price(order.getPrice())
         .originalAmount(order.getAmount())

@@ -46,6 +46,6 @@ public class CobinhoodExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    //        exchangeMetaData = ((CobinhoodMarketDataService) marketDataService).getMetadata();
+    exchangeMetaData = ((CobinhoodMarketDataService) marketDataService).getMetadata();
   }
 }

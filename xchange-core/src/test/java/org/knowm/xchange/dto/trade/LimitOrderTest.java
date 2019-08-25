@@ -16,8 +16,11 @@ public class LimitOrderTest {
   public void testBuilder() {
     final OrderType type = OrderType.BID;
     final BigDecimal originalAmount = new BigDecimal("99.401");
+    final BigDecimal averagePrice = new BigDecimal("255.00");
+    final BigDecimal cumulativeAmount = new BigDecimal("0.00");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
+    final BigDecimal fee = new BigDecimal("22.2");
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
@@ -25,54 +28,60 @@ public class LimitOrderTest {
     final LimitOrder copy =
         new LimitOrder.Builder(type, currencyPair)
             .originalAmount(originalAmount)
+            .averagePrice(averagePrice)
+            .cumulativeAmount(cumulativeAmount)
             .limitPrice(limitPrice)
             .orderStatus(status)
             .timestamp(timestamp)
             .id(id)
             .flag(TestFlags.TEST1)
+            .fee(fee)
             .build();
-
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
+    assertThat(copy.getAveragePrice()).isEqualTo(averagePrice);
+    assertThat(copy.getCumulativeAmount()).isEqualTo(cumulativeAmount);
     assertThat(copy.getCurrencyPair()).isEqualTo(currencyPair);
     assertThat(copy.getLimitPrice()).isEqualTo(limitPrice);
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
     assertThat(copy.getId()).isEqualTo(id);
     assertThat(copy.getOrderFlags()).hasSize(1);
-    assertThat(copy.getOrderFlags()).contains(TestFlags.TEST1);
+    assertThat(copy.getOrderFlags()).containsExactly(TestFlags.TEST1);
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
+    assertThat(copy.getFee()).isEqualTo(fee);
   }
 
   @Test
   public void testBuilderFrom() {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
+    final BigDecimal averagePrice = new BigDecimal("255.00");
+    final BigDecimal cumulativeAmount = new BigDecimal("0.00");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     final BigDecimal limitPrice = new BigDecimal("250.34");
+    final BigDecimal fee = new BigDecimal("22.2");
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
     final LimitOrder original =
-        new LimitOrder(type, originalAmount, currencyPair, id, timestamp, limitPrice);
+        new LimitOrder(
+            type,
+            originalAmount,
+            currencyPair,
+            id,
+            timestamp,
+            limitPrice,
+            averagePrice,
+            cumulativeAmount,
+            fee,
+            status);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
-    original.setOrderStatus(status);
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
-    assertThat(copy.getType()).isEqualTo(original.getType());
-    assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
-    assertThat(copy.getCurrencyPair()).isEqualTo(original.getCurrencyPair());
-    assertThat(copy.getLimitPrice()).isEqualTo(original.getLimitPrice());
-    assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
-    assertThat(copy.getId()).isEqualTo(original.getId());
-    assertThat(copy.getOrderFlags()).hasSize(2);
-    assertThat(copy.getOrderFlags()).contains(TestFlags.TEST1);
-    assertThat(copy.hasFlag(TestFlags.TEST1));
-    assertThat(copy.getOrderFlags()).contains(TestFlags.TEST3);
-    assertThat(copy.hasFlag(TestFlags.TEST3));
-    assertThat(copy.getStatus()).isEqualTo(status);
+    assertThat(copy).isEqualToComparingFieldByField(original);
   }
 
   @Test

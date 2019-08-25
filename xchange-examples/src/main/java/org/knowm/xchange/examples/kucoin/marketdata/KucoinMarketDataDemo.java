@@ -1,10 +1,5 @@
 package org.knowm.xchange.examples.kucoin.marketdata;
 
-import com.kucoin.sdk.rest.response.OrderBookResponse;
-import com.kucoin.sdk.rest.response.SymbolResponse;
-import com.kucoin.sdk.rest.response.SymbolTickResponse;
-import com.kucoin.sdk.rest.response.TickerResponse;
-import com.kucoin.sdk.rest.response.TradeHistoryResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +11,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kucoin.KucoinExchange;
 import org.knowm.xchange.kucoin.KucoinMarketDataService;
+import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
+import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
+import org.knowm.xchange.kucoin.dto.response.TickerResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KucoinMarketDataDemo {

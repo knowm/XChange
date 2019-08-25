@@ -1,0 +1,25 @@
+package org.knowm.xchange.enigma.service;
+
+import java.io.IOException;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.enigma.dto.trade.*;
+
+public class EnigmaTradeServiceRaw extends EnigmaBaseService {
+
+  public EnigmaTradeServiceRaw(Exchange exchange) {
+    super(exchange);
+  }
+
+  public EnigmaOrderSubmission submitOrder(EnigmaNewOrderRequest orderRequest) throws IOException {
+    return this.enigmaAuthenticated.submitOrder(accessToken(), orderRequest);
+  }
+
+  public EnigmaQuote askForQuote(EnigmaQuoteRequest quoteRequest) throws IOException {
+    return this.enigmaAuthenticated.askForQuote(accessToken(), quoteRequest);
+  }
+
+  public EnigmaExecutedQuote executeQuoteRequest(EnigmaExecuteQuoteRequest quoteRequest)
+      throws IOException {
+    return this.enigmaAuthenticated.executeQuoteRequest(accessToken(), quoteRequest);
+  }
+}

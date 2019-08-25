@@ -1,12 +1,12 @@
 package org.knowm.xchange.examples.kucoin.account;
 
-import com.kucoin.sdk.rest.response.AccountBalancesResponse;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
 import org.knowm.xchange.kucoin.KucoinAccountServiceRaw;
+import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.service.account.AccountService;
 
 public class KucoinAccountDemo {

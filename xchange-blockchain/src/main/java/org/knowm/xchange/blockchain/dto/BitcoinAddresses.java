@@ -22,4 +22,9 @@ public final class BitcoinAddresses {
 
     return bitcoinAddresses;
   }
+
+  @Override
+  public String toString() {
+    return "BitcoinAddresses{" + "bitcoinAddresses=" + bitcoinAddresses + '}';
+  }
 }

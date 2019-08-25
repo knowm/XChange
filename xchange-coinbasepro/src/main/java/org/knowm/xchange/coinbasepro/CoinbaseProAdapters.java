@@ -14,12 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrderFlags;
@@ -335,10 +330,8 @@ public class CoinbaseProAdapters {
   public static Trades adaptTrades(CoinbaseProTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
-
     for (int i = 0; i < coinbaseExTrades.length; i++) {
       CoinbaseProTrade trade = coinbaseExTrades[i];
-
       // yes, sell means buy for coinbasePro reported trades..
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
@@ -350,6 +343,8 @@ public class CoinbaseProAdapters {
               trade.getPrice(),
               parseDate(trade.getTimestamp()),
               String.valueOf(trade.getTradeId()));
+      t.setMakerOrderId(trade.getMakerOrderId());
+      t.setTakerOrderId(trade.getTakerOrderId());
       trades.add(t);
     }
 
@@ -360,37 +355,64 @@ public class CoinbaseProAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
+  private static Currency adaptCurrency(CoinbaseProCurrency currency) {
+    return new Currency(currency.getId());
+  }
+
   private static int numberOfDecimals(BigDecimal value) {
     double d = value.doubleValue();
     return -(int) Math.round(Math.log10(d));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData exchangeMetaData, CoinbaseProProduct[] products) {
+      ExchangeMetaData exchangeMetaData,
+      CoinbaseProProduct[] products,
+      CoinbaseProCurrency[] cbCurrencies) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (CoinbaseProProduct product : products) {
+      if (!product.getStatus().equals("online")) {
+        continue;
+      }
 
       BigDecimal minSize = product.getBaseMinSize();
       BigDecimal maxSize = product.getBaseMaxSize();
+      BigDecimal minMarketFunds = product.getMinMarketFunds();
+      BigDecimal maxMarketFunds = product.getMaxMarketFunds();
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
+      boolean marketOrderAllowed = !product.isLimitOnly();
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
-              null,
+              new BigDecimal("0.25"), // Trading fee at Coinbase is 0.25 %
               minSize,
               maxSize,
+              minMarketFunds,
+              maxMarketFunds,
+              baseScale,
               priceScale,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
+              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
+              null,
+              pair.counter,
+              marketOrderAllowed);
       currencyPairs.put(pair, cpmd);
-
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
+
+    Arrays.stream(cbCurrencies)
+        .filter(currency -> currency.getStatus().equals("online"))
+        .forEach(
+            currency -> {
+              Currency cur = adaptCurrency(currency);
+              int scale = numberOfDecimals(currency.getMaxPrecision());
+              // Coinbase has a 0 withdrawal fee
+              currencies.put(cur, new CurrencyMetaData(scale, BigDecimal.ZERO));
+            });
+
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
@@ -495,6 +517,7 @@ public class CoinbaseProAdapters {
 
     return new FundingRecord(
         address,
+        coinbaseProTransfer.getDetails().getDestinationTag(),
         timestamp,
         currency,
         coinbaseProTransfer.amount(),

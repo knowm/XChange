@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
@@ -81,9 +82,12 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
       } else if ("EOrder:Insufficient funds".equals(error)) {
         throw new FundsExceededException(error);
-      }
-      if ("EAPI:Rate limit exceeded".equals(error)) {
+
+      } else if ("EAPI:Rate limit exceeded".equals(error)) {
         throw new RateLimitExceededException(error);
+
+      } else if ("EService:Unavailable".equals(error)) {
+        throw new ExchangeUnavailableException(error);
       }
 
       throw new ExchangeException(Arrays.toString(errors));

@@ -5,9 +5,6 @@ import static java.util.stream.Collectors.toCollection;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
-import com.kucoin.sdk.rest.response.OrderCancelResponse;
-import com.kucoin.sdk.rest.response.OrderResponse;
-import com.kucoin.sdk.rest.response.TradeResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +17,9 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
+import org.knowm.xchange.kucoin.dto.response.OrderResponse;
+import org.knowm.xchange.kucoin.dto.response.TradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -32,8 +32,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
-  private static final int TRADE_HISTORIES_TO_FETCH = 1000;
-  private static final int ORDERS_TO_FETCH = 1000;
+  private static final int TRADE_HISTORIES_TO_FETCH = 500;
+  private static final int ORDERS_TO_FETCH = 500;
 
   KucoinTradeService(KucoinExchange exchange) {
     super(exchange);
@@ -41,7 +41,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return convertOpenOrders(getKucoinOpenOrders(null, 0, ORDERS_TO_FETCH).getItems(), null);
+    return convertOpenOrders(getKucoinOpenOrders(null, 1, ORDERS_TO_FETCH).getItems(), null);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       symbol = KucoinAdapters.adaptCurrencyPair(pairParams.getCurrencyPair());
     }
     return convertOpenOrders(
-        getKucoinOpenOrders(symbol, 0, TRADE_HISTORIES_TO_FETCH).getItems(), params);
+        getKucoinOpenOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems(), params);
   }
 
   @Override
@@ -65,7 +65,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
       TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
     }
-    return convertUserTrades(getKucoinFills(symbol, 0, 1000).getItems());
+    return convertUserTrades(getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems());
   }
 
   @Override

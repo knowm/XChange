@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>4.3.16</version>
+        <version>4.3.22-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-fcoin</artifactId>
@@ -21,13 +21,13 @@
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.16</version>
+            <version>4.3.22-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>28.0-jre</version>
         </dependency>
     </dependencies>
 

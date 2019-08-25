@@ -23,6 +23,6 @@ public interface Quoine {
   QuoineProduct[] getQuoineProducts() throws IOException;
 
   @GET
-  @Path("products/{product_id}/price_levels")
+  @Path("products/{product_id}/price_levels?full=1")
   QuoineOrderBook getOrderBook(@PathParam("product_id") int currencyPairCode) throws IOException;
 }

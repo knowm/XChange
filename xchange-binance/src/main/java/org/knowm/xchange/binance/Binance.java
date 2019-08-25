@@ -149,7 +149,7 @@ public interface Binance {
   List<BinancePrice> tickerAllPrices() throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/ticker/allBookTickers")
+  @Path("api/v3/ticker/bookTicker")
   /**
    * Best price/qty on the order book for all symbols.
    *

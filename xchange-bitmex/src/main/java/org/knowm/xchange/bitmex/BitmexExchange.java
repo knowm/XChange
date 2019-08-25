@@ -174,7 +174,11 @@ public class BitmexExchange extends BaseExchange implements Exchange {
             .orElseThrow(
                 () ->
                     new ExchangeException(
-                        "Instrument for " + symbols + " is not active or does not exist"));
+                        "Instrument for "
+                            + symbols
+                            + " "
+                            + contractTimeframe
+                            + " is not active or does not exist"));
 
     String contractTypeSymbol = bitmexSymbol.substring(3, bitmexSymbol.length());
     return new CurrencyPair(baseSymbol, contractTypeSymbol);

@@ -13,8 +13,9 @@ import org.knowm.xchange.bibox.dto.account.BiboxTransferCommandBody;
 /** @author odrotleff */
 public class BiboxCommands extends ArrayList<BiboxCommand<?>> {
 
-  public static final BiboxCommands COIN_LIST_CMD =
-      BiboxCommands.of(new BiboxCommand<BiboxEmptyBody>("transfer/coinList", new BiboxEmptyBody()));
+  public static final BiboxCommands ASSETS_CMD =
+      BiboxCommands.of(new BiboxCommand<>("transfer/assets", new BiboxAllAssetsBody()));
+
   private static final ObjectMapper MAPPER =
       new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
   private static final long serialVersionUID = 1L;

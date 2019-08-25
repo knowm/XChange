@@ -141,6 +141,49 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       BigDecimal cumulativeAmount,
       OrderStatus status) {
 
+    this(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        stopPrice,
+        limitPrice,
+        averagePrice,
+        cumulativeAmount,
+        BigDecimal.ZERO,
+        status);
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param limitPrice The limit price the order should be placed at once the stopPrice has been hit
+   *     null for market
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
+   * @param status the status of the order at the exchange or broker
+   */
+  public StopOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal stopPrice,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status) {
+
     super(
         type,
         originalAmount,
@@ -149,7 +192,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         timestamp,
         averagePrice,
         cumulativeAmount,
-        BigDecimal.ZERO,
+        fee,
         status);
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
@@ -239,10 +282,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       Builder builder =
           new Builder(order.getType(), order.getCurrencyPair())
               .originalAmount(order.getOriginalAmount())
+              .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())
               .id(order.getId())
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
+              .fee(order.getFee())
               .averagePrice(order.getAveragePrice());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
@@ -338,34 +383,22 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
     public StopOrder build() {
 
-      StopOrder order;
-      if (remainingAmount != null) {
-        order =
-            new StopOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                stopPrice,
-                limitPrice,
-                averagePrice,
-                originalAmount.subtract(remainingAmount),
-                status);
-      } else {
-        order =
-            new StopOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                stopPrice,
-                limitPrice,
-                averagePrice,
-                cumulativeAmount,
-                status);
-      }
+      StopOrder order =
+          new StopOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              id,
+              timestamp,
+              stopPrice,
+              limitPrice,
+              averagePrice,
+              originalAmount == null || remainingAmount == null
+                  ? cumulativeAmount
+                  : originalAmount.subtract(remainingAmount),
+              fee,
+              status);
+
       order.setOrderFlags(flags);
       return order;
     }

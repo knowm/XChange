@@ -1,18 +1,63 @@
 {
   "currency_pairs": {
+    "ADA/BTC": {
+      "price_scale": 8,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ADA/ETH": {
+      "price_scale": 8,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ADA/USD": {
+      "price_scale": 8,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ADA/EUR": {
+      "price_scale": 8,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ADA/CAD": {
+      "price_scale": 8,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ATOM/ETH": {
+      "price_scale": 4,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ATOM/USD": {
+      "price_scale": 4,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ATOM/EUR": {
+      "price_scale": 4,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
+    "ATOM/CAD": {
+      "price_scale": 4,
+      "min_amount": 1,
+      "trading_fee": 0.0026
+    },
    	"BCH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.002,
+      "min_amount": 0.000002,
       "trading_fee": 0.0026
     },
     "BCH/EUR": {
       "price_scale": 1,
-      "min_amount": 0.002,
+      "min_amount": 0.000002,
       "trading_fee": 0.0026
     },
     "BCH/USD": {
       "price_scale": 1,
-      "min_amount": 0.002,
+      "min_amount": 0.000002,
       "trading_fee": 0.0026
     },
     "BTC/GBP": {
@@ -123,16 +168,6 @@
       "min_amount": 0.030,
       "trading_fee": 0.0026
     },
-    "ICN/BTC": {
-      "price_scale": 6,
-      "min_amount": 2.000,
-      "trading_fee": 0.0026
-    },
-    "ICN/ETH": {
-      "price_scale": 6,
-      "min_amount": 2.000,
-      "trading_fee": 0.0026
-    },
     "LTC/EUR": {
       "price_scale": 2,
       "min_amount": 0.100,
@@ -179,6 +214,16 @@
       "trading_fee": 0.0026
     },
     "XLM/BTC": {
+      "price_scale": 8,
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
+    },
+    "XLM/USD": {
+      "price_scale": 8,
+      "min_amount": 30.000,
+      "trading_fee": 0.0026
+    },
+    "XLM/EUR": {
       "price_scale": 8,
       "min_amount": 30.000,
       "trading_fee": 0.0026
@@ -257,6 +302,10 @@
     "USDT": {
       "scale": 8,
       "withdrawal_fee": 5.0000
+    },
+    "ADA": {
+      "scale": 8,
+      "withdrawal_fee": 0.3
     },
     "XRP": {
       "scale": 8,

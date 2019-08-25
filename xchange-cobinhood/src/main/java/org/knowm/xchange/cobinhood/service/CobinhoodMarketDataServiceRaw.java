@@ -2,8 +2,8 @@ package org.knowm.xchange.cobinhood.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.CobinhoodException;
-import org.knowm.xchange.cobinhood.dto.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -60,6 +60,14 @@ public class CobinhoodMarketDataServiceRaw extends CobinhoodBaseService {
   public CobinhoodResponse<CobinhoodCurrencies> getCobinhoodCurrencies() throws IOException {
     try {
       return checkSuccess(cobinhood.currencies());
+    } catch (CobinhoodException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
+  public CobinhoodResponse<CobinhoodTradingPairs> getCobinhoodTradingPairs() throws IOException {
+    try {
+      return checkSuccess(cobinhood.tradingPairs());
     } catch (CobinhoodException e) {
       throw new ExchangeException(e.getMessage(), e);
     }
