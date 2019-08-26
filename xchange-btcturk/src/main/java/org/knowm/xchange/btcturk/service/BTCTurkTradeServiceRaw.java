@@ -108,11 +108,18 @@ public class BTCTurkTradeServiceRaw extends BTCTurkBaseService {
       BTCTurkOrderMethods orderMethod,
       BTCTurkOrderTypes orderTypes)
       throws IOException {
+    BTCTurkOrderTypes tempordertype;
+    tempordertype = orderTypes;
 
     String[] _zero = getLocalizedBigDecimalValue(BigDecimal.ZERO).split("\\.");
     String[] _price = _zero;
-    if (orderMethod.equals(BTCTurkOrderMethods.LIMIT))
+    if (orderMethod.equals(BTCTurkOrderMethods.LIMIT)) {
       _price = getLocalizedBigDecimalValue(price).split("\\.");
+      _price[0] = _price[0].replace(",", "");
+      /* String tmp = _amount[0];
+      _amount[0] = _total[0];
+      _total[0] = tmp;*/
+    }
 
     String[] _triggerPrice = _zero;
     if (orderMethod.equals(BTCTurkOrderMethods.STOP_LIMIT)
@@ -121,9 +128,14 @@ public class BTCTurkTradeServiceRaw extends BTCTurkBaseService {
 
     String[] _total = getLocalizedBigDecimalValue(total_amount).split("\\.");
     String[] _amount = _zero;
-    if (orderTypes.equals(BTCTurkOrderTypes.Sell)) {
+    if (orderTypes.equals(BTCTurkOrderTypes.Sell)
+        || orderMethod.equals(BTCTurkOrderMethods.LIMIT)) {
       _amount = getLocalizedBigDecimalValue(total_amount).split("\\.");
       _total = _zero;
+      if (orderMethod.equals(BTCTurkOrderMethods.LIMIT)) {
+        if (orderTypes.equals(BTCTurkOrderTypes.Sell)) tempordertype = BTCTurkOrderTypes.Buy;
+        else tempordertype = BTCTurkOrderTypes.Sell;
+      }
     }
 
     BTCTurkOrder order =
@@ -135,11 +147,12 @@ public class BTCTurkTradeServiceRaw extends BTCTurkBaseService {
             _amount[1],
             _total[0],
             _total[1],
-            2,
+            _price[1].length(),
             _triggerPrice[0],
             _triggerPrice[1],
-            orderTypes,
+            tempordertype,
             new BTCTurkPair(pair));
+    System.out.print(order);
 
     return btcTurk.setOrder(
         order.getPrice(),

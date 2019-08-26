@@ -22,6 +22,8 @@ import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
   "tx",
   "text",
   "transactTime",
+  "walletBalance",
+  "marginBalance",
   "timestamp"
 })
 public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
@@ -58,6 +60,12 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
 
   @JsonProperty("transactTime")
   private String transactTime;
+
+  @JsonProperty("walletBalance")
+  private BigDecimal walletBalance;
+
+  @JsonProperty("marginBalance")
+  private BigDecimal marginBalance;
 
   @JsonProperty("timestamp")
   private String timestamp;
@@ -106,6 +114,14 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
 
   public String getTransactTime() {
     return transactTime;
+  }
+
+  public BigDecimal getWalletBalance() {
+    return walletBalance;
+  }
+
+  public BigDecimal getMarginBalance() {
+    return marginBalance;
   }
 
   public String getTimestamp() {
