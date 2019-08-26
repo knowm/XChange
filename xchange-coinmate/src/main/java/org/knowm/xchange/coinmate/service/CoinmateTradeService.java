@@ -182,12 +182,13 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       order = ((TradeHistoryParamsSorted) params).getOrder();
     }
 
-    if(params instanceof TradeHistoryParamCurrencyPair){
-      currencyPair = ((TradeHistoryParamCurrencyPair)params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
 
     CoinmateTradeHistory coinmateTradeHistory =
-        getCoinmateTradeHistory(CoinmateUtils.getPair(currencyPair),limit, CoinmateAdapters.adaptSortOrder(order));
+        getCoinmateTradeHistory(
+            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order));
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 

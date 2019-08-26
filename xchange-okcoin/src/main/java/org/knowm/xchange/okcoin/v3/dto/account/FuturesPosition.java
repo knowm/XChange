@@ -67,6 +67,9 @@ public class FuturesPosition {
   /** Unrealized profits and losses of short positions */
   @JsonProperty("short_unrealised_pnl")
   private BigDecimal shortUnrealisedPnl;
+
+  @JsonProperty("short_settled_pnl")
+  private BigDecimal shortSettledPnl;
   /** Profit of long positions */
   @JsonProperty("long_pnl")
   private BigDecimal longPnl;
@@ -74,11 +77,14 @@ public class FuturesPosition {
   @JsonProperty("long_unrealised_pnl")
   private BigDecimal longUnrealisedPnl;
 
+  @JsonProperty("long_settled_pnl")
+  private BigDecimal longSettledPnl;
+
   /** ******************************** crossed margin mode ********************************* */
 
   /** Estimated liquidation price */
-  @JsonProperty("force_liqu_price")
-  private BigDecimal forceLiquPrice;
+  @JsonProperty("liquidation_price")
+  private BigDecimal liquidationPrice;
   /** Leverage */
   private BigDecimal leverage;
 
