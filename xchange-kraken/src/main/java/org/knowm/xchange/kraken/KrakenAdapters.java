@@ -69,6 +69,12 @@ public class KrakenAdapters {
         bidsOrdersContainer.getLimitOrders());
   }
 
+  public static void verifyOrderBook(OrderBook orderBook){
+
+    orderBook.getAsks().removeIf(ask-> (orderBook.getBids().get(0).getLimitPrice().compareTo(ask.getLimitPrice()) >= 0 && ask.getTimestamp().before(orderBook.getBids().get(0).getTimestamp())));
+    orderBook.getBids().removeIf(bid-> (orderBook.getAsks().get(0).getLimitPrice().compareTo(bid.getLimitPrice()) <= 0 && bid.getTimestamp().before(orderBook.getAsks().get(0).getTimestamp())));
+  }
+
   public static OrdersContainer adaptOrders(
       List<KrakenPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 

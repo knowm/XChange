@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -354,5 +355,67 @@ public class KrakenAdaptersTest {
         .isEqualByComparingTo(new BigDecimal(0.5).movePointLeft(2));
     assertThat(adaptedFeeTiers[2].fee.getTakerFee())
         .isEqualByComparingTo(new BigDecimal(0.75).movePointLeft(2));
+  }
+
+  @Test
+  public void testVerifyOrderbookWhenAsksHaveNotBeenUpdated(){
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
+
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9360)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9350)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now().minusSeconds(1)),BigDecimal.valueOf(9332)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now().minusSeconds(1)),BigDecimal.valueOf(9330)));
+
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9341)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9340)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9250)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9240)));
+
+    OrderBook orderBook = new OrderBook(null,asks,bids,true);
+    KrakenAdapters.verifyOrderBook(orderBook);
+
+    assertThat(orderBook.getAsks().size()).isEqualTo(2);
+    assertThat(orderBook.getBids().size()).isEqualTo(4);
+
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9350));
+    assertThat(orderBook.getAsks().get(1).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9360));
+
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9341));
+    assertThat(orderBook.getBids().get(1).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9340));
+    assertThat(orderBook.getBids().get(2).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9250));
+    assertThat(orderBook.getBids().get(3).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9240));
+
+  }
+
+  public void testVerifyOrderbookWhenBidsHaveNotBeenUpdated(){
+
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
+
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9360)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9350)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9332)));
+    asks.add(new LimitOrder(OrderType.ASK,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9330)));
+
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now().minusSeconds(1)),BigDecimal.valueOf(9341)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now().minusSeconds(1)),BigDecimal.valueOf(9340)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9250)));
+    bids.add(new LimitOrder(OrderType.BID,BigDecimal.ONE,CurrencyPair.BTC_EUR,null,Date.from(Instant.now()),BigDecimal.valueOf(9240)));
+
+    OrderBook orderBook = new OrderBook(null,asks,bids,true);
+
+    KrakenAdapters.verifyOrderBook(orderBook);
+
+    assertThat(orderBook.getAsks().size()).isEqualTo(4);
+    assertThat(orderBook.getBids().size()).isEqualTo(2);
+
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9330));
+    assertThat(orderBook.getAsks().get(1).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9332));
+    assertThat(orderBook.getAsks().get(2).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9350));
+    assertThat(orderBook.getAsks().get(3).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9360));
+
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9250));
+    assertThat(orderBook.getBids().get(1).getLimitPrice()).isEqualTo(BigDecimal.valueOf(9240));
   }
 }
