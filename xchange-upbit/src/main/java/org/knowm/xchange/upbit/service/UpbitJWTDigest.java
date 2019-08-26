@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 import javax.ws.rs.QueryParam;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
@@ -51,7 +52,7 @@ public class UpbitJWTDigest implements ParamsDigest {
     JWTCreator.Builder builder = JWT.create();
     builder
         .withClaim("access_key", accessKey)
-        .withClaim("nonce", String.valueOf(new Date().getTime()));
+            .withClaim("nonce", UUID.randomUUID().toString());
     if (queryString.length() > 0) builder.withClaim("query", queryString);
     String jwtToken = builder.sign(algorithm);
     return "Bearer " + jwtToken;
