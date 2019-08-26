@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.service.BitfinexTradeServiceRaw;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexFundingTradeResponse;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeServiceRaw;
 import org.knowm.xchange.examples.bitfinex.BitfinexDemoUtils;
 
 public class BitfinexTradeDemo {

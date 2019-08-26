@@ -26,7 +26,8 @@ public class DeribitOrderBookFetchIntegration {
 
   @Test
   public void getDeribitOrderBookTest() throws Exception {
-    DeribitOrderBook orderBook = deribitMarketDataService.getDeribitOrderBook("BTC-PERPETUAL");
+    DeribitOrderBook orderBook =
+        deribitMarketDataService.getDeribitOrderBook("BTC-PERPETUAL", null);
 
     assertThat(orderBook).isNotNull();
   }
