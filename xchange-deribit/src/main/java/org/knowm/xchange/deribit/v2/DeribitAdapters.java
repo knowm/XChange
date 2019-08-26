@@ -6,14 +6,17 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
+import org.knowm.xchange.deribit.v2.dto.account.AccountSummary;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTicker;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrade;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitTrades;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -125,5 +128,10 @@ public class DeribitAdapters {
       }
     }
     return new ExchangeException("Operation failed without any error message", ex);
+  }
+
+  public static Balance adapt(AccountSummary as) {
+    return new Balance(
+        Currency.getInstance(as.getCurrency()), as.getBalance(), as.getAvailableFunds());
   }
 }
