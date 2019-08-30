@@ -1,20 +1,15 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.kraken.dto.KrakenOrderBook;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenOrderBookMessageType;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Kraken order book utils
@@ -97,4 +92,26 @@ public class KrakenOrderBookUtils {
         return new BigDecimal(timestamp).multiply(new BigDecimal(1000)).longValue();
     }
 
+    public static OrderBook verifyKrakenOrderBook(OrderBook orderBook) {
+
+        Collections.sort(orderBook.getBids());
+        Collections.sort(orderBook.getAsks());
+
+        orderBook
+                .getAsks()
+                .removeIf(
+                        ask ->
+                                (orderBook.getBids().get(0).getLimitPrice().compareTo(ask.getLimitPrice()) >= 0
+                                        && ask.getTimestamp().before(orderBook.getBids().get(0).getTimestamp()))
+                );
+
+        orderBook
+                .getBids()
+                .removeIf(
+                        bid ->
+                                (orderBook.getAsks().get(0).getLimitPrice().compareTo(bid.getLimitPrice()) <= 0
+                                        && bid.getTimestamp().before(orderBook.getAsks().get(0).getTimestamp()))
+                );
+        return new OrderBook(orderBook.getTimeStamp(),orderBook.getAsks(),orderBook.getBids());
+    }
 }
