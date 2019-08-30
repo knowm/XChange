@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.kraken;
 
+import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
@@ -50,6 +51,31 @@ public class KrakenManualExample {
         tradeDis.dispose();
 
         krakenExchange.disconnect().subscribe(() -> LOG.info("Disconnected"));
+    }
+
+    //    @Test
+    public void orderBookManualVerificationTest(){
+        StreamingExchange krakenExchange = StreamingExchangeFactory.INSTANCE.createExchange(KrakenStreamingExchange.class.getName());
+        krakenExchange.connect(ProductSubscription.create().addAll(CurrencyPair.ETH_BTC).addAll(CurrencyPair.BTC_USD).addAll(CurrencyPair.BTC_EUR).build()).blockingAwait();
+
+        krakenExchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_EUR).retry().subscribe(orderBook -> {
+            LOG.info("Ask 3: "+orderBook.getAsks().get(2).getLimitPrice()+" volume "+ orderBook.getAsks().get(2).getOriginalAmount());
+            LOG.info("Ask 2: "+orderBook.getAsks().get(1).getLimitPrice()+" volume "+ orderBook.getAsks().get(1).getOriginalAmount());
+            LOG.info("Ask 1: "+orderBook.getAsks().get(0).getLimitPrice()+" volume "+ orderBook.getAsks().get(0).getOriginalAmount());
+            LOG.info("--");
+            LOG.info("Bid 1: "+orderBook.getBids().get(0).getLimitPrice()+" volume "+ orderBook.getBids().get(0).getOriginalAmount());
+            LOG.info("Bid 2: "+orderBook.getBids().get(1).getLimitPrice()+" volume "+ orderBook.getBids().get(1).getOriginalAmount());
+            LOG.info("Bid 3: "+orderBook.getBids().get(2).getLimitPrice()+" volume "+ orderBook.getBids().get(2).getOriginalAmount());
+            LOG.info("=================");
+        });
+
+        while(true){
+            try{
+                TimeUnit.SECONDS.sleep(10000);
+            }catch (Exception e){
+                LOG.error(e.getMessage(),e);
+            }
+        }
     }
 
 }
