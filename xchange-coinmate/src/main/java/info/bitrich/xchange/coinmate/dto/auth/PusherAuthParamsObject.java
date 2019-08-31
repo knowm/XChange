@@ -21,12 +21,12 @@ public class PusherAuthParamsObject {
     public PusherAuthParamsObject(String secret, String apiKey, String userId, Long nonce) {
         this.params.put("clientId", userId);
         this.params.put("nonce", String.valueOf(nonce));
-        this.params.put("signature", this.signature(nonce, userId, apiKey, secret));
+        this.params.put("signature", signature(nonce, userId, apiKey, secret));
         this.params.put("publicKey", apiKey);
     }
 
     public Map<String, String> getParams() {
-        return this.params;
+        return params;
     }
 
     private String signature(Long nonce, String userId, String apiKey, String apiSecret) {
