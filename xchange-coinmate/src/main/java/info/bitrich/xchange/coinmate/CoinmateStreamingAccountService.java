@@ -26,7 +26,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
     }
 
     public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
-        throw new NotYetImplementedForExchangeException();
+        return getWalletChanges().map(wallet -> wallet.getBalance(currency));
     }
 
     public Observable<Wallet> getWalletChanges(Object... args) {
