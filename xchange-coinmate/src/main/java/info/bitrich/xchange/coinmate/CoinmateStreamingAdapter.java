@@ -27,13 +27,15 @@ public class CoinmateStreamingAdapter {
         coinmateWebSocketUserTrades.forEach((coinmateWebSocketUserTrade) -> {
             userTrades.add(
                     new UserTrade(
-                            coinmateWebSocketUserTrade.getUserOrderType(),
+                            (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
+                                    ? Order.OrderType.ASK
+                                    : Order.OrderType.BID,
                             BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()),
                             currencyPair,
                             BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()),
                             Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())),
                             coinmateWebSocketUserTrade.getTransactionId(),
-                            coinmateWebSocketUserTrade.getUserOrderType().equals(Order.OrderType.ASK)
+                            (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
                                     ? coinmateWebSocketUserTrade.getSellOrderId()
                                     : coinmateWebSocketUserTrade.getBuyOrderId(),
                             BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()),
@@ -48,7 +50,9 @@ public class CoinmateStreamingAdapter {
         coinmateWebsocketOpenOrders.forEach((coinmateWebsocketOpenOrder) -> {
             openOrders.add(
                     new LimitOrder(
-                            coinmateWebsocketOpenOrder.getOrderType(),
+                            (coinmateWebsocketOpenOrder.getOrderType().contains("SELL"))
+                                    ? Order.OrderType.ASK
+                                    : Order.OrderType.BID,
                             BigDecimal.valueOf(coinmateWebsocketOpenOrder.getAmount()),
                             BigDecimal.valueOf(coinmateWebsocketOpenOrder.getOriginalOrderSize()),
                             currencyPair, coinmateWebsocketOpenOrder.getId(),

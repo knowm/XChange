@@ -2,28 +2,36 @@ package info.bitrich.xchange.coinmate.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.dto.Order;
 
 public class CoinmateWebSocketUserTrade {
 
     @JsonProperty("transactionId")
     private final String transactionId;
+
     @JsonProperty("date")
     private final long timestamp;
+
     @JsonProperty("amount")
     private final double amount;
+
     @JsonProperty("price")
     private final double price;
+
     @JsonProperty("buyOrderId")
     private final String buyOrderId;
+
     @JsonProperty("sellOrderId")
     private final String sellOrderId;
+
     @JsonProperty("orderType")
-    private final Order.OrderType userOrderType;
+    private final String userOrderType;
+
     @JsonProperty("type")
-    private final Order.OrderType takerOrderType;
+    private final String takerOrderType;
+
     @JsonProperty("fee")
     private final double fee;
+
     @JsonProperty("tradeFeeType")
     private final String userFeeType;
 
@@ -45,8 +53,8 @@ public class CoinmateWebSocketUserTrade {
         this.price = price;
         this.buyOrderId = buyOrderId;
         this.sellOrderId = sellOrderId;
-        this.userOrderType = userOrderType.equals("SELL") ? Order.OrderType.ASK : Order.OrderType.BID;
-        this.takerOrderType = takerOrderType.equals("SELL") ? Order.OrderType.ASK : Order.OrderType.BID;
+        this.userOrderType = userOrderType;
+        this.takerOrderType = takerOrderType;
         this.fee = fee;
         this.userFeeType = userFeeType;
     }
@@ -75,11 +83,11 @@ public class CoinmateWebSocketUserTrade {
         return this.sellOrderId;
     }
 
-    public Order.OrderType getUserOrderType() {
+    public String getUserOrderType() {
         return this.userOrderType;
     }
 
-    public Order.OrderType getTakerOrderType() {
+    public String getTakerOrderType() {
         return this.takerOrderType;
     }
 
