@@ -129,10 +129,7 @@ public class PusherStreamingService extends ConnectableService  {
             };
             Channel channel = pusher.subscribePrivate(channelName,listener);
             for (String event : eventsName) {
-                channel.bind(event, (channel1, ev, data) -> {
-                    LOG.debug("Incoming data: {}", data);
-                    e.onNext(data);
-                });
+                channel.bind(event, listener);
             }
         }).doOnDispose(() -> {
             LOG.info("Disposing " + channelName);
