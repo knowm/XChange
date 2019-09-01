@@ -26,21 +26,26 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
     }
 
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-        String channelName = "private-open-orders-" + this.userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+        String channelName = "private-open_orders-" + userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
-        return this.service.subscribePrivateChannel(channelName, "open_orders").map((message) -> {
-            List<CoinmateWebsocketOpenOrder> websocketOpenOrders = StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<List<CoinmateWebsocketOpenOrder>>() {
-            });
-            return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(websocketOpenOrders, currencyPair);
-        }).concatMapIterable(OpenOrders::getAllOpenOrders);
+        return service.subscribePrivateChannel(channelName, "open_orders")
+                .map((message) -> {
+                    List<CoinmateWebsocketOpenOrder> websocketOpenOrders =
+                            StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<List<CoinmateWebsocketOpenOrder>>() {});
+                    return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(websocketOpenOrders, currencyPair);
+                })
+                .concatMapIterable(OpenOrders::getAllOpenOrders);
     }
 
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        String channelName = "private-user-trades-" + this.userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
-        return this.service.subscribePrivateChannel(channelName, "user_trades").map((message) -> {
-            List<CoinmateWebSocketUserTrade> webSocketUserTrades =
-                    StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<List<CoinmateWebSocketUserTrade>>() {});
-            return CoinmateStreamingAdapter.adaptWebSocketUserTrades(webSocketUserTrades, currencyPair);
-        }).concatMapIterable(UserTrades::getUserTrades);
+        String channelName = "private-user-trades-" + userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+
+        return service.subscribePrivateChannel(channelName, "user_trades")
+                .map((message) -> {
+                    List<CoinmateWebSocketUserTrade> webSocketUserTrades =
+                            StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<List<CoinmateWebSocketUserTrade>>() {});
+                    return CoinmateStreamingAdapter.adaptWebSocketUserTrades(webSocketUserTrades, currencyPair);
+                })
+                .concatMapIterable(UserTrades::getUserTrades);
     }
 }

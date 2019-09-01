@@ -9,32 +9,44 @@ public class CoinmateWebsocketOpenOrder {
 
     @JsonProperty("amount")
     private final double amount;
+
     @JsonProperty("date")
     private final long timestamp;
+
     @JsonProperty("hidden")
     private final boolean isHidden;
+
     @JsonProperty("id")
     private final String id;
+
     @JsonProperty("original")
     private final double originalOrderSize;
+
     @JsonProperty("price")
     private final double price;
+
     @JsonProperty("type")
-    private final Order.OrderType orderType;
+    private final String orderType;
+
     @JsonProperty("stopPrice")
     @JsonIgnore
     private final double stopPrice;
+
     @JsonProperty("trailing")
     private final boolean isTrailing;
+
     @JsonProperty("originalStopPrice")
     @JsonIgnore
     private final double originalStopPrice;
+
     @JsonProperty("priceAtStopLossCreation")
     @JsonIgnore
     private final double priceAtStopLossCreation;
+
     @JsonProperty("priceAtStopLossUpdate")
     @JsonIgnore
     private final double priceAtStopLossUpdate;
+
     @JsonProperty("trailingUpdatedTimestamp")
     @JsonIgnore
     private final long trailingUpdatedTimestamp;
@@ -47,7 +59,7 @@ public class CoinmateWebsocketOpenOrder {
             @JsonProperty("id") String id,
             @JsonProperty("original") double originalOrderSize,
             @JsonProperty("price") double price,
-            @JsonProperty("type") Order.OrderType orderType,
+            @JsonProperty("type") String orderType,
             @JsonProperty("stopPrice") double stopPrice,
             @JsonProperty("trailing") boolean isTrailing,
             @JsonProperty("originalStopPrice") double originalStopPrice,
@@ -60,7 +72,7 @@ public class CoinmateWebsocketOpenOrder {
         this.id = id;
         this.originalOrderSize = originalOrderSize;
         this.price = price;
-        this.orderType = orderType.toString().contains("SELL") ? Order.OrderType.ASK : Order.OrderType.BID;
+        this.orderType = orderType;
         this.stopPrice = stopPrice;
         this.isTrailing = isTrailing;
         this.originalStopPrice = originalStopPrice;
@@ -93,7 +105,7 @@ public class CoinmateWebsocketOpenOrder {
         return this.price;
     }
 
-    public Order.OrderType getOrderType() {
+    public String getOrderType() {
         return this.orderType;
     }
 
