@@ -18,7 +18,7 @@ public class LgoKeyServiceTest {
 
   @Before
   public void setUp() {
-    ExchangeSpecification spec = LgoEnv.sandboxMarkets();
+    ExchangeSpecification spec = LgoEnv.sandbox();
     spec.setShouldLoadRemoteMetaData(false);
     spec.getExchangeSpecificParameters()
         .put(LgoEnv.SIGNATURE_SERVICE, SignatureService.PASSTHROUGHS);

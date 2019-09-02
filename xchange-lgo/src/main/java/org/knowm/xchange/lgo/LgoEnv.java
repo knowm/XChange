@@ -10,7 +10,7 @@ public final class LgoEnv {
 
   private LgoEnv() {}
 
-  public static ExchangeSpecification prodMarkets() {
+  public static ExchangeSpecification prod() {
     ExchangeSpecification result = baseSpecification();
     result.setSslUri("https://exchange-api.exchange.lgo.markets");
     result.setHost("exchange-api.exchange.lgo.markets");
@@ -20,13 +20,23 @@ public final class LgoEnv {
     return result;
   }
 
-  public static ExchangeSpecification sandboxMarkets() {
+  public static ExchangeSpecification sandbox() {
     ExchangeSpecification result = baseSpecification();
     result.setSslUri("https://exchange-api.sandbox.lgo.markets");
     result.setHost("exchange-api.sandbox.lgo.markets");
     result.setExchangeSpecificParametersItem(
         KEYS_URL, "https://storage.googleapis.com/lgo-sandbox_batch_keys");
     result.setExchangeSpecificParametersItem(WS_URL, "wss://ws.sandbox.lgo.markets");
+    return result;
+  }
+
+  public static ExchangeSpecification devel() {
+    ExchangeSpecification result = baseSpecification();
+    result.setSslUri("https://api.devel.z.lgo.ninja");
+    result.setHost("api.devel.z.lgo.ninja");
+    result.setExchangeSpecificParametersItem(
+        KEYS_URL, "https://storage.googleapis.com/lgo-sandbox_batch_keys");
+    result.setExchangeSpecificParametersItem(WS_URL, "wss://api.devel.z.lgo.ninja/v1/ws");
     return result;
   }
 
