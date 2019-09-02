@@ -1,7 +1,7 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 2,
+      "price_scale": 1,
       "min_amount": 0.00020000
     },
     "BTC/CZK": {
