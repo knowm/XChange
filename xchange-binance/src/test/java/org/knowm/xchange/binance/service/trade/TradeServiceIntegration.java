@@ -1,4 +1,4 @@
-package org.knowm.xchange.test.binance;
+package org.knowm.xchange.binance.service.trade;
 
 import org.junit.Assume;
 import org.junit.Before;
@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.binance.BinanceExchange;
-import org.knowm.xchange.binance.service.BinanceAccountService;
-import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -23,14 +21,10 @@ public class TradeServiceIntegration {
 
   static Exchange exchange;
   static BinanceTradeService tradeService;
-  static BinanceMarketDataService marketService;
-  static BinanceAccountService accountService;
 
   @BeforeClass
   public static void beforeClass() {
     exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
-    marketService = (BinanceMarketDataService) exchange.getMarketDataService();
-    accountService = (BinanceAccountService) exchange.getAccountService();
     tradeService = (BinanceTradeService) exchange.getTradeService();
   }
 
