@@ -43,7 +43,7 @@
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.7.28</version.slf4j>
         <version.crypto>4.2.0</version.crypto>
-        <version.java-jwt>3.8.1</version.java-jwt>
+        <version.java-jwt>3.8.2</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -110,7 +110,6 @@
         <module>xchange-bitfinex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bithumb</module>
-        <module>xchange-bitmarket</module>
         <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
@@ -266,7 +265,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.0-jre</version>
+                <version>28.1-jre</version>
             </dependency>
 
             <dependency>
