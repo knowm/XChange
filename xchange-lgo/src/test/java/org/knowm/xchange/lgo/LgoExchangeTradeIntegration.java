@@ -1,14 +1,11 @@
 package org.knowm.xchange.lgo;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
+import org.junit.*;
+import org.knowm.xchange.*;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.lgo.service.LgoTradeService;
 
@@ -21,13 +18,14 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     assertThat(tradeHistory.getUserTrades()).isNotEmpty();
+    System.out.println(tradeHistory.getUserTrades().size());
   }
 
   // api key and secret key are expected to be in test resources under
   // integration directory
   // this directory is added to .gitignore to avoid committing a real usable key
   protected LgoExchange exchangeWithCredentials() throws IOException {
-    ExchangeSpecification spec = LgoEnv.sandboxMarkets();
+    ExchangeSpecification spec = LgoEnv.devel();
     spec.setSecretKey(readResource("/integration/private_key.pem"));
     spec.setApiKey(readResource("/integration/api_key.txt"));
 

@@ -8,7 +8,7 @@ import org.knowm.xchange.lgo.LgoEnv;
 public class LgoExamplesUtils {
 
   public static Exchange getExchange() {
-    ExchangeSpecification spec = LgoEnv.sandboxMarkets();
+    ExchangeSpecification spec = LgoEnv.sandbox();
     spec.setSecretKey("your private key");
     spec.setApiKey("your api key");
 
