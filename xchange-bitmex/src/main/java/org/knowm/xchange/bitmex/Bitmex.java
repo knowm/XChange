@@ -13,7 +13,7 @@ import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicOrderList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPublicTradeList;
 import org.knowm.xchange.bitmex.dto.marketdata.results.BitmexSymbolsAndPromptsResult;
 
-@Path("/api/v1")
+@Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitmex {
 

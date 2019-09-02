@@ -458,11 +458,13 @@ public class CoinbaseProAdapters {
 
   public static CoinbaseProPlaceMarketOrder adaptCoinbaseProPlaceMarketOrder(
       MarketOrder marketOrder) {
+    OrderType orderType = marketOrder.getType();
     return new CoinbaseProPlaceMarketOrder.Builder()
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .size(marketOrder.getOriginalAmount())
+        .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
+        .size(marketOrder.getType() == OrderType.ASK ? marketOrder.getOriginalAmount() : null)
         .build();
   }
 
@@ -515,6 +517,9 @@ public class CoinbaseProAdapters {
     String address = coinbaseProTransfer.getDetails().getCryptoAddress();
     if (address == null) address = coinbaseProTransfer.getDetails().getSentToAddress();
 
+    String cryptoTransactionHash = coinbaseProTransfer.getDetails().getCryptoTransactionHash();
+    String transactionHash = adaptTransactionHash(currency.getSymbol(), cryptoTransactionHash);
+
     return new FundingRecord(
         address,
         coinbaseProTransfer.getDetails().getDestinationTag(),
@@ -522,11 +527,35 @@ public class CoinbaseProAdapters {
         currency,
         coinbaseProTransfer.amount(),
         coinbaseProTransfer.getId(),
-        coinbaseProTransfer.getDetails().getCryptoTransactionHash(),
+        transactionHash,
         coinbaseProTransfer.type(),
         status,
         null,
         null,
         null);
+  }
+
+  // crypto_transaction_link: "https://etherscan.io/tx/0x{{txId}}"
+  private static String adaptTransactionHash(String currency, String transactionHash) {
+    switch (currency) {
+      case "ZRX":
+      case "BAT":
+      case "LOOM":
+      case "CVC":
+      case "DNT":
+      case "MANA":
+      case "GNT":
+      case "REP":
+      case "LINK":
+      case "ETH":
+      case "ETC":
+      case "USDC":
+      case "DAI":
+      case "ZIL":
+      case "MKR":
+        transactionHash = "0x" + transactionHash;
+        break;
+    }
+    return transactionHash;
   }
 }

@@ -1,10 +1,9 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.enigma.model.EnigmaException;
 import org.knowm.xchange.service.trade.TradeService;
-
-import java.io.IOException;
 
 public class EnigmaTradeService extends EnigmaTradeServiceRaw implements TradeService {
 

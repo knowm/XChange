@@ -22,7 +22,7 @@ public class EnigmaTradeDemo {
     raw((EnigmaTradeServiceRaw) tradeService);
   }
 
-  private static void generic(TradeService tradeService) throws IOException{
+  private static void generic(TradeService tradeService) throws IOException {
     tradeService.cancelOrder("10");
   }
 

@@ -5,21 +5,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.livecoin.dto.LivecoinPaginatedResponse;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinUserOrder;
 import org.knowm.xchange.livecoin.dto.trade.LivecoinCancelResponse;
 import org.knowm.xchange.livecoin.dto.trade.LivecoinOrderResponse;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
@@ -30,21 +31,23 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     super(Livecoin.class, exchange);
   }
 
-  public List<LimitOrder> getAllOpenOrders() throws IOException {
-    LivecoinPaginatedResponse response = service.allClientOrders(apiKey, signatureCreator, "OPEN");
-
-    List<LimitOrder> resp = new ArrayList<>();
-    if (response.getData() == null) return resp;
-
-    for (Map map : response.getData()) {
-      Object statusRaw = map.get("orderStatus");
-      if (statusRaw != null
-          && (statusRaw.toString().equals("OPEN")
-              || statusRaw.toString().equals("PARTIALLY_FILLED"))) {
-        resp.add(LivecoinAdapters.adaptOpenOrder(map));
-      }
-    }
-    return resp;
+  public LivecoinPaginatedResponse<LivecoinUserOrder> clientOrders(
+      CurrencyPair currencyPair,
+      String openClosed,
+      Long issuedFrom,
+      Long issuedTo,
+      Long startRow,
+      Long endRow)
+      throws IOException {
+    return service.clientOrders(
+        apiKey,
+        signatureCreator,
+        Optional.ofNullable(currencyPair).map(CurrencyPair::toString).orElse(null),
+        openClosed,
+        issuedFrom,
+        issuedTo,
+        startRow,
+        endRow);
   }
 
   public List<UserTrade> tradeHistory(Date startTime, Date endTime, Integer limit, Long offset)
@@ -115,31 +118,17 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.getOrderId();
   }
 
-  public boolean cancelOrder(String orderId) {
-    throw new ExchangeException("You need to provide the currency pair to cancel an order.");
-  }
-
   public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws IOException {
-    return cancelOrder(new LiveCoinCancelOrderParams(currencyPair, orderId));
-  }
-
-  public boolean cancelOrder(CancelOrderParams params) throws IOException {
-    if (!(params instanceof CancelOrderByCurrencyPair)
-        && !(params instanceof CancelOrderByIdParams)) {
-      throw new ExchangeException(
-          "You need to provide the currency pair and the order id to cancel an order.");
-    }
-    CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
-    CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
-
     LivecoinCancelResponse response =
         service.cancelLimitOrder(
-            apiKey,
-            signatureCreator,
-            paramCurrencyPair.getCurrencyPair().toString(),
-            Long.valueOf(paramId.getOrderId()));
+            apiKey, signatureCreator, currencyPair.toString(), Long.valueOf(orderId));
 
     return response.isCancelled();
+  }
+
+  protected boolean isOrderOpen(LivecoinUserOrder order) {
+    return Objects.equals(order.getOrderStatus(), "OPEN")
+        || Objects.equals(order.getOrderStatus(), "PARTIALLY_FILLED");
   }
 
   public static class LiveCoinCancelOrderParams

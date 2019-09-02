@@ -4,10 +4,12 @@
     "BTC/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "BTC/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "BTC/USD": {"min_amount": 0.00000001, "price_scale": 2},
+    "BTC/USDC": {"min_amount": 0.00000001, "price_scale": 2},
 
     "ETH/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/USD": {"min_amount": 0.00000001, "price_scale": 2},
+    "ETH/USDC": {"min_amount": 0.00000001, "price_scale": 2},
     "ETH/BTC": {"min_amount": 0.00000001, "price_scale": 8},
 
     "LSK/EUR": {"min_amount": 0.00000001, "price_scale": 2},
@@ -23,6 +25,7 @@
     "BCC/EUR": {"min_amount": 0.00000001, "price_scale": 2},
     "BCC/PLN": {"min_amount": 0.00000001, "price_scale": 2},
     "BCC/USD": {"min_amount": 0.00000001, "price_scale": 2},
+    "BCC/USDC": {"min_amount": 0.00000001, "price_scale": 2},
     "BCC/BTC": {"min_amount": 0.00000001, "price_scale": 8},
 
     "BTG/EUR": {"min_amount": 0.00000001, "price_scale": 2},
@@ -77,6 +80,9 @@
       "scale": 8
     },
     "KZC": {
+      "scale": 8
+    },
+    "USDC": {
       "scale": 8
     },
     "XIN": {
