@@ -457,5 +457,7 @@ public abstract class Order implements Serializable {
       this.flags.add(flag);
       return this;
     }
+
+    public abstract Order build();
   }
 }
