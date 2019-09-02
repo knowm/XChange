@@ -345,12 +345,6 @@
 			<artifactId>xchange-dsx</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Abucoins exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-abucoins</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Cryptopia exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
