@@ -88,6 +88,12 @@ public abstract class Order implements Serializable {
     return value == null ? null : value.toPlainString();
   }
 
+  /**
+   * The total of the fees incurred for all transactions related to this order
+   *
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
   public BigDecimal getFee() {
     return fee;
   }
@@ -111,13 +117,13 @@ public abstract class Order implements Serializable {
     return status;
   }
 
-  /** @return The amount to trade */
+  /** The amount to trade */
   public BigDecimal getOriginalAmount() {
 
     return originalAmount;
   }
 
-  /** @return The amount that has been filled */
+  /** The amount that has been filled */
   public BigDecimal getCumulativeAmount() {
 
     return cumulativeAmount;
@@ -136,7 +142,12 @@ public abstract class Order implements Serializable {
     return originalAmount;
   }
 
-  /** @return The average price of the fills in the order */
+  /**
+   * The average price of the fills in the order.
+   *
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
   public BigDecimal getAveragePrice() {
 
     return averagePrice;

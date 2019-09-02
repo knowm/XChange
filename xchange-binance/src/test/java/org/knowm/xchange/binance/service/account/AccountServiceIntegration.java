@@ -1,5 +1,7 @@
-package org.knowm.xchange.test.binance;
+package org.knowm.xchange.binance.service.account;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.junit.Assert;
@@ -13,10 +15,12 @@ import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.StreamUtils;
 
 public class AccountServiceIntegration {
@@ -83,6 +87,18 @@ public class AccountServiceIntegration {
         Assert.assertSame(curr, bal.getCurrency());
         Assert.assertSame(Currency.getInstance(curr.getCurrencyCode()), bal.getCurrency());
       }
+    }
+  }
+  
+  @Test
+  public void testWithdrawalHistory() throws Exception {
+
+    TradeHistoryParams params = accountService.createFundingHistoryParams();
+    List<FundingRecord> fundingHistory = accountService.getFundingHistory(params);
+    Assert.assertNotNull(fundingHistory);
+
+    for (FundingRecord record : fundingHistory) {
+      Assert.assertTrue(record.getAmount().compareTo(BigDecimal.ZERO) > 0);
     }
   }
 }
