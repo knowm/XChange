@@ -1,4 +1,4 @@
-package org.knowm.xchange.test.binance;
+package org.knowm.xchange.binance.service.account;
 
 import java.util.Map;
 import java.util.Map.Entry;
