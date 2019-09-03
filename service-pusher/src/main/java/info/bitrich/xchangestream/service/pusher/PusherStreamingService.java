@@ -3,9 +3,7 @@ package info.bitrich.xchangestream.service.pusher;
 import com.pusher.client.Authorizer;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.PrivateChannelEventListener;
-import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.client.channel.*;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
@@ -17,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class PusherStreamingService extends ConnectableService  {
@@ -95,10 +92,11 @@ public class PusherStreamingService extends ConnectableService  {
                 return;
             }
             Channel channel = pusher.subscribe(channelName);
+
             for (String event : eventsName) {
-                channel.bind(event, (channel1, ev, data) -> {
-                    LOG.debug("Incoming data: {}", data);
-                    e.onNext(data);
+                channel.bind(event, (pusherEvent) -> {
+                    LOG.debug("Incoming data: {}", pusherEvent.getData());
+                    e.onNext(pusherEvent.getData());
                 });
             }
         }).doOnDispose(() -> pusher.unsubscribe(channelName));
@@ -112,6 +110,7 @@ public class PusherStreamingService extends ConnectableService  {
                 e.onError(new NotConnectedException());
                 return;
             }
+
             PrivateChannelEventListener listener = new PrivateChannelEventListener() {
                 public void onAuthenticationFailure(String s, Exception ex) {
                     LOG.error(ex.getMessage(), ex);
@@ -122,9 +121,10 @@ public class PusherStreamingService extends ConnectableService  {
                     LOG.info("Subscription successful! :{} ", s);
                 }
 
-                public void onEvent(String s, String s1, String s2) {
-                    LOG.debug("Incoming data: {}", s2);
-                    e.onNext(s2);
+                @Override
+                public void onEvent(PusherEvent pusherEvent) {
+                    LOG.debug("Incoming data: {}", pusherEvent.getData());
+                    e.onNext(pusherEvent.getData());
                 }
             };
             Channel channel = pusher.subscribePrivate(channelName,listener);
