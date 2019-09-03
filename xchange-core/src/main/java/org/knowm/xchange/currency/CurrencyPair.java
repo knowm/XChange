@@ -17,6 +17,8 @@ import java.io.Serializable;
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
 public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
+  private static final long serialVersionUID = 414711266389792746L;
+
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currency.EUR, Currency.USD);
   public static final CurrencyPair GBP_USD = new CurrencyPair(Currency.GBP, Currency.USD);

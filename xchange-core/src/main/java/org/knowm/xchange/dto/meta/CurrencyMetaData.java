@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 public class CurrencyMetaData implements Serializable {
 
+  private static final long serialVersionUID = -247899067657358542L;
+
   @JsonProperty("scale")
   private final Integer scale;
 

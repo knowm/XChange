@@ -21,6 +21,8 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
  */
 public class ExchangeMetaData implements Serializable {
 
+  private static final long serialVersionUID = -1495610469981534977L;
+
   @JsonProperty("currency_pairs")
   private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;
 
