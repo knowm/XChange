@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.service.pusher;
 
 import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.PusherEvent;
 import com.pusher.client.channel.SubscriptionEventListener;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
@@ -14,6 +15,9 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -72,8 +76,10 @@ public class PusherStreamingServiceTest {
         verify(channel).bind(anyString(), subscription.capture());
 
         // Send data to the observable
-        subscription.getValue().onEvent("channelName", "eventName", "data");
-        test.assertValue("data");
+        Map<String,Object> pusherEventMap = new HashMap<>();
+        pusherEventMap.put("data","dataObject");
+        subscription.getValue().onEvent(new PusherEvent(pusherEventMap));
+        test.assertValue("dataObject");
     }
 
     @Test
