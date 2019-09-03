@@ -5,6 +5,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 
 public class UserTrades extends Trades {
 
+  private static final long serialVersionUID = 1647451200702821967L;
+
   public UserTrades(List<UserTrade> trades, TradeSortType tradeSortType) {
 
     super((List) trades, tradeSortType);

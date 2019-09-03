@@ -15,6 +15,8 @@ import org.knowm.xchange.currency.Currency;
  */
 public final class FundingRecord implements Serializable {
 
+  private static final long serialVersionUID = 3788398035845873448L;
+
   /** Crypto currency address for deposit/withdrawal */
   private final String address;
 
