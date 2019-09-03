@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class Balance implements Comparable<Balance>, Serializable {
 
+  private static final long serialVersionUID = -1460694403597268635L;
   private static final Logger log = LoggerFactory.getLogger(Balance.class);
 
   private final Currency currency;

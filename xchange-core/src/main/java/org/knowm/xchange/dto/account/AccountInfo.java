@@ -17,6 +17,8 @@ import javax.annotation.Nullable;
  */
 public final class AccountInfo implements Serializable {
 
+  private static final long serialVersionUID = -3572240060624800060L;
+
   /** The name on the account */
   private final String username;
 

@@ -10,6 +10,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 /** Data object representing an order */
 public abstract class Order implements Serializable {
 
+  private static final long serialVersionUID = -8132103343647993249L;
+
   /** Order type i.e. bid or ask */
   private final OrderType type;
   /** Amount to be ordered / amount that was ordered */

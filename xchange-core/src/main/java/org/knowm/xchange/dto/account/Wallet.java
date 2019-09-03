@@ -16,6 +16,8 @@ import org.knowm.xchange.currency.Currency;
  */
 public final class Wallet implements Serializable {
 
+  private static final long serialVersionUID = -4136681413143690633L;
+
   /** The keys represent the currency of the wallet. */
   private final Map<Currency, Balance> balances;
   /** A unique identifier for this wallet */
