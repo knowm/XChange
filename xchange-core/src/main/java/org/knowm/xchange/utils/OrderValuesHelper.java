@@ -59,6 +59,14 @@ public class OrderValuesHelper {
     return result;
   }
 
+  /**
+   * Adjusts the given price to the restrictions dictated by {@link CurrencyPairMetaData}.
+   *
+   * <p>Convenience method that chooses the adequate rounding mode for you order type. See {@link
+   * #adjustPrice(java.math.BigDecimal, java.math.RoundingMode)} for more information.
+   *
+   * @see #adjustPrice(java.math.BigDecimal, java.math.RoundingMode)
+   */
   public BigDecimal adjustPrice(BigDecimal price, Order.OrderType orderType) {
     return adjustPrice(
         price,
