@@ -1,11 +1,17 @@
 package info.bitrich.xchangestream.lgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Order was invalid
  */
-public class LgoInvalidOrderEvent extends LgoOrderEvent {
+public class LgoInvalidOrderEvent extends LgoBatchOrderEvent {
 
     /**
      * Reason of invalidity (InvalidQuantity, InvalidPrice, InvalidAmount, InvalidPriceIncrement, InvalidProduct, InsufficientFunds)
@@ -17,7 +23,23 @@ public class LgoInvalidOrderEvent extends LgoOrderEvent {
         this.reason = reason;
     }
 
+    public LgoInvalidOrderEvent(
+            @JsonProperty("type") String type,
+            @JsonProperty("order_id") String orderId,
+            @JsonProperty("time") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") Date time,
+            @JsonProperty("reason") String reason) {
+        super(type, orderId, time);
+        this.reason = reason;
+    }
+
     public String getReason() {
         return reason;
+    }
+
+    @Override
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
+        Order doneOrder = allOrders.get(currencyPair).remove(getOrderId());
+        doneOrder.setOrderStatus(Order.OrderStatus.REJECTED);
+        return doneOrder;
     }
 }

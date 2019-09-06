@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.lgo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
 import info.bitrich.xchangestream.lgo.domain.LgoMatchOrderEvent;
 import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
 import info.bitrich.xchangestream.lgo.dto.*;
@@ -26,7 +27,6 @@ import org.knowm.xchange.lgo.service.LgoSignatureService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,12 +95,16 @@ public class LgoStreamingTradeService implements StreamingTradeService {
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         Observable<LgoBatchUpdate> orderBatchChanges = streamingService
                 .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
-                .map(s -> mapper.readValue(s.toString(), LgoUserUpdate.class))
+                .map(s -> mapper.readValue(s.toString(), LgoUserMessage.class))
                 .map(s -> {
                     List<LgoOrderEvent> events = new ArrayList<>();
-                    List<Order> updatedOrders = handleUserUpdate(currencyPair, s);
+                    List<Order> updatedOrders;
                     if (s.getType().equals("update")) {
-                        events.addAll(LgoAdapter.adaptOrderEvent(s.getOrderEvents(), s.getBatchId(), updatedOrders));
+                        LgoUserUpdate userUpdate = (LgoUserUpdate) s;
+                        updatedOrders = handleUserUpdate(currencyPair, userUpdate);
+                        events.addAll(LgoAdapter.adaptOrderEvent(userUpdate.getOrderEvents(), s.getBatchId(), updatedOrders));
+                    } else {
+                        updatedOrders = handleUserSnapshot(currencyPair, (LgoUserSnapshot) s);
                     }
                     return new LgoBatchUpdate(updatedOrders, events, s.getBatchId(), s.getType());
                 });
@@ -108,73 +112,21 @@ public class LgoStreamingTradeService implements StreamingTradeService {
     }
 
     private List<Order> handleUserUpdate(CurrencyPair currencyPair, LgoUserUpdate s) {
-        List<Order> result = new ArrayList<>();
-        if (s.getType().equals("snapshot")) {
-            allOrders.get(currencyPair).clear();
-            Collection<LimitOrder> openOrders = LgoAdapter.adaptOrdersSnapshot(s.getOrderEvents(), currencyPair);
-            allOrders.get(currencyPair).putAll(openOrders.stream().collect(toMap(LimitOrder::getId, this::copyOrder)));
-            result.addAll(openOrders);
-        } else {
-            List<Order> updatedOrders = updateAllOrders(currencyPair, s.getOrderEvents());
-            result.addAll(updatedOrders);
-        }
-        return result;
+        return updateAllOrders(currencyPair, s.getOrderEvents());
     }
 
-    private List<Order> updateAllOrders(CurrencyPair currencyPair, List<LgoUserUpdateData> orderEvents) {
-        List<Order> updatedOrders = new ArrayList<>();
-        for (LgoUserUpdateData orderEvent : orderEvents) {
-            switch (orderEvent.getType()) {
-                case "pending":
-                    updatedOrders.add(addPendingOrder(currencyPair, orderEvent));
-                    break;
-                case "open":
-                    updatedOrders.add(openOrder(currencyPair, orderEvent));
-                    break;
-                case "match":
-                    updatedOrders.add(matchOrder(currencyPair, orderEvent));
-                    break;
-                case "invalid":
-                case "done":
-                    updatedOrders.add(removeDoneOrder(currencyPair, orderEvent));
-                    break;
-            }
-        }
-        return updatedOrders;
+    private List<Order> handleUserSnapshot(CurrencyPair currencyPair, LgoUserSnapshot s) {
+        allOrders.get(currencyPair).clear();
+        Collection<LimitOrder> openOrders = LgoAdapter.adaptOrdersSnapshot(s.getSnapshotData(), currencyPair);
+        allOrders.get(currencyPair).putAll(openOrders.stream().collect(toMap(LimitOrder::getId, this::copyOrder)));
+        return new ArrayList<>(openOrders);
     }
 
-    private Order removeDoneOrder(CurrencyPair currencyPair, LgoUserUpdateData orderEvent) {
-        Order doneOrder = allOrders.get(currencyPair).remove(orderEvent.getOrderId());
-        if (orderEvent.getReason().equals("canceledBySelfTradePrevention") || orderEvent.getReason().equals("canceled")) {
-            doneOrder.setOrderStatus(doneOrder.getStatus() == Order.OrderStatus.PARTIALLY_FILLED ? Order.OrderStatus.PARTIALLY_CANCELED : Order.OrderStatus.CANCELED);
-        } else if (orderEvent.getReason().equals("filled")) {
-            doneOrder.setOrderStatus(Order.OrderStatus.FILLED);
-        } else {
-            doneOrder.setOrderStatus(Order.OrderStatus.REJECTED);
-        }
-        return copyOrder(doneOrder);
-    }
-
-    private Order matchOrder(CurrencyPair currencyPair, LgoUserUpdateData orderEvent) {
-        Order matchedOrder = allOrders.get(currencyPair).get(orderEvent.getOrderId());
-        matchedOrder.setOrderStatus(Order.OrderStatus.PARTIALLY_FILLED);
-        matchedOrder.setCumulativeAmount(matchedOrder.getOriginalAmount().subtract(orderEvent.getRemainingQuantity()));
-        BigDecimal fee = matchedOrder.getFee() == null ? orderEvent.getFees() : matchedOrder.getFee().add(orderEvent.getFees());
-        matchedOrder.setFee(fee);
-        return copyOrder(matchedOrder);
-    }
-
-    private Order openOrder(CurrencyPair currencyPair, LgoUserUpdateData orderEvent) {
-        Order pendingOrder = allOrders.get(currencyPair).get(orderEvent.getOrderId());
-        Order.OrderStatus status = pendingOrder.getStatus().equals(Order.OrderStatus.PARTIALLY_FILLED) ? pendingOrder.getStatus() : Order.OrderStatus.NEW;
-        pendingOrder.setOrderStatus(status);
-        return copyOrder(pendingOrder);
-    }
-
-    private Order addPendingOrder(CurrencyPair currencyPair, LgoUserUpdateData orderEvent) {
-        Order order = LgoAdapter.adaptPendingOrder(orderEvent, currencyPair);
-        allOrders.get(currencyPair).put(order.getId(), order);
-        return copyOrder(order);
+    private List<Order> updateAllOrders(CurrencyPair currencyPair, List<LgoBatchOrderEvent> orderEvents) {
+        return orderEvents.stream()
+                .map(orderEvent -> orderEvent.applyOnOrders(currencyPair, allOrders))
+                .map(this::copyOrder)
+                .collect(Collectors.toList());
     }
 
     private Order copyOrder(Order order) {
@@ -223,8 +175,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
                 .subscribeChannel("afr")
                 .map(s -> mapper.readValue(s.toString(), LgoAckUpdate.class))
                 .map(LgoAckUpdate::getData)
-                .flatMap(Observable::fromIterable)
-                .map(LgoAdapter::adaptReceivedEvent);
+                .flatMap(Observable::fromIterable);
     }
 
     /**

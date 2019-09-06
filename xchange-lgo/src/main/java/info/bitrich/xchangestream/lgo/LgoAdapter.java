@@ -1,9 +1,10 @@
 package info.bitrich.xchangestream.lgo;
 
-import info.bitrich.xchangestream.lgo.domain.*;
-import info.bitrich.xchangestream.lgo.dto.LgoAckUpdateData;
+import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
+import info.bitrich.xchangestream.lgo.domain.LgoMatchOrderEvent;
+import info.bitrich.xchangestream.lgo.domain.LgoPendingOrderEvent;
 import info.bitrich.xchangestream.lgo.dto.LgoTrade;
-import info.bitrich.xchangestream.lgo.dto.LgoUserUpdateData;
+import info.bitrich.xchangestream.lgo.dto.LgoUserSnapshotData;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,9 +16,9 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedMap;
 
 import static java.util.stream.Collectors.toList;
@@ -69,27 +70,28 @@ public class LgoAdapter {
         return lgoTrade.getSide().equals("B") ? Order.OrderType.ASK : Order.OrderType.BID;
     }
 
-    private static Order.OrderType parseOrderType(LgoUserUpdateData orderEvent) {
-        return orderEvent.getSide().equals("B") ? Order.OrderType.BID : Order.OrderType.ASK;
+    private static Order.OrderType parseOrderType(String side) {
+        return side.equals("B") ? Order.OrderType.BID : Order.OrderType.ASK;
     }
 
-    private static Order.OrderType parseTradeType(LgoUserUpdateData updateData, Order order) {
+    private static Order.OrderType parseTradeType(LgoMatchOrderEvent event, Order order) {
         //the XChange API requires the taker order type
-        return takerBuyer(updateData, order) || makerSeller(updateData, order) ? Order.OrderType.BID : Order.OrderType.ASK;
+        return takerBuyer(event, order) || makerSeller(event, order) ? Order.OrderType.BID : Order.OrderType.ASK;
     }
 
-    private static boolean takerBuyer(LgoUserUpdateData updateData, Order order) {
+    private static boolean takerBuyer(LgoMatchOrderEvent updateData, Order order) {
         return order.getType().equals(Order.OrderType.BID) && updateData.getLiquidity().equals("T");
     }
 
-    private static boolean makerSeller(LgoUserUpdateData updateData, Order order) {
+    private static boolean makerSeller(LgoMatchOrderEvent updateData, Order order) {
         return order.getType().equals(Order.OrderType.ASK) && updateData.getLiquidity().equals("M");
     }
 
-    static Collection<LimitOrder> adaptOrdersSnapshot(List<LgoUserUpdateData> orderEvents, CurrencyPair currencyPair) {
-        return orderEvents.stream().map(orderEvent -> {
+    static Collection<LimitOrder> adaptOrdersSnapshot(List<LgoUserSnapshotData> orderEvents, CurrencyPair currencyPair) {
+        return orderEvents.stream()
+                .map(orderEvent -> {
             Order.OrderStatus status = orderEvent.getQuantity().equals(orderEvent.getRemainingQuantity()) ? Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
-            return new LimitOrder.Builder(parseOrderType(orderEvent), currencyPair)
+            return new LimitOrder.Builder(parseOrderType(orderEvent.getSide()), currencyPair)
                     .id(orderEvent.getOrderId())
                     .originalAmount(orderEvent.getQuantity())
                     .remainingAmount(orderEvent.getRemainingQuantity())
@@ -100,64 +102,44 @@ public class LgoAdapter {
         }).collect(toList());
     }
 
-    static Order adaptPendingOrder(LgoUserUpdateData orderEvent, CurrencyPair currencyPair) {
+    public static Order adaptPendingOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {
         if (orderEvent.getOrderType().equals("L")) {
             return adaptPendingLimitOrder(orderEvent, currencyPair);
         }
         return adaptPendingMarketOrder(orderEvent, currencyPair);
     }
 
-    static LimitOrder adaptPendingLimitOrder(LgoUserUpdateData orderEvent, CurrencyPair currencyPair) {
-        return new LimitOrder.Builder(parseOrderType(orderEvent), currencyPair)
+    static LimitOrder adaptPendingLimitOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {
+        return new LimitOrder.Builder(orderEvent.getSide(), currencyPair)
                 .id(orderEvent.getOrderId())
-                .originalAmount(orderEvent.getQuantity())
-                .remainingAmount(orderEvent.getQuantity())
-                .limitPrice(orderEvent.getPrice())
+                .originalAmount(orderEvent.getInitialAmount())
+                .remainingAmount(orderEvent.getInitialAmount())
+                .limitPrice(orderEvent.getLimitPrice())
                 .orderStatus(Order.OrderStatus.PENDING_NEW)
                 .timestamp(orderEvent.getTime())
                 .build();
     }
 
-    private static MarketOrder adaptPendingMarketOrder(LgoUserUpdateData orderEvent, CurrencyPair currencyPair) {
-        return new MarketOrder.Builder(parseOrderType(orderEvent), currencyPair)
+    private static MarketOrder adaptPendingMarketOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {
+        return new MarketOrder.Builder(orderEvent.getSide(), currencyPair)
                 .id(orderEvent.getOrderId())
-                .originalAmount(orderEvent.getQuantity())
+                .originalAmount(orderEvent.getInitialAmount())
                 .cumulativeAmount(BigDecimal.ZERO)
                 .orderStatus(Order.OrderStatus.PENDING_NEW)
                 .timestamp(orderEvent.getTime())
                 .build();
     }
 
-    static List<LgoOrderEvent> adaptOrderEvent(List<LgoUserUpdateData> data, Long batchId, List<Order> updatedOrders) {
-        List<LgoOrderEvent> events = new ArrayList<>();
-        for (LgoUserUpdateData orderEvent : data) {
-            switch (orderEvent.getType()) {
-                case "pending":
-                    events.add(new LgoPendingOrderEvent(batchId, orderEvent.getType(), orderEvent.getOrderId(), orderEvent.getTime(), orderEvent.getOrderType(), orderEvent.getPrice(), parseOrderType(orderEvent), orderEvent.getQuantity()));
-                    break;
-                case "open":
-                    events.add(new LgoOpenOrderEvent(batchId, orderEvent.getType(), orderEvent.getOrderId(), orderEvent.getTime()));
-                    break;
-                case "match":
-                    Order.OrderType tradeType = updatedOrders.stream().filter(order -> order.getId().equals(orderEvent.getOrderId())).findFirst().map(order -> parseTradeType(orderEvent, order)).orElse(null);
-                    events.add(new LgoMatchOrderEvent(batchId, orderEvent.getType(), orderEvent.getOrderId(), orderEvent.getTime(), orderEvent.getTradeId(), orderEvent.getPrice(), orderEvent.getFilledQuantity(), orderEvent.getRemainingQuantity(), orderEvent.getFees(), orderEvent.getLiquidity(), tradeType));
-                    break;
-                case "invalid":
-                    events.add(new LgoInvalidOrderEvent(batchId, orderEvent.getType(), orderEvent.getOrderId(), orderEvent.getTime(), orderEvent.getReason()));
-                    break;
-                case "done":
-                    events.add(new LgoDoneOrderEvent(batchId, orderEvent.getType(), orderEvent.getOrderId(), orderEvent.getTime(), orderEvent.getReason(), orderEvent.getCanceled()));
-                    break;
+    static List<LgoBatchOrderEvent> adaptOrderEvent(List<LgoBatchOrderEvent> data, Long batchId, List<Order> updatedOrders) {
+        data.forEach(e -> {
+            e.setBatchId(batchId);
+            if (e.getType().equals("match")) {
+                LgoMatchOrderEvent matchEvent = (LgoMatchOrderEvent) e;
+                Optional<Order> matchedOrder = updatedOrders.stream().filter(order -> order.getId().equals(e.getOrderId())).findFirst();
+                matchEvent.setOrderType(matchedOrder.map(order -> parseTradeType(matchEvent, order)).orElse(null));
             }
-        }
-        return events;
-    }
-
-    static LgoOrderEvent adaptReceivedEvent(LgoAckUpdateData data) {
-        if (data.getType().equals("received")) {
-            return new LgoReceivedOrderEvent(data.getType(), data.getOrderId(), data.getTime(), data.getReference());
-        }
-        return new LgoFailedOrderEvent(data.getType(), data.getOrderId(), data.getTime(), data.getReference(), data.getReason());
+        });
+        return data;
     }
 
     static UserTrade adaptUserTrade(CurrencyPair currencyPair, LgoMatchOrderEvent event) {

@@ -1,14 +1,18 @@
 package info.bitrich.xchangestream.lgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Order matched against another order
  */
-public class LgoMatchOrderEvent extends LgoOrderEvent {
+public class LgoMatchOrderEvent extends LgoBatchOrderEvent {
     /**
      * Trade identifier
      */
@@ -42,7 +46,26 @@ public class LgoMatchOrderEvent extends LgoOrderEvent {
     /**
      * Trade type (BID/ASK): taker order type
      */
-    private final Order.OrderType orderType;
+    private Order.OrderType orderType;
+
+    public LgoMatchOrderEvent(
+            @JsonProperty("type") String type,
+            @JsonProperty("order_id") String orderId,
+            @JsonProperty("time") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") Date time,
+            @JsonProperty("trade_id") String tradeId,
+            @JsonProperty("price") BigDecimal price,
+            @JsonProperty("filled_quantity") BigDecimal filledQuantity,
+            @JsonProperty("remaining_quantity") BigDecimal remainingQuantity,
+            @JsonProperty("fees") BigDecimal fees,
+            @JsonProperty("liquidity") String liquidity) {
+        super(type, orderId, time);
+        this.tradeId = tradeId;
+        this.tradePrice = price;
+        this.filledQuantity = filledQuantity;
+        this.remainingQuantity = remainingQuantity;
+        this.fees = fees;
+        this.liquidity = liquidity;
+    }
 
     public LgoMatchOrderEvent(Long batchId, String type, String orderId, Date time, String tradeId, BigDecimal tradePrice, BigDecimal filledQuantity, BigDecimal remainingQuantity, BigDecimal fees, String liquidity, Order.OrderType orderType) {
         super(batchId, type, orderId, time);
@@ -81,5 +104,19 @@ public class LgoMatchOrderEvent extends LgoOrderEvent {
 
     public Order.OrderType getOrderType() {
         return orderType;
+    }
+
+    public void setOrderType(Order.OrderType orderType) {
+        this.orderType = orderType;
+    }
+
+    @Override
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
+        Order matchedOrder = allOrders.get(currencyPair).get(getOrderId());
+        matchedOrder.setOrderStatus(Order.OrderStatus.PARTIALLY_FILLED);
+        matchedOrder.setCumulativeAmount(matchedOrder.getOriginalAmount().subtract(remainingQuantity));
+        BigDecimal fee = matchedOrder.getFee() == null ? fees : matchedOrder.getFee().add(fees);
+        matchedOrder.setFee(fee);
+        return matchedOrder;
     }
 }
