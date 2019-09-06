@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.lgo.dto;
 
-import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
+import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
 import org.knowm.xchange.dto.Order;
 
 import java.util.List;
@@ -8,11 +8,11 @@ import java.util.List;
 public class LgoBatchUpdate {
 
     private final List<Order> updatedOrders;
-    private final List<LgoOrderEvent> events;
+    private final List<LgoBatchOrderEvent> events;
     private final long batchId;
     private final String type;
 
-    public LgoBatchUpdate(List<Order> updatedOrders, List<LgoOrderEvent> events, long batchId, String type) {
+    public LgoBatchUpdate(List<Order> updatedOrders, List<LgoBatchOrderEvent> events, long batchId, String type) {
         this.updatedOrders = updatedOrders;
         this.events = events;
         this.batchId = batchId;
@@ -23,7 +23,7 @@ public class LgoBatchUpdate {
         return updatedOrders;
     }
 
-    public List<LgoOrderEvent> getEvents() {
+    public List<LgoBatchOrderEvent> getEvents() {
         return events;
     }
 
