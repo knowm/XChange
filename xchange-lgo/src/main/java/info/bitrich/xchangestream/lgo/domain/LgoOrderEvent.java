@@ -1,14 +1,24 @@
 package info.bitrich.xchangestream.lgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.Date;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type",
+        visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = LgoPendingOrderEvent.class, name = "pending"),
+        @JsonSubTypes.Type(value = LgoOpenOrderEvent.class, name = "open"),
+        @JsonSubTypes.Type(value = LgoMatchOrderEvent.class, name = "match"),
+        @JsonSubTypes.Type(value = LgoInvalidOrderEvent.class, name = "invalid"),
+        @JsonSubTypes.Type(value = LgoDoneOrderEvent.class, name = "done"),
+        @JsonSubTypes.Type(value = LgoReceivedOrderEvent.class, name = "received"),
+        @JsonSubTypes.Type(value = LgoFailedOrderEvent.class, name = "failed")
+})
 public abstract class LgoOrderEvent {
-
-    /**
-     * Identifier of the batch where the event happened.
-     * Null in the case of a type=received event. Not null otherwise
-     */
-    private final Long batchId;
 
     /**
      * Type of the event (all events).
@@ -25,15 +35,10 @@ public abstract class LgoOrderEvent {
      */
     private final Date time;
 
-    protected LgoOrderEvent(Long batchId, String type, String orderId, Date time) {
-        this.batchId = batchId;
+    protected LgoOrderEvent(String type, String orderId, Date time) {
         this.type = type;
         this.orderId = orderId;
         this.time = time;
-    }
-
-    public Long getBatchId() {
-        return batchId;
     }
 
     public String getType() {

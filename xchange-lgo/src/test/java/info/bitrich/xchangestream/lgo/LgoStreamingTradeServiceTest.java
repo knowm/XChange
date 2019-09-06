@@ -174,8 +174,8 @@ public class LgoStreamingTradeServiceTest {
         Date date1 = dateFormat.parse("2019-07-24T13:42:34.970Z");
         Date date2 = dateFormat.parse("2019-07-24T13:42:35.698Z");
         ArrayList<LgoOrderEvent> lgoOrderEvents = Lists.newArrayList(events.blockingIterable());
-        assertThat(lgoOrderEvents.get(0)).isEqualToComparingFieldByField(new LgoReceivedOrderEvent("received", "156397575497000001", date1, "plop"));
-        assertThat(lgoOrderEvents.get(1)).isEqualToComparingFieldByField(new LgoFailedOrderEvent("failed", "156397575497000001", date2, "plop", "INVALID_PAYLOAD"));
+        assertThat(lgoOrderEvents.get(0)).isEqualToComparingFieldByField(new LgoReceivedOrderEvent("156397575497000001", "plop", "received", date1));
+        assertThat(lgoOrderEvents.get(1)).isEqualToComparingFieldByField(new LgoFailedOrderEvent("156397575497000001", "plop", "failed", date2, "INVALID_PAYLOAD"));
     }
 
     @Test
@@ -194,7 +194,7 @@ public class LgoStreamingTradeServiceTest {
         Date date1 = dateFormat.parse("2019-07-25T07:16:21.600Z");
         Date date2 = dateFormat.parse("2019-07-25T07:16:22.959Z");
         ArrayList<LgoOrderEvent> lgoOrderEvents = Lists.newArrayList(events.blockingIterable());
-        assertThat(lgoOrderEvents.get(0)).isEqualToComparingFieldByField(new LgoReceivedOrderEvent("received", "156403898160000001", date1, "0"));
+        assertThat(lgoOrderEvents.get(0)).isEqualToComparingFieldByField(new LgoReceivedOrderEvent("156403898160000001", "0", "received", date1));
         assertThat(lgoOrderEvents.get(1)).isEqualToComparingFieldByField(new LgoPendingOrderEvent(6393996L, "pending", "156403898160000001", date1, "L", new BigDecimal("7000.0000"), Order.OrderType.ASK, new BigDecimal("3.00000000")));
         assertThat(lgoOrderEvents.get(2)).isEqualToComparingFieldByField(new LgoOpenOrderEvent(6393996L, "open", "156403898160000001", date2));
     }
