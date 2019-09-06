@@ -111,7 +111,7 @@ public class LgoStreamingExchangeExample {
     public void connectToOrderEvents() {
         exchange
                 .getStreamingTradeService()
-                .getAllOrderEvents(Collections.singletonList(CurrencyPair.BTC_USD))
+                .getRawAllOrderEvents(Collections.singletonList(CurrencyPair.BTC_USD))
                 .blockingForEach(System.out::println);
     }
 

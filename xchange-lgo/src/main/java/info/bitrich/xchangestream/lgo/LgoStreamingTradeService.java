@@ -97,7 +97,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
                 .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
                 .map(s -> mapper.readValue(s.toString(), LgoUserMessage.class))
                 .map(s -> {
-                    List<LgoOrderEvent> events = new ArrayList<>();
+                    List<LgoBatchOrderEvent> events = new ArrayList<>();
                     List<Order> updatedOrders;
                     if (s.getType().equals("update")) {
                         LgoUserUpdate userUpdate = (LgoUserUpdate) s;
@@ -140,7 +140,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
 
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-        return getBatchOrderEvents(currencyPair)
+        return getRawBatchOrderEvents(currencyPair)
                 .filter(lgoOrderEvent -> lgoOrderEvent.getType().equals("match"))
                 .map(matchEvent -> LgoAdapter.adaptUserTrade(currencyPair, (LgoMatchOrderEvent) matchEvent));
     }
@@ -149,10 +149,10 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      * Receive all events for the selected currency pairs. Merges batch order events and ack (AFR)
      * events.
      */
-    public Observable<LgoOrderEvent> getAllOrderEvents(Collection<CurrencyPair> currencyPairs) {
-        Observable<LgoOrderEvent> ackObservable = getReceivedOrderEvents();
+    public Observable<LgoOrderEvent> getRawAllOrderEvents(Collection<CurrencyPair> currencyPairs) {
+        Observable<LgoOrderEvent> ackObservable = getRawReceivedOrderEvents();
         Optional<Observable<LgoOrderEvent>> batchObservable = currencyPairs.stream()
-                .map(this::getBatchOrderEvents)
+                .map(this::getRawBatchOrderEvents)
                 .reduce(Observable::mergeWith);
         return batchObservable.isPresent() ? ackObservable.mergeWith(batchObservable.get()) : ackObservable;
     }
@@ -162,7 +162,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      * order, if you set a reference on order placement you will have it in the event. "failed" events
      * indicate that the order could not be read or was invalid and not added to a batch.
      */
-    public Observable<LgoOrderEvent> getReceivedOrderEvents() {
+    public Observable<LgoOrderEvent> getRawReceivedOrderEvents() {
         if (afrSubscription == null) {
             createAfrSubscription();
         }
@@ -186,7 +186,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      * entered the order book. "done" events indicate that the order was filled, canceled or
      * rejected.
      */
-    public Observable<LgoOrderEvent> getBatchOrderEvents(CurrencyPair currencyPair) {
+    public Observable<LgoOrderEvent> getRawBatchOrderEvents(CurrencyPair currencyPair) {
         return getOrderUpdates(currencyPair)
                 .map(LgoBatchUpdate::getEvents)
                 .flatMap(Observable::fromIterable);

@@ -12,6 +12,9 @@ import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelp
 
 public class LgoStreamingService extends JsonNettyStreamingService {
 
+    private final LgoSignatureService signatureService;
+    private final String apiUrl;
+
     public LgoStreamingService(LgoSignatureService signatureService, String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
         this.apiUrl = apiUrl;
@@ -46,7 +49,4 @@ public class LgoStreamingService extends JsonNettyStreamingService {
         headers.add("Authorization", auth);
         return headers;
     }
-
-    private final LgoSignatureService signatureService;
-    private final String apiUrl;
 }
