@@ -1,4 +1,4 @@
-package org.knowm.xchange.test.binance;
+package org.knowm.xchange.binance.service.marketdata;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -2,6 +2,7 @@ package org.knowm.xchange.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
@@ -57,6 +58,8 @@ public class ObjectMapperHelper {
   }
 
   private static ObjectMapper initWithoutIndentation() {
-    return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    return new ObjectMapper()
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
   }
 }
