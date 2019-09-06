@@ -1,7 +1,6 @@
 package org.knowm.xchange.utils;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -51,9 +50,7 @@ public class OrderValuesHelper {
     BigDecimal result = amount;
     BigDecimal stepSize = metaData.getAmountStepSize();
     if (stepSize != null && stepSize.compareTo(BigDecimal.ZERO) != 0) {
-      BigDecimal divided =
-          amount.divide(stepSize, MathContext.DECIMAL32).setScale(0, RoundingMode.FLOOR);
-      result = divided.multiply(stepSize, MathContext.DECIMAL32).stripTrailingZeros();
+      result = BigDecimalUtils.roundToStepSize(result, stepSize, RoundingMode.FLOOR);
     }
     Integer baseScale = metaData.getBaseScale();
     if (baseScale != null) {
