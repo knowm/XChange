@@ -41,7 +41,8 @@ public class CoindirectAccountService extends CoindirectAccountServiceRaw
           new Wallet(
               String.valueOf(coindirectWallet.id),
               coindirectWallet.description,
-              Arrays.asList(balance));
+              Arrays.asList(balance),
+              null);
       wallets.add(wallet);
     }
 

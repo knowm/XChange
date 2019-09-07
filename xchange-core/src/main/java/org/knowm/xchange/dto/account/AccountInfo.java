@@ -137,25 +137,27 @@ public final class AccountInfo implements Serializable {
   }
 
   /**
-    * Get wallet with given feature
-    *
-    * @return null if no wallet on given exchange supports this feature
-    * @throws UnsupportedOperationException if there are more then one wallets supporting the given feature
-    */
+   * Get wallet with given feature
+   *
+   * @return null if no wallet on given exchange supports this feature
+   * @throws UnsupportedOperationException if there are more then one wallets supporting the given
+   *     feature
+   */
   public Wallet getWallet(WalletFeature feature) {
     List<Wallet> walletWithFeatures = new ArrayList<>();
 
-    getWallets().forEach((s, wallet) -> {
-      if(wallet.getWalletFeatures() != null) {
-        if (wallet.getWalletFeatures().contains(feature)) {
-          walletWithFeatures.add(wallet);
-        }
-      }
-    });
+    wallets.forEach(
+        (s, wallet) -> {
+          if (wallet.getWalletFeatures() != null) {
+            if (wallet.getWalletFeatures().contains(feature)) {
+              walletWithFeatures.add(wallet);
+            }
+          }
+        });
 
-    if(walletWithFeatures.size() > 1){
+    if (walletWithFeatures.size() > 1) {
       throw new UnsupportedOperationException("More than one wallet offer this feature.");
-    }else if(walletWithFeatures.size() == 0){
+    } else if (walletWithFeatures.size() == 0) {
       return null;
     }
     return walletWithFeatures.get(0);

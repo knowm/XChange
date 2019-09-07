@@ -89,7 +89,7 @@ public class AccountServiceIntegration {
       }
     }
   }
-  
+
   @Test
   public void testWithdrawalHistory() throws Exception {
 

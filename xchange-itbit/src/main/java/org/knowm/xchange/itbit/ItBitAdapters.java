@@ -170,7 +170,10 @@ public final class ItBitAdapters {
       walletFeatures.add(WalletFeature.TRADING);
       Wallet wallet =
           new Wallet(
-              itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent,walletFeatures);
+              itBitAccountInfoReturn.getId(),
+              itBitAccountInfoReturn.getName(),
+              walletContent,
+              walletFeatures);
       wallets.add(wallet);
     }
 
