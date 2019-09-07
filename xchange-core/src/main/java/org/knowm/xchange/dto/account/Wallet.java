@@ -1,12 +1,9 @@
 package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.math.BigDecimal;
+import java.util.*;
+
 import org.knowm.xchange.currency.Currency;
 
 /**
@@ -24,6 +21,12 @@ public final class Wallet implements Serializable {
   private String id;
   /** A descriptive name for this wallet. Defaults to {@link #id} */
   private String name;
+  /** All wallet operations*/
+  private final Set<WalletFeature> walletFeatures;
+  /** Maximum leverage that wallet supports*/
+  private BigDecimal maxLeverage = BigDecimal.ZERO;
+  /** Current leverage of wallet*/
+  private BigDecimal currentLeverage = BigDecimal.ZERO;
 
   /**
    * Constructs a {@link Wallet}.
@@ -31,8 +34,11 @@ public final class Wallet implements Serializable {
    * @param id the wallet id
    * @param name a descriptive name for the wallet
    * @param balances the balances, the currencies of the balances should not be duplicated.
+   * @param walletFeatures all the features that wallet supports
+   *
+   * maxLeverage and currentLeverage are BigDecimal.ZERO for the default constructor
    */
-  public Wallet(String id, String name, Collection<Balance> balances) {
+  public Wallet(String id, String name, Collection<Balance> balances,Set<WalletFeature> walletFeatures) {
 
     this.id = id;
     if (name == null) {
@@ -55,30 +61,42 @@ public final class Wallet implements Serializable {
         this.balances.put(balance.getCurrency(), balance);
       }
     }
+    this.walletFeatures = walletFeatures;
   }
 
-  /** @see #Wallet(String, String, Collection) */
+  /** @see #Wallet(String, String, Collection,Set) */
   public Wallet(String id, Collection<Balance> balances) {
 
-    this(id, null, balances);
+    this(id, null, balances,null);
   }
 
-  /** @see #Wallet(String, String, Collection) */
+  /** @see #Wallet(String, String, Collection,Set) */
   public Wallet(String id, Balance... balances) {
 
-    this(id, null, Arrays.asList(balances));
+    this(id, null, Arrays.asList(balances),null);
   }
 
-  /** @see #Wallet(String, String, Collection) */
+  /** @see #Wallet(String, String, Collection,Set) */
   public Wallet(Collection<Balance> balances) {
 
-    this(null, null, balances);
+    this(null, balances);
   }
 
-  /** @see #Wallet(String, String, Collection) */
+  /** @see #Wallet(String, String, Collection,Set) */
   public Wallet(Balance... balances) {
 
     this(null, balances);
+  }
+
+  /**
+   *
+   * @see #Wallet(String, String, Collection,Set)
+   * Contructor for Margin Trading wallet
+   */
+  public Wallet(Collection<Balance> balances,Set<WalletFeature> walletFeatures,BigDecimal maxLeverage,BigDecimal currentLeverage){
+    this(null,null,balances, walletFeatures);
+    this.maxLeverage = maxLeverage;
+    this.currentLeverage = currentLeverage;
   }
 
   /** @return The wallet id */
@@ -97,6 +115,21 @@ public final class Wallet implements Serializable {
   public Map<Currency, Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
+  }
+
+  /**@return All wallet operation features*/
+  public Set<WalletFeature> getWalletFeatures() {
+    return walletFeatures;
+  }
+
+  /**@return Max leverage of wallet*/
+  public BigDecimal getMaxLeverage() {
+    return maxLeverage;
+  }
+
+  /**@return current leverage of wallet*/
+  public BigDecimal getCurrentLeverage() {
+    return currentLeverage;
   }
 
   /**

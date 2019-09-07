@@ -10,20 +10,13 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -172,10 +165,12 @@ public final class ItBitAdapters {
                 itBitAccountBalance.getAvailableBalance());
         walletContent.add(balance);
       }
-
+      Set<WalletFeature> walletFeatures = new HashSet<>();
+      walletFeatures.add(WalletFeature.FUNDING);
+      walletFeatures.add(WalletFeature.TRADING);
       Wallet wallet =
           new Wallet(
-              itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent);
+              itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent,walletFeatures);
       wallets.add(wallet);
     }
 
