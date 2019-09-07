@@ -157,7 +157,7 @@ public class LykkeAdapter {
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros()));
     }
-    return new AccountInfo(new Wallet("apiWallet", "apiWallet", balances));
+    return new AccountInfo(new Wallet( "apiWallet", balances));
   }
 
   private static Order.OrderType getOrderTypeFromVolumeSign(double volume) {
