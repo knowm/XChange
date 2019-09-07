@@ -48,8 +48,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
             BigDecimal.valueOf(5),
             BigDecimal.valueOf(krakenTradeBalanceInfo.getMargin().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue())
             );
-
-    System.out.println(krakenTradeBalanceInfo.toString());
+    
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), tradingWallet,marginWallet);
   }
 
