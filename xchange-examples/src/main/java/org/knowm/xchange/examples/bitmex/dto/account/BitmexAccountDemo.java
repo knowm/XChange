@@ -29,11 +29,8 @@ public class BitmexAccountDemo {
     BitmexAccount bitmexAccountInfo = accountServiceRaw.getBitmexAccountInfo();
     System.out.println("Margin infos response: " + bitmexAccountInfo.toString());
     BitmexMarginAccount xBt =
-        accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("XBt"));
+        accountServiceRaw.getBitmexMarginAccountStatus();
     System.out.println(xBt);
-    BitmexMarginAccount usd =
-        accountServiceRaw.getBitmexMarginAccountStatus(Currency.getInstance("USD"));
-    System.out.println(usd);
     List<BitmexMarginAccount> bitmexMarginAccountsStatus =
         accountServiceRaw.getBitmexMarginAccountsStatus();
     System.out.println(bitmexMarginAccountsStatus);
@@ -42,7 +39,6 @@ public class BitmexAccountDemo {
   private static void walletInfo(AccountService accountService) throws IOException {
     BitmexAccountServiceRaw accountServiceRaw = (BitmexAccountServiceRaw) accountService;
     BitmexWallet xBt = accountServiceRaw.getBitmexWallet(Currency.getInstance("XBt"));
-    System.out.println(xBt);
 
     List<BitmexWalletTransaction> walletHistory =
         accountServiceRaw.getBitmexWalletHistory(Currency.getInstance("XBt"));
