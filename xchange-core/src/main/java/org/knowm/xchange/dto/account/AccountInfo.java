@@ -146,8 +146,10 @@ public final class AccountInfo implements Serializable {
     List<Wallet> walletWithFeatures = new ArrayList<>();
 
     getWallets().forEach((s, wallet) -> {
-      if(wallet.getWalletFeatures().contains(feature)){
-        walletWithFeatures.add(wallet);
+      if(wallet.getWalletFeatures() != null) {
+        if (wallet.getWalletFeatures().contains(feature)) {
+          walletWithFeatures.add(wallet);
+        }
       }
     });
 
