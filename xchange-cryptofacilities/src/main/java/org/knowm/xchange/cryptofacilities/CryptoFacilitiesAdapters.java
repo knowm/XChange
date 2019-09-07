@@ -111,7 +111,7 @@ public class CryptoFacilitiesAdapters {
         balances.add(balance);
       }
 
-      wallets.add(new Wallet(accountName, accountName, balances));
+      wallets.add(new Wallet(accountName, accountName, balances, null));
     }
     return new AccountInfo(username, wallets);
   }

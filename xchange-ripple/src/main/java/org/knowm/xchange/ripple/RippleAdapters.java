@@ -64,7 +64,7 @@ public abstract class RippleAdapters {
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
-        walletId = null;
+        walletId = "main";
       } else {
         walletId = balance.getCounterparty();
       }

@@ -67,7 +67,7 @@ public class RippleAdaptersTest implements ITransferFeeSource {
     assertThat(usdBalance.getTotal()).isEqualTo("10");
     assertThat(usdBalance.getCurrency()).isEqualTo(Currency.USD);
 
-    final Wallet mainWallet = account.getWallet(null);
+    final Wallet mainWallet = account.getWallet("main");
     assertThat(mainWallet.getBalances()).hasSize(1);
 
     final Balance xrpBalance = mainWallet.getBalance(Currency.XRP);
