@@ -162,7 +162,13 @@ public final class Wallet implements Serializable {
 
   @Override
   public String toString() {
-
-    return "Wallet [id=" + id + ", name=" + name + ", balances=" + balances.values() + "]";
+    return "Wallet{" +
+            "balances=" + balances +
+            ", id='" + id + '\'' +
+            ", name='" + name + '\'' +
+            ", walletFeatures=" + walletFeatures +
+            ", maxLeverage=" + maxLeverage +
+            ", currentLeverage=" + currentLeverage +
+            '}';
   }
 }
