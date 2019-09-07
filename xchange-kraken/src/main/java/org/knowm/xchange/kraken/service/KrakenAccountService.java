@@ -41,14 +41,14 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     Set<WalletFeature> walletFeatures = new HashSet<>();
     walletFeatures.add(WalletFeature.FUNDING);
     walletFeatures.add(WalletFeature.MARGIN_TRADING);
-
+    System.out.println(krakenTradeBalanceInfo.toString());
     Wallet marginWallet = new Wallet(
             tradingWallet.getBalances().values(),
             walletFeatures,
             BigDecimal.valueOf(5),
-            BigDecimal.valueOf(krakenTradeBalanceInfo.getMargin().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue())
+            BigDecimal.valueOf(krakenTradeBalanceInfo.getCostBasis().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue())
             );
-    
+
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), tradingWallet,marginWallet);
   }
 
