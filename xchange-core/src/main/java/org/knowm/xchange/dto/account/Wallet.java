@@ -93,7 +93,7 @@ public final class Wallet implements Serializable {
       Set<WalletFeature> walletFeatures,
       BigDecimal maxLeverage,
       BigDecimal currentLeverage) {
-    this(null, null, balances, walletFeatures);
+    this("margin", null, balances, walletFeatures);
     this.maxLeverage = maxLeverage;
     this.currentLeverage = currentLeverage;
   }
