@@ -2,16 +2,15 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
@@ -37,10 +36,21 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
+    KrakenTradeBalanceInfo krakenTradeBalanceInfo = getKrakenTradeBalance();
+    Wallet tradingWallet = KrakenAdapters.adaptWallet(getKrakenBalance());
+    Set<WalletFeature> walletFeatures = new HashSet<>();
+    walletFeatures.add(WalletFeature.FUNDING);
+    walletFeatures.add(WalletFeature.MARGIN_TRADING);
 
-    return new AccountInfo(
-        exchange.getExchangeSpecification().getUserName(),
-        KrakenAdapters.adaptWallet(getKrakenBalance()));
+    Wallet marginWallet = new Wallet(
+            tradingWallet.getBalances().values(),
+            walletFeatures,
+            BigDecimal.valueOf(5),
+            BigDecimal.valueOf(krakenTradeBalanceInfo.getMargin().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue())
+            );
+
+    System.out.println(krakenTradeBalanceInfo.toString());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), tradingWallet,marginWallet);
   }
 
   @Override
