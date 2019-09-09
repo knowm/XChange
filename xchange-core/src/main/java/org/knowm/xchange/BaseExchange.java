@@ -96,7 +96,7 @@ public abstract class BaseExchange implements Exchange {
         is =
             BaseExchangeService.class
                 .getClassLoader()
-                .getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
+                .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json");
         loadExchangeMetaData(is);
       } finally {
         IOUtils.closeQuietly(is);

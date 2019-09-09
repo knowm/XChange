@@ -1,7 +1,6 @@
 package org.knowm.xchange.btcmarkets;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -128,14 +127,11 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     assertThat(exchange.getAccountService()).isNull();
   }
 
-  @Test(expected = NullPointerException.class)
-  public void shouldFailWhenApplyNullSpecification() {
-    // when
+  @Test
+  public void shouldUseDefaultExchangeSpecForNullSpecification() {
     exchange.applySpecification(null);
-
-    // then
-    fail(
-        "BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
+    assertThat(exchange.getExchangeSpecification())
+        .isEqualToComparingFieldByField(exchange.getDefaultExchangeSpecification());
   }
 
   @Test
