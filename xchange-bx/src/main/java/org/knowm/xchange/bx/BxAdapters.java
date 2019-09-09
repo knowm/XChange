@@ -128,7 +128,7 @@ public class BxAdapters {
               currencies.get(record).getDeposits());
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   private static Currency adaptCurrency(String currency) {

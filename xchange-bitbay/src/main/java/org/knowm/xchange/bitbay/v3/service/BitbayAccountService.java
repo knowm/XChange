@@ -3,6 +3,7 @@ package org.knowm.xchange.bitbay.v3.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.bitbay.v3.BitbayExchange;
@@ -30,13 +31,15 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
 
     for (BitbayBalances.BitbayBalance balance : balances()) {
       Wallet wallet =
-          new Wallet(
-              balance.getId(),
-              new Balance(
-                  Currency.getInstance(balance.getCurrency()),
-                  balance.getTotalFunds(),
-                  balance.getAvailableFunds(),
-                  balance.getLockedFunds()));
+          Wallet.Builder.from(
+                  Arrays.asList(
+                      new Balance(
+                          Currency.getInstance(balance.getCurrency()),
+                          balance.getTotalFunds(),
+                          balance.getAvailableFunds(),
+                          balance.getLockedFunds())))
+              .id(balance.getId())
+              .build();
       wallets.add(wallet);
     }
 

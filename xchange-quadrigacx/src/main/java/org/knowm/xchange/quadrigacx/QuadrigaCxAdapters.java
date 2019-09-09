@@ -56,7 +56,7 @@ public final class QuadrigaCxAdapters {
               quadrigacxBalance.getCurrencyAvailable(currency)));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OrderBook adaptOrderBook(

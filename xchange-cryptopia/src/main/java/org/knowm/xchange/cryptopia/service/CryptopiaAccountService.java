@@ -31,7 +31,7 @@ public class CryptopiaAccountService extends CryptopiaAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
     try {
       List<Balance> balances = getBalances();
-      return new AccountInfo(new Wallet(balances));
+      return new AccountInfo(Wallet.Builder.from(balances).build());
     } catch (CryptopiaException e) {
       throw CryptopiaErrorAdapter.adapt(e);
     }

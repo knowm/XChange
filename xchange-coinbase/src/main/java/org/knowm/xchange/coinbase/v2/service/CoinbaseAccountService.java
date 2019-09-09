@@ -2,6 +2,7 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
@@ -34,9 +35,12 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
     for (CoinbaseAccountData.CoinbaseAccount coinbaseAccount : coinbaseAccounts) {
       CoinbaseAmount balance = coinbaseAccount.getBalance();
       Wallet wallet =
-          new Wallet(
-              coinbaseAccount.getId(),
-              new Balance(Currency.getInstance(balance.getCurrency()), balance.getAmount()));
+          Wallet.Builder.from(
+                  Arrays.asList(
+                      new Balance(
+                          Currency.getInstance(balance.getCurrency()), balance.getAmount())))
+              .id(coinbaseAccount.getId())
+              .build();
       wallets.add(wallet);
     }
 

@@ -88,13 +88,14 @@ public class CobinhoodAdapters {
 
   public static AccountInfo adaptAccountInfo(CobinhoodCoinBalances balances) {
     Wallet wallet =
-        new Wallet(
-            null,
-            balances.getBalances().stream()
-                .map(
-                    balance ->
-                        new Balance(new Currency(balance.getCurrency()), balance.getTotalAmount()))
-                .collect(Collectors.toList()));
+        Wallet.Builder.from(
+                balances.getBalances().stream()
+                    .map(
+                        balance ->
+                            new Balance(
+                                new Currency(balance.getCurrency()), balance.getTotalAmount()))
+                    .collect(Collectors.toList()))
+            .build();
 
     return new AccountInfo(wallet);
   }

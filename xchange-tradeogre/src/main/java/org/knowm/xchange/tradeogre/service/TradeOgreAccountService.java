@@ -13,7 +13,7 @@ public class TradeOgreAccountService extends TradeOgreAccountServiceRaw implemen
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Wallet wallet = new Wallet(getTradeOgreBalances());
+    Wallet wallet = Wallet.Builder.from(getTradeOgreBalances()).build();
     return new AccountInfo(wallet);
   }
 }

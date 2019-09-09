@@ -114,8 +114,9 @@ public class AcxMapper {
   public AccountInfo mapAccountInfo(AcxAccountInfo accountInfo) {
     return new AccountInfo(
         accountInfo.name,
-        new Wallet(
-            accountInfo.accounts.stream().map(this::mapBalance).collect(Collectors.toList())));
+        Wallet.Builder.from(
+                accountInfo.accounts.stream().map(this::mapBalance).collect(Collectors.toList()))
+            .build());
   }
 
   private Balance mapBalance(AcxAccount acc) {

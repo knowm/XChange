@@ -86,7 +86,7 @@ public class QuoineAdapters {
           new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
@@ -102,7 +102,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -126,7 +126,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
@@ -176,7 +176,7 @@ public class QuoineAdapters {
           new Balance(
               Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance()));
     }
-    return new Wallet(balanceList);
+    return Wallet.Builder.from(balanceList).build();
   }
 
   //  public static Wallet adapt(BitcoinAccount[] balances) {

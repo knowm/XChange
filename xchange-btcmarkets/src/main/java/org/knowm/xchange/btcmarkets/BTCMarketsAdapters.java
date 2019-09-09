@@ -66,7 +66,7 @@ public final class BTCMarketsAdapters {
       final Currency currency = Currency.getInstance(blc.getCurrency());
       wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
-    return new Wallet(wallets);
+    return Wallet.Builder.from(wallets).build();
   }
 
   public static OrderBook adaptOrderBook(

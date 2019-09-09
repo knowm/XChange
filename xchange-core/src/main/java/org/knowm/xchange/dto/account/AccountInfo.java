@@ -143,13 +143,13 @@ public final class AccountInfo implements Serializable {
    * @throws UnsupportedOperationException if there are more then one wallets supporting the given
    *     feature
    */
-  public Wallet getWallet(WalletFeature feature) {
+  public Wallet getWallet(Wallet.WalletFeature feature) {
     List<Wallet> walletWithFeatures = new ArrayList<>();
 
     wallets.forEach(
         (s, wallet) -> {
-          if (wallet.getWalletFeatures() != null) {
-            if (wallet.getWalletFeatures().contains(feature)) {
+          if (wallet.getFeatures() != null) {
+            if (wallet.getFeatures().contains(feature)) {
               walletWithFeatures.add(wallet);
             }
           }

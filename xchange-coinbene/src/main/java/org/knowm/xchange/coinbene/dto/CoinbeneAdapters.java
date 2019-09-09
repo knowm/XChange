@@ -113,17 +113,17 @@ public class CoinbeneAdapters {
 
   public static AccountInfo adaptAccountInfo(CoinbeneCoinBalances balances) {
     Wallet wallet =
-        new Wallet(
-            null,
-            balances.getBalances().stream()
-                .map(
-                    balance ->
-                        new Balance(
-                            new Currency(balance.getAsset()),
-                            balance.getTotal(),
-                            balance.getAvailable(),
-                            balance.getReserved()))
-                .collect(Collectors.toList()));
+        Wallet.Builder.from(
+                balances.getBalances().stream()
+                    .map(
+                        balance ->
+                            new Balance(
+                                new Currency(balance.getAsset()),
+                                balance.getTotal(),
+                                balance.getAvailable(),
+                                balance.getReserved()))
+                    .collect(Collectors.toList()))
+            .build();
 
     return new AccountInfo(wallet);
   }
