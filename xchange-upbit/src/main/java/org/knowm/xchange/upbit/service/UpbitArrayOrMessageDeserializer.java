@@ -10,8 +10,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 /**
- * For several of the Abucoins APIs a JSON array is returned. If there is an error however, the json
- * is a json object not an array. To handle this case we have this generic JsonDeserializer that can
+ * For several of the Upbit APIs a JSON array is returned. If there is an error however, the json is
+ * a json object not an array. To handle this case we have this generic JsonDeserializer that can
  * handle an array or a json object being returned.
  *
  * <h2>Assumptions</h2>
