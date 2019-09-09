@@ -184,7 +184,7 @@ public final class BTCTradeAdapters {
             nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()),
             zeroIfNull(balance.getCnyBalance()),
             zeroIfNull(balance.getCnyReserved())));
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {

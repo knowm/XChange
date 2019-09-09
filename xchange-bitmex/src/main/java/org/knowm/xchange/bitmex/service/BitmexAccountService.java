@@ -2,18 +2,18 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrency;
@@ -38,19 +38,15 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Set<WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(WalletFeature.MARGIN_TRADING);
-    walletFeatures.add(WalletFeature.FUNDING);
-
     BitmexAccount account = super.getBitmexAccountInfo();
-    BitmexMarginAccount bitmexMarginAccount = getBitmexMarginAccountStatus();
-    BigDecimal amount = bitmexMarginAccount.getAmount().divide(BigDecimal.valueOf(100_000_000L));
-
-    List<Balance> balances = new ArrayList<>();
-    balances.add(new Balance(Currency.BTC, amount));
-
-    Wallet wallet = new Wallet(balances,walletFeatures,BigDecimal.valueOf(100),bitmexMarginAccount.getMarginLeverage());
-    AccountInfo accountInfo = new AccountInfo(account.getUsername(), wallet);
+    BitmexWallet bitmexWallet = getBitmexWallet();
+    String username = account.getUsername();
+    BigDecimal amount = bitmexWallet.getAmount();
+    BigDecimal amt = amount.divide(BigDecimal.valueOf(100_000_000L));
+    Balance balance = new Balance(Currency.BTC, amt);
+    Wallet wallet =
+        Wallet.Builder.from(Arrays.asList(balance)).id(Currency.BTC.getSymbol()).build();
+    AccountInfo accountInfo = new AccountInfo(username, wallet);
     return accountInfo;
   }
 

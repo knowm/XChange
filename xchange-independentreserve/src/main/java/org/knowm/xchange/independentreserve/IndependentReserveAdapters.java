@@ -142,7 +142,7 @@ public class IndependentReserveAdapters {
               balanceAccount.getTotalBalance(),
               balanceAccount.getAvailableBalance()));
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOpenOrders(

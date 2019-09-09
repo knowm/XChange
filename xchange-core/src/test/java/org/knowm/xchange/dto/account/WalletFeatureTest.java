@@ -10,38 +10,55 @@ import org.junit.Test;
 
 public class WalletFeatureTest {
 
-  static Set<WalletFeature> walletFeatureSet;
+  static Set<Wallet.WalletFeature> walletFeatureSet;
 
   @BeforeClass
   public static void setUp() {
     walletFeatureSet = new HashSet<>();
-    walletFeatureSet.add(WalletFeature.TRADING);
-    walletFeatureSet.add(WalletFeature.FUNDING);
+    walletFeatureSet.add(Wallet.WalletFeature.TRADING);
+    walletFeatureSet.add(Wallet.WalletFeature.FUNDING);
   }
 
   @Test
-  public void whenNoWalletFeatureExistsThenReturnNull() {
-    Wallet wallet = new Wallet("id", "name", new ArrayList<Balance>(), null);
+  public void whenNoWalletFeatureExistsThenReturnDefault() {
+    Wallet wallet = Wallet.Builder.from(new ArrayList<>()).build();
     AccountInfo accountInfo = new AccountInfo(wallet);
 
-    assertThat(accountInfo.getWallet(WalletFeature.TRADING)).isNull();
+    assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING)).isNotNull();
+    assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING).getFeatures()).isNotNull();
+    assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING).getFeatures().size())
+        .isEqualTo(2);
+    assertThat(
+            accountInfo
+                .getWallet(Wallet.WalletFeature.TRADING)
+                .getFeatures()
+                .contains(Wallet.WalletFeature.TRADING))
+        .isTrue();
+    assertThat(
+            accountInfo
+                .getWallet(Wallet.WalletFeature.TRADING)
+                .getFeatures()
+                .contains(Wallet.WalletFeature.FUNDING))
+        .isTrue();
   }
 
   @Test
   public void whenWalletWithSpecificFeatureExistsThenReturnWallet() {
-    Wallet wallet = new Wallet("id", "name", new ArrayList<Balance>(), walletFeatureSet);
+    Wallet wallet = Wallet.Builder.from(new ArrayList<>()).features(walletFeatureSet).build();
     AccountInfo accountInfo = new AccountInfo(wallet);
 
-    assertThat(accountInfo.getWallet(WalletFeature.TRADING)).isEqualTo(wallet);
+    assertThat(accountInfo.getWallet(Wallet.WalletFeature.TRADING)).isEqualTo(wallet);
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void whenMoreThanOneWalletWithSpecificFeatureExistThenThrowUnsupportedOperationExeption() {
-    Wallet wallet1 = new Wallet("id", "name", new ArrayList<Balance>(), walletFeatureSet);
-    Wallet wallet2 = new Wallet("id2", "name2", new ArrayList<Balance>(), walletFeatureSet);
+    Wallet wallet1 =
+        Wallet.Builder.from(new ArrayList<>()).id("id1").features(walletFeatureSet).build();
+    Wallet wallet2 =
+        Wallet.Builder.from(new ArrayList<>()).id("id2").features(walletFeatureSet).build();
 
     AccountInfo accountInfo = new AccountInfo(wallet1, wallet2);
 
-    accountInfo.getWallet(WalletFeature.TRADING);
+    accountInfo.getWallet(Wallet.WalletFeature.TRADING);
   }
 }

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -53,7 +54,12 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
     Collection<Balance> swapBalances =
         swapAccounts.stream().map(OkexAdaptersV3::convert).collect(Collectors.toList());*/
     return new AccountInfo(
-        new Wallet("Funding", fundingBalances), new Wallet("Trading", tradingBalances)
+        Wallet.Builder.from(fundingBalances)
+            .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
+            .build(),
+        Wallet.Builder.from(tradingBalances)
+            .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
+            .build()
         // new Wallet("Futures",futuresBalances),
         // new Wallet("Swap", swapBalances)
         );

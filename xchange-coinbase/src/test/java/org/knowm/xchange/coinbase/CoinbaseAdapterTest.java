@@ -37,7 +37,8 @@ public class CoinbaseAdapterTest {
     Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
     List<Balance> balances = new ArrayList<>();
     balances.add(balance);
-    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
+    AccountInfo expectedAccountInfo =
+        new AccountInfo("demo@demo.com", Wallet.Builder.from(balances).build());
 
     // Read in the JSON from the example resources
     InputStream is =

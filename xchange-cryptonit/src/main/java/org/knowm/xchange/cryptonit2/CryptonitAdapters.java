@@ -68,7 +68,8 @@ public final class CryptonitAdapters {
               ZERO);
       balances.add(xchangeBalance);
     }
-    return new AccountInfo(userName, cryptonitBalance.getFee(), new Wallet(balances));
+    return new AccountInfo(
+        userName, cryptonitBalance.getFee(), Wallet.Builder.from(balances).build());
   }
 
   /**

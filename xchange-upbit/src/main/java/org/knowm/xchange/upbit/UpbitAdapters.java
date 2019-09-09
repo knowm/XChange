@@ -116,7 +116,7 @@ public final class UpbitAdapters {
                       balance.getBalance().add(balance.getLocked()),
                       balance.getBalance()));
             });
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Order adaptOrderInfo(UpbitOrderResponse upbitOrderResponse) {
