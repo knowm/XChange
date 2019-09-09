@@ -40,7 +40,6 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     public OrderBook apply(CexioWebSocketOrderBookSubscribeResponse t) throws Exception {
       OrderBook retVal;
       if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
-        System.out.println("Dropping order book due to seq id mismatch");
         OrderBook orderBookSoFar =
             new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
       }
