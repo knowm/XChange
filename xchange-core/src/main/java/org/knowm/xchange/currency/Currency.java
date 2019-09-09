@@ -489,7 +489,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   private static class CurrencyAttributes implements Serializable {
 
     private static final long serialVersionUID = -5575649542242146958L;
-    
+
     public final Set<String> codes;
     public final String isoCode;
     public final String commonCode;
