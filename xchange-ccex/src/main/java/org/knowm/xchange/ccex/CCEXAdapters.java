@@ -169,7 +169,7 @@ public class CCEXAdapters {
               balance.getPending()));
     }
 
-    return new Wallet(wallets);
+    return Wallet.Builder.from(wallets).build();
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {

@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbase;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
@@ -38,7 +39,8 @@ public final class CoinbaseAdapters {
     final Balance balance =
         new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
 
-    final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
+    final AccountInfo accountInfoTemporaryName =
+        new AccountInfo(username, Wallet.Builder.from(Arrays.asList(balance)).build());
     return accountInfoTemporaryName;
   }
 

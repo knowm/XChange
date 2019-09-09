@@ -82,7 +82,7 @@ public final class CoindealAdapters {
       currency = null;
     }
 
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   public static OrderBook adaptOrderBook(

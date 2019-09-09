@@ -196,7 +196,7 @@ public class AbucoinsAdapters {
     List<Wallet> wallets = new ArrayList<>();
     for (Long profileID : mapByProfileID.keySet()) {
       List<Balance> balances = mapByProfileID.get(profileID);
-      wallets.add(new Wallet(String.valueOf(profileID), balances));
+      wallets.add(Wallet.Builder.from(balances).id(String.valueOf(profileID)).build());
     }
 
     return new AccountInfo("", wallets);
