@@ -170,9 +170,9 @@ public class GlobitexAdapters {
             });
 
     return Wallet.Builder.from(balances)
-            .id(globitexAccounts.getAccounts().get(0).getAccount())
-            .name(globitexAccounts.getAccounts().get(0).getAccount())
-            .build();
+        .id(globitexAccounts.getAccounts().get(0).getAccount())
+        .name(globitexAccounts.getAccounts().get(0).getAccount())
+        .build();
   }
 
   public static UserTrades adaptToUserTrades(GlobitexUserTrades globitexUserTrades) {

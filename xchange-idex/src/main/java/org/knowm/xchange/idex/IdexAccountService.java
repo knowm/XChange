@@ -72,15 +72,17 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
       ret =
           new AccountInfo(
               Wallet.Builder.from(
-                  returnBalancesPost.entrySet().stream()
-                      .map(
-                          entry ->
-                              new Balance(
-                                  new Currency(entry.getKey()),
-                                  null,
-                                  entry.getValue().getAvailable(),
-                                  entry.getValue().getOnOrders()))
-                      .collect(Collectors.toList())).id(s).build());
+                      returnBalancesPost.entrySet().stream()
+                          .map(
+                              entry ->
+                                  new Balance(
+                                      new Currency(entry.getKey()),
+                                      null,
+                                      entry.getValue().getAvailable(),
+                                      entry.getValue().getOnOrders()))
+                          .collect(Collectors.toList()))
+                  .id(s)
+                  .build());
 
     } catch (Exception ignored) {
       ignored.printStackTrace();
