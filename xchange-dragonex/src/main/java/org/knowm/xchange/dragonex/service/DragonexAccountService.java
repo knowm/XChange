@@ -39,7 +39,7 @@ public class DragonexAccountService extends DragonexAccountServiceRaw implements
                         b.volume.subtract(b.frozen),
                         b.frozen))
             .collect(Collectors.toList());
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   public TradeHistoryParams createFundingHistoryParams() {

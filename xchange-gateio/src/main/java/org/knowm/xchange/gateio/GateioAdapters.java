@@ -186,7 +186,7 @@ public final class GateioAdapters {
       }
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static UserTrades adaptUserTrades(List<GateioTrade> userTrades) {

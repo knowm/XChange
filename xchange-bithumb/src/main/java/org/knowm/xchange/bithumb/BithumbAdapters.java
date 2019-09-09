@@ -69,7 +69,7 @@ public final class BithumbAdapters {
               balance.getFrozen(currency));
       balances.add(xchangeBalance);
     }
-    return new AccountInfo(null, account.getTradeFee(), new Wallet(balances));
+    return new AccountInfo(null, account.getTradeFee(), Wallet.Builder.from(balances).build());
   }
 
   public static Ticker adaptTicker(BithumbTicker bithumbTicker, CurrencyPair currencyPair) {

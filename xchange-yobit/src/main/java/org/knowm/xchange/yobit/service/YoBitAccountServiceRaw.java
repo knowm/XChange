@@ -2,10 +2,7 @@ package org.knowm.xchange.yobit.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -62,7 +59,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit>
               BigDecimal.ZERO,
               BigDecimal.ZERO);
 
-      wallets.add(new Wallet(currency.getCurrencyCode(), balance));
+      wallets.add(
+          Wallet.Builder.from(Arrays.asList(balance)).id(currency.getCurrencyCode()).build());
     }
 
     return new AccountInfo(wallets);

@@ -2,6 +2,7 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
@@ -43,7 +44,8 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     BigDecimal amount = bitmexWallet.getAmount();
     BigDecimal amt = amount.divide(BigDecimal.valueOf(100_000_000L));
     Balance balance = new Balance(Currency.BTC, amt);
-    Wallet wallet = new Wallet(Currency.BTC.getSymbol(), balance);
+    Wallet wallet =
+        Wallet.Builder.from(Arrays.asList(balance)).id(Currency.BTC.getSymbol()).build();
     AccountInfo accountInfo = new AccountInfo(username, wallet);
     return accountInfo;
   }
