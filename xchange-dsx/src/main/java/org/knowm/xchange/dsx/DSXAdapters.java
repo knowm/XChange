@@ -135,7 +135,7 @@ public class DSXAdapters {
       balances.add(new Balance(Currency.getInstance(currency), total, available));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOrders(Map<Long, DSXOrder> dsxOrderMap) {

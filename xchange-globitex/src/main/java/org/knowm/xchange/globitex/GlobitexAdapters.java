@@ -168,14 +168,11 @@ public class GlobitexAdapters {
 
               balances.add(balance);
             });
-    Set<WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(WalletFeature.TRADING);
-    walletFeatures.add(WalletFeature.FUNDING);
 
-    return new Wallet(
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        balances,walletFeatures);
+    return Wallet.Builder.from(balances)
+        .id(globitexAccounts.getAccounts().get(0).getAccount())
+        .name(globitexAccounts.getAccounts().get(0).getAccount())
+        .build();
   }
 
   public static UserTrades adaptToUserTrades(GlobitexUserTrades globitexUserTrades) {

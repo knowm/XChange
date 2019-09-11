@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -165,7 +167,11 @@ public class LakeBTCAdapters {
     Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY());
     Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
 
-    return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
+    return new AccountInfo(
+        profile.getId(),
+        Wallet.Builder.from(
+                Stream.of(usdBalance, btcBalance, cnyWBalance).collect(Collectors.toList()))
+            .build());
   }
 
   /**

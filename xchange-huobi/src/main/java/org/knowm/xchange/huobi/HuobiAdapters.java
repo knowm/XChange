@@ -124,7 +124,7 @@ public class HuobiAdapters {
         // It might be a new currency. Ignore the exception and continue with other currency.
       }
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Map<String, HuobiBalanceSum> adaptBalance(HuobiBalanceRecord[] huobiBalance) {

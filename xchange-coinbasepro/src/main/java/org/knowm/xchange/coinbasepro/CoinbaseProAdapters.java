@@ -168,7 +168,7 @@ public class CoinbaseProAdapters {
               coinbaseProAccount.getHold()));
     }
 
-    return new Wallet(coinbaseProAccounts[0].getProfile_id(), balances);
+    return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfile_id()).build();
   }
 
   @SuppressWarnings("unchecked")
