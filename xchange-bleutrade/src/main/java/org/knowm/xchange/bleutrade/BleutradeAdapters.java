@@ -127,7 +127,7 @@ public class BleutradeAdapters {
               bleutradeBalance.getPending()));
     }
 
-    return new Wallet(null, balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {

@@ -327,7 +327,7 @@ public final class GeminiAdapters {
       balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {

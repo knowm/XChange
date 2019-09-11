@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
@@ -50,9 +49,7 @@ public class UpbitJWTDigest implements ParamsDigest {
     }
     Algorithm algorithm = Algorithm.HMAC256(secretKey);
     JWTCreator.Builder builder = JWT.create();
-    builder
-        .withClaim("access_key", accessKey)
-            .withClaim("nonce", UUID.randomUUID().toString());
+    builder.withClaim("access_key", accessKey).withClaim("nonce", UUID.randomUUID().toString());
     if (queryString.length() > 0) builder.withClaim("query", queryString);
     String jwtToken = builder.sign(algorithm);
     return "Bearer " + jwtToken;

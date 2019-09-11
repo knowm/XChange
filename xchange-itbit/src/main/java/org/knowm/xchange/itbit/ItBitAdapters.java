@@ -165,16 +165,12 @@ public final class ItBitAdapters {
                 itBitAccountBalance.getAvailableBalance());
         walletContent.add(balance);
       }
-      Set<WalletFeature> walletFeatures = new HashSet<>();
-      walletFeatures.add(WalletFeature.FUNDING);
-      walletFeatures.add(WalletFeature.TRADING);
-      Wallet wallet =
-          new Wallet(
-              itBitAccountInfoReturn.getId(),
-              itBitAccountInfoReturn.getName(),
-              walletContent,
-              walletFeatures);
-      wallets.add(wallet);
+
+      wallets.add(
+          Wallet.Builder.from(walletContent)
+              .id(itBitAccountInfoReturn.getId())
+              .name(itBitAccountInfoReturn.getName())
+              .build());
     }
 
     return new AccountInfo(userId, wallets);

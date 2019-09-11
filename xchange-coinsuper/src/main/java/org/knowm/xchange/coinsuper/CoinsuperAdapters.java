@@ -149,7 +149,7 @@ public class CoinsuperAdapters {
               .build());
     }
 
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   /**

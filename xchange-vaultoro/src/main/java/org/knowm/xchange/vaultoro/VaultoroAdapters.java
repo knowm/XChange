@@ -87,7 +87,7 @@ public final class VaultoroAdapters {
       balances.add(adaptVaultoroBalance(vaultoroBalance));
     }
 
-    return new AccountInfo(new Wallet(balances));
+    return new AccountInfo(Wallet.Builder.from(balances).build());
   }
 
   public static Balance adaptVaultoroBalance(VaultoroBalance vaultoroBalance) {
