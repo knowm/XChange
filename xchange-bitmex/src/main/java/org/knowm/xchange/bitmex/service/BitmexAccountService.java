@@ -38,9 +38,9 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Set<WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(WalletFeature.MARGIN_TRADING);
-    walletFeatures.add(WalletFeature.FUNDING);
+    Set<Wallet.WalletFeature> walletFeatures = new HashSet<>();
+    walletFeatures.add(Wallet.WalletFeature.MARGIN_TRADING);
+    walletFeatures.add(Wallet.WalletFeature.FUNDING);
 
     BitmexAccount account = super.getBitmexAccountInfo();
     BitmexMarginAccount bitmexMarginAccount = getBitmexMarginAccountStatus();
@@ -49,9 +49,14 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     List<Balance> balances = new ArrayList<>();
     balances.add(new Balance(Currency.BTC, amount));
 
-    Wallet wallet = new Wallet(balances,walletFeatures,BigDecimal.valueOf(100),bitmexMarginAccount.getMarginLeverage());
-    AccountInfo accountInfo = new AccountInfo(account.getUsername(), wallet);
-    return accountInfo;
+    Wallet wallet = Wallet.Builder.from(balances)
+            .id("margin")
+            .features(walletFeatures)
+            .maxLeverage(BigDecimal.valueOf(100))
+            .currentLeverage(bitmexMarginAccount.getMarginLeverage())
+            .build();
+
+    return new AccountInfo(account.getUsername(), wallet);
   }
 
   @Override
