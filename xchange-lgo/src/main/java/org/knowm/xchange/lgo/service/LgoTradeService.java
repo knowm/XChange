@@ -12,6 +12,10 @@ import org.knowm.xchange.lgo.LgoErrorAdapter;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
+import org.knowm.xchange.lgo.dto.key.LgoKey;
+import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
+import org.knowm.xchange.lgo.dto.order.LgoOrderSignature;
+import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
@@ -25,9 +29,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 public class LgoTradeService extends LgoTradeServiceRaw implements TradeService {
 
   private final Random random;
+  private final LgoKeyService keyService;
 
-  public LgoTradeService(LgoExchange exchange) {
+  public LgoTradeService(LgoExchange exchange, LgoKeyService keyService) {
     super(exchange);
+    this.keyService = keyService;
     random = new Random();
   }
 
@@ -39,8 +45,7 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     TradeHistoryParamsSorted.Order sort = getSort(params);
     try {
       WithCursor<LgoUserTrades> lgoTrades =
-          super.getLastTrades(
-              random.nextLong(), exchange.getSignatureService(), productId, maxResults, page, sort);
+          super.getLastTrades(productId, maxResults, page, sort);
       return LgoAdapters.adaptUserTrades(lgoTrades);
     } catch (LgoException e) {
       throw LgoErrorAdapter.adapt(e);
@@ -122,4 +127,17 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     }
     throw new IllegalArgumentException("Product not supported " + currencyPair.toString());
   }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    LgoKey lgoKey = keyService.selectKey();
+    Long ref = exchange.getNonceFactory().createValue();
+    LgoPlaceOrder lgoOrder = LgoAdapters.adaptLimitOrder(limitOrder);
+    String encryptedOrder = CryptoUtils.encryptOrder(lgoKey, lgoOrder);
+    LgoOrderSignature signature = exchange.getSignatureService().signOrder(encryptedOrder);
+    LgoEncryptedOrder lgoEncryptedOrder = new LgoEncryptedOrder(lgoKey.getId(), encryptedOrder,
+        signature, ref);
+    return placeLgoLimitOrder(lgoEncryptedOrder);
+  }
+
 }

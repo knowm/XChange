@@ -41,7 +41,7 @@ public class LgoTradeServiceTest {
     when(exchange.getExchangeSpecification()).thenReturn(LgoEnv.sandbox());
     when(exchange.getExchangeMetaData())
         .thenReturn(LgoAdapters.adaptMetadata(metaData, products, currencies));
-    tradeService = new LgoTradeService(exchange);
+    tradeService = new LgoTradeService(exchange, mock(LgoKeyService.class));
   }
 
   private <T> T load(String resource, Class<T> clazz) throws java.io.IOException {

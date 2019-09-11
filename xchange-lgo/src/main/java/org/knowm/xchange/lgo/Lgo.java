@@ -1,8 +1,10 @@
 package org.knowm.xchange.lgo;
 
 import java.io.IOException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -12,6 +14,8 @@ import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
+import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
+import org.knowm.xchange.lgo.dto.order.LgoPlaceOrderResponse;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import si.mazi.rescu.ParamsDigest;
@@ -28,13 +32,13 @@ public interface Lgo {
   String SORT = "sort";
 
   @GET
-  @Path("/history/products")
+  @Path("/live/products")
   LgoProducts getProducts(
       @HeaderParam(X_LGO_DATE) long timestamp, @HeaderParam(AUTHORIZATION) ParamsDigest signature)
       throws IOException, LgoException;
 
   @GET
-  @Path("/history/currencies")
+  @Path("/live/currencies")
   LgoCurrencies getCurrencies(
       @HeaderParam(X_LGO_DATE) long timestamp, @HeaderParam(AUTHORIZATION) ParamsDigest signature)
       throws IOException, LgoException;
@@ -56,5 +60,14 @@ public interface Lgo {
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
       @PathParam(PRODUCT_ID) String productId);
+
+  @POST
+  @Path("/live/place")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  LgoPlaceOrderResponse placeEncryptedOrder(
+      LgoEncryptedOrder placeOrder,
+      @HeaderParam(X_LGO_DATE) long timestamp,
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature);
 
 }

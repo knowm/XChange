@@ -23,6 +23,7 @@ public class LgoOrderbookTest {
     LgoOrderbook lgoOrderbook = mapper.readValue(is, LgoOrderbook.class);
 
     assertThat(lgoOrderbook).isNotNull();
+    assertThat(lgoOrderbook.lastBatchId).isEqualTo(10);
     assertThat(lgoOrderbook.asks).hasSize(2);
     assertThat(lgoOrderbook.bids).hasSize(2);
     assertThat(lgoOrderbook.asks).containsExactly(
