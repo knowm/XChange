@@ -1,15 +1,17 @@
 package org.knowm.xchange.lgo;
 
-import org.knowm.xchange.*;
+import java.io.IOException;
+import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
-import org.knowm.xchange.lgo.service.*;
+import org.knowm.xchange.lgo.service.LgoMarketDataService;
+import org.knowm.xchange.lgo.service.LgoSignatureService;
+import org.knowm.xchange.lgo.service.LgoTradeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
 
 public class LgoExchange extends BaseExchange {
 

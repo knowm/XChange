@@ -1,22 +1,27 @@
 package org.knowm.xchange.lgo.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.*;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.lgo.*;
-import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.product.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.Before;
+import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.lgo.LgoAdapters;
+import org.knowm.xchange.lgo.LgoEnv;
+import org.knowm.xchange.lgo.LgoExchange;
+import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
+import org.knowm.xchange.lgo.dto.product.LgoProducts;
+import org.knowm.xchange.lgo.dto.product.LgoProductsTest;
 
 public class LgoTradeServiceTest {
 
@@ -39,7 +44,7 @@ public class LgoTradeServiceTest {
     tradeService = new LgoTradeService(exchange);
   }
 
-  protected <T> T load(String resource, Class<T> clazz) throws java.io.IOException {
+  private <T> T load(String resource, Class<T> clazz) throws java.io.IOException {
     InputStream is = LgoProductsTest.class.getResourceAsStream(resource);
     ObjectMapper mapper = new ObjectMapper();
 

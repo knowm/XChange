@@ -13,6 +13,7 @@ import java.util.stream.StreamSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -26,6 +27,7 @@ import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
+import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceLimitOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceMarketOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
@@ -90,7 +92,7 @@ public final class LgoAdapters {
     return new LgoKey(summary[0], Instant.parse(summary[1]), Instant.parse(summary[2]));
   }
 
-  public static LgoPlaceOrder adaptLimitOrder(LimitOrder limitOrder) {
+  static LgoPlaceOrder adaptLimitOrder(LimitOrder limitOrder) {
     String product = adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = adaptOrderType(limitOrder.getType());
     return new LgoPlaceLimitOrder(
@@ -102,14 +104,14 @@ public final class LgoAdapters {
         limitOrder.getTimestamp().toInstant());
   }
 
-  public static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {
+  static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {
     String product = adaptCurrencyPair(marketOrder.getCurrencyPair());
     String side = adaptOrderType(marketOrder.getType());
     return new LgoPlaceMarketOrder(
         0, side, product, marketOrder.getOriginalAmount(), marketOrder.getTimestamp().toInstant());
   }
 
-  public static String adaptOrderType(OrderType type) {
+  private static String adaptOrderType(OrderType type) {
     return type == OrderType.BID ? "B" : "S";
   }
 
@@ -134,12 +136,12 @@ public final class LgoAdapters {
         currencyPair.counter);
   }
 
-  public static CurrencyPair adaptProductId(String productId) {
+  static CurrencyPair adaptProductId(String productId) {
     String[] pair = productId.split("-");
     return new CurrencyPair(pair[0], pair[1]);
   }
 
-  public static OrderType adaptUserTradeType(LgoUserTrade trade) {
+  static OrderType adaptUserTradeType(LgoUserTrade trade) {
     boolean bidSide = buyerTaker(trade) || sellerMaker(trade);
     return bidSide ? OrderType.BID : OrderType.ASK;
   }
@@ -158,5 +160,17 @@ public final class LgoAdapters {
             .map(LgoAdapters::adaptUserTrade)
             .collect(Collectors.toList());
     return new UserTrades(trades, 0L, Trades.TradeSortType.SortByID, lastTrades.getNextPage());
+  }
+
+  public static OrderBook adaptOrderBook(LgoOrderbook ob, CurrencyPair pair) {
+    List<LimitOrder> bids =
+        ob.bids.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        ob.asks.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    return new OrderBook(null, asks, bids);
   }
 }
