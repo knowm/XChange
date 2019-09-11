@@ -92,7 +92,7 @@ public final class LgoAdapters {
     return new LgoKey(summary[0], Instant.parse(summary[1]), Instant.parse(summary[2]));
   }
 
-  static LgoPlaceOrder adaptLimitOrder(LimitOrder limitOrder) {
+  public static LgoPlaceOrder adaptLimitOrder(LimitOrder limitOrder) {
     String product = adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = adaptOrderType(limitOrder.getType());
     return new LgoPlaceLimitOrder(

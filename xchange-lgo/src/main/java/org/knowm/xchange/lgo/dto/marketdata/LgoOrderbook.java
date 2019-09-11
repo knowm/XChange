@@ -13,12 +13,12 @@ import java.util.function.BiConsumer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class LgoOrderbook {
 
-  private final long lastBatchId;
+  public final long lastBatchId;
   public final SortedMap<BigDecimal, BigDecimal> bids;
   public final SortedMap<BigDecimal, BigDecimal> asks;
 
   public LgoOrderbook(
-      @JsonProperty("batchId") long lastBatchId,
+      @JsonProperty("batch_id") long lastBatchId,
       @JsonProperty("bids") List<Object[]> bidsJson,
       @JsonProperty("asks") List<Object[]> asksJson) {
     this.lastBatchId = lastBatchId;
