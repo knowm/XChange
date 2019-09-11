@@ -19,6 +19,6 @@
 
   <!-- Define logging for organization applications only -->
   <logger name="org.knowm.xchange" level="INFO"/>
-  <logger name="si.mazi.rescu" level="INFO"/>
+  <logger name="si.mazi.rescu" level="DEBUG"/>
 
 </configuration>
