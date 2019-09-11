@@ -54,7 +54,7 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
       balances.add(
           new Balance(
               LunoUtil.fromLunoCurrency(lb.asset), lb.balance, lb.balance.subtract(lb.reserved)));
-      wallets.add(new Wallet(lb.accountId, lb.name, balances));
+      wallets.add(Wallet.Builder.from(balances).id(lb.accountId).name(lb.name).build());
     }
 
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), wallets);

@@ -176,7 +176,7 @@ public final class WexAdapters {
       Currency currency = adaptCurrencyIn(lcCurrency);
       balances.add(new Balance(currency, fund));
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOrders(Map<Long, WexOrder> btceOrderMap) {

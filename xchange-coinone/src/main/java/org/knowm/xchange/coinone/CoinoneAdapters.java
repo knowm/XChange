@@ -157,7 +157,7 @@ public final class CoinoneAdapters {
             Currency.getInstance("XRP"),
             coninoneResponse.getXrp().getBalance(),
             coninoneResponse.getXrp().getAvail()));
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Ticker adaptTicker(CoinoneTicker ticker) {

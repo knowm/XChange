@@ -149,7 +149,7 @@ public class CexIOAdapters {
       balances.add(adaptBalance(Currency.getInstance(ccyName), cexIOBalance));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
