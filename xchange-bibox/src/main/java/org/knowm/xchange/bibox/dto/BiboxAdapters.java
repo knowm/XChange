@@ -72,7 +72,7 @@ public class BiboxAdapters {
   private static Wallet adaptWallet(List<BiboxAsset> coins) {
     List<Balance> balances =
         coins.stream().map(BiboxAdapters::adaptBalance).collect(Collectors.toList());
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   private static Balance adaptBalance(BiboxAsset asset) {

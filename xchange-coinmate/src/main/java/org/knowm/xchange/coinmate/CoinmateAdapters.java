@@ -131,7 +131,6 @@ public class CoinmateAdapters {
 
     CoinmateBalanceData funds = coinmateBalance.getData();
     List<Balance> balances = new ArrayList<>(funds.size());
-
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
       Balance balance =
@@ -143,7 +142,7 @@ public class CoinmateAdapters {
 
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static UserTrades adaptTransactionHistory(

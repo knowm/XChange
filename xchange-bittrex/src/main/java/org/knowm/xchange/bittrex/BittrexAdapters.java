@@ -252,7 +252,7 @@ public final class BittrexAdapters {
               Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO)));
     }
 
-    return new Wallet(wallets);
+    return Wallet.Builder.from(wallets).build();
   }
 
   public static Balance adaptBalance(BittrexBalance balance) {

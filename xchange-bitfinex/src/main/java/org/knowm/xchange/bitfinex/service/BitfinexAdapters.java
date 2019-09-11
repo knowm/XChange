@@ -389,7 +389,7 @@ public final class BitfinexAdapters {
         balances.add(
             new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
       }
-      wallets.add(new Wallet(walletData.getKey(), balances));
+      wallets.add(Wallet.Builder.from(balances).id(walletData.getKey()).build());
     }
 
     return wallets;

@@ -144,7 +144,7 @@ public class BitbayAdapters {
               balance.getLocked()));
     }
 
-    return new AccountInfo(userName, new Wallet(balances));
+    return new AccountInfo(userName, Wallet.Builder.from(balances).build());
   }
 
   public static OpenOrders adaptOpenOrders(List<BitbayOrder> orders) {

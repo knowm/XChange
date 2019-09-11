@@ -2,12 +2,7 @@ package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.Nullable;
 
 /**
@@ -139,6 +134,33 @@ public final class AccountInfo implements Serializable {
   public Wallet getWallet(String id) {
 
     return wallets.get(id);
+  }
+
+  /**
+   * Get wallet with given feature
+   *
+   * @return null if no wallet on given exchange supports this feature
+   * @throws UnsupportedOperationException if there are more then one wallets supporting the given
+   *     feature
+   */
+  public Wallet getWallet(Wallet.WalletFeature feature) {
+    List<Wallet> walletWithFeatures = new ArrayList<>();
+
+    wallets.forEach(
+        (s, wallet) -> {
+          if (wallet.getFeatures() != null) {
+            if (wallet.getFeatures().contains(feature)) {
+              walletWithFeatures.add(wallet);
+            }
+          }
+        });
+
+    if (walletWithFeatures.size() > 1) {
+      throw new UnsupportedOperationException("More than one wallet offer this feature.");
+    } else if (walletWithFeatures.size() == 0) {
+      return null;
+    }
+    return walletWithFeatures.get(0);
   }
 
   /** @return The user name */
