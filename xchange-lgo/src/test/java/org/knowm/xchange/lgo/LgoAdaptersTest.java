@@ -39,6 +39,7 @@ import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceLimitOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceMarketOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
 import org.knowm.xchange.lgo.dto.product.LgoLimit;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
@@ -163,6 +164,28 @@ public class LgoAdaptersTest {
     assertThat(bidOrder)
         .isEqualToComparingFieldByField(
             new LgoPlaceMarketOrder(0, "S", "BTC-USD", new BigDecimal("1"), timestamp.toInstant()));
+  }
+
+  @Test
+  public void adapatsUnencryptedOrder() {
+    Date timestamp = new Date();
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.ASK,
+            new BigDecimal("1"),
+            CurrencyPair.BTC_USD,
+            null,
+            timestamp,
+            new BigDecimal("6000"));
+
+    LgoUnencryptedOrder lgoUnencryptedOrder = LgoAdapters.adaptUnencryptedLimitOrder(limitOrder);
+
+    assertThat(lgoUnencryptedOrder.price).isEqualTo("6000");
+    assertThat(lgoUnencryptedOrder.quantity).isEqualTo("1");
+    assertThat(lgoUnencryptedOrder.productId).isEqualTo("BTC-USD");
+    assertThat(lgoUnencryptedOrder.side).isEqualTo("S");
+    assertThat(lgoUnencryptedOrder.timestamp).isEqualTo(timestamp.getTime());
+    assertThat(lgoUnencryptedOrder.type).isEqualTo("L");
   }
 
   @Test

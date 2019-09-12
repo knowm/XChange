@@ -41,6 +41,17 @@ public class LgoExchangeTradeIntegration {
     System.out.printf(orderId);
   }
 
+  @Test
+  public void placeUnencryptedLimitOrder() throws IOException {
+    LgoExchange lgoExchange = exchangeWithCredentials();
+    LgoTradeService tradeService = lgoExchange.getTradeService();
+
+    String orderId = tradeService.placeUnencryptedLimitOrder(
+        new LimitOrder(OrderType.ASK, new BigDecimal("2"), CurrencyPair.BTC_USD, null, new Date(),
+            new BigDecimal("6000")));
+    System.out.printf(orderId);
+  }
+
   // api key and secret key are expected to be in test resources under
   // integration directory
   // this directory is added to .gitignore to avoid committing a real usable key
