@@ -33,10 +33,18 @@ public interface LgoSignatureService extends ParamsDigest {
   default String digestParams(RestInvocation restInvocation) {
     String rawUrl = restInvocation.getInvocationUrl();
     String timestamp = restInvocation.getHttpHeadersFromParams().getOrDefault(Lgo.X_LGO_DATE, "");
-    return digestHeader(rawUrl, timestamp);
+    return digestHeader(rawUrl, timestamp, withBodyIfNeeded(restInvocation));
   }
 
-  String digestHeader(String urlToSign, String timestamp);
+  default String withBodyIfNeeded(RestInvocation restInvocation) {
+    if (restInvocation.getPath().equals("/v1/live/orders")) {
+      return restInvocation.getRequestBody();
+    }
+    return "";
+  }
+
+  String digestHeader(String urlToSign, String timestamp, String body);
 
   LgoOrderSignature signOrder(String encryptedOrder);
+
 }

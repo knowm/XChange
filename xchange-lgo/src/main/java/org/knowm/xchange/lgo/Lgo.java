@@ -16,6 +16,7 @@ import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrderResponse;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import si.mazi.rescu.ParamsDigest;
@@ -62,11 +63,21 @@ public interface Lgo {
       @PathParam(PRODUCT_ID) String productId);
 
   @POST
-  @Path("/live/place")
+  @Path("/live/orders/encrypted")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   LgoPlaceOrderResponse placeEncryptedOrder(
       LgoEncryptedOrder placeOrder,
+      @HeaderParam(X_LGO_DATE) long timestamp,
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature);
+
+
+  @POST
+  @Path("/live/orders")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  LgoPlaceOrderResponse placeUnencryptedOrder(
+      LgoUnencryptedOrder placeOrder,
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature);
 

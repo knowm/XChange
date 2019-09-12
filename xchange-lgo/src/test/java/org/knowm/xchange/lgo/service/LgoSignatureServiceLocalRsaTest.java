@@ -21,7 +21,7 @@ public class LgoSignatureServiceLocalRsaTest {
 
   @Test
   public void digestHeader() {
-    String digest = signatureService.digestHeader("wss://echo.test", "3");
+    String digest = signatureService.digestHeader("wss://echo.test", "3", "");
 
     assertThat(digest).startsWith(String.format("LGO %s:", apiKey));
     assertThat(digest)

@@ -27,7 +27,7 @@ public class LgoSignatureServiceLocalRsa implements LgoSignatureService {
   }
 
   @Override
-  public String digestHeader(String urlToSign, String timestamp) {
+  public String digestHeader(String urlToSign, String timestamp, String body) {
     try {
       urlToSign =
           urlToSign
@@ -35,11 +35,19 @@ public class LgoSignatureServiceLocalRsa implements LgoSignatureService {
               .replace("https://", "")
               .replace("wss://", "")
               .replace("ws://", "");
-      String signed = signSHA256RSA(String.format("%s\n%s", timestamp, urlToSign));
+
+      String signed = signSHA256RSA(toSign(urlToSign, timestamp, body));
       return String.format("LGO %s:%s", apiKey, signed);
     } catch (Exception e) {
       throw new RuntimeException("Error signing request", e);
     }
+  }
+
+  protected String toSign(String urlToSign, String timestamp, String body) {
+    if (body != null && !"".equals(body)) {
+      return String.format("%s\n%s\n%s", timestamp, urlToSign, body);
+    }
+    return String.format("%s\n%s", timestamp, urlToSign);
   }
 
   @Override

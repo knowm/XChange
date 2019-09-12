@@ -31,6 +31,7 @@ import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceLimitOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceMarketOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrade;
@@ -102,6 +103,18 @@ public final class LgoAdapters {
         limitOrder.getOriginalAmount(),
         limitOrder.getLimitPrice(),
         limitOrder.getTimestamp().toInstant());
+  }
+
+  public static LgoUnencryptedOrder adaptUnencryptedLimitOrder(LimitOrder limitOrder) {
+    String product = adaptCurrencyPair(limitOrder.getCurrencyPair());
+    String side = adaptOrderType(limitOrder.getType());
+    return new LgoUnencryptedOrder(
+        "L",
+        side,
+        product,
+        limitOrder.getOriginalAmount().toString(),
+        limitOrder.getLimitPrice().toString(),
+        limitOrder.getTimestamp().getTime());
   }
 
   static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {

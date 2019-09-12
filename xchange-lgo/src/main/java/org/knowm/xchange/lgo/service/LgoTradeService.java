@@ -16,6 +16,7 @@ import org.knowm.xchange.lgo.dto.key.LgoKey;
 import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
 import org.knowm.xchange.lgo.dto.order.LgoOrderSignature;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
@@ -129,7 +130,7 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) {
     LgoKey lgoKey = keyService.selectKey();
     Long ref = exchange.getNonceFactory().createValue();
     LgoPlaceOrder lgoOrder = LgoAdapters.adaptLimitOrder(limitOrder);
@@ -137,7 +138,12 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     LgoOrderSignature signature = exchange.getSignatureService().signOrder(encryptedOrder);
     LgoEncryptedOrder lgoEncryptedOrder = new LgoEncryptedOrder(lgoKey.getId(), encryptedOrder,
         signature, ref);
-    return placeLgoLimitOrder(lgoEncryptedOrder);
+    return placeLgoEncrypedOrder(lgoEncryptedOrder);
+  }
+
+  public String placeUnencryptedLimitOrder(LimitOrder limitOrder) {
+    LgoUnencryptedOrder lgoOrder = LgoAdapters.adaptUnencryptedLimitOrder(limitOrder);
+    return placeLgoUnencryptedOrder(lgoOrder);
   }
 
 }
