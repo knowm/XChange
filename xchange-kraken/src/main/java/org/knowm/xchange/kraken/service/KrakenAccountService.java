@@ -36,18 +36,19 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
+    Set<Wallet.WalletFeature> walletFeatures = new HashSet<>();
+    walletFeatures.add(Wallet.WalletFeature.FUNDING);
+    walletFeatures.add(Wallet.WalletFeature.MARGIN_TRADING);
+
     KrakenTradeBalanceInfo krakenTradeBalanceInfo = getKrakenTradeBalance();
     Wallet tradingWallet = KrakenAdapters.adaptWallet(getKrakenBalance());
-    Set<WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(WalletFeature.FUNDING);
-    walletFeatures.add(WalletFeature.MARGIN_TRADING);
-    System.out.println(krakenTradeBalanceInfo.toString());
-    Wallet marginWallet = new Wallet(
-            tradingWallet.getBalances().values(),
-            walletFeatures,
-            BigDecimal.valueOf(5),
-            BigDecimal.valueOf(krakenTradeBalanceInfo.getCostBasis().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue())
-            );
+    
+    Wallet marginWallet = Wallet.Builder.from(tradingWallet.getBalances().values())
+            .id("margin")
+            .features(walletFeatures)
+            .maxLeverage(BigDecimal.valueOf(5))
+            .currentLeverage(BigDecimal.valueOf(krakenTradeBalanceInfo.getCostBasis().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue()))
+            .build();
 
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), tradingWallet,marginWallet);
   }
