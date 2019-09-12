@@ -11,7 +11,6 @@ import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
