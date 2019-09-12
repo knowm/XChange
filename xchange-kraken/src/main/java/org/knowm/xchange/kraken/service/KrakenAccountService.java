@@ -2,8 +2,8 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.*;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
@@ -36,21 +36,23 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Set<Wallet.WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(Wallet.WalletFeature.FUNDING);
-    walletFeatures.add(Wallet.WalletFeature.MARGIN_TRADING);
 
     KrakenTradeBalanceInfo krakenTradeBalanceInfo = getKrakenTradeBalance();
     Wallet tradingWallet = KrakenAdapters.adaptWallet(getKrakenBalance());
-    
-    Wallet marginWallet = Wallet.Builder.from(tradingWallet.getBalances().values())
+
+    Wallet marginWallet =
+        Wallet.Builder.from(tradingWallet.getBalances().values())
             .id("margin")
-            .features(walletFeatures)
+            .features(EnumSet.of(Wallet.WalletFeature.FUNDING, Wallet.WalletFeature.MARGIN_TRADING))
             .maxLeverage(BigDecimal.valueOf(5))
-            .currentLeverage(BigDecimal.valueOf(krakenTradeBalanceInfo.getCostBasis().doubleValue()/krakenTradeBalanceInfo.getTradeBalance().doubleValue()))
+            .currentLeverage(
+                krakenTradeBalanceInfo
+                    .getCostBasis()
+                    .divide(krakenTradeBalanceInfo.getTradeBalance(), MathContext.DECIMAL32))
             .build();
 
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), tradingWallet,marginWallet);
+    return new AccountInfo(
+        exchange.getExchangeSpecification().getUserName(), tradingWallet, marginWallet);
   }
 
   @Override

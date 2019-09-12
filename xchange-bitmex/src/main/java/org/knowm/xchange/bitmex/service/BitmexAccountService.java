@@ -2,16 +2,12 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
-import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -38,9 +34,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    Set<Wallet.WalletFeature> walletFeatures = new HashSet<>();
-    walletFeatures.add(Wallet.WalletFeature.MARGIN_TRADING);
-    walletFeatures.add(Wallet.WalletFeature.FUNDING);
 
     BitmexAccount account = super.getBitmexAccountInfo();
     BitmexMarginAccount bitmexMarginAccount = getBitmexMarginAccountStatus();
@@ -49,9 +42,10 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     List<Balance> balances = new ArrayList<>();
     balances.add(new Balance(Currency.BTC, amount));
 
-    Wallet wallet = Wallet.Builder.from(balances)
+    Wallet wallet =
+        Wallet.Builder.from(balances)
             .id("margin")
-            .features(walletFeatures)
+            .features(EnumSet.of(Wallet.WalletFeature.MARGIN_TRADING, Wallet.WalletFeature.FUNDING))
             .maxLeverage(BigDecimal.valueOf(100))
             .currentLeverage(bitmexMarginAccount.getMarginLeverage())
             .build();
