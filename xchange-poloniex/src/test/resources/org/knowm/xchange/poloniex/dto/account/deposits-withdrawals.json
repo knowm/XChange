@@ -1,5 +1,19 @@
 {
-  "adjustments": [],
+  "adjustments": [
+    {
+    "currency": "USDT",
+    "amount": "0.01752476",
+    "timestamp": 1564782686,
+    "status": "COMPLETE",
+    "category": "adjustment",
+    "reason": "USDT_AIDROP",
+    "adjustmentTitle": "USDT-TRON Airdrop",
+    "adjustmentShortTitle": "",
+    "adjustmentDesc": "Your airdrop for Aug 2, 2019.",
+    "adjustmentShortDesc": "For Aug 2, 2019",
+    "adjustmentHelp": "https://support.poloniex.circle.com/hc/en-us/articles/360029433451-USDT-TRON-Airdrop-and-Other-Frequently-Asked-Questions"
+    }
+  ],
   "deposits": [
     {
       "currency": "ETH",

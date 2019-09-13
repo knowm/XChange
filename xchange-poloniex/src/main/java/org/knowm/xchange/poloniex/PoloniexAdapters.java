@@ -1,11 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -30,6 +24,13 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.marketdata.*;
 import org.knowm.xchange.poloniex.dto.trade.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
+
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 /**
  * @author Zach Holmes
@@ -269,6 +270,29 @@ public class PoloniexAdapters {
   public static List<FundingRecord> adaptFundingRecords(
       PoloniexDepositsWithdrawalsResponse poloFundings) {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (PoloniexAdjustment a : poloFundings.getAdjustments()) {
+      fundingRecords.add(
+          new FundingRecord(
+              null,
+              a.getTimestamp(),
+              Currency.getInstance(a.getCurrency()),
+              a.getAmount(),
+              null,
+              null,
+              DEPOSIT,
+              FundingRecord.Status.resolveStatus(a.getStatus()),
+              null,
+              null,
+              a.getCategory()
+                  + ":"
+                  + a.getReason()
+                  + "\n"
+                  + a.getAdjustmentTitle()
+                  + "\n"
+                  + a.getAdjustmentDesc()
+                  + "\n"
+                  + a.getAdjustmentHelp()));
+    }
     for (PoloniexDeposit d : poloFundings.getDeposits()) {
       fundingRecords.add(
           new FundingRecord(
