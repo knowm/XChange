@@ -14,6 +14,7 @@ import org.assertj.core.data.Offset;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLoansDataTest;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexAdjustment;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
@@ -35,6 +36,24 @@ public class PoloniexFundingsDataTest {
         mapper.readValue(is, PoloniexDepositsWithdrawalsResponse.class);
 
     assertThat(response.getDeposits()).hasSize(1);
+
+    final PoloniexAdjustment adjustment = response.getAdjustments().get(0);
+    assertThat(adjustment.getCurrency()).isEqualTo(Currency.USDT.getCurrencyCode());
+    assertThat(adjustment.getAmount())
+        .isCloseTo(new BigDecimal("0.01752476"), Offset.offset(BigDecimal.ZERO));
+    assertThat(adjustment.getTimestamp()).isEqualTo(new Date(1564782686000L));
+    assertThat(adjustment.getStatus()).isEqualTo("COMPLETE");
+    assertThat(adjustment.getCategory()).isEqualTo("adjustment");
+    assertThat(adjustment.getReason()).isEqualTo("USDT_AIDROP");
+    assertThat(adjustment.getAdjustmentTitle()).isEqualTo("USDT-TRON Airdrop");
+    assertThat(adjustment.getAdjustmentShortTitle()).isEqualTo("");
+    assertThat(adjustment.getAdjustmentDesc()).isEqualTo("Your airdrop for Aug 2, 2019.");
+    assertThat(adjustment.getAdjustmentShortDesc()).isEqualTo("For Aug 2, 2019");
+    assertThat(adjustment.getAdjustmentHelp())
+        .isEqualTo(
+            "https://support.poloniex.circle.com/hc/en-us/articles/360029433451-USDT-TRON-Airdrop-and-Other-Frequently-Asked-Questions");
+
+    assertThat(response.getWithdrawals()).hasSize(1);
 
     final PoloniexDeposit deposit = response.getDeposits().get(0);
     assertThat(deposit.getCurrency()).isEqualTo(Currency.ETH.getCurrencyCode());
