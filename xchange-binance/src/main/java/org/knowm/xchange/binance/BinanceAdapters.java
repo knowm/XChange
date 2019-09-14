@@ -127,7 +127,7 @@ public class BinanceAdapters {
         || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
       builder = new LimitOrder.Builder(type, currencyPair).limitPrice(order.price);
     } else {
-      builder = new StopOrder.Builder(type, currencyPair).limitPrice(order.price);
+      builder = new StopOrder.Builder(type, currencyPair).stopPrice(order.stopPrice);
     }
     builder
         .orderStatus(adaptOrderStatus(order.status))
@@ -140,13 +140,7 @@ public class BinanceAdapters {
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
     }
     if (order.clientOrderId != null) {
-      builder.flag(
-          new BinanceOrderFlags() {
-            @Override
-            public String getClientId() {
-              return order.clientOrderId;
-            }
-          });
+      builder.flag((BinanceOrderFlags) () -> order.clientOrderId);
     }
     return builder.build();
   }
