@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex.service;
 import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -84,7 +83,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
     String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
-    
+
     Builder b =
         new BitmexPlaceOrderParameters.Builder(symbol)
             .setOrderQuantity(limitOrder.getOriginalAmount())
