@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.poloniex2;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by Lukas Zaoralek on 10.11.17.
@@ -83,6 +83,16 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     public Observable<PoloniexWebSocketEvent> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
         String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
         return subscribeChannel(channelName)
+                .scan(Optional.<JsonNode>empty(), (jsonNodeOldOptional, jsonNodeNew) -> {
+                    jsonNodeOldOptional.ifPresent(jsonNode -> {
+                        if (jsonNode.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
+                            throw new RuntimeException("Invalid sequencing");
+                        }
+                    });
+                    return Optional.of(jsonNodeNew);
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .flatMapIterable(s -> {
                     PoloniexWebSocketEventsTransaction transaction = objectMapper.treeToValue(s, PoloniexWebSocketEventsTransaction.class);
                     return Arrays.asList(transaction.getEvents());
