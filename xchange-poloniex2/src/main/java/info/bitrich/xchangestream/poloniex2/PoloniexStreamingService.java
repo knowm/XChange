@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.poloniex2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
@@ -86,7 +87,17 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                 .scan(Optional.<JsonNode>empty(), (jsonNodeOldOptional, jsonNodeNew) -> {
                     jsonNodeOldOptional.ifPresent(jsonNode -> {
                         if (jsonNode.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
-                            throw new RuntimeException("Invalid sequencing");
+                            try {
+                                throw new RuntimeException("Invalid sequencing, old: " + jsonNodeOldOptional.map(n -> {
+                                    try {
+                                        return objectMapper.writeValueAsString(n);
+                                    } catch (JsonProcessingException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }).orElse("empty") + " new: " + objectMapper.writeValueAsString(jsonNodeNew));
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     });
                     return Optional.of(jsonNodeNew);
