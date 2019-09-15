@@ -84,13 +84,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
     String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
-    BigDecimal priceAfterRounding =
-        BigDecimalUtils.roundToStepSize(limitOrder.getLimitPrice(), BigDecimal.valueOf(0.5));
-
+    
     Builder b =
         new BitmexPlaceOrderParameters.Builder(symbol)
             .setOrderQuantity(limitOrder.getOriginalAmount())
-            .setPrice(priceAfterRounding)
+            .setPrice(limitOrder.getLimitPrice())
             .setSide(fromOrderType(limitOrder.getType()))
             .setClOrdId(limitOrder.getId());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
@@ -116,15 +114,12 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String changeOrder(LimitOrder limitOrder) throws ExchangeException {
 
-    BigDecimal priceAfterRounding =
-        BigDecimalUtils.roundToStepSize(limitOrder.getLimitPrice(), BigDecimal.valueOf(0.5));
-
     BitmexPrivateOrder order =
         replaceOrder(
             new BitmexReplaceOrderParameters.Builder()
                 .setOrderId(limitOrder.getId())
                 .setOrderQuantity(limitOrder.getOriginalAmount())
-                .setPrice(priceAfterRounding)
+                .setPrice(limitOrder.getLimitPrice())
                 .build());
     return order.getId();
   }
