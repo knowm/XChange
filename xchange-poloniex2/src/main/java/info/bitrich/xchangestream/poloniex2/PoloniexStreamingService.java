@@ -89,7 +89,10 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                     jsonNodeOldOptional.ifPresent(jsonNode -> {
                         if (jsonNode.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
                             LOG.info("Suspicious sequencing, old: {} new: {}", jsonNode, jsonNodeNew);
-                            if (jsonNodeNew.get(2).size() == 1 && jsonNodeNew.get(2).get(0).textValue().equals("i")) {
+                            if (
+                                    jsonNodeNew.get(2).size() == 1
+                                            && jsonNodeNew.get(2).get(0).get(0).textValue().equals("i")
+                            ) {
                                 return;
                             }
                             try {
