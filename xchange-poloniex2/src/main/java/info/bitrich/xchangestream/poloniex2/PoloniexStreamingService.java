@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -81,7 +82,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         return subscriptions.get(channelName);
     }
 
-    public Observable<PoloniexWebSocketEvent> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
+    public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
         String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
         return subscribeChannel(channelName)
                 .scan(Optional.<JsonNode>empty(), (jsonNodeOldOptional, jsonNodeNew) -> {
@@ -108,7 +109,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                 })
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .flatMapIterable(s -> {
+                .map(s -> {
                     PoloniexWebSocketEventsTransaction transaction = objectMapper.treeToValue(s, PoloniexWebSocketEventsTransaction.class);
                     return Arrays.asList(transaction.getEvents());
                 }).share();
