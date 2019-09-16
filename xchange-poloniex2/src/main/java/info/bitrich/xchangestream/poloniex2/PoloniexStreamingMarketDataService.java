@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
@@ -45,22 +46,35 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         Observable<PoloniexOrderbook> subscribedOrderbook = service.subscribeCurrencyPairChannel(currencyPair)
-                .filter(s -> s.getEventType().equals("i") || s.getEventType().equals("o"))
-                .scan(Optional.empty(), (Optional<PoloniexOrderbook> orderbook, PoloniexWebSocketEvent s) -> {
-                    if (s.getEventType().equals("i")) {
-                        OrderbookInsertEvent insertEvent = ((PoloniexWebSocketOrderbookInsertEvent) s).getInsert();
-                        SortedMap<BigDecimal, BigDecimal> asks = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);
-                        SortedMap<BigDecimal, BigDecimal> bids = insertEvent.toDepthLevels(OrderbookInsertEvent.BID_SIDE);
-                        return Optional.of(new PoloniexOrderbook(asks, bids));
-                    } else {
-                        OrderbookModifiedEvent modifiedEvent = ((PoloniexWebSocketOrderbookModifiedEvent) s).getModifiedEvent();
-//                        orderbook.orElseThrow(() -> {
-//                            throw new RuntimeException();
-//                        }).modify(modifiedEvent);
-                        orderbook.get().modify(modifiedEvent);
-                        return orderbook;
-                    }
-                })
+                .scan(
+                        Optional.empty(),
+                        (Optional<PoloniexOrderbook> orderbook, List<PoloniexWebSocketEvent> poloniexWebSocketEvents) ->
+                                poloniexWebSocketEvents.stream()
+                                        .filter(s -> s.getEventType().equals("i") || s.getEventType().equals("o"))
+                                        .reduce(orderbook, (poloniexOrderbook, poloniexWebSocketEvent) -> {
+                                            if (poloniexWebSocketEvent.getEventType().equals("i")) {
+                                                OrderbookInsertEvent insertEvent
+                                                        = ((PoloniexWebSocketOrderbookInsertEvent)
+                                                            poloniexWebSocketEvent).getInsert();
+                                                SortedMap<BigDecimal, BigDecimal> asks
+                                                        = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);
+                                                SortedMap<BigDecimal, BigDecimal> bids
+                                                        = insertEvent.toDepthLevels(OrderbookInsertEvent.BID_SIDE);
+                                                return Optional.of(new PoloniexOrderbook(asks, bids));
+                                            } else {
+                                                OrderbookModifiedEvent modifiedEvent
+                                                        = ((PoloniexWebSocketOrderbookModifiedEvent)
+                                                        poloniexWebSocketEvent).getModifiedEvent();
+                        //                        orderbook.orElseThrow(() -> {
+                        //                            throw new RuntimeException();
+                        //                        }).modify(modifiedEvent);
+                                                orderbook.get().modify(modifiedEvent);
+                                                return orderbook;
+                                            }
+                                        }, (poloniexOrderbook, poloniexOrderbook2) -> {
+                                            throw new RuntimeException();
+                                        })
+                )
                 .filter(Optional::isPresent)
                 .map(Optional::get);
 
@@ -83,6 +97,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         Observable<PoloniexWebSocketTradeEvent> subscribedTrades = service.subscribeCurrencyPairChannel(currencyPair)
+                .flatMapIterable(poloniexWebSocketEvents -> poloniexWebSocketEvents)
                 .filter(s -> s.getEventType().equals("t"))
                 .map(s -> (PoloniexWebSocketTradeEvent) s).share();
 
