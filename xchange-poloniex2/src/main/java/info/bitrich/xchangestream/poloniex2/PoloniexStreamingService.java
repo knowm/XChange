@@ -87,6 +87,9 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                 .scan(Optional.<JsonNode>empty(), (jsonNodeOldOptional, jsonNodeNew) -> {
                     jsonNodeOldOptional.ifPresent(jsonNode -> {
                         if (jsonNode.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
+                            if (jsonNodeNew.get(2).size() == 1 && jsonNodeNew.get(2).get(0).textValue().equals("i")) {
+                                return;
+                            }
                             try {
                                 throw new RuntimeException("Invalid sequencing, old: " + jsonNodeOldOptional.map(n -> {
                                     try {
