@@ -1,12 +1,11 @@
 package org.knowm.xchange.dto.account;
 
-import org.knowm.xchange.currency.Currency;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.knowm.xchange.currency.Currency;
 
 /**
  * DTO representing funding information
