@@ -50,7 +50,7 @@ public final class BankeraAdapters {
                         .currency(new Currency(w.getCurrency()))
                         .build())
             .collect(Collectors.toList());
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static ExchangeException adaptError(BankeraException exception) {

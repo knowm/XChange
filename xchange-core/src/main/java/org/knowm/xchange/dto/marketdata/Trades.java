@@ -12,6 +12,8 @@ import java.util.List;
 /** DTO representing a collection of trades */
 public class Trades implements Serializable {
 
+  private static final long serialVersionUID = 5790082783307641329L;
+
   private static final TradeIDComparator TRADE_ID_COMPARATOR = new TradeIDComparator();
   private static final TradeTimestampComparator TRADE_TIMESTAMP_COMPARATOR =
       new TradeTimestampComparator();

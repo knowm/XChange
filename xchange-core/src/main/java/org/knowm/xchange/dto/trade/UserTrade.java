@@ -13,6 +13,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 /** Data object representing a user trade */
 public class UserTrade extends Trade {
 
+  private static final long serialVersionUID = -3021617981214969292L;
+
   /** The id of the order responsible for execution of this trade */
   private final String orderId;
 

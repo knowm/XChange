@@ -74,7 +74,8 @@ public final class BitstampAdapters {
               ZERO);
       balances.add(xchangeBalance);
     }
-    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(balances));
+    return new AccountInfo(
+        userName, bitstampBalance.getFee(), Wallet.Builder.from(balances).build());
   }
 
   /**

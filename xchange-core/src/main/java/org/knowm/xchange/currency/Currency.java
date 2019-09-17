@@ -16,6 +16,7 @@ import java.util.TreeSet;
  */
 public class Currency implements Comparable<Currency>, Serializable {
 
+  private static final long serialVersionUID = -7340731832345284129L;
   private static final Map<String, Currency> currencies = new HashMap<>();
 
   /** Global currency codes */
@@ -300,6 +301,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ELF = createCurrency("ELF", "aelf", null);
   public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
+
   private final String code;
   private final CurrencyAttributes attributes;
 
@@ -485,6 +487,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   private static class CurrencyAttributes implements Serializable {
+
+    private static final long serialVersionUID = -5575649542242146958L;
 
     public final Set<String> codes;
     public final String isoCode;

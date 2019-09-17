@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 /** Describe a call rate limit as a number of calls per some time span. */
 public class RateLimit implements Serializable {
 
+  private static final long serialVersionUID = 90431040086828390L;
+
   @JsonProperty("calls")
   public int calls = 1;
 

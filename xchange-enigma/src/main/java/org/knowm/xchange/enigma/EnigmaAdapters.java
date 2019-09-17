@@ -41,7 +41,7 @@ public final class EnigmaAdapters {
                         balanceEntry.getValue()))
             .collect(Collectors.toList());
 
-    return new AccountInfo(userName, new Wallet(balances));
+    return new AccountInfo(userName, Wallet.Builder.from(balances).build());
   }
 
   public static Trade adaptTrade(EnigmaExecutedQuote enigmaTrade) {

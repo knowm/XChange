@@ -242,7 +242,7 @@ public class HitbtcAdapters {
           new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
       balances.add(balance);
     }
-    return new Wallet(name, name, balances);
+    return Wallet.Builder.from(balances).id(name).name(name).build();
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

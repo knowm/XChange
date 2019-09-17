@@ -128,7 +128,10 @@ public class BitmexExchange extends BaseExchange implements Exchange {
       BitmexTicker ticker, List<CurrencyPair> activeCurrencyPairs, Set<Currency> activeCurrencies) {
 
     String bitmexSymbol = ticker.getSymbol();
-    String baseSymbol = ticker.getRootSymbol();
+    String baseSymbol =
+        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+            ? "XBT"
+            : ticker.getRootSymbol();
     String counterSymbol;
 
     if (bitmexSymbol.contains(baseSymbol)) {

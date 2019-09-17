@@ -168,7 +168,7 @@ public class CoinbaseProAdapters {
               coinbaseProAccount.getHold()));
     }
 
-    return new Wallet(coinbaseProAccounts[0].getProfile_id(), balances);
+    return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfile_id()).build();
   }
 
   @SuppressWarnings("unchecked")
@@ -185,57 +185,34 @@ public class CoinbaseProAdapters {
   public static Order adaptOrder(CoinbaseProOrder order) {
     OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
     CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
-
-    Date createdAt = parseDate(order.getCreatedAt());
-
-    OrderStatus orderStatus = adaptOrderStatus(order);
-
-    final BigDecimal averagePrice;
-    if (order.getFilledSize().signum() == 0) {
-      averagePrice = BigDecimal.ZERO;
-    } else {
-      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
-    }
-
+    Order.Builder builder = null;
     if (order.getType().equals("market")) {
-      return new MarketOrder(
-          type,
-          order.getSize(),
-          currencyPair,
-          order.getId(),
-          createdAt,
-          averagePrice,
-          order.getFilledSize(),
-          order.getFillFees(),
-          orderStatus);
+      builder = new MarketOrder.Builder(type, currencyPair);
     } else if (order.getType().equals("limit")) {
       if (order.getStop() == null) {
-        return new LimitOrder(
-            type,
-            order.getSize(),
-            currencyPair,
-            order.getId(),
-            createdAt,
-            order.getPrice(),
-            averagePrice,
-            order.getFilledSize(),
-            order.getFillFees(),
-            orderStatus);
+        builder = new LimitOrder.Builder(type, currencyPair).limitPrice(order.getPrice());
       } else {
-        return new StopOrder(
-            type,
-            order.getSize(),
-            currencyPair,
-            order.getId(),
-            createdAt,
-            order.getStopPrice(),
-            averagePrice,
-            order.getFilledSize(),
-            orderStatus);
+        builder = new StopOrder.Builder(type, currencyPair).stopPrice(order.getStopPrice());
       }
     }
-
-    return null;
+    if (builder == null) {
+      return null;
+    }
+    builder
+        .orderStatus(adaptOrderStatus(order))
+        .originalAmount(order.getSize())
+        .id(order.getId())
+        .timestamp(parseDate(order.getCreatedAt()))
+        .cumulativeAmount(order.getFilledSize())
+        .fee(order.getFillFees());
+    BigDecimal averagePrice;
+    if (order.getFilledSize().signum() != 0 && order.getExecutedvalue().signum() != 0) {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), MathContext.DECIMAL32);
+    } else {
+      averagePrice = BigDecimal.ZERO;
+    }
+    builder.averagePrice(averagePrice);
+    return builder.build();
   }
 
   public static OrderStatus[] adaptOrderStatuses(CoinbaseProOrder[] orders) {

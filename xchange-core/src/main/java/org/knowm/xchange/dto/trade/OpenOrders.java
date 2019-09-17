@@ -14,6 +14,8 @@ import org.knowm.xchange.dto.Order;
  */
 public final class OpenOrders implements Serializable {
 
+  private static final long serialVersionUID = 6641558609478576563L;
+
   private final List<LimitOrder> openOrders;
   private final List<? extends Order> hiddenOrders;
 
