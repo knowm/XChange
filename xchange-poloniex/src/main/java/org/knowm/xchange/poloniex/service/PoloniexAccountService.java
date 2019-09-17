@@ -39,7 +39,7 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   public AccountInfo getAccountInfo() throws IOException {
     try {
       List<Balance> balances = PoloniexAdapters.adaptPoloniexBalances(getExchangeWallet());
-      return new AccountInfo(new Wallet(balances));
+      return new AccountInfo(Wallet.Builder.from(balances).build());
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }

@@ -226,7 +226,7 @@ public class LiquiAdapters {
             .map(entry -> new Balance(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
 
-    final Wallet wallet = new Wallet("Liqui wallet", balances);
+    final Wallet wallet = Wallet.Builder.from(balances).id("Liqui wallet").build();
 
     return new AccountInfo(wallet);
   }

@@ -15,6 +15,8 @@ import org.knowm.xchange.utils.DateUtils;
  */
 public final class Ticker implements Serializable {
 
+  private static final long serialVersionUID = -3247730106987193154L;
+
   private final CurrencyPair currencyPair;
   private final BigDecimal open;
   private final BigDecimal last;
