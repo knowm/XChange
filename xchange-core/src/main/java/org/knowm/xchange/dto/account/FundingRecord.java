@@ -1,11 +1,12 @@
 package org.knowm.xchange.dto.account;
 
+import org.knowm.xchange.currency.Currency;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import org.knowm.xchange.currency.Currency;
 
 /**
  * DTO representing funding information
@@ -286,7 +287,8 @@ public final class FundingRecord implements Serializable {
   /** Enum representing funding transaction type */
   public enum Type {
     WITHDRAWAL(false),
-    DEPOSIT(true);
+    DEPOSIT(true),
+    AIRDROP(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
