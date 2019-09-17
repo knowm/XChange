@@ -3,6 +3,8 @@ package org.knowm.xchange.binance.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.currency.CurrencyPair;
 
 public final class BinanceTrade {
 
@@ -16,6 +18,7 @@ public final class BinanceTrade {
   public final boolean isBuyer;
   public final boolean isMaker;
   public final boolean isBestMatch;
+  public final CurrencyPair symbol;
 
   public BinanceTrade(
       @JsonProperty("id") long id,
@@ -27,7 +30,8 @@ public final class BinanceTrade {
       @JsonProperty("time") long time,
       @JsonProperty("isBuyer") boolean isBuyer,
       @JsonProperty("isMaker") boolean isMaker,
-      @JsonProperty("isBestMatch") boolean isBestMatch) {
+      @JsonProperty("isBestMatch") boolean isBestMatch,
+      @JsonProperty("symbol") String symbol) {
     this.id = id;
     this.orderId = orderId;
     this.price = price;
@@ -38,6 +42,7 @@ public final class BinanceTrade {
     this.isBuyer = isBuyer;
     this.isMaker = isMaker;
     this.isBestMatch = isBestMatch;
+    this.symbol = BinanceAdapters.adaptSymbol(symbol);
   }
 
   public Date getTime() {

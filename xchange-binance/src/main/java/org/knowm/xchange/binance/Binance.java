@@ -8,6 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.account.margin.MarginAsset;
+import org.knowm.xchange.binance.dto.account.margin.MarginPair;
+import org.knowm.xchange.binance.dto.account.margin.MarginPriceIndex;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
@@ -158,4 +161,27 @@ public interface Binance {
    * @throws BinanceException
    */
   List<BinancePriceQuantity> tickerAllBookTickers() throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/asset")
+  MarginAsset getMarginAsset(@QueryParam("asset") String asset)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/pair")
+  MarginPair getMarginPair(@QueryParam("symbol") String symbol)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/allAssets")
+  List<MarginAsset> getAllMarginAssets() throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/allPairs")
+  List<MarginPair> getAllMarginPairs() throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/priceIndex")
+  MarginPriceIndex getMarginPriceIndex(@QueryParam("symbol") String symbol)
+      throws IOException, BinanceException;
 }

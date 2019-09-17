@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.dto.account.margin.MarginAsset;
+import org.knowm.xchange.binance.dto.account.margin.MarginPair;
+import org.knowm.xchange.binance.dto.account.margin.MarginPriceIndex;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -12,6 +15,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.StreamUtils;
 
@@ -76,5 +80,25 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
   public List<BinancePriceQuantity> tickerAllBookTickers() throws IOException {
     return binance.tickerAllBookTickers();
+  }
+
+  public MarginAsset getMarginAsset(Currency asset) throws IOException {
+    return binance.getMarginAsset(BinanceAdapters.toSymbol(asset));
+  }
+
+  public MarginPair getMarginPair(CurrencyPair symbol) throws IOException {
+    return binance.getMarginPair(BinanceAdapters.toSymbol(symbol));
+  }
+
+  public List<MarginAsset> getAllMarginAssets() throws IOException {
+    return binance.getAllMarginAssets();
+  }
+
+  public List<MarginPair> getAllMarginPairs() throws IOException {
+    return binance.getAllMarginPairs();
+  }
+
+  public MarginPriceIndex getMarginPriceIndex(CurrencyPair pair) throws IOException {
+    return binance.getMarginPriceIndex(BinanceAdapters.toSymbol(pair));
   }
 }

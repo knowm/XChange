@@ -4,27 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.*;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.account.margin.*;
+import org.knowm.xchange.binance.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("")
@@ -445,5 +430,221 @@ public interface BinanceAuthenticated extends Binance {
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
   Map<?, ?> closeUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/account")
+  MarginAccount getMarginAccount(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/openOrders")
+  List<MarginOrder> getOpenMarginOrders(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @POST
+  @Path("sapi/v1/margin/transfer")
+  Long transfer(
+      @FormParam("asset") String asset,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("type") int type,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @POST
+  @Path("sapi/v1/margin/loan")
+  Long borrow(
+      @FormParam("asset") String asset,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @POST
+  @Path("sapi/v1/margin/repay")
+  Long repay(
+      @FormParam("asset") String asset,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @POST
+  @Path("sapi/v1/margin/order")
+  BinanceNewOrder newMarginOrder(
+      @FormParam("symbol") String symbol,
+      @FormParam("side") OrderSide side,
+      @FormParam("type") OrderType type,
+      @FormParam("timeInForce") TimeInForce timeInForce,
+      @FormParam("quantity") BigDecimal quantity,
+      @FormParam("price") BigDecimal price,
+      @FormParam("newClientOrderId") String newClientOrderId,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("icebergQty") BigDecimal icebergQty,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @DELETE
+  @Path("sapi/v1/margin/order")
+  BinanceCancelledOrder cancelMarginOrder(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") long orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("newClientOrderId") String newClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/loan")
+  LoanRecords getLoanRecords(
+      @QueryParam("asset") String asset,
+      @QueryParam("txId") Long txId,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/repay")
+  RepayRecords getRepayRecords(
+      @QueryParam("asset") String asset,
+      @QueryParam("txId") Long txId,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/transfer")
+  Transfers getTransferHistory(
+      @QueryParam("asset") String asset,
+      @QueryParam("type") String type,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/interestHistory")
+  Interests getInterestHistory(
+      @QueryParam("asset") String asset,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/forceLiquidationRec")
+  ForceLiquidationRecs getForceLiquidationRecords(
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("current") Long current,
+      @QueryParam("size") Long size,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/order")
+  MarginOrder getMarginOrder(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("origClientOrderId") String origClientOrderId,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/allOrders")
+  List<ShortMarginOrder> getAllMarginOrders(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("orderId") String orderId,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/myTrades")
+  List<BinanceTrade> getTrades(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("fromId") Long fromId,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/maxBorrowable")
+  BigDecimal getMaxBorrow(
+      @QueryParam("asset") String asset,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("sapi/v1/margin/maxTransferable")
+  BigDecimal getMaxTransferOutAmount(
+      @QueryParam("asset") String asset,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
 }
