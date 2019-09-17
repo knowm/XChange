@@ -269,6 +269,29 @@ public class PoloniexAdapters {
   public static List<FundingRecord> adaptFundingRecords(
       PoloniexDepositsWithdrawalsResponse poloFundings) {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (PoloniexAdjustment a : poloFundings.getAdjustments()) {
+      fundingRecords.add(
+          new FundingRecord(
+              null,
+              a.getTimestamp(),
+              Currency.getInstance(a.getCurrency()),
+              a.getAmount(),
+              null,
+              null,
+              DEPOSIT,
+              FundingRecord.Status.resolveStatus(a.getStatus()),
+              null,
+              null,
+              a.getCategory()
+                  + ":"
+                  + a.getReason()
+                  + "\n"
+                  + a.getAdjustmentTitle()
+                  + "\n"
+                  + a.getAdjustmentDesc()
+                  + "\n"
+                  + a.getAdjustmentHelp()));
+    }
     for (PoloniexDeposit d : poloFundings.getDeposits()) {
       fundingRecords.add(
           new FundingRecord(
