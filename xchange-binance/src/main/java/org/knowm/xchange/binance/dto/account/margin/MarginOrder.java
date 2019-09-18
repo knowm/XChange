@@ -1,12 +1,14 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
 
 public class MarginOrder {
 
@@ -29,23 +31,23 @@ public class MarginOrder {
   private Long updateTime;
 
   public MarginOrder(
-      String clientOrderId,
-      BigDecimal cummulativeQuoteQty,
-      BigDecimal executedQty,
-      BigDecimal icebergQty,
-      Boolean isWorking,
-      Long orderId,
-      BigDecimal origQty,
-      BigDecimal price,
-      String side,
-      String status,
-      BigDecimal stopPrice,
-      String symbol,
-      Long time,
-      Long transactTime,
-      String timeInForce,
-      String type,
-      Long updateTime) {
+          @JsonProperty("clientOrderId") String clientOrderId,
+          @JsonProperty("cummulativeQuoteQty") BigDecimal cummulativeQuoteQty,
+          @JsonProperty("executedQty") BigDecimal executedQty,
+          @JsonProperty("icebergQty") BigDecimal icebergQty,
+          @JsonProperty("isWorking") Boolean isWorking,
+          @JsonProperty("orderId") Long orderId,
+          @JsonProperty("origQty") BigDecimal origQty,
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("side") String side,
+          @JsonProperty("status") String status,
+          @JsonProperty("stopPrice") BigDecimal stopPrice,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("time") Long time,
+          @JsonProperty("transactTime") Long transactTime,
+          @JsonProperty("timeInForce") String timeInForce,
+          @JsonProperty("type") String type,
+          @JsonProperty("updateTime") Long updateTime) {
     this.clientOrderId = clientOrderId;
     this.cummulativeQuoteQty = cummulativeQuoteQty;
     this.executedQty = executedQty;

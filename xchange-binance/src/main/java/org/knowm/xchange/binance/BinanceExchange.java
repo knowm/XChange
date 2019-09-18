@@ -1,12 +1,5 @@
 package org.knowm.xchange.binance;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -15,6 +8,7 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.binance.service.BinanceTradeMarginService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,9 +21,19 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class BinanceExchange extends BaseExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceExchange.class);
+
+  protected BinanceTradeMarginService marginTradeService;
 
   private BinanceExchangeInfo exchangeInfo;
   private Long deltaServerTimeExpire;
@@ -41,6 +45,7 @@ public class BinanceExchange extends BaseExchange {
     this.marketDataService = new BinanceMarketDataService(this);
     this.tradeService = new BinanceTradeService(this);
     this.accountService = new BinanceAccountService(this);
+    this.marginTradeService = new BinanceTradeMarginService(this);
   }
 
   @Override
@@ -195,5 +200,9 @@ public class BinanceExchange extends BaseExchange {
     }
 
     return deltaServerTime;
+  }
+
+  public BinanceTradeMarginService getMarginTradeService() {
+    return marginTradeService;
   }
 }

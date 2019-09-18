@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class ForceLiquidationRecs {
@@ -7,7 +9,8 @@ public class ForceLiquidationRecs {
   private List<ForceLiquidationRec> rows;
   private Long total;
 
-  public ForceLiquidationRecs(List<ForceLiquidationRec> rows, Long total) {
+  public ForceLiquidationRecs(
+          @JsonProperty("rows") List<ForceLiquidationRec> rows, @JsonProperty("total") Long total) {
     this.rows = rows;
     this.total = total;
   }

@@ -1,5 +1,6 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,13 +16,13 @@ public class MarginPair {
   private Boolean isSellAllowed;
 
   public MarginPair(
-      Long id,
-      String symbol,
-      String base,
-      String quote,
-      Boolean isMarginTrade,
-      Boolean isBuyAllowed,
-      Boolean isSellAllowed) {
+          @JsonProperty("id") Long id,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("base") String base,
+          @JsonProperty("quote") String quote,
+          @JsonProperty("isMarginTrade") Boolean isMarginTrade,
+          @JsonProperty("isBuyAllowed") Boolean isBuyAllowed,
+          @JsonProperty("isSellAllowed") Boolean isSellAllowed) {
     this.id = id;
     this.symbol = BinanceAdapters.adaptSymbol(symbol);
     this.base = Currency.getInstance(base);

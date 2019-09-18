@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
+
+import java.math.BigDecimal;
 
 public class Transfer {
 
@@ -13,7 +15,12 @@ public class Transfer {
   private HistoryTransferType type;
 
   public Transfer(
-      BigDecimal amount, String asset, String status, Long timestamp, Long txId, String type) {
+          @JsonProperty("amount") BigDecimal amount,
+          @JsonProperty("asset") String asset,
+          @JsonProperty("status") String status,
+          @JsonProperty("timestamp") Long timestamp,
+          @JsonProperty("txId") Long txId,
+          @JsonProperty("type") String type) {
     this.amount = amount;
     this.asset = Currency.getInstance(asset);
     this.status = TransferStatus.valueOf(status);

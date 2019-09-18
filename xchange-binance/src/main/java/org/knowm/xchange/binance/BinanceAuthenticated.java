@@ -1,16 +1,17 @@
 package org.knowm.xchange.binance;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.*;
 import org.knowm.xchange.binance.dto.account.margin.*;
 import org.knowm.xchange.binance.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -453,7 +454,7 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("sapi/v1/margin/transfer")
-  Long transfer(
+  OperationInfo transfer(
       @FormParam("asset") String asset,
       @FormParam("amount") BigDecimal amount,
       @FormParam("type") int type,
@@ -465,7 +466,7 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("sapi/v1/margin/loan")
-  Long borrow(
+  OperationInfo borrow(
       @FormParam("asset") String asset,
       @FormParam("amount") BigDecimal amount,
       @FormParam("recvWindow") Long recvWindow,
@@ -476,7 +477,7 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("sapi/v1/margin/repay")
-  Long repay(
+  OperationInfo repay(
       @FormParam("asset") String asset,
       @FormParam("amount") BigDecimal amount,
       @FormParam("recvWindow") Long recvWindow,

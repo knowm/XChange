@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class MarginAsset {
@@ -12,12 +14,12 @@ public class MarginAsset {
   private BigDecimal userMinRepay;
 
   public MarginAsset(
-      String assetFullName,
-      String assetName,
-      Boolean isBorrowable,
-      Boolean isMortgageable,
-      BigDecimal userMinBorrow,
-      BigDecimal userMinRepay) {
+          @JsonProperty("assetFullName") String assetFullName,
+          @JsonProperty("assetName") String assetName,
+          @JsonProperty("isBorrowable") Boolean isBorrowable,
+          @JsonProperty("isMortgageable") Boolean isMortgageable,
+          @JsonProperty("userMinBorrow") BigDecimal userMinBorrow,
+          @JsonProperty("userMinRepay") BigDecimal userMinRepay) {
     this.assetFullName = assetFullName;
     this.assetName = assetName;
     this.isBorrowable = isBorrowable;

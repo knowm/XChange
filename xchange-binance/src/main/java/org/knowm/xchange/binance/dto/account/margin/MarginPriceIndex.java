@@ -1,8 +1,10 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
 
 public class MarginPriceIndex {
 
@@ -10,7 +12,10 @@ public class MarginPriceIndex {
   private BigDecimal price;
   private CurrencyPair symbol;
 
-  public MarginPriceIndex(Long calcTime, BigDecimal price, String symbol) {
+  public MarginPriceIndex(
+          @JsonProperty("calcTime") Long calcTime,
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("symbol") String symbol) {
     this.calcTime = calcTime;
     this.price = price;
     this.symbol = BinanceAdapters.adaptSymbol(symbol);

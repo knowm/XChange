@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
+
+import java.math.BigDecimal;
 
 public class MarginAssetBalance {
 
@@ -13,12 +15,12 @@ public class MarginAssetBalance {
   private BigDecimal netAsset;
 
   public MarginAssetBalance(
-      String asset,
-      BigDecimal borrowed,
-      BigDecimal free,
-      BigDecimal interest,
-      BigDecimal locked,
-      BigDecimal netAsset) {
+          @JsonProperty("asset") String asset,
+          @JsonProperty("borrowed") BigDecimal borrowed,
+          @JsonProperty("free") BigDecimal free,
+          @JsonProperty("interest") BigDecimal interest,
+          @JsonProperty("locked") BigDecimal locked,
+          @JsonProperty("netAsset") BigDecimal netAsset) {
     this.asset = Currency.getInstance(asset);
     this.borrowed = borrowed;
     this.free = free;

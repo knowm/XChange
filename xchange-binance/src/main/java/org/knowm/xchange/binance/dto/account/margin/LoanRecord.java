@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
+
+import java.math.BigDecimal;
 
 public class LoanRecord {
 
@@ -10,7 +12,11 @@ public class LoanRecord {
   private Long timestamp;
   private LoanStatus status;
 
-  public LoanRecord(String asset, BigDecimal principal, Long timestamp, String status) {
+  public LoanRecord(
+          @JsonProperty("asset") String asset,
+          @JsonProperty("principal") BigDecimal principal,
+          @JsonProperty("timestamp") Long timestamp,
+          @JsonProperty("status") String status) {
     this.asset = Currency.getInstance(asset);
     this.principal = principal;
     this.timestamp = timestamp;

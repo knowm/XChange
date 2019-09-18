@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,14 +17,14 @@ public class MarginAccount {
   private List<MarginAssetBalance> userAssets;
 
   public MarginAccount(
-      Boolean borrowEnabled,
-      BigDecimal marginLevel,
-      BigDecimal totalAssetOfBtc,
-      BigDecimal totalLiabilityOfBtc,
-      BigDecimal totalNetAssetOfBtc,
-      Boolean tradeEnabled,
-      Boolean transferEnabled,
-      List<MarginAssetBalance> userAssets) {
+          @JsonProperty("borrowEnabled") Boolean borrowEnabled,
+          @JsonProperty("marginLevel") BigDecimal marginLevel,
+          @JsonProperty("totalAssetOfBtc") BigDecimal totalAssetOfBtc,
+          @JsonProperty("totalLiabilityOfBtc") BigDecimal totalLiabilityOfBtc,
+          @JsonProperty("totalNetAssetOfBtc") BigDecimal totalNetAssetOfBtc,
+          @JsonProperty("tradeEnabled") Boolean tradeEnabled,
+          @JsonProperty("transferEnabled") Boolean transferEnabled,
+          @JsonProperty("userAssets") List<MarginAssetBalance> userAssets) {
     this.borrowEnabled = borrowEnabled;
     this.marginLevel = marginLevel;
     this.totalAssetOfBtc = totalAssetOfBtc;

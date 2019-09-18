@@ -1,8 +1,5 @@
 package org.knowm.xchange.binance.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -10,6 +7,10 @@ import org.knowm.xchange.binance.dto.account.margin.*;
 import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class BinanceTradeMarginServiceRaw extends BinanceBaseService {
 
@@ -23,7 +24,8 @@ public class BinanceTradeMarginServiceRaw extends BinanceBaseService {
     return binance.getMarginAccount(recvWindow, getTimestamp(), apiKey, signatureCreator);
   }
 
-  public Long transfer(Currency asset, BigDecimal amount, TransferType type) throws IOException {
+  public OperationInfo transfer(Currency asset, BigDecimal amount, TransferType type)
+          throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     return binance.transfer(
@@ -36,7 +38,7 @@ public class BinanceTradeMarginServiceRaw extends BinanceBaseService {
         signatureCreator);
   }
 
-  public Long borrow(Currency asset, BigDecimal amount) throws IOException {
+  public OperationInfo borrow(Currency asset, BigDecimal amount) throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     return binance.borrow(
@@ -48,7 +50,7 @@ public class BinanceTradeMarginServiceRaw extends BinanceBaseService {
         signatureCreator);
   }
 
-  public Long repay(Currency asset, BigDecimal amount) throws IOException {
+  public OperationInfo repay(Currency asset, BigDecimal amount) throws IOException {
     Long recvWindow =
         (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
     return binance.repay(

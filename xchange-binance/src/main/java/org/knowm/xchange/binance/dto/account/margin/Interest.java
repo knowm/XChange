@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
+
+import java.math.BigDecimal;
 
 public class Interest {
 
@@ -13,12 +15,12 @@ public class Interest {
   private InterestType type;
 
   public Interest(
-      String asset,
-      BigDecimal interest,
-      Long interestAccuredTime,
-      BigDecimal interestRate,
-      BigDecimal principal,
-      String type) {
+          @JsonProperty("asset") String asset,
+          @JsonProperty("interest") BigDecimal interest,
+          @JsonProperty("interestAccuredTime") Long interestAccuredTime,
+          @JsonProperty("interestRate") BigDecimal interestRate,
+          @JsonProperty("principal") BigDecimal principal,
+          @JsonProperty("type") String type) {
     this.asset = Currency.getInstance(asset);
     this.interest = interest;
     this.interestAccuredTime = interestAccuredTime;

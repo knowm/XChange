@@ -1,10 +1,12 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
 
 public class ForceLiquidationRec {
 
@@ -19,15 +21,15 @@ public class ForceLiquidationRec {
   private Long updatedTime;
 
   public ForceLiquidationRec(
-      BigDecimal avgPrice,
-      BigDecimal executedQty,
-      Long orderId,
-      BigDecimal price,
-      BigDecimal qty,
-      String side,
-      String symbol,
-      String timeInForce,
-      Long updatedTime) {
+          @JsonProperty("avgPrice") BigDecimal avgPrice,
+          @JsonProperty("executedQty") BigDecimal executedQty,
+          @JsonProperty("orderId") Long orderId,
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("qty") BigDecimal qty,
+          @JsonProperty("side") String side,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("timeInForce") String timeInForce,
+          @JsonProperty("updatedTime") Long updatedTime) {
     this.avgPrice = avgPrice;
     this.executedQty = executedQty;
     this.orderId = orderId;

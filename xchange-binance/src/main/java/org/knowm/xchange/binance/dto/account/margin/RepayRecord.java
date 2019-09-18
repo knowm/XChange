@@ -1,7 +1,9 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
+
+import java.math.BigDecimal;
 
 public class RepayRecord {
 
@@ -14,13 +16,13 @@ public class RepayRecord {
   private Long txId;
 
   public RepayRecord(
-      BigDecimal amount,
-      String asset,
-      BigDecimal interest,
-      BigDecimal principal,
-      String status,
-      Long timestamp,
-      Long txId) {
+          @JsonProperty("amount") BigDecimal amount,
+          @JsonProperty("asset") String asset,
+          @JsonProperty("interest") BigDecimal interest,
+          @JsonProperty("principal") BigDecimal principal,
+          @JsonProperty("status") String status,
+          @JsonProperty("timestamp") Long timestamp,
+          @JsonProperty("txId") Long txId) {
     this.amount = amount;
     this.asset = Currency.getInstance(asset);
     this.interest = interest;

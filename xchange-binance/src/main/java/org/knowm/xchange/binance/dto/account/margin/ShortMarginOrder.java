@@ -1,8 +1,10 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
 
 public class ShortMarginOrder {
 
@@ -14,7 +16,12 @@ public class ShortMarginOrder {
   private Long time;
 
   public ShortMarginOrder(
-      Long id, BigDecimal price, BigDecimal qty, BigDecimal quoteQty, String symbol, Long time) {
+          @JsonProperty("id") Long id,
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("qty") BigDecimal qty,
+          @JsonProperty("quoteQty") BigDecimal quoteQty,
+          @JsonProperty("symbol") String symbol,
+          @JsonProperty("time") Long time) {
     this.id = id;
     this.price = price;
     this.qty = qty;

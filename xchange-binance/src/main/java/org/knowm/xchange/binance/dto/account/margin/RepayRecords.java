@@ -1,10 +1,13 @@
 package org.knowm.xchange.binance.dto.account.margin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class RepayRecords {
 
-  public RepayRecords(List<RepayRecord> rows, Long total) {
+  public RepayRecords(
+          @JsonProperty("rows") List<RepayRecord> rows, @JsonProperty("total") Long total) {
     this.rows = rows;
     this.total = total;
   }
