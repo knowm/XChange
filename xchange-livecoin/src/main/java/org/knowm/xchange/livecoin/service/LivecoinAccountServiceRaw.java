@@ -16,8 +16,8 @@ import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
-  public LivecoinAccountServiceRaw(LivecoinExchange exchange) {
-    super(Livecoin.class, exchange);
+  public LivecoinAccountServiceRaw(LivecoinExchange exchange, Livecoin livecoin) {
+    super(exchange, livecoin);
   }
 
   public Wallet balances(String currency) throws IOException {

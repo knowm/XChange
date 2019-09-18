@@ -3,8 +3,9 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceAuthenticated;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -17,8 +18,8 @@ import org.knowm.xchange.utils.StreamUtils;
 
 public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 
-  protected BinanceMarketDataServiceRaw(Exchange exchange) {
-    super(exchange);
+  protected BinanceMarketDataServiceRaw(BinanceExchange exchange, BinanceAuthenticated binance) {
+    super(exchange, binance);
   }
 
   public void ping() throws IOException {
