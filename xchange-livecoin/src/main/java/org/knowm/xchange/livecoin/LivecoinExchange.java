@@ -5,6 +5,8 @@ import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.resilience.ResilienceRegistries;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.service.LivecoinAccountService;
@@ -16,11 +18,26 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LivecoinExchange extends BaseExchange implements Exchange {
 
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private Livecoin livecoin;
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
+  }
+
+  public static void resetResilienceRegistries() {
+    RESILIENCE_REGISTRIES = null;
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = LivecoinResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
   }
 
   @Override
@@ -37,9 +54,13 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.marketDataService = new LivecoinMarketDataService(this);
-    this.accountService = new LivecoinAccountService(this);
-    this.tradeService = new LivecoinTradeService(this);
+    this.livecoin =
+        ExchangeRestProxyBuilder.forInterface(Livecoin.class, getExchangeSpecification())
+            .resilienceRegistries(getResilienceRegistries())
+            .build();
+    this.marketDataService = new LivecoinMarketDataService(this, livecoin);
+    this.accountService = new LivecoinAccountService(this, livecoin);
+    this.tradeService = new LivecoinTradeService(this, livecoin);
   }
 
   @Override

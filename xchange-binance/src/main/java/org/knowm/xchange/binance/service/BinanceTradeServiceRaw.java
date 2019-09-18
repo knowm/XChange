@@ -3,8 +3,9 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceAuthenticated;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
@@ -18,23 +19,22 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 public class BinanceTradeServiceRaw extends BinanceBaseService {
 
-  protected BinanceTradeServiceRaw(Exchange exchange) {
-    super(exchange);
+  protected BinanceTradeServiceRaw(BinanceExchange exchange, BinanceAuthenticated binance) {
+    super(exchange, binance);
   }
 
-  public List<BinanceOrder> openOrders(Long recvWindow, long timestamp)
-      throws BinanceException, IOException {
-    return binance.openOrders(null, recvWindow, timestamp, super.apiKey, super.signatureCreator);
+  public List<BinanceOrder> openOrders() throws BinanceException, IOException {
+    return binance.openOrders(
+        null, getRecvWindow(), getTimestampFactory(), apiKey, signatureCreator);
   }
 
-  public List<BinanceOrder> openOrders(CurrencyPair pair, Long recvWindow, long timestamp)
-      throws BinanceException, IOException {
+  public List<BinanceOrder> openOrders(CurrencyPair pair) throws BinanceException, IOException {
     return binance.openOrders(
         BinanceAdapters.toSymbol(pair),
-        recvWindow,
-        timestamp,
-        super.apiKey,
-        super.signatureCreator);
+        getRecvWindow(),
+        getTimestampFactory(),
+        apiKey,
+        signatureCreator);
   }
 
   public BinanceNewOrder newOrder(
@@ -46,9 +46,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
-      BigDecimal icebergQty,
-      Long recvWindow,
-      long timestamp)
+      BigDecimal icebergQty)
       throws IOException, BinanceException {
     return binance.newOrder(
         BinanceAdapters.toSymbol(pair),
@@ -60,10 +58,10 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         newClientOrderId,
         stopPrice,
         icebergQty,
-        recvWindow,
-        timestamp,
-        super.apiKey,
-        super.signatureCreator);
+        getRecvWindow(),
+        getTimestampFactory(),
+        apiKey,
+        signatureCreator);
   }
 
   public void testNewOrder(
@@ -75,9 +73,7 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
       BigDecimal price,
       String newClientOrderId,
       BigDecimal stopPrice,
-      BigDecimal icebergQty,
-      Long recvWindow,
-      long timestamp)
+      BigDecimal icebergQty)
       throws IOException, BinanceException {
     binance.testNewOrder(
         BinanceAdapters.toSymbol(pair),
@@ -89,65 +85,52 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         newClientOrderId,
         stopPrice,
         icebergQty,
-        recvWindow,
-        timestamp,
-        super.apiKey,
-        super.signatureCreator);
+        getRecvWindow(),
+        getTimestampFactory(),
+        apiKey,
+        signatureCreator);
   }
 
-  public BinanceOrder orderStatus(
-      CurrencyPair pair, long orderId, String origClientOrderId, Long recvWindow, long timestamp)
+  public BinanceOrder orderStatus(CurrencyPair pair, long orderId, String origClientOrderId)
       throws IOException, BinanceException {
     return binance.orderStatus(
         BinanceAdapters.toSymbol(pair),
         orderId,
         origClientOrderId,
-        recvWindow,
-        timestamp,
+        getRecvWindow(),
+        getTimestampFactory(),
         super.apiKey,
         super.signatureCreator);
   }
 
   public BinanceCancelledOrder cancelOrder(
-      CurrencyPair pair,
-      long orderId,
-      String origClientOrderId,
-      String newClientOrderId,
-      Long recvWindow,
-      long timestamp)
+      CurrencyPair pair, long orderId, String origClientOrderId, String newClientOrderId)
       throws IOException, BinanceException {
     return binance.cancelOrder(
         BinanceAdapters.toSymbol(pair),
         orderId,
         origClientOrderId,
         newClientOrderId,
-        recvWindow,
-        timestamp,
+        getRecvWindow(),
+        getTimestampFactory(),
         super.apiKey,
         super.signatureCreator);
   }
 
-  public List<BinanceOrder> allOrders(
-      CurrencyPair pair, Long orderId, Integer limit, Long recvWindow, long timestamp)
+  public List<BinanceOrder> allOrders(CurrencyPair pair, Long orderId, Integer limit)
       throws BinanceException, IOException {
     return binance.allOrders(
         BinanceAdapters.toSymbol(pair),
         orderId,
         limit,
-        recvWindow,
-        timestamp,
-        super.apiKey,
-        super.signatureCreator);
+        getRecvWindow(),
+        getTimestampFactory(),
+        apiKey,
+        signatureCreator);
   }
 
   public List<BinanceTrade> myTrades(
-      CurrencyPair pair,
-      Integer limit,
-      Long startTime,
-      Long endTime,
-      Long fromId,
-      Long recvWindow,
-      long timestamp)
+      CurrencyPair pair, Integer limit, Long startTime, Long endTime, Long fromId)
       throws BinanceException, IOException {
     return binance.myTrades(
         BinanceAdapters.toSymbol(pair),
@@ -155,10 +138,10 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         startTime,
         endTime,
         fromId,
-        recvWindow,
-        timestamp,
-        super.apiKey,
-        super.signatureCreator);
+        getRecvWindow(),
+        getTimestampFactory(),
+        apiKey,
+        signatureCreator);
   }
 
   public BinanceListenKey startUserDataStream() throws IOException {

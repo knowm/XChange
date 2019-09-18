@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
@@ -27,8 +28,8 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
-  public BinanceAccountService(Exchange exchange) {
-    super(exchange);
+  public BinanceAccountService(BinanceExchange exchange, BinanceAuthenticated binance) {
+    super(exchange, binance);
   }
 
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
@@ -62,16 +63,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
-  private BinanceAccountInformation getBinanceAccountInformation() throws IOException {
-    Long recvWindow =
-        (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-    return super.account(recvWindow, getTimestamp());
-  }
-
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     try {
-      BinanceAccountInformation acc = getBinanceAccountInformation();
+      BinanceAccountInformation acc = account();
       List<Balance> balances =
           acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
@@ -84,18 +79,22 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    BinanceAccountInformation acc = getBinanceAccountInformation();
-    BigDecimal makerFee =
-        acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
-    BigDecimal takerFee =
-        acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+    try {
+      BinanceAccountInformation acc = account();
+      BigDecimal makerFee =
+          acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+      BigDecimal takerFee =
+          acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
 
-    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+      Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+      List<CurrencyPair> pairs = exchange.getExchangeSymbols();
 
-    pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
+      pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
 
-    return tradingFees;
+      return tradingFees;
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   @Override
@@ -213,7 +212,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
       List<FundingRecord> result = new ArrayList<>();
       if (withdrawals) {
-        super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+        super.withdrawHistory(asset, startTime, endTime)
             .forEach(
                 w -> {
                   result.add(
@@ -234,7 +233,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       }
 
       if (deposits) {
-        super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp())
+        super.depositHistory(asset, startTime, endTime)
             .forEach(
                 d -> {
                   result.add(

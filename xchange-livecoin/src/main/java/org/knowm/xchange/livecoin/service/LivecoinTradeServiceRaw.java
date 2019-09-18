@@ -27,8 +27,8 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
   private static final long THIRTY_DAYS_MILLISECONDS = 2_592_000_000L;
 
-  public LivecoinTradeServiceRaw(LivecoinExchange exchange) {
-    super(Livecoin.class, exchange);
+  public LivecoinTradeServiceRaw(LivecoinExchange exchange, Livecoin livecoin) {
+    super(exchange, livecoin);
   }
 
   public LivecoinPaginatedResponse<LivecoinUserOrder> clientOrders(

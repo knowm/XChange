@@ -28,6 +28,8 @@ public class ExchangeSpecification {
   private Integer proxyPort;
   private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
   private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
+  private boolean retryEnabled = false;
+  private boolean rateLimiterEnabled = false;
   private String metaDataJsonFileOverride = null;
   private boolean shouldLoadRemoteMetaData = true; // default value
   /** arbitrary exchange params that can be set for unique cases */
@@ -218,6 +220,22 @@ public class ExchangeSpecification {
   public void setHttpReadTimeout(int milliseconds) {
 
     this.httpReadTimeout = milliseconds;
+  }
+
+  public boolean isRetryEnabled() {
+    return retryEnabled;
+  }
+
+  public void setRetryEnabled(boolean retryEnabled) {
+    this.retryEnabled = retryEnabled;
+  }
+
+  public boolean isRateLimiterEnabled() {
+    return rateLimiterEnabled;
+  }
+
+  public void setRateLimiterEnabled(boolean rateLimiterEnabled) {
+    this.rateLimiterEnabled = rateLimiterEnabled;
   }
 
   /**

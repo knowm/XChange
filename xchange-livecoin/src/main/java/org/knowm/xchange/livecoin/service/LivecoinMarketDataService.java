@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
@@ -23,8 +24,8 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw
     implements MarketDataService {
 
-  public LivecoinMarketDataService(Exchange exchange) {
-    super(exchange);
+  public LivecoinMarketDataService(Exchange exchange, Livecoin livecoin) {
+    super(exchange, livecoin);
   }
 
   @Override

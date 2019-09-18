@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
@@ -27,9 +28,9 @@ import org.knowm.xchange.service.marketdata.params.Params;
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
 
-  public BinanceMarketDataService(Exchange exchange) {
+  public BinanceMarketDataService(BinanceExchange exchange, BinanceAuthenticated binance) {
 
-    super(exchange);
+    super(exchange, binance);
   }
 
   @Override
