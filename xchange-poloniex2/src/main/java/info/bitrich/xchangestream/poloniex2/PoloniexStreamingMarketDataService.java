@@ -51,11 +51,10 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                         (Optional<PoloniexOrderbook> orderbook, List<PoloniexWebSocketEvent> poloniexWebSocketEvents) ->
                                 poloniexWebSocketEvents.stream()
                                         .filter(s -> s.getEventType().equals("i") || s.getEventType().equals("o"))
-                                        .reduce(orderbook, (poloniexOrderbook, poloniexWebSocketEvent) -> {
-                                            if (poloniexWebSocketEvent.getEventType().equals("i")) {
+                                        .reduce(orderbook, (poloniexOrderbook, s) -> {
+                                            if (s.getEventType().equals("i")) {
                                                 OrderbookInsertEvent insertEvent
-                                                        = ((PoloniexWebSocketOrderbookInsertEvent)
-                                                            poloniexWebSocketEvent).getInsert();
+                                                        = ((PoloniexWebSocketOrderbookInsertEvent) s).getInsert();
                                                 SortedMap<BigDecimal, BigDecimal> asks
                                                         = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);
                                                 SortedMap<BigDecimal, BigDecimal> bids
@@ -64,15 +63,17 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                                             } else {
                                                 OrderbookModifiedEvent modifiedEvent
                                                         = ((PoloniexWebSocketOrderbookModifiedEvent)
-                                                        poloniexWebSocketEvent).getModifiedEvent();
-                        //                        orderbook.orElseThrow(() -> {
-                        //                            throw new RuntimeException();
-                        //                        }).modify(modifiedEvent);
-                                                orderbook.get().modify(modifiedEvent);
+                                                        s).getModifiedEvent();
+                                                orderbook.orElseThrow(() ->
+                                                        new IllegalStateException(
+                                                                "Orderbook update received before initial snapshot"
+                                                        )
+                                                )
+                                                        .modify(modifiedEvent);
                                                 return orderbook;
                                             }
                                         }, (poloniexOrderbook, poloniexOrderbook2) -> {
-                                            throw new RuntimeException();
+                                            throw new UnsupportedOperationException("No parallel execution");
                                         })
                 )
                 .filter(Optional::isPresent)
@@ -99,7 +100,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
         Observable<PoloniexWebSocketTradeEvent> subscribedTrades = service.subscribeCurrencyPairChannel(currencyPair)
                 .flatMapIterable(poloniexWebSocketEvents -> poloniexWebSocketEvents)
                 .filter(s -> s.getEventType().equals("t"))
-                .map(s -> (PoloniexWebSocketTradeEvent) s).share();
+                .map(PoloniexWebSocketTradeEvent.class::cast).share();
 
         return subscribedTrades
                 .map(s -> adaptPoloniexPublicTrade(s.toPoloniexPublicTrade(currencyPair), currencyPair));
