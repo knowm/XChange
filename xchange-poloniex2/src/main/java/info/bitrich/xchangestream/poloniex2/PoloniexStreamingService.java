@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.poloniex2;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
@@ -19,7 +18,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Created by Lukas Zaoralek on 10.11.17.
@@ -85,33 +83,24 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
         String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
         return subscribeChannel(channelName)
-                .scan(Optional.<JsonNode>empty(), (jsonNodeOldOptional, jsonNodeNew) -> {
-                    jsonNodeOldOptional.ifPresent(jsonNode -> {
-                        if (jsonNode.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
-                            LOG.info("Suspicious sequencing, old: {} new: {}", jsonNode, jsonNodeNew);
-                            if (
-                                    jsonNodeNew.get(2).size() == 1
-                                            && jsonNodeNew.get(2).get(0).get(0).textValue().equals("i")
-                            ) {
-                                return;
-                            }
-                            try {
-                                throw new RuntimeException("Invalid sequencing, old: " + jsonNodeOldOptional.map(n -> {
-                                    try {
-                                        return objectMapper.writeValueAsString(n);
-                                    } catch (JsonProcessingException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }).orElse("empty") + " new: " + objectMapper.writeValueAsString(jsonNodeNew));
-                            } catch (JsonProcessingException e) {
-                                throw new RuntimeException(e);
-                            }
+                .scan((jsonNodeOld, jsonNodeNew) -> {
+                    if (jsonNodeOld.get(1).longValue() + 1 != jsonNodeNew.get(1).longValue()) {
+                        LOG.info("Suspicious sequencing, old: {} new: {}", jsonNodeOld, jsonNodeNew);
+                        if (
+                                jsonNodeNew.get(2).size() == 1
+                                        && jsonNodeNew.get(2).get(0).get(0).textValue().equals("i")
+                        ) {
+                            return jsonNodeNew;
                         }
-                    });
-                    return Optional.of(jsonNodeNew);
+                        throw new RuntimeException(
+                                "Invalid sequencing, old: "
+                                        + objectMapper.writeValueAsString(jsonNodeOld)
+                                        + " new: "
+                                        + objectMapper.writeValueAsString(jsonNodeNew)
+                        );
+                    }
+                    return jsonNodeNew;
                 })
-                .filter(Optional::isPresent)
-                .map(Optional::get)
                 .map(s -> {
                     PoloniexWebSocketEventsTransaction transaction = objectMapper.treeToValue(s, PoloniexWebSocketEventsTransaction.class);
                     return Arrays.asList(transaction.getEvents());
