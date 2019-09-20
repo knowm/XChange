@@ -2,13 +2,11 @@ package org.knowm.xchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.io.IOUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -76,30 +74,24 @@ public abstract class BaseExchange implements Exchange {
     if (this.exchangeSpecification.getMetaDataJsonFileOverride()
         != null) { // load the metadata from the file system
 
-      InputStream is = null;
-      try {
-        is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
+      try (InputStream is =
+          new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride())) {
         loadExchangeMetaData(is);
-      } catch (FileNotFoundException e) {
-        logger.warn(
-            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
-            e);
-      } finally {
-        IOUtils.closeQuietly(is);
+      } catch (IOException e) {
+        throw new ExchangeException(e);
       }
 
     } else if (this.exchangeSpecification.getExchangeName()
         != null) { // load the metadata from the classpath
 
-      InputStream is = null;
-      try {
-        is =
-            BaseExchangeService.class
-                .getClassLoader()
-                .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json");
+      try (InputStream is =
+          BaseExchangeService.class
+              .getClassLoader()
+              .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json")) {
+
         loadExchangeMetaData(is);
-      } finally {
-        IOUtils.closeQuietly(is);
+      } catch (IOException e) {
+        throw new ExchangeException(e);
       }
 
     } else {
