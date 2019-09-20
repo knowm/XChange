@@ -74,26 +74,24 @@ public abstract class BaseExchange implements Exchange {
     if (this.exchangeSpecification.getMetaDataJsonFileOverride()
         != null) { // load the metadata from the file system
 
-      try(InputStream is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride())) {
+      try (InputStream is =
+          new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride())) {
         loadExchangeMetaData(is);
       } catch (IOException e) {
-        logger.error(
-            "An exception occured while loading the metadata file from the classpath. It may lead to unexpected results, so it's better to address it.",
-            e);
+        throw new ExchangeException(e);
       }
 
     } else if (this.exchangeSpecification.getExchangeName()
         != null) { // load the metadata from the classpath
 
-      try(InputStream is = BaseExchangeService.class
+      try (InputStream is =
+          BaseExchangeService.class
               .getClassLoader()
               .getResourceAsStream(getMetaDataFileName(this.exchangeSpecification) + ".json")) {
 
         loadExchangeMetaData(is);
-      } catch (IOException e){
-        logger.error(
-                "An exception occured while loading the metadata file from the classpath. It may lead to unexpected results, so it's better to address it.",
-                e);
+      } catch (IOException e) {
+        throw new ExchangeException(e);
       }
 
     } else {
