@@ -58,7 +58,7 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
             .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
             .build(),
         Wallet.Builder.from(tradingBalances)
-            .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
+            .features(Stream.of(Wallet.WalletFeature.TRADING).collect(Collectors.toSet()))
             .build()
         // new Wallet("Futures",futuresBalances),
         // new Wallet("Swap", swapBalances)
