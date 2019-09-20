@@ -1,7 +1,10 @@
 package org.knowm.xchange.acx;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.knowm.xchange.acx.dto.AcxTrade;
 import org.knowm.xchange.acx.dto.account.AcxAccount;
@@ -22,9 +25,26 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 public class AcxMapper {
+
+  private Map<String, CurrencyPair> marketMap = new ConcurrentHashMap<>();
+
+  AcxMapper(ExchangeMetaData exchangeMetaData) {
+    exchangeMetaData
+        .getCurrencyPairs()
+        .forEach(
+            (currencyPair, currencyPairMetaData) -> {
+              marketMap.put(
+                  currencyPair.base.toString().toLowerCase()
+                      + currencyPair.counter.toString().toLowerCase(),
+                  currencyPair);
+            });
+  }
+
   public Ticker mapTicker(CurrencyPair currencyPair, AcxMarket tickerData) {
     AcxTicker ticker = tickerData.ticker;
     return new Ticker.Builder()
@@ -50,7 +70,7 @@ public class AcxMapper {
   }
 
   public LimitOrder mapOrder(CurrencyPair currencyPair, AcxOrder order) {
-    OrderType type = mapOrderType(order);
+    OrderType type = mapOrderSide(order.side);
     return new LimitOrder.Builder(type, currencyPair)
         .id(order.id)
         .limitPrice(order.price)
@@ -59,28 +79,34 @@ public class AcxMapper {
         .originalAmount(order.volume)
         .remainingAmount(order.remainingVolume)
         .cumulativeAmount(order.executedVolume)
-        .orderStatus(mapOrderStatus(order.state))
+        .orderStatus(mapOrderStatus(order))
         .build();
   }
 
-  private OrderType mapOrderType(AcxOrder order) {
-    switch (order.side) {
+  private static OrderType mapOrderSide(String side) {
+    switch (side) {
+      case "ask":
       case "sell":
         return OrderType.ASK;
+      case "bid":
       case "buy":
         return OrderType.BID;
     }
     return null;
   }
 
-  private OrderStatus mapOrderStatus(String state) {
-    switch (state) {
+  public OrderStatus mapOrderStatus(AcxOrder order) {
+    switch (order.state) {
       case "wait":
         return OrderStatus.PENDING_NEW;
       case "done":
         return OrderStatus.FILLED;
       case "cancel":
-        return OrderStatus.CANCELED;
+        if (order.executedVolume.compareTo(BigDecimal.ZERO) > 0) {
+          return OrderStatus.PARTIALLY_CANCELED;
+        } else {
+          return OrderStatus.CANCELED;
+        }
     }
     return null;
   }
@@ -132,5 +158,27 @@ public class AcxMapper {
         return "sell";
     }
     throw new IllegalArgumentException("Unknown order type: " + type);
+  }
+
+  public UserTrade mapTrade(AcxTrade trade) {
+    return new UserTrade.Builder()
+        .currencyPair(mapCurrencyPair(trade.market))
+        .id(trade.id)
+        .orderId(trade.orderId)
+        .price(trade.price)
+        .originalAmount(trade.volume)
+        .timestamp(trade.createdAt)
+        .type(mapOrderSide(trade.side))
+        .build();
+  }
+
+  public CurrencyPair mapCurrencyPair(String acxMarket) {
+    if (marketMap.containsKey(acxMarket)) {
+      return marketMap.get(acxMarket);
+    } else {
+      return new CurrencyPair(
+          Currency.getInstance(acxMarket.substring(0, 3)),
+          Currency.getInstance(acxMarket.substring(3, 6)));
+    }
   }
 }

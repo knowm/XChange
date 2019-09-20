@@ -6,24 +6,25 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.acx.service.account.AcxAccountService;
 import org.knowm.xchange.acx.service.marketdata.AcxMarketDataService;
 import org.knowm.xchange.acx.service.trade.AcxTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class AcxExchange extends BaseExchange implements Exchange {
-  private final SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongIncrementalTime2014NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
     ExchangeSpecification spec = getExchangeSpecification();
     AcxApi api = RestProxyFactory.createProxy(AcxApi.class, spec.getSslUri());
-    AcxMapper mapper = new AcxMapper();
+    AcxMapper mapper = new AcxMapper(exchangeMetaData);
     this.marketDataService = new AcxMarketDataService(api, mapper);
     if (spec.getApiKey() != null && spec.getSecretKey() != null) {
       AcxSignatureCreator signatureCreator = new AcxSignatureCreator(spec.getSecretKey());
-      this.accountService = new AcxAccountService(api, mapper, signatureCreator, spec.getApiKey());
-      this.tradeService = new AcxTradeService(api, mapper, signatureCreator, spec.getApiKey());
+      this.accountService =
+          new AcxAccountService(nonceFactory, api, mapper, signatureCreator, spec.getApiKey());
+      this.tradeService =
+          new AcxTradeService(nonceFactory, api, mapper, signatureCreator, spec.getApiKey());
     }
   }
 
