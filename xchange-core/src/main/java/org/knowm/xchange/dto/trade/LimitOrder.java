@@ -16,6 +16,8 @@ import org.knowm.xchange.dto.Order;
  */
 public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
+  private static final long serialVersionUID = -5166848178471347540L;
+
   /** The limit price */
   protected final BigDecimal limitPrice;
 

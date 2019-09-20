@@ -5,10 +5,7 @@ import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -172,10 +169,10 @@ public class GlobitexAdapters {
               balances.add(balance);
             });
 
-    return new Wallet(
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        balances);
+    return Wallet.Builder.from(balances)
+        .id(globitexAccounts.getAccounts().get(0).getAccount())
+        .name(globitexAccounts.getAccounts().get(0).getAccount())
+        .build();
   }
 
   public static UserTrades adaptToUserTrades(GlobitexUserTrades globitexUserTrades) {

@@ -211,7 +211,7 @@ public class KrakenAdapters {
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {

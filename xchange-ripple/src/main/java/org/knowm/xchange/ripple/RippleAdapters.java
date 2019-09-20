@@ -64,7 +64,7 @@ public abstract class RippleAdapters {
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
-        walletId = null;
+        walletId = "main";
       } else {
         walletId = balance.getCounterparty();
       }
@@ -78,7 +78,7 @@ public abstract class RippleAdapters {
 
     final List<Wallet> accountInfo = new ArrayList<>(balances.size());
     for (final Map.Entry<String, List<Balance>> wallet : balances.entrySet()) {
-      accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
+      accountInfo.add(Wallet.Builder.from(wallet.getValue()).id(wallet.getKey()).build());
     }
 
     return new AccountInfo(username, BigDecimal.ZERO, accountInfo);

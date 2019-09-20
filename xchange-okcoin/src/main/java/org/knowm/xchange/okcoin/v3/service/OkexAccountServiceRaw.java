@@ -13,6 +13,7 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsByCurrencyResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse;
@@ -79,6 +80,13 @@ public class OkexAccountServiceRaw extends OkexBaseService {
 
   public FuturesAccountsResponse getFuturesAccounts() throws IOException {
     FuturesAccountsResponse res = okex.getFuturesAccounts(apikey, digest, timestamp(), passphrase);
+    res.checkResult();
+    return res;
+  }
+
+  public FuturesAccountsByCurrencyResponse getFuturesAccounts(String currency) throws IOException {
+    FuturesAccountsByCurrencyResponse res =
+        okex.getFuturesAccounts(apikey, digest, timestamp(), passphrase, currency);
     res.checkResult();
     return res;
   }
