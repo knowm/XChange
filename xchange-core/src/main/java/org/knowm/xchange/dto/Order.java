@@ -137,7 +137,9 @@ public abstract class Order implements Serializable {
   }
 
   public BigDecimal getCumulativeCounterAmount() {
-    if (cumulativeAmount != null && averagePrice != null && averagePrice.compareTo(BigDecimal.ZERO) > 0) {
+    if (cumulativeAmount != null
+        && averagePrice != null
+        && averagePrice.compareTo(BigDecimal.ZERO) > 0) {
       return cumulativeAmount.multiply(averagePrice);
     }
     return null;
