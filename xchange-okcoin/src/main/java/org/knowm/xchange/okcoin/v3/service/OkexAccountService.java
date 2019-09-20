@@ -54,14 +54,14 @@ public class OkexAccountService extends OkexAccountServiceRaw implements Account
     Collection<Balance> swapBalances =
         swapAccounts.stream().map(OkexAdaptersV3::convert).collect(Collectors.toList());*/
     return new AccountInfo(
-            Wallet.Builder.from(fundingBalances)
-                    .id("Funding")
-                    .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
-                    .build(),
-            Wallet.Builder.from(tradingBalances)
-                    .id("Trading")
-                    .features(Stream.of(Wallet.WalletFeature.TRADING).collect(Collectors.toSet()))
-                    .build());
+        Wallet.Builder.from(fundingBalances)
+            .id("Funding")
+            .features(Stream.of(Wallet.WalletFeature.FUNDING).collect(Collectors.toSet()))
+            .build(),
+        Wallet.Builder.from(tradingBalances)
+            .id("Trading")
+            .features(Stream.of(Wallet.WalletFeature.TRADING).collect(Collectors.toSet()))
+            .build());
   }
 
   @Override
