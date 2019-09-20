@@ -228,6 +228,7 @@ public final class ItBitAdapters {
         totalValue = totalValue.add(trade.getCurrency1Amount().multiply(trade.getRate()));
         totalQuantity = totalQuantity.add(trade.getCurrency1Amount());
         totalFee = totalFee.add(trade.getCommissionPaid());
+        totalFee = totalFee.subtract(trade.getRebatesApplied());
       }
 
       BigDecimal volumeWeightedAveragePrice =
@@ -240,7 +241,8 @@ public final class ItBitAdapters {
               : OrderType.ASK;
 
       CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
-      Currency feeCcy = adaptCcy(itBitTrade.getCommissionCurrency());
+      String ccy = itBitTrade.getCommissionCurrency();
+      Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
 
       UserTrade userTrade =
           new UserTrade(

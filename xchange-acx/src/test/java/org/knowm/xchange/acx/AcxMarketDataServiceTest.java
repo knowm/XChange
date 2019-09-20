@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class AcxMarketDataServiceTest {
@@ -34,7 +36,8 @@ public class AcxMarketDataServiceTest {
   @Before
   public void setUp() {
     objectMapper = new ObjectMapper();
-    AcxMapper mapper = new AcxMapper();
+    AcxMapper mapper =
+        new AcxMapper(new ExchangeMetaData(new HashMap<>(), new HashMap<>(), null, null, false));
     api = mock(AcxApi.class);
     service = new AcxMarketDataService(api, mapper);
   }
