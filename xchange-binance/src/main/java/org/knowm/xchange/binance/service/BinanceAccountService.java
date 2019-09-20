@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
@@ -75,7 +76,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           acc.balances.stream()
               .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
               .collect(Collectors.toList());
-      return new AccountInfo(new Date(acc.updateTime), new Wallet(balances));
+      return new AccountInfo(new Date(acc.updateTime), Wallet.Builder.from(balances).build());
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -84,14 +85,15 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
     BinanceAccountInformation acc = getBinanceAccountInformation();
+    BigDecimal makerFee =
+        acc.makerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
+    BigDecimal takerFee =
+        acc.takerCommission.divide(new BigDecimal("10000"), 4, RoundingMode.UNNECESSARY);
 
     Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
     List<CurrencyPair> pairs = exchange.getExchangeSymbols();
 
-    pairs.forEach(
-        pair -> {
-          tradingFees.put(pair, new Fee(acc.makerCommission, acc.takerCommission));
-        });
+    pairs.forEach(pair -> tradingFees.put(pair, new Fee(makerFee, takerFee)));
 
     return tradingFees;
   }

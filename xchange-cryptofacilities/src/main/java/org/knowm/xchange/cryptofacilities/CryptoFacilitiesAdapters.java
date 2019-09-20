@@ -81,7 +81,7 @@ public class CryptoFacilitiesAdapters {
       }
       balances.add(balance);
     }
-    return new AccountInfo(username, new Wallet(balances));
+    return new AccountInfo(username, Wallet.Builder.from(balances).build());
   }
 
   public static AccountInfo adaptAccounts(
@@ -111,7 +111,7 @@ public class CryptoFacilitiesAdapters {
         balances.add(balance);
       }
 
-      wallets.add(new Wallet(accountName, accountName, balances));
+      wallets.add(Wallet.Builder.from(balances).id(accountName).name(accountName).build());
     }
     return new AccountInfo(username, wallets);
   }

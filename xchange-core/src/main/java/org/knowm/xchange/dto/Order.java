@@ -10,6 +10,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 /** Data object representing an order */
 public abstract class Order implements Serializable {
 
+  private static final long serialVersionUID = -8132103343647993249L;
+
   /** Order type i.e. bid or ask */
   private final OrderType type;
   /** Amount to be ordered / amount that was ordered */
@@ -88,6 +90,12 @@ public abstract class Order implements Serializable {
     return value == null ? null : value.toPlainString();
   }
 
+  /**
+   * The total of the fees incurred for all transactions related to this order
+   *
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
   public BigDecimal getFee() {
     return fee;
   }
@@ -111,13 +119,13 @@ public abstract class Order implements Serializable {
     return status;
   }
 
-  /** @return The amount to trade */
+  /** The amount to trade */
   public BigDecimal getOriginalAmount() {
 
     return originalAmount;
   }
 
-  /** @return The amount that has been filled */
+  /** The amount that has been filled */
   public BigDecimal getCumulativeAmount() {
 
     return cumulativeAmount;
@@ -128,6 +136,13 @@ public abstract class Order implements Serializable {
     this.cumulativeAmount = cumulativeAmount;
   }
 
+  public BigDecimal getCumulativeCounterAmount() {
+    if (cumulativeAmount != null && averagePrice != null && averagePrice.compareTo(BigDecimal.ZERO) > 0) {
+      return cumulativeAmount.multiply(averagePrice);
+    }
+    return null;
+  }
+
   /** @return The remaining order amount */
   public BigDecimal getRemainingAmount() {
     if (cumulativeAmount != null && originalAmount != null) {
@@ -136,7 +151,12 @@ public abstract class Order implements Serializable {
     return originalAmount;
   }
 
-  /** @return The average price of the fills in the order */
+  /**
+   * The average price of the fills in the order.
+   *
+   * @return null if this information is not available on the order level on the given exchange in
+   *     which case you will have to navigate trades which filled this order to calculate it
+   */
   public BigDecimal getAveragePrice() {
 
     return averagePrice;
@@ -457,5 +477,7 @@ public abstract class Order implements Serializable {
       this.flags.add(flag);
       return this;
     }
+
+    public abstract Order build();
   }
 }

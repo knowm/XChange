@@ -8,6 +8,8 @@ import org.knowm.xchange.currency.Currency;
 
 public class CurrencyPairMetaData implements Serializable {
 
+  private static final long serialVersionUID = 4749144540694704221L;
+
   /** Trading fee (fraction) */
   @JsonProperty("trading_fee")
   private final BigDecimal tradingFee;
@@ -194,6 +196,106 @@ public class CurrencyPairMetaData implements Serializable {
 
   public boolean isMarketOrderEnabled() {
     return marketOrderEnabled;
+  }
+
+  public static class Builder {
+
+    private BigDecimal tradingFee;
+    private FeeTier[] feeTiers;
+    private BigDecimal minimumAmount;
+    private BigDecimal maximumAmount;
+    private BigDecimal counterMinimumAmount;
+    private BigDecimal counterMaximumAmount;
+    private Integer baseScale;
+    private Integer priceScale;
+    private BigDecimal amountStepSize;
+    private Currency tradingFeeCurrency;
+    private boolean marketOrderEnabled;
+
+    public static Builder from(CurrencyPairMetaData metaData) {
+      return new Builder()
+          .tradingFee(metaData.getTradingFee())
+          .feeTiers(metaData.getFeeTiers())
+          .minimumAmount(metaData.getMinimumAmount())
+          .maximumAmount(metaData.getMaximumAmount())
+          .counterMinimumAmount(metaData.getCounterMinimumAmount())
+          .counterMaximumAmount(metaData.getCounterMaximumAmount())
+          .baseScale(metaData.getBaseScale())
+          .priceScale(metaData.getPriceScale())
+          .amountStepSize(metaData.getAmountStepSize())
+          .tradingFee(metaData.getTradingFee())
+          .tradingFeeCurrency(metaData.getTradingFeeCurrency());
+    }
+
+    public Builder tradingFee(BigDecimal tradingFee) {
+      this.tradingFee = tradingFee;
+      return this;
+    }
+
+    public Builder feeTiers(FeeTier[] feeTiers) {
+      this.feeTiers = feeTiers;
+      return this;
+    }
+
+    public Builder minimumAmount(BigDecimal minimumAmount) {
+      this.minimumAmount = minimumAmount;
+      return this;
+    }
+
+    public Builder maximumAmount(BigDecimal maximumAmount) {
+      this.maximumAmount = maximumAmount;
+      return this;
+    }
+
+    public Builder counterMinimumAmount(BigDecimal counterMinimumAmount) {
+      this.counterMinimumAmount = counterMinimumAmount;
+      return this;
+    }
+
+    public Builder counterMaximumAmount(BigDecimal counterMaximumAmount) {
+      this.counterMaximumAmount = counterMaximumAmount;
+      return this;
+    }
+
+    public Builder baseScale(Integer baseScale) {
+      this.baseScale = baseScale;
+      return this;
+    }
+
+    public Builder priceScale(Integer priceScale) {
+      this.priceScale = priceScale;
+      return this;
+    }
+
+    public Builder amountStepSize(BigDecimal amountStepSize) {
+      this.amountStepSize = amountStepSize;
+      return this;
+    }
+
+    public Builder tradingFeeCurrency(Currency tradingFeeCurrency) {
+      this.tradingFeeCurrency = tradingFeeCurrency;
+      return this;
+    }
+
+    public Builder marketOrderEnabled(boolean marketOrderEnabled) {
+      this.marketOrderEnabled = marketOrderEnabled;
+      return this;
+    }
+
+    public CurrencyPairMetaData build() {
+      return new CurrencyPairMetaData(
+          tradingFee,
+          minimumAmount,
+          maximumAmount,
+          counterMinimumAmount,
+          counterMaximumAmount,
+          baseScale,
+          priceScale,
+          feeTiers,
+          amountStepSize,
+          tradingFeeCurrency,
+          marketOrderEnabled);
+    }
   }
 
   @Override

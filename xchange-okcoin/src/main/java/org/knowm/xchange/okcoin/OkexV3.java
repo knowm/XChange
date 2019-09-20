@@ -27,6 +27,7 @@ import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTicker;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsByCurrencyResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderCancellationResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderPlacementRequest;
@@ -277,6 +278,16 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/futures/v3/accounts/{currency}")
+  FuturesAccountsByCurrencyResponse getFuturesAccounts(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("currency") String currency)
       throws IOException, OkexException;
 
   @GET

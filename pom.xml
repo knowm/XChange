@@ -9,7 +9,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.22-SNAPSHOT</version>
+    <version>4.4.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -36,14 +36,14 @@
         <version.fasterxml>2.9.9</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
-        <version.lombok>1.18.8</version.lombok>
+        <version.lombok>1.18.10</version.lombok>
         <version.knowm.xchart>3.5.4</version.knowm.xchart>
         <version.powermock>2.0.2</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
         <version.slf4j>1.7.28</version.slf4j>
         <version.crypto>4.2.0</version.crypto>
-        <version.java-jwt>3.8.1</version.java-jwt>
+        <version.java-jwt>3.8.2</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -94,7 +94,6 @@
     </ciManagement>
 
     <modules>
-        <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
         <module>xchange-bankera</module>
@@ -110,7 +109,6 @@
         <module>xchange-bitfinex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bithumb</module>
-        <module>xchange-bitmarket</module>
         <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
@@ -187,7 +185,6 @@
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
         <module>xchange-vaultoro</module>
-        <module>xchange-vircurex</module>
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
@@ -266,7 +263,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.0-jre</version>
+                <version>28.1-jre</version>
             </dependency>
 
             <dependency>

@@ -1,5 +1,9 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,11 +17,6 @@ import org.knowm.xchange.enigma.model.EnigmaNotImplementedException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class EnigmaMarketDataService extends EnigmaMarketDataServiceRaw
@@ -33,7 +32,8 @@ public class EnigmaMarketDataService extends EnigmaMarketDataServiceRaw
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, EnigmaNotImplementedException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws IOException, EnigmaNotImplementedException {
     EnigmaOrderBook enigmaOrderBook = getEnigmaOrderBook();
     if (enigmaOrderBook.isResult()) {
       return EnigmaAdapters.adaptOrderBook(enigmaOrderBook, currencyPair);

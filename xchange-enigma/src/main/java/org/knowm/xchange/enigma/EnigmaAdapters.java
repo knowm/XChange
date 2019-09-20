@@ -2,6 +2,10 @@ package org.knowm.xchange.enigma;
 
 import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
@@ -21,10 +25,6 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaTicker;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaTransaction;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public final class EnigmaAdapters {
 
@@ -41,7 +41,7 @@ public final class EnigmaAdapters {
                         balanceEntry.getValue()))
             .collect(Collectors.toList());
 
-    return new AccountInfo(userName, new Wallet(balances));
+    return new AccountInfo(userName, Wallet.Builder.from(balances).build());
   }
 
   public static Trade adaptTrade(EnigmaExecutedQuote enigmaTrade) {

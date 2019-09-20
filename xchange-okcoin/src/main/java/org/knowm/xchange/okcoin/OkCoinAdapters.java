@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -147,7 +148,7 @@ public final class OkCoinAdapters {
       wallet.add(builder.build());
     }
 
-    return new AccountInfo(new Wallet(wallet));
+    return new AccountInfo(Wallet.Builder.from(wallet).build());
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
@@ -159,7 +160,11 @@ public final class OkCoinAdapters {
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
     Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
 
-    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance, bchBalance));
+    return new AccountInfo(
+        Wallet.Builder.from(
+                Stream.of(zeroUsdBalance, btcBalance, ltcBalance, bchBalance)
+                    .collect(Collectors.toList()))
+            .build());
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {

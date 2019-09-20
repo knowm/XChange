@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.3.22-SNAPSHOT</version>
+		<version>4.4.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -306,11 +306,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bitmarket</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-coinmate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -322,11 +317,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-upbit</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-vircurex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -348,12 +338,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-dsx</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange Abucoins exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-abucoins</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Cryptopia exchange support -->

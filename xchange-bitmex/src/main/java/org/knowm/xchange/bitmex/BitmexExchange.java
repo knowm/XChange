@@ -31,7 +31,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
-        exchangeSpecification.setSslUri("https://testnet.bitmex.com/");
+        exchangeSpecification.setSslUri("https://testnet.bitmex.com");
         exchangeSpecification.setHost("testnet.bitmex.com");
       }
     }
@@ -60,7 +60,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.bitmex.com/");
+    exchangeSpecification.setSslUri("https://www.bitmex.com");
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
@@ -128,7 +128,10 @@ public class BitmexExchange extends BaseExchange implements Exchange {
       BitmexTicker ticker, List<CurrencyPair> activeCurrencyPairs, Set<Currency> activeCurrencies) {
 
     String bitmexSymbol = ticker.getSymbol();
-    String baseSymbol = ticker.getRootSymbol();
+    String baseSymbol =
+        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+            ? "XBT"
+            : ticker.getRootSymbol();
     String counterSymbol;
 
     if (bitmexSymbol.contains(baseSymbol)) {

@@ -14,6 +14,8 @@ import org.knowm.xchange.dto.Order;
 public final class FloatingRateLoanOrder extends LoanOrder
     implements Comparable<FloatingRateLoanOrder> {
 
+  private static final long serialVersionUID = -1474202797547840095L;
+
   private BigDecimal rate;
 
   /**
