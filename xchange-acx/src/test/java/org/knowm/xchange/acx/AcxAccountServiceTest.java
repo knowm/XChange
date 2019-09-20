@@ -1,22 +1,25 @@
 package org.knowm.xchange.acx;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.acx.dto.account.AcxAccountInfo;
 import org.knowm.xchange.acx.service.account.AcxAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class AcxAccountServiceTest {
 
@@ -28,10 +31,13 @@ public class AcxAccountServiceTest {
   @Before
   public void setUp() {
     objectMapper = new ObjectMapper();
-    AcxMapper mapper = new AcxMapper();
+    AcxMapper mapper =
+        new AcxMapper(new ExchangeMetaData(new HashMap<>(), new HashMap<>(), null, null, false));
     api = mock(AcxApi.class);
     accessKey = "access_key";
-    service = new AcxAccountService(api, mapper, mock(AcxSignatureCreator.class), accessKey);
+    service =
+        new AcxAccountService(
+            new CurrentTimeNonceFactory(), api, mapper, mock(AcxSignatureCreator.class), accessKey);
   }
 
   @Test
