@@ -18,11 +18,12 @@ import java.util.Map;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
 
+    protected static final String RATE_LIMIT_LIMIT = "X-RateLimit-Limit";
+    protected static final String RATE_LIMIT_REMAINING = "X-RateLimit-Remaining";
+    protected static final String RATE_LIMIT_RESET = "X-RateLimit-Reset";
+
   protected final BitmexAuthenticated bitmex;
   protected final ParamsDigest signatureCreator;
-  protected final String RATE_LIMIT_LIMIT = "X-RateLimit-Limit";
-  protected final String RATE_LIMIT_REMAINING = "X-RateLimit-Remaining";
-  protected final String RATE_LIMIT_RESET = "X-RateLimit-Reset";
   protected static Integer rateLimit;
   protected static Integer rateLimitRemaining;
   protected static Long rateLimitReset;
