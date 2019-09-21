@@ -8,6 +8,8 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.exceptions.OrderAmountUnderMinimumException;
+import org.knowm.xchange.exceptions.OrderNotValidException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 
 /** @author walec51 */
@@ -33,6 +35,7 @@ public final class BinanceErrorAdapter {
         } else {
           return new ExchangeException(message, e);
         }
+      case -1013: createOrderNotValidException(message, e);
       case -1016:
         return new ExchangeUnavailableException(message, e);
       case -1021:
@@ -43,5 +46,12 @@ public final class BinanceErrorAdapter {
         return new ExchangeSecurityException(message, e);
     }
     return new ExchangeException(message, e);
+  }
+
+  private static ExchangeException createOrderNotValidException(String message, BinanceException e) {
+    if (e.getMessage().contains("MIN_NOTIONAL")) {
+      return new OrderAmountUnderMinimumException(message, e);
+    }
+    return new OrderNotValidException(message, e);
   }
 }
