@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLoansDataTest;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
@@ -62,7 +63,7 @@ public class PoloniexAdapterTest {
     assertThat(fundingRecords).hasSize(3);
     final FundingRecord adjustment =
         fundingRecords.stream()
-            .filter(record -> record.getType() == FundingRecord.Type.DEPOSIT)
+            .filter(record -> record.getType() == Type.AIRDROP)
             .findFirst()
             .orElseThrow(NullPointerException::new);
 
@@ -73,7 +74,7 @@ public class PoloniexAdapterTest {
         .isCloseTo(new BigDecimal("0.01752476"), Offset.offset(BigDecimal.ZERO));
     assertThat(adjustment.getInternalId()).isNull();
     assertThat(adjustment.getBlockchainTransactionHash()).isNull();
-    assertThat(adjustment.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+    assertThat(adjustment.getType()).isEqualTo(Type.AIRDROP);
     assertThat(adjustment.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
     assertThat(adjustment.getBalance()).isNull();
     assertThat(adjustment.getFee()).isNull();
@@ -84,7 +85,6 @@ public class PoloniexAdapterTest {
     final FundingRecord deposit =
         fundingRecords.stream()
             .filter(record -> record.getType() == FundingRecord.Type.DEPOSIT)
-            .skip(1)
             .findFirst()
             .orElseThrow(NullPointerException::new);
 

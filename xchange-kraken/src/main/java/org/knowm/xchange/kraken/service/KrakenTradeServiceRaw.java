@@ -194,6 +194,17 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return placeKrakenOrder(orderBuilder.buildOrder());
   }
 
+  public KrakenOrderResponse placeKrakenSettlePositionOrder(MarketOrder marketOrder)
+      throws IOException {
+
+    KrakenType type = KrakenType.fromOrderType(marketOrder.getType());
+    KrakenOrderBuilder orderBuilder =
+        KrakenStandardOrder.getSettlePositionOrderBuilder(
+            marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount());
+
+    return placeKrakenOrder(orderBuilder.buildOrder());
+  }
+
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
 
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());

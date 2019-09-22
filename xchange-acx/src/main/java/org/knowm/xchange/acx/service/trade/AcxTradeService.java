@@ -137,20 +137,13 @@ public class AcxTradeService implements TradeService {
     if (acxTradeHistoryParams.order != null) {
       order = acxTradeHistoryParams.order.name();
     }
-    if ( acxTradeHistoryParams.limit != null){
+    if (acxTradeHistoryParams.limit != null) {
       limit = acxTradeHistoryParams.limit.toString();
     }
 
-    List<AcxTrade> trades = api.getMyTrades(
-              accessKey,
-              tonce,
-              signatureCreator,
-              market,
-              limit,
-              order,
-              startId,
-              endId,
-              timestamp);
+    List<AcxTrade> trades =
+        api.getMyTrades(
+            accessKey, tonce, signatureCreator, market, limit, order, startId, endId, timestamp);
 
     return new UserTrades(
         trades.stream().map(mapper::mapTrade).collect(Collectors.toList()),
