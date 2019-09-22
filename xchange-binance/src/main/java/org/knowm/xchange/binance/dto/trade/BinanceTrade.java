@@ -1,10 +1,11 @@
 package org.knowm.xchange.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.util.Date;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public final class BinanceTrade {
 
@@ -47,5 +48,45 @@ public final class BinanceTrade {
 
   public Date getTime() {
     return new Date(time);
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public long getOrderId() {
+    return orderId;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public BigDecimal getQty() {
+    return qty;
+  }
+
+  public BigDecimal getCommission() {
+    return commission;
+  }
+
+  public String getCommissionAsset() {
+    return commissionAsset;
+  }
+
+  public boolean isBuyer() {
+    return isBuyer;
+  }
+
+  public boolean isMaker() {
+    return isMaker;
+  }
+
+  public boolean isBestMatch() {
+    return isBestMatch;
+  }
+
+  public CurrencyPair getSymbol() {
+    return symbol;
   }
 }
