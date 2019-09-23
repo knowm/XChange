@@ -85,11 +85,11 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         return subscribeChannel(channelName)
                 .map(jsonNode -> objectMapper.treeToValue(jsonNode, PoloniexWebSocketEventsTransaction.class))
                 .scan((poloniexWebSocketEventsTransactionOld, poloniexWebSocketEventsTransactionNew) -> {
-                    final boolean orderbookModificationsOnly = poloniexWebSocketEventsTransactionNew.getEvents()
-                            .stream().allMatch(PoloniexWebSocketOrderbookModifiedEvent.class::isInstance);
+                    final boolean initialSnapshot = poloniexWebSocketEventsTransactionNew.getEvents()
+                            .stream().anyMatch(PoloniexWebSocketOrderbookModifiedEvent.class::isInstance);
                     final boolean sequenceContinuous = poloniexWebSocketEventsTransactionOld.getSeqId() + 1
                             == poloniexWebSocketEventsTransactionNew.getSeqId();
-                    if (!orderbookModificationsOnly || sequenceContinuous) {
+                    if (!initialSnapshot || sequenceContinuous) {
                         return poloniexWebSocketEventsTransactionNew;
                     } else {
                         throw new RuntimeException(
