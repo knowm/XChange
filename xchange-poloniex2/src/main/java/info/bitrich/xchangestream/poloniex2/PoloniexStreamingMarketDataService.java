@@ -51,30 +51,13 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                         (Optional<PoloniexOrderbook> orderbook, List<PoloniexWebSocketEvent> poloniexWebSocketEvents) ->
                                 poloniexWebSocketEvents.stream()
                                         .filter(s -> s.getEventType().equals("i") || s.getEventType().equals("o"))
-                                        .reduce(orderbook, (poloniexOrderbook, s) -> {
-                                            if (s.getEventType().equals("i")) {
-                                                OrderbookInsertEvent insertEvent
-                                                        = ((PoloniexWebSocketOrderbookInsertEvent) s).getInsert();
-                                                SortedMap<BigDecimal, BigDecimal> asks
-                                                        = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);
-                                                SortedMap<BigDecimal, BigDecimal> bids
-                                                        = insertEvent.toDepthLevels(OrderbookInsertEvent.BID_SIDE);
-                                                return Optional.of(new PoloniexOrderbook(asks, bids));
-                                            } else {
-                                                OrderbookModifiedEvent modifiedEvent
-                                                        = ((PoloniexWebSocketOrderbookModifiedEvent)
-                                                        s).getModifiedEvent();
-                                                orderbook.orElseThrow(() ->
-                                                        new IllegalStateException(
-                                                                "Orderbook update received before initial snapshot"
-                                                        )
-                                                )
-                                                        .modify(modifiedEvent);
-                                                return orderbook;
-                                            }
-                                        }, (poloniexOrderbook, poloniexOrderbook2) -> {
-                                            throw new UnsupportedOperationException("No parallel execution");
-                                        })
+                                        .reduce(
+                                                orderbook,
+                                                (poloniexOrderbook, s) -> getPoloniexOrderbook(orderbook, s),
+                                                (o1, o2) -> {
+                                                    throw new UnsupportedOperationException("No parallel execution");
+                                                }
+                                        )
                 )
                 .filter(Optional::isPresent)
                 .map(Optional::get);
@@ -104,5 +87,21 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
 
         return subscribedTrades
                 .map(s -> adaptPoloniexPublicTrade(s.toPoloniexPublicTrade(currencyPair), currencyPair));
+    }
+
+    private Optional<PoloniexOrderbook> getPoloniexOrderbook(
+            final Optional<PoloniexOrderbook> orderbook, final PoloniexWebSocketEvent s
+    ) {
+        if (s.getEventType().equals("i")) {
+            OrderbookInsertEvent insertEvent = ((PoloniexWebSocketOrderbookInsertEvent) s).getInsert();
+            SortedMap<BigDecimal, BigDecimal> asks = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);
+            SortedMap<BigDecimal, BigDecimal> bids = insertEvent.toDepthLevels(OrderbookInsertEvent.BID_SIDE);
+            return Optional.of(new PoloniexOrderbook(asks, bids));
+        } else {
+            OrderbookModifiedEvent modifiedEvent = ((PoloniexWebSocketOrderbookModifiedEvent) s).getModifiedEvent();
+            orderbook.orElseThrow(() -> new IllegalStateException("Orderbook update received before initial snapshot"))
+                    .modify(modifiedEvent);
+            return orderbook;
+        }
     }
 }

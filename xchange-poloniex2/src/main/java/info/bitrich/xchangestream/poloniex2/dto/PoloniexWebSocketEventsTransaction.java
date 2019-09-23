@@ -27,8 +27,8 @@ public class PoloniexWebSocketEventsTransaction {
     @JsonCreator
     public PoloniexWebSocketEventsTransaction(
             @JsonProperty("channelId") final Long channelId,
-            @JsonProperty("seqId") final Long seqId, @JsonProperty("jsonEvents")
-            final List<JsonNode> jsonEvents
+            @JsonProperty("seqId") final Long seqId,
+            @JsonProperty("jsonEvents") final List<JsonNode> jsonEvents
     ) {
         this.channelId = channelId;
         this.seqId = seqId;
