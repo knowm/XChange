@@ -106,7 +106,7 @@ public class LgoExchangeTradeIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials();
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
-    tradeService.cancelOrderUnencrypted("156940341166500001");
+    tradeService.placeUnencryptedCancelOrder("156940341166500001");
   }
 
   // api key and secret key are expected to be in test resources under

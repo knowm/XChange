@@ -171,7 +171,7 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
   }
 
   /** Place a cancellation order without encrypting it's content. */
-  public String cancelOrderUnencrypted(String orderId) {
+  public String placeUnencryptedCancelOrder(String orderId) {
     return placeLgoUnencryptedCancelOrder(orderId);
   }
 }
