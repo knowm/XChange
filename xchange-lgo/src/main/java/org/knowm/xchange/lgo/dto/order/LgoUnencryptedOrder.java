@@ -13,8 +13,8 @@ public class LgoUnencryptedOrder {
   public final String price;
   public final long timestamp;
 
-  public LgoUnencryptedOrder(String type, String side, String productId, String quantity,
-      String price, long timestamp) {
+  public LgoUnencryptedOrder(
+      String type, String side, String productId, String quantity, String price, long timestamp) {
     this.type = type;
     this.side = side;
     this.productId = productId;

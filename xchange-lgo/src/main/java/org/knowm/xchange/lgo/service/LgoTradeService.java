@@ -1,6 +1,7 @@
 package org.knowm.xchange.lgo.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Random;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -45,8 +46,7 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     String page = getPage(params);
     TradeHistoryParamsSorted.Order sort = getSort(params);
     try {
-      WithCursor<LgoUserTrades> lgoTrades =
-          super.getLastTrades(productId, maxResults, page, sort);
+      WithCursor<LgoUserTrades> lgoTrades = super.getLastTrades(productId, maxResults, page, sort);
       return LgoAdapters.adaptUserTrades(lgoTrades);
     } catch (LgoException e) {
       throw LgoErrorAdapter.adapt(e);
@@ -131,19 +131,47 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
-    LgoKey lgoKey = keyService.selectKey();
-    Long ref = exchange.getNonceFactory().createValue();
     LgoPlaceOrder lgoOrder = LgoAdapters.adaptLimitOrder(limitOrder);
-    String encryptedOrder = CryptoUtils.encryptOrder(lgoKey, lgoOrder);
-    LgoOrderSignature signature = exchange.getSignatureService().signOrder(encryptedOrder);
-    LgoEncryptedOrder lgoEncryptedOrder = new LgoEncryptedOrder(lgoKey.getId(), encryptedOrder,
-        signature, ref);
-    return placeLgoEncrypedOrder(lgoEncryptedOrder);
+    return placeOrder(lgoOrder);
   }
 
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) {
+    LgoPlaceOrder lgoOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+    return placeOrder(lgoOrder);
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) {
+    LgoPlaceOrder lgoOrder = LgoAdapters.adaptCancelOrder(orderId, new Date());
+    placeOrder(lgoOrder);
+    return true;
+  }
+
+  private String placeOrder(LgoPlaceOrder lgoOrder) {
+    LgoKey lgoKey = keyService.selectKey();
+    Long ref = exchange.getNonceFactory().createValue();
+    String encryptedOrder = CryptoUtils.encryptOrder(lgoKey, lgoOrder);
+    LgoOrderSignature signature = exchange.getSignatureService().signOrder(encryptedOrder);
+    LgoEncryptedOrder lgoEncryptedOrder =
+        new LgoEncryptedOrder(lgoKey.getId(), encryptedOrder, signature, ref);
+    return placeLgoEncryptedOrder(lgoEncryptedOrder);
+  }
+
+  /** Place a limit order without encrypting it's content. */
   public String placeUnencryptedLimitOrder(LimitOrder limitOrder) {
     LgoUnencryptedOrder lgoOrder = LgoAdapters.adaptUnencryptedLimitOrder(limitOrder);
     return placeLgoUnencryptedOrder(lgoOrder);
   }
 
+  /** Place a market order without encrypting it's content. */
+  public String placeUnencryptedMarketOrder(MarketOrder marketOrder) {
+    LgoUnencryptedOrder lgoOrder = LgoAdapters.adaptUnencryptedMarketOrder(marketOrder);
+    return placeLgoUnencryptedOrder(lgoOrder);
+  }
+
+  /** Place a cancellation order without encrypting it's content. */
+  public String cancelOrderUnencrypted(String orderId) {
+    return placeLgoUnencryptedCancelOrder(orderId);
+  }
 }

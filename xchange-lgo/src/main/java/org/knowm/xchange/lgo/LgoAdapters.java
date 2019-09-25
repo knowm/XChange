@@ -28,10 +28,7 @@ import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
 import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceLimitOrder;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceMarketOrder;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
-import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
+import org.knowm.xchange.lgo.dto.order.*;
 import org.knowm.xchange.lgo.dto.product.LgoProduct;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrade;
@@ -105,6 +102,17 @@ public final class LgoAdapters {
         limitOrder.getTimestamp().toInstant());
   }
 
+  public static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {
+    String product = adaptCurrencyPair(marketOrder.getCurrencyPair());
+    String side = adaptOrderType(marketOrder.getType());
+    return new LgoPlaceMarketOrder(
+        0, side, product, marketOrder.getOriginalAmount(), marketOrder.getTimestamp().toInstant());
+  }
+
+  public static LgoPlaceOrder adaptCancelOrder(String orderId, Date date) {
+    return new LgoPlaceCancelOrder(0, orderId, date.toInstant());
+  }
+
   public static LgoUnencryptedOrder adaptUnencryptedLimitOrder(LimitOrder limitOrder) {
     String product = adaptCurrencyPair(limitOrder.getCurrencyPair());
     String side = adaptOrderType(limitOrder.getType());
@@ -117,11 +125,16 @@ public final class LgoAdapters {
         limitOrder.getTimestamp().getTime());
   }
 
-  static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {
+  public static LgoUnencryptedOrder adaptUnencryptedMarketOrder(MarketOrder marketOrder) {
     String product = adaptCurrencyPair(marketOrder.getCurrencyPair());
     String side = adaptOrderType(marketOrder.getType());
-    return new LgoPlaceMarketOrder(
-        0, side, product, marketOrder.getOriginalAmount(), marketOrder.getTimestamp().toInstant());
+    return new LgoUnencryptedOrder(
+        "M",
+        side,
+        product,
+        marketOrder.getOriginalAmount().toString(),
+        null,
+        marketOrder.getTimestamp().getTime());
   }
 
   private static String adaptOrderType(OrderType type) {

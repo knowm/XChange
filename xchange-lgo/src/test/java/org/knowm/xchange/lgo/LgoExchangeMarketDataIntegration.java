@@ -20,7 +20,7 @@ public class LgoExchangeMarketDataIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials();
     LgoMarketDataService tradeService = lgoExchange.getMarketDataService();
     OrderBook ob = tradeService.getOrderBook(CurrencyPair.BTC_USD, "");
-//    assertThat(ob.getBids()).isNotEmpty();
+    //    assertThat(ob.getBids()).isNotEmpty();
     //   assertThat(ob.getAsks()).isNotEmpty();
     ob.getBids().forEach(l -> System.out.println(l.toString()));
     ob.getAsks().forEach(l -> System.out.println(l.toString()));

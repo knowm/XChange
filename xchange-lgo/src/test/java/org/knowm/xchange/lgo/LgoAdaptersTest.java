@@ -203,10 +203,10 @@ public class LgoAdaptersTest {
 
   @Test
   public void adaptsUserTrades() throws IOException, ParseException {
-    WithCursor<LgoUserTrades> lastTrades = readResourceAs(
-        "/org/knowm/xchange/lgo/trade/example-trades-data.json",
-        new TypeReference<WithCursor<LgoUserTrades>>() {
-        });
+    WithCursor<LgoUserTrades> lastTrades =
+        readResourceAs(
+            "/org/knowm/xchange/lgo/trade/example-trades-data.json",
+            new TypeReference<WithCursor<LgoUserTrades>>() {});
 
     UserTrades userTrades = LgoAdapters.adaptUserTrades(lastTrades);
 
@@ -240,37 +240,38 @@ public class LgoAdaptersTest {
 
   @Test
   public void adaptsOrderBook() throws IOException {
-    LgoOrderbook lgoOrderbook = readResourceAs(
-        "/org/knowm/xchange/lgo/marketdata/example-orderbook-data.json",
-        new TypeReference<LgoOrderbook>() {
-        });
+    LgoOrderbook lgoOrderbook =
+        readResourceAs(
+            "/org/knowm/xchange/lgo/marketdata/example-orderbook-data.json",
+            new TypeReference<LgoOrderbook>() {});
 
     OrderBook orderBook = LgoAdapters.adaptOrderBook(lgoOrderbook, CurrencyPair.BTC_USD);
 
     assertThat(orderBook).isNotNull();
     assertThat(orderBook.getAsks()).hasSize(2);
     assertThat(orderBook.getBids()).hasSize(2);
-    assertThat(orderBook.getAsks().get(0)).isEqualTo(
-        new LimitOrder(OrderType.ASK,
-            new BigDecimal("4.44440000"),
-            CurrencyPair.BTC_USD,
-            null,
-            null,
-            new BigDecimal("2921.9000")));
-    assertThat(orderBook.getBids().get(0)).isEqualTo(
-        new LimitOrder(OrderType.BID,
-            new BigDecimal("8.35030000"),
-            CurrencyPair.BTC_USD,
-            null,
-            null,
-            new BigDecimal("2896.6000")));
+    assertThat(orderBook.getAsks().get(0))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.ASK,
+                new BigDecimal("4.44440000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2921.9000")));
+    assertThat(orderBook.getBids().get(0))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.BID,
+                new BigDecimal("8.35030000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2896.6000")));
   }
 
-  private <T> T readResourceAs(String path,
-      TypeReference<T> type) throws IOException {
-    InputStream is =
-        LgoProductsTest.class.getResourceAsStream(
-            path);
+  private <T> T readResourceAs(String path, TypeReference<T> type) throws IOException {
+    InputStream is = LgoProductsTest.class.getResourceAsStream(path);
     ObjectMapper mapper = new ObjectMapper();
     return mapper.readValue(is, type);
   }

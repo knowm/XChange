@@ -27,27 +27,37 @@ public class LgoSignatureServiceLocalRsa implements LgoSignatureService {
   }
 
   @Override
-  public String digestHeader(String urlToSign, String timestamp, String body) {
+  public String digestSignedUrlAndBodyHeader(String url, String timestamp, String body) {
     try {
-      urlToSign =
-          urlToSign
-              .replace("http://", "")
-              .replace("https://", "")
-              .replace("wss://", "")
-              .replace("ws://", "");
-
-      String signed = signSHA256RSA(toSign(urlToSign, timestamp, body));
-      return String.format("LGO %s:%s", apiKey, signed);
+      String urlToSign = removeProtocol(url);
+      String signatureBaseString = String.format("%s\n%s\n%s", timestamp, urlToSign, body);
+      return buildHeader(signSHA256RSA(signatureBaseString));
     } catch (Exception e) {
       throw new RuntimeException("Error signing request", e);
     }
   }
 
-  protected String toSign(String urlToSign, String timestamp, String body) {
-    if (body != null && !"".equals(body)) {
-      return String.format("%s\n%s\n%s", timestamp, urlToSign, body);
+  @Override
+  public String digestSignedUrlHeader(String url, String timestamp) {
+    try {
+      String urlToSign = removeProtocol(url);
+      String signatureBaseString = String.format("%s\n%s", timestamp, urlToSign);
+      return buildHeader(signSHA256RSA(signatureBaseString));
+    } catch (Exception e) {
+      throw new RuntimeException("Error signing request", e);
     }
-    return String.format("%s\n%s", timestamp, urlToSign);
+  }
+
+  private String buildHeader(String signed) {
+    return String.format("LGO %s:%s", apiKey, signed);
+  }
+
+  private String removeProtocol(String urlToSign) {
+    return urlToSign
+        .replace("http://", "")
+        .replace("https://", "")
+        .replace("wss://", "")
+        .replace("ws://", "");
   }
 
   @Override
