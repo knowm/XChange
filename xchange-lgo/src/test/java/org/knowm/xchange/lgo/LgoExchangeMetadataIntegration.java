@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,6 +35,6 @@ public class LgoExchangeMetadataIntegration {
 
   private String readResource(String path) throws IOException {
     InputStream stream = LgoExchange.class.getResourceAsStream(path);
-    return IOUtils.toString(stream, "utf8");
+    return IOUtils.toString(stream, StandardCharsets.UTF_8);
   }
 }

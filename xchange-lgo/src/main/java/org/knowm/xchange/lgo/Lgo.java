@@ -1,14 +1,7 @@
 package org.knowm.xchange.lgo;
 
 import java.io.IOException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
@@ -31,6 +24,7 @@ public interface Lgo {
   String MAX_RESULTS = "max_results";
   String PAGE = "page";
   String SORT = "sort";
+  String ORDER_ID = "order_id";
 
   @GET
   @Path("/live/products")
@@ -71,7 +65,6 @@ public interface Lgo {
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature);
 
-
   @POST
   @Path("/live/orders")
   @Produces(MediaType.APPLICATION_JSON)
@@ -81,4 +74,12 @@ public interface Lgo {
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature);
 
+  @DELETE
+  @Path("/live/orders/{order_id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  LgoPlaceOrderResponse placeUnencryptedCancelOrder(
+      @HeaderParam(X_LGO_DATE) long timestamp,
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature,
+      @PathParam(ORDER_ID) String orderId);
 }

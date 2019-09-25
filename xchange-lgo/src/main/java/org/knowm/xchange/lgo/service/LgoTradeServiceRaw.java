@@ -18,10 +18,7 @@ public class LgoTradeServiceRaw extends LgoBaseService {
   }
 
   protected WithCursor<LgoUserTrades> getLastTrades(
-      CurrencyPair productId,
-      Integer maxResults,
-      String page,
-      TradeHistoryParamsSorted.Order sort)
+      CurrencyPair productId, Integer maxResults, String page, TradeHistoryParamsSorted.Order sort)
       throws IOException {
     return proxy.getLastTrades(
         exchange.getNonceFactory().createValue(),
@@ -32,17 +29,25 @@ public class LgoTradeServiceRaw extends LgoBaseService {
         sort == null ? null : sort.name().toUpperCase());
   }
 
-  protected String placeLgoEncrypedOrder(LgoEncryptedOrder lgoEncryptedOrder) {
-    return proxy.placeEncryptedOrder(lgoEncryptedOrder, exchange.getNonceFactory().createValue(),
-        exchange.getSignatureService())
+  protected String placeLgoEncryptedOrder(LgoEncryptedOrder lgoEncryptedOrder) {
+    return proxy.placeEncryptedOrder(
+            lgoEncryptedOrder,
+            exchange.getNonceFactory().createValue(),
+            exchange.getSignatureService())
         .orderId;
   }
 
-  protected String placeLgoUnencryptedOrder(
-      LgoUnencryptedOrder order) {
-    LgoPlaceOrderResponse lgoPlaceOrderResponse = proxy
-        .placeUnencryptedOrder(order, exchange.getNonceFactory().createValue(),
-            exchange.getSignatureService());
+  protected String placeLgoUnencryptedOrder(LgoUnencryptedOrder order) {
+    LgoPlaceOrderResponse lgoPlaceOrderResponse =
+        proxy.placeUnencryptedOrder(
+            order, exchange.getNonceFactory().createValue(), exchange.getSignatureService());
+    return lgoPlaceOrderResponse.orderId;
+  }
+
+  protected String placeLgoUnencryptedCancelOrder(String orderId) {
+    LgoPlaceOrderResponse lgoPlaceOrderResponse =
+        proxy.placeUnencryptedCancelOrder(
+            exchange.getNonceFactory().createValue(), exchange.getSignatureService(), orderId);
     return lgoPlaceOrderResponse.orderId;
   }
 }

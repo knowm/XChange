@@ -23,5 +23,4 @@ public class LgoMarketDataService extends LgoMarketDataServiceRaw implements Mar
   private static OrderBook convertOrderBook(LgoOrderbook ob, CurrencyPair pair) {
     return LgoAdapters.adaptOrderBook(ob, pair);
   }
-
 }
