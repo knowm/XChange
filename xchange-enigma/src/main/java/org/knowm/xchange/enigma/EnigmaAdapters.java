@@ -1,13 +1,5 @@
 package org.knowm.xchange.enigma;
 
-import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,12 +11,24 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
+import org.knowm.xchange.enigma.dto.marketdata.EnigmaOpenOrders;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaOrderBook;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaTicker;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaTransaction;
 import org.knowm.xchange.enigma.dto.trade.EnigmaExecutedQuote;
 import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
 
 public final class EnigmaAdapters {
 
@@ -123,6 +127,17 @@ public final class EnigmaAdapters {
     return new OrderBook(enigmaOrderBook.getTimestamp(), asks, bids);
   }
 
+  public static OpenOrders adaptOpenOrders(EnigmaOpenOrders baseResponse) {
+    if (baseResponse.isResult()) {
+      List<LimitOrder> asks =
+          createOrders(CurrencyPair.BTC_UAH, Order.OrderType.ASK, baseResponse.getAsks());
+      asks.addAll(createOrders(CurrencyPair.BTC_UAH, Order.OrderType.BID, baseResponse.getBids()));
+      return new OpenOrders(asks);
+   }else {
+      return new OpenOrders(Collections.emptyList());
+    }
+  }
+
   public static List<LimitOrder> createOrders(
       CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
@@ -148,4 +163,6 @@ public final class EnigmaAdapters {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
     }
   }
+
+
 }
