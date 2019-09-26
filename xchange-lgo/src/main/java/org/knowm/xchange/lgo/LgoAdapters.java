@@ -2,11 +2,7 @@ package org.knowm.xchange.lgo;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -190,13 +186,25 @@ public final class LgoAdapters {
 
   public static OrderBook adaptOrderBook(LgoOrderbook ob, CurrencyPair pair) {
     List<LimitOrder> bids =
-        ob.bids.entrySet().stream()
-            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+        ob.getBids().stream()
+            .map(e -> adaptEntryToLimitOrder(e, OrderType.BID, pair))
             .collect(Collectors.toList());
     List<LimitOrder> asks =
-        ob.asks.entrySet().stream()
-            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+        ob.getAsks().stream()
+            .map(e -> adaptEntryToLimitOrder(e, OrderType.ASK, pair))
             .collect(Collectors.toList());
-    return new OrderBook(null, asks, bids);
+
+    return new OrderBook(null, asks, bids, true);
+  }
+
+  public static LimitOrder adaptEntryToLimitOrder(
+      Object[] entry, OrderType bid, CurrencyPair pair) {
+    return new LimitOrder(
+        bid,
+        new BigDecimal(entry[1].toString()),
+        pair,
+        null,
+        null,
+        new BigDecimal(entry[0].toString()));
   }
 }

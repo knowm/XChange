@@ -259,6 +259,15 @@ public class LgoAdaptersTest {
                 null,
                 null,
                 new BigDecimal("2921.9000")));
+    assertThat(orderBook.getAsks().get(1))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.ASK,
+                new BigDecimal("8.38460000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2926.5000")));
     assertThat(orderBook.getBids().get(0))
         .isEqualTo(
             new LimitOrder(
@@ -268,6 +277,15 @@ public class LgoAdaptersTest {
                 null,
                 null,
                 new BigDecimal("2896.6000")));
+    assertThat(orderBook.getBids().get(1))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.BID,
+                new BigDecimal("931.83050000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("1850.0000")));
   }
 
   private <T> T readResourceAs(String path, TypeReference<T> type) throws IOException {
