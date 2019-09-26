@@ -27,19 +27,37 @@ public class LgoSignatureServiceLocalRsa implements LgoSignatureService {
   }
 
   @Override
-  public String digestHeader(String urlToSign, String timestamp) {
+  public String digestSignedUrlAndBodyHeader(String url, String timestamp, String body) {
     try {
-      urlToSign =
-          urlToSign
-              .replace("http://", "")
-              .replace("https://", "")
-              .replace("wss://", "")
-              .replace("ws://", "");
-      String signed = signSHA256RSA(String.format("%s\n%s", timestamp, urlToSign));
-      return String.format("LGO %s:%s", apiKey, signed);
+      String urlToSign = removeProtocol(url);
+      String signatureBaseString = String.format("%s\n%s\n%s", timestamp, urlToSign, body);
+      return buildHeader(signSHA256RSA(signatureBaseString));
     } catch (Exception e) {
       throw new RuntimeException("Error signing request", e);
     }
+  }
+
+  @Override
+  public String digestSignedUrlHeader(String url, String timestamp) {
+    try {
+      String urlToSign = removeProtocol(url);
+      String signatureBaseString = String.format("%s\n%s", timestamp, urlToSign);
+      return buildHeader(signSHA256RSA(signatureBaseString));
+    } catch (Exception e) {
+      throw new RuntimeException("Error signing request", e);
+    }
+  }
+
+  private String buildHeader(String signed) {
+    return String.format("LGO %s:%s", apiKey, signed);
+  }
+
+  private String removeProtocol(String urlToSign) {
+    return urlToSign
+        .replace("http://", "")
+        .replace("https://", "")
+        .replace("wss://", "")
+        .replace("ws://", "");
   }
 
   @Override
