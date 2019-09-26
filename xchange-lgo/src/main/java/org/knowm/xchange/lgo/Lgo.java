@@ -54,7 +54,8 @@ public interface Lgo {
   LgoOrderbook getOrderBook(
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
-      @PathParam(PRODUCT_ID) String productId);
+      @PathParam(PRODUCT_ID) String productId)
+      throws IOException, LgoException;
 
   @POST
   @Path("/live/orders/encrypted")
@@ -63,7 +64,8 @@ public interface Lgo {
   LgoPlaceOrderResponse placeEncryptedOrder(
       LgoEncryptedOrder placeOrder,
       @HeaderParam(X_LGO_DATE) long timestamp,
-      @HeaderParam(AUTHORIZATION) ParamsDigest signature);
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature)
+      throws IOException, LgoException;
 
   @POST
   @Path("/live/orders")
@@ -72,7 +74,8 @@ public interface Lgo {
   LgoPlaceOrderResponse placeUnencryptedOrder(
       LgoUnencryptedOrder placeOrder,
       @HeaderParam(X_LGO_DATE) long timestamp,
-      @HeaderParam(AUTHORIZATION) ParamsDigest signature);
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature)
+      throws IOException, LgoException;
 
   @DELETE
   @Path("/live/orders/{order_id}")
@@ -81,5 +84,6 @@ public interface Lgo {
   LgoPlaceOrderResponse placeUnencryptedCancelOrder(
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
-      @PathParam(ORDER_ID) String orderId);
+      @PathParam(ORDER_ID) String orderId)
+      throws IOException, LgoException;
 }

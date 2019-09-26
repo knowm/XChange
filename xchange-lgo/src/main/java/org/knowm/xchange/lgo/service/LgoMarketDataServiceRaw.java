@@ -24,7 +24,7 @@ public class LgoMarketDataServiceRaw extends LgoBaseService {
         exchange.getNonceFactory().createValue(), exchange.getSignatureService());
   }
 
-  public LgoOrderbook getLgoOrderBook(CurrencyPair product) {
+  public LgoOrderbook getLgoOrderBook(CurrencyPair product) throws IOException {
     return this.proxy.getOrderBook(
         exchange.getNonceFactory().createValue(),
         exchange.getSignatureService(),
