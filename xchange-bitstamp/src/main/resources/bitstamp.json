@@ -79,7 +79,7 @@
   "currencies": {
     "BTC": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.0005
     },
     "USD": {
       "scale": 2,
@@ -91,19 +91,19 @@
     },
     "XRP": {
       "scale": 6,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.02
     },
     "LTC": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.001
     },
     "ETH": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.001
     },
     "BCH": {
       "scale": 8,
-      "withdrawal_fee": 0
+      "withdrawal_fee": 0.0001
     }
   },
   "private_rate_limits": [
