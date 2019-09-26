@@ -1,10 +1,11 @@
 ## LGO 
 
-Supports LGO API and authentication. 
+Supports LGO HTTP API and authentication. 
 
-For now, only metadata, auth, trade history and order signature are supported, because the web socket should be favored for any trading activity (lowest possible latency).
+For now, only metadata, auth, trade history, order book, order signature and placing orders/cancelling orders are supported. 
+The web socket API should be favored (lowest possible latency).
 
-For web socket support, see [xchange-stream](https://github.com/bitrich-info/xchange-stream)
+For web socket support, see [xchange-stream](https://github.com/lgo-public/xchange-stream)
 
 ### Documentation
 
