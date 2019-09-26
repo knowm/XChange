@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnigmaWithdrawalRequest {
+public class EnigmaWithdrawFundsRequest {
 
-  @JsonProperty("withdrawal_type_id")
+  @JsonProperty("settlement_type_id")
   private int withdrawalTypeId;
 
   @JsonProperty("amount")
@@ -21,6 +21,7 @@ public class EnigmaWithdrawalRequest {
   @JsonProperty("currency")
   private String currency;
 
-  @JsonProperty("infra")
-  private String infra;
+  @JsonProperty("account_id")
+  private String address;
+
 }

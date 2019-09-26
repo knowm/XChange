@@ -1,14 +1,15 @@
 package org.knowm.xchange.enigma;
 
+import org.knowm.xchange.enigma.dto.BaseResponse;
+import org.knowm.xchange.enigma.dto.marketdata.*;
+import org.knowm.xchange.enigma.dto.trade.*;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.enigma.dto.BaseResponse;
-import org.knowm.xchange.enigma.dto.marketdata.*;
-import org.knowm.xchange.enigma.dto.trade.*;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -53,6 +54,13 @@ public interface EnigmaAuthenticated extends Enigma {
       @HeaderParam("Authorization") String accessToken, EnigmaNewOrderRequest orderRequest)
       throws IOException;
 
+  @POST
+  @Path("order/new")
+  @Consumes(MediaType.APPLICATION_JSON)
+  EnigmaOrderSubmission submitLimitOrder(
+      @HeaderParam("Authorization") String accessToken, EnigmaLimitOrderRequest orderRequest)
+      throws IOException;
+
   @GET
   @Path("cancel/order/")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -79,12 +87,26 @@ public interface EnigmaAuthenticated extends Enigma {
       throws IOException;
 
   @GET
-  @Path("withdrawal/list/{infra}")
-  List<EnigmaWithdrawal> getAllWithdrawals(
-      @HeaderParam("Authorization") String accessToken, @PathParam("infra") String infrastructure);
+  @Path("settlement/list")
+  List<EnigmaWithdrawal> getAllWithdrawals(@HeaderParam("Authorization") String accessToken);
 
   @POST
   @Path("withdrawal/new")
   EnigmaWithdrawal withdrawal(
       @HeaderParam("Authorization") String accessToken, EnigmaWithdrawalRequest withdrawalRequest);
+
+  @POST
+  @Path("settlement/new")
+  EnigmaWithdrawal withdrawal(
+      @HeaderParam("Authorization") String accessToken,
+      EnigmaWithdrawFundsRequest withdrawalRequest);
+
+  @GET
+  @Path("account/show/currency/{currency}")
+  List<Object> depositAddress(
+      @HeaderParam("Authorization") String accessToken, @PathParam("currency") String currency);
+
+  @GET
+  @Path("order/open")
+  EnigmaOpenOrders openOrders(@HeaderParam("Authorization") String accessToken);
 }
