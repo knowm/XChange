@@ -4,7 +4,9 @@ import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.lgo.LgoAdapters;
+import org.knowm.xchange.lgo.LgoErrorAdapter;
 import org.knowm.xchange.lgo.LgoExchange;
+import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -16,11 +18,11 @@ public class LgoMarketDataService extends LgoMarketDataServiceRaw implements Mar
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    LgoOrderbook orderBook = super.getLgoOrderBook(currencyPair);
-    return convertOrderBook(orderBook, currencyPair);
-  }
-
-  private static OrderBook convertOrderBook(LgoOrderbook ob, CurrencyPair pair) {
-    return LgoAdapters.adaptOrderBook(ob, pair);
+    try {
+      LgoOrderbook orderBook = super.getLgoOrderBook(currencyPair);
+      return LgoAdapters.adaptOrderBook(orderBook, currencyPair);
+    } catch (LgoException e) {
+      throw LgoErrorAdapter.adapt(e);
+    }
   }
 }

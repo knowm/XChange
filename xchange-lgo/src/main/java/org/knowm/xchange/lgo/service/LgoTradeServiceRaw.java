@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoExchange;
+import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrderResponse;
@@ -19,7 +20,7 @@ public class LgoTradeServiceRaw extends LgoBaseService {
 
   protected WithCursor<LgoUserTrades> getLastTrades(
       CurrencyPair productId, Integer maxResults, String page, TradeHistoryParamsSorted.Order sort)
-      throws IOException {
+      throws IOException, LgoException {
     return proxy.getLastTrades(
         exchange.getNonceFactory().createValue(),
         exchange.getSignatureService(),
@@ -29,7 +30,8 @@ public class LgoTradeServiceRaw extends LgoBaseService {
         sort == null ? null : sort.name().toUpperCase());
   }
 
-  protected String placeLgoEncryptedOrder(LgoEncryptedOrder lgoEncryptedOrder) {
+  protected String placeLgoEncryptedOrder(LgoEncryptedOrder lgoEncryptedOrder)
+      throws IOException, LgoException {
     return proxy.placeEncryptedOrder(
             lgoEncryptedOrder,
             exchange.getNonceFactory().createValue(),
@@ -37,14 +39,15 @@ public class LgoTradeServiceRaw extends LgoBaseService {
         .orderId;
   }
 
-  protected String placeLgoUnencryptedOrder(LgoUnencryptedOrder order) {
+  protected String placeLgoUnencryptedOrder(LgoUnencryptedOrder order)
+      throws IOException, LgoException {
     LgoPlaceOrderResponse lgoPlaceOrderResponse =
         proxy.placeUnencryptedOrder(
             order, exchange.getNonceFactory().createValue(), exchange.getSignatureService());
     return lgoPlaceOrderResponse.orderId;
   }
 
-  protected String placeLgoUnencryptedCancelOrder(String orderId) {
+  protected String placeLgoUnencryptedCancelOrder(String orderId) throws IOException, LgoException {
     LgoPlaceOrderResponse lgoPlaceOrderResponse =
         proxy.placeUnencryptedCancelOrder(
             exchange.getNonceFactory().createValue(), exchange.getSignatureService(), orderId);
