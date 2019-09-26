@@ -167,7 +167,7 @@ public class LgoAdaptersTest {
   }
 
   @Test
-  public void adapatsUnencryptedOrder() {
+  public void adaptsUnencryptedOrder() {
     Date timestamp = new Date();
     LimitOrder limitOrder =
         new LimitOrder(
