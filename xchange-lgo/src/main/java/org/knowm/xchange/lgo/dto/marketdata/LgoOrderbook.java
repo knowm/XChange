@@ -2,40 +2,33 @@ package org.knowm.xchange.lgo.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.function.BiConsumer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class LgoOrderbook {
 
-  public final long lastBatchId;
-  public final SortedMap<BigDecimal, BigDecimal> bids;
-  public final SortedMap<BigDecimal, BigDecimal> asks;
+  private final long lastBatchId;
+  private final List<Object[]> bids;
+  private final List<Object[]> asks;
 
   public LgoOrderbook(
       @JsonProperty("batch_id") long lastBatchId,
-      @JsonProperty("bids") List<Object[]> bidsJson,
-      @JsonProperty("asks") List<Object[]> asksJson) {
+      @JsonProperty("bids") List<Object[]> bids,
+      @JsonProperty("asks") List<Object[]> asks) {
     this.lastBatchId = lastBatchId;
-    BiConsumer<Object[], Map<BigDecimal, BigDecimal>> entryProcessor =
-        (obj, col) -> {
-          BigDecimal price = new BigDecimal(obj[0].toString());
-          BigDecimal qty = new BigDecimal(obj[1].toString());
-          col.put(price, qty);
-        };
+    this.bids = bids;
+    this.asks = asks;
+  }
 
-    TreeMap<BigDecimal, BigDecimal> bids = new TreeMap<>((k1, k2) -> -k1.compareTo(k2));
-    TreeMap<BigDecimal, BigDecimal> asks = new TreeMap<>();
+  public long getLastBatchId() {
+    return lastBatchId;
+  }
 
-    asksJson.forEach(e -> entryProcessor.accept(e, asks));
-    bidsJson.forEach(e -> entryProcessor.accept(e, bids));
+  public List<Object[]> getBids() {
+    return bids;
+  }
 
-    this.bids = Collections.unmodifiableSortedMap(bids);
-    this.asks = Collections.unmodifiableSortedMap(asks);
+  public List<Object[]> getAsks() {
+    return asks;
   }
 }
