@@ -483,7 +483,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
   public List<Position> getBitfinexActivePositionsV2() throws IOException {
     return bitfinexV2.activePositions(
-        exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.instance);
+        exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
   }
 
   public List<Trade> getBitfinexTradesV2(
@@ -496,7 +496,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         startTimeMillis,
         endTimeMillis,
         limit,
-        EmptyRequest.instance);
+        EmptyRequest.INSTANCE);
   }
 
   public List<ActiveOrder> getBitfinexActiveOrdesV2(String symbol) throws IOException {
@@ -504,6 +504,6 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       symbol = ""; // for empty symbol all active orders are returned
     }
     return bitfinexV2.getActiveOrders(
-        exchange.getNonceFactory(), apiKey, signatureV2, symbol, EmptyRequest.instance);
+        exchange.getNonceFactory(), apiKey, signatureV2, symbol, EmptyRequest.INSTANCE);
   }
 }
