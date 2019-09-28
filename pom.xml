@@ -182,6 +182,7 @@
         <module>xchange-ripple</module>
         <module>xchange-simulated</module>
         <module>xchange-therock</module>
+        <module>xchange-tradeogre</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
         <module>xchange-vaultoro</module>
