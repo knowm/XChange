@@ -81,7 +81,9 @@ public class KrakenAdapters {
       }
       limitOrders.add(adaptOrder(order, orderType, currencyPair));
     }
-    return new OrdersContainer(maxTimestamp * 1000, limitOrders);
+    return new OrdersContainer((String.valueOf(maxTimestamp).length() >= 13)
+            ? maxTimestamp
+            : maxTimestamp * 1000, limitOrders);
   }
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
