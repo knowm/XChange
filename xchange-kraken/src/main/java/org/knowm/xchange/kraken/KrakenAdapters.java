@@ -81,9 +81,9 @@ public class KrakenAdapters {
       }
       limitOrders.add(adaptOrder(order, orderType, currencyPair));
     }
-    return new OrdersContainer((String.valueOf(maxTimestamp).length() >= 13)
-            ? maxTimestamp
-            : maxTimestamp * 1000, limitOrders);
+    return new OrdersContainer(
+        (String.valueOf(maxTimestamp).length() >= 13) ? maxTimestamp : maxTimestamp * 1000,
+        limitOrders);
   }
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
@@ -142,11 +142,8 @@ public class KrakenAdapters {
 
   public static LimitOrder adaptOrder(
       KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
-    // if lenght is bigger or equal to 13 then the timstamp is from streaming orderbook
-    Date timeStamp =
-        (String.valueOf(order.getTimestamp()).length() >= 13)
-            ? new Date(order.getTimestamp())
-            : new Date(order.getTimestamp() * 1000);
+
+    Date timeStamp = new Date(order.getTimestamp() * 1000);
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());

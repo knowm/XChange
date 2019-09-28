@@ -36,7 +36,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.utils.BigDecimalUtils;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
