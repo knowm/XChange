@@ -63,8 +63,7 @@ public interface AcxApi {
    *     found at /api/v2/markets.
    */
   @GET
-  @Path(
-      "/trades/my.json")
+  @Path("/trades/my.json")
   List<AcxTrade> getMyTrades(
       @QueryParam("access_key") String accessKey,
       @QueryParam("tonce") long tonce,
@@ -74,8 +73,7 @@ public interface AcxApi {
       @QueryParam("order") String order,
       @QueryParam("from") String from,
       @QueryParam("to") String to,
-      @QueryParam("timestamp") String timestamp
-      )
+      @QueryParam("timestamp") String timestamp)
       throws IOException;
 
   /**
