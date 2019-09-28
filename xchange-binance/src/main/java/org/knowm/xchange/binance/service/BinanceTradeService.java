@@ -2,11 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -371,5 +367,58 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  @Override
+  public Collection<Order> assureTradeResultsFilled(Collection<Order> orders) throws IOException {
+    // Group orders by currencyPair
+    Map<CurrencyPair, List<Order>> ordersGrouped =
+        orders.stream().collect(Collectors.groupingBy(Order::getCurrencyPair));
+
+    LinkedList<UserTrade> trades = new LinkedList<>();
+    for (Map.Entry<CurrencyPair, List<Order>> entry : ordersGrouped.entrySet()) {
+      List<Order> pairOrders = entry.getValue();
+      // Get oldest timestamp from orders
+      Optional<Date> oldestOrderTimestamp =
+          pairOrders.stream().map(Order::getTimestamp).min(Date::compareTo);
+
+      int limit = 1000; // Default 500; max 1000.
+      BinanceTradeHistoryParams binanceTradeHistoryParams =
+          new BinanceTradeHistoryParams(entry.getKey());
+      binanceTradeHistoryParams.setLimit(limit);
+      oldestOrderTimestamp.ifPresent(binanceTradeHistoryParams::setStartTime);
+
+      // Iterate to make sure we get all trades
+      while (true) {
+        UserTrades userTrades = getTradeHistory(binanceTradeHistoryParams);
+        List<UserTrade> userTradeList = userTrades.getUserTrades();
+        trades.addAll(userTradeList);
+        if (userTradeList.size() < limit) {
+          break;
+        }
+
+        // Get last fromId and remove from our list to prevent duplicates
+        String fromId = trades.removeLast().getId();
+        binanceTradeHistoryParams.setStartId(fromId);
+        binanceTradeHistoryParams.setStartTime(null);
+      }
+    }
+
+    // Group trades by orderId
+    Map<String, List<UserTrade>> tradesGrouped =
+        trades.stream().collect(Collectors.groupingBy(UserTrade::getOrderId));
+    orders.forEach(
+        o -> {
+          List<UserTrade> orderTrades = tradesGrouped.get(o.getId());
+          if (orderTrades != null) {
+            // Get total fee for order
+            BigDecimal fee =
+                orderTrades.stream()
+                    .map(UserTrade::getFeeAmount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            o.setFee(fee);
+          }
+        });
+    return orders;
   }
 }

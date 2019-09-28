@@ -297,6 +297,22 @@ public interface TradeService extends BaseService {
     return getOrder(toOrderQueryParams(orderIds));
   }
 
+  /**
+   * get's the latest order form the order book that with matching orderId and populate missing data
+   *
+   * @return the order as it is on the exchange.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default Collection<Order> getOrderWithTradeResults(String... orderIds) throws IOException {
+    return assureTradeResultsFilled(getOrder(orderIds));
+  }
+
   static OrderQueryParams[] toOrderQueryParams(String... orderIds) {
     OrderQueryParams[] res = new OrderQueryParams[orderIds.length];
     for (int i = 0; i < orderIds.length; i++) {
@@ -320,5 +336,39 @@ public interface TradeService extends BaseService {
    */
   default Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     throw new NotAvailableFromExchangeException();
+  }
+
+  /**
+   * get's the latest order form the order book that with matching orderQueryParams and populate
+   * missing data
+   *
+   * @return the order as it is on the exchange.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default Collection<Order> getOrderWithTradeResults(OrderQueryParams... orderQueryParams)
+      throws IOException {
+    return assureTradeResultsFilled(getOrder(orderQueryParams));
+  }
+
+  /**
+   * Populate missing data for orders from tradeResults
+   *
+   * @return the order as it is on the exchange.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  default Collection<Order> assureTradeResultsFilled(Collection<Order> orders) throws IOException {
+    return orders;
   }
 }
