@@ -3,6 +3,7 @@ package org.knowm.xchange.bitfinex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
@@ -99,7 +100,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       String address,
       String tagOrPaymentId)
       throws IOException {
-    return withdraw(withdrawType, walletSelected, amount, address, null, null);
+    return withdraw(withdrawType, walletSelected, amount, address, tagOrPaymentId, null);
   }
 
   public String withdraw(
