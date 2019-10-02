@@ -167,7 +167,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
     DepositAddress depositAddress = super.requestDepositAddress(currency);
-    return new AddressWithTag(depositAddress.address, depositAddress.addressTag);
+    String destinationTag =
+        (depositAddress.addressTag == null || depositAddress.addressTag.isEmpty())
+            ? null
+            : depositAddress.addressTag;
+    return new AddressWithTag(depositAddress.address, destinationTag);
   }
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
