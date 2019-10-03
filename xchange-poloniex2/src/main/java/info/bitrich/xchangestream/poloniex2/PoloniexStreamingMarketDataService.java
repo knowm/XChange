@@ -50,7 +50,10 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                         Optional.empty(),
                         (Optional<PoloniexOrderbook> orderbook, List<PoloniexWebSocketEvent> poloniexWebSocketEvents) ->
                                 poloniexWebSocketEvents.stream()
-                                        .filter(s -> s.getEventType().equals("i") || s.getEventType().equals("o"))
+                                        .filter(s ->
+                                                s instanceof PoloniexWebSocketOrderbookInsertEvent
+                                                        || s instanceof PoloniexWebSocketOrderbookModifiedEvent
+                                        )
                                         .reduce(
                                                 orderbook,
                                                 (poloniexOrderbook, s) -> getPoloniexOrderbook(orderbook, s),
@@ -82,8 +85,9 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         Observable<PoloniexWebSocketTradeEvent> subscribedTrades = service.subscribeCurrencyPairChannel(currencyPair)
                 .flatMapIterable(poloniexWebSocketEvents -> poloniexWebSocketEvents)
-                .filter(s -> s.getEventType().equals("t"))
-                .map(PoloniexWebSocketTradeEvent.class::cast).share();
+                .filter(PoloniexWebSocketTradeEvent.class::isInstance)
+                .map(PoloniexWebSocketTradeEvent.class::cast)
+                .share();
 
         return subscribedTrades
                 .map(s -> adaptPoloniexPublicTrade(s.toPoloniexPublicTrade(currencyPair), currencyPair));
