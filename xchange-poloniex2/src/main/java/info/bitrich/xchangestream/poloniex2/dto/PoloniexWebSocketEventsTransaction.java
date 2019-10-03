@@ -1,7 +1,8 @@
 package info.bitrich.xchangestream.poloniex2.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -19,14 +20,37 @@ import java.util.TimeZone;
  */
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class PoloniexWebSocketEventsTransaction {
-    public String channelId;
-    public String seqId;
-    public JsonNode[] jsonEvents;
+    private Long channelId;
+    private Long seqId;
+    private List<PoloniexWebSocketEvent> events;
 
-    public PoloniexWebSocketEvent[] getEvents() {
+    @JsonCreator
+    public PoloniexWebSocketEventsTransaction(
+            @JsonProperty("channelId") final Long channelId,
+            @JsonProperty("seqId") final Long seqId,
+            @JsonProperty("jsonEvents") final List<JsonNode> jsonEvents
+    ) {
+        this.channelId = channelId;
+        this.seqId = seqId;
+        this.events = createEvents(jsonEvents);
+    }
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public Long getSeqId() {
+        return seqId;
+    }
+
+    public List<PoloniexWebSocketEvent> getEvents() {
+        return events;
+    }
+
+    private List<PoloniexWebSocketEvent> createEvents(final List<JsonNode> jsonEvents) {
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-        List<PoloniexWebSocketEvent> events = new ArrayList<>(jsonEvents.length);
+        List<PoloniexWebSocketEvent> events = new ArrayList<>(jsonEvents.size());
         for (JsonNode jsonNode : jsonEvents) {
             String eventType = jsonNode.get(0).asText();
             if (eventType.equals("i")) {
@@ -54,14 +78,6 @@ public class PoloniexWebSocketEventsTransaction {
             }
         }
 
-        return events.toArray(new PoloniexWebSocketEvent[events.size()]);
-    }
-
-    public String getChannelId() {
-        return channelId;
-    }
-
-    public String getSeqId() {
-        return seqId;
+        return events;
     }
 }
