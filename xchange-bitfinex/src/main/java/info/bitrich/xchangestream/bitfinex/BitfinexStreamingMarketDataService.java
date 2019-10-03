@@ -24,9 +24,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptOrderBook;
-import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTicker;
-import static org.knowm.xchange.bitfinex.v1.BitfinexAdapters.adaptTrades;
+import static org.knowm.xchange.bitfinex.service.BitfinexAdapters.adaptOrderBook;
+import static org.knowm.xchange.bitfinex.service.BitfinexAdapters.adaptTicker;
+import static org.knowm.xchange.bitfinex.service.BitfinexAdapters.adaptTrades;
 
 /**
  * Created by Lukas Zaoralek on 7.11.17.

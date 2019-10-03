@@ -105,7 +105,6 @@ Listening for live updates of
 | **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
 | **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
 | **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :construction:         | :construction:         | :construction:         | |
-| **Wex**          | :heavy_check_mark: | :heavy_check_mark: | :x:                | :question:         | :question:         | :question:         | |
 
 
 - :heavy_check_mark: - implemented
