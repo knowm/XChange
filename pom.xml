@@ -25,7 +25,6 @@
         <module>xchange-poloniex2</module>
         <module>xchange-bitflyer</module>
         <module>xchange-gemini</module>
-        <module>xchange-wex</module>
         <module>xchange-binance</module>
         <module>xchange-hitbtc</module>
         <module>xchange-bankera</module>
@@ -82,7 +81,7 @@
     </repositories>
 
     <properties>
-        <xchange.version>4.3.20</xchange.version>
+        <xchange.version>4.4.0</xchange.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -96,12 +95,12 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>2.9.9</version>
             </dependency>
-            
+
             <!-- This is introduced by XChange anyway, depending on the implementation used -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.0-jre</version>
+                <version>28.1-jre</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -153,7 +152,7 @@
             <version>3.13.2</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 
     <build>
