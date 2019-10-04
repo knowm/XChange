@@ -148,7 +148,7 @@ public final class BitfinexAdapters {
     String tradableIdentifier;
     String transactionCurrency;
     if (bitfinexSymbol.contains(":")) {
-      // ie 'dusk:usd'
+      // ie 'dusk:usd' or 'btc:cnht'
       int idx = bitfinexSymbol.indexOf(":");
       tradableIdentifier = bitfinexSymbol.substring(0, idx);
       transactionCurrency = bitfinexSymbol.substring(idx + 1);
@@ -783,7 +783,7 @@ public final class BitfinexAdapters {
     return currencyPairs == null || currencyPairs.isEmpty()
         ? "ALL"
         : currencyPairs.stream()
-            .map(currencyPair -> "t" + currencyPair.base + currencyPair.counter)
+            .map(BitfinexAdapters::adaptCurrencyPair)
             .collect(Collectors.joining(","));
   }
 
