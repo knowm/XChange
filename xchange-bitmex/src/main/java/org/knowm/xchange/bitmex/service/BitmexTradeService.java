@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex.service;
 import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -37,7 +36,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.utils.BigDecimalUtils;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
 
@@ -84,13 +82,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException {
     String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
-    BigDecimal priceAfterRounding =
-        BigDecimalUtils.roundToStepSize(limitOrder.getLimitPrice(), BigDecimal.valueOf(0.5));
 
     Builder b =
         new BitmexPlaceOrderParameters.Builder(symbol)
             .setOrderQuantity(limitOrder.getOriginalAmount())
-            .setPrice(priceAfterRounding)
+            .setPrice(limitOrder.getLimitPrice())
             .setSide(fromOrderType(limitOrder.getType()))
             .setClOrdId(limitOrder.getId());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
@@ -116,15 +112,12 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public String changeOrder(LimitOrder limitOrder) throws ExchangeException {
 
-    BigDecimal priceAfterRounding =
-        BigDecimalUtils.roundToStepSize(limitOrder.getLimitPrice(), BigDecimal.valueOf(0.5));
-
     BitmexPrivateOrder order =
         replaceOrder(
             new BitmexReplaceOrderParameters.Builder()
                 .setOrderId(limitOrder.getId())
                 .setOrderQuantity(limitOrder.getOriginalAmount())
-                .setPrice(priceAfterRounding)
+                .setPrice(limitOrder.getLimitPrice())
                 .build());
     return order.getId();
   }

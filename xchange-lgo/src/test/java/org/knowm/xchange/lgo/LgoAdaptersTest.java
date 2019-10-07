@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -22,6 +23,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
@@ -33,10 +35,17 @@ import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
+import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceLimitOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceMarketOrder;
 import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
-import org.knowm.xchange.lgo.dto.product.*;
+import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
+import org.knowm.xchange.lgo.dto.product.LgoLimit;
+import org.knowm.xchange.lgo.dto.product.LgoProduct;
+import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
+import org.knowm.xchange.lgo.dto.product.LgoProductTotal;
+import org.knowm.xchange.lgo.dto.product.LgoProducts;
+import org.knowm.xchange.lgo.dto.product.LgoProductsTest;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrade;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 
@@ -67,7 +76,7 @@ public class LgoAdaptersTest {
   public void adaptsKeysIndex() throws IOException {
     InputStream is =
         LgoAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/lgo/key/index.txt");
-    String indexFile = IOUtils.toString(is, "ASCII");
+    String indexFile = IOUtils.toString(is, StandardCharsets.US_ASCII);
 
     List<LgoKey> keys = LgoAdapters.adaptKeysIndex(indexFile).collect(Collectors.toList());
 
@@ -158,6 +167,28 @@ public class LgoAdaptersTest {
   }
 
   @Test
+  public void adaptsUnencryptedOrder() {
+    Date timestamp = new Date();
+    LimitOrder limitOrder =
+        new LimitOrder(
+            OrderType.ASK,
+            new BigDecimal("1"),
+            CurrencyPair.BTC_USD,
+            null,
+            timestamp,
+            new BigDecimal("6000"));
+
+    LgoUnencryptedOrder lgoUnencryptedOrder = LgoAdapters.adaptUnencryptedLimitOrder(limitOrder);
+
+    assertThat(lgoUnencryptedOrder.price).isEqualTo("6000");
+    assertThat(lgoUnencryptedOrder.quantity).isEqualTo("1");
+    assertThat(lgoUnencryptedOrder.productId).isEqualTo("BTC-USD");
+    assertThat(lgoUnencryptedOrder.side).isEqualTo("S");
+    assertThat(lgoUnencryptedOrder.timestamp).isEqualTo(timestamp.getTime());
+    assertThat(lgoUnencryptedOrder.type).isEqualTo("L");
+  }
+
+  @Test
   public void adaptsTradeType() {
     assertThat(LgoAdapters.adaptUserTradeType(lgoTrade("B", "T"))).isEqualTo(OrderType.BID);
     assertThat(LgoAdapters.adaptUserTradeType(lgoTrade("B", "M"))).isEqualTo(OrderType.ASK);
@@ -172,12 +203,10 @@ public class LgoAdaptersTest {
 
   @Test
   public void adaptsUserTrades() throws IOException, ParseException {
-    InputStream is =
-        LgoProductsTest.class.getResourceAsStream(
-            "/org/knowm/xchange/lgo/trade/example-trades-data.json");
-    ObjectMapper mapper = new ObjectMapper();
     WithCursor<LgoUserTrades> lastTrades =
-        mapper.readValue(is, new TypeReference<WithCursor<LgoUserTrades>>() {});
+        readResourceAs(
+            "/org/knowm/xchange/lgo/trade/example-trades-data.json",
+            new TypeReference<WithCursor<LgoUserTrades>>() {});
 
     UserTrades userTrades = LgoAdapters.adaptUserTrades(lastTrades);
 
@@ -207,6 +236,62 @@ public class LgoAdaptersTest {
                 "156104504046400001",
                 new BigDecimal("0.0100"),
                 Currency.USD));
+  }
+
+  @Test
+  public void adaptsOrderBook() throws IOException {
+    LgoOrderbook lgoOrderbook =
+        readResourceAs(
+            "/org/knowm/xchange/lgo/marketdata/example-orderbook-data.json",
+            new TypeReference<LgoOrderbook>() {});
+
+    OrderBook orderBook = LgoAdapters.adaptOrderBook(lgoOrderbook, CurrencyPair.BTC_USD);
+
+    assertThat(orderBook).isNotNull();
+    assertThat(orderBook.getAsks()).hasSize(2);
+    assertThat(orderBook.getBids()).hasSize(2);
+    assertThat(orderBook.getAsks().get(0))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.ASK,
+                new BigDecimal("4.44440000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2921.9000")));
+    assertThat(orderBook.getAsks().get(1))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.ASK,
+                new BigDecimal("8.38460000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2926.5000")));
+    assertThat(orderBook.getBids().get(0))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.BID,
+                new BigDecimal("8.35030000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("2896.6000")));
+    assertThat(orderBook.getBids().get(1))
+        .isEqualTo(
+            new LimitOrder(
+                OrderType.BID,
+                new BigDecimal("931.83050000"),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                new BigDecimal("1850.0000")));
+  }
+
+  private <T> T readResourceAs(String path, TypeReference<T> type) throws IOException {
+    InputStream is = LgoProductsTest.class.getResourceAsStream(path);
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(is, type);
   }
 
   private LgoUserTrade lgoTrade(String side, String liquidity) {

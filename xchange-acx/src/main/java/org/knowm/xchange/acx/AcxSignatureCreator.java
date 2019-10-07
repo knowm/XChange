@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
@@ -46,6 +47,7 @@ public class AcxSignatureCreator extends BaseParamsDigest {
     String path = stripParams(restInvocation.getPath());
     String query =
         Stream.of(
+                restInvocation.getParamsMap().get(QueryParam.class),
                 restInvocation.getParamsMap().get(PathParam.class),
                 restInvocation.getParamsMap().get(FormParam.class))
             .map(Params::asHttpHeaders)
