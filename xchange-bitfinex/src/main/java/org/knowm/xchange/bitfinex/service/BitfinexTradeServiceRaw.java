@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
@@ -36,6 +36,10 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
+import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
+import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
+import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
@@ -467,7 +471,6 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public BitfinexActivePositionsResponse[] getBitfinexActivePositions() throws IOException {
-
     BitfinexActivePositionsResponse[] activePositions =
         bitfinex.activePositions(
             apiKey,
@@ -476,5 +479,31 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
             new BitfinexNonceOnlyRequest(
                 "/v1/positions", String.valueOf(exchange.getNonceFactory().createValue())));
     return activePositions;
+  }
+
+  public List<Position> getBitfinexActivePositionsV2() throws IOException {
+    return bitfinexV2.activePositions(
+        exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
+  }
+
+  public List<Trade> getBitfinexTradesV2(
+      String symbol, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+    return bitfinexV2.getTrades(
+        exchange.getNonceFactory(),
+        apiKey,
+        signatureV2,
+        symbol,
+        startTimeMillis,
+        endTimeMillis,
+        limit,
+        EmptyRequest.INSTANCE);
+  }
+
+  public List<ActiveOrder> getBitfinexActiveOrdesV2(String symbol) throws IOException {
+    if (symbol == null) {
+      symbol = ""; // for empty symbol all active orders are returned
+    }
+    return bitfinexV2.getActiveOrders(
+        exchange.getNonceFactory(), apiKey, signatureV2, symbol, EmptyRequest.INSTANCE);
   }
 }

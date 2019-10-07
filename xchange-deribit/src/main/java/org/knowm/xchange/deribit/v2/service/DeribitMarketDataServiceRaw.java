@@ -38,7 +38,7 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
     return deribit.getOrderBook(instrumentName, depth).getResult();
   }
 
-  public DeribitTrades getDeribitLastTrades(
+  public DeribitTrades getLastTradesByInstrument(
       String instrumentName,
       Integer startSeq,
       Integer endSeq,
@@ -47,12 +47,12 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
       String sorting)
       throws IOException {
     return deribit
-        .getLastTrades(instrumentName, startSeq, endSeq, count, includeOld, sorting)
+        .getLastTradesByInstrument(instrumentName, startSeq, endSeq, count, includeOld, sorting)
         .getResult();
   }
 
-  public List<DeribitSummary> getDeribitSummary(String instrumentName) throws IOException {
-    return deribit.getSummary(instrumentName).getResult();
+  public List<DeribitSummary> getSummaryByInstrument(String instrumentName) throws IOException {
+    return deribit.getSummaryByInstrument(instrumentName).getResult();
   }
 
   public DeribitTicker getDeribitTicker(String instrumentName) throws IOException {
