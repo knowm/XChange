@@ -8,7 +8,7 @@ import org.knowm.xchange.dto.account.AddressWithTag;
 public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   public final String address;
 
-  private final String destinationTag;
+  private final String addressTag;
 
   public final Currency currency;
 
@@ -27,7 +27,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   public DefaultWithdrawFundsParams(
       String address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address;
-    this.destinationTag = null;
+    this.addressTag = null;
     this.currency = currency;
     this.amount = amount;
     this.commission = commission;
@@ -36,7 +36,7 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
   public DefaultWithdrawFundsParams(
       AddressWithTag address, Currency currency, BigDecimal amount, BigDecimal commission) {
     this.address = address.getAddress();
-    this.destinationTag = address.getDestinationTag();
+    this.addressTag = address.getAddressTag();
     this.currency = currency;
     this.amount = amount;
     this.commission = commission;
@@ -46,8 +46,8 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     return address;
   }
 
-  public String getDestinationTag() {
-    return destinationTag;
+  public String getAddressTag() {
+    return addressTag;
   }
 
   public Currency getCurrency() {
@@ -68,8 +68,8 @@ public class DefaultWithdrawFundsParams implements WithdrawFundsParams {
     return "DefaultWithdrawFundsParams{"
         + "address='"
         + getAddress()
-        + ", destinationTag="
-        + getDestinationTag()
+        + ", addressTag="
+        + getAddressTag()
         + '\''
         + ", currency="
         + getCurrency()
