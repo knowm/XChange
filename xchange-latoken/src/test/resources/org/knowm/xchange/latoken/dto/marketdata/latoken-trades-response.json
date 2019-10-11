@@ -1,0 +1,13 @@
+{
+	"pairId": 502,
+	"symbol": "LAETH",
+	"tradeCount": 1,
+	"trades": [
+			{
+				"side": "sell",
+				"price": 136.2,
+				"amount": 0.57,
+				"timestamp": 1555515807369
+			}
+		]
+}
