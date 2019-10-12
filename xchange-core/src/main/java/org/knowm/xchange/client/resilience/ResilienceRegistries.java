@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.time.Duration;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.exceptions.OperationTimeoutException;
 
 public class ResilienceRegistries {
 
@@ -19,7 +20,10 @@ public class ResilienceRegistries {
           .maxAttempts(3)
           .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
           .retryExceptions(
-              IOException.class, ExchangeUnavailableException.class, InternalServerException.class)
+              IOException.class,
+              ExchangeUnavailableException.class,
+              InternalServerException.class,
+              OperationTimeoutException.class)
           .build();
 
   public static final String NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME = "nonIdempotenteCallsBase";
