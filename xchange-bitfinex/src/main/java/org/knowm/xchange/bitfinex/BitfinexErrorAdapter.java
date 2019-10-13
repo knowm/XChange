@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitfinex;
 
 import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.bitfinex.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;

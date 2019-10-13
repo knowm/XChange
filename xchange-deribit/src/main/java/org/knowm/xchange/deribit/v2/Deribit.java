@@ -84,7 +84,7 @@ public interface Deribit {
    */
   @GET
   @Path("get_last_trades_by_instrument")
-  DeribitResponse<DeribitTrades> getLastTrades(
+  DeribitResponse<DeribitTrades> getLastTradesByInstrument(
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("start_seq") Integer startSeq,
       @QueryParam("end_seq") Integer endSeq,
@@ -104,7 +104,7 @@ public interface Deribit {
    */
   @GET
   @Path("get_book_summary_by_instrument")
-  DeribitResponse<List<DeribitSummary>> getSummary(
+  DeribitResponse<List<DeribitSummary>> getSummaryByInstrument(
       @QueryParam("instrument_name") String instrumentName) throws DeribitException, IOException;
 
   /**
