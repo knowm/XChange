@@ -3,7 +3,11 @@ package org.knowm.xchange.binance.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
@@ -13,9 +17,14 @@ import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -136,7 +145,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
             super.withdraw(
                 p.getCurrency().getCurrencyCode(),
                 p.getAddress(),
-                p.getDestinationTag(),
+                p.getAddressTag(),
                 p.getAmount());
       }
       return id;
@@ -158,7 +167,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public AddressWithTag requestDepositAddressData(Currency currency, String... args)
       throws IOException {
     DepositAddress depositAddress = super.requestDepositAddress(currency);
-    return new AddressWithTag(depositAddress.address, depositAddress.addressTag);
+    String destinationTag =
+        (depositAddress.addressTag == null || depositAddress.addressTag.isEmpty())
+            ? null
+            : depositAddress.addressTag;
+    return new AddressWithTag(depositAddress.address, destinationTag);
   }
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
@@ -218,15 +231,15 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 w -> {
                   result.add(
                       new FundingRecord(
-                          w.address,
-                          w.destinationTag,
-                          new Date(w.applyTime),
-                          Currency.getInstance(w.asset),
-                          w.amount,
-                          w.id,
-                          w.txId,
+                          w.getAddress(),
+                          w.getAddressTag(),
+                          new Date(w.getApplyTime()),
+                          Currency.getInstance(w.getAsset()),
+                          w.getAmount(),
+                          w.getId(),
+                          w.getTxId(),
                           Type.WITHDRAWAL,
-                          withdrawStatus(w.status),
+                          withdrawStatus(w.getStatus()),
                           null,
                           null,
                           null));
@@ -239,14 +252,15 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 d -> {
                   result.add(
                       new FundingRecord(
-                          d.address,
-                          new Date(d.insertTime),
-                          Currency.getInstance(d.asset),
-                          d.amount,
+                          d.getAddress(),
+                          d.getAddressTag(),
+                          new Date(d.getInsertTime()),
+                          Currency.getInstance(d.getAsset()),
+                          d.getAmount(),
                           null,
-                          d.txId,
+                          d.getTxId(),
                           Type.DEPOSIT,
-                          depositStatus(d.status),
+                          depositStatus(d.getStatus()),
                           null,
                           null,
                           null));

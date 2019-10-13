@@ -38,13 +38,13 @@ public class LgoTradeServiceTest {
     ExchangeMetaData metaData = load("/lgo.json", ExchangeMetaData.class);
     when(exchange.getProducts()).thenReturn(products);
     when(exchange.getCurrencies()).thenReturn(currencies);
-    when(exchange.getExchangeSpecification()).thenReturn(LgoEnv.sandboxMarkets());
+    when(exchange.getExchangeSpecification()).thenReturn(LgoEnv.sandbox());
     when(exchange.getExchangeMetaData())
         .thenReturn(LgoAdapters.adaptMetadata(metaData, products, currencies));
-    tradeService = new LgoTradeService(exchange);
+    tradeService = new LgoTradeService(exchange, mock(LgoKeyService.class));
   }
 
-  protected <T> T load(String resource, Class<T> clazz) throws java.io.IOException {
+  private <T> T load(String resource, Class<T> clazz) throws java.io.IOException {
     InputStream is = LgoProductsTest.class.getResourceAsStream(resource);
     ObjectMapper mapper = new ObjectMapper();
 

@@ -15,7 +15,12 @@ public class LgoSignatureServicePassthroughs implements LgoSignatureService {
   }
 
   @Override
-  public String digestHeader(String urlToSign, String timestamp) {
+  public String digestSignedUrlHeader(String urlToSign, String timestamp) {
+    return value;
+  }
+
+  @Override
+  public String digestSignedUrlAndBodyHeader(String urlToSign, String timestamp, String body) {
     return value;
   }
 
