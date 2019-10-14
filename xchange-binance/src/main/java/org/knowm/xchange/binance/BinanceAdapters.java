@@ -173,9 +173,9 @@ public class BinanceAdapters {
       AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
       if (asset != null) {
         BigDecimal withdrawalFee = asset.getWithdrawFee().stripTrailingZeros();
-        BigDecimal minWithdrawalFee =
+        BigDecimal minWithdrawalAmount =
             new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
-        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalFee);
+        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
       }
       return null;
     }
