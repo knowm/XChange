@@ -1,0 +1,11 @@
+The Pit Exchange by Blockchain API specification
+==============================
+
+
+This api provides access to such information as tickers, trades, orderbooks and common statistics of currency pairs.
+
+Documentation
+-------------
+https://pit.blockchain.com
+
+Note: the API is working entirely over websocket, there are no REST endpoints.

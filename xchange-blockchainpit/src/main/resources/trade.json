@@ -1,0 +1,11 @@
+{
+  "seqnum":1,
+  "event":"updated",
+  "channel":"trades",
+  "symbol":"BTC-USD",
+  "timestamp":"2019-08-13T11:30:06.100140Z",
+  "side":"sell",
+  "qty":8.5E-5,
+  "price":11252.4,
+  "trade_id":"12884909920"
+}
