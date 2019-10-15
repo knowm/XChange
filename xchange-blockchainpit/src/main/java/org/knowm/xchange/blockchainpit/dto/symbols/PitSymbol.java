@@ -88,7 +88,7 @@ public class PitSymbol {
         return base_currency;
     }
 
-    public int getCurrencyScale() {
+    public int getBaseCurrencyScale() {
         return base_currency_scale;
     }
 

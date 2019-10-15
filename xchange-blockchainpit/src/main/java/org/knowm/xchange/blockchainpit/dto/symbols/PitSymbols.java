@@ -41,7 +41,7 @@ public class PitSymbols extends PitResponse {
             @JsonProperty("seqnum") Long seqnum,
             @JsonProperty("event") String event,
             @JsonProperty("channel") String channel,
-            @JsonProperty("symbols") Map<String, PitSymbol> symbols
+            @JsonProperty("symbols") final Map<String, PitSymbol> symbols
     ) {
         super(seqnum, event, channel);
         this.symbols = symbols;
