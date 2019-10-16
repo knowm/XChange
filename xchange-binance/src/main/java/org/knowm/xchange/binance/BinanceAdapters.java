@@ -177,16 +177,15 @@ public class BinanceAdapters {
             new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
         return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
       }
-      return null;
     }
 
+    BigDecimal withdrawalFee = null;
+    BigDecimal minWithdrawalAmount = null;
     if (currencies.containsKey(currency)) {
       CurrencyMetaData currencyMetaData = currencies.get(currency);
-      return new CurrencyMetaData(
-          precision,
-          currencyMetaData.getWithdrawalFee(),
-          currencyMetaData.getMinWithdrawalAmount());
+      withdrawalFee = currencyMetaData.getWithdrawalFee();
+      minWithdrawalAmount = currencyMetaData.getMinWithdrawalAmount();
     }
-    return null;
+    return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
   }
 }
