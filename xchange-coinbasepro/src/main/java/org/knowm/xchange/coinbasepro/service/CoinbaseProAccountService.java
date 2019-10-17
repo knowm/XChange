@@ -74,8 +74,8 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
               defaultParams.getAddress(),
               defaultParams.getAmount(),
               defaultParams.getCurrency(),
-              defaultParams.getDestinationTag(),
-              defaultParams.getDestinationTag() == null);
+              defaultParams.getAddressTag(),
+              defaultParams.getAddressTag() == null);
       return response.id;
     }
 
