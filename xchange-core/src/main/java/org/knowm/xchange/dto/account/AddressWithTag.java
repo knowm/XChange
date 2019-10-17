@@ -6,30 +6,29 @@ import java.util.Objects;
 public final class AddressWithTag implements Serializable {
 
   private final String address;
+  private final String addressTag;
 
-  private final String destinationTag;
-
-  public AddressWithTag(String address, String destinationTag) {
+  public AddressWithTag(String address, String addressTag) {
     this.address = address;
-    this.destinationTag = destinationTag;
+    this.addressTag = addressTag;
   }
 
   public String getAddress() {
     return address;
   }
 
-  public String getDestinationTag() {
-    return destinationTag;
+  public String getAddressTag() {
+    return addressTag;
   }
 
   @Override
   public String toString() {
-    return "DepositAddress{"
+    return "AddressWithTag{"
         + "address='"
         + address
         + '\''
-        + ", destinationTag='"
-        + destinationTag
+        + ", addressTag='"
+        + addressTag
         + '\''
         + '}';
   }
@@ -39,12 +38,11 @@ public final class AddressWithTag implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     AddressWithTag that = (AddressWithTag) o;
-    return Objects.equals(address, that.address)
-        && Objects.equals(destinationTag, that.destinationTag);
+    return Objects.equals(address, that.address) && Objects.equals(addressTag, that.addressTag);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(address, destinationTag);
+    return Objects.hash(address, addressTag);
   }
 }

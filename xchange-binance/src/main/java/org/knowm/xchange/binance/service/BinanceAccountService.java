@@ -144,7 +144,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
             super.withdraw(
                 p.getCurrency().getCurrencyCode(),
                 p.getAddress(),
-                p.getDestinationTag(),
+                p.getAddressTag(),
                 p.getAmount());
       }
       return id;
@@ -231,7 +231,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                   result.add(
                       new FundingRecord(
                           w.getAddress(),
-                          w.getDestinationTag(),
+                          w.getAddressTag(),
                           new Date(w.getApplyTime()),
                           Currency.getInstance(w.getAsset()),
                           w.getAmount(),
@@ -251,14 +251,15 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 d -> {
                   result.add(
                       new FundingRecord(
-                          d.address,
-                          new Date(d.insertTime),
-                          Currency.getInstance(d.asset),
-                          d.amount,
+                          d.getAddress(),
+                          d.getAddressTag(),
+                          new Date(d.getInsertTime()),
+                          Currency.getInstance(d.getAsset()),
+                          d.getAmount(),
                           null,
-                          d.txId,
+                          d.getTxId(),
                           Type.DEPOSIT,
-                          depositStatus(d.status),
+                          depositStatus(d.getStatus()),
                           null,
                           null,
                           null));
