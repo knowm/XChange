@@ -3,9 +3,13 @@ package org.knowm.xchange.dto.marketdata;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
  * A class encapsulating the information a "Ticker" can contain. Some fields can be empty if not
@@ -13,6 +17,7 @@ import org.knowm.xchange.utils.DateUtils;
  *
  * <p>A ticker contains data representing the latest trade.
  */
+@JsonDeserialize(builder = Ticker.Builder.class)
 public final class Ticker implements Serializable {
 
   private static final long serialVersionUID = -3247730106987193154L;
@@ -183,6 +188,7 @@ public final class Ticker implements Serializable {
    *   <li>Provision of fluent chained construction interface
    * </ul>
    */
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
     private CurrencyPair currencyPair;
