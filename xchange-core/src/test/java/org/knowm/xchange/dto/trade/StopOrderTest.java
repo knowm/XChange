@@ -1,12 +1,16 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class StopOrderTest {
   @Test
@@ -54,7 +58,7 @@ public class StopOrderTest {
   }
 
   @Test
-  public void testBuilderFrom() {
+  public void testBuilderFrom() throws IOException {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -85,6 +89,10 @@ public class StopOrderTest {
     final StopOrder copy = StopOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+
+    StopOrder jsonCopy = ObjectMapperHelper.viaJSON(copy);
+    assertThat(jsonCopy).isEqualToIgnoringGivenFields(copy, "cumulativeAmount");
+    assertTrue(jsonCopy.getCumulativeAmount().compareTo(copy.getCumulativeAmount()) == 0);
   }
 
   private enum TestFlags implements Order.IOrderFlags {
