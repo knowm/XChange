@@ -1,7 +1,10 @@
 package org.knowm.xchange.currency;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Value object to provide the following to API:
@@ -372,7 +375,10 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_USDT = new CurrencyPair(Currency.LTC, Currency.USDT);
   public static final CurrencyPair ZEC_USDT = new CurrencyPair(Currency.ZEC, Currency.USDT);
 
+  @JsonProperty
   public final Currency base;
+
+  @JsonProperty
   public final Currency counter;
 
   /**
@@ -383,7 +389,8 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
    * @param counter The counter currency is what currency you want to use to pay/receive for your
    *     purchase/sale.
    */
-  public CurrencyPair(Currency base, Currency counter) {
+  @JsonCreator
+  public CurrencyPair(@JsonProperty("base") Currency base, @JsonProperty("counter") Currency counter) {
 
     this.base = base;
     this.counter = counter;
