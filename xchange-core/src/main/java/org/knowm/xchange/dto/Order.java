@@ -7,11 +7,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /** Data object representing an order */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="trigger")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = LimitOrder.class, name = "limit"),
+  @JsonSubTypes.Type(value = StopOrder.class, name = "stop"),
+  @JsonSubTypes.Type(value = MarketOrder.class, name = "market")
+})
 public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
