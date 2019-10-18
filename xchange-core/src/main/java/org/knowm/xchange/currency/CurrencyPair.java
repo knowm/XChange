@@ -1,10 +1,9 @@
 package org.knowm.xchange.currency;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
 
 /**
  * Value object to provide the following to API:
@@ -375,11 +374,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_USDT = new CurrencyPair(Currency.LTC, Currency.USDT);
   public static final CurrencyPair ZEC_USDT = new CurrencyPair(Currency.ZEC, Currency.USDT);
 
-  @JsonProperty
-  public final Currency base;
+  @JsonProperty public final Currency base;
 
-  @JsonProperty
-  public final Currency counter;
+  @JsonProperty public final Currency counter;
 
   /**
    * Full constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The
@@ -390,7 +387,8 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
    *     purchase/sale.
    */
   @JsonCreator
-  public CurrencyPair(@JsonProperty("base") Currency base, @JsonProperty("counter") Currency counter) {
+  public CurrencyPair(
+      @JsonProperty("base") Currency base, @JsonProperty("counter") Currency counter) {
 
     this.base = base;
     this.counter = counter;

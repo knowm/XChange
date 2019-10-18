@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -16,8 +15,10 @@ public class OpenOrdersTest {
 
   @Test
   public void testSerializationDeserialization() throws IOException {
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("FOO").build();
-    StopOrder stopOrder = new StopOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("BAR").build();
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("FOO").build();
+    StopOrder stopOrder =
+        new StopOrder.Builder(OrderType.ASK, CurrencyPair.ADA_BNB).id("BAR").build();
     List<LimitOrder> visibleOrders = new ArrayList<>();
     List<Order> hiddenOrders = new ArrayList<>();
     visibleOrders.add(limitOrder);
@@ -27,5 +28,4 @@ public class OpenOrdersTest {
     assertThat(jsonCopy.getOpenOrders()).isEqualTo(openOrders.getOpenOrders());
     assertThat(jsonCopy.getHiddenOrders()).isEqualTo(openOrders.getHiddenOrders());
   }
-
 }

@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;

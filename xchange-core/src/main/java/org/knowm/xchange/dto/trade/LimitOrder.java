@@ -1,16 +1,14 @@
 package org.knowm.xchange.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Set;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 
 /**
  * DTO representing a limit order
@@ -188,7 +186,9 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     protected BigDecimal limitPrice;
 
     @JsonCreator
-    public Builder(@JsonProperty("orderType") OrderType orderType, @JsonProperty("currencyPair") CurrencyPair currencyPair) {
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
