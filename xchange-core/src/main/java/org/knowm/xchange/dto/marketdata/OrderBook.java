@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,13 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
@@ -37,9 +35,10 @@ public final class OrderBook implements Serializable {
    * @param bids The BID orders
    */
   @JsonCreator
-  public OrderBook(@JsonProperty("timeStamp") Date timeStamp,
-                   @JsonProperty("asks") List<LimitOrder> asks,
-                   @JsonProperty("bids") List<LimitOrder> bids) {
+  public OrderBook(
+      @JsonProperty("timeStamp") Date timeStamp,
+      @JsonProperty("asks") List<LimitOrder> asks,
+      @JsonProperty("bids") List<LimitOrder> bids) {
 
     this(timeStamp, asks, bids, false);
   }

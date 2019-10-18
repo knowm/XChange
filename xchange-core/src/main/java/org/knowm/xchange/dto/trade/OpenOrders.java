@@ -1,14 +1,12 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.dto.Order;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * DTO representing open orders
@@ -40,8 +38,9 @@ public final class OpenOrders implements Serializable {
    * @param hiddenOrders The list of orders which are active but hidden from the order book.
    */
   @JsonCreator
-  public OpenOrders(@JsonProperty("openOrders") List<LimitOrder> openOrders,
-                    @JsonProperty("hiddenOrders") List<Order> hiddenOrders) {
+  public OpenOrders(
+      @JsonProperty("openOrders") List<LimitOrder> openOrders,
+      @JsonProperty("hiddenOrders") List<Order> hiddenOrders) {
     this.openOrders = openOrders;
     this.hiddenOrders = hiddenOrders;
   }

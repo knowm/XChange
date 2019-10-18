@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
-
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;

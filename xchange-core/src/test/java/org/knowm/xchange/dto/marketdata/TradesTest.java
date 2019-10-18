@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -34,14 +33,15 @@ public class TradesTest {
 
   @Test
   public void testSerializeDeserialize() throws IOException {
-    Trade t1 = new Trade.Builder()
-        .currencyPair(CurrencyPair.BTC_CAD)
-        .id("BAR")
-        .originalAmount(new BigDecimal("0.12"))
-        .price(new BigDecimal("0.13"))
-        .timestamp(new Date())
-        .type(OrderType.BID)
-        .build();
+    Trade t1 =
+        new Trade.Builder()
+            .currencyPair(CurrencyPair.BTC_CAD)
+            .id("BAR")
+            .originalAmount(new BigDecimal("0.12"))
+            .price(new BigDecimal("0.13"))
+            .timestamp(new Date())
+            .type(OrderType.BID)
+            .build();
     t1.setMakerOrderId("maker1");
     t1.setTakerOrderId("taker1");
     Trade jsonCopy = ObjectMapperHelper.viaJSON(t1);

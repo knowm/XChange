@@ -1,5 +1,8 @@
 package org.knowm.xchange.currency;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,10 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Currency class roughly modeled after {@link java.util.Currency}. Each object retains the code
@@ -306,11 +305,9 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
 
-  @JsonProperty
-  private final String code;
+  @JsonProperty private final String code;
 
-  @JsonProperty
-  private final CurrencyAttributes attributes;
+  @JsonProperty private final CurrencyAttributes attributes;
 
   /** Public constructor. Links to an existing currency. */
   public Currency(String code) {
@@ -320,7 +317,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   @JsonCreator
-  public static Currency deserialize(@JsonProperty("code") String code, @JsonProperty("attributes") Object ignored) {
+  public static Currency deserialize(
+      @JsonProperty("code") String code, @JsonProperty("attributes") Object ignored) {
     return getInstance(code);
   }
 
