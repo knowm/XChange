@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -10,7 +11,11 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 /** Data object representing a user trade */
+@JsonDeserialize(builder = UserTrade.Builder.class)
 public class UserTrade extends Trade {
 
   private static final long serialVersionUID = -3021617981214969292L;
@@ -113,6 +118,7 @@ public class UserTrade extends Trade {
     return Objects.hash(super.hashCode(), orderId, feeAmount, feeCurrency);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Trade.Builder {
 
     protected String orderId;
