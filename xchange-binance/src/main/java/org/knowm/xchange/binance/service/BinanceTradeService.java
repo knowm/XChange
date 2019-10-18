@@ -48,8 +48,6 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import lombok.Value;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -70,7 +68,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   @Value
-  @JsonTypeName("binance_client_id")
   static final class ClientIdFlag implements BinanceOrderFlags {
     private final String clientId;
   }

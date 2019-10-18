@@ -120,14 +120,12 @@ public class MarketOrder extends Order {
           .orderStatus(order.getStatus());
     }
 
-    @JsonProperty("type")
     @Override
     public Builder orderType(OrderType orderType) {
 
       return (Builder) super.orderType(orderType);
     }
 
-    @JsonProperty("status")
     @Override
     public Builder orderStatus(OrderStatus status) {
 
@@ -176,7 +174,6 @@ public class MarketOrder extends Order {
       return (Builder) super.timestamp(timestamp);
     }
 
-    @JsonProperty("flags")
     @Override
     public Builder flags(Set<IOrderFlags> flags) {
 

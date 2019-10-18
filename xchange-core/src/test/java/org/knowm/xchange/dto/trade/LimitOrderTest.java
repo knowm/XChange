@@ -2,14 +2,18 @@ package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class LimitOrderTest {
   @Test
@@ -53,7 +57,7 @@ public class LimitOrderTest {
   }
 
   @Test
-  public void testBuilderFrom() {
+  public void testBuilderFrom() throws IOException {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal averagePrice = new BigDecimal("255.00");
@@ -82,6 +86,10 @@ public class LimitOrderTest {
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+
+    LimitOrder jsonCopy = ObjectMapperHelper.viaJSON(copy);
+    assertThat(jsonCopy).isEqualToIgnoringGivenFields(copy, "cumulativeAmount");
+    assertTrue(jsonCopy.getCumulativeAmount().compareTo(copy.getCumulativeAmount()) == 0);
   }
 
   @Test

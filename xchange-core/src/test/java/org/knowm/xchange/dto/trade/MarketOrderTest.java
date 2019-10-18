@@ -2,11 +2,14 @@ package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class MarketOrderTest {
   @Test
@@ -48,7 +51,7 @@ public class MarketOrderTest {
   }
 
   @Test
-  public void testBuilderFrom() {
+  public void testBuilderFrom() throws IOException {
     final Order.OrderType type = Order.OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal cumulativeAmount = new BigDecimal("44.401");
@@ -75,6 +78,9 @@ public class MarketOrderTest {
     final MarketOrder copy = MarketOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+
+    MarketOrder jsonCopy = ObjectMapperHelper.viaJSON(copy);
+    assertThat(jsonCopy).isEqualToComparingFieldByField(copy);
   }
 
   private enum TestFlags implements Order.IOrderFlags {
