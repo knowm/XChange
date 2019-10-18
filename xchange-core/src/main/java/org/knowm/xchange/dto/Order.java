@@ -4,8 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.AbstractServiceLoaderTypeResolver;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 /** Data object representing an order */
 public abstract class Order implements Serializable {
@@ -23,6 +30,7 @@ public abstract class Order implements Serializable {
   /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
   /** Any applicable order flags */
+  @JsonProperty("flags")
   private final Set<IOrderFlags> flags = new HashSet<>();
   /** Status of order during it lifecycle */
   private OrderStatus status;
@@ -386,7 +394,17 @@ public abstract class Order implements Serializable {
     }
   }
 
+  @JsonTypeInfo(use=JsonTypeInfo.Id.CUSTOM, include=JsonTypeInfo.As.PROPERTY, property="_type")
+  @JsonTypeIdResolver(IOrderFlagsTypeResolver.class)
   public interface IOrderFlags {}
+
+  private static final class IOrderFlagsTypeResolver extends AbstractServiceLoaderTypeResolver<IOrderFlags> {
+    private static final Map<String, Class<? extends IOrderFlags>> registered = loadClasses(IOrderFlags.class);
+    @Override
+    protected Map<String, Class<? extends IOrderFlags>> registered() {
+      return registered;
+    }
+  }
 
   public abstract static class Builder {
 

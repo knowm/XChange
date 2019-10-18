@@ -1,8 +1,10 @@
 package org.knowm.xchange.binance;
 
 import java.math.MathContext;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -140,7 +142,7 @@ public class BinanceAdapters {
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
     }
     if (order.clientOrderId != null) {
-      builder.flag((BinanceOrderFlags) () -> order.clientOrderId);
+      builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
     return builder.build();
   }
