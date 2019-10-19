@@ -1,9 +1,9 @@
 package org.knowm.xchange.currency;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Value object to provide the following to API:
@@ -374,9 +374,9 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_USDT = new CurrencyPair(Currency.LTC, Currency.USDT);
   public static final CurrencyPair ZEC_USDT = new CurrencyPair(Currency.ZEC, Currency.USDT);
 
-  @JsonProperty public final Currency base;
+  public final Currency base;
 
-  @JsonProperty public final Currency counter;
+  public final Currency counter;
 
   /**
    * Full constructor In general the CurrencyPair.base is what you're wanting to buy/sell. The
@@ -386,9 +386,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
    * @param counter The counter currency is what currency you want to use to pay/receive for your
    *     purchase/sale.
    */
-  @JsonCreator
-  public CurrencyPair(
-      @JsonProperty("base") Currency base, @JsonProperty("counter") Currency counter) {
+  public CurrencyPair(Currency base, Currency counter) {
 
     this.base = base;
     this.counter = counter;
@@ -410,6 +408,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   /**
    * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
+  @JsonCreator
   public CurrencyPair(String currencyPair) {
 
     int split = currencyPair.indexOf('/');
