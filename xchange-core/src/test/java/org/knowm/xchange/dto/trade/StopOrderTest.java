@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -88,10 +89,41 @@ public class StopOrderTest {
     final StopOrder copy = StopOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+  }
 
-    StopOrder jsonCopy = ObjectMapperHelper.viaJSON(copy);
-    assertThat(jsonCopy).isEqualToIgnoringGivenFields(copy, "cumulativeAmount");
-    assertTrue(jsonCopy.getCumulativeAmount().compareTo(copy.getCumulativeAmount()) == 0);
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    final Order.OrderType type = Order.OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal limitPrice = new BigDecimal("250.34");
+    final BigDecimal averagePrice = new BigDecimal("255.00");
+    final BigDecimal cumulativeAmount = new BigDecimal("0.00");
+    final BigDecimal stopPrice = new BigDecimal("266.21");
+    final BigDecimal fee = new BigDecimal("22.2");
+    final Date timestamp = new Date();
+    final String id = "id";
+    final Order.OrderStatus status = Order.OrderStatus.FILLED;
+
+    final StopOrder original =
+        new StopOrder(
+            type,
+            originalAmount,
+            currencyPair,
+            id,
+            timestamp,
+            stopPrice,
+            limitPrice,
+            averagePrice,
+            cumulativeAmount,
+            fee,
+            status);
+    original.addOrderFlag(TestFlags.TEST1);
+    original.addOrderFlag(TestFlags.TEST3);
+
+    StopOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
+    assertThat(jsonCopy).isEqualToIgnoringGivenFields(original, "cumulativeAmount");
+    assertTrue(jsonCopy.getCumulativeAmount().compareTo(original.getCumulativeAmount()) == 0);
   }
 
   private enum TestFlags implements Order.IOrderFlags {
