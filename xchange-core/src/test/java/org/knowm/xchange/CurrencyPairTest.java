@@ -3,7 +3,6 @@ package org.knowm.xchange;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.ObjectMapperHelper;
