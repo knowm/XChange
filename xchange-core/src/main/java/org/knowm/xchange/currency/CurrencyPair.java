@@ -1,9 +1,8 @@
 package org.knowm.xchange.currency;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.Serializable;
 
 /**
  * Value object to provide the following to API:
