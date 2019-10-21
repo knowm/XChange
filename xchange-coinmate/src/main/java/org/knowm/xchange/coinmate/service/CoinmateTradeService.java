@@ -84,6 +84,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
       response =
@@ -93,6 +94,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
@@ -103,6 +105,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
@@ -119,6 +122,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         stopOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = stopOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     if (stopOrder.getType().equals(Order.OrderType.ASK)) {
       response =
@@ -128,6 +132,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(stopOrder.getCurrencyPair()),
               stopOrder.getStopPrice(),
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (stopOrder.getType().equals(Order.OrderType.BID)) {
@@ -138,6 +143,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(stopOrder.getCurrencyPair()),
               stopOrder.getStopPrice(),
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
@@ -198,6 +204,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
+    boolean postOnly = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.POST_ONLY);
 
     CoinmateReplaceResponse response;
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {
@@ -209,6 +216,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
@@ -220,6 +228,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
               CoinmateUtils.getPair(limitOrder.getCurrencyPair()),
               null,
               hidden ? 1 : 0,
+              postOnly ? 1 : 0,
               immediateOrCancel ? 1 : 0,
               trailing ? 1 : 0);
     } else {
