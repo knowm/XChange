@@ -143,7 +143,7 @@ public class BinanceAdapters {
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
     }
     if (order.clientOrderId != null) {
-      builder.flag((BinanceOrderFlags) () -> order.clientOrderId);
+      builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
     return builder.build();
   }
