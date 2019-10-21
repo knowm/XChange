@@ -22,7 +22,11 @@ public class BalanceTest {
             .loaned(new BigDecimal("0.16"))
             .withdrawing(new BigDecimal("0.17"))
             .build();
-    Balance copy = ObjectMapperHelper.viaJSON(balance);
-    assertThat(copy).isEqualToComparingFieldByField(copy);
+
+    String json = ObjectMapperHelper.toCompactJSON(balance);
+    assertThat(json).contains("\"currency\":\"ADA\"");
+
+    Balance jsonCopy = ObjectMapperHelper.readValue(json, Balance.class);
+    assertThat(jsonCopy).isEqualToComparingFieldByField(balance);
   }
 }
