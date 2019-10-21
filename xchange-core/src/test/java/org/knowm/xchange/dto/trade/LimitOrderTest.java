@@ -85,10 +85,39 @@ public class LimitOrderTest {
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+  }
 
-    LimitOrder jsonCopy = ObjectMapperHelper.viaJSON(copy);
-    assertThat(jsonCopy).isEqualToIgnoringGivenFields(copy, "cumulativeAmount");
-    assertTrue(jsonCopy.getCumulativeAmount().compareTo(copy.getCumulativeAmount()) == 0);
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final BigDecimal averagePrice = new BigDecimal("255.00");
+    final BigDecimal cumulativeAmount = new BigDecimal("0.00");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal limitPrice = new BigDecimal("250.34");
+    final BigDecimal fee = new BigDecimal("22.2");
+    final Date timestamp = new Date();
+    final String id = "id";
+    final Order.OrderStatus status = Order.OrderStatus.FILLED;
+
+    final LimitOrder original =
+        new LimitOrder(
+            type,
+            originalAmount,
+            currencyPair,
+            id,
+            timestamp,
+            limitPrice,
+            averagePrice,
+            cumulativeAmount,
+            fee,
+            status);
+    original.addOrderFlag(TestFlags.TEST1);
+    original.addOrderFlag(TestFlags.TEST3);
+
+    LimitOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
+    assertThat(jsonCopy).isEqualToIgnoringGivenFields(original, "cumulativeAmount");
+    assertTrue(jsonCopy.getCumulativeAmount().compareTo(original.getCumulativeAmount()) == 0);
   }
 
   @Test

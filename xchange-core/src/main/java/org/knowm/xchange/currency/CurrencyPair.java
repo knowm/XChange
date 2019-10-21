@@ -1,7 +1,7 @@
 package org.knowm.xchange.currency;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 
 /**
@@ -15,7 +15,6 @@ import java.io.Serializable;
  * <p>Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with
  * 1.25 USD
  */
-@JsonSerialize(using = CustomCurrencyPairSerializer.class)
 public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   private static final long serialVersionUID = 414711266389792746L;
@@ -422,6 +421,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
     this.counter = Currency.getInstance(counter);
   }
 
+  @JsonValue
   @Override
   public String toString() {
 

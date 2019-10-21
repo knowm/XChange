@@ -1,7 +1,6 @@
 package org.knowm.xchange.currency;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -305,7 +304,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency STORJ = createCurrency("STORJ", "Storj", null);
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
 
-  @JsonValue private final String code;
+  private final String code;
 
   private final CurrencyAttributes attributes;
 
@@ -386,7 +385,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   /** Gets the currency code originally used to acquire this object. */
-  @JsonIgnore
+  @JsonValue
   public String getCurrencyCode() {
 
     return code;
@@ -402,7 +401,6 @@ public class Currency implements Comparable<Currency>, Serializable {
    * @return A Currency representing the same currency but having the passed currency code
    * @throws IllegalArgumentException if the passed code is not listed for this currency
    */
-  @JsonIgnore
   public Currency getCodeCurrency(String code) {
 
     if (code.equals(this.code)) return this;
@@ -420,7 +418,6 @@ public class Currency implements Comparable<Currency>, Serializable {
    * Gets the equivalent object with an ISO 4217 code, or if none a code which looks ISO compatible
    * (starts with an X), or the constructed currency code if neither exist.
    */
-  @JsonIgnore
   public Currency getIso4217Currency() {
 
     if (attributes.isoCode == null) return this;
@@ -431,28 +428,24 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   /** Gets the equivalent object that was created with the "commonly used" code. */
-  @JsonIgnore
   public Currency getCommonlyUsedCurrency() {
 
     return getCodeCurrency(attributes.commonCode);
   }
 
   /** Gets the set of all currency codes associated with this currency. */
-  @JsonIgnore
   public Set<String> getCurrencyCodes() {
 
     return attributes.codes;
   }
 
   /** Gets the unicode symbol of this currency. */
-  @JsonIgnore
   public String getSymbol() {
 
     return attributes.unicode;
   }
 
   /** Gets the name that is suitable for displaying this currency. */
-  @JsonIgnore
   public String getDisplayName() {
 
     return attributes.name;

@@ -52,7 +52,7 @@ public class UserTradeTest {
   }
 
   @Test
-  public void testBuilderFrom() throws IOException {
+  public void testBuilderFrom() {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -85,9 +85,36 @@ public class UserTradeTest {
     assertThat(copy.getOrderId()).isEqualTo(original.getOrderId());
     assertThat(copy.getFeeAmount()).isEqualTo(original.getFeeAmount());
     assertThat(copy.getFeeCurrency()).isEqualTo(original.getFeeCurrency());
+  }
 
-    UserTrade jsonCopy = ObjectMapperHelper.viaJSON(copy);
-    assertThat(jsonCopy).isEqualToComparingFieldByField(copy);
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal price = new BigDecimal("250.34");
+    final Date timestamp = new Date();
+    final String id = "id";
+    final String orderId = "OrderId";
+    final BigDecimal feeAmount = new BigDecimal("0");
+    final Currency feeCurrency = Currency.BTC;
+    final UserTrade original =
+        new UserTrade(
+            type,
+            originalAmount,
+            currencyPair,
+            price,
+            timestamp,
+            id,
+            orderId,
+            feeAmount,
+            feeCurrency);
+
+    String json = ObjectMapperHelper.toCompactJSON(original);
+    assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
+
+    UserTrade jsonCopy = ObjectMapperHelper.readValue(json, UserTrade.class);
+    assertThat(jsonCopy).isEqualToComparingFieldByField(original);
   }
 
   @Test
