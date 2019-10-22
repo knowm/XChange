@@ -15,7 +15,7 @@ public interface StreamingMarketDataService {
      * <p><strong>Warning:</strong> The library will attempt to keep the snapshots returned in sync with the
      * exchange using the approaches published by that exchange. However, there are currently no guarantees
      * that messages will not be skipped, or that any initial state
-     * message will be sent on connection.</p></p>
+     * message will be sent on connection.</p>
      *
      * Emits {@link info.bitrich.xchangestream.service.exception.NotConnectedException}
      * when not connected to the WebSocket API.
