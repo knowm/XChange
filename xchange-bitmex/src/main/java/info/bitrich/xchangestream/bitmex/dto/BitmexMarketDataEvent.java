@@ -32,7 +32,7 @@ public class BitmexMarketDataEvent {
     public CurrencyPair getCurrencyPair() {
         String base = symbol.substring(0, 3);
         String counter = symbol.substring(3, 6);
-        return new CurrencyPair(new Currency(base), new Currency(counter));
+        return new CurrencyPair(Currency.getInstance(base), Currency.getInstance(counter));
     }
 
     public Date getDate() {
