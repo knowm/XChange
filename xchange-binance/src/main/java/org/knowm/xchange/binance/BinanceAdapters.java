@@ -1,10 +1,10 @@
 package org.knowm.xchange.binance;
 
+import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
+import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -15,6 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -161,5 +162,30 @@ public class BinanceAdapters {
     return priceQuantities.stream()
         .map(BinanceAdapters::adaptPriceQuantity)
         .collect(Collectors.toList());
+  }
+
+  static CurrencyMetaData adaptCurrencyMetaData(
+      Map<Currency, CurrencyMetaData> currencies,
+      Currency currency,
+      Map<String, AssetDetail> assetDetailMap,
+      int precision) {
+    if (assetDetailMap != null) {
+      AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
+      if (asset != null) {
+        BigDecimal withdrawalFee = asset.getWithdrawFee().stripTrailingZeros();
+        BigDecimal minWithdrawalAmount =
+            new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
+        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
+      }
+    }
+
+    BigDecimal withdrawalFee = null;
+    BigDecimal minWithdrawalAmount = null;
+    if (currencies.containsKey(currency)) {
+      CurrencyMetaData currencyMetaData = currencies.get(currency);
+      withdrawalFee = currencyMetaData.getWithdrawalFee();
+      minWithdrawalAmount = currencyMetaData.getMinWithdrawalAmount();
+    }
+    return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
   }
 }
