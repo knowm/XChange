@@ -58,7 +58,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
       HitbtcOrder cancelOrderRaw = cancelOrderRaw(clientOrderId);
       return "canceled".equals(cancelOrderRaw.status);
     } else {
-      throw new ExchangeException("Need userReference for cancelling orders. Use CancelOrderByUserReferenceParams.");
+      throw new ExchangeException(
+          "Need userReference for cancelling orders. Use CancelOrderByUserReferenceParams.");
     }
   }
 

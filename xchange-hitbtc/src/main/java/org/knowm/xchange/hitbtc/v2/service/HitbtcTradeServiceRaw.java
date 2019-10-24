@@ -11,7 +11,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcMarketOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
@@ -53,7 +52,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
 
     return hitbtc.postHitbtcNewOrder(
-		limitOrder.getUserReference(),
+        limitOrder.getUserReference(),
         symbol,
         side,
         limitOrder.getLimitPrice(),
