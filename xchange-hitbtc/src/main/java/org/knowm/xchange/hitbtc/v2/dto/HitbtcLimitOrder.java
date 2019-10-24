@@ -6,11 +6,11 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /**
- * This class was originally written in order to support an order ID provided by the client,
- * that functionality is now implemented as 'userReference' as part of LimitOrder class.
- * Hence, this class is no longer needed, it still exists here simply for backward compatibility.
- * @deprecated Use {@link LimitOrder} with user reference instead.
+ * This class was originally written in order to support an order ID provided by the client, that
+ * functionality is now implemented as 'userReference' as part of LimitOrder class. Hence, this
+ * class is no longer needed, it still exists here simply for backward compatibility.
  *
+ * @deprecated Use {@link LimitOrder} with user reference instead.
  */
 public class HitbtcLimitOrder extends LimitOrder {
 
@@ -22,7 +22,18 @@ public class HitbtcLimitOrder extends LimitOrder {
       Date timestamp,
       BigDecimal limitPrice,
       String clientOrderId) {
-    super(type, originalAmount, currencyPair, id, timestamp, limitPrice, null, null, null, null, clientOrderId);
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        limitPrice,
+        null,
+        null,
+        null,
+        null,
+        clientOrderId);
   }
 
   public HitbtcLimitOrder(
@@ -34,7 +45,18 @@ public class HitbtcLimitOrder extends LimitOrder {
       Date timestamp,
       BigDecimal limitPrice,
       String clientOrderId) {
-    super(type, originalAmount, currencyPair, id, timestamp, limitPrice, null, cumulativeAmount, null, null, clientOrderId);
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        limitPrice,
+        null,
+        cumulativeAmount,
+        null,
+        null,
+        clientOrderId);
   }
 
   public HitbtcLimitOrder(
