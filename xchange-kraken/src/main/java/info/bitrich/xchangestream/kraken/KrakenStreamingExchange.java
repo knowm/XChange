@@ -22,6 +22,8 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
     private final KrakenStreamingService streamingService;
     private KrakenStreamingMarketDataService streamingMarketDataService;
+    
+    private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
     public KrakenStreamingExchange() {
         this.streamingService = new KrakenStreamingService(API_URI);
@@ -50,7 +52,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
     @Override
     public SynchronizedValueFactory<Long> getNonceFactory() {
-        return null;
+        return nonceFactory;
     }
 
     @Override
