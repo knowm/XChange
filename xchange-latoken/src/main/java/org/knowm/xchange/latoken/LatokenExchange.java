@@ -26,6 +26,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class LatokenExchange extends BaseExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(LatokenExchange.class);
+  private static final int PRECISION = 8;
 
   public static final String sslUri = "https://api.latoken.com";
 
@@ -77,8 +78,7 @@ public class LatokenExchange extends BaseExchange {
       // Update Currency meta-data
       for (LatokenCurrency latokenCurrency : allCurrencies) {
         Currency currency = LatokenAdapters.adaptCurrency(latokenCurrency);
-        int precision = latokenCurrency.getPrecision();
-        addCurrencyMetadata(currenciesMetaData, currency, precision);
+        addCurrencyMetadata(currenciesMetaData, currency, PRECISION);
       }
 
       // Update CurrencyPair meta-data
