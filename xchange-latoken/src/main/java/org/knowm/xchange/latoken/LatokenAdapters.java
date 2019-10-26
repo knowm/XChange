@@ -171,9 +171,9 @@ public class LatokenAdapters {
 
   public static OrderType adaptOrderType(LatokenOrderSide side) {
     switch (side) {
-      case Buy:
+      case buy:
         return OrderType.BID;
-      case Sell:
+      case sell:
         return OrderType.ASK;
       default:
         throw new RuntimeException("Not supported order side: " + side);
@@ -182,14 +182,14 @@ public class LatokenAdapters {
 
   public static OrderStatus adaptOrderStatus(LatokenOrderStatus latokenOrderStatus) {
     switch (latokenOrderStatus) {
-      case Active:
-        return OrderStatus
-            .NEW; // Not exactly accurate as Active includes both New and partiallyFilled orders.
-      case PartiallyFilled:
+      case active:
+    	// Not exactly accurate as Active includes both New and partiallyFilled orders.
+        return OrderStatus.NEW; 
+      case partiallyFilled:
         return OrderStatus.PARTIALLY_FILLED;
-      case Filled:
+      case filled:
         return OrderStatus.FILLED;
-      case Cancelled:
+      case cancelled:
         return OrderStatus.CANCELED;
 
       default:
@@ -234,9 +234,9 @@ public class LatokenAdapters {
   public static LatokenOrderSide toOrderSide(OrderType type) {
     switch (type) {
       case ASK:
-        return LatokenOrderSide.Sell;
+        return LatokenOrderSide.sell;
       case BID:
-        return LatokenOrderSide.Buy;
+        return LatokenOrderSide.buy;
       default:
         throw new RuntimeException("Not supported order type: " + type);
     }
@@ -248,17 +248,17 @@ public class LatokenAdapters {
       case NEW:
       case PENDING_CANCEL:
       case PENDING_REPLACE:
-        return LatokenOrderStatus.Active;
+        return LatokenOrderStatus.active;
       case PARTIALLY_FILLED:
-        return LatokenOrderStatus.PartiallyFilled;
+        return LatokenOrderStatus.partiallyFilled;
       case FILLED:
-        return LatokenOrderStatus.Filled;
+        return LatokenOrderStatus.filled;
       case CANCELED:
       case STOPPED:
       case EXPIRED:
       case REJECTED:
       case REPLACED:
-        return LatokenOrderStatus.Cancelled;
+        return LatokenOrderStatus.cancelled;
       default:
         throw new RuntimeException("Not supported order status: " + status);
     }

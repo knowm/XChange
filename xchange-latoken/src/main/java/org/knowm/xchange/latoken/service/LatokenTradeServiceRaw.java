@@ -108,7 +108,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         side,
         price,
         amount,
-        OrderSubclass.Limit, // Only Limit is supported by Latoken
+        OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
         timeAliveMillis,
         super.apiKey,
@@ -143,7 +143,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         side,
         price,
         amount,
-        OrderSubclass.Limit, // Only Limit is supported by Latoken
+        OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
         timeAliveMillis,
         super.apiKey,

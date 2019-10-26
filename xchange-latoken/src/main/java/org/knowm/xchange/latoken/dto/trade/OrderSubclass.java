@@ -1,15 +1,14 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.apache.commons.lang3.StringUtils;
 
 public enum OrderSubclass {
-  Limit;
+  limit;
 
   @JsonCreator
   public static OrderSubclass parse(String s) {
     try {
-      return OrderSubclass.valueOf(StringUtils.capitalize(s));
+      return OrderSubclass.valueOf(s);
     } catch (Exception e) {
       throw new RuntimeException("Unknown OrderSubclass " + s + ".");
     }

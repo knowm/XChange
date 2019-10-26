@@ -58,8 +58,8 @@ public interface LatokenAuthenticated extends Latoken {
    * @param price - Price of order
    * @param amount - Amount of order
    * @param type - Order type (only limit)
-   * @param timestamp - Time of request in millisecods (example: 1555515807369)
-   * @param timeAlive - Time of request in millisecods (example: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param timeAlive - Time for request to be alive (example: 1555515807369)
    * @param apiKey - Client's secret API key
    * @param signature - The signature of the request
    * @return
@@ -90,8 +90,8 @@ public interface LatokenAuthenticated extends Latoken {
    * @param price - Price of order
    * @param amount - Amount of order
    * @param type - Order type (only limit)
-   * @param timestamp - Time of request in millisecods (example: 1555515807369)
-   * @param timeAlive - Time of request in millisecods (example: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param timeAlive - Time for request to be alive (example: 1555515807369)
    * @param apiKey - Client's secret API key
    * @param signature - The signature of the request
    * @return

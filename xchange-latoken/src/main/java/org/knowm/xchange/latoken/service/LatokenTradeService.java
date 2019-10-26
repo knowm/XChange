@@ -124,7 +124,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
 
     try {
       LatokenOrder canceledOrder = cancelLatokenOrder(orderId);
-      return canceledOrder.getOrderStatus() != LatokenOrderStatus.Active;
+      return canceledOrder.getOrderStatus() != LatokenOrderStatus.active;
 
     } catch (LatokenException e) {
       throw LatokenErrorAdapter.adapt(e);
@@ -223,7 +223,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
             throw new ExchangeException("CurrencyPair must be provided to query an order.");
           }
 
-          LatokenOrderStatus status = LatokenOrderStatus.Active;
+          LatokenOrderStatus status = LatokenOrderStatus.active;
           Integer limit = null;
           if (param instanceof LatokenQueryOrderParams) {
             LatokenQueryOrderParams latokenParam = (LatokenQueryOrderParams) param;
