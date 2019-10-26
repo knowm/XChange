@@ -71,8 +71,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
             getClientOrderId(order), // extract clientOrderId from flags, if given
             LatokenAdapters.toOrderSide(order.getType()),
             order.getLimitPrice(),
-            order.getOriginalAmount(),
-            5000);
+            order.getOriginalAmount());
 
     return newOrder.getOrderId();
   }
@@ -92,8 +91,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
             getClientOrderId(order), // extract clientOrderId from flags, if given
             LatokenAdapters.toOrderSide(order.getType()),
             order.getLimitPrice(),
-            order.getOriginalAmount(),
-            5000);
+            order.getOriginalAmount());
 
     return testOrder.isSuccess();
   }

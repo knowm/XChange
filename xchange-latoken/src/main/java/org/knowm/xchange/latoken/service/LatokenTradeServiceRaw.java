@@ -98,8 +98,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
       String clientOrderId,
       LatokenOrderSide side,
       BigDecimal price,
-      BigDecimal amount,
-      long timeAliveMillis)
+      BigDecimal amount)
       throws IOException, LatokenException {
 
     return latoken.newOrder(
@@ -110,7 +109,6 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         amount,
         OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
-        timeAliveMillis,
         super.apiKey,
         super.signatureCreator);
   }
@@ -133,8 +131,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
       String clientOrderId,
       LatokenOrderSide side,
       BigDecimal price,
-      BigDecimal amount,
-      long timeAliveMillis)
+      BigDecimal amount)
       throws IOException, LatokenException {
 
     return latoken.testNewOrder(
@@ -145,7 +142,6 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         amount,
         OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
-        timeAliveMillis,
         super.apiKey,
         super.signatureCreator);
   }
