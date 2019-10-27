@@ -7,6 +7,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
