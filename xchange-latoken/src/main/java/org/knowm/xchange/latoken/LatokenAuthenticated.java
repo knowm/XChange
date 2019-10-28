@@ -3,6 +3,9 @@ package org.knowm.xchange.latoken;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -59,6 +62,7 @@ public interface LatokenAuthenticated extends Latoken {
    * @param amount - Amount of order
    * @param type - Order type (only limit)
    * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param dummy - Mock string, used to force request's body to have value (e.g "hello")
    * @param apiKey - Client's secret API key
    * @param signature - The signature of the request
    * @return
@@ -73,6 +77,9 @@ public interface LatokenAuthenticated extends Latoken {
       @QueryParam("amount") BigDecimal amount,
       @QueryParam("orderType") OrderSubclass type,
       @QueryParam("timestamp") long timestamp,
+      // Query sent with empty body results in error 411
+      // Use dummy string to force request's body to have value
+      @FormParam("dummy") String dummy,
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(SIGNATURE) ParamsDigest signature)
       throws IOException, LatokenException;
@@ -89,6 +96,7 @@ public interface LatokenAuthenticated extends Latoken {
    * @param amount - Amount of order
    * @param type - Order type (only limit)
    * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param dummy - Mock string, used to force request's body to have value (e.g "hello")
    * @param apiKey - Client's secret API key
    * @param signature - The signature of the request
    * @return
@@ -103,6 +111,9 @@ public interface LatokenAuthenticated extends Latoken {
       @QueryParam("amount") BigDecimal amount,
       @QueryParam("orderType") OrderSubclass type,
       @QueryParam("timestamp") long timestamp,
+      // Query sent with empty body results in error 411
+      // Use dummy string to force request's body to have value
+      @FormParam("dummy") String dummy,
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(SIGNATURE) ParamsDigest signature)
       throws IOException, LatokenException;
@@ -113,7 +124,8 @@ public interface LatokenAuthenticated extends Latoken {
    * Cancel desired order by ID
    *
    * @param orderId - Id of order to cancel (e.g. '1555418536.649142.126767@0371:1')
-   * @param timestamp - Time of request in millisecods (example: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param dummy - Mock string, used to force request's body to have value (e.g "hello")
    * @param apiKey
    * @param signature
    * @return
@@ -123,6 +135,9 @@ public interface LatokenAuthenticated extends Latoken {
   LatokenOrder cancelOrder(
       @QueryParam("orderId") String orderId,
       @QueryParam("timestamp") long timestamp,
+      // Query sent with empty body results in error 411
+      // Use dummy string to force request's body to have value
+      @FormParam("dummy") String dummy,
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(SIGNATURE) ParamsDigest signature)
       throws IOException, LatokenException;
@@ -133,7 +148,8 @@ public interface LatokenAuthenticated extends Latoken {
    * Cancel all orders on traded pair
    *
    * @param symbol - Symbol of traded pair (e.g. LAETH)
-   * @param timestamp - Time of request in millisecods (example: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (example: 1555515807369)
+   * @param dummy - Mock string, used to force request's body to have value (e.g "hello")
    * @param apiKey
    * @param signature
    * @return
@@ -143,6 +159,9 @@ public interface LatokenAuthenticated extends Latoken {
   LatokenCancelledOrders cancelAll(
       @QueryParam("symbol") String symbol,
       @QueryParam("timestamp") long timestamp,
+      // Query sent with empty body results in error 411
+      // Use dummy string to force request's body to have a value
+      @FormParam("dummy") String dummy,
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(SIGNATURE) ParamsDigest signature)
       throws IOException, LatokenException;
@@ -194,7 +213,7 @@ public interface LatokenAuthenticated extends Latoken {
    * Get all active orders on traded pair
    *
    * @param symbol - Symbol of traded pair (e.g. LAETH)
-   * @param timestamp - Time of request in millisecods (e.g.: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (e.g.: 1555515807369)
    * @param limit - Number of orders to fetch (default: 50)
    * @param apiKey
    * @param signature
@@ -216,7 +235,7 @@ public interface LatokenAuthenticated extends Latoken {
    * Users latest trades by pair
    *
    * @param symbol - Symbol of traded pair (e.g. LAETH)
-   * @param timestamp - Time of request in millisecods (e.g.: 1555515807369)
+   * @param timestamp - Time of request in milliseconds (e.g.: 1555515807369)
    * @param limit - Number of orders to fetch (default: 50)
    * @param apiKey
    * @param signature
