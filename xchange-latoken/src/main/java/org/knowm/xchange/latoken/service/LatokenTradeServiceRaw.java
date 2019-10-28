@@ -3,6 +3,9 @@ package org.knowm.xchange.latoken.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -88,7 +91,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
    * @param side
    * @param price
    * @param amount
-   * @param timeAliveMillis - Indicates how long the request is valid in millisecods (example: 3000)
+   * @param timeAliveMillis - Indicates how long the request is valid in milliseconds (example: 3000)
    * @return
    * @throws IOException
    * @throws LatokenException
@@ -109,6 +112,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         amount,
         OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
+        "",
         super.apiKey,
         super.signatureCreator);
   }
@@ -142,6 +146,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
         amount,
         OrderSubclass.limit, // Only Limit is supported by Latoken
         System.currentTimeMillis(),
+        "",
         super.apiKey,
         super.signatureCreator);
   }
@@ -157,7 +162,11 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
   public LatokenOrder cancelLatokenOrder(String orderId) throws IOException, LatokenException {
 
     return latoken.cancelOrder(
-        orderId, System.currentTimeMillis(), super.apiKey, super.signatureCreator);
+        orderId, 
+        System.currentTimeMillis(),
+        "",
+        super.apiKey,
+        super.signatureCreator);
   }
 
   /**
@@ -174,6 +183,7 @@ public class LatokenTradeServiceRaw extends LatokenBaseService {
     return latoken.cancelAll(
         LatokenAdapters.toSymbol(pair),
         System.currentTimeMillis(),
+        "",
         super.apiKey,
         super.signatureCreator);
   }
