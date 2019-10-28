@@ -183,8 +183,8 @@ public class LatokenAdapters {
   public static OrderStatus adaptOrderStatus(LatokenOrderStatus latokenOrderStatus) {
     switch (latokenOrderStatus) {
       case active:
-    	// Not exactly accurate as Active includes both New and partiallyFilled orders.
-        return OrderStatus.NEW; 
+        // Not exactly accurate as Active includes both New and partiallyFilled orders.
+        return OrderStatus.NEW;
       case partiallyFilled:
         return OrderStatus.PARTIALLY_FILLED;
       case filled:
