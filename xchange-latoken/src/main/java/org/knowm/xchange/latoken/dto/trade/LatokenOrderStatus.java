@@ -6,6 +6,7 @@ public enum LatokenOrderStatus {
   active,
   partiallyFilled,
   filled,
+  canceling,
   cancelled;
 
   @JsonCreator
