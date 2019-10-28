@@ -3,7 +3,6 @@ package org.knowm.xchange.latoken.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -13,12 +12,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.latoken.LatokenExchange;
 import org.knowm.xchange.latoken.service.LatokenTradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.utils.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +27,9 @@ public class TradeServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(
-    		LatokenExchange.class.getName(),
-    		"api-v1-XXX", 
-    		"api-v1-secret-YYY");
+    exchange =
+        ExchangeFactory.INSTANCE.createExchange(
+            LatokenExchange.class.getName(), "api-v1-XXX", "api-v1-secret-YYY");
     tradeService = (LatokenTradeService) exchange.getTradeService();
   }
 
@@ -46,12 +41,13 @@ public class TradeServiceIntegration {
   @Test
   public void openOrders() throws Exception {
 
-    DefaultOpenOrdersParamCurrencyPair params = (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    DefaultOpenOrdersParamCurrencyPair params =
+        (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
     List<LimitOrder> orders = tradeService.getOpenOrders(params).getOpenOrders();
     orders.forEach(order -> System.out.println(order));
   }
-  
+
   @Test
   public void newOrder() throws Exception {
 
@@ -59,29 +55,32 @@ public class TradeServiceIntegration {
     OrderType type = OrderType.BID;
     BigDecimal amount = BigDecimal.valueOf(0.01);
     BigDecimal limitPrice = BigDecimal.valueOf(0.018881);
-    LimitOrder newOrder = new LimitOrder.Builder(type, pair)
-    		.originalAmount(amount)
-    		.limitPrice(limitPrice)
-    		.timestamp(new Date(System.currentTimeMillis()))
-    		.build();
-    
+    LimitOrder newOrder =
+        new LimitOrder.Builder(type, pair)
+            .originalAmount(amount)
+            .limitPrice(limitPrice)
+            .timestamp(new Date(System.currentTimeMillis()))
+            .build();
+
     // Test order
-    LatokenTestOrder testOrder = tradeService.placeLatokenTestOrder(pair, "", LatokenOrderSide.buy, limitPrice, amount);
+    LatokenTestOrder testOrder =
+        tradeService.placeLatokenTestOrder(pair, "", LatokenOrderSide.buy, limitPrice, amount);
     System.out.println(testOrder);
-    
-    // Place order 
+
+    // Place order
     String newOrderId = tradeService.placeLimitOrder(newOrder);
     System.out.println(newOrderId);
-    
-    // Check open orders 
-    DefaultOpenOrdersParamCurrencyPair params = (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+
+    // Check open orders
+    DefaultOpenOrdersParamCurrencyPair params =
+        (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
     List<LimitOrder> openOrders = tradeService.getOpenOrders(params).getOpenOrders();
     System.out.println(openOrders);
-    
-    // Cancel 
+
+    // Cancel
     tradeService.cancelLatokenOrder(newOrderId);
-    
+
     // Check open orders
     openOrders = tradeService.getOpenOrders().getOpenOrders();
     System.out.println(openOrders);

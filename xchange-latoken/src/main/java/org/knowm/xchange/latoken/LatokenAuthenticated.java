@@ -3,8 +3,6 @@ package org.knowm.xchange.latoken;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
