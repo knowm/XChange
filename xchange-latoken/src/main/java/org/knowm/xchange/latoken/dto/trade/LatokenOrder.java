@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -29,8 +30,8 @@ import java.util.Date;
 public final class LatokenOrder extends LatokenNewOrder {
 
   private final LatokenOrderStatus latokenOrderStatus;
-  private final double executedAmount;
-  private final double reaminingAmount;
+  private final BigDecimal executedAmount;
+  private final BigDecimal reaminingAmount;
   private final Date timeCreated;
   private final Date timeFilled;
 
@@ -53,11 +54,11 @@ public final class LatokenOrder extends LatokenNewOrder {
       @JsonProperty("symbol") String symbol,
       @JsonProperty("side") String side,
       @JsonProperty("orderType") String type,
-      @JsonProperty("price") double price,
-      @JsonProperty("amount") double amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("orderStatus") String orderStatus,
-      @JsonProperty("executedAmount") double executedAmount,
-      @JsonProperty("reaminingAmount") double reaminingAmount,
+      @JsonProperty("executedAmount") BigDecimal executedAmount,
+      @JsonProperty("reaminingAmount") BigDecimal reaminingAmount,
       @JsonProperty("timeCreated") long timeCreated,
       @JsonProperty("timeFilled") long timeFilled) {
 
@@ -83,7 +84,7 @@ public final class LatokenOrder extends LatokenNewOrder {
    *
    * @return
    */
-  public double getExecutedAmount() {
+  public BigDecimal getExecutedAmount() {
     return executedAmount;
   }
 
@@ -92,7 +93,7 @@ public final class LatokenOrder extends LatokenNewOrder {
    *
    * @return
    */
-  public double getReaminingAmount() {
+  public BigDecimal getReaminingAmount() {
     return reaminingAmount;
   }
 

@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,10 +25,10 @@ public class LatokenUserTrade {
 
   private final String id;
   private final String orderId;
-  private final double fee;
+  private final BigDecimal fee;
   private final LatokenOrderSide side;
-  private final double price;
-  private final double amount;
+  private final BigDecimal price;
+  private final BigDecimal amount;
   private final Date time;
 
   /**
@@ -44,10 +45,10 @@ public class LatokenUserTrade {
   public LatokenUserTrade(
       @JsonProperty("id") String id,
       @JsonProperty("orderId") String orderId,
-      @JsonProperty("commission") double fee,
+      @JsonProperty("commission") BigDecimal fee,
       @JsonProperty("side") String side,
-      @JsonProperty("price") double price,
-      @JsonProperty("low") double amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("low") BigDecimal amount,
       @JsonProperty("time") long time) {
 
     this.id = id;
@@ -82,7 +83,7 @@ public class LatokenUserTrade {
    *
    * @return
    */
-  public double getFee() {
+  public BigDecimal getFee() {
     return fee;
   }
 
@@ -100,7 +101,7 @@ public class LatokenUserTrade {
    *
    * @return
    */
-  public double getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
@@ -109,7 +110,7 @@ public class LatokenUserTrade {
    *
    * @return
    */
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 

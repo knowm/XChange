@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public enum LatokenOrderStatus {
   active,
@@ -14,7 +15,7 @@ public enum LatokenOrderStatus {
     try {
       return LatokenOrderStatus.valueOf(s);
     } catch (Exception e) {
-      throw new RuntimeException("Unknown LatokenOrderStatus " + s + ".");
+      throw new ExchangeException("Unknown LatokenOrderStatus " + s + ".");
     }
   }
 }
