@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public enum OrderSubclass {
   limit;
@@ -10,7 +11,7 @@ public enum OrderSubclass {
     try {
       return OrderSubclass.valueOf(s);
     } catch (Exception e) {
-      throw new RuntimeException("Unknown OrderSubclass " + s + ".");
+      throw new ExchangeException("Unknown OrderSubclass " + s + ".");
     }
   }
 }

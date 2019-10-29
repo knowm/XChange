@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -28,8 +29,8 @@ public class LatokenNewOrder {
   private final String symbol;
   private final LatokenOrderSide side;
   private final OrderSubclass type;
-  private final double price;
-  private final double amount;
+  private final BigDecimal price;
+  private final BigDecimal amount;
 
   /**
    * C'tor
@@ -50,8 +51,8 @@ public class LatokenNewOrder {
       @JsonProperty("symbol") String symbol,
       @JsonProperty("side") String side,
       @JsonProperty("orderType") String type,
-      @JsonProperty("price") double price,
-      @JsonProperty("amount") double amount) {
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount) {
 
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;
@@ -122,7 +123,7 @@ public class LatokenNewOrder {
    *
    * @return
    */
-  public double getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
@@ -131,7 +132,7 @@ public class LatokenNewOrder {
    *
    * @return
    */
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 

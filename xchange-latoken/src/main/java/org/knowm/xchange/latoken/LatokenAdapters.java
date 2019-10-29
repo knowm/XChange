@@ -49,7 +49,6 @@ public class LatokenAdapters {
   public static CurrencyPair adaptCurrencyPair(LatokenPair latokenPair) {
     Currency base = Currency.getInstance(latokenPair.getBaseCurrency());
     Currency counter = Currency.getInstance(latokenPair.getCounterCurrency());
-
     return new CurrencyPair(base, counter);
   }
 
@@ -101,25 +100,19 @@ public class LatokenAdapters {
         latokenOrderbook.getAsks().stream()
             .map(
                 level ->
-                    new LimitOrder(
-                        OrderType.ASK,
-                        BigDecimal.valueOf(level.getAmount()),
-                        pair,
-                        null,
-                        null,
-                        BigDecimal.valueOf(level.getPrice())))
+                    new LimitOrder.Builder(OrderType.ASK, pair)
+                        .originalAmount(BigDecimal.valueOf(level.getAmount()))
+                        .limitPrice(BigDecimal.valueOf(level.getPrice()))
+                        .build())
             .collect(Collectors.toList());
     List<LimitOrder> bids =
         latokenOrderbook.getBids().stream()
             .map(
                 level ->
-                    new LimitOrder(
-                        OrderType.BID,
-                        BigDecimal.valueOf(level.getAmount()),
-                        pair,
-                        null,
-                        null,
-                        BigDecimal.valueOf(level.getPrice())))
+                    new LimitOrder.Builder(OrderType.BID, pair)
+                        .originalAmount(BigDecimal.valueOf(level.getAmount()))
+                        .limitPrice(BigDecimal.valueOf(level.getPrice()))
+                        .build())
             .collect(Collectors.toList());
 
     return new OrderBook(null, asks, bids);
@@ -136,13 +129,13 @@ public class LatokenAdapters {
   }
 
   public static Trade adaptTrade(LatokenTrade latokenTrade, CurrencyPair pair) {
-    return new Trade(
-        adaptOrderType(latokenTrade.getSide()),
-        BigDecimal.valueOf(latokenTrade.getAmount()),
-        pair,
-        BigDecimal.valueOf(latokenTrade.getPrice()),
-        latokenTrade.getTimestamp(),
-        null);
+    return new Trade.Builder()
+        .type(adaptOrderType(latokenTrade.getSide()))
+        .currencyPair(pair)
+        .originalAmount(BigDecimal.valueOf(latokenTrade.getAmount()))
+        .price(BigDecimal.valueOf(latokenTrade.getPrice()))
+        .timestamp(latokenTrade.getTimestamp())
+        .build();
   }
 
   public static LimitOrder adaptOrder(LatokenOrder order) {
@@ -151,11 +144,11 @@ public class LatokenAdapters {
     OrderStatus orderStatus = adaptOrderStatus(order.getOrderStatus());
 
     return new LimitOrder.Builder(type, currencyPair)
-        .originalAmount(BigDecimal.valueOf(order.getAmount()))
+        .originalAmount(order.getAmount())
         .id(order.getOrderId())
         .timestamp(order.getTimeCreated())
-        .limitPrice(BigDecimal.valueOf(order.getPrice()))
-        .cumulativeAmount(BigDecimal.valueOf(order.getExecutedAmount()))
+        .limitPrice(order.getPrice())
+        .cumulativeAmount(order.getExecutedAmount())
         .fee(BigDecimal.ZERO)
         .orderStatus(orderStatus)
         .build();
@@ -211,13 +204,13 @@ public class LatokenAdapters {
   public static UserTrade adaptUserTrade(LatokenUserTrade latokenUserTrade, CurrencyPair pair) {
     return new UserTrade(
         adaptOrderType(latokenUserTrade.getSide()),
-        BigDecimal.valueOf(latokenUserTrade.getAmount()),
+        latokenUserTrade.getAmount(),
         pair,
-        BigDecimal.valueOf(latokenUserTrade.getPrice()),
+        latokenUserTrade.getPrice(),
         latokenUserTrade.getTime(),
         latokenUserTrade.getId(),
         latokenUserTrade.getOrderId(),
-        BigDecimal.valueOf(latokenUserTrade.getFee()),
+        latokenUserTrade.getFee(),
         pair.counter); // Fee is always in counter currency
   }
 
