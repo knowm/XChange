@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -24,19 +25,19 @@ public final class LatokenBalance {
   private final String currencyId;
   private final String symbol;
   private final String name;
-  private final double amount;
-  private final double available;
-  private final double frozen;
-  private final double pending;
+  private final BigDecimal amount;
+  private final BigDecimal available;
+  private final BigDecimal frozen;
+  private final BigDecimal pending;
 
   public LatokenBalance(
       @JsonProperty("currencyId") String currencyId,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("name") String name,
-      @JsonProperty("amount") double amount,
-      @JsonProperty("available") double available,
-      @JsonProperty("frozen") double frozen,
-      @JsonProperty("pending") double pending) {
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("available") BigDecimal available,
+      @JsonProperty("frozen") BigDecimal frozen,
+      @JsonProperty("pending") BigDecimal pending) {
 
     this.currencyId = currencyId;
     this.symbol = symbol;
@@ -79,7 +80,7 @@ public final class LatokenBalance {
    *
    * @return
    */
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
@@ -88,7 +89,7 @@ public final class LatokenBalance {
    *
    * @return
    */
-  public double getAvailable() {
+  public BigDecimal getAvailable() {
     return available;
   }
 
@@ -97,11 +98,11 @@ public final class LatokenBalance {
    *
    * @return
    */
-  public double getFrozen() {
+  public BigDecimal getFrozen() {
     return frozen;
   }
 
-  public double getPending() {
+  public BigDecimal getPending() {
     return pending;
   }
 

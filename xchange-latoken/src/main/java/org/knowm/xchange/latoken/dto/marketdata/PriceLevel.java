@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -16,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PriceLevel {
 
-  private final double price;
-  private final double amount;
+  private final BigDecimal price;
+  private final BigDecimal amount;
 
   /**
    * C'tor
@@ -25,7 +26,8 @@ public class PriceLevel {
    * @param price
    * @param amount
    */
-  public PriceLevel(@JsonProperty("price") double price, @JsonProperty("amount") double amount) {
+  public PriceLevel(
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.price = price;
     this.amount = amount;
@@ -36,7 +38,7 @@ public class PriceLevel {
    *
    * @return
    */
-  public double getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
@@ -45,7 +47,7 @@ public class PriceLevel {
    *
    * @return
    */
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 

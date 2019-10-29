@@ -1,6 +1,5 @@
 package org.knowm.xchange.latoken;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.latoken.dto.LatokenException;
 import org.knowm.xchange.latoken.dto.exchangeinfo.LatokenCurrency;
 import org.knowm.xchange.latoken.dto.exchangeinfo.LatokenPair;
 import org.knowm.xchange.latoken.service.LatokenAccountService;
@@ -28,11 +26,13 @@ public class LatokenExchange extends BaseExchange {
   private static final Logger LOG = LoggerFactory.getLogger(LatokenExchange.class);
   private static final int PRECISION = 8;
 
-  public static final String sslUri = "https://api.latoken.com";
+  private LatokenAuthenticated latoken;
 
   @Override
   protected void initServices() {
-
+    this.latoken =
+        RestProxyFactory.createProxy(
+            LatokenAuthenticated.class, getExchangeSpecification().getSslUri());
     this.marketDataService = new LatokenMarketDataService(this);
     this.tradeService = new LatokenTradeService(this);
     this.accountService = new LatokenAccountService(this);
@@ -50,7 +50,7 @@ public class LatokenExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
-    spec.setSslUri(sslUri);
+    spec.setSslUri("https://api.latoken.com");
     spec.setHost("www.latoken.com");
     spec.setPort(80);
     spec.setExchangeName("Latoken");
@@ -67,11 +67,8 @@ public class LatokenExchange extends BaseExchange {
       Map<Currency, CurrencyMetaData> currenciesMetaData = exchangeMetaData.getCurrencies();
       Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = exchangeMetaData.getCurrencyPairs();
 
-      Latoken latokenPublic =
-          RestProxyFactory.createProxy(LatokenAuthenticated.class, LatokenExchange.sslUri);
-
-      List<LatokenPair> allPairs = latokenPublic.getAllPairs();
-      List<LatokenCurrency> allCurrencies = latokenPublic.getAllCurrencies();
+      List<LatokenPair> allPairs = latoken.getAllPairs();
+      List<LatokenCurrency> allCurrencies = latoken.getAllCurrencies();
 
       // Save pairs map on the exchange
       this.exchangeSpecification.setExchangeSpecificParametersItem("pairs", allPairs);
@@ -87,10 +84,6 @@ public class LatokenExchange extends BaseExchange {
         CurrencyPairMetaData pairMetadata = LatokenAdapters.adaptPairMetaData(latokenPair);
         addCurrencyPairMetadata(pairsMetaData, pair, pairMetadata);
       }
-    } catch (LatokenException | IOException e) {
-      String msg = "Could not retrieve currency-pairs from Latoken exchange";
-      LOG.error(msg, e);
-      throw new ExchangeException(msg);
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
@@ -138,11 +131,11 @@ public class LatokenExchange extends BaseExchange {
     // Override static meta-data
     pairs.put(
         pair,
-        new CurrencyPairMetaData(
-            pairMetadata.getTradingFee(),
-            pairMetadata.getMinimumAmount(),
-            maxAmount,
-            pairMetadata.getPriceScale(),
-            null));
+        new CurrencyPairMetaData.Builder()
+            .tradingFee(pairMetadata.getTradingFee())
+            .minimumAmount(pairMetadata.getMinimumAmount())
+            .maximumAmount(maxAmount)
+            .priceScale(pairMetadata.getPriceScale())
+            .build());
   }
 }

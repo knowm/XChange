@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-public class LatokenBaseService extends BaseExchangeService implements BaseService {
+public class LatokenBaseService extends BaseExchangeService<Exchange> implements BaseService {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
