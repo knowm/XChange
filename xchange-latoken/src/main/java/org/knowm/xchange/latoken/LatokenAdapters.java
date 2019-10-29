@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -36,12 +38,6 @@ import org.knowm.xchange.latoken.dto.trade.LatokenUserTrades;
 
 public class LatokenAdapters {
 
-  protected static List<LatokenPair> allPairs;
-
-  public static void setAllPairs(List<LatokenPair> allPairs) {
-    LatokenAdapters.allPairs = allPairs;
-  }
-
   public static Currency adaptCurrency(LatokenCurrency latokenCurrency) {
     return Currency.getInstance(latokenCurrency.getSymbol());
   }
@@ -61,10 +57,11 @@ public class LatokenAdapters {
     return new CurrencyPairMetaData(tradingFee, minAmount, null, priceScale, null);
   }
 
-  public static CurrencyPair adaptCurrencyPair(String latokenSymbol) {
+  public static CurrencyPair adaptCurrencyPair(Exchange exchange, String latokenSymbol) {
+	Object pairs = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("pairs");
+	List<LatokenPair> allPairs = (List<LatokenPair>) pairs;
     if (allPairs == null) {
-      throw new ExchangeException(
-          "allPairs is not set! Make sure to trigger Exchange's remote init method");
+    	throw new ExchangeException("'pairs' parameter must be set on exchange specifications");
     }
     Optional<LatokenPair> oPair =
         allPairs.stream().filter(pair -> pair.getSymbol().equals(latokenSymbol)).findAny();
@@ -94,8 +91,8 @@ public class LatokenAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(LatokenOrderbook latokenOrderbook) {
-    CurrencyPair pair = adaptCurrencyPair(latokenOrderbook.getSymbol());
+  public static OrderBook adaptOrderBook(Exchange exchange, LatokenOrderbook latokenOrderbook) {
+    CurrencyPair pair = adaptCurrencyPair(exchange, latokenOrderbook.getSymbol());
     List<LimitOrder> asks =
         latokenOrderbook.getAsks().stream()
             .map(
@@ -118,8 +115,8 @@ public class LatokenAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static Trades adaptTrades(LatokenTrades latokenTrades) {
-    CurrencyPair pair = adaptCurrencyPair(latokenTrades.getSymbol());
+  public static Trades adaptTrades(Exchange exchange, LatokenTrades latokenTrades) {
+    CurrencyPair pair = adaptCurrencyPair(exchange, latokenTrades.getSymbol());
     List<Trade> trades =
         latokenTrades.getTrades().stream()
             .map(latokenTrade -> adaptTrade(latokenTrade, pair))
@@ -138,9 +135,9 @@ public class LatokenAdapters {
         .build();
   }
 
-  public static LimitOrder adaptOrder(LatokenOrder order) {
+  public static LimitOrder adaptOrder(Exchange exchange, LatokenOrder order) {
     OrderType type = adaptOrderType(order.getSide());
-    CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
+    CurrencyPair currencyPair = adaptCurrencyPair(exchange, order.getSymbol());
     OrderStatus orderStatus = adaptOrderStatus(order.getOrderStatus());
 
     return new LimitOrder.Builder(type, currencyPair)
@@ -154,10 +151,10 @@ public class LatokenAdapters {
         .build();
   }
 
-  public static OpenOrders adaptOpenOrders(List<LatokenOrder> latokenOpenOrders) {
+  public static OpenOrders adaptOpenOrders(Exchange exchange, List<LatokenOrder> latokenOpenOrders) {
     List<LimitOrder> openOrders =
         latokenOpenOrders.stream()
-            .map(latokenOrder -> LatokenAdapters.adaptOrder(latokenOrder))
+            .map(latokenOrder -> LatokenAdapters.adaptOrder(exchange, latokenOrder))
             .collect(Collectors.toList());
     return new OpenOrders(openOrders);
   }
@@ -190,9 +187,9 @@ public class LatokenAdapters {
     }
   }
 
-  public static UserTrades adaptUserTrades(LatokenUserTrades latokenUserTrades) {
+  public static UserTrades adaptUserTrades(Exchange exchange, LatokenUserTrades latokenUserTrades) {
 
-    CurrencyPair pair = adaptCurrencyPair(latokenUserTrades.getSymbol());
+    CurrencyPair pair = adaptCurrencyPair(exchange, latokenUserTrades.getSymbol());
     List<UserTrade> trades =
         latokenUserTrades.getTrades().stream()
             .map(latokenUserTrade -> adaptUserTrade(latokenUserTrade, pair))

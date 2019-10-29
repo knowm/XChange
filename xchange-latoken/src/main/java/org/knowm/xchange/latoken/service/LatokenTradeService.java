@@ -55,7 +55,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
       }
 
       List<LatokenOrder> latokenOpenOrders = getLatokenOpenOrders(pair, Integer.MAX_VALUE);
-      return LatokenAdapters.adaptOpenOrders(latokenOpenOrders);
+      return LatokenAdapters.adaptOpenOrders(this.exchange, latokenOpenOrders);
 
     } catch (LatokenException e) {
       throw LatokenErrorAdapter.adapt(e);
@@ -185,7 +185,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
 
     try {
       LatokenUserTrades latokenTrades = getLatokenUserTrades(pair, limit);
-      return LatokenAdapters.adaptUserTrades(latokenTrades);
+      return LatokenAdapters.adaptUserTrades(this.exchange, latokenTrades);
 
     } catch (LatokenException e) {
       throw LatokenErrorAdapter.adapt(e);
@@ -231,7 +231,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
 
           List<LatokenOrder> latokenOrders = getLatokenOrders(pair, status, limit);
           latokenOrders.forEach(
-              latokenOrder -> orders.add(LatokenAdapters.adaptOrder(latokenOrder)));
+              latokenOrder -> orders.add(LatokenAdapters.adaptOrder(this.exchange, latokenOrder)));
 
         } else {
           if (param.getOrderId() == null) {
@@ -239,7 +239,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
           }
 
           LatokenOrder latokenOrder = getLatokenOrder(param.getOrderId());
-          orders.add(LatokenAdapters.adaptOrder(latokenOrder));
+          orders.add(LatokenAdapters.adaptOrder(this.exchange, latokenOrder));
         }
       }
 
