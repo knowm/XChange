@@ -71,7 +71,7 @@ public class LatokenMarketDataService extends LatokenMarketDataServiceRaw
         }
       }
       LatokenOrderbook latokenOrderbook = getLatokenOrderbook(pair, depthLimit);
-      return LatokenAdapters.adaptOrderBook(latokenOrderbook);
+      return LatokenAdapters.adaptOrderBook(this.exchange, latokenOrderbook);
 
     } catch (LatokenException e) {
       throw LatokenErrorAdapter.adapt(e);
@@ -93,7 +93,7 @@ public class LatokenMarketDataService extends LatokenMarketDataServiceRaw
         }
       }
       LatokenTrades latokenTrades = getLatokenTrades(pair, limit);
-      return LatokenAdapters.adaptTrades(latokenTrades);
+      return LatokenAdapters.adaptTrades(this.exchange, latokenTrades);
 
     } catch (LatokenException e) {
       throw LatokenErrorAdapter.adapt(e);
