@@ -69,7 +69,7 @@ public class LatokenExchange extends BaseExchange {
 
       Latoken latokenPublic =
           RestProxyFactory.createProxy(LatokenAuthenticated.class, LatokenExchange.sslUri);
-      
+
       List<LatokenPair> allPairs = latokenPublic.getAllPairs();
       List<LatokenCurrency> allCurrencies = latokenPublic.getAllCurrencies();
 
@@ -145,5 +145,4 @@ public class LatokenExchange extends BaseExchange {
             pairMetadata.getPriceScale(),
             null));
   }
-  
 }
