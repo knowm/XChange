@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -58,10 +57,10 @@ public class LatokenAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(Exchange exchange, String latokenSymbol) {
-	Object pairs = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("pairs");
-	List<LatokenPair> allPairs = (List<LatokenPair>) pairs;
+    Object pairs = exchange.getExchangeSpecification().getExchangeSpecificParametersItem("pairs");
+    List<LatokenPair> allPairs = (List<LatokenPair>) pairs;
     if (allPairs == null) {
-    	throw new ExchangeException("'pairs' parameter must be set on exchange specifications");
+      throw new ExchangeException("'pairs' parameter must be set on exchange specifications");
     }
     Optional<LatokenPair> oPair =
         allPairs.stream().filter(pair -> pair.getSymbol().equals(latokenSymbol)).findAny();
@@ -151,7 +150,8 @@ public class LatokenAdapters {
         .build();
   }
 
-  public static OpenOrders adaptOpenOrders(Exchange exchange, List<LatokenOrder> latokenOpenOrders) {
+  public static OpenOrders adaptOpenOrders(
+      Exchange exchange, List<LatokenOrder> latokenOpenOrders) {
     List<LimitOrder> openOrders =
         latokenOpenOrders.stream()
             .map(latokenOrder -> LatokenAdapters.adaptOrder(exchange, latokenOrder))
