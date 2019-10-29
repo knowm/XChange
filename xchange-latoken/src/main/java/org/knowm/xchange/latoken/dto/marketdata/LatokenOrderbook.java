@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public final class LatokenOrderbook {
 
   private final long pairId;
   private final String symbol;
-  private final double spread;
+  private final BigDecimal spread;
   private final List<PriceLevel> asks;
   private final List<PriceLevel> bids;
 
@@ -48,7 +49,7 @@ public final class LatokenOrderbook {
   public LatokenOrderbook(
       @JsonProperty("pairId") long pairId,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("spread") double spread,
+      @JsonProperty("spread") BigDecimal spread,
       @JsonProperty("asks") List<PriceLevel> asks,
       @JsonProperty("bids") List<PriceLevel> bids) {
 
@@ -82,7 +83,7 @@ public final class LatokenOrderbook {
    *
    * @return
    */
-  public double getSpread() {
+  public BigDecimal getSpread() {
     return spread;
   }
 

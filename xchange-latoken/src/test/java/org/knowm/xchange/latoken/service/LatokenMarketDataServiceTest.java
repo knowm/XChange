@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -14,9 +13,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.latoken.LatokenExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -41,25 +38,6 @@ public class LatokenMarketDataServiceTest {
   @Test
   public void testLatokenMarketDataService() {
     assertNotNull(marketService);
-  }
-
-  @Test
-  public void testGetTicker() throws IOException {
-    Ticker ticker = marketService.getTicker(CurrencyPair.ETH_BTC);
-    assertNotNull(ticker);
-    System.out.println(ticker.toString());
-
-    // Test bad request
-    exceptionRule.expect(ExchangeException.class);
-    exceptionRule.expectMessage("Pair BLABLA is not found (HTTP status code: 400)");
-    marketService.getTicker(new CurrencyPair("BLA/BLA"));
-  }
-
-  @Test
-  public void testGetTickers() throws IOException {
-    List<Ticker> tickers = marketService.getTickers(null);
-    assertNotNull(tickers);
-    assertTrue(tickers.size() > 0);
   }
 
   @Test

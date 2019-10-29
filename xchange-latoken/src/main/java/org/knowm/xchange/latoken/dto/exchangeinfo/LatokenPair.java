@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -27,11 +28,11 @@ public class LatokenPair {
   private final String symbol;
   private final String baseCurrency;
   private final String counterCurrency;
-  private final double makerFee;
-  private final double takerFee;
+  private final BigDecimal makerFee;
+  private final BigDecimal takerFee;
   private final int pricePrecision;
   private final int amountPrecision;
-  private final double minOrderAmount;
+  private final BigDecimal minOrderAmount;
 
   /**
    * C'tor
@@ -51,11 +52,11 @@ public class LatokenPair {
       @JsonProperty("symbol") String symbol,
       @JsonProperty("baseCurrency") String baseCurrency,
       @JsonProperty("quotedCurrency") String counterCurrency,
-      @JsonProperty("makerFee") double makerFee,
-      @JsonProperty("takerFee") double takerFee,
+      @JsonProperty("makerFee") BigDecimal makerFee,
+      @JsonProperty("takerFee") BigDecimal takerFee,
       @JsonProperty("pricePrecision") int pricePrecision,
       @JsonProperty("amountPrecision") int amountPrecision,
-      @JsonProperty("minQty") double minOrderAmount) {
+      @JsonProperty("minQty") BigDecimal minOrderAmount) {
 
     this.pairId = pairId;
     this.symbol = symbol;
@@ -109,7 +110,7 @@ public class LatokenPair {
    *
    * @return
    */
-  public double getMakerFee() {
+  public BigDecimal getMakerFee() {
     return makerFee;
   }
 
@@ -118,7 +119,7 @@ public class LatokenPair {
    *
    * @return
    */
-  public double getTakerFee() {
+  public BigDecimal getTakerFee() {
     return takerFee;
   }
 
@@ -145,7 +146,7 @@ public class LatokenPair {
    *
    * @return
    */
-  public double getMinOrderAmount() {
+  public BigDecimal getMinOrderAmount() {
     return minOrderAmount;
   }
 

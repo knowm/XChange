@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.latoken.dto.trade.LatokenOrderSide;
 
@@ -21,14 +22,14 @@ import org.knowm.xchange.latoken.dto.trade.LatokenOrderSide;
 public class LatokenTrade {
 
   private final LatokenOrderSide side;
-  private final double price;
-  private final double amount;
+  private final BigDecimal price;
+  private final BigDecimal amount;
   private final Date timestamp;
 
   public LatokenTrade(
       @JsonProperty("side") String side,
-      @JsonProperty("price") double price,
-      @JsonProperty("amount") double amount,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("timestamp") long timestamp) {
 
     this.side = LatokenOrderSide.parse(side);
@@ -51,7 +52,7 @@ public class LatokenTrade {
    *
    * @return
    */
-  public double getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
@@ -60,7 +61,7 @@ public class LatokenTrade {
    *
    * @return
    */
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 

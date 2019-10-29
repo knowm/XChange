@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -24,12 +25,12 @@ public final class LatokenTicker {
 
   private final long pairId;
   private final String symbol;
-  private final double volume;
-  private final double open;
-  private final double low;
-  private final double high;
-  private final double close;
-  private final double priceChange;
+  private final BigDecimal volume;
+  private final BigDecimal open;
+  private final BigDecimal low;
+  private final BigDecimal high;
+  private final BigDecimal close;
+  private final BigDecimal priceChange;
 
   /**
    * C'tor
@@ -46,12 +47,12 @@ public final class LatokenTicker {
   public LatokenTicker(
       @JsonProperty("pairId") long pairId,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("volume") double volume,
-      @JsonProperty("open") double open,
-      @JsonProperty("low") double low,
-      @JsonProperty("high") double high,
-      @JsonProperty("close") double close,
-      @JsonProperty("priceChange") double priceChange) {
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("close") BigDecimal close,
+      @JsonProperty("priceChange") BigDecimal priceChange) {
 
     this.pairId = pairId;
     this.symbol = symbol;
@@ -86,7 +87,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getVolume() {
+  public BigDecimal getVolume() {
     return volume;
   }
 
@@ -95,7 +96,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getOpen() {
+  public BigDecimal getOpen() {
     return open;
   }
 
@@ -104,7 +105,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getLow() {
+  public BigDecimal getLow() {
     return low;
   }
 
@@ -113,7 +114,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getHigh() {
+  public BigDecimal getHigh() {
     return high;
   }
 
@@ -122,7 +123,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getClose() {
+  public BigDecimal getClose() {
     return close;
   }
 
@@ -131,7 +132,7 @@ public final class LatokenTicker {
    *
    * @return
    */
-  public double getPriceChange() {
+  public BigDecimal getPriceChange() {
     return priceChange;
   }
 

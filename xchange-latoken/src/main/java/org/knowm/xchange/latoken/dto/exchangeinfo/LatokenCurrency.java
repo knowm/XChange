@@ -1,6 +1,7 @@
 package org.knowm.xchange.latoken.dto.exchangeinfo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * Response schema:
@@ -25,7 +26,7 @@ public class LatokenCurrency {
   private final String name;
   private final int precision;
   private final String type;
-  private final double fee;
+  private final BigDecimal fee;
 
   /**
    * C'tor
@@ -43,7 +44,7 @@ public class LatokenCurrency {
       @JsonProperty("name") String name,
       @JsonProperty("precission") int precision,
       @JsonProperty("type") String type,
-      @JsonProperty("fee") double fee) {
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.currencyId = currencyId;
     this.symbol = symbol;
@@ -103,7 +104,7 @@ public class LatokenCurrency {
    *
    * @return
    */
-  public double getFee() {
+  public BigDecimal getFee() {
     return fee;
   }
 
