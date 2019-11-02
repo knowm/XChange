@@ -82,7 +82,7 @@ public class ResilienceInterceptor implements Interceptor {
     if (!weightCalculatorsName.equals(Resilience.RateLimiter.FIXED_WEIGHT)) {
       weight = invokeWeightCalculator(weightCalculatorsName, handler, proxy, decoratedMethod, args);
     }
-    return WeighedRateLimiter.decorateCheckedSupplier(rateLimiter, weight, invocation);
+    return RateLimiter.decorateCheckedSupplier(rateLimiter, weight, invocation);
   }
 
   private int invokeWeightCalculator(

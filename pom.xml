@@ -35,7 +35,7 @@
         <version.commons.lang3>3.9</version.commons.lang3>
         <version.fasterxml>2.10.0</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
-        <version.resilience4j>0.17.0</version.resilience4j>
+        <version.resilience4j>1.1.1-SNAPSHOT</version.resilience4j>
         <version.junit>4.12</version.junit>
         <version.lombok>1.18.10</version.lombok>
         <version.knowm.xchart>3.5.4</version.knowm.xchart>
@@ -200,6 +200,14 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <!-- TODO: remove after resilience4j release -->
+            <id>jforge-oss-snapshot-local</id>
+            <url>https://oss.jfrog.org/simple/oss-snapshot-local</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
