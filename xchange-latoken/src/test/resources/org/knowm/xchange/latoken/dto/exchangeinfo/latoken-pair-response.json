@@ -1,0 +1,11 @@
+{
+	"pairId": 502,
+	"symbol": "LAETH",
+	"baseCurrency": "LA",
+	"quotedCurrency": "ETH",
+	"makerFee": 0.01,
+	"takerFee": 0.01,
+	"pricePrecision": 8,
+	"amountPrecision": 8,
+	"minQty": 0.1
+}

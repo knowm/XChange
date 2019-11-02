@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.account;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import org.knowm.xchange.currency.Currency;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>This class is immutable.
  */
+@JsonDeserialize(builder = Balance.Builder.class)
 public final class Balance implements Comparable<Balance>, Serializable {
 
   private static final long serialVersionUID = -1460694403597268635L;
@@ -401,6 +404,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
     return comparison;
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
     private Currency currency;

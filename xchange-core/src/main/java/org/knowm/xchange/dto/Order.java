@@ -1,13 +1,25 @@
 package org.knowm.xchange.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.StopOrder;
 
 /** Data object representing an order */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "trigger")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = LimitOrder.class, name = "limit"),
+  @JsonSubTypes.Type(value = StopOrder.class, name = "stop"),
+  @JsonSubTypes.Type(value = MarketOrder.class, name = "market")
+})
 public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
@@ -23,7 +35,7 @@ public abstract class Order implements Serializable {
   /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
   /** Any applicable order flags */
-  private final Set<IOrderFlags> flags = new HashSet<>();
+  private final Set<IOrderFlags> orderFlags = new HashSet<>();
   /** Status of order during it lifecycle */
   private OrderStatus status;
   /** Amount to be ordered / amount that has been matched against order on the order book/filled */
@@ -187,25 +199,25 @@ public abstract class Order implements Serializable {
 
   public Set<IOrderFlags> getOrderFlags() {
 
-    return flags;
+    return orderFlags;
   }
 
   public void setOrderFlags(Set<IOrderFlags> flags) {
 
-    this.flags.clear();
+    this.orderFlags.clear();
     if (flags != null) {
-      this.flags.addAll(flags);
+      this.orderFlags.addAll(flags);
     }
   }
 
   public boolean hasFlag(IOrderFlags flag) {
 
-    return flags.contains(flag);
+    return orderFlags.contains(flag);
   }
 
   public void addOrderFlag(IOrderFlags flag) {
 
-    flags.add(flag);
+    orderFlags.add(flag);
   }
 
   public void setOrderStatus(OrderStatus status) {
@@ -243,7 +255,7 @@ public abstract class Order implements Serializable {
         + ", status="
         + status
         + ", flags="
-        + flags
+        + orderFlags
         + "]";
   }
 
@@ -386,6 +398,7 @@ public abstract class Order implements Serializable {
     }
   }
 
+  @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.WRAPPER_OBJECT)
   public interface IOrderFlags {}
 
   public abstract static class Builder {
@@ -408,12 +421,14 @@ public abstract class Order implements Serializable {
       this.currencyPair = currencyPair;
     }
 
+    @JsonProperty("type")
     public Builder orderType(OrderType orderType) {
 
       this.orderType = orderType;
       return this;
     }
 
+    @JsonProperty("status")
     public Builder orderStatus(OrderStatus status) {
 
       this.status = status;
@@ -468,6 +483,7 @@ public abstract class Order implements Serializable {
       return this;
     }
 
+    @JsonProperty("orderFlags")
     public Builder flags(Set<IOrderFlags> flags) {
 
       this.flags.addAll(flags);

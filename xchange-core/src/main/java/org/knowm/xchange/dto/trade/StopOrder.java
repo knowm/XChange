@@ -1,5 +1,9 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +17,7 @@ import org.knowm.xchange.dto.Order;
  * exchange as a {@link MarketOrder} unless a limit price is also set. There is no guarantee that
  * your conditions will be met on the exchange, so your order may not be executed.
  */
+@JsonDeserialize(builder = StopOrder.Builder.class)
 public class StopOrder extends Order implements Comparable<StopOrder> {
 
   private static final long serialVersionUID = -7341286101341375106L;
@@ -268,13 +273,17 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return super.equals(obj);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
     protected BigDecimal stopPrice;
 
     protected BigDecimal limitPrice;
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -383,6 +392,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    @Override
     public StopOrder build() {
 
       StopOrder order =

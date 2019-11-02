@@ -1,5 +1,9 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -14,6 +18,7 @@ import org.knowm.xchange.dto.Order;
  * therefore used when certainty of execution is a priority over price of execution. <strong>Use
  * market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
  */
+@JsonDeserialize(builder = MarketOrder.Builder.class)
 public class MarketOrder extends Order {
 
   private static final long serialVersionUID = -3393286268772319210L;
@@ -91,9 +96,13 @@ public class MarketOrder extends Order {
     super(type, originalAmount, currencyPair, "", null);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -177,6 +186,7 @@ public class MarketOrder extends Order {
       return (Builder) super.flag(flag);
     }
 
+    @Override
     public MarketOrder build() {
 
       MarketOrder order =

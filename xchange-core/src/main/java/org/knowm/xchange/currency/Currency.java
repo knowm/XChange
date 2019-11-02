@@ -1,5 +1,7 @@
 package org.knowm.xchange.currency;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -303,6 +305,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency MOD = createCurrency("MOD", "Modum", null);
 
   private final String code;
+
   private final CurrencyAttributes attributes;
 
   /** Public constructor. Links to an existing currency. */
@@ -331,6 +334,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   /** Returns a Currency instance for the given currency code. */
+  @JsonCreator
   public static Currency getInstance(String currencyCode) {
 
     Currency currency = getInstanceNoCreate(currencyCode.toUpperCase());
@@ -381,6 +385,7 @@ public class Currency implements Comparable<Currency>, Serializable {
   }
 
   /** Gets the currency code originally used to acquire this object. */
+  @JsonValue
   public String getCurrencyCode() {
 
     return code;
