@@ -30,7 +30,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <version.java>1.8</version.java>
-        <version.assertj>3.13.2</version.assertj>
+        <version.assertj>3.14.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.9</version.commons.lang3>
         <version.fasterxml>2.10.0</version.fasterxml>
@@ -38,11 +38,11 @@
         <version.resilience4j>1.1.1-SNAPSHOT</version.resilience4j>
         <version.junit>4.12</version.junit>
         <version.lombok>1.18.10</version.lombok>
-        <version.knowm.xchart>3.5.4</version.knowm.xchart>
-        <version.powermock>2.0.2</version.powermock>
+        <version.knowm.xchart>3.6.0</version.knowm.xchart>
+        <version.powermock>2.0.4</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.7.28</version.slf4j>
+        <version.slf4j>1.7.29</version.slf4j>
         <version.crypto>4.5.5</version.crypto>
         <version.java-jwt>3.8.3</version.java-jwt>
 
@@ -168,6 +168,7 @@
         <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
         <module>xchange-lgo</module>
+        <module>xchange-latoken</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
         <module>xchange-luno</module>
@@ -304,7 +305,7 @@
             <dependency>
                 <groupId>com.github.tomakehurst</groupId>
                 <artifactId>wiremock</artifactId>
-                <version>2.25.0</version>
+                <version>2.25.1</version>
                 <scope>test</scope>
             </dependency>
 

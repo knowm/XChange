@@ -1,5 +1,9 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -14,6 +18,7 @@ import org.knowm.xchange.dto.Order;
  * exchange, so your order may not be executed. However, until you become very experienced, almost
  * all orders should be limit orders to protect yourself.
  */
+@JsonDeserialize(builder = LimitOrder.Builder.class)
 public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   private static final long serialVersionUID = -5166848178471347540L;
@@ -175,11 +180,15 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     return super.equals(obj);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
     protected BigDecimal limitPrice;
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -221,6 +230,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return (Builder) super.cumulativeAmount(originalAmount);
     }
 
+    @Override
     public Builder remainingAmount(BigDecimal remainingAmount) {
 
       return (Builder) super.remainingAmount(remainingAmount);
@@ -279,6 +289,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return this;
     }
 
+    @Override
     public LimitOrder build() {
 
       LimitOrder order =
