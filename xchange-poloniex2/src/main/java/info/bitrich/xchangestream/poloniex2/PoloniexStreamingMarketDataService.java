@@ -2,14 +2,7 @@ package info.bitrich.xchangestream.poloniex2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.poloniex2.dto.OrderbookInsertEvent;
-import info.bitrich.xchangestream.poloniex2.dto.OrderbookModifiedEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexOrderbook;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookInsertEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTickerTransaction;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketTradeEvent;
+import info.bitrich.xchangestream.poloniex2.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -20,13 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.SortedMap;
+import java.util.*;
 
 import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexDepth;
-import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexPublicTrade;
 import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexTicker;
 
 /**
@@ -90,12 +79,26 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                 .share();
 
         return subscribedTrades
-                .map(s -> adaptPoloniexPublicTrade(s.toPoloniexPublicTrade(currencyPair), currencyPair));
+                .map(s -> adaptPoloniexPublicTrade(s, currencyPair));
     }
 
-    private Optional<PoloniexOrderbook> getPoloniexOrderbook(
-            final Optional<PoloniexOrderbook> orderbook, final PoloniexWebSocketEvent s
-    ) {
+    private static Trade adaptPoloniexPublicTrade(
+            PoloniexWebSocketTradeEvent poloniexTradeEvent, CurrencyPair currencyPair) {
+        TradeEvent tradeEvent = poloniexTradeEvent.getTradeEvent();
+        Date timestamp = new Date(tradeEvent.getTimestampSeconds() * 1000);
+        Trade trade =
+                new Trade(
+                        tradeEvent.getType(),
+                        tradeEvent.getSize(),
+                        currencyPair,
+                        tradeEvent.getPrice(),
+                        timestamp,
+                        tradeEvent.getTradeId());
+        return trade;
+    }
+
+    private Optional<PoloniexOrderbook> getPoloniexOrderbook(final Optional<PoloniexOrderbook> orderbook,
+                                                             final PoloniexWebSocketEvent s) {
         if (s.getEventType().equals("i")) {
             OrderbookInsertEvent insertEvent = ((PoloniexWebSocketOrderbookInsertEvent) s).getInsert();
             SortedMap<BigDecimal, BigDecimal> asks = insertEvent.toDepthLevels(OrderbookInsertEvent.ASK_SIDE);

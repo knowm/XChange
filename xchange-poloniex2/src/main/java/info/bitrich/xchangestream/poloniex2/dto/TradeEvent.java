@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.poloniex2.dto;
 
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+import org.knowm.xchange.dto.Order;
 
 import java.math.BigDecimal;
 
@@ -9,48 +9,36 @@ import java.math.BigDecimal;
  */
 public class TradeEvent {
     private String tradeId;
-    private String type;
-    private BigDecimal rate;
-    private BigDecimal amount;
-    private String date;
+    private Order.OrderType type;
+    private BigDecimal price;
+    private BigDecimal size;
+    private int timestampSeconds;
 
-    public TradeEvent(String tradeId, String type, BigDecimal rate, BigDecimal amount, String date) {
+    public TradeEvent(String tradeId, Order.OrderType type, BigDecimal price, BigDecimal size, int timestampSeconds) {
         this.tradeId = tradeId;
         this.type = type;
-        this.rate = rate;
-        this.amount = amount;
-        this.date = date;
+        this.price = price;
+        this.size = size;
+        this.timestampSeconds = timestampSeconds;
     }
 
     public String getTradeId() {
         return tradeId;
     }
 
-    public String getType() {
+    public Order.OrderType getType() {
         return type;
     }
 
-    public BigDecimal getRate() {
-        return rate;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getSize() {
+        return size;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public PoloniexPublicTrade toPoloniexPublicTrade() {
-        PoloniexPublicTrade poloniexPublicTrade = new PoloniexPublicTrade();
-        poloniexPublicTrade.setTradeID(tradeId);
-        poloniexPublicTrade.setType(type);
-        poloniexPublicTrade.setRate(rate);
-        poloniexPublicTrade.setAmount(amount);
-        BigDecimal total = rate.multiply(amount);
-        poloniexPublicTrade.setTotal(total);
-        poloniexPublicTrade.setDate(date);
-        return poloniexPublicTrade;
+    public int getTimestampSeconds() {
+        return timestampSeconds;
     }
 }
