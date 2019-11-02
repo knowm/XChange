@@ -1,13 +1,11 @@
 package info.bitrich.xchangestream.poloniex2;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransaction;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -106,7 +104,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+    protected String getChannelNameFromMessage(JsonNode message) {
         String strChannelId = message.get(0).asText();
         Integer channelId = new Integer(strChannelId);
         if (channelId >= 1000) return strChannelId;
@@ -117,8 +115,6 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         PoloniexWebSocketSubscriptionMessage subscribeMessage = new PoloniexWebSocketSubscriptionMessage("subscribe",
                 channelName);
-
-        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
@@ -126,8 +122,6 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     public String getUnsubscribeMessage(String channelName) throws IOException {
         PoloniexWebSocketSubscriptionMessage subscribeMessage = new PoloniexWebSocketSubscriptionMessage("unsubscribe",
                 channelName);
-
-        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         return objectMapper.writeValueAsString(subscribeMessage);
     }
 
