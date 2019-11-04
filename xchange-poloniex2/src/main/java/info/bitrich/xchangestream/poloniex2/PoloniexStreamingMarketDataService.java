@@ -79,22 +79,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                 .share();
 
         return subscribedTrades
-                .map(s -> adaptPoloniexPublicTrade(s, currencyPair));
-    }
-
-    private static Trade adaptPoloniexPublicTrade(
-            PoloniexWebSocketTradeEvent poloniexTradeEvent, CurrencyPair currencyPair) {
-        TradeEvent tradeEvent = poloniexTradeEvent.getTradeEvent();
-        Date timestamp = new Date(tradeEvent.getTimestampSeconds() * 1000);
-        Trade trade =
-                new Trade(
-                        tradeEvent.getType(),
-                        tradeEvent.getSize(),
-                        currencyPair,
-                        tradeEvent.getPrice(),
-                        timestamp,
-                        tradeEvent.getTradeId());
-        return trade;
+                .map(s -> PoloniexWebSocketAdapter.convertPoloniexWebSocketTradeEventToTrade(s, currencyPair));
     }
 
     private Optional<PoloniexOrderbook> getPoloniexOrderbook(final Optional<PoloniexOrderbook> orderbook,
