@@ -82,6 +82,7 @@ public class PoloniexWebSocketEventsTransaction {
                     events.add(insertEvent);
                     break;
                 }
+                default: //Ignore
             }
         }
 
