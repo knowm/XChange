@@ -39,17 +39,15 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     @Override
     public OrderBook apply(CexioWebSocketOrderBookSubscribeResponse t) throws Exception {
       OrderBook retVal;
-      if (prevID == null || prevID.add(BigInteger.ONE).compareTo(t.id) == 0) {
-        prevID = t.id;
-        orderBookSoFar = CexioAdapters.adaptOrderBookIncremental(orderBookSoFar, t);
-        retVal = orderBookSoFar;
-      } else {
-        streamingOrderDataService.resubscribeChannels();
-        retVal = orderBookSoFar;
+      if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
         orderBookSoFar =
             new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
-        prevID = null;
       }
+
+      prevID = t.id;
+      orderBookSoFar = CexioAdapters.adaptOrderBookIncremental(orderBookSoFar, t);
+      retVal = orderBookSoFar;
+
       return retVal;
     }
   }
