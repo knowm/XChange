@@ -1,10 +1,10 @@
 package info.bitrich.xchangestream.poloniex2;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransaction;
+import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,13 +80,29 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         return subscriptions.get(channelName);
     }
 
-    public Observable<PoloniexWebSocketEvent> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
+    public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(CurrencyPair currencyPair) {
         String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
         return subscribeChannel(channelName)
-                .flatMapIterable(s -> {
-                    PoloniexWebSocketEventsTransaction transaction = objectMapper.treeToValue(s, PoloniexWebSocketEventsTransaction.class);
-                    return Arrays.asList(transaction.getEvents());
-                }).share();
+                .map(jsonNode -> objectMapper.treeToValue(jsonNode, PoloniexWebSocketEventsTransaction.class))
+                .scan((poloniexWebSocketEventsTransactionOld, poloniexWebSocketEventsTransactionNew) -> {
+                    final boolean initialSnapshot = poloniexWebSocketEventsTransactionNew.getEvents()
+                            .stream().anyMatch(PoloniexWebSocketOrderbookModifiedEvent.class::isInstance);
+                    final boolean sequenceContinuous = poloniexWebSocketEventsTransactionOld.getSeqId() + 1
+                            == poloniexWebSocketEventsTransactionNew.getSeqId();
+                    if (!initialSnapshot || sequenceContinuous) {
+                        return poloniexWebSocketEventsTransactionNew;
+                    } else {
+                        throw new RuntimeException(
+                                String.format(
+                                        "Invalid sequencing, old: %s new: %s",
+                                        objectMapper.writeValueAsString(poloniexWebSocketEventsTransactionOld),
+                                        objectMapper.writeValueAsString(poloniexWebSocketEventsTransactionNew)
+                                )
+                        );
+                    }
+                })
+                .map(PoloniexWebSocketEventsTransaction::getEvents)
+                .share();
     }
 
     @Override
