@@ -46,7 +46,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
             Integer channelId = new Integer(message.get(0).toString());
             if (channelId > 0 && channelId < 1000) {
                 JsonNode events = message.get(2);
-                if (events.isArray()) {
+                if (events != null && events.isArray()) {
                     JsonNode event = events.get(0);
                     if (event.get(0).toString().equals("\"i\"")) {
                         if (event.get(1).has("orderBook")) {
