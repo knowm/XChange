@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.reactivex.Observable;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 public class LgoStreamingAccountServiceTest {
@@ -28,17 +28,19 @@ public class LgoStreamingAccountServiceTest {
 
         verify(streamingService).subscribeChannel("balance");
         assertThat(wallet.blockingFirst()).usingRecursiveComparison().isEqualTo(
-                new Wallet(
-                        new Balance(Currency.BTC, new BigDecimal("2301.01329566"), new BigDecimal("2297.01329566"), new BigDecimal("4.00000000")),
-                        new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000"))
-                )
+                buildWallet(new Balance(Currency.BTC, new BigDecimal("2301.01329566"), new BigDecimal("2297.01329566"), new BigDecimal("4.00000000")),
+                        new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000")))
         );
         assertThat(wallet.blockingLast()).usingRecursiveComparison().isEqualTo(
-                new Wallet(
+                buildWallet(
                         new Balance(Currency.BTC, new BigDecimal("2299.01329566"), new BigDecimal("2295.01329566"), new BigDecimal("4.00000000")),
                         new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000"))
                 )
         );
+    }
+
+    private Wallet buildWallet(Balance... balances) {
+        return Wallet.Builder.from(Arrays.asList(balances)).build();
     }
 
     @Test

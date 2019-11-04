@@ -6,11 +6,9 @@ import info.bitrich.xchangestream.lgo.dto.LgoBalanceUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LgoStreamingAccountService implements StreamingAccountService {
 
@@ -44,7 +42,9 @@ public class LgoStreamingAccountService implements StreamingAccountService {
                         wallet.clear();
                     }
                     LgoAdapter.adaptBalances(s.getData()).forEach(balance -> wallet.put(balance.getCurrency(), balance));
-                    return new Wallet(wallet.values());
+                    Collection<Balance> values = wallet.values();
+                    return Wallet.Builder.from(values)
+                            .build();
                 });
     }
 }
