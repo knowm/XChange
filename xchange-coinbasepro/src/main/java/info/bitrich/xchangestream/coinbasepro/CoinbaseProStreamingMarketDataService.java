@@ -1,17 +1,15 @@
 package info.bitrich.xchangestream.coinbasepro;
 
-import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptOrderBook;
 import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTicker;
 import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTrades;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,8 +17,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -38,8 +34,8 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
 
     private final CoinbaseProStreamingService service;
 
-    private final Map<CurrencyPair, SortedMap<BigDecimal, String>> bids = new HashMap<>();
-    private final Map<CurrencyPair, SortedMap<BigDecimal, String>> asks = new HashMap<>();
+    private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> bids = new ConcurrentHashMap<>();
+    private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> asks = new ConcurrentHashMap<>();
 
     CoinbaseProStreamingMarketDataService(CoinbaseProStreamingService service) {
         this.service = service;
@@ -59,7 +55,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         if (!containsPair(service.getProduct().getOrderBook(), currencyPair))
             throw new UnsupportedOperationException(String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
-        final int maxDepth = (args.length > 0 && args[0] instanceof Integer) ? (int) args[0] : 100;
+        final int maxDepth = (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
         return getRawWebSocketTransactions(currencyPair, false)
                 .filter(message -> message.getType().equals(SNAPSHOT) || message.getType().equals(L2UPDATE))
                 .map(s -> {
@@ -67,8 +63,11 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
                         bids.put(currencyPair, new TreeMap<>(java.util.Collections.reverseOrder()));
                         asks.put(currencyPair, new TreeMap<>());
                     }
-                    CoinbaseProProductBook productBook = s.toCoinbaseProProductBook(bids.get(currencyPair), asks.get(currencyPair), maxDepth);
-                    return adaptOrderBook(productBook, currencyPair);
+                    return s.toOrderBook(
+                        bids.get(currencyPair),
+                        asks.get(currencyPair),
+                        maxDepth,
+                        currencyPair);
                 });
     }
 
