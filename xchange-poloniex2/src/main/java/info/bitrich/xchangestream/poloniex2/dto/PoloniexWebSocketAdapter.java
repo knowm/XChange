@@ -17,13 +17,14 @@ public class PoloniexWebSocketAdapter {
         TradeEvent tradeEvent = poloniexTradeEvent.getTradeEvent();
         Date timestamp = new Date(tradeEvent.getTimestampSeconds() * 1000);
         Trade trade =
-                new Trade(
-                        tradeEvent.getType(),
-                        tradeEvent.getSize(),
-                        currencyPair,
-                        tradeEvent.getPrice(),
-                        timestamp,
-                        tradeEvent.getTradeId());
+                new Trade.Builder()
+                        .type(tradeEvent.getType())
+                        .price(tradeEvent.getPrice())
+                        .originalAmount(tradeEvent.getSize())
+                        .currencyPair(currencyPair)
+                        .id(tradeEvent.getTradeId())
+                        .timestamp(timestamp)
+                        .build();
         return trade;
     }
 }
