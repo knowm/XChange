@@ -25,7 +25,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 /** @author odrotleff */
 public class BiboxTradeServiceRaw extends BiboxBaseService {
 
-  protected BiboxTradeServiceRaw(Exchange exchange) {
+  public BiboxTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
@@ -83,10 +83,14 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   }
 
   public BiboxOrders getBiboxOpenOrders() {
+    return getBiboxOpenOrders(null);
+  }
+
+  public BiboxOrders getBiboxOpenOrders(Integer page) {
     try {
       BiboxOrderPendingListCommandBody body =
           new BiboxOrderPendingListCommandBody(
-              1, Integer.MAX_VALUE); // wonder if this actually works
+              page == null ? 1 : page, Integer.MAX_VALUE); // wonder if this actually works
       BiboxOrderPendingListCommand cmd = new BiboxOrderPendingListCommand(body);
       BiboxSingleResponse<BiboxOrders> response =
           bibox.orderPendingList(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
