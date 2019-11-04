@@ -1,6 +1,5 @@
 package org.knowm.xchange.bibox.service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
@@ -74,7 +73,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
 
   public void cancelBiboxOrder(String orderId) {
     try {
-      BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(new BigInteger(orderId));
+      BiboxCancelTradeCommand cmd = new BiboxCancelTradeCommand(orderId);
       BiboxSingleResponse<String> response =
           bibox.cancelTrade(BiboxCommands.of(cmd).json(), apiKey, signatureCreator);
       throwErrors(response);
@@ -116,10 +115,7 @@ public class BiboxTradeServiceRaw extends BiboxBaseService {
   public void cancelBiboxOrders(List<String> orderIds) {
     try {
       List<BiboxCommand<?>> cmds =
-          orderIds.stream()
-              .map(BigInteger::new)
-              .map(BiboxCancelTradeCommand::new)
-              .collect(Collectors.toList());
+          orderIds.stream().map(BiboxCancelTradeCommand::new).collect(Collectors.toList());
       BiboxMultipleResponses<String> response =
           bibox.cancelTrades(BiboxCommands.of(cmds).json(), apiKey, signatureCreator);
       throwErrors(response);
