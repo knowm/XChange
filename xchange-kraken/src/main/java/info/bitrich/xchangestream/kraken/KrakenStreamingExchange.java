@@ -7,6 +7,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -22,6 +23,8 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
     private final KrakenStreamingService streamingService;
     private KrakenStreamingMarketDataService streamingMarketDataService;
+    
+    private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
     public KrakenStreamingExchange() {
         this.streamingService = new KrakenStreamingService(API_URI);
@@ -50,7 +53,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
     @Override
     public SynchronizedValueFactory<Long> getNonceFactory() {
-        return null;
+        return nonceFactory;
     }
 
     @Override
