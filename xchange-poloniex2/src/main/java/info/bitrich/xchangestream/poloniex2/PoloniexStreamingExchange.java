@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.poloniex2;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -11,7 +10,6 @@ import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 
 import java.io.IOException;
@@ -36,6 +34,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
     @Override
     protected void initServices() {
+        applyStreamingSpecification(getExchangeSpecification(), streamingService);
         super.initServices();
         Map<CurrencyPair, Integer> currencyPairMap = getCurrencyPairMap();
         streamingMarketDataService = new PoloniexStreamingMarketDataService(streamingService, currencyPairMap);
