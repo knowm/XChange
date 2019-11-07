@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -89,6 +90,11 @@ public class LimitOrderTest {
 
   @Test
   public void testSerializeDeserialize() throws IOException {
+
+    // This deliberately doesn't use FAIL_ON_UNKNOWN_PROPERTIES so that
+    // we ensure serialization/deserialization is symmetrical.
+    ObjectMapper objectMapper = new ObjectMapper();
+
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal averagePrice = new BigDecimal("255.00");

@@ -412,6 +412,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               status);
 
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }

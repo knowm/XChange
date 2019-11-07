@@ -201,6 +201,7 @@ public class MarketOrder extends Order {
               fee,
               status);
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }

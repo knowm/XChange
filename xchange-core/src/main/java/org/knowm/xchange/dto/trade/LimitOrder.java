@@ -307,6 +307,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               fee,
               status);
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }
