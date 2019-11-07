@@ -465,6 +465,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               userReference);
 
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }

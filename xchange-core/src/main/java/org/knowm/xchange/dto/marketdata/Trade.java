@@ -164,6 +164,8 @@ public class Trade implements Serializable {
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
+    protected String makerOrderId;
+    protected String takerOrderId;
 
     public static Builder from(Trade trade) {
       return new Builder()
@@ -211,9 +213,24 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder makerOrderId(String makerOrderId) {
+
+      this.makerOrderId = makerOrderId;
+      return this;
+    }
+
+    public Builder takerOrderId(String takerOrderId) {
+
+      this.takerOrderId = takerOrderId;
+      return this;
+    }
+
     public Trade build() {
 
-      return new Trade(type, originalAmount, currencyPair, price, timestamp, id);
+      Trade trade = new Trade(type, originalAmount, currencyPair, price, timestamp, id);
+      trade.setMakerOrderId(makerOrderId);
+      trade.setTakerOrderId(takerOrderId);
+      return trade;
     }
   }
 }
