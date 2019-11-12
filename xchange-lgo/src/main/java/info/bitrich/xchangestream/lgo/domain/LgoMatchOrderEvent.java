@@ -111,8 +111,8 @@ public class LgoMatchOrderEvent extends LgoBatchOrderEvent {
     }
 
     @Override
-    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
-        Order matchedOrder = allOrders.get(currencyPair).get(getOrderId());
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<String, Order> allOrders) {
+        Order matchedOrder = allOrders.get(getOrderId());
         matchedOrder.setOrderStatus(Order.OrderStatus.PARTIALLY_FILLED);
         matchedOrder.setCumulativeAmount(matchedOrder.getOriginalAmount().subtract(remainingQuantity));
         BigDecimal fee = matchedOrder.getFee() == null ? fees : matchedOrder.getFee().add(fees);

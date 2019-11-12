@@ -3,10 +3,13 @@ package info.bitrich.xchangestream.lgo;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.lgo.dto.LgoSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
 
 import java.io.IOException;
+import java.time.Duration;
 
 import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
@@ -15,10 +18,15 @@ public class LgoStreamingService extends JsonNettyStreamingService {
     private final LgoSignatureService signatureService;
     private final String apiUrl;
 
-    public LgoStreamingService(LgoSignatureService signatureService, String apiUrl) {
-        super(apiUrl, Integer.MAX_VALUE);
+    LgoStreamingService(LgoSignatureService signatureService, String apiUrl) {
+        super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(10), Duration.ofSeconds(15), 1);
         this.apiUrl = apiUrl;
         this.signatureService = signatureService;
+    }
+
+    @Override
+    protected void handleIdle(ChannelHandlerContext ctx) {
+        ctx.writeAndFlush(new PingWebSocketFrame());
     }
 
     @Override

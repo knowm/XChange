@@ -31,5 +31,5 @@ public abstract class LgoBatchOrderEvent extends LgoOrderEvent {
         this.batchId = batchId;
     }
 
-    public abstract Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders);
+    public abstract Order applyOnOrders(CurrencyPair currencyPair, Map<String, Order> allOrders);
 }

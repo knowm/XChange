@@ -71,8 +71,8 @@ public class LgoStreamingTradeServiceTest {
         order2.setOrderStatus(Order.OrderStatus.NEW);
         LimitOrder order3 = new LimitOrder(Order.OrderType.BID, new BigDecimal(2), BigDecimal.ZERO, CurrencyPair.BTC_USD, "156395743911600001", date3, new BigDecimal(8000));
         order3.setOrderStatus(Order.OrderStatus.NEW);
-        assertThat(openOrders.blockingFirst()).usingRecursiveComparison().isEqualTo(new OpenOrders(Arrays.asList(order1, order2)));
-        assertThat(openOrders.blockingLast()).usingRecursiveComparison().isEqualTo(new OpenOrders(Arrays.asList(order1, order3)));
+        assertThat(openOrders.blockingFirst()).usingRecursiveComparison().isEqualTo(new OpenOrders(Arrays.asList(order2, order1)));
+        assertThat(openOrders.blockingLast()).usingRecursiveComparison().isEqualTo(new OpenOrders(Arrays.asList(order3, order1)));
     }
 
     @Test
@@ -223,7 +223,7 @@ public class LgoStreamingTradeServiceTest {
         assertThat(ref).isEqualTo("22");
     }
 
-    static String parsePublicKey(String key) {
+    private static String parsePublicKey(String key) {
         return key.replaceAll("-----END PUBLIC KEY-----", "")
                 .replaceAll("-----BEGIN PUBLIC KEY-----", "")
                 .replaceAll("\n", "")

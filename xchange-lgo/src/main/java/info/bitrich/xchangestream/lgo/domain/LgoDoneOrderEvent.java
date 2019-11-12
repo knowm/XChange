@@ -50,8 +50,8 @@ public class LgoDoneOrderEvent extends LgoBatchOrderEvent {
     }
 
     @Override
-    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
-        Order doneOrder = allOrders.get(currencyPair).remove(getOrderId());
+    public Order applyOnOrders(CurrencyPair currencyPair,  Map<String, Order> allOrders) {
+        Order doneOrder = allOrders.remove(getOrderId());
         if ("canceledBySelfTradePrevention".equals(reason) || "canceled".equals(reason)) {
             doneOrder.setOrderStatus(doneOrder.getStatus() == Order.OrderStatus.PARTIALLY_FILLED ? Order.OrderStatus.PARTIALLY_CANCELED : Order.OrderStatus.CANCELED);
         } else if ("filled".equals(reason)) {

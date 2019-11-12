@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.lgo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
@@ -10,33 +11,63 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 public class LgoStreamingAccountServiceTest {
 
     @Test
-    public void it_handles_balances() throws IOException {
+    public void it_gives_initial_wallet_snapshot() throws IOException {
+        JsonNode snapshot = TestUtils.getJsonContent("/account/balance-snapshot.json");
+        LgoStreamingService streamingService = mock(LgoStreamingService.class);
+        LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
+        Observable<JsonNode> source = Observable.just(snapshot);
+        when(streamingService.subscribeChannel(anyString())).thenReturn(source);
+
+        TestObserver<Wallet> wallet = service.getWallet().test();
+
+        verify(streamingService).subscribeChannel("balance");
+        wallet.assertSubscribed();
+        wallet.assertValueCount(1);
+        wallet.values().contains(
+                buildWallet(
+                        new Balance(
+                                Currency.BTC,
+                                new BigDecimal("2301.01329566"),
+                                new BigDecimal("2297.01329566"),
+                                new BigDecimal("4.00000000")),
+                        new Balance(
+                                Currency.USD,
+                                new BigDecimal("453616.3125"),
+                                new BigDecimal("453616.3125"),
+                                new BigDecimal("0.0000"))));
+    }
+
+    @Test
+    public void it_handles_update() throws IOException {
         JsonNode snapshot = TestUtils.getJsonContent("/account/balance-snapshot.json");
         JsonNode update = TestUtils.getJsonContent("/account/balance-update.json");
         LgoStreamingService streamingService = mock(LgoStreamingService.class);
         LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
-        when(streamingService.subscribeChannel(anyString())).thenReturn(Observable.just(snapshot, update));
+        Observable<JsonNode> source = Observable.just(snapshot, update);
+        when(streamingService.subscribeChannel(anyString())).thenReturn(source);
 
-        Observable<Wallet> wallet = service.getWallet();
+        service.getWallet().subscribe();
 
-        verify(streamingService).subscribeChannel("balance");
-        assertThat(wallet.blockingFirst()).usingRecursiveComparison().isEqualTo(
-                buildWallet(new Balance(Currency.BTC, new BigDecimal("2301.01329566"), new BigDecimal("2297.01329566"), new BigDecimal("4.00000000")),
-                        new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000")))
-        );
-        assertThat(wallet.blockingLast()).usingRecursiveComparison().isEqualTo(
+        TestObserver<Wallet> wallet = service.getWallet().test();
+        wallet.assertValueAt(1,
                 buildWallet(
-                        new Balance(Currency.BTC, new BigDecimal("2299.01329566"), new BigDecimal("2295.01329566"), new BigDecimal("4.00000000")),
-                        new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000"))
-                )
-        );
+                        new Balance(
+                                Currency.BTC,
+                                new BigDecimal("2299.01329566"),
+                                new BigDecimal("2295.01329566"),
+                                new BigDecimal("4.00000000")),
+                        new Balance(
+                                Currency.USD,
+                                new BigDecimal("453616.3125"),
+                                new BigDecimal("453616.3125"),
+                                new BigDecimal("0.0000"))));
+        verify(streamingService).subscribeChannel("balance");
     }
 
     private Wallet buildWallet(Balance... balances) {
@@ -49,23 +80,24 @@ public class LgoStreamingAccountServiceTest {
         JsonNode update = TestUtils.getJsonContent("/account/balance-update.json");
         LgoStreamingService streamingService = mock(LgoStreamingService.class);
         LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
-        when(streamingService.subscribeChannel(anyString())).thenReturn(Observable.just(snapshot, update));
+        when(streamingService.subscribeChannel(anyString()))
+                .thenReturn(Observable.just(snapshot, update));
 
-        Observable<Balance> btcChanges = service.getBalanceChanges(Currency.BTC);
-        Observable<Balance> usdChanges = service.getBalanceChanges(Currency.USD);
+        TestObserver<Balance> btcChanges = service.getBalanceChanges(Currency.BTC).test();
+        TestObserver<Balance> usdChanges = service.getBalanceChanges(Currency.USD).test();
 
         verify(streamingService, times(1)).subscribeChannel("balance");
-        assertThat(btcChanges.blockingFirst()).usingRecursiveComparison().isEqualTo(
-                new Balance(Currency.BTC, new BigDecimal("2301.01329566"), new BigDecimal("2297.01329566"), new BigDecimal("4.00000000"))
-        );
-        assertThat(btcChanges.blockingLast()).usingRecursiveComparison().isEqualTo(
-                new Balance(Currency.BTC, new BigDecimal("2299.01329566"), new BigDecimal("2295.01329566"), new BigDecimal("4.00000000"))
-        );
-        assertThat(usdChanges.blockingFirst()).usingRecursiveComparison().isEqualTo(
-                new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000"))
-        );
-        assertThat(usdChanges.blockingLast()).usingRecursiveComparison().isEqualTo(
-                new Balance(Currency.USD, new BigDecimal("453616.3125"), new BigDecimal("453616.3125"), new BigDecimal("0.0000"))
-        );
+        btcChanges.assertValueAt(1,
+                new Balance(
+                        Currency.BTC,
+                        new BigDecimal("2299.01329566"),
+                        new BigDecimal("2295.01329566"),
+                        new BigDecimal("4.00000000")));
+        usdChanges.assertValueAt(1,
+                new Balance(
+                        Currency.USD,
+                        new BigDecimal("453616.3125"),
+                        new BigDecimal("453616.3125"),
+                        new BigDecimal("0.0000")));
     }
 }
