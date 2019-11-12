@@ -3,34 +3,23 @@ package info.bitrich.xchangestream.lgo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
-import info.bitrich.xchangestream.lgo.domain.LgoMatchOrderEvent;
-import info.bitrich.xchangestream.lgo.domain.LgoOrderEvent;
+import info.bitrich.xchangestream.lgo.domain.*;
 import info.bitrich.xchangestream.lgo.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
-import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
-import org.knowm.xchange.lgo.dto.order.LgoOrderSignature;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceCancelOrder;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
-import org.knowm.xchange.lgo.service.CryptoUtils;
-import org.knowm.xchange.lgo.service.LgoKeyService;
-import org.knowm.xchange.lgo.service.LgoSignatureService;
+import org.knowm.xchange.lgo.dto.order.*;
+import org.knowm.xchange.lgo.service.*;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toMap;
 
 public class LgoStreamingTradeService implements StreamingTradeService {
 
@@ -38,11 +27,10 @@ public class LgoStreamingTradeService implements StreamingTradeService {
     private final LgoKeyService keyService;
     private final LgoSignatureService signatureService;
     private final SynchronizedValueFactory<Long> nonceFactory;
-    private final Map<CurrencyPair, Map<String, Order>> allOrders = new HashMap<>();
-    private final Map<CurrencyPair, Observable<LgoBatchUpdate>> orderBatchChangesSubscriptions = new HashMap<>();
+    private final Map<CurrencyPair, LgoUserBatchSubscription> batchSubscriptions = new ConcurrentHashMap<>();
     private Observable<LgoOrderEvent> afrSubscription;
 
-    public LgoStreamingTradeService(LgoStreamingService streamingService, LgoKeyService keyService, LgoSignatureService signatureService, SynchronizedValueFactory<Long> nonceFactory) {
+    LgoStreamingTradeService(LgoStreamingService streamingService, LgoKeyService keyService, LgoSignatureService signatureService, SynchronizedValueFactory<Long> nonceFactory) {
         this.streamingService = streamingService;
         this.keyService = keyService;
         this.signatureService = signatureService;
@@ -64,13 +52,11 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      * First sending will be the actual open orders list.
      */
     public Observable<OpenOrders> getOpenOrders(CurrencyPair currencyPair) {
-        return getOrderBatchChanges(currencyPair)
-                .map(updatedOrders -> allOrders.get(currencyPair)
-                        .values().stream()
+        return getOrderUpdates(currencyPair)
+                .map(u -> u.getAllOpenOrders().values().stream()
                         .filter(order -> order instanceof LimitOrder)
-                        .map(order -> (LimitOrder)order)
-                        .collect(Collectors.toList())
-                )
+                        .map(order -> (LimitOrder) order)
+                        .collect(Collectors.toList()))
                 .map(OpenOrders::new);
     }
 
@@ -80,62 +66,15 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      */
     public Observable<Collection<Order>> getOrderBatchChanges(CurrencyPair currencyPair) {
         return getOrderUpdates(currencyPair)
-                .map(LgoBatchUpdate::getUpdatedOrders);
+                .map(LgoGroupedUserUpdate::getUpdatedOrders);
     }
 
-    private Observable<LgoBatchUpdate> getOrderUpdates(CurrencyPair currencyPair) {
-        if (!orderBatchChangesSubscriptions.containsKey(currencyPair)) {
-            allOrders.put(currencyPair, new HashMap<>());
-            createOrderBatchChangesSubscription(currencyPair);
-        }
-        return orderBatchChangesSubscriptions.get(currencyPair).share();
+    private Observable<LgoGroupedUserUpdate> getOrderUpdates(CurrencyPair currencyPair) {
+        return batchSubscriptions.computeIfAbsent(currencyPair, this::createBatchSubscription).getPublisher();
     }
 
-    private void createOrderBatchChangesSubscription(CurrencyPair currencyPair) {
-        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-        Observable<LgoBatchUpdate> orderBatchChanges = streamingService
-                .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
-                .map(s -> mapper.readValue(s.toString(), LgoUserMessage.class))
-                .map(s -> {
-                    List<LgoBatchOrderEvent> events = new ArrayList<>();
-                    List<Order> updatedOrders;
-                    if (s.getType().equals("update")) {
-                        LgoUserUpdate userUpdate = (LgoUserUpdate) s;
-                        updatedOrders = handleUserUpdate(currencyPair, userUpdate);
-                        events.addAll(LgoAdapter.adaptOrderEvent(userUpdate.getOrderEvents(), s.getBatchId(), updatedOrders));
-                    } else {
-                        updatedOrders = handleUserSnapshot(currencyPair, (LgoUserSnapshot) s);
-                    }
-                    return new LgoBatchUpdate(updatedOrders, events, s.getBatchId(), s.getType());
-                });
-        orderBatchChangesSubscriptions.put(currencyPair, orderBatchChanges);
-    }
-
-    private List<Order> handleUserUpdate(CurrencyPair currencyPair, LgoUserUpdate s) {
-        return updateAllOrders(currencyPair, s.getOrderEvents());
-    }
-
-    private List<Order> handleUserSnapshot(CurrencyPair currencyPair, LgoUserSnapshot s) {
-        allOrders.get(currencyPair).clear();
-        Collection<LimitOrder> openOrders = LgoAdapter.adaptOrdersSnapshot(s.getSnapshotData(), currencyPair);
-        allOrders.get(currencyPair).putAll(openOrders.stream().collect(toMap(LimitOrder::getId, this::copyOrder)));
-        return new ArrayList<>(openOrders);
-    }
-
-    private List<Order> updateAllOrders(CurrencyPair currencyPair, List<LgoBatchOrderEvent> orderEvents) {
-        return orderEvents.stream()
-                .map(orderEvent -> orderEvent.applyOnOrders(currencyPair, allOrders))
-                .map(this::copyOrder)
-                .collect(Collectors.toList());
-    }
-
-    private Order copyOrder(Order order) {
-        Order copy = order instanceof LimitOrder ? LimitOrder.Builder.from(order).build() : MarketOrder.Builder.from(order).build();
-        // because actual released version of xchange-core has buggy Builder.from methods
-        copy.setFee(order.getFee());
-        copy.setCumulativeAmount(order.getCumulativeAmount());
-        // https://github.com/knowm/XChange/pull/3163
-        return copy;
+    private LgoUserBatchSubscription createBatchSubscription(CurrencyPair currencyPair) {
+        return LgoUserBatchSubscription.create(streamingService, currencyPair);
     }
 
     @Override
@@ -151,10 +90,11 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      */
     public Observable<LgoOrderEvent> getRawAllOrderEvents(Collection<CurrencyPair> currencyPairs) {
         Observable<LgoOrderEvent> ackObservable = getRawReceivedOrderEvents();
-        Optional<Observable<LgoOrderEvent>> batchObservable = currencyPairs.stream()
+        return currencyPairs.stream()
                 .map(this::getRawBatchOrderEvents)
-                .reduce(Observable::mergeWith);
-        return batchObservable.isPresent() ? ackObservable.mergeWith(batchObservable.get()) : ackObservable;
+                .reduce(Observable::mergeWith)
+                .map(ackObservable::mergeWith)
+                .orElse(ackObservable);
     }
 
     /**
@@ -166,7 +106,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
         if (afrSubscription == null) {
             createAfrSubscription();
         }
-        return afrSubscription.share();
+        return afrSubscription;
     }
 
     private void createAfrSubscription() {
@@ -175,7 +115,8 @@ public class LgoStreamingTradeService implements StreamingTradeService {
                 .subscribeChannel("afr")
                 .map(s -> mapper.readValue(s.toString(), LgoAckUpdate.class))
                 .map(LgoAckUpdate::getData)
-                .flatMap(Observable::fromIterable);
+                .flatMap(Observable::<LgoOrderEvent>fromIterable)
+                .share();
     }
 
     /**
@@ -188,7 +129,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      */
     public Observable<LgoOrderEvent> getRawBatchOrderEvents(CurrencyPair currencyPair) {
         return getOrderUpdates(currencyPair)
-                .map(LgoBatchUpdate::getEvents)
+                .map(LgoGroupedUserUpdate::getEvents)
                 .flatMap(Observable::fromIterable);
     }
 

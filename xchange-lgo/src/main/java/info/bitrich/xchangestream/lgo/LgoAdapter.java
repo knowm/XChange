@@ -45,7 +45,7 @@ public class LgoAdapter {
         return new LimitOrder(type, qtt, currencyPair, "0", null, price);
     }
 
-    static Trade adaptTrade(CurrencyPair currencyPair, LgoTrade lgoTrade) {
+    public static Trade adaptTrade(CurrencyPair currencyPair, LgoTrade lgoTrade) {
         return new Trade(
                 parseTradeType(lgoTrade),
                 lgoTrade.getQuantity(),
@@ -109,7 +109,7 @@ public class LgoAdapter {
         return adaptPendingMarketOrder(orderEvent, currencyPair);
     }
 
-    static LimitOrder adaptPendingLimitOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {
+    private static LimitOrder adaptPendingLimitOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {
         return new LimitOrder.Builder(orderEvent.getSide(), currencyPair)
                 .id(orderEvent.getOrderId())
                 .originalAmount(orderEvent.getInitialAmount())

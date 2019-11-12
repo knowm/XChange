@@ -59,9 +59,9 @@ public class LgoPendingOrderEvent extends LgoBatchOrderEvent {
     }
 
     @Override
-    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<String, Order> allOrders) {
         Order order = LgoAdapter.adaptPendingOrder(this, currencyPair);
-        allOrders.get(currencyPair).put(order.getId(), order);
+        allOrders.put(order.getId(), order);
         return order;
     }
 

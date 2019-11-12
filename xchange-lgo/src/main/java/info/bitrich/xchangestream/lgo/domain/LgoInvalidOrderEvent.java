@@ -1,12 +1,10 @@
 package info.bitrich.xchangestream.lgo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Order was invalid
@@ -37,8 +35,8 @@ public class LgoInvalidOrderEvent extends LgoBatchOrderEvent {
     }
 
     @Override
-    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
-        Order doneOrder = allOrders.get(currencyPair).remove(getOrderId());
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<String, Order> allOrders) {
+        Order doneOrder = allOrders.remove(getOrderId());
         doneOrder.setOrderStatus(Order.OrderStatus.REJECTED);
         return doneOrder;
     }

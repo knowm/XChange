@@ -25,8 +25,8 @@ public class LgoOpenOrderEvent extends LgoBatchOrderEvent {
     }
 
     @Override
-    public Order applyOnOrders(CurrencyPair currencyPair, Map<CurrencyPair, Map<String, Order>> allOrders) {
-        Order pendingOrder = allOrders.get(currencyPair).get(getOrderId());
+    public Order applyOnOrders(CurrencyPair currencyPair, Map<String, Order> allOrders) {
+        Order pendingOrder = allOrders.get(getOrderId());
         Order.OrderStatus status = pendingOrder.getStatus().equals(Order.OrderStatus.PARTIALLY_FILLED) ? pendingOrder.getStatus() : Order.OrderStatus.NEW;
         pendingOrder.setOrderStatus(status);
         return pendingOrder;
