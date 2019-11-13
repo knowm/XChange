@@ -2,7 +2,6 @@ package org.knowm.xchange.bitfinex.v2.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,7 +36,91 @@ public class Trade {
   /** Fee currency */
   private String feeCurrency;
 
-  public Date getTimestamp() {
-    return new Date(timestamp);
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public void setSymbol(String symbol) {
+    this.symbol = symbol;
+  }
+
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public String getOrderId() {
+    return orderId;
+  }
+
+  public void setOrderId(String orderId) {
+    this.orderId = orderId;
+  }
+
+  public BigDecimal getExecAmount() {
+    return execAmount;
+  }
+
+  public void setExecAmount(BigDecimal execAmount) {
+    this.execAmount = execAmount;
+  }
+
+  public BigDecimal getExecPrice() {
+    return execPrice;
+  }
+
+  public void setExecPrice(BigDecimal execPrice) {
+    this.execPrice = execPrice;
+  }
+
+  public String getOrderType() {
+    return orderType;
+  }
+
+  public void setOrderType(String orderType) {
+    this.orderType = orderType;
+  }
+
+  public BigDecimal getOrderPrice() {
+    return orderPrice;
+  }
+
+  public void setOrderPrice(BigDecimal orderPrice) {
+    this.orderPrice = orderPrice;
+  }
+
+  public int getMaker() {
+    return maker;
+  }
+
+  public void setMaker(int maker) {
+    this.maker = maker;
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public void setFee(BigDecimal fee) {
+    this.fee = fee;
+  }
+
+  public String getFeeCurrency() {
+    return feeCurrency;
+  }
+
+  public void setFeeCurrency(String feeCurrency) {
+    this.feeCurrency = feeCurrency;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
   }
 }
