@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.Builder;
 
 /**
  * DTO representing a market order
@@ -22,6 +23,42 @@ import org.knowm.xchange.dto.Order;
 public class MarketOrder extends Order {
 
   private static final long serialVersionUID = -3393286268772319210L;
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
+   * @param status the status of the order at the exchange or broker
+   */
+  public MarketOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
+  }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -117,6 +154,7 @@ public class MarketOrder extends Order {
           .flags(order.getOrderFlags())
           .averagePrice(order.getAveragePrice())
           .fee(order.getFee())
+          .userReference(order.getUserReference())
           .orderStatus(order.getStatus());
     }
 
@@ -169,6 +207,12 @@ public class MarketOrder extends Order {
     }
 
     @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
+    }
+
+    @Override
     public Builder timestamp(Date timestamp) {
 
       return (Builder) super.timestamp(timestamp);
@@ -199,7 +243,8 @@ public class MarketOrder extends Order {
               averagePrice,
               cumulativeAmount,
               fee,
-              status);
+              status,
+              userReference);
       order.setOrderFlags(flags);
       return order;
     }

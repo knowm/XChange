@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -30,8 +31,10 @@ public abstract class Order implements Serializable {
   private final BigDecimal originalAmount;
   /** The currency pair */
   private final CurrencyPair currencyPair;
-  /** An identifier that uniquely identifies the order */
+  /** An identifier set by the exchange that uniquely identifies the order */
   private final String id;
+  /** An identifier provided by the user on placement that uniquely identifies the order */
+  private final String userReference;
   /** The timestamp on the order according to the exchange's server, null if not provided */
   private final Date timestamp;
   /** Any applicable order flags */
@@ -87,6 +90,44 @@ public abstract class Order implements Serializable {
       BigDecimal fee,
       OrderStatus status) {
 
+    this(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        100000000 + new Random().nextInt(100000000) + "");
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp the absolute time for this order according to the exchange's server, null if
+   *     not provided
+   * @param averagePrice the averagePrice of fill belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
+   * @param status the status of the order at the exchange
+   * @param userReference a reference provided by the user to identify the order
+   */
+  public Order(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+
     this.type = type;
     this.originalAmount = originalAmount;
     this.currencyPair = currencyPair;
@@ -96,6 +137,7 @@ public abstract class Order implements Serializable {
     this.cumulativeAmount = cumulativeAmount;
     this.fee = fee;
     this.status = status;
+    this.userReference = userReference;
   }
 
   private static String print(BigDecimal value) {
@@ -192,6 +234,12 @@ public abstract class Order implements Serializable {
     return id;
   }
 
+  /** @return A unique identifier provided by the user on placement */
+  public String getUserReference() {
+
+    return userReference;
+  }
+
   public Date getTimestamp() {
 
     return timestamp;
@@ -256,6 +304,8 @@ public abstract class Order implements Serializable {
         + status
         + ", flags="
         + orderFlags
+        + ", userReference="
+        + userReference
         + "]";
   }
 
@@ -410,6 +460,7 @@ public abstract class Order implements Serializable {
     protected BigDecimal remainingAmount;
     protected CurrencyPair currencyPair;
     protected String id;
+    protected String userReference;
     protected Date timestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
@@ -474,6 +525,12 @@ public abstract class Order implements Serializable {
     public Builder id(String id) {
 
       this.id = id;
+      return this;
+    }
+
+    public Builder userReference(String userReference) {
+
+      this.userReference = userReference;
       return this;
     }
 

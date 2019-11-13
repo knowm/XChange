@@ -24,6 +24,7 @@ public class LimitOrderTest {
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final BigDecimal fee = new BigDecimal("22.2");
+    final String userReference = "123";
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
@@ -39,6 +40,7 @@ public class LimitOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .userReference(userReference)
             .build();
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
@@ -53,6 +55,7 @@ public class LimitOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getUserReference()).isEqualTo(userReference);
   }
 
   @Test
