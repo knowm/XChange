@@ -2,14 +2,11 @@ package org.knowm.xchange.bitfinex.v2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
 import javax.ws.rs.HeaderParam;
-
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
-
-import lombok.extern.slf4j.Slf4j;
 import si.mazi.rescu.RestInvocation;
 
 @Slf4j
@@ -41,7 +38,7 @@ public class BitfinexHmacSignature extends BaseParamsDigest {
     try {
       path = URLDecoder.decode(path, "utf8");
     } catch (UnsupportedEncodingException e) {
-        log.warn("Could not url decode the path {}.", path, e);
+      log.warn("Could not url decode the path {}.", path, e);
     }
 
     Object nonce = i.getParamValue(HeaderParam.class, BitfinexAuthenticated.BFX_NONCE);
