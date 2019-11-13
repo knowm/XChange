@@ -2,6 +2,7 @@ package org.knowm.xchange.kraken;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -16,6 +17,16 @@ public class KrakenUtils {
       new HashMap<CurrencyPair, String>();
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
+
+  /**
+   * Mapping of discontinued currencies to their standard name.
+   */
+  private static Map<String, String> discontinuedCurrencies;
+
+  static {
+    discontinuedCurrencies = new HashMap<>();
+    discontinuedCurrencies.put("XICN", "ICN");
+  }
 
   /** Private Constructor */
   private KrakenUtils() {}
@@ -85,6 +96,9 @@ public class KrakenUtils {
   }
 
   public static Currency translateKrakenCurrencyCode(String currencyIn) {
+    if (discontinuedCurrencies.containsKey(currencyIn)) {
+      return Currency.getInstance(discontinuedCurrencies.get(currencyIn));
+    }
     Currency currencyOut = assetsMap.get(currencyIn);
     if (currencyOut == null) {
       throw new ExchangeException("Kraken does not support the currency code " + currencyIn);
