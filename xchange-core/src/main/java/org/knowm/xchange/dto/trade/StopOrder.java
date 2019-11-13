@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.Builder;
 
 /**
  * DTO representing a stop order
@@ -205,6 +206,50 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     this.limitPrice = limitPrice;
   }
 
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param limitPrice The limit price the order should be placed at once the stopPrice has been hit
+   *     null for market
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param status the status of the order at the exchange or broker
+   */
+  public StopOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal stopPrice,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
+    this.stopPrice = stopPrice;
+    this.limitPrice = limitPrice;
+  }
+
   /** @return The stop price */
   public BigDecimal getStopPrice() {
 
@@ -299,7 +344,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
               .fee(order.getFee())
-              .averagePrice(order.getAveragePrice());
+              .averagePrice(order.getAveragePrice())
+              .userReference(order.getUserReference());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
@@ -348,6 +394,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     public Builder id(String id) {
 
       return (Builder) super.id(id);
+    }
+
+    @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
     }
 
     @Override
@@ -409,7 +461,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
                   ? cumulativeAmount
                   : originalAmount.subtract(remainingAmount),
               fee,
-              status);
+              status,
+              userReference);
 
       order.setOrderFlags(flags);
       return order;
