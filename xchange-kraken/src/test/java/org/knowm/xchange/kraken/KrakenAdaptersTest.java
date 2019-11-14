@@ -243,7 +243,8 @@ public class KrakenAdaptersTest {
 
   @Test
   public void testAdaptTradeHistory() throws JsonParseException, JsonMappingException, IOException {
-    List<UserTrade> tradeList = loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
+    List<UserTrade> tradeList =
+        loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
     assertThat(tradeList.size()).isEqualTo(1);
     UserTrade trade = tradeList.get(0);
@@ -261,7 +262,8 @@ public class KrakenAdaptersTest {
 
   @Test
   public void testIcnTradeHistory() throws JsonParseException, JsonMappingException, IOException {
-    List<UserTrade> tradeList = loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-icn.json");
+    List<UserTrade> tradeList =
+        loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-icn.json");
 
     assertThat(tradeList.size()).isEqualTo(1);
     UserTrade trade = tradeList.get(0);
@@ -277,11 +279,9 @@ public class KrakenAdaptersTest {
     assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
   }
 
-
   private static List<UserTrade> loadUserTrades(String resourceName) throws IOException {
     // Read in the JSON from the example resources
-    InputStream is =
-        KrakenAdaptersTest.class.getResourceAsStream(resourceName);
+    InputStream is = KrakenAdaptersTest.class.getResourceAsStream(resourceName);
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

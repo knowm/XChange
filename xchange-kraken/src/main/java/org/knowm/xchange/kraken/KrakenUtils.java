@@ -2,7 +2,6 @@ package org.knowm.xchange.kraken;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -18,9 +17,7 @@ public class KrakenUtils {
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
-  /**
-   * Mapping of discontinued currencies to their standard name.
-   */
+  /** Mapping of discontinued currencies to their standard name. */
   private static Map<String, String> discontinuedCurrencies;
 
   static {
@@ -70,7 +67,9 @@ public class KrakenUtils {
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(firstCurrencyLength, currencyPairIn.length()));
+        Currency counter =
+            Currency.getInstance(
+                currencyPairIn.substring(firstCurrencyLength, currencyPairIn.length()));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
