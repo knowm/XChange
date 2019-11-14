@@ -241,7 +241,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           Type.WITHDRAWAL,
                           withdrawStatus(w.getStatus()),
                           null,
-                          null,
+                          w.getTransactionFee(),
                           null));
                 });
       }
