@@ -537,24 +537,24 @@ public final class BitfinexAdapters {
     List<UserTrade> pastTrades = new ArrayList<>(trades.size());
 
     for (org.knowm.xchange.bitfinex.v2.dto.trade.Trade trade : trades) {
-      OrderType orderType = trade.getExecAmount().signum() <= 0 ? OrderType.BID : OrderType.ASK;
+      OrderType orderType = trade.getExecAmount().signum() >= 0 ? OrderType.BID : OrderType.ASK;
       BigDecimal amount =
           trade.getExecAmount().signum() == -1
               ? trade.getExecAmount().negate()
               : trade.getExecAmount();
-      Date timestamp = DateUtils.fromMillisUtc(trade.getTimestamp());
       final BigDecimal fee = trade.getFee() != null ? trade.getFee().negate() : null;
       pastTrades.add(
-          new UserTrade(
-              orderType,
-              amount,
-              adaptCurrencyPair(trade.getSymbol()),
-              trade.getExecPrice(),
-              timestamp,
-              trade.getId(),
-              trade.getOrderId(),
-              fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(amount)
+              .currencyPair(adaptCurrencyPair(trade.getSymbol()))
+              .price(trade.getExecPrice())
+              .timestamp(trade.getTimestamp())
+              .id(trade.getId())
+              .orderId(trade.getOrderId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+              .build());
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
