@@ -463,7 +463,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public List<Trade> getBitfinexTradesV2(
-      String symbol, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+      String symbol, Long startTimeMillis, Long endTimeMillis, Long limit, Long sort)
+      throws IOException {
     if (StringUtils.isBlank(symbol)) {
       return bitfinexV2.getTrades(
           exchange.getNonceFactory(),
@@ -472,6 +473,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
           startTimeMillis,
           endTimeMillis,
           limit,
+          sort,
           EmptyRequest.INSTANCE);
     }
 
@@ -483,6 +485,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         startTimeMillis,
         endTimeMillis,
         limit,
+        sort,
         EmptyRequest.INSTANCE);
   }
 
