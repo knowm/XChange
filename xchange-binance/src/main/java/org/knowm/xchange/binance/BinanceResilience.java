@@ -2,7 +2,7 @@ package org.knowm.xchange.binance;
 
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import java.time.Duration;
-import org.knowm.xchange.client.resilience.ResilienceRegistries;
+import org.knowm.xchange.client.ResilienceRegistries;
 
 public final class BinanceResilience {
 

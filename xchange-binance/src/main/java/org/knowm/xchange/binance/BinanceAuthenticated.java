@@ -1,7 +1,6 @@
 package org.knowm.xchange.binance;
 
 import static org.knowm.xchange.binance.BinanceResilience.*;
-import static org.knowm.xchange.client.resilience.Resilience.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,8 +27,10 @@ import org.knowm.xchange.binance.dto.trade.BinanceTrade;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
-import org.knowm.xchange.client.resilience.Resilience;
-import org.knowm.xchange.client.resilience.ResilienceRegistries;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.client.resilience.Decorator;
+import org.knowm.xchange.client.resilience.RateLimiter;
+import org.knowm.xchange.client.resilience.Retry;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -42,14 +43,14 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("api/v3/order")
-  @Resilience(
+  @Decorator(
       retry =
           @Retry(
               name = "newOrder",
               baseConfig = ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
-  @Resilience(rateLimiter = @RateLimiter(name = ORDERS_PER_SECOND_RATE_LIMITER))
-  @Resilience(rateLimiter = @RateLimiter(name = ORDERS_PER_DAY_RATE_LIMITER))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = ORDERS_PER_SECOND_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = ORDERS_PER_DAY_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Send in a new order
    *
@@ -87,8 +88,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("api/v3/order/test")
-  @Resilience(retry = @Retry(name = "testNewOrder"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "testNewOrder"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Test new order creation and signature/recvWindow long. Creates and validates a new order but
    * does not send it into the matching engine.
@@ -127,8 +128,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/order")
-  @Resilience(retry = @Retry(name = "orderStatus"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "orderStatus"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Check an order's status.<br>
    * Either orderId or origClientOrderId must be sent.
@@ -156,8 +157,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @DELETE
   @Path("api/v3/order")
-  @Resilience(retry = @Retry(name = "cancelOrder"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "cancelOrder"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Cancel an active order.
    *
@@ -187,8 +188,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/openOrders")
-  @Resilience(retry = @Retry(name = "openOrders"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(retry = @Retry(name = "openOrders"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
   /**
    * Get open orders on a symbol.
    *
@@ -209,8 +210,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/openOrders")
-  @Resilience(retry = @Retry(name = "allOpenOrders"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 40))
+  @Decorator(retry = @Retry(name = "allOpenOrders"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 40))
   /**
    * Get all open orders.
    *
@@ -229,8 +230,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/allOrders")
-  @Resilience(retry = @Retry(name = "allOrders"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "allOrders"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Get all account orders; active, canceled, or filled. <br>
    * If orderId is set, it will get orders >= that orderId. Otherwise most recent orders are
@@ -259,8 +260,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/account")
-  @Resilience(retry = @Retry(name = "account"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(retry = @Retry(name = "account"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
   /**
    * Get current account information.
    *
@@ -279,8 +280,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("api/v3/myTrades")
-  @Resilience(retry = @Retry(name = "myTrades"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(retry = @Retry(name = "myTrades"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
   /**
    * Get trades for a specific account and symbol.
    *
@@ -311,12 +312,12 @@ public interface BinanceAuthenticated extends Binance {
 
   @POST
   @Path("wapi/v3/withdraw.html")
-  @Resilience(
+  @Decorator(
       retry =
           @Retry(
               name = "withdraw",
               baseConfig = ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Submit a withdraw request.
    *
@@ -347,8 +348,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("wapi/v3/depositHistory.html")
-  @Resilience(retry = @Retry(name = "depositHistory"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "depositHistory"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Fetch deposit history.
    *
@@ -375,8 +376,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("wapi/v3/withdrawHistory.html")
-  @Resilience(retry = @Retry(name = "withdrawHistory"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "withdrawHistory"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Fetch withdraw history.
    *
@@ -403,8 +404,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("wapi/v3/depositAddress.html")
-  @Resilience(retry = @Retry(name = "depositAddress"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "depositAddress"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Fetch deposit address.
    *
@@ -427,8 +428,8 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("wapi/v3/assetDetail.html")
-  @Resilience(retry = @Retry(name = "assetDetail"))
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(retry = @Retry(name = "assetDetail"))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   /**
    * Fetch asset details.
    *
@@ -457,7 +458,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @POST
   @Path("/api/v1/userDataStream")
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   BinanceListenKey startUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey)
       throws IOException, BinanceException;
 
@@ -472,7 +473,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @PUT
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   Map<?, ?> keepAliveUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
       throws IOException, BinanceException;
@@ -488,7 +489,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @DELETE
   @Path("/api/v1/userDataStream?listenKey={listenKey}")
-  @Resilience(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
   Map<?, ?> closeUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
       throws IOException, BinanceException;

@@ -1,10 +1,10 @@
 package org.knowm.xchange.client;
 
+import com.google.common.annotations.Beta;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.resilience.ResilienceInterceptor;
-import org.knowm.xchange.client.resilience.ResilienceRegistries;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.Interceptor;
 import si.mazi.rescu.RestProxyFactory;
@@ -33,6 +33,7 @@ public final class ExchangeRestProxyBuilder<T> {
     return this;
   }
 
+  @Beta
   public ExchangeRestProxyBuilder<T> resilienceRegistries(ResilienceRegistries value) {
     this.resilienceRegistries = value;
     return this;

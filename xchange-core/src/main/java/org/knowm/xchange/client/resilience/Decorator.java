@@ -1,5 +1,6 @@
 package org.knowm.xchange.client.resilience;
 
+import com.google.common.annotations.Beta;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -7,33 +8,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * This is an early sample of some functionality we to add to the resilience4j library.
+ *
+ * <p>In time this will be removed from the Xchange library and we will refactor our code to use the
+ * annotations from the resilience4j library.
+ *
+ * @author walec51
+ */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.METHOD})
-@Repeatable(ResilienceDecorators.class)
+@Repeatable(Decorators.class)
 @Documented
-public @interface Resilience {
+@Beta
+public @interface Decorator {
 
   Retry[] retry() default {};
 
   RateLimiter[] rateLimiter() default {};
-
-  @interface Retry {
-
-    public static final String DEFAULT_CONFIG = "default";
-
-    public String name();
-
-    public String baseConfig() default DEFAULT_CONFIG;
-  }
-
-  @interface RateLimiter {
-
-    static String FIXED_WEIGHT = "__FIXED_WEIGHT__";
-
-    String name();
-
-    int weight() default 1;
-
-    String weightCalculator() default FIXED_WEIGHT;
-  }
 }

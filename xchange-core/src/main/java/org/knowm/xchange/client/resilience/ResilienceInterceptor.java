@@ -1,14 +1,23 @@
 package org.knowm.xchange.client.resilience;
 
-import io.github.resilience4j.ratelimiter.RateLimiter;
-import io.github.resilience4j.retry.Retry;
+import com.google.common.annotations.Beta;
 import io.github.resilience4j.retry.RetryConfig;
 import io.vavr.CheckedFunction0;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ResilienceRegistries;
 import si.mazi.rescu.Interceptor;
 
+/**
+ * This is an early sample of some functionality we to add to the resilience4j library.
+ *
+ * <p>In time this will be removed from the Xchange library and become a module in resilience4j
+ * repositories.
+ *
+ * @author walec51
+ */
+@Beta
 public class ResilienceInterceptor implements Interceptor {
 
   private final ExchangeSpecification exchangeSpecification;
@@ -23,18 +32,18 @@ public class ResilienceInterceptor implements Interceptor {
   @Override
   public Object aroundInvoke(InvocationHandler handler, Object proxy, Method method, Object[] args)
       throws Throwable {
-    Resilience[] holderAnnotations = method.getAnnotationsByType(Resilience.class);
+    Decorator[] holderAnnotations = method.getAnnotationsByType(Decorator.class);
     if (holderAnnotations == null || holderAnnotations.length == 0) {
       return handler.invoke(proxy, method, args);
     }
     CheckedFunction0<Object> invocation = () -> handler.invoke(proxy, method, args);
-    for (Resilience holderAnnotation : holderAnnotations) {
-      Resilience.Retry[] retryAnnotations = holderAnnotation.retry();
-      for (Resilience.Retry retryAnnotation : retryAnnotations) {
+    for (Decorator holderAnnotation : holderAnnotations) {
+      Retry[] retryAnnotations = holderAnnotation.retry();
+      for (Retry retryAnnotation : retryAnnotations) {
         invocation = retryDecoration(retryAnnotation, invocation);
       }
-      Resilience.RateLimiter[] rateLimiterAnnotations = holderAnnotation.rateLimiter();
-      for (Resilience.RateLimiter rateLimiterAnnotation : rateLimiterAnnotations) {
+      RateLimiter[] rateLimiterAnnotations = holderAnnotation.rateLimiter();
+      for (RateLimiter rateLimiterAnnotation : rateLimiterAnnotations) {
         invocation =
             rateLimiterDecoration(rateLimiterAnnotation, handler, proxy, method, args, invocation);
       }
@@ -43,13 +52,13 @@ public class ResilienceInterceptor implements Interceptor {
   }
 
   private CheckedFunction0<Object> retryDecoration(
-      Resilience.Retry annotation, CheckedFunction0<Object> invocation) {
+      Retry annotation, CheckedFunction0<Object> invocation) {
     if (!exchangeSpecification.isRetryEnabled()) {
       return invocation;
     }
     String baseConfigName = annotation.baseConfig();
     RetryConfig baseConfig;
-    if (baseConfigName.equals(Resilience.Retry.DEFAULT_CONFIG)) {
+    if (baseConfigName.equals(Retry.DEFAULT_CONFIG)) {
       baseConfig = resilienceRegistries.retries().getDefaultConfig();
     } else {
       baseConfig =
@@ -61,12 +70,13 @@ public class ResilienceInterceptor implements Interceptor {
                       new IllegalStateException(
                           "Prototype retry config not found: " + baseConfigName));
     }
-    Retry retry = resilienceRegistries.retries().retry(annotation.name(), baseConfig);
-    return Retry.decorateCheckedSupplier(retry, invocation);
+    io.github.resilience4j.retry.Retry retry =
+        resilienceRegistries.retries().retry(annotation.name(), baseConfig);
+    return io.github.resilience4j.retry.Retry.decorateCheckedSupplier(retry, invocation);
   }
 
   private CheckedFunction0<Object> rateLimiterDecoration(
-      Resilience.RateLimiter annotation,
+      RateLimiter annotation,
       InvocationHandler handler,
       Object proxy,
       Method decoratedMethod,
@@ -75,14 +85,16 @@ public class ResilienceInterceptor implements Interceptor {
     if (!exchangeSpecification.isRateLimiterEnabled()) {
       return invocation;
     }
-    RateLimiter rateLimiter = resilienceRegistries.rateLimiters().rateLimiter(annotation.name());
+    io.github.resilience4j.ratelimiter.RateLimiter rateLimiter =
+        resilienceRegistries.rateLimiters().rateLimiter(annotation.name());
     // TODO: add better weight support to resilience4j
     int weight = annotation.weight();
-    String weightCalculatorsName = annotation.weightCalculator();
-    if (!weightCalculatorsName.equals(Resilience.RateLimiter.FIXED_WEIGHT)) {
-      weight = invokeWeightCalculator(weightCalculatorsName, handler, proxy, decoratedMethod, args);
+    String weightMethodName = annotation.weightMethodName();
+    if (!weightMethodName.equals(RateLimiter.FIXED_WEIGHT)) {
+      weight = invokeWeightCalculator(weightMethodName, handler, proxy, decoratedMethod, args);
     }
-    return RateLimiter.decorateCheckedSupplier(rateLimiter, weight, invocation);
+    return io.github.resilience4j.ratelimiter.RateLimiter.decorateCheckedSupplier(
+        rateLimiter, weight, invocation);
   }
 
   private int invokeWeightCalculator(

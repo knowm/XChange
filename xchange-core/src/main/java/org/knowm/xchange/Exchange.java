@@ -2,7 +2,7 @@ package org.knowm.xchange;
 
 import java.io.IOException;
 import java.util.List;
-import org.knowm.xchange.client.resilience.ResilienceRegistries;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
