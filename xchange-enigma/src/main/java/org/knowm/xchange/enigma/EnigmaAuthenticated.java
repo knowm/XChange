@@ -1,15 +1,14 @@
 package org.knowm.xchange.enigma;
 
-import org.knowm.xchange.enigma.dto.BaseResponse;
-import org.knowm.xchange.enigma.dto.marketdata.*;
-import org.knowm.xchange.enigma.dto.trade.*;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.enigma.dto.BaseResponse;
+import org.knowm.xchange.enigma.dto.marketdata.*;
+import org.knowm.xchange.enigma.dto.trade.*;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)

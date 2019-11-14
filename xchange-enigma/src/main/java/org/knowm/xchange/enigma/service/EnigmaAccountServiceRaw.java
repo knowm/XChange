@@ -1,16 +1,15 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawFundsRequest;
 import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawal;
 import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalRequest;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 public class EnigmaAccountServiceRaw extends EnigmaBaseService {
 
