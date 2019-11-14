@@ -191,13 +191,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
         endTime = DateUtils.toMillisNullSafe(paramsTimeSpan.getEndTime());
       }
 
-      if (params instanceof TradeHistoryParamPaging) {
-        TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
-        Integer pageLength = pagingParams.getPageLength();
-        Integer pageNum = pagingParams.getPageNumber();
-        limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50L;
-      }
-
       if (params instanceof TradeHistoryParamLimit) {
         TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
         limit = Long.valueOf(tradeHistoryParamLimit.getLimit());
@@ -256,42 +249,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair,
-          TradeHistoryParamPaging,
-          TradeHistoryParamLimit,
-          TradeHistoryParamsSorted {
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsSorted {
 
-    private int count;
     private CurrencyPair pair;
-    private Integer pageNumber;
     private Integer limit;
     private Order order;
 
     public BitfinexTradeHistoryParams() {}
-
-    @Override
-    public Integer getPageLength() {
-
-      return count;
-    }
-
-    @Override
-    public void setPageLength(Integer count) {
-
-      this.count = count;
-    }
-
-    @Override
-    public Integer getPageNumber() {
-
-      return pageNumber;
-    }
-
-    @Override
-    public void setPageNumber(Integer pageNumber) {
-
-      this.pageNumber = pageNumber;
-    }
 
     @Override
     public CurrencyPair getCurrencyPair() {
