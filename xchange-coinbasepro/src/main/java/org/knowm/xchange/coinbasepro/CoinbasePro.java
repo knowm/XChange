@@ -189,6 +189,7 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @QueryParam("after") Integer tradeIdAfter,
       @QueryParam("before") Integer tradeIdBefore,
+      @QueryParam("limit") Integer limit,
       @QueryParam("order_id") String orderId,
       @QueryParam("product_id") String productId)
       throws CoinbaseProException, IOException;

@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.latoken.LatokenExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class LatokenMarketDataServiceTest {
+public class LatokenMarketDataServiceIntegration {
 
   static Exchange exchange;
   static MarketDataService marketService;

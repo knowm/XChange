@@ -1,4 +1,4 @@
-package org.knowm.xchange.latoken.dto.trade;
+package org.knowm.xchange.latoken.service;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,14 +13,15 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.latoken.LatokenExchange;
-import org.knowm.xchange.latoken.service.LatokenTradeService;
+import org.knowm.xchange.latoken.dto.trade.LatokenOrderSide;
+import org.knowm.xchange.latoken.dto.trade.LatokenTestOrder;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TradeServiceIntegration {
+public class LatokenTradeServiceIntegration {
 
-  static Logger LOG = LoggerFactory.getLogger(TradeServiceIntegration.class);
+  static Logger LOG = LoggerFactory.getLogger(LatokenTradeServiceIntegration.class);
 
   static Exchange exchange;
   static LatokenTradeService tradeService;
