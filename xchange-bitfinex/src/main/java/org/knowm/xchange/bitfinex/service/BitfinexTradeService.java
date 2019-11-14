@@ -183,6 +183,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       long startTime = 0;
       Long endTime = null;
       Long limit = 50L;
+      Long sort = null;
 
       if (params instanceof TradeHistoryParamsTimeSpan) {
         TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
@@ -202,7 +203,12 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
         limit = Long.valueOf(tradeHistoryParamLimit.getLimit());
       }
 
-      final List<Trade> trades = getBitfinexTradesV2(symbol, startTime, endTime, limit);
+      if (params instanceof TradeHistoryParamsSorted) {
+        TradeHistoryParamsSorted tradeHistoryParamsSorted = (TradeHistoryParamsSorted) params;
+        sort = tradeHistoryParamsSorted.getOrder() == TradeHistoryParamsSorted.Order.asc ? 1L : -1L;
+      }
+
+      final List<Trade> trades = getBitfinexTradesV2(symbol, startTime, endTime, limit, sort);
       return BitfinexAdapters.adaptTradeHistoryV2(trades);
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
@@ -250,12 +256,16 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging, TradeHistoryParamLimit {
+      implements TradeHistoryParamCurrencyPair,
+          TradeHistoryParamPaging,
+          TradeHistoryParamLimit,
+          TradeHistoryParamsSorted {
 
     private int count;
     private CurrencyPair pair;
     private Integer pageNumber;
     private Integer limit;
+    private Order order;
 
     public BitfinexTradeHistoryParams() {}
 
@@ -303,6 +313,16 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     @Override
     public void setLimit(Integer limit) {
       this.limit = limit;
+    }
+
+    @Override
+    public Order getOrder() {
+      return this.order;
+    }
+
+    @Override
+    public void setOrder(Order order) {
+      this.order = order;
     }
   }
 }

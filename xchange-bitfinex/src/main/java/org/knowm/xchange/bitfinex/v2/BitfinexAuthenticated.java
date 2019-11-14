@@ -48,6 +48,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
+      @QueryParam("sort") Long sort,
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
 
@@ -61,6 +62,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
+      @QueryParam("sort") Long sort,
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
 
