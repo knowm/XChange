@@ -41,7 +41,7 @@ public final class BitfinexUtils {
    * @return
    */
   private static String currencySeparator(String base, String counter) {
-    if (base.toLowerCase().equals("dusk") || counter.toLowerCase().equals("cnht")) {
+    if (base.length() > 3 || counter.length() > 3) {
       return ":";
     }
     return "";

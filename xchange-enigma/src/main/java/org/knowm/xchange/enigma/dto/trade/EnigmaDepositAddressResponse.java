@@ -16,5 +16,4 @@ public class EnigmaDepositAddressResponse extends BaseResponse {
 
   @JsonProperty("address")
   private String address;
-
 }

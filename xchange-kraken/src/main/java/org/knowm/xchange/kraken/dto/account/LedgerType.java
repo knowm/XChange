@@ -20,7 +20,8 @@ public enum LedgerType {
   MARGIN,
   CREDIT,
   ROLLOVER,
-  TRANSFER;
+  TRANSFER,
+  ADJUSTMENT;
 
   private static final Map<String, LedgerType> fromString = new HashMap<>();
 
