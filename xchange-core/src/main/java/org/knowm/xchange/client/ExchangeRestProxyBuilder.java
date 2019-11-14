@@ -60,7 +60,7 @@ public final class ExchangeRestProxyBuilder<T> {
         restInterface,
         exchangeSpecification.getSslUri(),
         clientConfig,
-        callInterceptors.toArray(Interceptor[]::new));
+        callInterceptors.toArray(new Interceptor[0]));
   }
 
   /**

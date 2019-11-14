@@ -6,7 +6,7 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.client.resilience.ResilienceRegistries;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.service.LivecoinAccountService;
