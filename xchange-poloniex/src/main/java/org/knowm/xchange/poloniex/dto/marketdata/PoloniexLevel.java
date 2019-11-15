@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex.dto.marketdata;
 import java.math.BigDecimal;
 
 /** @author Zach Holmes */
+@Deprecated
 public class PoloniexLevel {
 
   private BigDecimal amount;
