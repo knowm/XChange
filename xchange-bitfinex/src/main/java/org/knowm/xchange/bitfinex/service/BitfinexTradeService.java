@@ -193,7 +193,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
       if (params instanceof TradeHistoryParamLimit) {
         TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
-        limit = Long.valueOf(tradeHistoryParamLimit.getLimit());
+        if (tradeHistoryParamLimit.getLimit() != null) {
+          limit = Long.valueOf(tradeHistoryParamLimit.getLimit());
+        }
       }
 
       if (params instanceof TradeHistoryParamsSorted) {
