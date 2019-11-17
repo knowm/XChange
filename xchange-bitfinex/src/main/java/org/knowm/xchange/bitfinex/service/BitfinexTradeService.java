@@ -180,7 +180,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
                 ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
       }
 
-      long startTime = 0;
+      Long startTime = 0L;
       Long endTime = null;
       Long limit = 50L;
       Long sort = null;
