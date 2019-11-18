@@ -7,6 +7,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import si.mazi.rescu.Interceptor;
 
 /**
@@ -19,6 +21,8 @@ import si.mazi.rescu.Interceptor;
  */
 @Beta
 public class ResilienceInterceptor implements Interceptor {
+
+  private static final Logger logger = LoggerFactory.getLogger(ResilienceInterceptor.class);
 
   private final ExchangeSpecification exchangeSpecification;
   private final ResilienceRegistries resilienceRegistries;
@@ -40,7 +44,7 @@ public class ResilienceInterceptor implements Interceptor {
     for (Decorator holderAnnotation : holderAnnotations) {
       Retry[] retryAnnotations = holderAnnotation.retry();
       for (Retry retryAnnotation : retryAnnotations) {
-        invocation = retryDecoration(retryAnnotation, invocation);
+        invocation = retryDecoration(retryAnnotation, method, invocation);
       }
       RateLimiter[] rateLimiterAnnotations = holderAnnotation.rateLimiter();
       for (RateLimiter rateLimiterAnnotation : rateLimiterAnnotations) {
@@ -52,7 +56,7 @@ public class ResilienceInterceptor implements Interceptor {
   }
 
   private CheckedFunction0<Object> retryDecoration(
-      Retry annotation, CheckedFunction0<Object> invocation) {
+      Retry annotation, Method decoratedMethod, CheckedFunction0<Object> invocation) {
     if (!exchangeSpecification.isRetryEnabled()) {
       return invocation;
     }
@@ -72,6 +76,11 @@ public class ResilienceInterceptor implements Interceptor {
     }
     io.github.resilience4j.retry.Retry retry =
         resilienceRegistries.retries().retry(annotation.name(), baseConfig);
+    logger.debug(
+        "Decorating call to {}#{} with retry {}",
+        decoratedMethod.getDeclaringClass().getSimpleName(),
+        decoratedMethod.getName(),
+        retry.getName());
     return io.github.resilience4j.retry.Retry.decorateCheckedSupplier(retry, invocation);
   }
 
@@ -87,37 +96,44 @@ public class ResilienceInterceptor implements Interceptor {
     }
     io.github.resilience4j.ratelimiter.RateLimiter rateLimiter =
         resilienceRegistries.rateLimiters().rateLimiter(annotation.name());
-    // TODO: add better weight support to resilience4j
-    int weight = annotation.weight();
-    String weightMethodName = annotation.weightMethodName();
-    if (!weightMethodName.equals(RateLimiter.FIXED_WEIGHT)) {
-      weight = invokeWeightCalculator(weightMethodName, handler, proxy, decoratedMethod, args);
+    int permits = annotation.permits();
+    String permitsMethodName = annotation.permitsMethodName();
+    if (!permitsMethodName.equals(RateLimiter.FIXED_WEIGHT)) {
+      permits = invokePermitsMethod(permitsMethodName, handler, proxy, decoratedMethod, args);
     }
+    logger.debug(
+        "Decorating call to {}#{} with {} required permits on "
+            + "rate limiter {} with {} avaliable permissions",
+        decoratedMethod.getDeclaringClass().getSimpleName(),
+        decoratedMethod.getName(),
+        permits,
+        rateLimiter.getName(),
+        rateLimiter.getMetrics().getAvailablePermissions());
     return io.github.resilience4j.ratelimiter.RateLimiter.decorateCheckedSupplier(
-        rateLimiter, weight, invocation);
+        rateLimiter, permits, invocation);
   }
 
-  private int invokeWeightCalculator(
+  private int invokePermitsMethod(
       String methodName,
       InvocationHandler handler,
       Object proxy,
       Method decoratedMethod,
       Object[] args) {
     try {
-      Method weightCalculator =
+      Method permitsMethod =
           decoratedMethod
               .getDeclaringClass()
               .getMethod(methodName, decoratedMethod.getParameterTypes());
-      return (int) weightCalculator.invoke(proxy, args);
+      return (int) permitsMethod.invoke(proxy, args);
     } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(
-          "Failed to invoke weight calculator method "
+          "Failed to invoke permits method "
               + methodName
               + ". "
               + "Does it have the same arguments a the decorated method?",
           e);
     } catch (Throwable e) {
-      throw new IllegalStateException("Weight calculator method " + methodName + " failed", e);
+      throw new IllegalStateException("Permits method " + methodName + " failed", e);
     }
   }
 }

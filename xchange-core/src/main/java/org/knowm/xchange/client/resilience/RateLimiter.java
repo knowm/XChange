@@ -40,7 +40,7 @@ public @interface RateLimiter {
 
   String name();
 
-  int weight() default 1;
+  int permits() default 1;
 
-  String weightMethodName() default FIXED_WEIGHT;
+  String permitsMethodName() default FIXED_WEIGHT;
 }

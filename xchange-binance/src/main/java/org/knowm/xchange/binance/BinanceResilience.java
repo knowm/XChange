@@ -6,11 +6,6 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 public final class BinanceResilience {
 
-  /**
-   * Name of main rate limiter
-   *
-   * <p>1 permission = 1 weight, so it can be used out of the box for calls with weight = 1
-   */
   public static final String REQUEST_WEIGHT_RATE_LIMITER = "requestWeight";
 
   public static final String ORDERS_PER_SECOND_RATE_LIMITER = "ordersPerSecond";

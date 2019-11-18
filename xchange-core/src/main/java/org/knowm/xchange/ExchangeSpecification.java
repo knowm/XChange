@@ -222,18 +222,41 @@ public class ExchangeSpecification {
     this.httpReadTimeout = milliseconds;
   }
 
+  /**
+   * @see #setRetryEnabled(boolean)
+   * @return true if enabled
+   */
   public boolean isRetryEnabled() {
     return retryEnabled;
   }
 
+  /**
+   * Flag that lets you enable retry functionality if it was implemented for the given exchange.
+   *
+   * <p>If this featrue is implemented and enabled then operations that can be safely retried on
+   * socket failures and timeouts will be retried.
+   */
   public void setRetryEnabled(boolean retryEnabled) {
     this.retryEnabled = retryEnabled;
   }
 
+  /**
+   * @see #setRetryEnabled(boolean)
+   * @return true if enabled
+   */
   public boolean isRateLimiterEnabled() {
     return rateLimiterEnabled;
   }
 
+  /**
+   * Flag that lets you enable call rate limiting functionality if it was implemented for the given
+   * exchange.
+   *
+   * <p>If this featrue is implemented and enabled then we will limit the amount of calls to the
+   * exchanges API to not exceeds its limits. This will result in delaying some calls or throwing a
+   * {@link io.github.resilience4j.ratelimiter.RequestNotPermitted} exception if we would have to
+   * wait to long.
+   */
   public void setRateLimiterEnabled(boolean rateLimiterEnabled) {
     this.rateLimiterEnabled = rateLimiterEnabled;
   }

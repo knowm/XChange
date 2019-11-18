@@ -8,17 +8,13 @@ import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import java.io.IOException;
 import java.time.Duration;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.binance.AbstractResilienceTest;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceResilience;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,16 +22,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class MarketDataServiceResilienceTest {
-
-  @Rule public WireMockRule wireMockRule = new WireMockRule();
-
-  public static int READ_TIMEOUT_MS = 1000;
-
-  @Before
-  public void resertResilienceRegistries() {
-    BinanceExchange.resetResilienceRegistries();
-  }
+public class MarketDataServiceResilienceTest extends AbstractResilienceTest {
 
   @Test
   public void shouldSucceedIfFirstCallTimeoutedAndRetryIsEnabled() throws Exception {
@@ -63,7 +50,7 @@ public class MarketDataServiceResilienceTest {
     assertThat(exception).isInstanceOf(IOException.class);
   }
 
-  @Test // (timeout = 2000)
+  @Test(timeout = 2000)
   public void shouldGetMaxDepthTwoTimesWithoutDelayWithDefaultRateLimiter() throws Exception {
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
@@ -79,7 +66,7 @@ public class MarketDataServiceResilienceTest {
     assertThat(orderBook.getBids()).isNotEmpty();
   }
 
-  @Test // (timeout = 2000)
+  @Test(timeout = 2000)
   public void shouldGetTimeoutOnSecondMaxDepthVeryRestrictiveCustomRateLimiter() throws Exception {
     // given
     BinanceExchange exchange = createExchangeWithRateLimiterEnabled();
@@ -132,34 +119,5 @@ public class MarketDataServiceResilienceTest {
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
                     .withBodyFile("depth.json")));
-  }
-
-  private BinanceExchange createExchangeWithRetryEnabled() {
-    return createExchange(true, false);
-  }
-
-  private BinanceExchange createExchangeWithRetryDisabled() {
-    return createExchange(false, false);
-  }
-
-  private BinanceExchange createExchangeWithRateLimiterEnabled() {
-    return createExchange(false, true);
-  }
-
-  private BinanceExchange createExchange(boolean retryEnabled, boolean rateLimiterEnabled) {
-    BinanceExchange exchange =
-        (BinanceExchange)
-            ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(
-                BinanceExchange.class.getName());
-    ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
-    specification.setHost("localhost");
-    specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");
-    specification.setPort(wireMockRule.port());
-    specification.setShouldLoadRemoteMetaData(false);
-    specification.setHttpReadTimeout(READ_TIMEOUT_MS);
-    specification.setRetryEnabled(retryEnabled);
-    specification.setRateLimiterEnabled(rateLimiterEnabled);
-    exchange.applySpecification(specification);
-    return exchange;
   }
 }
