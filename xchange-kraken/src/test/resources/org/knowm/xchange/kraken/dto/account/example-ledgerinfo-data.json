@@ -3,6 +3,16 @@
   ],
   "result": {
     "ledger": {
+      "LDVXGZ-2FJSK-FJWOGJ": {
+        "refid": "LAJSKG3-35JF4-JF0JG3",
+        "time": 1549990357.125,
+        "type": "adjustment",
+        "aclass": "currency",
+        "asset": "XICN",
+        "amount": "-350.0000000000",
+        "fee": "0.0000000000",
+        "balance": "0.0000000000"
+      },
       "LQY6IE-WNT47-JRBOJV": {
         "refid": "QGBJIZV-4F6SPK-ZCBT5O",
         "time": 1391400160.0679,

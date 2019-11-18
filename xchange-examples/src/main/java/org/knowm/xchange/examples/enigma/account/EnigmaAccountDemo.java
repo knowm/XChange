@@ -1,5 +1,9 @@
 package org.knowm.xchange.examples.enigma.account;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -9,11 +13,6 @@ import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawal;
 import org.knowm.xchange.enigma.service.EnigmaAccountServiceRaw;
 import org.knowm.xchange.examples.enigma.EnigmaDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class EnigmaAccountDemo {

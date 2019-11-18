@@ -8,13 +8,15 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.hitbtc.v2.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -28,7 +30,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
   public AccountInfo getAccountInfo() throws IOException {
 
     return new AccountInfo(
-        HitbtcAdapters.adaptWallet("Main", getMainBalance()),
+        //        HitbtcAdapters.adaptWallet("Main", getMainBalance()),
         HitbtcAdapters.adaptWallet("Trading", getTradingBalance()));
   }
 
@@ -70,29 +72,31 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-
-    throw new NotAvailableFromExchangeException();
+    return new HitbtcFundingHistoryParams();
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     List<HitbtcTransaction> transactions;
+    String currencyCode = null;
+    Integer limit = 1000;
+    Integer offset = 0;
 
-    if (params instanceof HitbtcFundingHistoryParams) {
-      HitbtcFundingHistoryParams hitbtcTradeHistoryParams = (HitbtcFundingHistoryParams) params;
-
-      String currency =
-          hitbtcTradeHistoryParams.getCurrency() != null
-              ? hitbtcTradeHistoryParams.getCurrency().getCurrencyCode()
-              : null;
-
-      transactions =
-          getTransactions(
-              currency, hitbtcTradeHistoryParams.getLimit(), hitbtcTradeHistoryParams.getOffset());
-    } else {
-      transactions = getTransactions(null, null, null);
+    if (params instanceof TradeHistoryParamCurrency) {
+      Currency currency = ((TradeHistoryParamCurrency) params).getCurrency();
+      currencyCode = currency != null ? currency.getCurrencyCode() : null;
     }
+
+    if (params instanceof TradeHistoryParamLimit) {
+      limit = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset) params).getOffset().intValue();
+    }
+
+    transactions = getTransactions(currencyCode, limit, offset);
 
     List<FundingRecord> records = new ArrayList<>();
     for (HitbtcTransaction transaction : transactions) {

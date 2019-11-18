@@ -42,6 +42,22 @@ public class ObjectMapperHelper {
     return toJSON(objectMapperWithoutIndentation, valueType);
   }
 
+  /**
+   * Useful for testing. Performs a round trip via a JSON string allowing ser/deser to be tested and
+   * verified.
+   *
+   * @param <T> The object type
+   * @param valueType The object to be converted
+   * @return A copy of the object performed via JSON.
+   * @throws IOException If there are deserialization issues.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T viaJSON(T valueType) throws IOException {
+    String json = toJSON(valueType);
+    logger.debug("Converted " + valueType + " to " + json);
+    return readValue(json, (Class<T>) valueType.getClass());
+  }
+
   private static <T> String toJSON(ObjectMapper objectMapper, T valueType) {
     try {
       return objectMapper.writeValueAsString(valueType);

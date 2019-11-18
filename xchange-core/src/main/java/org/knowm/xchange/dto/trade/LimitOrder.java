@@ -1,5 +1,9 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -14,6 +18,7 @@ import org.knowm.xchange.dto.Order;
  * exchange, so your order may not be executed. However, until you become very experienced, almost
  * all orders should be limit orders to protect yourself.
  */
+@JsonDeserialize(builder = LimitOrder.Builder.class)
 public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   private static final long serialVersionUID = -5166848178471347540L;
@@ -115,6 +120,47 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     this.limitPrice = limitPrice;
   }
 
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param status the status of the order at the exchange or broker
+   * @param userReference An id provided by the user
+   */
+  public LimitOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
+    this.limitPrice = limitPrice;
+  }
+
   /** @return The limit price */
   public BigDecimal getLimitPrice() {
 
@@ -175,11 +221,15 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     return super.equals(obj);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
     protected BigDecimal limitPrice;
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -195,7 +245,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
               .fee(order.getFee())
-              .averagePrice(order.getAveragePrice());
+              .averagePrice(order.getAveragePrice())
+              .userReference(order.getUserReference());
       if (order instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) order;
         builder.limitPrice(limitOrder.getLimitPrice());
@@ -221,6 +272,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return (Builder) super.cumulativeAmount(originalAmount);
     }
 
+    @Override
     public Builder remainingAmount(BigDecimal remainingAmount) {
 
       return (Builder) super.remainingAmount(remainingAmount);
@@ -236,6 +288,12 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public Builder id(String id) {
 
       return (Builder) super.id(id);
+    }
+
+    @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
     }
 
     @Override
@@ -279,6 +337,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return this;
     }
 
+    @Override
     public LimitOrder build() {
 
       LimitOrder order =
@@ -294,7 +353,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
                   ? cumulativeAmount
                   : originalAmount.subtract(remainingAmount),
               fee,
-              status);
+              status,
+              userReference);
       order.setOrderFlags(flags);
       return order;
     }
