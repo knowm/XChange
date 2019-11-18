@@ -8,7 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
@@ -21,12 +21,12 @@ public interface Bitfinex {
   @GET
   @Path("tickers")
   BitfinexTicker[] getTickers(@QueryParam("symbols") String symbols)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV2;
 
   @GET
   @Path("status/{type}")
   List<Status> getStatus(@PathParam("type") String type, @QueryParam("keys") String symbols)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV2;
 
   @GET
   @Path("/trades/{symbol}/hist")
@@ -36,7 +36,7 @@ public interface Bitfinex {
       @QueryParam("start") long startTimestamp,
       @QueryParam("end") long endTimestamp,
       @QueryParam("sort") int sort)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV2;
 
   @GET
   @Path("/trades/{symbol}/hist")
@@ -46,5 +46,5 @@ public interface Bitfinex {
       @QueryParam("start") long startTimestamp,
       @QueryParam("end") long endTimestamp,
       @QueryParam("sort") int sort)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV2;
 }

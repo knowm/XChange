@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.*;
@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -115,7 +116,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       LimitOrder limitOrder, BitfinexOrderType orderType, long replaceOrderId) throws IOException {
     if (limitOrder instanceof BitfinexLimitOrder
         && ((BitfinexLimitOrder) limitOrder).getOcoStopLimit() != null) {
-      throw new BitfinexException("OCO orders are not yet editable");
+      throw new ExchangeException("OCO orders are not yet editable");
     }
     return sendLimitOrder(limitOrder, orderType, replaceOrderId);
   }
