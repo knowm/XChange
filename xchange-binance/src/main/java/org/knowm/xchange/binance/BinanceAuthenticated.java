@@ -189,7 +189,7 @@ public interface BinanceAuthenticated extends Binance {
   @GET
   @Path("api/v3/openOrders")
   @Decorator(retry = @Retry(name = "openOrders"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 5))
   /**
    * Get open orders on a symbol.
    *
@@ -211,7 +211,7 @@ public interface BinanceAuthenticated extends Binance {
   @GET
   @Path("api/v3/openOrders")
   @Decorator(retry = @Retry(name = "allOpenOrders"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 40))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 40))
   /**
    * Get all open orders.
    *
@@ -261,7 +261,7 @@ public interface BinanceAuthenticated extends Binance {
   @GET
   @Path("api/v3/account")
   @Decorator(retry = @Retry(name = "account"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 5))
   /**
    * Get current account information.
    *
@@ -281,7 +281,9 @@ public interface BinanceAuthenticated extends Binance {
   @GET
   @Path("api/v3/myTrades")
   @Decorator(retry = @Retry(name = "myTrades"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(
+      rateLimiter =
+          @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permitsMethodName = "myTradesPermits"))
   /**
    * Get trades for a specific account and symbol.
    *
@@ -309,6 +311,22 @@ public interface BinanceAuthenticated extends Binance {
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
+
+  public static int myTradesPermits(
+      String symbol,
+      Integer limit,
+      Long startTime,
+      Long endTime,
+      Long fromId,
+      Long recvWindow,
+      SynchronizedValueFactory<Long> timestamp,
+      String apiKey,
+      ParamsDigest signature) {
+    if (limit != null && limit > 500) {
+      return 10;
+    }
+    return 5;
+  }
 
   @POST
   @Path("wapi/v3/withdraw.html")

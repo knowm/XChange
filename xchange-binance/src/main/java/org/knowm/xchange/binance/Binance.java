@@ -65,10 +65,10 @@ public interface Binance {
   @Decorator(retry = @Retry(name = "depth"))
   @Decorator(
       rateLimiter =
-          @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weightMethodName = "depthWeight"))
+          @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permitsMethodName = "depthPermits"))
   /**
    * @param symbol
-   * @param limit optional, default 100; max 100.
+   * @param limit optional, default 100; valid limits: 5, 10, 20, 50, 100, 500, 1000, 5000
    * @return
    * @throws IOException
    * @throws BinanceException
@@ -76,8 +76,8 @@ public interface Binance {
   BinanceOrderbook depth(@QueryParam("symbol") String symbol, @QueryParam("limit") Integer limit)
       throws IOException, BinanceException;
 
-  public static int depthWeight(String symbol, Integer limit) {
-    if (limit <= 100) {
+  public static int depthPermits(String symbol, Integer limit) {
+    if (limit == null || limit <= 100) {
       return 1;
     } else if (limit <= 500) {
       return 5;
@@ -90,7 +90,9 @@ public interface Binance {
   @GET
   @Path("api/v1/aggTrades")
   @Decorator(retry = @Retry(name = "aggTrades"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER))
+  @Decorator(
+      rateLimiter =
+          @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permitsMethodName = "aggTradesPermits"))
   /**
    * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with the
    * same price will have the quantity aggregated.<br>
@@ -115,6 +117,14 @@ public interface Binance {
       @QueryParam("endTime") Long endTime,
       @QueryParam("limit") Integer limit)
       throws IOException, BinanceException;
+
+  public static int aggTradesPermits(
+      String symbol, Long fromId, Long startTime, Long endTime, Integer limit) {
+    if (limit != null && limit > 500) {
+      return 2;
+    }
+    return 1;
+  }
 
   @GET
   @Path("api/v1/klines")
@@ -144,7 +154,7 @@ public interface Binance {
   @GET
   @Path("api/v1/ticker/24hr")
   @Decorator(retry = @Retry(name = "ticker24h"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 5))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 5))
   /**
    * 24 hour price change statistics for all symbols. - bee carreful this api call have a big
    * weight, only about 4 call per minut can be without ban.
@@ -173,7 +183,7 @@ public interface Binance {
   @GET
   @Path("api/v1/ticker/allPrices")
   @Decorator(retry = @Retry(name = "tickerAllPrices"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 2))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 2))
   /**
    * Latest price for all symbols.
    *
@@ -186,7 +196,7 @@ public interface Binance {
   @GET
   @Path("api/v3/ticker/bookTicker")
   @Decorator(retry = @Retry(name = "tickerAllBookTickers"))
-  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, weight = 2))
+  @Decorator(rateLimiter = @RateLimiter(name = REQUEST_WEIGHT_RATE_LIMITER, permits = 2))
   /**
    * Best price/qty on the order book for all symbols.
    *
