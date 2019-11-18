@@ -1,5 +1,7 @@
 package org.knowm.xchange.enigma.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -10,9 +12,6 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaOpenOrders;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.trade.*;
 import org.knowm.xchange.enigma.model.EnigmaException;
-
-import java.io.IOException;
-import java.util.List;
 
 public class EnigmaTradeServiceRaw extends EnigmaBaseService {
 
@@ -67,14 +66,11 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
   private Integer getProductId(CurrencyPair currencyPair) throws IOException {
     List<EnigmaProduct> products = getProducts();
     return products.stream()
-            .filter(
-                    product ->
-                            product
-                                    .getProductName()
-                                    .equals(currencyPair.toString().replace("/", "-")))
-            .map(EnigmaProduct::getProductId)
-            .findFirst()
-            .orElseThrow(() -> new EnigmaException("Currency pair not found"));
+        .filter(
+            product -> product.getProductName().equals(currencyPair.toString().replace("/", "-")))
+        .map(EnigmaProduct::getProductId)
+        .findFirst()
+        .orElseThrow(() -> new EnigmaException("Currency pair not found"));
   }
 
   public List<EnigmaProduct> getProducts() throws IOException {

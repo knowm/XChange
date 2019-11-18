@@ -1,7 +1,15 @@
 package org.knowm.xchange.dto.marketdata;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class TradesTest {
 
@@ -21,5 +29,22 @@ public class TradesTest {
     } catch (Exception e) {
       Assert.fail("Could not compare trades");
     }
+  }
+
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    Trade t1 =
+        new Trade.Builder()
+            .currencyPair(CurrencyPair.BTC_CAD)
+            .id("BAR")
+            .originalAmount(new BigDecimal("0.12"))
+            .price(new BigDecimal("0.13"))
+            .timestamp(new Date())
+            .type(OrderType.BID)
+            .build();
+    t1.setMakerOrderId("maker1");
+    t1.setTakerOrderId("taker1");
+    Trade jsonCopy = ObjectMapperHelper.viaJSON(t1);
+    assertThat(jsonCopy).isEqualTo(t1);
   }
 }

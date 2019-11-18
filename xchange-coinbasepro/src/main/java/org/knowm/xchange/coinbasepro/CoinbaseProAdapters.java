@@ -386,8 +386,10 @@ public class CoinbaseProAdapters {
             currency -> {
               Currency cur = adaptCurrency(currency);
               int scale = numberOfDecimals(currency.getMaxPrecision());
+              BigDecimal minWithdrawalAmount = currency.getDetails().getMinWithdrawalAmount();
               // Coinbase has a 0 withdrawal fee
-              currencies.put(cur, new CurrencyMetaData(scale, BigDecimal.ZERO));
+              currencies.put(
+                  cur, new CurrencyMetaData(scale, BigDecimal.ZERO, minWithdrawalAmount));
             });
 
     return new ExchangeMetaData(

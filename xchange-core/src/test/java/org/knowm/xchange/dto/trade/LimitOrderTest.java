@@ -2,7 +2,9 @@ package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class LimitOrderTest {
   @Test
@@ -21,6 +24,7 @@ public class LimitOrderTest {
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final BigDecimal fee = new BigDecimal("22.2");
+    final String userReference = "123";
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
@@ -36,6 +40,7 @@ public class LimitOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .userReference(userReference)
             .build();
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
@@ -50,10 +55,11 @@ public class LimitOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getUserReference()).isEqualTo(userReference);
   }
 
   @Test
-  public void testBuilderFrom() {
+  public void testBuilderFrom() throws IOException {
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final BigDecimal averagePrice = new BigDecimal("255.00");
@@ -82,6 +88,39 @@ public class LimitOrderTest {
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy).isEqualToComparingFieldByField(original);
+  }
+
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final BigDecimal averagePrice = new BigDecimal("255.00");
+    final BigDecimal cumulativeAmount = new BigDecimal("0.00");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal limitPrice = new BigDecimal("250.34");
+    final BigDecimal fee = new BigDecimal("22.2");
+    final Date timestamp = new Date();
+    final String id = "id";
+    final Order.OrderStatus status = Order.OrderStatus.FILLED;
+
+    final LimitOrder original =
+        new LimitOrder(
+            type,
+            originalAmount,
+            currencyPair,
+            id,
+            timestamp,
+            limitPrice,
+            averagePrice,
+            cumulativeAmount,
+            fee,
+            status);
+    original.addOrderFlag(TestFlags.TEST1);
+    original.addOrderFlag(TestFlags.TEST3);
+
+    LimitOrder jsonCopy = ObjectMapperHelper.viaJSON(original);
+    assertThat(jsonCopy).isEqualToIgnoringGivenFields(original, "cumulativeAmount");
+    assertTrue(jsonCopy.getCumulativeAmount().compareTo(original.getCumulativeAmount()) == 0);
   }
 
   @Test

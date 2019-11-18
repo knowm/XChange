@@ -38,6 +38,7 @@ public final class WithdrawList extends WapiResponse<List<BinanceWithdraw>> {
   @Data
   public static final class BinanceWithdraw {
     private BigDecimal amount;
+    private BigDecimal transactionFee;
     private String address;
     private String addressTag;
     private long successTime;
