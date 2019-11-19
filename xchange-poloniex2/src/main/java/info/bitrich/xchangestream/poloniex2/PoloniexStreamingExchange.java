@@ -93,4 +93,13 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
     @Override
     public void useCompressedMessages(boolean compressedMessages) { streamingService.useCompressedMessages(compressedMessages); }
+    
+    @Override
+    public Observable<Object> connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+    @Override
+    public Observable<Throwable> reconnectFailure() {
+        return streamingService.subscribeReconnectFailure();
+    }
 }
