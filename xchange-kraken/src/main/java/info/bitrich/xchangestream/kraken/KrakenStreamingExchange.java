@@ -50,7 +50,17 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     public boolean isAlive() {
         return streamingService.isSocketOpen();
     }
-
+    
+    @Override
+    public Observable<Object> connectionSuccess() {
+        return streamingService.subscribeConnectionSuccess();
+    }
+    
+    @Override
+    public Observable<Throwable> reconnectFailure() {
+        return streamingService.subscribeReconnectFailure();
+    }
+    
     @Override
     public SynchronizedValueFactory<Long> getNonceFactory() {
         return nonceFactory;
