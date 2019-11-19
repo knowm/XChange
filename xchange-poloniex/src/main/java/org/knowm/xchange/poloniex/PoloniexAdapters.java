@@ -35,6 +35,7 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
@@ -87,7 +88,7 @@ public class PoloniexAdapters {
   }
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(
-      List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
+    List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
     List<LimitOrder> orders = new ArrayList<>();
 
     for (List<BigDecimal> rawlevel : rawLevels) {
