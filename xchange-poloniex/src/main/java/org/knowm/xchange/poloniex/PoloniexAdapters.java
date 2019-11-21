@@ -92,10 +92,17 @@ public class PoloniexAdapters {
 
     for (List<BigDecimal> rawlevel : rawLevels) {
       LimitOrder limitOrder =
-          new LimitOrder.Builder(orderType, currencyPair)
-              .originalAmount(rawlevel.get(1))
-              .limitPrice(rawlevel.get(0))
-              .build();
+          new LimitOrder(
+              orderType,
+              rawlevel.get(1),  // originalAmount
+              currencyPair,
+              null,
+              null,   
+              rawlevel.get(0),  // limitPrice
+              null,
+              null,
+              null,
+              Order.OrderStatus.UNKNOWN);
       orders.add(limitOrder);
     }
     return orders;
