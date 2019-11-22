@@ -104,10 +104,8 @@ public class BitfinexTradeResponse {
     builder.append(exchange);
     builder.append(", type=");
     builder.append(type);
-    builder.append("]");
     builder.append(", tradeId=");
     builder.append(tradeId);
-    builder.append("]");
     builder.append(", orderId=");
     builder.append(orderId);
     builder.append(", fee=");

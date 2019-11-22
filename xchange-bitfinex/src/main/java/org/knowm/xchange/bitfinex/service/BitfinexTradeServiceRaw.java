@@ -36,6 +36,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexEmptyRequest;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
@@ -422,6 +423,41 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                 endTime,
                 limit,
                 reverse));
+    return trades;
+  }
+
+  public org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTradeResponse[] getBitfinexTradeHistoryV2(
+          String symbol, long startTime, Long endTime, Integer limit, Integer reverse)
+          throws IOException {
+
+    org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTradeResponse[] trades =
+            bitfinexV2.pastTrades(
+                    String.valueOf(exchange.getNonceFactory().createValue()),
+                    apiKey,
+                    signatureCreatorV2,
+                    symbol,
+                    startTime,
+                    endTime,
+                    limit,
+                    reverse,
+                    new BitfinexEmptyRequest());
+    return trades;
+  }
+
+  public org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTradeResponse[] getBitfinexTradeHistoryV2(
+          long startTime, Long endTime, Integer limit, Integer sort)
+          throws IOException {
+
+    org.knowm.xchange.bitfinex.v2.dto.trade.BitfinexTradeResponse[] trades =
+            bitfinexV2.pastTrades(
+                    String.valueOf(exchange.getNonceFactory().createValue()),
+                    apiKey,
+                    signatureCreatorV2,
+                    startTime,
+                    endTime,
+                    limit,
+                    sort,
+                    new BitfinexEmptyRequest());
     return trades;
   }
 

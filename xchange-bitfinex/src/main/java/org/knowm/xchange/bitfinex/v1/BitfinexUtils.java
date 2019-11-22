@@ -26,7 +26,8 @@ public final class BitfinexUtils {
     }
 
     String base = adaptXchangeCurrency(currencyPair.base);
-    return base + currencySeparator(base) + adaptXchangeCurrency(currencyPair.counter);
+    String counter = adaptXchangeCurrency(currencyPair.counter);
+    return base + currencySeparator(base, counter) + counter;
   }
 
   /**
@@ -34,15 +35,11 @@ public final class BitfinexUtils {
    * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details
    *
    * @param base
+   * @param counter
    * @return
    */
-  private static String currencySeparator(String base) {
-    switch (base) {
-      case "dusk":
-        return ":";
-      default:
-        return "";
-    }
+  private static String currencySeparator(String base, String counter) {
+    return base.length() > 3 || counter.length() > 3 ? ":" : "";
   }
 
   /**

@@ -12,6 +12,7 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
   protected final String apiKey;
   protected final BitfinexAuthenticated bitfinex;
   protected final ParamsDigest signatureCreator;
+  protected final ParamsDigest signatureCreatorV2;
   protected final ParamsDigest payloadCreator;
 
   protected final org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated bitfinexV2;
@@ -33,6 +34,9 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BitfinexHmacPostBodyDigest.createInstance(
+            exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreatorV2 =
+        BitfinexHmacPostBodyDigestV2.createInstance(
             exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new BitfinexPayloadDigest();
 
