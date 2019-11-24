@@ -25,21 +25,23 @@ public class CoinmateStreamingAdapter {
     public static UserTrades adaptWebSocketUserTrades(List<CoinmateWebSocketUserTrade> coinmateWebSocketUserTrades, CurrencyPair currencyPair) {
         List<UserTrade> userTrades = new ArrayList<>();
         coinmateWebSocketUserTrades.forEach((coinmateWebSocketUserTrade) -> {
+
             userTrades.add(
-                    new UserTrade(
-                            (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
-                                    ? Order.OrderType.ASK
-                                    : Order.OrderType.BID,
-                            BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()),
-                            currencyPair,
-                            BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()),
-                            Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())),
-                            coinmateWebSocketUserTrade.getTransactionId(),
-                            (coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
+                    new UserTrade.Builder()
+                            .type((coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
+                                ? Order.OrderType.ASK
+                                : Order.OrderType.BID)
+                            .originalAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getAmount()))
+                            .currencyPair(currencyPair)
+                            .price(BigDecimal.valueOf(coinmateWebSocketUserTrade.getPrice()))
+                            .timestamp(Date.from(Instant.ofEpochMilli(coinmateWebSocketUserTrade.getTimestamp())))
+                            .id(coinmateWebSocketUserTrade.getTransactionId())
+                            .orderId((coinmateWebSocketUserTrade.getUserOrderType().equals("SELL"))
                                     ? coinmateWebSocketUserTrade.getSellOrderId()
-                                    : coinmateWebSocketUserTrade.getBuyOrderId(),
-                            BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()),
-                            currencyPair.counter)
+                                    : coinmateWebSocketUserTrade.getBuyOrderId())
+                            .feeAmount(BigDecimal.valueOf(coinmateWebSocketUserTrade.getFee()))
+                            .feeCurrency(currencyPair.counter)
+                            .build()
             );
         });
         return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
@@ -49,16 +51,15 @@ public class CoinmateStreamingAdapter {
         List<LimitOrder> openOrders = new ArrayList<>();
         coinmateWebsocketOpenOrders.forEach((coinmateWebsocketOpenOrder) -> {
             openOrders.add(
-                    new LimitOrder(
-                            (coinmateWebsocketOpenOrder.getOrderType().contains("SELL"))
-                                    ? Order.OrderType.ASK
-                                    : Order.OrderType.BID,
-                            BigDecimal.valueOf(coinmateWebsocketOpenOrder.getAmount()),
-                            BigDecimal.valueOf(coinmateWebsocketOpenOrder.getOriginalOrderSize()),
-                            currencyPair, coinmateWebsocketOpenOrder.getId(),
-                            Date.from(Instant.ofEpochMilli(coinmateWebsocketOpenOrder.getTimestamp())),
-                            BigDecimal.valueOf(coinmateWebsocketOpenOrder.getPrice())
-                    )
+                    new LimitOrder.Builder((coinmateWebsocketOpenOrder.getOrderType().contains("SELL"))
+                            ? Order.OrderType.ASK
+                            : Order.OrderType.BID,currencyPair)
+                            .originalAmount(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getAmount()))
+                            .cumulativeAmount(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getOriginalOrderSize()))
+                            .id(coinmateWebsocketOpenOrder.getId())
+                            .timestamp(Date.from(Instant.ofEpochMilli(coinmateWebsocketOpenOrder.getTimestamp())))
+                            .limitPrice(BigDecimal.valueOf(coinmateWebsocketOpenOrder.getPrice()))
+                            .build()
             );
         });
         return new OpenOrders(openOrders);

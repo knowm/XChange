@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.account.Wallet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
@@ -25,32 +26,20 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
     }
 
     public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
-        String channelName = "private-user_balances-" + userId;
 
-        return service.subscribePrivateChannel(channelName, "user_balances")
-                .map((message) -> {
-                    Map<String, CoinmateWebsocketBalance> balanceMap =
-                    StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
-            return balanceMap;
-        }).map((balanceMap) -> {
-            CoinmateWebsocketBalance currencyBalance = balanceMap.get(currency.toString());
-            return new Balance(
-                        currency,
-                        currencyBalance.getBalance(),
-                        currencyBalance.getBalance().subtract(currencyBalance.getReserved()),
-                        currencyBalance.getReserved()
-                    );
+        return getCoinmateBalances().map(balanceMap -> balanceMap.get(currency.toString()))
+                .map((balance) -> {
+                    return new Balance(
+                            currency,
+                            balance.getBalance(),
+                            balance.getBalance().subtract(balance.getReserved()),
+                            balance.getReserved());
         });
     }
 
     public Observable<Wallet> getWalletChanges(Object... args) {
-        String channelName = "private-user_balances-" + userId;
 
-        return service.subscribePrivateChannel(channelName, "user_balances").map((message) -> {
-            Map<String, CoinmateWebsocketBalance> balanceMap =
-                    StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
-            return balanceMap;
-        }).map((balanceMap) -> {
+        return getCoinmateBalances().map((balanceMap) -> {
             List<Balance> balances = new ArrayList<>();
             balanceMap.forEach((s, coinmateWebsocketBalance) -> {
                 balances.add(
@@ -63,7 +52,19 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
             });
             return balances;
         }).map((balances) -> {
-            return new Wallet("spot", balances);
+            return Wallet.Builder.from(balances).features(Set.of(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING)).id("spot").build();
+        });
+    }
+
+    private Observable<Map<String,CoinmateWebsocketBalance>> getCoinmateBalances(){
+        String channelName = "private-user_balances-" + userId;
+
+        return service.subscribeChannel(channelName,"user_balances")
+                .map((message)->{
+                    Map<String, CoinmateWebsocketBalance> balanceMap =
+                            StreamingObjectMapperHelper.getObjectMapper().readValue(message, new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
+
+                    return balanceMap;
         });
     }
 }
