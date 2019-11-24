@@ -40,6 +40,8 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
             ? SANDBOX_API_URI
             : API_URI;
         this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
+        applyStreamingSpecification(exchangeSpecification, this.streamingService);
+        
         this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
         this.streamingTradeService = new CoinbaseProStreamingTradeService(streamingService);
         streamingService.subscribeMultipleCurrencyPairs(args);

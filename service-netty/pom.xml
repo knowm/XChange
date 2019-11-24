@@ -3,7 +3,7 @@
     <parent>
         <artifactId>xchange-stream-parent</artifactId>
         <groupId>info.bitrich.xchange-stream</groupId>
-        <version>4.3.17-SNAPSHOT</version>
+        <version>4.4.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.38.Final</version>
+            <version>4.1.43.Final</version>
         </dependency>
 
         <dependency>
