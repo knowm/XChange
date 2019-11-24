@@ -32,10 +32,7 @@ public class PusherStreamingService extends ConnectableService  {
         pusher = new Pusher(apiKey, options);
     }
 
-    public PusherStreamingService(String apiKey, String cluster, Authorizer authorizer) {
-        PusherOptions options = new PusherOptions();
-        options.setCluster(cluster);
-        options.setAuthorizer(authorizer);
+    public PusherStreamingService(String apiKey, PusherOptions options) {
         this.pusher = new Pusher(apiKey, options);
     }
 

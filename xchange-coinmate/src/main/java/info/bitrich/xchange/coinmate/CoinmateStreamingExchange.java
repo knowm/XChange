@@ -1,7 +1,9 @@
 package info.bitrich.xchange.coinmate;
 
+import com.pusher.client.PusherOptions;
 import com.pusher.client.util.HttpAuthorizer;
 import com.pusher.client.util.UrlEncodedConnectionFactory;
+import info.bitrich.xchange.coinmate.dto.auth.CoinmateUrlEncodedConnectionFactory;
 import info.bitrich.xchange.coinmate.dto.auth.PusherAuthParamsObject;
 import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
@@ -28,9 +30,12 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
                     exchangeSpecification.getUserName(),
                     getNonceFactory().createValue()
             );
-            UrlEncodedConnectionFactory urlEncodedConnectionFactory = new UrlEncodedConnectionFactory(params.getParams());
+            CoinmateUrlEncodedConnectionFactory urlEncodedConnectionFactory = new CoinmateUrlEncodedConnectionFactory(params);
             HttpAuthorizer authorizer = new HttpAuthorizer("https://www.coinmate.io/api/pusherAuth", urlEncodedConnectionFactory);
-            streamingService = new PusherStreamingService(API_KEY, "mt1", authorizer);
+            PusherOptions options = new PusherOptions();
+            options.setAuthorizer(authorizer);
+            options.setCluster("mt1");
+            streamingService = new PusherStreamingService(API_KEY, options);
         } else {
             streamingService = new PusherStreamingService(API_KEY);
         }
