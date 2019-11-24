@@ -18,6 +18,6 @@ public class CexioWebSocketOrderBookSubscriptionData {
         new ArrayList<String>(
             Arrays.asList(currencyPair.base.toString(), currencyPair.counter.toString()));
     this.subscribe = subscribe;
-    this.depth = 10; // -1 for full depth
+    this.depth = 0; // 0 for full depth
   }
 }
