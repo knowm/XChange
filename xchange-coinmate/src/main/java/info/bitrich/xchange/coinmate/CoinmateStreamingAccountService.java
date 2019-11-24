@@ -10,15 +10,13 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
     private final PusherStreamingService service;
     private final String userId;
+    private final Set<Wallet.WalletFeature> walletFeatures = new HashSet<>(Arrays.asList(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING));
 
     public CoinmateStreamingAccountService(PusherStreamingService service, String userId) {
         this.service = service;
@@ -52,7 +50,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
             });
             return balances;
         }).map((balances) -> {
-            return Wallet.Builder.from(balances).features(Set.of(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING)).id("spot").build();
+            return Wallet.Builder.from(balances).features(walletFeatures).id("spot").build();
         });
     }
 
