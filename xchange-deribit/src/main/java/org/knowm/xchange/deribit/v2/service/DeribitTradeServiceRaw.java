@@ -9,8 +9,10 @@ import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
 import org.knowm.xchange.deribit.v2.dto.trade.Order;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
+import org.knowm.xchange.deribit.v2.dto.trade.SettlementType;
 import org.knowm.xchange.deribit.v2.dto.trade.TimeInForce;
 import org.knowm.xchange.deribit.v2.dto.trade.Trigger;
+import org.knowm.xchange.deribit.v2.dto.trade.UserSettlements;
 import org.knowm.xchange.deribit.v2.dto.trade.UserTrades;
 
 public class DeribitTradeServiceRaw extends DeribitBaseService {
@@ -125,6 +127,13 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             includeOld,
             sorting,
             deribitAuth)
+        .getResult();
+  }
+
+  public UserSettlements getUserSettlementsByInstrument(
+      String instrumentName, SettlementType type, Integer count) throws IOException {
+    return deribitAuthenticated
+        .getSettlementHistoryByInstrument(instrumentName, type, count, deribitAuth)
         .getResult();
   }
 }
