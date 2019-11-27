@@ -1,10 +1,7 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.kraken.dto.KrakenOrderBook;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenOrderBookMessageType;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.slf4j.Logger;
@@ -89,12 +86,12 @@ public class KrakenOrderBookUtils {
         return new KrakenPublicOrder(
                 new BigDecimal(list.get(0)).stripTrailingZeros(),
                 new BigDecimal(list.get(1)).stripTrailingZeros(),
-                timestampToMs(list.get(2))
-        );
-    }
 
-    private static long timestampToMs(String timestamp) {
-        return new BigDecimal(timestamp).multiply(new BigDecimal(1000)).longValue();
+                //TODO: The XChange Kraken orderbook timestamp is a seconds format since epoch.
+                // But websocket order's timestamp is more accurate. It is required to improve the XChange Kraken for supporting higher precision.
+                // XChange method to fix: org.knowm.xchange.kraken.KrakenAdapters.adaptOrders
+                new BigDecimal(list.get(2)).longValue()
+        );
     }
 
 }
