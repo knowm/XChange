@@ -19,7 +19,8 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
 
     private static final String JSON_CHANNEL = "channel";
     private static final String JSON_EVENT = "event";
-    private static final String JSON_DATA = "data";
+    public static final String EVENT_ORDERBOOK = "data";
+    public static final String EVENT_TRADE = "trade";
 
     public BitstampStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
@@ -56,8 +57,10 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
             LOG.warn("The message has been received from disconnected channel '{}'. Skipped.", channel);
             return;
         }
-        if (event.equals(JSON_DATA)) {
-            super.handleMessage(message);
+        switch (event) {
+            case EVENT_ORDERBOOK:
+            case EVENT_TRADE:
+                super.handleMessage(message);
         }
     }
 
