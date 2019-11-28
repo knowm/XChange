@@ -19,14 +19,17 @@ public class KrakenSubscriptionConfig {
      */
     private Integer depth;
 
+    private String token;
+
     public KrakenSubscriptionConfig(KrakenSubscriptionName name) {
-        this(name, null);
+        this(name, null, null);
     }
 
     @JsonCreator
-    public KrakenSubscriptionConfig(@JsonProperty("name") KrakenSubscriptionName name, @JsonProperty("depth") Integer depth) {
+    public KrakenSubscriptionConfig(@JsonProperty("name") KrakenSubscriptionName name, @JsonProperty("depth") Integer depth, @JsonProperty("token") String token) {
         this.name = name;
         this.depth = depth;
+        this.token = token;
     }
 
     public KrakenSubscriptionName getName() {
@@ -43,5 +46,13 @@ public class KrakenSubscriptionConfig {
 
     public void setDepth(Integer depth) {
         this.depth = depth;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

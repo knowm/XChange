@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.kraken.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
+import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class KrakenSubscriptionMessage extends KrakenEvent {
     /**
      * Array of currency pairs (pair1,pair2,pair3).
      */
-    @JsonProperty("pair")
+    @JsonProperty(value = "pair", required = false)
     private final List<String> pairs;
 
     @JsonProperty("subscription")
