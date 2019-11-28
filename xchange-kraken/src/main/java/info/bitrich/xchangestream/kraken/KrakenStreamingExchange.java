@@ -31,7 +31,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     public KrakenStreamingExchange() {
     }
 
-    public static String pickUri(boolean isPrivate, Boolean useSandbox) {
+    private static String pickUri(boolean isPrivate, Boolean useSandbox) {
         if (useSandbox != null && useSandbox)
             return API_BETA_URI;
         else
