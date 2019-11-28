@@ -27,7 +27,6 @@ import static info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType.subscr
  * @author makarid, pchertalev
  */
 public class KrakenStreamingService extends JsonNettyStreamingService {
-
     private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
     private static final String EVENT = "event";
     private final Map<Integer, String> channels = new ConcurrentHashMap<>();
