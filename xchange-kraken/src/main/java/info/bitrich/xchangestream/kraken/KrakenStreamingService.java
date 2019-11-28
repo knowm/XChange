@@ -12,13 +12,13 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType.subscribe;
@@ -32,12 +32,15 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     private static final String EVENT = "event";
     private final Map<Integer, String> channels = new ConcurrentHashMap<>();
     private ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    private final boolean isPrivate;
 
     private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
 
-    public KrakenStreamingService(String apiUrl) {
-        super(apiUrl, Integer.MAX_VALUE);
+    public KrakenStreamingService(boolean isPrivate, String uri) {
+        super(uri, Integer.MAX_VALUE);
+        this.isPrivate = isPrivate;
     }
+
 
     @Override
     public boolean processArrayMassageSeparately() {
@@ -62,11 +65,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                         break;
                     case subscriptionStatus:
                         KrakenSubscriptionStatusMessage statusMessage = mapper.treeToValue(message, KrakenSubscriptionStatusMessage.class);
-                        channelName = subscriptionRequestMap.remove(statusMessage.getReqid());
+                        Integer reqid = statusMessage.getReqid();
+                        if (!isPrivate && reqid != null)
+                            channelName = subscriptionRequestMap.remove(reqid);
+
                         switch (statusMessage.getStatus()) {
                             case subscribed:
                                 LOG.info("Channel {} has been subscribed", channelName);
-                                channels.put(statusMessage.getChannelID(), channelName);
+
+                                if (statusMessage.getChannelID() != null)
+                                    channels.put(statusMessage.getChannelID(), channelName);
+
                                 break;
                             case unsubscribed:
                                 LOG.info("Channel {} has been unsubscribed", channelName);
@@ -100,9 +109,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         if (message.has("channelID")) {
             channelName = channels.get(message.get("channelID").asInt());
         }
+        if (message.has("channelName")) {
+            channelName = message.get("channelName").asText();
+        }
 
-        if (message.isArray() && message.get(0).isInt()) {
-            channelName = channels.get(message.get(0).asInt());
+        if (message.isArray()) {
+            if (message.get(0).isInt()) {
+                channelName = channels.get(message.get(0).asInt());
+            }
+            if (message.get(1).isTextual()) {
+                channelName = message.get(1).asText();
+            }
         }
 
         if (LOG.isDebugEnabled()) {
@@ -111,36 +128,51 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         return channelName;
     }
 
-
     @Override
     public String getSubscribeMessage(String channelName, Object... args) throws IOException {
+        int reqID = Math.abs(UUID.randomUUID().hashCode());
         String [] channelData = channelName.split(KrakenStreamingMarketDataService.KRAKEN_CHANNEL_DELIMITER);
-        String pair = channelData[1];
         KrakenSubscriptionName subscriptionName = KrakenSubscriptionName.valueOf(channelData[0]);
+
+        if (isPrivate) {
+            String token = (String) args[0];
+
+            KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, subscribe,
+                    null, new KrakenSubscriptionConfig(subscriptionName, null, token));
+
+            return objectMapper.writeValueAsString(subscriptionMessage);
+        }
+
+        String pair = channelData[1];
 
         Integer depth = null;
         if (args.length > 0 && args[0] != null) {
             depth = (Integer) args[0];
         }
-        int reqID = Math.abs(UUID.randomUUID().hashCode());
         subscriptionRequestMap.put(reqID, channelName);
 
         KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, subscribe,
-                Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName, depth));
+                Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName, depth, null));
         return objectMapper.writeValueAsString(subscriptionMessage);
     }
 
     @Override
     public String getUnsubscribeMessage(String channelName) throws IOException {
+        int reqID = Math.abs(UUID.randomUUID().hashCode());
         String [] channelData = channelName.split(KrakenStreamingMarketDataService.KRAKEN_CHANNEL_DELIMITER);
-        String pair = channelData[1];
         KrakenSubscriptionName subscriptionName = KrakenSubscriptionName.valueOf(channelData[0]);
 
-        int reqID = Math.abs(UUID.randomUUID().hashCode());
+        if (isPrivate) {
+            KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
+                    null, new KrakenSubscriptionConfig(subscriptionName));
+            return objectMapper.writeValueAsString(subscriptionMessage);
+        }
+
+        String pair = channelData[1];
+
         subscriptionRequestMap.put(reqID, channelName);
         KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
                 Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName));
         return objectMapper.writeValueAsString(subscriptionMessage);
     }
-
 }
