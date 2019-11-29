@@ -104,6 +104,10 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     }
 
     @Override
+    public StreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
+    }
+    @Override
     public void useCompressedMessages(boolean compressedMessages) {
         streamingService.useCompressedMessages(compressedMessages);
     }
