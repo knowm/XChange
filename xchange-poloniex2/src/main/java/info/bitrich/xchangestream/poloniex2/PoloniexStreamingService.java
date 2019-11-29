@@ -30,7 +30,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
 
     public PoloniexStreamingService(String apiUrl) {
-        super(apiUrl, Integer.MAX_VALUE);
+        super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 2);
     }
 
     @Override
