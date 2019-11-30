@@ -66,6 +66,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                         .map(jsonNode -> jsonNode.get(0))
                         .map(jsonNode ->
                                 StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
+                        .doOnError(source::onError)
                         .forEach(list ->
                                 adaptKrakenOrders(list)
                                         .forEach(source::onNext));
@@ -184,6 +185,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                                 jsonNode.get(0))
                         .map(jsonNode ->
                                 StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
+                        .doOnError(source::onError)
                         .forEach(list ->
                                 adaptKrakenUserTrade(list)
                                         .forEach(source::onNext));
