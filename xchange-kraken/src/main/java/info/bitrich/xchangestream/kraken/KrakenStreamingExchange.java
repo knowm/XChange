@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import info.bitrich.xchangestream.core.*;
 import io.reactivex.Completable;
 import io.reactivex.Observable;

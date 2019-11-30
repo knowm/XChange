@@ -23,13 +23,16 @@ import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.*;
 
 public class KrakenStreamingTradeService implements StreamingTradeService {
     private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingTradeService.class);
 
-    KrakenStreamingService streamingService;
-    KrakenAccountServiceRaw rawKrakenAcctService;
+    private KrakenAccountServiceRaw rawKrakenAcctService;
+    private KrakenStreamingService streamingService;
+    private KrakenWebsocketToken token;
+    private long tokenExpires = 0L;
 
     KrakenStreamingTradeService(KrakenStreamingService streamingService, KrakenAccountServiceRaw rawKrakenAcctService) {
         this.streamingService = streamingService;
@@ -42,24 +45,31 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     private static class KrakenDtoOrderHolder extends HashMap<String, KrakenDtoOpenOrder> {}
     private static class KrakenDtoUserTradeHolder extends HashMap<String, KrakenDtoUserTrade> {}
 
+    private KrakenWebsocketToken renewToken() throws IOException {
+        if (System.currentTimeMillis() >= tokenExpires) {
+            token = rawKrakenAcctService.getKrakenWebsocketToken();
+            tokenExpires = System.currentTimeMillis() + (token.getExpiresInSeconds() * 900L); // 900L instead of a 1000L for 90%
+        }
+        return token;
+    }
+
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
 
         return Observable.create( source -> {
             try {
                 String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-                KrakenWebsocketToken token = rawKrakenAcctService.getKrakenWebsocketToken();
+                token = renewToken();
 
-                streamingService.subscribeChannel(channelName, token.getToken())
+                streamingService.subscribeChannel(channelName, renewToken().getToken())
                         .filter(JsonNode::isArray)
                         .filter(Objects::nonNull)
                         .map(jsonNode -> jsonNode.get(0))
                         .map(jsonNode ->
                                 StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
                         .forEach(list ->
-                                adaptKrakenOrders(list).stream()
-                                        .forEach(order ->
-                                                source.onNext(order)));
+                                adaptKrakenOrders(list)
+                                        .forEach(source::onNext));
 
             } catch (Throwable e) {
                 source.onError(e);
@@ -148,7 +158,6 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
      * Comma delimited list of order flags (optional). viqc = volume in quote currency (not available for leveraged orders),
      * fcib = prefer fee in base currency, fciq = prefer fee in quote currency,
      * nompp = no market price protection, post = post only order (available when ordertype = limit)
-     * @param oflags
      */
     private Set<Order.IOrderFlags> adaptFlags(String oflags) {
         if (oflags == null)
@@ -168,9 +177,8 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
         return Observable.create( source -> {
             try {
                 String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
-                KrakenWebsocketToken token = rawKrakenAcctService.getKrakenWebsocketToken();
 
-                streamingService.subscribeChannel(channelName, token.getToken())
+                streamingService.subscribeChannel(channelName, renewToken().getToken())
                         .filter(JsonNode::isArray)
                         .filter(Objects::nonNull)
                         .map(jsonNode ->
@@ -178,10 +186,9 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                         .map(jsonNode ->
                                 StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
                         .forEach(list ->
-                                adaptKrakenUserTrade(list).stream()
-                                        .forEach(order ->
-                                                source.onNext(order)));
-                ;
+                                adaptKrakenUserTrade(list)
+                                        .forEach(source::onNext));
+
             } catch (Throwable e) {
                 source.onError(e);
             }
