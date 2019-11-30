@@ -59,7 +59,6 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
         return Observable.create( source -> {
             try {
                 String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-                token = renewToken();
 
                 streamingService.subscribeChannel(channelName, renewToken().getToken())
                         .filter(JsonNode::isArray)
