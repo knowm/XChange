@@ -10,7 +10,8 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 public class KrakenSubscriptionConfig {
 
     /**
-     * ticker|ohlc|trade|book|spread|*, * for all (ohlc interval value is 1 if all channels subscribed)
+     * ticker|ohlc|trade|book|spread|ownTrades|openOrders|*, * for all available channels depending on the connected environment
+     * (ohlc interval value is 1 if all public channels subscribed)
      */
     private KrakenSubscriptionName name;
 
@@ -19,7 +20,15 @@ public class KrakenSubscriptionConfig {
      */
     private Integer depth;
 
+    /**
+     * Optional, base64-encoded authentication token for private-data endpoints.
+     */
     private String token;
+
+    /**
+     * Optional - Time interval associated with ohlc subscription in minutes. Default 1. Valid Interval values: 1|5|15|30|60|240|1440|10080|21600
+     */
+    private Integer interval;
 
     public KrakenSubscriptionConfig(KrakenSubscriptionName name) {
         this(name, null, null);
@@ -54,5 +63,13 @@ public class KrakenSubscriptionConfig {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Integer getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Integer interval) {
+        this.interval = interval;
     }
 }
