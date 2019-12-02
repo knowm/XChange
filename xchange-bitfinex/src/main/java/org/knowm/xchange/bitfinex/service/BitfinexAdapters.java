@@ -127,7 +127,7 @@ public final class BitfinexAdapters {
   public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
     String tradableIdentifier;
     String transactionCurrency;
-    int startIndex = bitfinexSymbol.startsWith("t") ? 1 : 0;
+    int startIndex = bitfinexSymbol.startsWith("t") && Character.isUpperCase(bitfinexSymbol.charAt(1)) ? 1 : 0;
     if (bitfinexSymbol.contains(":")) {
       // ie 'dusk:usd' or 'btc:cnht'
       int idx = bitfinexSymbol.indexOf(":");
