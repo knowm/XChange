@@ -12,11 +12,14 @@ import java.util.List;
  */
 public class KrakenSubscriptionMessage extends KrakenEvent {
 
+    /**
+     * Optional, client originated ID reflected in response message.
+     */
     @JsonProperty
     private final Integer reqid;
 
     /**
-     * Array of currency pairs (pair1,pair2,pair3).
+     * Optional - Array of currency pairs. Format of each pair is "A/B", where A and B are ISO 4217-A3 for standardized assets and popular unique symbol if not standardized.
      */
     @JsonProperty(value = "pair", required = false)
     private final List<String> pairs;
