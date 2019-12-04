@@ -9,7 +9,6 @@ public class BitstampWebSocketTransaction extends BitstampTransaction {
     public BitstampWebSocketTransaction(@JsonProperty("microtimestamp") BigDecimal microtimestamp, @JsonProperty("id") long tid, @JsonProperty("price") BigDecimal price,
                                         @JsonProperty("amount") BigDecimal amount, @JsonProperty("order_type") int type) {
 
-        super(microtimestamp.divide(new BigDecimal(1000), BigDecimal.ROUND_DOWN).longValue(),
-                tid, price, amount, type);
+        super(microtimestamp.longValue() / 1000, tid, price, amount, type);
     }
 }
