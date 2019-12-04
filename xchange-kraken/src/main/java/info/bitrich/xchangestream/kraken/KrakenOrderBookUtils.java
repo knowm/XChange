@@ -29,6 +29,7 @@ public class KrakenOrderBookUtils {
     private static final String BID_UPDATE = "b";
 
     private static final int EXPECTED_ORDER_BOOK_ARRAY_SIZE = 4;
+    private static final BigDecimal BIG_DECIMAL_1000 = new BigDecimal(1000);
 
     @SuppressWarnings("unchecked")
     public static KrakenOrderBook parse(List jsonParseResult) {
@@ -90,7 +91,7 @@ public class KrakenOrderBookUtils {
                 //TODO: The XChange Kraken orderbook timestamp is a seconds format since epoch.
                 // But websocket order's timestamp is more accurate. It is required to improve the XChange Kraken for supporting higher precision.
                 // XChange method to fix: org.knowm.xchange.kraken.KrakenAdapters.adaptOrders
-                new BigDecimal(list.get(2)).longValue()
+                new BigDecimal(list.get(2)).multiply(BIG_DECIMAL_1000).longValue()
         );
     }
 
