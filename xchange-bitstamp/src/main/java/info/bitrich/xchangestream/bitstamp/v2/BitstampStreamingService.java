@@ -19,8 +19,11 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
 
     private static final String JSON_CHANNEL = "channel";
     private static final String JSON_EVENT = "event";
+
     public static final String EVENT_ORDERBOOK = "data";
     public static final String EVENT_TRADE = "trade";
+    private static final String EVENT_SUBSCRIPTION_SUCCEEDED = "bts:subscription_succeeded";
+    private static final String EVENT_UNSUBSCRIPTION_SUCCEEDED = "bts:unsubscription_succeeded";
 
     public BitstampStreamingService(String apiUrl) {
         super(apiUrl, Integer.MAX_VALUE);
@@ -53,14 +56,23 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
         String channel = channelJsonNode.asText();
         String event = eventJsonNode.asText();
 
-        if (!channels.containsKey(channel)) {
-            LOG.warn("The message has been received from disconnected channel '{}'. Skipped.", channel);
-            return;
-        }
         switch (event) {
             case EVENT_ORDERBOOK:
             case EVENT_TRADE:
+                if (!channels.containsKey(channel)) {
+                    LOG.warn("The message has been received from disconnected channel '{}'. Skipped.", channel);
+                    return;
+                }
                 super.handleMessage(message);
+                break;
+            case EVENT_SUBSCRIPTION_SUCCEEDED:
+                LOG.info("Channel {} has been successfully subscribed", channel);
+                break;
+            case EVENT_UNSUBSCRIPTION_SUCCEEDED:
+                LOG.info("Channel {} has been successfully unsubscribed", channel);
+                break;
+            default:
+                LOG.error("Unsupported event type {} in message {}", event, message.toString());
         }
     }
 
