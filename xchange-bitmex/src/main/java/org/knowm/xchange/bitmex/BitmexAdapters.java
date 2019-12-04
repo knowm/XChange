@@ -1,6 +1,8 @@
 package org.knowm.xchange.bitmex;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,9 +24,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.utils.DateUtils;
 
 public class BitmexAdapters {
 
@@ -56,6 +57,27 @@ public class BitmexAdapters {
     }
 
     return bitmexDepth;
+  }
+
+  public static OpenPositions adaptOpenPositions(List<BitmexPosition> bitmexPositions)
+      throws InvalidFormatException {
+    List<OpenPosition> openPositions = new ArrayList<>();
+
+    for (BitmexPosition bitmexPosition : bitmexPositions) {
+      openPositions.add(
+          new OpenPosition(
+              (bitmexPosition.getCurrentQty().compareTo(BigDecimal.ZERO) > 0)
+                  ? OrderType.BID
+                  : OrderType.ASK,
+              bitmexPosition.getCurrentQty(),
+              adaptSymbolToCurrencyPair(bitmexPosition.getSymbol()),
+              null,
+              DateUtils.fromISODateString(bitmexPosition.getOpeningTimestamp()),
+              bitmexPosition.getAvgEntryPrice(),
+              bitmexPosition.getOpeningComm().divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32)));
+    }
+
+    return new OpenPositions(openPositions);
   }
 
   public static OrdersContainer adaptOrders(
