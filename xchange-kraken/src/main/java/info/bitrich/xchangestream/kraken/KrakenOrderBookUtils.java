@@ -87,10 +87,6 @@ public class KrakenOrderBookUtils {
         return new KrakenPublicOrder(
                 new BigDecimal(list.get(0)).stripTrailingZeros(),
                 new BigDecimal(list.get(1)).stripTrailingZeros(),
-
-                //TODO: The XChange Kraken orderbook timestamp is a seconds format since epoch.
-                // But websocket order's timestamp is more accurate. It is required to improve the XChange Kraken for supporting higher precision.
-                // XChange method to fix: org.knowm.xchange.kraken.KrakenAdapters.adaptOrders
                 new BigDecimal(list.get(2)).multiply(BIG_DECIMAL_1000).longValue()
         );
     }
