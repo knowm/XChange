@@ -35,7 +35,6 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
@@ -89,31 +88,17 @@ public class PoloniexAdapters {
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(
       List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
-
-    List<PoloniexLevel> levels = new ArrayList<>();
-
-    for (List<BigDecimal> rawLevel : rawLevels) {
-      levels.add(adaptRawPoloniexLevel(rawLevel));
-    }
-
     List<LimitOrder> orders = new ArrayList<>();
 
-    for (PoloniexLevel level : levels) {
-
+    for (List<BigDecimal> rawlevel : rawLevels) {
       LimitOrder limitOrder =
           new LimitOrder.Builder(orderType, currencyPair)
-              .originalAmount(level.getAmount())
-              .limitPrice(level.getLimit())
+              .originalAmount(rawlevel.get(1))
+              .limitPrice(rawlevel.get(0))
               .build();
       orders.add(limitOrder);
     }
     return orders;
-  }
-
-  public static PoloniexLevel adaptRawPoloniexLevel(List<BigDecimal> level) {
-
-    PoloniexLevel poloniexLevel = new PoloniexLevel(level.get(1), level.get(0));
-    return poloniexLevel;
   }
 
   public static Trades adaptPoloniexPublicTrades(
