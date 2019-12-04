@@ -226,28 +226,31 @@ public final class ItBitAdapters {
         // on the userTradesList dispite the fact that an order can have multiply trades
 
         BigDecimal volumeWeightedAveragePrice =
-                trade.getCurrency1Amount().multiply(trade.getRate()).divide(trade.getCurrency1Amount(), 8, BigDecimal.ROUND_HALF_UP);
+            trade
+                .getCurrency1Amount()
+                .multiply(trade.getRate())
+                .divide(trade.getCurrency1Amount(), 8, BigDecimal.ROUND_HALF_UP);
         ItBitUserTrade itBitTrade = tradesByOrderId.get(orderId).get(0);
         OrderType orderType =
-                itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
-                        ? OrderType.BID
-                        : OrderType.ASK;
+            itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
+                ? OrderType.BID
+                : OrderType.ASK;
 
         CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
         String ccy = itBitTrade.getCommissionCurrency();
         Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
 
         UserTrade userTrade =
-                new UserTrade(
-                        orderType,
-                        trade.getCurrency1Amount(),
-                        currencyPair,
-                        volumeWeightedAveragePrice.stripTrailingZeros(),
-                        itBitTrade.getTimestamp(),
-                        orderId + "-" + tradeId,
-                        orderId,
-                        trade.getCommissionPaid().subtract(trade.getRebatesApplied()),
-                        feeCcy);
+            new UserTrade(
+                orderType,
+                trade.getCurrency1Amount(),
+                currencyPair,
+                volumeWeightedAveragePrice.stripTrailingZeros(),
+                itBitTrade.getTimestamp(),
+                orderId + "-" + tradeId,
+                orderId,
+                trade.getCommissionPaid().subtract(trade.getRebatesApplied()),
+                feeCcy);
 
         trades.add(userTrade);
         tradeId++;
