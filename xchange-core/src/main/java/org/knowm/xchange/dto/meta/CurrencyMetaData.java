@@ -6,12 +6,27 @@ import java.math.BigDecimal;
 
 public class CurrencyMetaData implements Serializable {
 
+  private static final long serialVersionUID = -247899067657358542L;
+
   @JsonProperty("scale")
   private final Integer scale;
 
   /** Withdrawal fee */
   @JsonProperty("withdrawal_fee")
-  private BigDecimal withdrawalFee;
+  private final BigDecimal withdrawalFee;
+
+  /** Minimum withdrawal amount */
+  @JsonProperty("min_withdrawal_amount")
+  private final BigDecimal minWithdrawalAmount;
+
+  /**
+   * Constructor
+   *
+   * @param scale
+   */
+  public CurrencyMetaData(Integer scale, BigDecimal withdrawalFee) {
+    this(scale, withdrawalFee, null);
+  }
 
   /**
    * Constructor
@@ -20,9 +35,11 @@ public class CurrencyMetaData implements Serializable {
    */
   public CurrencyMetaData(
       @JsonProperty("scale") Integer scale,
-      @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee) {
+      @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee,
+      @JsonProperty("min_withdrawal_amount") BigDecimal minWithdrawalAmount) {
     this.scale = scale;
     this.withdrawalFee = withdrawalFee;
+    this.minWithdrawalAmount = minWithdrawalAmount;
   }
 
   public Integer getScale() {
@@ -33,8 +50,19 @@ public class CurrencyMetaData implements Serializable {
     return withdrawalFee;
   }
 
+  public BigDecimal getMinWithdrawalAmount() {
+    return minWithdrawalAmount;
+  }
+
   @Override
   public String toString() {
-    return "CurrencyMetaData [" + "scale=" + scale + ", withdrawalFee=" + withdrawalFee + "]";
+    return "CurrencyMetaData ["
+        + "scale="
+        + scale
+        + ", withdrawalFee="
+        + withdrawalFee
+        + ", minWithdrawalAmount="
+        + minWithdrawalAmount
+        + "]";
   }
 }

@@ -2,6 +2,7 @@ package org.knowm.xchange.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
@@ -41,6 +42,22 @@ public class ObjectMapperHelper {
     return toJSON(objectMapperWithoutIndentation, valueType);
   }
 
+  /**
+   * Useful for testing. Performs a round trip via a JSON string allowing ser/deser to be tested and
+   * verified.
+   *
+   * @param <T> The object type
+   * @param valueType The object to be converted
+   * @return A copy of the object performed via JSON.
+   * @throws IOException If there are deserialization issues.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T viaJSON(T valueType) throws IOException {
+    String json = toJSON(valueType);
+    logger.debug("Converted " + valueType + " to " + json);
+    return readValue(json, (Class<T>) valueType.getClass());
+  }
+
   private static <T> String toJSON(ObjectMapper objectMapper, T valueType) {
     try {
       return objectMapper.writeValueAsString(valueType);
@@ -57,6 +74,8 @@ public class ObjectMapperHelper {
   }
 
   private static ObjectMapper initWithoutIndentation() {
-    return new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    return new ObjectMapper()
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
   }
 }

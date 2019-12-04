@@ -7,6 +7,7 @@ import java.util.List;
 public class KrakenAssetPair {
 
   private final String altName;
+  private final String wsName;
   private final String classBase;
   private final String base;
   private final String classQuote;
@@ -27,6 +28,7 @@ public class KrakenAssetPair {
    * Constructor
    *
    * @param altName
+   * @param wsName
    * @param classBase
    * @param base
    * @param classQuote
@@ -35,7 +37,6 @@ public class KrakenAssetPair {
    * @param pairScale
    * @param volumeLotScale
    * @param volumeMultiplier
-   * @param leverage
    * @param fees
    * @param feeVolumeCurrency
    * @param marginCall
@@ -43,6 +44,7 @@ public class KrakenAssetPair {
    */
   public KrakenAssetPair(
       @JsonProperty("altname") String altName,
+      @JsonProperty("wsname") String wsName,
       @JsonProperty("aclass_base") String classBase,
       @JsonProperty("base") String base,
       @JsonProperty("aclass_quote") String classQuote,
@@ -60,6 +62,7 @@ public class KrakenAssetPair {
       @JsonProperty("leverage_sell") List<String> leverage_sell) {
 
     this.altName = altName;
+    this.wsName = wsName;
     this.classBase = classBase;
     this.base = base;
     this.classQuote = classQuote;
@@ -80,6 +83,10 @@ public class KrakenAssetPair {
   public String getAltName() {
 
     return altName;
+  }
+
+  public String getWsName() {
+    return wsName;
   }
 
   public String getClassBase() {
@@ -162,6 +169,8 @@ public class KrakenAssetPair {
 
     return "KrakenAssetPairInfo [altName="
         + altName
+        + ", wsName="
+        + wsName
         + ", classBase="
         + classBase
         + ", base="

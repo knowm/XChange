@@ -21,21 +21,19 @@ public interface LykkeAuthenticated extends Lykke {
   List<LykkeTradeHistory> getTradeHistory(
       @QueryParam("assetPairId") String assetPair,
       @QueryParam("take") int limit,
-      @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+      @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   @GET
   @Path("history/trades/{tradeId}")
   LykkeTradeHistory getTradeHistoryById(
-      @PathParam("tradeId") String tradeId,
-      @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+      @PathParam("tradeId") String tradeId, @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   @GET
   @Path("wallets")
-  List<LykkeWallet> getWallets(
-          @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+  List<LykkeWallet> getWallets(@HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   // limit : max 500, default: 100
   @GET
@@ -43,27 +41,22 @@ public interface LykkeAuthenticated extends Lykke {
   List<LykkeOrder> getLastOrders(
       @QueryParam("status") String status,
       @QueryParam("take") int limit,
-      @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+      @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   @POST
   @Path("orders/limit")
-  String postLimitOrder(
-          LykkeLimitOrder order,
-          @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+  String postLimitOrder(LykkeLimitOrder order, @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   @DELETE
   @Path("orders/{id}")
-  void cancelOrderById(
-          @PathParam("id") String id,
-          @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+  void cancelOrderById(@PathParam("id") String id, @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 
   @DELETE
   @Path("orders")
   String cancelAllOrders(
-      @QueryParam("assetPairId") String assetPairId,
-      @HeaderParam(ApiKey) String apiKey
-  ) throws IOException, LykkeException;
+      @QueryParam("assetPairId") String assetPairId, @HeaderParam(ApiKey) String apiKey)
+      throws IOException, LykkeException;
 }

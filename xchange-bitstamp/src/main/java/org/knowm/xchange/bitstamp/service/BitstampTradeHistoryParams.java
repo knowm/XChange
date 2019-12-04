@@ -76,6 +76,7 @@ public class BitstampTradeHistoryParams
 
   /**
    * This will fetch historic user trades with a timestamp greater than or equal to startTime.
+   *
    * @param startTime a start time with seconds precision. Milliseconds will be truncated.
    */
   @Override

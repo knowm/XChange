@@ -81,7 +81,9 @@ public class KrakenAdapters {
       }
       limitOrders.add(adaptOrder(order, orderType, currencyPair));
     }
-    return new OrdersContainer(maxTimestamp * 1000, limitOrders);
+    return new OrdersContainer(
+        (String.valueOf(maxTimestamp).length() >= 13) ? maxTimestamp : maxTimestamp * 1000,
+        limitOrders);
   }
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
@@ -140,8 +142,11 @@ public class KrakenAdapters {
 
   public static LimitOrder adaptOrder(
       KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
-
-    Date timeStamp = new Date(order.getTimestamp() * 1000);
+    // if lenght is bigger or equal to 13 then the timstamp is from streaming orderbook
+    Date timeStamp =
+        (String.valueOf(order.getTimestamp()).length() >= 13)
+            ? new Date(order.getTimestamp())
+            : new Date(order.getTimestamp() * 1000);
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());
@@ -201,11 +206,17 @@ public class KrakenAdapters {
 
     List<Balance> balances = new ArrayList<>(krakenWallet.size());
     for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
-      Currency currency = adaptCurrency(balancePair.getKey());
+      Currency currency;
+      try {
+        currency = adaptCurrency(balancePair.getKey());
+      } catch (Exception e) {
+        currency = Currency.getInstance(balancePair.getKey());
+      }
+
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
@@ -253,7 +264,7 @@ public class KrakenAdapters {
       trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
 
-    return new UserTrades(trades, TradeSortType.SortByID);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   public static KrakenUserTrade adaptTrade(KrakenTrade krakenTrade, String tradeId) {

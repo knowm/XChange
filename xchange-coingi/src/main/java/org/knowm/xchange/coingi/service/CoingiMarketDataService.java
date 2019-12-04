@@ -7,12 +7,12 @@ import org.knowm.xchange.coingi.CoingiAdapters;
 import org.knowm.xchange.coingi.CoingiErrorAdapter;
 import org.knowm.xchange.coingi.dto.CoingiException;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
+import org.knowm.xchange.coingi.dto.marketdata.CoingiTicker;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoingiMarketDataService extends CoingiMarketDataServiceRaw
@@ -23,7 +23,9 @@ public class CoingiMarketDataService extends CoingiMarketDataServiceRaw
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... objects) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    List<CoingiTicker> tickers = getTickers(currencyPair, 2, 1);
+    OrderBook orderBook = getOrderBook(currencyPair);
+    return CoingiAdapters.adaptTicker(tickers, orderBook, currencyPair);
   }
 
   @Override

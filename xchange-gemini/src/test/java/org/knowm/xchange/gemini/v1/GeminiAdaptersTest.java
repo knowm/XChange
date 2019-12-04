@@ -282,8 +282,8 @@ public class GeminiAdaptersTest {
 
     assertThat(dynamicFees.size()).isEqualTo(fakeSupportedCurrencyPairs.size());
     for (CurrencyPair pair : fakeSupportedCurrencyPairs) {
-      assertThat(dynamicFees.get(pair).getMakerFee()).isEqualTo(new BigDecimal("0.0101"));
-      assertThat(dynamicFees.get(pair).getTakerFee()).isEqualTo(new BigDecimal("0.0205"));
+      assertThat(dynamicFees.get(pair).getMakerFee()).isEqualTo(new BigDecimal("0.0035"));
+      assertThat(dynamicFees.get(pair).getTakerFee()).isEqualTo(new BigDecimal("0.0010"));
     }
   }
 }

@@ -8,6 +8,7 @@ import org.knowm.xchange.coingi.dto.account.CoingiBalances;
 import org.knowm.xchange.coingi.dto.account.CoingiUserTransaction;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderBook;
 import org.knowm.xchange.coingi.dto.marketdata.CoingiOrderGroup;
+import org.knowm.xchange.coingi.dto.marketdata.CoingiTicker;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrder;
 import org.knowm.xchange.coingi.dto.trade.CoingiOrdersList;
 import org.knowm.xchange.currency.Currency;
@@ -18,6 +19,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -63,7 +65,7 @@ public final class CoingiAdapters {
       balances.add(xchangeBalance);
     }
 
-    return new AccountInfo(userName, new Wallet(balances));
+    return new AccountInfo(userName, Wallet.Builder.from(balances).build());
   }
 
   public static OrderBook adaptOrderBook(CoingiOrderBook coingiOrderBook) {
@@ -231,5 +233,49 @@ public final class CoingiAdapters {
     if (status == 4) return Order.OrderStatus.PENDING_CANCEL;
 
     throw new NotYetImplementedForExchangeException();
+  }
+
+  public static Ticker adaptTicker(
+      List<CoingiTicker> tickers, OrderBook orderBook, CurrencyPair currencyPair) {
+    checkArgument(
+        tickers != null && tickers.size() == 1,
+        "Expected a list of 1 ticker but got {0}",
+        tickers == null ? null : tickers.size()); // or use the most recent one
+
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .open(tickers.get(0).getOpen())
+        .last(tickers.get(0).getClose())
+        .high(tickers.get(0).getHigh())
+        .low(tickers.get(0).getLow())
+        .vwap(tickers.get(0).getVwap())
+        .volume(tickers.get(0).getVolume())
+        .timestamp(getTimestamp(tickers))
+        .bid(getBid(orderBook))
+        .ask(getAsk(orderBook))
+        .build();
+  }
+
+  private static Date getTimestamp(List<CoingiTicker> tickers) {
+    if (tickers.get(0).getTimestamp() == null) {
+      return null;
+    }
+    return new Date(tickers.get(0).getTimestamp() * 1000);
+  }
+
+  private static BigDecimal getAsk(OrderBook orderBook) {
+    return orderBook.getAsks().stream()
+        .map(LimitOrder::getLimitPrice)
+        .sorted(Comparator.naturalOrder())
+        .findFirst()
+        .orElse(null);
+  }
+
+  private static BigDecimal getBid(OrderBook orderBook) {
+    return orderBook.getBids().stream()
+        .map(LimitOrder::getLimitPrice)
+        .sorted(Comparator.reverseOrder())
+        .findFirst()
+        .orElse(null);
   }
 }

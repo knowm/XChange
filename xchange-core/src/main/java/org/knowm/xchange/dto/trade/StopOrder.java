@@ -1,10 +1,15 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.Builder;
 
 /**
  * DTO representing a stop order
@@ -13,7 +18,10 @@ import org.knowm.xchange.dto.Order;
  * exchange as a {@link MarketOrder} unless a limit price is also set. There is no guarantee that
  * your conditions will be met on the exchange, so your order may not be executed.
  */
+@JsonDeserialize(builder = StopOrder.Builder.class)
 public class StopOrder extends Order implements Comparable<StopOrder> {
+
+  private static final long serialVersionUID = -7341286101341375106L;
 
   /** The stop price */
   protected final BigDecimal stopPrice;
@@ -141,6 +149,49 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       BigDecimal cumulativeAmount,
       OrderStatus status) {
 
+    this(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        stopPrice,
+        limitPrice,
+        averagePrice,
+        cumulativeAmount,
+        BigDecimal.ZERO,
+        status);
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param limitPrice The limit price the order should be placed at once the stopPrice has been hit
+   *     null for market
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
+   * @param status the status of the order at the exchange or broker
+   */
+  public StopOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal stopPrice,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status) {
+
     super(
         type,
         originalAmount,
@@ -149,8 +200,52 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         timestamp,
         averagePrice,
         cumulativeAmount,
-        BigDecimal.ZERO,
+        fee,
         status);
+    this.stopPrice = stopPrice;
+    this.limitPrice = limitPrice;
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param limitPrice The limit price the order should be placed at once the stopPrice has been hit
+   *     null for market
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param status the status of the order at the exchange or broker
+   */
+  public StopOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal stopPrice,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
   }
@@ -223,13 +318,17 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return super.equals(obj);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
     protected BigDecimal stopPrice;
 
     protected BigDecimal limitPrice;
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -239,11 +338,14 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       Builder builder =
           new Builder(order.getType(), order.getCurrencyPair())
               .originalAmount(order.getOriginalAmount())
+              .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())
               .id(order.getId())
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
-              .averagePrice(order.getAveragePrice());
+              .fee(order.getFee())
+              .averagePrice(order.getAveragePrice())
+              .userReference(order.getUserReference());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
@@ -295,6 +397,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     }
 
     @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
+    }
+
+    @Override
     public Builder timestamp(Date timestamp) {
 
       return (Builder) super.timestamp(timestamp);
@@ -336,36 +444,26 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    @Override
     public StopOrder build() {
 
-      StopOrder order;
-      if (remainingAmount != null) {
-        order =
-            new StopOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                stopPrice,
-                limitPrice,
-                averagePrice,
-                originalAmount.subtract(remainingAmount),
-                status);
-      } else {
-        order =
-            new StopOrder(
-                orderType,
-                originalAmount,
-                currencyPair,
-                id,
-                timestamp,
-                stopPrice,
-                limitPrice,
-                averagePrice,
-                cumulativeAmount,
-                status);
-      }
+      StopOrder order =
+          new StopOrder(
+              orderType,
+              originalAmount,
+              currencyPair,
+              id,
+              timestamp,
+              stopPrice,
+              limitPrice,
+              averagePrice,
+              originalAmount == null || remainingAmount == null
+                  ? cumulativeAmount
+                  : originalAmount.subtract(remainingAmount),
+              fee,
+              status,
+              userReference);
+
       order.setOrderFlags(flags);
       return order;
     }

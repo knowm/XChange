@@ -17,7 +17,7 @@
       "min_amount": 0.001
     },
     "XRP/AUD": {
-      "price_scale": 2,
+      "price_scale": 4,
       "min_amount": 0.01
     },
     "LTC/BTC": {
@@ -31,7 +31,16 @@
     "BCH/BTC": {
       "price_scale": 8,
       "min_amount": 0.001
+    },
+    "XLM/AUD": {
+      "price_scale": 4,
+      "min_amount": 0.001
+    },
+    "XLM/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.001
     }
+
   },
   "currencies": {
     "BCH": {
@@ -51,6 +60,9 @@
     },
     "AUD": {
       "scale": 2
+    },
+    "XLM": {
+      "scale": 8
     }
   },
   "private_rate_limits": [

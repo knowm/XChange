@@ -1,12 +1,11 @@
 package org.knowm.xchange.cobinhood;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
 import org.knowm.xchange.cobinhood.dto.account.CobinhoodCoinBalances;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodCurrencyPair;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodOrderBook;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTicker;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTrade;
@@ -21,6 +20,8 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -87,13 +88,14 @@ public class CobinhoodAdapters {
 
   public static AccountInfo adaptAccountInfo(CobinhoodCoinBalances balances) {
     Wallet wallet =
-        new Wallet(
-            null,
-            balances.getBalances().stream()
-                .map(
-                    balance ->
-                        new Balance(new Currency(balance.getCurrency()), balance.getTotalAmount()))
-                .collect(Collectors.toList()));
+        Wallet.Builder.from(
+                balances.getBalances().stream()
+                    .map(
+                        balance ->
+                            new Balance(
+                                new Currency(balance.getCurrency()), balance.getTotalAmount()))
+                    .collect(Collectors.toList()))
+            .build();
 
     return new AccountInfo(wallet);
   }
@@ -122,5 +124,15 @@ public class CobinhoodAdapters {
         .cumulativeAmount(order.getFilled())
         .originalAmount(order.getSize())
         .build();
+  }
+
+  public static ExchangeMetaData adaptMetadata(List<CobinhoodCurrencyPair> pairs) {
+    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    for (CobinhoodCurrencyPair pair : pairs) {
+      pairMeta.put(
+          new CurrencyPair(pair.getBaseCurrencyId(), pair.getQuoteCurrencyId()),
+          new CurrencyPairMetaData(null, pair.getBaseMinSize(), pair.getBaseMaxSize(), null, null));
+    }
+    return new ExchangeMetaData(pairMeta, null, null, null, null);
   }
 }

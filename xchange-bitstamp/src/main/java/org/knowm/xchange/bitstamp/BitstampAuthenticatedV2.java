@@ -162,7 +162,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("bank_postal_code") String bankPostalCode,
       @FormParam("bank_city") String bankCity,
       @FormParam("bank_country") String bankCountryAlpha2,
-      @FormParam("currency") BankCurrency currency)
+      @FormParam("currency") BankCurrency currency,
+      @FormParam("comment") String comment)
       throws BitstampException, IOException;
 
   enum Side {

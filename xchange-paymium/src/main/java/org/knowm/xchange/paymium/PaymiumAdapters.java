@@ -137,6 +137,6 @@ public class PaymiumAdapters {
             paymiumBalances.getBalanceEur().subtract(paymiumBalances.getLockedEur()),
             paymiumBalances.getLockedEur()));
 
-    return new Wallet(wallets);
+    return Wallet.Builder.from(wallets).build();
   }
 }

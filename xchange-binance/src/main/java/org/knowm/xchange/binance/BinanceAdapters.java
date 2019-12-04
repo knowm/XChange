@@ -1,9 +1,11 @@
 package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.MathContext;
+import java.util.*;
+import java.util.stream.Collectors;
+import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
 import org.knowm.xchange.binance.dto.trade.OrderStatus;
@@ -11,8 +13,9 @@ import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -72,7 +75,7 @@ public class BinanceAdapters {
     try {
       return Long.valueOf(id);
     } catch (Throwable e) {
-      throw new RuntimeException("Binance id must be a valid long number.", e);
+      throw new IllegalArgumentException("Binance id must be a valid long number.", e);
     }
   }
 
@@ -120,67 +123,69 @@ public class BinanceAdapters {
   public static Order adaptOrder(BinanceOrder order) {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
-
-    Order.OrderStatus orderStatus = adaptOrderStatus(order.status);
-    final BigDecimal averagePrice;
-    if (order.executedQty.signum() == 0
-        || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
-      averagePrice = BigDecimal.ZERO;
-    } else {
-      averagePrice = order.price;
-    }
-
-    Order result;
+    Order.Builder builder;
     if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.MARKET)) {
-      result =
-          new MarketOrder(
-              type,
-              order.origQty,
-              currencyPair,
-              Long.toString(order.orderId),
-              order.getTime(),
-              averagePrice,
-              order.executedQty,
-              BigDecimal.ZERO,
-              orderStatus);
+      builder = new MarketOrder.Builder(type, currencyPair);
     } else if (order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT)
         || order.type.equals(org.knowm.xchange.binance.dto.trade.OrderType.LIMIT_MAKER)) {
-      result =
-          new LimitOrder(
-              type,
-              order.origQty,
-              currencyPair,
-              Long.toString(order.orderId),
-              order.getTime(),
-              order.price,
-              averagePrice,
-              order.executedQty,
-              BigDecimal.ZERO,
-              orderStatus);
+      builder = new LimitOrder.Builder(type, currencyPair).limitPrice(order.price);
     } else {
-      result =
-          new StopOrder(
-              type,
-              order.origQty,
-              currencyPair,
-              Long.toString(order.orderId),
-              order.getTime(),
-              order.stopPrice,
-              averagePrice,
-              order.executedQty,
-              orderStatus);
+      builder = new StopOrder.Builder(type, currencyPair).stopPrice(order.stopPrice);
     }
-    Set<IOrderFlags> flags = new HashSet<>();
+    builder
+        .orderStatus(adaptOrderStatus(order.status))
+        .originalAmount(order.origQty)
+        .id(Long.toString(order.orderId))
+        .timestamp(order.getTime())
+        .cumulativeAmount(order.executedQty);
+    if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
+      builder.averagePrice(
+          order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
+    }
     if (order.clientOrderId != null) {
-      flags.add(
-          new BinanceOrderFlags() {
-            @Override
-            public String getClientId() {
-              return order.clientOrderId;
-            }
-          });
+      builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
-    result.setOrderFlags(flags);
-    return result;
+    return builder.build();
+  }
+
+  private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
+    return new Ticker.Builder()
+        .currencyPair(adaptSymbol(priceQuantity.symbol))
+        .ask(priceQuantity.askPrice)
+        .askSize(priceQuantity.askQty)
+        .bid(priceQuantity.bidPrice)
+        .bidSize(priceQuantity.bidQty)
+        .build();
+  }
+
+  public static List<Ticker> adaptPriceQuantities(List<BinancePriceQuantity> priceQuantities) {
+    return priceQuantities.stream()
+        .map(BinanceAdapters::adaptPriceQuantity)
+        .collect(Collectors.toList());
+  }
+
+  static CurrencyMetaData adaptCurrencyMetaData(
+      Map<Currency, CurrencyMetaData> currencies,
+      Currency currency,
+      Map<String, AssetDetail> assetDetailMap,
+      int precision) {
+    if (assetDetailMap != null) {
+      AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
+      if (asset != null) {
+        BigDecimal withdrawalFee = asset.getWithdrawFee().stripTrailingZeros();
+        BigDecimal minWithdrawalAmount =
+            new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
+        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
+      }
+    }
+
+    BigDecimal withdrawalFee = null;
+    BigDecimal minWithdrawalAmount = null;
+    if (currencies.containsKey(currency)) {
+      CurrencyMetaData currencyMetaData = currencies.get(currency);
+      withdrawalFee = currencyMetaData.getWithdrawalFee();
+      minWithdrawalAmount = currencyMetaData.getMinWithdrawalAmount();
+    }
+    return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
   }
 }

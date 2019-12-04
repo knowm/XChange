@@ -17,6 +17,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -34,10 +35,10 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexAdjustment;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
@@ -53,9 +54,12 @@ public class PoloniexAdapters {
 
   public static Ticker adaptPoloniexTicker(
       PoloniexTicker poloniexTicker, CurrencyPair currencyPair) {
-
     PoloniexMarketData marketData = poloniexTicker.getPoloniexMarketData();
+    return adaptPoloniexTicker(marketData, currencyPair);
+  }
 
+  public static Ticker adaptPoloniexTicker(
+      PoloniexMarketData marketData, CurrencyPair currencyPair) {
     BigDecimal last = marketData.getLast();
     BigDecimal bid = marketData.getHighestBid();
     BigDecimal ask = marketData.getLowestAsk();
@@ -83,32 +87,18 @@ public class PoloniexAdapters {
   }
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(
-      List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
-
-    List<PoloniexLevel> levels = new ArrayList<>();
-
-    for (List<BigDecimal> rawLevel : rawLevels) {
-      levels.add(adaptRawPoloniexLevel(rawLevel));
-    }
-
+    List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
     List<LimitOrder> orders = new ArrayList<>();
 
-    for (PoloniexLevel level : levels) {
-
+    for (List<BigDecimal> rawlevel : rawLevels) {
       LimitOrder limitOrder =
           new LimitOrder.Builder(orderType, currencyPair)
-              .originalAmount(level.getAmount())
-              .limitPrice(level.getLimit())
+              .originalAmount(rawlevel.get(1))
+              .limitPrice(rawlevel.get(0))
               .build();
       orders.add(limitOrder);
     }
     return orders;
-  }
-
-  public static PoloniexLevel adaptRawPoloniexLevel(List<BigDecimal> level) {
-
-    PoloniexLevel poloniexLevel = new PoloniexLevel(level.get(1), level.get(0));
-    return poloniexLevel;
   }
 
   public static Trades adaptPoloniexPublicTrades(
@@ -278,42 +268,88 @@ public class PoloniexAdapters {
 
   public static List<FundingRecord> adaptFundingRecords(
       PoloniexDepositsWithdrawalsResponse poloFundings) {
+
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (PoloniexAdjustment a : poloFundings.getAdjustments()) {
+      fundingRecords.add(adaptAdjustment(a));
+    }
     for (PoloniexDeposit d : poloFundings.getDeposits()) {
-      fundingRecords.add(
-          new FundingRecord(
-              d.getAddress(),
-              d.getTimestamp(),
-              Currency.getInstance(d.getCurrency()),
-              d.getAmount(),
-              null,
-              d.getTxid(),
-              DEPOSIT,
-              FundingRecord.Status.resolveStatus(d.getStatus()),
-              null,
-              null,
-              d.getStatus()));
+      fundingRecords.add(adaptDeposit(d));
     }
     for (PoloniexWithdrawal w : poloFundings.getWithdrawals()) {
-      final String[] statusParts = w.getStatus().split(": *");
-      final String statusStr = statusParts[0];
-      final FundingRecord.Status status = FundingRecord.Status.resolveStatus(statusStr);
-      final String externalId = statusParts.length == 1 ? null : statusParts[1];
-      fundingRecords.add(
-          new FundingRecord(
-              w.getAddress(),
-              w.getTimestamp(),
-              Currency.getInstance(w.getCurrency()),
-              w.getAmount(),
-              String.valueOf(w.getWithdrawalNumber()),
-              externalId,
-              WITHDRAWAL,
-              status,
-              null,
-              null,
-              w.getStatus()));
+      fundingRecords.add(adaptWithdrawal(w));
     }
     return fundingRecords;
+  }
+
+  private static FundingRecord adaptAdjustment(PoloniexAdjustment a) {
+    FundingRecord.Type type = DEPOSIT;
+    // There seems to be a spelling error in the returning reason. In case that ever gets
+    // corrected, this will still pick it up.
+    if (a.getReason().toLowerCase().endsWith("aidrop")
+        || a.getReason().toLowerCase().endsWith("airdrop")) {
+      type = Type.AIRDROP;
+    }
+    // There could be other forms of adjustements, but it seems to be some kind of deposit.
+
+    return new FundingRecord(
+        null,
+        a.getTimestamp(),
+        Currency.getInstance(a.getCurrency()),
+        a.getAmount(),
+        null,
+        null,
+        type,
+        FundingRecord.Status.resolveStatus(a.getStatus()),
+        null,
+        null,
+        a.getCategory()
+            + ":"
+            + a.getReason()
+            + "\n"
+            + a.getAdjustmentTitle()
+            + "\n"
+            + a.getAdjustmentDesc()
+            + "\n"
+            + a.getAdjustmentHelp());
+  }
+
+  private static FundingRecord adaptDeposit(final PoloniexDeposit d) {
+    return new FundingRecord(
+        d.getAddress(),
+        d.getTimestamp(),
+        Currency.getInstance(d.getCurrency()),
+        d.getAmount(),
+        String.valueOf(d.getDepositNumber()),
+        d.getTxid(),
+        DEPOSIT,
+        FundingRecord.Status.resolveStatus(d.getStatus()),
+        null,
+        null,
+        d.getStatus());
+  }
+
+  private static FundingRecord adaptWithdrawal(final PoloniexWithdrawal w) {
+    final String[] statusParts = w.getStatus().split(": *");
+    final String statusStr = statusParts[0];
+    final FundingRecord.Status status = FundingRecord.Status.resolveStatus(statusStr);
+    final String externalId = statusParts.length == 1 ? null : statusParts[1];
+
+    // Poloniex returns the fee as an absolute value, that behaviour differs from UserTrades
+    final BigDecimal feeAmount = w.getFee();
+
+    return new FundingRecord(
+        w.getAddress(),
+        w.getTimestamp(),
+        Currency.getInstance(w.getCurrency()),
+        w.getAmount(),
+        String.valueOf(w.getWithdrawalNumber()),
+        externalId,
+        WITHDRAWAL,
+        status,
+        null,
+        feeAmount,
+        w.getStatus());
   }
 
   public static LimitOrder adaptUserTradesToOrderStatus(

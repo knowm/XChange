@@ -125,7 +125,7 @@ public class IndependentReserveAdapters {
     final List<LimitOrder> orders = new ArrayList<>();
     for (OrderBookOrder obo : buyOrders) {
       LimitOrder limitOrder =
-          new LimitOrder(type, obo.getVolume(), currencyPair, null, null, obo.getPrice());
+          new LimitOrder(type, obo.getVolume(), currencyPair, obo.getGuid(), null, obo.getPrice());
       orders.add(limitOrder);
     }
     return orders;
@@ -142,7 +142,7 @@ public class IndependentReserveAdapters {
               balanceAccount.getTotalBalance(),
               balanceAccount.getAvailableBalance()));
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOpenOrders(

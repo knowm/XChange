@@ -55,7 +55,7 @@ public class OrderCreateApiRequest {
   private final boolean hidden;
 
   /** [optional] Only visible portion of the order is displayed in the order book */
-  private final boolean iceberge;
+  private final boolean iceberg;
 
   /** [optional] The maximum visible size of an iceberg order */
   private final BigDecimal visibleSize;

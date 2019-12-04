@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
     implements MarketDataService {
@@ -30,6 +31,11 @@ public class CoinbeneMarketDataService extends CoinbeneMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinbeneAdapters.adaptTicker(getCoinbeneTicker(currencyPair));
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return CoinbeneAdapters.adaptTickers(getCoinbeneTickers());
   }
 
   @Override

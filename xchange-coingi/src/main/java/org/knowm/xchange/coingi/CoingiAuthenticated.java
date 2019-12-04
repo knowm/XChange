@@ -47,4 +47,9 @@ public interface CoingiAuthenticated {
   @Path("create-crypto-withdrawal")
   CoingiWithdrawalResponse createWithdrawal(CoingiWithdrawalRequest request)
       throws CoingiException, IOException;
+
+  @POST
+  @Path("deposit-wallet")
+  CoingiDepositWalletResponse depositWallet(CoingiDepositWalletRequest request)
+      throws CoingiException, IOException;
 }

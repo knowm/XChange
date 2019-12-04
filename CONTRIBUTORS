@@ -16,6 +16,8 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+小田謙太郎
+=
 Aaron Jang
 Achterhoeker
 Adam Walczak
@@ -23,16 +25,19 @@ Adam from WALCZAK.IT
 Alejandro Reyero
 Aleksey Baryshnikov
 Alex Nugent
+Alexander
 Alexey Syrtsev
 Alexey Z
 Allen Day
 Alvin Singh
+Amjad
 Andraž
 Andre Reiter
 Andrea Fossi
 André Reiter
 Anthony Tsang
 Arran Duff
+Arsentii Nerushev
 Arthurm1
 Artur
 Artur M
@@ -88,17 +93,20 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 Graham Crockford
+Gregor Gaertner
 Guillaume Labbé-Morissette
 Guillaume Morissette
 HairyFotr
 Herman Ofenböck
 Hypeon
+陈晔
 Ian W
 Ignacio Larranaga
 Igor Velichkevich
 Igor.Velichkevich
 Iury V. Vinogradov
 JH
+JJag
 JK
 Jack McKenzie
 Jakub Kalicki
@@ -106,6 +114,7 @@ James
 James Edwards
 James Fleming
 Jan Akerman
+Jan Handrich
 Jan Vojt
 Jan X Marek
 Jan-Terje Sørensen
@@ -123,6 +132,7 @@ Julian Liebl
 Juliusz Choinski
 Jure Grabnar
 Justin Ramsey
+Kalle Rosenbaum
 Kamil Żbikowski
 Karol Pysniak
 Karsten Nilsen
@@ -146,6 +156,7 @@ Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
+Marc Deveaux
 Marius Hillenbrand
 MartianTech
 Martin Kubliniak
@@ -171,6 +182,7 @@ Muffon
 Nathan King
 Nicolas Pinot
 Niels
+Niels Draaisma
 Nikita Belenkiy
 Niko Schmuck
 Norbert Sándor
@@ -182,16 +194,19 @@ Oscar Francia
 Pablo Lopez
 Pan, Xinyang
 Panchen
+Pavel Chertalev
 Pavel Niedoba
 Pavlo Pastushok
 Peter Keeler
 Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
+Premek
+Premysl Vyhnal
 RadeK
 Radu
-Rafal Krupinski
 Rafał Krupiński
+Rafal Krupinski
 Raphael Voellmy
 Richard Flint
 Robert Felker
@@ -271,8 +286,11 @@ caleb
 coinlover75
 cymp
 cyril
+danielgarciaperez
 datbui
 david-yam
+dependabot-preview[bot]
+dependabot[bot]
 desinerlee
 deveth0
 dhenry
@@ -369,5 +387,3 @@ will
 wvr
 ww3456
 zholmes
-陈晔
-小田謙太

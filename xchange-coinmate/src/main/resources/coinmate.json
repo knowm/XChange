@@ -1,28 +1,60 @@
 {
   "currency_pairs": {
     "BTC/EUR": {
-      "price_scale": 2,
-      "min_amount": 0.0002
+      "price_scale": 1,
+      "min_amount": 0.00020000
     },
     "BTC/CZK": {
       "price_scale": 2,
-      "min_amount": 0.0002
+      "min_amount": 0.00020000
     },
     "LTC/BTC": {
       "price_scale": 5,
-      "min_amount": 0.01
+      "min_amount": 0.01000000
     },
     "LTC/EUR": {
       "price_scale": 2,
-      "min_amount": 0.01
+      "min_amount": 0.01000000
     },
     "LTC/CZK": {
       "price_scale": 2,
-      "min_amount": 0.01
+      "min_amount": 0.01000000
     },
     "BCH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.0002
+      "min_amount": 0.00100000
+    },
+    "ETH/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.01000000
+    },
+    "ETH/CZK": {
+      "price_scale": 2,
+      "min_amount": 0.01000000
+    },
+    "ETH/BTC": {
+      "price_scale": 5,
+      "min_amount": 0.01000000
+    },
+    "XRP/EUR": {
+      "price_scale": 5,
+      "min_amount": 1.00000000
+    },
+    "XRP/CZK": {
+      "price_scale": 5,
+      "min_amount": 1.00000000
+    },
+    "XRP/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.00000000
+    },
+    "BCH/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.00100000
+    },
+    "BCH/CZK": {
+      "price_scale": 2,
+      "min_amount": 0.00100000
     }
   },
   "currencies": {
@@ -39,6 +71,12 @@
       "scale": 8
     },
     "BCH": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "XRP": {
       "scale": 8
     }
   },

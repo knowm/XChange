@@ -7,12 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 
 @Slf4j
@@ -188,6 +183,15 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
     try {
       return coinbasePro.getProducts();
+    } catch (CoinbaseProException e) {
+      throw handleError(e);
+    }
+  }
+
+  public CoinbaseProCurrency[] getCoinbaseProCurrencies() throws IOException {
+
+    try {
+      return coinbasePro.getCurrencies();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }

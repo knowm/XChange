@@ -1,6 +1,14 @@
 package org.knowm.xchange.simulated;
 
+import static org.knowm.xchange.currency.Currency.BTC;
+import static org.knowm.xchange.currency.Currency.USD;
+import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.simulated.SimulatedExchange.*;
+
 import com.google.common.util.concurrent.RateLimiter;
+import java.io.IOException;
+import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,15 +22,6 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import static org.knowm.xchange.currency.Currency.BTC;
-import static org.knowm.xchange.currency.Currency.USD;
-import static org.knowm.xchange.currency.CurrencyPair.BTC_USD;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.simulated.SimulatedExchange.*;
 
 public class SimulatedExchangeExample {
 
@@ -91,15 +90,20 @@ public class SimulatedExchangeExample {
     // Market data
     System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
 
-    exchange.getTradeService()  // this tests both getOrder and cancelOrder
-            .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD,orderId))
-            .stream().forEach(order -> {
+    exchange.getTradeService() // this tests both getOrder and cancelOrder
+        .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD, orderId)).stream()
+        .forEach(
+            order -> {
               try {
-                exchange.getTradeService().cancelOrder(new CancelOrderAllParams(order.getCurrencyPair(), orderId, order.getType()));
+                exchange
+                    .getTradeService()
+                    .cancelOrder(
+                        new CancelOrderAllParams(
+                            order.getCurrencyPair(), orderId, order.getType()));
               } catch (IOException e) {
                 e.printStackTrace();
               }
-        });
+            });
 
     System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
   }

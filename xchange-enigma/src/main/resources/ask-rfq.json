@@ -1,0 +1,14 @@
+{
+  "result": true,
+  "message": "rfq Inserted",
+  "rfq_client_id": "7f2e2e8e-d8ee-464e-ab41-0ed8d8057f00",
+  "product_id": "2",
+  "product_name": "BTC-USD",
+  "side": "buy",
+  "created_at": "2019-07-16 09:59:51",
+  "expiry_at": "2019-07-16 10:00:11",
+  "quantity": 0.002,
+  "nominal": "21.4849",
+  "price": "10742.4675",
+  "infra": "dev"
+}
