@@ -17,7 +17,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author Matija Mazi */
 public class BitstampExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
