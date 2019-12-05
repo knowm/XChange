@@ -1,9 +1,8 @@
 package org.knowm.xchange.binance.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import org.knowm.xchange.dto.Order.IOrderFlags;
 
-public enum OrderType implements IOrderFlags {
+public enum OrderType {
   LIMIT,
   MARKET,
   TAKE_PROFIT_LIMIT,
