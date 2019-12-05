@@ -25,6 +25,8 @@ public class StopOrderTest {
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
+    final String reference = "reference";
+    final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
 
     final StopOrder copy =
         new StopOrder.Builder(type, currencyPair)
@@ -38,6 +40,8 @@ public class StopOrderTest {
             .id(id)
             .flag(TestFlags.TEST1)
             .fee(fee)
+            .userReference(reference)
+            .intention(intention)
             .build();
 
     assertThat(copy.getType()).isEqualTo(type);
@@ -54,6 +58,8 @@ public class StopOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getStatus()).isEqualTo(status);
     assertThat(copy.getFee()).isEqualTo(fee);
+    assertThat(copy.getUserReference()).isEqualTo(reference);
+    assertThat(copy.getIntention()).isEqualTo(intention);
   }
 
   @Test
@@ -69,6 +75,8 @@ public class StopOrderTest {
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
+    final String reference = "reference";
+    final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
 
     final StopOrder original =
         new StopOrder(
@@ -82,7 +90,9 @@ public class StopOrderTest {
             averagePrice,
             cumulativeAmount,
             fee,
-            status);
+            status,
+            reference,
+            intention);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
     final StopOrder copy = StopOrder.Builder.from(original).build();
@@ -103,6 +113,8 @@ public class StopOrderTest {
     final Date timestamp = new Date();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
+    final String reference = "reference";
+    final StopOrder.Intention intention = StopOrder.Intention.TAKE_PROFIT;
 
     final StopOrder original =
         new StopOrder(
@@ -116,7 +128,9 @@ public class StopOrderTest {
             averagePrice,
             cumulativeAmount,
             fee,
-            status);
+            status,
+            reference,
+            intention);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
 
