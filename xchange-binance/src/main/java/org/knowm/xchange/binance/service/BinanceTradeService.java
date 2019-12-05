@@ -2,33 +2,20 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -40,12 +27,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -143,34 +125,29 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   @Override
-  public String placeStopOrder(StopOrder so) throws IOException {
+  public String placeStopOrder(StopOrder order) throws IOException {
 
     TimeInForce tif = null;
-    Set<IOrderFlags> orderFlags = so.getOrderFlags();
-    Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
+    Set<IOrderFlags> orderFlags = order.getOrderFlags();
 
-    while (orderFlagsIterator.hasNext()) {
-      IOrderFlags orderFlag = orderFlagsIterator.next();
+    for (IOrderFlags orderFlag : orderFlags) {
       if (orderFlag instanceof TimeInForce) {
         tif = (TimeInForce) orderFlag;
+        break;
       }
     }
 
     // Time-in-force should not be provided for market orders but is required for
-    // limit orders, so we only default it for limit orders. If the caller
+    // limit orders, order we only default it for limit orders. If the caller
     // specifies one for a market order, we don't remove it, since Binance might allow
     // it at some point.
-    if (so.getLimitPrice() != null && tif == null) {
+    if (order.getLimitPrice() != null && tif == null) {
       tif = TimeInForce.GTC;
     }
 
-    OrderType orderType;
-    if (so.getType().equals(Order.OrderType.BID)) {
-      orderType = so.getLimitPrice() == null ? OrderType.TAKE_PROFIT : OrderType.TAKE_PROFIT_LIMIT;
-    } else {
-      orderType = so.getLimitPrice() == null ? OrderType.STOP_LOSS : OrderType.STOP_LOSS_LIMIT;
-    }
-    return placeOrder(orderType, so, so.getLimitPrice(), so.getStopPrice(), tif);
+    OrderType orderType = BinanceAdapters.adaptOrderType(order);
+
+    return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif);
   }
 
   private String placeOrder(
