@@ -75,6 +75,11 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     }
 
     @Override
+    public Observable<Object> connectionIdle() {
+        return streamingService.subscribeIdle();
+    }
+
+    @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
         spec.setShouldLoadRemoteMetaData(false);
