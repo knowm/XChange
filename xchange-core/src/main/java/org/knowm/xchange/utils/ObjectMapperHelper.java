@@ -35,7 +35,7 @@ public class ObjectMapperHelper {
     return objectMapperWithoutIndentation.readValue(value, valueType);
   }
 
-  private static <T> T readValueStrict(String value, Class<T> valueType) throws IOException {
+  public static <T> T readValueStrict(String value, Class<T> valueType) throws IOException {
     return objectMapperStrict.readValue(value, valueType);
   }
 
