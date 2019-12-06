@@ -21,12 +21,12 @@ public class KrakenManualPrivateTest {
         krakenExchange.connect().blockingAwait();
 
         krakenExchange.getStreamingTradeService().getUserTrades(null).subscribe(b -> {
-            LOG.info("Received userTrade {} -> {}", b, b);
+            LOG.info("Received userTrade {}", b);
         }, throwable -> {
             LOG.error("UserTrades FAILED {}", throwable.getMessage(), throwable);
         });
         krakenExchange.getStreamingTradeService().getOrderChanges(null).subscribe(b -> {
-            LOG.info("Received orderChange {} -> {}", b, b);
+            LOG.info("Received orderChange {}", b);
         }, throwable -> {
             LOG.error("OrderChange FAILED {}", throwable.getMessage(), throwable);
         });
