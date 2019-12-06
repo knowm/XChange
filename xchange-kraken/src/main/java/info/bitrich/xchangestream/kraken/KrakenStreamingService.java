@@ -140,19 +140,19 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                     null, new KrakenSubscriptionConfig(subscriptionName, null, token));
 
             return objectMapper.writeValueAsString(subscriptionMessage);
+        } else {
+            String pair = channelData[1];
+
+            Integer depth = null;
+            if (args.length > 0 && args[0] != null) {
+                depth = (Integer) args[0];
+            }
+            subscriptionRequestMap.put(reqID, channelName);
+
+            KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, subscribe,
+                    Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName, depth, null));
+            return objectMapper.writeValueAsString(subscriptionMessage);
         }
-
-        String pair = channelData[1];
-
-        Integer depth = null;
-        if (args.length > 0 && args[0] != null) {
-            depth = (Integer) args[0];
-        }
-        subscriptionRequestMap.put(reqID, channelName);
-
-        KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, subscribe,
-                Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName, depth, null));
-        return objectMapper.writeValueAsString(subscriptionMessage);
     }
 
     @Override
@@ -162,16 +162,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         KrakenSubscriptionName subscriptionName = KrakenSubscriptionName.valueOf(channelData[0]);
 
         if (isPrivate) {
+            String token = null; // TODO: We probably need to pass the token to unsubscribe (but we dont have args[0])
             KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
-                    null, new KrakenSubscriptionConfig(subscriptionName));
+                    null, new KrakenSubscriptionConfig(subscriptionName, null, null));
+            return objectMapper.writeValueAsString(subscriptionMessage);
+        } else {
+            String pair = channelData[1];
+
+            subscriptionRequestMap.put(reqID, channelName);
+            KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
+                    Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName));
             return objectMapper.writeValueAsString(subscriptionMessage);
         }
-
-        String pair = channelData[1];
-
-        subscriptionRequestMap.put(reqID, channelName);
-        KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
-                Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName));
-        return objectMapper.writeValueAsString(subscriptionMessage);
     }
 }
