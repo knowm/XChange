@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -229,7 +230,7 @@ public final class ItBitAdapters {
             trade
                 .getCurrency1Amount()
                 .multiply(trade.getRate())
-                .divide(trade.getCurrency1Amount(), 8, BigDecimal.ROUND_HALF_UP);
+                .divide(trade.getCurrency1Amount(), MathContext.DECIMAL32);
         ItBitUserTrade itBitTrade = tradesByOrderId.get(orderId).get(0);
         OrderType orderType =
             itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
