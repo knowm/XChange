@@ -23,15 +23,17 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
         this.userId = userId;
     }
 
+    @Override
     public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
 
         return getCoinmateBalances().map(balanceMap -> balanceMap.get(currency.toString()))
                 .map((balance) -> {
-                    return new Balance(
-                            currency,
-                            balance.getBalance(),
-                            balance.getBalance().subtract(balance.getReserved()),
-                            balance.getReserved());
+                    return new Balance.Builder()
+                            .currency(currency)
+                            .total(balance.getBalance())
+                            .available(balance.getBalance().subtract(balance.getReserved()))
+                            .frozen(balance.getReserved())
+                            .build();
         });
     }
 
@@ -41,11 +43,12 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
             List<Balance> balances = new ArrayList<>();
             balanceMap.forEach((s, coinmateWebsocketBalance) -> {
                 balances.add(
-                        new Balance(
-                                new Currency(s),
-                                coinmateWebsocketBalance.getBalance(),
-                                coinmateWebsocketBalance.getBalance().subtract(coinmateWebsocketBalance.getReserved()),
-                                coinmateWebsocketBalance.getReserved())
+                        new Balance.Builder()
+                                .currency(new Currency(s))
+                                .total(coinmateWebsocketBalance.getBalance())
+                                .available(coinmateWebsocketBalance.getBalance().subtract(coinmateWebsocketBalance.getReserved()))
+                                .frozen(coinmateWebsocketBalance.getReserved())
+                                .build()
                 );
             });
             return balances;
