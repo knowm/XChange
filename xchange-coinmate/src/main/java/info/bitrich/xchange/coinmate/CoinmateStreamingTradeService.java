@@ -25,6 +25,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
         this.userId = userId;
     }
 
+    @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         String channelName = "private-open_orders-" + userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
@@ -37,6 +38,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
                 .concatMapIterable(OpenOrders::getAllOpenOrders);
     }
 
+    @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         String channelName = "private-user-trades-" + userId + "-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
