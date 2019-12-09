@@ -72,7 +72,7 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
                 LOG.info("Channel {} has been successfully unsubscribed", channel);
                 break;
             default:
-                LOG.error("Unsupported event type {} in message {}", event, message.toString());
+                LOG.warn("Unsupported event type {} in message {}", event, message.toString());
         }
     }
 
