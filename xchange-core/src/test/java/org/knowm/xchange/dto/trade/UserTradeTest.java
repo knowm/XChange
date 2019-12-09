@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class UserTradeTest {
 
@@ -89,11 +89,6 @@ public class UserTradeTest {
 
   @Test
   public void testSerializeDeserialize() throws IOException {
-
-    // This deliberately doesn't use FAIL_ON_UNKNOWN_PROPERTIES so that
-    // we ensure serialization/deserialization is symmetrical.
-    ObjectMapper objectMapper = new ObjectMapper();
-
     final OrderType type = OrderType.ASK;
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
@@ -115,10 +110,10 @@ public class UserTradeTest {
             feeAmount,
             feeCurrency);
 
-    String json = objectMapper.writeValueAsString(original);
+    String json = ObjectMapperHelper.toCompactJSON(original);
     assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
 
-    UserTrade jsonCopy = objectMapper.readValue(json, UserTrade.class);
+    UserTrade jsonCopy = ObjectMapperHelper.readValueStrict(json, UserTrade.class);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);
   }
 
