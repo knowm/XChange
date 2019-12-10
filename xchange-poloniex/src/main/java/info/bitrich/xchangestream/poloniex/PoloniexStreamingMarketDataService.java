@@ -73,7 +73,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                                     bidQueue.removeIf(x -> rate.equals(x.getLimitPrice()));
                                 }
 
-                            } else if ("orderBookModify".equals(type)) {
+                            } else {
                                 if ("ask".equals(bookType)) {
                                     LimitOrder level = new LimitOrder(Order.OrderType.ASK, amount, currencyPair, null, now, rate);
                                     askQueue.add(level);
