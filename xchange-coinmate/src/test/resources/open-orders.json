@@ -1,0 +1,22 @@
+[
+  {
+    "id": 11111111,
+    "date": 1567331368945,
+    "type": "SELL",
+    "price": 8780,
+    "original": 0.5,
+    "amount": 0.5,
+    "trailing": false,
+    "hidden": false
+  },
+  {
+    "id": 11111112,
+    "date": 1567331368827,
+    "type": "SELL",
+    "price": 8780.1,
+    "original": 1,
+    "amount": 1,
+    "trailing": false,
+    "hidden": false
+  }
+]
