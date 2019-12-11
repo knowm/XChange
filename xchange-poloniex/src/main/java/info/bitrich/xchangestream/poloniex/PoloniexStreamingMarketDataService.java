@@ -33,7 +33,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     private static final int ORDER_BOOK_LEVELS = 100;
 
     Comparator<LimitOrder> asendingPriceComparator = Comparator.comparing(LimitOrder::getLimitPrice);
-    Comparator<LimitOrder> descendingPriceComparator = (LimitOrder o1, LimitOrder o2) -> -o1.getLimitPrice().compareTo(o2.getLimitPrice());
+    Comparator<LimitOrder> descendingPriceComparator = asendingPriceComparator.reversed();
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
