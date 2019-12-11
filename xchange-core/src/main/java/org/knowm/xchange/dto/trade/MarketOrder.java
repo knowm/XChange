@@ -246,6 +246,7 @@ public class MarketOrder extends Order {
               status,
               userReference);
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }
