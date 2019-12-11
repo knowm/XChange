@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitfinex.v1;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -31,6 +32,19 @@ public final class BitfinexUtils {
         + base
         + currencySeparator(base, counter)
         + adaptXchangeCurrency(currencyPair.counter);
+  }
+
+  public static String toPairStringV1(CurrencyPair currencyPair) {
+
+    if (currencyPair == null) {
+      return null;
+    }
+
+    String base = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.base));
+    String counter = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.counter));
+    return base
+            + currencySeparator(base, counter)
+            + adaptXchangeCurrency(currencyPair.counter);
   }
 
   /**

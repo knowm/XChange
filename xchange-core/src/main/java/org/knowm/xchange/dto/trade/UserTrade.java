@@ -183,16 +183,20 @@ public class UserTrade extends Trade {
 
     @Override
     public UserTrade build() {
-      return new UserTrade(
-          type,
-          originalAmount,
-          currencyPair,
-          price,
-          timestamp,
-          id,
-          orderId,
-          feeAmount,
-          feeCurrency);
+      UserTrade userTrade =
+          new UserTrade(
+              type,
+              originalAmount,
+              currencyPair,
+              price,
+              timestamp,
+              id,
+              orderId,
+              feeAmount,
+              feeCurrency);
+      userTrade.setMakerOrderId(makerOrderId);
+      userTrade.setTakerOrderId(takerOrderId);
+      return userTrade;
     }
   }
 }

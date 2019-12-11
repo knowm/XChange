@@ -188,4 +188,24 @@ public class BinanceAdapters {
     }
     return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
   }
+
+  public static org.knowm.xchange.binance.dto.trade.OrderType adaptOrderType(StopOrder order) {
+
+    if (order.getIntention() == null) {
+      throw new IllegalArgumentException("Missing intention");
+    }
+
+    switch (order.getIntention()) {
+      case STOP_LOSS:
+        return order.getLimitPrice() == null
+            ? org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS
+            : org.knowm.xchange.binance.dto.trade.OrderType.STOP_LOSS_LIMIT;
+      case TAKE_PROFIT:
+        return order.getLimitPrice() == null
+            ? org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT
+            : org.knowm.xchange.binance.dto.trade.OrderType.TAKE_PROFIT_LIMIT;
+      default:
+        throw new IllegalStateException("Unexpected value: " + order.getIntention());
+    }
+  }
 }

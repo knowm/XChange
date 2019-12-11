@@ -17,9 +17,10 @@ import org.slf4j.LoggerFactory;
 public class ObjectMapperHelper {
 
   private static final Logger logger = LoggerFactory.getLogger(ObjectMapperHelper.class);
-  private static final ObjectMapper objectMapperWithIndentation = initWithIndentation();
 
+  private static final ObjectMapper objectMapperWithIndentation = initWithIndentation();
   private static final ObjectMapper objectMapperWithoutIndentation = initWithoutIndentation();
+  private static final ObjectMapper objectMapperStrict = initStrict();
 
   private ObjectMapperHelper() {}
 
@@ -34,6 +35,10 @@ public class ObjectMapperHelper {
     return objectMapperWithoutIndentation.readValue(value, valueType);
   }
 
+  public static <T> T readValueStrict(String value, Class<T> valueType) throws IOException {
+    return objectMapperStrict.readValue(value, valueType);
+  }
+
   public static <T> String toJSON(T valueType) {
     return toJSON(objectMapperWithIndentation, valueType);
   }
@@ -43,8 +48,11 @@ public class ObjectMapperHelper {
   }
 
   /**
-   * Useful for testing. Performs a round trip via a JSON string allowing ser/deser to be tested and
-   * verified.
+   * Useful for testing. Performs a round trip via a JSON string allowing ser/deser to be tested
+   * andv erified.
+   *
+   * <p>Note that this deliberately uses a very strict {@link ObjectMapper} since we need to be sure
+   * that the source object is fully recreated without errors.
    *
    * @param <T> The object type
    * @param valueType The object to be converted
@@ -53,9 +61,9 @@ public class ObjectMapperHelper {
    */
   @SuppressWarnings("unchecked")
   public static <T> T viaJSON(T valueType) throws IOException {
-    String json = toJSON(valueType);
+    String json = toJSON(objectMapperStrict, valueType);
     logger.debug("Converted " + valueType + " to " + json);
-    return readValue(json, (Class<T>) valueType.getClass());
+    return readValueStrict(json, (Class<T>) valueType.getClass());
   }
 
   private static <T> String toJSON(ObjectMapper objectMapper, T valueType) {
@@ -77,5 +85,9 @@ public class ObjectMapperHelper {
     return new ObjectMapper()
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+  }
+
+  private static ObjectMapper initStrict() {
+    return new ObjectMapper();
   }
 }
