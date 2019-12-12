@@ -11,6 +11,11 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
@@ -20,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType.subscribe;
 
@@ -55,6 +61,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             KrakenEventType krakenEvent;
             if (event != null && (krakenEvent = KrakenEventType.getEvent(event.textValue())) != null) {
                 switch (krakenEvent) {
+                    case pong:
+                        LOG.debug("Pong received");
+                        break;
                     case heartbeat:
                         LOG.debug("Heartbeat received");
                         break;
@@ -95,7 +104,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         }
 
         if (!message.isArray() || channelName == null) {
-            LOG.error("Unknown message: {}", message.asText());
+            LOG.error("Unknown message: {}", message.toString());
             return;
         }
 
@@ -173,6 +182,52 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
             KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
                     Collections.singletonList(pair), new KrakenSubscriptionConfig(subscriptionName));
             return objectMapper.writeValueAsString(subscriptionMessage);
+        }
+    }
+    @Override
+    protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker,
+                                                               WebSocketClientHandler.WebSocketMessageHandler handler) {
+        LOG.info("Registering KrakenWebSocketClientHandler");
+        return new KrakenWebSocketClientHandler(handshaker, handler);
+    }
+
+    @Override
+    protected Completable openConnection() {
+
+        KrakenSubscriptionMessage ping = new KrakenSubscriptionMessage(null,KrakenEventType.ping,null,null);
+
+        subscribeConnectionSuccess().subscribe( o ->
+            Observable
+                    .interval(30, TimeUnit.SECONDS)
+                    .takeWhile( t -> isSocketOpen())
+                    .subscribe( t -> sendObjectMessage(ping)));
+
+        return super.openConnection();
+    }
+
+    private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+
+    /**
+     * Custom client handler in order to execute an external, user-provided handler on channel events.
+     * This is useful because it seems Kraken unexpectedly closes the web socket connection.
+     */
+    class KrakenWebSocketClientHandler extends NettyWebSocketClientHandler {
+
+        public KrakenWebSocketClientHandler(WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+            super(handshaker, handler);
+        }
+
+        @Override
+        public void channelActive(ChannelHandlerContext ctx) {
+            super.channelActive(ctx);
+        }
+
+        @Override
+        public void channelInactive(ChannelHandlerContext ctx) {
+            super.channelInactive(ctx);
+            if (channelInactiveHandler != null) {
+                channelInactiveHandler.onMessage("WebSocket Client disconnected!");
+            }
         }
     }
 }

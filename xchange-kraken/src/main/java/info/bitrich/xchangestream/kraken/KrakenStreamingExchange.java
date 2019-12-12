@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,10 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingExchange.class);
     private static final String API_URI = "wss://ws.kraken.com";
     private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
+    private static final String API_FUTURES_URI = "wss://futures.kraken.com";
     private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
 
-    private KrakenStreamingService streamingService, privateStreamingService;
+    private KrakenStreamingService streamingService, privateStreamingService, futuresStreamingService;
     private KrakenStreamingMarketDataService streamingMarketDataService;
     private KrakenStreamingTradeService streamingTradeService;
 
@@ -47,6 +49,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
         if (exchangeSpecification.getApiKey() != null) {
             this.privateStreamingService = new KrakenStreamingService(true, pickUri(true,useSanbox));
+//            this.futuresStreamingService = new KrakenStreamingService(true, API_FUTURES_URI);
         }
 
         KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) getAccountService();
@@ -57,7 +60,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     @Override
     public Completable connect(ProductSubscription... args) {
         if (privateStreamingService != null)
-            return privateStreamingService.connect().andThen(streamingService.connect());
+            return privateStreamingService.connect().mergeWith(streamingService.connect());
 
         return streamingService.connect();
     }
@@ -65,7 +68,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     @Override
     public Completable disconnect() {
         if (privateStreamingService != null)
-            return privateStreamingService.disconnect().andThen(streamingService.disconnect());
+            return privateStreamingService.disconnect().mergeWith(streamingService.disconnect());
 
         return streamingService.disconnect();
     }
