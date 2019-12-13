@@ -1,7 +1,6 @@
 package info.bitrich.xchange.coinmate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchange.coinmate.dto.CoinmateWebSocketTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -29,7 +28,7 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        String channelName = "order_book-" + getChannelPostfix(currencyPair);
+        String channelName = "order_book-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
         return service.subscribeChannel(channelName, "order_book")
                 .map(s -> {
@@ -49,21 +48,17 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String channelName = "trades-" + getChannelPostfix(currencyPair);
+        String channelName = "trades-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
         return service.subscribeChannel(channelName, "new_trades")
                 .map(s -> {
 
                     ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-                    List<CoinmateWebSocketTrade> list = mapper.readValue(s, new TypeReference<List<CoinmateWebSocketTrade>>() {
-                    });
+                    List<CoinmateWebSocketTrade> list = mapper.readValue(s, new TypeReference<List<CoinmateWebSocketTrade>>() {});
                     return list;
                 })
                 .flatMapIterable(coinmateWebSocketTrades -> coinmateWebSocketTrades)
                 .map(coinmateWebSocketTrade -> CoinmateAdapters.adaptTrade(coinmateWebSocketTrade.toTransactionEntry(CoinmateUtils.getPair(currencyPair))));
     }
 
-    private String getChannelPostfix(CurrencyPair currencyPair) {
-        return currencyPair.base.toString().toUpperCase() + "_" + currencyPair.counter.toString().toUpperCase();
-    }
 }

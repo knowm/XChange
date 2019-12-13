@@ -81,6 +81,10 @@ public interface StreamingExchange extends Exchange {
         throw new NotYetImplementedForExchangeException();
     }
 
+    default Observable<Object> connectionIdle() {
+        throw new NotYetImplementedForExchangeException();
+    };
+
     /**
      * Returns service that can be used to access streaming market data.
      */

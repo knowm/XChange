@@ -1,10 +1,7 @@
 package info.bitrich.xchangestream.kraken;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.kraken.dto.KrakenOrderBook;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenOrderBookMessageType;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.slf4j.Logger;
@@ -32,6 +29,7 @@ public class KrakenOrderBookUtils {
     private static final String BID_UPDATE = "b";
 
     private static final int EXPECTED_ORDER_BOOK_ARRAY_SIZE = 4;
+    private static final BigDecimal BIG_DECIMAL_1000 = new BigDecimal(1000);
 
     @SuppressWarnings("unchecked")
     public static KrakenOrderBook parse(List jsonParseResult) {
@@ -89,12 +87,8 @@ public class KrakenOrderBookUtils {
         return new KrakenPublicOrder(
                 new BigDecimal(list.get(0)).stripTrailingZeros(),
                 new BigDecimal(list.get(1)).stripTrailingZeros(),
-                timestampToMs(list.get(2))
+                new BigDecimal(list.get(2)).multiply(BIG_DECIMAL_1000).longValue()
         );
-    }
-
-    private static long timestampToMs(String timestamp) {
-        return new BigDecimal(timestamp).multiply(new BigDecimal(1000)).longValue();
     }
 
 }

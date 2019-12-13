@@ -3,38 +3,62 @@ package info.bitrich.xchangestream.service.netty;
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.*;
-import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.DefaultHttpHeaders;
+import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
+import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
-import io.netty.handler.logging.*;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.proxy.Socks5ProxyHandler;
-import io.netty.handler.ssl.*;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import io.netty.handler.timeout.*;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.SocketUtils;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.*;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.subjects.PublishSubject;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class NettyStreamingService<T> extends ConnectableService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-    private static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
-    private static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
-    private static final int DEFAULT_IDLE_TIMEOUT = 0;
+
+    protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
+    protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
+    protected static final int DEFAULT_IDLE_TIMEOUT = 0;
 
     private class Subscription {
         final ObservableEmitter<T> emitter;
@@ -192,20 +216,20 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 completable.onError(throwable);
             }
         })
-                .doOnError(t -> {
-                    if (t instanceof WebSocketHandshakeException) {
-                        LOG.warn("Problem with connection: {} - {}", t.getClass(), t.getMessage());
-                    } else {
-                        LOG.warn("Problem with connection", t);
-                    }
-                    reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
-                })
-                .doOnComplete(() -> {
-                    LOG.warn("Resubscribing channels");
-                    resubscribeChannels();
+        .doOnError(t -> {
+            if (t instanceof WebSocketHandshakeException) {
+                LOG.warn("Problem with connection: {} - {}", t.getClass(), t.getMessage());
+            } else {
+                LOG.warn("Problem with connection", t);
+            }
+            reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
+        })
+        .doOnComplete(() -> {
+            LOG.warn("Resubscribing channels");
+            resubscribeChannels();
 
-                    connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
-                });
+            connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
+        });
     }
 
     private void scheduleReconnect() {
@@ -233,8 +257,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                     });
                 });
             } else {
-                LOG.warn("Disconnect called but already disconnected");
-                completable.onComplete();
+              LOG.warn("Disconnect called but already disconnected");
+              completable.onComplete();
             }
         });
     }
@@ -427,13 +451,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         return webSocketChannel != null && webSocketChannel.isOpen();
     }
 
-    public void useCompressedMessages(boolean compressedMessages) {
-        this.compressedMessages = compressedMessages;
-    }
+    public void useCompressedMessages(boolean compressedMessages) { this.compressedMessages = compressedMessages; }
 
     public void setAcceptAllCertificates(boolean acceptAllCertificates) {
         this.acceptAllCertificates = acceptAllCertificates;
-    }
+}
 
     public void setEnableLoggingHandler(boolean enableLoggingHandler) {
         this.enableLoggingHandler = enableLoggingHandler;
