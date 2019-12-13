@@ -5,32 +5,26 @@ import info.bitrich.xchangestream.lgo.domain.*;
 import io.reactivex.Observable;
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
 import org.knowm.xchange.lgo.dto.order.LgoOrderSignature;
-import org.knowm.xchange.lgo.service.LgoKeyService;
-import org.knowm.xchange.lgo.service.LgoSignatureService;
+import org.knowm.xchange.lgo.service.*;
 import org.mockito.ArgumentCaptor;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 public class LgoStreamingTradeServiceTest {
@@ -87,34 +81,17 @@ public class LgoStreamingTradeServiceTest {
         Date date1 = dateFormat.parse("2019-07-23T15:36:14.304Z");
         Date date2 = dateFormat.parse("2019-07-18T12:24:21.891Z");
         Date date3 = dateFormat.parse("2019-07-24T08:37:19.116Z");
-        LimitOrder order1 = new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156389617430400001", date1, new BigDecimal("6000.0000"));
-        order1.setOrderStatus(Order.OrderStatus.NEW);
-        order1.setAveragePrice(null);
-        order1.setFee(null);
-        LimitOrder order2 = new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"));
-        order2.setOrderStatus(Order.OrderStatus.NEW);
-        order2.setAveragePrice(null);
-        order2.setFee(null);
-        LimitOrder order2Matched = new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.40000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"));
-        order2Matched.setOrderStatus(Order.OrderStatus.PARTIALLY_FILLED);
-        order2Matched.setAveragePrice(null);
+        LimitOrder order1 = createOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156389617430400001", date1, new BigDecimal("6000.0000"), Order.OrderStatus.NEW);
+        LimitOrder order2 = createOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"), Order.OrderStatus.NEW);
+        LimitOrder order2Matched = createOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("0.40000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"), Order.OrderStatus.PARTIALLY_FILLED);
         order2Matched.setFee(new BigDecimal("0.2388"));
-        LimitOrder order2Matched2 = new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("1.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"));
-        order2Matched2.setOrderStatus(Order.OrderStatus.PARTIALLY_FILLED);
-        order2Matched2.setAveragePrice(null);
+        LimitOrder order2Matched2 = createOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("1.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"), Order.OrderStatus.PARTIALLY_FILLED);
         order2Matched2.setFee(new BigDecimal("0.6988"));
-        LimitOrder order2Filled = new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("1.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"));
-        order2Filled.setOrderStatus(Order.OrderStatus.FILLED);
-        order2Filled.setAveragePrice(null);
+        LimitOrder order2Filled = createOrder(Order.OrderType.ASK, new BigDecimal("1.00000000"), new BigDecimal("1.00000000"), CurrencyPair.BTC_USD, "156345266189100001", date2, new BigDecimal("6000.0000"), Order.OrderStatus.FILLED);
         order2Filled.setFee(new BigDecimal("0.6988"));
-        LimitOrder order3Pending = new LimitOrder(Order.OrderType.BID, new BigDecimal("2.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156395743911600001", date3, new BigDecimal("8000.0000"));
-        order3Pending.setOrderStatus(Order.OrderStatus.PENDING_NEW);
-        order3Pending.setAveragePrice(null);
-        order3Pending.setFee(null);
-        LimitOrder order3Open = new LimitOrder(Order.OrderType.BID, new BigDecimal("2.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156395743911600001", date3, new BigDecimal("8000.0000"));
-        order3Open.setOrderStatus(Order.OrderStatus.NEW);
-        order3Open.setAveragePrice(null);
-        order3Open.setFee(null);
+        LimitOrder order3Pending = createOrder(Order.OrderType.BID, new BigDecimal("2.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156395743911600001", date3, new BigDecimal("8000.0000"), Order.OrderStatus.PENDING_NEW);
+        LimitOrder order3Open = createOrder(Order.OrderType.BID, new BigDecimal("2.00000000"), new BigDecimal("0.00000000"), CurrencyPair.BTC_USD, "156395743911600001", date3, new BigDecimal("8000.0000"), Order.OrderStatus.NEW);
+
         ArrayList<Order> orderChanges = Lists.newArrayList(observable.blockingIterable());
         assertThat(orderChanges).hasSize(7);
         assertThat(orderChanges.get(0)).usingRecursiveComparison().isEqualTo(order1);
@@ -124,6 +101,20 @@ public class LgoStreamingTradeServiceTest {
         assertThat(orderChanges.get(4)).usingRecursiveComparison().isEqualTo(order2Matched);
         assertThat(orderChanges.get(5)).usingRecursiveComparison().isEqualTo(order2Matched2);
         assertThat(orderChanges.get(6)).usingRecursiveComparison().isEqualTo(order2Filled);
+    }
+
+    private LimitOrder createOrder(Order.OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair pair, String id, Date timestamp, BigDecimal limitPrice, Order.OrderStatus status) {
+        return new LimitOrder.Builder(type, pair)
+                .id(id)
+                .userReference(null)
+                .originalAmount(originalAmount)
+                .cumulativeAmount(cumulativeAmount)
+                .limitPrice(limitPrice)
+                .orderStatus(status)
+                .averagePrice(null)
+                .timestamp(timestamp)
+                .fee(null)
+                .build();
     }
 
     @Test

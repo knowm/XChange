@@ -11,7 +11,7 @@ import org.knowm.xchange.lgo.service.LgoSignatureService;
 import java.io.IOException;
 import java.time.Duration;
 
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.*;
 
 public class LgoStreamingService extends JsonNettyStreamingService {
 
@@ -53,7 +53,7 @@ public class LgoStreamingService extends JsonNettyStreamingService {
         DefaultHttpHeaders headers = super.getCustomHeaders();
         String timestamp = String.valueOf(System.currentTimeMillis());
         headers.add("X-LGO-DATE", timestamp);
-        String auth = signatureService.digestHeader(this.apiUrl + "/", timestamp);
+        String auth = signatureService.digestSignedUrlHeader(this.apiUrl + "/", timestamp);
         headers.add("Authorization", auth);
         return headers;
     }

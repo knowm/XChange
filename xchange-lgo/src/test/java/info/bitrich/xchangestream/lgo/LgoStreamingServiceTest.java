@@ -1,8 +1,7 @@
 package info.bitrich.xchangestream.lgo;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoEnv.SignatureService;
@@ -10,9 +9,8 @@ import org.knowm.xchange.lgo.service.LgoSignatureService;
 
 import java.io.IOException;
 
-import static info.bitrich.xchangestream.lgo.TestUtils.asJsonNode;
-import static info.bitrich.xchangestream.lgo.TestUtils.getJsonContent;
-import static org.assertj.core.api.Assertions.assertThat;
+import static info.bitrich.xchangestream.lgo.TestUtils.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class LgoStreamingServiceTest {
 
@@ -20,7 +18,7 @@ public class LgoStreamingServiceTest {
 
     @Before
     public void setUp() {
-        ExchangeSpecification env = LgoEnv.sandboxMarkets();
+        ExchangeSpecification env = LgoEnv.sandbox();
         env.getExchangeSpecificParameters().put(LgoEnv.SIGNATURE_SERVICE, SignatureService.PASSTHROUGHS);
         service = new LgoStreamingService(LgoSignatureService.createInstance(env), "apiUrl");
     }

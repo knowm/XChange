@@ -26,21 +26,26 @@ public class LgoStreamingAccountService implements StreamingAccountService {
 
     @Override
     public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
-        if (subscription == null) {
-            createSubscription();
-        }
+        ensureSubscription();
         return subscription.map(u -> u.getWallet().get(currency));
     }
 
     public Observable<Wallet> getWallet() {
-        if (subscription == null) {
-            createSubscription();
-        }
+        ensureSubscription();
         return subscription
                 .map(u -> Wallet.Builder.from(u.getWallet().values()).build());
     }
 
-    private void createSubscription() {
+    private void ensureSubscription() {
+        if (subscription == null) {
+            createSubscription();
+        }
+    }
+
+    private synchronized void createSubscription() {
+        if (subscription != null) {
+            return;
+        }
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
         subscription = service
                 .subscribeChannel(CHANNEL_NAME)
@@ -56,7 +61,7 @@ public class LgoStreamingAccountService implements StreamingAccountService {
                     }
                     return acc.applyUpdate(s.getSeq(), updatedBalances);
                 })
-                .skip(1)
+                .skip(1) // skips first element for it's just the empty initial accumulator
                 .share();
     }
 

@@ -1,27 +1,18 @@
 package info.bitrich.xchangestream.lgo;
 
-import info.bitrich.xchangestream.lgo.domain.LgoBatchOrderEvent;
-import info.bitrich.xchangestream.lgo.domain.LgoMatchOrderEvent;
-import info.bitrich.xchangestream.lgo.domain.LgoPendingOrderEvent;
-import info.bitrich.xchangestream.lgo.dto.LgoTrade;
-import info.bitrich.xchangestream.lgo.dto.LgoUserSnapshotData;
+import info.bitrich.xchangestream.lgo.domain.*;
+import info.bitrich.xchangestream.lgo.dto.*;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.trade.*;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedMap;
+import java.util.*;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class LgoAdapter {
 
@@ -46,13 +37,14 @@ public class LgoAdapter {
     }
 
     public static Trade adaptTrade(CurrencyPair currencyPair, LgoTrade lgoTrade) {
-        return new Trade(
-                parseTradeType(lgoTrade),
-                lgoTrade.getQuantity(),
-                currencyPair,
-                lgoTrade.getPrice(),
-                lgoTrade.getCreationTime(),
-                lgoTrade.getId());
+        return new Trade.Builder()
+                .type(parseTradeType(lgoTrade))
+                .originalAmount(lgoTrade.getQuantity())
+                .currencyPair(currencyPair)
+                .price(lgoTrade.getPrice())
+                .timestamp(lgoTrade.getCreationTime())
+                .id(lgoTrade.getId())
+                .build();
     }
 
     static List<Balance> adaptBalances(List<List<String>> data) {
@@ -61,7 +53,12 @@ public class LgoAdapter {
             BigDecimal available = new BigDecimal(balance.get(1));
             BigDecimal escrow = new BigDecimal(balance.get(2));
             BigDecimal total = available.add(escrow);
-            return new Balance(currency, total, available, escrow);
+            return new Balance.Builder()
+                    .currency(currency)
+                    .total(total)
+                    .available(available)
+                    .frozen(escrow)
+                    .build();
         }).collect(toList());
     }
 
@@ -90,16 +87,17 @@ public class LgoAdapter {
     static Collection<LimitOrder> adaptOrdersSnapshot(List<LgoUserSnapshotData> orderEvents, CurrencyPair currencyPair) {
         return orderEvents.stream()
                 .map(orderEvent -> {
-            Order.OrderStatus status = orderEvent.getQuantity().equals(orderEvent.getRemainingQuantity()) ? Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
-            return new LimitOrder.Builder(parseOrderType(orderEvent.getSide()), currencyPair)
-                    .id(orderEvent.getOrderId())
-                    .originalAmount(orderEvent.getQuantity())
-                    .remainingAmount(orderEvent.getRemainingQuantity())
-                    .limitPrice(orderEvent.getPrice())
-                    .orderStatus(status)
-                    .timestamp(orderEvent.getOrderCreationTime())
-                    .build();
-        }).collect(toList());
+                    Order.OrderStatus status = orderEvent.getQuantity().equals(orderEvent.getRemainingQuantity()) ? Order.OrderStatus.NEW : Order.OrderStatus.PARTIALLY_FILLED;
+                    return new LimitOrder.Builder(parseOrderType(orderEvent.getSide()), currencyPair)
+                            .id(orderEvent.getOrderId())
+                            .userReference(null)
+                            .originalAmount(orderEvent.getQuantity())
+                            .remainingAmount(orderEvent.getRemainingQuantity())
+                            .limitPrice(orderEvent.getPrice())
+                            .orderStatus(status)
+                            .timestamp(orderEvent.getOrderCreationTime())
+                            .build();
+                }).collect(toList());
     }
 
     public static Order adaptPendingOrder(LgoPendingOrderEvent orderEvent, CurrencyPair currencyPair) {

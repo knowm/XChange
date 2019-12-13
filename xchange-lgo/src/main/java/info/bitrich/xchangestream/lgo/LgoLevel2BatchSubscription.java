@@ -49,7 +49,7 @@ class LgoLevel2BatchSubscription {
                     acc.applyUpdate(s.getBatchId(), s.getData());
                     return acc;
                 })
-                .skip(1)
+                .skip(1) // skips first element for it's just the empty initial accumulator
                 .map(acc -> LgoAdapter.adaptOrderBook(acc.getBidSide(), acc.getAskSide(), currencyPair))
                 .share();
     }
