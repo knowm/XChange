@@ -32,8 +32,8 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     private Map<CurrencyPair, MinMaxPriorityQueue<LimitOrder>> orderBookAsks = new HashMap<>();
     private static final int ORDER_BOOK_LEVELS = 100;
 
-    Comparator<LimitOrder> asendingPriceComparator = (LimitOrder o1, LimitOrder o2) -> o1.getLimitPrice().compareTo(o2.getLimitPrice());
-    Comparator<LimitOrder> descendingPriceComparator = (LimitOrder o1, LimitOrder o2) -> -o1.getLimitPrice().compareTo(o2.getLimitPrice());
+    Comparator<LimitOrder> asendingPriceComparator = Comparator.comparing(LimitOrder::getLimitPrice);
+    Comparator<LimitOrder> descendingPriceComparator = asendingPriceComparator.reversed();
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
@@ -54,7 +54,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
         }
 
         String channel = PoloniexUtils.toPairString(currencyPair);
-        Observable<OrderBook> result = streamingService.subscribeChannel(channel)
+        return streamingService.subscribeChannel(channel)
                 .map(pubSubData -> {
                     Date now = new Date();
                     for (int i = 0; i < pubSubData.arguments().size(); i++) {
@@ -73,7 +73,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                                     bidQueue.removeIf(x -> rate.equals(x.getLimitPrice()));
                                 }
 
-                            } else if ("orderBookModify".equals(type)) {
+                            } else {
                                 if ("ask".equals(bookType)) {
                                     LimitOrder level = new LimitOrder(Order.OrderType.ASK, amount, currencyPair, null, now, rate);
                                     askQueue.add(level);
@@ -86,7 +86,6 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                     }
                     return new OrderBook(now, MinMaxPriorityQueueUtils.toList(askQueue, asendingPriceComparator), MinMaxPriorityQueueUtils.toList(bidQueue, descendingPriceComparator));
                 });
-        return result;
     }
 
     @Override
@@ -112,9 +111,9 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         String channel = PoloniexUtils.toPairString(currencyPair);
-        Observable<Trade> result = streamingService.subscribeChannel(channel)
+        return streamingService.subscribeChannel(channel)
                 .flatMap(pubSubData -> {
-                    List<Trade> res = new ArrayList<Trade>();
+                    List<Trade> res = new ArrayList<>();
                     for (int i = 0; i < pubSubData.arguments().size(); i++) {
                         JsonNode item = pubSubData.arguments().get(i);
                         if ("newTrade".equals(item.get("type").asText())) {
@@ -133,6 +132,5 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
                     }
                     return Observable.fromIterable(res);
                 });
-        return result;
     }
 }

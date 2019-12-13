@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.bitfinex;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexAuthRequestStatus;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuth;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
@@ -13,23 +12,21 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMess
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -45,8 +42,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import static org.knowm.xchange.service.BaseParamsDigest.HMAC_SHA_384;
-
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Created by Lukas Zaoralek on 7.11.17.
@@ -96,7 +91,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     public BitfinexStreamingService(String apiUrl,
                                     SynchronizedValueFactory<Long> nonceFactory) {
-        super(apiUrl, Integer.MAX_VALUE);
+        super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 30);
         this.nonceFactory = nonceFactory;
     }
 
