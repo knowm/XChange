@@ -1,23 +1,18 @@
 package info.bitrich.xchangestream.lgo;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.lgo.LgoEnv;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 @Ignore
 public class LgoStreamingExchangeExample {
@@ -30,7 +25,7 @@ public class LgoStreamingExchangeExample {
     @Before
     public void setUp() throws Exception {
         exchange = new LgoStreamingExchange();
-        ExchangeSpecification spec = LgoEnv.sandboxMarkets();
+        ExchangeSpecification spec = LgoEnv.sandbox();
         spec.setSecretKey(readResource("/example/private_key.pem"));
         spec.setApiKey(readResource("/example/api_key.txt"));
         spec.setShouldLoadRemoteMetaData(false);
