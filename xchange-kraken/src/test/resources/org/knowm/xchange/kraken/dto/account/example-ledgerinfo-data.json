@@ -62,8 +62,18 @@
         "amount": "0.5000000000",
         "fee": "0.0000000000",
         "balance": "0.5000000000"
+      },
+      "L23XKW-ZZHEP-FJINZ3": {
+        "refid": "TPYCPK-GLBCV-NGPDDI",
+        "time": 1388739905.0371,
+        "type": "settled",
+        "aclass": "currency",
+        "asset": "XETH",
+        "amount": "0.5000000000",
+        "fee": "0.0000000000",
+        "balance": "0.5000000000"
       }
     },
-    "count": "5"
+    "count": "6"
   }
 }
