@@ -67,16 +67,27 @@ public class KrakenAccountJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenLedgerResult krakenResult = mapper.readValue(is, KrakenLedgerResult.class);
     Map<String, KrakenLedger> ledgerInfo = krakenResult.getResult().getLedgerMap();
-    KrakenLedger ledger = ledgerInfo.get("LQY6IE-WNT47-JRBOJV");
+    KrakenLedger deposit = ledgerInfo.get("LQY6IE-WNT47-JRBOJV");
 
-    assertThat(ledger.getAsset()).isEqualTo("XXBT");
-    assertThat(ledger.getAssetClass()).isEqualTo("currency");
-    assertThat(ledger.getBalance()).isEqualTo("0.1000000000");
-    assertThat(ledger.getFee()).isEqualTo("0.0000000000");
-    assertThat(ledger.getTransactionAmount()).isEqualTo("0.1000000000");
-    assertThat(ledger.getLedgerType()).isEqualTo(LedgerType.DEPOSIT);
-    assertThat(ledger.getRefId()).isEqualTo("QGBJIZV-4F6SPK-ZCBT5O");
-    assertThat(ledger.getUnixTime()).isEqualTo(1391400160.0679);
+    assertThat(deposit.getAsset()).isEqualTo("XXBT");
+    assertThat(deposit.getAssetClass()).isEqualTo("currency");
+    assertThat(deposit.getBalance()).isEqualTo("0.1000000000");
+    assertThat(deposit.getFee()).isEqualTo("0.0000000000");
+    assertThat(deposit.getTransactionAmount()).isEqualTo("0.1000000000");
+    assertThat(deposit.getLedgerType()).isEqualTo(LedgerType.DEPOSIT);
+    assertThat(deposit.getRefId()).isEqualTo("QGBJIZV-4F6SPK-ZCBT5O");
+    assertThat(deposit.getUnixTime()).isEqualTo(1391400160.0679);
+
+    KrakenLedger settled = ledgerInfo.get("L23XKW-ZZHEP-FJINZ3");
+
+    assertThat(settled.getAsset()).isEqualTo("XETH");
+    assertThat(settled.getAssetClass()).isEqualTo("currency");
+    assertThat(settled.getBalance()).isEqualTo("0.5000000000");
+    assertThat(settled.getFee()).isEqualTo("0.0000000000");
+    assertThat(settled.getTransactionAmount()).isEqualTo("0.5000000000");
+    assertThat(settled.getLedgerType()).isEqualTo(LedgerType.SETTLED);
+    assertThat(settled.getRefId()).isEqualTo("TPYCPK-GLBCV-NGPDDI");
+    assertThat(settled.getUnixTime()).isEqualTo(1388739905.0371);
   }
 
   @Test
