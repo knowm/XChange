@@ -80,12 +80,18 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     
     @Override
     public Observable<Object> connectionSuccess() {
-        return streamingService.subscribeConnectionSuccess().mergeWith(privateStreamingService.subscribeConnectionSuccess());
+        if (privateStreamingService != null)
+            return streamingService.subscribeConnectionSuccess().mergeWith(privateStreamingService.subscribeConnectionSuccess());
+
+        return streamingService.subscribeConnectionSuccess();
     }
     
     @Override
     public Observable<Throwable> reconnectFailure() {
-        return streamingService.subscribeReconnectFailure().mergeWith(privateStreamingService.subscribeReconnectFailure());
+        if (privateStreamingService != null)
+            return streamingService.subscribeReconnectFailure().mergeWith(privateStreamingService.subscribeReconnectFailure());
+
+        return streamingService.subscribeReconnectFailure();
     }
     
     @Override
