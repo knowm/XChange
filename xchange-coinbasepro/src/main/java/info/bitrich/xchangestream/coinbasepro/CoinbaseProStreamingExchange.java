@@ -18,9 +18,9 @@ import io.reactivex.Observable;
  */
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
     private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
-    private static final String PRIME_API_URI = "wss://ws-feed.prime.coinbase.com";
     private static final String SANDBOX_API_URI = "wss://ws-feed-public.sandbox.pro.coinbase.com";
-    private static final String PRIME_SANDBOX_API_URI = "https://api-public.sandbox.prime.coinbase.com";
+    private static final String PRIME_API_URI = "wss://ws-feed.prime.coinbase.com";
+    private static final String PRIME_SANDBOX_API_URI = "wss://ws-feed-public.sandbox.prime.coinbase.com";
 
     private CoinbaseProStreamingService streamingService;
     private CoinbaseProStreamingMarketDataService streamingMarketDataService;
