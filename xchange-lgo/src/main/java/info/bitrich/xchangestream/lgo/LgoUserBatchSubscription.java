@@ -62,7 +62,7 @@ class LgoUserBatchSubscription {
                     }
 
                 })
-                .skip(1)
+                .skip(1) // skips the first element, for this is the empty accumulator
                 .share();
     }
 

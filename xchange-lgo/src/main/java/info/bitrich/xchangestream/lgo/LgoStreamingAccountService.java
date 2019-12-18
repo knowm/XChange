@@ -8,16 +8,13 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
-import org.slf4j.*;
 
-import java.io.IOException;
 import java.util.List;
 
 public class LgoStreamingAccountService implements StreamingAccountService {
 
     private static final String CHANNEL_NAME = "balance";
     private final LgoStreamingService service;
-    private static final Logger LOGGER = LoggerFactory.getLogger(LgoStreamingAccountService.class);
     private volatile Observable<LgoGroupedBalanceUpdate> subscription = null;
 
     public LgoStreamingAccountService(LgoStreamingService lgoStreamingService) {
@@ -55,25 +52,10 @@ public class LgoStreamingAccountService implements StreamingAccountService {
                     if (s.getType().equals("snapshot")) {
                         return acc.applySnapshot(s.getSeq(), updatedBalances);
                     }
-                    if (acc.getSeq() + 1 != s.getSeq()) {
-                        LOGGER.warn("Wrong seq expected {} get {}", acc.getSeq() + 1, s.getSeq());
-                        resubscribe();
-                    }
                     return acc.applyUpdate(s.getSeq(), updatedBalances);
                 })
                 .skip(1) // skips first element for it's just the empty initial accumulator
                 .share();
     }
 
-    private void resubscribe() {
-        if (subscription == null) {
-            return;
-        }
-        try {
-            service.sendMessage(service.getUnsubscribeMessage(CHANNEL_NAME));
-            service.sendMessage(service.getSubscribeMessage(CHANNEL_NAME));
-        } catch (IOException e) {
-            LOGGER.warn("Error resubscribing", e);
-        }
-    }
 }
