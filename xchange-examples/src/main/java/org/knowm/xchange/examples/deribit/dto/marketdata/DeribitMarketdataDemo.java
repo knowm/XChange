@@ -49,13 +49,15 @@ public class DeribitMarketdataDemo {
     DeribitOrderBook orderBook = service.getDeribitOrderBook(instrumentName, null);
     System.out.println(orderBook);
 
-    DeribitTrades trades = service.getLastTradesByInstrument(instrumentName,  null, null, null, null, null);
+    DeribitTrades trades =
+        service.getLastTradesByInstrument(instrumentName, null, null, null, null, null);
     System.out.println(trades);
 
     List<DeribitCurrency> currencies = service.getDeribitCurrencies();
     System.out.println(currencies);
 
-    List<DeribitInstrument> instruments = service.getDeribitInstruments(currency, Kind.future, false);
+    List<DeribitInstrument> instruments =
+        service.getDeribitInstruments(currency, Kind.future, false);
     System.out.println(instruments);
 
     List<DeribitSummary> summaries = service.getSummaryByInstrument(instrumentName);
