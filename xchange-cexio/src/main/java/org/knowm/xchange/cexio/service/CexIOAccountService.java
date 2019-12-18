@@ -2,12 +2,16 @@ package org.knowm.xchange.cexio.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
+import org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -38,6 +42,12 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     CexIOCryptoAddress cryptoAddress = getCexIOCryptoAddress(currency.getCurrencyCode());
     return cryptoAddress.getData();
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    Map<CurrencyPair, FeeDetails> dynamicTradingFees = getMyFee();
+    return CexIOAdapters.adaptDynamicTradingFees(dynamicTradingFees);
   }
 
   @Override

@@ -198,7 +198,7 @@ public final class BTCTurkAdapters {
             btcTurkBalance.getXlm_available(),
             btcTurkBalance.getXlm_reserved()));
 
-    return new Wallet(name, name, balances);
+    return Wallet.Builder.from(balances).id(name).name(name).build();
   }
 
   public static FundingRecord adaptTransaction(BTCTurkUserTransactions transaction) {

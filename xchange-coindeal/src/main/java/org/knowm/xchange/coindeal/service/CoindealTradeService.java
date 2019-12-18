@@ -3,6 +3,8 @@ package org.knowm.xchange.coindeal.service;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coindeal.CoindealErrorAdapter;
+import org.knowm.xchange.coindeal.dto.CoindealException;
 import org.knowm.xchange.coindeal.dto.trade.CoindealOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
@@ -35,8 +37,12 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    CoindealOrder order = placeOrder(limitOrder);
-    return order.getClientOrderId();
+    try {
+      CoindealOrder order = placeOrder(limitOrder);
+      return order.getClientOrderId();
+    } catch (CoindealException e) {
+      throw CoindealErrorAdapter.adapt(e);
+    }
   }
 
   @Override

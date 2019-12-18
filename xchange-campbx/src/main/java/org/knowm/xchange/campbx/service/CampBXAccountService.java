@@ -2,6 +2,7 @@ package org.knowm.xchange.campbx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.account.MyFunds;
@@ -44,9 +45,11 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
       // TODO: what does MyFunds.liquid* mean? means available amount of the wallet?
       return new AccountInfo(
           exchange.getExchangeSpecification().getUserName(),
-          new Wallet(
-              new Balance(Currency.BTC, myFunds.getTotalBTC()),
-              new Balance(Currency.USD, myFunds.getTotalUSD())));
+          Wallet.Builder.from(
+                  Arrays.asList(
+                      new Balance(Currency.BTC, myFunds.getTotalBTC()),
+                      new Balance(Currency.USD, myFunds.getTotalUSD())))
+              .build());
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }

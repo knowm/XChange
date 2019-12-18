@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbasepro.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CoinbaseProCurrencyDetails {
@@ -13,6 +14,7 @@ public class CoinbaseProCurrencyDetails {
   private final String type;
   private final int sortOrder;
   private final String cryptoTransactionLink;
+  private final BigDecimal minWithdrawalAmount;
 
   public CoinbaseProCurrencyDetails(
       @JsonProperty("symbol") String symbol,
@@ -22,7 +24,8 @@ public class CoinbaseProCurrencyDetails {
       @JsonProperty("crypto_address_link") String cryptoAddressLink,
       @JsonProperty("type") String type,
       @JsonProperty("sort_order") int sortOrder,
-      @JsonProperty("crypto_transaction_link") String cryptoTransactionLink) {
+      @JsonProperty("crypto_transaction_link") String cryptoTransactionLink,
+      @JsonProperty("min_withdrawal_amount") BigDecimal minWithdrawalAmount) {
     this.symbol = symbol;
     this.networkConfirmations = networkConfirmations;
     this.pushPaymentMethods = pushPaymentMethods;
@@ -31,6 +34,7 @@ public class CoinbaseProCurrencyDetails {
     this.type = type;
     this.sortOrder = sortOrder;
     this.cryptoTransactionLink = cryptoTransactionLink;
+    this.minWithdrawalAmount = minWithdrawalAmount;
   }
 
   public String getSymbol() {
@@ -65,6 +69,10 @@ public class CoinbaseProCurrencyDetails {
     return cryptoTransactionLink;
   }
 
+  public BigDecimal getMinWithdrawalAmount() {
+    return minWithdrawalAmount;
+  }
+
   @Override
   public String toString() {
     return "CoinbaseProCurrencyDetails{"
@@ -91,6 +99,9 @@ public class CoinbaseProCurrencyDetails {
         + '\''
         + ",crypto_transaction_link = '"
         + cryptoTransactionLink
+        + '\''
+        + ",min_withdrawal_amount = '"
+        + minWithdrawalAmount
         + '\''
         + "}";
   }

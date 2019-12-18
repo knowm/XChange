@@ -16,7 +16,7 @@ public class OkexBaseService extends BaseExchangeService<OkexExchangeV3> impleme
   protected final String passphrase;
   protected final OkexDigestV3 digest;
 
-  private final String tradepwd;
+  protected final String tradepwd;
 
   public OkexBaseService(OkexExchangeV3 exchange) {
     super(exchange);

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +20,11 @@ import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
 import org.knowm.xchange.acx.service.trade.AcxTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class AcxTradingServiceTest {
 
@@ -33,10 +36,13 @@ public class AcxTradingServiceTest {
   @Before
   public void setUp() {
     objectMapper = new ObjectMapper();
-    AcxMapper mapper = new AcxMapper();
+    AcxMapper mapper =
+        new AcxMapper(new ExchangeMetaData(new HashMap<>(), new HashMap<>(), null, null, false));
     api = mock(AcxApi.class);
     accessKey = "access_key";
-    service = new AcxTradeService(api, mapper, mock(AcxSignatureCreator.class), accessKey);
+    service =
+        new AcxTradeService(
+            new CurrentTimeNonceFactory(), api, mapper, mock(AcxSignatureCreator.class), accessKey);
   }
 
   @Test

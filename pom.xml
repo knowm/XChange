@@ -9,7 +9,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.20-SNAPSHOT</version>
+    <version>4.4.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -30,20 +30,20 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <version.java>1.8</version.java>
-        <version.assertj>3.12.2</version.assertj>
+        <version.assertj>3.14.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.9</version.commons.lang3>
-        <version.fasterxml>2.9.9</version.fasterxml>
+        <version.fasterxml>2.10.1</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.12</version.junit>
-        <version.lombok>1.18.8</version.lombok>
-        <version.knowm.xchart>3.5.4</version.knowm.xchart>
-        <version.powermock>2.0.2</version.powermock>
+        <version.lombok>1.18.10</version.lombok>
+        <version.knowm.xchart>3.6.0</version.knowm.xchart>
+        <version.powermock>2.0.4</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.8.0-beta4</version.slf4j>
-        <version.crypto>4.2.0</version.crypto>
-        <version.java-jwt>3.8.1</version.java-jwt>
+        <version.slf4j>1.7.30</version.slf4j>
+        <version.crypto>4.5.11</version.crypto>
+        <version.java-jwt>3.8.3</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -94,7 +94,6 @@
     </ciManagement>
 
     <modules>
-        <module>xchange-abucoins</module>
         <module>xchange-acx</module>
         <module>xchange-anx</module>
         <module>xchange-bankera</module>
@@ -110,7 +109,6 @@
         <module>xchange-bitfinex</module>
         <module>xchange-bitflyer</module>
         <module>xchange-bithumb</module>
-        <module>xchange-bitmarket</module>
         <module>xchange-bitmex</module>
         <module>xchange-bitso</module>
         <module>xchange-bitstamp</module>
@@ -168,6 +166,8 @@
         <module>xchange-kucoin</module>
         <module>xchange-kuna</module>
         <module>xchange-lakebtc</module>
+        <module>xchange-lgo</module>
+        <module>xchange-latoken</module>
         <module>xchange-liqui</module>
         <module>xchange-livecoin</module>
         <module>xchange-luno</module>
@@ -183,13 +183,14 @@
         <module>xchange-ripple</module>
         <module>xchange-simulated</module>
         <module>xchange-therock</module>
+        <module>xchange-tradeogre</module>
         <module>xchange-truefx</module>
         <module>xchange-upbit</module>
         <module>xchange-vaultoro</module>
-        <module>xchange-vircurex</module>
         <module>xchange-wex</module>
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
+        <module>xchange-enigma</module>
     </modules>
 
     <repositories>
@@ -264,20 +265,20 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>27.1-jre</version>
+                <version>28.1-jre</version>
             </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>2.23.4</version>
+                <version>3.2.4</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>com.github.tomakehurst</groupId>
                 <artifactId>wiremock</artifactId>
-                <version>2.23.2</version>
+                <version>2.25.1</version>
                 <scope>test</scope>
             </dependency>
 
@@ -392,7 +393,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.2.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -406,7 +407,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.1.1</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -453,7 +454,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -469,7 +470,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -488,13 +489,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>3.0.0-M4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>3.0.0-M4</version>
                 <executions>
                     <execution>
                         <goals>

@@ -56,6 +56,16 @@ public interface Cobinhood {
       throws IOException, CobinhoodException;
 
   /**
+   * Retrieves a list of all trading pairs.
+   *
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("market/trading_pairs")
+  CobinhoodResponse<CobinhoodTradingPairs> tradingPairs() throws IOException, CobinhoodException;
+
+  /**
    * The call for recent trades
    *
    * @param symbol the currency pair

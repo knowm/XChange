@@ -39,7 +39,7 @@ public class OkexOpenOrder {
 
   @JsonProperty("order_type")
   /** 0: Normal limit order 1: Post only 2: Fill Or Kill 3: Immediatel Or Cancel */
-  private String orderType;
+  private OrderPlacementType orderType;
 
   /** price */
   private BigDecimal price;

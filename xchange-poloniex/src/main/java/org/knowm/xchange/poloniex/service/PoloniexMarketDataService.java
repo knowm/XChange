@@ -1,6 +1,8 @@
 package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,11 +12,13 @@ import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
+import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 /** @author Zach Holmes */
 public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
@@ -39,6 +43,20 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw
         throw new CurrencyPairNotValidException(currencyPair);
       }
       return PoloniexAdapters.adaptPoloniexTicker(poloniexTicker, currencyPair);
+    } catch (PoloniexException e) {
+      throw PoloniexErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    try {
+      return getAllPoloniexTickers().entrySet().stream()
+          .map(
+              entry ->
+                  PoloniexAdapters.adaptPoloniexTicker(
+                      entry.getValue(), PoloniexUtils.toCurrencyPair(entry.getKey())))
+          .collect(Collectors.toList());
     } catch (PoloniexException e) {
       throw PoloniexErrorAdapter.adapt(e);
     }

@@ -8,6 +8,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 /** Data object representing an order for a loan */
 public class LoanOrder implements Serializable {
 
+  private static final long serialVersionUID = -8311018082902024121L;
+
   /** Order type i.e. bid or ask */
   private final OrderType type;
 

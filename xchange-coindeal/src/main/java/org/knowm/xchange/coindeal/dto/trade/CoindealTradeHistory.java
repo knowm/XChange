@@ -1,11 +1,12 @@
 package org.knowm.xchange.coindeal.dto.trade;
 
 import com.fasterxml.jackson.annotation.*;
+import java.math.BigDecimal;
 
 public class CoindealTradeHistory {
 
   @JsonProperty("id")
-  private final Long id;
+  private final String id;
 
   @JsonProperty("clientOrderId")
   private final String clientOrderId;
@@ -20,26 +21,26 @@ public class CoindealTradeHistory {
   private final String side;
 
   @JsonProperty("quantity")
-  private final String quantity;
+  private final BigDecimal quantity;
 
   @JsonProperty("fee")
-  private final String fee;
+  private final BigDecimal fee;
 
   @JsonProperty("price")
-  private final String price;
+  private final BigDecimal price;
 
   @JsonProperty("timestamp")
   private final String timestamp;
 
   public CoindealTradeHistory(
-      @JsonProperty("id") Long id,
+      @JsonProperty("id") String id,
       @JsonProperty("clientOrderId") String clientOrderId,
       @JsonProperty("orderId") String orderId,
       @JsonProperty("symbol") String symbol,
       @JsonProperty("side") String side,
-      @JsonProperty("quantity") String quantity,
-      @JsonProperty("fee") String fee,
-      @JsonProperty("price") String price,
+      @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price,
       @JsonProperty("timestamp") String timestamp) {
     this.id = id;
     this.clientOrderId = clientOrderId;
@@ -52,32 +53,38 @@ public class CoindealTradeHistory {
     this.timestamp = timestamp;
   }
 
-  @JsonProperty("id")
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
-  @JsonProperty("clientOrderId")
   public String getClientOrderId() {
     return clientOrderId;
   }
 
-  @JsonProperty("orderId")
   public String getOrderId() {
     return orderId;
   }
 
-  @JsonProperty("symbol")
   public String getSymbol() {
     return symbol;
   }
 
-  @JsonProperty("price")
-  public String getPrice() {
+  public String getSide() {
+    return side;
+  }
+
+  public BigDecimal getQuantity() {
+    return quantity;
+  }
+
+  public BigDecimal getFee() {
+    return fee;
+  }
+
+  public BigDecimal getPrice() {
     return price;
   }
 
-  @JsonProperty("timestamp")
   public String getTimestamp() {
     return timestamp;
   }
@@ -85,8 +92,9 @@ public class CoindealTradeHistory {
   @Override
   public String toString() {
     return "CoindealTradeHistory{"
-        + "id="
+        + "id='"
         + id
+        + '\''
         + ", clientOrderId='"
         + clientOrderId
         + '\''

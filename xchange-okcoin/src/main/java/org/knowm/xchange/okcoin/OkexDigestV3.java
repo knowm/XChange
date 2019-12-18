@@ -24,7 +24,7 @@ public class OkexDigestV3 extends BaseParamsDigest {
             + (ri.getQueryString() != null && !ri.getQueryString().isEmpty()
                 ? "?" + ri.getQueryString()
                 : "")
-            + ri.getRequestBody();
+            + (ri.getRequestBody() == null ? "" : ri.getRequestBody());
     byte[] signSHA256;
     try {
       signSHA256 = getMac().doFinal(toSign.getBytes(UTF_8));
