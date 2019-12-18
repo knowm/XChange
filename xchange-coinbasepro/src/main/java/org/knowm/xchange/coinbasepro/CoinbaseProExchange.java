@@ -22,8 +22,24 @@ public class CoinbaseProExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
 
-        exchangeSpecification.setSslUri("https://api-public.sandbox.pro.coinbase.com");
-        exchangeSpecification.setHost("api-public.sandbox.pro.coinbase.com");
+        if (Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"))) {
+          exchangeSpecification.setSslUri("https://api-public.sandbox.prime.coinbase.com");
+          exchangeSpecification.setHost("api-public.sandbox.prime.coinbase.com");
+        } else {
+          exchangeSpecification.setSslUri("https://api-public.sandbox.pro.coinbase.com");
+          exchangeSpecification.setHost("api-public.sandbox.pro.coinbase.com");
+        }
+
+      } else {
+        if (Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"))) {
+          exchangeSpecification.setSslUri("https://api.prime.coinbase.com");
+          exchangeSpecification.setHost("api.prime.coinbase.com");
+        } else {
+          exchangeSpecification.setSslUri("https://api.pro.coinbase.com");
+          exchangeSpecification.setHost("api.pro.coinbase.com");
+        }
       }
     }
   }
