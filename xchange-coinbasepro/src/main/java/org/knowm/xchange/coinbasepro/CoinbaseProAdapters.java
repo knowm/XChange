@@ -346,8 +346,12 @@ public class CoinbaseProAdapters {
       CoinbaseProProduct[] products,
       CoinbaseProCurrency[] cbCurrencies) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencyPairs();
+
+    Map<Currency, CurrencyMetaData> currencies =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
+    
     for (CoinbaseProProduct product : products) {
       if (!product.getStatus().equals("online")) {
         continue;
@@ -360,7 +364,7 @@ public class CoinbaseProAdapters {
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
       int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
       boolean marketOrderAllowed = !product.isLimitOnly();
@@ -395,8 +399,8 @@ public class CoinbaseProAdapters {
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
-        exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData.getPrivateRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
         true);
   }
 
