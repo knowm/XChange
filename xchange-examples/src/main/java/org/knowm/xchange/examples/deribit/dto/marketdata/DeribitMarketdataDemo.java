@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.marketdata.*;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -45,19 +46,19 @@ public class DeribitMarketdataDemo {
     DeribitTicker ticker = service.getDeribitTicker(instrumentName);
     System.out.println(ticker);
 
-    DeribitOrderBook orderBook = service.getDeribitOrderBook(instrumentName);
+    DeribitOrderBook orderBook = service.getDeribitOrderBook(instrumentName, null);
     System.out.println(orderBook);
 
-    DeribitTrades trades = service.getDeribitLastTrades(instrumentName);
+    DeribitTrades trades = service.getLastTradesByInstrument(instrumentName,  null, null, null, null, null);
     System.out.println(trades);
 
     List<DeribitCurrency> currencies = service.getDeribitCurrencies();
     System.out.println(currencies);
 
-    List<DeribitInstrument> instruments = service.getDeribitActiveInstruments(currency);
+    List<DeribitInstrument> instruments = service.getDeribitInstruments(currency, Kind.future, false);
     System.out.println(instruments);
 
-    List<DeribitSummary> summaries = service.getDeribitSummary(instrumentName);
+    List<DeribitSummary> summaries = service.getSummaryByInstrument(instrumentName);
     System.out.println(summaries);
   }
 }
