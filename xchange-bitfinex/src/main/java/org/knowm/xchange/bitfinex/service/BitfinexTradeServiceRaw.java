@@ -6,12 +6,37 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.*;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelAllOrdersRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexFundingTradeResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexLimitOrder;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrder;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrdersHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastFundingTradesRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
@@ -22,6 +47,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -80,7 +106,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   public BitfinexOrderStatusResponse placeBitfinexMarketOrder(
       MarketOrder marketOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
-    String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+    String pair = BitfinexUtils.toPairStringV1(marketOrder.getCurrencyPair());
     String type =
         (marketOrder.getType().equals(OrderType.BID)
                 || marketOrder.getType().equals(OrderType.EXIT_ASK))
@@ -115,7 +141,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       LimitOrder limitOrder, BitfinexOrderType orderType, long replaceOrderId) throws IOException {
     if (limitOrder instanceof BitfinexLimitOrder
         && ((BitfinexLimitOrder) limitOrder).getOcoStopLimit() != null) {
-      throw new BitfinexException("OCO orders are not yet editable");
+      throw new ExchangeException("OCO orders are not yet editable");
     }
     return sendLimitOrder(limitOrder, orderType, replaceOrderId);
   }
@@ -124,7 +150,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType, long replaceOrderId)
       throws IOException {
 
-    String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
+    String pair = BitfinexUtils.toPairStringV1(limitOrder.getCurrencyPair());
     String type =
         (limitOrder.getType().equals(Order.OrderType.BID)
                 || limitOrder.getType().equals(Order.OrderType.EXIT_ASK))
@@ -200,7 +226,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       Order o = orders.get(i);
       if (o instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) o;
-        String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
+        String pair = BitfinexUtils.toPairStringV1(limitOrder.getCurrencyPair());
         String type =
             (limitOrder.getType().equals(OrderType.BID)
                     || limitOrder.getType().equals(OrderType.EXIT_ASK))
@@ -217,7 +243,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                 limitOrder.getLimitPrice());
       } else if (o instanceof MarketOrder) {
         MarketOrder marketOrder = (MarketOrder) o;
-        String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+        String pair = BitfinexUtils.toPairStringV1(marketOrder.getCurrencyPair());
         String type =
             (marketOrder.getType().equals(OrderType.BID)
                     || marketOrder.getType().equals(OrderType.EXIT_ASK))

@@ -9,7 +9,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.4.1-SNAPSHOT</version>
+    <version>4.4.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -41,8 +41,8 @@
         <version.powermock>2.0.4</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.7.29</version.slf4j>
-        <version.crypto>4.5.7</version.crypto>
+        <version.slf4j>1.7.30</version.slf4j>
+        <version.crypto>4.5.11</version.crypto>
         <version.java-jwt>3.8.3</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
@@ -268,7 +268,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.4</version>
                 <scope>test</scope>
             </dependency>
 

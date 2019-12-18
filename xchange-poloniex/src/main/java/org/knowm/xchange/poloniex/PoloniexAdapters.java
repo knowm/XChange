@@ -87,7 +87,7 @@ public class PoloniexAdapters {
   }
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(
-    List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
+      List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
     List<LimitOrder> orders = new ArrayList<>();
 
     for (List<BigDecimal> rawlevel : rawLevels) {

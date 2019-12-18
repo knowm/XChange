@@ -346,7 +346,6 @@ public class CoinbaseProAdapters {
 
     Map<Currency, CurrencyMetaData> currencies =
         exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
-
     for (CoinbaseProProduct product : products) {
       if (!product.getStatus().equals("online")) {
         continue;

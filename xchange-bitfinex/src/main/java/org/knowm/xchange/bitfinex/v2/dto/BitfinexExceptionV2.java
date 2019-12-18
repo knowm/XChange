@@ -3,11 +3,12 @@ package org.knowm.xchange.bitfinex.v2.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.ToString;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 
 @SuppressWarnings("serial")
 @Getter
 @ToString
-public class BitfinexExceptionV2 extends RuntimeException {
+public class BitfinexExceptionV2 extends BitfinexException {
 
   private String type;
   private Long errorCode;
