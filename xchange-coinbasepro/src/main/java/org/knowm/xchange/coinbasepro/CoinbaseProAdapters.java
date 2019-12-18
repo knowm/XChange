@@ -4,12 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
@@ -346,8 +341,12 @@ public class CoinbaseProAdapters {
       CoinbaseProProduct[] products,
       CoinbaseProCurrency[] cbCurrencies) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencyPairs();
+
+    Map<Currency, CurrencyMetaData> currencies =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
+
     for (CoinbaseProProduct product : products) {
       if (!product.getStatus().equals("online")) {
         continue;
@@ -360,7 +359,7 @@ public class CoinbaseProAdapters {
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
       int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
       boolean marketOrderAllowed = !product.isLimitOnly();
@@ -395,8 +394,8 @@ public class CoinbaseProAdapters {
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
-        exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData.getPrivateRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
         true);
   }
 
