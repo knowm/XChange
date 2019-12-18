@@ -1,57 +1,60 @@
 package info.bitrich.xchangestream.lgo.domain;
 
 import info.bitrich.xchangestream.lgo.dto.LgoLevel2Data;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class LgoGroupedLevel2Update {
 
-    private final SortedMap<BigDecimal, BigDecimal> bidSide = new TreeMap<>(Collections.reverseOrder());
-
-    private final SortedMap<BigDecimal, BigDecimal> askSide = new TreeMap<>();
+    private final OrderBook orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
     private long lastBatchId;
 
-    public void applySnapshot(long batchId, LgoLevel2Data data) {
-        bidSide.clear();
-        askSide.clear();
-        applyUpdate(batchId, data);
+    public void applySnapshot(long batchId, CurrencyPair currencyPair, LgoLevel2Data data) {
+        applyUpdate(batchId, currencyPair, data);
     }
 
-    public void applyUpdate(long batchId, LgoLevel2Data data) {
+    public void applyUpdate(long batchId, CurrencyPair currencyPair, LgoLevel2Data data) {
         lastBatchId = batchId;
-        updateL2Book(data);
+        updateL2Book(currencyPair, data);
     }
 
-    private void updateL2Book(LgoLevel2Data data) {
-        data.getAsks().forEach(ask -> updateSide(askSide, ask));
-        data.getBids().forEach(bid -> updateSide(bidSide, bid));
+    private void updateL2Book(CurrencyPair currencyPair, LgoLevel2Data data) {
+        Stream<OrderBookUpdate> asksUpdates = adaptLevel2Update(data, Order.OrderType.ASK, currencyPair);
+        Stream<OrderBookUpdate> bidsUpdate = adaptLevel2Update(data, Order.OrderType.BID, currencyPair);
+        asksUpdates.forEach(orderBook::update);
+        bidsUpdate.forEach(orderBook::update);
     }
 
-    private void updateSide(SortedMap<BigDecimal, BigDecimal> side, List<String> value) {
-        BigDecimal price = new BigDecimal(value.get(0));
-        String quantity = value.get(1);
-        if (isZero(quantity)) {
-            side.remove(price);
-            return;
+    private Stream<OrderBookUpdate> adaptLevel2Update(LgoLevel2Data data, Order.OrderType type, CurrencyPair currencyPair) {
+        switch (type) {
+            case BID:
+                return data.getBids().stream()
+                        .map(value -> toBookUpdate(type, currencyPair, value));
+            case ASK:
+                return data.getAsks().stream()
+                        .map(value -> toBookUpdate(type, currencyPair, value));
+            default:
+                return Stream.empty();
         }
-        BigDecimal qtt = new BigDecimal(quantity);
-        side.put(price, side.getOrDefault(price, BigDecimal.ZERO).add(qtt));
     }
 
-    private boolean isZero(String quantity) {
-        return quantity.replaceAll("[\\.0]", "").isEmpty();
+    private OrderBookUpdate toBookUpdate(Order.OrderType type, CurrencyPair currencyPair, List<String> value) {
+        BigDecimal price = new BigDecimal(value.get(0));
+        BigDecimal quantity = new BigDecimal(value.get(1));
+        return new OrderBookUpdate(type, null, currencyPair, price, null, quantity);
     }
 
     public long getLastBatchId() {
         return lastBatchId;
     }
 
-    public SortedMap<BigDecimal, BigDecimal> getAskSide() {
-        return askSide;
+    public OrderBook orderBook() {
+        return orderBook;
     }
 
-    public SortedMap<BigDecimal, BigDecimal> getBidSide() {
-        return bidSide;
-    }
 }

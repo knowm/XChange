@@ -39,18 +39,18 @@ class LgoLevel2BatchSubscription {
                 .map(s -> mapper.readValue(s.toString(), LgoLevel2Update.class))
                 .scan(new LgoGroupedLevel2Update(), (acc, s) -> {
                     if (s.getType().equals("snapshot")) {
-                        acc.applySnapshot(s.getBatchId(), s.getData());
+                        acc.applySnapshot(s.getBatchId(), currencyPair, s.getData());
                         return acc;
                     }
                     if (acc.getLastBatchId() + 1 != s.getBatchId()) {
                         LOGGER.warn("Wrong batch id. Expected {} got {}.", acc.getLastBatchId() + 1, s.getBatchId());
                         resubscribe();
                     }
-                    acc.applyUpdate(s.getBatchId(), s.getData());
+                    acc.applyUpdate(s.getBatchId(), currencyPair, s.getData());
                     return acc;
                 })
                 .skip(1) // skips first element for it's just the empty initial accumulator
-                .map(acc -> LgoAdapter.adaptOrderBook(acc.getBidSide(), acc.getAskSide(), currencyPair))
+                .map(LgoGroupedLevel2Update::orderBook)
                 .share();
     }
 
