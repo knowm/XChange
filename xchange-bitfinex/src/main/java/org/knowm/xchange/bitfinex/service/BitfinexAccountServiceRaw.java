@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
@@ -204,6 +206,16 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public List<LedgerEntry> getLedgerEntries(
       String currency, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+    if (StringUtils.isBlank(currency)) {
+      return bitfinexV2.getLedgerEntries(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          EmptyRequest.INSTANCE);
+    }
     return bitfinexV2.getLedgerEntries(
         exchange.getNonceFactory(),
         apiKey,
