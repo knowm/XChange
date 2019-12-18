@@ -13,8 +13,10 @@ public class LgoGroupedLevel2Update {
 
     private final OrderBook orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
     private long lastBatchId;
+    private boolean dirty = true;
 
     public void applySnapshot(long batchId, CurrencyPair currencyPair, LgoLevel2Data data) {
+        dirty = false;
         applyUpdate(batchId, currencyPair, data);
     }
 
@@ -47,6 +49,14 @@ public class LgoGroupedLevel2Update {
         BigDecimal price = new BigDecimal(value.get(0));
         BigDecimal quantity = new BigDecimal(value.get(1));
         return new OrderBookUpdate(type, null, currencyPair, price, null, quantity);
+    }
+
+    public void markDirty() {
+        dirty = true;
+    }
+
+    public boolean isValid() {
+        return !dirty;
     }
 
     public long getLastBatchId() {

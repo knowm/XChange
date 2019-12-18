@@ -44,12 +44,14 @@ class LgoLevel2BatchSubscription {
                     }
                     if (acc.getLastBatchId() + 1 != s.getBatchId()) {
                         LOGGER.warn("Wrong batch id. Expected {} got {}.", acc.getLastBatchId() + 1, s.getBatchId());
+                        acc.markDirty();
                         resubscribe();
+                        return acc;
                     }
                     acc.applyUpdate(s.getBatchId(), currencyPair, s.getData());
                     return acc;
                 })
-                .skip(1) // skips first element for it's just the empty initial accumulator
+                .filter(LgoGroupedLevel2Update::isValid)
                 .map(LgoGroupedLevel2Update::orderBook)
                 .share();
     }
