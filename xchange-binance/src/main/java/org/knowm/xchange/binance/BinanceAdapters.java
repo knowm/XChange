@@ -175,7 +175,12 @@ public class BinanceAdapters {
         BigDecimal withdrawalFee = asset.getWithdrawFee().stripTrailingZeros();
         BigDecimal minWithdrawalAmount =
             new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
-        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
+        return new CurrencyMetaData(
+            precision,
+            withdrawalFee,
+            minWithdrawalAmount,
+            asset.isDepositStatus(),
+            asset.isWithdrawStatus());
       }
     }
 
