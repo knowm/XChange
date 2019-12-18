@@ -381,15 +381,17 @@ public class CoinbaseProAdapters {
     }
 
     Arrays.stream(cbCurrencies)
-        .filter(currency -> currency.getStatus().equals("online"))
         .forEach(
             currency -> {
               Currency cur = adaptCurrency(currency);
               int scale = numberOfDecimals(currency.getMaxPrecision());
               BigDecimal minWithdrawalAmount = currency.getDetails().getMinWithdrawalAmount();
+              boolean isAvailable = currency.getStatus().equals("online");
               // Coinbase has a 0 withdrawal fee
               currencies.put(
-                  cur, new CurrencyMetaData(scale, BigDecimal.ZERO, minWithdrawalAmount));
+                  cur,
+                  new CurrencyMetaData(
+                      scale, BigDecimal.ZERO, minWithdrawalAmount, isAvailable, isAvailable));
             });
 
     return new ExchangeMetaData(

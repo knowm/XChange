@@ -19,13 +19,33 @@ public class CurrencyMetaData implements Serializable {
   @JsonProperty("min_withdrawal_amount")
   private final BigDecimal minWithdrawalAmount;
 
+  /** Deposit enabled */
+  @JsonProperty("deposit_enabled")
+  private boolean depositEnabled;
+
+  /** Withdraw enabled */
+  @JsonProperty("withdraw_enabled")
+  private boolean withdrawEnabled;
+
   /**
    * Constructor
    *
    * @param scale
+   * @param withdrawalFee
    */
   public CurrencyMetaData(Integer scale, BigDecimal withdrawalFee) {
     this(scale, withdrawalFee, null);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param scale
+   * @param withdrawalFee
+   * @param minWithdrawalAmount
+   */
+  public CurrencyMetaData(Integer scale, BigDecimal withdrawalFee, BigDecimal minWithdrawalAmount) {
+    this(scale, withdrawalFee, minWithdrawalAmount, true, true);
   }
 
   /**
@@ -36,10 +56,14 @@ public class CurrencyMetaData implements Serializable {
   public CurrencyMetaData(
       @JsonProperty("scale") Integer scale,
       @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee,
-      @JsonProperty("min_withdrawal_amount") BigDecimal minWithdrawalAmount) {
+      @JsonProperty("min_withdrawal_amount") BigDecimal minWithdrawalAmount,
+      @JsonProperty("deposit_enabled") boolean depositEnabled,
+      @JsonProperty("withdraw_enabled") boolean withdrawEnabled) {
     this.scale = scale;
     this.withdrawalFee = withdrawalFee;
     this.minWithdrawalAmount = minWithdrawalAmount;
+    this.depositEnabled = depositEnabled;
+    this.withdrawEnabled = withdrawEnabled;
   }
 
   public Integer getScale() {
@@ -54,6 +78,14 @@ public class CurrencyMetaData implements Serializable {
     return minWithdrawalAmount;
   }
 
+  public boolean isDepositEnabled() {
+    return depositEnabled;
+  }
+
+  public boolean isWithdrawEnabled() {
+    return withdrawEnabled;
+  }
+
   @Override
   public String toString() {
     return "CurrencyMetaData ["
@@ -63,6 +95,10 @@ public class CurrencyMetaData implements Serializable {
         + withdrawalFee
         + ", minWithdrawalAmount="
         + minWithdrawalAmount
+        + ", depositEnabled="
+        + depositEnabled
+        + ", withdrawEnabled="
+        + withdrawEnabled
         + "]";
   }
 }
