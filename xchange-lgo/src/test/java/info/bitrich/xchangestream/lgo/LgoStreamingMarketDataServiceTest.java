@@ -2,32 +2,30 @@ package info.bitrich.xchangestream.lgo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.reactivex.Observable;
-import org.junit.Before;
-import org.junit.Test;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.junit.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
+import java.text.*;
 import java.util.TimeZone;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class LgoStreamingMarketDataServiceTest {
 
+    private final RecursiveComparisonConfiguration orderComparator = new RecursiveComparisonConfiguration();
     private SimpleDateFormat dateFormat;
 
     @Before
     public void setUp() {
         dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        orderComparator.ignoreFields("userReference", "id");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
@@ -73,22 +71,21 @@ public class LgoStreamingMarketDataServiceTest {
         Observable<OrderBook> orderBook = service.getOrderBook(CurrencyPair.BTC_USD);
 
         verify(streamingService).subscribeChannel("level2-BTC-USD");
-        assertThat(orderBook.blockingFirst())
-                .usingRecursiveComparison().isEqualTo(
-                        new OrderBook(
-                                null,
-                                Arrays.asList(
-                                        sellOrder("1111.1000", "9.39370000"), sellOrder("1115.9000", "0.88420000")),
-                                Collections.singletonList(buyOrder("1089.1000", "0.10000000"))));
-        assertThat(orderBook.blockingLast())
-                .usingRecursiveComparison().isEqualTo(
-                        new OrderBook(
-                                null,
-                                Arrays.asList(
-                                        sellOrder("1111.1000", "9.49370000"),
-                                        sellOrder("1115.9000", "0.88420000"),
-                                        sellOrder("1116.9000", "0.20000000")),
-                                Collections.emptyList()));
+        OrderBook firstBook = orderBook.blockingFirst();
+        assertThat(firstBook.getAsks())
+                .usingElementComparatorIgnoringFields("id", "userReference")
+                .contains(sellOrder("1111.1000", "9.39370000"), sellOrder("1115.9000", "0.88420000"));
+        assertThat(firstBook.getBids())
+                .usingElementComparatorIgnoringFields("id", "userReference")
+                .contains(buyOrder("1089.1000", "0.10000000"));
+        OrderBook lastBook = orderBook.blockingLast();
+        assertThat(lastBook.getBids()).isEmpty();
+        assertThat(lastBook.getAsks()).usingElementComparatorIgnoringFields("id", "userReference")
+                .contains(
+                        sellOrder("1111.1000", "0.10000000"),
+                        sellOrder("1115.9000", "0.88420000"),
+                        sellOrder("1116.9000", "0.20000000"));
+
     }
 
     private LimitOrder sellOrder(String price, String quantity) {
@@ -96,7 +93,7 @@ public class LgoStreamingMarketDataServiceTest {
                 Order.OrderType.ASK,
                 new BigDecimal(quantity),
                 CurrencyPair.BTC_USD,
-                "0",
+                null,
                 null,
                 new BigDecimal(price));
     }
@@ -110,4 +107,5 @@ public class LgoStreamingMarketDataServiceTest {
                 null,
                 new BigDecimal(price));
     }
+
 }
