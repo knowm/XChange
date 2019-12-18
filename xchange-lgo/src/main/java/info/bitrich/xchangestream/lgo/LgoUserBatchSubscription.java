@@ -8,9 +8,7 @@ import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
-import org.slf4j.*;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -20,7 +18,6 @@ import static java.util.stream.Collectors.*;
 class LgoUserBatchSubscription {
 
     private final Observable<LgoGroupedUserUpdate> downstream;
-    private static final Logger LOGGER = LoggerFactory.getLogger(LgoUserBatchSubscription.class);
     private final LgoStreamingService streamingService;
     private final CurrencyPair currencyPair;
 
@@ -47,10 +44,6 @@ class LgoUserBatchSubscription {
                 .scan(new LgoGroupedUserUpdate(), (acc, s) -> {
                     List<LgoBatchOrderEvent> events = new ArrayList<>();
                     if (s.getType().equals("update")) {
-                        if (s.getBatchId() != acc.getBatchId() + 1) {
-                            LOGGER.warn("Wrong batch id. Expected {} get {}", acc.getBatchId() + 1, s.getBatchId());
-                            resubscribe();
-                        }
                         LgoUserUpdate userUpdate = (LgoUserUpdate) s;
                         List<Order> updates = updateAllOrders(currencyPair, userUpdate.getOrderEvents(), acc.getAllOpenOrders());
                         events.addAll(LgoAdapter.adaptOrderEvent(userUpdate.getOrderEvents(), s.getBatchId(), updates));
@@ -64,19 +57,6 @@ class LgoUserBatchSubscription {
                 })
                 .skip(1) // skips the first element, for this is the empty accumulator
                 .share();
-    }
-
-    private void resubscribe() {
-        if (downstream == null) {
-            return;
-        }
-        try {
-            String channelName = LgoAdapter.channelName("user", currencyPair);
-            streamingService.sendMessage(streamingService.getUnsubscribeMessage(channelName));
-            streamingService.sendMessage(streamingService.getSubscribeMessage(channelName));
-        } catch (IOException e) {
-            LOGGER.warn("Error resubscribing", e);
-        }
     }
 
     private List<Order> updateAllOrders(CurrencyPair currencyPair, List<LgoBatchOrderEvent> orderEvents, Map<String, Order> allOpenOrders) {
