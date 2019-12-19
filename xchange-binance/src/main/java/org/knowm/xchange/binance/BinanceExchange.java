@@ -104,14 +104,14 @@ public class BinanceExchange extends BaseExchange {
           for (Filter filter : filters) {
             if (filter.getFilterType().equals("PRICE_FILTER")) {
               pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
+              counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
             } else if (filter.getFilterType().equals("LOT_SIZE")) {
-              amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
+              amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
               minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
-            } else if (filter.getFilterType().equals("MARKET_LOT_SIZE")) {
-              counterMinQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
-              counterMaxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
+            } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
+              counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
             }
           }
 
@@ -133,31 +133,21 @@ public class BinanceExchange extends BaseExchange {
                   marketOrderAllowed));
 
           Currency baseCurrency = currentCurrencyPair.base;
-          BigDecimal baseWithdrawalFee = getWithdrawalFee(currencies, baseCurrency, assetDetailMap);
-          currencies.put(baseCurrency, new CurrencyMetaData(basePrecision, baseWithdrawalFee));
+          CurrencyMetaData baseCurrencyMetaData =
+              BinanceAdapters.adaptCurrencyMetaData(
+                  currencies, baseCurrency, assetDetailMap, basePrecision);
+          currencies.put(baseCurrency, baseCurrencyMetaData);
 
           Currency counterCurrency = currentCurrencyPair.counter;
-          BigDecimal counterWithdrawalFee =
-              getWithdrawalFee(currencies, counterCurrency, assetDetailMap);
-          currencies.put(
-              counterCurrency, new CurrencyMetaData(counterPrecision, counterWithdrawalFee));
+          CurrencyMetaData counterCurrencyMetaData =
+              BinanceAdapters.adaptCurrencyMetaData(
+                  currencies, counterCurrency, assetDetailMap, counterPrecision);
+          currencies.put(counterCurrency, counterCurrencyMetaData);
         }
       }
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
-  }
-
-  private BigDecimal getWithdrawalFee(
-      Map<Currency, CurrencyMetaData> currencies,
-      Currency currency,
-      Map<String, AssetDetail> assetDetailMap) {
-    if (assetDetailMap != null) {
-      AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
-      return asset != null ? asset.getWithdrawFee().stripTrailingZeros() : null;
-    }
-
-    return currencies.containsKey(currency) ? currencies.get(currency).getWithdrawalFee() : null;
   }
 
   private int numberOfDecimals(String value) {

@@ -15,6 +15,7 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.HttpStatusIOException;
@@ -112,7 +113,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       throws IOException {
     try {
       return bitfinexV2.getPublicTrades(
-          "t" + currencyPair.base.toString() + currencyPair.counter.toString(),
+          BitfinexAdapters.adaptCurrencyPair(currencyPair),
           limitTrades,
           startTimestamp,
           endTimestamp,
@@ -128,6 +129,15 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     try {
       return bitfinexV2.getPublicFundingTrades(
           "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
+    } catch (HttpStatusIOException e) {
+      throw new BitfinexException(e.getHttpBody());
+    }
+  }
+
+  public List<Status> getStatus(List<CurrencyPair> pairs) throws IOException {
+    try {
+      return bitfinexV2.getStatus(
+          "deriv", BitfinexAdapters.adaptCurrencyPairsToTickersParam(pairs));
     } catch (HttpStatusIOException e) {
       throw new BitfinexException(e.getHttpBody());
     }
