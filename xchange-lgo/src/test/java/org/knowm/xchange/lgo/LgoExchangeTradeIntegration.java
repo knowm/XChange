@@ -76,7 +76,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeUnencryptedLimitOrder(
+        tradeService.placeEncryptedLimitOrder(
             new LimitOrder(
                 OrderType.ASK,
                 new BigDecimal("2"),
@@ -94,7 +94,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeUnencryptedMarketOrder(
+        tradeService.placeEncryptedMarketOrder(
             new MarketOrder(
                 OrderType.ASK, new BigDecimal("200"), CurrencyPair.BTC_USD, null, new Date()));
 
@@ -106,7 +106,7 @@ public class LgoExchangeTradeIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials();
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
-    tradeService.placeUnencryptedCancelOrder("156940341166500001");
+    tradeService.placeEncryptedCancelOrder("156940341166500001");
   }
 
   // api key and secret key are expected to be in test resources under

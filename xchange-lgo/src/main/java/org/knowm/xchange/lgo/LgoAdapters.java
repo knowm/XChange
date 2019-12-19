@@ -85,14 +85,14 @@ public final class LgoAdapters {
         limitOrder.getTimestamp().toInstant());
   }
 
-  public static LgoPlaceOrder adaptMarketOrder(MarketOrder marketOrder) {
+  public static LgoPlaceOrder adaptEncryptedMarketOrder(MarketOrder marketOrder) {
     String product = adaptCurrencyPair(marketOrder.getCurrencyPair());
     String side = adaptOrderType(marketOrder.getType());
     return new LgoPlaceMarketOrder(
         0, side, product, marketOrder.getOriginalAmount(), marketOrder.getTimestamp().toInstant());
   }
 
-  public static LgoPlaceOrder adaptCancelOrder(String orderId, Date date) {
+  public static LgoPlaceOrder adaptEncryptedCancelOrder(String orderId, Date date) {
     return new LgoPlaceCancelOrder(0, orderId, date.toInstant());
   }
 
