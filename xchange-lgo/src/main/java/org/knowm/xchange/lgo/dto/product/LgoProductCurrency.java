@@ -1,6 +1,7 @@
 package org.knowm.xchange.lgo.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public final class LgoProductCurrency {
@@ -14,7 +15,7 @@ public final class LgoProductCurrency {
       @JsonProperty("increment") BigDecimal increment,
       @JsonProperty("limits") LgoLimit limits) {
     this.id = id;
-    this.increment = increment;
+    this.increment = increment != null ? increment.stripTrailingZeros() : null;
     this.limits = limits;
   }
 
