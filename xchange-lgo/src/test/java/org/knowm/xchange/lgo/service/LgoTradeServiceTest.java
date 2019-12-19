@@ -152,7 +152,7 @@ public class LgoTradeServiceTest {
 
     assertThatThrownBy(check)
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Invalid price increment");
+        .hasMessage("Unsupported price scale 2");
   }
 
   @Test

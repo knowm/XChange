@@ -100,26 +100,15 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     if (product.getQuote().getLimits().getMax().compareTo(limitOrder.getLimitPrice()) < 0) {
       throw new IllegalArgumentException("Order price to high");
     }
-    LgoCurrency base = getCurrency(limitOrder.getCurrencyPair().counter);
-    if (limitOrder.getLimitPrice().setScale(base.getDecimals()).unscaledValue().longValue()
+    if (limitOrder.getLimitPrice().unscaledValue().longValue()
             % product
                 .getQuote()
                 .getIncrement()
-                .setScale(base.getDecimals())
                 .unscaledValue()
                 .intValue()
         != 0) {
       throw new IllegalArgumentException("Invalid price increment");
     }
-  }
-
-  private LgoCurrency getCurrency(org.knowm.xchange.currency.Currency counter) {
-    for (LgoCurrency currency : exchange.getCurrencies().getCurrencies()) {
-      if (currency.getCode().equalsIgnoreCase(counter.getCurrencyCode())) {
-        return currency;
-      }
-    }
-    throw new IllegalArgumentException("Currency not supported " + counter.toString());
   }
 
   private LgoProduct getProduct(CurrencyPair currencyPair) {

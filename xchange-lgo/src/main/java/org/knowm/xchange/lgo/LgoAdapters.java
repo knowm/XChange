@@ -1,34 +1,23 @@
 package org.knowm.xchange.lgo;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.currency.*;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.meta.*;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.lgo.dto.WithCursor;
-import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
+import org.knowm.xchange.lgo.dto.currency.*;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
 import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
 import org.knowm.xchange.lgo.dto.order.*;
-import org.knowm.xchange.lgo.dto.product.LgoProduct;
-import org.knowm.xchange.lgo.dto.product.LgoProducts;
-import org.knowm.xchange.lgo.dto.trade.LgoUserTrade;
-import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
+import org.knowm.xchange.lgo.dto.product.*;
+import org.knowm.xchange.lgo.dto.trade.*;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.*;
 
 public final class LgoAdapters {
 
@@ -47,9 +36,7 @@ public final class LgoAdapters {
       BigDecimal minAmount = product.getBase().getLimits().getMin();
       BigDecimal maxAmount = product.getBase().getLimits().getMax();
       Integer baseScale = currency.get(Currency.getInstance(product.getBase().getId())).getScale();
-      Integer priceScale =
-          currency.get(Currency.getInstance(product.getQuote().getId())).getScale();
-      BigDecimal increment = product.getQuote().getIncrement();
+      BigDecimal increment = product.getQuote().getIncrement().stripTrailingZeros();
       currencyPairs.put(
           toPair(product),
           new CurrencyPairMetaData(
@@ -59,7 +46,7 @@ public final class LgoAdapters {
               null,
               null,
               baseScale,
-              priceScale,
+              increment.scale(),
               new FeeTier[0],
               increment,
               Currency.USD,
