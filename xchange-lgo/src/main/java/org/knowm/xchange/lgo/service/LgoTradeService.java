@@ -1,32 +1,20 @@
 package org.knowm.xchange.lgo.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Random;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.lgo.LgoAdapters;
-import org.knowm.xchange.lgo.LgoErrorAdapter;
-import org.knowm.xchange.lgo.LgoExchange;
-import org.knowm.xchange.lgo.dto.LgoException;
-import org.knowm.xchange.lgo.dto.WithCursor;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.lgo.*;
+import org.knowm.xchange.lgo.dto.*;
+import org.knowm.xchange.lgo.dto.currency.LgoCurrency;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
-import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
-import org.knowm.xchange.lgo.dto.order.LgoOrderSignature;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceOrder;
-import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
-import org.knowm.xchange.lgo.dto.product.LgoProduct;
-import org.knowm.xchange.lgo.dto.product.LgoProductCurrency;
+import org.knowm.xchange.lgo.dto.order.*;
+import org.knowm.xchange.lgo.dto.product.*;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.util.*;
 
 public class LgoTradeService extends LgoTradeServiceRaw implements TradeService {
 
@@ -112,11 +100,26 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     if (product.getQuote().getLimits().getMax().compareTo(limitOrder.getLimitPrice()) < 0) {
       throw new IllegalArgumentException("Order price to high");
     }
-    if (limitOrder.getLimitPrice().unscaledValue().longValue()
-            % product.getQuote().getIncrement().unscaledValue().intValue()
+    LgoCurrency base = getCurrency(limitOrder.getCurrencyPair().counter);
+    if (limitOrder.getLimitPrice().setScale(base.getDecimals()).unscaledValue().longValue()
+            % product
+                .getQuote()
+                .getIncrement()
+                .setScale(base.getDecimals())
+                .unscaledValue()
+                .intValue()
         != 0) {
       throw new IllegalArgumentException("Invalid price increment");
     }
+  }
+
+  private LgoCurrency getCurrency(org.knowm.xchange.currency.Currency counter) {
+    for (LgoCurrency currency : exchange.getCurrencies().getCurrencies()) {
+      if (currency.getCode().equalsIgnoreCase(counter.getCurrencyCode())) {
+        return currency;
+      }
+    }
+    throw new IllegalArgumentException("Currency not supported " + counter.toString());
   }
 
   private LgoProduct getProduct(CurrencyPair currencyPair) {
