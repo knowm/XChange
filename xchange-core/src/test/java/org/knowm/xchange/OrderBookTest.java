@@ -2,7 +2,9 @@ package org.knowm.xchange;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,6 +16,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class OrderBookTest {
 
@@ -36,8 +39,14 @@ public class OrderBookTest {
 
     List<LimitOrder> asks = new ArrayList<>(Arrays.asList(askOrder));
     List<LimitOrder> bids = new ArrayList<>(Arrays.asList(bidOrder));
-    Date timeStamp = new Date(0);
+    Date timeStamp = new Date();
     orderBook = new OrderBook(timeStamp, asks, bids);
+  }
+
+  @Test
+  public void testSerializeDeserialize() throws IOException {
+    OrderBook jsonCopy = ObjectMapperHelper.viaJSON(orderBook);
+    assertThat(jsonCopy.getTimeStamp()).isEqualTo(orderBook.getTimeStamp());
   }
 
   @Test
@@ -109,7 +118,7 @@ public class OrderBookTest {
   @Test
   public void testDateOther() {
 
-    Date timeStamp = new Date(10);
+    Date timeStamp = Date.from(orderBook.getTimeStamp().toInstant().plus(Duration.ofDays(10)));
     OrderBookUpdate lowerBidUpdate =
         new OrderBookUpdate(
             OrderType.BID,

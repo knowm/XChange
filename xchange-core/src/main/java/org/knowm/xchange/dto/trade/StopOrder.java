@@ -1,8 +1,14 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
@@ -13,9 +19,15 @@ import org.knowm.xchange.dto.Order;
  * exchange as a {@link MarketOrder} unless a limit price is also set. There is no guarantee that
  * your conditions will be met on the exchange, so your order may not be executed.
  */
+@JsonDeserialize(builder = StopOrder.Builder.class)
 public class StopOrder extends Order implements Comparable<StopOrder> {
 
   private static final long serialVersionUID = -7341286101341375106L;
+
+  public enum Intention {
+    STOP_LOSS,
+    TAKE_PROFIT
+  }
 
   /** The stop price */
   protected final BigDecimal stopPrice;
@@ -24,6 +36,10 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
    * the stop price is hit
    */
   protected BigDecimal limitPrice = null;
+
+  /** Some exchanges requires to define the goal of stop order */
+  protected Intention intention = null;
+
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
@@ -200,6 +216,52 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     this.limitPrice = limitPrice;
   }
 
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param stopPrice In a BID this is the highest acceptable price, in an ASK this is the lowest
+   *     acceptable price
+   * @param limitPrice The limit price the order should be placed at once the stopPrice has been hit
+   *     null for market
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param status the status of the order at the exchange or broker
+   */
+  public StopOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal stopPrice,
+      BigDecimal limitPrice,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference,
+      Intention intention) {
+
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
+    this.stopPrice = stopPrice;
+    this.limitPrice = limitPrice;
+    this.intention = intention;
+  }
+
   /** @return The stop price */
   public BigDecimal getStopPrice() {
 
@@ -212,6 +274,11 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return limitPrice;
   }
 
+  /** @return The order intention */
+  public Intention getIntention() {
+    return intention;
+  }
+
   @Override
   public String toString() {
 
@@ -219,6 +286,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         + stopPrice
         + ", limitPrice="
         + limitPrice
+        + ", intention="
+        + intention
         + ", "
         + super.toString()
         + "]";
@@ -227,54 +296,63 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   @Override
   public int compareTo(StopOrder stopOrder) {
 
-    final int ret;
-
-    if (this.getType() == stopOrder.getType()) {
-      // Same side
-      ret =
-          this.getStopPrice().compareTo(stopOrder.getStopPrice())
-              * (getType() == OrderType.BID ? -1 : 1);
-    } else {
-      // Keep bid side be less than ask side
-      ret = this.getType() == OrderType.BID ? -1 : 1;
+    if (this.getType() != stopOrder.getType()) {
+      return this.getType() == OrderType.BID ? -1 : 1;
     }
-
-    return ret;
-  }
-
-  @Override
-  public int hashCode() {
-
-    int hash = super.hashCode();
-    hash = 59 * hash + (this.stopPrice != null ? this.stopPrice.hashCode() : 0);
-    return hash;
+    if (this.getStopPrice().compareTo(stopOrder.getStopPrice()) != 0) {
+      return this.getType() == OrderType.BID ? -1 : 1;
+    }
+    return ObjectUtils.compare(this.getIntention(), stopOrder.getIntention());
   }
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof StopOrder)) {
+      return false;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
 
-    if (obj == null) {
+    StopOrder stopOrder = (StopOrder) obj;
+
+    if (!Objects.equals(stopPrice, stopOrder.stopPrice)) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (!Objects.equals(limitPrice, stopOrder.limitPrice)) {
       return false;
     }
-    final StopOrder other = (StopOrder) obj;
-    if (this.stopPrice == null
-        ? (other.stopPrice != null)
-        : this.stopPrice.compareTo(other.stopPrice) != 0) {
+    if (!Objects.equals(intention, stopOrder.intention)) {
       return false;
     }
-    return super.equals(obj);
+    return true;
   }
 
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + stopPrice.hashCode();
+    result = 31 * result + (limitPrice != null ? limitPrice.hashCode() : 0);
+    result = 31 * result + (intention != null ? intention.hashCode() : 0);
+    return result;
+  }
+
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
     protected BigDecimal stopPrice;
 
     protected BigDecimal limitPrice;
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    protected Intention intention;
+
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -290,11 +368,13 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
               .flags(order.getOrderFlags())
               .orderStatus(order.getStatus())
               .fee(order.getFee())
-              .averagePrice(order.getAveragePrice());
+              .averagePrice(order.getAveragePrice())
+              .userReference(order.getUserReference());
       if (order instanceof StopOrder) {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
         builder.limitPrice(stopOrder.getLimitPrice());
+        builder.intention(stopOrder.getIntention());
       }
       return builder;
     }
@@ -342,6 +422,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     }
 
     @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
+    }
+
+    @Override
     public Builder timestamp(Date timestamp) {
 
       return (Builder) super.timestamp(timestamp);
@@ -383,6 +469,13 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    public Builder intention(Intention intention) {
+
+      this.intention = intention;
+      return this;
+    }
+
+    @Override
     public StopOrder build() {
 
       StopOrder order =
@@ -399,9 +492,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
                   ? cumulativeAmount
                   : originalAmount.subtract(remainingAmount),
               fee,
-              status);
+              status,
+              userReference,
+              intention);
 
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }

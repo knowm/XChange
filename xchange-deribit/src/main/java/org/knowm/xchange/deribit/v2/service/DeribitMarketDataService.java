@@ -67,7 +67,7 @@ public class DeribitMarketDataService extends DeribitMarketDataServiceRaw
 
     try {
       deribitTrades =
-          super.getDeribitLastTrades(deribitInstrumentName, null, null, null, null, null);
+          super.getLastTradesByInstrument(deribitInstrumentName, null, null, null, null, null);
     } catch (DeribitException ex) {
       throw new ExchangeException(ex);
     }
