@@ -19,13 +19,9 @@ public class CurrencyMetaData implements Serializable {
   @JsonProperty("min_withdrawal_amount")
   private final BigDecimal minWithdrawalAmount;
 
-  /** Deposit enabled */
-  @JsonProperty("deposit_enabled")
-  private boolean depositEnabled;
-
-  /** Withdraw enabled */
-  @JsonProperty("withdraw_enabled")
-  private boolean withdrawEnabled;
+  /** Wallet health */
+  @JsonProperty("wallet_health")
+  private WalletHealth walletHealth;
 
   /**
    * Constructor
@@ -45,7 +41,7 @@ public class CurrencyMetaData implements Serializable {
    * @param minWithdrawalAmount
    */
   public CurrencyMetaData(Integer scale, BigDecimal withdrawalFee, BigDecimal minWithdrawalAmount) {
-    this(scale, withdrawalFee, minWithdrawalAmount, true, true);
+    this(scale, withdrawalFee, minWithdrawalAmount, WalletHealth.UNKNOWN);
   }
 
   /**
@@ -57,13 +53,11 @@ public class CurrencyMetaData implements Serializable {
       @JsonProperty("scale") Integer scale,
       @JsonProperty("withdrawal_fee") BigDecimal withdrawalFee,
       @JsonProperty("min_withdrawal_amount") BigDecimal minWithdrawalAmount,
-      @JsonProperty("deposit_enabled") boolean depositEnabled,
-      @JsonProperty("withdraw_enabled") boolean withdrawEnabled) {
+      @JsonProperty("wallet_health") WalletHealth walletHealth) {
     this.scale = scale;
     this.withdrawalFee = withdrawalFee;
     this.minWithdrawalAmount = minWithdrawalAmount;
-    this.depositEnabled = depositEnabled;
-    this.withdrawEnabled = withdrawEnabled;
+    this.walletHealth = walletHealth;
   }
 
   public Integer getScale() {
@@ -78,12 +72,8 @@ public class CurrencyMetaData implements Serializable {
     return minWithdrawalAmount;
   }
 
-  public boolean isDepositEnabled() {
-    return depositEnabled;
-  }
-
-  public boolean isWithdrawEnabled() {
-    return withdrawEnabled;
+  public WalletHealth getWalletHealth() {
+    return walletHealth;
   }
 
   @Override
@@ -95,10 +85,8 @@ public class CurrencyMetaData implements Serializable {
         + withdrawalFee
         + ", minWithdrawalAmount="
         + minWithdrawalAmount
-        + ", depositEnabled="
-        + depositEnabled
-        + ", withdrawEnabled="
-        + withdrawEnabled
+        + ", walletHealth="
+        + walletHealth
         + "]";
   }
 }
