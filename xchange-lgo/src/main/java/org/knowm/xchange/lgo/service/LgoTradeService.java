@@ -13,6 +13,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class LgoTradeService extends LgoTradeServiceRaw implements TradeService {
@@ -97,8 +98,10 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     if (product.getQuote().getLimits().getMax().compareTo(limitOrder.getLimitPrice()) < 0) {
       throw new IllegalArgumentException("Order price to high");
     }
-    if (limitOrder.getLimitPrice().unscaledValue().longValue()
-            % product.getQuote().getIncrement().unscaledValue().intValue()
+    if (limitOrder
+            .getLimitPrice()
+            .remainder(product.getQuote().getIncrement())
+            .compareTo(BigDecimal.ZERO)
         != 0) {
       throw new IllegalArgumentException("Invalid price increment");
     }
