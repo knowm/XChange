@@ -15,7 +15,7 @@ public final class LgoProductCurrency {
       @JsonProperty("increment") BigDecimal increment,
       @JsonProperty("limits") LgoLimit limits) {
     this.id = id;
-    this.increment = increment != null ? increment.stripTrailingZeros() : null;
+    this.increment = increment;
     this.limits = limits;
   }
 
