@@ -50,8 +50,9 @@ class LgoUserBatchSubscription {
                         return new LgoGroupedUserUpdate(acc.getAllOpenOrders(), updates, events, s.getBatchId(), s.getType());
                     } else {
                         Collection<LimitOrder> allOrders = handleUserSnapshot(currencyPair, (LgoUserSnapshot) s);
-                        ConcurrentMap<String, Order> asMap = allOrders.stream().collect(toConcurrentMap(LimitOrder::getId, this::copyOrder));
-                        return new LgoGroupedUserUpdate(asMap, new ArrayList<>(allOrders), events, s.getBatchId(), s.getType());
+                        ConcurrentMap<String, Order> ordersById = allOrders.stream()
+                                .collect(toConcurrentMap(LimitOrder::getId, this::copyOrder));
+                        return new LgoGroupedUserUpdate(ordersById, new ArrayList<>(allOrders), events, s.getBatchId(), s.getType());
                     }
 
                 })
