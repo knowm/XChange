@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class HitbtcMessageTest {
     public void test() throws IOException {
         LOG.info("Testing {} message...", testResource);
 
-        String message = IOUtils.toString(getClass().getResource(testResource).openStream(), "UTF8");
+        String message = IOUtils.toString(getClass().getResource(testResource).openStream(), StandardCharsets.UTF_8);
         Object object = objectMapper.readValue(message, clazz);
 
         Assert.assertNotNull(object);
