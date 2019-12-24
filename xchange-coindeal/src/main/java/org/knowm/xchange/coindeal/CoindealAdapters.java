@@ -124,17 +124,30 @@ public final class CoindealAdapters {
 
     for (CoindealOrder coindealOrder : coindealActiveOrders) {
       limitOrders.add(
-          new LimitOrder(
-              adaptOrderType(coindealOrder.getSide()),
-              coindealOrder.getQuantity(),
-              coindealOrder.getCumQuantity(),
-              CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()),
-              coindealOrder.getClientOrderId(),
-              DateUtils.fromISODateString(coindealOrder.getCreatedAt()),
-              coindealOrder.getPrice()));
+          new LimitOrder.Builder(
+                  adaptOrderType(coindealOrder.getSide()),
+                  CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()))
+              .limitPrice(coindealOrder.getPrice())
+              .originalAmount(coindealOrder.getQuantity())
+              .cumulativeAmount(coindealOrder.getCumQuantity())
+              .timestamp(DateUtils.fromISODateString(coindealOrder.getCreatedAt()))
+              .id(coindealOrder.getClientOrderId())
+              .build());
     }
 
     return new OpenOrders(limitOrders);
+  }
+
+  public static Order adaptOrder(CoindealOrder coindealOrder) throws InvalidFormatException {
+    return new LimitOrder.Builder(
+            adaptOrderType(coindealOrder.getSide()),
+            CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()))
+        .limitPrice(coindealOrder.getPrice())
+        .originalAmount(coindealOrder.getQuantity())
+        .cumulativeAmount(coindealOrder.getCumQuantity())
+        .timestamp(DateUtils.fromISODateString(coindealOrder.getCreatedAt()))
+        .id(coindealOrder.getClientOrderId())
+        .build();
   }
 
   public static String adaptCurrencyPairToString(CurrencyPair currencyPair) {
