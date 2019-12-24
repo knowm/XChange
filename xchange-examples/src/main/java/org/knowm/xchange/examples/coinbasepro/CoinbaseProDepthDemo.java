@@ -15,7 +15,7 @@ public class CoinbaseProDepthDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get Coinbase PRO exchange API using default settings
+    // Use the factory to get Coinbase Pro exchange API using default settings
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
 
