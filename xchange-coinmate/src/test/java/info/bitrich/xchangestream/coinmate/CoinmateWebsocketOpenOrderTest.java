@@ -1,10 +1,8 @@
-package info.bitrich.xchange.coinmate;
+package info.bitrich.xchangestream.coinmate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchange.coinmate.dto.CoinmateWebsocketOpenOrder;
+import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -1,10 +1,9 @@
-package info.bitrich.xchange.coinmate;
+package info.bitrich.xchangestream.coinmate;
 
 import com.pusher.client.PusherOptions;
 import com.pusher.client.util.HttpAuthorizer;
-import com.pusher.client.util.UrlEncodedConnectionFactory;
-import info.bitrich.xchange.coinmate.dto.auth.CoinmateUrlEncodedConnectionFactory;
-import info.bitrich.xchange.coinmate.dto.auth.PusherAuthParamsObject;
+import info.bitrich.xchangestream.coinmate.dto.auth.CoinmateUrlEncodedConnectionFactory;
+import info.bitrich.xchangestream.coinmate.dto.auth.PusherAuthParamsObject;
 import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Completable;
