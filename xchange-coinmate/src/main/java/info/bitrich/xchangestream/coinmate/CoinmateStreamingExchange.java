@@ -17,9 +17,7 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     private CoinmateStreamingAccountService streamingAccountService;
     private CoinmateStreamingTradeService streamingTradeService;
 
-    public CoinmateStreamingExchange() {
-
-    }
+    public CoinmateStreamingExchange() {}
 
     private void createExchange() {
         if (exchangeSpecification.getApiKey() != null) {
@@ -27,8 +25,9 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
                     exchangeSpecification.getSecretKey(),
                     exchangeSpecification.getApiKey(),
                     exchangeSpecification.getUserName(),
-                    getNonceFactory().createValue()
+                    getNonceFactory()
             );
+
             CoinmateUrlEncodedConnectionFactory urlEncodedConnectionFactory = new CoinmateUrlEncodedConnectionFactory(params);
             HttpAuthorizer authorizer = new HttpAuthorizer("https://www.coinmate.io/api/pusherAuth", urlEncodedConnectionFactory);
             PusherOptions options = new PusherOptions();
