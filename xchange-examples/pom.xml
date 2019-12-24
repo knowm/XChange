@@ -158,7 +158,7 @@
 			<artifactId>xchange-coinegg</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange GDAX support -->
+		<!-- XChange Coinbase Pro support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-coinbasepro</artifactId>
