@@ -76,78 +76,46 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
         });
     }
 
-    private List<Order> adaptKrakenOrders(KrakenDtoOrderHolder[] dtoList) {
+    private Iterable<Order> adaptKrakenOrders(KrakenDtoOrderHolder[] dtoList) {
         List<Order> result = new ArrayList<>();
 
         for(KrakenDtoOrderHolder dtoHolder : dtoList) {
             for (Map.Entry<String, KrakenOpenOrder> dtoOrderEntry : dtoHolder.entrySet()) {
                 String orderId = dtoOrderEntry.getKey();
                 KrakenOpenOrder dto = dtoOrderEntry.getValue();
-
-                Order.OrderStatus status = dto.status == null ? null : KrakenAdapters.adaptOrderStatus(KrakenOrderStatus.fromString(dto.status));
                 KrakenOpenOrder.KrakenDtoDescr descr = dto.descr;
 
                 CurrencyPair pair = descr == null ? null : new CurrencyPair(descr.pair);
                 Order.OrderType side = descr == null ? null : KrakenAdapters.adaptOrderType(KrakenType.fromString(descr.type));
 
-                Date time = dto.opentm == null ? null : new Date((long) (dto.opentm * 1000L));
-                String ordertype = (descr == null || descr.ordertype == null) ? null : descr.ordertype;
+                String orderType = (descr == null || descr.ordertype == null) ? null : descr.ordertype;
 
-                Set<Order.IOrderFlags> flags = adaptFlags(dto.oflags);
-
-                if ("limit".equals(ordertype))
-                    result.add(
-                            new LimitOrder.Builder(side, pair)
-                                    .id(orderId)
-                                    .originalAmount(dto.vol)
-                                    .cumulativeAmount(dto.vol_exec)
+                Order.Builder builder;
+                if ("limit".equals(orderType))
+                    builder = new LimitOrder.Builder(side,pair)
+                                        .limitPrice(descr.price);
+                else if ("stop".equals(orderType))
+                    builder = new StopOrder.Builder(side,pair)
                                     .limitPrice(descr.price)
-                                    .orderStatus(status)
-                                    .timestamp(time)
-                                    .fee(dto.fee)
-                                    .flags(flags)
-                                    .userReference(dto.refid)
-                                    .build()
-                    );
-                else if ("stop".equals(ordertype))
-                    result.add(
-                            new StopOrder.Builder(side, pair)
-                                    .id(orderId)
-                                    .originalAmount(dto.vol)
-                                    .cumulativeAmount(dto.vol_exec)
-                                    .limitPrice(descr.price)
-                                    .stopPrice(descr.price2)
-                                    .orderStatus(status)
-                                    .timestamp(time)
-                                    .fee(dto.fee)
-                                    .flags(flags)
-                                    .userReference(dto.refid)
-                                    .build());
+                                    .stopPrice(descr.price2);
 
-                else if ("market".equals(ordertype))
-                    result.add(
-                            new MarketOrder.Builder(side, pair)
-                                    .id(orderId)
-                                    .originalAmount(dto.vol)
-                                    .cumulativeAmount(dto.vol_exec)
-                                    .orderStatus(status)
-                                    .timestamp(time)
-                                    .fee(dto.fee)
-                                    .flags(flags)
-                                    .userReference(dto.refid)
-                                    .build());
-                else  // this is an order update
-                    result.add(
-                            new MarketOrder.Builder(side, pair)
-                                    .id(orderId)
-                                    .originalAmount(dto.vol)
-                                    .cumulativeAmount(dto.vol_exec)
-                                    .orderStatus(status)
-                                    .timestamp(time)
-                                    .fee(dto.fee)
-                                    .flags(flags)
-                                    .userReference(dto.refid)
-                                    .build());
+                else if ("market".equals(orderType))
+                    builder = new MarketOrder.Builder(side, pair);
+                else  // this is an order update (not the full order, it may only update one field)
+                    builder = new MarketOrder.Builder(side, pair);
+
+                result.add(
+                    builder
+                        .id(orderId)
+                        .originalAmount(dto.vol)
+                        .cumulativeAmount(dto.vol_exec)
+                        .orderStatus(dto.status == null ? null : KrakenAdapters.adaptOrderStatus(KrakenOrderStatus.fromString(dto.status)))
+                        .timestamp(dto.opentm == null ? null : new Date((long) (dto.opentm * 1000L)))
+                        .fee(dto.fee)
+                        .flags(adaptFlags(dto.oflags))
+                        .userReference(dto.refid)
+                        .build()
+                );
             }
         }
         return result;
