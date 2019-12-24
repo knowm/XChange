@@ -80,7 +80,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         return getRawBatchOrderEvents(currencyPair)
-                .filter(lgoOrderEvent -> lgoOrderEvent.getType().equals("match"))
+                .filter(lgoOrderEvent -> "match".equals(lgoOrderEvent.getType()))
                 .map(matchEvent -> LgoAdapter.adaptUserTrade(currencyPair, (LgoMatchOrderEvent) matchEvent));
     }
 

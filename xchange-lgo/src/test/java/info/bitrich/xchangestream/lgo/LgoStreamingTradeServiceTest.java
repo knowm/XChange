@@ -129,7 +129,9 @@ public class LgoStreamingTradeServiceTest {
         Date date = dateFormat.parse("2019-08-06T10:00:05.658Z");
         ArrayList<UserTrade> trades = Lists.newArrayList(userTrades.blockingIterable());
         assertThat(trades).hasSize(1);
-        assertThat(trades.get(0)).isEqualToComparingFieldByField(new UserTrade(Order.OrderType.ASK, new BigDecimal("0.50000000"), CurrencyPair.BTC_USD, new BigDecimal("955.3000"), date, "4441691", "156508560418400001", new BigDecimal("0.2388"), Currency.USD));
+        assertThat(trades.get(0))
+                .usingRecursiveComparison()
+                .isEqualTo(new UserTrade(Order.OrderType.ASK, new BigDecimal("0.50000000"), CurrencyPair.BTC_USD, new BigDecimal("955.3000"), date, "4441691", "156508560418400001", new BigDecimal("0.2388"), Currency.USD));
     }
 
     @Test

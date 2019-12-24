@@ -6,7 +6,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.*;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.marketdata.*;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.*;
 
 import java.math.BigDecimal;
@@ -18,22 +18,6 @@ public class LgoAdapter {
 
     static String channelName(String name, CurrencyPair currencyPair) {
         return name + "-" + currencyPair.base.toString() + "-" + currencyPair.counter.toString();
-    }
-
-    static OrderBook adaptOrderBook(SortedMap<BigDecimal, BigDecimal> bidSide, SortedMap<BigDecimal, BigDecimal> askSide, CurrencyPair currencyPair) {
-        List<LimitOrder> bidOrders =
-                bidSide.entrySet().stream()
-                        .map(entry -> createOrder(entry.getKey(), entry.getValue(), Order.OrderType.BID, currencyPair))
-                        .collect(toList());
-        List<LimitOrder> askOrders =
-                askSide.entrySet().stream()
-                        .map(entry -> createOrder(entry.getKey(), entry.getValue(), Order.OrderType.ASK, currencyPair))
-                        .collect(toList());
-        return new OrderBook(null, askOrders, bidOrders);
-    }
-
-    private static LimitOrder createOrder(BigDecimal price, BigDecimal qtt, Order.OrderType type, CurrencyPair currencyPair) {
-        return new LimitOrder(type, qtt, currencyPair, "0", null, price);
     }
 
     public static Trade adaptTrade(CurrencyPair currencyPair, LgoTrade lgoTrade) {
@@ -69,19 +53,6 @@ public class LgoAdapter {
 
     private static Order.OrderType parseOrderType(String side) {
         return side.equals("B") ? Order.OrderType.BID : Order.OrderType.ASK;
-    }
-
-    private static Order.OrderType parseTradeType(LgoMatchOrderEvent event, Order order) {
-        //the XChange API requires the taker order type
-        return takerBuyer(event, order) || makerSeller(event, order) ? Order.OrderType.BID : Order.OrderType.ASK;
-    }
-
-    private static boolean takerBuyer(LgoMatchOrderEvent updateData, Order order) {
-        return order.getType().equals(Order.OrderType.BID) && updateData.getLiquidity().equals("T");
-    }
-
-    private static boolean makerSeller(LgoMatchOrderEvent updateData, Order order) {
-        return order.getType().equals(Order.OrderType.ASK) && updateData.getLiquidity().equals("M");
     }
 
     static Collection<LimitOrder> adaptOrdersSnapshot(List<LgoUserSnapshotData> orderEvents, CurrencyPair currencyPair) {
@@ -128,13 +99,13 @@ public class LgoAdapter {
                 .build();
     }
 
-    static List<LgoBatchOrderEvent> adaptOrderEvent(List<LgoBatchOrderEvent> data, Long batchId, List<Order> updatedOrders) {
+    static List<LgoBatchOrderEvent> adaptOrderEvent(List<LgoBatchOrderEvent> data, Long batchId, List<Order> openOrders) {
         data.forEach(e -> {
             e.setBatchId(batchId);
-            if (e.getType().equals("match")) {
+            if ("match".equals(e.getType())) {
                 LgoMatchOrderEvent matchEvent = (LgoMatchOrderEvent) e;
-                Optional<Order> matchedOrder = updatedOrders.stream().filter(order -> order.getId().equals(e.getOrderId())).findFirst();
-                matchEvent.setOrderType(matchedOrder.map(order -> parseTradeType(matchEvent, order)).orElse(null));
+                Optional<Order> matchedOrder = openOrders.stream().filter(order -> order.getId().equals(e.getOrderId())).findFirst();
+                matchEvent.setOrderType(matchedOrder.map(Order::getType).orElse(null));
             }
         });
         return data;
