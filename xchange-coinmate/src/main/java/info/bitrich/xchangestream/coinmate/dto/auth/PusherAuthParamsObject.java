@@ -1,4 +1,4 @@
-package info.bitrich.xchange.coinmate.dto.auth;
+package info.bitrich.xchangestream.coinmate.dto.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

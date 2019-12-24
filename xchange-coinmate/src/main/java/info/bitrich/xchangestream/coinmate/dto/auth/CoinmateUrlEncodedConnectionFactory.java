@@ -1,4 +1,4 @@
-package info.bitrich.xchange.coinmate.dto.auth;
+package info.bitrich.xchangestream.coinmate.dto.auth;
 
 import com.pusher.client.util.ConnectionFactory;
 
