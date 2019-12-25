@@ -147,7 +147,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                             .map(jsonNode ->
                                     StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
                             .flatMapIterable(this::adaptKrakenUserTrade)
-                            .filter(userTrade -> currencyPair == null || userTrade.getCurrencyPair() == null || userTrade.getCurrencyPair().compareTo(currencyPair) == 0);
+                            .filter(userTrade -> currencyPair == null || userTrade.getCurrencyPair().compareTo(currencyPair) == 0);
 
             } catch (IOException e) {
                 return Observable.error(e);
