@@ -14,7 +14,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
-import org.knowm.xchange.coinbasepro.dto.marketdata.*;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrderFlags;
@@ -270,9 +276,9 @@ public class CoinbaseProAdapters {
   }
 
   public static Trades adaptTrades(
-      List<CoinbaseProTrade> gdaxTradesList, CurrencyPair currencyPair) {
-    CoinbaseProTrade[] tradeArray = new CoinbaseProTrade[gdaxTradesList.size()];
-    gdaxTradesList.toArray(tradeArray);
+      List<CoinbaseProTrade> coinbaseProTradesList, CurrencyPair currencyPair) {
+    CoinbaseProTrade[] tradeArray = new CoinbaseProTrade[coinbaseProTradesList.size()];
+    coinbaseProTradesList.toArray(tradeArray);
     return CoinbaseProAdapters.adaptTrades(tradeArray, currencyPair);
   }
 
@@ -280,9 +286,7 @@ public class CoinbaseProAdapters {
 
     List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
 
-    for (int i = 0; i < coinbaseExFills.length; i++) {
-      CoinbaseProFill fill = coinbaseExFills[i];
-
+    for (CoinbaseProFill fill : coinbaseExFills) {
       OrderType type = fill.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
@@ -307,8 +311,7 @@ public class CoinbaseProAdapters {
   public static Trades adaptTrades(CoinbaseProTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
-    for (int i = 0; i < coinbaseExTrades.length; i++) {
-      CoinbaseProTrade trade = coinbaseExTrades[i];
+    for (CoinbaseProTrade trade : coinbaseExTrades) {
       // yes, sell means buy for coinbasePro reported trades..
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
@@ -437,7 +440,6 @@ public class CoinbaseProAdapters {
 
   public static CoinbaseProPlaceMarketOrder adaptCoinbaseProPlaceMarketOrder(
       MarketOrder marketOrder) {
-    OrderType orderType = marketOrder.getType();
     return new CoinbaseProPlaceMarketOrder.Builder()
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(CoinbaseProPlaceOrder.Type.market)
