@@ -39,6 +39,6 @@ public class PoloniexWebSocketTickerTransaction {
     }
 
     public int getPairId() {
-        return new Integer(ticker[0]);
+        return Integer.parseInt(ticker[0]);
     }
 }
