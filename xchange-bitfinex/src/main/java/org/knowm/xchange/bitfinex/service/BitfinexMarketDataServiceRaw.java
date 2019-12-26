@@ -78,23 +78,15 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    try {
-      List<CurrencyPair> currencyPairs = new ArrayList<>();
-      for (String symbol : bitfinex.getSymbols()) {
-        currencyPairs.add(BitfinexAdapters.adaptCurrencyPair(symbol));
-      }
-      return currencyPairs;
-    } catch (BitfinexException e) {
-      throw BitfinexErrorAdapter.adapt(e);
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
+    for (String symbol : bitfinex.getSymbols()) {
+      currencyPairs.add(BitfinexAdapters.adaptCurrencyPair(symbol));
     }
+    return currencyPairs;
   }
 
   public List<BitfinexSymbolDetail> getSymbolDetails() throws IOException {
-    try {
-      return bitfinex.getSymbolsDetails();
-    } catch (BitfinexException e) {
-      throw BitfinexErrorAdapter.adapt(e);
-    }
+    return bitfinex.getSymbolsDetails();
   }
 
   //////// v2
