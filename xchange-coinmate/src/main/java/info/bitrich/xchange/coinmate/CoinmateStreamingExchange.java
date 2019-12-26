@@ -1,27 +1,54 @@
 package info.bitrich.xchange.coinmate;
 
-import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingExchange;
-import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.util.HttpAuthorizer;
+import com.pusher.client.util.UrlEncodedConnectionFactory;
+import info.bitrich.xchange.coinmate.dto.auth.CoinmateUrlEncodedConnectionFactory;
+import info.bitrich.xchange.coinmate.dto.auth.PusherAuthParamsObject;
+import info.bitrich.xchangestream.core.*;
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
     private static final String API_KEY = "af76597b6b928970fbb0";
-    private final PusherStreamingService streamingService;
+    private PusherStreamingService streamingService;
 
     private CoinmateStreamingMarketDataService streamingMarketDataService;
+    private CoinmateStreamingAccountService streamingAccountService;
+    private CoinmateStreamingTradeService streamingTradeService;
 
     public CoinmateStreamingExchange() {
-        streamingService = new PusherStreamingService(API_KEY);
+
+    }
+
+    private void createExchange() {
+        if (exchangeSpecification.getApiKey() != null) {
+            PusherAuthParamsObject params = new PusherAuthParamsObject(
+                    exchangeSpecification.getSecretKey(),
+                    exchangeSpecification.getApiKey(),
+                    exchangeSpecification.getUserName(),
+                    getNonceFactory().createValue()
+            );
+            CoinmateUrlEncodedConnectionFactory urlEncodedConnectionFactory = new CoinmateUrlEncodedConnectionFactory(params);
+            HttpAuthorizer authorizer = new HttpAuthorizer("https://www.coinmate.io/api/pusherAuth", urlEncodedConnectionFactory);
+            PusherOptions options = new PusherOptions();
+            options.setAuthorizer(authorizer);
+            options.setCluster("mt1");
+            streamingService = new PusherStreamingService(API_KEY, options);
+        } else {
+            streamingService = new PusherStreamingService(API_KEY);
+        }
+
     }
 
     @Override
     protected void initServices() {
         super.initServices();
+        createExchange();
         streamingMarketDataService = new CoinmateStreamingMarketDataService(streamingService);
+        streamingAccountService = new CoinmateStreamingAccountService(streamingService, exchangeSpecification.getUserName());
+        streamingTradeService = new CoinmateStreamingTradeService(streamingService, exchangeSpecification.getUserName());
     }
 
     @Override
@@ -37,6 +64,16 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     @Override
     public StreamingMarketDataService getStreamingMarketDataService() {
         return streamingMarketDataService;
+    }
+
+    @Override
+    public StreamingTradeService getStreamingTradeService() {
+        return streamingTradeService;
+    }
+
+    @Override
+    public StreamingAccountService getStreamingAccountService() {
+        return streamingAccountService;
     }
 
     @Override

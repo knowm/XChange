@@ -89,10 +89,11 @@ More information about reactive streams can be found at [RxJava wiki](https://gi
 
 ## What is supported
 
-Listening for live updates of
+Listening for live updates of:
 
 | Exchange         | order books        | trades (public)    | tickers            | balances           | trades (user)      | open orders        | notes |
 | ---------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ----- |
+| **Bankera**      | :heavy_check_mark: | :heavy_check_mark: | :construction:     | :question:         | :question:         | :question:         | Ticker support could be implemented using the trades and order book streams, even though the exchange doesn't explicitly return a ticker stream. |
 | **Binance**      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | **Bitfinex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | **Bitflyer**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
@@ -106,7 +107,6 @@ Listening for live updates of
 | **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
 | **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
 | **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :construction:     | :construction:     | :construction:     | |
-
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
