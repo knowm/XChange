@@ -1,14 +1,16 @@
 package info.bitrich.xchangestream.kraken;
 
 import com.google.common.base.MoreObjects;
-import info.bitrich.xchangestream.core.*;
+import info.bitrich.xchangestream.core.ProductSubscription;
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +25,11 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     private final static String USE_BETA = "Use_Beta";
     private static final String API_URI = "wss://ws.kraken.com";
     private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
-    private static final String API_FUTURES_URI = "wss://futures.kraken.com";
     private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
+//    private static final String API_FUTURES_URI = "wss://futures.kraken.com";
 
-    private KrakenStreamingService streamingService, privateStreamingService, futuresStreamingService;
+    private KrakenStreamingService streamingService, privateStreamingService;
+//    private KrakenStreamingService futuresStreamingService;
     private KrakenStreamingMarketDataService streamingMarketDataService;
     private KrakenStreamingTradeService streamingTradeService;
 
