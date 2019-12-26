@@ -42,7 +42,7 @@ public final class LgoEnv {
 
   public static ExchangeSpecification local() {
     ExchangeSpecification result = baseSpecification();
-    result.setSslUri("http://localhost:8081");
+    result.setSslUri("http://localhost:8083");
     result.setHost("localhost");
     result.setExchangeSpecificParametersItem(KEYS_URL, "http://localhost:3001/keys");
     result.setExchangeSpecificParametersItem(WS_URL, "ws://localhost:8084/");
