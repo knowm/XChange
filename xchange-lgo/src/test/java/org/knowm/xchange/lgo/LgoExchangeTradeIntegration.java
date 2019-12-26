@@ -1,23 +1,19 @@
 package org.knowm.xchange.lgo;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.commons.io.IOUtils;
+import org.junit.*;
+import org.knowm.xchange.*;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.lgo.service.LgoTradeService;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.lgo.service.LgoTradeService;
+
+import static org.assertj.core.api.Assertions.*;
 
 @Ignore
 public class LgoExchangeTradeIntegration {
@@ -37,7 +33,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeLimitOrder(
+        tradeService.placeEncryptedLimitOrder(
             new LimitOrder(
                 OrderType.ASK,
                 new BigDecimal("2"),
@@ -55,7 +51,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeMarketOrder(
+        tradeService.placeEncryptedMarketOrder(
             new MarketOrder(
                 OrderType.ASK, new BigDecimal("2"), CurrencyPair.BTC_USD, null, new Date()));
 
@@ -67,7 +63,7 @@ public class LgoExchangeTradeIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials();
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
-    tradeService.cancelOrder("156941460160700001");
+    tradeService.placeEncryptedCancelOrder("156941460160700001");
   }
 
   @Test
@@ -76,7 +72,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeEncryptedLimitOrder(
+        tradeService.placeLimitOrder(
             new LimitOrder(
                 OrderType.ASK,
                 new BigDecimal("2"),
@@ -94,7 +90,7 @@ public class LgoExchangeTradeIntegration {
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeEncryptedMarketOrder(
+        tradeService.placeMarketOrder(
             new MarketOrder(
                 OrderType.ASK, new BigDecimal("200"), CurrencyPair.BTC_USD, null, new Date()));
 
@@ -106,7 +102,7 @@ public class LgoExchangeTradeIntegration {
     LgoExchange lgoExchange = exchangeWithCredentials();
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
-    tradeService.placeEncryptedCancelOrder("156940341166500001");
+    tradeService.cancelOrder("156940341166500001");
   }
 
   // api key and secret key are expected to be in test resources under
