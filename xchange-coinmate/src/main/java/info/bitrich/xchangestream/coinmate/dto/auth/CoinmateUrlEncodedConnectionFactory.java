@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.coinmate.dto.auth;
 
 import com.pusher.client.util.ConnectionFactory;
+import org.knowm.xchange.coinmate.CoinmateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class CoinmateUrlEncodedConnectionFactory extends ConnectionFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(CoinmateUrlEncodedConnectionFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CoinmateUrlEncodedConnectionFactory.class);
     private final PusherAuthParamsObject pusherAuthParamsObject;
 
     public CoinmateUrlEncodedConnectionFactory(PusherAuthParamsObject pusherAuthParamsObject) {
@@ -41,7 +42,8 @@ public class CoinmateUrlEncodedConnectionFactory extends ConnectionFactory {
                 urlParameters.append(URLEncoder.encode((String)mQueryStringParameters.get(parameterName), getCharset()));
             }
         } catch (IOException e) {
-            log.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(),e);
+            throw new CoinmateException(e.getMessage());
         }
 
         return urlParameters.toString();
