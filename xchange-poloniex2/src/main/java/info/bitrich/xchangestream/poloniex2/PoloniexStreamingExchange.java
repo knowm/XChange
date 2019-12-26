@@ -55,7 +55,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
                 String[] currencies = pairSymbol.split("_");
                 CurrencyPair currencyPair = new CurrencyPair(new Currency(currencies[1]), new Currency(currencies[0]));
-                currencyPairMap.put(currencyPair, new Integer(id));
+                currencyPairMap.put(currencyPair, Integer.valueOf(id));
             }
         } catch (IOException e) {
             e.printStackTrace();
