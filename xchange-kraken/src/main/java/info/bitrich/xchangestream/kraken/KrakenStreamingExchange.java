@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -33,7 +33,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     private KrakenStreamingMarketDataService streamingMarketDataService;
     private KrakenStreamingTradeService streamingTradeService;
 
-    private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+    private final SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
 
     public KrakenStreamingExchange() {
     }
