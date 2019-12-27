@@ -64,7 +64,6 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     public Completable connect(ProductSubscription... args) {
         if (privateStreamingService != null)
             return privateStreamingService.connect().mergeWith(streamingService.connect());
-
         return streamingService.connect();
     }
 
@@ -72,7 +71,6 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     public Completable disconnect() {
         if (privateStreamingService != null)
             return privateStreamingService.disconnect().mergeWith(streamingService.disconnect());
-
         return streamingService.disconnect();
     }
 
@@ -83,17 +81,11 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     
     @Override
     public Observable<Object> connectionSuccess() {
-        if (privateStreamingService != null)
-            return streamingService.subscribeConnectionSuccess().mergeWith(privateStreamingService.subscribeConnectionSuccess());
-
         return streamingService.subscribeConnectionSuccess();
     }
     
     @Override
     public Observable<Throwable> reconnectFailure() {
-        if (privateStreamingService != null)
-            return streamingService.subscribeReconnectFailure().mergeWith(privateStreamingService.subscribeReconnectFailure());
-
         return streamingService.subscribeReconnectFailure();
     }
     
