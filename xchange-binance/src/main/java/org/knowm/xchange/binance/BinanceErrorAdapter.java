@@ -36,7 +36,7 @@ public final class BinanceErrorAdapter {
           return new ExchangeException(message, e);
         }
       case -1013:
-        createOrderNotValidException(message, e);
+        return createOrderNotValidException(message, e);
       case -1016:
         return new ExchangeUnavailableException(message, e);
       case -1021:
@@ -45,15 +45,16 @@ public final class BinanceErrorAdapter {
         return new CurrencyPairNotValidException(message, e);
       case -1122:
         return new ExchangeSecurityException(message, e);
+      default:
+        return new ExchangeException(message, e);
     }
-    return new ExchangeException(message, e);
   }
 
-  private static ExchangeException createOrderNotValidException(
-      String message, BinanceException e) {
+  private static ExchangeException createOrderNotValidException(String message, BinanceException e) {
     if (e.getMessage().contains("MIN_NOTIONAL")) {
       return new OrderAmountUnderMinimumException(message, e);
+    } else {
+      return new OrderNotValidException(message, e);
     }
-    return new OrderNotValidException(message, e);
   }
 }
