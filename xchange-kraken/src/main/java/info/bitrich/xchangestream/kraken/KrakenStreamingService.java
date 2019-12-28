@@ -17,13 +17,13 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -171,7 +171,6 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
         KrakenSubscriptionName subscriptionName = KrakenSubscriptionName.valueOf(channelData[0]);
 
         if (isPrivate) {
-            String token = null; // TODO: We probably need to pass the token to unsubscribe (but we dont have args[0])
             KrakenSubscriptionMessage subscriptionMessage = new KrakenSubscriptionMessage(reqID, KrakenEventType.unsubscribe,
                     null, new KrakenSubscriptionConfig(subscriptionName, null, null));
             return objectMapper.writeValueAsString(subscriptionMessage);
