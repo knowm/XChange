@@ -1,6 +1,5 @@
 package org.knowm.xchange.examples.coinbasepro;
 
-import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
@@ -10,11 +9,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class CoinbaseproDepthDemo {
+import java.io.IOException;
+
+public class CoinbaseProDepthDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get GDAX exchange API using default settings
+    // Use the factory to get Coinbase Pro exchange API using default settings
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
 
