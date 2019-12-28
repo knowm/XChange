@@ -26,10 +26,8 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     private static final String API_URI = "wss://ws.kraken.com";
     private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
     private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
-//    private static final String API_FUTURES_URI = "wss://futures.kraken.com";
 
     private KrakenStreamingService streamingService, privateStreamingService;
-//    private KrakenStreamingService futuresStreamingService;
     private KrakenStreamingMarketDataService streamingMarketDataService;
     private KrakenStreamingTradeService streamingTradeService;
 
@@ -52,7 +50,6 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
         if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
             this.privateStreamingService = new KrakenStreamingService(true, pickUri(true,useBeta));
-//            this.futuresStreamingService = new KrakenStreamingService(true, API_FUTURES_URI);
         }
 
         KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) getAccountService();
