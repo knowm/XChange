@@ -43,6 +43,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -384,15 +385,20 @@ public class CoinbaseProAdapters {
     }
 
     Arrays.stream(cbCurrencies)
-        .filter(currency -> currency.getStatus().equals("online"))
         .forEach(
             currency -> {
               Currency cur = adaptCurrency(currency);
               int scale = numberOfDecimals(currency.getMaxPrecision());
               BigDecimal minWithdrawalAmount = currency.getDetails().getMinWithdrawalAmount();
+              boolean walletOnline = currency.getStatus().equals("online");
               // Coinbase has a 0 withdrawal fee
               currencies.put(
-                  cur, new CurrencyMetaData(scale, BigDecimal.ZERO, minWithdrawalAmount));
+                  cur,
+                  new CurrencyMetaData(
+                      scale,
+                      BigDecimal.ZERO,
+                      minWithdrawalAmount,
+                      walletOnline ? WalletHealth.ONLINE : WalletHealth.OFFLINE));
             });
 
     return new ExchangeMetaData(
