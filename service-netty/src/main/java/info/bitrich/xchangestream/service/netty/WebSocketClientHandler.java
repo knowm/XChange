@@ -51,7 +51,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        LOG.info("WebSocket Client disconnected!");
+        LOG.info("WebSocket Client disconnected! {}", ctx.channel());
     }
 
     @Override
@@ -60,11 +60,11 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         if (!handshaker.isHandshakeComplete()) {
             try {
                 handshaker.finishHandshake(ch, (FullHttpResponse)msg);
-                LOG.info("WebSocket Client connected!");
+                LOG.info("WebSocket Client connected! {}", ctx.channel());
                 handshakeFuture.setSuccess();
             }
             catch (WebSocketHandshakeException e) {
-                LOG.error("WebSocket Client failed to connect. {}", e.getMessage());
+                LOG.error("WebSocket Client failed to connect. {} {}", e.getMessage(), ctx.channel());
                 handshakeFuture.setFailure(e);
             }
             return;
