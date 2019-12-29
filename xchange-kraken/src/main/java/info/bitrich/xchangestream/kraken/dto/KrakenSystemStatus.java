@@ -10,6 +10,9 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 public class KrakenSystemStatus extends KrakenEvent {
 
     private final String connectionID;
+    /**
+     * online|maintenance|(custom status tbd)
+     */
     private final String status;
     private final String version;
 
