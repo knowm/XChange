@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xchange-stream-parent</artifactId>
+        <groupId>info.bitrich.xchange-stream</groupId>
+        <version>4.4.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xchange-lgo</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>xchange-stream-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>service-netty</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-lgo</artifactId>
+            <version>${xchange.version}</version>
+        </dependency>
+    </dependencies>
+</project> 
