@@ -11,6 +11,10 @@ public class KrakenEvent {
     @JsonProperty("event")
     private final KrakenEventType event;
 
+    @JsonProperty("error")
+    private String error;
+
+
     public KrakenEvent(KrakenEventType event) {
         this.event = event;
     }
@@ -19,4 +23,7 @@ public class KrakenEvent {
         return event;
     }
 
+    public String getError() {
+        return error;
+    }
 }

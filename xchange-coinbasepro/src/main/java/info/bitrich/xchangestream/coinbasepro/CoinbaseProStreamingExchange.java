@@ -1,17 +1,16 @@
 package info.bitrich.xchangestream.coinbasepro;
 
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 /**
  * CoinbasePro Streaming Exchange. Connects to live WebSocket feed.
