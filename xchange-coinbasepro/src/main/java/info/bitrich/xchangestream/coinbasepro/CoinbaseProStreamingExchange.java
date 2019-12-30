@@ -1,17 +1,16 @@
 package info.bitrich.xchangestream.coinbasepro;
 
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountServiceRaw;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 /**
  * CoinbasePro Streaming Exchange. Connects to live WebSocket feed.
@@ -19,6 +18,8 @@ import io.reactivex.Observable;
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
     private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
     private static final String SANDBOX_API_URI = "wss://ws-feed-public.sandbox.pro.coinbase.com";
+    private static final String PRIME_API_URI = "wss://ws-feed.prime.coinbase.com";
+    private static final String PRIME_SANDBOX_API_URI = "wss://ws-feed-public.sandbox.prime.coinbase.com";
 
     private CoinbaseProStreamingService streamingService;
     private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -36,9 +37,16 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
         if (args == null || args.length == 0)
             throw new UnsupportedOperationException("The ProductSubscription must be defined!");
         ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        String apiUri = exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)
-            ? SANDBOX_API_URI
-            : API_URI;
+        boolean useSandbox = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox"));
+        boolean usePrime = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"));
+
+        String apiUri;
+        if (useSandbox) {
+            apiUri = usePrime ? PRIME_SANDBOX_API_URI : SANDBOX_API_URI;
+        } else {
+            apiUri = usePrime ? PRIME_API_URI : API_URI;
+        }
+        
         this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
         applyStreamingSpecification(exchangeSpecification, this.streamingService);
         
