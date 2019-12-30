@@ -7,6 +7,7 @@ public final class LgoEnv {
   public static final String KEYS_URL = "Keys_Url";
   public static final String WS_URL = "Websocket_Url";
   public static final String SIGNATURE_SERVICE = "Signature_Service";
+  public static final String SHOULD_ENCRYPT_ORDERS = "Encrypt_Orders";
 
   private LgoEnv() {}
 
@@ -52,6 +53,7 @@ public final class LgoEnv {
   private static ExchangeSpecification baseSpecification() {
     ExchangeSpecification result = new ExchangeSpecification(LgoExchange.class);
     result.setExchangeName("LGO");
+    result.setExchangeSpecificParametersItem(SHOULD_ENCRYPT_ORDERS, false);
     result.setExchangeDescription(
         "LGO is a fare and secure exchange for institutional and retail investors.");
     return result;
