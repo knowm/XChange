@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class CoinmateUrlEncodedConnectionFactory extends ConnectionFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CoinmateUrlEncodedConnectionFactory.class);
     private final PusherAuthParamsObject pusherAuthParamsObject;
 
     public CoinmateUrlEncodedConnectionFactory(PusherAuthParamsObject pusherAuthParamsObject) {
@@ -42,7 +41,6 @@ public class CoinmateUrlEncodedConnectionFactory extends ConnectionFactory {
                 urlParameters.append(URLEncoder.encode((String)mQueryStringParameters.get(parameterName), getCharset()));
             }
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(),e);
             throw new CoinmateException(e.getMessage());
         }
 
