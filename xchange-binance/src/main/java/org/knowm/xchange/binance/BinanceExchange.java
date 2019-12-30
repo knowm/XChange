@@ -82,6 +82,10 @@ public class BinanceExchange extends BaseExchange {
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      // Clear all hardcoded currencies when loading dynamically from exchange.
+      if (assetDetailMap != null) {
+        currencies.clear();
+      }
       for (Symbol symbol : symbols) {
         if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
