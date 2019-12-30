@@ -1,0 +1,13 @@
+{
+  "payload": [
+    {
+      "type": "failed",
+      "time": "2019-07-24T13:42:35.698Z",
+      "reference": "plop",
+      "reason": "INVALID_PAYLOAD",
+      "order_id": "156397575497000001"
+    }
+  ],
+  "type": "update",
+  "channel": "afr"
+}
