@@ -1,7 +1,12 @@
 package org.knowm.xchange.lgo;
 
-import org.knowm.xchange.currency.Currency;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.*;
 import org.knowm.xchange.currency.*;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.*;
 import org.knowm.xchange.dto.meta.*;
@@ -14,14 +19,16 @@ import org.knowm.xchange.lgo.dto.order.*;
 import org.knowm.xchange.lgo.dto.product.*;
 import org.knowm.xchange.lgo.dto.trade.*;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.*;
-
 public final class LgoAdapters {
 
   private LgoAdapters() {}
+
+  private static SimpleDateFormat dateFormat;
+
+  static {
+    dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
 
   public static ExchangeMetaData adaptMetadata(
       ExchangeMetaData metaData, LgoProducts products, LgoCurrencies currencies) {
@@ -193,5 +200,9 @@ public final class LgoAdapters {
         null,
         null,
         new BigDecimal(entry[0].toString()));
+  }
+
+  public static String toISODateString(Date date) {
+    return dateFormat.format(date);
   }
 }
