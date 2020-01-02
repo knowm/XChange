@@ -1,11 +1,13 @@
 package org.knowm.xchange.lgo.service;
 
 import java.io.IOException;
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
+import org.knowm.xchange.lgo.dto.marketdata.*;
+import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistoryResponse;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 
 public class LgoMarketDataServiceRaw extends LgoBaseService {
@@ -29,5 +31,26 @@ public class LgoMarketDataServiceRaw extends LgoBaseService {
         exchange.getNonceFactory().createValue(),
         exchange.getSignatureService(),
         LgoAdapters.adaptCurrencyPair(product));
+  }
+
+  /**
+   * Price history (candlestick bars) for a pair and a period of time.<br>
+   * All parameters are required.
+   *
+   * @return the price history, null if some sort of error occurred. Implementers should log the
+   *     error.
+   */
+  public LgoPriceHistory getLgoPriceHistory(
+      CurrencyPair product, Date startTime, Date endTime, LgoGranularity granularity)
+      throws IOException {
+    LgoPriceHistoryResponse priceHistory =
+        this.proxy.getPriceHistory(
+            exchange.getNonceFactory().createValue(),
+            exchange.getSignatureService(),
+            LgoAdapters.adaptCurrencyPair(product),
+            LgoAdapters.toISODateString(startTime),
+            LgoAdapters.toISODateString(endTime),
+            granularity.asSeconds());
+    return LgoPriceHistory.fromRawValues(priceHistory.getPrices());
   }
 }

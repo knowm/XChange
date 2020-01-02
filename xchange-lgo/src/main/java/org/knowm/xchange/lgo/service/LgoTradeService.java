@@ -39,9 +39,12 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
   public LgoTradeService(LgoExchange exchange, LgoKeyService keyService) {
     super(exchange);
     this.keyService = keyService;
-    shouldEncryptOrders = (boolean) exchange.getExchangeSpecification()
-        .getExchangeSpecificParameters()
-        .getOrDefault(LgoEnv.SHOULD_ENCRYPT_ORDERS, false);
+    shouldEncryptOrders =
+        (boolean)
+            exchange
+                .getExchangeSpecification()
+                .getExchangeSpecificParameters()
+                .getOrDefault(LgoEnv.SHOULD_ENCRYPT_ORDERS, false);
   }
 
   @Override
@@ -207,9 +210,7 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
     }
   }
 
-  /**
-   * Place a cancellation order encrypting it's content.
-   */
+  /** Place a cancellation order encrypting it's content. */
   private String placeEncryptedCancelOrder(String orderId) throws IOException {
     LgoPlaceOrder lgoOrder = LgoAdapters.adaptEncryptedCancelOrder(orderId, new Date());
     return placeEncryptedOrder(lgoOrder);

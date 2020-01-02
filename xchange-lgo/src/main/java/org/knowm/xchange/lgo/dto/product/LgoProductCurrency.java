@@ -1,7 +1,6 @@
 package org.knowm.xchange.lgo.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public final class LgoProductCurrency {
