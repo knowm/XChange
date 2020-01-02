@@ -35,7 +35,7 @@
         <version.commons.lang3>3.9</version.commons.lang3>
         <version.fasterxml>2.10.1</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
-        <version.junit>4.12</version.junit>
+        <version.junit>4.13</version.junit>
         <version.lombok>1.18.10</version.lombok>
         <version.knowm.xchart>3.6.0</version.knowm.xchart>
         <version.powermock>2.0.4</version.powermock>
