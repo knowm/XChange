@@ -23,6 +23,9 @@ public interface Lgo {
   String PAGE = "page";
   String SORT = "sort";
   String ORDER_ID = "order_id";
+  String GRANULARITY = "granularity";
+  String END = "end";
+  String START = "start";
 
   @GET
   @Path("/live/products")
@@ -91,8 +94,8 @@ public interface Lgo {
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
       @PathParam(PRODUCT_ID) String productId,
-      @QueryParam("start") String startTime,
-      @QueryParam("end") String endTime,
-      @QueryParam("granularity") int granularity)
+      @QueryParam(START) String startTime,
+      @QueryParam(END) String endTime,
+      @QueryParam(GRANULARITY) int granularity)
       throws IOException, LgoException;
 }
