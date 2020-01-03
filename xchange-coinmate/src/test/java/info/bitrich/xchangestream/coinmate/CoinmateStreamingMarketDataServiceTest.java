@@ -1,4 +1,4 @@
-package info.bitrich.xchange.coinmate;
+package info.bitrich.xchangestream.coinmate;
 
 import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
