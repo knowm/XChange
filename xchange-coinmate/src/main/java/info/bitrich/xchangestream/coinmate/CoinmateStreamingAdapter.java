@@ -1,7 +1,7 @@
-package info.bitrich.xchange.coinmate;
+package info.bitrich.xchangestream.coinmate;
 
-import info.bitrich.xchange.coinmate.dto.CoinmateWebSocketUserTrade;
-import info.bitrich.xchange.coinmate.dto.CoinmateWebsocketOpenOrder;
+import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketUserTrade;
+import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketOpenOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
