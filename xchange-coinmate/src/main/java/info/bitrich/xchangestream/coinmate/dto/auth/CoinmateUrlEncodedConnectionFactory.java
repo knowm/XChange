@@ -1,8 +1,11 @@
-package info.bitrich.xchange.coinmate.dto.auth;
+package info.bitrich.xchangestream.coinmate.dto.auth;
 
 import com.pusher.client.util.ConnectionFactory;
+import org.knowm.xchange.coinmate.CoinmateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,21 +27,21 @@ public class CoinmateUrlEncodedConnectionFactory extends ConnectionFactory {
     }
 
     public String getBody() {
-        StringBuffer urlParameters = new StringBuffer();
+        StringBuilder urlParameters = new StringBuilder();
 
         try {
             Map<String,String> mQueryStringParameters = pusherAuthParamsObject.getParams();
-            urlParameters.append("channel_name=").append(URLEncoder.encode(this.getChannelName(), this.getCharset()));
-            urlParameters.append("&socket_id=").append(URLEncoder.encode(this.getSocketId(), this.getCharset()));
+            urlParameters.append("channel_name=").append(URLEncoder.encode(getChannelName(), getCharset()));
+            urlParameters.append("&socket_id=").append(URLEncoder.encode(getSocketId(), getCharset()));
             Iterator var2 = mQueryStringParameters.keySet().iterator();
 
             while(var2.hasNext()) {
                 String parameterName = (String)var2.next();
                 urlParameters.append("&").append(parameterName).append("=");
-                urlParameters.append(URLEncoder.encode((String)mQueryStringParameters.get(parameterName), this.getCharset()));
+                urlParameters.append(URLEncoder.encode((String)mQueryStringParameters.get(parameterName), getCharset()));
             }
-        } catch (UnsupportedEncodingException var4) {
-            var4.printStackTrace();
+        } catch (IOException e) {
+            throw new CoinmateException(e.getMessage());
         }
 
         return urlParameters.toString();
