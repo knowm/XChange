@@ -78,7 +78,7 @@ public class BitmexTest {
         awaitDataCount(tickerObservable);
     }
 
-    @Test
+//    @Test
     public void shouldReceiveTrades() {
         Observable<Trade> orderBookObservable = streamingMarketDataService.getTrades(xbtUsd);
         awaitDataCount(orderBookObservable);
