@@ -32,6 +32,8 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     private KrakenStreamingService streamingService;
     private KrakenWebsocketToken token;
     private long tokenExpires = 0L;
+
+    private volatile boolean ownTradesObservableSet, userTradeObservableSet;
     private Observable<Order> ownTradesObservable;
     private Observable<UserTrade> userTradeObservable;
 
@@ -57,19 +59,25 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         try {
-            if (ownTradesObservable == null) {
-                String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-                ownTradesObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
-                        .filter(JsonNode::isArray)
-                        .filter(Objects::nonNull)
-                        .map(jsonNode -> jsonNode.get(0))
-                        .map(jsonNode ->
-                                StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
-                        .flatMapIterable(this::adaptKrakenOrders);
+            synchronized (this) {
+                if (!ownTradesObservableSet) {
+                    String channelName = getChannelName(KrakenSubscriptionName.openOrders);
+                    ownTradesObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                            .filter(JsonNode::isArray)
+                            .filter(Objects::nonNull)
+                            .map(jsonNode -> jsonNode.get(0))
+                            .map(jsonNode ->
+                                    StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
+                            .flatMapIterable(this::adaptKrakenOrders)
+                            .share();
+
+                    ownTradesObservableSet = true;
+                    return ownTradesObservable;
+                }
             }
-            return ownTradesObservable
-                    .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0)
-                    .share();
+            return Observable.create( emit -> ownTradesObservable
+                        .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0)
+                        .subscribe(emit::onNext, emit::onError, emit::onComplete));
 
         } catch (IOException e) {
             return Observable.error(e);
@@ -141,20 +149,25 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         try {
-            if (userTradeObservable == null) {
-                String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
-                userTradeObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
-                        .filter(JsonNode::isArray)
-                        .filter(Objects::nonNull)
-                        .map(jsonNode ->
-                                jsonNode.get(0))
-                        .map(jsonNode ->
-                                StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
-                        .flatMapIterable(this::adaptKrakenUserTrade);
+            synchronized (this) {
+                if (!userTradeObservableSet) {
+                    String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
+                    userTradeObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                            .filter(JsonNode::isArray)
+                            .filter(Objects::nonNull)
+                            .map(jsonNode ->
+                                    jsonNode.get(0))
+                            .map(jsonNode ->
+                                    StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
+                            .flatMapIterable(this::adaptKrakenUserTrade)
+                            .share();
+                    userTradeObservableSet = true;
+                    return userTradeObservable;
+                }
             }
-            return userTradeObservable
-                    .filter(userTrade -> currencyPair == null || userTrade.getCurrencyPair().compareTo(currencyPair) == 0)
-                    .share();
+            return Observable.create( emit -> userTradeObservable
+                    .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0)
+                    .subscribe(emit::onNext, emit::onError, emit::onComplete));
 
         } catch (IOException e) {
             return Observable.error(e);
