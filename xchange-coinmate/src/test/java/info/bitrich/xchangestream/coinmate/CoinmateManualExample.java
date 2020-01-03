@@ -1,4 +1,4 @@
-package info.bitrich.xchange.coinmate;
+package info.bitrich.xchangestream.coinmate;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;

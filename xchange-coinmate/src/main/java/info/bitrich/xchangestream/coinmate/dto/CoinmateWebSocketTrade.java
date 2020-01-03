@@ -1,4 +1,4 @@
-package info.bitrich.xchange.coinmate.dto;
+package info.bitrich.xchangestream.coinmate.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
