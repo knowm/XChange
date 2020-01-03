@@ -178,13 +178,13 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
         for(KrakenDtoUserTradeHolder holder : ownTrades) {
             for (Map.Entry<String, KrakenOwnTrade> entry : holder.entrySet()) {
-                String orderId = entry.getKey();
+                String tradeId = entry.getKey();
                 KrakenOwnTrade dto = entry.getValue();
 
                 CurrencyPair currencyPair = new CurrencyPair(dto.pair);
                 result.add( new UserTrade.Builder()
                         .id(dto.postxid)
-                        .orderId(orderId)
+                        .orderId(dto.ordertxid)
                         .currencyPair(currencyPair)
                         .timestamp(dto.time == null ? null : new Date((long)(dto.time*1000L)))
                         .type(KrakenAdapters.adaptOrderType(KrakenType.fromString(dto.type)))
