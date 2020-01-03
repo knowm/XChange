@@ -59,20 +59,21 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
         try {
-            synchronized (this) {
-                if (!ownTradesObservableSet) {
-                    String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-                    ownTradesObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
-                            .filter(JsonNode::isArray)
-                            .filter(Objects::nonNull)
-                            .map(jsonNode -> jsonNode.get(0))
-                            .map(jsonNode ->
-                                    StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
-                            .flatMapIterable(this::adaptKrakenOrders)
-                            .share();
+            if (!ownTradesObservableSet) {
+                synchronized (this) {
+                    if (!ownTradesObservableSet) {
+                        String channelName = getChannelName(KrakenSubscriptionName.openOrders);
+                        ownTradesObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                                .filter(JsonNode::isArray)
+                                .filter(Objects::nonNull)
+                                .map(jsonNode -> jsonNode.get(0))
+                                .map(jsonNode ->
+                                        StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
+                                .flatMapIterable(this::adaptKrakenOrders)
+                                .share();
 
-                    ownTradesObservableSet = true;
-                    return ownTradesObservable;
+                        ownTradesObservableSet = true;
+                    }
                 }
             }
             return Observable.create( emit -> ownTradesObservable
@@ -149,20 +150,21 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
         try {
-            synchronized (this) {
-                if (!userTradeObservableSet) {
-                    String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
-                    userTradeObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
-                            .filter(JsonNode::isArray)
-                            .filter(Objects::nonNull)
-                            .map(jsonNode ->
-                                    jsonNode.get(0))
-                            .map(jsonNode ->
-                                    StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
-                            .flatMapIterable(this::adaptKrakenUserTrade)
-                            .share();
-                    userTradeObservableSet = true;
-                    return userTradeObservable;
+            if (!userTradeObservableSet) {
+                synchronized (this) {
+                    if (!userTradeObservableSet) {
+                        String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
+                        userTradeObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                                .filter(JsonNode::isArray)
+                                .filter(Objects::nonNull)
+                                .map(jsonNode ->
+                                        jsonNode.get(0))
+                                .map(jsonNode ->
+                                        StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
+                                .flatMapIterable(this::adaptKrakenUserTrade)
+                                .share();
+                        userTradeObservableSet = true;
+                    }
                 }
             }
             return Observable.create( emit -> userTradeObservable
