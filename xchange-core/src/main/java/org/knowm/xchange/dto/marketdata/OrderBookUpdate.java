@@ -10,6 +10,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 /** Immutable data object representing a Market Depth update. */
 public final class OrderBookUpdate implements Serializable {
 
+  private static final long serialVersionUID = -7283757982319511254L;
+
   private final LimitOrder limitOrder;
 
   /** this is the total volume at this price in the order book */

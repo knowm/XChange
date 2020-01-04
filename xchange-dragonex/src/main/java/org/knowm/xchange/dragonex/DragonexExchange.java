@@ -31,6 +31,7 @@ public class DragonexExchange extends BaseExchange implements Exchange {
   private ParamsDigest signatureCreator;
   private final AtomicReference<Token> currentToken = new AtomicReference<>();
   private final Map<Long, String> coins = new HashMap<>();
+  private final Map<String, Long> coinsReverse = new HashMap<>();
   private Map<Long, CurrencyPair> symbols = new HashMap<>();
   private Map<CurrencyPair, Long> pairs = new HashMap<>();
 
@@ -116,7 +117,12 @@ public class DragonexExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     try {
       List<Coin> coinAll = ((DragonexMarketDataService) marketDataService).coinAll();
-      coinAll.forEach(c -> coins.put(c.coinId, c.code));
+      coinAll.forEach(
+          c -> {
+            coins.put(c.coinId, c.code.toUpperCase());
+            coinsReverse.put(c.code.toUpperCase(), c.coinId);
+          });
+
       List<Symbol> symbolAll = ((DragonexMarketDataService) marketDataService).symbolAll();
       symbolAll.forEach(
           c -> {
@@ -127,5 +133,21 @@ public class DragonexExchange extends BaseExchange implements Exchange {
     } catch (Throwable e) {
       throw new RuntimeException("Could not initialize the Dragonex service.", e);
     }
+  }
+
+  public long getCoinId(String currency) {
+    Long coinId = coinsReverse.get(currency);
+    if (coinId == null) {
+      throw new RuntimeException("Could not find the coin id for " + currency);
+    }
+    return coinId;
+  }
+
+  public String getCurrency(long coinId) {
+    String currency = coins.get(coinId);
+    if (currency == null) {
+      throw new RuntimeException("Could not find the currency for coin id: " + coinId);
+    }
+    return currency;
   }
 }

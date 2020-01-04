@@ -59,7 +59,24 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
-    CoinmateTradeResponse response = coinmateBitcoinWithdrawal(amount, address);
+    CoinmateTradeResponse response;
+
+    if (currency.equals(Currency.BTC)) {
+      response = coinmateBitcoinWithdrawal(amount, address);
+    } else if (currency.equals(Currency.LTC)) {
+      response = coinmateLitecoinWithdrawal(amount, address);
+    } else if (currency.equals(Currency.BCH)) {
+      response = coinmateBitcoinCashWithdrawal(amount, address);
+    } else if (currency.equals(Currency.ETH)) {
+      response = coinmateEthereumWithdrawal(amount, address);
+    } else if (currency.equals(Currency.XRP)) {
+      response = coinmateRippleWithdrawal(amount, address);
+    } else if (currency.equals(Currency.DASH)) {
+      response = coinmateDashWithdrawal(amount, address);
+    } else {
+      throw new IOException(
+          "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
+    }
 
     return Long.toString(response.getData());
   }
@@ -76,7 +93,23 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    CoinmateDepositAddresses addresses = coinmateBitcoinDepositAddresses();
+    CoinmateDepositAddresses addresses;
+    if (currency.equals(Currency.BTC)) {
+      addresses = coinmateBitcoinDepositAddresses();
+    } else if (currency.equals(Currency.LTC)) {
+      addresses = coinmateLitecoinDepositAddresses();
+    } else if (currency.equals(Currency.BCH)) {
+      addresses = coinmateBitcoinCashDepositAddresses();
+    } else if (currency.equals(Currency.ETH)) {
+      addresses = coinmateEthereumDepositAddresses();
+    } else if (currency.equals(Currency.XRP)) {
+      addresses = coinmateRippleDepositAddresses();
+    } else if (currency.equals(Currency.DASH)) {
+      addresses = coinmateDashDepositAddresses();
+    } else {
+      throw new IOException(
+          "Wallet for currency" + currency.getCurrencyCode() + " is currently not supported");
+    }
 
     if (addresses.getData().isEmpty()) {
       return null;

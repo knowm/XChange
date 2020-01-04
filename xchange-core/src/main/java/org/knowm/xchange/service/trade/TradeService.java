@@ -76,6 +76,10 @@ public interface TradeService extends BaseService {
   /**
    * Place a market order
    *
+   * <p>If your orders amount does to meet the restrictions dictated by {@link CurrencyPairMetaData}
+   * then the exchange will reject your order. Use {@link org.knowm.xchange.utils.OrderValuesHelper}
+   * to validate and / or adjust it while you'r building an order.
+   *
    * @param marketOrder
    * @return the order ID
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the
@@ -85,6 +89,7 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     throw new NotYetImplementedForExchangeException();
@@ -92,6 +97,11 @@ public interface TradeService extends BaseService {
 
   /**
    * Place a limit order
+   *
+   * <p>If your orders amount or limit price does to meet the restrictions dictated by {@link
+   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
+   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
+   * building an order.
    *
    * @param limitOrder
    * @return the order ID
@@ -102,6 +112,7 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     throw new NotYetImplementedForExchangeException();
@@ -109,6 +120,11 @@ public interface TradeService extends BaseService {
 
   /**
    * Place a stop order
+   *
+   * <p>If your orders amount or spot price does to meet the restrictions dictated by {@link
+   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
+   * org.knowm.xchange.utils.OrderValuesHelper} to validate and / or adjust those values while you'r
+   * building an order.
    *
    * @param stopOrder
    * @return the order ID
@@ -119,6 +135,7 @@ public interface TradeService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
    */
   default String placeStopOrder(StopOrder stopOrder) throws IOException {
     throw new NotYetImplementedForExchangeException();

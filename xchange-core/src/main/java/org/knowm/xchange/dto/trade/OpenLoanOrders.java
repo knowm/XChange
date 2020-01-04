@@ -9,6 +9,8 @@ import java.util.List;
  */
 public final class OpenLoanOrders implements Serializable {
 
+  private static final long serialVersionUID = -8880758230367635109L;
+
   private final List<FixedRateLoanOrder> openFixedRateLoanOrders;
   private final List<FloatingRateLoanOrder> openFloatingRateLoanOrders;
 

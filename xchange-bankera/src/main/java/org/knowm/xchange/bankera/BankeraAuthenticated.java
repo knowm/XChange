@@ -30,7 +30,10 @@ public interface BankeraAuthenticated extends Bankera {
   @GET
   @Path("orders/open")
   BankeraOpenOrders getOpenOrders(
-      @HeaderParam("Authorization") String authorization, @QueryParam("market") String market)
+      @HeaderParam("Authorization") String authorization,
+      @QueryParam("market") String market,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset)
       throws BankeraException, IOException;
 
   @POST

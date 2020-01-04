@@ -48,14 +48,18 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     return placeLimitOrderRaw(limitOrder).id;
   }
 
+  /**
+   * @param orderParams - {@link CancelOrderParams} of type {@link CancelOrderByUserReferenceParams}
+   */
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof CancelOrderByIdParams) {
-      String clientOrderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+    if (orderParams instanceof CancelOrderByUserReferenceParams) {
+      String clientOrderId = ((CancelOrderByUserReferenceParams) orderParams).getUserReference();
       HitbtcOrder cancelOrderRaw = cancelOrderRaw(clientOrderId);
       return "canceled".equals(cancelOrderRaw.status);
     } else {
-      return false;
+      throw new ExchangeException(
+          "Need userReference for cancelling orders. Use CancelOrderByUserReferenceParams.");
     }
   }
 

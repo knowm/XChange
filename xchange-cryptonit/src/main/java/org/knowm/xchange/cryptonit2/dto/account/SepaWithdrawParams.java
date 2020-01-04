@@ -11,7 +11,7 @@ public class SepaWithdrawParams extends DefaultWithdrawFundsParams {
 
   public SepaWithdrawParams(
       Currency currency, BigDecimal amount, String firstname, String lastname, String iban) {
-    super(null, currency, amount);
+    super((String) null, currency, amount);
     this.params = new SepaParams(firstname, lastname, iban);
   }
 

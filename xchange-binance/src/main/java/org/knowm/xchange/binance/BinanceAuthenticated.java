@@ -16,11 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
-import org.knowm.xchange.binance.dto.account.DepositAddress;
-import org.knowm.xchange.binance.dto.account.DepositList;
-import org.knowm.xchange.binance.dto.account.WithdrawList;
-import org.knowm.xchange.binance.dto.account.WithdrawRequest;
+import org.knowm.xchange.binance.dto.account.*;
 import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
@@ -260,7 +256,9 @@ public interface BinanceAuthenticated extends Binance {
    * Get trades for a specific account and symbol.
    *
    * @param symbol
-   * @param limit optional, default 500; max 500.
+   * @param startTime optional
+   * @param endTime optional
+   * @param limit optional, default 500; max 1000.
    * @param fromId optional, tradeId to fetch from. Default gets most recent trades.
    * @param recvWindow optional
    * @param timestamp
@@ -273,6 +271,8 @@ public interface BinanceAuthenticated extends Binance {
   List<BinanceTrade> myTrades(
       @QueryParam("symbol") String symbol,
       @QueryParam("limit") Integer limit,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
       @QueryParam("fromId") Long fromId,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") long timestamp,
@@ -378,6 +378,26 @@ public interface BinanceAuthenticated extends Binance {
    */
   DepositAddress depositAddress(
       @QueryParam("asset") String asset,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("wapi/v3/assetDetail.html")
+  /**
+   * Fetch asset details.
+   *
+   * @param recvWindow
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  AssetDetailResponse assetDetail(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") long timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,

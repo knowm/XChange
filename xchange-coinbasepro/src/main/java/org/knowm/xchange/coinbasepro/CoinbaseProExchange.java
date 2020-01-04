@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbasepro;
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
@@ -21,8 +22,24 @@ public class CoinbaseProExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
 
-        exchangeSpecification.setSslUri("https://api-public.sandbox.pro.coinbase.com");
-        exchangeSpecification.setHost("api-public.sandbox.pro.coinbase.com");
+        if (Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"))) {
+          exchangeSpecification.setSslUri("https://api-public.sandbox.prime.coinbase.com");
+          exchangeSpecification.setHost("api-public.sandbox.prime.coinbase.com");
+        } else {
+          exchangeSpecification.setSslUri("https://api-public.sandbox.pro.coinbase.com");
+          exchangeSpecification.setHost("api-public.sandbox.pro.coinbase.com");
+        }
+
+      } else {
+        if (Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem("Use_Prime"))) {
+          exchangeSpecification.setSslUri("https://api.prime.coinbase.com");
+          exchangeSpecification.setHost("api.prime.coinbase.com");
+        } else {
+          exchangeSpecification.setSslUri("https://api.pro.coinbase.com");
+          exchangeSpecification.setHost("api.pro.coinbase.com");
+        }
       }
     }
   }
@@ -70,9 +87,11 @@ public class CoinbaseProExchange extends BaseExchange {
 
   @Override
   public void remoteInit() throws IOException {
-
     CoinbaseProProduct[] products =
         ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProProducts();
-    exchangeMetaData = CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    CoinbaseProCurrency[] currencies =
+        ((CoinbaseProMarketDataServiceRaw) marketDataService).getCoinbaseProCurrencies();
+    exchangeMetaData =
+        CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
   }
 }

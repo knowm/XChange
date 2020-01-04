@@ -9,10 +9,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbasePro;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
+import org.knowm.xchange.coinbasepro.dto.account.*;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
@@ -34,6 +31,10 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
     return coinbasePro.getAccounts(apiKey, digest, nonceFactory, passphrase);
   }
 
+  public CoinbaseProFee getCoinbaseProFees() throws CoinbaseProException, IOException {
+    return coinbasePro.getFees(apiKey, digest, nonceFactory, passphrase);
+  }
+
   public CoinbaseProSendMoneyResponse sendMoney(
       String accountId, String to, BigDecimal amount, Currency currency)
       throws CoinbaseProException, IOException {
@@ -47,14 +48,19 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
   }
 
   public CoinbaseProWithdrawCryptoResponse withdrawCrypto(
-      String address, BigDecimal amount, Currency currency)
+      String address,
+      BigDecimal amount,
+      Currency currency,
+      String destinationTag,
+      boolean noDestinationTag)
       throws CoinbaseProException, IOException {
     return coinbasePro.withdrawCrypto(
         apiKey,
         digest,
         nonceFactory,
         passphrase,
-        new CoinbaseProWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
+        new CoinbaseProWithdrawFundsRequest(
+            amount, currency.getCurrencyCode(), address, destinationTag, noDestinationTag));
   }
 
   public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {

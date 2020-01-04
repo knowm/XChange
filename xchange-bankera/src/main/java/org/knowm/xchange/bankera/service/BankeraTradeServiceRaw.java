@@ -16,6 +16,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamLimit;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BankeraTradeServiceRaw extends BankeraBaseService {
@@ -29,12 +31,20 @@ public class BankeraTradeServiceRaw extends BankeraBaseService {
     try {
       BankeraExchange bankeraExchange = (BankeraExchange) exchange;
       String auth = "Bearer " + bankeraExchange.getToken().getAccessToken();
+      String market = null;
+      Integer limit = 100;
+      Integer offset = 0;
       if (params instanceof OpenOrdersParamCurrencyPair) {
         CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-        String market = getMarketNameFromPair(currencyPair);
-        return bankeraAuthenticated.getOpenOrders(auth, market);
+        market = getMarketNameFromPair(currencyPair);
       }
-      return bankeraAuthenticated.getOpenOrders(auth, "");
+      if (params instanceof OpenOrdersParamLimit) {
+        limit = ((OpenOrdersParamLimit) params).getLimit();
+      }
+      if (params instanceof OpenOrdersParamOffset) {
+        offset = ((OpenOrdersParamOffset) params).getOffset();
+      }
+      return bankeraAuthenticated.getOpenOrders(auth, market, limit, offset);
     } catch (BankeraException e) {
       throw BankeraAdapters.adaptError(e);
     }
