@@ -33,6 +33,10 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
     private KrakenWebsocketToken token;
     private long tokenExpires = 0L;
 
+    private volatile boolean ownTradesObservableSet, userTradeObservableSet;
+    private Observable<Order> ownTradesObservable;
+    private Observable<UserTrade> userTradeObservable;
+
     KrakenStreamingTradeService(KrakenStreamingService streamingService, KrakenAccountServiceRaw rawKrakenAcctService) {
         this.streamingService = streamingService;
         this.rawKrakenAcctService = rawKrakenAcctService;
@@ -54,18 +58,27 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
     @Override
     public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-
-        String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-
         try {
-            return streamingService.subscribeChannel(channelName, renewToken().getToken())
-                    .filter(JsonNode::isArray)
-                    .filter(Objects::nonNull)
-                    .map(jsonNode -> jsonNode.get(0))
-                    .map( jsonNode ->
-                            StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
-                    .flatMapIterable(this::adaptKrakenOrders)
-                    .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0);
+            if (!ownTradesObservableSet) {
+                synchronized (this) {
+                    if (!ownTradesObservableSet) {
+                        String channelName = getChannelName(KrakenSubscriptionName.openOrders);
+                        ownTradesObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                                .filter(JsonNode::isArray)
+                                .filter(Objects::nonNull)
+                                .map(jsonNode -> jsonNode.get(0))
+                                .map(jsonNode ->
+                                        StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
+                                .flatMapIterable(this::adaptKrakenOrders)
+                                .share();
+
+                        ownTradesObservableSet = true;
+                    }
+                }
+            }
+            return Observable.create( emit -> ownTradesObservable
+                        .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0)
+                        .subscribe(emit::onNext, emit::onError, emit::onComplete));
 
         } catch (IOException e) {
             return Observable.error(e);
@@ -136,35 +149,44 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
     @Override
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
-            try {
-                String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
-
-                return streamingService.subscribeChannel(channelName, renewToken().getToken())
-                            .filter(JsonNode::isArray)
-                            .filter(Objects::nonNull)
-                            .map(jsonNode ->
-                                    jsonNode.get(0))
-                            .map(jsonNode ->
-                                    StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
-                            .flatMapIterable(this::adaptKrakenUserTrade)
-                            .filter(userTrade -> currencyPair == null || userTrade.getCurrencyPair().compareTo(currencyPair) == 0);
-
-            } catch (IOException e) {
-                return Observable.error(e);
+        try {
+            if (!userTradeObservableSet) {
+                synchronized (this) {
+                    if (!userTradeObservableSet) {
+                        String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
+                        userTradeObservable = streamingService.subscribeChannel(channelName, renewToken().getToken())
+                                .filter(JsonNode::isArray)
+                                .filter(Objects::nonNull)
+                                .map(jsonNode ->
+                                        jsonNode.get(0))
+                                .map(jsonNode ->
+                                        StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
+                                .flatMapIterable(this::adaptKrakenUserTrade)
+                                .share();
+                        userTradeObservableSet = true;
+                    }
+                }
             }
+            return Observable.create( emit -> userTradeObservable
+                    .filter(order -> currencyPair == null || order.getCurrencyPair() == null || order.getCurrencyPair().compareTo(currencyPair) == 0)
+                    .subscribe(emit::onNext, emit::onError, emit::onComplete));
+
+        } catch (IOException e) {
+            return Observable.error(e);
+        }
     }
     private List<UserTrade> adaptKrakenUserTrade(KrakenDtoUserTradeHolder[] ownTrades) {
         List<UserTrade> result = new ArrayList<>();
 
         for(KrakenDtoUserTradeHolder holder : ownTrades) {
             for (Map.Entry<String, KrakenOwnTrade> entry : holder.entrySet()) {
-                String orderId = entry.getKey();
+                String tradeId = entry.getKey();
                 KrakenOwnTrade dto = entry.getValue();
 
                 CurrencyPair currencyPair = new CurrencyPair(dto.pair);
                 result.add( new UserTrade.Builder()
                         .id(dto.postxid)
-                        .orderId(orderId)
+                        .orderId(dto.ordertxid)
                         .currencyPair(currencyPair)
                         .timestamp(dto.time == null ? null : new Date((long)(dto.time*1000L)))
                         .type(KrakenAdapters.adaptOrderType(KrakenType.fromString(dto.type)))
