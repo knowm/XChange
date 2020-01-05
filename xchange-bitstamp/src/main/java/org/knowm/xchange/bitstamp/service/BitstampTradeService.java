@@ -108,11 +108,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof CancelAllOrders) {
+      return cancelAllBitstampOrders();
+    }
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
-    }
+    } 
+    return false;
   }
 
   /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
