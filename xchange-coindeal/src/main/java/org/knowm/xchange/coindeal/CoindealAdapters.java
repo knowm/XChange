@@ -29,19 +29,23 @@ public final class CoindealAdapters {
     List<UserTrade> userTrades = new ArrayList<>();
 
     for (CoindealTradeHistory coindealTradeHistory : coindealTradeHistoryList) {
+      CurrencyPair currencyPair =
+          CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol());
       userTrades.add(
           new UserTrade(
               (coindealTradeHistory.getSide().equals("BUY"))
                   ? Order.OrderType.BID
                   : Order.OrderType.ASK,
               coindealTradeHistory.getQuantity(),
-              CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol()),
+              currencyPair,
               coindealTradeHistory.getPrice(),
               DateUtils.fromRfc3339DateString(coindealTradeHistory.getTimestamp()),
               coindealTradeHistory.getId(),
               coindealTradeHistory.getOrderId(),
               coindealTradeHistory.getFee(),
-              null));
+              (coindealTradeHistory.getSide().equals("BUY")
+                  ? currencyPair.base
+                  : currencyPair.counter)));
     }
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
