@@ -27,12 +27,11 @@ public class LgoPriceHistoryTest {
             "/org/knowm/xchange/lgo/marketdata/example-pricehistory-data.json");
     ObjectMapper mapper = new ObjectMapper();
 
-    LgoPriceHistoryResponse response = mapper.readValue(is, LgoPriceHistoryResponse.class);
-    LgoPriceHistory lgoPriceHistory = LgoPriceHistory.fromRawValues(response.getPrices());
+    LgoPriceHistory response = mapper.readValue(is, LgoPriceHistory.class);
 
-    assertThat(lgoPriceHistory).isNotNull();
-    assertThat(lgoPriceHistory.getPrices()).hasSize(2);
-    LgoCandlestick candlestick = lgoPriceHistory.getPrices().get(0);
+    assertThat(response).isNotNull();
+    assertThat(response.getPrices()).hasSize(2);
+    LgoCandlestick candlestick = response.getPrices().get(0);
     assertThat(candlestick.getTime()).isEqualTo(dateFormat.parse("2019-12-20T15:00:00Z"));
     assertThat(candlestick.getLow()).isEqualTo(new BigDecimal("4396.7000"));
     assertThat(candlestick.getHigh()).isEqualTo(new BigDecimal("4654.4000"));

@@ -23,11 +23,11 @@ public final class LgoAdapters {
 
   private LgoAdapters() {}
 
-  private static SimpleDateFormat dateFormat;
+  private static SimpleDateFormat ISO_DATE_FORMAT;
 
   static {
-    dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    ISO_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
   public static ExchangeMetaData adaptMetadata(
@@ -202,7 +202,7 @@ public final class LgoAdapters {
         new BigDecimal(entry[0].toString()));
   }
 
-  public static String toISODateString(Date date) {
-    return dateFormat.format(date);
+  public static String adaptDateParam(Date date) {
+    return ISO_DATE_FORMAT.format(date);
   }
 }

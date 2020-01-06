@@ -90,7 +90,7 @@ public interface Lgo {
 
   @GET
   @Path("/history/products/{product_id}/candles")
-  LgoPriceHistoryResponse getPriceHistory(
+  LgoPriceHistory getPriceHistory(
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
       @PathParam(PRODUCT_ID) String productId,
