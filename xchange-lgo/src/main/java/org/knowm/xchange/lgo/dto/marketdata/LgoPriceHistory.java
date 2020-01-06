@@ -14,4 +14,11 @@ public class LgoPriceHistory {
   public List<LgoCandlestick> getPrices() {
     return prices;
   }
+
+  @Override
+  public String toString() {
+    return "LgoPriceHistory{" +
+            "prices=" + prices +
+            '}';
+  }
 }
