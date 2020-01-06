@@ -1,8 +1,10 @@
 package org.knowm.xchange.lgo.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class LgoCandlestick {
 
   private final Date time;
@@ -12,13 +14,16 @@ public class LgoCandlestick {
   private final BigDecimal close;
   private final BigDecimal volume;
 
+  @JsonCreator
   public LgoCandlestick(
-      Date time,
-      BigDecimal open,
-      BigDecimal high,
-      BigDecimal low,
-      BigDecimal close,
-      BigDecimal volume) {
+      @JsonProperty("time")
+          @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+          Date time,
+      @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high,
+      @JsonProperty("open") BigDecimal open,
+      @JsonProperty("close") BigDecimal close,
+      @JsonProperty("volume") BigDecimal volume) {
     this.time = time;
     this.open = open;
     this.close = close;

@@ -7,7 +7,7 @@ import org.knowm.xchange.lgo.LgoAdapters;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.marketdata.*;
-import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistoryResponse;
+import org.knowm.xchange.lgo.dto.marketdata.LgoPriceHistory;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 
 public class LgoMarketDataServiceRaw extends LgoBaseService {
@@ -43,14 +43,12 @@ public class LgoMarketDataServiceRaw extends LgoBaseService {
   public LgoPriceHistory getLgoPriceHistory(
       CurrencyPair product, Date startTime, Date endTime, LgoGranularity granularity)
       throws IOException {
-    LgoPriceHistoryResponse priceHistory =
-        this.proxy.getPriceHistory(
-            exchange.getNonceFactory().createValue(),
-            exchange.getSignatureService(),
-            LgoAdapters.adaptCurrencyPair(product),
-            LgoAdapters.toISODateString(startTime),
-            LgoAdapters.toISODateString(endTime),
-            granularity.asSeconds());
-    return LgoPriceHistory.fromRawValues(priceHistory.getPrices());
+    return this.proxy.getPriceHistory(
+        exchange.getNonceFactory().createValue(),
+        exchange.getSignatureService(),
+        LgoAdapters.adaptCurrencyPair(product),
+        LgoAdapters.adaptDateParam(startTime),
+        LgoAdapters.adaptDateParam(endTime),
+        granularity.asSeconds());
   }
 }
