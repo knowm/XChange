@@ -7,6 +7,7 @@ public final class LgoEnv {
   public static final String KEYS_URL = "Keys_Url";
   public static final String WS_URL = "Websocket_Url";
   public static final String SIGNATURE_SERVICE = "Signature_Service";
+  public static final String SHOULD_ENCRYPT_ORDERS = "Encrypt_Orders";
 
   private LgoEnv() {}
 
@@ -42,7 +43,7 @@ public final class LgoEnv {
 
   public static ExchangeSpecification local() {
     ExchangeSpecification result = baseSpecification();
-    result.setSslUri("http://localhost:8081");
+    result.setSslUri("http://localhost:8083");
     result.setHost("localhost");
     result.setExchangeSpecificParametersItem(KEYS_URL, "http://localhost:3001/keys");
     result.setExchangeSpecificParametersItem(WS_URL, "ws://localhost:8084/");
@@ -52,6 +53,7 @@ public final class LgoEnv {
   private static ExchangeSpecification baseSpecification() {
     ExchangeSpecification result = new ExchangeSpecification(LgoExchange.class);
     result.setExchangeName("LGO");
+    result.setExchangeSpecificParametersItem(SHOULD_ENCRYPT_ORDERS, false);
     result.setExchangeDescription(
         "LGO is a fare and secure exchange for institutional and retail investors.");
     return result;

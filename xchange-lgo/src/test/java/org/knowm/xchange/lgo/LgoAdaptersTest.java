@@ -146,7 +146,7 @@ public class LgoAdaptersTest {
     MarketOrder marketOrder =
         new MarketOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, null, now);
 
-    LgoPlaceOrder bidOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+    LgoPlaceOrder bidOrder = LgoAdapters.adaptEncryptedMarketOrder(marketOrder);
 
     assertThat(bidOrder)
         .isEqualToComparingFieldByField(
@@ -159,7 +159,7 @@ public class LgoAdaptersTest {
     MarketOrder marketOrder =
         new MarketOrder(OrderType.ASK, new BigDecimal("1"), CurrencyPair.BTC_USD, null, timestamp);
 
-    LgoPlaceOrder bidOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+    LgoPlaceOrder bidOrder = LgoAdapters.adaptEncryptedMarketOrder(marketOrder);
 
     assertThat(bidOrder)
         .isEqualToComparingFieldByField(
