@@ -31,8 +31,6 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     private KrakenStreamingMarketDataService streamingMarketDataService;
     private KrakenStreamingTradeService streamingTradeService;
 
-    private final SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
-
     public KrakenStreamingExchange() {
     }
 
@@ -86,11 +84,6 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
         return streamingService.subscribeReconnectFailure();
     }
     
-    @Override
-    public SynchronizedValueFactory<Long> getNonceFactory() {
-        return nonceFactory;
-    }
-
     @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
