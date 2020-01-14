@@ -42,7 +42,7 @@
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.12</version.reflections>
         <version.slf4j>1.7.30</version.slf4j>
-        <version.crypto>4.5.11</version.crypto>
+        <version.crypto>4.5.12</version.crypto>
         <version.java-jwt>3.9.0</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
