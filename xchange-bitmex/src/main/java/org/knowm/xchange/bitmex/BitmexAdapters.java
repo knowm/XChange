@@ -123,17 +123,16 @@ public class BitmexAdapters {
 
     CurrencyPair pair = adaptSymbolToCurrencyPair(rawOrder.getSymbol());
 
-    return new LimitOrder(
-        type,
-        rawOrder.getVolume(),
-        pair,
-        rawOrder.getId(),
-        rawOrder.getTimestamp(),
-        rawOrder.getPrice(),
-        rawOrder.getAvgPx(),
-        rawOrder.getCumQty(),
-        null,
-        BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
+    return new LimitOrder.Builder(type,pair)
+            .id(rawOrder.getId())
+            .userReference(rawOrder.getClOrdID())
+            .originalAmount(rawOrder.getVolume())
+            .timestamp(rawOrder.getTimestamp())
+            .limitPrice(rawOrder.getPrice())
+            .averagePrice(rawOrder.getAvgPx())
+            .cumulativeAmount(rawOrder.getCumQty())
+            .orderStatus(BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()))
+            .build();
   }
 
   public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
