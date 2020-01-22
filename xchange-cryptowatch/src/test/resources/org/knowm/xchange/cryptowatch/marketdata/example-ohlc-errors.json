@@ -1,0 +1,9 @@
+{
+  "error": "Market not found",
+  "allowance": {
+    "cost": 1861396,
+    "remaining": 3999334252,
+    "remainingPaid": 0,
+    "upgrade": "Upgrade for a higher allowance, starting at $15/month for 16 seconds/hour. https://cryptowat.ch/pricing"
+  }
+}
