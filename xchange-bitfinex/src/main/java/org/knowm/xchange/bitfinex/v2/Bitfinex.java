@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitfinex.v2;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -11,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
 
 @Path("v2")
@@ -20,7 +20,7 @@ public interface Bitfinex {
 
   @GET
   @Path("tickers")
-  BitfinexTicker[] getTickers(@QueryParam("symbols") String symbols)
+  List<ArrayNode> getTickers(@QueryParam("symbols") String symbols)
       throws IOException, BitfinexExceptionV2;
 
   @GET
