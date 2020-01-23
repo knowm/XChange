@@ -6,34 +6,22 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 @JsonDeserialize(using = CryptowatchTrade.CryptowatchTradesDeserializer.class)
+@Getter
+@AllArgsConstructor
+@ToString
 public class CryptowatchTrade {
 
   private final long timestamp;
   private final BigDecimal price;
   private final BigDecimal Amount;
-
-  public CryptowatchTrade(long timestamp, BigDecimal price, BigDecimal amount) {
-    this.timestamp = timestamp;
-    this.price = price;
-    Amount = amount;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getAmount() {
-    return Amount;
-  }
 
   static class CryptowatchTradesDeserializer extends JsonDeserializer<CryptowatchTrade> {
 

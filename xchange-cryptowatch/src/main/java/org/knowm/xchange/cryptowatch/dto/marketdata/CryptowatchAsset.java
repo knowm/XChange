@@ -2,8 +2,12 @@ package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@ToString
 public class CryptowatchAsset {
 
   private final String symbol;
@@ -17,31 +21,5 @@ public class CryptowatchAsset {
     this.symbol = symbol;
     this.name = name;
     this.fiat = fiat;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public boolean isFiat() {
-    return fiat;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchAsset{"
-        + "symbol='"
-        + symbol
-        + '\''
-        + ", name='"
-        + name
-        + '\''
-        + ", fiat="
-        + fiat
-        + '}';
   }
 }

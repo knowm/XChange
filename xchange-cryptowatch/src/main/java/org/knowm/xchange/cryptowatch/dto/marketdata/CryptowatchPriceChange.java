@@ -1,9 +1,13 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
+@Getter
+@ToString
 public class CryptowatchPriceChange {
 
   private final BigDecimal percentage;
@@ -14,18 +18,5 @@ public class CryptowatchPriceChange {
       @JsonProperty("absolute") BigDecimal absolute) {
     this.percentage = percentage;
     this.absolute = absolute;
-  }
-
-  public BigDecimal getPercentage() {
-    return percentage;
-  }
-
-  public BigDecimal getAbsolute() {
-    return absolute;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchPriceChange{" + "percentage=" + percentage + ", absolute=" + absolute + '}';
   }
 }

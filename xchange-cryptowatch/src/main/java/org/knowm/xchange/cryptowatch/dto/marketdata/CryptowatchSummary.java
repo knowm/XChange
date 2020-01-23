@@ -1,9 +1,13 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
+@Getter
+@ToString
 public class CryptowatchSummary {
 
   private final CryptowatchSummaryPrice price;
@@ -17,29 +21,5 @@ public class CryptowatchSummary {
     this.price = price;
     this.volume = volume;
     this.volumeQuote = volumeQuote;
-  }
-
-  public CryptowatchSummaryPrice getPrice() {
-    return price;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public BigDecimal getVolumeQuote() {
-    return volumeQuote;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchSummary{"
-        + "price="
-        + price
-        + ", volume="
-        + volume
-        + ", volumeQuote="
-        + volumeQuote
-        + '}';
   }
 }

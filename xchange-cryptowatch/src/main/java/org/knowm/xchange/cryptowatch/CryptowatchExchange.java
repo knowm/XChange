@@ -3,8 +3,8 @@ package org.knowm.xchange.cryptowatch;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPairs;
-import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssets;
+import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
+import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
 import org.knowm.xchange.cryptowatch.service.CryptowatchAccountService;
 import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataService;
 import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataServiceRaw;
@@ -13,6 +13,7 @@ import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 /** @author massi.gerardi */
 public class CryptowatchExchange extends BaseExchange implements Exchange {
@@ -52,12 +53,12 @@ public class CryptowatchExchange extends BaseExchange implements Exchange {
    */
   @Override
   public void remoteInit() throws IOException {
-    CryptowatchAssetPairs cryptowatchAssetPairs =
+    List<CryptowatchAssetPair> cryptowatchAssetPairs =
         ((CryptowatchMarketDataServiceRaw) marketDataService).getCryptowatchAssetPairs();
-    CryptowatchAssets cryptowatchAssets =
+    List<CryptowatchAsset> cryptowatchAssets =
         ((CryptowatchMarketDataServiceRaw) marketDataService).getCryptowatchAssets();
     exchangeMetaData =
         CryptowatchAdapters.adaptToExchangeMetaData(
-            exchangeMetaData, cryptowatchAssetPairs.getPairs(), cryptowatchAssets.getAssets());
+            exchangeMetaData, cryptowatchAssetPairs, cryptowatchAssets);
   }
 }

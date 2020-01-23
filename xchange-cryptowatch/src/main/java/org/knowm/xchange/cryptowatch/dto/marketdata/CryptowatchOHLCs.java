@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,26 +20,12 @@ import java.util.Map;
 
 /** @author massi.gerardi */
 @JsonDeserialize(using = CryptowatchOHLCs.CryptowatchOHLCsDeserializer.class)
+@Getter
+@AllArgsConstructor
+@ToString
 public class CryptowatchOHLCs {
 
   private final Map<Integer, List<CryptowatchOHLC>> OHLCs;
-
-  public CryptowatchOHLCs(Map<Integer, List<CryptowatchOHLC>> OHLCs) {
-    this.OHLCs = OHLCs;
-  }
-
-  public Map<Integer, List<CryptowatchOHLC>> getOHLCs() {
-    return OHLCs;
-  }
-
-  public List<CryptowatchOHLC> getOHLCs(Integer period) {
-    return OHLCs.get(period);
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchOHLCs{" + "OHLCs=" + OHLCs.keySet() + '}';
-  }
 
   static class CryptowatchOHLCsDeserializer extends JsonDeserializer<CryptowatchOHLCs> {
 
