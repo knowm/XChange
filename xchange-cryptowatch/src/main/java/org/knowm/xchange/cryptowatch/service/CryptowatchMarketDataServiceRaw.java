@@ -4,8 +4,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptowatch.dto.CryptowatchException;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
-import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPairs;
-import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssets;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchOHLCs;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchOrderBook;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchSummary;
@@ -28,14 +26,12 @@ public class CryptowatchMarketDataServiceRaw extends CryptowatchBaseService {
     super(exchange);
   }
 
-  public CryptowatchAssetPairs getCryptowatchAssetPairs() {
-    List<CryptowatchAssetPair> assetPairs = checkResult(cryptowatch.getAssetPairs());
-    return new CryptowatchAssetPairs(assetPairs);
+  public List<CryptowatchAssetPair> getCryptowatchAssetPairs() {
+    return checkResult(cryptowatch.getAssetPairs());
   }
 
-  public CryptowatchAssets getCryptowatchAssets() {
-    List<CryptowatchAsset> assets = checkResult(cryptowatch.getAssets());
-    return new CryptowatchAssets(assets);
+  public List<CryptowatchAsset> getCryptowatchAssets() {
+    return checkResult(cryptowatch.getAssets());
   }
 
   public CryptowatchSummary getCryptowatchSummary(CurrencyPair pair, String market) {

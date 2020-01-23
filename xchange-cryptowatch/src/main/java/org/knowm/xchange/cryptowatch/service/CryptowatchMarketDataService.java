@@ -25,16 +25,6 @@ public class CryptowatchMarketDataService extends CryptowatchMarketDataServiceRa
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public List<Ticker> getTickers(Params params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     if (args == null || args.length < 1) {
       throw new ExchangeException("args[0] must be of type String!");

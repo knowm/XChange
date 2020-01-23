@@ -1,9 +1,13 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 
+@Getter
+@ToString
 public class CryptowatchOrderBook {
 
   private final List<CryptowatchPublicOrder> asks;
@@ -17,22 +21,5 @@ public class CryptowatchOrderBook {
     this.asks = asks;
     this.bids = bids;
     this.seqNum = seqNum;
-  }
-
-  public List<CryptowatchPublicOrder> getAsks() {
-    return asks;
-  }
-
-  public List<CryptowatchPublicOrder> getBids() {
-    return bids;
-  }
-
-  public int getSeqNum() {
-    return seqNum;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchOrderBook{" + "asks=" + asks + ", bids=" + bids + '}';
   }
 }

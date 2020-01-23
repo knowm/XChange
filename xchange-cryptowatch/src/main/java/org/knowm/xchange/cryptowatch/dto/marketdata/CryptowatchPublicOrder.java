@@ -6,33 +6,21 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 @JsonDeserialize(using = CryptowatchPublicOrder.CryptowatchPublicOrderDeserializer.class)
+@Getter
+@AllArgsConstructor
+@ToString
 public class CryptowatchPublicOrder {
 
   private final BigDecimal price;
   private final BigDecimal volume;
-
-  public CryptowatchPublicOrder(BigDecimal price, BigDecimal volume) {
-    this.price = price;
-    this.volume = volume;
-  }
-
-  public BigDecimal getPrice() {
-    return price;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchPublicOrder{" + "price=" + price + ", volume=" + volume + '}';
-  }
 
   static class CryptowatchPublicOrderDeserializer extends JsonDeserializer<CryptowatchPublicOrder> {
 

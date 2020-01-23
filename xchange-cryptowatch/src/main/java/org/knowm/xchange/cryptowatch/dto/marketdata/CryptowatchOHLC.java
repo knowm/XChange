@@ -1,8 +1,15 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 
 /** @author massi.gerardi */
+@Getter
+@AllArgsConstructor
+@ToString
 public class CryptowatchOHLC {
 
   private final long time;
@@ -14,76 +21,4 @@ public class CryptowatchOHLC {
   private final BigDecimal volume;
   private final long count;
 
-  public CryptowatchOHLC(
-      long time,
-      BigDecimal open,
-      BigDecimal high,
-      BigDecimal low,
-      BigDecimal close,
-      BigDecimal vwap,
-      BigDecimal volume,
-      long count) {
-    this.time = time;
-    this.open = open;
-    this.high = high;
-    this.low = low;
-    this.close = close;
-    this.vwap = vwap;
-    this.volume = volume;
-    this.count = count;
-  }
-
-  public long getTime() {
-    return time;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
-  }
-
-  public BigDecimal getHigh() {
-    return high;
-  }
-
-  public BigDecimal getLow() {
-    return low;
-  }
-
-  public BigDecimal getClose() {
-    return close;
-  }
-
-  public BigDecimal getVwap() {
-    return vwap;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public long getCount() {
-    return count;
-  }
-
-  @Override
-  public String toString() {
-    return "CryptowatchOHLC{"
-        + "time="
-        + time
-        + ", open="
-        + open
-        + ", high="
-        + high
-        + ", low="
-        + low
-        + ", close="
-        + close
-        + ", vwap="
-        + vwap
-        + ", volume="
-        + volume
-        + ", count="
-        + count
-        + '}';
-  }
 }
