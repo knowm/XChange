@@ -339,7 +339,7 @@ public class BitmexAdapters {
 
   public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
     CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
-    // the "lastQty" parameter is in the USD currency for ???/USD pairs
+
     OrderType orderType = convertType(exec.side);
     return orderType == null
         ? null
@@ -349,8 +349,8 @@ public class BitmexAdapters {
             .currencyPair(pair)
             .originalAmount(exec.lastQty)
             .price(exec.lastPx)
-            .feeAmount(exec.commission.multiply(exec.lastQty))
-            .feeCurrency(pair.counter.equals(Currency.USD) ? pair.counter : pair.base)
+            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC,MathContext.DECIMAL32))
+            .feeCurrency(Currency.XBT)
             .timestamp(exec.timestamp)
             .type(orderType)
             .build();
