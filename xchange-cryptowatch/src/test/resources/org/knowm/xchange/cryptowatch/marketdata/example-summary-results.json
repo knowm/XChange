@@ -1,0 +1,21 @@
+{
+  "result": {
+    "price": {
+      "last": 6987.97,
+      "high": 7538.53,
+      "low": 6956.15,
+      "change": {
+        "percentage": -0.06702546,
+        "absolute": -502.02002
+      }
+    },
+    "volume": 10302.224,
+    "volumeQuote": 74716370
+  },
+  "allowance": {
+    "cost": 3578251,
+    "remaining": 3999334252,
+    "remainingPaid": 0,
+    "upgrade": "Upgrade for a higher allowance, starting at $15/month for 16 seconds/hour. https://cryptowat.ch/pricing"
+  }
+}
