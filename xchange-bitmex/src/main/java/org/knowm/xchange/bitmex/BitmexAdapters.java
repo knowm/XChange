@@ -353,6 +353,7 @@ public class BitmexAdapters {
             .feeCurrency(Currency.XBT)
             .timestamp(exec.timestamp)
             .type(orderType)
+            .orderUserReference(exec.clOrdID)
             .build();
   }
 
