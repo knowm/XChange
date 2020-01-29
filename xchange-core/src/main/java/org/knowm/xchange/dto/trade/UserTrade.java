@@ -27,6 +27,9 @@ public class UserTrade extends Trade {
   /** The currency in which the fee was charged. */
   private final Currency feeCurrency;
 
+  /** The order reference id which has been added by the user on the order creation */
+  private String orderUserReference;
+
   /**
    * This constructor is called to construct user's trade objects (in {@link
    * TradeService#getTradeHistory(TradeHistoryParams)} implementations).
@@ -74,6 +77,14 @@ public class UserTrade extends Trade {
     return feeCurrency;
   }
 
+  public String getOrderUserReference() {
+    return orderUserReference;
+  }
+
+  public void setOrderUserReference(String orderUserReference) {
+    this.orderUserReference = orderUserReference;
+  }
+
   @Override
   public String toString() {
     return "UserTrade[type="
@@ -84,8 +95,7 @@ public class UserTrade extends Trade {
         + currencyPair
         + ", price="
         + price
-        + ", "
-        + "timestamp="
+        + ", timestamp="
         + timestamp
         + ", id="
         + id
@@ -96,6 +106,9 @@ public class UserTrade extends Trade {
         + feeAmount
         + ", feeCurrency='"
         + feeCurrency
+        + '\''
+        + ", orderUserReference='"
+        + orderUserReference
         + '\''
         + "]";
   }
@@ -122,6 +135,7 @@ public class UserTrade extends Trade {
     protected String orderId;
     protected BigDecimal feeAmount;
     protected Currency feeCurrency;
+    protected String orderUserReference;
 
     public static Builder from(UserTrade trade) {
       return new Builder()
@@ -181,6 +195,11 @@ public class UserTrade extends Trade {
       return this;
     }
 
+    public Builder orderUserReference(String orderUserReference) {
+      this.orderUserReference = orderUserReference;
+      return this;
+    }
+
     @Override
     public UserTrade build() {
       UserTrade userTrade =
@@ -196,6 +215,7 @@ public class UserTrade extends Trade {
               feeCurrency);
       userTrade.setMakerOrderId(makerOrderId);
       userTrade.setTakerOrderId(takerOrderId);
+      userTrade.setOrderUserReference(orderUserReference);
       return userTrade;
     }
   }
