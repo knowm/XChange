@@ -28,7 +28,7 @@ public class UserTrade extends Trade {
   private final Currency feeCurrency;
 
   /** The order reference id which has been added by the user on the order creation */
-  private String orderReference;
+  private String orderUserReference;
 
   /**
    * This constructor is called to construct user's trade objects (in {@link
@@ -77,12 +77,12 @@ public class UserTrade extends Trade {
     return feeCurrency;
   }
 
-  public String getOrderReference() {
-    return orderReference;
+  public String getOrderUserReference() {
+    return orderUserReference;
   }
 
-  public void setOrderReference(String orderReference) {
-    this.orderReference = orderReference;
+  public void setOrderUserReference(String orderUserReference) {
+    this.orderUserReference = orderUserReference;
   }
 
   @Override
@@ -107,8 +107,8 @@ public class UserTrade extends Trade {
         + ", feeCurrency='"
         + feeCurrency
         + '\''
-        + ", orderReference='"
-        + orderReference
+        + ", orderUserReference='"
+        + orderUserReference
         + '\''
         + "]";
   }
@@ -135,7 +135,7 @@ public class UserTrade extends Trade {
     protected String orderId;
     protected BigDecimal feeAmount;
     protected Currency feeCurrency;
-    protected String orderReference;
+    protected String orderUserReference;
 
     public static Builder from(UserTrade trade) {
       return new Builder()
@@ -195,8 +195,8 @@ public class UserTrade extends Trade {
       return this;
     }
 
-    public Builder orderReference(String orderReference) {
-      this.orderReference = orderReference;
+    public Builder orderUserReference(String orderUserReference) {
+      this.orderUserReference = orderUserReference;
       return this;
     }
 
@@ -215,7 +215,7 @@ public class UserTrade extends Trade {
               feeCurrency);
       userTrade.setMakerOrderId(makerOrderId);
       userTrade.setTakerOrderId(takerOrderId);
-      userTrade.setOrderReference(orderReference);
+      userTrade.setOrderUserReference(orderUserReference);
       return userTrade;
     }
   }
