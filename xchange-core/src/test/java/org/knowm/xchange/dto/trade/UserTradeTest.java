@@ -26,6 +26,7 @@ public class UserTradeTest {
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0.0006");
     final Currency feeCurrency = Currency.BTC;
+    String orderReference = "orderReference";
 
     final UserTrade copy =
         new UserTrade.Builder()
@@ -38,6 +39,7 @@ public class UserTradeTest {
             .orderId(orderId)
             .feeAmount(feeAmount)
             .feeCurrency(feeCurrency)
+            .orderReference(orderReference)
             .build();
 
     assertThat(copy.getType()).isEqualTo(type);
@@ -49,6 +51,7 @@ public class UserTradeTest {
     assertThat(copy.getOrderId()).isEqualTo(orderId);
     assertThat(copy.getFeeAmount()).isEqualTo(feeAmount);
     assertThat(copy.getFeeCurrency()).isEqualTo(feeCurrency);
+    assertThat(copy.getOrderReference()).isEqualTo(orderReference);
   }
 
   @Test
