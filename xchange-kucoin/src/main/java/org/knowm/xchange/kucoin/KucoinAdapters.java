@@ -48,16 +48,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
-import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
-import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.DepositResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeResponse;
-import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
+import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinAdapters {
 
@@ -267,6 +258,20 @@ public class KucoinAdapters {
         .price(trade.getPrice())
         .timestamp(trade.getTradeCreatedAt())
         .type(adaptSide(trade.getSide()))
+        .build();
+  }
+
+  public static UserTrade adaptHistOrder(HistOrdersResponse histOrder) {
+    CurrencyPair currencyPair = adaptCurrencyPair(histOrder.getSymbol());
+    return new UserTrade.Builder()
+        .currencyPair(currencyPair)
+        .feeAmount(histOrder.getFee())
+        .feeCurrency(currencyPair.base)
+        .id(histOrder.getId())
+        .originalAmount(histOrder.getAmount())
+        .price(histOrder.getPrice())
+        .timestamp(histOrder.getTradeCreatedAt())
+        .type(adaptSide(histOrder.getSide()))
         .build();
   }
 
