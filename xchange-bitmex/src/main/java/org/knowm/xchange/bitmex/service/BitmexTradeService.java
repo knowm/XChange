@@ -82,7 +82,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             .setOrderQuantity(limitOrder.getOriginalAmount())
             .setPrice(limitOrder.getLimitPrice())
             .setSide(fromOrderType(limitOrder.getType()))
-            .setClOrdId(limitOrder.getId());
+            .setClOrdId(limitOrder.getUserReference());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
       b.addExecutionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
     }
@@ -98,7 +98,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
                 .setSide(fromOrderType(stopOrder.getType()))
                 .setOrderQuantity(stopOrder.getOriginalAmount())
                 .setStopPrice(stopOrder.getStopPrice())
-                .setClOrdId(stopOrder.getId())
+                .setClOrdId(stopOrder.getUserReference())
                 .build())
         .getId();
   }
@@ -112,6 +112,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
                 .setOrderId(limitOrder.getId())
                 .setOrderQuantity(limitOrder.getOriginalAmount())
                 .setPrice(limitOrder.getLimitPrice())
+                .setClOrdId(limitOrder.getUserReference())
                 .build());
     return order.getId();
   }
