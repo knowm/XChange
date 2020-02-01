@@ -15,6 +15,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +30,9 @@ import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Status;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -45,12 +49,15 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
+import org.knowm.xchange.kucoin.dto.response.DepositResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
 public class KucoinAdapters {
 
@@ -78,6 +85,23 @@ public class KucoinAdapters {
         .quoteVolume(stats.getVolValue())
         .open(stats.getOpen())
         .timestamp(new Date(stats.getTime()));
+  }
+
+  public static List<Ticker> adaptAllTickers(AllTickersResponse allTickersResponse) {
+    return Arrays.stream(allTickersResponse.getTicker())
+        .map(
+            ticker ->
+                new Ticker.Builder()
+                    .currencyPair(adaptCurrencyPair(ticker.getSymbol()))
+                    .bid(ticker.getBuy())
+                    .ask(ticker.getSell())
+                    .last(ticker.getLast())
+                    .high(ticker.getHigh())
+                    .low(ticker.getLow())
+                    .volume(ticker.getVol())
+                    .quoteVolume(ticker.getVolValue())
+                    .build())
+        .collect(Collectors.toList());
   }
 
   /**
@@ -304,5 +328,51 @@ public class KucoinAdapters {
       this.price = new BigDecimal(data.get(0));
       this.size = new BigDecimal(data.get(1));
     }
+  }
+
+  public static FundingRecord adaptFundingRecord(WithdrawalResponse wr) {
+    FundingRecord.Builder b = new FundingRecord.Builder();
+    return b.setAddress(wr.getAddress())
+        .setAmount(wr.getAmount())
+        .setCurrency(Currency.getInstance(wr.getCurrency()))
+        .setFee(wr.getFee())
+        .setType(Type.WITHDRAWAL)
+        .setStatus(convertStatus(wr.getStatus()))
+        .setInternalId(wr.getId())
+        .setBlockchainTransactionHash(wr.getWalletTxId())
+        .setDescription(wr.getMemo())
+        .setDate(wr.getCreatedAt())
+        .build();
+  }
+
+  private static Status convertStatus(String status) {
+    if (status == null) {
+      return null;
+    }
+    switch (status) {
+      case "WALLET_PROCESSING":
+      case "PROCESSING":
+        return Status.PROCESSING;
+      case "SUCCESS":
+        return Status.COMPLETE;
+      case "FAILURE":
+        return Status.FAILED;
+      default:
+        throw new ExchangeException("Not supported status: " + status);
+    }
+  }
+
+  public static FundingRecord adaptFundingRecord(DepositResponse dr) {
+    FundingRecord.Builder b = new FundingRecord.Builder();
+    return b.setAddress(dr.getAddress())
+        .setAmount(dr.getAmount())
+        .setCurrency(Currency.getInstance(dr.getCurrency()))
+        .setFee(dr.getFee())
+        .setType(Type.DEPOSIT)
+        .setStatus(convertStatus(dr.getStatus()))
+        .setBlockchainTransactionHash(dr.getWalletTxId())
+        .setDescription(dr.getMemo())
+        .setDate(dr.getCreatedAt())
+        .build();
   }
 }

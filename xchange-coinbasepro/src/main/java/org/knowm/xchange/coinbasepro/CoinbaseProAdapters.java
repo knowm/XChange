@@ -4,16 +4,12 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
@@ -42,6 +38,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -173,7 +170,7 @@ public class CoinbaseProAdapters {
               coinbaseProAccount.getHold()));
     }
 
-    return new Wallet(coinbaseProAccounts[0].getProfile_id(), balances);
+    return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfile_id()).build();
   }
 
   @SuppressWarnings("unchecked")
@@ -190,57 +187,34 @@ public class CoinbaseProAdapters {
   public static Order adaptOrder(CoinbaseProOrder order) {
     OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
     CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
-
-    Date createdAt = parseDate(order.getCreatedAt());
-
-    OrderStatus orderStatus = adaptOrderStatus(order);
-
-    final BigDecimal averagePrice;
-    if (order.getFilledSize().signum() == 0) {
-      averagePrice = BigDecimal.ZERO;
-    } else {
-      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), new MathContext(8));
-    }
-
+    Order.Builder builder = null;
     if (order.getType().equals("market")) {
-      return new MarketOrder(
-          type,
-          order.getSize(),
-          currencyPair,
-          order.getId(),
-          createdAt,
-          averagePrice,
-          order.getFilledSize(),
-          order.getFillFees(),
-          orderStatus);
+      builder = new MarketOrder.Builder(type, currencyPair);
     } else if (order.getType().equals("limit")) {
       if (order.getStop() == null) {
-        return new LimitOrder(
-            type,
-            order.getSize(),
-            currencyPair,
-            order.getId(),
-            createdAt,
-            order.getPrice(),
-            averagePrice,
-            order.getFilledSize(),
-            order.getFillFees(),
-            orderStatus);
+        builder = new LimitOrder.Builder(type, currencyPair).limitPrice(order.getPrice());
       } else {
-        return new StopOrder(
-            type,
-            order.getSize(),
-            currencyPair,
-            order.getId(),
-            createdAt,
-            order.getStopPrice(),
-            averagePrice,
-            order.getFilledSize(),
-            orderStatus);
+        builder = new StopOrder.Builder(type, currencyPair).stopPrice(order.getStopPrice());
       }
     }
-
-    return null;
+    if (builder == null) {
+      return null;
+    }
+    builder
+        .orderStatus(adaptOrderStatus(order))
+        .originalAmount(order.getSize())
+        .id(order.getId())
+        .timestamp(parseDate(order.getCreatedAt()))
+        .cumulativeAmount(order.getFilledSize())
+        .fee(order.getFillFees());
+    BigDecimal averagePrice;
+    if (order.getFilledSize().signum() != 0 && order.getExecutedvalue().signum() != 0) {
+      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), MathContext.DECIMAL32);
+    } else {
+      averagePrice = BigDecimal.ZERO;
+    }
+    builder.averagePrice(averagePrice);
+    return builder.build();
   }
 
   public static OrderStatus[] adaptOrderStatuses(CoinbaseProOrder[] orders) {
@@ -298,9 +272,9 @@ public class CoinbaseProAdapters {
   }
 
   public static Trades adaptTrades(
-      List<CoinbaseProTrade> gdaxTradesList, CurrencyPair currencyPair) {
-    CoinbaseProTrade[] tradeArray = new CoinbaseProTrade[gdaxTradesList.size()];
-    gdaxTradesList.toArray(tradeArray);
+      List<CoinbaseProTrade> coinbaseProTradesList, CurrencyPair currencyPair) {
+    CoinbaseProTrade[] tradeArray = new CoinbaseProTrade[coinbaseProTradesList.size()];
+    coinbaseProTradesList.toArray(tradeArray);
     return CoinbaseProAdapters.adaptTrades(tradeArray, currencyPair);
   }
 
@@ -308,9 +282,7 @@ public class CoinbaseProAdapters {
 
     List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
 
-    for (int i = 0; i < coinbaseExFills.length; i++) {
-      CoinbaseProFill fill = coinbaseExFills[i];
-
+    for (CoinbaseProFill fill : coinbaseExFills) {
       OrderType type = fill.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
@@ -335,8 +307,7 @@ public class CoinbaseProAdapters {
   public static Trades adaptTrades(CoinbaseProTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
-    for (int i = 0; i < coinbaseExTrades.length; i++) {
-      CoinbaseProTrade trade = coinbaseExTrades[i];
+    for (CoinbaseProTrade trade : coinbaseExTrades) {
       // yes, sell means buy for coinbasePro reported trades..
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
@@ -360,42 +331,80 @@ public class CoinbaseProAdapters {
     return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
 
+  private static Currency adaptCurrency(CoinbaseProCurrency currency) {
+    return new Currency(currency.getId());
+  }
+
   private static int numberOfDecimals(BigDecimal value) {
     double d = value.doubleValue();
     return -(int) Math.round(Math.log10(d));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
-      ExchangeMetaData exchangeMetaData, CoinbaseProProduct[] products) {
+      ExchangeMetaData exchangeMetaData,
+      CoinbaseProProduct[] products,
+      CoinbaseProCurrency[] cbCurrencies) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
-    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencyPairs();
+
+    Map<Currency, CurrencyMetaData> currencies =
+        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
+    
     for (CoinbaseProProduct product : products) {
+      if (!product.getStatus().equals("online")) {
+        continue;
+      }
 
       BigDecimal minSize = product.getBaseMinSize();
       BigDecimal maxSize = product.getBaseMaxSize();
+      BigDecimal minMarketFunds = product.getMinMarketFunds();
+      BigDecimal maxMarketFunds = product.getMaxMarketFunds();
 
       CurrencyPair pair = adaptCurrencyPair(product);
 
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      CurrencyPairMetaData staticMetaData = currencyPairs.get(pair);
+      int baseScale = numberOfDecimals(product.getBaseIncrement());
       int priceScale = numberOfDecimals(product.getQuoteIncrement());
+      boolean marketOrderAllowed = !product.isLimitOnly();
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
-              null,
+              new BigDecimal("0.25"), // Trading fee at Coinbase is 0.25 %
               minSize,
               maxSize,
+              minMarketFunds,
+              maxMarketFunds,
+              baseScale,
               priceScale,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
+              staticMetaData != null ? staticMetaData.getFeeTiers() : null,
+              null,
+              pair.counter,
+              marketOrderAllowed);
       currencyPairs.put(pair, cpmd);
-
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
     }
+
+    Arrays.stream(cbCurrencies)
+        .forEach(
+            currency -> {
+              Currency cur = adaptCurrency(currency);
+              int scale = numberOfDecimals(currency.getMaxPrecision());
+              BigDecimal minWithdrawalAmount = currency.getDetails().getMinWithdrawalAmount();
+              boolean walletOnline = currency.getStatus().equals("online");
+              // Coinbase has a 0 withdrawal fee
+              currencies.put(
+                  cur,
+                  new CurrencyMetaData(
+                      scale,
+                      BigDecimal.ZERO,
+                      minWithdrawalAmount,
+                      walletOnline ? WalletHealth.ONLINE : WalletHealth.OFFLINE));
+            });
+
     return new ExchangeMetaData(
         currencyPairs,
         currencies,
-        exchangeMetaData.getPublicRateLimits(),
-        exchangeMetaData.getPrivateRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData == null ? null : exchangeMetaData.getPrivateRateLimits(),
         true);
   }
 
@@ -440,7 +449,8 @@ public class CoinbaseProAdapters {
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .size(marketOrder.getOriginalAmount())
+        .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
+        .size(marketOrder.getType() == OrderType.ASK ? marketOrder.getOriginalAmount() : null)
         .build();
   }
 
@@ -493,17 +503,45 @@ public class CoinbaseProAdapters {
     String address = coinbaseProTransfer.getDetails().getCryptoAddress();
     if (address == null) address = coinbaseProTransfer.getDetails().getSentToAddress();
 
+    String cryptoTransactionHash = coinbaseProTransfer.getDetails().getCryptoTransactionHash();
+    String transactionHash = adaptTransactionHash(currency.getSymbol(), cryptoTransactionHash);
+
     return new FundingRecord(
         address,
+        coinbaseProTransfer.getDetails().getDestinationTag(),
         timestamp,
         currency,
         coinbaseProTransfer.amount(),
         coinbaseProTransfer.getId(),
-        coinbaseProTransfer.getDetails().getCryptoTransactionHash(),
+        transactionHash,
         coinbaseProTransfer.type(),
         status,
         null,
         null,
         null);
+  }
+
+  // crypto_transaction_link: "https://etherscan.io/tx/0x{{txId}}"
+  private static String adaptTransactionHash(String currency, String transactionHash) {
+    switch (currency) {
+      case "ZRX":
+      case "BAT":
+      case "LOOM":
+      case "CVC":
+      case "DNT":
+      case "MANA":
+      case "GNT":
+      case "REP":
+      case "LINK":
+      case "ETH":
+      case "ETC":
+      case "USDC":
+      case "DAI":
+      case "ZIL":
+      case "MKR":
+        transactionHash = "0x" + transactionHash;
+        break;
+    }
+    return transactionHash;
   }
 }

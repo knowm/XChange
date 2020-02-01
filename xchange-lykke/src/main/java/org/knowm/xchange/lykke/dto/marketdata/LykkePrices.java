@@ -10,9 +10,7 @@ public class LykkePrices {
   @JsonProperty("Price")
   private final double price;
 
-  public LykkePrices(
-          @JsonProperty("Volume") double volume,
-          @JsonProperty("Price") double price) {
+  public LykkePrices(@JsonProperty("Volume") double volume, @JsonProperty("Price") double price) {
     this.volume = volume;
     this.price = price;
   }

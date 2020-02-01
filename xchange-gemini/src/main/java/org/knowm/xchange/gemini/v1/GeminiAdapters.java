@@ -1,6 +1,7 @@
 package org.knowm.xchange.gemini.v1;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -326,7 +327,7 @@ public final class GeminiAdapters {
       balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOrders(GeminiOrderStatusResponse[] activeOrders) {
@@ -420,12 +421,13 @@ public final class GeminiAdapters {
 
   public static Map<CurrencyPair, Fee> AdaptDynamicTradingFees(
       GeminiTrailingVolumeResponse volumeResponse, List<CurrencyPair> currencyPairs) {
-    Map<CurrencyPair, Fee> result = new Hashtable<CurrencyPair, Fee>();
-    BigDecimal bpsToFraction = BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4));
+    Map<CurrencyPair, Fee> result = new Hashtable<>();
+    BigDecimal bpsToFraction =
+        BigDecimal.ONE.divide(BigDecimal.ONE.scaleByPowerOfTen(4), 4, RoundingMode.HALF_EVEN);
     Fee feeAcrossCurrencies =
         new Fee(
-            volumeResponse.MakerFeeBPS.multiply(bpsToFraction),
-            volumeResponse.TakerFeeBPS.multiply(bpsToFraction));
+            volumeResponse.apiMakerFeeBPS.multiply(bpsToFraction),
+            volumeResponse.apiTakerFeeBPS.multiply(bpsToFraction));
     for (CurrencyPair currencyPair : currencyPairs) {
       result.put(currencyPair, feeAcrossCurrencies);
     }

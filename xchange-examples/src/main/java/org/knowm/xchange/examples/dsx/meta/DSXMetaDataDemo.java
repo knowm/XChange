@@ -18,7 +18,7 @@ public class DSXMetaDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    DSXExchange dsx = (DSXExchange) DSXExamplesUtils.createExchange();
+    DSXExchange dsx = (DSXExchange) DSXExamplesUtils.createExchange(DSXExchange.class);
     rawLocal(dsx);
 
     rawRemote(dsx);

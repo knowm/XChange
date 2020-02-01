@@ -19,7 +19,8 @@ public class CurrencyMapFetchIntegration {
 
   @BeforeClass
   public static void setUp() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CmcExchange.class);
+    exchange = ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(CmcExchange.class);
+    exchange.applySpecification(((CmcExchange) exchange).getSandboxExchangeSpecification());
     cmcMarketDataService = (CmcMarketDataService) exchange.getMarketDataService();
 
     Assume.assumeNotNull(exchange.getExchangeSpecification().getApiKey());

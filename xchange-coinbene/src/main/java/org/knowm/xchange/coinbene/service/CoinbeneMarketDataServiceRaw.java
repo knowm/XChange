@@ -25,6 +25,14 @@ public class CoinbeneMarketDataServiceRaw extends CoinbeneBaseService {
     }
   }
 
+  public CoinbeneTicker.Container getCoinbeneTickers() throws IOException {
+    try {
+      return checkSuccess(coinbene.ticker("all"));
+    } catch (CoinbeneException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
   public CoinbeneOrderBook.Container getCoinbeneOrderBook(CurrencyPair currencyPair)
       throws IOException {
     return getCoinbeneOrderBook(currencyPair, null);

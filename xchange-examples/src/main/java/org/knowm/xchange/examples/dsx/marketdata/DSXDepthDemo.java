@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXExchange;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbook;
-import org.knowm.xchange.dsx.service.DSXMarketDataServiceRaw;
+import org.knowm.xchange.dsx.service.DSXMarketDataService;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -40,8 +40,7 @@ public class DSXDepthDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    DSXMarketDataServiceRaw marketDataService =
-        (DSXMarketDataServiceRaw) exchange.getMarketDataService();
+    DSXMarketDataService marketDataService = (DSXMarketDataService) exchange.getMarketDataService();
 
     Map<String, DSXOrderbook> depth =
         marketDataService.getDSXOrderbook("ltcusd", "LIVE").getOrderbookMap();

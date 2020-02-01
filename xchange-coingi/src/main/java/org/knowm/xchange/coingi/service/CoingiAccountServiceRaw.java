@@ -33,7 +33,7 @@ public class CoingiAccountServiceRaw extends CoingiBaseService {
     // https://github.com/Coingi/exchange-java-client/blob/master/src/main/java/com/coingi/exchange/client/entities/Currency.java
     handleAuthentication(balanceRequest);
 
-    balanceRequest.setCurrencies("btc,ltc,ppc,doge,vtc,nmc,dash,usd,eur");
+    balanceRequest.setCurrencies("btc,ltc,ppc,doge,vtc,nmc,dash,usd,eur,czk");
     return coingiAuthenticated.getUserBalance(balanceRequest);
   }
 

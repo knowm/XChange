@@ -65,7 +65,7 @@ public final class CoingiAdapters {
       balances.add(xchangeBalance);
     }
 
-    return new AccountInfo(userName, new Wallet(balances));
+    return new AccountInfo(userName, Wallet.Builder.from(balances).build());
   }
 
   public static OrderBook adaptOrderBook(CoingiOrderBook coingiOrderBook) {

@@ -22,6 +22,14 @@ public class BitflyerUtils {
   private BitflyerUtils() {}
 
   public static Date parseDate(final String date) {
+    if (date.contains(".")) {
+      return parseLongDate(date);
+    } else {
+      return parseShortDate(date);
+    }
+  }
+
+  private static Date parseLongDate(final String date) {
     try {
       SimpleDateFormat threadSafeClone = (SimpleDateFormat) DATE_FORMAT.clone();
       return threadSafeClone.parse(date);
@@ -30,7 +38,7 @@ public class BitflyerUtils {
     }
   }
 
-  public static Date parseShortDate(final String date) {
+  private static Date parseShortDate(final String date) {
     try {
       SimpleDateFormat threadSafeClone = (SimpleDateFormat) DATE_FORMAT_SHORT.clone();
       return threadSafeClone.parse(date);

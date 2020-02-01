@@ -3,9 +3,9 @@ package org.knowm.xchange.examples.bitfinex.marketdata;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class LendDepthDemo {

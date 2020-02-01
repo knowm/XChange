@@ -6,6 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -46,6 +47,14 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampV2.getTransactions(new BitstampV2.Pair(pair), time);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitstampPairInfo[] getTradingPairsInfo() throws IOException {
+    try {
+      return bitstampV2.getTradingPairsInfo();
     } catch (BitstampException e) {
       throw handleError(e);
     }

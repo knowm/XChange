@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cobinhood.CobinhoodAdapters;
 import org.knowm.xchange.cobinhood.dto.CobinhoodResponse;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodCurrencyPair;
 import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTrades;
+import org.knowm.xchange.cobinhood.dto.marketdata.CobinhoodTradingPairs;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -78,5 +81,12 @@ public class CobinhoodMarketDataService extends CobinhoodMarketDataServiceRaw
             .map(trade -> CobinhoodAdapters.adaptTrade(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public ExchangeMetaData getMetadata() throws IOException {
+
+    CobinhoodResponse<CobinhoodTradingPairs> response = getCobinhoodTradingPairs();
+    List<CobinhoodCurrencyPair> pairs = response.getResult().getPairs();
+    return CobinhoodAdapters.adaptMetadata(pairs);
   }
 }

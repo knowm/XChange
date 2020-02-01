@@ -19,15 +19,11 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProSendMoneyRequest;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawFundsRequest;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
@@ -43,6 +39,10 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CoinbasePro {
+
+  @GET
+  @Path("currencies")
+  CoinbaseProCurrency[] getCurrencies() throws CoinbaseProException, IOException;
 
   @GET
   @Path("products")
@@ -100,6 +100,15 @@ public interface CoinbasePro {
   @GET
   @Path("accounts")
   org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] getAccounts(
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase)
+      throws CoinbaseProException, IOException;
+
+  @GET
+  @Path("fees")
+  CoinbaseProFee getFees(
       @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
@@ -180,6 +189,7 @@ public interface CoinbasePro {
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
       @QueryParam("after") Integer tradeIdAfter,
       @QueryParam("before") Integer tradeIdBefore,
+      @QueryParam("limit") Integer limit,
       @QueryParam("order_id") String orderId,
       @QueryParam("product_id") String productId)
       throws CoinbaseProException, IOException;

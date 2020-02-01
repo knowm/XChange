@@ -29,7 +29,7 @@ public class BiboxTradeUnmarshalTest {
     assertThat(orders.getItems()).hasSize(2);
 
     BiboxOrder first = orders.getItems().get(0);
-    assertThat(first.getId()).isEqualTo(242640813L);
+    assertThat(first.getId()).isEqualTo("242640813");
     assertThat(first.getCreatedAt()).isEqualTo(1518218031000L);
     assertThat(first.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
     assertThat(first.getCoinSymbol()).isEqualTo("ETC");
@@ -44,7 +44,7 @@ public class BiboxTradeUnmarshalTest {
     assertThat(first.getStatus()).isEqualTo(BiboxOrderStatus.PENDING);
 
     BiboxOrder second = orders.getItems().get(1);
-    assertThat(second.getId()).isEqualTo(242640017L);
+    assertThat(second.getId()).isEqualTo("242640017");
     assertThat(second.getCreatedAt()).isEqualTo(1518218019000L);
     assertThat(second.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
     assertThat(second.getCoinSymbol()).isEqualTo("ETC");
@@ -72,7 +72,7 @@ public class BiboxTradeUnmarshalTest {
     assertThat(orders.getItems()).hasSize(2);
 
     BiboxOrder first = orders.getItems().get(0);
-    assertThat(first.getId()).isEqualTo(255925252L);
+    assertThat(first.getId()).isEqualTo("255925252");
     assertThat(first.getCreatedAt()).isEqualTo(1518127133000L);
     assertThat(first.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
     assertThat(first.getCoinSymbol()).isEqualTo("ETC");
@@ -86,7 +86,7 @@ public class BiboxTradeUnmarshalTest {
     assertThat(first.getFeeSymbol()).isEqualTo("BIX");
 
     BiboxOrder second = orders.getItems().get(1);
-    assertThat(second.getId()).isEqualTo(255924172L);
+    assertThat(second.getId()).isEqualTo("255924172");
     assertThat(second.getCreatedAt()).isEqualTo(1518127118000L);
     assertThat(second.getAccountType()).isEqualTo(BiboxAccountType.REGULAR);
     assertThat(second.getCoinSymbol()).isEqualTo("ETC");

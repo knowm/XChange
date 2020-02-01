@@ -4,7 +4,15 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
+import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
+import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
+import org.knowm.xchange.kucoin.dto.response.ApplyWithdrawResponse;
+import org.knowm.xchange.kucoin.dto.response.DepositResponse;
+import org.knowm.xchange.kucoin.dto.response.InternalTransferResponse;
+import org.knowm.xchange.kucoin.dto.response.Pagination;
+import org.knowm.xchange.kucoin.dto.response.WithdrawalResponse;
 
 public class KucoinAccountServiceRaw extends KucoinBaseService {
 
@@ -16,5 +24,44 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     checkAuthenticated();
     return classifyingExceptions(
         () -> accountApi.getAccountList(apiKey, digest, nonceFactory, passphrase, null, null));
+  }
+
+  public ApplyWithdrawResponse applyWithdraw(ApplyWithdrawApiRequest req) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> withdrawalAPI.applyWithdraw(apiKey, digest, nonceFactory, passphrase, req));
+  }
+
+  public InternalTransferResponse innerTransfer(InnerTransferRequest req) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () -> accountApi.innerTransfer(apiKey, digest, nonceFactory, passphrase, req));
+  }
+
+  public Pagination<AccountLedgersResponse> getAccountLedgers(
+      String accountId, Long startAt, Long endAt) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            accountApi.getAccountLedgers(
+                apiKey, digest, nonceFactory, passphrase, accountId, startAt, endAt));
+  }
+
+  public Pagination<WithdrawalResponse> getWithdrawalsList(
+      String currency, String status, Long startAt, Long endAt) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            withdrawalAPI.getWithdrawalsList(
+                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
+  }
+
+  public Pagination<DepositResponse> getDepositList(
+      String currency, String status, Long startAt, Long endAt) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            depositAPI.getDepositList(
+                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
   }
 }

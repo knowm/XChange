@@ -15,7 +15,7 @@ import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTic
 public interface IndependentReserve {
 
   @GET
-  @Path("/GetOrderBook")
+  @Path("/GetAllOrders")
   IndependentReserveOrderBook getOrderBook(
       @QueryParam("primaryCurrencyCode") String primaryCurrencyCode,
       @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode)
