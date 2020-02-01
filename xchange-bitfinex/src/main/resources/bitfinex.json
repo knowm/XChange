@@ -185,6 +185,26 @@
       "min_amount": 8.00000000,
       "trading_fee": 0.002
     },
+    "TRX/USD": {
+      "price_scale": 8,
+      "min_amount": 138.000000,
+      "trading_fee": 0.002
+    },
+    "TRX/ETH": {
+      "price_scale": 8,
+      "min_amount": 138.000000,
+      "trading_fee": 0.002
+    },
+    "TRX/BTC": {
+      "price_scale": 8,
+      "min_amount": 138.000000,
+      "trading_fee": 0.002
+    },
+    "TRX/EUR": {
+      "price_scale": 8,
+      "min_amount": 138.000000,
+      "trading_fee": 0.002
+    },
     "XMR/USD": {
       "price_scale": 2,
       "min_amount": 0.06000000,
@@ -219,15 +239,19 @@
   "currencies": {
     "BCH": {
       "scale": 8,
-      "withdrawal_fee": 0.0005
+      "withdrawal_fee": 0.001
     },
     "BTC": {
       "scale": 8,
-      "withdrawal_fee": 0.0005
+      "withdrawal_fee": 0.0004
     },
     "BTG": {
       "scale": 8,
-      "withdrawal_fee": 0.01
+      "withdrawal_fee": 0.001
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.002
     },
     "DSH": {
       "scale": 8,
@@ -243,7 +267,7 @@
     },
     "ETH": {
       "scale": 8,
-      "withdrawal_fee": 0.01
+      "withdrawal_fee": 0.00135
     },
     "EUR": {
       "scale": 2,
@@ -267,7 +291,7 @@
     },
     "OMG": {
       "scale": 8,
-      "withdrawal_fee": 0.01
+      "withdrawal_fee": 0.17097
     },
     "USD": {
       "scale": 2,
@@ -275,19 +299,23 @@
     },
     "USDT": {
       "scale": 8,
-      "withdrawal_fee": 20.0
+      "withdrawal_fee": 5.0
+    },
+    "TRX": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
     },
     "XMR": {
       "scale": 8,
-      "withdrawal_fee": 0.04
+      "withdrawal_fee": 0.0001
     },
     "XRP": {
       "scale": 8,
-      "withdrawal_fee": 0.02
+      "withdrawal_fee": 0.1
     },
     "ZEC": {
       "scale": 8,
-      "withdrawal_fee": 0.001
+      "withdrawal_fee": 0.003
     }
   }
 }

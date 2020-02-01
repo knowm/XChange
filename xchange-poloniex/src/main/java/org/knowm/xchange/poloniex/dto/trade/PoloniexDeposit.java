@@ -13,6 +13,8 @@ public class PoloniexDeposit {
   private final String txid;
   private final Date timestamp;
   private final String status;
+  private final long depositNumber;
+  private final String category;
 
   public PoloniexDeposit(
       @JsonProperty("currency") String currency,
@@ -21,7 +23,9 @@ public class PoloniexDeposit {
       @JsonProperty("confirmations") int confirmations,
       @JsonProperty("txid") String txid,
       @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("status") String status) {
+      @JsonProperty("status") String status,
+      @JsonProperty("depositNumber") long depositNumber,
+      @JsonProperty("category") String category) {
     super();
     this.currency = currency;
     this.address = address;
@@ -30,6 +34,8 @@ public class PoloniexDeposit {
     this.txid = txid;
     this.timestamp = new Date(timestamp * 1000);
     this.status = status;
+    this.depositNumber = depositNumber;
+    this.category = category;
   }
 
   public String getCurrency() {
@@ -60,6 +66,14 @@ public class PoloniexDeposit {
     return status;
   }
 
+  public long getDepositNumber() {
+    return depositNumber;
+  }
+
+  public String getCategory() {
+    return category;
+  }
+
   @Override
   public String toString() {
     return "PoloniexDeposit [currency="
@@ -76,6 +90,10 @@ public class PoloniexDeposit {
         + timestamp
         + ", status="
         + status
+        + ", depositNumber="
+        + depositNumber
+        + ", category="
+        + category
         + "]";
   }
 }

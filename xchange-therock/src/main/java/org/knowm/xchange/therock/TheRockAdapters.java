@@ -5,9 +5,7 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -47,7 +45,8 @@ public final class TheRockAdapters {
       Currency currency = Currency.getInstance(blc.getCurrency());
       balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance()));
     }
-    return new AccountInfo(userName, new Wallet(balances));
+
+    return new AccountInfo(userName, Wallet.Builder.from(balances).id("spot").build());
   }
 
   public static OrderBook adaptOrderBook(TheRockOrderBook theRockOrderBook) {

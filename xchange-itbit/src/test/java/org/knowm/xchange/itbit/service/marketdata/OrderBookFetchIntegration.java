@@ -7,7 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
+import org.knowm.xchange.itbit.ItBitExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** @author timmolter */

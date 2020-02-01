@@ -172,7 +172,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
     BitstampUserTransaction[] txs =
-        getBitstampUserTransactions(limit, offset, sort == null ? null : sort.toString(), sinceTimestamp);
+        getBitstampUserTransactions(
+            limit, offset, sort == null ? null : sort.toString(), sinceTimestamp);
     return BitstampAdapters.adaptFundingHistory(Arrays.asList(txs));
   }
 }

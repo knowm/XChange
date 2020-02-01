@@ -40,7 +40,7 @@ Response:
 mid (price): (bid + ask) / 2
 bid (price): Innermost bid.
 ask (price): Innermost ask.
-last_price (price) The price at which the last order executed.
+lastPrice (price) The price at which the last order executed.
 timestamp (time) The timestamp at which this information was valid.
 Today
 GET /today/:symbol

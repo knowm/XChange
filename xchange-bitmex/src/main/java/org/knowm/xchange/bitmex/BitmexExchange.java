@@ -1,5 +1,8 @@
 package org.knowm.xchange.bitmex;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -17,10 +20,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
-
 public class BitmexExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
@@ -32,7 +31,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null) {
       if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox").equals(true)) {
-        exchangeSpecification.setSslUri("https://testnet.bitmex.com/");
+        exchangeSpecification.setSslUri("https://testnet.bitmex.com");
         exchangeSpecification.setHost("testnet.bitmex.com");
       }
     }
@@ -61,7 +60,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     ExchangeSpecification exchangeSpecification =
         new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.bitmex.com/");
+    exchangeSpecification.setSslUri("https://www.bitmex.com");
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmex");
@@ -129,14 +128,17 @@ public class BitmexExchange extends BaseExchange implements Exchange {
       BitmexTicker ticker, List<CurrencyPair> activeCurrencyPairs, Set<Currency> activeCurrencies) {
 
     String bitmexSymbol = ticker.getSymbol();
-    String baseSymbol = ticker.getRootSymbol();
+    String baseSymbol =
+        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+            ? "XBT"
+            : ticker.getRootSymbol();
     String counterSymbol;
 
     if (bitmexSymbol.contains(baseSymbol)) {
-      counterSymbol = bitmexSymbol.substring(baseSymbol.length(), bitmexSymbol.length());
+      counterSymbol = bitmexSymbol.substring(baseSymbol.length());
     } else {
-      throw new ExchangeException(
-          "Not clear how to create currency pair for symbol: " + bitmexSymbol);
+      logger.warn("Not clear how to create currency pair for symbol: {}", bitmexSymbol);
+      return;
     }
 
     activeCurrencyPairs.add(new CurrencyPair(baseSymbol, counterSymbol));
@@ -175,9 +177,11 @@ public class BitmexExchange extends BaseExchange implements Exchange {
             .orElseThrow(
                 () ->
                     new ExchangeException(
-                        "Instrument for " + symbols + " " + contractTimeframe + " is not active or does not exist"));
+                        String.format(
+                            "Instrument for %s %s is not active or does not exist",
+                            symbols, contractTimeframe)));
 
-    String contractTypeSymbol = bitmexSymbol.substring(3, bitmexSymbol.length());
+    String contractTypeSymbol = bitmexSymbol.substring(3);
     return new CurrencyPair(baseSymbol, contractTypeSymbol);
   }
 }

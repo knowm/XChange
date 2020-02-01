@@ -2,28 +2,26 @@
   "success": true,
   "result": [
     {
-      "id": "ABT-BTC",
-      "last_price": "0.000041",
-      "lowest_ask": "0.00006697",
-      "highest_bid": "0.000058",
-      "base_volume": "1101.80348524",
-      "quote_volume": "0.0694091344446196",
-      "is_frozen": false,
-      "high_24hr": "0.000072",
-      "low_24hr": "0.000041",
-      "percent_changed_24hr": "-0.4305555555555556"
+      "id": "BCHSV-USDT",
+      "base_currency_id": "BCHSV",
+      "quote_currency_id": "USDT",
+      "base_max_size": "4590.393",
+      "base_min_size": "0.046",
+      "quote_increment": "0.01",
+      "maker_fee": "0",
+      "taker_fee": "0",
+      "margin_enabled": false
     },
     {
-      "id": "ABT-ETH",
-      "last_price": "0.0010169",
-      "lowest_ask": "0.0009879",
-      "highest_bid": "0.0009382",
-      "base_volume": "5098.92892637",
-      "quote_volume": "4.731106176394585",
-      "is_frozen": false,
-      "high_24hr": "0.00104",
-      "low_24hr": "0.0009117",
-      "percent_changed_24hr": "-0.0222115384615385"
+      "id": "BCH-USDT",
+      "base_currency_id": "BCH",
+      "quote_currency_id": "USDT",
+      "base_max_size": "2407.278",
+      "base_min_size": "0.025",
+      "quote_increment": "0.01",
+      "maker_fee": "0",
+      "taker_fee": "0",
+      "margin_enabled": false
     }
   ]
 }

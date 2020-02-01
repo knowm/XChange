@@ -2,7 +2,6 @@ package org.knowm.xchange.bleutrade;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -54,14 +53,11 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     verify(exchange).remoteInit();
   }
 
-  @Test(expected = NullPointerException.class)
-  public void shouldFailWhenApplyNullSpecification() {
-    // when
+  @Test
+  public void shouldUseDefaultExchangeSpecForNullSpecification() {
     exchange.applySpecification(null);
-
-    // then
-    fail(
-        "BTCMarketsExchange should throw NullPointerException when tries to apply null specification");
+    assertThat(exchange.getExchangeSpecification())
+        .isEqualToComparingFieldByField(exchange.getDefaultExchangeSpecification());
   }
 
   @Test
@@ -158,9 +154,9 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
+            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
   }
 }

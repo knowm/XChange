@@ -2,11 +2,13 @@ package org.knowm.xchange.kucoin;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
     implements MarketDataService {
@@ -24,6 +26,11 @@ public class KucoinMarketDataService extends KucoinMarketDataServiceRaw
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return KucoinAdapters.adaptTickerFull(currencyPair, getKucoin24hrStats(currencyPair)).build();
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return KucoinAdapters.adaptAllTickers(getKucoinTickers());
   }
 
   @Override

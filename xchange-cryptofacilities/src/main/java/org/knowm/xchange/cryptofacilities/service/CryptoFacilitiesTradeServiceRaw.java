@@ -7,6 +7,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.Util;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancelAllOrdersAfter;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
@@ -136,6 +137,23 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
       return openPositions;
     } else {
       throw new ExchangeException("Error getting CF open positions: " + openPositions.getError());
+    }
+  }
+
+  public CryptoFacilitiesCancelAllOrdersAfter cancelAllOrdersAfter(long timeoutSeconds)
+      throws IOException {
+    CryptoFacilitiesCancelAllOrdersAfter cancelallordersafter =
+        cryptoFacilities.cancelAllOrdersAfter(
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            timeoutSeconds);
+
+    if (cancelallordersafter.isSuccess()) {
+      return cancelallordersafter;
+    } else {
+      throw new ExchangeException(
+          "Error cancelling all CF orders after: " + cancelallordersafter.getError());
     }
   }
 }

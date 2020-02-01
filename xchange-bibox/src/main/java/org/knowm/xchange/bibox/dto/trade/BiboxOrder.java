@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 public class BiboxOrder {
 
   @JsonProperty("id")
-  private long id;
+  private String id;
 
   @JsonProperty("createdAt")
   private long createdAt;
@@ -84,13 +84,13 @@ public class BiboxOrder {
 
   /** @return The id */
   @JsonProperty("id")
-  public long getId() {
+  public String getId() {
     return id;
   }
 
   /** @param id The id */
   @JsonProperty("id")
-  public void setId(long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

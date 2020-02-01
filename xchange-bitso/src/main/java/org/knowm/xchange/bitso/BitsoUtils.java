@@ -8,7 +8,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 /** A central place for shared Bitso properties */
 public final class BitsoUtils {
 
-  private static final FastDateFormat DATE_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
+  private static final FastDateFormat DATE_FORMAT =
+      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
 
   /** private Constructor */
   private BitsoUtils() {}

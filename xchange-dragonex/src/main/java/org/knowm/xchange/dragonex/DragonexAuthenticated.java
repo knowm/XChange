@@ -1,17 +1,23 @@
 package org.knowm.xchange.dragonex;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.dragonex.dto.DragonResult;
 import org.knowm.xchange.dragonex.dto.DragonexException;
 import org.knowm.xchange.dragonex.dto.Token;
 import org.knowm.xchange.dragonex.dto.TokenStatus;
 import org.knowm.xchange.dragonex.dto.account.Balance;
+import org.knowm.xchange.dragonex.dto.account.CoinPrepayHistory;
+import org.knowm.xchange.dragonex.dto.account.CoinWithdrawHistory;
+import org.knowm.xchange.dragonex.dto.account.Withdrawal;
+import org.knowm.xchange.dragonex.dto.account.WithdrawalAddress;
 import org.knowm.xchange.dragonex.dto.trade.DealHistory;
 import org.knowm.xchange.dragonex.dto.trade.DealHistoryRequest;
 import org.knowm.xchange.dragonex.dto.trade.OrderHistory;
@@ -119,5 +125,55 @@ public interface DragonexAuthenticated {
       @HeaderParam("auth") ParamsDigest auth,
       @HeaderParam("Content-Sha1") ParamsDigest contentSHA1,
       DealHistoryRequest orderHistory)
+      throws DragonexException, IOException;
+
+  /** Get historical recharge history of a currency */
+  @POST
+  @Path("coin/prepay/history/")
+  DragonResult<CoinPrepayHistory> coinPrepayHistory(
+      @HeaderParam("date") String date,
+      @HeaderParam("token") String token,
+      @HeaderParam("auth") ParamsDigest auth,
+      @HeaderParam("Content-Sha1") ParamsDigest contentSHA1,
+      @QueryParam("coin_id") long coinId,
+      @QueryParam("PAGE_NUM") Long pageNum,
+      @QueryParam("page_size") Long pageSize)
+      throws DragonexException, IOException;
+
+  /** Get the history of the coin */
+  @POST
+  @Path("coin/withdraw/history/")
+  DragonResult<CoinWithdrawHistory> coinWithdrawHistory(
+      @HeaderParam("date") String date,
+      @HeaderParam("token") String token,
+      @HeaderParam("auth") ParamsDigest auth,
+      @HeaderParam("Content-Sha1") ParamsDigest contentSHA1,
+      @QueryParam("coin_id") long coinId,
+      @QueryParam("PAGE_NUM") Long pageNum,
+      @QueryParam("page_size") Long pageSize)
+      throws DragonexException, IOException;
+
+  /** Apply for coin */
+  @POST
+  @Path("coin/withdraw/new/")
+  DragonResult<Withdrawal> coinWithdrawNew(
+      @HeaderParam("date") String date,
+      @HeaderParam("token") String token,
+      @HeaderParam("auth") ParamsDigest auth,
+      @HeaderParam("Content-Sha1") ParamsDigest contentSHA1,
+      @QueryParam("coin_id") long coinId,
+      @QueryParam("volume") BigDecimal volume,
+      @QueryParam("addr_id") long addressId)
+      throws DragonexException, IOException;
+
+  /** Apply for coin */
+  @POST
+  @Path("coin/withdraw/addr/list/")
+  DragonResult<List<WithdrawalAddress>> coinWithdrawAddrList(
+      @HeaderParam("date") String date,
+      @HeaderParam("token") String token,
+      @HeaderParam("auth") ParamsDigest auth,
+      @HeaderParam("Content-Sha1") ParamsDigest contentSHA1,
+      @QueryParam("coin_id") long coinId)
       throws DragonexException, IOException;
 }

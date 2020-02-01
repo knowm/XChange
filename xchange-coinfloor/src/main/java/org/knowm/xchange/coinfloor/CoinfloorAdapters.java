@@ -106,7 +106,7 @@ public class CoinfloorAdapters {
         }
       }
     }
-    Wallet wallet = new Wallet(balances);
+    Wallet wallet = Wallet.Builder.from(balances).build();
     return new AccountInfo(wallet);
   }
 
