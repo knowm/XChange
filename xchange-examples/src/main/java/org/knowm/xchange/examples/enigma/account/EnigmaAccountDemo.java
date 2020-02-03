@@ -1,17 +1,15 @@
 package org.knowm.xchange.examples.enigma.account;
 
-import static org.knowm.xchange.enigma.model.Infrastructure.DEVELOPMENT;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.enigma.dto.account.EnigmaBalance;
 import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawal;
-import org.knowm.xchange.enigma.dto.trade.EnigmaWithdrawalRequest;
 import org.knowm.xchange.enigma.service.EnigmaAccountServiceRaw;
 import org.knowm.xchange.examples.enigma.EnigmaDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
@@ -31,6 +29,13 @@ public class EnigmaAccountDemo {
   private static void generic(AccountService accountService) throws IOException {
     AccountInfo accountInfo = accountService.getAccountInfo();
     log.info("AccountInfo as String: " + accountInfo.toString());
+
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
+    log.info(depositAddress);
+
+    String result =
+        accountService.withdrawFunds(Currency.BTC, BigDecimal.valueOf(0.002), "address");
+    log.info(result);
   }
 
   private static void raw(EnigmaAccountServiceRaw accountService) throws IOException {
@@ -47,10 +52,5 @@ public class EnigmaAccountDemo {
     for (EnigmaWithdrawal withdrawalResponse : withdrawalResponses) {
       log.info(withdrawalResponse.toString());
     }
-
-    EnigmaWithdrawalRequest withdrawalRequest =
-        new EnigmaWithdrawalRequest(2, new BigDecimal("2"), "USD", DEVELOPMENT.getValue());
-    EnigmaWithdrawal withdrawal = accountService.withdrawal(withdrawalRequest);
-    log.info(withdrawal.toString());
   }
 }

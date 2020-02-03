@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import lombok.Getter;
 import org.knowm.xchange.deribit.v2.Deribit;
 import org.knowm.xchange.deribit.v2.DeribitAuthenticated;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
@@ -26,7 +27,7 @@ public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
 
   protected final Deribit deribit;
   protected final DeribitAuthenticated deribitAuthenticated;
-  protected final DeribitAuth deribitAuth;
+  @Getter protected final DeribitAuth deribitAuth;
   private DeribitAuthentication deribitAuthentication;
 
   /**
@@ -50,7 +51,8 @@ public class DeribitBaseService extends BaseExchangeService<DeribitExchange>
     deribitAuth =
         DeribitAuth.createDeribitAuth(
             exchange.getExchangeSpecification().getApiKey(),
-            exchange.getExchangeSpecification().getSecretKey());
+            exchange.getExchangeSpecification().getSecretKey(),
+            exchange.getNonceFactory());
   }
 
   protected ParamsDigest getDeribitAuthentication() throws DeribitException, IOException {

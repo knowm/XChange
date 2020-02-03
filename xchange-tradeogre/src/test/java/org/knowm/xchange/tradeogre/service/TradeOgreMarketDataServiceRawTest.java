@@ -2,7 +2,6 @@ package org.knowm.xchange.tradeogre.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +18,8 @@ public class TradeOgreMarketDataServiceRawTest {
 
   @BeforeClass
   public static void setUpBaseClass() {
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(TradeOgreExchange.class);
+    ExchangeSpecification exchangeSpecification =
+        new ExchangeSpecification(TradeOgreExchange.class);
     tradeOgreExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
 

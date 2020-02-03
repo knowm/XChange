@@ -21,7 +21,7 @@ public final class FundingRecord implements Serializable {
   private final String address;
 
   /** Crypto currency destination tag for deposit/withdrawal */
-  private final String destinationTag;
+  private final String addressTag;
 
   /** Date/Time of transaction */
   private final Date date;
@@ -111,7 +111,7 @@ public final class FundingRecord implements Serializable {
    * Constructs a {@link FundingRecord}.
    *
    * @param address Crypto currency address for deposit/withdrawal
-   * @param destinationTag Crypto address destination tag for deposit/withdrawal
+   * @param addressTag Crypto address destination tag for deposit/withdrawal
    * @param date Date/Time of transaction
    * @param currency The transaction currency
    * @param amount Amount deposited/withdrawn (always positive)
@@ -127,7 +127,7 @@ public final class FundingRecord implements Serializable {
    */
   public FundingRecord(
       final String address,
-      final String destinationTag,
+      final String addressTag,
       final Date date,
       final Currency currency,
       final BigDecimal amount,
@@ -139,7 +139,7 @@ public final class FundingRecord implements Serializable {
       final BigDecimal fee,
       final String description) {
     this.address = address;
-    this.destinationTag = destinationTag;
+    this.addressTag = addressTag == null || addressTag.isEmpty() ? null : addressTag;
     this.date = date;
     this.currency = currency;
     this.amount = amount == null ? null : amount.abs();
@@ -201,8 +201,8 @@ public final class FundingRecord implements Serializable {
     return address;
   }
 
-  public String getDestinationTag() {
-    return destinationTag;
+  public String getAddressTag() {
+    return addressTag;
   }
 
   /** @return Date/Time of transaction */
@@ -285,8 +285,9 @@ public final class FundingRecord implements Serializable {
 
   /** Enum representing funding transaction type */
   public enum Type {
-    WITHDRAWAL,
-    DEPOSIT;
+    WITHDRAWAL(false),
+    DEPOSIT(true),
+    AIRDROP(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
@@ -294,8 +295,22 @@ public final class FundingRecord implements Serializable {
       for (Type type : values()) fromString.put(type.toString(), type);
     }
 
+    private final boolean inflow;
+
+    Type(final boolean inflow) {
+      this.inflow = inflow;
+    }
+
     public static Type fromString(String ledgerTypeString) {
       return fromString.get(ledgerTypeString.toUpperCase());
+    }
+
+    public boolean isInflowing() {
+      return this.inflow;
+    }
+
+    public boolean isOutflowing() {
+      return !this.inflow;
     }
   }
 
@@ -363,6 +378,7 @@ public final class FundingRecord implements Serializable {
   public static final class Builder {
 
     private String address;
+    private String addressTag;
     private Date date;
     private Currency currency;
     private BigDecimal amount;
@@ -377,6 +393,8 @@ public final class FundingRecord implements Serializable {
     public static Builder from(FundingRecord record) {
       return new Builder()
           .setAddress(record.address)
+          .setAddressTag(record.addressTag)
+          .setBlockchainTransactionHash(record.blockchainTransactionHash)
           .setDate(record.date)
           .setCurrency(record.currency)
           .setAmount(record.amount)
@@ -390,6 +408,11 @@ public final class FundingRecord implements Serializable {
 
     public Builder setAddress(String address) {
       this.address = address;
+      return this;
+    }
+
+    public Builder setAddressTag(String addressTag) {
+      this.addressTag = addressTag;
       return this;
     }
 
@@ -446,6 +469,7 @@ public final class FundingRecord implements Serializable {
     public FundingRecord build() {
       return new FundingRecord(
           address,
+          addressTag,
           date,
           currency,
           amount,

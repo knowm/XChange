@@ -6,6 +6,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
+import org.knowm.xchange.lgo.service.LgoKeyService;
 import org.knowm.xchange.lgo.service.LgoMarketDataService;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
 import org.knowm.xchange.lgo.service.LgoTradeService;
@@ -25,7 +26,7 @@ public class LgoExchange extends BaseExchange {
   protected void initServices() {
     signatureService = LgoSignatureService.createInstance(getExchangeSpecification());
     this.marketDataService = new LgoMarketDataService(this);
-    this.tradeService = new LgoTradeService(this);
+    this.tradeService = new LgoTradeService(this, new LgoKeyService(getExchangeSpecification()));
     this.accountService = new AccountService() {};
   }
 
@@ -42,7 +43,7 @@ public class LgoExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    return LgoEnv.prodMarkets();
+    return LgoEnv.prod();
   }
 
   @Override

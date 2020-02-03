@@ -17,6 +17,14 @@ public class KrakenUtils {
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
+  /** Mapping of discontinued currencies to their standard name. */
+  private static Map<String, String> discontinuedCurrencies;
+
+  static {
+    discontinuedCurrencies = new HashMap<>();
+    discontinuedCurrencies.put("XICN", "ICN");
+  }
+
   /** Private Constructor */
   private KrakenUtils() {}
 
@@ -53,22 +61,15 @@ public class KrakenUtils {
     CurrencyPair pair = assetPairMap.get(currencyPairIn);
     if (pair == null) {
       // kraken can give short pairs back from open orders ?
-      if (currencyPairIn.length() == 6) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 3));
+      if (currencyPairIn.length() >= 6 && currencyPairIn.length() <= 8) {
+        int firstCurrencyLength = currencyPairIn.length() - 3;
+        Currency base = Currency.getInstance(currencyPairIn.substring(0, firstCurrencyLength));
         if (base.getCommonlyUsedCurrency() != null) {
           base = base.getCommonlyUsedCurrency();
         }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(3, 6));
-        if (counter.getCommonlyUsedCurrency() != null) {
-          counter = counter.getCommonlyUsedCurrency();
-        }
-        pair = new CurrencyPair(base, counter);
-      } else if (currencyPairIn.length() == 7) {
-        Currency base = Currency.getInstance(currencyPairIn.substring(0, 4));
-        if (base.getCommonlyUsedCurrency() != null) {
-          base = base.getCommonlyUsedCurrency();
-        }
-        Currency counter = Currency.getInstance(currencyPairIn.substring(4, 7));
+        Currency counter =
+            Currency.getInstance(
+                currencyPairIn.substring(firstCurrencyLength, currencyPairIn.length()));
         if (counter.getCommonlyUsedCurrency() != null) {
           counter = counter.getCommonlyUsedCurrency();
         }
@@ -94,6 +95,9 @@ public class KrakenUtils {
   }
 
   public static Currency translateKrakenCurrencyCode(String currencyIn) {
+    if (discontinuedCurrencies.containsKey(currencyIn)) {
+      return Currency.getInstance(discontinuedCurrencies.get(currencyIn));
+    }
     Currency currencyOut = assetsMap.get(currencyIn);
     if (currencyOut == null) {
       throw new ExchangeException("Kraken does not support the currency code " + currencyIn);

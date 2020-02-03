@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,6 +11,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Data object representing a Trade */
+@JsonDeserialize(builder = Trade.Builder.class)
 public class Trade implements Serializable {
 
   private static final long serialVersionUID = -4078893146776655648L;
@@ -152,6 +155,7 @@ public class Trade implements Serializable {
         + '}';
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
     protected OrderType type;

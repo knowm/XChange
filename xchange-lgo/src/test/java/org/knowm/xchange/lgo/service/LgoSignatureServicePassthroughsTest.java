@@ -17,7 +17,7 @@ public class LgoSignatureServicePassthroughsTest {
 
   @Test
   public void itEncodesUserInformations() {
-    String result = signatureService.digestHeader("url", "1234");
+    String result = signatureService.digestSignedUrlHeader("url", "1234");
 
     assertThat(result).isEqualTo("dXNlcjprZXk6c2VjcmV0");
   }
