@@ -45,7 +45,6 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
     Integer productId = getProductId(marketOrder.getCurrencyPair());
 
     EnigmaNewOrderRequest enigmaNewOrderRequest = new EnigmaNewOrderRequest();
-    enigmaNewOrderRequest.setInfrastructure("dev");
     enigmaNewOrderRequest.setQuantity(marketOrder.getOriginalAmount());
     enigmaNewOrderRequest.setSideId(marketOrder.getType().equals(Order.OrderType.ASK) ? 2 : 1);
     enigmaNewOrderRequest.setProductId(productId);
@@ -55,7 +54,6 @@ public class EnigmaTradeServiceRaw extends EnigmaBaseService {
 
   public EnigmaOrderSubmission placeLimitOrderRequest(LimitOrder limitOrder) throws IOException {
     EnigmaLimitOrderRequest enigmaNewOrderRequest = new EnigmaLimitOrderRequest();
-    enigmaNewOrderRequest.setInfrastructure("dev");
     enigmaNewOrderRequest.setQuantity(limitOrder.getOriginalAmount());
     enigmaNewOrderRequest.setSideId(limitOrder.getType().equals(Order.OrderType.ASK) ? 2 : 1);
     enigmaNewOrderRequest.setProductId(getProductId(limitOrder.getCurrencyPair()));

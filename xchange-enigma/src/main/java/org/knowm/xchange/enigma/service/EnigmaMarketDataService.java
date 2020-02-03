@@ -34,14 +34,8 @@ public class EnigmaMarketDataService extends EnigmaMarketDataServiceRaw
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
       throws IOException, EnigmaNotImplementedException {
-    EnigmaOrderBook enigmaOrderBook = getEnigmaOrderBook();
-    if (enigmaOrderBook.isResult()) {
-      return EnigmaAdapters.adaptOrderBook(enigmaOrderBook, currencyPair);
-    } else {
-
-      log.error("no order book available");
-      return null;
-    }
+    EnigmaOrderBook enigmaOrderBook = getEnigmaOrderBook(currencyPair.toString().replace("/", "-"));
+    return EnigmaAdapters.adaptOrderBook(enigmaOrderBook, currencyPair);
   }
 
   @Override
