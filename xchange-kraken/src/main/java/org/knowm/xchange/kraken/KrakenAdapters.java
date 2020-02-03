@@ -122,8 +122,9 @@ public class KrakenAdapters {
           krakenOrder.getOrderDescription().getPrice(),
           krakenOrder.getPrice(),
           krakenOrder.getVolumeExecuted(),
-          krakenOrder.getFee(),
-          orderStatus);
+          fee,
+          orderStatus,
+          krakenOrder.getUserRefId());
 
     if (krakenOrder.getOrderDescription().getOrderType().equals(KrakenOrderType.MARKET))
       return new MarketOrder(
@@ -134,8 +135,9 @@ public class KrakenAdapters {
           timestamp,
           krakenOrder.getPrice(),
           krakenOrder.getVolumeExecuted(),
-          krakenOrder.getFee(),
-          orderStatus);
+          fee,
+          orderStatus,
+          krakenOrder.getUserRefId());
 
     throw new NotYetImplementedForExchangeException();
   }

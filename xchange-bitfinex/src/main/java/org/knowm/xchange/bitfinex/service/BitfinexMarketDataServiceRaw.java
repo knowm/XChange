@@ -1,12 +1,13 @@
 package org.knowm.xchange.bitfinex.service;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
@@ -92,15 +93,19 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(
       Collection<CurrencyPair> currencyPairs) throws IOException {
-    return bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
+    List<ArrayNode> tickers =
+        bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
+    return BitfinexAdapters.adoptBitfinexTickers(tickers);
   }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker getBitfinexTickerV2(
       CurrencyPair currencyPair) throws IOException {
-    org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] ticker =
+    List<ArrayNode> tickers =
         bitfinexV2.getTickers(
             BitfinexAdapters.adaptCurrencyPairsToTickersParam(
                 Collections.singletonList(currencyPair)));
+    org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] ticker =
+        BitfinexAdapters.adoptBitfinexTickers(tickers);
     if (ticker.length == 0) {
       throw new BitfinexException("Unknown Symbol");
     } else {

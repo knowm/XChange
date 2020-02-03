@@ -24,7 +24,7 @@ public class LgoExchangeTradeIntegration {
 
   @Test
   public void fetchLastTrades() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+    LgoExchange lgoExchange = exchangeWithCredentials(false);
     LgoTradeService tradeService = lgoExchange.getTradeService();
     UserTrades tradeHistory = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     assertThat(tradeHistory.getUserTrades()).isNotEmpty();
@@ -33,7 +33,7 @@ public class LgoExchangeTradeIntegration {
 
   @Test
   public void placeLimitOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+    LgoExchange lgoExchange = exchangeWithCredentials(false);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
@@ -51,7 +51,7 @@ public class LgoExchangeTradeIntegration {
 
   @Test
   public void placeMarketOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+    LgoExchange lgoExchange = exchangeWithCredentials(false);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
@@ -64,19 +64,19 @@ public class LgoExchangeTradeIntegration {
 
   @Test
   public void cancelOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+    LgoExchange lgoExchange = exchangeWithCredentials(false);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     tradeService.cancelOrder("156941460160700001");
   }
 
   @Test
-  public void placeUnencryptedLimitOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+  public void placeEncryptedLimitOrder() throws IOException {
+    LgoExchange lgoExchange = exchangeWithCredentials(true);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeUnencryptedLimitOrder(
+        tradeService.placeLimitOrder(
             new LimitOrder(
                 OrderType.ASK,
                 new BigDecimal("2"),
@@ -89,33 +89,34 @@ public class LgoExchangeTradeIntegration {
   }
 
   @Test
-  public void placeUnencryptedMarketOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+  public void placeEncryptedMarketOrder() throws IOException {
+    LgoExchange lgoExchange = exchangeWithCredentials(true);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
     String orderId =
-        tradeService.placeUnencryptedMarketOrder(
+        tradeService.placeMarketOrder(
             new MarketOrder(
-                OrderType.ASK, new BigDecimal("200"), CurrencyPair.BTC_USD, null, new Date()));
+                OrderType.ASK, new BigDecimal("2"), CurrencyPair.BTC_USD, null, new Date()));
 
     System.out.println(orderId);
   }
 
   @Test
-  public void placeUnencryptedCancelOrder() throws IOException {
-    LgoExchange lgoExchange = exchangeWithCredentials();
+  public void placeEncryptedCancelOrder() throws IOException {
+    LgoExchange lgoExchange = exchangeWithCredentials(true);
     LgoTradeService tradeService = lgoExchange.getTradeService();
 
-    tradeService.placeUnencryptedCancelOrder("156940341166500001");
+    tradeService.cancelOrder("157771427343700001");
   }
 
   // api key and secret key are expected to be in test resources under
   // integration directory
   // this directory is added to .gitignore to avoid committing a real usable key
-  protected LgoExchange exchangeWithCredentials() throws IOException {
+  protected LgoExchange exchangeWithCredentials(boolean shouldEncryptOrders) throws IOException {
     ExchangeSpecification spec = LgoEnv.sandbox();
     spec.setSecretKey(readResource("/integration/private_key.pem"));
     spec.setApiKey(readResource("/integration/api_key.txt"));
+    spec.setExchangeSpecificParametersItem(LgoEnv.SHOULD_ENCRYPT_ORDERS, shouldEncryptOrders);
 
     return (LgoExchange) ExchangeFactory.INSTANCE.createExchange(spec);
   }

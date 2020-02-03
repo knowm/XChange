@@ -9,7 +9,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.4.1-SNAPSHOT</version>
+    <version>4.4.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
@@ -30,20 +30,20 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <version.java>1.8</version.java>
-        <version.assertj>3.14.0</version.assertj>
+        <version.assertj>3.15.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
         <version.commons.lang3>3.9</version.commons.lang3>
-        <version.fasterxml>2.10.0</version.fasterxml>
+        <version.fasterxml>2.10.2</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
-        <version.junit>4.12</version.junit>
+        <version.junit>4.13</version.junit>
         <version.lombok>1.18.10</version.lombok>
-        <version.knowm.xchart>3.6.0</version.knowm.xchart>
-        <version.powermock>2.0.4</version.powermock>
+        <version.knowm.xchart>3.6.1</version.knowm.xchart>
+        <version.powermock>2.0.5</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
-        <version.reflections>0.9.11</version.reflections>
-        <version.slf4j>1.7.29</version.slf4j>
-        <version.crypto>4.5.5</version.crypto>
-        <version.java-jwt>3.8.3</version.java-jwt>
+        <version.reflections>0.9.12</version.reflections>
+        <version.slf4j>1.7.30</version.slf4j>
+        <version.crypto>4.5.14</version.crypto>
+        <version.java-jwt>3.9.0</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
@@ -144,6 +144,7 @@
         <module>xchange-cryptonit</module>
         <module>xchange-cryptopia</module>
         <module>xchange-coinsuper</module>
+        <module>xchange-cryptowatch</module>
         <module>xchange-deribit</module>
         <module>xchange-dsx</module>
         <module>xchange-dragonex</module>
@@ -265,13 +266,13 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.1-jre</version>
+                <version>28.2-jre</version>
             </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>2.23.4</version>
+                <version>3.2.4</version>
                 <scope>test</scope>
             </dependency>
 
@@ -393,7 +394,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.2.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -454,7 +455,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -489,13 +490,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>3.0.0-M4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>3.0.0-M4</version>
                 <executions>
                     <execution>
                         <goals>

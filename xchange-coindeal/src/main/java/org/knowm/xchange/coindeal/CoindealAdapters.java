@@ -29,19 +29,23 @@ public final class CoindealAdapters {
     List<UserTrade> userTrades = new ArrayList<>();
 
     for (CoindealTradeHistory coindealTradeHistory : coindealTradeHistoryList) {
+      CurrencyPair currencyPair =
+          CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol());
       userTrades.add(
           new UserTrade(
               (coindealTradeHistory.getSide().equals("BUY"))
                   ? Order.OrderType.BID
                   : Order.OrderType.ASK,
               coindealTradeHistory.getQuantity(),
-              CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol()),
+              currencyPair,
               coindealTradeHistory.getPrice(),
               DateUtils.fromRfc3339DateString(coindealTradeHistory.getTimestamp()),
               coindealTradeHistory.getId(),
               coindealTradeHistory.getOrderId(),
               coindealTradeHistory.getFee(),
-              null));
+              (coindealTradeHistory.getSide().equals("BUY")
+                  ? currencyPair.base
+                  : currencyPair.counter)));
     }
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
@@ -124,17 +128,30 @@ public final class CoindealAdapters {
 
     for (CoindealOrder coindealOrder : coindealActiveOrders) {
       limitOrders.add(
-          new LimitOrder(
-              adaptOrderType(coindealOrder.getSide()),
-              coindealOrder.getQuantity(),
-              coindealOrder.getCumQuantity(),
-              CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()),
-              coindealOrder.getClientOrderId(),
-              DateUtils.fromISODateString(coindealOrder.getCreatedAt()),
-              coindealOrder.getPrice()));
+          new LimitOrder.Builder(
+                  adaptOrderType(coindealOrder.getSide()),
+                  CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()))
+              .limitPrice(coindealOrder.getPrice())
+              .originalAmount(coindealOrder.getQuantity())
+              .cumulativeAmount(coindealOrder.getCumQuantity())
+              .timestamp(DateUtils.fromISODateString(coindealOrder.getCreatedAt()))
+              .id(coindealOrder.getClientOrderId())
+              .build());
     }
 
     return new OpenOrders(limitOrders);
+  }
+
+  public static Order adaptOrder(CoindealOrder coindealOrder) throws InvalidFormatException {
+    return new LimitOrder.Builder(
+            adaptOrderType(coindealOrder.getSide()),
+            CurrencyPairDeserializer.getCurrencyPairFromString(coindealOrder.getSymbol()))
+        .limitPrice(coindealOrder.getPrice())
+        .originalAmount(coindealOrder.getQuantity())
+        .cumulativeAmount(coindealOrder.getCumQuantity())
+        .timestamp(DateUtils.fromISODateString(coindealOrder.getCreatedAt()))
+        .id(coindealOrder.getClientOrderId())
+        .build();
   }
 
   public static String adaptCurrencyPairToString(CurrencyPair currencyPair) {

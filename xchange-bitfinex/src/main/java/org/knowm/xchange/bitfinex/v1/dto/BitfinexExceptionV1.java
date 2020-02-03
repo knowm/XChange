@@ -1,8 +1,9 @@
 package org.knowm.xchange.bitfinex.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 
-public class BitfinexException extends RuntimeException {
+public class BitfinexExceptionV1 extends BitfinexException {
 
   @JsonProperty("message")
   private String message;
@@ -10,7 +11,7 @@ public class BitfinexException extends RuntimeException {
   @JsonProperty("error")
   private String error;
 
-  public BitfinexException(@JsonProperty("message") String message) {
+  public BitfinexExceptionV1(@JsonProperty("message") String message) {
 
     super();
     this.message = message;
