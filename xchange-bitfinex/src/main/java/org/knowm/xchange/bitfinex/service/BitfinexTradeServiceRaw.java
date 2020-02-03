@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
@@ -46,6 +47,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -104,7 +106,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   public BitfinexOrderStatusResponse placeBitfinexMarketOrder(
       MarketOrder marketOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
-    String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+    String pair = BitfinexUtils.toPairStringV1(marketOrder.getCurrencyPair());
     String type =
         (marketOrder.getType().equals(OrderType.BID)
                 || marketOrder.getType().equals(OrderType.EXIT_ASK))
@@ -139,7 +141,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       LimitOrder limitOrder, BitfinexOrderType orderType, long replaceOrderId) throws IOException {
     if (limitOrder instanceof BitfinexLimitOrder
         && ((BitfinexLimitOrder) limitOrder).getOcoStopLimit() != null) {
-      throw new BitfinexException("OCO orders are not yet editable");
+      throw new ExchangeException("OCO orders are not yet editable");
     }
     return sendLimitOrder(limitOrder, orderType, replaceOrderId);
   }
@@ -148,7 +150,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType, long replaceOrderId)
       throws IOException {
 
-    String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
+    String pair = BitfinexUtils.toPairStringV1(limitOrder.getCurrencyPair());
     String type =
         (limitOrder.getType().equals(Order.OrderType.BID)
                 || limitOrder.getType().equals(Order.OrderType.EXIT_ASK))
@@ -224,7 +226,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       Order o = orders.get(i);
       if (o instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) o;
-        String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
+        String pair = BitfinexUtils.toPairStringV1(limitOrder.getCurrencyPair());
         String type =
             (limitOrder.getType().equals(OrderType.BID)
                     || limitOrder.getType().equals(OrderType.EXIT_ASK))
@@ -241,7 +243,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
                 limitOrder.getLimitPrice());
       } else if (o instanceof MarketOrder) {
         MarketOrder marketOrder = (MarketOrder) o;
-        String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+        String pair = BitfinexUtils.toPairStringV1(marketOrder.getCurrencyPair());
         String type =
             (marketOrder.getType().equals(OrderType.BID)
                     || marketOrder.getType().equals(OrderType.EXIT_ASK))
@@ -487,7 +489,20 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public List<Trade> getBitfinexTradesV2(
-      String symbol, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+      String symbol, Long startTimeMillis, Long endTimeMillis, Long limit, Long sort)
+      throws IOException {
+    if (StringUtils.isBlank(symbol)) {
+      return bitfinexV2.getTrades(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          sort,
+          EmptyRequest.INSTANCE);
+    }
+
     return bitfinexV2.getTrades(
         exchange.getNonceFactory(),
         apiKey,
@@ -496,6 +511,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
         startTimeMillis,
         endTimeMillis,
         limit,
+        sort,
         EmptyRequest.INSTANCE);
   }
 

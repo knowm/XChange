@@ -1,5 +1,9 @@
 package org.knowm.xchange.bitfinex.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +36,8 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerFundingCurrency;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerTraidingPair;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -64,6 +70,7 @@ import org.slf4j.LoggerFactory;
 public final class BitfinexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   private static final AtomicBoolean warnedStopLimit = new AtomicBoolean();
 
@@ -144,17 +151,18 @@ public final class BitfinexAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
-
     String tradableIdentifier;
     String transactionCurrency;
+    int startIndex =
+        bitfinexSymbol.startsWith("t") && Character.isUpperCase(bitfinexSymbol.charAt(1)) ? 1 : 0;
     if (bitfinexSymbol.contains(":")) {
       // ie 'dusk:usd' or 'btc:cnht'
       int idx = bitfinexSymbol.indexOf(":");
-      tradableIdentifier = bitfinexSymbol.substring(0, idx);
+      tradableIdentifier = bitfinexSymbol.substring(startIndex, idx);
       transactionCurrency = bitfinexSymbol.substring(idx + 1);
     } else {
-      tradableIdentifier = bitfinexSymbol.substring(0, 3);
-      transactionCurrency = bitfinexSymbol.substring(3);
+      tradableIdentifier = bitfinexSymbol.substring(startIndex, startIndex + 3);
+      transactionCurrency = bitfinexSymbol.substring(startIndex + 3);
     }
 
     return new CurrencyPair(
@@ -550,6 +558,35 @@ public final class BitfinexAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
+  public static UserTrades adaptTradeHistoryV2(
+      List<org.knowm.xchange.bitfinex.v2.dto.trade.Trade> trades) {
+
+    List<UserTrade> pastTrades = new ArrayList<>(trades.size());
+
+    for (org.knowm.xchange.bitfinex.v2.dto.trade.Trade trade : trades) {
+      OrderType orderType = trade.getExecAmount().signum() >= 0 ? OrderType.BID : OrderType.ASK;
+      BigDecimal amount =
+          trade.getExecAmount().signum() == -1
+              ? trade.getExecAmount().negate()
+              : trade.getExecAmount();
+      final BigDecimal fee = trade.getFee() != null ? trade.getFee().negate() : null;
+      pastTrades.add(
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(amount)
+              .currencyPair(adaptCurrencyPair(trade.getSymbol()))
+              .price(trade.getExecPrice())
+              .timestamp(trade.getTimestamp())
+              .id(trade.getId())
+              .orderId(trade.getOrderId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+              .build());
+    }
+
+    return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
+  }
+
   private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
 
     BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
@@ -838,5 +875,31 @@ public final class BitfinexAdapters {
       tradesList.add(adaptPublicTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
+  }
+
+  public static org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] adoptBitfinexTickers(
+      List<ArrayNode> tickers) throws IOException {
+
+    return tickers.stream()
+        .map(
+            array -> {
+              // tBTCUSD -> traiding pair
+              // fUSD -> funding currency
+              try {
+                String symbol = array.get(0).asText();
+                switch (symbol.charAt(0)) {
+                  case 't':
+                    return mapper.treeToValue(array, BitfinexTickerTraidingPair.class);
+                  case 'f':
+                    return mapper.treeToValue(array, BitfinexTickerFundingCurrency.class);
+                  default:
+                    throw new RuntimeException(
+                        "Invalid symbol <" + symbol + ">, it must start with 't' or 'f'.");
+                }
+              } catch (JsonProcessingException e) {
+                throw new RuntimeException("Could not convert ticker.", e);
+              }
+            })
+        .toArray(org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[]::new);
   }
 }

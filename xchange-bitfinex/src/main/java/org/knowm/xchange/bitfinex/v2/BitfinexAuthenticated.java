@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
@@ -37,7 +38,27 @@ public interface BitfinexAuthenticated extends Bitfinex {
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
 
-  /** https://docs.bitfinex.com/v2/reference#rest-auth-trades-hist */
+  /**
+   * https://docs.bitfinex.com/v2/reference#rest-auth-trades-hist
+   *
+   * <p>Two implementations: 1. returns trades of all symboles 2. returns trades of a specific
+   * symbol
+   *
+   * <p>This is necessary because @Path doesn't seems to support optional parameters
+   */
+  @POST
+  @Path("auth/r/trades/hist")
+  List<Trade> getTrades(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      @QueryParam("start") Long startTimeMillis,
+      @QueryParam("end") Long endTimeMillis,
+      @QueryParam("limit") Long limit,
+      @QueryParam("sort") Long sort,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
   @POST
   @Path("auth/r/trades/{symbol}/hist")
   List<Trade> getTrades(
@@ -48,6 +69,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
+      @QueryParam("sort") Long sort,
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
 
@@ -59,6 +81,33 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam(BFX_APIKEY) String apiKey,
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
       @PathParam("symbol") String symbol,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
+  /** https://docs.bitfinex.com/reference#rest-auth-ledgers */
+
+  @POST
+  @Path("auth/r/ledgers/hist")
+  List<LedgerEntry> getLedgerEntries(
+    @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+    @HeaderParam(BFX_APIKEY) String apiKey,
+    @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+    @QueryParam("start") Long startTimeMillis,
+    @QueryParam("end") Long endTimeMillis,
+    @QueryParam("limit") Long limit,
+    EmptyRequest empty)
+    throws IOException, BitfinexExceptionV2;
+
+  @POST
+  @Path("auth/r/ledgers/{currency}/hist")
+  List<LedgerEntry> getLedgerEntries(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      @PathParam("currency") String currency,
+      @QueryParam("start") Long startTimeMillis,
+      @QueryParam("end") Long endTimeMillis,
+      @QueryParam("limit") Long limit,
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
 }

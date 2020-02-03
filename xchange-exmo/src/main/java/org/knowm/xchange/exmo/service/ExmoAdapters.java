@@ -2,6 +2,7 @@ package org.knowm.xchange.exmo.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,14 +42,21 @@ public class ExmoAdapters {
 
   public static List<LimitOrder> adaptOrders(
       CurrencyPair currencyPair, Map<String, Object> orderBookData, Order.OrderType type) {
-    List<LimitOrder> orders = new ArrayList<>();
-    for (List<String> orderData :
-        (List<List<String>>) orderBookData.get(type.equals(Order.OrderType.ASK) ? "ask" : "bid")) {
+    if (orderBookData == null) {
+      return Collections.EMPTY_LIST;
+    }
+    List<List<String>> orders =
+        (List<List<String>>) orderBookData.get(type.equals(Order.OrderType.ASK) ? "ask" : "bid");
+    if (orders == null) {
+      return Collections.EMPTY_LIST;
+    }
+    List<LimitOrder> result = new ArrayList<>();
+    for (List<String> orderData : orders) {
       BigDecimal price = new BigDecimal(orderData.get(0));
       BigDecimal quantity = new BigDecimal(orderData.get(1));
-      orders.add(new LimitOrder(type, quantity, currencyPair, null, null, price));
+      result.add(new LimitOrder(type, quantity, currencyPair, null, null, price));
     }
-    return orders;
+    return result;
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, Map<String, String> data) {
