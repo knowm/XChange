@@ -9,10 +9,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import org.knowm.xchange.kraken.dto.account.results.*;
 
 public class KrakenAccountJSONTest {
 
@@ -113,5 +110,22 @@ public class KrakenAccountJSONTest {
     assertThat(maker.getNextFee()).isEqualTo("0.1400");
     assertThat(maker.getNextVolume()).isEqualTo("1000.0000");
     assertThat(maker.getTierVolume()).isEqualTo("0.0000");
+  }
+
+  @Test
+  public void testKrakenWebsocketTokenUnmarshal() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        KrakenAccountJSONTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-krakenWebsocketToken-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenWebsocketTokenResult krakenResult =
+        mapper.readValue(is, KrakenWebsocketTokenResult.class);
+    KrakenWebsocketToken tokenResult = krakenResult.getResult();
+
+    assertThat(tokenResult.getToken()).isEqualTo("44444444444444444444444444444444");
+    assertThat(tokenResult.getExpiresInSeconds()).isEqualTo(900);
   }
 }

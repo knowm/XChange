@@ -1,10 +1,15 @@
 package org.knowm.xchange.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.Builder;
 
 /**
  * DTO representing a market order
@@ -14,9 +19,46 @@ import org.knowm.xchange.dto.Order;
  * therefore used when certainty of execution is a priority over price of execution. <strong>Use
  * market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
  */
+@JsonDeserialize(builder = MarketOrder.Builder.class)
 public class MarketOrder extends Order {
 
   private static final long serialVersionUID = -3393286268772319210L;
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param originalAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's
+   *     server, null if not provided
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param cumulativeAmount the amount that has been filled
+   * @param fee the fee associated with this order
+   * @param status the status of the order at the exchange or broker
+   */
+  public MarketOrder(
+      OrderType type,
+      BigDecimal originalAmount,
+      CurrencyPair currencyPair,
+      String id,
+      Date timestamp,
+      BigDecimal averagePrice,
+      BigDecimal cumulativeAmount,
+      BigDecimal fee,
+      OrderStatus status,
+      String userReference) {
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        id,
+        timestamp,
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        status,
+        userReference);
+  }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -91,9 +133,13 @@ public class MarketOrder extends Order {
     super(type, originalAmount, currencyPair, "", null);
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder extends Order.Builder {
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    @JsonCreator
+    public Builder(
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
 
       super(orderType, currencyPair);
     }
@@ -108,6 +154,7 @@ public class MarketOrder extends Order {
           .flags(order.getOrderFlags())
           .averagePrice(order.getAveragePrice())
           .fee(order.getFee())
+          .userReference(order.getUserReference())
           .orderStatus(order.getStatus());
     }
 
@@ -160,6 +207,12 @@ public class MarketOrder extends Order {
     }
 
     @Override
+    public Builder userReference(String userReference) {
+
+      return (Builder) super.userReference(userReference);
+    }
+
+    @Override
     public Builder timestamp(Date timestamp) {
 
       return (Builder) super.timestamp(timestamp);
@@ -177,6 +230,7 @@ public class MarketOrder extends Order {
       return (Builder) super.flag(flag);
     }
 
+    @Override
     public MarketOrder build() {
 
       MarketOrder order =
@@ -189,7 +243,8 @@ public class MarketOrder extends Order {
               averagePrice,
               cumulativeAmount,
               fee,
-              status);
+              status,
+              userReference);
       order.setOrderFlags(flags);
       return order;
     }

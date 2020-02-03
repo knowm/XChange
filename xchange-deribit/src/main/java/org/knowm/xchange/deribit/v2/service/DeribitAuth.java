@@ -7,26 +7,30 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class DeribitAuth extends BaseParamsDigest {
   private final String clientId;
+  private final SynchronizedValueFactory<Long> nonce;
 
-  private DeribitAuth(String clientId, String clientSecret) {
+  private DeribitAuth(String clientId, String clientSecret, SynchronizedValueFactory<Long> nonce) {
     super(clientSecret, HMAC_SHA_256);
     this.clientId = clientId;
+    this.nonce = nonce;
   }
 
-  public static DeribitAuth createDeribitAuth(String clientId, String clientSecret) {
+  public static DeribitAuth createDeribitAuth(
+      String clientId, String clientSecret, SynchronizedValueFactory<Long> nonce) {
     return clientId == null || clientSecret == null
         ? null
-        : new DeribitAuth(clientId, clientSecret);
+        : new DeribitAuth(clientId, clientSecret, nonce);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
     String timestamp = "" + System.currentTimeMillis();
-    String nonce = timestamp;
+    String nonce = "" + this.nonce.createValue();
     String uri = restInvocation.getPath() + "?" + restInvocation.getQueryString();
     String body = restInvocation.getRequestBody();
     String httpMethod = restInvocation.getHttpMethod();
