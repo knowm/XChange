@@ -357,6 +357,23 @@ public class BitmexAdapters {
             .build();
   }
 
+  public static UserTrade adoptFundingRecords(BitmexPrivateExecution exec) {
+    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
+
+    return exec.execType.equals("Funding")
+            ? new UserTrade.Builder()
+            .id(exec.execID)
+            .orderId(exec.orderID)
+            .currencyPair(pair)
+            .originalAmount(exec.lastQty)
+            .price(exec.lastPx)
+            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC,MathContext.DECIMAL32))
+            .feeCurrency(Currency.XBT)
+            .timestamp(exec.timestamp)
+            .build()
+            : null;
+  }
+
   private static OrderType convertType(String side) {
     switch (side) {
       case "Buy":

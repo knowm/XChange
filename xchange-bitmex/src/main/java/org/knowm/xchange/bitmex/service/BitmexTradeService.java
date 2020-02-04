@@ -186,4 +186,39 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
             .collect(Collectors.toList());
     return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
+
+  public UserTrades getFundingRecords(TradeHistoryParams params){
+    String symbol = null;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      symbol =
+              BitmexAdapters.adaptCurrencyPairToSymbol(
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+    }
+    Long start = null;
+    if (params instanceof TradeHistoryParamOffset) {
+      start = ((TradeHistoryParamOffset) params).getOffset();
+    }
+    Date startTime = null;
+    Date endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = timeSpan.getStartTime();
+      endTime = timeSpan.getEndTime();
+    }
+    int count = 100;
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limit = (TradeHistoryParamLimit) params;
+      if (limit.getLimit() != null) {
+        count = limit.getLimit();
+      }
+    }
+
+    List<UserTrade> fundingList =
+            getTradeHistory(symbol, null, null, count, start, false, startTime, endTime).stream()
+                    .map(BitmexAdapters::adoptFundingRecords)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+    return new UserTrades(fundingList, TradeSortType.SortByTimestamp);
+
+  }
 }
