@@ -1,0 +1,27 @@
+{
+  "currency:BTC": {
+    "available": "1",
+    "balance": "0",
+    "borrowed": "0",
+    "can_withdraw": "0",
+    "frozen": "0",
+    "hold": "0",
+    "holds": "0",
+    "lending_fee": "0"
+  },
+  "currency:USD": {
+    "available": "0",
+    "balance": "0",
+    "borrowed": "0",
+    "can_withdraw": "0",
+    "frozen": "0",
+    "hold": "0",
+    "holds": "0",
+    "lending_fee": "0"
+  },
+  "liquidation_price": "0",
+  "maint_margin_ratio": "0.05",
+  "margin_ratio": "",
+  "risk_rate": "",
+  "tiers": "1"
+}
