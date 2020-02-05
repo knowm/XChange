@@ -43,4 +43,3 @@ public class MarginAccountSettingsRecord {
     private String rate;
   }
 }
-

@@ -10,9 +10,9 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MarginSetLeverageRequest {
 
-    @JsonProperty("instrument_id")
-    private String instrumentId;
+  @JsonProperty("instrument_id")
+  private String instrumentId;
 
-    @JsonProperty("leverage")
-    private String leverage;
+  @JsonProperty("leverage")
+  private String leverage;
 }

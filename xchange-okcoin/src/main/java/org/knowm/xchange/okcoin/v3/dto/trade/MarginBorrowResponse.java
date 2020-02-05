@@ -10,9 +10,9 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MarginBorrowResponse extends OkexResponse {
 
-    @JsonProperty("borrow_id")
-    private String borrowId;
+  @JsonProperty("borrow_id")
+  private String borrowId;
 
-    @JsonProperty("client_oid")
-    private String clientOid;
+  @JsonProperty("client_oid")
+  private String clientOid;
 }
