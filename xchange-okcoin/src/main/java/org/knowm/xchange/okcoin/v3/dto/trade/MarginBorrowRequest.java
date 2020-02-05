@@ -10,13 +10,12 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MarginBorrowRequest {
 
-    @JsonProperty("instrument_id")
-    private String instrumentId;
+  @JsonProperty("instrument_id")
+  private String instrumentId;
 
-    @JsonProperty("currency")
-    private String currency;
+  @JsonProperty("currency")
+  private String currency;
 
-    @JsonProperty("amount")
-    private String amount;
+  @JsonProperty("amount")
+  private String amount;
 }
-

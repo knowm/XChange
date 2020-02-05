@@ -67,10 +67,8 @@ public class MarginAccountResponse extends OkexResponse {
     @JsonProperty("holds")
     private String holds;
 
-    /**	Interest (unpaid) */
+    /** Interest (unpaid) */
     @JsonProperty("lending_fee")
     private String lendingFee;
-
   }
 }
-
