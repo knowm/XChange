@@ -480,7 +480,7 @@ public interface OkexV3 {
      * ******************************** Margin Trading API *********************************
      */
     @GET
-    @Path("/api/margin/v3/accounts")
+    @Path("/margin/v3/accounts")
     MarginAccountResponse marginAccounts(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
             @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
@@ -489,7 +489,7 @@ public interface OkexV3 {
             throws IOException, OkexException;
 
     @GET
-    @Path("/api/margin/v3/accounts/availability")
+    @Path("/margin/v3/accounts/availability")
     List<MarginAccountSettingsRecord> marginAccountsSettings(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
             @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
@@ -508,7 +508,7 @@ public interface OkexV3 {
             SpotOrderPlacementRequest req)
             throws IOException, OkexException;
     @POST
-    @Path("/api/margin/v3/accounts/{instrument_id}/leverage")
+    @Path("/margin/v3/accounts/{instrument_id}/leverage")
     @Consumes(MediaType.APPLICATION_JSON)
     OkexResponse setLeverage(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
@@ -520,7 +520,7 @@ public interface OkexV3 {
             throws IOException, OkexException;
 
     @POST
-    @Path("/api/margin/v3/accounts/borrow")
+    @Path("/margin/v3/accounts/borrow")
     @Consumes(MediaType.APPLICATION_JSON)
     MarginBorrowResponse marginBorrow(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
@@ -531,7 +531,7 @@ public interface OkexV3 {
             throws IOException, OkexException;
 
     @POST
-    @Path("/api/margin/v3/accounts/repayment")
+    @Path("/margin/v3/accounts/repayment")
     @Consumes(MediaType.APPLICATION_JSON)
     MarginRepaymentResponse marginRepayment(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
