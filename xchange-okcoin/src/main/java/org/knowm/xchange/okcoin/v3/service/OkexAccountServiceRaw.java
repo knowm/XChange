@@ -28,14 +28,6 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     return okex.spotTradingAccount(apikey, digest, timestamp(), passphrase);
   }
 
-  public MarginAccountResponse marginAccounts() throws IOException {
-    return okex.marginAccounts(apikey, digest, timestamp(), passphrase);
-  }
-
-  public List<MarginAccountSettingsRecord> marginAccountsSettings() throws IOException {
-    return okex.marginAccountsSettings(apikey, digest, timestamp(), passphrase);
-  }
-
   public FundsTransferResponse fundsTransfer(
       String currency,
       BigDecimal amount,
@@ -103,4 +95,16 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     res.checkResult();
     return res.getInfo();
   }
+
+
+  /** ******************************** Margin Account API ********************************* */
+
+  public MarginAccountResponse marginAccounts() throws IOException {
+    return okex.marginAccounts(apikey, digest, timestamp(), passphrase);
+  }
+
+  public List<MarginAccountSettingsRecord> marginAccountsSettings() throws IOException {
+    return okex.marginAccountsSettings(apikey, digest, timestamp(), passphrase);
+  }
+
 }
