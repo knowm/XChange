@@ -100,7 +100,14 @@ public class LiquiAdapters {
     final BigDecimal price = trade.getPrice();
     final long tradeId = trade.getTradeId();
 
-    return new Trade(type, originalAmount, currencyPair, price, timestamp, String.valueOf(tradeId));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(originalAmount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(timestamp)
+        .id(String.valueOf(tradeId))
+        .build();
   }
 
   public static OrderType adaptOrderType(final LiquiTradeType liquiTradeType) {
@@ -157,16 +164,16 @@ public class LiquiAdapters {
     final Date timestamp = new Date(liquiTrade.getTimestamp() * 1000L);
     final BigDecimal price = liquiTrade.getRate();
 
-    return new UserTrade(
-        orderType,
-        originalAmount,
-        pair,
-        price,
-        timestamp,
-        String.valueOf(tradeId),
-        String.valueOf(tradeId),
-        new BigDecimal("0"),
-        null);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(originalAmount)
+        .currencyPair(pair)
+        .price(price)
+        .timestamp(timestamp)
+        .id(String.valueOf(tradeId))
+        .orderId(String.valueOf(tradeId))
+        .feeAmount(BigDecimal.ZERO)
+        .build();
   }
 
   public static Order adaptOrderInfo(final LiquiOrderInfo orderInfo) {

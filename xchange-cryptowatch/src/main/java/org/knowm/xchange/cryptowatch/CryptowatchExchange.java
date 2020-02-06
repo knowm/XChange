@@ -1,5 +1,7 @@
 package org.knowm.xchange.cryptowatch;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,9 +13,6 @@ import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataServiceRaw;
 import org.knowm.xchange.cryptowatch.service.CryptowatchTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 /** @author massi.gerardi */
 public class CryptowatchExchange extends BaseExchange implements Exchange {

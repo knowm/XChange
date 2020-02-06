@@ -106,7 +106,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     }
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } 
+    }
     return false;
   }
 

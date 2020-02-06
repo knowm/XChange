@@ -1,5 +1,11 @@
 package org.knowm.xchange.cryptowatch;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
@@ -13,13 +19,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class CryptowatchAdaptersTest {
 
