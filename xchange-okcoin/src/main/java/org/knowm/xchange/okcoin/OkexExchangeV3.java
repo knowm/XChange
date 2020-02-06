@@ -20,7 +20,7 @@ public class OkexExchangeV3 extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
-    spec.setSslUri("https://www.okcoin.com");
+    spec.setSslUri("https://www.okex.com");
     spec.setHost("www.okex.com");
     spec.setExchangeName("OKEx");
     spec.setExchangeDescription("OKEx is a globally oriented crypto-currency trading platform.");
