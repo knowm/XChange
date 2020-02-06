@@ -481,7 +481,7 @@ public interface OkexV3 {
      */
     @GET
     @Path("/margin/v3/accounts")
-    MarginAccountResponse marginAccounts(
+    MarginAccountResponse[] marginAccounts(
             @HeaderParam(OK_ACCESS_KEY) String apiKey,
             @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
             @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
