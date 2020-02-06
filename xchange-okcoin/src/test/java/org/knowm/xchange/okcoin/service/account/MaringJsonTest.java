@@ -17,10 +17,10 @@ public class MaringJsonTest {
 
   @Test
   public void account() throws Exception {
-    MarginAccountResponse res =
-        readJson("example-maring-account.json", MarginAccountResponse.class);
-    assertThat(res.getCurrencyInfo().get("currency:BTC").getAvailable()).isEqualTo("1");
-    assertThat(res.getMaintMarginRatio()).isEqualTo("0.05");
+    MarginAccountResponse[] res =
+        readJson("example-maring-account.json", MarginAccountResponse[].class);
+    assertThat(res[0].getCurrencyInfo().get("currency:BTC").getAvailable()).isEqualTo("0.021348");
+    assertThat(res[0].getMaintMarginRatio()).isEqualTo("0.05");
   }
 
   @Test
