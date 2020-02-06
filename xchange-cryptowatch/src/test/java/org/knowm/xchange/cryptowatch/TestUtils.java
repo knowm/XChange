@@ -1,7 +1,6 @@
 package org.knowm.xchange.cryptowatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.io.InputStream;
 

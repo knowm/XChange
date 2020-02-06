@@ -112,13 +112,13 @@ public class BitbayAdapters {
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
       Trade trade =
-          new Trade(
-              null,
-              bitbayTrade.getAmount(),
-              currencyPair,
-              bitbayTrade.getPrice(),
-              new Date(bitbayTrade.getDate() * 1000),
-              bitbayTrade.getTid());
+          new Trade.Builder()
+              .originalAmount(bitbayTrade.getAmount())
+              .currencyPair(currencyPair)
+              .price(bitbayTrade.getPrice())
+              .timestamp(new Date(bitbayTrade.getDate() * 1000))
+              .id(bitbayTrade.getTid())
+              .build();
 
       tradeList.add(trade);
     }
@@ -206,16 +206,15 @@ public class BitbayAdapters {
       throw new IllegalArgumentException(e);
     }
 
-    return new UserTrade(
-        type,
-        bitbayOrder.getAmount(),
-        currencyPair,
-        bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
-        date,
-        String.valueOf(bitbayOrder.getId()),
-        String.valueOf(bitbayOrder.getId()),
-        null,
-        null);
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(bitbayOrder.getAmount())
+        .currencyPair(currencyPair)
+        .price(bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()))
+        .timestamp(date)
+        .id(String.valueOf(bitbayOrder.getId()))
+        .orderId(String.valueOf(bitbayOrder.getId()))
+        .build();
   }
 
   public static List<UserTrade> adaptTransactions(List<Map> response) {
@@ -244,7 +243,14 @@ public class BitbayAdapters {
         // there's no id - create a synthetic one
         String id = (type + "_" + date + "_" + market).replaceAll("\\s+", "");
 
-        trades.add(new UserTrade(orderType, amount, pair, price, timestamp, id, null, null, null));
+        trades.add(
+            new UserTrade.Builder()
+                .type(orderType)
+                .originalAmount(amount)
+                .currencyPair(pair)
+                .price(price)
+                .timestamp(timestamp)
+                .build());
       } catch (ParseException e) {
         throw new IllegalStateException("Cannot parse " + map);
       }

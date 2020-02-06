@@ -139,16 +139,17 @@ public final class BTCMarketsAdapters {
     final String tradeId = Long.toString(trade.getId());
     final Long orderId = trade.getOrderId();
     final String feeCurrency = currencyPair.base.getCurrencyCode();
-    return new UserTrade(
-        type,
-        trade.getVolume(),
-        currencyPair,
-        trade.getPrice().abs(),
-        trade.getCreationTime(),
-        tradeId,
-        String.valueOf(orderId),
-        trade.getFee(),
-        Currency.getInstance(feeCurrency));
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(trade.getVolume())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice().abs())
+        .timestamp(trade.getCreationTime())
+        .id(tradeId)
+        .orderId(String.valueOf(orderId))
+        .feeAmount(trade.getFee())
+        .feeCurrency(Currency.getInstance(feeCurrency))
+        .build();
   }
 
   public static Order.OrderType adaptOrderType(BTCMarketsOrder.Side orderType) {

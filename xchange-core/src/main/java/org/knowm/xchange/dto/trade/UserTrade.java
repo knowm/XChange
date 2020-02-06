@@ -28,7 +28,7 @@ public class UserTrade extends Trade {
   private final Currency feeCurrency;
 
   /** The order reference id which has been added by the user on the order creation */
-  private String orderUserReference;
+  private final String orderUserReference;
 
   /**
    * This constructor is called to construct user's trade objects (in {@link
@@ -43,6 +43,7 @@ public class UserTrade extends Trade {
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
    * @param feeCurrency The symbol of the currency in which the fee was charged
+   * @param orderUserReference The id that the user has insert to the trade
    */
   public UserTrade(
       OrderType type,
@@ -53,13 +54,15 @@ public class UserTrade extends Trade {
       String id,
       String orderId,
       BigDecimal feeAmount,
-      Currency feeCurrency) {
+      Currency feeCurrency,
+      String orderUserReference) {
 
-    super(type, originalAmount, currencyPair, price, timestamp, id);
+    super(type, originalAmount, currencyPair, price, timestamp, id, null, null);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
     this.feeCurrency = feeCurrency;
+    this.orderUserReference = orderUserReference;
   }
 
   public String getOrderId() {
@@ -79,10 +82,6 @@ public class UserTrade extends Trade {
 
   public String getOrderUserReference() {
     return orderUserReference;
-  }
-
-  public void setOrderUserReference(String orderUserReference) {
-    this.orderUserReference = orderUserReference;
   }
 
   @Override
@@ -202,21 +201,17 @@ public class UserTrade extends Trade {
 
     @Override
     public UserTrade build() {
-      UserTrade userTrade =
-          new UserTrade(
-              type,
-              originalAmount,
-              currencyPair,
-              price,
-              timestamp,
-              id,
-              orderId,
-              feeAmount,
-              feeCurrency);
-      userTrade.setMakerOrderId(makerOrderId);
-      userTrade.setTakerOrderId(takerOrderId);
-      userTrade.setOrderUserReference(orderUserReference);
-      return userTrade;
+      return new UserTrade(
+          type,
+          originalAmount,
+          currencyPair,
+          price,
+          timestamp,
+          id,
+          orderId,
+          feeAmount,
+          feeCurrency,
+          orderUserReference);
     }
   }
 }

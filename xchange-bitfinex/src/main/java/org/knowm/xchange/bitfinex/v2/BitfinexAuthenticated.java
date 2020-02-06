@@ -85,18 +85,17 @@ public interface BitfinexAuthenticated extends Bitfinex {
       throws IOException, BitfinexExceptionV2;
 
   /** https://docs.bitfinex.com/reference#rest-auth-ledgers */
-
   @POST
   @Path("auth/r/ledgers/hist")
   List<LedgerEntry> getLedgerEntries(
-    @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
-    @HeaderParam(BFX_APIKEY) String apiKey,
-    @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
-    @QueryParam("start") Long startTimeMillis,
-    @QueryParam("end") Long endTimeMillis,
-    @QueryParam("limit") Long limit,
-    EmptyRequest empty)
-    throws IOException, BitfinexExceptionV2;
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      @QueryParam("start") Long startTimeMillis,
+      @QueryParam("end") Long endTimeMillis,
+      @QueryParam("limit") Long limit,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
 
   @POST
   @Path("auth/r/ledgers/{currency}/hist")

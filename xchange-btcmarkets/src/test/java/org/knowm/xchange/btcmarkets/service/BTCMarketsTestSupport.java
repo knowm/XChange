@@ -117,56 +117,55 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[] {
-      new UserTrade(
-          Order.OrderType.ASK,
-          new BigDecimal("20.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("10.00000000"),
-          new Date(111111111L),
-          "1",
-          "null",
-          new BigDecimal("1"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.ASK,
-          new BigDecimal("40.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("30.00000000"),
-          new Date(222222222L),
-          "2",
-          "null",
-          new BigDecimal("2"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("60.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("50.00000000"),
-          new Date(333333333L),
-          "3",
-          "null",
-          new BigDecimal("3"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("80.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("70.00000000"),
-          new Date(444444444L),
-          "4",
-          "null",
-          new BigDecimal("4"),
-          Currency.AUD),
-      new UserTrade(
-          Order.OrderType.BID,
-          new BigDecimal("0"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("90.00000000"),
-          new Date(555555555L),
-          "5",
-          "null",
-          new BigDecimal("5"),
-          Currency.AUD)
+      new UserTrade.Builder()
+          .type(Order.OrderType.ASK)
+          .originalAmount(new BigDecimal("20.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("10.00000000"))
+          .timestamp(new Date(111111111L))
+          .id("1")
+          .feeAmount(BigDecimal.ONE)
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.ASK)
+          .originalAmount(new BigDecimal("40.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("30.00000000"))
+          .timestamp(new Date(222222222L))
+          .id("2")
+          .feeAmount(BigDecimal.valueOf(2))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(new BigDecimal("60.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("50.00000000"))
+          .timestamp(new Date(333333333L))
+          .id("3")
+          .feeAmount(BigDecimal.valueOf(3))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(new BigDecimal("80.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("70.00000000"))
+          .timestamp(new Date(444444444L))
+          .id("4")
+          .feeAmount(BigDecimal.valueOf(4))
+          .feeCurrency(Currency.AUD)
+          .build(),
+      new UserTrade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(BigDecimal.ZERO)
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("90.00000000"))
+          .timestamp(new Date(555555555L))
+          .feeAmount(BigDecimal.valueOf(5))
+          .feeCurrency(Currency.AUD)
+          .build()
     };
   }
 

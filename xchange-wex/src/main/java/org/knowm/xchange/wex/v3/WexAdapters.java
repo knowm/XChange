@@ -109,7 +109,14 @@ public final class WexAdapters {
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
     final String tradeId = String.valueOf(bTCETrade.getTid());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   /**
@@ -211,16 +218,15 @@ public final class WexAdapters {
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
       trades.add(
-          new UserTrade(
-              type,
-              originalAmount,
-              currencyPair,
-              price,
-              timeStamp,
-              tradeId,
-              orderId,
-              null,
-              (Currency) null));
+          new UserTrade.Builder()
+              .type(type)
+              .originalAmount(originalAmount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timeStamp)
+              .id(tradeId)
+              .orderId(orderId)
+              .build());
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
