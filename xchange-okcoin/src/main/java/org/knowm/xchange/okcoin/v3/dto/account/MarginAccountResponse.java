@@ -18,6 +18,10 @@ public class MarginAccountResponse extends OkexResponse {
   /** map: currency:BTC-> CurrencyInfo */
   private Map<String, CurrencyInfo> currencyInfo = new HashMap<>();
 
+  /** Instrument */
+  @JsonProperty("instrument_id")
+  private String instrumentId;
+
   /** Liquidation price */
   @JsonProperty("liquidation_price")
   private String liquidationPrice;
@@ -29,6 +33,10 @@ public class MarginAccountResponse extends OkexResponse {
   /** Margin ratio */
   @JsonProperty("margin_ratio")
   private String marginRatio;
+
+  /** product_id */
+  @JsonProperty("product_id")
+  private String productId;
 
   /** Risk rate */
   @JsonProperty("risk_rate")
