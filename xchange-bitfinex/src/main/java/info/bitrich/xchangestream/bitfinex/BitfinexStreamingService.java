@@ -174,7 +174,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
                     }
                     // {"channel":"ticker","pair":"BTCUSD","event":"error","msg":"subscribe: dup","code":10301}
                     if (message.get("code").asInt() == SUBSCRIPTION_DUP) {
-                        LOG.warn("Already subscribed: " + message.asText());
+                        LOG.warn("Already subscribed: " + message.toString());
                         return;
                     }
                     super.handleError(message, new ExchangeException("Error code: " + message.get(ERROR_CODE).asText()));
