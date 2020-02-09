@@ -385,6 +385,32 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
+  @Path("sapi/v1/asset/assetDividend")
+  /**
+   * Fetch airdrops
+   *
+   * @param asset
+   * @param startTime
+   * @param endTime
+   * @param recvWindow
+   * @param timestamp
+   * @param limit
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  AssetDividendList assetDividend(
+      @QueryParam("asset") String asset,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @QueryParam("limit") Integer limit,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
   @Path("wapi/v3/assetDetail.html")
   /**
    * Fetch asset details.

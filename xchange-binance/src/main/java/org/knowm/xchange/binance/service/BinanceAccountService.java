@@ -201,8 +201,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
+      Integer limit = null;
+
+      if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit hpl = (TradeHistoryParamLimit) params;
+        limit = hpl.getLimit();
+      }
+
       boolean withdrawals = true;
       boolean deposits = true;
+      boolean airdrops = false;
 
       Long startTime = null;
       Long endTime = null;
@@ -221,6 +229,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         if (f.getType() != null) {
           withdrawals = f.getType() == Type.WITHDRAWAL;
           deposits = f.getType() == Type.DEPOSIT;
+          airdrops = f.getType() == Type.AIRDROP;
         }
       }
 
@@ -264,6 +273,27 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           null,
                           null,
                           null));
+                });
+      }
+
+      if (airdrops) {
+        super.assetDividends(asset, startTime, endTime, recvWindow, getTimestamp(), limit)
+            .forEach(
+                a -> {
+                  result.add(
+                      new FundingRecord(
+                          null,
+                          null,
+                          new Date(a.getDivTime()),
+                          Currency.getInstance(a.getAsset()),
+                          a.getAmount(),
+                          null,
+                          String.valueOf(a.getTranId()),
+                          Type.AIRDROP,
+                          Status.COMPLETE,
+                          null,
+                          null,
+                          a.getEnInfo()));
                 });
       }
 

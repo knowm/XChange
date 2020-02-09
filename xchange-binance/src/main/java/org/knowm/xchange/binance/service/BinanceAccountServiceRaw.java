@@ -118,6 +118,22 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return checkWapiResponse(result);
   }
 
+  public List<AssetDividendList.AssetDividend> assetDividends(
+      String asset, Long startTime, Long endTime, Long recvWindow, long timestamp, Integer limit)
+      throws BinanceException, IOException {
+    AssetDividendList result =
+        binance.assetDividend(
+            asset,
+            startTime,
+            endTime,
+            recvWindow,
+            timestamp,
+            limit,
+            super.apiKey,
+            super.signatureCreator);
+    return result.getData();
+  }
+
   private <T> T checkWapiResponse(WapiResponse<T> result) {
     if (!result.success) {
       BinanceException exception;
