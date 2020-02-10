@@ -15,4 +15,11 @@ public class MarginBorrowResponse extends OkexResponse {
 
   @JsonProperty("client_oid")
   private String clientOid;
+
+  public MarginBorrowResponse() {}
+
+  public MarginBorrowResponse(String borrowId, String clientOid) {
+    this.borrowId = borrowId;
+    this.clientOid = clientOid;
+  }
 }
