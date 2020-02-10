@@ -21,4 +21,11 @@ public class MarginRepaymentRequest {
 
   @JsonProperty("amount")
   private String amount;
+
+  public MarginRepaymentRequest(String borrowId, String instrument_id, String currency, String amount) {
+    this.borrowId = borrowId;
+    this.instrument_id = instrument_id;
+    this.currency = currency;
+    this.amount = amount;
+  }
 }

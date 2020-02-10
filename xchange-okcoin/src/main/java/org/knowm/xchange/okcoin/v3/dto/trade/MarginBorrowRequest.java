@@ -18,4 +18,10 @@ public class MarginBorrowRequest {
 
   @JsonProperty("amount")
   private String amount;
+
+  public MarginBorrowRequest(String instrumentId, String currency, String amount) {
+    this.instrumentId = instrumentId;
+    this.currency = currency;
+    this.amount = amount;
+  }
 }
