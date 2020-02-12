@@ -118,7 +118,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return checkWapiResponse(result);
   }
 
-  public AssetDribbletLog getAssetDribbletLog () throws BinanceException, IOException {
+  public AssetDribbletLogResponse getAssetDribbletLog () throws BinanceException, IOException {
     return binance.getAssetDribbletLog(getRecvWindow(), getTimestamp(), super.apiKey, super.signatureCreator);
   }
 

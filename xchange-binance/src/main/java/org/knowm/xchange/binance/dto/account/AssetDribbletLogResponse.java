@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-public final class AssetDribbletLog
-    extends WapiResponse<List<AssetDribbletLog.AssetDribbletLogResult>> {
+public final class AssetDribbletLogResponse
+    extends WapiResponse<List<AssetDribbletLogResponse.AssetDribbletLogResult>> {
 
   private final AssetDribbletLogResult results;
 
-  public AssetDribbletLog(
+  public AssetDribbletLogResponse(
       @JsonProperty("results") AssetDribbletLogResult results,
       @JsonProperty("success") boolean success,
       @JsonProperty("msg") String msg) {
