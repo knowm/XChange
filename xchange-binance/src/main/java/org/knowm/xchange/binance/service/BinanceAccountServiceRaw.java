@@ -122,6 +122,14 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return binance.getAssetDribbletLog(getRecvWindow(), getTimestamp(), super.apiKey, super.signatureCreator);
   }
 
+  public AssetDividendResponse getAssetDividend (Long startTime, Long endTime) throws BinanceException, IOException {
+    return getAssetDividend("", startTime, endTime);
+  }
+
+  public AssetDividendResponse getAssetDividend (String asset, Long startTime, Long endTime) throws BinanceException, IOException {
+    return binance.getAssetDividend(asset, startTime, endTime, getRecvWindow(), getTimestamp(), super.apiKey, super.signatureCreator);
+  }
+
   private <T> T checkWapiResponse(WapiResponse<T> result) {
     if (!result.success) {
       BinanceException exception;
