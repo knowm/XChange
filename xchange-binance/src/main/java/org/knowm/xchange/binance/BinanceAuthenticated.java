@@ -375,7 +375,7 @@ public interface BinanceAuthenticated extends Binance {
    */
   @GET
   @Path("/wapi/v3/userAssetDribbletLog.html")
-  AssetDribbletLog getAssetDribbletLog(
+  AssetDribbletLogResponse getAssetDribbletLog(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") long timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
