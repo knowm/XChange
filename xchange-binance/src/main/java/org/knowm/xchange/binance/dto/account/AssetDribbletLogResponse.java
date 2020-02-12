@@ -41,7 +41,7 @@ public final class AssetDribbletLogResponse
   @Data
   public static final class AssetDribbletLogResult {
     private BigDecimal total;
-    private BnbExchange rows;
+    private BnbExchange[] rows;
   }
 
   @Data
