@@ -414,6 +414,19 @@ public final class BitfinexAdapters {
       OrderStatus status = adaptOrderStatus(order);
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
+      
+      Supplier<MarketOrder> marketOrderCreator =
+        () ->
+            new MarketOrder(
+                orderType,
+                order.getOriginalAmount(),
+                currencyPair,
+                String.valueOf(order.getId()),
+                timestamp,
+                order.getAvgExecutionPrice(),
+                order.getExecutedAmount(),
+                null,
+                status);
 
       Supplier<LimitOrder> limitOrderCreator =
           () ->
@@ -445,6 +458,7 @@ public final class BitfinexAdapters {
 
       LimitOrder limitOrder = null;
       StopOrder stopOrder = null;
+      MarketOrder marketOrder = null;
 
       Optional<BitfinexOrderType> bitfinexOrderType =
           Arrays.stream(BitfinexOrderType.values())
@@ -500,7 +514,7 @@ public final class BitfinexAdapters {
             break;
           case MARGIN_MARKET:
           case MARKET:
-            log.warn("Unexpected market order on book. Defaulting to limit order");
+            marketOrder = marketOrderCreator.get();
             limitOrder = limitOrderCreator.get();
             break;
           default:
@@ -518,7 +532,9 @@ public final class BitfinexAdapters {
         limitOrders.add(limitOrder);
       } else if (stopOrder != null) {
         hiddenOrders.add(stopOrder);
-      }
+      } else if (marketOrder != null) {
+        hiddenOrders.add(marketOrder);
+      }      
     }
 
     return new OpenOrders(limitOrders, hiddenOrders);
