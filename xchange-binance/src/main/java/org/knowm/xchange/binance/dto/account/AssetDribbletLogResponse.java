@@ -46,29 +46,29 @@ public final class AssetDribbletLogResponse
     public List<BnbExchange> getData() {
       return Arrays.asList(rows);
     }
-  }
 
-  @Data
-  public static final class BnbExchange {
-    private String transferedTotal;
-    private String serviceChargeTotal;
-    private BigInteger tranId;
-    private BnbExchangeLog[] bnbExchangeLogs;
-    private LocalDateTime operateTime;
+    @Data
+    public static final class BnbExchange {
+      private String transfered_total;
+      private String service_charge_total;
+      private BigInteger tran_id;
+      private BnbExchangeLog[] logs;
+      private LocalDateTime operate_time;
 
-    public List<BnbExchangeLog> getData() {
-      return Arrays.asList(bnbExchangeLogs);
+      public List<BnbExchangeLog> getData() {
+        return Arrays.asList(logs);
+      }
+
+      @Data
+      public static final class BnbExchangeLog {
+        private BigInteger tranId;
+        private String serviceChargeAmount;
+        private String uid;
+        private String amount;
+        private LocalDateTime operateTime;
+        private String transferedAmount;
+        private String fromAsset;
+      }
     }
-  }
-
-  @Data
-  public static final class BnbExchangeLog {
-    private BigInteger tranId;
-    private String serviceChargeAmount;
-    private String uid;
-    private String amount;
-    private LocalDateTime operateTime;
-    private String transferedAmount;
-    private String fromAsset;
   }
 }
