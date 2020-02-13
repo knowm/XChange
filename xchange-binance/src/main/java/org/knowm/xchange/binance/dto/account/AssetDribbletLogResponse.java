@@ -6,16 +6,16 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public final class AssetDribbletLogResponse
-    extends WapiResponse<List<AssetDribbletLogResponse.AssetDribbletLogResult>> {
+    extends WapiResponse<AssetDribbletLogResponse.AssetDribbletLogResults> {
 
-  private final AssetDribbletLogResult results;
+  private final AssetDribbletLogResults results;
 
   public AssetDribbletLogResponse(
-      @JsonProperty("results") AssetDribbletLogResult results,
+      @JsonProperty("results") AssetDribbletLogResults results,
       @JsonProperty("success") boolean success,
       @JsonProperty("msg") String msg) {
     super(success, msg);
@@ -23,8 +23,8 @@ public final class AssetDribbletLogResponse
   }
 
   @Override
-  public List<AssetDribbletLogResult> getData() {
-    return Collections.singletonList(results);
+  public AssetDribbletLogResults getData() {
+    return results;
   }
 
   @Override
@@ -39,9 +39,13 @@ public final class AssetDribbletLogResponse
   }
 
   @Data
-  public static final class AssetDribbletLogResult {
+  public static final class AssetDribbletLogResults {
     private BigDecimal total;
-    private BnbExchange rows;
+    private BnbExchange[] rows;
+
+    public List<BnbExchange> getData() {
+      return Arrays.asList(rows);
+    }
   }
 
   @Data
@@ -51,6 +55,10 @@ public final class AssetDribbletLogResponse
     private BigInteger tranId;
     private BnbExchangeLog[] bnbExchangeLogs;
     private LocalDateTime operateTime;
+
+    public List<BnbExchangeLog> getData() {
+      return Arrays.asList(bnbExchangeLogs);
+    }
   }
 
   @Data

@@ -8,36 +8,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class AssetDividendResponse
-    extends WapiResponse<List<AssetDividendResponse.assetDividendRow>> {
+    extends SapiResponse<List<AssetDividendResponse.AssetDividend>> {
 
-  private final assetDividendRow[] rows;
+  private final AssetDividend[] rows;
 
-  public AssetDividendResponse(
-      @JsonProperty("rows") assetDividendRow[] rows,
-      @JsonProperty("success") boolean success,
-      @JsonProperty("msg") String msg) {
-    super(success, msg);
+  public AssetDividendResponse(@JsonProperty("rows") AssetDividend[] rows) {
     this.rows = rows;
   }
 
   @Override
-  public List<assetDividendRow> getData() {
+  public List<AssetDividend> getData() {
     return Arrays.asList(rows);
   }
 
   @Override
   public String toString() {
-    return "assetDividendRow [rows="
-        + Arrays.toString(rows)
-        + ", success="
-        + success
-        + ", msg="
-        + msg
-        + "]";
+    return "assetDividendRow [rows=" + Arrays.toString(rows) + "]";
   }
 
   @Data
-  public static final class assetDividendRow {
+  public static final class AssetDividend {
     private BigDecimal amount;
     private String asset;
     private long divTime;
