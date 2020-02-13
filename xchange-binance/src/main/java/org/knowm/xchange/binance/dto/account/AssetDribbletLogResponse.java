@@ -30,12 +30,12 @@ public final class AssetDribbletLogResponse
   @Override
   public String toString() {
     return "AssetDribbletLogResult [results="
-        + results
-        + ", success="
-        + success
-        + ", msg="
-        + msg
-        + "]";
+           + results
+           + ", success="
+           + success
+           + ", msg="
+           + msg
+           + "]";
   }
 
   @Data
@@ -46,29 +46,29 @@ public final class AssetDribbletLogResponse
     public List<BnbExchange> getData() {
       return Arrays.asList(rows);
     }
+  }
 
-    @Data
-    public static final class BnbExchange {
-      private String transfered_total;
-      private String service_charge_total;
-      private BigInteger tran_id;
-      private BnbExchangeLog[] logs;
-      private LocalDateTime operate_time;
+  @Data
+  public static final class BnbExchange {
+    private String transfered_total;
+    private String service_charge_total;
+    private BigInteger tran_id;
+    private BnbExchangeLog[] logs;
+    private LocalDateTime operateTime;
 
-      public List<BnbExchangeLog> getData() {
-        return Arrays.asList(logs);
-      }
-
-      @Data
-      public static final class BnbExchangeLog {
-        private BigInteger tranId;
-        private String serviceChargeAmount;
-        private String uid;
-        private String amount;
-        private LocalDateTime operateTime;
-        private String transferedAmount;
-        private String fromAsset;
-      }
+    public List<BnbExchangeLog> getData() {
+      return Arrays.asList(logs);
     }
+  }
+
+  @Data
+  public static final class BnbExchangeLog {
+    private BigInteger tranId;
+    private String serviceChargeAmount;
+    private String uid;
+    private String amount;
+    private LocalDateTime operateTime;
+    private String transferedAmount;
+    private String fromAsset;
   }
 }
