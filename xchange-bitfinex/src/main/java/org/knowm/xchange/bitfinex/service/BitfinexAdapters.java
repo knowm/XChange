@@ -515,7 +515,6 @@ public final class BitfinexAdapters {
           case MARGIN_MARKET:
           case MARKET:
             marketOrder = marketOrderCreator.get();
-            limitOrder = limitOrderCreator.get();
             break;
           default:
             log.warn(
