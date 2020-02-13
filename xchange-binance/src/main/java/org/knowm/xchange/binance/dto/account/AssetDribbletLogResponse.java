@@ -2,10 +2,12 @@ package org.knowm.xchange.binance.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,16 +32,17 @@ public final class AssetDribbletLogResponse
   @Override
   public String toString() {
     return "AssetDribbletLogResult [results="
-           + results
-           + ", success="
-           + success
-           + ", msg="
-           + msg
-           + "]";
+        + results
+        + ", success="
+        + success
+        + ", msg="
+        + msg
+        + "]";
   }
 
   @Data
-  public static final class AssetDribbletLogResults {
+  @NoArgsConstructor
+  public static class AssetDribbletLogResults {
     private BigDecimal total;
     private BnbExchange[] rows;
 
@@ -49,26 +52,36 @@ public final class AssetDribbletLogResponse
   }
 
   @Data
-  public static final class BnbExchange {
+  @NoArgsConstructor
+  public static class BnbExchange {
     private String transfered_total;
     private String service_charge_total;
     private BigInteger tran_id;
-    private BnbExchangeLog[] bnbExchangeLogs;
-    private LocalDateTime operate_time;
+    private BnbExchangeLog[] logs;
+    private String operate_time;
 
     public List<BnbExchangeLog> getData() {
-      return Arrays.asList(bnbExchangeLogs);
+      return Arrays.asList(logs);
+    }
+
+    public LocalDateTime getOperateTime() {
+      return LocalDateTime.parse(operate_time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
   }
 
   @Data
-  public static final class BnbExchangeLog {
+  @NoArgsConstructor
+  public static class BnbExchangeLog {
     private BigInteger tranId;
     private String serviceChargeAmount;
     private String uid;
     private String amount;
-    private LocalDateTime operateTime;
+    private String operateTime;
     private String transferedAmount;
     private String fromAsset;
+
+    public LocalDateTime getOperateTime() {
+      return LocalDateTime.parse(operateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
   }
 }
