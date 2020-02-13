@@ -50,11 +50,11 @@ public final class AssetDribbletLogResponse
 
   @Data
   public static final class BnbExchange {
-    private String transferedTotal;
-    private String serviceChargeTotal;
-    private BigInteger tranId;
+    private String transfered_total;
+    private String service_charge_total;
+    private BigInteger tran_id;
     private BnbExchangeLog[] bnbExchangeLogs;
-    private LocalDateTime operateTime;
+    private LocalDateTime operate_time;
 
     public List<BnbExchangeLog> getData() {
       return Arrays.asList(bnbExchangeLogs);
