@@ -9,8 +9,8 @@ import java.util.List;
 
 public final class AssetDividendResponse
     extends SapiResponse<List<AssetDividendResponse.AssetDividend>> {
-
   private final AssetDividend[] rows;
+  private BigDecimal total;
 
   public AssetDividendResponse(@JsonProperty("rows") AssetDividend[] rows) {
     this.rows = rows;
