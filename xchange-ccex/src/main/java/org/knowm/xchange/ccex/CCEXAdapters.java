@@ -58,15 +58,14 @@ public class CCEXAdapters {
         cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
     Date timestamp = stringToDate(cCEXTrade.getTimestamp());
 
-    Trade trade =
-        new Trade(
-            type,
-            cCEXTrade.getQuantity(),
-            currencyPair,
-            cCEXTrade.getPrice(),
-            timestamp,
-            cCEXTrade.getId());
-    return trade;
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(cCEXTrade.getQuantity())
+        .currencyPair(currencyPair)
+        .price(cCEXTrade.getPrice())
+        .timestamp(timestamp)
+        .id(cCEXTrade.getId())
+        .build();
   }
 
   /**
@@ -226,16 +225,17 @@ public class CCEXAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(
-        orderType,
-        amount,
-        currencyPair,
-        price,
-        date,
-        orderId,
-        orderId,
-        trade.getCommission(),
-        currencyPair.counter);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(orderId)
+        .orderId(orderId)
+        .feeAmount(trade.getCommission())
+        .feeCurrency(currencyPair.counter)
+        .build();
   }
 
   public static Ticker adaptTicker(CCEXPriceResponse cCEXTicker, CurrencyPair currencyPair) {

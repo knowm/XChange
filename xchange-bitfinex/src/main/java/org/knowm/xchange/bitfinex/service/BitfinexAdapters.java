@@ -318,7 +318,14 @@ public final class BitfinexAdapters {
     Date date =
         DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
@@ -543,16 +550,17 @@ public final class BitfinexAdapters {
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
       pastTrades.add(
-          new UserTrade(
-              orderType,
-              trade.getAmount(),
-              currencyPair,
-              trade.getPrice(),
-              timestamp,
-              trade.getTradeId(),
-              trade.getOrderId(),
-              fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(trade.getAmount())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(timestamp)
+              .id(trade.getTradeId())
+              .orderId(trade.getOrderId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+              .build());
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -859,8 +867,14 @@ public final class BitfinexAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getTimestamp());
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(
-        orderType, amount == null ? null : amount.abs(), currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount == null ? null : amount.abs())
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptPublicTrades(BitfinexPublicTrade[] trades, CurrencyPair currencyPair) {

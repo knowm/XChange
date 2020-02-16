@@ -296,16 +296,17 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           binanceTrades.stream()
               .map(
                   t ->
-                      new UserTrade(
-                          BinanceAdapters.convertType(t.isBuyer),
-                          t.qty,
-                          pair,
-                          t.price,
-                          t.getTime(),
-                          Long.toString(t.id),
-                          Long.toString(t.orderId),
-                          t.commission,
-                          Currency.getInstance(t.commissionAsset)))
+                      new UserTrade.Builder()
+                          .type(BinanceAdapters.convertType(t.isBuyer))
+                          .originalAmount(t.qty)
+                          .currencyPair(pair)
+                          .price(t.price)
+                          .timestamp(t.getTime())
+                          .id(Long.toString(t.id))
+                          .orderId(Long.toString(t.orderId))
+                          .feeAmount(t.commission)
+                          .feeCurrency(Currency.getInstance(t.commissionAsset))
+                          .build())
               .collect(Collectors.toList());
       long lastId = binanceTrades.stream().map(t -> t.id).max(Long::compareTo).orElse(0L);
       return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);

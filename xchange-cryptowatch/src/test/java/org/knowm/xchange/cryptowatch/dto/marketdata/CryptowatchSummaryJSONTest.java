@@ -1,15 +1,14 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
 import org.junit.Test;
 import org.knowm.xchange.cryptowatch.TestUtils;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchSummaryResult;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class CryptowatchSummaryJSONTest {
 

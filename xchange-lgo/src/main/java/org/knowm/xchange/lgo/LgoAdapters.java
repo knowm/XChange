@@ -140,16 +140,17 @@ public final class LgoAdapters {
     OrderType type = adaptUserTradeType(lgoUserTrade);
     CurrencyPair currencyPair = adaptProductId(lgoUserTrade.getProductId());
     Date creationDate = lgoUserTrade.getCreationDate();
-    return new UserTrade(
-        type,
-        lgoUserTrade.getQuantity(),
-        currencyPair,
-        lgoUserTrade.getPrice(),
-        creationDate,
-        lgoUserTrade.getId(),
-        lgoUserTrade.getOrderId(),
-        lgoUserTrade.getFees(),
-        currencyPair.counter);
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(lgoUserTrade.getQuantity())
+        .currencyPair(currencyPair)
+        .price(lgoUserTrade.getPrice())
+        .timestamp(creationDate)
+        .id(lgoUserTrade.getId())
+        .orderId(lgoUserTrade.getOrderId())
+        .feeAmount(lgoUserTrade.getFees())
+        .feeCurrency(currencyPair.counter)
+        .build();
   }
 
   static CurrencyPair adaptProductId(String productId) {
