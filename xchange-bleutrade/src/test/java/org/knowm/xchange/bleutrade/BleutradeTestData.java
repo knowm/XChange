@@ -51,20 +51,20 @@ public class BleutradeTestData {
 
   protected static Trade[] expectedTrades() {
     return new Trade[] {
-      new Trade(
-          Order.OrderType.BID,
-          new BigDecimal("654971.69417461"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("0.00000055"),
-          new Date(1406657280000L),
-          null),
-      new Trade(
-          Order.OrderType.ASK,
-          new BigDecimal("120.00000000"),
-          CurrencyPair.BTC_AUD,
-          new BigDecimal("0.00006600"),
-          new Date(1406657555000L),
-          null),
+      new Trade.Builder()
+          .type(Order.OrderType.BID)
+          .originalAmount(new BigDecimal("654971.69417461"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("0.00000055"))
+          .timestamp(new Date(1406657280000L))
+          .build(),
+      new Trade.Builder()
+          .type(Order.OrderType.ASK)
+          .originalAmount(new BigDecimal("120.00000000"))
+          .currencyPair(CurrencyPair.BTC_AUD)
+          .price(new BigDecimal("0.00006600"))
+          .timestamp(new Date(1406657555000L))
+          .build(),
     };
   }
 

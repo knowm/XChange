@@ -138,13 +138,14 @@ public class BitmexAdapters {
     // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
     // new Date((long) (bitmexPublicTrade.getTime()));
 
-    return new Trade(
-        type,
-        originalAmount,
-        currencyPair,
-        bitmexPublicTrade.getPrice(),
-        timestamp,
-        String.valueOf(timestamp.getTime()));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(originalAmount)
+        .currencyPair(currencyPair)
+        .price(bitmexPublicTrade.getPrice())
+        .timestamp(timestamp)
+        .id(String.valueOf(timestamp.getTime()))
+        .build();
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
@@ -333,6 +334,7 @@ public class BitmexAdapters {
             .feeCurrency(Currency.XBT)
             .timestamp(exec.timestamp)
             .type(orderType)
+            .orderUserReference(exec.clOrdID)
             .build();
   }
 

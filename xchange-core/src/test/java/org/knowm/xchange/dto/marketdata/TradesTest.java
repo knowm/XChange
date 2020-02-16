@@ -15,10 +15,10 @@ public class TradesTest {
 
   @Test
   public void TradeIDComparator() {
-    Trade t1 = new Trade(null, null, null, null, null, "99");
-    Trade t2 = new Trade(null, null, null, null, null, "100");
-    Trade t3 = new Trade(null, null, null, null, null, "abc");
-    Trade t4 = new Trade(null, null, null, null, null, "zzz");
+    Trade t1 = new Trade.Builder().id("99").build();
+    Trade t2 = new Trade.Builder().id("100").build();
+    Trade t3 = new Trade.Builder().id("abc").build();
+    Trade t4 = new Trade.Builder().id("zzz").build();
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t1, t2) < 0);
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t1, t3) < 0);
     Assert.assertTrue(new Trades.TradeIDComparator().compare(t2, t3) < 0);
@@ -41,9 +41,10 @@ public class TradesTest {
             .price(new BigDecimal("0.13"))
             .timestamp(new Date())
             .type(OrderType.BID)
+            .takerOrderId("taker1")
+            .makerOrderId("maker1")
             .build();
-    t1.setMakerOrderId("maker1");
-    t1.setTakerOrderId("taker1");
+
     Trade jsonCopy = ObjectMapperHelper.viaJSON(t1);
     assertThat(jsonCopy).isEqualTo(t1);
   }

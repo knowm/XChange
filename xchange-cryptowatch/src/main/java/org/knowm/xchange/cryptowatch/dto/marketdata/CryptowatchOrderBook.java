@@ -1,10 +1,9 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @ToString

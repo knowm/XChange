@@ -22,18 +22,19 @@ public class BitfinexAdaptersTest {
 
   @Test
   public void adaptCurrencyPair() {
-    final List<String> currencyPairStrings = Arrays.asList("tBTCUSD", "tETHUSD", "tETHBTC", "tDUSK:USD", "tTKN:USD");
-    final List<CurrencyPair> currencyPairs = currencyPairStrings.stream()
-            .map(BitfinexAdapters::adaptCurrencyPair).collect(Collectors.toList());
+    final List<String> currencyPairStrings =
+        Arrays.asList("tBTCUSD", "tETHUSD", "tETHBTC", "tDUSK:USD", "tTKN:USD");
+    final List<CurrencyPair> currencyPairs =
+        currencyPairStrings.stream()
+            .map(BitfinexAdapters::adaptCurrencyPair)
+            .collect(Collectors.toList());
     Assert.assertEquals(
-            Arrays.asList(
-                    CurrencyPair.BTC_USD,
-                    CurrencyPair.ETH_USD,
-                    CurrencyPair.ETH_BTC,
-                    new CurrencyPair("DUSK/USD"),
-                    new CurrencyPair("TKN/USD")
-            ),
-            currencyPairs
-    );
+        Arrays.asList(
+            CurrencyPair.BTC_USD,
+            CurrencyPair.ETH_USD,
+            CurrencyPair.ETH_BTC,
+            new CurrencyPair("DUSK/USD"),
+            new CurrencyPair("TKN/USD")),
+        currencyPairs);
   }
 }

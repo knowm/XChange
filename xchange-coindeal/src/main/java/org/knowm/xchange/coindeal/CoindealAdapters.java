@@ -32,20 +32,23 @@ public final class CoindealAdapters {
       CurrencyPair currencyPair =
           CurrencyPairDeserializer.getCurrencyPairFromString(coindealTradeHistory.getSymbol());
       userTrades.add(
-          new UserTrade(
-              (coindealTradeHistory.getSide().equals("BUY"))
-                  ? Order.OrderType.BID
-                  : Order.OrderType.ASK,
-              coindealTradeHistory.getQuantity(),
-              currencyPair,
-              coindealTradeHistory.getPrice(),
-              DateUtils.fromRfc3339DateString(coindealTradeHistory.getTimestamp()),
-              coindealTradeHistory.getId(),
-              coindealTradeHistory.getOrderId(),
-              coindealTradeHistory.getFee(),
-              (coindealTradeHistory.getSide().equals("BUY")
-                  ? currencyPair.base
-                  : currencyPair.counter)));
+          new UserTrade.Builder()
+              .type(
+                  (coindealTradeHistory.getSide().equals("BUY"))
+                      ? Order.OrderType.BID
+                      : Order.OrderType.ASK)
+              .originalAmount(coindealTradeHistory.getQuantity())
+              .currencyPair(currencyPair)
+              .price(coindealTradeHistory.getPrice())
+              .timestamp(DateUtils.fromRfc3339DateString(coindealTradeHistory.getTimestamp()))
+              .id(coindealTradeHistory.getId())
+              .orderId(coindealTradeHistory.getOrderId())
+              .feeAmount(coindealTradeHistory.getFee())
+              .feeCurrency(
+                  (coindealTradeHistory.getSide().equals("BUY")
+                      ? currencyPair.base
+                      : currencyPair.counter))
+              .build());
     }
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);

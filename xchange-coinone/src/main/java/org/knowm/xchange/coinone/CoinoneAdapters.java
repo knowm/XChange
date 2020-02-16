@@ -187,12 +187,12 @@ public final class CoinoneAdapters {
   }
 
   private static Trade adaptTrade(CoinoneTradeData trade, CurrencyPair currencyPair) {
-    return new Trade(
-        null,
-        trade.getQty(),
-        currencyPair,
-        trade.getPrice(),
-        DateUtils.fromMillisUtc(Long.valueOf(trade.getTimestamp()) * 1000),
-        "");
+    return new Trade.Builder()
+        .originalAmount(trade.getQty())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(DateUtils.fromMillisUtc(Long.parseLong(trade.getTimestamp()) * 1000))
+        .id("")
+        .build();
   }
 }

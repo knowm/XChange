@@ -92,16 +92,17 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
                   if (t.executedAmount == null || t.executedAmount.signum() == 0) {
                     return null;
                   }
-                  return new UserTrade(
-                      CoindirectAdapters.convert(t.side),
-                      t.executedAmount,
-                      CoindirectAdapters.toCurrencyPair(t.symbol),
-                      t.executedPrice,
-                      t.dateCreated,
-                      t.uuid,
-                      t.uuid,
-                      t.executedFees,
-                      CoindirectAdapters.toCurrencyPair(t.symbol).counter);
+                  return new UserTrade.Builder()
+                      .type(CoindirectAdapters.convert(t.side))
+                      .originalAmount(t.executedAmount)
+                      .currencyPair(CoindirectAdapters.toCurrencyPair(t.symbol))
+                      .price(t.executedPrice)
+                      .timestamp(t.dateCreated)
+                      .id(t.uuid)
+                      .orderId(t.uuid)
+                      .feeAmount(t.executedFees)
+                      .feeCurrency(CoindirectAdapters.toCurrencyPair(t.symbol).counter)
+                      .build();
                 })
             .filter(t -> t != null)
             .collect(Collectors.toList());
