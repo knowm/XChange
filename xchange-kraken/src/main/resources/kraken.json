@@ -20,11 +20,6 @@
       "min_amount": 1,
       "trading_fee": 0.0026
     },
-    "ADA/CAD": {
-      "price_scale": 8,
-      "min_amount": 1,
-      "trading_fee": 0.0026
-    },
     "ATOM/ETH": {
       "price_scale": 4,
       "min_amount": 1,
@@ -36,11 +31,6 @@
       "trading_fee": 0.0026
     },
     "ATOM/EUR": {
-      "price_scale": 4,
-      "min_amount": 1,
-      "trading_fee": 0.0026
-    },
-    "ATOM/CAD": {
       "price_scale": 4,
       "min_amount": 1,
       "trading_fee": 0.0026
