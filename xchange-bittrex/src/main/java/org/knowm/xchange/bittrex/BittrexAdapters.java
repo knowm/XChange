@@ -183,7 +183,14 @@ public final class BittrexAdapters {
     BigDecimal price = trade.getPrice();
     Date date = BittrexUtils.toDate(trade.getTimeStamp());
     final String tradeId = String.valueOf(trade.getId());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
@@ -296,16 +303,17 @@ public final class BittrexAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(
-        orderType,
-        amount,
-        currencyPair,
-        price,
-        date,
-        orderId,
-        orderId,
-        trade.getCommission(),
-        currencyPair.counter);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(orderId)
+        .orderId(orderId)
+        .feeAmount(trade.getCommission())
+        .feeCurrency(currencyPair.counter)
+        .build();
   }
 
   public static ExchangeMetaData adaptMetaData(

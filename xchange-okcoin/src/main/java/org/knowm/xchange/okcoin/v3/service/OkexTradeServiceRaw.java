@@ -174,4 +174,26 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     return okex.getSwapTransactionDetails(
         apikey, digest, timestamp(), passphrase, orderId, instrumentId, from, to, limit);
   }
+
+  /** ******************************** MARGIN Trading API ********************************* */
+  public OrderPlacementResponse marginPlaceOrder(SpotOrderPlacementRequest req) throws IOException {
+    req.setMarginTrading("2");
+    OrderPlacementResponse res =
+        okex.marginPlaceOrder(apikey, digest, timestamp(), passphrase, req);
+    res.checkResult();
+    return res;
+  }
+
+  public List<OkexOpenOrder> getMarginOrderList(
+      String instrumentId, String from, String to, Integer limit, String state) throws IOException {
+    return okex.getMarginOrderList(
+        apikey, digest, timestamp(), passphrase, instrumentId, from, to, limit, state);
+  }
+
+  public List<OkexTransaction> getMarginTransactionDetails(
+      String orderId, String instrumentId, String from, String to, Integer limit)
+      throws IOException {
+    return okex.getMarginTransactionDetails(
+        apikey, digest, timestamp(), passphrase, orderId, instrumentId, from, to, limit);
+  }
 }

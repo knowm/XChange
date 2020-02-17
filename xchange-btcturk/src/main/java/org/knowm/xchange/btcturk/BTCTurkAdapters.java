@@ -102,13 +102,13 @@ public final class BTCTurkAdapters {
    */
   public static Trade adaptTrade(BTCTurkTrades btcTurkTrade, CurrencyPair currencyPair) {
 
-    return new Trade(
-        null,
-        btcTurkTrade.getAmount(),
-        currencyPair,
-        btcTurkTrade.getPrice(),
-        btcTurkTrade.getDate(),
-        btcTurkTrade.getTid().toString());
+    return new Trade.Builder()
+        .originalAmount(btcTurkTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(btcTurkTrade.getPrice())
+        .timestamp(btcTurkTrade.getDate())
+        .id(btcTurkTrade.getTid().toString())
+        .build();
   }
 
   /**

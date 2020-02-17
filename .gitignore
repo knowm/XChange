@@ -15,6 +15,9 @@
 #NetBeans
 nb-configuration.xml
 
+# VSCode
+.vscode
+
 # Generated
 target/
 javadoc/

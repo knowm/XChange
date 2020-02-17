@@ -193,16 +193,15 @@ public class QuoineAdapters {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
       res.add(
-          new UserTrade(
-              execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID,
-              execution.quantity,
-              currencyPair,
-              execution.price,
-              DateUtils.fromUnixTime(execution.createdAt),
-              execution.id,
-              execution.orderId,
-              null,
-              null));
+          new UserTrade.Builder()
+              .type(execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID)
+              .originalAmount(execution.quantity)
+              .currencyPair(currencyPair)
+              .price(execution.price)
+              .timestamp(DateUtils.fromUnixTime(execution.createdAt))
+              .id(execution.id)
+              .orderId(execution.orderId)
+              .build());
     }
     return res;
   }

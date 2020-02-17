@@ -14,6 +14,7 @@ import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
+import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
 import si.mazi.rescu.ParamsDigest;
@@ -85,18 +86,17 @@ public interface BitfinexAuthenticated extends Bitfinex {
       throws IOException, BitfinexExceptionV2;
 
   /** https://docs.bitfinex.com/reference#rest-auth-ledgers */
-
   @POST
   @Path("auth/r/ledgers/hist")
   List<LedgerEntry> getLedgerEntries(
-    @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
-    @HeaderParam(BFX_APIKEY) String apiKey,
-    @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
-    @QueryParam("start") Long startTimeMillis,
-    @QueryParam("end") Long endTimeMillis,
-    @QueryParam("limit") Long limit,
-    EmptyRequest empty)
-    throws IOException, BitfinexExceptionV2;
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      @QueryParam("start") Long startTimeMillis,
+      @QueryParam("end") Long endTimeMillis,
+      @QueryParam("limit") Long limit,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
 
   @POST
   @Path("auth/r/ledgers/{currency}/hist")
@@ -110,4 +110,17 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("limit") Long limit,
       EmptyRequest empty)
       throws IOException, BitfinexExceptionV2;
+
+
+  /** https://docs.bitfinex.com/reference#rest-auth-order-trades * */
+  @POST
+  @Path("auth/r/order/{symbol}:{orderId}/trades")
+  List<OrderTrade> getOrderTrades(
+          @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+          @HeaderParam(BFX_APIKEY) String apiKey,
+          @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+          @PathParam("symbol") String symbol,
+          @PathParam("orderId") Long orderId,
+          EmptyRequest empty)
+          throws IOException, BitfinexExceptionV2;
 }

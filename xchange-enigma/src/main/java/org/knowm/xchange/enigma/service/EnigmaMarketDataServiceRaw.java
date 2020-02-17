@@ -36,8 +36,8 @@ public class EnigmaMarketDataServiceRaw extends EnigmaBaseService {
     return this.enigmaAuthenticated.getTicker(accessToken(), productId);
   }
 
-  public EnigmaOrderBook getEnigmaOrderBook() throws IOException {
-    return this.enigmaAuthenticated.getOrderBook(accessToken());
+  public EnigmaOrderBook getEnigmaOrderBook(String pair) throws IOException {
+    return this.enigmaAuthenticated.getOrderBook(accessToken(), pair);
   }
 
   public EnigmaTransaction[] getEnigmaTransactions() throws IOException {

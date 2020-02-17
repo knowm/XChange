@@ -1,6 +1,7 @@
 package org.knowm.xchange.anx.v2;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -233,7 +234,14 @@ public final class ANXAdapters {
     Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
     final String tradeId = String.valueOf(anxTrade.getTid());
 
-    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(dateTime)
+        .id(tradeId)
+        .build();
   }
 
   public static Ticker adaptTicker(ANXTicker anxTicker) {
@@ -285,19 +293,18 @@ public final class ANXAdapters {
     BigDecimal price =
         aNXTradeResult
             .getSettlementCurrencyFillAmount()
-            .divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
+            .divide(tradedCurrencyFillAmount, priceScale, RoundingMode.HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
-    return new UserTrade(
-        type,
-        tradedCurrencyFillAmount,
-        currencyPair,
-        price,
-        aNXTradeResult.getTimestamp(),
-        aNXTradeResult.getTradeId(),
-        aNXTradeResult.getOrderId(),
-        null,
-        null);
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(tradedCurrencyFillAmount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(aNXTradeResult.getTimestamp())
+        .id(aNXTradeResult.getTradeId())
+        .orderId(aNXTradeResult.getOrderId())
+        .build();
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {

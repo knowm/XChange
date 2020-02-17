@@ -31,7 +31,7 @@ public class OkexBaseService extends BaseExchangeService<OkexExchangeV3> impleme
   }
 
   protected static String timestamp() {
-    //      return System.currentTimeMillis() / 1000 + ".000";          <-- works as well
-    return Instant.now().toString();
+    return System.currentTimeMillis() / 1000 + ".000"; //          <-- works as well
+    // return Instant.now().toString();
   }
 }

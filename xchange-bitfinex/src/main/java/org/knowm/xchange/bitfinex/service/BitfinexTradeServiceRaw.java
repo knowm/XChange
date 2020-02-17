@@ -39,6 +39,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
+import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
 import org.knowm.xchange.dto.Order;
@@ -521,5 +522,18 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     }
     return bitfinexV2.getActiveOrders(
         exchange.getNonceFactory(), apiKey, signatureV2, symbol, EmptyRequest.INSTANCE);
+  }
+
+  public List<OrderTrade> getBitfinexOrderTradesV2(final String symbol, final Long orderId)
+          throws IOException {
+    if (symbol == null || orderId == null)
+      throw new NullPointerException(
+              String.format("Invalid request fields symbol [%s] and orderId [%s] are mandatory for get order trades call"
+              , symbol
+              , orderId)
+      );
+
+    return bitfinexV2.getOrderTrades(
+            exchange.getNonceFactory(), apiKey, signatureV2, symbol, orderId, EmptyRequest.INSTANCE);
   }
 }
