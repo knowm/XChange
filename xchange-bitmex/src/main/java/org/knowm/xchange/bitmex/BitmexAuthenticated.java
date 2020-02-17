@@ -365,7 +365,6 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("symbol") String symbol,
       @Nullable @QueryParam("filter") String filter)
       throws IOException, BitmexException;
 
