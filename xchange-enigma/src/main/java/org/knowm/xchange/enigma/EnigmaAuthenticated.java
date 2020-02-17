@@ -20,14 +20,16 @@ public interface EnigmaAuthenticated extends Enigma {
       throws IOException;
 
   @GET
-  @Path("indicative/market/data/{product-id}")
+  @Path("xchange/indicative/market/data/{product-id}")
   EnigmaTicker getTicker(
       @HeaderParam("Authorization") String accessToken, @PathParam("product-id") int productId)
       throws IOException;
 
   @GET
-  @Path("orderbook")
-  EnigmaOrderBook getOrderBook(@HeaderParam("Authorization") String accessToken) throws IOException;
+  @Path("xchange/orderbook/{pair}")
+  EnigmaOrderBook getOrderBook(
+      @HeaderParam("Authorization") String accessToken, @PathParam("pair") String pair)
+      throws IOException;
 
   @GET
   @Path("order/client/list/false/{infra}")
@@ -61,7 +63,7 @@ public interface EnigmaAuthenticated extends Enigma {
       throws IOException;
 
   @GET
-  @Path("cancel/order/")
+  @Path("xchange/cancel/order/")
   @Consumes(MediaType.APPLICATION_JSON)
   BaseResponse cancelOrder(@HeaderParam("Authorization") String accessToken) throws IOException;
 
@@ -106,6 +108,6 @@ public interface EnigmaAuthenticated extends Enigma {
       @HeaderParam("Authorization") String accessToken, @PathParam("currency") String currency);
 
   @GET
-  @Path("order/open")
+  @Path("xchange/order/open")
   EnigmaOpenOrders openOrders(@HeaderParam("Authorization") String accessToken);
 }

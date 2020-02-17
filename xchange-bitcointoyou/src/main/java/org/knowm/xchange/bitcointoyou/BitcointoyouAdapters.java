@@ -128,13 +128,14 @@ public final class BitcointoyouAdapters {
         bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
 
-    return new Trade(
-        type,
-        bitcointoyouTrade.getAmount(),
-        currencyPair,
-        bitcointoyouTrade.getPrice(),
-        timestamp,
-        bitcointoyouTrade.getTid().toString());
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(bitcointoyouTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(bitcointoyouTrade.getPrice())
+        .timestamp(timestamp)
+        .id(bitcointoyouTrade.getTid().toString())
+        .build();
   }
 
   public static List<Balance> adaptBitcointoyouBalances(BitcointoyouBalance bitcointoyouBalances) {

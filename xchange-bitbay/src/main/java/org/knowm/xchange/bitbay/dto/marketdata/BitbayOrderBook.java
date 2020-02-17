@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitbay.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 

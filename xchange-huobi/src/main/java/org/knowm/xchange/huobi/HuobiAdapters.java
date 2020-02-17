@@ -212,16 +212,17 @@ public class HuobiAdapters {
             .multiply(order.getLimitPrice())
             .multiply(fee)
             .setScale(8, RoundingMode.DOWN);
-    return new UserTrade(
-        order.getType(),
-        order.getCumulativeAmount(),
-        order.getCurrencyPair(),
-        order.getLimitPrice(),
-        order.getTimestamp(),
-        null, // Trade id
-        order.getId(), // Original order id
-        feeAmount,
-        order.getCurrencyPair().counter);
+    return new UserTrade.Builder()
+        .type(order.getType())
+        .originalAmount(order.getCumulativeAmount())
+        .currencyPair(order.getCurrencyPair())
+        .price(order.getLimitPrice())
+        .timestamp(order.getTimestamp())
+        .id("") // Trade id
+        .orderId(order.getId()) // Original order id
+        .feeAmount(feeAmount)
+        .feeCurrency(order.getCurrencyPair().counter)
+        .build();
   }
 
   private static OrderStatus adaptOrderStatus(String huobiStatus) {

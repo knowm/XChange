@@ -211,16 +211,17 @@ public class CoinsuperAdapters {
       }
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              orderDetail.getAmount().abs(),
-              new CurrencyPair(orderDetail.getSymbol()),
-              orderDetail.getPriceLimit().abs(),
-              new Date(),
-              Long.toString(orderDetail.getOrderNo()),
-              Long.toString(orderDetail.getOrderNo()),
-              new BigDecimal(orderDetail.getFee()),
-              Currency.getInstance(orderDetail.getSymbol().toUpperCase()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(orderDetail.getAmount().abs())
+              .currencyPair(new CurrencyPair(orderDetail.getSymbol()))
+              .price(orderDetail.getPriceLimit().abs())
+              .timestamp(new Date())
+              .id(Long.toString(orderDetail.getOrderNo()))
+              .orderId(Long.toString(orderDetail.getOrderNo()))
+              .feeAmount(BigDecimal.valueOf(orderDetail.getFee()))
+              .feeCurrency(Currency.getInstance(orderDetail.getSymbol().toUpperCase()))
+              .build();
       lastTradeId = orderDetail.getOrderNo();
       trades.add(trade);
     }

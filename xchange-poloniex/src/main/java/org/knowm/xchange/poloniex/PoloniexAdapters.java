@@ -120,15 +120,14 @@ public class PoloniexAdapters {
         poloniexTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
 
-    Trade trade =
-        new Trade(
-            type,
-            poloniexTrade.getAmount(),
-            currencyPair,
-            poloniexTrade.getRate(),
-            timestamp,
-            poloniexTrade.getTradeID());
-    return trade;
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(poloniexTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(poloniexTrade.getRate())
+        .timestamp(timestamp)
+        .id(poloniexTrade.getTradeID())
+        .build();
   }
 
   public static List<Balance> adaptPoloniexBalances(
@@ -219,23 +218,24 @@ public class PoloniexAdapters {
     final String feeCurrencyCode;
     if (orderType == OrderType.ASK) {
       feeAmount =
-          amount.multiply(price).multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+          amount.multiply(price).multiply(userTrade.getFee()).setScale(8, RoundingMode.DOWN);
       feeCurrencyCode = currencyPair.counter.getCurrencyCode();
     } else {
-      feeAmount = amount.multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+      feeAmount = amount.multiply(userTrade.getFee()).setScale(8, RoundingMode.DOWN);
       feeCurrencyCode = currencyPair.base.getCurrencyCode();
     }
 
-    return new UserTrade(
-        orderType,
-        amount,
-        currencyPair,
-        price,
-        date,
-        tradeId,
-        orderId,
-        feeAmount,
-        Currency.getInstance(feeCurrencyCode));
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .orderId(orderId)
+        .feeAmount(feeAmount)
+        .feeCurrency(Currency.getInstance(feeCurrencyCode))
+        .build();
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
@@ -374,7 +374,7 @@ public class PoloniexAdapters {
 
     BigDecimal weightedAveragePrice =
         weightedPrices.stream()
-            .reduce(new BigDecimal(0), (a, b) -> a.add(b))
+            .reduce(new BigDecimal(0), BigDecimal::add)
             .divide(amount, RoundingMode.HALF_UP);
 
     return new LimitOrder(

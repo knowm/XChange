@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -114,7 +113,13 @@ public final class ItBitAdapters {
     Date date = DateUtils.fromISODateString(timestamp);
     final String matchNumber = String.valueOf(trade.getMatchNumber());
 
-    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, matchNumber);
+    return new Trade.Builder()
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(date)
+        .id(matchNumber)
+        .build();
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -218,44 +223,47 @@ public final class ItBitAdapters {
     List<UserTrade> trades = new ArrayList<>();
 
     for (String orderId : tradesByOrderId.keySet()) {
+      BigDecimal totalValue = BigDecimal.ZERO;
+      BigDecimal totalQuantity = BigDecimal.ZERO;
+      BigDecimal totalFee = BigDecimal.ZERO;
 
-      int tradeId = 0;
       for (ItBitUserTrade trade : tradesByOrderId.get(orderId)) {
-        // in order to have a tradeId and to prevent inconsistent tradeHistory
-        // we have add a variable "tradeId" for identifying
-        // nested trades inside an orderId. So every trade will be a unique entry
-        // on the userTradesList dispite the fact that an order can have multiply trades
-
-        BigDecimal volumeWeightedAveragePrice =
-            trade
-                .getCurrency1Amount()
-                .multiply(trade.getRate())
-                .divide(trade.getCurrency1Amount(), MathContext.DECIMAL32);
-        ItBitUserTrade itBitTrade = tradesByOrderId.get(orderId).get(0);
-        OrderType orderType =
-            itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
-                ? OrderType.BID
-                : OrderType.ASK;
-
-        CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
-        String ccy = itBitTrade.getCommissionCurrency();
-        Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
-
-        UserTrade userTrade =
-            new UserTrade(
-                orderType,
-                trade.getCurrency1Amount(),
-                currencyPair,
-                volumeWeightedAveragePrice.stripTrailingZeros(),
-                itBitTrade.getTimestamp(),
-                orderId + "-" + tradeId,
-                orderId,
-                trade.getCommissionPaid().subtract(trade.getRebatesApplied()),
-                feeCcy);
-
-        trades.add(userTrade);
-        tradeId++;
+        // can have multiple trades for same order, so add them all up here to
+        // get the average price and total fee
+        // we have to do this because there is no trade id
+        totalValue = totalValue.add(trade.getCurrency1Amount().multiply(trade.getRate()));
+        totalQuantity = totalQuantity.add(trade.getCurrency1Amount());
+        totalFee = totalFee.add(trade.getCommissionPaid());
+        totalFee = totalFee.subtract(trade.getRebatesApplied());
       }
+
+      BigDecimal volumeWeightedAveragePrice =
+          totalValue.divide(totalQuantity, 8, BigDecimal.ROUND_HALF_UP);
+
+      ItBitUserTrade itBitTrade = tradesByOrderId.get(orderId).get(0);
+      OrderType orderType =
+          itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy)
+              ? OrderType.BID
+              : OrderType.ASK;
+
+      CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
+      String ccy = itBitTrade.getCommissionCurrency();
+      Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
+
+      UserTrade userTrade =
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(totalQuantity)
+              .currencyPair(currencyPair)
+              .price(volumeWeightedAveragePrice)
+              .timestamp(itBitTrade.getTimestamp())
+              .id(orderId) // itbit doesn't have trade ids, so we use the order id instead
+              .orderId(orderId)
+              .feeAmount(totalFee)
+              .feeCurrency(feeCcy)
+              .build();
+
+      trades.add(userTrade);
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
