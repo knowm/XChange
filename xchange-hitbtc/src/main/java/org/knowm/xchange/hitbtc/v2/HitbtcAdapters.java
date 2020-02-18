@@ -157,7 +157,15 @@ public class HitbtcAdapters {
         lastTradeId = longTradeId;
       }
       OrderType orderType = adaptSide(hitbtcTrade.getSide());
-      Trade trade = new Trade(orderType, amount, currencyPair, price, timestamp, tid);
+      Trade trade =
+          new Trade.Builder()
+              .type(orderType)
+              .originalAmount(amount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timestamp)
+              .id(tid)
+              .build();
       trades.add(trade);
     }
 

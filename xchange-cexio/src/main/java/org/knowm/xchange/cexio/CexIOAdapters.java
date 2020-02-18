@@ -53,7 +53,14 @@ public class CexIOAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
     OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
-    return new Trade(type, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(String.valueOf(trade.getTid()))
+        .build();
   }
 
   /**
@@ -226,8 +233,17 @@ public class CexIOAdapters {
               : Currency.getInstance(cexIOArchivedOrder.feeCcy);
       BigDecimal fee = cexIOArchivedOrder.feeValue;
 
-      return new UserTrade(
-          orderType, originalAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
+      return new UserTrade.Builder()
+          .type(orderType)
+          .originalAmount(originalAmount)
+          .currencyPair(currencyPair)
+          .price(price)
+          .timestamp(timestamp)
+          .id(id)
+          .orderId(orderId)
+          .feeAmount(fee)
+          .feeCurrency(feeCcy)
+          .build();
     } catch (InvalidFormatException e) {
       throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.time, e);
     }

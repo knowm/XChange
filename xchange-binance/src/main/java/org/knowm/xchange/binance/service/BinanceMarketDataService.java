@@ -107,13 +107,14 @@ public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
           aggTrades.stream()
               .map(
                   at ->
-                      new Trade(
-                          BinanceAdapters.convertType(at.buyerMaker),
-                          at.quantity,
-                          pair,
-                          at.price,
-                          at.getTimestamp(),
-                          Long.toString(at.aggregateTradeId)))
+                      new Trade.Builder()
+                          .type(BinanceAdapters.convertType(at.buyerMaker))
+                          .originalAmount(at.quantity)
+                          .currencyPair(pair)
+                          .price(at.price)
+                          .timestamp(at.getTimestamp())
+                          .id(Long.toString(at.aggregateTradeId))
+                          .build())
               .collect(Collectors.toList());
       return new Trades(trades, TradeSortType.SortByTimestamp);
     } catch (BinanceException e) {

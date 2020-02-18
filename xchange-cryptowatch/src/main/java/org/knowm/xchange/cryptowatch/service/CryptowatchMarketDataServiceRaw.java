@@ -1,5 +1,7 @@
 package org.knowm.xchange.cryptowatch.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptowatch.dto.CryptowatchException;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
@@ -16,9 +18,6 @@ import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchTradesRes
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
-
-import java.io.IOException;
-import java.util.List;
 
 public class CryptowatchMarketDataServiceRaw extends CryptowatchBaseService {
 
