@@ -13,7 +13,7 @@ import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAcc
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
 import org.knowm.xchange.currency.Currency;
 
-class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
+public class CoinbaseAccountServiceRaw extends CoinbaseBaseService {
 
   public CoinbaseAccountServiceRaw(Exchange exchange) {
     super(exchange);
