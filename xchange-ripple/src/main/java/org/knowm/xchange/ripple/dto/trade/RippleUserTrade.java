@@ -30,7 +30,16 @@ public class RippleUserTrade extends UserTrade {
       final BigDecimal baseTransferFee,
       final BigDecimal counterTransferFee) {
     super(
-        type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+        type,
+        originalAmount,
+        currencyPair,
+        price,
+        timestamp,
+        id,
+        orderId,
+        feeAmount,
+        feeCurrency,
+        "");
     this.baseCounterparty = baseCounterparty;
     this.counterCounterparty = counterCounterparty;
 

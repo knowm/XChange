@@ -43,7 +43,10 @@ public class BitmexTradeServiceRaw extends BitmexBaseService {
     return updateRateLimit(
         () ->
             bitmex.getPositions(
-                apiKey, exchange.getNonceFactory(), signatureCreator, symbol, null));
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                "{\"symbol\":\"" + symbol + "\"}"));
   }
 
   /**

@@ -121,13 +121,14 @@ public final class QuadrigaCxAdapters {
         lastTradeId = tradeId;
       }
       trades.add(
-          new Trade(
-              type,
-              tx.getAmount(),
-              currencyPair,
-              tx.getPrice(),
-              DateUtils.fromMillisUtc(tx.getDate() * 1000L),
-              String.valueOf(tradeId)));
+          new Trade.Builder()
+              .type(type)
+              .originalAmount(tx.getAmount())
+              .currencyPair(currencyPair)
+              .price(tx.getPrice())
+              .timestamp(DateUtils.fromMillisUtc(tx.getDate() * 1000L))
+              .id(String.valueOf(tradeId))
+              .build());
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -191,15 +192,16 @@ public final class QuadrigaCxAdapters {
             ? currencyPair.counter.getCurrencyCode()
             : currencyPair.base.getCurrencyCode();
 
-    return new UserTrade(
-        orderType,
-        originalAmount.abs(),
-        currencyPair,
-        price,
-        timestamp,
-        tradeId,
-        orderId,
-        feeAmount,
-        Currency.getInstance(feeCurrency));
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(originalAmount.abs())
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(timestamp)
+        .id(tradeId)
+        .orderId(orderId)
+        .feeAmount(feeAmount)
+        .feeCurrency(Currency.getInstance(feeCurrency))
+        .build();
   }
 }
