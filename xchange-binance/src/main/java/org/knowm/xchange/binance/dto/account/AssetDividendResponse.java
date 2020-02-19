@@ -10,15 +10,20 @@ import java.util.List;
 public final class AssetDividendResponse
     extends SapiResponse<List<AssetDividendResponse.AssetDividend>> {
   private final AssetDividend[] rows;
-  private BigDecimal total;
+  private final BigDecimal total;
 
-  public AssetDividendResponse(@JsonProperty("rows") AssetDividend[] rows) {
+  public AssetDividendResponse(@JsonProperty("rows") AssetDividend[] rows, @JsonProperty("total") BigDecimal total) {
     this.rows = rows;
+    this.total = total;
   }
 
   @Override
   public List<AssetDividend> getData() {
     return Arrays.asList(rows);
+  }
+
+  public BigDecimal getTotal() {
+    return total;
   }
 
   @Override
