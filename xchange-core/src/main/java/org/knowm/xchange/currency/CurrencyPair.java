@@ -474,7 +474,6 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
 
   @Override
   public int compareTo(CurrencyPair o) {
-
-    return (base.compareTo(o.base) << 16) + counter.compareTo(o.counter);
+    return equals(o) ? 0 : toString().compareTo(o.toString());
   }
 }

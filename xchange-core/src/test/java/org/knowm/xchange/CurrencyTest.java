@@ -44,6 +44,24 @@ public class CurrencyTest {
   }
 
   @Test
+  public void testCompareTo() {
+
+    Currency btc = Currency.BTC;
+    Currency xbt = Currency.XBT;
+
+    assertThat(btc.equals(btc));
+    assertThat(btc.equals(xbt));
+    assertThat(xbt.equals(btc));
+    assertThat(xbt.equals(xbt));
+
+    assertEquals(btc.compareTo(xbt), 0);
+    assertEquals(xbt.compareTo(btc), 0);
+
+    assertEquals(btc.compareTo(Currency.LTC), xbt.compareTo(Currency.LTC));
+    assertEquals(btc.compareTo(Currency.ETH), xbt.compareTo(Currency.ETH));
+  }
+
+  @Test
   public void testToString() {
     assertEquals("XBT", Currency.XBT.toString());
     assertEquals("BTC", Currency.BTC.toString());
