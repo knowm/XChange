@@ -200,7 +200,7 @@ class BitfinexStreamingAdapters {
             adaptV2OrderTypeToV1(authOrder.getType()).getValue(),
             new BigDecimal(authOrder.getMtsCreate()).divide(THOUSAND),
             "ACTIVE".equals(authOrder.getOrderStatus()),
-            "CANCELED".equals(authOrder.getOrderStatus()),
+            "CANCELED".equals(authOrder.getOrderStatus()) || "FILLORKILL CANCELED".equals(authOrder.getOrderStatus()),
             false, //wasForced,
             signum >= 0 ? authOrder.getAmountOrig() : authOrder.getAmountOrig().negate(),
             signum >= 0 ? authOrder.getAmount() : authOrder.getAmount().negate(),
