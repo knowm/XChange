@@ -1,0 +1,6 @@
+{
+  "message": "Not authorized action over resource",
+  "type": "Unauthorized",
+  "error_id": "c2da5392-9af4-420e-86eb-2600b4b21907",
+  "created_at": "2016-04-21T07:50:59+00:00"
+}
