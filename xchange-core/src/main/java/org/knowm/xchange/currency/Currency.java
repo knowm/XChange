@@ -482,13 +482,7 @@ public class Currency implements Comparable<Currency>, Serializable {
 
   @Override
   public int compareTo(Currency o) {
-
-    if (attributes.equals(o.attributes)) return 0;
-
-    int comparison = code.compareTo(o.code);
-    if (comparison == 0) comparison = getDisplayName().compareTo(o.getDisplayName());
-    if (comparison == 0) comparison = hashCode() - o.hashCode();
-    return comparison;
+    return attributes.equals(o.attributes) ? 0 : toString().compareTo(o.toString());
   }
 
   private static class CurrencyAttributes implements Serializable {
