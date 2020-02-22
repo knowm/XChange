@@ -5,32 +5,39 @@ import static java.util.stream.Collectors.toCollection;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.kucoin.dto.response.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeService {
 
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
+
   private static final int TRADE_HISTORIES_TO_FETCH = 500;
   private static final int ORDERS_TO_FETCH = 500;
+  private static final long cutoffHistOrdersMillis =
+      Date.from(java.time.LocalDate.of(2019, 2, 18).atStartOfDay(ZoneId.of("UTC+8")).toInstant())
+          .getTime();
+  private static final long oneWeekMillis = 7 * 24 * 60 * 60 * 1000;
 
   KucoinTradeService(KucoinExchange exchange) {
     super(exchange);
@@ -56,13 +63,67 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   public UserTrades getTradeHistory(TradeHistoryParams genericParams) throws IOException {
     String symbol = null;
     if (genericParams != null) {
+      // TODO Currency pair is actually optional on KuCoin API, i.e. it should be possible to
+      // proceed with genericParams = null
       Preconditions.checkArgument(
           genericParams instanceof TradeHistoryParamCurrencyPair,
           "Only currency pair parameters are currently supported.");
       TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
     }
-    return convertUserTrades(getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH).getItems());
+
+    List<UserTrade> userTrades = new ArrayList<>();
+    Long startTime = null;
+    Long endTime = null;
+    if (genericParams instanceof TradeHistoryParamsTimeSpan) {
+      if (((TradeHistoryParamsTimeSpan) genericParams).getStartTime() != null) {
+        startTime = ((TradeHistoryParamsTimeSpan) genericParams).getStartTime().getTime();
+      }
+      if (((TradeHistoryParamsTimeSpan) genericParams).getEndTime() != null) {
+        endTime = ((TradeHistoryParamsTimeSpan) genericParams).getEndTime().getTime();
+      }
+      /*
+        KuCoin restricts time spans to 7 days on new fills API but not hist-orders. I.e. you could request a whole year of
+        trades before 2019-2-18 but only 7 days of trades after that date.
+        It would be nice to check and enforce this rule here but that could end up being confusing for users.
+      */
+      if (startTime == null && endTime == null) {
+        startTime = new Date().getTime() - oneWeekMillis;
+        logger.warn(
+            "No start or end time for trade history request specified, defaulting to last 7 days!");
+      }
+    }
+    // TODO getKucoinFills(...).getItems will just get the current items and silently ignore any
+    // other pages if present!
+    Long startTimeSecs = startTime != null ? startTime / 1000 : null;
+    Long endTimeSecs = endTime != null ? endTime / 1000 : null;
+
+    if (startTime != null && startTime > cutoffHistOrdersMillis) {
+      userTrades =
+          getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTime, endTime).getItems()
+              .stream()
+              .map(KucoinAdapters::adaptUserTrade)
+              .collect(Collectors.toList());
+    } else if (endTime != null && endTime < cutoffHistOrdersMillis) {
+      userTrades =
+          getKucoinHistOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTimeSecs, endTimeSecs)
+              .getItems().stream()
+              .map(KucoinAdapters::adaptHistOrder)
+              .collect(Collectors.toList());
+    } else {
+      userTrades =
+          Stream.concat(
+              getKucoinHistOrders(
+                  symbol, 1, TRADE_HISTORIES_TO_FETCH, startTimeSecs, endTimeSecs)
+                  .getItems().stream()
+                  .map(KucoinAdapters::adaptHistOrder),
+              getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTime, endTime).getItems()
+                  .stream()
+                  .map(KucoinAdapters::adaptUserTrade))
+              .collect(toCollection(ArrayList::new));
+    }
+
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 
   @Override
@@ -123,21 +184,9 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     return new OpenOrders(openOrders.build(), hiddenOrders.build());
   }
 
-  private UserTrades convertUserTrades(List<TradeResponse> fills) {
-    return new UserTrades(
-        fills.stream().map(KucoinAdapters::adaptUserTrade).collect(toCollection(ArrayList::new)),
-        TradeSortType.SortByTimestamp);
-  }
-
-  public UserTrades convertHistOrders(List<HistOrdersResponse> histOrders) {
-    return new UserTrades(
-        histOrders.stream()
-            .map(KucoinAdapters::adaptHistOrder)
-            .collect(toCollection(ArrayList::new)),
-        TradeSortType.SortByTimestamp);
-  }
-
-  /** TODO same as Binance. Should be merged into generic API */
+  /**
+   * TODO same as Binance. Should be merged into generic API
+   */
   public interface KucoinOrderFlags extends IOrderFlags {
     String getClientId();
   }
