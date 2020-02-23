@@ -50,12 +50,6 @@
 			<artifactId>xchange-openexchangerates</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Wex exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-wex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Bibox exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
