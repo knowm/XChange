@@ -105,13 +105,13 @@ public class PaymiumAdapters {
 
     for (PaymiumTrade PaymiumTrade : PaymiumTrades) {
       Trade trade =
-          new Trade(
-              null,
-              PaymiumTrade.getTraded_btc(),
-              currencyPair,
-              PaymiumTrade.getPrice(),
-              new Date(PaymiumTrade.getCreated_at_int()),
-              PaymiumTrade.getUuid().toString());
+          new Trade.Builder()
+              .originalAmount(PaymiumTrade.getTraded_btc())
+              .currencyPair(currencyPair)
+              .price(PaymiumTrade.getPrice())
+              .timestamp(new Date(PaymiumTrade.getCreated_at_int()))
+              .id(PaymiumTrade.getUuid().toString())
+              .build();
 
       trades.add(trade);
     }

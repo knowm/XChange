@@ -194,16 +194,15 @@ public class IndependentReserveAdapters {
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
       UserTrade ut =
-          new UserTrade(
-              adapeOrderType(trade.getOrderType()),
-              trade.getVolumeTraded(),
-              currencyPair,
-              trade.getPrice(),
-              trade.getTradeTimestamp(),
-              trade.getTradeGuid(),
-              trade.getOrderGuid(),
-              null,
-              null);
+          new UserTrade.Builder()
+              .type(adapeOrderType(trade.getOrderType()))
+              .originalAmount(trade.getVolumeTraded())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(trade.getTradeTimestamp())
+              .id(trade.getTradeGuid())
+              .orderId(trade.getOrderGuid())
+              .build();
 
       userTrades.add(ut);
     }

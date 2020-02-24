@@ -59,10 +59,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
-  /** (0:pending,1:success) */
+  /** (0:pending,6: credited but cannot withdraw,1:success) */
   private static FundingRecord.Status depositStatus(int status) {
     switch (status) {
       case 0:
+      case 6:
         return Status.PROCESSING;
       case 1:
         return Status.COMPLETE;

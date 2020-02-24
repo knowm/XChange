@@ -117,13 +117,15 @@ public final class CryptopiaAdapters {
     String tradeTimestamp = String.valueOf(cryptopiaMarketHistory.getTimestamp());
     Date date = DateUtils.fromMillisUtc(cryptopiaMarketHistory.getTimestamp() * 1000L);
 
-    return new Trade(
-        orderType,
-        cryptopiaMarketHistory.getAmount(),
-        CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaMarketHistory.getLabel()),
-        cryptopiaMarketHistory.getPrice(),
-        date,
-        tradeTimestamp);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(cryptopiaMarketHistory.getAmount())
+        .currencyPair(
+            CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaMarketHistory.getLabel()))
+        .price(cryptopiaMarketHistory.getPrice())
+        .timestamp(date)
+        .id(tradeTimestamp)
+        .build();
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(

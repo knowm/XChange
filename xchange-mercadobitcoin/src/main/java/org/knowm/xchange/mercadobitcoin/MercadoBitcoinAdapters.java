@@ -134,13 +134,14 @@ public final class MercadoBitcoinAdapters {
         lastTradeId = tradeId;
       }
       trades.add(
-          new Trade(
-              toOrderType(tx.getType()),
-              tx.getAmount(),
-              currencyPair,
-              tx.getPrice(),
-              DateUtils.fromMillisUtc(tx.getDate() * 1000L),
-              String.valueOf(tradeId)));
+          new Trade.Builder()
+              .type(toOrderType(tx.getType()))
+              .originalAmount(tx.getAmount())
+              .currencyPair(currencyPair)
+              .price(tx.getPrice())
+              .timestamp(DateUtils.fromMillisUtc(tx.getDate() * 1000L))
+              .id(String.valueOf(tradeId))
+              .build());
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
