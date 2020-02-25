@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 
 @Getter
 public class CoinbaseTransactionV2 {
@@ -73,13 +72,12 @@ public class CoinbaseTransactionV2 {
     this.details = details;
   }
 
-  public LocalDateTime getCreatedAt() {
-    return LocalDateTime.parse(createdAt, DateTimeFormatter.ISO_INSTANT);
+  public ZonedDateTime getCreatedAt() {
+    return ZonedDateTime.parse(createdAt);
   }
 
-
-  public LocalDateTime getUpdatedAt() {
-    return LocalDateTime.parse(updatedAt, DateTimeFormatter.ISO_INSTANT);
+  public ZonedDateTime getUpdatedAt() {
+    return ZonedDateTime.parse(updatedAt);
   }
 
   @Override
