@@ -11,35 +11,35 @@ public class FundingRecordStatusTest {
 
   @Test
   public void shouldProcessStatusDescriptionNormal() throws Exception {
-    testStatusDesc("PROCESSING", "foo", FundingRecord.Status.PROCESSING, "foo");
+    testStatusDesc(FundingRecord.Status.PROCESSING, "foo", FundingRecord.Status.PROCESSING, "foo");
   }
 
   @Test
   public void shouldProcessStatusToUpercase() throws Exception {
-    testStatusDesc("Complete", "bar", FundingRecord.Status.COMPLETE, "bar");
+    testStatusDesc(FundingRecord.Status.COMPLETE, "bar", FundingRecord.Status.COMPLETE, "bar");
   }
 
   @Test
   public void shouldProcessNullDescription() throws Exception {
-    testStatusDesc("COMPLETE", null, FundingRecord.Status.COMPLETE, null);
+    testStatusDesc(FundingRecord.Status.COMPLETE, null, FundingRecord.Status.COMPLETE, null);
   }
 
   @Test
   public void shouldProcessStatusAsDescriptionWhenDescInputNull() throws Exception {
-    testStatusDesc("Unknown", null, null, "Unknown");
+    testStatusDesc(null, null, null, null);
   }
 
   @Test
   public void shouldPrependUnrecognizedStatusStringToDescription() throws Exception {
     testStatusDesc(
-        "AdminCancelled",
+            null,
         "The administrator has cancelled the transfers.",
         null,
-        "AdminCancelled: The administrator has cancelled the transfers.");
+        "The administrator has cancelled the transfers.");
   }
 
   private void testStatusDesc(
-      String statusInput,
+      FundingRecord.Status statusInput,
       String descriptionInput,
       FundingRecord.Status expectedStatus,
       String expectedDescription) {
