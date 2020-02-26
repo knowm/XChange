@@ -93,6 +93,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
                                 LOG.error("Channel {} has been failed: {}", channelName, statusMessage.getErrorMessage());
                         }
                         break;
+                    case error:
+                        LOG.error("Error received: {}", message.has("errorMessage") ? message.get("errorMessage").asText() : message.toString());
+                        break;
                     default:
                         LOG.warn("Unexpected event type has been received: {}", krakenEvent);
                 }
