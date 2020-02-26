@@ -1,26 +1,16 @@
 package org.knowm.xchange.kucoin;
 
 import static java.util.stream.Collectors.toCollection;
-import static org.knowm.xchange.dto.Order.OrderStatus.CANCELED;
-import static org.knowm.xchange.dto.Order.OrderStatus.NEW;
-import static org.knowm.xchange.dto.Order.OrderStatus.PARTIALLY_FILLED;
-import static org.knowm.xchange.dto.Order.OrderStatus.UNKNOWN;
+import static org.knowm.xchange.dto.Order.OrderStatus.*;
 import static org.knowm.xchange.dto.Order.OrderType.ASK;
 import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.HIDDEN;
-import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.ICEBERG;
-import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.POST_ONLY;
+import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;

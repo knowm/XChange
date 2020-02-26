@@ -2,10 +2,11 @@ package org.knowm.xchange.kucoin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Data;
 import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @ToString
@@ -23,6 +24,7 @@ public class HistOrdersResponse {
   @JsonProperty("dealPrice")
   private BigDecimal price;
 
+  // price * amount (i.e. volume of this trade in counter ccy)
   @JsonProperty("dealValue")
   private BigDecimal value;
 
