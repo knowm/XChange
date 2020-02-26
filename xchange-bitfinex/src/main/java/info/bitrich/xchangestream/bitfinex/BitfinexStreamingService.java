@@ -79,6 +79,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     private final PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance = PublishSubject.create();
 
     private static final int SUBSCRIPTION_FAILED = 10300;
+    private static final int SUBSCRIPTION_DUP = 10301;
 
     private String apiKey;
     private String apiSecret;
@@ -168,7 +169,12 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
                 }
                 case ERROR:
                     if (message.get("code").asInt() == SUBSCRIPTION_FAILED) {
-                    LOG.error("Error with message: " + message.get("symbol") + " " + message.get("msg"));
+                        LOG.error("Error with message: " + message.get("symbol") + " " + message.get("msg"));
+                        return;
+                    }
+                    // {"channel":"ticker","pair":"BTCUSD","event":"error","msg":"subscribe: dup","code":10301}
+                    if (message.get("code").asInt() == SUBSCRIPTION_DUP) {
+                        LOG.warn("Already subscribed: " + message.toString());
                         return;
                     }
                     super.handleError(message, new ExchangeException("Error code: " + message.get(ERROR_CODE).asText()));
