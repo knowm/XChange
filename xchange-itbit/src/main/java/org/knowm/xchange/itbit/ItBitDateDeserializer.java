@@ -24,15 +24,14 @@ public class ItBitDateDeserializer extends JsonDeserializer<Date> {
 
   @Override
   public Date deserialize(JsonParser jp, final DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
+      throws IOException{
 
     String value = jp.getValueAsString().replaceFirst("0000Z$", "");
     try {
       return simpleDateFormat.parse(value);
     } catch (ParseException e) {
-      throw new InvalidFormatException(
+      throw new InvalidFormatException(jp,
           "Can't parse date at offset " + e.getErrorOffset(),
-          jp.getCurrentLocation(),
           value,
           Date.class);
       //      throw new RuntimeException("Can't parse date at offset " + e.getErrorOffset(), e);
