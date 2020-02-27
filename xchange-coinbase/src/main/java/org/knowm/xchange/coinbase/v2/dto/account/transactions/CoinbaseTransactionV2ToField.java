@@ -29,9 +29,9 @@ public class CoinbaseTransactionV2ToField {
   public String toString() {
     return "{" +
            "\"resource\":" + '\"' + resource + '\"' +
-           "\"address\":" + '\"' + address + '\"' +
+           ",\"address\":" + '\"' + address + '\"' +
            ",\"currency\":" + '\"' + currency + '\"' +
-           ",\"addressInfo\":" + '\"' + addressInfo + '\"' +
+           ",\"addressInfo\":" + addressInfo +
            ",\"addressUrl\":" + '\"' + addressUrl + '\"' +
            '}';
   }
