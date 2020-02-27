@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,14 @@ public class KrakenManualExample {
         StreamingExchange krakenExchange = StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
         krakenExchange.connect().blockingAwait();
 
-        Disposable btcEurOrderBookDis = krakenExchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_EUR, 100).subscribe(s -> {
-            LOG.info("Received order book {}({},{}) {} ask[0] = {} bid[0] = {}", CurrencyPair.BTC_EUR, s.getAsks().size(), s.getBids().size(), s.getAsks().get(0), s.getBids().get(0));
+        CurrencyPair bchUsdt = new CurrencyPair(Currency.BCH, Currency.getInstance("USD"));
+        Disposable btcEurOrderBookDis = krakenExchange.getStreamingMarketDataService().getOrderBook(bchUsdt, 100).subscribe(s -> {
+            LOG.info("Received order book {}({},{}) ask[0] = {} bid[0] = {}", bchUsdt, s.getAsks().size(), s.getBids().size(), s.getAsks().get(0), s.getBids().get(0));
         }, throwable -> {
             LOG.error("Order book FAILED {}", throwable.getMessage(), throwable);
         });
-        Disposable btcUsdOrderBookDis = krakenExchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.LTC_BTC, 10).subscribe(s -> {
-            LOG.info("Received order book {}({},{}) {} ask[0] = {} bid[0] = {}", CurrencyPair.LTC_BTC, s.getAsks().size(), s.getBids().size(), s.getAsks().get(0), s.getBids().get(0));
+        Disposable btcUsdOrderBookDis = krakenExchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BCH_EUR, 10).subscribe(s -> {
+            LOG.info("Received order book {}({},{}) ask[0] = {} bid[0] = {}", CurrencyPair.BCH_EUR, s.getAsks().size(), s.getBids().size(), s.getAsks().get(0), s.getBids().get(0));
         }, throwable -> {
             LOG.error("Order book FAILED {}", throwable.getMessage(), throwable);
         });
@@ -51,5 +53,4 @@ public class KrakenManualExample {
 
         krakenExchange.disconnect().subscribe(() -> LOG.info("Disconnected"));
     }
-
 }

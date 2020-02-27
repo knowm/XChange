@@ -251,7 +251,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 CloseWebSocketFrame closeFrame = new CloseWebSocketFrame();
                 webSocketChannel.writeAndFlush(closeFrame).addListener(future -> {
                     channels.clear();
-                    webSocketChannel.eventLoop().shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> {
+                    eventLoopGroup.shutdownGracefully(2, 30, TimeUnit.SECONDS).addListener(f -> {
                         LOG.info("Disconnected");
                         completable.onComplete();
                     });
