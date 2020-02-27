@@ -17,13 +17,13 @@ public interface HistOrdersAPI {
   /**
    * Get a list of recent fills.
    *
-   * @param symbol      [optional] Limit list of fills to this orderId
-   * @param side        [optional] buy or sell
-   * @param startAt     [optional] Start time. unix timestamp calculated in milliseconds, the creation
-   *                    time queried shall posterior to the start time.
-   * @param endAt       [optional] End time. unix timestamp calculated in milliseconds, the creation time
-   *                    queried shall prior to the end time.
-   * @param pageSize    [optional] The page size.
+   * @param symbol [optional] Limit list of fills to this orderId
+   * @param side [optional] buy or sell
+   * @param startAt [optional] Start time. unix timestamp calculated in milliseconds, the creation
+   *     time queried shall posterior to the start time.
+   * @param endAt [optional] End time. unix timestamp calculated in milliseconds, the creation time
+   *     queried shall prior to the end time.
+   * @param pageSize [optional] The page size.
    * @param currentPage [optional] The page to select.
    * @return Trades.
    */
