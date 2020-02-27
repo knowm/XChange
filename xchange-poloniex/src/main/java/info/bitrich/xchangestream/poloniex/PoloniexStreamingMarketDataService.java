@@ -1,6 +1,8 @@
 package info.bitrich.xchangestream.poloniex;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.MinMaxPriorityQueue;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.poloniex.utils.MinMaxPriorityQueueUtils;
@@ -22,10 +24,27 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class PoloniexStreamingMarketDataService implements StreamingMarketDataService {
+    public static final String TICKER_CHANNEL_NAME = "ticker";
     private final WampStreamingService streamingService;
+    private final Supplier<Observable<Ticker>> streamingTickers;
 
     public PoloniexStreamingMarketDataService(WampStreamingService streamingService) {
         this.streamingService = streamingService;
+        this.streamingTickers = Suppliers.memoize(() -> streamingService.subscribeChannel(TICKER_CHANNEL_NAME)
+                .map(pubSubData -> {
+                    PoloniexMarketData marketData = new PoloniexMarketData();
+                    marketData.setLast(new BigDecimal(pubSubData.arguments().get(1).asText()));
+                    marketData.setLowestAsk(new BigDecimal(pubSubData.arguments().get(2).asText()));
+                    marketData.setHighestBid(new BigDecimal(pubSubData.arguments().get(3).asText()));
+                    marketData.setPercentChange(new BigDecimal(pubSubData.arguments().get(4).asText()));
+                    marketData.setBaseVolume(new BigDecimal(pubSubData.arguments().get(5).asText()));
+                    marketData.setQuoteVolume(new BigDecimal(pubSubData.arguments().get(6).asText()));
+                    marketData.setHigh24hr(new BigDecimal(pubSubData.arguments().get(8).asText()));
+                    marketData.setLow24hr(new BigDecimal(pubSubData.arguments().get(9).asText()));
+
+                    PoloniexTicker ticker = new PoloniexTicker(marketData, PoloniexUtils.toCurrencyPair(pubSubData.arguments().get(0).asText()));
+                    return PoloniexAdapters.adaptPoloniexTicker(ticker, ticker.getCurrencyPair());
+                }).share());
     }
 
     private Map<CurrencyPair, MinMaxPriorityQueue<LimitOrder>> orderBookBids = new HashMap<>();
@@ -90,22 +109,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        return streamingService.subscribeChannel("ticker")
-                .map(pubSubData -> {
-                    PoloniexMarketData marketData = new PoloniexMarketData();
-                    marketData.setLast(new BigDecimal(pubSubData.arguments().get(1).asText()));
-                    marketData.setLowestAsk(new BigDecimal(pubSubData.arguments().get(2).asText()));
-                    marketData.setHighestBid(new BigDecimal(pubSubData.arguments().get(3).asText()));
-                    marketData.setPercentChange(new BigDecimal(pubSubData.arguments().get(4).asText()));
-                    marketData.setBaseVolume(new BigDecimal(pubSubData.arguments().get(5).asText()));
-                    marketData.setQuoteVolume(new BigDecimal(pubSubData.arguments().get(6).asText()));
-                    marketData.setHigh24hr(new BigDecimal(pubSubData.arguments().get(8).asText()));
-                    marketData.setLow24hr(new BigDecimal(pubSubData.arguments().get(9).asText()));
-
-                    PoloniexTicker ticker = new PoloniexTicker(marketData, PoloniexUtils.toCurrencyPair(pubSubData.arguments().get(0).asText()));
-                    return PoloniexAdapters.adaptPoloniexTicker(ticker, ticker.getCurrencyPair());
-                })
-                .filter(ticker -> ticker.getCurrencyPair().equals(currencyPair));
+        return streamingTickers.get().filter(ticker -> ticker.getCurrencyPair().equals(currencyPair));
     }
 
     @Override
