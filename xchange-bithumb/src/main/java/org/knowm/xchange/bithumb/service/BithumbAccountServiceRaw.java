@@ -25,7 +25,7 @@ public class BithumbAccountServiceRaw extends BithumbBaseService {
   public BithumbAccount getBithumbAddress() throws IOException {
     final BithumbResponse<BithumbAccount> account =
         bithumbAuthenticated.getAccount(
-            apiKey, signatureCreator, exchange.getNonceFactory(), "2", endpointGenerator);
+            apiKey, signatureCreator, exchange.getNonceFactory(), "2", endpointGenerator, "BTC");
     return account.getData();
   }
 
