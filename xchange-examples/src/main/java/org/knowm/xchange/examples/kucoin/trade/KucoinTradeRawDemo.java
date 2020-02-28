@@ -20,16 +20,16 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 
-public class KucoinTradeDemo {
+public class KucoinTradeRawDemo {
 
-  private static final CurrencyPair PAIR = new CurrencyPair("DRGN", "BTC");
-  private static final String SYMBOL = "DRGN-BTC";
+  private static final CurrencyPair PAIR = new CurrencyPair("ETH", "BTC");
+  private static final String SYMBOL = "ETH-BTC";
   private static final OrderType ORDER_TYPE = OrderType.ASK;
-  private static final BigDecimal AMOUNT = new BigDecimal("100");
-  private static final BigDecimal PRICE = new BigDecimal("0.1");
+  private static final BigDecimal AMOUNT = new BigDecimal("0.1");
+  private static final BigDecimal PRICE = new BigDecimal("0.05");
 
-  private static final BigDecimal STOP_PRICE = new BigDecimal("0.000002");
-  private static final BigDecimal STOP_LIMIT = new BigDecimal("0.0000019");
+  private static final BigDecimal STOP_PRICE = new BigDecimal("0.01");
+  private static final BigDecimal STOP_LIMIT = new BigDecimal("0.005");
 
   public static void main(String[] args) throws Exception {
 
@@ -223,10 +223,10 @@ public class KucoinTradeDemo {
 
     Thread.sleep(3000); // wait for order to propagate
 
-    System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 0, 1000));
-    System.out.println(SYMBOL + " orders: " + tradeService.getKucoinOpenOrders(SYMBOL, 0, 1000));
-    System.out.println("All fills: " + tradeService.getKucoinFills(null, 0, 1000));
-    System.out.println(SYMBOL + " fills: " + tradeService.getKucoinFills(SYMBOL, 0, 1000));
+    System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 1, 500));
+    System.out.println(SYMBOL + " orders: " + tradeService.getKucoinOpenOrders(SYMBOL, 1, 500));
+    System.out.println("All fills: " + tradeService.getKucoinFills(null, 1, 500, null, null));
+    System.out.println(SYMBOL + " fills: " + tradeService.getKucoinFills(SYMBOL, 1, 500, null, null));
 
     // Not yet implemented
     System.out.println("Attempting to cancel order " + orderId);
@@ -240,6 +240,6 @@ public class KucoinTradeDemo {
 
     Thread.sleep(3000); // wait for cancellation to propagate
 
-    System.out.println(SYMBOL + " orders: " + tradeService.getKucoinOpenOrders(SYMBOL, 1, 1000));
+    System.out.println(SYMBOL + " orders: " + tradeService.getKucoinOpenOrders(SYMBOL, 1, 500));
   }
 }
