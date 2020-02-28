@@ -200,7 +200,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
       boolean withdrawals = true;
       boolean deposits = true;
-      boolean airdrops = false;
+      boolean otherInflow = true;
 
       Long startTime = null;
       Long endTime = null;
@@ -219,7 +219,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         if (f.getType() != null) {
           withdrawals = f.getType() == Type.WITHDRAWAL;
           deposits = f.getType() == Type.DEPOSIT;
-          airdrops = f.getType() == Type.AIRDROP;
+          otherInflow = f.getType() == Type.OTHER_INFLOW;
         }
       }
 
@@ -266,8 +266,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                 });
       }
 
-      if (airdrops) {
-        super.assetDividends(asset, startTime, endTime, recvWindow, getTimestamp(), limit)
+      if (otherInflow) {
+        super.getAssetDividend(asset, startTime, endTime)
             .forEach(
                 a -> {
                   result.add(
@@ -279,7 +279,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           a.getAmount(),
                           null,
                           String.valueOf(a.getTranId()),
-                          Type.AIRDROP,
+                          Type.OTHER_INFLOW,
                           Status.COMPLETE,
                           null,
                           null,
