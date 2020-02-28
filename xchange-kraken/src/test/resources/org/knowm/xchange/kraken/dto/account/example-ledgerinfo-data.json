@@ -72,8 +72,18 @@
         "amount": "0.5000000000",
         "fee": "0.0000000000",
         "balance": "0.5000000000"
+      },
+      "LKEGD3-PO6FF-3CCK7Z": {
+        "refid": "Unknown",
+        "time": 1388739925.0371,
+        "type": "staking",
+        "aclass": "currency",
+        "asset": "XTZ",
+        "amount": "0.01847200",
+        "fee": "0.0000000000",
+        "balance": "130.44704300"
       }
     },
-    "count": "6"
+    "count": "8"
   }
 }

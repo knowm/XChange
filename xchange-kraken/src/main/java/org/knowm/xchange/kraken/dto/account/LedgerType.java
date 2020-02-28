@@ -20,6 +20,7 @@ public enum LedgerType {
   TRADE,
   MARGIN,
   CREDIT,
+  STAKING,
   ROLLOVER,
   TRANSFER,
   ADJUSTMENT;
