@@ -29,7 +29,8 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
-      @FormParam(ENDPOINT) ParamsDigest endpointGenerator)
+      @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
+      @FormParam("order_currency") String currency)
       throws BithumbException, IOException;
 
   @POST
