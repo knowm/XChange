@@ -1,15 +1,12 @@
 package info.bitrich.xchangestream.binance;
 
+import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.util.Events;
-
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
@@ -17,6 +14,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import si.mazi.rescu.RestProxyFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +25,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
     private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
     private static final String API_BASE_URI = "wss://stream.binance.com:9443/";
+    protected final static String USE_HIGHER_UPDATE_FREQUENCY = "Binance_Orderbook_Use_Higher_Frequency";
+
 
     private BinanceStreamingService streamingService;
     private BinanceUserDataStreamingService userDataStreamingService;
@@ -37,11 +37,19 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
     private BinanceUserDataChannel userDataChannel;
     private Runnable onApiCall;
+    private String orderBookUpdateFrequencyParameter = "";
 
     @Override
     protected void initServices() {
         super.initServices();
         this.onApiCall = Events.onApiCall(exchangeSpecification);
+        Boolean userHigherFrequency = MoreObjects.firstNonNull(
+                (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_HIGHER_UPDATE_FREQUENCY),
+                Boolean.FALSE);
+
+        if (userHigherFrequency) {
+            orderBookUpdateFrequencyParameter = "@100ms";
+        }
     }
 
     /**
@@ -88,7 +96,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
             }
         }
 
-        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
+        streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService,
+                (BinanceMarketDataService) marketDataService, onApiCall, orderBookUpdateFrequencyParameter);
         streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
         streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
@@ -165,7 +174,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         return new BinanceStreamingService(path, subscription);
     }
 
-    public static String buildSubscriptionStreams(ProductSubscription subscription) {
+    public String buildSubscriptionStreams(ProductSubscription subscription) {
         return Stream.of(buildSubscriptionStrings(subscription.getTicker(), "ticker"),
                 buildSubscriptionStrings(subscription.getOrderBook(), "depth"),
                 buildSubscriptionStrings(subscription.getTrades(), "trade"))
@@ -173,8 +182,15 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
                     .collect(Collectors.joining("/"));
     }
 
-    private static String buildSubscriptionStrings(List<CurrencyPair> currencyPairs, String subscriptionType) {
-        return subscriptionStrings(currencyPairs).map( s -> s + "@" + subscriptionType).collect(Collectors.joining("/"));
+    private String buildSubscriptionStrings(List<CurrencyPair> currencyPairs, String subscriptionType) {
+        if ("depth".equals(subscriptionType)) {
+            return subscriptionStrings(currencyPairs)
+                    .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
+                    .collect(Collectors.joining("/"));
+        } else {
+            return subscriptionStrings(currencyPairs).map(s -> s + "@" + subscriptionType)
+                    .collect(Collectors.joining("/"));
+        }
     }
 
     private static Stream<String> subscriptionStrings(List<CurrencyPair> currencyPairs) {

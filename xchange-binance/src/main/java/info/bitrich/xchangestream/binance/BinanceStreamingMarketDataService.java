@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
-
 import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
 import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
 import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
@@ -14,10 +13,8 @@ import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
-
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -59,6 +56,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             .constructType(new TypeReference<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>>() {});
 
     private final BinanceStreamingService service;
+    private final String orderBookUpdateFrequencyParameter;
 
     private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
     private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions = new HashMap<>();
@@ -72,8 +70,10 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     private final AtomicBoolean fallenBack = new AtomicBoolean();
     private final AtomicReference<Runnable> fallbackOnApiCall = new AtomicReference<>(() -> {});
 
-    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, Runnable onApiCall) {
+    public BinanceStreamingMarketDataService(BinanceStreamingService service, BinanceMarketDataService marketDataService, Runnable onApiCall,
+            final String orderBookUpdateFrequencyParameter) {
         this.service = service;
+        this.orderBookUpdateFrequencyParameter = orderBookUpdateFrequencyParameter;
         this.marketDataService = marketDataService;
         this.onApiCall = onApiCall;
     }
@@ -119,9 +119,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
             ));
     }
 
-    private static String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
+    private String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
         String currency = String.join("", currencyPair.toString().split("/")).toLowerCase();
-        return currency + "@" + subscriptionType;
+        String currencyChannel = currency + "@" + subscriptionType;
+
+        if ("depth".equals(subscriptionType)) {
+                return currencyChannel + orderBookUpdateFrequencyParameter;
+        } else {
+            return currencyChannel;
+        }
     }
 
     /**
@@ -210,6 +216,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
         // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
         // 2. Buffer the events you receive from the stream.
+
         subscription.stream = service.subscribeChannel(channelFromCurrency(currencyPair, "depth"))
                 .map(this::depthTransaction)
                 .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair));
