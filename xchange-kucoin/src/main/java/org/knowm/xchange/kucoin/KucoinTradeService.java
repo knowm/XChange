@@ -4,14 +4,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -58,21 +55,22 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams genericParams) throws IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
     String symbol = null;
     Long startTime = null;
     Long endTime = null;
+    int page = 1;
 
-    if (genericParams != null) {
-      TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) genericParams;
+    if (tradeHistoryParams != null) {
+      TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
 
-      if (genericParams instanceof TradeHistoryParamsTimeSpan) {
-        if (((TradeHistoryParamsTimeSpan) genericParams).getStartTime() != null) {
-          startTime = ((TradeHistoryParamsTimeSpan) genericParams).getStartTime().getTime();
+      if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
+        if (((TradeHistoryParamsTimeSpan) tradeHistoryParams).getStartTime() != null) {
+          startTime = ((TradeHistoryParamsTimeSpan) tradeHistoryParams).getStartTime().getTime();
         }
-        if (((TradeHistoryParamsTimeSpan) genericParams).getEndTime() != null) {
-          endTime = ((TradeHistoryParamsTimeSpan) genericParams).getEndTime().getTime();
+        if (((TradeHistoryParamsTimeSpan) tradeHistoryParams).getEndTime() != null) {
+          endTime = ((TradeHistoryParamsTimeSpan) tradeHistoryParams).getEndTime().getTime();
         }
         /*
           KuCoin restricts time spans to 7 days (as per API docs) on new fills API but not hist-orders. I.e. you could request
@@ -81,30 +79,36 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         if (startTime != null) {
           if (endTime == null) {
             if (startTime < cutoffHistOrdersMillis) {
-              endTime = Math.max(cutoffHistOrdersMillis - 1, startTime + oneWeekMillis);
+              endTime = cutoffHistOrdersMillis - 1;
             } else {
               endTime = startTime + oneWeekMillis;
             }
             logger.warn(
                 "End time not specified, adjusted to the following time span {} - {}",
-                Date.from(Instant.ofEpochMilli(startTime)),
-                Date.from(Instant.ofEpochMilli(endTime)));
-          } else if (endTime >= cutoffHistOrdersMillis && endTime - startTime > oneWeekMillis) {
+                new Date(startTime),
+                new Date(endTime));
+          } else if (startTime < cutoffHistOrdersMillis && endTime > cutoffHistOrdersMillis) {
+            endTime = cutoffHistOrdersMillis - 1;
+            logger.warn(
+                "End time after old API cutoff date, adjusted to the following time span {} - {}",
+                new Date(startTime),
+                new Date(endTime));
+          } else if (startTime >= cutoffHistOrdersMillis && endTime - startTime > oneWeekMillis) {
             endTime = startTime + oneWeekMillis;
             logger.warn(
                 "End time more than one week from start time, adjusted to the following time span {} - {}",
-                Date.from(Instant.ofEpochMilli(startTime)),
-                Date.from(Instant.ofEpochMilli(endTime)));
+                new Date(startTime),
+                new Date(endTime));
           }
         }
 
         if (endTime != null && startTime == null) {
           if (endTime > cutoffHistOrdersMillis) {
-            startTime = endTime - oneWeekMillis;
+            startTime = Math.max(cutoffHistOrdersMillis, endTime - oneWeekMillis);
             logger.warn(
                 "Start time not specified, adjusted to the following time span {} - {}",
-                Date.from(Instant.ofEpochMilli(startTime)),
-                Date.from(Instant.ofEpochMilli(endTime)));
+                new Date(startTime),
+                new Date(endTime));
           }
         }
         if (startTime == null && endTime == null) {
@@ -112,44 +116,56 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
           startTime = endTime - oneWeekMillis;
           logger.warn(
               "No start or end time for trade history request specified, adjusted to the following time span {} - {}",
-              Date.from(Instant.ofEpochMilli(startTime)),
-              Date.from(Instant.ofEpochMilli(endTime)));
+              new Date(startTime),
+              new Date(endTime));
+        }
+      }
+
+      if (tradeHistoryParams instanceof TradeHistoryParamNextPageCursor) {
+        String nextPageCursor = ((TradeHistoryParamNextPageCursor) params).getNextPageCursor();
+        try {
+          if (nextPageCursor != null) {
+            page = Integer.parseInt(nextPageCursor);
+          }
+        } catch (NumberFormatException e) {
+          logger.warn(
+              "Could not parse next page cursor [{}]. Should be a page number (integer). {}",
+              nextPageCursor,
+              e.getMessage());
         }
       }
     }
 
-    // TODO getKucoinFills(...).getItems will just get the current items and silently ignore any
-    // other pages if present!
-    Long startTimeSecs = startTime != null ? startTime / 1000 : null;
-    Long endTimeSecs = endTime != null ? endTime / 1000 : null;
-
     List<UserTrade> userTrades;
-    if (startTime != null && startTime > cutoffHistOrdersMillis) {
+    String nextPageCursor = null;
+    if (startTime != null && startTime >= cutoffHistOrdersMillis) {
+      Pagination<TradeResponse> fills =
+          getKucoinFills(symbol, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
       userTrades =
-          getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTime, endTime).getItems()
-              .stream()
+          fills.getItems().stream()
               .map(KucoinAdapters::adaptUserTrade)
               .collect(Collectors.toList());
-    } else if (endTime != null && endTime < cutoffHistOrdersMillis) {
+      if (fills.getTotalPage() > fills.getCurrentPage()) {
+        nextPageCursor = Integer.toString(fills.getCurrentPage() + 1);
+      }
+    } else {
+      Pagination<HistOrdersResponse> histOrders =
+          getKucoinHistOrders(
+              symbol,
+              page,
+              TRADE_HISTORIES_TO_FETCH,
+              startTime != null ? startTime / 1000 : null,
+              endTime != null ? endTime / 1000 : null);
       userTrades =
-          getKucoinHistOrders(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTimeSecs, endTimeSecs)
-              .getItems().stream()
+          histOrders.getItems().stream()
               .map(KucoinAdapters::adaptHistOrder)
               .collect(Collectors.toList());
-    } else {
-      userTrades =
-          Stream.concat(
-                  getKucoinHistOrders(
-                          symbol, 1, TRADE_HISTORIES_TO_FETCH, startTimeSecs, endTimeSecs)
-                      .getItems().stream()
-                      .map(KucoinAdapters::adaptHistOrder),
-                  getKucoinFills(symbol, 1, TRADE_HISTORIES_TO_FETCH, startTime, endTime).getItems()
-                      .stream()
-                      .map(KucoinAdapters::adaptUserTrade))
-              .collect(Collectors.toList());
+      if (histOrders.getTotalPage() > histOrders.getCurrentPage()) {
+        nextPageCursor = Integer.toString(histOrders.getCurrentPage() + 1);
+      }
     }
 
-    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
+    return new UserTrades(userTrades, 0, TradeSortType.SortByTimestamp, nextPageCursor);
   }
 
   @Override
@@ -159,7 +175,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new KucoinTradeHistoryParams();
   }
 
   @Override
