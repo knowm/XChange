@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xchange-stream-core</artifactId>
+    <artifactId>xchange-stream-service-pusher</artifactId>
 
     <dependencies>
         <dependency>
@@ -15,17 +15,10 @@
             <artifactId>xchange-stream-service-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>${xchange.version}</version>
+            <groupId>com.pusher</groupId>
+            <artifactId>pusher-java-client</artifactId>
+            <version>2.0.2</version>
         </dependency>
     </dependencies>
 
