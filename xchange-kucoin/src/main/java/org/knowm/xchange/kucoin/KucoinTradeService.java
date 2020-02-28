@@ -72,53 +72,6 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
         if (((TradeHistoryParamsTimeSpan) tradeHistoryParams).getEndTime() != null) {
           endTime = ((TradeHistoryParamsTimeSpan) tradeHistoryParams).getEndTime().getTime();
         }
-        /*
-          KuCoin restricts time spans to 7 days (as per API docs) on new fills API but not hist-orders. I.e. you could request
-           a whole year of trades before 2019-2-18 but only 7 days of trades after that date.
-        */
-        if (startTime != null) {
-          if (endTime == null) {
-            if (startTime < cutoffHistOrdersMillis) {
-              endTime = cutoffHistOrdersMillis - 1;
-            } else {
-              endTime = startTime + oneWeekMillis;
-            }
-            logger.warn(
-                "End time not specified, adjusted to the following time span {} - {}",
-                new Date(startTime),
-                new Date(endTime));
-          } else if (startTime < cutoffHistOrdersMillis && endTime > cutoffHistOrdersMillis) {
-            endTime = cutoffHistOrdersMillis - 1;
-            logger.warn(
-                "End time after old API cutoff date, adjusted to the following time span {} - {}",
-                new Date(startTime),
-                new Date(endTime));
-          } else if (startTime >= cutoffHistOrdersMillis && endTime - startTime > oneWeekMillis) {
-            endTime = startTime + oneWeekMillis;
-            logger.warn(
-                "End time more than one week from start time, adjusted to the following time span {} - {}",
-                new Date(startTime),
-                new Date(endTime));
-          }
-        }
-
-        if (endTime != null && startTime == null) {
-          if (endTime > cutoffHistOrdersMillis) {
-            startTime = Math.max(cutoffHistOrdersMillis, endTime - oneWeekMillis);
-            logger.warn(
-                "Start time not specified, adjusted to the following time span {} - {}",
-                new Date(startTime),
-                new Date(endTime));
-          }
-        }
-        if (startTime == null && endTime == null) {
-          endTime = new Date().getTime();
-          startTime = endTime - oneWeekMillis;
-          logger.warn(
-              "No start or end time for trade history request specified, adjusted to the following time span {} - {}",
-              new Date(startTime),
-              new Date(endTime));
-        }
       }
 
       if (tradeHistoryParams instanceof TradeHistoryParamNextPageCursor) {
@@ -134,6 +87,54 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
               e.getMessage());
         }
       }
+    }
+
+    /*
+      KuCoin restricts time spans to 7 days (as per API docs) on new fills API but not hist-orders. I.e. you could request
+       a whole year of trades before 2019-2-18 but only 7 days of trades after that date.
+    */
+    if (startTime != null) {
+      if (endTime == null) {
+        if (startTime < cutoffHistOrdersMillis) {
+          endTime = cutoffHistOrdersMillis - 1;
+        } else {
+          endTime = startTime + oneWeekMillis;
+        }
+        logger.warn(
+            "End time not specified, adjusted to the following time span {} - {}",
+            new Date(startTime),
+            new Date(endTime));
+      } else if (startTime < cutoffHistOrdersMillis && endTime > cutoffHistOrdersMillis) {
+        endTime = cutoffHistOrdersMillis - 1;
+        logger.warn(
+            "End time after old API cutoff date, adjusted to the following time span {} - {}",
+            new Date(startTime),
+            new Date(endTime));
+      } else if (startTime >= cutoffHistOrdersMillis && endTime - startTime > oneWeekMillis) {
+        endTime = startTime + oneWeekMillis;
+        logger.warn(
+            "End time more than one week from start time, adjusted to the following time span {} - {}",
+            new Date(startTime),
+            new Date(endTime));
+      }
+    }
+
+    if (endTime != null && startTime == null) {
+      if (endTime > cutoffHistOrdersMillis) {
+        startTime = Math.max(cutoffHistOrdersMillis, endTime - oneWeekMillis);
+        logger.warn(
+            "Start time not specified, adjusted to the following time span {} - {}",
+            new Date(startTime),
+            new Date(endTime));
+      }
+    }
+    if (startTime == null && endTime == null) {
+      endTime = new Date().getTime();
+      startTime = endTime - oneWeekMillis;
+      logger.warn(
+          "No start or end time for trade history request specified, adjusted to the following time span {} - {}",
+          new Date(startTime),
+          new Date(endTime));
     }
 
     List<UserTrade> userTrades;
@@ -155,7 +156,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
               page,
               TRADE_HISTORIES_TO_FETCH,
               startTime != null ? startTime / 1000 : null,
-              endTime != null ? endTime / 1000 : null);
+              endTime / 1000);
       userTrades =
           histOrders.getItems().stream()
               .map(KucoinAdapters::adaptHistOrder)
