@@ -1,14 +1,13 @@
 package org.knowm.xchange.kucoin.service;
 
+import java.io.IOException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.kucoin.dto.response.HistOrdersResponse;
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.Pagination;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 @Path("/api/v1/hist-orders")
 @Produces(MediaType.APPLICATION_JSON)
