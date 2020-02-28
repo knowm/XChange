@@ -38,5 +38,25 @@ public final class AssetDividendResponse
     private long divTime;
     private String enInfo;
     private long tranId;
+
+    public BigDecimal getAmount() {
+      return amount;
+    }
+
+    public String getAsset() {
+      return asset;
+    }
+
+    public long getDivTime() {
+      return divTime;
+    }
+
+    public String getEnInfo() {
+      return enInfo;
+    }
+
+    public long getTranId() {
+      return tranId;
+    }
   }
 }
