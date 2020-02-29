@@ -8,6 +8,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @author Foat Akhmadeev
  * 31/05/2018
  */
+@Ignore // Requires Bitmex to be up and contactable or the build fails.
 public class BitmexTest {
     private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
 

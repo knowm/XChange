@@ -140,7 +140,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
      */
     public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
         Long ref = nonceFactory.createValue();
-        LgoPlaceOrder lgoOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+        LgoPlaceOrder lgoOrder = LgoAdapters.adaptEncryptedMarketOrder(marketOrder);
         return placeOrder(ref, lgoOrder);
     }
 
