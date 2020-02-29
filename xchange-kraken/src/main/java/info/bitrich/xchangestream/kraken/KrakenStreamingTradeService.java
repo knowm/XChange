@@ -121,7 +121,7 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                         .timestamp(dto.opentm == null ? null : new Date((long) (dto.opentm * 1000L)))
                         .fee(dto.fee)
                         .flags(adaptFlags(dto.oflags))
-                        .userReference(dto.refid)
+                        .userReference(dto.userref == null ? null : Integer.toString(dto.userref))
                         .build()
                 );
             }
