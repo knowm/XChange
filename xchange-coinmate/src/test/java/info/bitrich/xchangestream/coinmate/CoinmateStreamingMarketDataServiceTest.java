@@ -71,8 +71,21 @@ public class CoinmateStreamingMarketDataServiceTest {
 
         when(streamingService.subscribeChannel(eq("trades-BTC_CZK"), eq("new_trades"))).thenReturn(Observable.just(trade));
 
-        Trade expected1 = new Trade(null, new BigDecimal("0.08233888"), CurrencyPair.BTC_CZK, new BigDecimal("855.29"), new Date(1484863030522L), null);
-        Trade expected2 = new Trade(null, new BigDecimal("0.00200428"), CurrencyPair.BTC_CZK, new BigDecimal("855.13"), new Date(1484863028887L), null);
+        Trade expected1 = new Trade.Builder()
+            .type(null)
+            .originalAmount(new BigDecimal("0.08233888"))
+            .currencyPair(CurrencyPair.BTC_CZK)
+            .price(new BigDecimal("855.29"))
+            .timestamp(new Date(1484863030522L))
+            .build();
+
+        Trade expected2 = new Trade.Builder()
+            .type(null)
+            .originalAmount(new BigDecimal("0.00200428"))
+            .currencyPair(CurrencyPair.BTC_CZK)
+            .price(new BigDecimal("855.13"))
+            .timestamp(new Date(1484863028887L))
+            .build();
 
         TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_CZK).test();
 

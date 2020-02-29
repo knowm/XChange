@@ -1,7 +1,6 @@
 package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
-import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.LocalExchangeConfig;
 import info.bitrich.xchangestream.util.PropsLoader;
@@ -38,7 +37,7 @@ import static org.knowm.xchange.bitmex.BitmexPrompt.PERPETUAL;
  */
 public class BitmexOrderIT {
     private CurrencyPair xbtUsd = CurrencyPair.XBT_USD;
-    private static final Logger LOG = LoggerFactory.getLogger(BitmexTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BitmexOrderIT.class);
 
     private static final BigDecimal priceShift = new BigDecimal("50");
 

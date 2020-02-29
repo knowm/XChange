@@ -41,22 +41,24 @@ public class LgoStreamingMarketDataServiceTest {
         verify(streamingService).subscribeChannel("trades-BTC-USD");
         assertThat(trades.blockingFirst())
                 .isEqualToComparingFieldByField(
-                        new Trade(
-                                Order.OrderType.ASK,
-                                new BigDecimal("4.36920000"),
-                                CurrencyPair.BTC_USD,
-                                new BigDecimal("428.5000"),
-                                dateFormat.parse("2019-07-19T12:25:01.596Z"),
-                                "3128770"));
+                        new Trade.Builder()
+                                .type(Order.OrderType.ASK)
+                                .originalAmount(new BigDecimal("4.36920000"))
+                                .currencyPair(CurrencyPair.BTC_USD)
+                                .price(new BigDecimal("428.5000"))
+                                .timestamp(dateFormat.parse("2019-07-19T12:25:01.596Z"))
+                                .id("3128770")
+                                .build());
         assertThat(trades.blockingLast())
                 .isEqualToComparingFieldByField(
-                        new Trade(
-                                Order.OrderType.BID,
-                                new BigDecimal("1.85390000"),
-                                CurrencyPair.BTC_USD,
-                                new BigDecimal("420.3000"),
-                                dateFormat.parse("2019-07-19T12:25:05.860Z"),
-                                "3128771"));
+                        new Trade.Builder()
+                                .type(Order.OrderType.BID)
+                                .originalAmount(new BigDecimal("1.85390000"))
+                                .currencyPair(CurrencyPair.BTC_USD)
+                                .price(new BigDecimal("420.3000"))
+                                .timestamp(dateFormat.parse("2019-07-19T12:25:05.860Z"))
+                                .id("3128771")
+                                .build());
     }
 
     @Test

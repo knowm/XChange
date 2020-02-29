@@ -61,6 +61,10 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
+        Observable<Ticker> tickerObservable = Observable.just(currencyPair)
+            .flatMap(pair -> getTicker(pair));
+
+
         int currencyPairId = currencyPairMap.getOrDefault(currencyPair, 0);
         Observable<PoloniexWebSocketTickerTransaction> subscribedChannel = service.subscribeChannel("1002")
                 .map(s -> mapper.readValue(s.toString(), PoloniexWebSocketTickerTransaction.class));
