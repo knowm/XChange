@@ -54,6 +54,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
                 .map((UserTrades h) -> h.getUserTrades().get(0));
     }
 
+    private boolean orderChangesWarningLogged;
     /**
      * <p><strong>Warning:</strong> the order change stream is not yet fully
      * implemented for Coinbase Pro. Orders are not fully populated, containing only
@@ -66,9 +67,12 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         if (!service.isAuthenticated()) {
             throw new ExchangeSecurityException("Not authenticated");
         }
-        LOG.warn("The order change stream is not yet fully implemented for Coinbase Pro. "
-                + "Orders are not fully populated, containing only the values changed since "
-                + "the last update. Other values will be null.");
+        if (!orderChangesWarningLogged) {
+            LOG.warn("The order change stream is not yet fully implemented for Coinbase Pro. "
+                    + "Orders are not fully populated, containing only the values changed since "
+                    + "the last update. Other values will be null.");
+            orderChangesWarningLogged = true;
+        }
         return service.getRawWebSocketTransactions(currencyPair, true)
                 .filter(s -> s.getUserId() != null)
                 .map(CoinbaseProStreamingAdapters::adaptOrder);

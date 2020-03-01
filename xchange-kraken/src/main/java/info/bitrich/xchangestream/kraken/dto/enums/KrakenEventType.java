@@ -9,7 +9,9 @@ public enum KrakenEventType {
     subscribe,
     unsubscribe,
     systemStatus,
-    subscriptionStatus;
+    subscriptionStatus,
+    ping, pong, 
+    error;
 
     public static KrakenEventType getEvent(String event) {
         return Arrays.stream(KrakenEventType.values())

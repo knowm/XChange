@@ -41,7 +41,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                 if (message.get(0).asText().equals(HEARTBEAT)) return;
                 else if (message.get(0).asText().equals("1002")) return;
             }
-            Integer channelId = new Integer(message.get(0).toString());
+            int channelId = Integer.parseInt(message.get(0).toString());
             if (channelId > 0 && channelId < 1000) {
                 JsonNode events = message.get(2);
                 if (events != null && events.isArray()) {
@@ -49,7 +49,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
                     if (event.get(0).toString().equals("\"i\"")) {
                         if (event.get(1).has("orderBook")) {
                             String currencyPair = event.get(1).get("currencyPair").asText();
-                            LOG.info("Register {} as {}", String.valueOf(channelId), currencyPair);
+                            LOG.info("Register {} as {}", channelId, currencyPair);
                             subscribedChannels.put(String.valueOf(channelId), currencyPair);
                         }
                     }
@@ -106,7 +106,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     @Override
     protected String getChannelNameFromMessage(JsonNode message) {
         String strChannelId = message.get(0).asText();
-        Integer channelId = new Integer(strChannelId);
+        int channelId = Integer.parseInt(strChannelId);
         if (channelId >= 1000) return strChannelId;
         else return subscribedChannels.get(message.get(0).asText());
     }
