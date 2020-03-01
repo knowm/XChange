@@ -5,5 +5,7 @@ public enum KrakenSubscriptionName {
     ohlc,
     trade,
     book,
-    spread
+    spread,
+    ownTrades,
+    openOrders
 }

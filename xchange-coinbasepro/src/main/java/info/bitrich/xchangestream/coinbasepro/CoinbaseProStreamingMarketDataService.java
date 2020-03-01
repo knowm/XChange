@@ -62,6 +62,9 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
                     if (s.getType().equals(SNAPSHOT)) {
                         bids.put(currencyPair, new TreeMap<>(java.util.Collections.reverseOrder()));
                         asks.put(currencyPair, new TreeMap<>());
+                    } else {
+                        bids.computeIfAbsent(currencyPair, k -> new TreeMap<>(java.util.Collections.reverseOrder()));
+                        asks.computeIfAbsent(currencyPair, k -> new TreeMap<>());
                     }
                     return s.toOrderBook(
                         bids.get(currencyPair),
