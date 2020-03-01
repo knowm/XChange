@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ import java.util.TimeZone;
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by Pavel Chertalev on 19.03.2018.
@@ -36,13 +37,13 @@ import static org.junit.Assert.assertThat;
 public class HitbtcMessageTest {
     private static final Logger LOG = LoggerFactory.getLogger(HitbtcMessageTest.class);
 
-    private final Class clazz;
+    private final Class<?> clazz;
     private final Matcher<String> matcher;
     private final String testResource;
     private final ObjectMapper objectMapper;
 
 
-    public HitbtcMessageTest(Class clazz, Matcher<String> matcher, String testResource) {
+    public HitbtcMessageTest(Class<?> clazz, Matcher<String> matcher, String testResource) {
         this.clazz = clazz;
         this.matcher = matcher;
         this.testResource = testResource;
@@ -75,6 +76,7 @@ public class HitbtcMessageTest {
     }
 
     @Parameterized.Parameters
+    @SuppressWarnings("unchecked")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {
