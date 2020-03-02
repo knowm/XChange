@@ -7,26 +7,30 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xchange-stream-core</artifactId>
-
+    <artifactId>xchange-stream-kraken</artifactId>
     <dependencies>
         <dependency>
-            <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>xchange-stream-service-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
+            <artifactId>xchange-kraken</artifactId>
             <version>${xchange.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>xchange-stream-core</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>
