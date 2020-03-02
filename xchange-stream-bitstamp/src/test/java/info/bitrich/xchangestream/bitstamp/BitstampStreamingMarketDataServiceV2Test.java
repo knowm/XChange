@@ -1,10 +1,18 @@
 package info.bitrich.xchangestream.bitstamp;
 
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingService;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.function.Supplier;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,66 +24,99 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Supplier;
+public class BitstampStreamingMarketDataServiceV2Test
+    extends BitstampStreamingMarketDataServiceBaseTest {
+  @Mock private BitstampStreamingService streamingService;
+  private BitstampStreamingMarketDataService marketDataService;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    marketDataService = new BitstampStreamingMarketDataService(streamingService);
+  }
 
-public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingMarketDataServiceBaseTest {
-    @Mock
-    private BitstampStreamingService streamingService;
-    private BitstampStreamingMarketDataService marketDataService;
+  public void testOrderbookCommon(String channelName, Supplier<TestObserver<OrderBook>> updater)
+      throws Exception {
+    // Given order book in JSON
+    JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        marketDataService = new BitstampStreamingMarketDataService(streamingService);
-    }
+    when(streamingService.subscribeChannel(eq(channelName), eq("data")))
+        .thenReturn(Observable.just(orderBook));
 
-    public void testOrderbookCommon(String channelName, Supplier<TestObserver<OrderBook>> updater) throws Exception {
-        // Given order book in JSON
-        JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
+    List<LimitOrder> bids = new ArrayList<>();
+    bids.add(
+        new LimitOrder(
+            Order.OrderType.BID,
+            new BigDecimal("0.922"),
+            CurrencyPair.BTC_EUR,
+            "",
+            null,
+            new BigDecimal("819.9")));
+    bids.add(
+        new LimitOrder(
+            Order.OrderType.BID,
+            new BigDecimal("0.085"),
+            CurrencyPair.BTC_EUR,
+            "",
+            null,
+            new BigDecimal("818.63")));
 
-        when(streamingService.subscribeChannel(eq(channelName), eq("data"))).thenReturn(Observable.just(orderBook));
+    List<LimitOrder> asks = new ArrayList<>();
+    asks.add(
+        new LimitOrder(
+            Order.OrderType.ASK,
+            new BigDecimal("2.89"),
+            CurrencyPair.BTC_EUR,
+            "",
+            null,
+            new BigDecimal("821.7")));
+    asks.add(
+        new LimitOrder(
+            Order.OrderType.ASK,
+            new BigDecimal("5.18"),
+            CurrencyPair.BTC_EUR,
+            "",
+            null,
+            new BigDecimal("821.65")));
+    asks.add(
+        new LimitOrder(
+            Order.OrderType.ASK,
+            new BigDecimal("0.035"),
+            CurrencyPair.BTC_EUR,
+            "",
+            null,
+            new BigDecimal("821.6")));
 
-        List<LimitOrder> bids = new ArrayList<>();
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("819.9")));
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.085"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("818.63")));
+    // Call get order book observable
+    TestObserver<OrderBook> test = updater.get();
 
-        List<LimitOrder> asks = new ArrayList<>();
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("2.89"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.7")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("5.18"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.65")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.6")));
+    // We get order book object in correct order
+    validateOrderBook(bids, asks, test);
+  }
 
-        // Call get order book observable
-        TestObserver<OrderBook> test = updater.get();
+  @Test
+  public void testGetDifferentialOrderBook() throws Exception {
+    testOrderbookCommon(
+        "diff_order_book_btceur",
+        () -> marketDataService.getFullOrderBook(CurrencyPair.BTC_EUR).test());
+  }
 
-        // We get order book object in correct order
-        validateOrderBook(bids, asks, test);
-    }
+  @Test
+  public void testGetOrderBook() throws Exception {
+    testOrderbookCommon(
+        "order_book_btceur", () -> marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test());
+  }
 
-    @Test
-    public void testGetDifferentialOrderBook() throws Exception {
-        testOrderbookCommon("diff_order_book_btceur", () -> marketDataService.getFullOrderBook(CurrencyPair.BTC_EUR).test());
-    }
+  @Test
+  public void testGetTrades() throws Exception {
+    // Given order book in JSON
+    JsonNode trade = mapper.readTree(this.getClass().getResource("/trade-v2.json"));
 
-    @Test
-    public void testGetOrderBook() throws Exception {
-        testOrderbookCommon("order_book_btceur", () -> marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test());
-    }
+    when(streamingService.subscribeChannel(eq("live_trades_btcusd"), eq("trade")))
+        .thenReturn(Observable.just(trade));
 
-    @Test
-    public void testGetTrades() throws Exception {
-        // Given order book in JSON
-        JsonNode trade = mapper.readTree(this.getClass().getResource("/trade-v2.json"));
-
-        when(streamingService.subscribeChannel(eq("live_trades_btcusd"), eq("trade"))).thenReturn(Observable.just(trade));
-
-        Trade expected = new Trade.Builder()
+    Trade expected =
+        new Trade.Builder()
             .type(Order.OrderType.ASK)
             .originalAmount(new BigDecimal("34.390000000000001"))
             .currencyPair(CurrencyPair.BTC_USD)
@@ -84,15 +125,15 @@ public class BitstampStreamingMarketDataServiceV2Test extends BitstampStreamingM
             .id("177827396")
             .build();
 
-        // Call get order book observable
-        TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
+    // Call get order book observable
+    TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
 
-        // We get order book object in correct order
-        validateTrades(expected, test);
-    }
+    // We get order book object in correct order
+    validateTrades(expected, test);
+  }
 
-    @Test(expected = NotAvailableFromExchangeException.class)
-    public void testGetTicker() throws Exception {
-        marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
-    }
+  @Test(expected = NotAvailableFromExchangeException.class)
+  public void testGetTicker() throws Exception {
+    marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
+  }
 }

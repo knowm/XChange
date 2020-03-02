@@ -3,27 +3,24 @@ package info.bitrich.xchangestream.kraken.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 
-/**
- * @author pchertalev
- */
+/** @author pchertalev */
 public class KrakenEvent {
 
-    @JsonProperty("event")
-    private final KrakenEventType event;
+  @JsonProperty("event")
+  private final KrakenEventType event;
 
-    @JsonProperty("error")
-    private String error;
+  @JsonProperty("error")
+  private String error;
 
+  public KrakenEvent(KrakenEventType event) {
+    this.event = event;
+  }
 
-    public KrakenEvent(KrakenEventType event) {
-        this.event = event;
-    }
+  public KrakenEventType getEvent() {
+    return event;
+  }
 
-    public KrakenEventType getEvent() {
-        return event;
-    }
-
-    public String getError() {
-        return error;
-    }
+  public String getError() {
+    return error;
+  }
 }

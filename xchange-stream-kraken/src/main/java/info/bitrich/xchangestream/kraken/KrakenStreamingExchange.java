@@ -11,97 +11,98 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * @author makarid
- */
+/** @author makarid */
 public class KrakenStreamingExchange extends KrakenExchange implements StreamingExchange {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingExchange.class);
-    private final static String USE_BETA = "Use_Beta";
-    private static final String API_URI = "wss://ws.kraken.com";
-    private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
-    private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
+  private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingExchange.class);
+  private static final String USE_BETA = "Use_Beta";
+  private static final String API_URI = "wss://ws.kraken.com";
+  private static final String API_AUTH_URI = "wss://ws-auth.kraken.com";
+  private static final String API_BETA_URI = "wss://beta-ws.kraken.com";
 
-    private KrakenStreamingService streamingService, privateStreamingService;
-    private KrakenStreamingMarketDataService streamingMarketDataService;
-    private KrakenStreamingTradeService streamingTradeService;
+  private KrakenStreamingService streamingService, privateStreamingService;
+  private KrakenStreamingMarketDataService streamingMarketDataService;
+  private KrakenStreamingTradeService streamingTradeService;
 
-    public KrakenStreamingExchange() {
+  public KrakenStreamingExchange() {}
+
+  private static String pickUri(boolean isPrivate, boolean useBeta) {
+    return useBeta ? API_BETA_URI : isPrivate ? API_AUTH_URI : API_URI;
+  }
+
+  @Override
+  protected void initServices() {
+    super.initServices();
+    Boolean useBeta =
+        MoreObjects.firstNonNull(
+            (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BETA),
+            Boolean.FALSE);
+
+    this.streamingService = new KrakenStreamingService(false, pickUri(false, useBeta));
+    this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService);
+
+    if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
+      this.privateStreamingService = new KrakenStreamingService(true, pickUri(true, useBeta));
     }
 
-    private static String pickUri(boolean isPrivate, boolean useBeta) {
-        return useBeta ? API_BETA_URI : isPrivate ? API_AUTH_URI : API_URI;
-    }
+    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) getAccountService();
 
-    @Override
-    protected void initServices() {
-        super.initServices();
-        Boolean useBeta = MoreObjects.firstNonNull((Boolean)exchangeSpecification.getExchangeSpecificParametersItem(USE_BETA), Boolean.FALSE);
+    streamingTradeService =
+        new KrakenStreamingTradeService(privateStreamingService, rawKrakenAcctService);
+  }
 
-        this.streamingService = new KrakenStreamingService(false, pickUri(false,useBeta));
-        this.streamingMarketDataService = new KrakenStreamingMarketDataService(streamingService);
+  @Override
+  public Completable connect(ProductSubscription... args) {
+    if (privateStreamingService != null)
+      return privateStreamingService.connect().mergeWith(streamingService.connect());
+    return streamingService.connect();
+  }
 
-        if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
-            this.privateStreamingService = new KrakenStreamingService(true, pickUri(true,useBeta));
-        }
+  @Override
+  public Completable disconnect() {
+    if (privateStreamingService != null)
+      return privateStreamingService.disconnect().mergeWith(streamingService.disconnect());
+    return streamingService.disconnect();
+  }
 
-        KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) getAccountService();
+  @Override
+  public boolean isAlive() {
+    return streamingService.isSocketOpen()
+        && (privateStreamingService == null || privateStreamingService.isSocketOpen());
+  }
 
-        streamingTradeService = new KrakenStreamingTradeService(privateStreamingService, rawKrakenAcctService);
-    }
+  @Override
+  public Observable<Object> connectionSuccess() {
+    return streamingService.subscribeConnectionSuccess();
+  }
 
-    @Override
-    public Completable connect(ProductSubscription... args) {
-        if (privateStreamingService != null)
-            return privateStreamingService.connect().mergeWith(streamingService.connect());
-        return streamingService.connect();
-    }
+  @Override
+  public Observable<Throwable> reconnectFailure() {
+    return streamingService.subscribeReconnectFailure();
+  }
 
-    @Override
-    public Completable disconnect() {
-        if (privateStreamingService != null)
-            return privateStreamingService.disconnect().mergeWith(streamingService.disconnect());
-        return streamingService.disconnect();
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification spec = super.getDefaultExchangeSpecification();
+    spec.setShouldLoadRemoteMetaData(false);
+    return spec;
+  }
 
-    @Override
-    public boolean isAlive() {
-        return streamingService.isSocketOpen() && (privateStreamingService == null || privateStreamingService.isSocketOpen());
-    }
-    
-    @Override
-    public Observable<Object> connectionSuccess() {
-        return streamingService.subscribeConnectionSuccess();
-    }
-    
-    @Override
-    public Observable<Throwable> reconnectFailure() {
-        return streamingService.subscribeReconnectFailure();
-    }
-    
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification spec = super.getDefaultExchangeSpecification();
-        spec.setShouldLoadRemoteMetaData(false);
-        return spec;
-    }
+  @Override
+  public StreamingMarketDataService getStreamingMarketDataService() {
+    return streamingMarketDataService;
+  }
 
-    @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
-        return streamingMarketDataService;
-    }
+  @Override
+  public StreamingTradeService getStreamingTradeService() {
+    return streamingTradeService;
+  }
 
-    @Override
-    public StreamingTradeService getStreamingTradeService() {
-        return streamingTradeService;
-    }
-    @Override
-    public void useCompressedMessages(boolean compressedMessages) {
-        streamingService.useCompressedMessages(compressedMessages);
-    }
+  @Override
+  public void useCompressedMessages(boolean compressedMessages) {
+    streamingService.useCompressedMessages(compressedMessages);
+  }
 }

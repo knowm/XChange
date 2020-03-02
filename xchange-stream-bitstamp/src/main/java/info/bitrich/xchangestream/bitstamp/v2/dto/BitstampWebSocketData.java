@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitstampWebSocketData {
 
-    private static final String CHANNEL = "channel";
+  private static final String CHANNEL = "channel";
 
-    private String channel;
+  private String channel;
 
-    @JsonCreator
-    public BitstampWebSocketData(@JsonProperty(CHANNEL) String channel) {
-        this.channel = channel;
-    }
+  @JsonCreator
+  public BitstampWebSocketData(@JsonProperty(CHANNEL) String channel) {
+    this.channel = channel;
+  }
 
-    public String getChannel() {
-        return channel;
-    }
+  public String getChannel() {
+    return channel;
+  }
 }
