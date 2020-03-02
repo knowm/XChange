@@ -4,25 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitmexFunding extends BitmexMarketDataEvent {
 
-    private double fundingRate;
+  private double fundingRate;
 
-    private double fundingRateDaily;
+  private double fundingRateDaily;
 
-    public BitmexFunding(@JsonProperty("symbol") String symbol,
-                         @JsonProperty("timestamp") String timestamp,
-                         @JsonProperty("fundingRate") double fundingRate,
-                         @JsonProperty("fundingRateDaily") double fundingRateDaily) {
-        super(symbol, timestamp);
-        this.fundingRate = fundingRate;
-        this.fundingRateDaily = fundingRateDaily;
-    }
+  public BitmexFunding(
+      @JsonProperty("symbol") String symbol,
+      @JsonProperty("timestamp") String timestamp,
+      @JsonProperty("fundingRate") double fundingRate,
+      @JsonProperty("fundingRateDaily") double fundingRateDaily) {
+    super(symbol, timestamp);
+    this.fundingRate = fundingRate;
+    this.fundingRateDaily = fundingRateDaily;
+  }
 
-    public double getFundingRate() {
-        return fundingRate;
-    }
+  public double getFundingRate() {
+    return fundingRate;
+  }
 
-    public double getFundingRateDaily() {
-        return fundingRateDaily;
-    }
-
+  public double getFundingRateDaily() {
+    return fundingRateDaily;
+  }
 }
