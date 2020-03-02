@@ -14,55 +14,64 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
 /**
- * Bitstamp WebSocket V2 Streaming Market Data Service implementation
- * Created by Pavel Chertalev on 15.03.2018.
+ * Bitstamp WebSocket V2 Streaming Market Data Service implementation Created by Pavel Chertalev on
+ * 15.03.2018.
  */
 public class BitstampStreamingMarketDataService implements StreamingMarketDataService {
-    private final BitstampStreamingService service;
+  private final BitstampStreamingService service;
 
-    public BitstampStreamingMarketDataService(BitstampStreamingService service) {
-        this.service = service;
-    }
+  public BitstampStreamingMarketDataService(BitstampStreamingService service) {
+    this.service = service;
+  }
 
-    public Observable<OrderBook> getFullOrderBook(CurrencyPair currencyPair, Object... args) {
-        return getOrderBook("diff_order_book", currencyPair, args);
-    }
+  public Observable<OrderBook> getFullOrderBook(CurrencyPair currencyPair, Object... args) {
+    return getOrderBook("diff_order_book", currencyPair, args);
+  }
 
-    @Override
-    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        return getOrderBook("order_book", currencyPair, args);
-    }
+  @Override
+  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    return getOrderBook("order_book", currencyPair, args);
+  }
 
-    private Observable<OrderBook> getOrderBook(String channelPrefix, CurrencyPair currencyPair, Object... args) {
-        String channelName = channelPrefix + getChannelPostfix(currencyPair);
+  private Observable<OrderBook> getOrderBook(
+      String channelPrefix, CurrencyPair currencyPair, Object... args) {
+    String channelName = channelPrefix + getChannelPostfix(currencyPair);
 
-        return service.subscribeChannel(channelName, BitstampStreamingService.EVENT_ORDERBOOK)
-                .map(s -> {
-                    ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-                    BitstampOrderBook orderBook = mapper.treeToValue(s.get("data"), BitstampOrderBook.class);
-                    return BitstampAdapters.adaptOrderBook(orderBook, currencyPair);
-                });
-    }
+    return service
+        .subscribeChannel(channelName, BitstampStreamingService.EVENT_ORDERBOOK)
+        .map(
+            s -> {
+              ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+              BitstampOrderBook orderBook =
+                  mapper.treeToValue(s.get("data"), BitstampOrderBook.class);
+              return BitstampAdapters.adaptOrderBook(orderBook, currencyPair);
+            });
+  }
 
-    @Override
-    public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        // BitStamp has no live ticker, only trades.
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    // BitStamp has no live ticker, only trades.
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String channelName = "live_trades" + getChannelPostfix(currencyPair);
+  @Override
+  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    String channelName = "live_trades" + getChannelPostfix(currencyPair);
 
-        return service.subscribeChannel(channelName, BitstampStreamingService.EVENT_TRADE)
-                .map(s -> {
-                    ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-                    BitstampWebSocketTransaction transactions = mapper.treeToValue(s.get("data"), BitstampWebSocketTransaction.class);
-                    return BitstampAdapters.adaptTrade(transactions, currencyPair, 1);
-                });
-    }
+    return service
+        .subscribeChannel(channelName, BitstampStreamingService.EVENT_TRADE)
+        .map(
+            s -> {
+              ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+              BitstampWebSocketTransaction transactions =
+                  mapper.treeToValue(s.get("data"), BitstampWebSocketTransaction.class);
+              return BitstampAdapters.adaptTrade(transactions, currencyPair, 1);
+            });
+  }
 
-    private String getChannelPostfix(CurrencyPair currencyPair) {
-        return "_" + currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
-    }
+  private String getChannelPostfix(CurrencyPair currencyPair) {
+    return "_"
+        + currencyPair.base.toString().toLowerCase()
+        + currencyPair.counter.toString().toLowerCase();
+  }
 }
