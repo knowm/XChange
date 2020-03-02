@@ -109,14 +109,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         return getRawTrades(currencyPair, args)
-            .map(rawTrade -> new Trade(
-                BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()),
-                rawTrade.getQuantity(),
-                currencyPair,
-                rawTrade.getPrice(),
-                new Date(rawTrade.getTimestamp()),
-                String.valueOf(rawTrade.getTradeId())
-            ));
+            .map(rawTrade -> new Trade.Builder()
+                .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
+                .originalAmount(rawTrade.getQuantity())
+                .currencyPair(currencyPair)
+                .price(rawTrade.getPrice())
+                .timestamp(new Date(rawTrade.getTimestamp()))
+                .id(String.valueOf(rawTrade.getTradeId()))
+                .build());
     }
 
     private String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
