@@ -1,15 +1,15 @@
 # XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/xchange-stream)
-> **NOTE**: This project is in the process of being merged into the [XChange library](https://github.com/timmolter/XChange). Large, sweeping changes are in progress. Consider asking first if working on a large pull request, since it is likely to suffer considerably conflicts if mis-timed.
+> **NOTE**: This project is in the process of being merged into the [XChange library](https://github.com/knowm/XChange). Large, sweeping changes are in progress. Consider asking first if working on a large pull request, since it is likely to suffer considerably conflicts if mis-timed.
 
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
-It is build on top of the [XChange library](https://github.com/timmolter/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
+It is build on top of the [XChange library](https://github.com/knowm/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
 
 ## Why use it?
 
 - Easy to use - no need to hack WebSocket and other backends.
 - Consistent & simple API across all implemented exchanges.
-- Extends well-known & active Java library [XChange](http://knowm.org/open-source/xchange/).
+- Extends well-known & active Java library [XChange](https://github.com/knowm/XChange).
 - [Reactive streams](http://reactivex.io/) are fun to work with. 
 - Modular extensibility.
 
