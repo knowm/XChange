@@ -74,9 +74,32 @@ public class HitbtcStreamingMarketDataServiceTest {
 
         when(streamingService.subscribeChannel(eq("trades-BTCUSD"))).thenReturn(Observable.just(objectMapper.readTree(trades)));
 
-        Trade expected1 = new Trade(Order.OrderType.BID, new BigDecimal("0.057"), CurrencyPair.BTC_USD, new BigDecimal("0.054656"), new Date(1508430822821L), "54469456");
-        Trade expected2 = new Trade(Order.OrderType.BID, new BigDecimal("0.092"), CurrencyPair.BTC_USD, new BigDecimal("0.054656"), new Date(1508430828754L), "54469497");
-        Trade expected3 = new Trade(Order.OrderType.BID, new BigDecimal("0.002"), CurrencyPair.BTC_USD, new BigDecimal("0.054669"), new Date(1508430853288L), "54469697");
+        Trade expected1 = new Trade.Builder()
+            .type(Order.OrderType.BID)
+            .originalAmount(new BigDecimal("0.057"))
+            .currencyPair(CurrencyPair.BTC_USD)
+            .price(new BigDecimal("0.054656"))
+            .timestamp(new Date(1508430822821L))
+            .id("54469456")
+            .build();
+
+        Trade expected2 = new Trade.Builder()
+            .type(Order.OrderType.BID)
+            .originalAmount(new BigDecimal("0.092"))
+            .currencyPair(CurrencyPair.BTC_USD)
+            .price(new BigDecimal("0.054656"))
+            .timestamp(new Date(1508430828754L))
+            .id("54469497")
+            .build();
+
+        Trade expected3 = new Trade.Builder()
+            .type(Order.OrderType.BID)
+            .originalAmount(new BigDecimal("0.002"))
+            .currencyPair(CurrencyPair.BTC_USD)
+            .price(new BigDecimal("0.054669"))
+            .timestamp(new Date(1508430853288L))
+            .id("54469697")
+            .build();
 
         // Call get trades observable
         TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();

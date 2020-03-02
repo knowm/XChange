@@ -112,6 +112,16 @@ public class LgoAdapter {
     }
 
     static UserTrade adaptUserTrade(CurrencyPair currencyPair, LgoMatchOrderEvent event) {
-        return new UserTrade(event.getOrderType(), event.getFilledQuantity(), currencyPair, event.getTradePrice(), event.getTime(), event.getTradeId(), event.getOrderId(), event.getFees(), currencyPair.counter);
+        return new UserTrade.Builder()
+            .type(event.getOrderType())
+            .originalAmount(event.getFilledQuantity())
+            .currencyPair(currencyPair)
+            .price(event.getTradePrice())
+            .timestamp(event.getTime())
+            .id(event.getTradeId())
+            .orderId(event.getOrderId())
+            .feeAmount(event.getFees())
+            .feeCurrency(currencyPair.counter)
+            .build();
     }
 }
