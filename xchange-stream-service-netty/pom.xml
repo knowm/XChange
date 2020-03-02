@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xchange-stream-core</artifactId>
+    <artifactId>xchange-stream-service-netty</artifactId>
 
     <dependencies>
         <dependency>
@@ -16,17 +16,16 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <!-- Netty version compatible with service-wamp -->
         <dependency>
-            <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.46.Final</version>
         </dependency>
 
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
-            <version>${xchange.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
-
 </project>
