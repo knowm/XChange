@@ -1,6 +1,8 @@
 package info.bitrich.xchangestream.poloniex2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.poloniex2.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -13,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.SortedMap;
 
 import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexDepth;
 import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexTicker;
@@ -23,13 +28,21 @@ import static org.knowm.xchange.poloniex.PoloniexAdapters.adaptPoloniexTicker;
  */
 public class PoloniexStreamingMarketDataService implements StreamingMarketDataService {
     private static final Logger LOG = LoggerFactory.getLogger(PoloniexStreamingMarketDataService.class);
+    private static final String TICKER_CHANNEL_ID = "1002";
 
     private final PoloniexStreamingService service;
-    private final Map<CurrencyPair, Integer> currencyPairMap;
+    private final Supplier<Observable<Ticker>> streamingTickers;
 
-    public PoloniexStreamingMarketDataService(PoloniexStreamingService service, Map<CurrencyPair, Integer> currencyPairMap) {
+    public PoloniexStreamingMarketDataService(PoloniexStreamingService service, Map<Integer, CurrencyPair> currencyIdMap) {
         this.service = service;
-        this.currencyPairMap = currencyPairMap;
+        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+
+        streamingTickers = Suppliers.memoize(() -> service.subscribeChannel(TICKER_CHANNEL_ID)
+                .map(s -> {
+                    PoloniexWebSocketTickerTransaction ticker = mapper.readValue(s.toString(), PoloniexWebSocketTickerTransaction.class);
+                    CurrencyPair currencyPair = currencyIdMap.get(ticker.getPairId());
+                    return adaptPoloniexTicker(ticker.toPoloniexTicker(currencyPair), currencyPair);
+                }).share());
     }
 
     @Override
@@ -59,15 +72,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-
-        int currencyPairId = currencyPairMap.getOrDefault(currencyPair, 0);
-        Observable<PoloniexWebSocketTickerTransaction> subscribedChannel = service.subscribeChannel("1002")
-                .map(s -> mapper.readValue(s.toString(), PoloniexWebSocketTickerTransaction.class));
-
-        return subscribedChannel
-                .filter(s -> s.getPairId() == currencyPairId)
-                .map(s -> adaptPoloniexTicker(s.toPoloniexTicker(currencyPair), currencyPair));
+        return streamingTickers.get().filter(ticker -> ticker.getCurrencyPair().equals(currencyPair));
     }
 
     @Override

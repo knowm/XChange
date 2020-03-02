@@ -37,26 +37,25 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     protected void initServices() {
         applyStreamingSpecification(getExchangeSpecification(), streamingService);
         super.initServices();
-        Map<CurrencyPair, Integer> currencyPairMap = getCurrencyPairMap();
+        Map<Integer, CurrencyPair> currencyPairMap = getCurrencyPairMap();
         streamingMarketDataService = new PoloniexStreamingMarketDataService(streamingService, currencyPairMap);
     }
 
-    private Map<CurrencyPair, Integer> getCurrencyPairMap() {
-        Map<CurrencyPair, Integer> currencyPairMap = new HashMap<>();
+    private Map<Integer, CurrencyPair> getCurrencyPairMap() {
+        Map<Integer, CurrencyPair> currencyPairMap = new HashMap<>();
         final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
         try {
             URL tickerUrl = new URL(TICKER_URL);
             JsonNode jsonRootTickers = mapper.readTree(tickerUrl);
             Iterator<String> pairSymbols = jsonRootTickers.fieldNames();
-            while (pairSymbols.hasNext()) {
-                String pairSymbol = pairSymbols.next();
+            pairSymbols.forEachRemaining(pairSymbol ->{
                 String id = jsonRootTickers.get(pairSymbol).get("id").toString();
-
                 String[] currencies = pairSymbol.split("_");
                 CurrencyPair currencyPair = new CurrencyPair(new Currency(currencies[1]), new Currency(currencies[0]));
-                currencyPairMap.put(currencyPair, Integer.valueOf(id));
-            }
+                currencyPairMap.put(Integer.valueOf(id), currencyPair);
+
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
