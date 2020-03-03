@@ -4,11 +4,7 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 
 import java.io.IOException;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
-import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderCreateResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderResponse;
-import org.knowm.xchange.kucoin.dto.response.Pagination;
-import org.knowm.xchange.kucoin.dto.response.TradeResponse;
+import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
 
@@ -36,8 +32,8 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                 page));
   }
 
-  public Pagination<TradeResponse> getKucoinFills(String symbol, int page, int pageSize)
-      throws IOException {
+  public Pagination<TradeResponse> getKucoinFills(
+      String symbol, int page, int pageSize, Long startAt, Long endAt) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
@@ -50,8 +46,26 @@ public class KucoinTradeServiceRaw extends KucoinBaseService {
                 null,
                 null,
                 null,
+                startAt,
+                endAt,
+                pageSize,
+                page));
+  }
+
+  public Pagination<HistOrdersResponse> getKucoinHistOrders(
+      String symbol, int page, int pageSize, Long startAt, Long endAt) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            histOrdersApi.queryHistOrders(
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                symbol,
                 null,
-                null,
+                startAt,
+                endAt,
                 pageSize,
                 page));
   }
