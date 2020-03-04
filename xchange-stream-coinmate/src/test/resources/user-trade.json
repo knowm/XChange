@@ -1,0 +1,14 @@
+[
+  {
+    "transactionId": 11111111,
+    "date": 1567339757594,
+    "price": 8741.2,
+    "amount": 0.555,
+    "buyOrderId": 11111111,
+    "sellOrderId": 11111112,
+    "type": "SELL",
+    "orderType": "SELL",
+    "fee": 0.00600850,
+    "tradeFeeType": "TAKER"
+  }
+]

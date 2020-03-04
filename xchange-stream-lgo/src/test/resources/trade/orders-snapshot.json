@@ -1,0 +1,26 @@
+{
+  "payload": [
+    {
+      "quantity": "1.00000000",
+      "price": "6000.0000",
+      "side": "S",
+      "remaining_quantity": "1.00000000",
+      "order_id": "156389617430400001",
+      "order_creation_time": "2019-07-23T15:36:14.304Z",
+      "order_type": "L"
+    },
+    {
+      "quantity": "1.00000000",
+      "order_creation_time": "2019-07-18T12:24:21.891Z",
+      "price": "6000.0000",
+      "side": "S",
+      "remaining_quantity": "1.00000000",
+      "order_id": "156345266189100001",
+      "order_type": "L"
+    }
+  ],
+  "batch_id": 6317542,
+  "type": "snapshot",
+  "channel": "user",
+  "product_id": "BTC-USD"
+}

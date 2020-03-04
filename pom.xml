@@ -190,6 +190,28 @@
         <module>xchange-yobit</module>
         <module>xchange-zaif</module>
         <module>xchange-enigma</module>
+        <module>xchange-stream-core</module>
+        <module>xchange-stream-service-pubnub</module>
+        <module>xchange-stream-service-pusher</module>
+        <module>xchange-stream-service-netty</module>
+        <module>xchange-stream-service-wamp</module>
+        <module>xchange-stream-service-core</module>
+        <module>xchange-stream-bitstamp</module>
+        <module>xchange-stream-cexio</module>
+        <module>xchange-stream-okcoin</module>
+        <module>xchange-stream-poloniex</module>
+        <module>xchange-stream-coinmate</module>
+        <module>xchange-stream-coinbasepro</module>
+        <module>xchange-stream-bitfinex</module>
+        <module>xchange-stream-bitmex</module>
+        <module>xchange-stream-poloniex2</module>
+        <module>xchange-stream-bitflyer</module>
+        <module>xchange-stream-gemini</module>
+        <module>xchange-stream-binance</module>
+        <module>xchange-stream-hitbtc</module>
+        <module>xchange-stream-bankera</module>
+        <module>xchange-stream-kraken</module>
+        <module>xchange-stream-lgo</module>
     </modules>
 
     <repositories>
@@ -268,11 +290,18 @@
             </dependency>
 
             <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.10</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>3.3.0</version>
                 <scope>test</scope>
             </dependency>
+
 
             <dependency>
                 <groupId>com.github.tomakehurst</groupId>
@@ -319,6 +348,11 @@
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>${version.java-jwt}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.reactivex.rxjava2</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>2.2.18</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
