@@ -111,7 +111,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        DEFAULT_IDLE_TIMEOUT);
+        DEFAULT_IDLE_TIMEOUT);f
   }
 
   public NettyStreamingService(
@@ -324,7 +324,10 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName;
   }
-
+  protected void sendMessageRateLimiterAcquire() {
+      // Some exchanges rate limit messages sent to the socket (Kraken)
+      // no rate limiter by default
+  }
   /**
    * Handler that receives incoming messages.
    *
@@ -346,6 +349,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     }
 
     if (message != null) {
+      sendMessageRateLimiterAcquire();
       WebSocketFrame frame = new TextWebSocketFrame(message);
       webSocketChannel.writeAndFlush(frame);
     }
