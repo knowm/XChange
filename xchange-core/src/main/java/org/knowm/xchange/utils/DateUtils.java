@@ -80,7 +80,8 @@ public class DateUtils {
     try {
       return iso8601Format.parse(iso8601FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException(null, "Error parsing as date", iso8601FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", iso8601FormattedDate, Date.class);
     }
   }
 
@@ -100,7 +101,8 @@ public class DateUtils {
     try {
       return rfc1123DateFormat.parse(rfc1123FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException(null, "Error parsing as date", rfc1123FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", rfc1123FormattedDate, Date.class);
     }
   }
 
@@ -119,7 +121,8 @@ public class DateUtils {
     try {
       return rfc3339DateFormat.parse(rfc3339FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException(null, "Error parsing as date", rfc3339FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", rfc3339FormattedDate, Date.class);
     }
   }
 
