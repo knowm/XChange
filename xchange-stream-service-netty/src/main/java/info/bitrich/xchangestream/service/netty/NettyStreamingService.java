@@ -267,7 +267,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
             })
         .doOnComplete(
             () -> {
-              LOG.warn("Resubscribing channels");
               resubscribeChannels();
 
               connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
@@ -391,12 +390,15 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   public void resubscribeChannels() {
-    for (Entry<String, Subscription> entry : channels.entrySet()) {
-      try {
-        Subscription subscription = entry.getValue();
-        sendMessage(getSubscribeMessage(subscription.channelName, subscription.args));
-      } catch (IOException e) {
-        LOG.error("Failed to reconnect channel: {}", entry.getKey());
+    if (channels.size() > 0) {
+      LOG.warn("Resubscribing channels");
+      for (Entry<String, Subscription> entry : channels.entrySet()) {
+        try {
+          Subscription subscription = entry.getValue();
+          sendMessage(getSubscribeMessage(subscription.channelName, subscription.args));
+        } catch (IOException e) {
+          LOG.error("Failed to reconnect channel: {}", entry.getKey());
+        }
       }
     }
   }
