@@ -111,7 +111,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        DEFAULT_IDLE_TIMEOUT);f
+        DEFAULT_IDLE_TIMEOUT);
   }
 
   public NettyStreamingService(
