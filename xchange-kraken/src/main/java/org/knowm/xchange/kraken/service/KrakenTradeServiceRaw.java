@@ -163,12 +163,12 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions() throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions() throws IOException {
 
-    return getOpenPositions(false);
+    return getKrakenOpenPositions(false);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions(boolean doCalcs, String... transactionIds)
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions(boolean doCalcs, String... transactionIds)
       throws IOException {
 
     KrakenOpenPositionsResult result =
