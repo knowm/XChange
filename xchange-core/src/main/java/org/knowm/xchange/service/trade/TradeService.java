@@ -3,11 +3,7 @@ package org.knowm.xchange.service.trade;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -50,6 +46,11 @@ public interface TradeService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default OpenOrders getOpenOrders() throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  /** Get all openPositions of the exchange */
+  default OpenPositions getOpenPositions() throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
