@@ -525,15 +525,14 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public List<OrderTrade> getBitfinexOrderTradesV2(final String symbol, final Long orderId)
-          throws IOException {
+      throws IOException {
     if (symbol == null || orderId == null)
       throw new NullPointerException(
-              String.format("Invalid request fields symbol [%s] and orderId [%s] are mandatory for get order trades call"
-              , symbol
-              , orderId)
-      );
+          String.format(
+              "Invalid request fields symbol [%s] and orderId [%s] are mandatory for get order trades call",
+              symbol, orderId));
 
     return bitfinexV2.getOrderTrades(
-            exchange.getNonceFactory(), apiKey, signatureV2, symbol, orderId, EmptyRequest.INSTANCE);
+        exchange.getNonceFactory(), apiKey, signatureV2, symbol, orderId, EmptyRequest.INSTANCE);
   }
 }

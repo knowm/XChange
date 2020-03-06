@@ -16,10 +16,8 @@ public class MarginRepaymentResponse extends OkexResponse {
   @JsonProperty("client_oid")
   private String clientOid;
 
-  public MarginRepaymentResponse() {
+  public MarginRepaymentResponse() {}
 
-  }
-  
   public MarginRepaymentResponse(String repaymentId, String clientOid) {
     this.repaymentId = repaymentId;
     this.clientOid = clientOid;
