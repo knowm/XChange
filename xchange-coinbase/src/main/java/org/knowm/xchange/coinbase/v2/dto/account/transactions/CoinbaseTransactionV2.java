@@ -1,10 +1,9 @@
 package org.knowm.xchange.coinbase.v2.dto.account.transactions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.ZonedDateTime;
 import lombok.Getter;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
-
-import java.time.ZonedDateTime;
 
 @Getter
 public class CoinbaseTransactionV2 {
@@ -82,30 +81,73 @@ public class CoinbaseTransactionV2 {
 
   @Override
   public String toString() {
-    return "{" +
-           "\"id\":" + '\"' + id + '\"' +
-           ",\"idem\":" + '\"' + idem + '\"' +
-           ",\"type\":" + '\"' + type + '\"' +
-           ",\"status\":" + '\"' + status + '\"' +
-           ",\"amount\":" + '\"' + amount + '\"' +
-           ",\"nativeAmount\":" + '\"' + nativeAmount + '\"' +
-           ",\"description\":" + '\"' + description + '\"' +
-           ",\"createdAt\":" + '\"' + createdAt + '\"' +
-           ",\"updatedAt\":" + '\"' + updatedAt + '\"' +
-           ",\"resource\":" + '\"' + resource + '\"' +
-           ",\"resourcePath\":" + '\"' + resourcePath + '\"' +
-           ",\"instantExchange\":" + '\"' + instantExchange + '\"' +
-           ",\"buy\":" + buy +
-           ",\"sell\":" + sell +
-           ",\"trade\":" + trade +
-           ",\"from\":" + from +
-           ",\"to\":" + to +
-           ",\"details\":" + details +
-           ",\"network\":" + network +
-           ",\"application\":" + application +
-           '}';
+    return "{"
+        + "\"id\":"
+        + '\"'
+        + id
+        + '\"'
+        + ",\"idem\":"
+        + '\"'
+        + idem
+        + '\"'
+        + ",\"type\":"
+        + '\"'
+        + type
+        + '\"'
+        + ",\"status\":"
+        + '\"'
+        + status
+        + '\"'
+        + ",\"amount\":"
+        + '\"'
+        + amount
+        + '\"'
+        + ",\"nativeAmount\":"
+        + '\"'
+        + nativeAmount
+        + '\"'
+        + ",\"description\":"
+        + '\"'
+        + description
+        + '\"'
+        + ",\"createdAt\":"
+        + '\"'
+        + createdAt
+        + '\"'
+        + ",\"updatedAt\":"
+        + '\"'
+        + updatedAt
+        + '\"'
+        + ",\"resource\":"
+        + '\"'
+        + resource
+        + '\"'
+        + ",\"resourcePath\":"
+        + '\"'
+        + resourcePath
+        + '\"'
+        + ",\"instantExchange\":"
+        + '\"'
+        + instantExchange
+        + '\"'
+        + ",\"buy\":"
+        + buy
+        + ",\"sell\":"
+        + sell
+        + ",\"trade\":"
+        + trade
+        + ",\"from\":"
+        + from
+        + ",\"to\":"
+        + to
+        + ",\"details\":"
+        + details
+        + ",\"network\":"
+        + network
+        + ",\"application\":"
+        + application
+        + '}';
   }
-
 
   @Getter
   public static class CoinbaseTransactionDetails {
@@ -124,11 +166,20 @@ public class CoinbaseTransactionV2 {
 
     @Override
     public String toString() {
-      return "{" +
-             "\"title\":" + '\"' + title + '\"' +
-             ",\"subtitle\":" + '\"' + subtitle + '\"' +
-             ",\"paymentMethodName\":" + '\"' + paymentMethodName + '\"' +
-             "}";
+      return "{"
+          + "\"title\":"
+          + '\"'
+          + title
+          + '\"'
+          + ",\"subtitle\":"
+          + '\"'
+          + subtitle
+          + '\"'
+          + ",\"paymentMethodName\":"
+          + '\"'
+          + paymentMethodName
+          + '\"'
+          + "}";
     }
   }
 }

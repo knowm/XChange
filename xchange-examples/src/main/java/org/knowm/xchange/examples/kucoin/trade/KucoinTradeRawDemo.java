@@ -226,7 +226,8 @@ public class KucoinTradeRawDemo {
     System.out.println("All orders: " + tradeService.getKucoinOpenOrders(null, 1, 500));
     System.out.println(SYMBOL + " orders: " + tradeService.getKucoinOpenOrders(SYMBOL, 1, 500));
     System.out.println("All fills: " + tradeService.getKucoinFills(null, 1, 500, null, null));
-    System.out.println(SYMBOL + " fills: " + tradeService.getKucoinFills(SYMBOL, 1, 500, null, null));
+    System.out.println(
+        SYMBOL + " fills: " + tradeService.getKucoinFills(SYMBOL, 1, 500, null, null));
 
     // Not yet implemented
     System.out.println("Attempting to cancel order " + orderId);

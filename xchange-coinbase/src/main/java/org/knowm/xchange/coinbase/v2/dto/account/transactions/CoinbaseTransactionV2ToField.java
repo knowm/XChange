@@ -27,13 +27,26 @@ public class CoinbaseTransactionV2ToField {
 
   @Override
   public String toString() {
-    return "{" +
-           "\"resource\":" + '\"' + resource + '\"' +
-           ",\"address\":" + '\"' + address + '\"' +
-           ",\"currency\":" + '\"' + currency + '\"' +
-           ",\"addressInfo\":" + addressInfo +
-           ",\"addressUrl\":" + '\"' + addressUrl + '\"' +
-           '}';
+    return "{"
+        + "\"resource\":"
+        + '\"'
+        + resource
+        + '\"'
+        + ",\"address\":"
+        + '\"'
+        + address
+        + '\"'
+        + ",\"currency\":"
+        + '\"'
+        + currency
+        + '\"'
+        + ",\"addressInfo\":"
+        + addressInfo
+        + ",\"addressUrl\":"
+        + '\"'
+        + addressUrl
+        + '\"'
+        + '}';
   }
 
   @Getter
