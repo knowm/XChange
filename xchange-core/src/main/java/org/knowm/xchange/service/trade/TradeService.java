@@ -49,11 +49,6 @@ public interface TradeService extends BaseService {
     throw new NotYetImplementedForExchangeException();
   }
 
-  /** Get all openPositions of the exchange */
-  default OpenPositions getOpenPositions() throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
    * Gets the open orders
    *

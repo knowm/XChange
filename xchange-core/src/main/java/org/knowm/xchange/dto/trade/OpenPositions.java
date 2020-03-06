@@ -8,19 +8,19 @@ import java.util.List;
 public class OpenPositions implements Serializable {
 
   @JsonProperty("openPositions")
-  private final List<OpenPosition> openPositions;
+  private final List<Position> positions;
 
   @JsonCreator
-  public OpenPositions(@JsonProperty("openPositions") List<OpenPosition> openPositions) {
-    this.openPositions = openPositions;
+  public OpenPositions(@JsonProperty("openPositions") List<Position> positions) {
+    this.positions = positions;
   }
 
-  public List<OpenPosition> getOpenPositions() {
-    return openPositions;
+  public List<Position> getPositions() {
+    return positions;
   }
 
   @Override
   public String toString() {
-    return "OpenPositions{" + "openPositions=" + openPositions + '}';
+    return "OpenPositions{" + "positions=" + positions + '}';
   }
 }
