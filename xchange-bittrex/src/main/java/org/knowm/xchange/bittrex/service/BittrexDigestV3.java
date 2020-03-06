@@ -1,13 +1,12 @@
 package org.knowm.xchange.bittrex.service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.Mac;
+import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class BittrexDigestV3 extends BaseParamsDigest {
 
@@ -47,9 +46,8 @@ public class BittrexDigestV3 extends BaseParamsDigest {
 
     String preSign = timestamp + uri + method + contentHash;
 
-    //var preSign = [timestamp, uri, method, contentHash, subaccountId].join('');
-    //var signature = CryptoJS.HmacSHA512(preSign, apiSecret).toString(CryptoJS.enc.Hex);
-
+    // var preSign = [timestamp, uri, method, contentHash, subaccountId].join('');
+    // var signature = CryptoJS.HmacSHA512(preSign, apiSecret).toString(CryptoJS.enc.Hex);
 
     Mac mac = getMac();
     mac.update(preSign.getBytes());

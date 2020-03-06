@@ -396,7 +396,6 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-
   @GET
   @Path("/sapi/v1/asset/assetDividend")
   AssetDividendResponse getAssetDividend(
@@ -408,7 +407,6 @@ public interface BinanceAuthenticated extends Binance {
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
-
 
   @GET
   @Path("wapi/v3/depositAddress.html")

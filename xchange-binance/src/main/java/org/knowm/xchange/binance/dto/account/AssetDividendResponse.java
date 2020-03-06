@@ -1,18 +1,18 @@
 package org.knowm.xchange.binance.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Data;
 
 public final class AssetDividendResponse
     extends SapiResponse<List<AssetDividendResponse.AssetDividend>> {
   private final AssetDividend[] rows;
   private final BigDecimal total;
 
-  public AssetDividendResponse(@JsonProperty("rows") AssetDividend[] rows, @JsonProperty("total") BigDecimal total) {
+  public AssetDividendResponse(
+      @JsonProperty("rows") AssetDividend[] rows, @JsonProperty("total") BigDecimal total) {
     this.rows = rows;
     this.total = total;
   }

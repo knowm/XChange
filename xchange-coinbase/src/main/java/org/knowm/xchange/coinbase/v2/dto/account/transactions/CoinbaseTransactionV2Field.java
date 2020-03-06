@@ -21,10 +21,19 @@ public class CoinbaseTransactionV2Field {
 
   @Override
   public String toString() {
-    return "{" +
-           "\"id\":" + '\"' + id + '\"' +
-           ",\"resource\":" + '\"' + resource + '\"' +
-           ",\"resourcePath\":" + '\"' + resourcePath + '\"' +
-           '}';
+    return "{"
+        + "\"id\":"
+        + '\"'
+        + id
+        + '\"'
+        + ",\"resource\":"
+        + '\"'
+        + resource
+        + '\"'
+        + ",\"resourcePath\":"
+        + '\"'
+        + resourcePath
+        + '\"'
+        + '}';
   }
 }

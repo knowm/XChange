@@ -1,5 +1,12 @@
 package org.knowm.xchange.binance.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
@@ -39,14 +46,6 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
@@ -120,7 +119,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     // limit orders, order we only default it for limit orders. If the caller
     // specifies one for a market order, we don't remove it, since Binance might allow
     // it at some point.
-    TimeInForce tif = timeInForceFromOrder(order).orElse(order.getLimitPrice() != null ? TimeInForce.GTC : null);
+    TimeInForce tif =
+        timeInForceFromOrder(order).orElse(order.getLimitPrice() != null ? TimeInForce.GTC : null);
 
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
@@ -128,7 +128,10 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   private Optional<TimeInForce> timeInForceFromOrder(Order order) {
-    return order.getOrderFlags().stream().filter(flag -> flag instanceof TimeInForce).map(flag -> (TimeInForce) flag).findFirst();
+    return order.getOrderFlags().stream()
+        .filter(flag -> flag instanceof TimeInForce)
+        .map(flag -> (TimeInForce) flag)
+        .findFirst();
   }
 
   private String placeOrder(

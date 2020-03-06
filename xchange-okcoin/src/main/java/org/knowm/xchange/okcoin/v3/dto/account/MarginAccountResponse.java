@@ -2,14 +2,11 @@ package org.knowm.xchange.okcoin.v3.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.knowm.xchange.okcoin.v3.dto.MarginMode;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexResponse;
-
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexResponse;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
