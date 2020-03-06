@@ -12,7 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
-public class TradeOgreMarketDataServiceRawTest {
+public class TradeOgreMarketDataServiceRawIntegration {
 
   private static Exchange tradeOgreExchange;
 
