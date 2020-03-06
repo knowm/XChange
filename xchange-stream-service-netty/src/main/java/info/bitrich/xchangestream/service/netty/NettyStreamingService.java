@@ -408,12 +408,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected void handleMessage(T message) {
     String channel = getChannel(message);
-    handleChannelMessage(channel, message);
+    if (channel != null)
+      handleChannelMessage(channel, message);
   }
 
   protected void handleError(T message, Throwable t) {
     String channel = getChannel(message);
-    handleChannelError(channel, t);
+    if (channel != null)
+      handleChannelError(channel, t);
   }
 
   protected void handleIdle(ChannelHandlerContext ctx) {
