@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import org.junit.Test;
+import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.service.BinanceTradeService.BinanceOrderFlags;
 import org.knowm.xchange.dto.Order;
@@ -30,5 +31,22 @@ public class BinanceAdaptersTest {
 
     MarketOrder copy = ObjectMapperHelper.viaJSON(marketOrder);
     assertThat(copy).isEqualToComparingFieldByField(marketOrder);
+  }
+
+  @Test
+  public void testAssetDividendList() throws Exception {
+    AssetDividendResponse assetDividendList =
+        ObjectMapperHelper.readValue(
+            BinanceAdaptersTest.class.getResource("/asset-dividend-list.json"),
+            AssetDividendResponse.class);
+
+    assertThat(assetDividendList.getTotal()).isEqualByComparingTo(BigDecimal.ONE);
+
+    AssetDividendResponse.AssetDividend assetDividend = assetDividendList.getData().get(0);
+    assertThat(assetDividend.getAmount()).isEqualByComparingTo(BigDecimal.valueOf(10L));
+    assertThat(assetDividend.getAsset()).isEqualTo("BHFT");
+    assertThat(assetDividend.getDivTime()).isEqualByComparingTo(1563189166000L);
+    assertThat(assetDividend.getEnInfo()).isEqualTo("BHFT distribution");
+    assertThat(assetDividend.getTranId()).isEqualByComparingTo(2968885920L);
   }
 }

@@ -26,13 +26,7 @@ import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
@@ -197,8 +191,16 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         }
       }
 
+      Integer limit = null;
+
+      if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit hpl = (TradeHistoryParamLimit) params;
+        limit = hpl.getLimit();
+      }
+
       boolean withdrawals = true;
       boolean deposits = true;
+      boolean otherInflow = true;
 
       Long startTime = null;
       Long endTime = null;
@@ -217,6 +219,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         if (f.getType() != null) {
           withdrawals = f.getType() == Type.WITHDRAWAL;
           deposits = f.getType() == Type.DEPOSIT;
+          otherInflow = f.getType() == Type.OTHER_INFLOW;
         }
       }
 
@@ -260,6 +263,27 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           null,
                           null,
                           null));
+                });
+      }
+
+      if (otherInflow) {
+        super.getAssetDividend(asset, startTime, endTime)
+            .forEach(
+                a -> {
+                  result.add(
+                      new FundingRecord(
+                          null,
+                          null,
+                          new Date(a.getDivTime()),
+                          Currency.getInstance(a.getAsset()),
+                          a.getAmount(),
+                          null,
+                          String.valueOf(a.getTranId()),
+                          Type.OTHER_INFLOW,
+                          Status.COMPLETE,
+                          null,
+                          null,
+                          a.getEnInfo()));
                 });
       }
 
