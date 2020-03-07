@@ -1,15 +1,14 @@
 package org.knowm.xchange.binance.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public final class AssetDribbletLogResponse
     extends WapiResponse<AssetDribbletLogResponse.AssetDribbletLogResults> {

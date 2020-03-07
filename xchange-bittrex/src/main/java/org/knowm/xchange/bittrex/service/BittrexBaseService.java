@@ -34,10 +34,10 @@ public class BittrexBaseService extends BaseExchangeService implements BaseServi
             exchange.getExchangeSpecification().getSslUri(),
             getClientConfig());
     this.bittrexAuthenticatedV3 =
-            RestProxyFactory.createProxy(
-                    BittrexAuthenticatedV3.class,
-                    (String) exchange.getExchangeSpecification().getParameter("rest.v3.url"),
-                    getClientConfig());
+        RestProxyFactory.createProxy(
+            BittrexAuthenticatedV3.class,
+            (String) exchange.getExchangeSpecification().getParameter("rest.v3.url"),
+            getClientConfig());
     this.bittrexV2 =
         RestProxyFactory.createProxy(
             BittrexV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());

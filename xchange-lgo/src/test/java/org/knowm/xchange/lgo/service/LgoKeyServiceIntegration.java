@@ -12,7 +12,7 @@ import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoEnv.SignatureService;
 import org.knowm.xchange.lgo.dto.key.LgoKey;
 
-public class LgoKeyServiceTest {
+public class LgoKeyServiceIntegration {
 
   private LgoKeyService lgoKeyService;
 

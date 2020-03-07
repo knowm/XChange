@@ -95,11 +95,6 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public BittrexAccountVolume getAccountVolume() throws IOException {
     return bittrexAuthenticatedV3.getAccountVolume(
-            apiKey,
-            System.currentTimeMillis(),
-            contentCreator,
-            signatureCreatorV3
-    );
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreatorV3);
   }
-
 }

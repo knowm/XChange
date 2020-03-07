@@ -287,7 +287,18 @@ public final class FundingRecord implements Serializable {
   public enum Type {
     WITHDRAWAL(false),
     DEPOSIT(true),
-    AIRDROP(true);
+    AIRDROP(true),
+    /**
+     * Used for inflows that are not a regular users deposit and are either different the inflows
+     * defined above or their nature could not have been deduced from the exchanges response
+     */
+    OTHER_INFLOW(true),
+    /**
+     * Used for outflows that are not a regular users withdrawal and are either different the
+     * outflows defined above or their nature could not have been deduced from the exchanges
+     * response
+     */
+    OTHER_OUTFLOW(false);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 

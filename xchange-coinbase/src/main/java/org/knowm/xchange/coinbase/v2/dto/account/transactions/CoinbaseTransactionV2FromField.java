@@ -12,20 +12,30 @@ public class CoinbaseTransactionV2FromField extends CoinbaseTransactionV2Field {
       @JsonProperty("id") String id,
       @JsonProperty("resource") String resource,
       @JsonProperty("resource_path") String resourcePath,
-      @JsonProperty("currency") String currency
-      ) {
+      @JsonProperty("currency") String currency) {
     super(id, resource, resourcePath);
     this.currency = currency;
   }
 
   @Override
   public String toString() {
-    return "{" +
-           "\"id\":" + '\"' + id + '\"' +
-           ",\"resource\":" + '\"' + resource + '\"' +
-           ",\"resourcePath\":" + '\"' + resourcePath + '\"' +
-           ",\"currency\":" + '\"' + currency + '\"' +
-           '}';
-
+    return "{"
+        + "\"id\":"
+        + '\"'
+        + id
+        + '\"'
+        + ",\"resource\":"
+        + '\"'
+        + resource
+        + '\"'
+        + ",\"resourcePath\":"
+        + '\"'
+        + resourcePath
+        + '\"'
+        + ",\"currency\":"
+        + '\"'
+        + currency
+        + '\"'
+        + '}';
   }
 }

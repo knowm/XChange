@@ -1,16 +1,15 @@
 package org.knowm.xchange.examples.kucoin.trade;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.kucoin.KucoinExamplesUtils;
 import org.knowm.xchange.kucoin.KucoinTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 public class KucoinTradeHistoryDemo {
 
@@ -21,7 +20,8 @@ public class KucoinTradeHistoryDemo {
     TradeService tradeService = exchange.getTradeService();
 
     getRecentTrades(tradeService);
-//    getHistoricalTrades(tradeService);      // historical trades API endpoint not supported on Sandbox
+    //    getHistoricalTrades(tradeService);      // historical trades API endpoint not supported on
+    // Sandbox
     getPagedTrades(tradeService);
   }
 
