@@ -16,7 +16,7 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
 
-public class EnigmaOrderBookTest {
+public class EnigmaOrderBookIntegration {
 
   private static final String TEST_SSL_URI = "https://api-test.enigma-securities.io/";
   private static final String TEST_HOST = "api-test.enigma-securities.io";

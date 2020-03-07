@@ -50,7 +50,8 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   }
 
   public Long getRecvWindow() {
-    return (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    return (Long)
+        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
   }
 
   /**

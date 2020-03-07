@@ -1,13 +1,10 @@
 package org.knowm.xchange.bittrex.service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class BittrexContentDigest extends BaseParamsDigest {
 
@@ -40,5 +37,4 @@ public class BittrexContentDigest extends BaseParamsDigest {
     String content = restInvocation.getRequestBody();
     return DigestUtils.bytesToHex(md.digest(content.getBytes()));
   }
-
 }

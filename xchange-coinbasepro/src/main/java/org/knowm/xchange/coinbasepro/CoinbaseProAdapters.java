@@ -431,6 +431,7 @@ public class CoinbaseProAdapters {
   public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(LimitOrder limitOrder) {
     CoinbaseProPlaceLimitOrder.Builder builder =
         new CoinbaseProPlaceLimitOrder.Builder()
+            .clientOid(limitOrder.getUserReference())
             .price(limitOrder.getLimitPrice())
             .type(CoinbaseProPlaceOrder.Type.limit)
             .productId(adaptProductID(limitOrder.getCurrencyPair()))
@@ -451,6 +452,7 @@ public class CoinbaseProAdapters {
       MarketOrder marketOrder) {
     return new CoinbaseProPlaceMarketOrder.Builder()
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
+        .clientOid(marketOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
         .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
@@ -474,6 +476,7 @@ public class CoinbaseProAdapters {
     if (stopOrder.getLimitPrice() == null) {
       return new CoinbaseProPlaceMarketOrder.Builder()
           .productId(adaptProductID(stopOrder.getCurrencyPair()))
+          .clientOid(stopOrder.getUserReference())
           .type(CoinbaseProPlaceOrder.Type.market)
           .side(adaptSide(stopOrder.getType()))
           .size(stopOrder.getOriginalAmount())
@@ -483,6 +486,7 @@ public class CoinbaseProAdapters {
     }
     return new CoinbaseProPlaceLimitOrder.Builder()
         .productId(adaptProductID(stopOrder.getCurrencyPair()))
+        .clientOid(stopOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.limit)
         .side(adaptSide(stopOrder.getType()))
         .size(stopOrder.getOriginalAmount())

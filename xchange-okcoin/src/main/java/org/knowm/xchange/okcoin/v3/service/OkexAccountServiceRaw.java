@@ -90,10 +90,11 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     return res.getInfo();
   }
 
-
-  /** ******************************** Margin Account API *********************************
-   * @return*/
-
+  /**
+   * ******************************** Margin Account API *********************************
+   *
+   * @return
+   */
   public MarginAccountResponse[] marginAccounts() throws IOException {
     return okex.marginAccounts(apikey, digest, timestamp(), passphrase);
   }
@@ -109,5 +110,4 @@ public class OkexAccountServiceRaw extends OkexBaseService {
   public MarginRepaymentResponse marginRepayment(MarginRepaymentRequest req) throws IOException {
     return okex.marginRepayment(apikey, digest, timestamp(), passphrase, req);
   }
-
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class BittrexAccountVolume {
@@ -37,10 +36,6 @@ public class BittrexAccountVolume {
   @Override
   public String toString() {
 
-    return "BittrexAccountVolume [updated="
-        + updated
-        + ", volume30days="
-        + volume30days
-        + "]";
+    return "BittrexAccountVolume [updated=" + updated + ", volume30days=" + volume30days + "]";
   }
 }

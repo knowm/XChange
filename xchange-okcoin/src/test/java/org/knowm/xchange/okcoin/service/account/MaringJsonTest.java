@@ -1,16 +1,15 @@
 package org.knowm.xchange.okcoin.service.account;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
 import org.junit.Test;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /** @author timmolter */
 public class MaringJsonTest {

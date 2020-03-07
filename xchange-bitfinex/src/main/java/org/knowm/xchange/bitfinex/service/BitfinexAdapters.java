@@ -57,8 +57,8 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -422,19 +422,19 @@ public final class BitfinexAdapters {
       OrderStatus status = adaptOrderStatus(order);
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
-      
+
       Supplier<MarketOrder> marketOrderCreator =
-        () ->
-            new MarketOrder(
-                orderType,
-                order.getOriginalAmount(),
-                currencyPair,
-                String.valueOf(order.getId()),
-                timestamp,
-                order.getAvgExecutionPrice(),
-                order.getExecutedAmount(),
-                null,
-                status);
+          () ->
+              new MarketOrder(
+                  orderType,
+                  order.getOriginalAmount(),
+                  currencyPair,
+                  String.valueOf(order.getId()),
+                  timestamp,
+                  order.getAvgExecutionPrice(),
+                  order.getExecutedAmount(),
+                  null,
+                  status);
 
       Supplier<LimitOrder> limitOrderCreator =
           () ->
@@ -541,7 +541,7 @@ public final class BitfinexAdapters {
         hiddenOrders.add(stopOrder);
       } else if (marketOrder != null) {
         hiddenOrders.add(marketOrder);
-      }      
+      }
     }
 
     return new OpenOrders(limitOrders, hiddenOrders);
