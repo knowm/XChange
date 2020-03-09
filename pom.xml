@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.9.10</version>
+                <version>2.9.10.3</version>
             </dependency>
 
             <!-- This is introduced by XChange anyway, depending on the implementation used -->
