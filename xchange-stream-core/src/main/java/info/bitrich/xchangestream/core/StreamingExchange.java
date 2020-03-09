@@ -15,6 +15,7 @@ public interface StreamingExchange extends Exchange {
   String ENABLE_LOGGING_HANDLER = "Enable_Logging_Handler";
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
   String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
+  String AUTO_RECONNECT = "Auto_Reconnect";
 
   /**
    * Connects to the WebSocket API of the exchange.
@@ -84,7 +85,7 @@ public interface StreamingExchange extends Exchange {
 
   default Observable<Object> connectionIdle() {
     throw new NotYetImplementedForExchangeException();
-  };
+  }
 
   /** Returns service that can be used to access streaming market data. */
   StreamingMarketDataService getStreamingMarketDataService();
@@ -128,5 +129,8 @@ public interface StreamingExchange extends Exchange {
     if (enable_logging_handler != null && enable_logging_handler) {
       streamingService.setEnableLoggingHandler(true);
     }
+    Boolean autoReconnect = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(AUTO_RECONNECT);
+    if (autoReconnect != null)
+        streamingService.setAutoReconnect(autoReconnect);
   }
 }
