@@ -1,15 +1,15 @@
 # XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/xchange-stream)
-> **MAINTAINER WANTED:** If anyone would like contribute to this project and become a maintainer, let me know via message. This project would deserve more time than I have.
+> **NOTE**: This project is in the process of being merged into the [XChange library](https://github.com/knowm/XChange). Large, sweeping changes are in progress. Consider asking first if working on a large pull request, since it is likely to suffer considerably conflicts if mis-timed.
 
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
-It is build on top of the [XChange library](https://github.com/timmolter/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
+It is build on top of the [XChange library](https://github.com/knowm/XChange) providing new interfaces for the exchanges' streaming APIs. Users can subscribe for live updates via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
 
 ## Why use it?
 
 - Easy to use - no need to hack WebSocket and other backends.
 - Consistent & simple API across all implemented exchanges.
-- Extends well-known & active Java library [XChange](http://knowm.org/open-source/xchange/).
+- Extends well-known & active Java library [XChange](https://github.com/knowm/XChange).
 - [Reactive streams](http://reactivex.io/) are fun to work with. 
 - Modular extensibility.
 
@@ -102,11 +102,13 @@ Listening for live updates of:
 | **CEX.IO**       | :heavy_check_mark: | :x:                | :x:                | :question:         | :question:         | :question:         | New support, not widely tested  |
 | **Coinbase Pro** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | **Coinmate**     | :heavy_check_mark: | :heavy_check_mark: | :x:                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :construction:     | :construction:     | :construction:     | |
 | **Kraken**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x:                | :heavy_check_mark: | :heavy_check_mark: | |
+| **LGO**          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | **OKCoin**       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
 | **OKEx**         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | See [#180](https://github.com/bitrich-info/xchange-stream/pull/180) for reference if attempting to add private channel support. |
 | **Poloniex**     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :question:         | :question:         | :question:         | |
-| **Gemini**       | :heavy_check_mark: | :heavy_check_mark: | :x:                | :construction:     | :construction:     | :construction:     | |
+
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
