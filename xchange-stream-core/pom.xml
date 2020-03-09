@@ -12,13 +12,13 @@
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-core</artifactId>
+            <artifactId>xchange-stream-service-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-netty</artifactId>
+            <artifactId>xchange-stream-service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
