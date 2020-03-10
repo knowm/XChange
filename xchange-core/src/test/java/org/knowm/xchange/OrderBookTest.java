@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -78,6 +79,20 @@ public class OrderBookTest {
             timeStamp,
             BigDecimal.ZERO);
     orderBook.update(lowerBidUpdate);
+    assertThat(orderBook.getBids().size()).isEqualTo(0);
+  }
+
+  @Test
+  public void testUpdateRemoveSingleOrder() {
+
+    Date timeStamp = new Date(0);
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+        .originalAmount(BigDecimal.ONE)
+        .limitPrice(BigDecimal.TEN)
+        .timestamp(timeStamp)
+        .cumulativeAmount(BigDecimal.ONE) // remaining amount is now 0
+        .build();
+    orderBook.update(limitOrder);
     assertThat(orderBook.getBids().size()).isEqualTo(0);
   }
 
