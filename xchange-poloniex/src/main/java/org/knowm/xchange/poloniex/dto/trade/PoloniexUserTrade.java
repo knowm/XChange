@@ -1,176 +1,180 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
+import java.util.Date;
+import java.util.Objects;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.UserTrade;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tradeId", "date", "rate", "amount", "total", "fee", "orderNumber", "type"})
-public class PoloniexUserTrade {
+public class PoloniexUserTrade extends UserTrade {
 
-  @JsonProperty("tradeID")
-  private String tradeID;
+  private BigDecimal originalVolume;
 
-  @JsonProperty("date")
-  private String date;
-
-  @JsonProperty("rate")
-  private BigDecimal rate;
-
-  @JsonProperty("amount")
-  private BigDecimal amount;
-
-  @JsonProperty("total")
-  private BigDecimal total;
-
-  @JsonProperty("fee")
-  private BigDecimal fee;
-
-  @JsonProperty("orderNumber")
-  private String orderNumber;
-
-  @JsonProperty("type")
-  private String type;
-
-  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-  @JsonProperty("tradeID")
-  public String getTradeID() {
-
-    return tradeID;
+  public PoloniexUserTrade(
+      final Order.OrderType type,
+      final BigDecimal originalAmount,
+      final BigDecimal originalVolume,
+      final CurrencyPair currencyPair,
+      final BigDecimal price,
+      final Date timestamp,
+      final String id,
+      final String orderId,
+      final BigDecimal feeAmount,
+      final Currency feeCurrency,
+      final String orderUserReference) {
+    super(
+        type,
+        originalAmount,
+        currencyPair,
+        price,
+        timestamp,
+        id,
+        orderId,
+        feeAmount,
+        feeCurrency,
+        orderUserReference);
+    this.originalVolume = originalVolume;
   }
 
-  @JsonProperty("tradeID")
-  public void setTradeID(String tradeID) {
-
-    this.tradeID = tradeID;
+  public BigDecimal getOriginalVolume() {
+    return originalVolume;
   }
 
-  @JsonProperty("date")
-  public String getDate() {
-
-    return date;
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    final PoloniexUserTrade that = (PoloniexUserTrade) o;
+    return Objects.equals(originalVolume, that.originalVolume);
   }
 
-  @JsonProperty("date")
-  public void setDate(String date) {
-
-    this.date = date;
-  }
-
-  @JsonProperty("rate")
-  public BigDecimal getRate() {
-
-    return rate;
-  }
-
-  @JsonProperty("rate")
-  public void setRate(BigDecimal rate) {
-
-    this.rate = rate;
-  }
-
-  @JsonProperty("amount")
-  public BigDecimal getAmount() {
-
-    return amount;
-  }
-
-  @JsonProperty("amount")
-  public void setAmount(BigDecimal amount) {
-
-    this.amount = amount;
-  }
-
-  @JsonProperty("total")
-  public BigDecimal getTotal() {
-
-    return total;
-  }
-
-  @JsonProperty("total")
-  public void setTotal(BigDecimal total) {
-
-    this.total = total;
-  }
-
-  @JsonProperty("fee")
-  public BigDecimal getFee() {
-
-    return fee;
-  }
-
-  @JsonProperty("fee")
-  public void setFee(BigDecimal fee) {
-
-    this.fee = fee;
-  }
-
-  @JsonProperty("orderNumber")
-  public String getOrderNumber() {
-
-    return orderNumber;
-  }
-
-  @JsonProperty("orderNumber")
-  public void setOrderNumber(String orderNumber) {
-
-    this.orderNumber = orderNumber;
-  }
-
-  @JsonProperty("type")
-  public String getType() {
-
-    return type;
-  }
-
-  @JsonProperty("type")
-  public void setType(String type) {
-
-    this.type = type;
-  }
-
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-
-    return this.additionalProperties;
-  }
-
-  @JsonAnySetter
-  public void setAdditionalProperty(String name, Object value) {
-
-    this.additionalProperties.put(name, value);
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), originalVolume);
   }
 
   @Override
   public String toString() {
-
-    return "PoloniexUserTrade [tradeID= "
-        + tradeID
-        + ", date="
-        + date
-        + ", rate="
-        + rate
-        + ", amount="
-        + amount
-        + ", total="
-        + total
-        + ", fee="
-        + fee
-        + ", orderNumber="
-        + orderNumber
-        + ", type="
+    return "PoloniexUserTrade[type="
         + type
-        + ", additionalProperties="
-        + additionalProperties
+        + ", originalAmount="
+        + originalAmount
+        + ", originalVolume="
+        + originalVolume
+        + ", currencyPair="
+        + currencyPair
+        + ", price="
+        + price
+        + ", timestamp="
+        + timestamp
+        + ", id="
+        + id
+        + ", orderId='"
+        + getOrderId()
+        + '\''
+        + ", feeAmount="
+        + getFeeAmount()
+        + ", feeCurrency='"
+        + getFeeCurrency()
+        + '\''
+        + ", orderUserReference='"
+        + getOrderUserReference()
+        + '\''
         + "]";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class Builder extends UserTrade.Builder {
+    protected BigDecimal originalVolume;
+
+    public static Builder from(PoloniexUserTrade trade) {
+      return new Builder()
+          .type(trade.getType())
+          .originalAmount(trade.getOriginalAmount())
+          .originalVolume(trade.getOriginalVolume())
+          .currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice())
+          .timestamp(trade.getTimestamp())
+          .id(trade.getId())
+          .orderId(trade.getOrderId())
+          .feeAmount(trade.getFeeAmount())
+          .feeCurrency(trade.getFeeCurrency())
+          .orderUserReference(trade.getOrderUserReference());
+    }
+
+    @Override
+    public Builder type(Order.OrderType type) {
+      return (Builder) super.type(type);
+    }
+
+    @Override
+    public Builder originalAmount(BigDecimal originalAmount) {
+      return (Builder) super.originalAmount(originalAmount);
+    }
+
+    public Builder originalVolume(final BigDecimal originalVolume) {
+      this.originalVolume = originalVolume;
+      return this;
+    }
+
+    @Override
+    public Builder currencyPair(CurrencyPair currencyPair) {
+      return (Builder) super.currencyPair(currencyPair);
+    }
+
+    @Override
+    public Builder price(BigDecimal price) {
+      return (Builder) super.price(price);
+    }
+
+    @Override
+    public Builder timestamp(Date timestamp) {
+      return (Builder) super.timestamp(timestamp);
+    }
+
+    @Override
+    public Builder id(String id) {
+      return (Builder) super.id(id);
+    }
+
+    @Override
+    public Builder orderId(String orderId) {
+      return (Builder) super.orderId(orderId);
+    }
+
+    @Override
+    public Builder feeAmount(BigDecimal feeAmount) {
+      return (Builder) super.feeAmount(feeAmount);
+    }
+
+    @Override
+    public Builder feeCurrency(Currency feeCurrency) {
+      return (Builder) super.feeCurrency(feeCurrency);
+    }
+
+    @Override
+    public Builder orderUserReference(String orderUserReference) {
+      return (Builder) super.orderUserReference(orderUserReference);
+    }
+
+    @Override
+    public PoloniexUserTrade build() {
+      return new PoloniexUserTrade(
+          type,
+          originalAmount,
+          originalVolume,
+          currencyPair,
+          price,
+          timestamp,
+          id,
+          orderId,
+          feeAmount,
+          feeCurrency,
+          orderUserReference);
+    }
   }
 }
