@@ -1,8 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -44,6 +41,8 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
+
+import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 /**
  * @author Zach Holmes
@@ -283,11 +282,11 @@ public class PoloniexAdapters {
   }
 
   private static FundingRecord adaptAdjustment(PoloniexAdjustment a) {
-    FundingRecord.Type type = DEPOSIT;
+    FundingRecord.Type type = OTHER_INFLOW;
     // There seems to be a spelling error in the returning reason. In case that ever gets
     // corrected, this will still pick it up.
-    if (a.getReason().toLowerCase().endsWith("aidrop")
-        || a.getReason().toLowerCase().endsWith("airdrop")) {
+    if (a.getReason().toLowerCase().contains("aidrop")
+        || a.getReason().toLowerCase().contains("airdrop")) {
       type = Type.AIRDROP;
     }
     // There could be other forms of adjustements, but it seems to be some kind of deposit.
