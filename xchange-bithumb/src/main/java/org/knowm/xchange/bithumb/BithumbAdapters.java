@@ -60,6 +60,8 @@ public final class BithumbAdapters {
   public static AccountInfo adaptAccountInfo(BithumbAccount account, BithumbBalance balance) {
 
     List<Balance> balances = new ArrayList<>();
+    balances.add(new Balance(Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
+    
     for (String currency : balance.getCurrencies()) {
       final Balance xchangeBalance =
           new Balance(
