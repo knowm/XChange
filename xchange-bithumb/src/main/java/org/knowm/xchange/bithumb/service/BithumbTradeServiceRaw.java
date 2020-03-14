@@ -66,7 +66,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            "KRW");
       case ASK:
         return bithumbAuthenticated.marketSell(
             apiKey,
@@ -75,7 +76,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            "KRW");
       default:
         throw new NotAvailableFromExchangeException();
     }
@@ -136,8 +138,10 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             null,
+            100,
             null,
-            BithumbUtils.getBaseCurrency(currencyPair));
+            BithumbUtils.getBaseCurrency(currencyPair),
+            currencyPair.counter.getCurrencyCode());
 
     return transactions.getData();
   }
