@@ -142,10 +142,15 @@ public final class BithumbAdapters {
     final Order.OrderType orderType = adaptOrderType(order.getType());
 
     Order.OrderStatus status = Order.OrderStatus.UNKNOWN;
-    if (order.getUnitsRemaining().compareTo(order.getUnits()) == 0) status = Order.OrderStatus.NEW;
-    else if (order.getUnitsRemaining().compareTo(BigDecimal.ZERO) == 0)
+    if (order.getUnitsRemaining().compareTo(order.getUnits()) == 0) {
+      status = Order.OrderStatus.NEW;
+    }
+    else if (order.getUnitsRemaining().compareTo(BigDecimal.ZERO) == 0) {
       status = Order.OrderStatus.FILLED;
-    else status = Order.OrderStatus.PARTIALLY_FILLED;
+    }
+    else {
+      status = Order.OrderStatus.PARTIALLY_FILLED;
+    }
 
     return new LimitOrder.Builder(orderType, currencyPair)
         .id(String.valueOf(order.getOrderId()))
