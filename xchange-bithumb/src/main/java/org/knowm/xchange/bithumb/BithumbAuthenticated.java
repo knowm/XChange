@@ -1,16 +1,17 @@
 package org.knowm.xchange.bithumb;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.*;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
 import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -108,9 +109,11 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
-      @FormParam("order_id") String orderId,
-      @FormParam("type") String type,
-      @FormParam("currency") String currency)
+      @FormParam("offset") Integer offset,
+      @FormParam("count") Integer count,
+      @FormParam("searchGb") Integer searchGb,
+      @FormParam("order_currency") String order_currency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -153,7 +156,8 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("units") BigDecimal units,
-      @FormParam("currency") String currency)
+      @FormParam("order_currency") String order_currency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -166,6 +170,7 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("units") BigDecimal units,
-      @FormParam("currency") String currency)
+      @FormParam("order_currency") String order_currency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 }

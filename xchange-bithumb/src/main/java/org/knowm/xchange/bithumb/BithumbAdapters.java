@@ -1,10 +1,5 @@
 package org.knowm.xchange.bithumb;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
@@ -25,6 +20,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class BithumbAdapters {
 
@@ -60,6 +61,8 @@ public final class BithumbAdapters {
   public static AccountInfo adaptAccountInfo(BithumbAccount account, BithumbBalance balance) {
 
     List<Balance> balances = new ArrayList<>();
+    balances.add(new Balance(Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
+
     for (String currency : balance.getCurrencies()) {
       final Balance xchangeBalance =
           new Balance(
@@ -162,13 +165,14 @@ public final class BithumbAdapters {
 
     final String units = StringUtils.remove(bithumbTransaction.getUnits(), ' ');
     return new UserTrade.Builder()
+        .id(Long.toString(bithumbTransaction.getTransferDate()))
         .currencyPair(currencyPair)
         .originalAmount(new BigDecimal(units).abs())
         .type(adaptTransactionSearch(bithumbTransaction.getSearch()))
         .feeAmount(bithumbTransaction.getFee())
         .feeCurrency(currencyPair.counter)
         .price(bithumbTransaction.getPrice())
-        .timestamp(new Date(bithumbTransaction.getTransferDate()))
+        .timestamp(new Date(bithumbTransaction.getTransferDate() / 1000L))
         .build();
   }
 
