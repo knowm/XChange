@@ -132,7 +132,6 @@ public final class BithumbAdapters {
     final List<LimitOrder> orders =
         bithumbOrders.stream()
             .map(BithumbAdapters::adaptOrder)
-            .peek(order -> {})
             .collect(Collectors.toList());
     return new OpenOrders(orders);
   }
