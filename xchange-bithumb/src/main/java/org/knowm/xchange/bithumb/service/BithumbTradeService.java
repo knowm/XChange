@@ -1,7 +1,5 @@
 package org.knowm.xchange.bithumb.service;
 
-import java.io.IOException;
-import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbErrorAdapter;
@@ -15,9 +13,15 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByPairAndIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class BithumbTradeService extends BithumbTradeServiceRaw implements TradeService {
 
@@ -70,7 +74,7 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
     if (orderParams instanceof CancelOrderByPairAndIdParams) {
       try {
         final CancelOrderByPairAndIdParams params = (CancelOrderByPairAndIdParams) orderParams;
-        return cancelBithumbOrder(Long.valueOf(params.getOrderId()), params.getCurrencyPair());
+        return cancelBithumbOrder(params.getOrderId(), params.getCurrencyPair());
       } catch (BithumbException e) {
         throw BithumbErrorAdapter.adapt(e);
       }

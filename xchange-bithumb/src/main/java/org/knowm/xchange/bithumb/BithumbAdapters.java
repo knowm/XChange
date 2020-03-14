@@ -54,14 +54,16 @@ public final class BithumbAdapters {
       CurrencyPair currencyPair,
       Order.OrderType orderType,
       BigDecimal originalAmount,
-      BigDecimal limitPric) {
-    return new LimitOrder(orderType, originalAmount, currencyPair, "", null, limitPric);
+      BigDecimal limitPrice) {
+    return new LimitOrder(orderType, originalAmount, currencyPair, "", null, limitPrice);
   }
 
   public static AccountInfo adaptAccountInfo(BithumbAccount account, BithumbBalance balance) {
 
     List<Balance> balances = new ArrayList<>();
-    balances.add(new Balance(Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
+    balances.add(
+        new Balance(
+            Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
 
     for (String currency : balance.getCurrencies()) {
       final Balance xchangeBalance =
@@ -128,7 +130,10 @@ public final class BithumbAdapters {
 
   public static OpenOrders adaptOrders(List<BithumbOrder> bithumbOrders) {
     final List<LimitOrder> orders =
-        bithumbOrders.stream().map(BithumbAdapters::adaptOrder).collect(Collectors.toList());
+        bithumbOrders.stream()
+            .map(BithumbAdapters::adaptOrder)
+            .peek(order -> {})
+            .collect(Collectors.toList());
     return new OpenOrders(orders);
   }
 
@@ -137,15 +142,18 @@ public final class BithumbAdapters {
         new CurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
     final Order.OrderType orderType = adaptOrderType(order.getType());
 
+    Order.OrderStatus status = Order.OrderStatus.UNKNOWN;
+    if (order.getUnitsRemaining().compareTo(order.getUnits()) == 0) status = Order.OrderStatus.NEW;
+    else if (order.getUnitsRemaining().compareTo(BigDecimal.ZERO) == 0)
+      status = Order.OrderStatus.FILLED;
+    else status = Order.OrderStatus.PARTIALLY_FILLED;
+
     return new LimitOrder.Builder(orderType, currencyPair)
         .id(String.valueOf(order.getOrderId()))
         .limitPrice(order.getPrice())
         .originalAmount(order.getUnits())
         .remainingAmount(order.getUnitsRemaining())
-        .orderStatus(
-            StringUtils.equals(order.getStatus(), "placed")
-                ? Order.OrderStatus.NEW
-                : Order.OrderStatus.UNKNOWN)
+        .orderStatus(status)
         .timestamp(new Date(order.getOrderDate() / 1000L))
         .build();
   }
