@@ -1,14 +1,6 @@
 package org.knowm.xchange.bithumb;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.TimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
@@ -28,6 +20,15 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.TimeZone;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BithumbAdaptersTest {
 
@@ -190,7 +191,7 @@ public class BithumbAdaptersTest {
     assertThat(limitOrder.getAveragePrice()).isNull();
     assertThat(limitOrder.getCurrencyPair())
         .isEqualTo(new CurrencyPair(Currency.XRP, Currency.KRW));
-    assertThat(limitOrder.getId()).isEqualTo("1546705688665840");
+    assertThat(limitOrder.getId()).isEqualTo("C01040000000000000000");
     assertThat(limitOrder.getTimestamp()).isNotNull();
     assertThat(limitOrder.getStatus()).isEqualTo(Order.OrderStatus.NEW);
   }
