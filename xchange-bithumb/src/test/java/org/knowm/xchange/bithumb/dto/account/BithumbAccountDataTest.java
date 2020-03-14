@@ -1,13 +1,14 @@
 package org.knowm.xchange.bithumb.dto.account;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.knowm.xchange.bithumb.BithumbAdapters;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import org.junit.Test;
-import org.knowm.xchange.bithumb.BithumbAdapters;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BithumbAccountDataTest {
 
@@ -34,12 +35,12 @@ public class BithumbAccountDataTest {
             "/org/knowm/xchange/bithumb/dto/account/example-order.json");
     final BithumbOrder bithumbOrder = mapper.readValue(is, BithumbOrder.class);
 
-    assertThat(bithumbOrder.getOrderId()).isEqualTo(1546705688665840L);
+    assertThat(bithumbOrder.getOrderId()).isEqualTo("C01040000000000000000");
     assertThat(bithumbOrder.getOrderDate()).isEqualTo(1546705688665840L);
     assertThat(bithumbOrder.getOrderCurrency()).isEqualTo("XRP");
     assertThat(bithumbOrder.getPaymentCurrency()).isEqualTo("KRW");
     assertThat(bithumbOrder.getType()).isEqualTo(BithumbAdapters.OrderType.ask);
-    assertThat(bithumbOrder.getStatus()).isEqualTo("placed");
+    assertThat(bithumbOrder.getStatus()).isEqualTo("0000");
     assertThat(bithumbOrder.getUnits()).isEqualTo(BigDecimal.valueOf(1.0));
     assertThat(bithumbOrder.getUnitsRemaining()).isEqualTo(BigDecimal.valueOf(1.0));
     assertThat(bithumbOrder.getPrice()).isEqualTo(BigDecimal.valueOf(700));
