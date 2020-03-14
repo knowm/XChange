@@ -31,7 +31,8 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
-      @FormParam("order_currency") String currency)
+      @FormParam("order_currency") String order_currency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -67,7 +68,8 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
-      @FormParam("order_currency") String orderCurrency)
+      @FormParam("order_currency") String orderCurrency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -79,11 +81,12 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
-      @FormParam("order_id") Long orderId,
+      @FormParam("order_id") String orderId,
       @FormParam("type") String type,
       @FormParam("count") String count,
       @FormParam("after") String after,
-      @FormParam("currency") String currency)
+      @FormParam("order_currency") String orderCurrency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -96,8 +99,8 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("order_id") String orderId,
-      @FormParam("type") String type,
-      @FormParam("currency") String currency)
+      @FormParam("order_currency") String orderCurrency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST
@@ -142,8 +145,9 @@ public interface BithumbAuthenticated {
       @HeaderParam(API_CLIENT_TYPE) String apiClientType,
       @FormParam(ENDPOINT) ParamsDigest endpointGenerator,
       @FormParam("type") String type,
-      @FormParam("order_id") Long orderId,
-      @FormParam("currency") String currency)
+      @FormParam("order_id") String orderId,
+      @FormParam("order_currency") String order_currency,
+      @FormParam("payment_currency") String payment_currency)
       throws BithumbException, IOException;
 
   @POST

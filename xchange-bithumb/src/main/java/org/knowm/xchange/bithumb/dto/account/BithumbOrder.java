@@ -2,14 +2,15 @@ package org.knowm.xchange.bithumb.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.bithumb.BithumbAdapters;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.knowm.xchange.bithumb.BithumbAdapters;
 
 public class BithumbOrder {
 
-  private final long orderId;
+  private final String orderId;
   private final long orderDate;
   private final String orderCurrency;
   private final String paymentCurrency;
@@ -24,7 +25,7 @@ public class BithumbOrder {
   private final Map<String, Object> additionalProperties = new HashMap<>();
 
   public BithumbOrder(
-      @JsonProperty("order_id") long orderId,
+      @JsonProperty("order_id") String orderId,
       @JsonProperty("order_date") long orderDate,
       @JsonProperty("order_currency") String orderCurrency,
       @JsonProperty("payment_currency") String paymentCurrency,
@@ -50,7 +51,7 @@ public class BithumbOrder {
     this.dateCompleted = dateCompleted;
   }
 
-  public long getOrderId() {
+  public String getOrderId() {
     return orderId;
   }
 
