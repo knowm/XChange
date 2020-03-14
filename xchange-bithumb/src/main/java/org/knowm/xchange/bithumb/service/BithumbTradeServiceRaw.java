@@ -1,8 +1,5 @@
 package org.knowm.xchange.bithumb.service;
 
-import java.io.IOException;
-import java.util.List;
-import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.BithumbUtils;
@@ -14,6 +11,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.List;
 
 public class BithumbTradeServiceRaw extends BithumbBaseService {
 
@@ -66,7 +67,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            "KRW");
       case ASK:
         return bithumbAuthenticated.marketSell(
             apiKey,
@@ -75,7 +77,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            "KRW");
       default:
         throw new NotAvailableFromExchangeException();
     }
@@ -136,8 +139,10 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             null,
+            100,
             null,
-            BithumbUtils.getBaseCurrency(currencyPair));
+            BithumbUtils.getBaseCurrency(currencyPair),
+            currencyPair.counter.getCurrencyCode());
 
     return transactions.getData();
   }
