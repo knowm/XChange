@@ -60,6 +60,11 @@ public final class BithumbAdapters {
   public static AccountInfo adaptAccountInfo(BithumbAccount account, BithumbBalance balance) {
 
     List<Balance> balances = new ArrayList<>();
+    
+    balances.add(
+        new Balance(
+            Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
+    
     for (String currency : balance.getCurrencies()) {
       final Balance xchangeBalance =
           new Balance(
@@ -162,13 +167,14 @@ public final class BithumbAdapters {
 
     final String units = StringUtils.remove(bithumbTransaction.getUnits(), ' ');
     return new UserTrade.Builder()
+        .id(Long.toString(bithumbTransaction.getTransferDate()))
         .currencyPair(currencyPair)
         .originalAmount(new BigDecimal(units).abs())
         .type(adaptTransactionSearch(bithumbTransaction.getSearch()))
         .feeAmount(bithumbTransaction.getFee())
         .feeCurrency(currencyPair.counter)
         .price(bithumbTransaction.getPrice())
-        .timestamp(new Date(bithumbTransaction.getTransferDate()))
+        .timestamp(new Date(bithumbTransaction.getTransferDate() / 1000L))
         .build();
   }
 
