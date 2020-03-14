@@ -1,13 +1,15 @@
 package org.knowm.xchange.bithumb.service;
 
-import java.io.IOException;
-import java.util.Optional;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bithumb.BithumbUtils;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbWalletAddress;
 import org.knowm.xchange.currency.Currency;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class BithumbAccountServiceRaw extends BithumbBaseService {
 
@@ -25,7 +27,13 @@ public class BithumbAccountServiceRaw extends BithumbBaseService {
   public BithumbAccount getBithumbAddress() throws IOException {
     final BithumbResponse<BithumbAccount> account =
         bithumbAuthenticated.getAccount(
-            apiKey, signatureCreator, exchange.getNonceFactory(), "2", endpointGenerator, "BTC");
+            apiKey,
+            signatureCreator,
+            exchange.getNonceFactory(),
+            "2",
+            endpointGenerator,
+            "BTC",
+            BithumbUtils.getCounterCurrency());
     return account.getData();
   }
 

@@ -1,8 +1,5 @@
 package org.knowm.xchange.bithumb.service;
 
-import java.io.IOException;
-import java.util.List;
-import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.BithumbUtils;
@@ -14,6 +11,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.List;
 
 public class BithumbTradeServiceRaw extends BithumbBaseService {
 
@@ -34,12 +35,13 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             null,
             null,
             null,
-            BithumbUtils.getBaseCurrency(currencyPair));
+            BithumbUtils.getBaseCurrency(currencyPair),
+            BithumbUtils.getCounterCurrency());
     return orders.getData();
   }
 
   @Nullable
-  public BithumbOrder getBithumbOrdersByOrderId(Long orderId, String type) throws IOException {
+  public BithumbOrder getBithumbOrdersByOrderId(String orderId, String type) throws IOException {
 
     final BithumbResponse<List<BithumbOrder>> orders =
         bithumbAuthenticated.getOrders(
@@ -52,7 +54,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             type,
             null,
             null,
-            null);
+            null,
+            BithumbUtils.getCounterCurrency());
     return orders.getData().stream().findFirst().orElse(null);
   }
 
@@ -66,7 +69,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            BithumbUtils.getCounterCurrency());
       case ASK:
         return bithumbAuthenticated.marketSell(
             apiKey,
@@ -75,7 +79,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             marketOrder.getOriginalAmount(),
-            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()));
+            BithumbUtils.getBaseCurrency(marketOrder.getCurrencyPair()),
+            BithumbUtils.getCounterCurrency());
       default:
         throw new NotAvailableFromExchangeException();
     }
@@ -96,10 +101,10 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         BithumbUtils.fromOrderType(limitOrder.getType()));
   }
 
-  public boolean cancelBithumbOrder(Long orderId, CurrencyPair currencyPair) throws IOException {
+  public boolean cancelBithumbOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
     return getBithumbOrders(currencyPair).stream()
-        .filter(bo -> bo.getOrderId() == orderId)
+        .filter(bo -> bo.getOrderId().equals(orderId))
         .findFirst()
         .map(
             bo -> {
@@ -113,7 +118,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         .isPresent();
   }
 
-  private BithumbResponse cancelBithumbOrder(Long orderId, String type, String baseCurrency)
+  private BithumbResponse cancelBithumbOrder(String orderId, String type, String baseCurrency)
       throws IOException {
     return bithumbAuthenticated.cancelOrder(
         apiKey,
@@ -123,7 +128,8 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         endpointGenerator,
         type,
         orderId,
-        baseCurrency);
+        baseCurrency,
+        BithumbUtils.getCounterCurrency());
   }
 
   public List<BithumbTransaction> bithumbTransactions(CurrencyPair currencyPair)
@@ -136,8 +142,10 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             "2",
             endpointGenerator,
             null,
+            100,
             null,
-            BithumbUtils.getBaseCurrency(currencyPair));
+            BithumbUtils.getBaseCurrency(currencyPair),
+            BithumbUtils.getCounterCurrency());
 
     return transactions.getData();
   }
