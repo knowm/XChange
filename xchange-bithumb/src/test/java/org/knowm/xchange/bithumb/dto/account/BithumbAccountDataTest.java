@@ -33,20 +33,20 @@ public class BithumbAccountDataTest {
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order.json");
-    final BithumbOrder bithumbOrder = mapper.readValue(is, BithumbOrder.class);
+    final BithumbOrderResponse bithumbOrderResponse =
+        mapper.readValue(is, BithumbOrderResponse.class);
+    assertThat(bithumbOrderResponse.getStatus()).isEqualTo("0000");
 
-    assertThat(bithumbOrder.getOrderId()).isEqualTo("C01040000000000000000");
-    assertThat(bithumbOrder.getOrderDate()).isEqualTo(1546705688665840L);
-    assertThat(bithumbOrder.getOrderCurrency()).isEqualTo("XRP");
-    assertThat(bithumbOrder.getPaymentCurrency()).isEqualTo("KRW");
-    assertThat(bithumbOrder.getType()).isEqualTo(BithumbAdapters.OrderType.ask);
-    assertThat(bithumbOrder.getStatus()).isEqualTo("0000");
-    assertThat(bithumbOrder.getUnits()).isEqualTo(BigDecimal.valueOf(1.0));
-    assertThat(bithumbOrder.getUnitsRemaining()).isEqualTo(BigDecimal.valueOf(1.0));
-    assertThat(bithumbOrder.getPrice()).isEqualTo(BigDecimal.valueOf(700));
-    assertThat(bithumbOrder.getFee()).isNull();
-    assertThat(bithumbOrder.getTotal()).isNull();
-    assertThat(bithumbOrder.getDateCompleted()).isEqualTo(0L);
+    BithumbOrderResponse.BithumbOrder order =
+        bithumbOrderResponse.getData().stream().findFirst().get();
+    assertThat(order.getOrderId()).isEqualTo("C0101000007408440032");
+    assertThat(order.getOrderDate()).isEqualTo(1571728739360570L);
+    assertThat(order.getOrderCurrency()).isEqualTo("BTC");
+    assertThat(order.getPaymentCurrency()).isEqualTo("KRW");
+    assertThat(order.getType()).isEqualTo(BithumbAdapters.OrderType.bid);
+    assertThat(order.getUnits()).isEqualTo(BigDecimal.valueOf(5.0));
+    assertThat(order.getUnitsRemaining()).isEqualTo(BigDecimal.valueOf(5.0));
+    assertThat(order.getPrice()).isEqualTo(BigDecimal.valueOf(501000));
   }
 
   @Test
@@ -55,32 +55,30 @@ public class BithumbAccountDataTest {
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order-detail.json");
-    final BithumbOrderDetail bithumbOrderDetail = mapper.readValue(is, BithumbOrderDetail.class);
+    final BithumbOrderDetailResponse bithumbOrderDetailResponse =
+        mapper.readValue(is, BithumbOrderDetailResponse.class);
 
-    assertThat(bithumbOrderDetail.getTransactionDate()).isEqualTo(1428024598967L);
-    assertThat(bithumbOrderDetail.getType()).isEqualTo("ask");
-    assertThat(bithumbOrderDetail.getOrderCurrency()).isEqualTo("BTC");
-    assertThat(bithumbOrderDetail.getPaymentCurrency()).isEqualTo("KRW");
-    assertThat(bithumbOrderDetail.getUnitsTraded()).isEqualTo(BigDecimal.valueOf(0.0017D));
-    assertThat(bithumbOrderDetail.getPrice()).isEqualTo(BigDecimal.valueOf(264000L));
-    assertThat(bithumbOrderDetail.getFee()).isEqualTo(BigDecimal.valueOf(0.0000017D));
-    assertThat(bithumbOrderDetail.getTotal()).isEqualTo(BigDecimal.valueOf(449L));
-  }
+    assertThat(bithumbOrderDetailResponse.getStatus().equals("0000"));
+    BithumbOrderDetailResponse.BithumbOrderDetail detail =
+        bithumbOrderDetailResponse.getData().get(0);
 
-  @Test
-  public void testUnmarshallTransaction() throws IOException {
+    assertThat(detail.getTransactionDate()).isEqualTo(1572497603668315L);
+    assertThat(detail.getType()).isEqualTo(BithumbAdapters.OrderType.bid);
+    assertThat(detail.getOrderStatus()).isEqualTo("Completed");
+    assertThat(detail.getOrderCurrency()).isEqualTo("BTC");
+    assertThat(detail.getPaymentCurrency()).isEqualTo("KRW");
+    assertThat(detail.getOrderPrice()).isEqualTo(BigDecimal.valueOf(8601000));
+    assertThat(detail.getOrderQty()).isEqualTo(BigDecimal.valueOf(0.007));
 
-    final InputStream is =
-        BithumbAccountDataTest.class.getResourceAsStream(
-            "/org/knowm/xchange/bithumb/dto/account/example-transaction.json");
-    final BithumbTransaction bithumbTransaction = mapper.readValue(is, BithumbTransaction.class);
+    assertThat(detail.getContract().size() == 2);
+    BithumbOrderDetailResponse.BithumbOrderDetail.Contract contract = detail.getContract().get(0);
 
-    assertThat(bithumbTransaction.getSearch()).isEqualTo("2");
-    assertThat(bithumbTransaction.getTransferDate()).isEqualTo(1417138805912L);
-    assertThat(bithumbTransaction.getUnits()).isEqualTo("- 0.1");
-    assertThat(bithumbTransaction.getPrice()).isEqualTo(BigDecimal.valueOf(51600));
-    assertThat(bithumbTransaction.getFee()).isEqualTo(BigDecimal.valueOf(0.24));
-    assertThat(bithumbTransaction.getKrwRemain()).isEqualTo(BigDecimal.valueOf(305455680));
+    assertThat(contract.getTransactionDate()).isEqualTo(1572497603902030L);
+    assertThat(contract.getPrice()).isEqualTo(BigDecimal.valueOf(8601000));
+    assertThat(contract.getUnits()).isEqualTo(BigDecimal.valueOf(0.005));
+    assertThat(contract.getFeeCurrency()).isEqualTo("KRW");
+    assertThat(contract.getFee()).isEqualTo(BigDecimal.valueOf(107.51));
+    assertThat(contract.getTotal()).isEqualTo(BigDecimal.valueOf(43005));
   }
 
   @Test

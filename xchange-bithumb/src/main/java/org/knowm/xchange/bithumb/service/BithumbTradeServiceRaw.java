@@ -4,9 +4,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbException;
 import org.knowm.xchange.bithumb.BithumbUtils;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
-import org.knowm.xchange.bithumb.dto.account.BithumbTransaction;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetailResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
 import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
+import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransactionResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -14,7 +15,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.List;
 
 public class BithumbTradeServiceRaw extends BithumbBaseService {
 
@@ -22,9 +22,9 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
     super(exchange);
   }
 
-  public List<BithumbOrder> getBithumbOrders(CurrencyPair currencyPair) throws IOException {
+  public BithumbOrderResponse getBithumbOrders(CurrencyPair currencyPair) throws IOException {
 
-    final BithumbResponse<List<BithumbOrder>> orders =
+    final BithumbOrderResponse response =
         bithumbAuthenticated.getOrders(
             apiKey,
             signatureCreator,
@@ -33,17 +33,18 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             endpointGenerator,
             null,
             null,
-            null,
+            1000,
             null,
             BithumbUtils.getBaseCurrency(currencyPair),
             BithumbUtils.getCounterCurrency());
-    return orders.getData();
+    return response;
   }
 
   @Nullable
-  public BithumbOrder getBithumbOrdersByOrderId(String orderId, String type) throws IOException {
+  public BithumbOrderResponse.BithumbOrder getBithumbOrdersByOrderId(
+      String orderId, String type, CurrencyPair currencyPair) throws IOException {
 
-    final BithumbResponse<List<BithumbOrder>> orders =
+    final BithumbOrderResponse response =
         bithumbAuthenticated.getOrders(
             apiKey,
             signatureCreator,
@@ -54,9 +55,22 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
             type,
             null,
             null,
-            null,
+            BithumbUtils.getBaseCurrency(currencyPair),
             BithumbUtils.getCounterCurrency());
-    return orders.getData().stream().findFirst().orElse(null);
+    return response.getData().stream().findFirst().orElse(null);
+  }
+
+  public BithumbOrderDetailResponse getBithumbOrderDetail(String orderId, CurrencyPair currencyPair)
+      throws IOException {
+    return bithumbAuthenticated.getOrderDetail(
+        apiKey,
+        signatureCreator,
+        exchange.getNonceFactory(),
+        "2",
+        endpointGenerator,
+        orderId,
+        BithumbUtils.getBaseCurrency(currencyPair),
+        BithumbUtils.getCounterCurrency());
   }
 
   public BithumbTradeResponse placeBithumbMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -103,14 +117,13 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
 
   public boolean cancelBithumbOrder(String orderId, CurrencyPair currencyPair) throws IOException {
 
-    return getBithumbOrders(currencyPair).stream()
+    return getBithumbOrders(currencyPair).getData().stream()
         .filter(bo -> bo.getOrderId().equals(orderId))
         .findFirst()
         .map(
             bo -> {
               try {
-                return cancelBithumbOrder(
-                    orderId, bo.getType().name(), BithumbUtils.getBaseCurrency(currencyPair));
+                return cancelBithumbOrder(orderId, bo.getType().name(), currencyPair);
               } catch (IOException | BithumbException ignored) {
               }
               return null;
@@ -118,7 +131,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         .isPresent();
   }
 
-  private BithumbResponse cancelBithumbOrder(String orderId, String type, String baseCurrency)
+  private BithumbResponse cancelBithumbOrder(String orderId, String type, CurrencyPair currencyPair)
       throws IOException {
     return bithumbAuthenticated.cancelOrder(
         apiKey,
@@ -128,25 +141,25 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
         endpointGenerator,
         type,
         orderId,
-        baseCurrency,
+        BithumbUtils.getBaseCurrency(currencyPair),
         BithumbUtils.getCounterCurrency());
   }
 
-  public List<BithumbTransaction> bithumbTransactions(CurrencyPair currencyPair)
+  public BithumbUserTransactionResponse getBithumbUserTransactions(CurrencyPair currencyPair)
       throws IOException {
-    final BithumbResponse<List<BithumbTransaction>> transactions =
-        bithumbAuthenticated.getTransactions(
+    final BithumbUserTransactionResponse transactions =
+        bithumbAuthenticated.getUserTransactions(
             apiKey,
             signatureCreator,
             exchange.getNonceFactory(),
             "2",
             endpointGenerator,
             null,
-            100,
+            50,
             null,
             BithumbUtils.getBaseCurrency(currencyPair),
             BithumbUtils.getCounterCurrency());
 
-    return transactions.getData();
+    return transactions;
   }
 }

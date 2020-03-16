@@ -1,11 +1,11 @@
 package org.knowm.xchange.bithumb;
 
-import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
-import org.knowm.xchange.bithumb.dto.account.BithumbTransaction;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetailResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
 import org.knowm.xchange.bithumb.dto.marketdata.*;
+import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransactionResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -16,18 +16,18 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class BithumbAdapters {
+  public static final String SEARCH_BUY = "1";
+  public static final String SEARCH_SELL = "2";
 
   /** private Constructor */
   private BithumbAdapters() {}
@@ -103,20 +103,23 @@ public final class BithumbAdapters {
         .collect(Collectors.toList());
   }
 
-  public static Trades adaptTrades(
-      List<BithumbTransactionHistory> bithumbTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTransactions(
+      List<BithumbTransactionHistoryResponse.BithumbTransactionHistory> bithumbTrades,
+      CurrencyPair currencyPair) {
     final List<Trade> trades =
         bithumbTrades.stream()
-            .map(trade -> adaptTrade(trade, currencyPair))
+            .map(trade -> adaptTransactionHistory(trade, currencyPair))
             .collect(Collectors.toList());
     return new Trades(trades);
   }
 
-  public static Trade adaptTrade(BithumbTransactionHistory trade, CurrencyPair currencyPair) {
+  public static Trade adaptTransactionHistory(
+      BithumbTransactionHistoryResponse.BithumbTransactionHistory trade,
+      CurrencyPair currencyPair) {
 
     return new Trade.Builder()
         .currencyPair(currencyPair)
-        .id(String.valueOf(trade.getContNo()))
+        .id(Long.toString(trade.getTimestamp().getTime()))
         .originalAmount(trade.getUnitsTraded())
         .price(trade.getPrice())
         .type(adaptOrderType(trade.getType()))
@@ -128,27 +131,23 @@ public final class BithumbAdapters {
     return orderType == OrderType.bid ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
-  public static OpenOrders adaptOrders(List<BithumbOrder> bithumbOrders) {
+  public static OpenOrders adaptOrders(List<BithumbOrderResponse.BithumbOrder> bithumbOrders) {
     final List<LimitOrder> orders =
-        bithumbOrders.stream()
-            .map(BithumbAdapters::adaptOrder)
-            .collect(Collectors.toList());
+        bithumbOrders.stream().map(BithumbAdapters::adaptOrder).collect(Collectors.toList());
     return new OpenOrders(orders);
   }
 
-  public static LimitOrder adaptOrder(BithumbOrder order) {
+  public static LimitOrder adaptOrder(BithumbOrderResponse.BithumbOrder order) {
     final CurrencyPair currencyPair =
-        new CurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
+        adaptCurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
     final Order.OrderType orderType = adaptOrderType(order.getType());
 
     Order.OrderStatus status = Order.OrderStatus.UNKNOWN;
     if (order.getUnitsRemaining().compareTo(order.getUnits()) == 0) {
       status = Order.OrderStatus.NEW;
-    }
-    else if (order.getUnitsRemaining().compareTo(BigDecimal.ZERO) == 0) {
+    } else if (order.getUnitsRemaining().compareTo(BigDecimal.ZERO) == 0) {
       status = Order.OrderStatus.FILLED;
-    }
-    else {
+    } else {
       status = Order.OrderStatus.PARTIALLY_FILLED;
     }
 
@@ -163,23 +162,23 @@ public final class BithumbAdapters {
   }
 
   public static UserTrades adaptUserTrades(
-      List<BithumbTransaction> transactions, CurrencyPair currencyPair) {
+      List<BithumbUserTransactionResponse.BithumbUserTransaction> transactions,
+      CurrencyPair currencyPair) {
     final List<UserTrade> userTrades =
         transactions.stream()
-            .filter(BithumbTransaction::isBuyOrSell)
+            .filter(BithumbUserTransactionResponse.BithumbUserTransaction::isBuyOrSell)
             .map(transaction -> adaptUserTrade(transaction, currencyPair))
             .collect(Collectors.toList());
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
   private static UserTrade adaptUserTrade(
-      BithumbTransaction bithumbTransaction, CurrencyPair currencyPair) {
+      BithumbUserTransactionResponse.BithumbUserTransaction bithumbTransaction,
+      CurrencyPair currencyPair) {
 
-    final String units = StringUtils.remove(bithumbTransaction.getUnits(), ' ');
     return new UserTrade.Builder()
-        .id(Long.toString(bithumbTransaction.getTransferDate()))
         .currencyPair(currencyPair)
-        .originalAmount(new BigDecimal(units).abs())
+        .originalAmount(bithumbTransaction.getUnits())
         .type(adaptTransactionSearch(bithumbTransaction.getSearch()))
         .feeAmount(bithumbTransaction.getFee())
         .feeCurrency(currencyPair.counter)
@@ -188,11 +187,56 @@ public final class BithumbAdapters {
         .build();
   }
 
+  public static Order adaptOrderDetail(
+      BithumbOrderDetailResponse.BithumbOrderDetail order, String id) {
+    final CurrencyPair currencyPair =
+        adaptCurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
+    final Order.OrderType orderType = adaptOrderType(order.getType());
+    Order.OrderStatus status = adaptStatus(order.getOrderStatus());
+
+    BigDecimal fees =
+        order.getContract().stream()
+            .map(BithumbOrderDetailResponse.BithumbOrderDetail.Contract::getFee)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    BigDecimal cumulative =
+        order.getContract().stream()
+            .map(BithumbOrderDetailResponse.BithumbOrderDetail.Contract::getTotal)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    BigDecimal averagePrice =
+        order.getContract().stream()
+            .map(contract -> contract.getTotal().multiply(contract.getPrice()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add)
+            .divide(cumulative, MathContext.DECIMAL32);
+
+    if (order.getOrderPrice() == null) {
+      return new MarketOrder.Builder(orderType, currencyPair)
+          .id(id)
+          .orderStatus(status)
+          .originalAmount(order.getOrderQty())
+          .cumulativeAmount(cumulative)
+          .averagePrice(averagePrice)
+          .fee(fees)
+          .build();
+    } else {
+      return new LimitOrder.Builder(orderType, currencyPair)
+          .id(id)
+          .limitPrice(order.getOrderPrice())
+          .orderStatus(status)
+          .originalAmount(order.getOrderQty())
+          .cumulativeAmount(cumulative)
+          .averagePrice(averagePrice)
+          .fee(fees)
+          .build();
+    }
+  }
+
   private static Order.OrderType adaptTransactionSearch(String search) {
     switch (search) {
-      case BithumbTransaction.SEARCH_BUY:
+      case SEARCH_BUY:
         return Order.OrderType.BID;
-      case BithumbTransaction.SEARCH_SELL:
+      case SEARCH_SELL:
         return Order.OrderType.ASK;
       default:
         return null;
@@ -202,5 +246,24 @@ public final class BithumbAdapters {
   public enum OrderType {
     bid,
     ask
+  }
+
+  private static Order.OrderStatus adaptStatus(String orderStatus) {
+    switch (orderStatus) {
+      case "N":
+        return Order.OrderStatus.NEW;
+      case "Completed":
+        return Order.OrderStatus.FILLED;
+      case "P":
+        return Order.OrderStatus.PARTIALLY_FILLED;
+      case "Canceled":
+        return Order.OrderStatus.CANCELED;
+      default:
+        return Order.OrderStatus.UNKNOWN;
+    }
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String orderCurrency, String paymentCurrency) {
+    return new CurrencyPair(orderCurrency, paymentCurrency);
   }
 }

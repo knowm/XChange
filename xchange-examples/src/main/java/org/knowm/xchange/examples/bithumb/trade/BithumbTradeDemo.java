@@ -1,10 +1,8 @@
 package org.knowm.xchange.examples.bithumb.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbException;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
 import org.knowm.xchange.bithumb.service.BithumbTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -20,6 +18,9 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class BithumbTradeDemo {
 
@@ -105,7 +106,7 @@ public class BithumbTradeDemo {
       log.debug("", e);
     }
 
-    log.debug("{}", tradeServiceRaw.bithumbTransactions(CURRENCY_PAIR));
+    log.debug("{}", tradeServiceRaw.getBithumbUserTransactions(CURRENCY_PAIR));
 
     final LimitOrder limitOrderBuy =
         new LimitOrder.Builder(Order.OrderType.BID, CURRENCY_PAIR)
@@ -126,7 +127,7 @@ public class BithumbTradeDemo {
     Thread.sleep(3000); // wait for order to propagate
 
     tradeServiceRaw.getBithumbOrders(CURRENCY_PAIR).stream()
-        .map(BithumbOrder::getOrderId)
+        .map(BithumbOrderResponse::getOrderId)
         .forEach(
             orderId -> {
               try {
