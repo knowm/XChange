@@ -252,7 +252,7 @@ public final class BithumbAdapters {
         return Order.OrderStatus.FILLED;
       case "P":
         return Order.OrderStatus.PARTIALLY_FILLED;
-      case "Canceled":
+      case "Cancel":
         return Order.OrderStatus.CANCELED;
       default:
         return Order.OrderStatus.UNKNOWN;
