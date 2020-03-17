@@ -244,7 +244,7 @@ public final class BithumbAdapters {
 
   private static Order.OrderStatus adaptStatus(String orderStatus) {
     switch (orderStatus) {
-      case "N":
+      case "Pending":
         return Order.OrderStatus.NEW;
       case "Completed":
         return Order.OrderStatus.FILLED;

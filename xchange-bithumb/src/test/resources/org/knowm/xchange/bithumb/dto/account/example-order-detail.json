@@ -2,7 +2,7 @@
   "status"    : "0000",
   "data"      : [
     {
-      "transaction_date"  :   "1572497603668315",
+      "order_date"        :   "1572497603668315",
       "type"              :   "bid",
       "order_status"      :   "Completed",
       "order_currency"    :   "BTC",
