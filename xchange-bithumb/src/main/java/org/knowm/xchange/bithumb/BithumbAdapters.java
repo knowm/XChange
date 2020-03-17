@@ -2,10 +2,10 @@ package org.knowm.xchange.bithumb;
 
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetailResponse;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetail;
 import org.knowm.xchange.bithumb.dto.marketdata.*;
-import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransactionResponse;
+import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -104,8 +104,7 @@ public final class BithumbAdapters {
   }
 
   public static Trades adaptTransactions(
-      List<BithumbTransactionHistoryResponse.BithumbTransactionHistory> bithumbTrades,
-      CurrencyPair currencyPair) {
+      List<BithumbTransactionHistory> bithumbTrades, CurrencyPair currencyPair) {
     final List<Trade> trades =
         bithumbTrades.stream()
             .map(trade -> adaptTransactionHistory(trade, currencyPair))
@@ -114,8 +113,7 @@ public final class BithumbAdapters {
   }
 
   public static Trade adaptTransactionHistory(
-      BithumbTransactionHistoryResponse.BithumbTransactionHistory trade,
-      CurrencyPair currencyPair) {
+      BithumbTransactionHistory trade, CurrencyPair currencyPair) {
 
     return new Trade.Builder()
         .currencyPair(currencyPair)
@@ -130,13 +128,13 @@ public final class BithumbAdapters {
     return orderType == OrderType.bid ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
-  public static OpenOrders adaptOrders(List<BithumbOrderResponse.BithumbOrder> bithumbOrders) {
+  public static OpenOrders adaptOrders(List<BithumbOrder> bithumbOrders) {
     final List<LimitOrder> orders =
         bithumbOrders.stream().map(BithumbAdapters::adaptOrder).collect(Collectors.toList());
     return new OpenOrders(orders);
   }
 
-  public static LimitOrder adaptOrder(BithumbOrderResponse.BithumbOrder order) {
+  public static LimitOrder adaptOrder(BithumbOrder order) {
     final CurrencyPair currencyPair =
         adaptCurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
     final Order.OrderType orderType = adaptOrderType(order.getType());
@@ -161,19 +159,17 @@ public final class BithumbAdapters {
   }
 
   public static UserTrades adaptUserTrades(
-      List<BithumbUserTransactionResponse.BithumbUserTransaction> transactions,
-      CurrencyPair currencyPair) {
+      List<BithumbUserTransaction> transactions, CurrencyPair currencyPair) {
     final List<UserTrade> userTrades =
         transactions.stream()
-            .filter(BithumbUserTransactionResponse.BithumbUserTransaction::isBuyOrSell)
+            .filter(BithumbUserTransaction::isBuyOrSell)
             .map(transaction -> adaptUserTrade(transaction, currencyPair))
             .collect(Collectors.toList());
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
   private static UserTrade adaptUserTrade(
-      BithumbUserTransactionResponse.BithumbUserTransaction bithumbTransaction,
-      CurrencyPair currencyPair) {
+      BithumbUserTransaction bithumbTransaction, CurrencyPair currencyPair) {
 
     return new UserTrade.Builder()
         .currencyPair(currencyPair)
@@ -186,8 +182,7 @@ public final class BithumbAdapters {
         .build();
   }
 
-  public static Order adaptOrderDetail(
-      BithumbOrderDetailResponse.BithumbOrderDetail order, String id) {
+  public static Order adaptOrderDetail(BithumbOrderDetail order, String id) {
     final CurrencyPair currencyPair =
         adaptCurrencyPair(order.getOrderCurrency(), order.getPaymentCurrency());
     final Order.OrderType orderType = adaptOrderType(order.getType());
@@ -195,12 +190,12 @@ public final class BithumbAdapters {
 
     BigDecimal fees =
         order.getContract().stream()
-            .map(BithumbOrderDetailResponse.BithumbOrderDetail.Contract::getFee)
+            .map(BithumbOrderDetail.Contract::getFee)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal cumulative =
         order.getContract().stream()
-            .map(BithumbOrderDetailResponse.BithumbOrderDetail.Contract::getTotal)
+            .map(BithumbOrderDetail.Contract::getTotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal averagePrice =

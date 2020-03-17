@@ -121,7 +121,7 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
                     .map(detail -> BithumbAdapters.adaptOrderDetail(detail, oq.getOrderId()));
 
               } catch (IOException e) {
-                return null;
+                throw new RuntimeException(e);
               } catch (BithumbException e) {
                 throw BithumbErrorAdapter.adapt(e);
               }

@@ -4,7 +4,7 @@ import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.*;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
 import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
-import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransactionResponse;
+import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransaction;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -75,7 +76,7 @@ public interface BithumbAuthenticated {
   @POST
   @Path("info/orders")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  BithumbOrderResponse getOrders(
+  BithumbResponse<List<BithumbOrder>> getOrders(
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
@@ -92,7 +93,7 @@ public interface BithumbAuthenticated {
   @POST
   @Path("info/order_detail")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  BithumbOrderDetailResponse getOrderDetail(
+  BithumbResponse<List<BithumbOrderDetail>> getOrderDetail(
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
@@ -106,7 +107,7 @@ public interface BithumbAuthenticated {
   @POST
   @Path("info/user_transactions")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  BithumbUserTransactionResponse getUserTransactions(
+  BithumbResponse<List<BithumbUserTransaction>> getUserTransactions(
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,
