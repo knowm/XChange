@@ -1,9 +1,11 @@
 package org.knowm.xchange.bithumb.dto.marketdata;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbAdaptersTest;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -122,8 +124,9 @@ public class BithumbMarketDataTest {
         BithumbAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/marketdata/example-transaction-history.json");
 
-    final BithumbTransactionHistoryResponse transactionHistory =
-        mapper.readValue(is, BithumbTransactionHistoryResponse.class);
+    final BithumbResponse<List<BithumbTransactionHistory>> transactionHistory =
+        mapper.readValue(
+            is, new TypeReference<BithumbResponse<List<BithumbTransactionHistory>>>() {});
 
     assertThat(transactionHistory.getData().size()).isEqualTo(3);
     // when
