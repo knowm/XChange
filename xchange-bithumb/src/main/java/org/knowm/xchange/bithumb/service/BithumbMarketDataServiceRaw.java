@@ -6,7 +6,7 @@ import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbook;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTickersReturn;
-import org.knowm.xchange.bithumb.dto.marketdata.BithumbTransactionHistoryResponse;
+import org.knowm.xchange.bithumb.dto.marketdata.BithumbTransactionHistory;
 import org.knowm.xchange.currency.CurrencyPair;
 
 import java.io.IOException;
@@ -35,10 +35,10 @@ public class BithumbMarketDataServiceRaw extends BithumbBaseService {
     return orderbook.getData();
   }
 
-  public List<BithumbTransactionHistoryResponse.BithumbTransactionHistory> getBithumbTrades(
-      CurrencyPair currencyPair) throws IOException {
-    final BithumbResponse<List<BithumbTransactionHistoryResponse.BithumbTransactionHistory>>
-        transactionHistory = bithumb.transactionHistory(BithumbUtils.getBaseCurrency(currencyPair));
+  public List<BithumbTransactionHistory> getBithumbTrades(CurrencyPair currencyPair)
+      throws IOException {
+    final BithumbResponse<List<BithumbTransactionHistory>> transactionHistory =
+        bithumb.transactionHistory(BithumbUtils.getBaseCurrency(currencyPair));
     return transactionHistory.getData();
   }
 }
