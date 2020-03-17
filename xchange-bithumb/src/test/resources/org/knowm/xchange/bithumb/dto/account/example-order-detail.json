@@ -1,10 +1,34 @@
 {
-  "transaction_date": "1428024598967",
-  "type": "ask",
-  "order_currency": "BTC",
-  "payment_currency": "KRW",
-  "units_traded": "0.0017",
-  "price": "264000",
-  "fee": "0.0000017",
-  "total": "449"
+  "status"    : "0000",
+  "data"      : [
+    {
+      "order_date"        :   "1572497603668315",
+      "type"              :   "bid",
+      "order_status"      :   "Completed",
+      "order_currency"    :   "BTC",
+      "payment_currency"  :   "KRW",
+      "order_price"       :   "8601000",
+      "order_qty"         :   "0.007",
+      "cancel_date"       :   "",
+      "cancel_type"       :   "",
+      "contract"      :[
+        {
+          "transaction_date"  :   "1572497603902030",
+          "price"             :   "8601000",
+          "units"             :   "0.005",
+          "fee_currency"      :   "KRW",
+          "fee"               :   "107.51",
+          "total"             :   "43005"
+        },
+        {
+          "transaction_date"  :   "1572497603850325",
+          "price"             :   "8600000",
+          "units"             :   "0.002",
+          "fee_currency"      :   "KRW",
+          "fee"               :   "43",
+          "total"             :   "17200"
+        }
+      ]
+    }
+  ]
 }

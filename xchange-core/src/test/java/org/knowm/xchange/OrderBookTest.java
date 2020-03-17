@@ -1,14 +1,5 @@
 package org.knowm.xchange;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,6 +8,16 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.ObjectMapperHelper;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderBookTest {
 
@@ -85,12 +86,13 @@ public class OrderBookTest {
   public void testUpdateRemoveSingleOrder() {
 
     Date timeStamp = new Date(0);
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
-        .originalAmount(BigDecimal.ONE)
-        .limitPrice(BigDecimal.TEN)
-        .timestamp(timeStamp)
-        .cumulativeAmount(BigDecimal.ONE) // remaining amount is now 0
-        .build();
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+            .originalAmount(BigDecimal.ONE)
+            .limitPrice(BigDecimal.TEN)
+            .timestamp(timeStamp)
+            .cumulativeAmount(BigDecimal.ONE) // remaining amount is now 0
+            .build();
     orderBook.update(limitOrder);
     assertThat(orderBook.getBids().size()).isEqualTo(0);
   }
