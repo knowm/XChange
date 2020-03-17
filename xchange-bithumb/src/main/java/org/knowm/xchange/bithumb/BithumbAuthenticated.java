@@ -93,7 +93,7 @@ public interface BithumbAuthenticated {
   @POST
   @Path("info/order_detail")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  BithumbResponse<List<BithumbOrderDetail>> getOrderDetail(
+  BithumbResponse<BithumbOrderDetail> getOrderDetail(
       @HeaderParam(API_KEY) String apiKey,
       @HeaderParam(API_SIGN) ParamsDigest signature,
       @HeaderParam(API_NONCE) SynchronizedValueFactory<Long> nonce,

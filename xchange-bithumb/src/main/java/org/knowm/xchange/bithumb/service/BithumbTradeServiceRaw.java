@@ -59,7 +59,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
     return response.getData().stream().findFirst().orElse(null);
   }
 
-  public BithumbResponse<List<BithumbOrderDetail>> getBithumbOrderDetail(
+  public BithumbResponse<BithumbOrderDetail> getBithumbOrderDetail(
       String orderId, CurrencyPair currencyPair) throws IOException {
     return bithumbAuthenticated.getOrderDetail(
         apiKey,

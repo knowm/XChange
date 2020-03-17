@@ -4,7 +4,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbErrorAdapter;
 import org.knowm.xchange.bithumb.BithumbException;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrderDetail;
 import org.knowm.xchange.bithumb.dto.trade.BithumbOpenOrdersParam;
+import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -60,7 +63,11 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     try {
-      return placeBithumbMarketOrder(marketOrder).getOrderId();
+      BithumbTradeResponse bithumbTradeResponse = placeBithumbMarketOrder(marketOrder);
+      if (!"0000".equals(bithumbTradeResponse.getStatus()))
+        throw new BithumbException(
+            bithumbTradeResponse.getStatus(), bithumbTradeResponse.getMessage());
+      return bithumbTradeResponse.getOrderId();
     } catch (BithumbException e) {
       throw BithumbErrorAdapter.adapt(e);
     }
@@ -69,7 +76,11 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     try {
-      return placeBithumbLimitOrder(limitOrder).getOrderId();
+      BithumbTradeResponse bithumbTradeResponse = placeBithumbLimitOrder(limitOrder);
+      if (!"0000".equals(bithumbTradeResponse.getStatus()))
+        throw new BithumbException(
+            bithumbTradeResponse.getStatus(), bithumbTradeResponse.getMessage());
+      return bithumbTradeResponse.getOrderId();
     } catch (BithumbException e) {
       throw BithumbErrorAdapter.adapt(e);
     }
@@ -108,17 +119,22 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   }
 
   @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     /* This only works for executed orders */
     return Arrays.stream(orderQueryParams)
         .filter(oq -> oq instanceof OrderQueryParamCurrencyPair)
         .map(oq -> (OrderQueryParamCurrencyPair) oq)
-        .flatMap(
+        .map(
             oq -> {
               try {
-                return getBithumbOrderDetail(oq.getOrderId(), oq.getCurrencyPair()).getData()
-                    .stream()
-                    .map(detail -> BithumbAdapters.adaptOrderDetail(detail, oq.getOrderId()));
+                BithumbResponse<BithumbOrderDetail> r =
+                    getBithumbOrderDetail(oq.getOrderId(), oq.getCurrencyPair());
+                return BithumbAdapters.adaptOrderDetail(r.getData(), oq.getOrderId());
 
               } catch (IOException e) {
                 throw new RuntimeException(e);
