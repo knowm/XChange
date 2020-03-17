@@ -1,11 +1,13 @@
 package org.knowm.xchange.bithumb;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbook;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTickersReturn;
@@ -153,8 +155,8 @@ public class BithumbAdaptersTest {
         BithumbAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order.json");
 
-    final BithumbOrderResponse bithumbOrderResponse =
-        mapper.readValue(is, BithumbOrderResponse.class);
+    final BithumbResponse<List<BithumbOrder>> bithumbOrderResponse =
+        mapper.readValue(is, new TypeReference<BithumbResponse<List<BithumbOrder>>>() {});
 
     // when
     final LimitOrder limitOrder =

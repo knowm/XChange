@@ -35,7 +35,6 @@ public interface Bithumb {
 
   @GET
   @Path("transaction_history/{currency}")
-  BithumbResponse<List<BithumbTransactionHistoryResponse.BithumbTransactionHistory>>
-      transactionHistory(@PathParam("currency") String currency)
-          throws IOException, BithumbException;
+  BithumbResponse<List<BithumbTransactionHistory>> transactionHistory(
+      @PathParam("currency") String currency) throws IOException, BithumbException;
 }

@@ -2,7 +2,7 @@ package org.knowm.xchange.examples.bithumb.trade;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbException;
-import org.knowm.xchange.bithumb.dto.account.BithumbOrderResponse;
+import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
 import org.knowm.xchange.bithumb.service.BithumbTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -126,8 +126,8 @@ public class BithumbTradeDemo {
 
     Thread.sleep(3000); // wait for order to propagate
 
-    tradeServiceRaw.getBithumbOrders(CURRENCY_PAIR).stream()
-        .map(BithumbOrderResponse::getOrderId)
+    tradeServiceRaw.getBithumbOrders(CURRENCY_PAIR).getData().stream()
+        .map(BithumbOrder::getOrderId)
         .forEach(
             orderId -> {
               try {

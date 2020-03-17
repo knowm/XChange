@@ -1,7 +1,9 @@
 package org.knowm.xchange.bithumb.dto.trade;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccountDataTest;
 
 import java.io.IOException;
@@ -20,15 +22,15 @@ public class BithumbTradeDataTest {
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/trade/example-user-transaction.json");
-    final BithumbUserTransactionResponse response =
-        mapper.readValue(is, BithumbUserTransactionResponse.class);
+    final BithumbResponse<List<BithumbUserTransaction>> response =
+        mapper.readValue(is, new TypeReference<BithumbResponse<List<BithumbUserTransaction>>>() {});
 
     assertThat(response.getStatus()).isEqualTo("0000");
 
-    List<BithumbUserTransactionResponse.BithumbUserTransaction> data = response.getData();
+    List<BithumbUserTransaction> data = response.getData();
     assertThat(data.size() == 2);
 
-    BithumbUserTransactionResponse.BithumbUserTransaction transaction = data.get(0);
+    BithumbUserTransaction transaction = data.get(0);
 
     assertThat(transaction.getSearch()).isEqualTo("1");
     assertThat(transaction.getTransferDate()).isEqualTo(1572252297148997L);

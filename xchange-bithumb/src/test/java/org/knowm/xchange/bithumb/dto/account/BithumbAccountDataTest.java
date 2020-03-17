@@ -1,12 +1,15 @@
 package org.knowm.xchange.bithumb.dto.account;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,12 +36,12 @@ public class BithumbAccountDataTest {
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order.json");
-    final BithumbOrderResponse bithumbOrderResponse =
-        mapper.readValue(is, BithumbOrderResponse.class);
+    final BithumbResponse<List<BithumbOrder>> bithumbOrderResponse =
+        mapper.readValue(is, new TypeReference<BithumbResponse<List<BithumbOrder>>>() {});
+
     assertThat(bithumbOrderResponse.getStatus()).isEqualTo("0000");
 
-    BithumbOrderResponse.BithumbOrder order =
-        bithumbOrderResponse.getData().stream().findFirst().get();
+    BithumbOrder order = bithumbOrderResponse.getData().stream().findFirst().get();
     assertThat(order.getOrderId()).isEqualTo("C0101000007408440032");
     assertThat(order.getOrderDate()).isEqualTo(1571728739360570L);
     assertThat(order.getOrderCurrency()).isEqualTo("BTC");
@@ -55,12 +58,11 @@ public class BithumbAccountDataTest {
     final InputStream is =
         BithumbAccountDataTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order-detail.json");
-    final BithumbOrderDetailResponse bithumbOrderDetailResponse =
-        mapper.readValue(is, BithumbOrderDetailResponse.class);
+    final BithumbResponse<List<BithumbOrderDetail>> bithumbOrderDetailResponse =
+        mapper.readValue(is, new TypeReference<BithumbResponse<List<BithumbOrderDetail>>>() {});
 
     assertThat(bithumbOrderDetailResponse.getStatus().equals("0000"));
-    BithumbOrderDetailResponse.BithumbOrderDetail detail =
-        bithumbOrderDetailResponse.getData().get(0);
+    BithumbOrderDetail detail = bithumbOrderDetailResponse.getData().get(0);
 
     assertThat(detail.getTransactionDate()).isEqualTo(1572497603668315L);
     assertThat(detail.getType()).isEqualTo(BithumbAdapters.OrderType.bid);
@@ -71,7 +73,7 @@ public class BithumbAccountDataTest {
     assertThat(detail.getOrderQty()).isEqualTo(BigDecimal.valueOf(0.007));
 
     assertThat(detail.getContract().size() == 2);
-    BithumbOrderDetailResponse.BithumbOrderDetail.Contract contract = detail.getContract().get(0);
+    BithumbOrderDetail.Contract contract = detail.getContract().get(0);
 
     assertThat(contract.getTransactionDate()).isEqualTo(1572497603902030L);
     assertThat(contract.getPrice()).isEqualTo(BigDecimal.valueOf(8601000));
