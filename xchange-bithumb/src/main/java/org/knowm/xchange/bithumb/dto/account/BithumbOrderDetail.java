@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BithumbOrderDetail {
-  private final Long transactionDate;
+  private final Long orderDate;
   private final BithumbAdapters.OrderType type;
   private final String orderStatus;
   private final String orderCurrency;
@@ -23,7 +23,7 @@ public class BithumbOrderDetail {
   private final Map<String, Object> additionalProperties = new HashMap<>();
 
   public BithumbOrderDetail(
-      @JsonProperty("transaction_date") Long transactionDate,
+      @JsonProperty("order_date") Long orderDate,
       @JsonProperty("type") BithumbAdapters.OrderType type,
       @JsonProperty("order_status") String orderStatus,
       @JsonProperty("order_currency") String orderCurrency,
@@ -33,7 +33,7 @@ public class BithumbOrderDetail {
       @JsonProperty("cancel_date") Long cancelDate,
       @JsonProperty("cancel_type") String cancelType,
       @JsonProperty("contract") List<Contract> contract) {
-    this.transactionDate = transactionDate;
+    this.orderDate = orderDate;
     this.type = type;
     this.orderStatus = orderStatus;
     this.orderCurrency = orderCurrency;
@@ -50,8 +50,8 @@ public class BithumbOrderDetail {
     this.additionalProperties.put(name, value);
   }
 
-  public Long getTransactionDate() {
-    return transactionDate;
+  public Long getOrderDate() {
+    return orderDate;
   }
 
   public BithumbAdapters.OrderType getType() {
@@ -93,8 +93,8 @@ public class BithumbOrderDetail {
   @Override
   public String toString() {
     return "BithumbOrderDetail{"
-        + "transactionDate="
-        + transactionDate
+        + "orderDate="
+        + orderDate
         + ", type="
         + type
         + ", orderStatus='"

@@ -64,7 +64,7 @@ public class BithumbAccountDataTest {
     assertThat(bithumbOrderDetailResponse.getStatus().equals("0000"));
     BithumbOrderDetail detail = bithumbOrderDetailResponse.getData().get(0);
 
-    assertThat(detail.getTransactionDate()).isEqualTo(1572497603668315L);
+    assertThat(detail.getOrderDate()).isEqualTo(1572497603668315L);
     assertThat(detail.getType()).isEqualTo(BithumbAdapters.OrderType.bid);
     assertThat(detail.getOrderStatus()).isEqualTo("Completed");
     assertThat(detail.getOrderCurrency()).isEqualTo("BTC");

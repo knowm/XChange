@@ -199,10 +199,12 @@ public final class BithumbAdapters {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal averagePrice =
-        order.getContract().stream()
-            .map(contract -> contract.getTotal().multiply(contract.getPrice()))
-            .reduce(BigDecimal.ZERO, BigDecimal::add)
-            .divide(cumulative, MathContext.DECIMAL32);
+        cumulative.compareTo(BigDecimal.ZERO) != 0
+            ? order.getContract().stream()
+                .map(contract -> contract.getTotal().multiply(contract.getPrice()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(cumulative, MathContext.DECIMAL32)
+            : null;
 
     if (order.getOrderPrice() == null) {
       return new MarketOrder.Builder(orderType, currencyPair)
@@ -244,7 +246,7 @@ public final class BithumbAdapters {
 
   private static Order.OrderStatus adaptStatus(String orderStatus) {
     switch (orderStatus) {
-      case "N":
+      case "Pending":
         return Order.OrderStatus.NEW;
       case "Completed":
         return Order.OrderStatus.FILLED;
