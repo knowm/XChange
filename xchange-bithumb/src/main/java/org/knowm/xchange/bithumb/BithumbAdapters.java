@@ -195,7 +195,7 @@ public final class BithumbAdapters {
 
     BigDecimal cumulative =
         order.getContract().stream()
-            .map(BithumbOrderDetail.Contract::getTotal)
+            .map(BithumbOrderDetail.Contract::getUnits)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal averagePrice =
