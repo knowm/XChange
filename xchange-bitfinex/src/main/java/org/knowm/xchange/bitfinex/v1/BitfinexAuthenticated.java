@@ -7,7 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexExceptionV1;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
@@ -61,7 +61,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest accountInfosRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("account_fees")
@@ -79,7 +79,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNewOrderRequest newOrderRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/new/multi")
@@ -88,7 +88,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNewOrderMultiRequest newOrderMultiRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("offer/new")
@@ -97,7 +97,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNewOfferRequest newOfferRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("balances")
@@ -106,7 +106,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexBalancesRequest balancesRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("account_infos")
@@ -115,7 +115,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexTradingFeesRequest tradingFeeRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/cancel")
@@ -124,7 +124,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelOrderRequest cancelOrderRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/cancel/all")
@@ -133,7 +133,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelAllOrdersRequest cancelAllOrdersRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/cancel/multi")
@@ -142,7 +142,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelOrderMultiRequest cancelOrderRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/cancel/replace")
@@ -151,7 +151,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexReplaceOrderRequest newOrderRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("offer/cancel")
@@ -160,7 +160,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelOfferRequest cancelOfferRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("orders")
@@ -169,7 +169,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("orders/hist")
@@ -178,7 +178,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexOrdersHistoryRequest ordersHistoryRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("offers")
@@ -187,7 +187,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("positions")
@@ -196,7 +196,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("order/status")
@@ -207,7 +207,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexOrderStatusRequest orderStatusRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("offer/status")
@@ -218,7 +218,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexOfferStatusRequest offerStatusRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("mytrades")
@@ -227,7 +227,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexPastTradesRequest pastTradesRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("mytrades_funding")
@@ -236,7 +236,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexPastFundingTradesRequest bitfinexPastFundingTradesRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("credits")
@@ -245,7 +245,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexActiveCreditsRequest activeCreditsRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("margin_infos")
@@ -254,7 +254,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexMarginInfosRequest marginInfosRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("withdraw")
@@ -263,7 +263,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexWithdrawalRequest withdrawalRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("deposit/new")
@@ -272,7 +272,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexDepositAddressRequest depositRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("history/movements")
@@ -281,7 +281,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexDepositWithdrawalHistoryRequest request)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @POST
   @Path("history")
@@ -290,5 +290,5 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexBalanceHistoryRequest balanceHistoryRequest)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 }

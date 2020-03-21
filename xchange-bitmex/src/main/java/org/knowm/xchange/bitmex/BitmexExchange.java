@@ -135,10 +135,10 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     String counterSymbol;
 
     if (bitmexSymbol.contains(baseSymbol)) {
-      counterSymbol = bitmexSymbol.substring(baseSymbol.length(), bitmexSymbol.length());
+      counterSymbol = bitmexSymbol.substring(baseSymbol.length());
     } else {
-      throw new ExchangeException(
-          "Not clear how to create currency pair for symbol: " + bitmexSymbol);
+      logger.warn("Not clear how to create currency pair for symbol: {}", bitmexSymbol);
+      return;
     }
 
     activeCurrencyPairs.add(new CurrencyPair(baseSymbol, counterSymbol));
@@ -177,13 +177,11 @@ public class BitmexExchange extends BaseExchange implements Exchange {
             .orElseThrow(
                 () ->
                     new ExchangeException(
-                        "Instrument for "
-                            + symbols
-                            + " "
-                            + contractTimeframe
-                            + " is not active or does not exist"));
+                        String.format(
+                            "Instrument for %s %s is not active or does not exist",
+                            symbols, contractTimeframe)));
 
-    String contractTypeSymbol = bitmexSymbol.substring(3, bitmexSymbol.length());
+    String contractTypeSymbol = bitmexSymbol.substring(3);
     return new CurrencyPair(baseSymbol, contractTypeSymbol);
   }
 }

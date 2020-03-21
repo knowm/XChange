@@ -87,13 +87,14 @@ public class DeribitAdapters {
         break;
     }
 
-    return new Trade(
-        type,
-        deribitTrade.getAmount(),
-        adaptCurrencyPair(deribitTrade.getInstrumentName()),
-        deribitTrade.getPrice(),
-        deribitTrade.getTimestamp(),
-        deribitTrade.getTradeId());
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(deribitTrade.getAmount())
+        .currencyPair(adaptCurrencyPair(deribitTrade.getInstrumentName()))
+        .price(deribitTrade.getPrice())
+        .timestamp(deribitTrade.getTimestamp())
+        .id(deribitTrade.getTradeId())
+        .build();
   }
 
   public static Trades adaptTrades(DeribitTrades deribitTrades) {

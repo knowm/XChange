@@ -6,10 +6,8 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.lgo.dto.LgoException;
 import org.knowm.xchange.lgo.dto.WithCursor;
 import org.knowm.xchange.lgo.dto.currency.LgoCurrencies;
-import org.knowm.xchange.lgo.dto.marketdata.LgoOrderbook;
-import org.knowm.xchange.lgo.dto.order.LgoEncryptedOrder;
-import org.knowm.xchange.lgo.dto.order.LgoPlaceOrderResponse;
-import org.knowm.xchange.lgo.dto.order.LgoUnencryptedOrder;
+import org.knowm.xchange.lgo.dto.marketdata.*;
+import org.knowm.xchange.lgo.dto.order.*;
 import org.knowm.xchange.lgo.dto.product.LgoProducts;
 import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import si.mazi.rescu.ParamsDigest;
@@ -25,6 +23,9 @@ public interface Lgo {
   String PAGE = "page";
   String SORT = "sort";
   String ORDER_ID = "order_id";
+  String GRANULARITY = "granularity";
+  String END = "end";
+  String START = "start";
 
   @GET
   @Path("/live/products")
@@ -85,5 +86,16 @@ public interface Lgo {
       @HeaderParam(X_LGO_DATE) long timestamp,
       @HeaderParam(AUTHORIZATION) ParamsDigest signature,
       @PathParam(ORDER_ID) String orderId)
+      throws IOException, LgoException;
+
+  @GET
+  @Path("/history/products/{product_id}/candles")
+  LgoPriceHistory getPriceHistory(
+      @HeaderParam(X_LGO_DATE) long timestamp,
+      @HeaderParam(AUTHORIZATION) ParamsDigest signature,
+      @PathParam(PRODUCT_ID) String productId,
+      @QueryParam(START) String startTime,
+      @QueryParam(END) String endTime,
+      @QueryParam(GRANULARITY) int granularity)
       throws IOException, LgoException;
 }

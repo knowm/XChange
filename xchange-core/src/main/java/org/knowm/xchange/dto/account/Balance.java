@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
@@ -212,6 +213,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
    *
    * @return the amount that is available to withdraw.
    */
+  @JsonIgnore
   public BigDecimal getAvailableForWithdrawal() {
 
     return getAvailable().subtract(getBorrowed());

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
@@ -358,5 +359,23 @@ public class BitfinexAdaptersTest {
         assertEquals(Currency.BTC, record.getCurrency());
       }
     }
+  }
+
+  @Test
+  public void adaptCurrencyPair() {
+    final List<String> currencyPairStrings =
+        Arrays.asList("btcusd", "ethusd", "ethbtc", "dusk:usd", "tknusd");
+    final List<CurrencyPair> currencyPairs =
+        currencyPairStrings.stream()
+            .map(BitfinexAdapters::adaptCurrencyPair)
+            .collect(Collectors.toList());
+    assertEquals(
+        Arrays.asList(
+            CurrencyPair.BTC_USD,
+            CurrencyPair.ETH_USD,
+            CurrencyPair.ETH_BTC,
+            new CurrencyPair("DUSK/USD"),
+            new CurrencyPair("TKN/USD")),
+        currencyPairs);
   }
 }

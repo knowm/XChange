@@ -81,7 +81,14 @@ public class DSXAdapters {
     Date date = DateUtils.fromMillisUtc(dSXTrade.getDate() * 1000L);
 
     final String tradeId = String.valueOf(dSXTrade.getTid());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(DSXTrade[] dSXTrades, CurrencyPair currencyPair) {
@@ -177,16 +184,17 @@ public class DSXAdapters {
       BigDecimal feeAmount = result.getCommission();
       Currency feeCurrency = adaptCurrency(result.getCommissionCurrency());
       trades.add(
-          new UserTrade(
-              type,
-              originalAmount,
-              currencyPair,
-              price,
-              timeStamp,
-              tradeId,
-              orderId,
-              feeAmount,
-              feeCurrency));
+          new UserTrade.Builder()
+              .type(type)
+              .orderId(orderId)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timeStamp)
+              .id(tradeId)
+              .orderId(orderId)
+              .feeAmount(feeAmount)
+              .feeCurrency(feeCurrency)
+              .build());
     }
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }

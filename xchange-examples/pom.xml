@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.4.1-SNAPSHOT</version>
+		<version>4.5.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -48,12 +48,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-openexchangerates</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange Wex exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-wex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Bibox exchange support -->
@@ -158,7 +152,7 @@
 			<artifactId>xchange-coinegg</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange GDAX support -->
+		<!-- XChange Coinbase Pro support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-coinbasepro</artifactId>

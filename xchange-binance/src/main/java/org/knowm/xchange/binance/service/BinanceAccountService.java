@@ -27,13 +27,7 @@ import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
@@ -60,10 +54,11 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     }
   }
 
-  /** (0:pending,1:success) */
+  /** (0:pending,6: credited but cannot withdraw,1:success) */
   private static FundingRecord.Status depositStatus(int status) {
     switch (status) {
       case 0:
+      case 6:
         return Status.PROCESSING;
       case 1:
         return Status.COMPLETE;
@@ -196,12 +191,17 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           asset = cp.getCurrency().getCurrencyCode();
         }
       }
-      Long recvWindow =
-          (Long)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+
+      Integer limit = null;
+
+      if (params instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit hpl = (TradeHistoryParamLimit) params;
+        limit = hpl.getLimit();
+      }
 
       boolean withdrawals = true;
       boolean deposits = true;
+      boolean otherInflow = true;
 
       Long startTime = null;
       Long endTime = null;
@@ -220,6 +220,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         if (f.getType() != null) {
           withdrawals = f.getType() == Type.WITHDRAWAL;
           deposits = f.getType() == Type.DEPOSIT;
+          otherInflow = f.getType() == Type.OTHER_INFLOW;
         }
       }
 
@@ -263,6 +264,27 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           null,
                           null,
                           null));
+                });
+      }
+
+      if (otherInflow) {
+        super.getAssetDividend(asset, startTime, endTime)
+            .forEach(
+                a -> {
+                  result.add(
+                      new FundingRecord(
+                          null,
+                          null,
+                          new Date(a.getDivTime()),
+                          Currency.getInstance(a.getAsset()),
+                          a.getAmount(),
+                          null,
+                          String.valueOf(a.getTranId()),
+                          Type.OTHER_INFLOW,
+                          Status.COMPLETE,
+                          null,
+                          null,
+                          a.getEnInfo()));
                 });
       }
 

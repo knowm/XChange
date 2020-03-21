@@ -18,8 +18,10 @@ import org.knowm.xchange.deribit.v2.dto.trade.AdvancedOptions;
 import org.knowm.xchange.deribit.v2.dto.trade.Order;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderPlacement;
 import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
+import org.knowm.xchange.deribit.v2.dto.trade.SettlementType;
 import org.knowm.xchange.deribit.v2.dto.trade.TimeInForce;
 import org.knowm.xchange.deribit.v2.dto.trade.Trigger;
+import org.knowm.xchange.deribit.v2.dto.trade.UserSettlements;
 import org.knowm.xchange.deribit.v2.dto.trade.UserTrades;
 import si.mazi.rescu.ParamsDigest;
 
@@ -189,6 +191,22 @@ public interface DeribitAuthenticated {
   DeribitResponse<List<Position>> getPositions(
       @QueryParam("currency") String currency,
       @QueryParam("kind") Kind kind,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
+
+  /**
+   * https://docs.deribit.com/v2/#private-get_settlement_history_by_instrument
+   *
+   * @param instrumentName required - Instrument name
+   * @param count optional - Number of requested items, default - 20
+   * @param type optional - Settlement type
+   */
+  @GET
+  @Path("get_settlement_history_by_instrument")
+  DeribitResponse<UserSettlements> getSettlementHistoryByInstrument(
+      @QueryParam("instrument_name") String instrumentName,
+      @QueryParam("type") SettlementType type,
+      @QueryParam("count") Integer count,
       @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
 }

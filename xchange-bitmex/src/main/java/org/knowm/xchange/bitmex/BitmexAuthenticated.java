@@ -23,6 +23,7 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransactionList;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrder;
 import org.knowm.xchange.bitmex.dto.marketdata.BitmexPrivateOrderList;
+import org.knowm.xchange.bitmex.dto.trade.BitmexCancelAll;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPosition;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPositionList;
 import org.knowm.xchange.bitmex.dto.trade.BitmexPrivateExecution;
@@ -320,6 +321,26 @@ public interface BitmexAuthenticated extends Bitmex {
       @Nullable @FormParam("text") String text)
       throws IOException, BitmexException;
 
+  /**
+   * Useful as a dead-man's switch to ensure your orders are canceled in case of an outage. If
+   * called repeatedly, the existing offset will be canceled and a new one will be inserted in its
+   * place. Example usage: call this route at 15s intervals with an offset of 60000 (60s). If this
+   * route is not called within 60 seconds, all your orders will be automatically canceled.
+   *
+   * @param timeout Timeout in ms. Set to 0 to cancel this timer.
+   * @return {@link BitmexPrivateOrderList} contains the results of the call.
+   * @throws IOException
+   * @throws BitmexException
+   */
+  @POST
+  @Path("order/cancelAllAfter")
+  BitmexCancelAll cancelAllAfter(
+      @HeaderParam("api-key") String apiKey,
+      @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("api-signature") ParamsDigest paramsDigest,
+      @FormParam("timeout") long timeout)
+      throws IOException, BitmexException;
+
   @POST
   @Path("position/leverage")
   BitmexPosition updateLeveragePosition(
@@ -344,7 +365,6 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("symbol") String symbol,
       @Nullable @QueryParam("filter") String filter)
       throws IOException, BitmexException;
 

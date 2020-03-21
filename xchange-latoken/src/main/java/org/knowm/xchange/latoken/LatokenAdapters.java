@@ -200,16 +200,17 @@ public class LatokenAdapters {
   }
 
   public static UserTrade adaptUserTrade(LatokenUserTrade latokenUserTrade, CurrencyPair pair) {
-    return new UserTrade(
-        adaptOrderType(latokenUserTrade.getSide()),
-        latokenUserTrade.getAmount(),
-        pair,
-        latokenUserTrade.getPrice(),
-        latokenUserTrade.getTime(),
-        latokenUserTrade.getId(),
-        latokenUserTrade.getOrderId(),
-        latokenUserTrade.getFee(),
-        pair.counter); // Fee is always in counter currency
+    return new UserTrade.Builder()
+        .type(adaptOrderType(latokenUserTrade.getSide()))
+        .originalAmount(latokenUserTrade.getAmount())
+        .currencyPair(pair)
+        .price(latokenUserTrade.getPrice())
+        .timestamp(latokenUserTrade.getTime())
+        .id(latokenUserTrade.getId())
+        .orderId(latokenUserTrade.getOrderId())
+        .feeAmount(latokenUserTrade.getFee())
+        .feeCurrency(pair.counter) // Fee is always in counter currency
+        .build();
   }
 
   // --------------- Convert to Latoken convention --------------------------

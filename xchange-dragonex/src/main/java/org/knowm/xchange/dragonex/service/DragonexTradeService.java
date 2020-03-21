@@ -133,17 +133,18 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
         dealHistory.getList().stream()
             .map(
                 d -> {
-                  CurrencyPair p = exchange.pair(d.symbolId);
-                  return new UserTrade(
-                      d.orderType == 1 ? OrderType.BID : OrderType.ASK,
-                      d.volume,
-                      p,
-                      d.price,
-                      d.getTimestamp(),
-                      d.tradeId,
-                      d.orderId,
-                      d.charge,
-                      p.counter);
+                  CurrencyPair currencyPair = exchange.pair(d.symbolId);
+                  return new UserTrade.Builder()
+                      .type(d.orderType == 1 ? OrderType.BID : OrderType.ASK)
+                      .originalAmount(d.volume)
+                      .currencyPair(currencyPair)
+                      .price(d.price)
+                      .timestamp(d.getTimestamp())
+                      .id(d.tradeId)
+                      .orderId(d.orderId)
+                      .feeAmount(d.charge)
+                      .feeCurrency(currencyPair.counter)
+                      .build();
                 })
             .collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
