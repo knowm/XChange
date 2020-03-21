@@ -1,5 +1,11 @@
 package org.knowm.xchange.bithumb;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
@@ -17,13 +23,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.*;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public final class BithumbAdapters {
   public static final String SEARCH_BUY = "1";
