@@ -1,5 +1,10 @@
 package org.knowm.xchange.bithumb;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.*;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
@@ -7,12 +12,6 @@ import org.knowm.xchange.bithumb.dto.trade.BithumbTradeResponse;
 import org.knowm.xchange.bithumb.dto.trade.BithumbUserTransaction;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

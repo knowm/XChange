@@ -2,10 +2,9 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.bithumb.BithumbAdapters;
-
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.bithumb.BithumbAdapters;
 
 public class BithumbTransactionHistory {
   private final Date timestamp;
