@@ -19,8 +19,8 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -42,8 +42,8 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
     // null: get orders for all currencies
     String primaryCurrency = null;
     String secondaryCurrency = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      final CurrencyPair cp = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof OpenOrdersParamInstrument) {
+      final CurrencyPair cp = ((OpenOrdersParamInstrument) params).getCurrencyPair();
       if (cp != null) {
         primaryCurrency = cp.base.getCurrencyCode();
         secondaryCurrency = cp.counter.getCurrencyCode();
@@ -91,7 +91,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

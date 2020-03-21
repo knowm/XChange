@@ -2,7 +2,11 @@ package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -15,7 +19,7 @@ import org.knowm.xchange.bitmex.service.BitmexTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -97,7 +101,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     tickers.forEach(
         ticker -> collectCurrenciesAndPairs(ticker, activeCurrencyPairs, activeCurrencies));
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> pairsMap = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = exchangeMetaData.getCurrencies();
 
     // Remove pairs that are no-longer in use
@@ -112,7 +116,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
           if (!pairsMap.containsKey(cp)) {
             pairsMap.put(
                 cp,
-                new CurrencyPairMetaData(
+                new InstrumentMetaData(
                     null, BigDecimal.ONE, null, getPriceScale(tickers, cp), null));
           }
           if (!currenciesMap.containsKey(cp.base)) {

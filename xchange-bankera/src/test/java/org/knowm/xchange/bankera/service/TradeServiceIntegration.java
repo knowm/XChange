@@ -19,8 +19,8 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,8 +67,8 @@ public class TradeServiceIntegration {
   @Test
   public void testCgetOpenOrdersByMarketTest() throws Exception {
 
-    DefaultOpenOrdersParamCurrencyPair currencyPair = new DefaultOpenOrdersParamCurrencyPair();
-    currencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
+    DefaultOpenOrdersParamInstrument currencyPair = new DefaultOpenOrdersParamInstrument();
+    currencyPair.setInstrument(CurrencyPair.ETH_BTC);
     OpenOrders openOrders = tradeService.getOpenOrders(currencyPair);
     logger.info("Response: {}", openOrders);
   }
@@ -102,7 +102,7 @@ public class TradeServiceIntegration {
   @Test
   public void testHgetUserTrades() throws Exception {
 
-    DefaultTradeHistoryParamCurrencyPair currencyPair = new DefaultTradeHistoryParamCurrencyPair();
+    DefaultTradeHistoryParamInstrument currencyPair = new DefaultTradeHistoryParamInstrument();
     currencyPair.setCurrencyPair(CurrencyPair.ETH_BTC);
     UserTrades trades = tradeService.getTradeHistory(currencyPair);
     logger.info("Response: {}", trades.getUserTrades());

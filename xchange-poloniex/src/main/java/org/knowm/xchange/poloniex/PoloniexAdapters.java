@@ -1,5 +1,9 @@
 package org.knowm.xchange.poloniex;
 
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.OTHER_INFLOW;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -21,12 +25,13 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
@@ -41,8 +46,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
-
-import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 /**
  * @author Zach Holmes
@@ -252,8 +255,8 @@ public class PoloniexAdapters {
       if (!currencyMetaDataMap.containsKey(ccy)) currencyMetaDataMap.put(ccy, currencyArchetype);
     }
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
-    CurrencyPairMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
+    Map<Instrument, InstrumentMetaData> marketMetaDataMap = exchangeMetaData.getInstruments();
+    InstrumentMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
 
     for (String market : poloniexMarketData.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(market);

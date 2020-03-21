@@ -6,10 +6,10 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitflyer.BitflyerAdapters;
 import org.knowm.xchange.bitflyer.BitflyerUtils;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class BitflyerTradeService extends BitflyerTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+    List<Instrument> pairs = exchange.getExchangeSymbols();
 
     // US and EUR only have one pair available
     if (pairs.size() == 1) {

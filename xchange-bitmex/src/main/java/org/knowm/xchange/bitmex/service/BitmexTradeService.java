@@ -154,10 +154,10 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     String symbol = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
+    if (params instanceof TradeHistoryParamInstrument) {
       symbol =
           BitmexAdapters.adaptCurrencyPairToSymbol(
-              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+              ((TradeHistoryParamInstrument) params).getCurrencyPair());
     }
     Long start = null;
     if (params instanceof TradeHistoryParamOffset) {

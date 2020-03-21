@@ -27,7 +27,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /** @author Matija Mazi */
@@ -44,7 +44,7 @@ public class CryptonitTradeService extends CryptonitTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    Collection<CurrencyPair> pairs = DefaultOpenOrdersParamCurrencyPair.getPairs(params, exchange);
+    Collection<CurrencyPair> pairs = DefaultOpenOrdersParamInstrument.getPairs(params, exchange);
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (CurrencyPair pair : pairs) {
       CryptonitOrder[] openOrders = getCryptonitOpenOrders(pair);
@@ -120,8 +120,8 @@ public class CryptonitTradeService extends CryptonitTradeServiceRaw implements T
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
     if (params instanceof TradeHistoryParamOffset) {
       offset = ((TradeHistoryParamOffset) params).getOffset();
@@ -143,7 +143,7 @@ public class CryptonitTradeService extends CryptonitTradeServiceRaw implements T
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

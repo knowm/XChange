@@ -14,7 +14,7 @@ import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 public class QuoineMarketDataService extends QuoineMarketDataServiceRaw
@@ -39,11 +39,11 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    if (!(params instanceof CurrencyPairsParam)) {
+    if (!(params instanceof InstrumentParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
 
-    CurrencyPairsParam pairs = (CurrencyPairsParam) params;
+    InstrumentParam pairs = (InstrumentParam) params;
     QuoineProduct[] products = getQuoineProducts();
 
     return Arrays.stream(products)

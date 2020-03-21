@@ -19,7 +19,7 @@ public class TickerTest {
             .askSize(new BigDecimal("0.13"))
             .bid(new BigDecimal("0.14"))
             .bidSize(new BigDecimal("0.14"))
-            .currencyPair(CurrencyPair.ADA_BNB)
+            .instrument(CurrencyPair.ADA_BNB)
             .high(new BigDecimal("0.15"))
             .last(new BigDecimal("0.16"))
             .low(new BigDecimal("0.17"))

@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/ZAR": {
       "price_scale": 3,
       "min_amount": 0.001000000

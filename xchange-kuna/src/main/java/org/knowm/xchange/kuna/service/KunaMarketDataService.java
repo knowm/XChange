@@ -81,7 +81,7 @@ public class KunaMarketDataService extends KunaMarketDataServiceRaw implements M
     LimitOrder.Builder builder = new LimitOrder.Builder(orderType, currencyPair);
     builder
         .id(String.valueOf(kunaOrder.getId()))
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .timestamp(kunaOrder.getCreatedAt())
         .orderStatus(Order.OrderStatus.NEW)
         .orderType(orderType)

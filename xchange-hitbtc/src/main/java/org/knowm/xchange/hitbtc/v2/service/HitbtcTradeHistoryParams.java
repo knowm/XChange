@@ -1,14 +1,15 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 
 public class HitbtcTradeHistoryParams
-    implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+    implements TradeHistoryParamLimit, TradeHistoryParamOffset, TradeHistoryParamInstrument {
 
-  private CurrencyPair pair;
+  private Instrument pair;
   private Integer limit;
   private Long offset;
 
@@ -19,12 +20,12 @@ public class HitbtcTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 

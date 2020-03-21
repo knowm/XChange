@@ -1,28 +1,43 @@
 package org.knowm.xchange.globitex;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Fee;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.globitex.dto.account.GlobitexAccounts;
-import org.knowm.xchange.globitex.dto.marketdata.*;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexOrder;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexOrderBook;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexSymbol;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexSymbols;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTicker;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTickers;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTrade;
+import org.knowm.xchange.globitex.dto.marketdata.GlobitexTrades;
 import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrade;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class GlobitexAdapters {
@@ -238,7 +253,7 @@ public class GlobitexAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(GlobitexSymbols globitexSymbols) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     List<FeeTier> resultFeeTiers = new ArrayList<FeeTier>();
     resultFeeTiers.add(
@@ -250,7 +265,7 @@ public class GlobitexAdapters {
             globitexSymbol -> {
               currencyPairs.put(
                   adaptGlobitexSymbolToCurrencyPair(globitexSymbol),
-                  new CurrencyPairMetaData(
+                  new InstrumentMetaData(
                       BigDecimal.valueOf(0.002),
                       globitexSymbol.getSizeMin(),
                       null,

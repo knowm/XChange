@@ -19,12 +19,21 @@ import org.knowm.xchange.acx.utils.ArgUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +68,7 @@ public class AcxTradeService implements TradeService {
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     long tonce = nonceFactory.createValue();
-    OpenOrdersParamCurrencyPair param = ArgUtils.tryCast(params, OpenOrdersParamCurrencyPair.class);
+    OpenOrdersParamInstrument param = ArgUtils.tryCast(params, OpenOrdersParamInstrument.class);
     CurrencyPair currencyPair = param.getCurrencyPair();
     List<AcxOrder> orders =
         api.getOrders(accessKey, tonce, getAcxMarket(currencyPair), signatureCreator);
@@ -67,8 +76,8 @@ public class AcxTradeService implements TradeService {
   }
 
   @Override
-  public DefaultOpenOrdersParamCurrencyPair createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+  public DefaultOpenOrdersParamInstrument createOpenOrdersParams() {
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -126,7 +135,7 @@ public class AcxTradeService implements TradeService {
     if (acxTradeHistoryParams.endTime != null) {
       timestamp = String.valueOf(acxTradeHistoryParams.endTime.toInstant().getEpochSecond());
     }
-    String market = getAcxMarket(acxTradeHistoryParams.currencyPair);
+    String market = getAcxMarket((CurrencyPair) acxTradeHistoryParams.currencyPair);
     if (acxTradeHistoryParams.startId != null) {
       startId = acxTradeHistoryParams.startId;
     }
@@ -171,22 +180,22 @@ public class AcxTradeService implements TradeService {
           TradeHistoryParamsTimeSpan,
           TradeHistoryParamsIdSpan,
           TradeHistoryParamsSorted,
-          TradeHistoryParamCurrencyPair {
+          TradeHistoryParamInstrument {
     private Integer limit = 50;
     private String startId;
     private String endId;
     private TradeHistoryParamsSorted.Order order = Order.desc;
     private Date startTime;
     private Date endTime;
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setInstrument(Instrument currencyPair) {
       this.currencyPair = currencyPair;
     }
 

@@ -13,7 +13,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -39,11 +39,11 @@ public class CmcMarketDataService extends CmcMarketDataServiceRaw implements Mar
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
 
-    if (!(params instanceof CurrencyPairsParam)) {
+    if (!(params instanceof InstrumentParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
 
-    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+    Collection<CurrencyPair> pairs = ((InstrumentParam) params).getCurrencyPairs();
 
     Set<Currency> baseSymbols = new HashSet<>();
     Set<Currency> convertSymbols = new HashSet<>();

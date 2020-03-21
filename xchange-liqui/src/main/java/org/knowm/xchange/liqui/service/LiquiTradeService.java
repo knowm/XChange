@@ -13,18 +13,19 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.liqui.LiquiAdapters;
 import org.knowm.xchange.liqui.dto.LiquiException;
 import org.knowm.xchange.liqui.dto.trade.LiquiCancelOrder;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +45,9 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(final OpenOrdersParams params) throws IOException {
-    if (params instanceof OpenOrdersParamCurrencyPair) {
+    if (params instanceof OpenOrdersParamInstrument) {
       return LiquiAdapters.adaptActiveOrders(
-          getActiveOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
+          getActiveOrders(((OpenOrdersParamInstrument) params).getCurrencyPair()));
     }
 
     throw new LiquiException("Unable to get open orders with the provided params: " + params);
@@ -90,8 +91,8 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     Long endTime = null;
     Integer limit = null;
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -121,8 +122,8 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public DefaultOpenOrdersParamCurrencyPair createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+  public DefaultOpenOrdersParamInstrument createOpenOrdersParams() {
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -139,12 +140,12 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
       implements TradeHistoryParams,
           TradeHistoryParamLimit,
           TradeHistoryParamsTimeSpan,
-          TradeHistoryParamCurrencyPair {
+          TradeHistoryParamInstrument {
 
     private Integer limit = 1000;
     private Date startTime;
     private Date endTime;
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
 
     public LiquiTradeHistoryParams() {}
 
@@ -179,12 +180,12 @@ public class LiquiTradeService extends LiquiTradeServiceRaw implements TradeServ
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setInstrument(Instrument pair) {
       this.currencyPair = pair;
     }
   }

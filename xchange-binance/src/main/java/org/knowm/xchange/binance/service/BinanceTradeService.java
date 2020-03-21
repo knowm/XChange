@@ -34,16 +34,16 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
@@ -59,7 +59,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {
-    return getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
+    return getOpenOrders(new DefaultOpenOrdersParamInstrument(pair));
   }
 
   @Override
@@ -70,8 +70,8 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
 
       List<BinanceOrder> binanceOpenOrders;
-      if (params instanceof OpenOrdersParamCurrencyPair) {
-        OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+      if (params instanceof OpenOrdersParamInstrument) {
+        OpenOrdersParamInstrument pairParams = (OpenOrdersParamInstrument) params;
         CurrencyPair pair = pairParams.getCurrencyPair();
         binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
       } else {
@@ -233,9 +233,9 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
       Assert.isTrue(
-          params instanceof TradeHistoryParamCurrencyPair,
+          params instanceof TradeHistoryParamInstrument,
           "You need to provide the currency pair to get the user trades.");
-      TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
+      TradeHistoryParamInstrument pairParams = (TradeHistoryParamInstrument) params;
       CurrencyPair pair = pairParams.getCurrencyPair();
       if (pair == null) {
         throw new ExchangeException(
@@ -308,7 +308,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -322,12 +322,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     try {
       Collection<Order> orders = new ArrayList<>();
       for (OrderQueryParams param : params) {
-        if (!(param instanceof OrderQueryParamCurrencyPair)) {
+        if (!(param instanceof OrderQueryParamInstrument)) {
           throw new ExchangeException(
               "Parameters must be an instance of OrderQueryParamCurrencyPair");
         }
-        OrderQueryParamCurrencyPair orderQueryParamCurrencyPair =
-            (OrderQueryParamCurrencyPair) param;
+        OrderQueryParamInstrument orderQueryParamCurrencyPair = (OrderQueryParamInstrument) param;
         if (orderQueryParamCurrencyPair.getCurrencyPair() == null
             || orderQueryParamCurrencyPair.getOrderId() == null) {
           throw new ExchangeException(

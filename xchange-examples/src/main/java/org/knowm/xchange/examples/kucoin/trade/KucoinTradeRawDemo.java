@@ -17,8 +17,8 @@ import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.OrderCancelResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderCreateResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 
 public class KucoinTradeRawDemo {
 
@@ -59,8 +59,8 @@ public class KucoinTradeRawDemo {
     System.out.println(tradeService.getOpenOrders());
 
     System.out.println(SYMBOL + " orders:");
-    OpenOrdersParamCurrencyPair orderParams =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    OpenOrdersParamInstrument orderParams =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
     System.out.println(openOrders);
@@ -78,8 +78,8 @@ public class KucoinTradeRawDemo {
     }
 
     System.out.println("All fills: " + tradeService.getTradeHistory(null));
-    TradeHistoryParamCurrencyPair tradeHistoryParams =
-        (TradeHistoryParamCurrencyPair) tradeService.createTradeHistoryParams();
+    TradeHistoryParamInstrument tradeHistoryParams =
+        (TradeHistoryParamInstrument) tradeService.createTradeHistoryParams();
     tradeHistoryParams.setCurrencyPair(PAIR);
     System.out.println(SYMBOL + " fills: " + tradeService.getTradeHistory(tradeHistoryParams));
 
@@ -126,8 +126,8 @@ public class KucoinTradeRawDemo {
 
     Thread.sleep(3000); // wait for order to propagate
 
-    OpenOrdersParamCurrencyPair orderParams =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    OpenOrdersParamInstrument orderParams =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
     Optional<? extends Order> found =
@@ -173,8 +173,8 @@ public class KucoinTradeRawDemo {
 
     System.out.println(tradeService.getOpenOrders());
 
-    OpenOrdersParamCurrencyPair orderParams =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    OpenOrdersParamInstrument orderParams =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     orderParams.setCurrencyPair(PAIR);
     OpenOrders openOrders = tradeService.getOpenOrders(orderParams);
     Optional<? extends Order> found =

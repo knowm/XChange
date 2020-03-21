@@ -25,8 +25,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -145,7 +145,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     // given
     final BleutradeCurrenciesReturn currenciesResponse = parse(BleutradeCurrenciesReturn.class);
     final BleutradeMarketsReturn marketsResponse = parse(BleutradeMarketsReturn.class);
-    final CurrencyPairMetaData[] expectedMetaDataList = expectedMetaDataList();
+    final InstrumentMetaData[] expectedMetaDataList = expectedMetaDataList();
     final String[] expectedMetaDataStr = expectedMetaDataStr();
 
     // when
@@ -159,7 +159,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula

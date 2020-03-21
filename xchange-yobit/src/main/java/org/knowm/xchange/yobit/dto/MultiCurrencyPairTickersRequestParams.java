@@ -15,7 +15,7 @@ public class MultiCurrencyPairTickersRequestParams implements TickersRequestPara
     this.currencyPairs = currencyPairs;
   }
 
-  public Collection<CurrencyPair> getCurrencyPairs() {
+  public Collection<CurrencyPair> getInstruments() {
     return currencyPairs;
   }
 }

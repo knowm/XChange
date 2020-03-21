@@ -20,12 +20,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
 import org.knowm.xchange.liqui.dto.account.LiquiAccountInfo;
 import org.knowm.xchange.liqui.dto.marketdata.LiquiDepth;
@@ -200,7 +201,7 @@ public class LiquiAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(final Map<String, LiquiPairInfo> infos) {
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    final Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     final Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     for (final Map.Entry<String, LiquiPairInfo> entry : infos.entrySet()) {
@@ -210,8 +211,7 @@ public class LiquiAdapters {
       final BigDecimal maxAmount = entry.getValue().getMaxAmount();
       final int priceScale = entry.getValue().getDecimalPlaces();
 
-      currencyPairs.put(
-          pair, new CurrencyPairMetaData(fee, minAmount, maxAmount, priceScale, null));
+      currencyPairs.put(pair, new InstrumentMetaData(fee, minAmount, maxAmount, priceScale, null));
 
       if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
 

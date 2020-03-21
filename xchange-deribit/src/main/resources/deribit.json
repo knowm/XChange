@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/PERPETUAL": {
       "price_scale": 4,
       "min_amount": 1

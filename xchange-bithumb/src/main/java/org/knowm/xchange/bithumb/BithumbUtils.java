@@ -6,6 +6,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public final class BithumbUtils {
 
@@ -13,11 +14,15 @@ public final class BithumbUtils {
     // not called
   }
 
-  public static String getBaseCurrency(@Nullable CurrencyPair currencyPair) {
-    return Optional.ofNullable(currencyPair)
-        .map(c -> c.base)
-        .map(Currency::getCurrencyCode)
-        .orElse(null);
+  public static String getBaseCurrency(@Nullable Instrument instrument) {
+    if (instrument instanceof CurrencyPair) {
+      CurrencyPair currencyPair = (CurrencyPair) instrument;
+      return Optional.ofNullable(currencyPair)
+          .map(c -> c.base)
+          .map(Currency::getCurrencyCode)
+          .orElse(null);
+    }
+    return null;
   }
 
   public static String getCounterCurrency() {

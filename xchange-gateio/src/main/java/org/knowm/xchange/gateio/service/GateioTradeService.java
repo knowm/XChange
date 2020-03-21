@@ -1,6 +1,7 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -14,10 +15,11 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -41,7 +43,11 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     GateioOpenOrders openOrders = super.getGateioOpenOrders();
-    Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
+    Collection<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    Collection<Instrument> instruments = exchange.getExchangeSymbols();
+    for (Instrument instrument : instruments) {
+      if (instrument instanceof CurrencyPair) currencyPairs.add((CurrencyPair) instrument);
+    }
 
     return GateioAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }
@@ -87,21 +93,21 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
     }
   }
 
-  /** Required parameter: {@link TradeHistoryParamCurrencyPair} */
+  /** Required parameter: {@link TradeHistoryParamInstrument} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params)
       throws ExchangeException, IOException {
 
-    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     List<GateioTrade> userTrades = getGateioTradeHistory(pair).getTrades();
 
     return GateioAdapters.adaptUserTrades(userTrades);
   }
 
   @Override
-  public TradeHistoryParamCurrencyPair createTradeHistoryParams() {
+  public TradeHistoryParamInstrument createTradeHistoryParams() {
 
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   @Override

@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/BTCCHINA_CNY": {
       "price_scale": 2
     },

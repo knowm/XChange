@@ -1,5 +1,5 @@
 {
-  "currency_pairs" : {
+  "instruments" : {
     "BIX/BTC" : { },
     "SBTC/BTC" : { },
     "WAX/ETH" : { },

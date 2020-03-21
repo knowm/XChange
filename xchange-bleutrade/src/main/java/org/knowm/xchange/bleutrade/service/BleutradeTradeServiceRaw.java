@@ -14,7 +14,7 @@ import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import si.mazi.rescu.IRestProxyFactory;
@@ -132,8 +132,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       limit = tradeHistoryParamLimit.getLimit();
     }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
 
       if (currencyPair != null) market = toMarket(currencyPair);
     }

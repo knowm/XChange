@@ -18,10 +18,11 @@ import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiLimitOrder;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -92,7 +93,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   /**
-   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can
+   * @param params Implementation of {@link TradeHistoryParamInstrument} is mandatory. Can
    *     optionally implement {@link TradeHistoryParamPaging} and {@link
    *     TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be
    *     ignored.
@@ -101,11 +102,11 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     final String symbol;
-    if (params instanceof TradeHistoryParamCurrencyPair
-        && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+    if (params instanceof TradeHistoryParamInstrument
+        && ((TradeHistoryParamInstrument) params).getCurrencyPair() != null) {
       symbol =
           GeminiAdapters.adaptCurrencyPair(
-              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+              ((TradeHistoryParamInstrument) params).getCurrencyPair());
     } else {
       // Exchange will return the errors below if CurrencyPair is not provided.
       // field not on request: "Key symbol was not present."
@@ -162,12 +163,12 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   }
 
   public static class GeminiTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
-    private CurrencyPair currencyPair;
+      implements TradeHistoryParamInstrument, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
+    private Instrument currencyPair;
     private Integer limit;
     private Date startTime;
 
-    public GeminiTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date startTime) {
+    public GeminiTradeHistoryParams(Instrument currencyPair, Integer limit, Date startTime) {
       this.currencyPair = currencyPair;
       this.limit = limit;
       this.startTime = startTime;
@@ -176,12 +177,12 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     public GeminiTradeHistoryParams() {}
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setInstrument(Instrument currencyPair) {
       this.currencyPair = currencyPair;
     }
 

@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "ETH/BTC": {
       "price_scale": 8,
       "trading_fee": 0.002

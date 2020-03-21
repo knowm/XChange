@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "ETH/WOP": {
       "min_amount": 0.01000000,
       "price_scale": 0

@@ -23,13 +23,13 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted.Order;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class DragonexTradeService extends DragonexTradeServiceRaw implements TradeService {
@@ -45,10 +45,10 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
+    if (!(params instanceof OpenOrdersParamInstrument)) {
       throw new ExchangeException("You need to provide the currency pair.");
     }
-    OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+    OpenOrdersParamInstrument pairParams = (OpenOrdersParamInstrument) params;
     if (pairParams.getCurrencyPair() == null) {
       throw new ExchangeException("You need to provide the currency pair.");
     }
@@ -113,10 +113,10 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new ExchangeException("You need to provide the currency pair.");
     }
-    TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
+    TradeHistoryParamInstrument pairParams = (TradeHistoryParamInstrument) params;
     CurrencyPair pair = pairParams.getCurrencyPair();
     if (pair == null) {
       throw new ExchangeException("You need to provide the currency pair.");
@@ -152,11 +152,11 @@ public class DragonexTradeService extends DragonexTradeServiceRaw implements Tra
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 }

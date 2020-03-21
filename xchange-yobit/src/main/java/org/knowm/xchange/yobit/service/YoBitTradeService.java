@@ -15,14 +15,14 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.yobit.YoBitAdapters;
@@ -36,8 +36,8 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      BaseYoBitResponse response = activeOrders((OpenOrdersParamCurrencyPair) params);
+    if (params instanceof OpenOrdersParamInstrument) {
+      BaseYoBitResponse response = activeOrders((OpenOrdersParamInstrument) params);
 
       List<LimitOrder> orders = new ArrayList<>();
 
@@ -94,8 +94,8 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
     }
 
     String market = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       market = YoBitAdapters.adaptCcyPairToUrlFormat(currencyPair);
     }
 

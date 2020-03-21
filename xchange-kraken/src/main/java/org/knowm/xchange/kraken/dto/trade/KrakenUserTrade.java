@@ -3,9 +3,9 @@ package org.knowm.xchange.kraken.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 public class KrakenUserTrade extends UserTrade {
 
@@ -14,7 +14,7 @@ public class KrakenUserTrade extends UserTrade {
   public KrakenUserTrade(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal price,
       Date timestamp,
       String id,
@@ -25,7 +25,7 @@ public class KrakenUserTrade extends UserTrade {
     super(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         price,
         timestamp,
         id,
@@ -70,7 +70,7 @@ public class KrakenUserTrade extends UserTrade {
           new KrakenUserTrade(
               type,
               originalAmount,
-              currencyPair,
+              instrument,
               price,
               timestamp,
               id,

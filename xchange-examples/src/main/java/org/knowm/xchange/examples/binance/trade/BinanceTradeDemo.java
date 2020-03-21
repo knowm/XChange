@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.binance.BinanceDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.utils.StreamUtils;
 
 public class BinanceTradeDemo {
@@ -28,7 +28,7 @@ public class BinanceTradeDemo {
     TradeService tradeService = exchange.getTradeService();
 
     // Get open orders
-    OpenOrders orders = tradeService.getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
+    OpenOrders orders = tradeService.getOpenOrders(new DefaultOpenOrdersParamInstrument(pair));
     LimitOrder order = orders.getOpenOrders().stream().collect(StreamUtils.singletonCollector());
     if (order != null) {
       System.out.println(order);

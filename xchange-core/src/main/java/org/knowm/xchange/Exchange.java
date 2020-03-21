@@ -2,9 +2,9 @@ package org.knowm.xchange;
 
 import java.io.IOException;
 import java.util.List;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
@@ -38,7 +38,7 @@ public interface Exchange {
    *
    * @return The exchange's symbols
    */
-  List<CurrencyPair> getExchangeSymbols();
+  List<Instrument> getExchangeSymbols();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is

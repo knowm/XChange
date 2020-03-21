@@ -20,10 +20,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeService extends BittrexTradeServiceRaw implements TradeService {
@@ -100,9 +100,9 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
       CurrencyPair currencyPair = null;
-      if (params instanceof TradeHistoryParamCurrencyPair) {
-        TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair =
-            (TradeHistoryParamCurrencyPair) params;
+      if (params instanceof TradeHistoryParamInstrument) {
+        TradeHistoryParamInstrument tradeHistoryParamCurrencyPair =
+            (TradeHistoryParamInstrument) params;
         currencyPair = tradeHistoryParamCurrencyPair.getCurrencyPair();
       }
 
@@ -116,12 +116,12 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

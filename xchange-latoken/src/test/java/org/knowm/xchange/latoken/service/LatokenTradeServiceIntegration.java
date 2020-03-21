@@ -15,7 +15,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.latoken.LatokenExchange;
 import org.knowm.xchange.latoken.dto.trade.LatokenOrderSide;
 import org.knowm.xchange.latoken.dto.trade.LatokenTestOrder;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +42,8 @@ public class LatokenTradeServiceIntegration {
   @Test
   public void openOrders() throws Exception {
 
-    DefaultOpenOrdersParamCurrencyPair params =
-        (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    DefaultOpenOrdersParamInstrument params =
+        (DefaultOpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
     List<LimitOrder> orders = tradeService.getOpenOrders(params).getOpenOrders();
     orders.forEach(order -> System.out.println(order));
@@ -73,8 +73,8 @@ public class LatokenTradeServiceIntegration {
     System.out.println(newOrderId);
 
     // Check open orders
-    DefaultOpenOrdersParamCurrencyPair params =
-        (DefaultOpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    DefaultOpenOrdersParamInstrument params =
+        (DefaultOpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     params.setCurrencyPair(CurrencyPair.ETH_BTC);
     List<LimitOrder> openOrders = tradeService.getOpenOrders(params).getOpenOrders();
     System.out.println(openOrders);

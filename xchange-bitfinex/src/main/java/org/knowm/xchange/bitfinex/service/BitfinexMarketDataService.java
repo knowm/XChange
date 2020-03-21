@@ -22,7 +22,7 @@ import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
@@ -237,8 +237,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
     try {
 
       BitfinexTicker[] bitfinexTickers =
-          params instanceof CurrencyPairsParam
-              ? getBitfinexTickers(((CurrencyPairsParam) params).getCurrencyPairs())
+          params instanceof InstrumentParam
+              ? getBitfinexTickers(((InstrumentParam) params).getCurrencyPairs())
               : getBitfinexTickers(null);
 
       return Arrays.stream(bitfinexTickers)

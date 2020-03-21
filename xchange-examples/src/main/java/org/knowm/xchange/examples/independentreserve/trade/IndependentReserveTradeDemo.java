@@ -11,7 +11,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 
 /** Author: Kamil Zbikowski Date: 4/14/15 */
 public class IndependentReserveTradeDemo {
@@ -53,8 +53,8 @@ public class IndependentReserveTradeDemo {
   static void printOpenOrders(TradeService tradeService) throws IOException, InterruptedException {
     // IR API caches data for some time, so we can get the same set of orders as we saw before
     TimeUnit.SECONDS.sleep(1);
-    final OpenOrdersParamCurrencyPair params =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamInstrument params =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     OpenOrders openOrders = tradeService.getOpenOrders(params);
     System.out.printf("All open Orders: %s%n", openOrders);
 

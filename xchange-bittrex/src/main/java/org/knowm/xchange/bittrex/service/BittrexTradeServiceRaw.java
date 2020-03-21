@@ -11,7 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeServiceRaw extends BittrexBaseService {
@@ -80,8 +80,8 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public List<BittrexOpenOrder> getBittrexOpenOrders(OpenOrdersParams params) throws IOException {
     String ccyPair = null;
 
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof OpenOrdersParamInstrument) {
+      CurrencyPair currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
       if (currencyPair != null) {
         ccyPair = BittrexUtils.toPairString(currencyPair);
       }

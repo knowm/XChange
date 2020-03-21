@@ -16,7 +16,7 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 public class GateioMarketDataService extends GateioMarketDataServiceRaw
@@ -45,8 +45,8 @@ public class GateioMarketDataService extends GateioMarketDataServiceRaw
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
     final List<CurrencyPair> currencyPairs = new ArrayList<>();
-    if (params instanceof CurrencyPairsParam) {
-      currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
+    if (params instanceof InstrumentParam) {
+      currencyPairs.addAll(((InstrumentParam) params).getCurrencyPairs());
     }
     return getGateioTickers().values().stream()
         .filter(

@@ -1,11 +1,12 @@
 package org.knowm.xchange.binance.service;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 
-public class BinanceQueryOrderParams implements OrderQueryParamCurrencyPair {
+public class BinanceQueryOrderParams implements OrderQueryParamInstrument {
   private String orderId;
-  private CurrencyPair pair;
+  private Instrument pair;
 
   public BinanceQueryOrderParams() {}
 
@@ -15,12 +16,12 @@ public class BinanceQueryOrderParams implements OrderQueryParamCurrencyPair {
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 

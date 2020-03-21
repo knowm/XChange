@@ -18,6 +18,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.luno.LunoUtil;
 import org.knowm.xchange.luno.dto.LunoBoolean;
 import org.knowm.xchange.luno.dto.trade.LunoPostOrder;
@@ -26,7 +27,7 @@ import org.knowm.xchange.luno.dto.trade.State;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -145,10 +146,10 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   public UserTrades getTradeHistory(TradeHistoryParams params)
       throws ExchangeException, IOException {
 
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new ExchangeException("THe currency pair is mandatory in order to get user trades.");
     }
-    CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     Long since = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       since = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
@@ -194,9 +195,9 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
   }
 
   public static class LunoTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
+      implements TradeHistoryParamInstrument, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
 
-    CurrencyPair pair;
+    Instrument pair;
     private Date startTime;
     private Date endTime;
     private Integer limit;
@@ -232,12 +233,12 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return pair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setInstrument(Instrument pair) {
       this.pair = pair;
     }
   }

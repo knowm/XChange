@@ -1,15 +1,15 @@
 package org.knowm.xchange.bithumb.service;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 
 public class BithumbTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+    implements TradeHistoryParamInstrument, TradeHistoryParamPaging {
 
   private Integer pageLength;
   private Integer pageNumber;
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
 
   @Override
   public Integer getPageLength() {
@@ -32,12 +32,12 @@ public class BithumbTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.currencyPair = pair;
   }
 }

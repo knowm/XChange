@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
@@ -117,7 +117,7 @@ public class SimulatedExchange extends BaseExchange {
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {
-    CurrencyPairMetaData currencyPairMetaData =
+    InstrumentMetaData currencyPairMetaData =
         getExchangeMetaData().getCurrencyPairs().get(currencyPair);
     if (currencyPairMetaData == null) {
       throw new CurrencyPairNotValidException(

@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "GUM/BTC": {
       "trading_fee": 0.2,
       "min_amount": 0.00010,

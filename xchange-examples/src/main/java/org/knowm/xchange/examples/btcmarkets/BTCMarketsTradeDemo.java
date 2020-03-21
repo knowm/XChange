@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 
 public class BTCMarketsTradeDemo {
 
@@ -17,8 +17,8 @@ public class BTCMarketsTradeDemo {
     Exchange btcMarketsExchange = BTCMarketsExampleUtils.createTestExchange();
     TradeService tradeService = btcMarketsExchange.getTradeService();
 
-    final OpenOrdersParamCurrencyPair openOrdersParams =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamInstrument openOrdersParams =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     openOrdersParams.setCurrencyPair(CurrencyPair.BTC_AUD);
     System.out.println("Open Orders: " + tradeService.getOpenOrders(openOrdersParams));
 

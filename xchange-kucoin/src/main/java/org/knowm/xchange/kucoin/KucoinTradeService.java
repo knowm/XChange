@@ -16,8 +16,8 @@ import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.kucoin.dto.response.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +46,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     String symbol = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+    if (params instanceof OpenOrdersParamInstrument) {
+      OpenOrdersParamInstrument pairParams = (OpenOrdersParamInstrument) params;
       symbol = KucoinAdapters.adaptCurrencyPair(pairParams.getCurrencyPair());
     }
     return convertOpenOrders(
@@ -62,7 +62,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     int page = 1;
 
     if (tradeHistoryParams != null) {
-      TradeHistoryParamCurrencyPair params = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
+      TradeHistoryParamInstrument params = (TradeHistoryParamInstrument) tradeHistoryParams;
       symbol = KucoinAdapters.adaptCurrencyPair(params.getCurrencyPair());
 
       if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
@@ -170,8 +170,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrdersParamCurrencyPair createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+  public OpenOrdersParamInstrument createOpenOrdersParams() {
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

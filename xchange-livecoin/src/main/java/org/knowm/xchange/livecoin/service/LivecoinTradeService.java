@@ -30,9 +30,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class LivecoinTradeService extends LivecoinTradeServiceRaw implements TradeService {
@@ -110,8 +110,8 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     try {
       CurrencyPair pair = null;
-      if (params instanceof OpenOrdersParamCurrencyPair) {
-        pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof OpenOrdersParamInstrument) {
+        pair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
       }
       LivecoinPaginatedResponse<LivecoinUserOrder> response =
           clientOrders(pair, "OPEN", null, null, null, null);
@@ -166,8 +166,8 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
       List<Order> result = new ArrayList<>();
       for (OrderQueryParams param : params) {
         CurrencyPair pair = null;
-        if (param instanceof OrderQueryParamCurrencyPair) {
-          pair = ((OrderQueryParamCurrencyPair) param).getCurrencyPair();
+        if (param instanceof OrderQueryParamInstrument) {
+          pair = ((OrderQueryParamInstrument) param).getCurrencyPair();
         }
         LivecoinPaginatedResponse<LivecoinUserOrder> response =
             clientOrders(pair, null, null, null, null, null);

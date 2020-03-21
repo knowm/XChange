@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/GBP": {
       "price_scale": 0,
       "min_amount": 0.00010000

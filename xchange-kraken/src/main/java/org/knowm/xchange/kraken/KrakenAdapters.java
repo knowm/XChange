@@ -27,15 +27,16 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
@@ -313,7 +314,7 @@ public class KrakenAdapters {
       Map<String, KrakenAssetPair> krakenPairs,
       Map<String, KrakenAsset> krakenAssets) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
     // add assets before pairs to Utils!
     KrakenUtils.setKrakenAssets(krakenAssets);
     KrakenUtils.setKrakenAssetPairs(krakenPairs);
@@ -408,17 +409,17 @@ public class KrakenAdapters {
     return resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]);
   }
 
-  private static CurrencyPairMetaData adaptPair(
-      KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+  private static InstrumentMetaData adaptPair(
+      KrakenAssetPair krakenPair, InstrumentMetaData OriginalMeta) {
     if (OriginalMeta != null) {
-      return new CurrencyPairMetaData(
+      return new InstrumentMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
           krakenPair.getPairScale(),
           adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
     } else {
-      return new CurrencyPairMetaData(
+      return new InstrumentMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           null,
           null,

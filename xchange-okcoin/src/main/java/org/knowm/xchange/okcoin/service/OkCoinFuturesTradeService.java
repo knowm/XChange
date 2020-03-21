@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okcoin.FuturesContract;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.OkCoinUtils;
@@ -34,11 +35,11 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,16 +76,17 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     // TODO use params for currency pair
-    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
+    List<Instrument> exchangeSymbols = exchange.getExchangeSymbols();
 
     List<OkCoinFuturesOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
-      CurrencyPair symbol = exchangeSymbols.get(i);
+      Instrument symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
 
       OkCoinFuturesOrderResult orderResult =
-          getFuturesOrder(-1, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
+          getFuturesOrder(
+              -1, OkCoinAdapters.adaptSymbol((CurrencyPair) symbol), "0", "50", futuresContract);
       if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
@@ -193,9 +195,10 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public boolean cancelOrder(String orderId) throws IOException {
 
     boolean ret = false;
-    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+    for (Instrument symbol : exchange.getExchangeSymbols()) {
       for (FuturesContract futuresContract : getExchangeContracts()) {
-        if (cancelOrder(new OkCoinFuturesCancelOrderParams(symbol, futuresContract, orderId))) {
+        if (cancelOrder(
+            new OkCoinFuturesCancelOrderParams((CurrencyPair) symbol, futuresContract, orderId))) {
           ret = true;
           break;
         }
@@ -347,9 +350,10 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     List<OkCoinFuturesOrderQueryParams> params = new ArrayList<OkCoinFuturesOrderQueryParams>();
 
-    for (CurrencyPair symbol : exchange.getExchangeSymbols()) {
+    for (Instrument symbol : exchange.getExchangeSymbols()) {
       for (String orderId : orderIds) {
-        params.add(new OkCoinFuturesOrderQueryParams(symbol, futuresContract, orderId));
+        params.add(
+            new OkCoinFuturesOrderQueryParams((CurrencyPair) symbol, futuresContract, orderId));
       }
     }
 
@@ -388,8 +392,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   public static final class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
-    private CurrencyPair currencyPair;
+      implements TradeHistoryParamInstrument, TradeHistoryParamFuturesContract {
+    private Instrument currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
     private String date; // "yyyy-MM-dd"
@@ -411,12 +415,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setInstrument(Instrument pair) {
       this.currencyPair = pair;
     }
 
@@ -450,8 +454,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   public static final class OkCoinFuturesOrderQueryParams extends DefaultQueryOrderParam
-      implements OrderQueryParamCurrencyPair, OrderQueryParamFuturesContract {
-    private CurrencyPair currencyPair;
+      implements OrderQueryParamInstrument, OrderQueryParamFuturesContract {
+    private Instrument currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
 
@@ -466,12 +470,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setInstrument(Instrument pair) {
       this.currencyPair = pair;
     }
 

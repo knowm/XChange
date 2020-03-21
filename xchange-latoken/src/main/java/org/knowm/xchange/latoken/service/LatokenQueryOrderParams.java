@@ -1,12 +1,13 @@
 package org.knowm.xchange.latoken.service;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.latoken.dto.trade.LatokenOrderStatus;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 
-public class LatokenQueryOrderParams implements OrderQueryParamCurrencyPair {
+public class LatokenQueryOrderParams implements OrderQueryParamInstrument {
 
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
   private LatokenOrderStatus status;
   private Integer limit;
 
@@ -26,12 +27,12 @@ public class LatokenQueryOrderParams implements OrderQueryParamCurrencyPair {
   public void setOrderId(String orderId) {}
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 

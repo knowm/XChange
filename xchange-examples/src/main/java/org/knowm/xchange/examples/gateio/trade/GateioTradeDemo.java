@@ -17,7 +17,7 @@ import org.knowm.xchange.gateio.dto.trade.GateioOrderStatus;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.gateio.service.GateioTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class GateioTradeDemo {
@@ -67,8 +67,7 @@ public class GateioTradeDemo {
     Thread.sleep(2000);
 
     Trades tradeHistory =
-        tradeService.getTradeHistory(
-            new DefaultTradeHistoryParamCurrencyPair(CurrencyPair.LTC_BTC));
+        tradeService.getTradeHistory(new DefaultTradeHistoryParamInstrument(CurrencyPair.LTC_BTC));
     System.out.println(tradeHistory);
   }
 

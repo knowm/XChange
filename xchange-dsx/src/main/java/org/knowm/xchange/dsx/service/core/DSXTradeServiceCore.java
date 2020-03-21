@@ -26,13 +26,13 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -145,8 +145,8 @@ public class DSXTradeServiceCore<T extends DSXAuthenticatedV2> extends DSXTradeS
       end = DateUtils.toMillisNullSafe(timeParams.getEndTime());
     }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       if (pair != null) {
         dsxpair = DSXAdapters.currencyPairToMarketName(pair);
       }
@@ -176,7 +176,7 @@ public class DSXTradeServiceCore<T extends DSXAuthenticatedV2> extends DSXTradeS
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   public Map<Long, DSXTransHistoryResult> getTransHistory(DSXTransHistoryParams params)

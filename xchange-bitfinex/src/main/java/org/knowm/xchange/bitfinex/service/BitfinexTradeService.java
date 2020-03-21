@@ -13,12 +13,25 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -164,7 +177,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   /**
-   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can
+   * @param params Implementation of {@link TradeHistoryParamInstrument} is mandatory. Can
    *     optionally implement {@link TradeHistoryParamPaging} and {@link
    *     TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be
    *     ignored.
@@ -173,11 +186,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
       String symbol = null;
-      if (params instanceof TradeHistoryParamCurrencyPair
-          && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+      if (params instanceof TradeHistoryParamInstrument
+          && ((TradeHistoryParamInstrument) params).getCurrencyPair() != null) {
         symbol =
             BitfinexAdapters.adaptCurrencyPair(
-                ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+                ((TradeHistoryParamInstrument) params).getCurrencyPair());
       }
 
       Long startTime = 0L;
@@ -251,22 +264,22 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsSorted {
+      implements TradeHistoryParamInstrument, TradeHistoryParamLimit, TradeHistoryParamsSorted {
 
-    private CurrencyPair pair;
+    private Instrument pair;
     private Integer limit;
     private Order order;
 
     public BitfinexTradeHistoryParams() {}
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
 
       return pair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
+    public void setInstrument(Instrument pair) {
 
       this.pair = pair;
     }

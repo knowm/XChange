@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
+import org.knowm.xchange.instrument.Instrument;
 
 public class ANXMetaData extends ExchangeMetaData {
 
@@ -19,7 +19,7 @@ public class ANXMetaData extends ExchangeMetaData {
   private final BigDecimal takerTradingFee;
 
   public ANXMetaData(
-      @JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
+      @JsonProperty("instruments") Map<Instrument, InstrumentMetaData> instruments,
       @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currencies,
       @JsonProperty("public_rate_limits") RateLimit[] publicRateLimits,
       @JsonProperty("private_rate_limits") RateLimit[] privateRateLimits,
@@ -27,7 +27,7 @@ public class ANXMetaData extends ExchangeMetaData {
       @JsonProperty("maker_trading_fee") BigDecimal makerTradingFee,
       @JsonProperty("taker_trading_fee") BigDecimal takerTradingFee) {
 
-    super(currencyPairs, currencies, publicRateLimits, privateRateLimits, shareRateLimits);
+    super(instruments, currencies, publicRateLimits, privateRateLimits, shareRateLimits);
 
     this.makerTradingFee = makerTradingFee;
     this.takerTradingFee = takerTradingFee;

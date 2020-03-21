@@ -5,7 +5,11 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bx.dto.account.BxBalance;
 import org.knowm.xchange.bx.dto.marketdata.BxAssetPair;
 import org.knowm.xchange.bx.dto.marketdata.BxTicker;
@@ -19,13 +23,14 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BxAdapters {
@@ -37,10 +42,10 @@ public class BxAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(Map<String, BxAssetPair> assetPairs) {
     BxUtils.setBxAssetPairs(assetPairs);
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
     for (String id : assetPairs.keySet()) {
       if (assetPairs.get(id).isActive()) {
-        pairs.put(adaptCurrencyPair(id), adaptCurrencyPairMetaData(assetPairs.get(id)));
+        pairs.put(adaptCurrencyPair(id), adaptInstrumentMetaData(assetPairs.get(id)));
       }
     }
     return new ExchangeMetaData(pairs, BxUtils.getCurrencies(), null, null, false);
@@ -50,8 +55,8 @@ public class BxAdapters {
     return BxUtils.translateBxCurrencyPair(pairId);
   }
 
-  private static CurrencyPairMetaData adaptCurrencyPairMetaData(BxAssetPair assetPair) {
-    return new CurrencyPairMetaData(null, assetPair.getPrimaryMin(), null, 0, null);
+  private static InstrumentMetaData adaptInstrumentMetaData(BxAssetPair assetPair) {
+    return new InstrumentMetaData(null, assetPair.getPrimaryMin(), null, 0, null);
   }
 
   public static Ticker adaptTicker(BxTicker bxTicker, SynchronizedValueFactory<Long> nonce) {

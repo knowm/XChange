@@ -21,7 +21,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /** Author: brox Since: 2/6/14 */
@@ -46,8 +46,8 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
     List<CexIOOrder> cexIOOrderList;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      cexIOOrderList = getCexIOOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
+    if (params instanceof OpenOrdersParamInstrument) {
+      cexIOOrderList = getCexIOOpenOrders(((OpenOrdersParamInstrument) params).getCurrencyPair());
     } else {
       cexIOOrderList = getCexIOOpenOrders();
     }
@@ -126,7 +126,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
-    // TODO: return new DefaultOpenOrdersParamCurrencyPair();
+    // TODO: return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

@@ -10,8 +10,8 @@ import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public final class CoindealTradeService extends CoindealTradeServiceRaw implements TradeService {
@@ -33,7 +33,7 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new IOException(
           "TradeHistoryParams must implement TradeHistoryParam class with currencyPair support!");
     }
@@ -43,14 +43,14 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
     return CoindealAdapters.adaptToUserTrades(
-        getCoindealTradeHistory(((TradeHistoryParamCurrencyPair) params).getCurrencyPair(), limit));
+        getCoindealTradeHistory(((TradeHistoryParamInstrument) params).getCurrencyPair(), limit));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (params instanceof OpenOrdersParamCurrencyPair) {
+    if (params instanceof OpenOrdersParamInstrument) {
       return CoindealAdapters.adaptToOpenOrders(
-          getCoindealActiveOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair()));
+          getCoindealActiveOrders(((OpenOrdersParamInstrument) params).getCurrencyPair()));
     } else {
       throw new ExchangeException("Currency pair required!");
     }
@@ -64,7 +64,7 @@ public final class CoindealTradeService extends CoindealTradeServiceRaw implemen
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

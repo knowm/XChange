@@ -7,8 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
-import org.knowm.xchange.coinbasepro.dto.marketdata.*;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
 @Slf4j
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
@@ -165,14 +172,17 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   public boolean checkProductExists(CurrencyPair currencyPair) {
 
     boolean currencyPairSupported = false;
-    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-          && cp.counter
-              .getCurrencyCode()
-              .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+    for (Instrument ins : exchange.getExchangeSymbols()) {
+      if (ins instanceof CurrencyPair) {
+        CurrencyPair cp = (CurrencyPair) ins;
+        if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
+            && cp.counter
+                .getCurrencyCode()
+                .equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
 
-        currencyPairSupported = true;
-        break;
+          currencyPairSupported = true;
+          break;
+        }
       }
     }
 

@@ -2,19 +2,20 @@ package org.knowm.xchange.binance.service;
 
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class BinanceTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair,
+    implements TradeHistoryParamInstrument,
         TradeHistoryParamLimit,
         TradeHistoryParamsIdSpan,
         TradeHistoryParamsTimeSpan {
 
   /** mandatory */
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
   /** optional */
   private Integer limit;
   /** optional */
@@ -32,11 +33,11 @@ public class BinanceTradeHistoryParams
 
   public BinanceTradeHistoryParams() {}
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 

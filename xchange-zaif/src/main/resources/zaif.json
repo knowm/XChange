@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "ETH/JPY": { },
     "BCH/JPY": { },
     "ETH/BTC": { },

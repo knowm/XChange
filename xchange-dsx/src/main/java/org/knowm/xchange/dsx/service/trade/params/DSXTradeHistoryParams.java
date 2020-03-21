@@ -1,8 +1,8 @@
 package org.knowm.xchange.dsx.service.trade.params;
 
 import java.util.Date;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
@@ -11,7 +11,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 public class DSXTradeHistoryParams
     implements TradeHistoryParamsIdSpan,
         TradeHistoryParamsTimeSpan,
-        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamInstrument,
         TradeHistoryParamsSorted,
         TradeHistoryParamLimit {
   private String startId;
@@ -20,7 +20,7 @@ public class DSXTradeHistoryParams
   private Date endTime;
   private Order order;
   private Integer limit;
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
 
   @Override
   public Integer getLimit() {
@@ -83,12 +83,12 @@ public class DSXTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 }

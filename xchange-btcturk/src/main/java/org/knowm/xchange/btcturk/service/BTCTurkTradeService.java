@@ -21,7 +21,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /** @author mertguner */
@@ -40,7 +40,7 @@ public class BTCTurkTradeService extends BTCTurkTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     List<BTCTurkOpenOrders> openOrdersRaw =
-        super.getBTCTurkOpenOrders(((DefaultOpenOrdersParamCurrencyPair) params).getCurrencyPair());
+        super.getBTCTurkOpenOrders(((DefaultOpenOrdersParamInstrument) params).getCurrencyPair());
     return BTCTurkAdapters.adaptOpenOrders(openOrdersRaw);
   }
 

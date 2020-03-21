@@ -99,8 +99,8 @@ public class CryptonitAccountService extends CryptonitAccountServiceRaw implemen
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
     if (params instanceof TradeHistoryParamOffset) {
       offset = ((TradeHistoryParamOffset) params).getOffset();

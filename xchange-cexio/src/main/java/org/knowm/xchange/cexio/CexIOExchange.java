@@ -10,7 +10,7 @@ import org.knowm.xchange.cexio.service.CexIOAccountService;
 import org.knowm.xchange.cexio.service.CexIOMarketDataService;
 import org.knowm.xchange.cexio.service.CexIOTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -48,18 +48,18 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     final CexIOCurrencyLimits currencyLimits =
         ((CexIOMarketDataService) this.marketDataService).getCurrencyLimits();
     // Working with the live map so the changes reflect
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    final Map<CurrencyPair, InstrumentMetaData> currencyPairs =
         getExchangeMetaData().getCurrencyPairs();
 
     for (CexIOCurrencyLimits.Pair pair : currencyLimits.getData().getPairs()) {
       CurrencyPair currencyPair = new CurrencyPair(pair.getSymbol1(), pair.getSymbol2());
-      CurrencyPairMetaData metaData =
-          new CurrencyPairMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null, null);
+      InstrumentMetaData metaData =
+          new InstrumentMetaData(null, pair.getMinLotSize(), pair.getMaxLotSize(), null, null);
       currencyPairs.merge(
           currencyPair,
           metaData,
           (oldMetaData, newMetaData) ->
-              new CurrencyPairMetaData(
+              new InstrumentMetaData(
                   // trading fee is not present in this response. using the previous values.
                   oldMetaData.getTradingFee(),
                   newMetaData.getMinimumAmount(),

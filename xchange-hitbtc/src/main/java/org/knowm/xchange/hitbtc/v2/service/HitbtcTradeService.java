@@ -18,7 +18,7 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
@@ -63,7 +63,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
   }
 
-  /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair} */
+  /** Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamInstrument} */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -80,8 +80,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
 
     String symbol = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       symbol = HitbtcAdapters.adaptCurrencyPair(pair);
     }
 
@@ -107,14 +107,14 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
     Collection<Order> orders = new ArrayList<>();
     for (OrderQueryParams param : orderQueryParams) {
-      if (!(param instanceof OrderQueryParamCurrencyPair)) {
+      if (!(param instanceof OrderQueryParamInstrument)) {
         throw new ExchangeException(
             "Parameters must be an instance of OrderQueryParamCurrencyPair");
       }
       HitbtcOrder rawOrder =
           getHitbtcOrder(
               HitbtcAdapters.adaptCurrencyPair(
-                  ((OrderQueryParamCurrencyPair) param).getCurrencyPair()),
+                  ((OrderQueryParamInstrument) param).getCurrencyPair()),
               param.getOrderId());
 
       if (rawOrder != null) orders.add(HitbtcAdapters.adaptOrder(rawOrder));

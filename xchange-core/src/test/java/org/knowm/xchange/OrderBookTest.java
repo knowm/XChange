@@ -85,12 +85,13 @@ public class OrderBookTest {
   public void testUpdateRemoveSingleOrder() {
 
     Date timeStamp = new Date(0);
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
-        .originalAmount(BigDecimal.ONE)
-        .limitPrice(BigDecimal.TEN)
-        .timestamp(timeStamp)
-        .cumulativeAmount(BigDecimal.ONE) // remaining amount is now 0
-        .build();
+    LimitOrder limitOrder =
+        new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD)
+            .originalAmount(BigDecimal.ONE)
+            .limitPrice(BigDecimal.TEN)
+            .timestamp(timeStamp)
+            .cumulativeAmount(BigDecimal.ONE) // remaining amount is now 0
+            .build();
     orderBook.update(limitOrder);
     assertThat(orderBook.getBids().size()).isEqualTo(0);
   }

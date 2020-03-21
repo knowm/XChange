@@ -56,34 +56,34 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
+    if (!(params instanceof OpenOrdersParamInstrument)) {
       throw new ExchangeException("Currency pair required");
     }
     MatchingEngine engine =
-        exchange.getEngine(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
+        exchange.getEngine(((OpenOrdersParamInstrument) params).getCurrencyPair());
     exchange.maybeThrow();
     return new OpenOrders(engine.openOrders(getApiKey()));
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new ExchangeException("Currency pair required");
     }
     MatchingEngine engine =
-        exchange.getEngine(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+        exchange.getEngine(((TradeHistoryParamInstrument) params).getCurrencyPair());
     exchange.maybeThrow();
     return new UserTrades(engine.tradeHistory(getApiKey()), TradeSortType.SortByTimestamp);
   }
 
   @Override
-  public OpenOrdersParamCurrencyPair createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+  public OpenOrdersParamInstrument createOpenOrdersParams() {
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
-  public TradeHistoryParamCurrencyPair createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+  public TradeHistoryParamInstrument createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   private String getApiKey() {
@@ -119,11 +119,11 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
     return Arrays.stream(orderQueryParams)
         .map(
             p -> {
-              if (!(p instanceof OrderQueryParamCurrencyPair))
+              if (!(p instanceof OrderQueryParamInstrument))
                 throw new NotYetImplementedForExchangeException();
 
               MatchingEngine engine =
-                  exchange.getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair());
+                  exchange.getEngine(((OrderQueryParamInstrument) p).getCurrencyPair());
 
               Optional<LimitOrder> first =
                   engine.openOrders(getApiKey()).stream()

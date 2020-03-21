@@ -25,7 +25,7 @@ import org.knowm.xchange.lgo.dto.trade.LgoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -76,10 +76,10 @@ public class LgoTradeService extends LgoTradeServiceRaw implements TradeService 
   }
 
   private CurrencyPair getProductId(TradeHistoryParams params) {
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       return null;
     }
-    return ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    return ((TradeHistoryParamInstrument) params).getCurrencyPair();
   }
 
   private int getMaxResults(TradeHistoryParams params) {

@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinTradeResult;
@@ -32,11 +33,11 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeService {
@@ -63,11 +64,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) {
-    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
+    if (!(params instanceof OpenOrdersParamInstrument)) {
       throw new UnsupportedOperationException(
           "Getting open orders is only available for a single market.");
     }
-    CurrencyPair symbol = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair symbol = ((OpenOrdersParamInstrument) params).getCurrencyPair();
     OkCoinOrderResult orderResults;
     try {
       // orderId = -1 returns all of the orders on this market
@@ -239,7 +240,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
    * per order basis of how much the order has been filled and the average price. Individual trade
    * details are not available. As a consequence of this, the trades supplied by this method will
    * use the order ID as their trade ID, and will be subject to being amended if a partially filled
-   * order if further filled. Supported parameters are {@link TradeHistoryParamCurrencyPair} and
+   * order if further filled. Supported parameters are {@link TradeHistoryParamInstrument} and
    * {@link TradeHistoryParamPaging}, if not supplied then the query will default to BTC/USD or
    * BTC/CNY (depending on session configuration) and the last 200 trades.
    */
@@ -259,8 +260,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     }
 
     CurrencyPair pair = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
     if (pair == null) {
       pair = useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY;
@@ -283,7 +284,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -323,9 +324,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamCurrencyPair {
+      implements TradeHistoryParamInstrument {
 
-    private CurrencyPair pair;
+    private Instrument pair;
 
     public OkCoinTradeHistoryParams() {}
 
@@ -336,15 +337,13 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
-
+    public Instrument getInstrument() {
       return pair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
+    public void setInstrument(Instrument instrument) {
+      this.pair = instrument;
     }
   }
 

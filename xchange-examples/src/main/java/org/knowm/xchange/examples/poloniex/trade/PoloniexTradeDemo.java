@@ -21,7 +21,7 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
 import org.knowm.xchange.poloniex.service.PoloniexTradeService;
 import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.utils.CertHelper;
 
 /** @author Zach Holmes */
@@ -142,8 +142,8 @@ public class PoloniexTradeDemo {
   private static void printOpenOrders(TradeService tradeService) throws Exception {
     TimeUnit.SECONDS.sleep(2);
 
-    final OpenOrdersParamCurrencyPair params =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamInstrument params =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     OpenOrders openOrders = tradeService.getOpenOrders(params);
     System.out.printf("All open Orders: %s%n", openOrders);
 

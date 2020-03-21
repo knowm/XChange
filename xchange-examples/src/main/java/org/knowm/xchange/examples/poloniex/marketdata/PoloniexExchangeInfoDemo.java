@@ -4,7 +4,7 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.utils.CertHelper;
 
@@ -17,11 +17,11 @@ public class PoloniexExchangeInfoDemo {
 
     Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
 
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    final Map<CurrencyPair, InstrumentMetaData> currencyPairs =
         poloniex.getExchangeMetaData().getCurrencyPairs();
 
     for (CurrencyPair pair : currencyPairs.keySet()) {
-      final CurrencyPairMetaData pairMetaData = currencyPairs.get(pair);
+      final InstrumentMetaData pairMetaData = currencyPairs.get(pair);
       System.out.printf("%s: %s%nn", pair, pairMetaData);
     }
   }

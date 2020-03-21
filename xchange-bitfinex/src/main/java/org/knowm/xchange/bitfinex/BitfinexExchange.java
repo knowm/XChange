@@ -20,6 +20,7 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -67,7 +68,7 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
       // Get the last-price of each pair. It is needed to infer XChange's priceScale out of
       // Bitfinex's pricePercision
 
-      Map<CurrencyPair, BigDecimal> lastPrices =
+      Map<Instrument, BigDecimal> lastPrices =
           Arrays.stream(dataService.getBitfinexTickers(null))
               .map(BitfinexAdapters::adaptTicker)
               .collect(Collectors.toMap(t -> t.getCurrencyPair(), t -> t.getLast()));

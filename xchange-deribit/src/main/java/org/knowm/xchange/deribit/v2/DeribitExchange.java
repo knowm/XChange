@@ -18,7 +18,7 @@ import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataServiceRaw;
 import org.knowm.xchange.deribit.v2.service.DeribitTradeService;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -93,7 +93,7 @@ public class DeribitExchange extends BaseExchange implements Exchange {
         activeDeribitInstrument ->
             collectMetaData(activeDeribitInstrument, activeCurrencyPairs, activeCurrencies));
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> pairsMap = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = exchangeMetaData.getCurrencies();
 
     // Remove pairs that are no-longer in use

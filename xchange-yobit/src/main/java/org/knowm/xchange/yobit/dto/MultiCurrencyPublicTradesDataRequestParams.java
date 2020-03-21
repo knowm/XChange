@@ -15,7 +15,7 @@ public class MultiCurrencyPublicTradesDataRequestParams implements PublicTradesR
     this.currencyPairs = currencyPairs;
   }
 
-  public Collection<CurrencyPair> getCurrencyPairs() {
+  public Collection<CurrencyPair> getInstruments() {
     return currencyPairs;
   }
 }

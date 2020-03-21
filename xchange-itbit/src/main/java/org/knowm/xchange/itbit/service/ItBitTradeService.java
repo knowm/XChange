@@ -23,7 +23,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeService {
@@ -41,8 +41,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof OpenOrdersParamInstrument) {
+      currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
     }
 
     // In case of no currency pair - return all currency pairs.

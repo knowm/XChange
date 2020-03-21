@@ -38,7 +38,7 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return GlobitexAdapters.adaptToOpenOrders(
-        getGlobitexActiveOrders((OpenOrdersParamCurrencyPair) params));
+        getGlobitexActiveOrders((OpenOrdersParamInstrument) params));
   }
 
   @Override
@@ -73,7 +73,7 @@ public class GlobitexTradeService extends GlobitexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override

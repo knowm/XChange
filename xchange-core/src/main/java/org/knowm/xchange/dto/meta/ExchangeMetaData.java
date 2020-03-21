@@ -2,11 +2,15 @@ package org.knowm.xchange.dto.meta;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.instrument.InstrumentDeserializer;
 import org.knowm.xchange.utils.ObjectMapperHelper;
 
 /**
@@ -19,12 +23,14 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
  * <p>This class is used only in the API by the classes that merge metadata stored in custom JSON
  * file and online info from the remote exchange.
  */
+// @JsonDeserialize(using = ExchangeMetaDataDeserializer.class)
 public class ExchangeMetaData implements Serializable {
 
   private static final long serialVersionUID = -1495610469981534977L;
 
-  @JsonProperty("currency_pairs")
-  private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;
+  @JsonProperty("instruments")
+  @JsonDeserialize(keyUsing = InstrumentDeserializer.class)
+  private Map<Instrument, InstrumentMetaData> instruments;
 
   @JsonProperty("currencies")
   private Map<Currency, CurrencyMetaData> currencies;
@@ -45,17 +51,17 @@ public class ExchangeMetaData implements Serializable {
   /**
    * Constructor
    *
-   * @param currencyPairs Map of {@link CurrencyPair} -> {@link CurrencyPairMetaData}
+   * @param instruments Map of {@link instruments} -> {@link InstrumentMetaData}
    * @param currency Map of currency -> {@link CurrencyMetaData}
    */
   public ExchangeMetaData(
-      @JsonProperty("currency_pairs") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
+      @JsonProperty("instruments") Map<Instrument, InstrumentMetaData> instruments,
       @JsonProperty("currencies") Map<Currency, CurrencyMetaData> currency,
       @JsonProperty("public_rate_limits") RateLimit[] publicRateLimits,
       @JsonProperty("private_rate_limits") RateLimit[] privateRateLimits,
       @JsonProperty("share_rate_limits") Boolean shareRateLimits) {
 
-    this.currencyPairs = currencyPairs;
+    this.instruments = instruments;
     this.currencies = currency;
 
     this.publicRateLimits = publicRateLimits;
@@ -71,6 +77,7 @@ public class ExchangeMetaData implements Serializable {
    */
   @JsonIgnore
   public static Long getPollDelayMillis(RateLimit[] rateLimits) {
+
     if (rateLimits == null || rateLimits.length == 0) {
       return null;
     }
@@ -82,35 +89,64 @@ public class ExchangeMetaData implements Serializable {
     return result;
   }
 
-  public Map<CurrencyPair, CurrencyPairMetaData> getCurrencyPairs() {
+  //
+  public Map<Instrument, InstrumentMetaData> getInstruments() {
+    return instruments;
+  }
+
+  /**
+   * @deprecated CurrencyPair is a subtype of instrument <br>
+   *     use {@link #getInstruments()} instead like this:
+   *     <blockquote>
+   *     <pre>
+   * getInstruments()
+   * </pre>
+   *     </blockquote>
+   */
+  @Deprecated
+  @JsonIgnore
+  public Map<CurrencyPair, InstrumentMetaData> getCurrencyPairs() {
+    Map<CurrencyPair, InstrumentMetaData> currencyPairs =
+        new HashMap<CurrencyPair, InstrumentMetaData>();
+    for (Instrument instrument : instruments.keySet()) {
+      if (instrument instanceof CurrencyPair) {
+        currencyPairs.put((CurrencyPair) instrument, instruments.get(instrument));
+      }
+    }
     return currencyPairs;
   }
 
   public Map<Currency, CurrencyMetaData> getCurrencies() {
+
     return currencies;
   }
 
   public RateLimit[] getPublicRateLimits() {
+
     return publicRateLimits;
   }
 
   public RateLimit[] getPrivateRateLimits() {
+
     return privateRateLimits;
   }
 
   public boolean isShareRateLimits() {
+
     return shareRateLimits;
   }
 
   @JsonIgnore
   public String toJSONString() {
+
     return ObjectMapperHelper.toJSON(this);
   }
 
   @Override
   public String toString() {
-    return "ExchangeMetaData [currencyPairs="
-        + currencyPairs
+
+    return "ExchangeMetaData [instruments="
+        + instruments
         + ", currencies="
         + currencies
         + ", publicRateLimits="

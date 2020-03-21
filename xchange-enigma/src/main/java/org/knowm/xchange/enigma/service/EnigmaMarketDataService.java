@@ -15,7 +15,7 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaOrderBook;
 import org.knowm.xchange.enigma.model.EnigmaException;
 import org.knowm.xchange.enigma.model.EnigmaNotImplementedException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 @Slf4j
@@ -45,11 +45,11 @@ public class EnigmaMarketDataService extends EnigmaMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) {
-    if (!(params instanceof CurrencyPairsParam)) {
+    if (!(params instanceof InstrumentParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
 
-    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+    Collection<CurrencyPair> pairs = ((InstrumentParam) params).getCurrencyPairs();
     return pairs.stream()
         .map(
             currencyPair -> {

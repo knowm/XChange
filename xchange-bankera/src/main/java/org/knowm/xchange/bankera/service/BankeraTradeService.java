@@ -16,12 +16,16 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamLimit;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BankeraTradeService extends BankeraTradeServiceRaw implements TradeService {
 
@@ -67,9 +71,9 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     CurrencyPair currencyPair = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair =
-          (TradeHistoryParamCurrencyPair) params;
+    if (params instanceof TradeHistoryParamInstrument) {
+      TradeHistoryParamInstrument tradeHistoryParamCurrencyPair =
+          (TradeHistoryParamInstrument) params;
       currencyPair = tradeHistoryParamCurrencyPair.getCurrencyPair();
     }
 
@@ -80,7 +84,7 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamCurrencyPair();
+    return new DefaultTradeHistoryParamInstrument();
   }
 
   @Override
@@ -104,18 +108,18 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
   public static class BankeraOpenOrderParams
       implements OpenOrdersParams,
           OpenOrdersParamLimit,
-          OpenOrdersParamCurrencyPair,
+          OpenOrdersParamInstrument,
           OpenOrdersParamOffset {
 
     private Integer limit = 100;
     private Integer offset = 0;
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
 
     public BankeraOpenOrderParams() {}
 
     @Override
     public boolean accept(LimitOrder order) {
-      return OpenOrdersParamCurrencyPair.super.accept(order);
+      return OpenOrdersParamInstrument.super.accept(order);
     }
 
     @Override
@@ -139,13 +143,13 @@ public class BankeraTradeService extends BankeraTradeServiceRaw implements Trade
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-      this.currencyPair = pair;
+    public void setInstrument(Instrument instrument) {
+      this.currencyPair = instrument;
     }
   }
 }

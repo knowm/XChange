@@ -3,9 +3,9 @@ package org.knowm.xchange.coinmarketcap.pro.v1.service.marketdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,7 +15,8 @@ import org.knowm.xchange.coinmarketcap.pro.v1.CmcExchange;
 import org.knowm.xchange.coinmarketcap.pro.v1.service.CmcMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 
 public class TickerFetchIntegration {
   private static Exchange exchange;
@@ -42,9 +43,9 @@ public class TickerFetchIntegration {
 
   @Test
   public void getTickersTest() throws Exception {
-    CurrencyPairsParam pairsParam =
+    InstrumentParam pairsParam =
         () -> {
-          Set<CurrencyPair> pairs = new HashSet<>();
+          Collection<Instrument> pairs = new HashSet<>();
           pairs.add(CurrencyPair.BTC_USD);
           pairs.add(CurrencyPair.ETH_USD);
           pairs.add(CurrencyPair.LTC_USD);

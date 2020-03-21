@@ -10,7 +10,7 @@ import org.knowm.xchange.coindirect.service.CoindirectAccountService;
 import org.knowm.xchange.coindirect.service.CoindirectMarketDataService;
 import org.knowm.xchange.coindirect.service.CoindirectTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.utils.AuthUtils;
 import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -45,7 +45,7 @@ public class CoindirectExchange extends BaseExchange {
 
   @Override
   public void remoteInit() {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
 
     CoindirectMarketDataService coindirectMarketDataService =
         (CoindirectMarketDataService) marketDataService;
@@ -56,9 +56,9 @@ public class CoindirectExchange extends BaseExchange {
 
       for (CoindirectMarket market : coindirectMarketList) {
         CurrencyPair currencyPair = CoindirectAdapters.toCurrencyPair(market.symbol);
-        CurrencyPairMetaData staticMeta = currencyPairs.get(currencyPair);
-        CurrencyPairMetaData adaptedMeta =
-            new CurrencyPairMetaData(
+        InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
+        InstrumentMetaData adaptedMeta =
+            new InstrumentMetaData(
                 staticMeta.getTradingFee(),
                 market.minimumQuantity,
                 market.maximumQuantity,

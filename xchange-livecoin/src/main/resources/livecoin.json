@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "POST/BTC": {
       "min_amount": 1.00000000,
       "price_scale": 8

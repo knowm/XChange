@@ -2,8 +2,8 @@ package org.knowm.xchange.bleutrade;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -24,7 +24,8 @@ import org.knowm.xchange.bleutrade.service.BleutradeServiceTestSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.mockito.runners.MockitoJUnitRunner;
 import si.mazi.rescu.ClientConfig;
@@ -149,14 +150,14 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
     assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap =
-        mockExchange.getExchangeMetaData().getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> marketMetaDataMap =
+        mockExchange.getExchangeMetaData().getInstruments();
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
+            "InstrumentMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
         .isEqualTo(
-            "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
+            "InstrumentMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]");
   }
 }

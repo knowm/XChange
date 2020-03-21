@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "ABT/BTC": {
       "min_amount": 0.10,
       "price_scale": 8,

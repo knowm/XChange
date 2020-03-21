@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/KRW": {
       "min_amount": 0.0001,
       "price_scale": 0

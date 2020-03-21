@@ -11,15 +11,41 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.*;
-import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
+import org.knowm.xchange.cexio.dto.CexIOGetPositionRequest;
+import org.knowm.xchange.cexio.dto.CexIOOpenPositionRequest;
+import org.knowm.xchange.cexio.dto.CexIORequest;
+import org.knowm.xchange.cexio.dto.CexioCancelReplaceOrderRequest;
+import org.knowm.xchange.cexio.dto.CexioPlaceOrderRequest;
+import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelAllOrdersResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOCancelReplaceOrderResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrderTransactionsResponse;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrderWithTransactions;
+import org.knowm.xchange.cexio.dto.trade.CexioClosePosition;
+import org.knowm.xchange.cexio.dto.trade.CexioClosePositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPosition;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioOpenPositionsResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioPosition;
+import org.knowm.xchange.cexio.dto.trade.CexioPositionResponse;
+import org.knowm.xchange.cexio.dto.trade.CexioPositionType;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOTradeServiceRaw(Exchange exchange) {
@@ -149,7 +175,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     if (tradeHistoryParams instanceof CexIOTradeHistoryParams) {
       CexIOTradeHistoryParams params = (CexIOTradeHistoryParams) tradeHistoryParams;
 
-      CurrencyPair currencyPair = params.currencyPair;
+      CurrencyPair currencyPair = (CurrencyPair) params.currencyPair;
       baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
       counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
       limit = params.limit;
@@ -171,9 +197,9 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         //        dateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
       }
 
-      if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+      if (tradeHistoryParams instanceof TradeHistoryParamInstrument) {
         CurrencyPair currencyPair =
-            ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+            ((TradeHistoryParamInstrument) tradeHistoryParams).getCurrencyPair();
 
         baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
         counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
@@ -324,7 +350,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public static class CexIOTradeHistoryParams
       implements TradeHistoryParams,
-          TradeHistoryParamCurrencyPair,
+          TradeHistoryParamInstrument,
           TradeHistoryParamsTimeSpan,
           TradeHistoryParamLimit {
 
@@ -338,7 +364,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
      */
     private final String status; // todo: this should be an enum
 
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
     /** limit the number of entries in response (1 to 100) */
     private Integer limit;
     /** end date for open orders filtering (timestamp in seconds, 10 digits) */
@@ -351,7 +377,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     }
 
     public CexIOTradeHistoryParams(
-        CurrencyPair currencyPair,
+        Instrument currencyPair,
         Integer limit,
         Date dateFrom,
         Date dateTo,
@@ -369,7 +395,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     }
 
     public CexIOTradeHistoryParams(
-        CurrencyPair currencyPair,
+        Instrument currencyPair,
         Integer limit,
         Long dateFrom,
         Long dateTo,
@@ -386,12 +412,12 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     }
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setInstrument(Instrument currencyPair) {
       this.currencyPair = currencyPair;
     }
 

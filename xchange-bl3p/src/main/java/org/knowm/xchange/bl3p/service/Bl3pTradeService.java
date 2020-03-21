@@ -14,11 +14,17 @@ import org.knowm.xchange.bl3p.service.params.Bl3pTradeHistoryParams;
 import org.knowm.xchange.bl3p.service.params.CancelOrderByIdAndCurrencyPairParams;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -35,7 +41,7 @@ public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    DefaultOpenOrdersParamCurrencyPair bl3pParams = (DefaultOpenOrdersParamCurrencyPair) params;
+    DefaultOpenOrdersParamInstrument bl3pParams = (DefaultOpenOrdersParamInstrument) params;
 
     Bl3pOpenOrders.Bl3pOpenOrder[] openOrders =
         this.bl3p
@@ -131,7 +137,7 @@ public class Bl3pTradeService extends Bl3pBaseService implements TradeService {
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair(CurrencyPair.BTC_EUR);
+    return new DefaultOpenOrdersParamInstrument(CurrencyPair.BTC_EUR);
   }
 
   @Override

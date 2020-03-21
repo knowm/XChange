@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BCH/BTC": {
       "price_scale": 5,
       "trading_fee": 0.002,

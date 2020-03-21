@@ -16,7 +16,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class TradeServiceIntegrationTransactionsCreateOrder {
@@ -133,13 +133,13 @@ public class TradeServiceIntegrationTransactionsCreateOrder {
     TradeService tradeService = coinsuper.getTradeService();
 
     try {
-      final OpenOrdersParamCurrencyPair openOrdersParamsOne =
-          (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
-      openOrdersParamsOne.setCurrencyPair(CurrencyPair.XRP_BTC);
+      final OpenOrdersParamInstrument openOrdersParamsOne =
+          (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
+      openOrdersParamsOne.setInstrument(CurrencyPair.XRP_BTC);
 
-      final OpenOrdersParamCurrencyPair openOrdersParamsBtcUsd =
-          (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
-      openOrdersParamsBtcUsd.setCurrencyPair(CurrencyPair.ETC_BTC);
+      final OpenOrdersParamInstrument openOrdersParamsBtcUsd =
+          (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
+      openOrdersParamsBtcUsd.setInstrument(CurrencyPair.ETC_BTC);
 
       final OpenOrdersParams openOrdersParamsAll = tradeService.createOpenOrdersParams();
 

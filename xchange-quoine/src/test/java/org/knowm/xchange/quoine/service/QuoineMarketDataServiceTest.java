@@ -18,7 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.quoine.QuoineExchange;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 public class QuoineMarketDataServiceTest {
@@ -55,7 +55,7 @@ public class QuoineMarketDataServiceTest {
 
   @Test
   public void testGetTickers() throws IOException {
-    CurrencyPairsParam params = () -> Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.ETH_USD);
+    InstrumentParam params = () -> Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.ETH_USD);
 
     List<Ticker> tickers = service.getTickers(params);
 

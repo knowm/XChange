@@ -1,7 +1,8 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -43,7 +44,7 @@ public class UserTradeTest {
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
-    assertThat(copy.getCurrencyPair()).isEqualTo(currencyPair);
+    assertThat(copy.getInstrument()).isEqualTo(currencyPair);
     assertThat(copy.getPrice()).isEqualTo(price);
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
     assertThat(copy.getId()).isEqualTo(id);
@@ -69,7 +70,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -82,7 +83,7 @@ public class UserTradeTest {
 
     assertThat(copy.getType()).isEqualTo(original.getType());
     assertThat(copy.getOriginalAmount()).isEqualTo(original.getOriginalAmount());
-    assertThat(copy.getCurrencyPair()).isEqualTo(original.getCurrencyPair());
+    assertThat(copy.getInstrument()).isEqualTo(original.getInstrument());
     assertThat(copy.getPrice()).isEqualTo(original.getPrice());
     assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
     assertThat(copy.getId()).isEqualTo(original.getId());
@@ -106,7 +107,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -116,7 +117,7 @@ public class UserTradeTest {
             .build();
 
     String json = ObjectMapperHelper.toCompactJSON(original);
-    assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
+    assertThat(json).contains("\"currencyPair\",\"BTC/USD\"");
 
     UserTrade jsonCopy = ObjectMapperHelper.readValueStrict(json, UserTrade.class);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);
@@ -138,7 +139,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -150,7 +151,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -175,7 +176,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -188,7 +189,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id(id)
@@ -212,7 +213,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id("FooTradeId")
@@ -225,7 +226,7 @@ public class UserTradeTest {
         new UserTrade.Builder()
             .type(type)
             .originalAmount(originalAmount)
-            .currencyPair(currencyPair)
+            .instrument(currencyPair)
             .price(price)
             .timestamp(timestamp)
             .id("BarTradeId")

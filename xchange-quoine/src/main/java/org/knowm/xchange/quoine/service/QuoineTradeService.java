@@ -18,7 +18,7 @@ import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -92,8 +92,8 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
     Integer pageNumber = 1;
     Integer limit = 1000;
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
 
     if (params instanceof TradeHistoryParamPaging) {
@@ -105,7 +105,7 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
     List<QuoineExecution> executions = executions(currencyPair, limit, pageNumber);
 
     if (currencyPair == null)
-      throw new IllegalStateException("Need to specify TradeHistoryParamCurrencyPair");
+      throw new IllegalStateException("Need to specify TradeHistoryParamInstrument");
 
     return new UserTrades(
         QuoineAdapters.adapt(executions, currencyPair), Trades.TradeSortType.SortByTimestamp);

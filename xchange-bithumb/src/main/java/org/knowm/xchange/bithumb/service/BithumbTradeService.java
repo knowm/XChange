@@ -14,9 +14,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderByPairAndIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BithumbTradeService extends BithumbTradeServiceRaw implements TradeService {
@@ -33,10 +37,10 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
-    final CurrencyPair currencyPair =
+    final Instrument currencyPair =
         Optional.ofNullable(params)
-            .filter(p -> p instanceof OpenOrdersParamCurrencyPair)
-            .map(p -> ((OpenOrdersParamCurrencyPair) p).getCurrencyPair())
+            .filter(p -> p instanceof OpenOrdersParamInstrument)
+            .map(p -> ((OpenOrdersParamInstrument) p).getCurrencyPair())
             .orElse(null);
 
     try {
@@ -85,8 +89,8 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
 
     final CurrencyPair currencyPair =
         Optional.ofNullable(params)
-            .filter(p -> p instanceof TradeHistoryParamCurrencyPair)
-            .map(p -> ((TradeHistoryParamCurrencyPair) p).getCurrencyPair())
+            .filter(p -> p instanceof TradeHistoryParamInstrument)
+            .map(p -> ((TradeHistoryParamInstrument) p).getCurrencyPair())
             .orElse(null);
     try {
       return BithumbAdapters.adaptUserTrades(bithumbTransactions(currencyPair), currencyPair);

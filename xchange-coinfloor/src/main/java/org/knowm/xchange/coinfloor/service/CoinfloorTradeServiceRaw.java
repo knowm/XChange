@@ -11,6 +11,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -24,18 +25,22 @@ public class CoinfloorTradeServiceRaw extends CoinfloorAuthenticatedService {
   }
 
   public CoinfloorUserTransaction[] getUserTransactions(
-      CurrencyPair pair,
+      Instrument instrument,
       Integer numberOfTransactions,
       Long offset,
       TradeHistoryParamsSorted.Order sort)
       throws IOException {
     try {
-      return coinfloor.getUserTransactions(
-          normalise(pair.base),
-          normalise(pair.counter),
-          numberOfTransactions,
-          offset,
-          sort == null ? null : sort.toString());
+
+      if (instrument instanceof CurrencyPair) {
+        CurrencyPair pair = (CurrencyPair) instrument;
+        return coinfloor.getUserTransactions(
+            normalise(pair.base),
+            normalise(pair.counter),
+            numberOfTransactions,
+            offset,
+            sort == null ? null : sort.toString());
+      }
     } catch (HttpStatusIOException e) {
       if (e.getHttpStatusCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
         throw new ExchangeException(e.getHttpBody(), e);
@@ -43,11 +48,16 @@ public class CoinfloorTradeServiceRaw extends CoinfloorAuthenticatedService {
         throw e;
       }
     }
+
+    return new CoinfloorUserTransaction[0];
   }
 
-  public CoinfloorOrder[] getOpenOrders(CurrencyPair pair) throws IOException {
+  public CoinfloorOrder[] getOpenOrders(Instrument instrument) throws IOException {
     try {
-      return coinfloor.getOpenOrders(normalise(pair.base), normalise(pair.counter));
+      if (instrument instanceof CurrencyPair) {
+        CurrencyPair pair = (CurrencyPair) instrument;
+        return coinfloor.getOpenOrders(normalise(pair.base), normalise(pair.counter));
+      }
     } catch (HttpStatusIOException e) {
       if (e.getHttpStatusCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
         throw new ExchangeException(e.getHttpBody(), e);
@@ -55,6 +65,7 @@ public class CoinfloorTradeServiceRaw extends CoinfloorAuthenticatedService {
         throw e;
       }
     }
+    return new CoinfloorOrder[0];
   }
 
   public CoinfloorOrder placeLimitOrder(

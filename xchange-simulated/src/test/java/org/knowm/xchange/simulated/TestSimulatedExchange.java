@@ -29,8 +29,8 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 
 public class TestSimulatedExchange {
 
@@ -341,14 +341,14 @@ public class TestSimulatedExchange {
   }
 
   private OpenOrders getOpenOrders() throws IOException {
-    OpenOrdersParamCurrencyPair params = exchange.getTradeService().createOpenOrdersParams();
+    OpenOrdersParamInstrument params = exchange.getTradeService().createOpenOrdersParams();
     params.setCurrencyPair(BTC_USD);
     return exchange.getTradeService().getOpenOrders(params);
   }
 
   private UserTrades getTradeHistory(Exchange exchangeToUse) throws IOException {
-    TradeHistoryParamCurrencyPair params =
-        (TradeHistoryParamCurrencyPair) exchangeToUse.getTradeService().createTradeHistoryParams();
+    TradeHistoryParamInstrument params =
+        (TradeHistoryParamInstrument) exchangeToUse.getTradeService().createTradeHistoryParams();
     params.setCurrencyPair(BTC_USD);
     return exchangeToUse.getTradeService().getTradeHistory(params);
   }

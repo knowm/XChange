@@ -2,39 +2,39 @@ package org.knowm.xchange.coinfloor.service;
 
 import java.util.Collection;
 import java.util.Collections;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamMultiInstrument;
 
 public class CoinfloorOpenOrdersParams
-    implements OpenOrdersParamMultiCurrencyPair, OpenOrdersParamCurrencyPair {
-  private Collection<CurrencyPair> pairs = Collections.emptySet();
-  private CurrencyPair pair = null;
+    implements OpenOrdersParamMultiInstrument, OpenOrdersParamInstrument {
+  private Collection<Instrument> pairs = Collections.emptySet();
+  private Instrument pair = null;
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
+  public Collection<Instrument> getInstruments() {
     return pairs;
   }
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+  public void setInstruments(Collection<Instrument> value) {
     pairs = value;
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair value) {
+  public void setInstrument(Instrument value) {
     pair = value;
   }
 
   @Override
   public boolean accept(LimitOrder order) {
-    return OpenOrdersParamCurrencyPair.super.accept(order)
-        || OpenOrdersParamMultiCurrencyPair.super.accept(order);
+    return OpenOrdersParamInstrument.super.accept(order)
+        || OpenOrdersParamMultiInstrument.super.accept(order);
   }
 }

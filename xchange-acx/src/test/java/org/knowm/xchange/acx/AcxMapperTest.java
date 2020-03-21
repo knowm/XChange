@@ -12,8 +12,9 @@ import org.knowm.xchange.acx.dto.marketdata.AcxOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class AcxMapperTest {
 
@@ -21,13 +22,13 @@ public class AcxMapperTest {
 
   @Before
   public void setup() {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     currencyPairs.put(
         CurrencyPair.ETH_USDT,
-        new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN, 4, null));
+        new InstrumentMetaData(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN, 4, null));
     currencyPairs.put(
         new CurrencyPair(Currency.USDT, Currency.AUD),
-        new CurrencyPairMetaData(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN, 4, null));
+        new InstrumentMetaData(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN, 4, null));
     ExchangeMetaData exchangeMetaData =
         new ExchangeMetaData(currencyPairs, new HashMap<>(), null, null, false);
     mapper = new AcxMapper(exchangeMetaData);

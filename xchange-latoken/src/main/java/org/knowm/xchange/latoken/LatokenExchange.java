@@ -8,8 +8,9 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.latoken.dto.exchangeinfo.LatokenCurrency;
 import org.knowm.xchange.latoken.dto.exchangeinfo.LatokenPair;
 import org.knowm.xchange.latoken.service.LatokenAccountService;
@@ -65,7 +66,7 @@ public class LatokenExchange extends BaseExchange {
     try {
       // Load the static meta-data and override with the dynamic one
       Map<Currency, CurrencyMetaData> currenciesMetaData = exchangeMetaData.getCurrencies();
-      Map<CurrencyPair, CurrencyPairMetaData> pairsMetaData = exchangeMetaData.getCurrencyPairs();
+      Map<Instrument, InstrumentMetaData> pairsMetaData = exchangeMetaData.getInstruments();
 
       List<LatokenPair> allPairs = latoken.getAllPairs();
       List<LatokenCurrency> allCurrencies = latoken.getAllCurrencies();
@@ -81,7 +82,7 @@ public class LatokenExchange extends BaseExchange {
       // Update CurrencyPair meta-data
       for (LatokenPair latokenPair : allPairs) {
         CurrencyPair pair = LatokenAdapters.adaptCurrencyPair(latokenPair);
-        CurrencyPairMetaData pairMetadata = LatokenAdapters.adaptPairMetaData(latokenPair);
+        InstrumentMetaData pairMetadata = LatokenAdapters.adaptPairMetaData(latokenPair);
         addCurrencyPairMetadata(pairsMetaData, pair, pairMetadata);
       }
     } catch (Exception e) {
@@ -118,11 +119,11 @@ public class LatokenExchange extends BaseExchange {
    * @param precision
    */
   private void addCurrencyPairMetadata(
-      Map<CurrencyPair, CurrencyPairMetaData> pairs,
+      Map<Instrument, InstrumentMetaData> pairs,
       CurrencyPair pair,
-      CurrencyPairMetaData pairMetadata) {
+      InstrumentMetaData pairMetadata) {
 
-    CurrencyPairMetaData baseMetaData = pairs.get(pair);
+    InstrumentMetaData baseMetaData = pairs.get(pair);
 
     // Preserve MaxAmount if exists
     BigDecimal maxAmount =
@@ -131,7 +132,7 @@ public class LatokenExchange extends BaseExchange {
     // Override static meta-data
     pairs.put(
         pair,
-        new CurrencyPairMetaData.Builder()
+        new InstrumentMetaData.Builder()
             .tradingFee(pairMetadata.getTradingFee())
             .minimumAmount(pairMetadata.getMinimumAmount())
             .maximumAmount(maxAmount)

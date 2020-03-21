@@ -28,7 +28,7 @@ import org.knowm.xchange.idex.service.*;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.web3j.crypto.Sign.SignatureData;
@@ -135,8 +135,8 @@ public class IdexTradeService extends BaseExchangeService implements TradeServic
 
     CurrencyPair currencyPairTmp = null;
 
-    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
-      currencyPairTmp = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+    if (tradeHistoryParams instanceof TradeHistoryParamInstrument) {
+      currencyPairTmp = ((TradeHistoryParamInstrument) tradeHistoryParams).getCurrencyPair();
     }
 
     final CurrencyPair currencyPair = currencyPairTmp;

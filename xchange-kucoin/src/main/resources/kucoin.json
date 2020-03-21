@@ -1,5 +1,5 @@
 {
-  "currency_pairs" : {},
+  "instruments" : {},
   "currencies" : {},
   "share_rate_limits" : false,
   "public_rate_limits": [

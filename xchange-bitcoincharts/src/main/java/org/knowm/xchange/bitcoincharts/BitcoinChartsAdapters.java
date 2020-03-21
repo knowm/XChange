@@ -8,8 +8,9 @@ import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Various adapters for converting from BitcoinCharts DTOs to XChange DTOs */
 public final class BitcoinChartsAdapters {
@@ -60,7 +61,7 @@ public final class BitcoinChartsAdapters {
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairs = new HashMap<>();
 
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice =
@@ -73,7 +74,7 @@ public final class BitcoinChartsAdapters {
       int scale = anyPrice != null ? anyPrice.scale() : 0;
       pairs.put(
           new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())),
-          new CurrencyPairMetaData(null, null, null, scale, null));
+          new InstrumentMetaData(null, null, null, scale, null));
     }
 
     return new ExchangeMetaData(

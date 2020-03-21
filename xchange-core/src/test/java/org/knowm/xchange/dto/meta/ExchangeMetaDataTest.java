@@ -57,14 +57,15 @@ public class ExchangeMetaDataTest {
             "/org/knowm/xchange/core/meta/exchange-metadata.json");
 
     ObjectMapper mapper = new ObjectMapper();
+
     ExchangeMetaData metaData = mapper.readValue(is, ExchangeMetaData.class);
 
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getTradingFeeCurrency())
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getTradingFeeCurrency())
         .isEqualTo(Currency.USD);
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getPriceScale()).isEqualTo(2);
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMinimumAmount())
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getPriceScale()).isEqualTo(2);
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getMinimumAmount())
         .isEqualTo(new BigDecimal("0.0001"));
-    assertThat(metaData.getCurrencyPairs().get(CurrencyPair.BTC_USD).getMaximumAmount())
+    assertThat(metaData.getInstruments().get(CurrencyPair.BTC_USD).getMaximumAmount())
         .isEqualTo(new BigDecimal("100"));
   }
 }

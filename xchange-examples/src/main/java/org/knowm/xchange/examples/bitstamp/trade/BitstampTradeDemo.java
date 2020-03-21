@@ -12,7 +12,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -35,11 +35,11 @@ public class BitstampTradeDemo {
   }
 
   private static void generic(TradeService tradeService) throws IOException {
-    final OpenOrdersParamCurrencyPair openOrdersParamsBtcEur =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamInstrument openOrdersParamsBtcEur =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     openOrdersParamsBtcEur.setCurrencyPair(CurrencyPair.BTC_EUR);
-    final OpenOrdersParamCurrencyPair openOrdersParamsBtcUsd =
-        (OpenOrdersParamCurrencyPair) tradeService.createOpenOrdersParams();
+    final OpenOrdersParamInstrument openOrdersParamsBtcUsd =
+        (OpenOrdersParamInstrument) tradeService.createOpenOrdersParams();
     openOrdersParamsBtcUsd.setCurrencyPair(CurrencyPair.BTC_USD);
 
     final OpenOrdersParams openOrdersParamsAll = tradeService.createOpenOrdersParams();

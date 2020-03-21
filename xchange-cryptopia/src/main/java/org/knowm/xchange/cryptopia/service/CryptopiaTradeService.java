@@ -13,14 +13,15 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements TradeService {
@@ -37,8 +38,8 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     try {
       CurrencyPair currencyPair = null;
-      if (params instanceof OpenOrdersParamCurrencyPair) {
-        currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof OpenOrdersParamInstrument) {
+        currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
       }
       return new OpenOrders(getOpenOrders(currencyPair, null));
     } catch (CryptopiaException e) {
@@ -93,8 +94,8 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
       CurrencyPair currencyPair = null;
       Integer limit = 100;
 
-      if (params instanceof TradeHistoryParamCurrencyPair) {
-        currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof TradeHistoryParamInstrument) {
+        currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       }
 
       if (params instanceof TradeHistoryParamLimit) {
@@ -115,7 +116,7 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -134,9 +135,9 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
   }
 
   public static class CryptopiaTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
+      implements TradeHistoryParamInstrument, TradeHistoryParamLimit {
 
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
     private Integer limit;
 
     public CryptopiaTradeHistoryParams(CurrencyPair currencyPair, Integer limit) {
@@ -147,12 +148,12 @@ public class CryptopiaTradeService extends CryptopiaTradeServiceRaw implements T
     public CryptopiaTradeHistoryParams() {}
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setInstrument(Instrument currencyPair) {
       this.currencyPair = currencyPair;
     }
 

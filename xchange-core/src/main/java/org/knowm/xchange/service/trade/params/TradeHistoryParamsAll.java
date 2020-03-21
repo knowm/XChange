@@ -3,7 +3,7 @@ package org.knowm.xchange.service.trade.params;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
@@ -17,8 +17,8 @@ public class TradeHistoryParamsAll
         TradeHistoryParamPaging,
         TradeHistoryParamsIdSpan,
         TradeHistoryParamOffset,
-        TradeHistoryParamCurrencyPair,
-        TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamInstrument,
+        TradeHistoryParamMultiInstrument,
         TradeHistoryParamLimit {
 
   private Integer pageLength;
@@ -28,8 +28,8 @@ public class TradeHistoryParamsAll
   private Date startTime;
   private Date endTime;
   private Long offset;
-  private CurrencyPair pair;
-  private Collection<CurrencyPair> pairs = Collections.emptySet();
+  private Instrument instrument;
+  private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
 
   @Override
@@ -118,27 +118,27 @@ public class TradeHistoryParamsAll
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
 
-    return pair;
+    return instrument;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
 
-    this.pair = pair;
+    this.instrument = pair;
   }
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
+  public Collection<Instrument> getInstruments() {
 
-    return pairs;
+    return instruments;
   }
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+  public void setInstruments(Collection<Instrument> value) {
 
-    pairs = value;
+    instruments = value;
   }
 
   @Override

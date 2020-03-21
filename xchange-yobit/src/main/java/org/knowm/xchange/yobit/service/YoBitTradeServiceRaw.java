@@ -13,7 +13,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
@@ -30,7 +30,7 @@ public abstract class YoBitTradeServiceRaw extends YoBitBaseService<YoBit> imple
     throw new NotYetImplementedForExchangeException("Need to specify OpenOrdersParams");
   }
 
-  public BaseYoBitResponse activeOrders(OpenOrdersParamCurrencyPair params) throws IOException {
+  public BaseYoBitResponse activeOrders(OpenOrdersParamInstrument params) throws IOException {
 
     CurrencyPair currencyPair = params.getCurrencyPair();
     String market = YoBitAdapters.adaptCcyPairToUrlFormat(currencyPair);

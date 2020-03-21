@@ -28,7 +28,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /** @author Martin Stachon */
@@ -46,8 +46,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof OpenOrdersParamInstrument) {
+      currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
     }
 
     String currencyPairString = CoinmateUtils.getPair(currencyPair);
@@ -182,8 +182,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       order = ((TradeHistoryParamsSorted) params).getOrder();
     }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
     }
 
     CoinmateTradeHistory coinmateTradeHistory =

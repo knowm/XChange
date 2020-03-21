@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/USD": {
       "price_scale": 8,
       "trading_fee": 0.002,

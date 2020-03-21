@@ -23,7 +23,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class AcxTradingServiceTest {
@@ -52,7 +52,7 @@ public class AcxTradingServiceTest {
 
     List<LimitOrder> openOrders =
         service
-            .getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(CurrencyPair.ETH_AUD))
+            .getOpenOrders(new DefaultOpenOrdersParamInstrument(CurrencyPair.ETH_AUD))
             .getOpenOrders();
 
     assertEquals(1, openOrders.size());

@@ -41,7 +41,7 @@ public class DepthChartDemo {
       System.out.println(
           limitOrder.getType()
               + " "
-              + limitOrder.getCurrencyPair()
+              + limitOrder.getInstrument()
               + " Limit price: "
               + limitOrder.getLimitPrice()
               + " Amount: "
@@ -52,7 +52,7 @@ public class DepthChartDemo {
       System.out.println(
           limitOrder.getType()
               + " "
-              + limitOrder.getCurrencyPair()
+              + limitOrder.getInstrument()
               + " Limit price: "
               + limitOrder.getLimitPrice()
               + " Amount: "

@@ -4,12 +4,17 @@ import java.util.Date;
 import lombok.Data;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamNextPageCursor;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 @Data
 public class KucoinTradeHistoryParams
     implements TradeHistoryParams,
-        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamInstrument,
         HistoryParamsFundingType,
         TradeHistoryParamsTimeSpan,
         TradeHistoryParamNextPageCursor {
@@ -19,4 +24,14 @@ public class KucoinTradeHistoryParams
   private Type type;
   private CurrencyPair currencyPair;
   private String nextPageCursor;
+
+  @Override
+  public Instrument getInstrument() {
+    return currencyPair;
+  }
+
+  @Override
+  public void setInstrument(Instrument instrument) {
+    this.currencyPair = (CurrencyPair) instrument;
+  }
 }

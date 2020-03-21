@@ -1,11 +1,11 @@
 package org.knowm.xchange.binance.dto.meta;
 
 import java.math.BigDecimal;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
 /** @author ujjwal on 26/02/18. */
-public class BinanceCurrencyPairMetaData extends CurrencyPairMetaData {
+public class BinanceInstrumentMetaData extends InstrumentMetaData {
   private final BigDecimal minNotional;
 
   /**
@@ -16,7 +16,7 @@ public class BinanceCurrencyPairMetaData extends CurrencyPairMetaData {
    * @param maximumAmount Maximum trade amount
    * @param priceScale Price scale
    */
-  public BinanceCurrencyPairMetaData(
+  public BinanceInstrumentMetaData(
       BigDecimal tradingFee,
       BigDecimal minimumAmount,
       BigDecimal maximumAmount,
@@ -33,6 +33,6 @@ public class BinanceCurrencyPairMetaData extends CurrencyPairMetaData {
 
   @Override
   public String toString() {
-    return "BinanceCurrencyPairMetaData{" + "minNotional=" + minNotional + "} " + super.toString();
+    return "BinanceInstrumentMetaData{" + "minNotional=" + minNotional + "} " + super.toString();
   }
 }

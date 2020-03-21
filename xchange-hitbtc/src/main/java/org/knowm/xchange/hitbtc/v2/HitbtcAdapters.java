@@ -1,7 +1,11 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -17,15 +21,27 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.instrument.Instrument;
 
 public class HitbtcAdapters {
 
@@ -266,7 +282,7 @@ public class HitbtcAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       List<HitbtcSymbol> symbols,
       Map<Currency, CurrencyMetaData> currencies,
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs) {
+      Map<Instrument, InstrumentMetaData> currencyPairs) {
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
@@ -279,15 +295,14 @@ public class HitbtcAdapters {
 
         FeeTier[] feeTiers = null;
         if (currencyPairs.containsKey(pair)) {
-          CurrencyPairMetaData existing = currencyPairs.get(pair);
+          InstrumentMetaData existing = currencyPairs.get(pair);
           minimumAmount = existing.getMinimumAmount();
           maximumAmount = existing.getMaximumAmount();
           feeTiers = existing.getFeeTiers();
         }
 
-        CurrencyPairMetaData meta =
-            new CurrencyPairMetaData(
-                tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
+        InstrumentMetaData meta =
+            new InstrumentMetaData(tradingFee, minimumAmount, maximumAmount, priceScale, feeTiers);
 
         currencyPairs.put(pair, meta);
       }

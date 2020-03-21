@@ -24,13 +24,13 @@ import org.knowm.xchange.latoken.dto.trade.LatokenUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class LatokenTradeService extends LatokenTradeServiceRaw implements TradeService {
@@ -44,11 +44,11 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
 
     try {
-      if (params instanceof OpenOrdersParamCurrencyPair == false) {
+      if (params instanceof OpenOrdersParamInstrument == false) {
         throw new ExchangeException("CurrencyPair is must be provided to get open orders.");
       }
 
-      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+      OpenOrdersParamInstrument pairParams = (OpenOrdersParamInstrument) params;
       CurrencyPair pair = pairParams.getCurrencyPair();
       if (pair == null) {
         throw new ExchangeException("CurrencyPair is must be provided to get open orders.");
@@ -166,11 +166,11 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    if (params instanceof TradeHistoryParamCurrencyPair == false) {
+    if (params instanceof TradeHistoryParamInstrument == false) {
       throw new ExchangeException("CurrencyPair must be provided to get user trades.");
     }
 
-    TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
+    TradeHistoryParamInstrument pairParams = (TradeHistoryParamInstrument) params;
     CurrencyPair pair = pairParams.getCurrencyPair();
     if (pair == null) {
       throw new ExchangeException("CurrencyPair must be provided to get user trades.");
@@ -201,7 +201,7 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
 
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -213,9 +213,8 @@ public class LatokenTradeService extends LatokenTradeServiceRaw implements Trade
       // Latoken supports either getting an order by its orderId or getting list of orders by
       // pair/status (via LatokenQueryOrderParams)
       for (OrderQueryParams param : params) {
-        if (param instanceof OrderQueryParamCurrencyPair) {
-          OrderQueryParamCurrencyPair orderQueryParamCurrencyPair =
-              (OrderQueryParamCurrencyPair) param;
+        if (param instanceof OrderQueryParamInstrument) {
+          OrderQueryParamInstrument orderQueryParamCurrencyPair = (OrderQueryParamInstrument) param;
           CurrencyPair pair = orderQueryParamCurrencyPair.getCurrencyPair();
           if (pair == null) {
             throw new ExchangeException("CurrencyPair must be provided to query an order.");

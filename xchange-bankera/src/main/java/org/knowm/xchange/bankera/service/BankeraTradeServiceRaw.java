@@ -15,7 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamLimit;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -34,8 +34,8 @@ public class BankeraTradeServiceRaw extends BankeraBaseService {
       String market = null;
       Integer limit = 100;
       Integer offset = 0;
-      if (params instanceof OpenOrdersParamCurrencyPair) {
-        CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof OpenOrdersParamInstrument) {
+        CurrencyPair currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
         market = getMarketNameFromPair(currencyPair);
       }
       if (params instanceof OpenOrdersParamLimit) {

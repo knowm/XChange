@@ -27,12 +27,13 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.livecoin.dto.account.LivecoinBalance;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinAllOrderBooks;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrder;
@@ -97,16 +98,16 @@ public class LivecoinAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(
       ExchangeMetaData exchangeMetaData, List<LivecoinRestriction> products) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Instrument, InstrumentMetaData> currencyPairs = exchangeMetaData.getInstruments();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (LivecoinRestriction product : products) {
       CurrencyPair pair = adaptCurrencyPair(product);
-      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
-      CurrencyPairMetaData.Builder builder;
+      InstrumentMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      InstrumentMetaData.Builder builder;
       if (staticMetaData == null) {
-        builder = new CurrencyPairMetaData.Builder();
+        builder = new InstrumentMetaData.Builder();
       } else {
-        builder = CurrencyPairMetaData.Builder.from(staticMetaData);
+        builder = InstrumentMetaData.Builder.from(staticMetaData);
       }
       if (product.getPriceScale() != null) {
         builder.priceScale(product.getPriceScale());

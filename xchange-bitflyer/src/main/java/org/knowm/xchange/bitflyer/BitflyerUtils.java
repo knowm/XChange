@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitflyerUtils {
 
@@ -47,7 +47,7 @@ public class BitflyerUtils {
     }
   }
 
-  public static String bitflyerProductCode(CurrencyPair pair) {
+  public static String bitflyerProductCode(Instrument pair) {
     return pair.toString().replace("/", "_");
   }
 }

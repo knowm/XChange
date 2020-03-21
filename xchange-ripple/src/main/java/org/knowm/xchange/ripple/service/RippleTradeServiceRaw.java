@@ -30,7 +30,7 @@ import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryRequestBody;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryCount;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryHashLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -236,8 +236,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     }
 
     final Collection<String> currencyFilter = new HashSet<>();
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      final CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       if (pair != null) {
         currencyFilter.add(pair.base.getCurrencyCode());
         currencyFilter.add(pair.counter.getCurrencyCode());

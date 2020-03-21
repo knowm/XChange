@@ -21,7 +21,7 @@ import org.knowm.xchange.exceptions.SystemOverloadException;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByOrderTypeParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParamInstrument;
 
 public class SimulatedExchangeExample {
 
@@ -91,7 +91,7 @@ public class SimulatedExchangeExample {
     System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
 
     exchange.getTradeService() // this tests both getOrder and cancelOrder
-        .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD, orderId)).stream()
+        .getOrder(new DefaultQueryOrderParamInstrument(BTC_USD, orderId)).stream()
         .forEach(
             order -> {
               try {

@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
 public class ExchangeMetaDataIntegration {
 
@@ -22,7 +22,7 @@ public class ExchangeMetaDataIntegration {
 
   @Test
   public void testEthBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData = metaData.getCurrencyPairs().get(CurrencyPair.ETH_BTC);
+    InstrumentMetaData pairMetaData = metaData.getInstruments().get(CurrencyPair.ETH_BTC);
     assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(6);
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("0.001");
     assertThat(pairMetaData.getMaximumAmount()).isEqualByComparingTo("100000");
@@ -31,8 +31,7 @@ public class ExchangeMetaDataIntegration {
 
   @Test
   public void testGntBtcPairMetaData() {
-    CurrencyPairMetaData pairMetaData =
-        metaData.getCurrencyPairs().get(new CurrencyPair("GNT/BTC"));
+    InstrumentMetaData pairMetaData = metaData.getInstruments().get(new CurrencyPair("GNT/BTC"));
     assertThat(pairMetaData.getPriceScale()).isEqualByComparingTo(8);
     assertThat(pairMetaData.getMinimumAmount()).isEqualByComparingTo("1");
     assertThat(pairMetaData.getMaximumAmount()).isEqualByComparingTo("90000000");

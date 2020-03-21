@@ -1,13 +1,14 @@
 package org.knowm.xchange.latoken.service;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 
 public class LatokenTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit {
+    implements TradeHistoryParamInstrument, TradeHistoryParamLimit {
 
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
 
   /** Optional parameter. Defines the maximal number of trades in the response. */
   private Integer limit;
@@ -24,12 +25,12 @@ public class LatokenTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 

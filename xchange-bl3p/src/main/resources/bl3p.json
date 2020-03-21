@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/EUR": {
       "price_scale": 8,
       "min_amount": 0.00050000

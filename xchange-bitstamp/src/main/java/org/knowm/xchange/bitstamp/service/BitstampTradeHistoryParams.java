@@ -2,19 +2,20 @@ package org.knowm.xchange.bitstamp.service;
 
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class BitstampTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair,
+    implements TradeHistoryParamInstrument,
         TradeHistoryParamsSorted,
         TradeHistoryParamOffset,
         TradeHistoryParamPaging,
         TradeHistoryParamsTimeSpan {
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
   private Order order;
   private Integer offset;
   private Integer pageLength;
@@ -26,12 +27,12 @@ public class BitstampTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 

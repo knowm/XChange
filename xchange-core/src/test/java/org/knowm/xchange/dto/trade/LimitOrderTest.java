@@ -46,7 +46,7 @@ public class LimitOrderTest {
     assertThat(copy.getOriginalAmount()).isEqualTo(originalAmount);
     assertThat(copy.getAveragePrice()).isEqualTo(averagePrice);
     assertThat(copy.getCumulativeAmount()).isEqualTo(cumulativeAmount);
-    assertThat(copy.getCurrencyPair()).isEqualTo(currencyPair);
+    assertThat(copy.getInstrument()).isEqualTo(currencyPair);
     assertThat(copy.getLimitPrice()).isEqualTo(limitPrice);
     assertThat(copy.getTimestamp()).isEqualTo(timestamp);
     assertThat(copy.getId()).isEqualTo(id);

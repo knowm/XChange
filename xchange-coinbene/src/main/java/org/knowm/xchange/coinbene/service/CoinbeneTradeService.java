@@ -11,7 +11,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class CoinbeneTradeService extends CoinbeneTradeServiceRaw implements TradeService {
@@ -37,7 +37,7 @@ public class CoinbeneTradeService extends CoinbeneTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return getOpenOrders(((DefaultOpenOrdersParamCurrencyPair) params).getCurrencyPair());
+    return getOpenOrders(((DefaultOpenOrdersParamInstrument) params).getCurrencyPair());
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {

@@ -14,6 +14,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BithumbTradeServiceRaw extends BithumbBaseService {
 
@@ -21,7 +22,7 @@ public class BithumbTradeServiceRaw extends BithumbBaseService {
     super(exchange);
   }
 
-  public List<BithumbOrder> getBithumbOrders(CurrencyPair currencyPair) throws IOException {
+  public List<BithumbOrder> getBithumbOrders(Instrument currencyPair) throws IOException {
 
     final BithumbResponse<List<BithumbOrder>> orders =
         bithumbAuthenticated.getOrders(

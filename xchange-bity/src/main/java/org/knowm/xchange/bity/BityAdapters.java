@@ -2,7 +2,11 @@ package org.knowm.xchange.bity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.bity.dto.account.BityInputTransaction;
 import org.knowm.xchange.bity.dto.account.BityOrder;
 import org.knowm.xchange.bity.dto.account.BityOutputTransaction;
@@ -14,8 +18,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
@@ -69,7 +73,7 @@ public final class BityAdapters {
 
     List<CurrencyPair> currencyPairs = BityAdapters.adaptCurrencyPairs(rawSymbols);
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
 
     for (CurrencyPair c : currencyPairs) {

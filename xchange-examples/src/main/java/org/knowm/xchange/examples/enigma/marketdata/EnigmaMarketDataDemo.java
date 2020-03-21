@@ -14,8 +14,9 @@ import org.knowm.xchange.enigma.dto.marketdata.EnigmaProduct;
 import org.knowm.xchange.enigma.dto.marketdata.EnigmaProductMarketData;
 import org.knowm.xchange.enigma.service.EnigmaMarketDataServiceRaw;
 import org.knowm.xchange.examples.enigma.EnigmaDemoUtils;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 
 @Slf4j
 public class EnigmaMarketDataDemo {
@@ -38,11 +39,10 @@ public class EnigmaMarketDataDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     log.info("Ticker data :{}", ticker.toString());
 
-    Set<CurrencyPair> someCurrencyPairs = new HashSet<>();
+    Set<Instrument> someCurrencyPairs = new HashSet<>();
     someCurrencyPairs.add(new CurrencyPair("BTC", "USD"));
     someCurrencyPairs.add(new CurrencyPair("BTC", "EUR"));
-    List<Ticker> tickers =
-        marketDataService.getTickers((CurrencyPairsParam) () -> someCurrencyPairs);
+    List<Ticker> tickers = marketDataService.getTickers((InstrumentParam) () -> someCurrencyPairs);
     for (Ticker tickerElement : tickers) {
       log.info("Tickers data :{}", tickerElement.toString());
     }

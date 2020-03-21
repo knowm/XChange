@@ -47,8 +47,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class ANXGenerator {
 
@@ -156,7 +157,7 @@ public class ANXGenerator {
 
   private void run() throws IOException {
 
-    Map<CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
+    Map<Instrument, InstrumentMetaData> map = new TreeMap<>();
 
     for (CurrencyPair pair : pairs) {
       handleCurrencyPair(map, pair);
@@ -170,7 +171,7 @@ public class ANXGenerator {
   }
 
   private void handleCurrencyPair(
-      Map<CurrencyPair, CurrencyPairMetaData> map, CurrencyPair currencyPair) {
+      Map<Instrument, InstrumentMetaData> map, CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
     BigDecimal minimumAmount =
         scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);

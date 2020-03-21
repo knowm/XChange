@@ -33,10 +33,10 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {
@@ -122,16 +122,16 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
+    if (!(params instanceof OpenOrdersParamInstrument)) {
       throw new UnsupportedOperationException(
           "Getting open orders is only available for a single market.");
     }
-    CurrencyPair pair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair pair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
 
     final String instrument = OkexAdaptersV3.toSpotInstrument(pair);
     final String state = "6"; // "6": Incomplete（open+partially filled）
@@ -159,12 +159,12 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new UnsupportedOperationException(
           "Getting open orders is only available for a single market.");
     }
     final String instrument =
-        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamInstrument) params).getCurrencyPair());
 
     // the 'to' parameter means, fetch all orders newer than that
     final String to =
@@ -239,12 +239,12 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
 
   public UserTrades getMarginTradeHistory(TradeHistoryParams params) throws IOException {
 
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new UnsupportedOperationException(
           "Getting open orders is only available for a single market.");
     }
     final String instrument =
-        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamInstrument) params).getCurrencyPair());
 
     // the 'to' parameter means, fetch all orders newer than that
     final String to =

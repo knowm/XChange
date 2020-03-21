@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.PoloniexUtils;
@@ -33,13 +34,13 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
@@ -67,8 +68,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
     try {
       CurrencyPair currencyPair = null;
-      if (params instanceof OpenOrdersParamCurrencyPair) {
-        currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof OpenOrdersParamInstrument) {
+        currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
       }
 
       final Map<String, PoloniexOpenOrder[]> poloniexOpenOrders;
@@ -140,7 +141,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
+   * @param params Can optionally implement {@link TradeHistoryParamInstrument} and {@link
    *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
@@ -150,8 +151,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
       Date startTime = null;
       Date endTime = null;
 
-      if (params instanceof TradeHistoryParamCurrencyPair) {
-        currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (params instanceof TradeHistoryParamInstrument) {
+        currencyPair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       }
       if (params instanceof TradeHistoryParamsTimeSpan) {
         startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
@@ -227,7 +228,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link
-   * TradeHistoryParamCurrencyPair}.
+   * TradeHistoryParamInstrument}.
    */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
@@ -237,7 +238,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
 
   @Override
@@ -294,20 +295,20 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   public static class PoloniexTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
+      implements TradeHistoryParamInstrument, TradeHistoryParamsTimeSpan {
 
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
 
-      return all.getCurrencyPair();
+      return all.getInstrument();
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair value) {
+    public void setInstrument(Instrument value) {
 
-      all.setCurrencyPair(value);
+      all.setInstrument(value);
     }
 
     @Override

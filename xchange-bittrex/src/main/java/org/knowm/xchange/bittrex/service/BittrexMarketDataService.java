@@ -19,7 +19,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 /**
@@ -60,8 +60,8 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
       List<CurrencyPair> currencyPairs =
-          (params instanceof CurrencyPairsParam)
-              ? new ArrayList<>(((CurrencyPairsParam) params).getCurrencyPairs())
+          (params instanceof InstrumentParam)
+              ? new ArrayList<>(((InstrumentParam) params).getCurrencyPairs())
               : new ArrayList<>();
       return getBittrexMarketSummaries().stream()
           .map(

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -20,7 +21,7 @@ public final class Ticker implements Serializable {
 
   private static final long serialVersionUID = -3247730106987193154L;
 
-  private final CurrencyPair currencyPair;
+  private final Instrument instrument;
   private final BigDecimal open;
   private final BigDecimal last;
   private final BigDecimal bid;
@@ -39,7 +40,7 @@ public final class Ticker implements Serializable {
   /**
    * Constructor
    *
-   * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
+   * @param instrument The tradable identifier (e.g. BTC in BTC/USD)
    * @param last Last price
    * @param bid Bid price
    * @param ask Ask price
@@ -54,7 +55,7 @@ public final class Ticker implements Serializable {
    * @param askSize The instantaneous size at the ask price
    */
   private Ticker(
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal open,
       BigDecimal last,
       BigDecimal bid,
@@ -68,7 +69,7 @@ public final class Ticker implements Serializable {
       BigDecimal bidSize,
       BigDecimal askSize) {
     this.open = open;
-    this.currencyPair = currencyPair;
+    this.instrument = instrument;
     this.last = last;
     this.bid = bid;
     this.ask = ask;
@@ -82,9 +83,24 @@ public final class Ticker implements Serializable {
     this.askSize = askSize;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
 
-    return currencyPair;
+    return instrument;
+  }
+
+  /**
+   * @deprecated CurrencyPair is a subtype of instrument <br>
+   *     use {@link #getInstrument()} instead like this:
+   *     <blockquote>
+   *     <pre>
+   * getInstrument()
+   * </pre>
+   *     </blockquote>
+   */
+  @Deprecated
+  public CurrencyPair getCurrencyPair() {
+    if (instrument instanceof CurrencyPair) return (CurrencyPair) instrument;
+    return null;
   }
 
   public BigDecimal getOpen() {
@@ -150,8 +166,8 @@ public final class Ticker implements Serializable {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair="
-        + currencyPair
+    return "Ticker [instrument="
+        + instrument
         + ", open="
         + open
         + ", last="
@@ -189,7 +205,7 @@ public final class Ticker implements Serializable {
   @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
-    private CurrencyPair currencyPair;
+    private Instrument instrument;
     private BigDecimal open;
     private BigDecimal last;
     private BigDecimal bid;
@@ -212,7 +228,7 @@ public final class Ticker implements Serializable {
 
       Ticker ticker =
           new Ticker(
-              currencyPair,
+              instrument,
               open,
               last,
               bid,
@@ -238,9 +254,25 @@ public final class Ticker implements Serializable {
       }
     }
 
+    public Builder instrument(Instrument instrument) {
+      Assert.notNull(instrument, "Null instrument");
+      this.instrument = instrument;
+      return this;
+    }
+
+    /**
+     * @deprecated CurrencyPair is a subtype of instrument <br>
+     *     use {@link #.instrument} instead like this:
+     *     <blockquote>
+     *     <pre>
+     * .instrument
+     * </pre>
+     *     </blockquote>
+     */
+    @Deprecated
     public Builder currencyPair(CurrencyPair currencyPair) {
       Assert.notNull(currencyPair, "Null currencyPair");
-      this.currencyPair = currencyPair;
+      this.instrument = currencyPair;
       return this;
     }
 

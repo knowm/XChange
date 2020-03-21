@@ -1,5 +1,5 @@
 {
-	"currency_pairs": {
+	"instruments": {
 		"ADA/BNB": {
 			"min_amount": 1,
 			"max_amount": 9000000,

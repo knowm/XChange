@@ -24,8 +24,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -93,7 +93,7 @@ public class AllIntegration {
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     assertThat(exchangeMetaData).isNotNull();
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).isNotEmpty();
 
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();

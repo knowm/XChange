@@ -16,8 +16,9 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.cexio.CexIOExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 
 /** @author timmolter */
 public class TickerFetchIntegration {
@@ -39,11 +40,11 @@ public class TickerFetchIntegration {
 
   @Test
   public void tickerFetchAllTest() throws Exception {
-    Set<CurrencyPair> allCurrencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();
+    Set<Instrument> allCurrencyPairs = exchange.getExchangeMetaData().getInstruments().keySet();
 
     List<Ticker> tickers =
-        exchange.getMarketDataService().getTickers((CurrencyPairsParam) () -> allCurrencyPairs);
-    Set<CurrencyPair> currencyPairsInTickers =
+        exchange.getMarketDataService().getTickers((InstrumentParam) () -> allCurrencyPairs);
+    Set<Instrument> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
     assertEquals(
@@ -57,13 +58,13 @@ public class TickerFetchIntegration {
 
   @Test
   public void tickerFetchSomeTest() throws Exception {
-    Set<CurrencyPair> someCurrencyPairs = new HashSet<>();
+    Set<Instrument> someCurrencyPairs = new HashSet<>();
     someCurrencyPairs.add(new CurrencyPair("BTC", "USD"));
     someCurrencyPairs.add(new CurrencyPair("BTC", "EUR"));
 
     List<Ticker> tickers =
-        exchange.getMarketDataService().getTickers((CurrencyPairsParam) () -> someCurrencyPairs);
-    Set<CurrencyPair> currencyPairsInTickers =
+        exchange.getMarketDataService().getTickers((InstrumentParam) () -> someCurrencyPairs);
+    Set<Instrument> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
     assertEquals(
@@ -78,8 +79,8 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchNoneTest() throws Exception {
     List<Ticker> tickers =
-        exchange.getMarketDataService().getTickers((CurrencyPairsParam) Collections::emptySet);
-    Set<CurrencyPair> currencyPairsInTickers =
+        exchange.getMarketDataService().getTickers((InstrumentParam) Collections::emptySet);
+    Set<Instrument> currencyPairsInTickers =
         tickers.stream().map(Ticker::getCurrencyPair).collect(Collectors.toSet());
 
     assertEquals(

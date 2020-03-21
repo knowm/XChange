@@ -39,7 +39,7 @@ import org.knowm.xchange.ripple.service.RippleAccountService;
 import org.knowm.xchange.ripple.service.RippleTradeServiceRaw;
 import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryPreferredCurrencies;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
@@ -313,10 +313,10 @@ public abstract class RippleAdapters {
       counter = balanceChanges.get(1);
       base = balanceChanges.get(0);
 
-    } else if ((params instanceof TradeHistoryParamCurrencyPair)
-        && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
+    } else if ((params instanceof TradeHistoryParamInstrument)
+        && (((TradeHistoryParamInstrument) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
-      final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      final CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       if (pair.base.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
           && pair.counter.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
         base = balanceChanges.get(0);

@@ -2,8 +2,8 @@ package org.knowm.xchange.coinfloor.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CoinfloorOrder {
   private final long id;
@@ -17,7 +17,7 @@ public class CoinfloorOrder {
   private final BigDecimal amount;
 
   // this is used by the CoinfloorTradeService to temporarily store details of the currency pair
-  private CurrencyPair pair = null;
+  private Instrument pair = null;
 
   public CoinfloorOrder(
       @JsonProperty("status") String status,
@@ -66,11 +66,11 @@ public class CoinfloorOrder {
     return amount;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getCurrencyPair() {
     return pair;
   }
 
-  public void setCurrencyPair(CurrencyPair value) {
+  public void setCurrencyPair(Instrument value) {
     pair = value;
   }
 

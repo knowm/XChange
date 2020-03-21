@@ -3,9 +3,9 @@ package org.knowm.xchange.ripple.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 
 public class RippleUserTrade extends UserTrade {
 
@@ -18,7 +18,7 @@ public class RippleUserTrade extends UserTrade {
   public RippleUserTrade(
       final OrderType type,
       final BigDecimal originalAmount,
-      final CurrencyPair currencyPair,
+      final Instrument currencyPair,
       final BigDecimal price,
       final Date timestamp,
       final String id,
@@ -60,7 +60,7 @@ public class RippleUserTrade extends UserTrade {
   }
 
   public Currency getBaseTransferFeeCurrency() {
-    return currencyPair.base;
+    return getCurrencyPair().base;
   }
 
   public BigDecimal getCounterTransferFee() {
@@ -68,7 +68,7 @@ public class RippleUserTrade extends UserTrade {
   }
 
   public Currency getCounterTransferFeeCurrency() {
-    return currencyPair.counter;
+    return getCurrencyPair().counter;
   }
 
   public static class Builder extends UserTrade.Builder {
@@ -124,7 +124,7 @@ public class RippleUserTrade extends UserTrade {
           new RippleUserTrade(
               type,
               originalAmount,
-              currencyPair,
+              instrument,
               price,
               timestamp,
               id,

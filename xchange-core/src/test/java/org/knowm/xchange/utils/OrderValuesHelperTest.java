@@ -8,16 +8,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
 public class OrderValuesHelperTest {
 
-  private CurrencyPairMetaData pairMetaData;
+  private InstrumentMetaData pairMetaData;
   private OrderValuesHelper adjuster;
 
   @Before
   public void setup() {
-    pairMetaData = mock(CurrencyPairMetaData.class);
+    pairMetaData = mock(InstrumentMetaData.class);
     adjuster = new OrderValuesHelper(pairMetaData);
   }
 

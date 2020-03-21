@@ -27,8 +27,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -36,6 +36,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -237,7 +238,7 @@ public class DSXAdapters {
   public static ExchangeMetaData toMetaData(
       DSXExchangeInfo dsxExchangeInfo, DSXMetaData dsxMetaData) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     if (dsxExchangeInfo != null) {
@@ -245,7 +246,7 @@ public class DSXAdapters {
         String marketName = e.getKey();
 
         CurrencyPair pair = adaptCurrencyPair(marketName);
-        CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
+        InstrumentMetaData marketMetaData = toMarketMetaData(e.getValue());
         currencyPairs.put(pair, marketMetaData);
 
         addCurrencyMetaData(pair.base, currencies, dsxMetaData);
@@ -270,14 +271,14 @@ public class DSXAdapters {
     }
   }
 
-  public static CurrencyPairMetaData toMarketMetaData(DSXPairInfo info) {
+  public static InstrumentMetaData toMarketMetaData(DSXPairInfo info) {
 
     int priceScale = info.getDecimalsPrice();
     BigDecimal minimumAmount = withScale(info.getMinAmount(), info.getDecimalVolume());
     BigDecimal maximumAmount = withScale(info.getMaxPrice(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale, null);
+    return new InstrumentMetaData(feeFraction, minimumAmount, maximumAmount, priceScale, null);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

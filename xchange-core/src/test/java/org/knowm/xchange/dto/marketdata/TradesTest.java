@@ -35,7 +35,7 @@ public class TradesTest {
   public void testSerializeDeserialize() throws IOException {
     Trade t1 =
         new Trade.Builder()
-            .currencyPair(CurrencyPair.BTC_CAD)
+            .instrument(CurrencyPair.BTC_CAD)
             .id("BAR")
             .originalAmount(new BigDecimal("0.12"))
             .price(new BigDecimal("0.13"))

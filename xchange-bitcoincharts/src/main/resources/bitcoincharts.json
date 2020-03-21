@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/GLOBALUSD": {
       "price_scale": 12
     },

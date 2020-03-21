@@ -17,12 +17,12 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
@@ -75,8 +75,8 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     CurrencyPair currencyPair = null;
 
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof OpenOrdersParamInstrument) {
+      currencyPair = ((OpenOrdersParamInstrument) params).getCurrencyPair();
     }
 
     if (currencyPair == null) {
@@ -136,12 +136,12 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+    if (!(params instanceof TradeHistoryParamInstrument)) {
       throw new ExchangeException(
-          "TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
+          "TheRock API recquires " + TradeHistoryParamInstrument.class.getName());
     }
 
-    TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
+    TradeHistoryParamInstrument pairParams = (TradeHistoryParamInstrument) params;
     Long sinceTradeId = null; // get all trades starting from a specific trade_id
     if (params instanceof TradeHistoryParamsIdSpan) {
       TradeHistoryParamsIdSpan trId = (TradeHistoryParamsIdSpan) params;

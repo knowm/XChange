@@ -9,7 +9,7 @@ import org.knowm.xchange.service.trade.TradeService;
  * information additional to orderId
  *
  * <ul>
- *   <li>{@link OpenOrdersParamCurrencyPair}.
+ *   <li>{@link OpenOrdersParamInstrument}.
  * </ul>
  */
 public interface OrderQueryParams {

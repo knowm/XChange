@@ -53,8 +53,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -63,6 +63,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.slf4j.Logger;
@@ -82,9 +83,9 @@ public final class BitfinexAdapters {
    * The API returns the fee per currency in each tier and does not make any promises that they are
    * all the same, so this adapter will use the fee per currency instead of the fee per tier.
    */
-  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(
-      BitfinexTradingFeeResponse[] responses, List<CurrencyPair> currencyPairs) {
-    Map<CurrencyPair, Fee> result = new HashMap<>();
+  public static Map<Instrument, Fee> adaptDynamicTradingFees(
+      BitfinexTradingFeeResponse[] responses, List<Instrument> currencyPairs) {
+    Map<Instrument, Fee> result = new HashMap<>();
     for (BitfinexTradingFeeResponse response : responses) {
       BitfinexTradingFeeResponse.BitfinexTradingFeeResponseRow[] responseRows =
           response.getTradingFees();
@@ -95,13 +96,16 @@ public final class BitfinexAdapters {
             new Fee(
                 responseRow.getMakerFee().multiply(percentToFraction),
                 responseRow.getTakerFee().multiply(percentToFraction));
-        for (CurrencyPair pair : currencyPairs) {
+        for (Instrument instrument : currencyPairs) {
           // Fee to trade for a currency is the fee to trade currency pairs with this base.
           // Fee is typically assessed in units counter.
-          if (pair.base.equals(currency)) {
-            if (result.put(pair, fee) != null) {
-              throw new IllegalStateException(
-                  "Fee for currency pair " + pair + " is overspecified");
+          if (instrument instanceof CurrencyPair) {
+            CurrencyPair pair = (CurrencyPair) instrument;
+            if (pair.base.equals(currency)) {
+              if (result.put(pair, fee) != null) {
+                throw new IllegalStateException(
+                    "Fee for currency pair " + pair + " is overspecified");
+              }
             }
           }
         }
@@ -620,7 +624,7 @@ public final class BitfinexAdapters {
   public static ExchangeMetaData adaptMetaData(
       List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> pairsMap = metaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
 
     // Remove pairs that are no-longer in use
@@ -666,10 +670,9 @@ public final class BitfinexAdapters {
   public static ExchangeMetaData adaptMetaData(
       ExchangeMetaData exchangeMetaData,
       List<BitfinexSymbolDetail> symbolDetails,
-      Map<CurrencyPair, BigDecimal> lastPrices) {
+      Map<Instrument, BigDecimal> lastPrices) {
 
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs();
+    final Map<CurrencyPair, InstrumentMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     symbolDetails
         .parallelStream()
         .forEach(
@@ -683,8 +686,8 @@ public final class BitfinexAdapters {
                 int pricePercision = bitfinexSymbolDetail.getPrice_precision();
                 int priceScale = last.scale() + (pricePercision - last.precision());
 
-                CurrencyPairMetaData newMetaData =
-                    new CurrencyPairMetaData(
+                InstrumentMetaData newMetaData =
+                    new InstrumentMetaData(
                         currencyPairs.get(currencyPair) == null
                             ? null
                             : currencyPairs
@@ -720,14 +723,13 @@ public final class BitfinexAdapters {
 
   public static ExchangeMetaData adaptMetaData(
       BitfinexAccountInfosResponse[] bitfinexAccountInfos, ExchangeMetaData exchangeMetaData) {
-    final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData.getCurrencyPairs();
+    final Map<CurrencyPair, InstrumentMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
 
     // lets go with the assumption that the trading fees are common across all trading pairs for
     // now.
     // also setting the taker_fee as the trading_fee for now.
-    final CurrencyPairMetaData metaData =
-        new CurrencyPairMetaData(
+    final InstrumentMetaData metaData =
+        new InstrumentMetaData(
             bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
     currencyPairs
         .keySet()
@@ -738,7 +740,7 @@ public final class BitfinexAdapters {
                     currencyPair,
                     metaData,
                     (oldMetaData, newMetaData) ->
-                        new CurrencyPairMetaData(
+                        new InstrumentMetaData(
                             newMetaData.getTradingFee(),
                             oldMetaData.getMinimumAmount(),
                             oldMetaData.getMaximumAmount(),

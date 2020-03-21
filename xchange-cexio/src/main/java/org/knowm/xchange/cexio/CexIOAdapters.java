@@ -17,7 +17,11 @@ import org.knowm.xchange.cexio.dto.account.CexIOFeeInfo.FeeDetails;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
-import org.knowm.xchange.cexio.dto.trade.*;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOFullOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
+import org.knowm.xchange.cexio.dto.trade.CexioPosition;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -33,6 +37,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Author: brox Since: 2/6/14 */
@@ -385,8 +390,8 @@ public class CexIOAdapters {
         feeDetails.getBuy().max(feeDetails.getSell()));
   }
 
-  public static Map<CurrencyPair, Fee> adaptDynamicTradingFees(Map<CurrencyPair, FeeDetails> fees) {
-    Map<CurrencyPair, Fee> result = new HashMap<CurrencyPair, Fee>();
+  public static Map<Instrument, Fee> adaptDynamicTradingFees(Map<CurrencyPair, FeeDetails> fees) {
+    Map<Instrument, Fee> result = new HashMap<Instrument, Fee>();
     for (Map.Entry<CurrencyPair, FeeDetails> entry : fees.entrySet()) {
       result.put(entry.getKey(), adaptFeeDetails(entry.getValue()));
     }

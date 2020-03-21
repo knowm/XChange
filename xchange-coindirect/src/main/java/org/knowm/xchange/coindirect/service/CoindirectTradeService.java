@@ -20,7 +20,7 @@ import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -62,8 +62,8 @@ public class CoindirectTradeService extends CoindirectTradeServiceRaw implements
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     String symbol = null;
-    if (params instanceof OpenOrdersParamCurrencyPair) {
-      OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
+    if (params instanceof OpenOrdersParamInstrument) {
+      OpenOrdersParamInstrument pairParams = (OpenOrdersParamInstrument) params;
       symbol = CoindirectAdapters.toSymbol(pairParams.getCurrencyPair());
     }
     return createOpenOrders(getOpenOrders(symbol));

@@ -6,7 +6,6 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -15,9 +14,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -86,13 +86,13 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link
+   * @param params Can optionally implement {@link TradeHistoryParamInstrument} and {@link
    *     TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
 
   /**
    * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link
-   * TradeHistoryParamCurrencyPair}.
+   * TradeHistoryParamInstrument}.
    */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
@@ -127,20 +127,20 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
   }
 
   public static class BitcointoyouTradeHistoryParams
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
+      implements TradeHistoryParamInstrument, TradeHistoryParamsTimeSpan {
 
     private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
 
-      return all.getCurrencyPair();
+      return all.getInstrument();
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair value) {
+    public void setInstrument(Instrument value) {
 
-      all.setCurrencyPair(value);
+      all.setInstrument(value);
     }
 
     @Override

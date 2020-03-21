@@ -19,7 +19,7 @@ import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class BinanceExchange extends BaseExchange {
 
     try {
       // populate currency pair keys only, exchange does not provide any other metadata for download
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+      Map<CurrencyPair, InstrumentMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
       Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
       BinanceMarketDataService marketDataService =
@@ -122,7 +122,7 @@ public class BinanceExchange extends BaseExchange {
           boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
           currencyPairs.put(
               currentCurrencyPair,
-              new CurrencyPairMetaData(
+              new InstrumentMetaData(
                   new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                   minQty, // Min amount
                   maxQty, // Max amount

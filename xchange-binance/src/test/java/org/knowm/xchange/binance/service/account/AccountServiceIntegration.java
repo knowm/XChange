@@ -18,7 +18,8 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.StreamUtils;
@@ -42,10 +43,10 @@ public class AccountServiceIntegration {
   @Test
   public void testMetaData() throws Exception {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+    Map<CurrencyPair, InstrumentMetaData> currencyPairs =
         exchange.getExchangeMetaData().getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
-    CurrencyPair currPair;
+    Instrument currPair;
     Currency curr;
 
     currPair =

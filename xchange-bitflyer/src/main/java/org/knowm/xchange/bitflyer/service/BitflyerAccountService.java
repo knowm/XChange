@@ -16,12 +16,12 @@ import org.knowm.xchange.bitflyer.dto.account.BitflyerCoinHistory;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerDepositOrWithdrawal;
 import org.knowm.xchange.bitflyer.dto.trade.results.BitflyerTradingCommission;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.slf4j.Logger;
@@ -40,9 +40,9 @@ public class BitflyerAccountService extends BitflyerAccountServiceRaw implements
   }
 
   @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+  public Map<Instrument, Fee> getDynamicTradingFees() throws IOException {
+    Map<Instrument, Fee> tradingFees = new HashMap<>();
+    List<Instrument> pairs = exchange.getExchangeSymbols();
 
     pairs.forEach(
         pair -> {

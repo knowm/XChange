@@ -35,6 +35,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 
 public class BitfinexAdaptersTest {
 
@@ -50,8 +51,8 @@ public class BitfinexAdaptersTest {
     BitfinexTradingFeeResponse[] readValues =
         mapper.readValue(is, BitfinexTradingFeeResponse[].class);
     assertEquals(2, readValues.length);
-    List<CurrencyPair> currencyPairs =
-        new ArrayList<CurrencyPair>(
+    List<Instrument> currencyPairs =
+        new ArrayList<Instrument>(
             Arrays.asList(
                 new CurrencyPair[] {
                   CurrencyPair.BTC_LTC,
@@ -60,7 +61,7 @@ public class BitfinexAdaptersTest {
                   CurrencyPair.DGC_BTC,
                   CurrencyPair.BTC_USD
                 }));
-    Map<CurrencyPair, Fee> feesPerPair =
+    Map<Instrument, Fee> feesPerPair =
         BitfinexAdapters.adaptDynamicTradingFees(readValues, currencyPairs);
     assertEquals(currencyPairs.size(), feesPerPair.size());
 

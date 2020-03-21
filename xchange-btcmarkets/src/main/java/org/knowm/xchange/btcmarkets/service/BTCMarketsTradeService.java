@@ -21,15 +21,16 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
@@ -82,7 +83,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     BTCMarketsOrders openOrders =
-        getBTCMarketsOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair(), 50, null);
+        getBTCMarketsOpenOrders(((OpenOrdersParamInstrument) params).getCurrencyPair(), 50, null);
 
     return BTCMarketsAdapters.adaptOpenOrders(openOrders);
   }
@@ -115,8 +116,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     }
 
     CurrencyPair cp = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair paramsCp = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (params instanceof TradeHistoryParamInstrument) {
+      CurrencyPair paramsCp = ((TradeHistoryParamInstrument) params).getCurrencyPair();
       if (paramsCp != null) {
         cp = paramsCp;
       }
@@ -144,13 +145,13 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair(null);
+    return new DefaultOpenOrdersParamInstrument(null);
   }
 
   public static class HistoryParams
-      implements TradeHistoryParamPaging, TradeHistoryParamCurrencyPair, TradeHistoryParamsIdSpan {
+      implements TradeHistoryParamPaging, TradeHistoryParamInstrument, TradeHistoryParamsIdSpan {
     private Integer limit = 200;
-    private CurrencyPair currencyPair;
+    private Instrument currencyPair;
     private String startId;
 
     @Override
@@ -192,12 +193,12 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     public void setEndId(String endId) {}
 
     @Override
-    public CurrencyPair getCurrencyPair() {
+    public Instrument getInstrument() {
       return currencyPair;
     }
 
     @Override
-    public void setCurrencyPair(CurrencyPair currencyPair) {
+    public void setInstrument(Instrument currencyPair) {
       this.currencyPair = currencyPair;
     }
   }

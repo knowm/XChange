@@ -10,6 +10,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BxPublicApiIntegration {
@@ -31,7 +32,7 @@ public class BxPublicApiIntegration {
   @Test
   public void getExchangeSymbolsTest() {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class.getName());
-    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+    List<Instrument> pairs = exchange.getExchangeSymbols();
     System.out.println(Arrays.toString(pairs.toArray()));
     assertThat(pairs).isNotNull();
   }

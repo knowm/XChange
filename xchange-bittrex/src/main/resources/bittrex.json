@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "ADA/BTC": {
       "price_scale": 8,
       "min_amount": 25.00000000,

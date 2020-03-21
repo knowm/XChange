@@ -4,7 +4,13 @@ import static org.apache.commons.lang3.StringUtils.join;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,8 +20,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class ExmoMarketDataServiceRaw extends BaseExmoService {
@@ -52,7 +58,7 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
   }
 
   public void updateMetadata(ExchangeMetaData exchangeMetaData) throws IOException {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<CurrencyPair, InstrumentMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
     Map<String, Map<String, String>> map = exmo.pairSettings();
@@ -68,10 +74,10 @@ public class ExmoMarketDataServiceRaw extends BaseExmoService {
         tradingFee = currencyPairs.get(currencyPair).getTradingFee();
       }
 
-      CurrencyPairMetaData staticMeta = currencyPairs.get(currencyPair);
+      InstrumentMetaData staticMeta = currencyPairs.get(currencyPair);
       // min_quantity or min_amount ???
-      CurrencyPairMetaData currencyPairMetaData =
-          new CurrencyPairMetaData(
+      InstrumentMetaData currencyPairMetaData =
+          new InstrumentMetaData(
               tradingFee,
               new BigDecimal(data.get("min_quantity")),
               new BigDecimal(data.get("max_quantity")),

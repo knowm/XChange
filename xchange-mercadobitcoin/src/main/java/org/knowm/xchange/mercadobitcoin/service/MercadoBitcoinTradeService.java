@@ -23,8 +23,8 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -133,12 +133,12 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
   }
 
   /**
-   * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types:
+   * @param params Required parameter types: {@link TradeHistoryParamInstrument}. Supported types:
    *     {@link TradeHistoryParamsIdSpan}, {@link TradeHistoryParamsTimeSpan}.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    CurrencyPair pair = ((TradeHistoryParamInstrument) params).getCurrencyPair();
 
     String fromId = null;
     String toId = null;
@@ -179,7 +179,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw
     return null;
   }
 
-  public static class MercadoTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair
+  public static class MercadoTradeHistoryParams extends DefaultTradeHistoryParamInstrument
       implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
     private String startId;
     private String endId;

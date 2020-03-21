@@ -3,10 +3,19 @@ package org.knowm.xchange.coinbene.dto;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinbene.dto.account.CoinbeneCoinBalances;
-import org.knowm.xchange.coinbene.dto.marketdata.*;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrder;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneOrderBook;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneSymbol;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTicker;
+import org.knowm.xchange.coinbene.dto.marketdata.CoinbeneTrade;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneLimitOrder;
 import org.knowm.xchange.coinbene.dto.trading.CoinbeneOrders;
 import org.knowm.xchange.currency.Currency;
@@ -19,11 +28,12 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.instrument.Instrument;
 
 public class CoinbeneAdapters {
 
@@ -148,11 +158,11 @@ public class CoinbeneAdapters {
   }
 
   public static ExchangeMetaData adaptMetadata(List<CoinbeneSymbol> markets) {
-    Map<CurrencyPair, CurrencyPairMetaData> pairMeta = new HashMap<>();
+    Map<Instrument, InstrumentMetaData> pairMeta = new HashMap<>();
     for (CoinbeneSymbol ticker : markets) {
       pairMeta.put(
           new CurrencyPair(ticker.getBaseAsset(), ticker.getQuoteAsset()),
-          new CurrencyPairMetaData(
+          new InstrumentMetaData(
               ticker.getTakerFee(),
               ticker.getMinQuantity(),
               null,

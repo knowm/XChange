@@ -2,43 +2,43 @@ package org.knowm.xchange.coinfloor.service;
 
 import java.util.Collection;
 import java.util.Collections;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 public class CoinfloorTradeHistoryParams
-    implements TradeHistoryParamMultiCurrencyPair,
-        TradeHistoryParamCurrencyPair,
+    implements TradeHistoryParamMultiInstrument,
+        TradeHistoryParamInstrument,
         TradeHistoryParamsSorted,
         TradeHistoryParamOffset,
         TradeHistoryParamPaging {
-  private Collection<CurrencyPair> pairs = Collections.emptySet();
-  private CurrencyPair pair = null;
+  private Collection<Instrument> instruments = Collections.emptySet();
+  private Instrument instrument = null;
   private Order order = null;
   private Long offset = null;
   private Integer pageLength = null;
 
   @Override
-  public Collection<CurrencyPair> getCurrencyPairs() {
-    return pairs;
+  public Collection<Instrument> getInstruments() {
+    return instruments;
   }
 
   @Override
-  public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    pairs = value;
+  public void setInstruments(Collection<Instrument> value) {
+    instruments = value;
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
-    return pair;
+  public Instrument getInstrument() {
+    return instrument;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair value) {
-    pair = value;
+  public void setInstrument(Instrument value) {
+    instrument = value;
   }
 
   @Override

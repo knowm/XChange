@@ -2,8 +2,8 @@ package org.knowm.xchange.bitfinex.v1.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * Bitfinex new order entry returns details of order status. If a LimitOrder object of this type is
@@ -17,7 +17,7 @@ public class BitfinexLimitOrder extends LimitOrder {
   public BitfinexLimitOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument currencyPair,
       String id,
       Date timestamp,
       BigDecimal limitPrice) {
@@ -27,7 +27,7 @@ public class BitfinexLimitOrder extends LimitOrder {
   public BitfinexLimitOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument currencyPair,
       String id,
       Date timestamp,
       BigDecimal limitPrice,
@@ -54,14 +54,13 @@ public class BitfinexLimitOrder extends LimitOrder {
 
   public static class Builder extends LimitOrder.Builder {
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    public Builder(OrderType orderType, Instrument currencyPair) {
       super(orderType, currencyPair);
     }
 
     public BitfinexLimitOrder build() {
       final BitfinexLimitOrder order =
-          new BitfinexLimitOrder(
-              orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+          new BitfinexLimitOrder(orderType, originalAmount, instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

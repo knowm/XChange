@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "XTC/CNY": {
       "trading_fee": 0.2,
       "min_amount": 0.5,

@@ -24,7 +24,7 @@ import org.knowm.xchange.exmo.dto.trade.ExmoUserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -86,9 +86,9 @@ public class ExmoTradeService extends ExmoTradeServiceRaw implements TradeServic
     if (params instanceof ExmoTradeHistoryParams) {
       ExmoTradeHistoryParams exmoTradeHistoryParams = (ExmoTradeHistoryParams) params;
       currencyPairs.addAll(exmoTradeHistoryParams.getCurrencyPairs());
-    } else if (params instanceof TradeHistoryParamCurrencyPair) {
-      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair =
-          (TradeHistoryParamCurrencyPair) params;
+    } else if (params instanceof TradeHistoryParamInstrument) {
+      TradeHistoryParamInstrument tradeHistoryParamCurrencyPair =
+          (TradeHistoryParamInstrument) params;
       currencyPairs.add(tradeHistoryParamCurrencyPair.getCurrencyPair());
     }
 

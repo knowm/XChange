@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * Poloniex order response contains details of any trades that have just executed in the order entry
@@ -17,11 +18,11 @@ public class GeminiLimitOrder extends LimitOrder {
   public GeminiLimitOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal limitPrice) {
-    super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
+    super(type, originalAmount, instrument, id, timestamp, limitPrice);
   }
 
   public GeminiOrderStatusResponse getResponse() {
@@ -40,7 +41,7 @@ public class GeminiLimitOrder extends LimitOrder {
 
     public GeminiLimitOrder build() {
       final GeminiLimitOrder order =
-          new GeminiLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+          new GeminiLimitOrder(orderType, originalAmount, instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

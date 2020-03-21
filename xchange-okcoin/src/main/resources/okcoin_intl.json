@@ -1,5 +1,5 @@
 {
-  "currency_pairs": {
+  "instruments": {
     "BTC/USD": {
       "min_amount": 0.01,
       "price_scale": 2

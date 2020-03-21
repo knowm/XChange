@@ -10,7 +10,7 @@ import org.knowm.xchange.globitex.dto.trade.GlobitexActiveOrders;
 import org.knowm.xchange.globitex.dto.trade.GlobitexExecutionReport;
 import org.knowm.xchange.globitex.dto.trade.GlobitexUserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import si.mazi.rescu.HttpStatusIOException;
 
 public class GlobitexTradeServiceRaw extends GlobitexBaseService {
@@ -51,7 +51,7 @@ public class GlobitexTradeServiceRaw extends GlobitexBaseService {
     }
   }
 
-  public GlobitexActiveOrders getGlobitexActiveOrders(OpenOrdersParamCurrencyPair params)
+  public GlobitexActiveOrders getGlobitexActiveOrders(OpenOrdersParamInstrument params)
       throws IOException {
     try {
 

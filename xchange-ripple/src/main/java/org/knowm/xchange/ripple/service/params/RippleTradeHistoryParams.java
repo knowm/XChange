@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 /** The complete set of parameters that a Ripple trade history query will consider. */
 public class RippleTradeHistoryParams
-    implements TradeHistoryParamCurrencyPair,
+    implements TradeHistoryParamInstrument,
         TradeHistoryParamPaging,
         TradeHistoryParamsTimeSpan,
         RippleTradeHistoryAccount,
@@ -125,13 +125,13 @@ public class RippleTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
-    return all.getCurrencyPair();
+  public Instrument getInstrument() {
+    return all.getInstrument();
   }
 
   @Override
-  public void setCurrencyPair(final CurrencyPair value) {
-    all.setCurrencyPair(value);
+  public void setInstrument(final Instrument value) {
+    all.setInstrument(value);
   }
 
   /**

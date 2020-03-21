@@ -16,7 +16,7 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -41,8 +41,8 @@ public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw
   public List<Ticker> getTickers(Params params) throws IOException {
     try {
       final List<CurrencyPair> currencyPairs = new ArrayList<>();
-      if (params instanceof CurrencyPairsParam) {
-        currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
+      if (params instanceof InstrumentParam) {
+        currencyPairs.addAll(((InstrumentParam) params).getCurrencyPairs());
       }
       return getTickersRaw().stream()
           .map(

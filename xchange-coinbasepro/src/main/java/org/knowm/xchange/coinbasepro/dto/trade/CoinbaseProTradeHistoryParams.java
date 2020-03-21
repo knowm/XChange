@@ -1,16 +1,14 @@
 package org.knowm.xchange.coinbasepro.dto.trade;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 
 public class CoinbaseProTradeHistoryParams
-    implements TradeHistoryParamTransactionId,
-        TradeHistoryParamCurrencyPair,
-        TradeHistoryParamLimit {
+    implements TradeHistoryParamTransactionId, TradeHistoryParamInstrument, TradeHistoryParamLimit {
 
-  private CurrencyPair currencyPair;
+  private Instrument currencyPair;
   private String txId;
   private Integer afterTradeId;
   private Integer beforeTradeId;
@@ -33,12 +31,12 @@ public class CoinbaseProTradeHistoryParams
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return currencyPair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
+  public void setInstrument(Instrument currencyPair) {
     this.currencyPair = currencyPair;
   }
 

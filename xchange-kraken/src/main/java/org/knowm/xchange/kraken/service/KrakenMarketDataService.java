@@ -13,7 +13,7 @@ import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
+import org.knowm.xchange.service.marketdata.params.InstrumentParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
@@ -37,10 +37,10 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException {
-    if (!(params instanceof CurrencyPairsParam)) {
+    if (!(params instanceof InstrumentParam)) {
       throw new IllegalArgumentException("Params must be instance of CurrencyPairsParam");
     }
-    Collection<CurrencyPair> pairs = ((CurrencyPairsParam) params).getCurrencyPairs();
+    Collection<CurrencyPair> pairs = ((InstrumentParam) params).getCurrencyPairs();
     CurrencyPair[] pair = pairs.toArray(new CurrencyPair[pairs.size()]);
     return KrakenAdapters.adaptTickers(getKrakenTickers(pair));
   }

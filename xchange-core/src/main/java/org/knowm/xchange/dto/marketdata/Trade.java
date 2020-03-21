@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Data object representing a Trade */
@@ -22,8 +23,8 @@ public class Trade implements Serializable {
   /** Amount that was traded */
   protected final BigDecimal originalAmount;
 
-  /** The currency pair */
-  protected final CurrencyPair currencyPair;
+  /** The instrument */
+  protected final Instrument instrument;
 
   /** The price */
   protected final BigDecimal price;
@@ -40,7 +41,7 @@ public class Trade implements Serializable {
 
   /**
    * This constructor is called to create a public Trade object in {@link
-   * MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
+   * MarketDataService#getTrades(org.knowm.xchange.instrument.Instrument, Object...)}
    * implementations) since it's missing the orderId and fee parameters.
    *
    * @param type The trade type (BID side or ASK side)
@@ -55,7 +56,7 @@ public class Trade implements Serializable {
   public Trade(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal price,
       Date timestamp,
       String id,
@@ -64,7 +65,7 @@ public class Trade implements Serializable {
 
     this.type = type;
     this.originalAmount = originalAmount;
-    this.currencyPair = currencyPair;
+    this.instrument = instrument;
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
@@ -82,9 +83,25 @@ public class Trade implements Serializable {
     return originalAmount;
   }
 
+  public Instrument getInstrument() {
+
+    return instrument;
+  }
+
+  /**
+   * @deprecated CurrencyPair is a subtype of instrument <br>
+   *     use {@link #getInstrument} instead like this:
+   *     <blockquote>
+   *     <pre>
+   * getInstrument()
+   * </pre>
+   *     </blockquote>
+   */
+  @Deprecated
   public CurrencyPair getCurrencyPair() {
 
-    return currencyPair;
+    if (instrument instanceof CurrencyPair) return (CurrencyPair) instrument;
+    return null;
   }
 
   public BigDecimal getPrice() {
@@ -136,7 +153,7 @@ public class Trade implements Serializable {
         + ", originalAmount="
         + originalAmount
         + ", currencyPair="
-        + currencyPair
+        + instrument
         + ", price="
         + price
         + ", timestamp="
@@ -158,7 +175,7 @@ public class Trade implements Serializable {
 
     protected OrderType type;
     protected BigDecimal originalAmount;
-    protected CurrencyPair currencyPair;
+    protected Instrument instrument;
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
@@ -169,7 +186,7 @@ public class Trade implements Serializable {
       return new Builder()
           .type(trade.getType())
           .originalAmount(trade.getOriginalAmount())
-          .currencyPair(trade.getCurrencyPair())
+          .instrument(trade.getInstrument())
           .price(trade.getPrice())
           .timestamp(trade.getTimestamp())
           .id(trade.getId());
@@ -187,9 +204,15 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder instrument(Instrument instrument) {
+
+      this.instrument = instrument;
+      return this;
+    }
+
     public Builder currencyPair(CurrencyPair currencyPair) {
 
-      this.currencyPair = currencyPair;
+      this.instrument = currencyPair;
       return this;
     }
 
@@ -226,7 +249,7 @@ public class Trade implements Serializable {
     public Trade build() {
 
       return new Trade(
-          type, originalAmount, currencyPair, price, timestamp, id, makerOrderId, takerOrderId);
+          type, originalAmount, instrument, price, timestamp, id, makerOrderId, takerOrderId);
     }
   }
 }

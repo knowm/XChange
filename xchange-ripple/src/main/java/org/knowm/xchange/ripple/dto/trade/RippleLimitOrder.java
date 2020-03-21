@@ -5,6 +5,7 @@ import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 public class RippleLimitOrder extends LimitOrder {
 
@@ -14,7 +15,7 @@ public class RippleLimitOrder extends LimitOrder {
   public RippleLimitOrder(
       final OrderType type,
       final BigDecimal originalAmount,
-      final CurrencyPair currencyPair,
+      final Instrument currencyPair,
       final String id,
       final Date timestamp,
       final BigDecimal limitPrice,
@@ -83,7 +84,7 @@ public class RippleLimitOrder extends LimitOrder {
           new RippleLimitOrder(
               orderType,
               originalAmount,
-              currencyPair,
+              instrument,
               id,
               timestamp,
               limitPrice,

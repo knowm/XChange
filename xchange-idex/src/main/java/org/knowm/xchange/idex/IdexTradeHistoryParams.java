@@ -1,14 +1,15 @@
 package org.knowm.xchange.idex;
 
-import java.util.*;
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.idex.dto.TradeHistoryReq;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public final class IdexTradeHistoryParams extends TradeHistoryReq
-    implements TradeHistoryParams, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
+    implements TradeHistoryParams, TradeHistoryParamsTimeSpan, TradeHistoryParamInstrument {
 
   public IdexTradeHistoryParams(String address) {
     setAddress(address);
@@ -35,7 +36,7 @@ public final class IdexTradeHistoryParams extends TradeHistoryReq
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     CurrencyPair currencyPair;
     String[] marketSplit = getMarket().split("_");
     String currencyCounter = marketSplit[0];
@@ -45,7 +46,10 @@ public final class IdexTradeHistoryParams extends TradeHistoryReq
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair currencyPair) {
-    setMarket(currencyPair.counter.getSymbol() + "_" + currencyPair.base.getSymbol());
+  public void setInstrument(Instrument instrument) {
+    if (instrument instanceof CurrencyPair) {
+      CurrencyPair currencyPair = (CurrencyPair) instrument;
+      setMarket(currencyPair.counter.getSymbol() + "_" + currencyPair.base.getSymbol());
+    }
   }
 }

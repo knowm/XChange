@@ -22,7 +22,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -220,18 +220,18 @@ public class BitmexAdapters {
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
   }
 
-  private static CurrencyPairMetaData adaptPair(
-      BitmexTicker ticker, CurrencyPairMetaData originalMeta) {
+  private static InstrumentMetaData adaptPair(
+      BitmexTicker ticker, InstrumentMetaData originalMeta) {
 
     if (originalMeta != null) {
-      return new CurrencyPairMetaData(
+      return new InstrumentMetaData(
           ticker.getTakerFee(),
           originalMeta.getMinimumAmount(),
           originalMeta.getMaximumAmount(),
           Math.max(0, ticker.getTickSize().stripTrailingZeros().scale()),
           originalMeta.getFeeTiers());
     } else {
-      return new CurrencyPairMetaData(
+      return new InstrumentMetaData(
           ticker.getTakerFee(),
           null,
           null,

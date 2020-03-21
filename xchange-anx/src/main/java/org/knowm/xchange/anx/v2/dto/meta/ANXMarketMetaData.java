@@ -2,10 +2,10 @@ package org.knowm.xchange.anx.v2.dto.meta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
+import org.knowm.xchange.dto.meta.InstrumentMetaData;
 
-public class ANXMarketMetaData extends CurrencyPairMetaData {
+public class ANXMarketMetaData extends InstrumentMetaData {
 
   public ANXMarketMetaData(
       @JsonProperty("trading_fee") BigDecimal tradingFee,

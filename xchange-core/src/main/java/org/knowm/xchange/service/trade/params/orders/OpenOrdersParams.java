@@ -10,11 +10,11 @@ import org.knowm.xchange.service.trade.TradeService;
  * implementing at least one from following available interfaces:
  *
  * <ul>
- *   <li>{@link OpenOrdersParamCurrencyPair}.
+ *   <li>{@link OpenOrdersParamInstrument}.
  * </ul>
  *
  * When suitable exchange params definition can extend from default classes, eg. {@link
- * DefaultOpenOrdersParamCurrencyPair}.
+ * DefaultOpenOrdersParamInstrument}.
  */
 public interface OpenOrdersParams {
   /**

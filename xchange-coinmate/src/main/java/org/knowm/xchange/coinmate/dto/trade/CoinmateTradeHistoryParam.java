@@ -1,11 +1,12 @@
 package org.knowm.xchange.coinmate.dto.trade;
 
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
 
-public class CoinmateTradeHistoryParam implements TradeHistoryParamCurrencyPair {
+public class CoinmateTradeHistoryParam implements TradeHistoryParamInstrument {
 
-  CurrencyPair pair;
+  Instrument pair;
   int limit = 1000;
 
   public CoinmateTradeHistoryParam(CurrencyPair pair) {
@@ -18,12 +19,12 @@ public class CoinmateTradeHistoryParam implements TradeHistoryParamCurrencyPair 
   }
 
   @Override
-  public CurrencyPair getCurrencyPair() {
+  public Instrument getInstrument() {
     return pair;
   }
 
   @Override
-  public void setCurrencyPair(CurrencyPair pair) {
+  public void setInstrument(Instrument pair) {
     this.pair = pair;
   }
 }

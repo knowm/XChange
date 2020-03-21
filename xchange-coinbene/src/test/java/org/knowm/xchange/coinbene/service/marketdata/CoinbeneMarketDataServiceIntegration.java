@@ -12,6 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoinbeneMarketDataServiceIntegration {
@@ -63,7 +64,7 @@ public class CoinbeneMarketDataServiceIntegration {
   @Test
   public void testGetSymbol() {
 
-    List<CurrencyPair> symbols = COINBENE.getExchangeSymbols();
+    List<Instrument> symbols = COINBENE.getExchangeSymbols();
     assertThat(symbols).isNotNull();
     assertThat(symbols.contains(CurrencyPair.ETH_BTC)).isEqualTo(true);
   }

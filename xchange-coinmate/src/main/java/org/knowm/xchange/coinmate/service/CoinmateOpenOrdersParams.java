@@ -1,5 +1,5 @@
 package org.knowm.xchange.coinmate.service;
 
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 
-public class CoinmateOpenOrdersParams extends DefaultOpenOrdersParamCurrencyPair {}
+public class CoinmateOpenOrdersParams extends DefaultOpenOrdersParamInstrument {}

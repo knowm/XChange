@@ -11,6 +11,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -23,9 +24,12 @@ public class CoinfloorAccountService extends CoinfloorAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
 
     Collection<CoinfloorBalance> rawBalances = new ArrayList<>();
-    for (CurrencyPair pair : exchange.getExchangeSymbols()) {
-      CoinfloorBalance balance = getCoinfloorBalance(pair);
-      rawBalances.add(balance);
+    for (Instrument instrument : exchange.getExchangeSymbols()) {
+      if (instrument instanceof CurrencyPair) {
+        CurrencyPair pair = (CurrencyPair) instrument;
+        CoinfloorBalance balance = getCoinfloorBalance(pair);
+        rawBalances.add(balance);
+      }
     }
     return CoinfloorAdapters.adaptAccountInfo(
         exchange.getExchangeMetaData().getCurrencies().keySet(), rawBalances);
