@@ -3,8 +3,10 @@ package org.knowm.xchange.bitfinex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryResponse;
@@ -21,6 +23,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexTradingFeesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
+import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
@@ -197,5 +201,28 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
             until,
             limit,
             wallet));
+  }
+
+  public List<LedgerEntry> getLedgerEntries(
+      String currency, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+    if (StringUtils.isBlank(currency)) {
+      return bitfinexV2.getLedgerEntries(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          EmptyRequest.INSTANCE);
+    }
+    return bitfinexV2.getLedgerEntries(
+        exchange.getNonceFactory(),
+        apiKey,
+        signatureV2,
+        currency,
+        startTimeMillis,
+        endTimeMillis,
+        limit,
+        EmptyRequest.INSTANCE);
   }
 }

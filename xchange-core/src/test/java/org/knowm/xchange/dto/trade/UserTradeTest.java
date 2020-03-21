@@ -1,8 +1,7 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,6 +25,7 @@ public class UserTradeTest {
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0.0006");
     final Currency feeCurrency = Currency.BTC;
+    final String orderUserReference = "orderUserReference";
 
     final UserTrade copy =
         new UserTrade.Builder()
@@ -38,6 +38,7 @@ public class UserTradeTest {
             .orderId(orderId)
             .feeAmount(feeAmount)
             .feeCurrency(feeCurrency)
+            .orderUserReference(orderUserReference)
             .build();
 
     assertThat(copy.getType()).isEqualTo(type);
@@ -49,6 +50,7 @@ public class UserTradeTest {
     assertThat(copy.getOrderId()).isEqualTo(orderId);
     assertThat(copy.getFeeAmount()).isEqualTo(feeAmount);
     assertThat(copy.getFeeCurrency()).isEqualTo(feeCurrency);
+    assertThat(copy.getOrderUserReference()).isEqualTo(orderUserReference);
   }
 
   @Test
@@ -64,16 +66,18 @@ public class UserTradeTest {
     final Currency feeCurrency = Currency.BTC;
 
     final UserTrade original =
-        new UserTrade(
-            type,
-            originalAmount,
-            currencyPair,
-            price,
-            timestamp,
-            id,
-            orderId,
-            feeAmount,
-            feeCurrency);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId(orderId)
+            .feeAmount(feeAmount)
+            .feeCurrency(feeCurrency)
+            .build();
+
     final UserTrade copy = UserTrade.Builder.from(original).build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
@@ -99,21 +103,22 @@ public class UserTradeTest {
     final BigDecimal feeAmount = new BigDecimal("0");
     final Currency feeCurrency = Currency.BTC;
     final UserTrade original =
-        new UserTrade(
-            type,
-            originalAmount,
-            currencyPair,
-            price,
-            timestamp,
-            id,
-            orderId,
-            feeAmount,
-            feeCurrency);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId(orderId)
+            .feeAmount(feeAmount)
+            .feeCurrency(feeCurrency)
+            .build();
 
     String json = ObjectMapperHelper.toCompactJSON(original);
     assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
 
-    UserTrade jsonCopy = ObjectMapperHelper.readValue(json, UserTrade.class);
+    UserTrade jsonCopy = ObjectMapperHelper.readValueStrict(json, UserTrade.class);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);
   }
 
@@ -130,86 +135,105 @@ public class UserTradeTest {
     final Currency feeCurrency = Currency.BTC;
 
     final UserTrade original =
-        new UserTrade(
-            type,
-            originalAmount,
-            currencyPair,
-            price,
-            timestamp,
-            id,
-            orderId,
-            feeAmount,
-            feeCurrency);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId(orderId)
+            .feeAmount(feeAmount)
+            .feeCurrency(feeCurrency)
+            .build();
     final UserTrade copy =
-        new UserTrade(
-            type,
-            originalAmount,
-            currencyPair,
-            price,
-            timestamp,
-            id,
-            orderId,
-            feeAmount,
-            feeCurrency);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId(orderId)
+            .feeAmount(feeAmount)
+            .feeCurrency(feeCurrency)
+            .build();
 
     assertEquals(original, copy);
   }
 
   @Test
   public void returnsEqualsCorrectlyWithUnequalUserTradesOfUserTradeAttributes() {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal price = new BigDecimal("250.34");
+    final Date timestamp = new Date();
+    final String id = "id";
+
     final UserTrade original =
-        new UserTrade(
-            OrderType.ASK,
-            new BigDecimal("100.501"),
-            CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"),
-            new Date(),
-            "id",
-            "FooOrderId",
-            new BigDecimal("0"),
-            Currency.BTC);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId("FooOrderId")
+            .feeAmount(new BigDecimal("0"))
+            .feeCurrency(Currency.BTC)
+            .build();
 
     final UserTrade copy =
-        new UserTrade(
-            OrderType.ASK,
-            new BigDecimal("100.501"),
-            CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"),
-            new Date(),
-            "id",
-            "BarOrderId",
-            new BigDecimal("0.15"),
-            Currency.USD);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id(id)
+            .orderId("BarOrderId")
+            .feeAmount(new BigDecimal("0.15"))
+            .feeCurrency(Currency.USD)
+            .build();
 
-    assertFalse(original.equals(copy));
+    assertNotEquals(original, copy);
   }
 
   @Test
   public void returnsEqualsCorrectlyWithUnequalUserTradesOfTradeAttributes() {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal price = new BigDecimal("250.34");
+    final Date timestamp = new Date();
+
     final UserTrade original =
-        new UserTrade(
-            OrderType.ASK,
-            new BigDecimal("100.501"),
-            CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"),
-            new Date(),
-            "FooTradeId",
-            "OrderId",
-            new BigDecimal("0"),
-            Currency.BTC);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id("FooTradeId")
+            .orderId("OrderId")
+            .feeAmount(new BigDecimal("0"))
+            .feeCurrency(Currency.BTC)
+            .build();
 
     final UserTrade copy =
-        new UserTrade(
-            OrderType.ASK,
-            new BigDecimal("100.501"),
-            CurrencyPair.BTC_USD,
-            new BigDecimal("250.34"),
-            new Date(),
-            "BarTradeId",
-            "OrderId",
-            new BigDecimal("0"),
-            Currency.BTC);
+        new UserTrade.Builder()
+            .type(type)
+            .originalAmount(originalAmount)
+            .currencyPair(currencyPair)
+            .price(price)
+            .timestamp(timestamp)
+            .id("BarTradeId")
+            .orderId("OrderId")
+            .feeAmount(new BigDecimal("0"))
+            .feeCurrency(Currency.BTC)
+            .build();
 
-    assertFalse(original.equals(copy));
+    assertNotEquals(original, copy);
   }
 }

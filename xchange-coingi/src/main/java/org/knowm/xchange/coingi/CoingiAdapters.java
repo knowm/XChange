@@ -166,7 +166,14 @@ public final class CoingiAdapters {
         DateUtils.fromMillisUtc(
             tx.getTimestamp()
                 * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(orderType, tx.getBaseAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(tx.getBaseAmount())
+        .currencyPair(currencyPair)
+        .price(tx.getPrice())
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trade adaptTrade(
@@ -176,7 +183,14 @@ public final class CoingiAdapters {
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = tx.getId();
     Date date = new Date(tx.getTimestamp());
-    return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(tx.getAmount())
+        .currencyPair(currencyPair)
+        .price(tx.getPrice())
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static UserTrades adaptTradeHistory(CoingiOrdersList ordersList) {
@@ -190,16 +204,16 @@ public final class CoingiAdapters {
               o.getCurrencyPair().get("counter").toUpperCase());
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              o.getOriginalBaseAmount(),
-              pair,
-              o.getPrice(),
-              new Date(o.getTimestamp()),
-              o.getId(),
-              o.getId(),
-              BigDecimal.valueOf(0),
-              null);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(o.getOriginalBaseAmount())
+              .currencyPair(pair)
+              .price(o.getPrice())
+              .timestamp(new Date(o.getTimestamp()))
+              .id(o.getId())
+              .orderId(o.getId())
+              .feeAmount(BigDecimal.ZERO)
+              .build();
 
       trades.add(trade);
     }

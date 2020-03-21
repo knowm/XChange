@@ -28,13 +28,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelAllOrders;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
@@ -176,9 +170,16 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       startTime = timeSpan.getStartTime();
       endTime = timeSpan.getEndTime();
     }
+    int count = 100;
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limit = (TradeHistoryParamLimit) params;
+      if (limit.getLimit() != null) {
+        count = limit.getLimit();
+      }
+    }
 
     List<UserTrade> userTrades =
-        getTradeHistory(symbol, null, null, null, start, false, startTime, endTime).stream()
+        getTradeHistory(symbol, null, null, count, start, false, startTime, endTime).stream()
             .map(BitmexAdapters::adoptUserTrade)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());

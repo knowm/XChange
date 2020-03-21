@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -190,6 +191,7 @@ public abstract class Order implements Serializable {
     this.cumulativeAmount = cumulativeAmount;
   }
 
+  @JsonIgnore
   public BigDecimal getCumulativeCounterAmount() {
     if (cumulativeAmount != null
         && averagePrice != null
@@ -465,6 +467,7 @@ public abstract class Order implements Serializable {
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
+    protected String leverage;
 
     protected Builder(OrderType orderType, CurrencyPair currencyPair) {
 
@@ -537,6 +540,12 @@ public abstract class Order implements Serializable {
     public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this;
+    }
+
+    public Builder leverage(String leverage) {
+
+      this.leverage = leverage;
       return this;
     }
 

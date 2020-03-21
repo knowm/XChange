@@ -1,12 +1,14 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Setter
 @Getter
 @ToString

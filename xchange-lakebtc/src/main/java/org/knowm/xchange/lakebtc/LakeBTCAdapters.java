@@ -85,13 +85,14 @@ public class LakeBTCAdapters {
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
       trades.add(
-          new Trade(
-              orderType,
-              trade.getAmount(),
-              currencyPair,
-              trade.getTotal(),
-              DateUtils.fromMillisUtc(trade.getAt() * 1000L),
-              trade.getId()));
+          new Trade.Builder()
+              .type(orderType)
+              .originalAmount(trade.getAmount())
+              .currencyPair(currencyPair)
+              .price(trade.getTotal())
+              .timestamp(DateUtils.fromMillisUtc(trade.getAt() * 1000L))
+              .id(trade.getId())
+              .build());
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
@@ -114,7 +115,13 @@ public class LakeBTCAdapters {
     // a timestamp
     // in seconds,
     // stream in ms
-    return new Trade(null, tx.getAmount(), currencyPair, tx.getTotal(), date, tradeId);
+    return new Trade.Builder()
+        .originalAmount(tx.getAmount())
+        .currencyPair(currencyPair)
+        .price(tx.getTotal())
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   /**
@@ -136,16 +143,14 @@ public class LakeBTCAdapters {
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;
       UserTrade userTrade =
-          new UserTrade(
-              orderType,
-              originalAmount,
-              currencyPair,
-              price,
-              timestamp,
-              tradeId,
-              null,
-              null,
-              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(originalAmount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timestamp)
+              .feeCurrency(Currency.getInstance(currencyPair.counter.getCurrencyCode()))
+              .build();
       trades.add(userTrade);
     }
 
