@@ -86,20 +86,20 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
 
-    if (orderParams instanceof CancelOrderByPairAndIdParams) {
-      try {
-        final CancelOrderByPairAndIdParams params = (CancelOrderByPairAndIdParams) orderParams;
-        return cancelBithumbOrder(params.getOrderId(), params.getCurrencyPair());
-      } catch (BithumbException e) {
-        throw BithumbErrorAdapter.adapt(e);
+    try {
+      if (orderParams instanceof CancelOrderByPairAndIdParams) {
+          final CancelOrderByPairAndIdParams params = (CancelOrderByPairAndIdParams) orderParams;
+          return cancelBithumbOrder(params.getOrderId(), params.getCurrencyPair());
+      } else if (orderParams instanceof CancelOrderByIdParams && orderParams instanceof CancelOrderByCurrencyPair) {
+        String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+        CurrencyPair pair = ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair();
+        return cancelBithumbOrder(orderId, pair);
+      } else {
+        throw new NotYetImplementedForExchangeException(
+            "Only CancelOrderByPairAndIdParams || (CancelOrderByIdParams && CancelOrderByCurrencyPair) supported");
       }
-    } else if (orderParams instanceof CancelOrderByIdParams && orderParams instanceof CancelOrderByCurrencyPair) {
-      String orderId = ((CancelOrderByIdParams)orderParams).getOrderId();
-      CurrencyPair pair = ((CancelOrderByCurrencyPair)orderParams).getCurrencyPair();
-      return cancelBithumbOrder(orderId, pair);
-    } else {
-      throw new NotYetImplementedForExchangeException(
-          "Only CancelOrderByPairAndIdParams || (CancelOrderByIdParams && CancelOrderByCurrencyPair) supported");
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
     }
   }
 
