@@ -37,13 +37,13 @@
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.13</version.junit>
         <version.lombok>1.18.12</version.lombok>
-        <version.knowm.xchart>3.6.1</version.knowm.xchart>
+        <version.knowm.xchart>3.6.2</version.knowm.xchart>
         <version.powermock>2.0.5</version.powermock>
         <version.qos.logback>1.2.3</version.qos.logback>
         <version.reflections>0.9.12</version.reflections>
         <version.slf4j>1.7.30</version.slf4j>
         <version.crypto>4.5.16</version.crypto>
-        <version.java-jwt>3.10.0</version.java-jwt>
+        <version.java-jwt>3.10.1</version.java-jwt>
 
         <skipIntegrationTests>true</skipIntegrationTests>
     </properties>

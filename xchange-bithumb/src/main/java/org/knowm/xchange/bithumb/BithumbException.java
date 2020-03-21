@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import si.mazi.rescu.HttpStatusExceptionSupport;
+
 import java.util.HashMap;
 import java.util.Map;
-import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BithumbException extends HttpStatusExceptionSupport {
 
@@ -14,6 +15,14 @@ public class BithumbException extends HttpStatusExceptionSupport {
   private String message;
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  public BithumbException() {}
+
+  public BithumbException(String status, String message) {
+    super(message);
+    this.status = status;
+    this.message = message;
+  }
 
   public String getStatus() {
     return status;
