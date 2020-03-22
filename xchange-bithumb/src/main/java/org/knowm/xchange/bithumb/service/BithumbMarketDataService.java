@@ -1,5 +1,7 @@
 package org.knowm.xchange.bithumb.service;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbErrorAdapter;
@@ -10,9 +12,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
-
-import java.io.IOException;
-import java.util.List;
 
 public class BithumbMarketDataService extends BithumbMarketDataServiceRaw
     implements MarketDataService {

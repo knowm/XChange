@@ -1,17 +1,16 @@
 package org.knowm.xchange.bithumb.dto.account;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.bithumb.BithumbAdapters;
-import org.knowm.xchange.bithumb.dto.BithumbResponse;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 
 public class BithumbAccountDataTest {
 

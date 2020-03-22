@@ -2,12 +2,11 @@ package org.knowm.xchange.bithumb.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.bithumb.BithumbAdapters;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.bithumb.BithumbAdapters;
 
 public class BithumbOrderDetail {
   private final Long orderDate;
