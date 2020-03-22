@@ -1,9 +1,8 @@
 package org.knowm.xchange.bithumb.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
+import org.apache.commons.lang3.StringUtils;
 
 public class BithumbUserTransaction {
   public static final String SEARCH_BUY = "1";

@@ -1,5 +1,11 @@
 package org.knowm.xchange.bithumb.service;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbErrorAdapter;
@@ -22,13 +28,6 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class BithumbTradeService extends BithumbTradeServiceRaw implements TradeService {
 
@@ -86,9 +85,10 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     try {
-      if (!(orderParams instanceof CancelOrderByIdParams && orderParams instanceof CancelOrderByCurrencyPair)) {
+      if (!(orderParams instanceof CancelOrderByIdParams
+          && orderParams instanceof CancelOrderByCurrencyPair)) {
         throw new NotYetImplementedForExchangeException(
-                "Only CancelOrderByPairAndIdParams || (CancelOrderByIdParams && CancelOrderByCurrencyPair) supported");
+            "Only CancelOrderByPairAndIdParams || (CancelOrderByIdParams && CancelOrderByCurrencyPair) supported");
       }
 
       String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();

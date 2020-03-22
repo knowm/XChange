@@ -1,5 +1,7 @@
 package org.knowm.xchange.bithumb.service;
 
+import java.io.IOException;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbUtils;
 import org.knowm.xchange.bithumb.dto.BithumbResponse;
@@ -7,9 +9,6 @@ import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbWalletAddress;
 import org.knowm.xchange.currency.Currency;
-
-import java.io.IOException;
-import java.util.Optional;
 
 public class BithumbAccountServiceRaw extends BithumbBaseService {
 

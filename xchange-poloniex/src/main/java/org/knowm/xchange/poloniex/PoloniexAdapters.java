@@ -1,5 +1,7 @@
 package org.knowm.xchange.poloniex;
 
+import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -41,8 +43,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
-
-import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 /**
  * @author Zach Holmes
