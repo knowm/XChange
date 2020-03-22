@@ -144,6 +144,38 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .getData();
   }
 
+  public List<TransfertHistoryResponse.TransfertHistory> getTransfertHistory(
+      String email, Long startTime, Long endTime, Integer page, Integer limit)
+      throws BinanceException, IOException {
+    return binance
+        .getTransfertHistory(
+            email,
+            startTime,
+            endTime,
+            page,
+            limit,
+            getRecvWindow(),
+            getTimestamp(),
+            super.apiKey,
+            super.signatureCreator)
+        .getData();
+  }
+
+  public List<SubUserHistory> getSubUserHistory(
+      String asset, Integer type, Long startTime, Long endTime, Integer limit)
+      throws BinanceException, IOException {
+    return binance.getSubUserHistory(
+        asset,
+        type,
+        startTime,
+        endTime,
+        limit,
+        getRecvWindow(),
+        getTimestamp(),
+        super.apiKey,
+        super.signatureCreator);
+  }
+
   private <T> T checkWapiResponse(WapiResponse<T> result) {
     if (!result.success) {
       BinanceException exception;

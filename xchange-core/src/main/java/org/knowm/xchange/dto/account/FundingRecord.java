@@ -298,7 +298,13 @@ public final class FundingRecord implements Serializable {
      * outflows defined above or their nature could not have been deduced from the exchanges
      * response
      */
-    OTHER_OUTFLOW(false);
+    OTHER_OUTFLOW(false),
+
+    /** Used for inflows that come from a sub account to the master account */
+    SUBACCOUNT_INFLOW(true),
+
+    /** Used for outflows that come from a master account to a sub account */
+    SUBACCOUNT_OUTFLOW(false);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
