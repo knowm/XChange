@@ -184,7 +184,6 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     try {
       String asset = null;
-      String email = null;
       if (params instanceof TradeHistoryParamCurrency) {
         TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
         if (cp.getCurrency() != null) {
@@ -207,12 +206,6 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       boolean deposits = true;
       boolean otherInflow = true;
 
-      boolean subAccount = false;
-
-      if (params instanceof BinanceSubAccountTransfertHistoryParams) {
-        subAccount = true;
-      }
-
       Long startTime = null;
       Long endTime = null;
       if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -234,8 +227,17 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         }
       }
 
+      String email = null;
+      boolean subAccount = false;
+
+      // Get transfert history from a master account to a sub account
       if (params instanceof BinanceMasterAccountTransfertHistoryParams) {
         email = ((BinanceMasterAccountTransfertHistoryParams) params).getEmail();
+      }
+
+      // Get transfert history from a sub account to a master/sub account
+      if (params instanceof BinanceSubAccountTransfertHistoryParams) {
+        subAccount = true;
       }
 
       List<FundingRecord> result = new ArrayList<>();
