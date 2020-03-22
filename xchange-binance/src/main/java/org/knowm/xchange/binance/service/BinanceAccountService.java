@@ -184,6 +184,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     try {
       String asset = null;
+      String email = null;
       if (params instanceof TradeHistoryParamCurrency) {
         TradeHistoryParamCurrency cp = (TradeHistoryParamCurrency) params;
         if (cp.getCurrency() != null) {
@@ -192,15 +193,25 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       }
 
       Integer limit = null;
+      Integer page = null;
 
       if (params instanceof TradeHistoryParamLimit) {
-        TradeHistoryParamLimit hpl = (TradeHistoryParamLimit) params;
-        limit = hpl.getLimit();
+        limit = ((TradeHistoryParamLimit) params).getLimit();
+      }
+
+      if (params instanceof TradeHistoryParamPaging) {
+        page = ((TradeHistoryParamPaging) params).getPageNumber();
       }
 
       boolean withdrawals = true;
       boolean deposits = true;
       boolean otherInflow = true;
+
+      boolean subAccount = false;
+
+      if (params instanceof BinanceSubAccountTransfertHistoryParams) {
+        subAccount = true;
+      }
 
       Long startTime = null;
       Long endTime = null;
@@ -221,6 +232,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
           deposits = f.getType() == Type.DEPOSIT;
           otherInflow = f.getType() == Type.OTHER_INFLOW;
         }
+      }
+
+      if (params instanceof BinanceMasterAccountTransfertHistoryParams) {
+        email = ((BinanceMasterAccountTransfertHistoryParams) params).getEmail();
       }
 
       List<FundingRecord> result = new ArrayList<>();
@@ -284,6 +299,52 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           null,
                           null,
                           a.getEnInfo()));
+                });
+      }
+
+      final String finalEmail = email;
+
+      if (email != null) {
+        super.getTransfertHistory(email, startTime, endTime, page, limit)
+            .forEach(
+                a -> {
+                  result.add(
+                      new FundingRecord(
+                          finalEmail,
+                          null,
+                          new Date(a.getTime()),
+                          Currency.getInstance(a.getAsset()),
+                          a.getQty(),
+                          null,
+                          null,
+                          Type.SUBACCOUNT_OUTFLOW,
+                          Status.COMPLETE,
+                          null,
+                          null,
+                          null));
+                });
+      }
+
+      if (subAccount) {
+
+        Integer type = deposits && withdrawals ? null : deposits ? 1 : 0;
+        super.getSubUserHistory(asset, type, startTime, endTime, limit)
+            .forEach(
+                a -> {
+                  result.add(
+                      new FundingRecord(
+                          a.getEmail(),
+                          null,
+                          new Date(a.getTime()),
+                          Currency.getInstance(a.getAsset()),
+                          a.getQty(),
+                          null,
+                          null,
+                          a.getType().equals(1) ? Type.SUBACCOUNT_INFLOW : Type.SUBACCOUNT_OUTFLOW,
+                          Status.COMPLETE,
+                          null,
+                          null,
+                          null));
                 });
       }
 
