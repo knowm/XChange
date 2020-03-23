@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 import org.knowm.xchange.bithumb.BithumbErrorAdapter;
@@ -24,13 +23,10 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByPairAndIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamInstrument;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class BithumbTradeService extends BithumbTradeServiceRaw implements TradeService {
@@ -49,8 +45,8 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
 
     final CurrencyPair currencyPair =
         Optional.ofNullable(params)
-            .filter(p -> p instanceof OpenOrdersParamInstrument)
-            .map(p -> ((OpenOrdersParamInstrument) p).getCurrencyPair())
+            .filter(p -> p instanceof OpenOrdersParamCurrencyPair)
+            .map(p -> ((OpenOrdersParamCurrencyPair) p).getCurrencyPair())
             .orElse(null);
 
     try {
@@ -88,17 +84,18 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-
-    if (orderParams instanceof CancelOrderByPairAndIdParams) {
-      try {
-        final CancelOrderByPairAndIdParams params = (CancelOrderByPairAndIdParams) orderParams;
-        return cancelBithumbOrder(params.getOrderId(), params.getCurrencyPair());
-      } catch (BithumbException e) {
-        throw BithumbErrorAdapter.adapt(e);
+    try {
+      if (!(orderParams instanceof CancelOrderByIdParams
+          && orderParams instanceof CancelOrderByCurrencyPair)) {
+        throw new NotYetImplementedForExchangeException(
+            "Only CancelOrderByPairAndIdParams || (CancelOrderByIdParams && CancelOrderByCurrencyPair) supported");
       }
-    } else {
-      throw new NotYetImplementedForExchangeException(
-          "Only CancelOrderByPairAndIdParams supported");
+
+      String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+      CurrencyPair pair = ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair();
+      return cancelBithumbOrder(orderId, pair);
+    } catch (BithumbException e) {
+      throw BithumbErrorAdapter.adapt(e);
     }
   }
 
@@ -107,8 +104,8 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
 
     final CurrencyPair currencyPair =
         Optional.ofNullable(params)
-            .filter(p -> p instanceof TradeHistoryParamInstrument)
-            .map(p -> ((TradeHistoryParamInstrument) p).getCurrencyPair())
+            .filter(p -> p instanceof TradeHistoryParamCurrencyPair)
+            .map(p -> ((TradeHistoryParamCurrencyPair) p).getCurrencyPair())
             .orElse(null);
     try {
       return BithumbAdapters.adaptUserTrades(
@@ -127,8 +124,8 @@ public class BithumbTradeService extends BithumbTradeServiceRaw implements Trade
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     /* This only works for executed orders */
     return Arrays.stream(orderQueryParams)
-        .filter(oq -> oq instanceof OrderQueryParamInstrument)
-        .map(oq -> (OrderQueryParamInstrument) oq)
+        .filter(oq -> oq instanceof OrderQueryParamCurrencyPair)
+        .map(oq -> (OrderQueryParamCurrencyPair) oq)
         .map(
             oq -> {
               try {

@@ -1,5 +1,11 @@
 package org.knowm.xchange.bithumb;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
@@ -17,13 +23,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.*;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public final class BithumbAdapters {
   public static final String SEARCH_BUY = "1";
@@ -195,13 +194,13 @@ public final class BithumbAdapters {
 
     BigDecimal cumulative =
         order.getContract().stream()
-            .map(BithumbOrderDetail.Contract::getTotal)
+            .map(BithumbOrderDetail.Contract::getUnits)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal averagePrice =
         cumulative.compareTo(BigDecimal.ZERO) != 0
             ? order.getContract().stream()
-                .map(contract -> contract.getTotal().multiply(contract.getPrice()))
+                .map(contract -> contract.getUnits().multiply(contract.getPrice()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(cumulative, MathContext.DECIMAL32)
             : null;
