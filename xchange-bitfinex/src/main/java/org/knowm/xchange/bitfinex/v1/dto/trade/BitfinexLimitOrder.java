@@ -2,6 +2,7 @@ package org.knowm.xchange.bitfinex.v1.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
@@ -61,7 +62,7 @@ public class BitfinexLimitOrder extends LimitOrder {
     public BitfinexLimitOrder build() {
       final BitfinexLimitOrder order =
           new BitfinexLimitOrder(
-              orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+              orderType, originalAmount, (CurrencyPair) instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }
