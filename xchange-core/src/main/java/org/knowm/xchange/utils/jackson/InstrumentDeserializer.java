@@ -32,7 +32,7 @@ public class InstrumentDeserializer extends JsonDeserializer<Instrument> {
     // CurrencyPair (Base/Counter) i.e. BTC/USD
     if (count == 1) return new CurrencyPair(instrumentString);
     // Futures/Swaps (Base/Counter/Prompt) i.e. BTC/USD/200925
-    /// Options (Base/Counter/Prompt/StrikePrice/Put?Call) i.e. BTC/USD/200925/8956.67/P
+    // Options (Base/Counter/Prompt/StrikePrice/Put?Call) i.e. BTC/USD/200925/8956.67/P
     else return null;
   }
 }
