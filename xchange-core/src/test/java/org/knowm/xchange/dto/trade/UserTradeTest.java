@@ -1,7 +1,8 @@
 package org.knowm.xchange.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -116,7 +117,7 @@ public class UserTradeTest {
             .build();
 
     String json = ObjectMapperHelper.toCompactJSON(original);
-    assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
+    assertThat(json).contains("\"currencyPair\",\"BTC/USD\"");
 
     UserTrade jsonCopy = ObjectMapperHelper.readValueStrict(json, UserTrade.class);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);
