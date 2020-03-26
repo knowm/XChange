@@ -29,8 +29,7 @@ public class DsxAccountService extends DsxAccountServiceRaw implements AccountSe
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(
-        DsxAdapters.adaptWallet("Trading", getTradingBalance()));
+    return new AccountInfo(DsxAdapters.adaptWallet("Trading", getTradingBalance()));
   }
 
   @Override

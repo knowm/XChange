@@ -1,12 +1,5 @@
 package org.knowm.xchange.examples.dsx.marketdata;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.examples.dsx.DsxExampleUtils;
-import org.knowm.xchange.dsx.v2.dto.DsxCandle;
-import org.knowm.xchange.dsx.v2.service.DsxMarketDataServiceRaw;
-import org.knowm.xchange.service.marketdata.MarketDataService;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -14,6 +7,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.v2.dto.DsxCandle;
+import org.knowm.xchange.dsx.v2.service.DsxMarketDataServiceRaw;
+import org.knowm.xchange.examples.dsx.DsxExampleUtils;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class DsxCandlesDemo {
 
@@ -48,8 +47,7 @@ public class DsxCandlesDemo {
 
     // default is latest candles sorted ASC
     System.out.println("Default");
-    List<DsxCandle> candles =
-        dsxMarketDataService.getDsxCandles(currencyPair, limit, period);
+    List<DsxCandle> candles = dsxMarketDataService.getDsxCandles(currencyPair, limit, period);
     printCandles(candles);
 
     // sorted
@@ -65,8 +63,7 @@ public class DsxCandlesDemo {
 
     // sorted with date range
     System.out.println("Filtered from " + from + " to " + till + " and sort " + sort);
-    candles =
-        dsxMarketDataService.getDsxCandles(currencyPair, limit, period, from, till, "ASC");
+    candles = dsxMarketDataService.getDsxCandles(currencyPair, limit, period, from, till, "ASC");
 
     printCandles(candles);
 
