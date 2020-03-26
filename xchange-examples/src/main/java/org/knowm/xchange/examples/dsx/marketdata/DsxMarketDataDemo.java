@@ -1,18 +1,17 @@
 package org.knowm.xchange.examples.dsx.marketdata;
 
+import java.io.IOException;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.v2.dto.DsxOrderBook;
+import org.knowm.xchange.dsx.v2.dto.DsxTicker;
+import org.knowm.xchange.dsx.v2.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.dsx.DsxExampleUtils;
-import org.knowm.xchange.dsx.v2.dto.DsxOrderBook;
-import org.knowm.xchange.dsx.v2.dto.DsxTicker;
-import org.knowm.xchange.dsx.v2.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.util.Map;
 
 public class DsxMarketDataDemo {
 

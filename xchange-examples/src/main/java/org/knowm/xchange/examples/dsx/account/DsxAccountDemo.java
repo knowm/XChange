@@ -1,15 +1,14 @@
 package org.knowm.xchange.examples.dsx.account;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.examples.dsx.DsxExampleUtils;
-import org.knowm.xchange.dsx.v2.dto.DsxBalance;
-import org.knowm.xchange.dsx.v2.service.DsxAccountServiceRaw;
-import org.knowm.xchange.service.account.AccountService;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.v2.dto.DsxBalance;
+import org.knowm.xchange.dsx.v2.service.DsxAccountServiceRaw;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.examples.dsx.DsxExampleUtils;
+import org.knowm.xchange.service.account.AccountService;
 
 public class DsxAccountDemo {
 

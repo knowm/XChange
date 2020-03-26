@@ -350,8 +350,8 @@ public class DsxAdapters {
   }
 
   /**
-   * @see https://api.dsxglobal.com/api/2/explore/ Transaction Model possible statusses: created, pending,
-   *     failed, success
+   * @see https://api.dsxglobal.com/api/2/explore/ Transaction Model possible statusses: created,
+   *     pending, failed, success
    * @return status
    */
   private static FundingRecord.Status convertStatus(String status) {
