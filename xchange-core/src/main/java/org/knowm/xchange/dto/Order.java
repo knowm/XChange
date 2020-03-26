@@ -1,20 +1,22 @@
 package org.knowm.xchange.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.instrument.Instrument;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /** Data object representing an order */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "trigger")
@@ -221,14 +223,11 @@ public abstract class Order implements Serializable {
 
     this.averagePrice = averagePrice;
   }
+
   /**
-   * @deprecated CurrencyPair is a subtype of instrument <br>
-   *     use {@link #getInstrument()} instead like this:
-   *     <blockquote>
-   *     <pre>
-   * getInstrument()
-   * </pre>
-   *     </blockquote>
+   * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
+   *     the order was for a derivative
+   *     <p>use {@link #getInstrument()} instead
    */
   @Deprecated
   public CurrencyPair getCurrencyPair() {
