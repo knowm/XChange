@@ -59,9 +59,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
     }
+    if (orderParams instanceof CancelOrderByUserReferenceParams) {
+      return cancelOrder(((CancelOrderByUserReferenceParams) orderParams).getUserReference());
+    }
+    return false;
   }
 
   /**

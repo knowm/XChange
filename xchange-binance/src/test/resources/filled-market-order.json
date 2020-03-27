@@ -1,0 +1,19 @@
+{
+    "symbol": "ETHBTC",
+    "orderId": 460498247,
+    "orderListId": -1,
+    "clientOrderId": "gzcLIkn86ag3FycOCEl6Vi",
+    "price": "0.00000000",
+    "origQty": "0.10700000",
+    "executedQty": "0.10700000",
+    "cummulativeQuoteQty": "0.00198847",
+    "status": "FILLED",
+    "timeInForce": "GTC",
+    "type": "MARKET",
+    "side": "SELL",
+    "stopPrice": "0.00000000",
+    "icebergQty": "0.00000000",
+    "time": 1566249504234,
+    "updateTime": 1566249504234,
+    "isWorking": true
+}

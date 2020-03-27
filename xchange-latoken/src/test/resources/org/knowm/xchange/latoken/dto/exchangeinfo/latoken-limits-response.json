@@ -1,0 +1,16 @@
+{
+	"publicEndpoints": [
+							{
+								"endpoint": "get:/api/v1/ExchangeInfo/pairs",
+								"timePeriod": "1s",
+								"requestLimit": 1
+							}
+						],
+	"signedEndpoints": [
+							{
+								"endpoint": "get:/api/v1/Account/account_info",
+								"timePeriod": "1s",
+								"requestLimit": 1
+							}
+						]
+}

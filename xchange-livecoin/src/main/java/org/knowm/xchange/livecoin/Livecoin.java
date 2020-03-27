@@ -24,6 +24,7 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinUserOrder;
 import org.knowm.xchange.livecoin.dto.trade.LivecoinCancelResponse;
 import org.knowm.xchange.livecoin.dto.trade.LivecoinOrderResponse;
 
@@ -167,7 +168,7 @@ public interface Livecoin {
 
   @GET
   @Path("exchange/client_orders")
-  LivecoinPaginatedResponse clientOrders(
+  LivecoinPaginatedResponse<LivecoinUserOrder> clientOrders(
       @HeaderParam("Api-key") String apiKey,
       @HeaderParam("Sign") LivecoinDigest signatureCreator,
       @QueryParam("currencyPair") String currencyPair,
@@ -176,14 +177,6 @@ public interface Livecoin {
       @QueryParam("issuedTo") Long issuedTo,
       @QueryParam("startRow") Long startRow,
       @QueryParam("endRow") Long endRow)
-      throws IOException;
-
-  @GET
-  @Path("exchange/client_orders")
-  LivecoinPaginatedResponse allClientOrders(
-      @HeaderParam("Api-key") String apiKey,
-      @HeaderParam("Sign") LivecoinDigest signatureCreator,
-      @QueryParam("openClosed") String openClosed)
       throws IOException;
 
   @POST

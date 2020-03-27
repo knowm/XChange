@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.enigma.dto.trade.*;
 import org.knowm.xchange.enigma.model.Infrastructure;
 import org.knowm.xchange.enigma.model.Side;
@@ -18,7 +23,32 @@ public class EnigmaTradeDemo {
     Exchange enigma = EnigmaDemoUtils.createExchange();
     TradeService tradeService = enigma.getTradeService();
 
+    generic(tradeService);
     raw((EnigmaTradeServiceRaw) tradeService);
+  }
+
+  private static void generic(TradeService tradeService) throws IOException {
+    boolean cancelOrder = tradeService.cancelOrder("10");
+    log.info(String.valueOf(cancelOrder));
+
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    log.info(openOrders.toString());
+
+    String placeMarketOrder =
+        tradeService.placeMarketOrder(
+            new MarketOrder(Order.OrderType.ASK, BigDecimal.valueOf(0.002), CurrencyPair.BTC_USD));
+    log.info(placeMarketOrder);
+
+    String placeLimitOrder =
+        tradeService.placeLimitOrder(
+            new LimitOrder(
+                Order.OrderType.ASK,
+                BigDecimal.valueOf(0.002),
+                CurrencyPair.BTC_USD,
+                null,
+                null,
+                BigDecimal.ONE));
+    log.info(placeLimitOrder);
   }
 
   private static void raw(EnigmaTradeServiceRaw tradeService) throws IOException {

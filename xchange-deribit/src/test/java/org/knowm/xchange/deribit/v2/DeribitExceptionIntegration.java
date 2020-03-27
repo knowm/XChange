@@ -33,6 +33,6 @@ public class DeribitExceptionIntegration {
 
   @Test(expected = DeribitException.class)
   public void getDeribitInstrumentsThrowsIllegalArgumentExceptionTest() throws Exception {
-    deribitMarketDataService.getDeribitActiveInstruments("BTC-PERPETUAAAAL");
+    deribitMarketDataService.getDeribitInstruments("BTC-PERPETUAAAAL", null, null);
   }
 }

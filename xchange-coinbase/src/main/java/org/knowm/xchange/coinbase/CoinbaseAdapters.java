@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbase;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
@@ -38,7 +39,8 @@ public final class CoinbaseAdapters {
     final Balance balance =
         new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
 
-    final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
+    final AccountInfo accountInfoTemporaryName =
+        new AccountInfo(username, Wallet.Builder.from(Arrays.asList(balance)).build());
     return accountInfoTemporaryName;
   }
 
@@ -67,16 +69,17 @@ public final class CoinbaseAdapters {
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    return new UserTrade(
-        orderType,
-        originalAmount,
-        new CurrencyPair(tradableIdentifier, transactionCurrency),
-        price,
-        timestamp,
-        id,
-        transferId,
-        feeAmount,
-        Currency.getInstance(feeCurrency));
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(originalAmount)
+        .currencyPair(new CurrencyPair(tradableIdentifier, transactionCurrency))
+        .price(price)
+        .timestamp(timestamp)
+        .id(id)
+        .orderId(transferId)
+        .feeAmount(feeAmount)
+        .feeCurrency(Currency.getInstance(feeCurrency))
+        .build();
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {

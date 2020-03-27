@@ -307,7 +307,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("sort") String sort,
       @FormParam("timestampFrom") Long timestampFrom,
       @FormParam("timestampTo") Long timestampTo,
-      @FormParam("currencyPair") Long currencyPair,
+      @FormParam("currencyPair") String currencyPair,
       @FormParam("orderId") String orderId)
       throws IOException;
 

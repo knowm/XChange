@@ -10,6 +10,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -40,6 +41,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     String productId = null;
     Integer afterTradeId = null;
     Integer beforeTradeId = null;
+    Integer limit = null;
 
     if (tradeHistoryParams instanceof CoinbaseProTradeHistoryParams) {
       CoinbaseProTradeHistoryParams historyParams =
@@ -63,6 +65,11 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
       }
     }
 
+    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) tradeHistoryParams;
+      limit = limitParams.getLimit();
+    }
+
     try {
       return coinbasePro.getFills(
           apiKey,
@@ -71,6 +78,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
           passphrase,
           afterTradeId,
           beforeTradeId,
+          limit,
           orderId,
           productId);
     } catch (CoinbaseProException e) {

@@ -48,13 +48,20 @@ public interface CoindealAuthenticated extends Coindeal {
 
   @DELETE
   @Path("v1/order")
-  List<CoindealOrder> deleteOrders(
+  List<CoindealOrder> cancelOrders(
       @HeaderParam(HEADER_AUTH) ParamsDigest credentials, @FormParam("symbol") String symbol)
       throws IOException;
 
   @DELETE
   @Path("v1/order/{clientOrderId}")
-  CoindealOrder deleteOrderById(
+  CoindealOrder cancelOrderById(
+      @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
+      @PathParam("clientOrderId") String cliendOrderId)
+      throws IOException;
+
+  @GET
+  @Path("v1/order/{clientOrderId}")
+  CoindealOrder getOrderById(
       @HeaderParam(HEADER_AUTH) ParamsDigest credentials,
       @PathParam("clientOrderId") String cliendOrderId)
       throws IOException;

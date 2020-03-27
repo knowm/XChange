@@ -23,14 +23,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
@@ -64,7 +57,11 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
                 pair,
                 id,
                 bitstampOrder.getDatetime(),
-                price));
+                price,
+                null, // avgPrice
+                null, // cumAmount
+                null, // fee
+                Order.OrderStatus.NEW));
       }
     }
     return new OpenOrders(limitOrders);
@@ -108,11 +105,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof CancelAllOrders) {
+      return cancelAllBitstampOrders();
+    }
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-    } else {
-      return false;
     }
+    return false;
   }
 
   /** Required parameter types: {@link TradeHistoryParamPaging#getPageLength()} */
