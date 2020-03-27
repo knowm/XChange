@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
@@ -8,6 +9,7 @@ import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Candle;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -125,22 +127,28 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
   }
 
   @Override
-  public List<Ticker> getPriceHistory(
+  public List<Candle> getPriceHistory(
       CurrencyPair currencyPair, int minutes, int maxHistory, Object... args) throws IOException {
     CoinbaseProCandle[] coinbaseProHistoricalCandles =
         getCoinbaseProHistoricalCandles(currencyPair, null, null, Integer.toString(minutes * 60));
+
+    long granularity = minutes * 60L;
+    int negMinutes = 0 - minutes;
+
     return Arrays.stream(coinbaseProHistoricalCandles)
         .map(
             candle ->
-                new Ticker.Builder()
+                new Candle.Builder()
                     .open(candle.getOpen())
-                    .last(candle.getClose())
+                    .close(candle.getClose())
                     .high(candle.getHigh())
                     .low(candle.getLow())
                     .volume(candle.getVolume())
-                    .timestamp(candle.getTime()) // is this open or close time?
+                    .closeTime(candle.getTime())
+                    .openTime(DateUtils.addMinutes(candle.getTime(), negMinutes))
+                    .granularity(granularity)
                     .build())
-        .limit(maxHistory) // are they ordered right?
+        .limit(maxHistory) // coinbase sends data in descending order
         .collect(Collectors.toList());
   }
 }

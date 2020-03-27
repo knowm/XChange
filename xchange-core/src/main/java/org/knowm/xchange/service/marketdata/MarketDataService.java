@@ -2,6 +2,7 @@ package org.knowm.xchange.service.marketdata;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Candle;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -108,7 +109,7 @@ public interface MarketDataService extends BaseService {
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  default List<Ticker> getPriceHistory(
+  default List<Candle> getPriceHistory(
       CurrencyPair currencyPair, int granularity, int maxHistory, Object... args)
       throws IOException {
     throw new NotYetImplementedForExchangeException();
