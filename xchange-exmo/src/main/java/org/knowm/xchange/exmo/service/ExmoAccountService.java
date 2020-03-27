@@ -24,7 +24,7 @@ public class ExmoAccountService extends ExmoAccountServiceRaw implements Account
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return new AccountInfo(new Wallet(balances()));
+    return new AccountInfo(Wallet.Builder.from(balances()).build());
   }
 
   @Override

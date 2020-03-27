@@ -86,7 +86,7 @@ public class QuoineAdapters {
           new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
@@ -102,7 +102,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -126,7 +126,7 @@ public class QuoineAdapters {
       balances.add(fiatBalance);
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
@@ -176,7 +176,7 @@ public class QuoineAdapters {
           new Balance(
               Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance()));
     }
-    return new Wallet(balanceList);
+    return Wallet.Builder.from(balanceList).build();
   }
 
   //  public static Wallet adapt(BitcoinAccount[] balances) {
@@ -193,16 +193,15 @@ public class QuoineAdapters {
     List<UserTrade> res = new ArrayList<>();
     for (QuoineExecution execution : executions) {
       res.add(
-          new UserTrade(
-              execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID,
-              execution.quantity,
-              currencyPair,
-              execution.price,
-              DateUtils.fromUnixTime(execution.createdAt),
-              execution.id,
-              execution.orderId,
-              null,
-              null));
+          new UserTrade.Builder()
+              .type(execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID)
+              .originalAmount(execution.quantity)
+              .currencyPair(currencyPair)
+              .price(execution.price)
+              .timestamp(DateUtils.fromUnixTime(execution.createdAt))
+              .id(execution.id)
+              .orderId(execution.orderId)
+              .build());
     }
     return res;
   }

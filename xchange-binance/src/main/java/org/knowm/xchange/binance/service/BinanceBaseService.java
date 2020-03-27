@@ -49,6 +49,11 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
     return serverTime.getTime();
   }
 
+  public Long getRecvWindow() {
+    return (Long)
+        exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+  }
+
   /**
    * After period of time, the deltaServerTime may not accurate again. Need to catch the "Timestamp
    * for this request was 1000ms ahead" exception and refresh the deltaServerTime.

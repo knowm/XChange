@@ -3,18 +3,24 @@ package org.knowm.xchange.coinbasepro.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
@@ -33,12 +39,28 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-
     return new AccountInfo(CoinbaseProAdapters.adaptAccountInfo(getCoinbaseProAccountInfo()));
   }
 
   @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    CoinbaseProFee fees = getCoinbaseProFees();
+
+    Map<CurrencyPair, Fee> tradingFees = new HashMap<>();
+    List<CurrencyPair> pairs = exchange.getExchangeSymbols();
+
+    pairs.forEach(pair -> tradingFees.put(pair, new Fee(fees.getMakerRate(), fees.getTakerRate())));
+    return tradingFees;
+  }
+
+  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address)
       throws IOException {
     return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
   }
@@ -49,7 +71,11 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
       CoinbaseProWithdrawCryptoResponse response =
           withdrawCrypto(
-              defaultParams.getAddress(), defaultParams.getAmount(), defaultParams.getCurrency());
+              defaultParams.getAddress(),
+              defaultParams.getAmount(),
+              defaultParams.getCurrency(),
+              defaultParams.getAddressTag(),
+              defaultParams.getAddressTag() == null);
       return response.id;
     }
 
@@ -79,9 +105,8 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     return null;
   }
 
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
-
+  private CoinbaseProAccountAddress accountAddress(Currency currency, String... args)
+      throws IOException {
     CoinbaseProAccount[] coinbaseAccounts = getCoinbaseAccounts();
     CoinbaseProAccount depositAccount = null;
 
@@ -95,8 +120,22 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
       }
     }
 
-    CoinbaseProAccountAddress depositAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    CoinbaseProAccountAddress accountAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    return accountAddress;
+  }
+
+  @Deprecated
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
     return depositAddress.getAddress();
+  }
+
+  @Override
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
+    return new AddressWithTag(depositAddress.getAddress(), depositAddress.getDestinationTag());
   }
 
   @Override

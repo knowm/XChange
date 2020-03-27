@@ -18,7 +18,7 @@ public class SimulatedAccountService extends BaseExchangeService<SimulatedExchan
   @Override
   public AccountInfo getAccountInfo() throws IOException {
     exchange.maybeThrow();
-    return new AccountInfo(new Wallet(exchange.getAccount().balances()));
+    return new AccountInfo(Wallet.Builder.from(exchange.getAccount().balances()).build());
   }
 
   public void deposit(Currency currency, BigDecimal amount) {

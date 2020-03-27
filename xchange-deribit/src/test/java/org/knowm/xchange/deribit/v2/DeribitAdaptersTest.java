@@ -16,7 +16,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.utils.DateUtils;
 
 public class DeribitAdaptersTest {
 
@@ -58,7 +57,7 @@ public class DeribitAdaptersTest {
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("0.5"));
     assertThat(ticker.getBidSize()).isEqualTo(new BigDecimal("5"));
     assertThat(ticker.getAskSize()).isEqualTo(new BigDecimal("5"));
-    assertThat(ticker.getTimestamp()).isEqualTo(DateUtils.fromUnixTime(1556125162701L));
+    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1556125162701L);
   }
 
   @Test
@@ -75,7 +74,7 @@ public class DeribitAdaptersTest {
 
     // then
     assertThat(orderBook).isNotNull();
-    assertThat(orderBook.getTimeStamp()).isEqualTo(DateUtils.fromUnixTime(1550757626706L));
+    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1550757626706L);
     assertThat(orderBook.getBids()).isNotEmpty();
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
     assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("3955.75"));
@@ -113,7 +112,8 @@ public class DeribitAdaptersTest {
     assertThat(trade.getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("10"));
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("3610"));
-    assertThat(trade.getTimestamp()).isEqualTo(DateUtils.fromUnixTime(1550050591859L));
+
+    assertThat(trade.getTimestamp().getTime()).isEqualTo(1550050591859L);
     assertThat(trade.getId()).isEqualTo("48470");
   }
 }

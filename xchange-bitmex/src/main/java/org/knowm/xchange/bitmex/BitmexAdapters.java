@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -137,13 +138,14 @@ public class BitmexAdapters {
     // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
     // new Date((long) (bitmexPublicTrade.getTime()));
 
-    return new Trade(
-        type,
-        originalAmount,
-        currencyPair,
-        bitmexPublicTrade.getPrice(),
-        timestamp,
-        String.valueOf(timestamp.getTime()));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(originalAmount)
+        .currencyPair(currencyPair)
+        .price(bitmexPublicTrade.getPrice())
+        .timestamp(timestamp)
+        .id(String.valueOf(timestamp.getTime()))
+        .build();
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {
@@ -154,7 +156,7 @@ public class BitmexAdapters {
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, BitmexOrder> bitmexOrders) {
@@ -328,10 +330,11 @@ public class BitmexAdapters {
             .currencyPair(pair)
             .originalAmount(exec.lastQty)
             .price(exec.lastPx)
-            .feeAmount(exec.commission.multiply(exec.lastQty))
-            .feeCurrency(pair.counter.equals(Currency.USD) ? pair.counter : pair.base)
+            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32))
+            .feeCurrency(Currency.XBT)
             .timestamp(exec.timestamp)
             .type(orderType)
+            .orderUserReference(exec.clOrdID)
             .build();
   }
 

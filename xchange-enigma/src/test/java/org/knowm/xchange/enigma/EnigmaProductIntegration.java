@@ -13,8 +13,11 @@ import org.knowm.xchange.enigma.service.EnigmaMarketDataService;
 
 public class EnigmaProductIntegration {
 
-  private String username = "iSemyonova";
-  private String password = "irinaEnigmaSecuritiesRestApi123!";
+  private static final String TEST_SSL_URI = "https://api-test.enigma-securities.io/";
+  private static final String TEST_HOST = "api-test.enigma-securities.io";
+
+  private String username = "vlad_test";
+  private String password = "nw4dZ:gz";
   private String infra = "dev";
   private EnigmaExchange enigmaExchange;
   private EnigmaAccountService accountService;
@@ -25,6 +28,8 @@ public class EnigmaProductIntegration {
     enigmaExchange = new EnigmaExchange();
     ExchangeSpecification exchangeSpec = enigmaExchange.getDefaultExchangeSpecification();
     exchangeSpec.setExchangeSpecificParametersItem("infra", infra);
+    exchangeSpec.setSslUri(TEST_SSL_URI);
+    exchangeSpec.setHost(TEST_HOST);
     exchangeSpec.setUserName(username);
     exchangeSpec.setPassword(password);
     enigmaExchange.applySpecification(exchangeSpec);

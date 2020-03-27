@@ -1,8 +1,9 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import org.knowm.xchange.bitfinex.common.dto.BitfinexException;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /** A central place for shared Bitfinex properties */
 public final class BitfinexUtils {
@@ -16,7 +17,7 @@ public final class BitfinexUtils {
       return null;
     }
 
-    return xchangeSymbol.toString().toLowerCase();
+    return xchangeSymbol.toString(); // .toLowerCase();
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
@@ -26,23 +27,36 @@ public final class BitfinexUtils {
     }
 
     String base = adaptXchangeCurrency(currencyPair.base);
-    return base + currencySeparator(base) + adaptXchangeCurrency(currencyPair.counter);
+    String counter = adaptXchangeCurrency(currencyPair.counter);
+    return "t"
+        + base
+        + currencySeparator(base, counter)
+        + adaptXchangeCurrency(currencyPair.counter);
+  }
+
+  public static String toPairStringV1(CurrencyPair currencyPair) {
+
+    if (currencyPair == null) {
+      return null;
+    }
+
+    String base = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.base));
+    String counter = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.counter));
+    return base + currencySeparator(base, counter) + adaptXchangeCurrency(currencyPair.counter);
   }
 
   /**
    * unfortunatelly we need to go this way, since the pairs at bitfinex are not very consequent see
-   * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details
+   * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details the same for xxx:cnht
    *
    * @param base
    * @return
    */
-  private static String currencySeparator(String base) {
-    switch (base) {
-      case "dusk":
-        return ":";
-      default:
-        return "";
+  private static String currencySeparator(String base, String counter) {
+    if (base.length() > 3 || counter.length() > 3) {
+      return ":";
     }
+    return "";
   }
 
   /**
@@ -92,7 +106,7 @@ public final class BitfinexUtils {
       case "USDT":
         return "tetheruso";
       default:
-        throw new BitfinexException("Cannot determine withdrawal type.");
+        throw new ExchangeException("Cannot determine withdrawal type.");
     }
   }
 }
