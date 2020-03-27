@@ -1,33 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
         <version>4.5.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xchange-dsx</artifactId>
 
-    <name>XChange DSX</name>
-    <description>XChange implementation for the DSX Exchange</description>
+    <name>XChange DSX Global</name>
+    <description>XChange implementation for DSX exchange</description>
+
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
 
     <organization>
         <name>Knowm Inc.</name>
         <url>http://knowm.org/open-source/xchange/</url>
     </organization>
 
+    <!-- Parent provides default configuration for dependencies -->
     <dependencies>
+
         <dependency>
             <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--For String Joining, etc. -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
+
 </project>
