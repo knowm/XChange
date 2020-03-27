@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -56,25 +55,26 @@ public class HuobiAdapters {
   public static List<Ticker> adaptAllTickers(HuobiAllTicker[] allTickers) {
 
     return Arrays.stream(allTickers)
-            .filter(
-                    huobiTicker -> !"hb10".equals(huobiTicker.getSymbol()) //Fix on data error retrieved from api
+        .filter(
+            huobiTicker ->
+                !"hb10".equals(huobiTicker.getSymbol()) // Fix on data error retrieved from api
             )
-            .map(
-                    huobiTicker ->
-                            new Ticker.Builder()
-                                    .currencyPair(adaptCurrencyPair(huobiTicker.getSymbol()))
-                                    .open(huobiTicker.getOpen())
-                                    .ask(huobiTicker.getAsk().getPrice())
-                                    .bid(huobiTicker.getBid().getPrice())
-                                    .askSize(huobiTicker.getAsk().getVolume())
-                                    .bidSize(huobiTicker.getBid().getVolume())
-                                    .last(huobiTicker.getClose())
-                                    .high(huobiTicker.getHigh())
-                                    .low(huobiTicker.getLow())
-                                    .volume(huobiTicker.getVol())
-                                    .timestamp(huobiTicker.getTs())
-                                    .build())
-            .collect(Collectors.toList());
+        .map(
+            huobiTicker ->
+                new Ticker.Builder()
+                    .currencyPair(adaptCurrencyPair(huobiTicker.getSymbol()))
+                    .open(huobiTicker.getOpen())
+                    .ask(huobiTicker.getAsk().getPrice())
+                    .bid(huobiTicker.getBid().getPrice())
+                    .askSize(huobiTicker.getAsk().getVolume())
+                    .bidSize(huobiTicker.getBid().getVolume())
+                    .last(huobiTicker.getClose())
+                    .high(huobiTicker.getHigh())
+                    .low(huobiTicker.getLow())
+                    .volume(huobiTicker.getVol())
+                    .timestamp(huobiTicker.getTs())
+                    .build())
+        .collect(Collectors.toList());
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(

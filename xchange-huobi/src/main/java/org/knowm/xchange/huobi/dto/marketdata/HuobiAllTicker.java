@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -39,8 +38,8 @@ public final class HuobiAllTicker {
     this.low = low;
     this.high = high;
     this.vol = vol;
-    this.bid = new HuobiPrice(new BigDecimal[]{bid, bidSize});
-    this.ask = new HuobiPrice(new BigDecimal[]{ask, askSize});
+    this.bid = new HuobiPrice(new BigDecimal[] {bid, bidSize});
+    this.ask = new HuobiPrice(new BigDecimal[] {ask, askSize});
     this.symbol = symbol;
   }
 
