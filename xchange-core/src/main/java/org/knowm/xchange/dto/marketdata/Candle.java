@@ -34,7 +34,7 @@ public class Candle implements Serializable {
   /**
    * Constructor
    *
-   * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currencyPair The tradable identifier
    * @param open open price
    * @param close Last price
    * @param high High price
@@ -42,8 +42,9 @@ public class Candle implements Serializable {
    * @param vwap Volume Weighted Average Price
    * @param volume 24h volume in base currency
    * @param openTime - the open time for the candle
+   * @param closeTime - the close time for the candle
    * @param granularity - the duration of the candle, in seconds
-   * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not
+   * @param timestamp - the timestamp of the candle according to the exchange's server, null if not
    *     provided
    */
   private Candle(
@@ -69,6 +70,50 @@ public class Candle implements Serializable {
     this.closeTime = closeTime;
     this.granularity = granularity;
     this.timestamp = timestamp;
+  }
+
+  public CurrencyPair getCurrencyPair() {
+    return currencyPair;
+  }
+
+  public BigDecimal getOpen() {
+    return open;
+  }
+
+  public BigDecimal getClose() {
+    return close;
+  }
+
+  public BigDecimal getHigh() {
+    return high;
+  }
+
+  public BigDecimal getLow() {
+    return low;
+  }
+
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  public BigDecimal getVwap() {
+    return vwap;
+  }
+
+  public Date getOpenTime() {
+    return openTime;
+  }
+
+  public Date getCloseTime() {
+    return closeTime;
+  }
+
+  public long getGranularity() {
+    return granularity;
+  }
+
+  public Date getTimestamp() {
+    return timestamp;
   }
   /**
    * Builder to provide the following to {@link Candle}:
