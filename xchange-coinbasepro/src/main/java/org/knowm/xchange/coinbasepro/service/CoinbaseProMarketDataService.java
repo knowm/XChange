@@ -1,10 +1,10 @@
 package org.knowm.xchange.coinbasepro.service;
 
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
+import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCandle;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,6 +13,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRaw
@@ -117,5 +122,25 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
     }
 
     throw new IllegalArgumentException("Invalid arguments passed to getTrades");
+  }
+
+  @Override
+  public List<Ticker> getPriceHistory(
+      CurrencyPair currencyPair, int minutes, int maxHistory, Object... args) throws IOException {
+    CoinbaseProCandle[] coinbaseProHistoricalCandles =
+        getCoinbaseProHistoricalCandles(currencyPair, null, null, Integer.toString(minutes * 60));
+    return Arrays.stream(coinbaseProHistoricalCandles)
+        .map(
+            candle ->
+                new Ticker.Builder()
+                    .open(candle.getOpen())
+                    .last(candle.getClose())
+                    .high(candle.getHigh())
+                    .low(candle.getLow())
+                    .volume(candle.getVolume())
+                    .timestamp(candle.getTime()) // is this open or close time?
+                    .build())
+        .limit(maxHistory) // are they ordered right?
+        .collect(Collectors.toList());
   }
 }
