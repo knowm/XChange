@@ -139,6 +139,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
         .map(
             candle ->
                 new Candle.Builder()
+                    .currencyPair(currencyPair)
                     .open(candle.getOpen())
                     .close(candle.getClose())
                     .high(candle.getHigh())
