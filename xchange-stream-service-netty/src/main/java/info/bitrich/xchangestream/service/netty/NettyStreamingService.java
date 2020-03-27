@@ -106,12 +106,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration) {
-    this(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        DEFAULT_IDLE_TIMEOUT);
+    this(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, DEFAULT_IDLE_TIMEOUT);
   }
 
   public NettyStreamingService(
@@ -276,12 +271,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private void scheduleReconnect() {
     if (autoReconnect) {
       LOG.info("Scheduling reconnection");
-      webSocketChannel.eventLoop().schedule(
-              () -> connect().subscribe(),
-              retryDuration.toMillis(),
-              TimeUnit.MILLISECONDS);
-    } else {
-      reconnFailEmitters.forEach(emitter -> emitter.onNext(new Exception("AutoReconnect disabled")));
+      webSocketChannel
+          .eventLoop()
+          .schedule(() -> connect().subscribe(), retryDuration.toMillis(), TimeUnit.MILLISECONDS);
     }
   }
 
@@ -325,13 +317,12 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     return channelName;
   }
   /**
-   * Some exchanges rate limit messages sent to the socket (Kraken), by default this method does not rateLimit the
-   * messages sent out.
-   * Override this method to provide a rateLimiter, and call acquire on the rate limiter,
-   * to slow down out going messages.
+   * Some exchanges rate limit messages sent to the socket (Kraken), by default this method does not
+   * rateLimit the messages sent out. Override this method to provide a rateLimiter, and call
+   * acquire on the rate limiter, to slow down out going messages.
    */
   protected void sendMessageRateLimiterAcquire() {
-      // no rate limiter by default
+    // no rate limiter by default
   }
   /**
    * Handler that receives incoming messages.
@@ -399,14 +390,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   public void resubscribeChannels() {
-      for (Entry<String, Subscription> entry : channels.entrySet()) {
-        try {
-          Subscription subscription = entry.getValue();
-          sendMessage(getSubscribeMessage(subscription.channelName, subscription.args));
-        } catch (IOException e) {
-          LOG.error("Failed to reconnect channel: {}", entry.getKey());
-        }
+    for (Entry<String, Subscription> entry : channels.entrySet()) {
+      try {
+        Subscription subscription = entry.getValue();
+        sendMessage(getSubscribeMessage(subscription.channelName, subscription.args));
+      } catch (IOException e) {
+        LOG.error("Failed to reconnect channel: {}", entry.getKey());
       }
+    }
   }
 
   protected String getChannel(T message) {
@@ -543,7 +534,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   public void setSocksProxyPort(Integer socksProxyPort) {
     this.socksProxyPort = socksProxyPort;
   }
+
   public void setAutoReconnect(boolean autoReconnect) {
-      this.autoReconnect = autoReconnect;
+    this.autoReconnect = autoReconnect;
   }
 }
