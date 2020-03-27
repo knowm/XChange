@@ -11,6 +11,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HuobiPublicApiIntegration {
 
@@ -29,6 +30,19 @@ public class HuobiPublicApiIntegration {
     assertThat(ticker).isNotNull();
     assertThat(ticker.getBid()).isGreaterThan(BigDecimal.ZERO);
     assertThat(ticker.getAsk()).isGreaterThan(BigDecimal.ZERO);
+  }
+
+  @Test
+  public void getAllTickerTest() throws Exception {
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    List<Ticker> tickers = marketDataService.getTickers(null);
+
+    assertThat(tickers).isNotNull();
+
+    assertThat(tickers.get(0).getBid()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAsk()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getBidSize()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAskSize()).isGreaterThan(BigDecimal.ZERO);
   }
 
   @Test
