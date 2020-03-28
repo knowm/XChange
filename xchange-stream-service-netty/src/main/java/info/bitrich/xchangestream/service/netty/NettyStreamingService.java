@@ -88,6 +88,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   // debugging
   private boolean acceptAllCertificates = false;
   private boolean enableLoggingHandler = false;
+  private boolean autoReconnect = true;
   private LogLevel loggingHandlerLevel = LogLevel.DEBUG;
   private String socksProxyHost;
   private Integer socksProxyPort;
@@ -105,12 +106,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration) {
-    this(
-        apiUrl,
-        maxFramePayloadLength,
-        DEFAULT_CONNECTION_TIMEOUT,
-        DEFAULT_RETRY_DURATION,
-        DEFAULT_IDLE_TIMEOUT);
+    this(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, DEFAULT_IDLE_TIMEOUT);
   }
 
   public NettyStreamingService(
@@ -266,7 +262,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
             })
         .doOnComplete(
             () -> {
-              LOG.warn("Resubscribing channels");
               resubscribeChannels();
 
               connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
@@ -274,10 +269,12 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   private void scheduleReconnect() {
-    LOG.info("Scheduling reconnection");
-    webSocketChannel
-        .eventLoop()
-        .schedule(() -> connect().subscribe(), retryDuration.toMillis(), TimeUnit.MILLISECONDS);
+    if (autoReconnect) {
+      LOG.info("Scheduling reconnection");
+      webSocketChannel
+          .eventLoop()
+          .schedule(() -> connect().subscribe(), retryDuration.toMillis(), TimeUnit.MILLISECONDS);
+    }
   }
 
   protected DefaultHttpHeaders getCustomHeaders() {
@@ -319,7 +316,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName;
   }
-
+  /**
+   * Some exchanges rate limit messages sent to the socket (Kraken), by default this method does not
+   * rateLimit the messages sent out. Override this method to provide a rateLimiter, and call
+   * acquire on the rate limiter, to slow down out going messages.
+   */
+  protected void sendMessageRateLimiterAcquire() {
+    // no rate limiter by default
+  }
   /**
    * Handler that receives incoming messages.
    *
@@ -341,6 +345,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     }
 
     if (message != null) {
+      sendMessageRateLimiterAcquire();
       WebSocketFrame frame = new TextWebSocketFrame(message);
       webSocketChannel.writeAndFlush(frame);
     }
@@ -528,5 +533,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   public void setSocksProxyPort(Integer socksProxyPort) {
     this.socksProxyPort = socksProxyPort;
+  }
+
+  public void setAutoReconnect(boolean autoReconnect) {
+    this.autoReconnect = autoReconnect;
   }
 }
