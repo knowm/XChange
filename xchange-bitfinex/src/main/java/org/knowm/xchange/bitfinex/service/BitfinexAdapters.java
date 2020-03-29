@@ -792,13 +792,19 @@ public final class BitfinexAdapters {
       }
 
       final BigDecimal fee = responseEntry.getFee() != null ? responseEntry.getFee().abs() : null;
+      BigDecimal amount = responseEntry.getAmount();
+      if(fee != null && responseEntry.getType().isOutflowing()){
+        //The amount reported form Bitfinex on a withdrawal is without the fee, so it has to be added to get the full amount withdrawn from the wallet
+        //Deposits don't seem to have fees, but I would assume that the reported is the full amount added to the wallet
+        amount = amount.add(fee);
+      }
 
       FundingRecord fundingRecordEntry =
           new FundingRecord(
               address,
               responseEntry.getTimestamp(),
               currency,
-              responseEntry.getAmount(),
+              amount,
               String.valueOf(responseEntry.getId()),
               txnId,
               responseEntry.getType(),
