@@ -791,6 +791,8 @@ public final class BitfinexAdapters {
         }
       }
 
+      final BigDecimal fee = responseEntry.getFee() != null ? responseEntry.getFee().abs() : null;
+
       FundingRecord fundingRecordEntry =
           new FundingRecord(
               address,
@@ -802,7 +804,7 @@ public final class BitfinexAdapters {
               responseEntry.getType(),
               status,
               null,
-              null,
+              fee,
               description);
 
       fundingRecords.add(fundingRecordEntry);
