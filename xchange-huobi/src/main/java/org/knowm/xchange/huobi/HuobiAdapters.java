@@ -2,10 +2,8 @@ package org.knowm.xchange.huobi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +28,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceRecord;
 import org.knowm.xchange.huobi.dto.account.HuobiBalanceSum;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
+import org.knowm.xchange.huobi.dto.marketdata.HuobiAllTicker;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAssetPair;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTicker;
@@ -51,6 +50,31 @@ public class HuobiAdapters {
     builder.timestamp(huobiTicker.getTs());
     builder.currencyPair(currencyPair);
     return builder.build();
+  }
+
+  public static List<Ticker> adaptAllTickers(HuobiAllTicker[] allTickers) {
+
+    return Arrays.stream(allTickers)
+        .filter(
+            huobiTicker ->
+                !"hb10".equals(huobiTicker.getSymbol()) // Fix on data error retrieved from api
+            )
+        .map(
+            huobiTicker ->
+                new Ticker.Builder()
+                    .currencyPair(adaptCurrencyPair(huobiTicker.getSymbol()))
+                    .open(huobiTicker.getOpen())
+                    .ask(huobiTicker.getAsk().getPrice())
+                    .bid(huobiTicker.getBid().getPrice())
+                    .askSize(huobiTicker.getAsk().getVolume())
+                    .bidSize(huobiTicker.getBid().getVolume())
+                    .last(huobiTicker.getClose())
+                    .high(huobiTicker.getHigh())
+                    .low(huobiTicker.getLow())
+                    .volume(huobiTicker.getVol())
+                    .timestamp(huobiTicker.getTs())
+                    .build())
+        .collect(Collectors.toList());
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
