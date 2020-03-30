@@ -16,7 +16,7 @@ public class HuobiPrice {
     return price;
   }
 
-  private BigDecimal getVolume() {
+  public BigDecimal getVolume() {
     return volume;
   }
 

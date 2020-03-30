@@ -32,7 +32,7 @@
         <version.java>1.8</version.java>
         <version.assertj>3.15.0</version.assertj>
         <version.commons.io>2.6</version.commons.io>
-        <version.commons.lang3>3.9</version.commons.lang3>
+        <version.commons.lang3>3.10</version.commons.lang3>
         <version.fasterxml>2.10.3</version.fasterxml>
         <version.github.mmazi>2.0.2</version.github.mmazi>
         <version.junit>4.13</version.junit>

@@ -3,7 +3,7 @@ package org.knowm.xchange.examples.dsx;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dsx.v2.DsxExchange;
+import org.knowm.xchange.dsx.DsxExchange;
 
 public class DsxExampleUtils {
 

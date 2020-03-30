@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.v2.dto.DsxCandle;
-import org.knowm.xchange.dsx.v2.service.DsxMarketDataServiceRaw;
+import org.knowm.xchange.dsx.dto.DsxCandle;
+import org.knowm.xchange.dsx.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.examples.dsx.DsxExampleUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
