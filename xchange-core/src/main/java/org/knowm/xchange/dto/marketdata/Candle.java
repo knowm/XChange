@@ -27,7 +27,8 @@ public class Candle implements Serializable {
   private final BigDecimal volume;
   private final BigDecimal vwap;
   private final Date openTime, closeTime;
-  private final long granularity;
+  private final long granularity; // in seconds
+  private final Long count;
 
   /** the timestamp of the ticker according to the exchange's server, null if not provided */
   private final Date timestamp;
@@ -44,6 +45,7 @@ public class Candle implements Serializable {
    * @param openTime - the open time for the candle
    * @param closeTime - the close time for the candle
    * @param granularity - the duration of the candle, in seconds
+   * @param count - trade Count
    * @param timestamp - the timestamp of the candle according to the exchange's server, null if not
    *     provided
    */
@@ -57,7 +59,8 @@ public class Candle implements Serializable {
       BigDecimal volume,
       Date openTime,
       Date closeTime,
-      long granularity,
+      Long granularity,
+      Long count,
       Date timestamp) {
     this.currencyPair = currencyPair;
     this.open = open;
@@ -69,6 +72,7 @@ public class Candle implements Serializable {
     this.openTime = openTime;
     this.closeTime = closeTime;
     this.granularity = granularity;
+    this.count = count;
     this.timestamp = timestamp;
   }
 
@@ -101,15 +105,30 @@ public class Candle implements Serializable {
   }
 
   public Date getOpenTime() {
-    return openTime;
+    return openTime != null
+        ? openTime
+        : new Date(
+            closeTime.getTime()
+                / getMilliInterval()
+                * getMilliInterval()); // truncates window with left to right operator precedence
   }
 
   public Date getCloseTime() {
-    return closeTime;
+    return closeTime != null
+        ? closeTime
+        : new Date((openTime.getTime() / getMilliInterval() + 1L) * getMilliInterval());
   }
 
   public long getGranularity() {
     return granularity;
+  }
+
+  private long getMilliInterval() {
+    return granularity * 1000L;
+  }
+
+  public Long getCount() {
+    return count;
   }
 
   public Date getTimestamp() {
@@ -134,6 +153,7 @@ public class Candle implements Serializable {
     private BigDecimal volume;
     private Date openTime, closeTime;
     private long granularity;
+    private Long count;
     private Date timestamp;
 
     // Prevent repeat builds
@@ -155,6 +175,7 @@ public class Candle implements Serializable {
               openTime,
               closeTime,
               granularity,
+              count,
               timestamp);
 
       isBuilt = true;
@@ -163,6 +184,10 @@ public class Candle implements Serializable {
     }
 
     private void validateState() {
+      if (granularity == 0) throw new IllegalStateException("Granularity is missing");
+
+      if (openTime == null && closeTime == null)
+        throw new IllegalStateException("Both openTime & closeTime are missing");
 
       if (isBuilt) {
         throw new IllegalStateException("The entity has been built");
@@ -188,49 +213,46 @@ public class Candle implements Serializable {
     }
 
     public Candle.Builder high(BigDecimal high) {
-
       this.high = high;
       return this;
     }
 
     public Candle.Builder low(BigDecimal low) {
-
       this.low = low;
       return this;
     }
 
     public Candle.Builder vwap(BigDecimal vwap) {
-
       this.vwap = vwap;
       return this;
     }
 
     public Candle.Builder volume(BigDecimal volume) {
-
       this.volume = volume;
       return this;
     }
 
     public Candle.Builder openTime(Date openTime) {
-
       this.openTime = openTime;
       return this;
     }
 
     public Candle.Builder closeTime(Date closeTime) {
-
       this.closeTime = closeTime;
       return this;
     }
 
     public Candle.Builder granularity(long granularity) {
-
       this.granularity = granularity;
       return this;
     }
 
-    public Candle.Builder timestamp(Date timestamp) {
+    public Candle.Builder count(Long count) {
+      this.count = count;
+      return this;
+    }
 
+    public Candle.Builder timestamp(Date timestamp) {
       this.timestamp = timestamp;
       return this;
     }

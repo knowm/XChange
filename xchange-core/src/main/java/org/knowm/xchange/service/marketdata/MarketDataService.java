@@ -96,7 +96,7 @@ public interface MarketDataService extends BaseService {
    * Get a list of Qandlestick for the supplied currencyPair
    *
    * @param currencyPair currencyPair to retrieve
-   * @param granularity in minutes
+   * @param minutes interval
    * @param maxHistory number of qandles
    * @param args Optional arguments. Exchange-specific
    * @return A list of Ticker objects, null if some sort of error occurred. Implementers should log
@@ -110,8 +110,7 @@ public interface MarketDataService extends BaseService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   default List<Candle> getPriceHistory(
-      CurrencyPair currencyPair, int granularity, int maxHistory, Object... args)
-      throws IOException {
+      CurrencyPair currencyPair, int minutes, int maxHistory, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

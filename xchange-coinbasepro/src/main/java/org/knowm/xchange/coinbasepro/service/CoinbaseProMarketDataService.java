@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
@@ -18,6 +17,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -133,8 +133,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
         getCoinbaseProHistoricalCandles(currencyPair, null, null, Integer.toString(minutes * 60));
 
     long granularity = minutes * 60L;
-    int negMinutes = 0 - minutes;
-
+    Date timestamp = new Date();
     return Arrays.stream(coinbaseProHistoricalCandles)
         .map(
             candle ->
@@ -146,10 +145,10 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
                     .low(candle.getLow())
                     .volume(candle.getVolume())
                     .closeTime(candle.getTime())
-                    .openTime(DateUtils.addMinutes(candle.getTime(), negMinutes))
                     .granularity(granularity)
+                    .timestamp(timestamp)
                     .build())
-        .limit(maxHistory) // coinbase sends data in descending order
+        .limit(maxHistory) // coinbase returns data in descending order
         .collect(Collectors.toList());
   }
 }
