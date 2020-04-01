@@ -7,6 +7,8 @@ import java.io.IOException;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.BaseServiceTest;
+import org.knowm.xchange.dsx.dto.DsxSort;
+import org.knowm.xchange.dsx.dto.DsxTradesSortBy;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -39,7 +41,9 @@ public class DsxMarketDataServiceIntegration extends BaseServiceTest {
 
     MarketDataService marketDataService = exchange().getMarketDataService();
 
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    Trades trades =
+        marketDataService.getTrades(
+            CurrencyPair.BTC_USD, null, null, DsxTradesSortBy.id, DsxSort.ASC);
 
     assertNotNull(trades);
   }
