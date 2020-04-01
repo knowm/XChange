@@ -6,12 +6,13 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DsxAdapters;
 import org.knowm.xchange.dsx.dto.DsxSort;
-import org.knowm.xchange.dsx.dto.DsxTrade;
+import org.knowm.xchange.dsx.dto.DsxTradesSortBy;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
+import org.knowm.xchange.utils.ArrayUtils;
 
 public class DsxMarketDataService extends DsxMarketDataServiceRaw implements MarketDataService {
 
@@ -35,7 +36,7 @@ public class DsxMarketDataService extends DsxMarketDataServiceRaw implements Mar
     if (args == null || args.length == 0) {
       return DsxAdapters.adaptOrderBook(getDsxOrderBook(currencyPair), currencyPair);
     } else {
-      Integer limit = (Integer) args[0];
+      Integer limit = ArrayUtils.getElement(0, args, Integer.class);
       return DsxAdapters.adaptOrderBook(getDsxOrderBook(currencyPair, limit), currencyPair);
     }
   }
@@ -43,32 +44,18 @@ public class DsxMarketDataService extends DsxMarketDataServiceRaw implements Mar
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (args == null || args.length == 0) {
-      return DsxAdapters.adaptTrades(getDsxTrades(currencyPair), currencyPair);
-    }
-
-    long from = (Long) args[0]; // <trade_id> or <timestamp>
-    DsxTrade.DsxTradesSortField sortBy =
-        (DsxTrade.DsxTradesSortField) args[1]; // "trade_id" or "timestamp"
-    DsxSort sortDirection = (DsxSort) args[2]; // "asc" or "desc"
-    long startIndex = (Long) args[3]; // 0
-    long max_results = (Long) args[4]; // max is 1000
-    long offset = (Long) args[5]; // max is 100000
+    Long from = ArrayUtils.getElement(0, args, Long.class); // <trade_id> or <timestamp>
+    Long till = ArrayUtils.getElement(1, args, Long.class); // <trade_id> or <timestamp>
+    DsxTradesSortBy sortBy =
+        ArrayUtils.getElement(
+            2, args, DsxTradesSortBy.class, DsxTradesSortBy.timestamp); // "id" or "timestamp"
+    DsxSort sortDirection = ArrayUtils.getElement(3, args, DsxSort.class); // "ASC" or "DESC"
+    Integer maxResults = ArrayUtils.getElement(4, args, Integer.class); // max is 1000
+    Integer offset = ArrayUtils.getElement(5, args, Integer.class); // max is 100000
 
     return DsxAdapters.adaptTrades(
-        getDsxTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results, offset),
-        currencyPair);
-  }
-
-  public Trades getTradesCustom(
-      CurrencyPair currencyPair,
-      long fromTradeId,
-      DsxTrade.DsxTradesSortField sortBy,
-      DsxSort sortDirection,
-      long limit)
-      throws IOException {
-
-    return DsxAdapters.adaptTrades(
-        getDsxTrades(currencyPair, fromTradeId, sortBy, sortDirection, limit), currencyPair);
+        getDsxTrades(currencyPair, sortDirection, sortBy, from, till, maxResults, offset),
+        currencyPair,
+        sortBy);
   }
 }
