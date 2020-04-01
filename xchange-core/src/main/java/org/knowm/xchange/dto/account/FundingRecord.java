@@ -300,11 +300,11 @@ public final class FundingRecord implements Serializable {
      */
     OTHER_OUTFLOW(false),
 
-    /** Used for inflows that come from a sub account to the master account */
-    SUBACCOUNT_INFLOW(true),
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_WITHDRAWAL(false),
 
-    /** Used for outflows that come from a master account to a sub account */
-    SUBACCOUNT_OUTFLOW(false);
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_DEPOSIT(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 

@@ -311,19 +311,14 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
             .forEach(
                 a -> {
                   result.add(
-                      new FundingRecord(
-                          finalEmail,
-                          null,
-                          new Date(a.getTime()),
-                          Currency.getInstance(a.getAsset()),
-                          a.getQty(),
-                          null,
-                          null,
-                          Type.SUBACCOUNT_OUTFLOW,
-                          Status.COMPLETE,
-                          null,
-                          null,
-                          null));
+                      new FundingRecord.Builder()
+                          .setAddress(finalEmail)
+                          .setDate(new Date(a.getTime()))
+                          .setCurrency(Currency.getInstance(a.getAsset()))
+                          .setAmount(a.getQty())
+                          .setType(Type.INTERNAL_WITHDRAWAL)
+                          .setStatus(Status.COMPLETE)
+                          .build());
                 });
       }
 
@@ -334,19 +329,17 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
             .forEach(
                 a -> {
                   result.add(
-                      new FundingRecord(
-                          a.getEmail(),
-                          null,
-                          new Date(a.getTime()),
-                          Currency.getInstance(a.getAsset()),
-                          a.getQty(),
-                          null,
-                          null,
-                          a.getType().equals(1) ? Type.SUBACCOUNT_INFLOW : Type.SUBACCOUNT_OUTFLOW,
-                          Status.COMPLETE,
-                          null,
-                          null,
-                          null));
+                      new FundingRecord.Builder()
+                          .setAddress(a.getEmail())
+                          .setDate(new Date(a.getTime()))
+                          .setCurrency(Currency.getInstance(a.getAsset()))
+                          .setAmount(a.getQty())
+                          .setType(
+                              a.getType().equals(1)
+                                  ? Type.INTERNAL_DEPOSIT
+                                  : Type.INTERNAL_WITHDRAWAL)
+                          .setStatus(Status.COMPLETE)
+                          .build());
                 });
       }
 
