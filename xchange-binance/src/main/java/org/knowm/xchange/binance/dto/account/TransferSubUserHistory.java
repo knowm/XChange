@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public final class SubUserHistory {
+public final class TransferSubUserHistory {
 
   private String counterParty;
   private String email;

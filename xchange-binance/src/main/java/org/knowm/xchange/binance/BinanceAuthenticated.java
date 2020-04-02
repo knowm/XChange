@@ -410,7 +410,7 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("/wapi/v3/sub-account/transfer/history.html")
-  TransfertHistoryResponse getTransfertHistory(
+  TransferHistoryResponse getTransferHistory(
       @QueryParam("email") String email,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
@@ -424,7 +424,7 @@ public interface BinanceAuthenticated extends Binance {
 
   @GET
   @Path("/sapi/v1/sub-account/transfer/subUserHistory")
-  List<SubUserHistory> getSubUserHistory(
+  List<TransferSubUserHistory> getTransferSubUserHistory(
       @QueryParam("asset") String asset,
       @QueryParam("type") Integer type,
       @QueryParam("startTime") Long startTime,
