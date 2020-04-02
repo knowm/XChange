@@ -230,13 +230,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       String email = null;
       boolean subAccount = false;
 
-      // Get transfert history from a master account to a sub account
-      if (params instanceof BinanceMasterAccountTransfertHistoryParams) {
-        email = ((BinanceMasterAccountTransfertHistoryParams) params).getEmail();
+      // Get transfer history from a master account to a sub account
+      if (params instanceof BinanceMasterAccountTransferHistoryParams) {
+        email = ((BinanceMasterAccountTransferHistoryParams) params).getEmail();
       }
 
-      // Get transfert history from a sub account to a master/sub account
-      if (params instanceof BinanceSubAccountTransfertHistoryParams) {
+      // Get transfer history from a sub account to a master/sub account
+      if (params instanceof BinanceSubAccountTransferHistoryParams) {
         subAccount = true;
       }
 
@@ -307,7 +307,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       final String finalEmail = email;
 
       if (email != null) {
-        super.getTransfertHistory(email, startTime, endTime, page, limit)
+        super.getTransferHistory(email, startTime, endTime, page, limit)
             .forEach(
                 a -> {
                   result.add(

@@ -2,7 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 
-public class BinanceMasterAccountTransfertHistoryParams extends DefaultTradeHistoryParamsTimeSpan {
+public class BinanceMasterAccountTransferHistoryParams extends DefaultTradeHistoryParamsTimeSpan {
 
   private String email;
 

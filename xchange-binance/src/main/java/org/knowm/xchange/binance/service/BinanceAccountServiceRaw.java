@@ -144,11 +144,11 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .getData();
   }
 
-  public List<TransfertHistoryResponse.TransfertHistory> getTransfertHistory(
+  public List<TransferHistoryResponse.TransferHistory> getTransferHistory(
       String email, Long startTime, Long endTime, Integer page, Integer limit)
       throws BinanceException, IOException {
     return binance
-        .getTransfertHistory(
+        .getTransferHistory(
             email,
             startTime,
             endTime,
@@ -161,10 +161,10 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         .getData();
   }
 
-  public List<SubUserHistory> getSubUserHistory(
+  public List<TransferSubUserHistory> getSubUserHistory(
       String asset, Integer type, Long startTime, Long endTime, Integer limit)
       throws BinanceException, IOException {
-    return binance.getSubUserHistory(
+    return binance.getTransferSubUserHistory(
         asset,
         type,
         startTime,
