@@ -1,9 +1,7 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -50,6 +48,18 @@ public class DsxMarketDataServiceRaw extends DsxBaseService {
   public DsxOrderBook getDsxOrderBook(CurrencyPair currencyPair, Integer limit) throws IOException {
 
     return dsx.getOrderBook(DsxAdapters.adaptCurrencyPair(currencyPair), limit);
+  }
+
+  public Map<String, List<DsxTrade>> getDsxTrades(
+      DsxSort sortDirection,
+      DsxTradesSortBy sortBy,
+      Long from,
+      Long till,
+      Integer maxResults,
+      Integer offset)
+      throws IOException {
+
+    return dsx.getTrades(sortDirection, sortBy, from, till, maxResults, offset);
   }
 
   public List<DsxTrade> getDsxTrades(

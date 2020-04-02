@@ -3,6 +3,7 @@ package org.knowm.xchange.dsx;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -42,6 +43,17 @@ public interface Dsx {
   @Path("public/trades/{symbol}")
   List<DsxTrade> getTrades(
       @PathParam("symbol") String symbol,
+      @QueryParam("sort") DsxSort sortDirection,
+      @QueryParam("by") DsxTradesSortBy sortBy,
+      @QueryParam("from") Long from,
+      @QueryParam("till") Long till,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset)
+      throws IOException;
+
+  @GET
+  @Path("public/trades")
+  Map<String, List<DsxTrade>> getTrades(
       @QueryParam("sort") DsxSort sortDirection,
       @QueryParam("by") DsxTradesSortBy sortBy,
       @QueryParam("from") Long from,

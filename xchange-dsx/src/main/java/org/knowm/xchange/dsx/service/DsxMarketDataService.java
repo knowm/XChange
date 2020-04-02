@@ -1,11 +1,14 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DsxAdapters;
 import org.knowm.xchange.dsx.dto.DsxSort;
+import org.knowm.xchange.dsx.dto.DsxTrade;
 import org.knowm.xchange.dsx.dto.DsxTradesSortBy;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -57,5 +60,30 @@ public class DsxMarketDataService extends DsxMarketDataServiceRaw implements Mar
         getDsxTrades(currencyPair, sortDirection, sortBy, from, till, maxResults, offset),
         currencyPair,
         sortBy);
+  }
+
+  public Map<String, Trades> getAllTrades(
+      DsxSort sortDirection,
+      DsxTradesSortBy sortBy,
+      Long from,
+      Long till,
+      Integer maxResults,
+      Integer offset)
+      throws IOException {
+
+    Map<String, List<DsxTrade>> dsxTrades =
+        getDsxTrades(sortDirection, sortBy, from, till, maxResults, offset);
+    HashMap<String, Trades> tradeMap = new HashMap<>();
+
+    dsxTrades.entrySet().stream()
+        .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty())
+        .forEach(
+            entry -> {
+              String symbol = entry.getKey();
+              List<DsxTrade> trades = entry.getValue();
+              tradeMap.put(symbol, DsxAdapters.adaptTrades(trades, null, sortBy));
+            });
+
+    return tradeMap;
   }
 }
