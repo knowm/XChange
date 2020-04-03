@@ -35,6 +35,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerFundingCurrency;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerTraidingPair;
@@ -746,6 +747,43 @@ public final class BitfinexAdapters {
                             oldMetaData.getFeeTiers())));
 
     return exchangeMetaData;
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(List<Movement> movementHistorys) {
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
+    for (Movement movement : movementHistorys) {
+      Currency currency = Currency.getInstance(movement.getCurency());
+
+      FundingRecord.Type type =
+          movement.getAmount().compareTo(BigDecimal.ZERO) < 0
+              ? FundingRecord.Type.WITHDRAWAL
+              : FundingRecord.Type.DEPOSIT;
+
+      FundingRecord.Status status = FundingRecord.Status.resolveStatus(movement.getStatus());
+      if (status == null
+          && movement
+              .getStatus()
+              .equalsIgnoreCase("CANCELED")) // there's a spelling mistake in the protocol
+      status = FundingRecord.Status.CANCELLED;
+
+      FundingRecord fundingRecordEntry =
+          new FundingRecord(
+              movement.getDestinationAddress(),
+              null,
+              movement.getMtsUpdated(),
+              currency,
+              movement.getAmount(),
+              movement.getId(),
+              movement.getTransactionId(),
+              type,
+              status,
+              null,
+              movement.getFees(),
+              null);
+
+      fundingRecords.add(fundingRecordEntry);
+    }
+    return fundingRecords;
   }
 
   public static List<FundingRecord> adaptFundingHistory(
