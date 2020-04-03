@@ -115,7 +115,7 @@ public class BitfinexAdaptersTest {
     assertThat(fundingRecords.get(1).getAddressTag()).isNull();
     assertThat(fundingRecords.get(1).getDate()).isEqualTo("2019-11-19T16:35:26Z");
     assertThat(fundingRecords.get(1).getCurrency()).isEqualTo(Currency.ETH);
-    assertThat(fundingRecords.get(1).getAmount()).isEqualByComparingTo("0.24");
+    assertThat(fundingRecords.get(1).getAmount()).isEqualByComparingTo("0.24135");
     assertThat(fundingRecords.get(1).getInternalId()).isEqualTo("13293039");
     assertThat(fundingRecords.get(1).getBlockchainTransactionHash()).isEqualTo("TRANSACTION_ID");
     assertThat(fundingRecords.get(1).getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
