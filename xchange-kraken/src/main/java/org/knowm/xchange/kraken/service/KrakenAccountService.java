@@ -46,7 +46,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
             .features(EnumSet.of(Wallet.WalletFeature.FUNDING, Wallet.WalletFeature.MARGIN_TRADING))
             .maxLeverage(BigDecimal.valueOf(5))
             .currentLeverage(
-                (krakenTradeBalanceInfo.getTradeBalance().equals(BigDecimal.ZERO))
+                (BigDecimal.ZERO.compareTo(krakenTradeBalanceInfo.getTradeBalance()) == 0)
                     ? BigDecimal.ZERO
                     : krakenTradeBalanceInfo
                         .getCostBasis()
