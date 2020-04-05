@@ -3,8 +3,12 @@ package org.knowm.xchange.gemini.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import lombok.Getter;
+import lombok.ToString;
 
 /** https://docs.gemini.com/rest-api/#ticker-v2 */
+@Getter
+@ToString
 public class GeminiTicker2 {
   private final String symbol;
   private final BigDecimal open; // day open
@@ -33,60 +37,5 @@ public class GeminiTicker2 {
     this.changes = changes;
     this.bid = bid;
     this.ask = ask;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
-  }
-
-  public BigDecimal getHigh() {
-    return high;
-  }
-
-  public BigDecimal getLow() {
-    return low;
-  }
-
-  public BigDecimal getClose() {
-    return close;
-  }
-
-  public BigDecimal[] getChanges() {
-    return changes;
-  }
-
-  public BigDecimal getBid() {
-    return bid;
-  }
-
-  public BigDecimal getAsk() {
-    return ask;
-  }
-
-  @Override
-  public String toString() {
-    return "GeminiTicker2{"
-        + "symbol='"
-        + symbol
-        + '\''
-        + ", open="
-        + open
-        + ", high="
-        + high
-        + ", low="
-        + low
-        + ", close="
-        + close
-        + ", changes="
-        + Arrays.toString(changes)
-        + ", bid="
-        + bid
-        + ", ask="
-        + ask
-        + '}';
   }
 }
