@@ -157,7 +157,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
             page,
             limit,
             getRecvWindow(),
-            getTimestamp(),
+            getTimestampFactory(),
             super.apiKey,
             super.signatureCreator)
         .getData();
@@ -173,7 +173,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
         endTime,
         limit,
         getRecvWindow(),
-        getTimestamp(),
+        getTimestampFactory(),
         super.apiKey,
         super.signatureCreator);
   }
