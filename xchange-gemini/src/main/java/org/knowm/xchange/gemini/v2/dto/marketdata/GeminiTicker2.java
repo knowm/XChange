@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+/** https://docs.gemini.com/rest-api/#ticker-v2 */
 public class GeminiTicker2 {
   private final String symbol;
   private final BigDecimal open; // day open
