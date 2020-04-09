@@ -8,13 +8,14 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMes
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 10.11.17. */
 public class PoloniexStreamingService extends JsonNettyStreamingService {
@@ -44,9 +45,20 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
           JsonNode event = events.get(0);
           if (event.get(0).toString().equals("\"i\"")) {
             if (event.get(1).has("orderBook")) {
-              String currencyPair = event.get(1).get("currencyPair").asText();
-              LOG.info("Register {} as {}", channelId, currencyPair);
-              subscribedChannels.put(String.valueOf(channelId), currencyPair);
+              subscribedChannels.compute(
+                  String.valueOf(channelId),
+                  (key, oldValue) -> {
+                    String currencyPair = event.get(1).get("currencyPair").asText();
+                    if (oldValue != null && !oldValue.equals(currencyPair)) {
+                      throw new RuntimeException("Attempted currency pair channel id reassignment");
+                    }
+                    if (oldValue == null) {
+                      LOG.info("Register {} as {}", channelId, currencyPair);
+                    } else {
+                      LOG.debug("Order book reinitialization {} {}", channelId, currencyPair);
+                    }
+                    return currencyPair;
+                  });
             }
           }
         }
