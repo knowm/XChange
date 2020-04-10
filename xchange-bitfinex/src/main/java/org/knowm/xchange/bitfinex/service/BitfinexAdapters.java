@@ -768,9 +768,11 @@ public final class BitfinexAdapters {
 
       BigDecimal amount = movement.getAmount().abs();
       BigDecimal fee = movement.getFees().abs();
-      if(fee != null && type.isOutflowing()){
-        //The amount reported form Bitfinex on a withdrawal is without the fee, so it has to be added to get the full amount withdrawn from the wallet
-        //Deposits don't seem to have fees, but it seems reasonable to assume that the reported value is the full amount added to the wallet
+      if (fee != null && type.isOutflowing()) {
+        // The amount reported form Bitfinex on a withdrawal is without the fee, so it has to be
+        // added to get the full amount withdrawn from the wallet
+        // Deposits don't seem to have fees, but it seems reasonable to assume that the reported
+        // value is the full amount added to the wallet
         amount = amount.add(fee);
       }
 
