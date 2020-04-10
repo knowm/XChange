@@ -4,7 +4,6 @@ import org.junit.BeforeClass;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.dsx.DsxExchange;
 
 public class BaseServiceTest {
 
