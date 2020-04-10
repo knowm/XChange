@@ -4,7 +4,6 @@ import java.io.IOException;
 import org.junit.BeforeClass;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.dsx.DsxExchange;
 
 /**
  * Base class for making test calls which require authentication to Dsx services. Since Dsx has no

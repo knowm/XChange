@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.DsxAdapters;
 import org.knowm.xchange.dsx.dto.DsxBalance;
 import org.knowm.xchange.dto.account.AccountInfo;
 
