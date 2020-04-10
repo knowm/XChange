@@ -2,7 +2,6 @@ package org.knowm.xchange.poloniex.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
