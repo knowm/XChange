@@ -2,18 +2,24 @@ package org.knowm.xchange.bitmex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.*;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class BitmexAccountService extends BitmexAccountServiceRaw implements AccountService {
@@ -29,7 +35,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   public TradeHistoryParams createFundingHistoryParams() {
-    return new DefaultTradeHistoryParamCurrency();
+    return new BitmexTradeHistroyParams();
   }
 
   @Override
@@ -76,6 +82,8 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) {
 
     Currency currency = null;
+    Integer count = null;
+    Long start = null;
 
     if (params instanceof TradeHistoryParamCurrency) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency();
@@ -87,7 +95,15 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
       throw new ExchangeException("Currency must be supplied");
     }
 
-    return getBitmexWalletHistory(currency).stream()
+    if (params instanceof TradeHistoryParamLimit) {
+      count = ((TradeHistoryParamLimit) params).getLimit();
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      start = ((TradeHistoryParamOffset) params).getOffset();
+    }
+
+    return getBitmexWalletHistory(currency, count, start).stream()
         .filter(
             w ->
                 w.getTransactStatus().equals("Completed")

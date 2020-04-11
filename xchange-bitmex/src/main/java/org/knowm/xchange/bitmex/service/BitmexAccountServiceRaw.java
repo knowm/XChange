@@ -41,13 +41,13 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
                 signatureCreator /*, ccy.length>0?ccy[0].getCurrencyCode():null*/));
   }
 
-  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy)
+  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy, Integer count, Long start)
       throws ExchangeException {
 
     return updateRateLimit(
         () ->
             bitmex.getWalletHistory(
-                apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode()));
+                apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode(), count, start));
   }
 
   public List<BitmexWalletTransaction> getBitmexWalletSummary(Currency ccy)

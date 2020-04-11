@@ -392,7 +392,9 @@ public interface BitmexAuthenticated extends Bitmex {
       @HeaderParam("api-key") String apiKey,
       @HeaderParam("api-expires") SynchronizedValueFactory<Long> nonce,
       @HeaderParam("api-signature") ParamsDigest paramsDigest,
-      @Nullable @QueryParam("currency") String currency)
+      @QueryParam("currency") String currency,
+      @Nullable @QueryParam("count") Integer count,
+      @Nullable @QueryParam("start") Long start)
       throws IOException, BitmexException;
 
   /** Get a summary of all of your wallet transactions (deposits, withdrawals, PNL) */
