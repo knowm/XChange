@@ -416,7 +416,7 @@ public class BitmexAdapters {
       if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
         return FundingRecord.Type.REALISED_PROFIT;
       } else if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
-        return FundingRecord.Type.REALISED_LOST;
+        return FundingRecord.Type.REALISED_LOSS;
       }
     }
 

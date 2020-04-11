@@ -307,7 +307,7 @@ public final class FundingRecord implements Serializable {
     INTERNAL_DEPOSIT(true),
 
     /** Used for realised losses from derivatives */
-    REALISED_LOST(false),
+    REALISED_LOSS(false),
 
     /** Used for realised profits from derivatives */
     REALISED_PROFIT(true);
