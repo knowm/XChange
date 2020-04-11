@@ -372,10 +372,10 @@ public class BitmexAdapters {
   public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
 
     String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
     SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
-    Date dateFunding = null;
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
+    Date dateFunding = null;
     if (walletTransaction.getTransactTime() != null) {
       try {
         dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
