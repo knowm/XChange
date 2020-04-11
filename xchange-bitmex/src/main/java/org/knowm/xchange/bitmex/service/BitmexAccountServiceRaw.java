@@ -1,10 +1,10 @@
 package org.knowm.xchange.bitmex.service;
 
+import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
@@ -12,8 +12,6 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
 
 @SuppressWarnings({"WeakerAccess", "JavaDoc", "unused"})
 public class BitmexAccountServiceRaw extends BitmexBaseService {
