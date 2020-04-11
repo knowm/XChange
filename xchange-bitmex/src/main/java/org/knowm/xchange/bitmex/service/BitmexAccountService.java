@@ -22,6 +22,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
+import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
+
 public class BitmexAccountService extends BitmexAccountServiceRaw implements AccountService {
 
   /**
@@ -67,14 +69,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    String currencyCode = currency.getCurrencyCode();
-
-    // bitmex seems to use a lowercase 't' in XBT
-    // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
-    // uppercase 'T' will return 'Unknown currency code'
-    if (currencyCode.equals("XBT")) {
-      currencyCode = "XBt";
-    }
+    String currencyCode = adaptCurrency(currency);
     return requestDepositAddress(currencyCode);
   }
 
@@ -87,10 +82,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
 
     if (params instanceof TradeHistoryParamCurrency) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency();
-
-      if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
-        currency = new Currency("XBt");
-      }
     } else {
       throw new ExchangeException("Currency must be supplied");
     }
