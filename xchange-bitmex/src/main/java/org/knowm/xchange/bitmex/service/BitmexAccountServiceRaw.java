@@ -3,6 +3,8 @@ package org.knowm.xchange.bitmex.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.knowm.xchange.bitmex.BitmexAdapters;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
@@ -10,6 +12,8 @@ import org.knowm.xchange.bitmex.dto.account.BitmexWallet;
 import org.knowm.xchange.bitmex.dto.account.BitmexWalletTransaction;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
 
 @SuppressWarnings({"WeakerAccess", "JavaDoc", "unused"})
 public class BitmexAccountServiceRaw extends BitmexBaseService {
@@ -41,13 +45,18 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
                 signatureCreator /*, ccy.length>0?ccy[0].getCurrencyCode():null*/));
   }
 
-  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy, Integer count, Long start)
-      throws ExchangeException {
+  public List<BitmexWalletTransaction> getBitmexWalletHistory(
+      Currency ccy, Integer count, Long start) throws ExchangeException {
 
     return updateRateLimit(
         () ->
             bitmex.getWalletHistory(
-                apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode(), count, start));
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                adaptCurrency(ccy),
+                count,
+                start));
   }
 
   public List<BitmexWalletTransaction> getBitmexWalletSummary(Currency ccy)

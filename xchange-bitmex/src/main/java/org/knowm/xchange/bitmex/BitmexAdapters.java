@@ -277,6 +277,25 @@ public class BitmexAdapters {
     }
   }
 
+  public static String adaptCurrency(Currency currency) {
+    // bitmex seems to use a lowercase 't' in XBT
+    // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
+    // uppercase 'T' will return 'Unknown currency code'
+    if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
+      return "XBt";
+    }
+
+    return currency.getCurrencyCode();
+  }
+
+  public static Currency adaptCurrency(String currencyCode) {
+    if (currencyCode.equalsIgnoreCase("XBt")) {
+      return Currency.BTC;
+    }
+
+    return Currency.getInstance(currencyCode);
+  }
+
   public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
     return currencyPair == null
         ? null
@@ -362,16 +381,10 @@ public class BitmexAdapters {
       throw new IllegalArgumentException(e);
     }
 
-    String currency = walletTransaction.getCurrency();
-
-    if (currency.equals("XBt")) {
-      currency = Currency.BTC.getCurrencyCode();
-    }
-
     return new FundingRecord(
         walletTransaction.getAddress(),
         dateFunding,
-        Currency.getInstance(currency),
+        adaptCurrency(walletTransaction.getCurrency()),
         walletTransaction.getAmount().divide(SATOSHIS_BY_BTC),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
