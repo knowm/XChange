@@ -95,11 +95,6 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     }
 
     return getBitmexWalletHistory(currency, count, start).stream()
-        .filter(
-            w ->
-                w.getTransactStatus().equals("Completed")
-                    && (w.getTransactType().equals("Deposit")
-                        || w.getTransactType().equals("Withdrawal")))
         .map(w -> BitmexAdapters.adaptFundingRecord(w))
         .collect(Collectors.toList());
   }

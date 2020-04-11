@@ -26,6 +26,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitmexAdapters {
 
@@ -375,27 +376,54 @@ public class BitmexAdapters {
     SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
     Date dateFunding = null;
 
-    try {
-      dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
-    } catch (ParseException e) {
-      throw new IllegalArgumentException(e);
+    if (walletTransaction.getTransactTime() != null) {
+      try {
+        dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
     }
+
+    FundingRecord.Type type = adaptFundingRecordtype(walletTransaction);
 
     return new FundingRecord(
         walletTransaction.getAddress(),
         dateFunding,
         adaptCurrency(walletTransaction.getCurrency()),
-        walletTransaction.getAmount().divide(SATOSHIS_BY_BTC),
+        walletTransaction.getAmount().abs().divide(SATOSHIS_BY_BTC),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
-        walletTransaction.getTransactType().equals("Deposit")
-            ? FundingRecord.Type.DEPOSIT
-            : FundingRecord.Type.WITHDRAWAL,
-        FundingRecord.Status.COMPLETE,
+        type,
+        adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
         null,
         walletTransaction.getFee() != null
-            ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC)
+            ? walletTransaction.getFee().abs().divide(SATOSHIS_BY_BTC)
             : null,
         walletTransaction.getText());
+  }
+
+  private static FundingRecord.Type adaptFundingRecordtype(
+      final BitmexWalletTransaction walletTransaction) {
+
+    String type = walletTransaction.getTransactType();
+    if (type.equalsIgnoreCase("Deposit")) {
+      return FundingRecord.Type.DEPOSIT;
+    } else if (type.equalsIgnoreCase("Withdrawal")) {
+      return FundingRecord.Type.WITHDRAWAL;
+    } else if (type.equalsIgnoreCase("RealisedPNL") || type.equalsIgnoreCase("UnrealisedPNL")) {
+      // 'RealisedPNL' will always have transactStatus = Completed whereas 'UnrealisedPNL' will
+      // always be transactStatus = Pending
+      if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+        return FundingRecord.Type.REALISED_PROFIT;
+      } else if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        return FundingRecord.Type.REALISED_LOST;
+      }
+    }
+
+    throw new ExchangeException("Unknown FundingRecord.Type");
+  }
+
+  private static FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {
+    return FundingRecord.Status.resolveStatus(transactStatus);
   }
 }
