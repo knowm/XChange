@@ -10,7 +10,7 @@
 
     <artifactId>xchange-cryptowatch</artifactId>
 
-    <name>XChange Kraken</name>
+    <name>XChange Cryptowatch</name>
     <description>XChange implementation for the Kraken cryptowatch Market Data</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
