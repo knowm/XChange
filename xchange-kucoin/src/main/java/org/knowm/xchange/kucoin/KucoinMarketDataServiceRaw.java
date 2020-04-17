@@ -3,7 +3,9 @@ package org.knowm.xchange.kucoin;
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
@@ -29,6 +31,10 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   public SymbolTickResponse getKucoin24hrStats(CurrencyPair pair) throws IOException {
     return classifyingExceptions(
         () -> symbolApi.getMarketStats(KucoinAdapters.adaptCurrencyPair(pair)));
+  }
+
+  public Map<String, BigDecimal> getKucoinPrices() throws IOException {
+    return classifyingExceptions(symbolApi::getPrices);
   }
 
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
