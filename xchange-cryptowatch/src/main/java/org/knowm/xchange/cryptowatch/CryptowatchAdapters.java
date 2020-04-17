@@ -27,7 +27,11 @@ public class CryptowatchAdapters {
       List<CryptowatchAssetPair> assetPairs,
       List<CryptowatchAsset> assets) {
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    pairs.putAll(exchangeMetaData.getCurrencyPairs());
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    if (exchangeMetaData != null) {
+      pairs.putAll(exchangeMetaData.getCurrencyPairs());
+      currencies.putAll(exchangeMetaData.getCurrencies());
+    }
     pairs.putAll(
         assetPairs.stream()
             .filter(pair -> !pair.getSymbol().endsWith("futures")) // filter out the futures assets
@@ -37,8 +41,6 @@ public class CryptowatchAdapters {
                     pair -> adaptToCurrencyPairMetadata(pairs.get(adaptToCurrencyPair(pair))),
                     (oldValue, newValue) -> newValue)));
 
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
-    currencies.putAll(exchangeMetaData.getCurrencies());
     currencies.putAll(
         assets.stream()
             .collect(
@@ -126,5 +128,9 @@ public class CryptowatchAdapters {
             .collect(Collectors.toList());
     long last = trades.get(trades.size() - 1).getTimestamp().getTime();
     return new Trades(trades, last, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+    return pair.base.getCurrencyCode().concat(pair.counter.getCurrencyCode()).toLowerCase();
   }
 }

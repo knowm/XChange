@@ -27,9 +27,9 @@ public class CryptowatchOHLCJSONTest {
     assertNotNull(result.getResult());
     CryptowatchOHLCs cryptowatchOHLCs = result.getResult();
     assertFalse(cryptowatchOHLCs.getOHLCs().isEmpty());
-    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey(180));
-    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey(1800));
-    assertEquals(1533304980, cryptowatchOHLCs.getOHLCs().get(180).get(0).getTime());
+    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey("180"));
+    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey("1800"));
+    assertEquals(1533304980, cryptowatchOHLCs.getOHLCs().get("180").get(0).getTime());
   }
 
   @Test

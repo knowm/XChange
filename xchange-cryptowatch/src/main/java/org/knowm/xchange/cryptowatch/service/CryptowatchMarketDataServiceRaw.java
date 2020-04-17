@@ -1,6 +1,7 @@
 package org.knowm.xchange.cryptowatch.service;
 
-import java.io.IOException;
+import static org.knowm.xchange.cryptowatch.CryptowatchAdapters.adaptCurrencyPair;
+
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptowatch.dto.CryptowatchException;
@@ -8,10 +9,12 @@ import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchOHLCs;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchOrderBook;
+import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchPrice;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchSummary;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchTrade;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchOHLCResult;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchOrderBookResult;
+import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchPriceResult;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchResult;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchSummaryResult;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchTradesResult;
@@ -33,27 +36,34 @@ public class CryptowatchMarketDataServiceRaw extends CryptowatchBaseService {
     return checkResult(cryptowatch.getAssets());
   }
 
+  public CryptowatchPrice getCryptowatchPrice(CurrencyPair pair, String market) {
+    CryptowatchPriceResult result = cryptowatch.getPrice(market, adaptCurrencyPair(pair));
+    return checkResult(result);
+  }
+
   public CryptowatchSummary getCryptowatchSummary(CurrencyPair pair, String market) {
-    CryptowatchSummaryResult result = cryptowatch.getTicker(market, pair.toString().toLowerCase());
+    CryptowatchSummaryResult result =
+        cryptowatch.getTicker(market, adaptCurrencyPair(pair).toLowerCase());
     return checkResult(result);
   }
 
   public CryptowatchOHLCs getCryptowatchOHLCs(
-      CurrencyPair pair, String market, long before, long after, int period) {
+      CurrencyPair pair, String market, Long before, Long after, Integer period) {
     CryptowatchOHLCResult result =
-        cryptowatch.getOHLC(market, pair.toString().toLowerCase(), before, after, period);
+        cryptowatch.getOHLC(market, adaptCurrencyPair(pair).toLowerCase(), before, after, period);
     return checkResult(result);
   }
 
   public CryptowatchOrderBook getCryptowatchOrderBook(CurrencyPair pair, String market) {
     CryptowatchOrderBookResult result =
-        cryptowatch.getOrderBook(market, pair.toString().toLowerCase());
+        cryptowatch.getOrderBook(market, adaptCurrencyPair(pair).toLowerCase());
     return checkResult(result);
   }
 
-  public List<CryptowatchTrade> getTrades(
-      CurrencyPair pair, String market, Integer since, Integer limit) throws IOException {
-    CryptowatchTradesResult result = cryptowatch.getTrades(market, pair.toString(), since, limit);
+  public List<CryptowatchTrade> getCryptowatchTrades(
+      CurrencyPair pair, String market, Integer limit, Long since) {
+    CryptowatchTradesResult result =
+        cryptowatch.getTrades(market, adaptCurrencyPair(pair), limit, since);
     return checkResult(result);
   }
 
