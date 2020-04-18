@@ -1,5 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
+import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,8 +23,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
-import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
 
 public class BitmexAccountService extends BitmexAccountServiceRaw implements AccountService {
 
@@ -95,7 +95,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     }
 
     return getBitmexWalletHistory(currency, count, start).stream()
-        .map(w -> BitmexAdapters.adaptFundingRecord(w))
+        .map(BitmexAdapters::adaptFundingRecord)
         .collect(Collectors.toList());
   }
 }
