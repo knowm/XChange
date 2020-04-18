@@ -2,8 +2,6 @@ package org.knowm.xchange.bitmex;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
@@ -370,35 +368,17 @@ public class BitmexAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
-
-    String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-    Date dateFunding = null;
-    if (walletTransaction.getTransactTime() != null) {
-      try {
-        dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
-      } catch (ParseException e) {
-        throw new IllegalArgumentException(e);
-      }
-    }
-
-    FundingRecord.Type type = adaptFundingRecordtype(walletTransaction);
-
     return new FundingRecord(
         walletTransaction.getAddress(),
-        dateFunding,
+        walletTransaction.getTransactTime(),
         adaptCurrency(walletTransaction.getCurrency()),
-        walletTransaction.getAmount().abs().divide(SATOSHIS_BY_BTC),
+        walletTransaction.getAmount().abs(),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
-        type,
+        adaptFundingRecordtype(walletTransaction),
         adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
-        null,
-        walletTransaction.getFee() != null
-            ? walletTransaction.getFee().abs().divide(SATOSHIS_BY_BTC)
-            : null,
+        walletTransaction.getWalletBalance(),
+        walletTransaction.getFee(),
         walletTransaction.getText());
   }
 
