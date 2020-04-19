@@ -40,8 +40,8 @@ public class AbstractResilienceTest {
     specification.setPort(wireMockRule.port());
     specification.setShouldLoadRemoteMetaData(false);
     specification.setHttpReadTimeout(READ_TIMEOUT_MS);
-    specification.setRetryEnabled(retryEnabled);
-    specification.setRateLimiterEnabled(rateLimiterEnabled);
+    specification.getResilience().setRetryEnabled(retryEnabled);
+    specification.getResilience().setRateLimiterEnabled(rateLimiterEnabled);
     exchange.applySpecification(specification);
     return exchange;
   }

@@ -57,7 +57,7 @@ public class ResilienceInterceptor implements Interceptor {
 
   private CheckedFunction0<Object> retryDecoration(
       Retry annotation, Method decoratedMethod, CheckedFunction0<Object> invocation) {
-    if (!exchangeSpecification.isRetryEnabled()) {
+    if (!exchangeSpecification.getResilience().isRetryEnabled()) {
       return invocation;
     }
     String baseConfigName = annotation.baseConfig();
@@ -91,7 +91,7 @@ public class ResilienceInterceptor implements Interceptor {
       Method decoratedMethod,
       Object[] args,
       CheckedFunction0<Object> invocation) {
-    if (!exchangeSpecification.isRateLimiterEnabled()) {
+    if (!exchangeSpecification.getResilience().isRateLimiterEnabled()) {
       return invocation;
     }
     io.github.resilience4j.ratelimiter.RateLimiter rateLimiter =

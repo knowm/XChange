@@ -13,6 +13,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -28,9 +29,11 @@ import org.knowm.xchange.service.marketdata.params.Params;
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw
     implements MarketDataService {
 
-  public BinanceMarketDataService(BinanceExchange exchange, BinanceAuthenticated binance) {
-
-    super(exchange, binance);
+  public BinanceMarketDataService(
+      BinanceExchange exchange,
+      BinanceAuthenticated binance,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, binance, resilienceRegistries);
   }
 
   @Override
