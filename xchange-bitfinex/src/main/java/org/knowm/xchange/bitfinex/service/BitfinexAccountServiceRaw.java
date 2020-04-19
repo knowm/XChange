@@ -25,6 +25,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
@@ -216,6 +217,30 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
           EmptyRequest.INSTANCE);
     }
     return bitfinexV2.getLedgerEntries(
+        exchange.getNonceFactory(),
+        apiKey,
+        signatureV2,
+        currency,
+        startTimeMillis,
+        endTimeMillis,
+        limit,
+        EmptyRequest.INSTANCE);
+  }
+
+  public List<Movement> getMovementHistory(
+      String currency, Long startTimeMillis, Long endTimeMillis, Integer limit) throws IOException {
+    if (StringUtils.isBlank(currency)) {
+      return bitfinexV2.getMovementsHistory(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          EmptyRequest.INSTANCE);
+    }
+
+    return bitfinexV2.getMovementsHistory(
         exchange.getNonceFactory(),
         apiKey,
         signatureV2,

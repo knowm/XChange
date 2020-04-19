@@ -32,6 +32,19 @@ public class HuobiPublicApiIntegration {
   }
 
   @Test
+  public void getAllTickerTest() throws Exception {
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    List<Ticker> tickers = marketDataService.getTickers(null);
+
+    assertThat(tickers).isNotNull();
+
+    assertThat(tickers.get(0).getBid()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAsk()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getBidSize()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAskSize()).isGreaterThan(BigDecimal.ZERO);
+  }
+
+  @Test
   public void getExchangeSymbolsTest() {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 

@@ -298,7 +298,19 @@ public final class FundingRecord implements Serializable {
      * outflows defined above or their nature could not have been deduced from the exchanges
      * response
      */
-    OTHER_OUTFLOW(false);
+    OTHER_OUTFLOW(false),
+
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_WITHDRAWAL(false),
+
+    /** Used for transfers between exchanges accounts */
+    INTERNAL_DEPOSIT(true),
+
+    /** Used for realised losses from derivatives */
+    REALISED_LOSS(false),
+
+    /** Used for realised profits from derivatives */
+    REALISED_PROFIT(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 
