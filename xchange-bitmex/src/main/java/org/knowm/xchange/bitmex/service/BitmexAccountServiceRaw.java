@@ -43,6 +43,11 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
                 signatureCreator /*, ccy.length>0?ccy[0].getCurrencyCode():null*/));
   }
 
+  public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy)
+      throws ExchangeException {
+    return getBitmexWalletHistory(ccy, null, null);
+  }
+
   public List<BitmexWalletTransaction> getBitmexWalletHistory(
       Currency ccy, Integer count, Long start) throws ExchangeException {
 
