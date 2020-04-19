@@ -475,7 +475,7 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam("page") Integer page,
       @QueryParam("limit") Integer limit,
       @QueryParam("recvWindow") Long recvWindow,
-      @QueryParam("timestamp") long timestamp,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
@@ -489,7 +489,7 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam("endTime") Long endTime,
       @QueryParam("limit") Integer limit,
       @QueryParam("recvWindow") Long recvWindow,
-      @QueryParam("timestamp") long timestamp,
+      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
