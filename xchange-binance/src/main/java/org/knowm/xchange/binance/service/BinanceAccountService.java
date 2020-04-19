@@ -16,6 +16,7 @@ import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
 import org.knowm.xchange.binance.dto.account.DepositAddress;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -31,8 +32,11 @@ import org.knowm.xchange.service.trade.params.*;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
-  public BinanceAccountService(BinanceExchange exchange, BinanceAuthenticated binance) {
-    super(exchange, binance);
+  public BinanceAccountService(
+      BinanceExchange exchange,
+      BinanceAuthenticated binance,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, binance, resilienceRegistries);
   }
 
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */

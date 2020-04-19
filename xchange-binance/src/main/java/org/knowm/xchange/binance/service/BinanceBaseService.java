@@ -1,17 +1,19 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LIMITER;
+
 import java.io.IOException;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.service.BaseResilientExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class BinanceBaseService extends BaseExchangeService implements BaseService {
+public class BinanceBaseService extends BaseResilientExchangeService<BinanceExchange> {
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -19,9 +21,12 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   protected final BinanceAuthenticated binance;
   protected final ParamsDigest signatureCreator;
 
-  protected BinanceBaseService(BinanceExchange exchange, BinanceAuthenticated binance) {
+  protected BinanceBaseService(
+      BinanceExchange exchange,
+      BinanceAuthenticated binance,
+      ResilienceRegistries resilienceRegistries) {
 
-    super(exchange);
+    super(exchange, resilienceRegistries);
     this.binance = binance;
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
@@ -38,7 +43,9 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   }
 
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
-
-    return binance.exchangeInfo();
+    return decorateApiCall(() -> binance.exchangeInfo())
+        .withRetry(retry("exchangeInfo"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
   }
 }

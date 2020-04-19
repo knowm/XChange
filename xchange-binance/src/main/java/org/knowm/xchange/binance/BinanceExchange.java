@@ -36,10 +36,12 @@ public class BinanceExchange extends BaseExchange {
                 BinanceAuthenticated.class, getExchangeSpecification())
             .resilienceRegistries(getResilienceRegistries())
             .build();
-    this.timestampFactory = new BinanceTimestampFactory(binance);
-    this.marketDataService = new BinanceMarketDataService(this, binance);
-    this.tradeService = new BinanceTradeService(this, binance);
-    this.accountService = new BinanceAccountService(this, binance);
+    this.timestampFactory =
+        new BinanceTimestampFactory(
+            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
+    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
