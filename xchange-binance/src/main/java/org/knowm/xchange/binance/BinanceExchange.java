@@ -34,7 +34,6 @@ public class BinanceExchange extends BaseExchange {
     this.binance =
         ExchangeRestProxyBuilder.forInterface(
                 BinanceAuthenticated.class, getExchangeSpecification())
-            .resilienceRegistries(getResilienceRegistries())
             .build();
     this.timestampFactory =
         new BinanceTimestampFactory(

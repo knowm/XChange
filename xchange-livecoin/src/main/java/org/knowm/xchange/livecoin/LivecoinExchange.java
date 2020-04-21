@@ -55,12 +55,11 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.livecoin =
-        ExchangeRestProxyBuilder.forInterface(Livecoin.class, getExchangeSpecification())
-            .resilienceRegistries(getResilienceRegistries())
-            .build();
-    this.marketDataService = new LivecoinMarketDataService(this, livecoin);
-    this.accountService = new LivecoinAccountService(this, livecoin);
-    this.tradeService = new LivecoinTradeService(this, livecoin);
+        ExchangeRestProxyBuilder.forInterface(Livecoin.class, getExchangeSpecification()).build();
+    this.marketDataService =
+        new LivecoinMarketDataService(this, livecoin, getResilienceRegistries());
+    this.accountService = new LivecoinAccountService(this, livecoin, getResilienceRegistries());
+    this.tradeService = new LivecoinTradeService(this, livecoin, getResilienceRegistries());
   }
 
   @Override

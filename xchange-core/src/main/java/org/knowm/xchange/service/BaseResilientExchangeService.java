@@ -4,7 +4,7 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.client.resilience.ResilienceUtils;
+import org.knowm.xchange.client.ResilienceUtils;
 
 /**
  * Top of the hierarchy abstract class for an "exchange service" which supports resiliency features
@@ -19,8 +19,8 @@ public abstract class BaseResilientExchangeService<E extends Exchange> extends B
     this.resilienceRegistries = resilienceRegistries;
   }
 
-  public <T> ResilienceUtils.DecorateCallableApi<T> decorateApiCall(
-      ResilienceUtils.CallableApi<T> callable) {
+  public <R> ResilienceUtils.DecorateCallableApi<R> decorateApiCall(
+      ResilienceUtils.CallableApi<R> callable) {
     return ResilienceUtils.decorateApiCall(
         exchange.getExchangeSpecification().getResilience(), callable);
   }

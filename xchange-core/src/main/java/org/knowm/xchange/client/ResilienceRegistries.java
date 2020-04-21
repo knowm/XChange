@@ -38,7 +38,7 @@ public class ResilienceRegistries {
    * timeout for eq. then this may result in placing two identical orders instead of one. For such
    * exchanged this retry configuration is recomended.
    */
-  public static final RetryConfig NON_IDEMPOTENTE_CALLS_RETRY_CONFIG =
+  public static final RetryConfig DEFAULT_NON_IDEMPOTENTE_CALLS_RETRY_CONFIG =
       RetryConfig.from(DEFAULT_RETRY_CONFIG)
           .retryExceptions(
               UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
@@ -56,18 +56,21 @@ public class ResilienceRegistries {
   private final RateLimiterRegistry rateLimiterRegistry;
 
   public ResilienceRegistries() {
-    this(DEFAULT_RETRY_CONFIG);
-  }
-
-  public ResilienceRegistries(RetryConfig customGlobalRetryConfig) {
-    this(customGlobalRetryConfig, DEFAULT_GLOBAL_RATE_LIMITER_CONFIG);
+    this(DEFAULT_RETRY_CONFIG, DEFAULT_NON_IDEMPOTENTE_CALLS_RETRY_CONFIG);
   }
 
   public ResilienceRegistries(
-      RetryConfig customGlobalRetryConfig, RateLimiterConfig customGlobalRateLimiterConfig) {
+      RetryConfig globalRetryConfig, RetryConfig nonIdempotenteCallsRetryConfig) {
+    this(globalRetryConfig, nonIdempotenteCallsRetryConfig, DEFAULT_GLOBAL_RATE_LIMITER_CONFIG);
+  }
+
+  public ResilienceRegistries(
+      RetryConfig globalRetryConfig,
+      RetryConfig nonIdempotenteCallsRetryConfig,
+      RateLimiterConfig globalRateLimiterConfig) {
     this(
-        RetryRegistry.of(customGlobalRetryConfig),
-        RateLimiterRegistry.of(customGlobalRateLimiterConfig));
+        retryRegistryOf(globalRetryConfig, nonIdempotenteCallsRetryConfig),
+        RateLimiterRegistry.of(globalRateLimiterConfig));
   }
 
   public ResilienceRegistries(
@@ -82,5 +85,13 @@ public class ResilienceRegistries {
 
   public RateLimiterRegistry rateLimiters() {
     return rateLimiterRegistry;
+  }
+
+  private static RetryRegistry retryRegistryOf(
+      RetryConfig globalRetryConfig, RetryConfig nonIdempotenteCallsRetryConfig) {
+    RetryRegistry registry = RetryRegistry.of(globalRetryConfig);
+    registry.addConfiguration(
+        NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME, nonIdempotenteCallsRetryConfig);
+    return registry;
   }
 }

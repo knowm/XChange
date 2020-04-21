@@ -1,4 +1,4 @@
-package org.knowm.xchange.client.resilience;
+package org.knowm.xchange.client;
 
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;

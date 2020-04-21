@@ -1,10 +1,8 @@
 package org.knowm.xchange.client;
 
-import com.google.common.annotations.Beta;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.client.resilience.ResilienceInterceptor;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.Interceptor;
 import si.mazi.rescu.RestProxyFactory;
@@ -15,7 +13,7 @@ public final class ExchangeRestProxyBuilder<T> {
   private final ExchangeSpecification exchangeSpecification;
   private ClientConfig clientConfig;
   private ResilienceRegistries resilienceRegistries;
-  private Interceptor customInterceptor;
+  private List<Interceptor> customInterceptors = new ArrayList<>();
 
   private ExchangeRestProxyBuilder(
       Class<T> restInterface, ExchangeSpecification exchangeSpecification) {
@@ -33,14 +31,8 @@ public final class ExchangeRestProxyBuilder<T> {
     return this;
   }
 
-  @Beta
-  public ExchangeRestProxyBuilder<T> resilienceRegistries(ResilienceRegistries value) {
-    this.resilienceRegistries = value;
-    return this;
-  }
-
   public ExchangeRestProxyBuilder<T> customInterceptor(Interceptor value) {
-    this.customInterceptor = value;
+    customInterceptors.add(value);
     return this;
   }
 
@@ -51,16 +43,11 @@ public final class ExchangeRestProxyBuilder<T> {
     if (resilienceRegistries == null) {
       resilienceRegistries = new ResilienceRegistries();
     }
-    List<Interceptor> callInterceptors = new ArrayList<>(2);
-    callInterceptors.add(new ResilienceInterceptor(resilienceRegistries, exchangeSpecification));
-    if (customInterceptor != null) {
-      callInterceptors.add(customInterceptor);
-    }
     return RestProxyFactory.createProxy(
         restInterface,
         exchangeSpecification.getSslUri(),
         clientConfig,
-        callInterceptors.toArray(new Interceptor[0]));
+        customInterceptors.toArray(new Interceptor[0]));
   }
 
   /**

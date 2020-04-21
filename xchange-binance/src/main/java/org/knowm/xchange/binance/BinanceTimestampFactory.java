@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.client.resilience.ResilienceUtils;
+import org.knowm.xchange.client.ResilienceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
