@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -12,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
+import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.livecoin.dto.LivecoinException;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
@@ -24,8 +25,9 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw
     implements MarketDataService {
 
-  public LivecoinMarketDataService(Exchange exchange, Livecoin livecoin) {
-    super(exchange, livecoin);
+  public LivecoinMarketDataService(
+      LivecoinExchange exchange, Livecoin livecoin, ResilienceRegistries resilienceRegistries) {
+    super(exchange, livecoin, resilienceRegistries);
   }
 
   @Override
