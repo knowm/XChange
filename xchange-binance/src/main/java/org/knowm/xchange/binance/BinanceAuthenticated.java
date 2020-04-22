@@ -362,6 +362,80 @@ public interface BinanceAuthenticated extends Binance {
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
 
+  /**
+   * Fetch small amounts of assets exchanged BNB records.
+   *
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/wapi/v3/userAssetDribbletLog.html")
+  AssetDribbletLogResponse getAssetDribbletLog(
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  /**
+   * Fetch small amounts of assets exchanged BNB records.
+   *
+   * @param asset optional
+   * @param startTime optional
+   * @param endTime optional
+   * @param recvWindow optional
+   * @param timestamp
+   * @param apiKey
+   * @param signature
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  @GET
+  @Path("/sapi/v1/asset/assetDividend")
+  AssetDividendResponse getAssetDividend(
+      @QueryParam("asset") String asset,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("/wapi/v3/sub-account/transfer/history.html")
+  TransferHistoryResponse getTransferHistory(
+      @QueryParam("email") String email,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("page") Integer page,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("/sapi/v1/sub-account/transfer/subUserHistory")
+  List<TransferSubUserHistory> getTransferSubUserHistory(
+      @QueryParam("asset") String asset,
+      @QueryParam("type") Integer type,
+      @QueryParam("startTime") Long startTime,
+      @QueryParam("endTime") Long endTime,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
+
   @GET
   @Path("wapi/v3/depositAddress.html")
   /**

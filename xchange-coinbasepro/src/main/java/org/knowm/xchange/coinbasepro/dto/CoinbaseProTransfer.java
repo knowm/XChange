@@ -228,7 +228,7 @@ public class CoinbaseProTransfer {
 
   @Override
   public String toString() {
-    return "GdaxTransfer{"
+    return "CoinbaseProTransfer{"
         + "id='"
         + id
         + '\''

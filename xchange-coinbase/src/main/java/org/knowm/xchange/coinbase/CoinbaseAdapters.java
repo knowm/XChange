@@ -69,16 +69,17 @@ public final class CoinbaseAdapters {
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    return new UserTrade(
-        orderType,
-        originalAmount,
-        new CurrencyPair(tradableIdentifier, transactionCurrency),
-        price,
-        timestamp,
-        id,
-        transferId,
-        feeAmount,
-        Currency.getInstance(feeCurrency));
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(originalAmount)
+        .currencyPair(new CurrencyPair(tradableIdentifier, transactionCurrency))
+        .price(price)
+        .timestamp(timestamp)
+        .id(id)
+        .orderId(transferId)
+        .feeAmount(feeAmount)
+        .feeCurrency(Currency.getInstance(feeCurrency))
+        .build();
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {

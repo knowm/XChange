@@ -4,21 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.okcoin.OkexExchangeV3;
-import org.knowm.xchange.okcoin.v3.dto.account.FuturesPosition;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
-import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsByCurrencyResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.*;
+import org.knowm.xchange.okcoin.v3.dto.trade.*;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse.SwapAccountInfo;
-import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
 
 public class OkexAccountServiceRaw extends OkexBaseService {
 
@@ -100,5 +88,26 @@ public class OkexAccountServiceRaw extends OkexBaseService {
     SwapAccountsResponse res = okex.getSwapAccounts(apikey, digest, timestamp(), passphrase);
     res.checkResult();
     return res.getInfo();
+  }
+
+  /**
+   * ******************************** Margin Account API *********************************
+   *
+   * @return
+   */
+  public MarginAccountResponse[] marginAccounts() throws IOException {
+    return okex.marginAccounts(apikey, digest, timestamp(), passphrase);
+  }
+
+  public List<MarginAccountSettingsRecord> marginAccountsSettings() throws IOException {
+    return okex.marginAccountsSettings(apikey, digest, timestamp(), passphrase);
+  }
+
+  public MarginBorrowResponse marginBorrow(MarginBorrowRequest req) throws IOException {
+    return okex.marginBorrow(apikey, digest, timestamp(), passphrase, req);
+  }
+
+  public MarginRepaymentResponse marginRepayment(MarginRepaymentRequest req) throws IOException {
+    return okex.marginRepayment(apikey, digest, timestamp(), passphrase, req);
   }
 }

@@ -1,7 +1,6 @@
 package org.knowm.xchange.itbit;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -23,18 +22,14 @@ public class ItBitDateDeserializer extends JsonDeserializer<Date> {
   }
 
   @Override
-  public Date deserialize(JsonParser jp, final DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException {
 
     String value = jp.getValueAsString().replaceFirst("0000Z$", "");
     try {
       return simpleDateFormat.parse(value);
     } catch (ParseException e) {
       throw new InvalidFormatException(
-          "Can't parse date at offset " + e.getErrorOffset(),
-          jp.getCurrentLocation(),
-          value,
-          Date.class);
+          jp, "Can't parse date at offset " + e.getErrorOffset(), value, Date.class);
       //      throw new RuntimeException("Can't parse date at offset " + e.getErrorOffset(), e);
     }
   }

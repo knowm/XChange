@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.utils.ObjectMapperHelper;

@@ -149,13 +149,13 @@ public final class BitcoindeAdapters {
         lastTradeId = tid;
       }
       trades.add(
-          new Trade(
-              null,
-              bitcoindeTrade.getAmount(),
-              currencyPair,
-              bitcoindeTrade.getPrice(),
-              DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L),
-              String.valueOf(tid)));
+          new Trade.Builder()
+              .originalAmount(bitcoindeTrade.getAmount())
+              .currencyPair(currencyPair)
+              .price(bitcoindeTrade.getPrice())
+              .timestamp(DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L))
+              .id(String.valueOf(tid))
+              .build());
     }
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }

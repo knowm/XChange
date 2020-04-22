@@ -118,6 +118,64 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return checkWapiResponse(result);
   }
 
+  public AssetDribbletLogResponse.AssetDribbletLogResults getAssetDribbletLog()
+      throws BinanceException, IOException {
+    return binance
+        .getAssetDribbletLog(getRecvWindow(), getTimestamp(), super.apiKey, super.signatureCreator)
+        .getData();
+  }
+
+  public List<AssetDividendResponse.AssetDividend> getAssetDividend(Long startTime, Long endTime)
+      throws BinanceException, IOException {
+    return getAssetDividend("", startTime, endTime);
+  }
+
+  public List<AssetDividendResponse.AssetDividend> getAssetDividend(
+      String asset, Long startTime, Long endTime) throws BinanceException, IOException {
+    return binance
+        .getAssetDividend(
+            asset,
+            startTime,
+            endTime,
+            getRecvWindow(),
+            getTimestamp(),
+            super.apiKey,
+            super.signatureCreator)
+        .getData();
+  }
+
+  public List<TransferHistoryResponse.TransferHistory> getTransferHistory(
+      String email, Long startTime, Long endTime, Integer page, Integer limit)
+      throws BinanceException, IOException {
+    return binance
+        .getTransferHistory(
+            email,
+            startTime,
+            endTime,
+            page,
+            limit,
+            getRecvWindow(),
+            getTimestamp(),
+            super.apiKey,
+            super.signatureCreator)
+        .getData();
+  }
+
+  public List<TransferSubUserHistory> getSubUserHistory(
+      String asset, Integer type, Long startTime, Long endTime, Integer limit)
+      throws BinanceException, IOException {
+    return binance.getTransferSubUserHistory(
+        asset,
+        type,
+        startTime,
+        endTime,
+        limit,
+        getRecvWindow(),
+        getTimestamp(),
+        super.apiKey,
+        super.signatureCreator);
+  }
+
   private <T> T checkWapiResponse(WapiResponse<T> result) {
     if (!result.success) {
       BinanceException exception;

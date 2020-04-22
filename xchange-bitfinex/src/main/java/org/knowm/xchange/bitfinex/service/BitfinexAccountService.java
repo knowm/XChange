@@ -15,17 +15,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
 
@@ -146,35 +138,39 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new BitfinexFundingHistoryParams(null, null, null, Currency.BTC);
+    return new BitfinexFundingHistoryParams(null, null, null, null);
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     try {
       String currency = null;
-      if (params instanceof TradeHistoryParamCurrency
-          && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
-        currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
-      } else {
-        throw new ExchangeException("Currency must be supplied");
-      }
-
-      Date startTime = null;
-      Date endTime = null;
-      if (params instanceof TradeHistoryParamsTimeSpan) {
-        startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-        endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
-      }
-
+      Long startTime = null;
+      Long endTime = null;
       Integer limit = null;
+
+      if (params instanceof TradeHistoryParamCurrencyPair
+          && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+        currency =
+            BitfinexAdapters.adaptCurrencyPair(
+                ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+      }
+
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+        TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+        startTime = DateUtils.toMillisNullSafe(paramsTimeSpan.getStartTime());
+        endTime = DateUtils.toMillisNullSafe(paramsTimeSpan.getEndTime());
+      }
+
       if (params instanceof TradeHistoryParamLimit) {
-        TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) params;
-        limit = limitParams.getLimit();
+        TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+        if (tradeHistoryParamLimit.getLimit() != null) {
+          limit = Integer.valueOf(tradeHistoryParamLimit.getLimit());
+        }
       }
 
       return BitfinexAdapters.adaptFundingHistory(
-          getDepositWithdrawalHistory(currency, null, startTime, endTime, limit));
+          getMovementHistory(currency, startTime, endTime, limit));
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
     }

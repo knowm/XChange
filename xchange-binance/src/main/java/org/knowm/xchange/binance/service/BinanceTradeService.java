@@ -2,20 +2,32 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Value;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.*;
+import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceOrder;
+import org.knowm.xchange.binance.dto.trade.BinanceTrade;
+import org.knowm.xchange.binance.dto.trade.OrderType;
+import org.knowm.xchange.binance.dto.trade.TimeInForce;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -27,39 +39,26 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.*;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
   public BinanceTradeService(Exchange exchange) {
-
     super(exchange);
-  }
-
-  public interface BinanceOrderFlags extends IOrderFlags {
-
-    /** Used in fields 'newClientOrderId' */
-    String getClientId();
-
-    public static BinanceOrderFlags withClientId(String clientId) {
-      return new ClientIdFlag(clientId);
-    }
-  }
-
-  @Value
-  static final class ClientIdFlag implements BinanceOrderFlags {
-    private final String clientId;
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
     return getOpenOrders(new DefaultOpenOrdersParam());
   }
 
   public OpenOrders getOpenOrders(CurrencyPair pair) throws IOException {
-
     return getOpenOrders(new DefaultOpenOrdersParamCurrencyPair(pair));
   }
 
@@ -98,56 +97,41 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
-
     return placeOrder(OrderType.MARKET, mo, null, null, null);
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder lo) throws IOException {
-    TimeInForce tif = TimeInForce.GTC;
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    TimeInForce tif = timeInForceFromOrder(limitOrder).orElse(TimeInForce.GTC);
     OrderType type;
-    if (lo.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
+    if (limitOrder.hasFlag(org.knowm.xchange.binance.dto.trade.BinanceOrderFlags.LIMIT_MAKER)) {
       type = OrderType.LIMIT_MAKER;
       tif = null;
     } else {
       type = OrderType.LIMIT;
-      Set<IOrderFlags> orderFlags = lo.getOrderFlags();
-      Iterator<IOrderFlags> orderFlagsIterator = orderFlags.iterator();
-
-      while (orderFlagsIterator.hasNext()) {
-        IOrderFlags orderFlag = orderFlagsIterator.next();
-        if (orderFlag instanceof TimeInForce) {
-          tif = (TimeInForce) orderFlag;
-        }
-      }
     }
-    return placeOrder(type, lo, lo.getLimitPrice(), null, tif);
+    return placeOrder(type, limitOrder, limitOrder.getLimitPrice(), null, tif);
   }
 
   @Override
   public String placeStopOrder(StopOrder order) throws IOException {
-
-    TimeInForce tif = null;
-    Set<IOrderFlags> orderFlags = order.getOrderFlags();
-
-    for (IOrderFlags orderFlag : orderFlags) {
-      if (orderFlag instanceof TimeInForce) {
-        tif = (TimeInForce) orderFlag;
-        break;
-      }
-    }
-
     // Time-in-force should not be provided for market orders but is required for
     // limit orders, order we only default it for limit orders. If the caller
     // specifies one for a market order, we don't remove it, since Binance might allow
     // it at some point.
-    if (order.getLimitPrice() != null && tif == null) {
-      tif = TimeInForce.GTC;
-    }
+    TimeInForce tif =
+        timeInForceFromOrder(order).orElse(order.getLimitPrice() != null ? TimeInForce.GTC : null);
 
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
     return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif);
+  }
+
+  private Optional<TimeInForce> timeInForceFromOrder(Order order) {
+    return order.getOrderFlags().stream()
+        .filter(flag -> flag instanceof TimeInForce)
+        .map(flag -> (TimeInForce) flag)
+        .findFirst();
   }
 
   private String placeOrder(
@@ -179,6 +163,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   public void placeTestOrder(
       OrderType type, Order order, BigDecimal limitPrice, BigDecimal stopPrice) throws IOException {
     try {
+      TimeInForce tif = timeInForceFromOrder(order).orElse(null);
       Long recvWindow =
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
@@ -186,7 +171,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           order.getCurrencyPair(),
           BinanceAdapters.convert(order.getType()),
           type,
-          TimeInForce.GTC,
+          tif,
           order.getOriginalAmount(),
           limitPrice,
           getClientOrderId(order),
@@ -215,7 +200,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(String orderId) {
-
     throw new ExchangeException("You need to provide the currency pair to cancel an order.");
   }
 
@@ -296,16 +280,17 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           binanceTrades.stream()
               .map(
                   t ->
-                      new UserTrade(
-                          BinanceAdapters.convertType(t.isBuyer),
-                          t.qty,
-                          pair,
-                          t.price,
-                          t.getTime(),
-                          Long.toString(t.id),
-                          Long.toString(t.orderId),
-                          t.commission,
-                          Currency.getInstance(t.commissionAsset)))
+                      new UserTrade.Builder()
+                          .type(BinanceAdapters.convertType(t.isBuyer))
+                          .originalAmount(t.qty)
+                          .currencyPair(pair)
+                          .price(t.price)
+                          .timestamp(t.getTime())
+                          .id(Long.toString(t.id))
+                          .orderId(Long.toString(t.orderId))
+                          .feeAmount(t.commission)
+                          .feeCurrency(Currency.getInstance(t.commissionAsset))
+                          .build())
               .collect(Collectors.toList());
       long lastId = binanceTrades.stream().map(t -> t.id).max(Long::compareTo).orElse(0L);
       return new UserTrades(trades, lastId, Trades.TradeSortType.SortByTimestamp);
@@ -365,5 +350,20 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
+  }
+
+  public interface BinanceOrderFlags extends IOrderFlags {
+
+    static BinanceOrderFlags withClientId(String clientId) {
+      return new ClientIdFlag(clientId);
+    }
+
+    /** Used in fields 'newClientOrderId' */
+    String getClientId();
+  }
+
+  @Value
+  static final class ClientIdFlag implements BinanceOrderFlags {
+    private final String clientId;
   }
 }

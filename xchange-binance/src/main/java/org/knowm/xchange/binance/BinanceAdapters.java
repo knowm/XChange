@@ -16,6 +16,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -175,7 +176,9 @@ public class BinanceAdapters {
         BigDecimal withdrawalFee = asset.getWithdrawFee().stripTrailingZeros();
         BigDecimal minWithdrawalAmount =
             new BigDecimal(asset.getMinWithdrawAmount()).stripTrailingZeros();
-        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
+        WalletHealth walletHealth =
+            getWalletHealth(asset.isDepositStatus(), asset.isWithdrawStatus());
+        return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount, walletHealth);
       }
     }
 
@@ -187,6 +190,19 @@ public class BinanceAdapters {
       minWithdrawalAmount = currencyMetaData.getMinWithdrawalAmount();
     }
     return new CurrencyMetaData(precision, withdrawalFee, minWithdrawalAmount);
+  }
+
+  private static WalletHealth getWalletHealth(boolean depositEnabled, boolean withdrawEnabled) {
+    if (depositEnabled && withdrawEnabled) {
+      return WalletHealth.ONLINE;
+    }
+    if (!depositEnabled && withdrawEnabled) {
+      return WalletHealth.DEPOSITS_DISABLED;
+    }
+    if (depositEnabled) {
+      return WalletHealth.WITHDRAWALS_DISABLED;
+    }
+    return WalletHealth.OFFLINE;
   }
 
   public static org.knowm.xchange.binance.dto.trade.OrderType adaptOrderType(StopOrder order) {
