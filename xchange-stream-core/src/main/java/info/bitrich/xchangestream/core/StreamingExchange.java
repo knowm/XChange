@@ -129,8 +129,8 @@ public interface StreamingExchange extends Exchange {
     if (enable_logging_handler != null && enable_logging_handler) {
       streamingService.setEnableLoggingHandler(true);
     }
-    Boolean autoReconnect = (Boolean) exchangeSpec.getExchangeSpecificParametersItem(AUTO_RECONNECT);
-    if (autoReconnect != null)
-        streamingService.setAutoReconnect(autoReconnect);
+    Boolean autoReconnect =
+        (Boolean) exchangeSpec.getExchangeSpecificParametersItem(AUTO_RECONNECT);
+    if (autoReconnect != null) streamingService.setAutoReconnect(autoReconnect);
   }
 }
