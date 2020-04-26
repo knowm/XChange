@@ -204,14 +204,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <!-- TODO: remove after resilience4j release -->
-            <id>jforge-oss-snapshot-local</id>
-            <url>https://oss.jfrog.org/simple/oss-snapshot-local</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
     </repositories>
 
     <dependencyManagement>
