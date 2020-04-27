@@ -9,7 +9,7 @@ import org.knowm.xchange.client.ResilienceUtils;
 /**
  * Abstract class for an "exchange service" which supports resiliency features like retries, rate limiting etc.
  */
-public abstract class BaseResilientExchangeService<E extends Exchange> extends BaseExchangeService {
+public abstract class BaseResilientExchangeService<E extends Exchange> extends BaseExchangeService<E> {
 
   protected final ResilienceRegistries resilienceRegistries;
 
@@ -48,6 +48,7 @@ public abstract class BaseResilientExchangeService<E extends Exchange> extends B
    * The configuration must have been added upfront in {@link #resilienceRegistries} via
    * {@link ResilienceRegistries#retries()} and the
    * {@link io.github.resilience4j.retry.RetryRegistry#addConfiguration(String, Object)} method.
+   * You can also used a predefined retry like {@link ResilienceRegistries#NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME}.
    *
    * @param name       the name of the Retry
    * @param configName the name of the shared configuration
