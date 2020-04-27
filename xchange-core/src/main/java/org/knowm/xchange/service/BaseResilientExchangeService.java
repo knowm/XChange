@@ -7,8 +7,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.client.ResilienceUtils;
 
 /**
- * Top of the hierarchy abstract class for an "exchange service" which supports resiliency features
- * like retries, rate limiting etc.
+ * Abstract class for an "exchange service" which supports resiliency features like retries, rate limiting etc.
  */
 public abstract class BaseResilientExchangeService<E extends Exchange> extends BaseExchangeService {
 
@@ -19,28 +18,75 @@ public abstract class BaseResilientExchangeService<E extends Exchange> extends B
     this.resilienceRegistries = resilienceRegistries;
   }
 
+  /**
+   * Use this method to decorate API calls with resiliency features like retries, rate limiters, etc.
+   * @param callable call to exchange API
+   * @param <R>      type returned by the API call
+   * @return builder of a decorated API call
+   */
   public <R> ResilienceUtils.DecorateCallableApi<R> decorateApiCall(
       ResilienceUtils.CallableApi<R> callable) {
     return ResilienceUtils.decorateApiCall(
         exchange.getExchangeSpecification().getResilience(), callable);
   }
 
-  /** @see io.github.resilience4j.retry.RetryRegistry#retry(String) */
+  /**
+   * Returns a managed {@link Retry} or creates a new one with the default Retry configuration from
+   * {@link ResilienceRegistries#DEFAULT_RETRY_CONFIG}.
+   *
+   * @param name the name of the Retry
+   * @return The {@link Retry}
+   *
+   * @see io.github.resilience4j.retry.RetryRegistry#retry(String)
+   */
   protected Retry retry(String name) {
     return resilienceRegistries.retries().retry(name);
   }
 
-  /** @see io.github.resilience4j.retry.RetryRegistry#retry(String, String) */
+  /**
+   * Returns a managed {@link Retry} or creates a new one.
+   * The configuration must have been added upfront in {@link #resilienceRegistries} via
+   * {@link ResilienceRegistries#retries()} and the
+   * {@link io.github.resilience4j.retry.RetryRegistry#addConfiguration(String, Object)} method.
+   *
+   * @param name       the name of the Retry
+   * @param configName the name of the shared configuration
+   * @return The {@link Retry}
+   *
+   * @see io.github.resilience4j.retry.RetryRegistry#retry(String, String)
+   */
   protected Retry retry(String name, String configName) {
     return resilienceRegistries.retries().retry(name, configName);
   }
 
-  /** @see io.github.resilience4j.ratelimiter.RateLimiterRegistry#rateLimiter(String) */
+  /**
+   * Returns a managed {@link RateLimiter} or creates a new one with the default RateLimiter
+   * configuration.
+   * One main shared rate limiter should be defined for each exchange module via
+   * {@link ResilienceRegistries#rateLimiters()} ()} and the
+   * {@link io.github.resilience4j.ratelimiter.RateLimiterRegistry#addConfiguration(String, Object)} method.
+   *
+   * @param name the name of the RateLimiter
+   * @return The {@link RateLimiter}
+   *
+   * @see io.github.resilience4j.ratelimiter.RateLimiterRegistry#rateLimiter(String)
+   */
   protected RateLimiter rateLimiter(String name) {
     return resilienceRegistries.rateLimiters().rateLimiter(name);
   }
 
-  /** @see io.github.resilience4j.ratelimiter.RateLimiterRegistry#rateLimiter(String, String) */
+  /**
+   * Returns a managed {@link RateLimiter} or creates a new one.
+   * The configuration must have been added upfront {@link #resilienceRegistries} via
+   * {@link ResilienceRegistries#rateLimiters()} ()} and the
+   * {@link io.github.resilience4j.ratelimiter.RateLimiterRegistry#addConfiguration(String, Object)} method.
+   *
+   * @param name       the name of the RateLimiter
+   * @param configName the name of the shared configuration
+   * @return The {@link RateLimiter}
+   *
+   * @see io.github.resilience4j.ratelimiter.RateLimiterRegistry#rateLimiter(String, String)
+   */
   protected RateLimiter rateLimiter(String name, String configName) {
     return resilienceRegistries.rateLimiters().rateLimiter(name, configName);
   }

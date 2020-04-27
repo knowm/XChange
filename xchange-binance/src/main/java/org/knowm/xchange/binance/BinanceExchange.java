@@ -25,6 +25,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BinanceExchange extends BaseExchange {
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
   private BinanceExchangeInfo exchangeInfo;
   private BinanceAuthenticated binance;
   private SynchronizedValueFactory<Long> timestampFactory;

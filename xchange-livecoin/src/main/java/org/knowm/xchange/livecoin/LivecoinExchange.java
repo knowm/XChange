@@ -28,10 +28,6 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
-  public static void resetResilienceRegistries() {
-    RESILIENCE_REGISTRIES = null;
-  }
-
   @Override
   public ResilienceRegistries getResilienceRegistries() {
     if (RESILIENCE_REGISTRIES == null) {
