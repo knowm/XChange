@@ -56,7 +56,8 @@ public interface Exchange {
    * resilience4j registries with retry strategies, rate limiters, etc. used for this exchange.
    *
    * @return resilience4j registries
-   * @throws NotYetImplementedForExchangeException if the exchange module does not support resilience features
+   * @throws NotYetImplementedForExchangeException if the exchange module does not support
+   *     resilience features
    */
   default ResilienceRegistries getResilienceRegistries() {
     throw new NotYetImplementedForExchangeException();
