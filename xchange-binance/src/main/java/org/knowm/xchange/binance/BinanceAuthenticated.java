@@ -299,13 +299,13 @@ public interface BinanceAuthenticated extends Binance {
    * @throws BinanceException
    */
   WithdrawRequest withdraw(
-      @FormParam("asset") String asset,
-      @FormParam("address") String address,
-      @FormParam("addressTag") String addressTag,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("name") String name,
-      @FormParam("recvWindow") Long recvWindow,
-      @FormParam("timestamp") long timestamp,
+      @QueryParam("asset") String asset,
+      @QueryParam("address") String address,
+      @QueryParam("addressTag") String addressTag,
+      @QueryParam("amount") BigDecimal amount,
+      @QueryParam("name") String name,
+      @QueryParam("recvWindow") Long recvWindow,
+      @QueryParam("timestamp") long timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
