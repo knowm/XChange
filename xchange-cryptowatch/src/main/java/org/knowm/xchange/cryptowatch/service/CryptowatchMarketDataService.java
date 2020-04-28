@@ -21,7 +21,7 @@ public class CryptowatchMarketDataService extends CryptowatchMarketDataServiceRa
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) {
     if (args == null || args.length < 1) {
       throw new ExchangeException("args[0] must be of type String!");
     }
@@ -36,11 +36,11 @@ public class CryptowatchMarketDataService extends CryptowatchMarketDataServiceRa
       throw new ExchangeException("args[0] must be of type String!");
     }
     String market = (String) args[0];
-    Integer since = null;
+    Long since = null;
     if (args.length > 1) {
       Object arg = args[0];
-      if (arg instanceof Integer) {
-        since = (Integer) arg;
+      if (arg instanceof Long) {
+        since = (Long) arg;
       }
       throw new ExchangeException("args[0] must be of type Integer!");
     }
@@ -53,7 +53,7 @@ public class CryptowatchMarketDataService extends CryptowatchMarketDataServiceRa
       throw new ExchangeException("args[1] must be of type Integer!");
     }
 
-    List<CryptowatchTrade> result = getTrades(currencyPair, market, since, limit);
+    List<CryptowatchTrade> result = getCryptowatchTrades(currencyPair, market, limit, since);
     return CryptowatchAdapters.adaptToTrades(result, currencyPair);
   }
 }

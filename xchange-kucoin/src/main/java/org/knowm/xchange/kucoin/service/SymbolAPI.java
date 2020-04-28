@@ -2,7 +2,9 @@
 package org.knowm.xchange.kucoin.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,6 +29,15 @@ public interface SymbolAPI {
   @GET
   @Path("/symbols")
   KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException;
+
+  /**
+   * Get the fiat price of the currencies for the available trading pairs.
+   *
+   * @return USD fiat price of the currencies.
+   */
+  @GET
+  @Path("/prices")
+  KucoinResponse<Map<String, BigDecimal>> getPrices() throws IOException;
 
   /**
    * Ticker include only the inside (i.e. best) bid and ask data , last price and last trade size.
