@@ -304,7 +304,13 @@ public final class FundingRecord implements Serializable {
     INTERNAL_WITHDRAWAL(false),
 
     /** Used for transfers between exchanges accounts */
-    INTERNAL_DEPOSIT(true);
+    INTERNAL_DEPOSIT(true),
+
+    /** Used for realised losses from derivatives */
+    REALISED_LOSS(false),
+
+    /** Used for realised profits from derivatives */
+    REALISED_PROFIT(true);
 
     private static final Map<String, Type> fromString = new HashMap<>();
 

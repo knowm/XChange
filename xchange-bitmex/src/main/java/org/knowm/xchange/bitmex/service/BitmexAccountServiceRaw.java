@@ -1,5 +1,7 @@
 package org.knowm.xchange.bitmex.service;
 
+import static org.knowm.xchange.bitmex.BitmexAdapters.adaptCurrency;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -43,11 +45,21 @@ public class BitmexAccountServiceRaw extends BitmexBaseService {
 
   public List<BitmexWalletTransaction> getBitmexWalletHistory(Currency ccy)
       throws ExchangeException {
+    return getBitmexWalletHistory(ccy, null, null);
+  }
+
+  public List<BitmexWalletTransaction> getBitmexWalletHistory(
+      Currency ccy, Integer count, Long start) throws ExchangeException {
 
     return updateRateLimit(
         () ->
             bitmex.getWalletHistory(
-                apiKey, exchange.getNonceFactory(), signatureCreator, ccy.getCurrencyCode()));
+                apiKey,
+                exchange.getNonceFactory(),
+                signatureCreator,
+                adaptCurrency(ccy),
+                count,
+                start));
   }
 
   public List<BitmexWalletTransaction> getBitmexWalletSummary(Currency ccy)
