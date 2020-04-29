@@ -46,7 +46,7 @@ public class ResilienceRegistries {
 
   public static final RateLimiterConfig DEFAULT_GLOBAL_RATE_LIMITER_CONFIG =
       RateLimiterConfig.custom()
-          .timeoutDuration(Duration.ofSeconds(5))
+          .timeoutDuration(Duration.ofSeconds(30))
           .limitRefreshPeriod(Duration.ofMinutes(1))
           .limitForPeriod(1200)
           .build();
