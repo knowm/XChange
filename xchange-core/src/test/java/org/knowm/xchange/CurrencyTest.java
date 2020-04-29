@@ -16,6 +16,7 @@ public class CurrencyTest {
   public void testCurrencyCode() {
     assertEquals(Currency.CNY.getCodeCurrency("CNY"), Currency.CNY);
     assertEquals(Currency.CNY.getCodeCurrency("cny"), Currency.CNY);
+    assertEquals(2, 4);
   }
 
   @Test
