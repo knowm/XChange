@@ -37,6 +37,7 @@ public final class BinanceResilience {
         .rateLimiter(
             ORDERS_PER_DAY_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
+                .timeoutDuration(Duration.ZERO)
                 .limitRefreshPeriod(Duration.ofDays(1))
                 .limitForPeriod(200000)
                 .build());
