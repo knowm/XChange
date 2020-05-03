@@ -413,12 +413,16 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected void handleMessage(T message) {
     String channel = getChannel(message);
-    handleChannelMessage(channel, message);
+    if (channel != null && !channel.equals(""))
+      handleChannelMessage(channel, message);
   }
 
   protected void handleError(T message, Throwable t) {
     String channel = getChannel(message);
-    handleChannelError(channel, t);
+    if (channel != null && !channel.equals(""))
+      handleChannelError(channel, t);
+    else
+      LOG.error("handleError cannot parse channel from message: {}", message);
   }
 
   protected void handleIdle(ChannelHandlerContext ctx) {
