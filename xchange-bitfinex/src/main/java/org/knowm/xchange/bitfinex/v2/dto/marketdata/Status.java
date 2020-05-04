@@ -15,7 +15,6 @@ import lombok.ToString;
 @Getter
 @ToString
 
-/** see https://docs.bitfinex.com/v2/reference#status */
 /** see https://docs.bitfinex.com/reference#rest-public-status */
 public class Status {
 
