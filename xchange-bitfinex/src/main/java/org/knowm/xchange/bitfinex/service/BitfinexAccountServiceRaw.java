@@ -145,7 +145,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     } else if (currency.equalsIgnoreCase("IOT")) {
       type = "iota";
     } else if (currency.equalsIgnoreCase("BCH")) {
-      type = "bcash";
+      type = "bab";
     } else if (currency.equalsIgnoreCase("BTG")) {
       type = "bgold";
     } else if (currency.equalsIgnoreCase("DASH")) {
