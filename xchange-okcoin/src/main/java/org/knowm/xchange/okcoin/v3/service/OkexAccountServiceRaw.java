@@ -2,7 +2,7 @@ package org.knowm.xchange.okcoin.v3.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.knowm.xchange.okcoin.OkexExchangeV3;
@@ -86,7 +86,7 @@ public class OkexAccountServiceRaw extends OkexBaseService {
         okex.getFuturesPositions(apikey, digest, timestamp(), passphrase);
     res.checkResult();
     List<List<FuturesPosition>> holding = res.getHolding();
-    return holding == null || holding.isEmpty() ? new ArrayList<>() : holding.get(0);
+    return holding == null || holding.isEmpty() ? Collections.emptyList() : holding.get(0);
   }
 
   public FuturesAccountsResponse getFuturesAccounts() throws IOException {
