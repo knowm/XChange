@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString
 
-/** see https://docs.bitfinex.com/v2/reference#status */
+/** see https://docs.bitfinex.com/reference#rest-public-status */
 public class Status {
 
   private String symbol;
@@ -38,4 +40,15 @@ public class Status {
   private Object placeHolder4;
   /** Funding applied in the current 8h period */
   private BigDecimal currentFunding;
+
+  private Object placeHolder5;
+  private Object placeHolder6;
+  /** Price based on the BFX Composite Index */
+  private BigDecimal markPrice;
+
+  private Object placeHolder7;
+  private Object placeHolder8;
+  /** Total number of outstanding derivative contracts */
+  private BigDecimal openInterest;
+  
 }
