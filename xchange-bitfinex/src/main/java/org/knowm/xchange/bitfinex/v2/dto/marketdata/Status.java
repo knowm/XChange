@@ -40,11 +40,12 @@ public class Status {
   private Object placeHolder4;
   /** Funding applied in the current 8h period */
   private BigDecimal currentFunding;
-  
+
   private Object placeHolder5;
   private Object placeHolder6;
   /** Price based on the BFX Composite Index */
   private BigDecimal markPrice;
+
   private Object placeHolder7;
   private Object placeHolder8;
   /** Total number of outstanding derivative contracts */
