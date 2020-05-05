@@ -1,5 +1,6 @@
+> **NOTE**: This project is in the process of being merged into the [XChange library](https://github.com/knowm/XChange). **New pull requests will not be accepted. If you have a pull request already open, we'll be posting up instructions shortly.**
+
 # XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/xchange-stream)
-> **NOTE**: This project is in the process of being merged into the [XChange library](https://github.com/knowm/XChange). Large, sweeping changes are in progress. Consider asking first if working on a large pull request, since it is likely to suffer considerably conflicts if mis-timed.
 
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
