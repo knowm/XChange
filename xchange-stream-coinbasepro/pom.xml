@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange CoinbasePro Stream</name>
     <artifactId>xchange-stream-coinbasepro</artifactId>
 
     <dependencies>
