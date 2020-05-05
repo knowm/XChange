@@ -2,28 +2,24 @@
 
 [![Join the chat at https://gitter.im/Java-XChange/Lobby](https://badges.gitter.im/Java-XChange/Lobby.svg)](https://gitter.im/Java-XChange/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges providing a
-consistent interface for trading and accessing market data.
+XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges, providing a consistent interface for trading and accessing market data.
 
 ## Important!
 
-The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/knowm/XChange/issues). 
+The world of Bitcoin changes quickly and XChange is no exception. For the latest bugfixes and features you should use the [snapshot jars](https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/knowm/XChange/issues). 
 
 ## Description
 
 XChange is a library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges.
 
-Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
+Basic usage is very simple: Create an `Exchange` instance, get the appropriate service, and request data.
 
 ## Example 1: Public Market Data
 
 ```java
 Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
-
 MarketDataService marketDataService = bitstamp.getMarketDataService();
-
 Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
-
 System.out.println(ticker.toString());
 ```
 
@@ -48,7 +44,56 @@ System.out.println(accountInfo.toString());
 
 All exchange implementations expose the same API, but you can also directly access the underlying "raw" data from the individual exchanges if you need to.
 
+## Example 3: Streaming data
+
+The above API is usually fully supported on all exchanges. For a smaller number of exchanges, however, the websocket-based `StreamingExchange` API is also available.  This is preferable in many cases, with exchanges themselves often advising that applications use their websocket-based APIs when they need real-time data feeds.
+
+Rather than exposing you directly to complex websocket-based back-ends, the `StreamingExchange` API uses [Reactive streams](http://reactivex.io/) which make things much easier.
+
+You will need to import an additional dependency for the exchange you are using (see below), then example usage is as follows:
+
+```java
+StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
+
+// Connect to the Exchange WebSocket API. Blocking wait for the connection.
+exchange.connect().blockingAwait();
+
+// Subscribe to live trades update.
+exchange.getStreamingMarketDataService()
+        .getTrades(CurrencyPair.BTC_USD)
+        .subscribe(trade -> {
+            LOG.info("Incoming trade: {}", trade);
+        }, throwable -> {
+            LOG.error("Error in subscribing trades.", throwable);
+        });
+
+// Subscribe order book data with the reference to the subscription.
+Disposable subscription = exchange.getStreamingMarketDataService()
+                                  .getOrderBook(CurrencyPair.BTC_USD)
+                                  .subscribe(orderBook -> {
+                                       // Do something
+                                  });
+
+// Unsubscribe from data order book.
+subscription.dispose();
+
+// Disconnect from exchange (non-blocking)
+exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
+``` 
+Not all exchanges with streaming support have support for the full range of streaming features, which cover:
+
+- Real-time order books
+- Trades
+- Tickers
+- Balances (requires authentication)
+- User trades (requires authentication)
+- Open order updates (requires authentication)
+
+## More information
+
 Now go ahead and [study some more examples](http://knowm.org/open-source/xchange/xchange-example-code), [download the thing](http://knowm.org/open-source/xchange/xchange-change-log/) and [provide feedback](https://github.com/knowm/XChange/issues).
+
+More information about reactive streams can be found at [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki).
 
 ## Features
 
@@ -64,8 +109,6 @@ Project Site: <http://knowm.org/open-source/xchange>
 Example Code: <http://knowm.org/open-source/xchange/xchange-example-code>  
 Change Log: <http://knowm.org/open-source/xchange/xchange-change-log/>  
 Java Docs: <http://knowm.org/javadocs/xchange/index.html>  
-
-Looking for streaming API? Use library [xchange-stream](https://github.com/bitrich-info/xchange-stream) based on XChange.
 
 ## Wiki
 
@@ -88,9 +131,8 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ### Non-Maven
 
-Download XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cknowm%20xchange
-
-Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/org/knowm/xchange/
+- XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cknowm%20xchange
+- XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/org/knowm/xchange/
 
 ### Maven
 
@@ -100,17 +142,13 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 
     <dependency>
       <groupId>org.knowm.xchange</groupId>
-      <artifactId>xchange-core</artifactId>
-      <version>4.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.knowm.xchange</groupId>
-      <artifactId>xchange-examples</artifactId>
-      <version>4.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
+      <version>4.4.2</version>
+    </dependency>
+    <!-- Optional, not always available -->
+    <dependency>
+      <groupId>org.knowm.xchange</groupId>
+      <artifactId>xchange-stream-XYZ</artifactId>
       <version>4.4.2</version>
     </dependency>
 
