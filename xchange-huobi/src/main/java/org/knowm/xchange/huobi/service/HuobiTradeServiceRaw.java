@@ -15,7 +15,7 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
 class HuobiTradeServiceRaw extends HuobiBaseService {
 
@@ -23,11 +23,16 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     super(exchange);
   }
 
-  HuobiOrder[] getHuobiTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+  // https://huobiapi.github.io/docs/spot/v1/en/#search-past-orders
+  HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params) throws IOException {
     String tradeStates = "partial-filled,partial-canceled,filled";
     HuobiOrdersResult result =
-        huobi.getOpenOrders(
+        huobi.getOrders(
+            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
             tradeStates,
+            null, // System.currentTimeMillis() - 48 * 60 * 60_000L,
+            null,
+            null,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
@@ -36,10 +41,11 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  HuobiOrder[] getHuobiOpenOrders() throws IOException {
+  HuobiOrder[] getHuobiOpenOrders(CurrencyPairParam params) throws IOException {
     String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
         huobi.getOpenOrders(
+            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
             states,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,

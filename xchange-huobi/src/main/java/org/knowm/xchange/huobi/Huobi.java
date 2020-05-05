@@ -139,7 +139,23 @@ public interface Huobi {
   @GET
   @Path("v1/order/orders")
   HuobiOrdersResult getOpenOrders(
+      @QueryParam("symbol") String symbol,
       @QueryParam("states") String states,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("v1/order/orders")
+  HuobiOrdersResult getOrders(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("states") String states,
+      @QueryParam("start-time") Long startTime,
+      @QueryParam("from") String from,
+      @QueryParam("direct") String direct,
       @QueryParam("AccessKeyId") String apiKey,
       @QueryParam("SignatureMethod") String signatureMethod,
       @QueryParam("SignatureVersion") int signatureVersion,
