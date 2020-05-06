@@ -1,0 +1,12 @@
+{
+  "seq": 1,
+  "payload": [
+    [
+      "BTC",
+      "2295.01329566",
+      "4.00000000"
+    ]
+  ],
+  "type": "update",
+  "channel": "balance"
+}

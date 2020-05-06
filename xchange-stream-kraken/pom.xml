@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xchange-stream-parent</artifactId>
+        <groupId>info.bitrich.xchange-stream</groupId>
+        <version>4.4.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>xchange-stream-kraken</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-kraken</artifactId>
+            <version>${xchange.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>xchange-stream-core</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>
