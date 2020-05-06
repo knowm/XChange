@@ -1,5 +1,0 @@
-version: 1
-update_configs:
-  - package_manager: "java:maven"
-    directory: "/"
-    update_schedule: "weekly"
