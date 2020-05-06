@@ -8,7 +8,18 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>XChange Enigma</artifactId>
+    <artifactId>xchange-enigma</artifactId>
+
+    <name>XChange Enigma</name>
+    <description>XChange implementation for the Lykke Exchange</description>
+
+    <url>http://knowm.org/open-source/xchange/</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <organization>
+        <name>Knowm Inc.</name>
+        <url>http://knowm.org/open-source/xchange/</url>
+    </organization>
 
     <dependencies>
 
