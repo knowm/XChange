@@ -2,9 +2,11 @@ package org.knowm.xchange;
 
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
@@ -49,6 +51,17 @@ public interface Exchange {
    * @return Synchronized value factory
    */
   SynchronizedValueFactory<Long> getNonceFactory();
+
+  /**
+   * resilience4j registries with retry strategies, rate limiters, etc. used for this exchange.
+   *
+   * @return resilience4j registries
+   * @throws NotYetImplementedForExchangeException if the exchange module does not support
+   *     resilience features
+   */
+  default ResilienceRegistries getResilienceRegistries() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
   /**
    * @return A default ExchangeSpecification to use during the creation process if one is not
