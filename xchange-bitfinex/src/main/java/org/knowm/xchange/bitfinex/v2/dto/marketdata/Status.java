@@ -1,10 +1,8 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -50,5 +48,4 @@ public class Status {
   private Object placeHolder8;
   /** Total number of outstanding derivative contracts */
   private BigDecimal openInterest;
-  
 }

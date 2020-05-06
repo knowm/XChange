@@ -3,7 +3,6 @@ package org.knowm.xchange.okcoin;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -13,7 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.okcoin.v3.dto.account.BillType;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
@@ -64,7 +62,6 @@ import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderBatchCancellationRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderPlacementRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
 import org.knowm.xchange.okcoin.v3.service.OkexException;
-
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
