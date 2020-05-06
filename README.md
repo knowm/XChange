@@ -59,26 +59,24 @@ StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(Bi
 exchange.connect().blockingAwait();
 
 // Subscribe to live trades update.
-exchange.getStreamingMarketDataService()
-        .getTrades(CurrencyPair.BTC_USD)
-        .subscribe(trade -> {
-            LOG.info("Incoming trade: {}", trade);
-        }, throwable -> {
-            LOG.error("Error in subscribing trades.", throwable);
-        });
+Disposable subscription1 = exchange.getStreamingMarketDataService()
+    .getTrades(CurrencyPair.BTC_USD)
+    .subscribe(
+        trade -> LOG.info("Incoming trade: {}", trade),
+        throwable -> LOG.error("Error in subscribing trades.", throwable));
 
 // Subscribe order book data with the reference to the subscription.
-Disposable subscription = exchange.getStreamingMarketDataService()
-                                  .getOrderBook(CurrencyPair.BTC_USD)
-                                  .subscribe(orderBook -> {
-                                       // Do something
-                                  });
+Disposable subscription2 = exchange.getStreamingMarketDataService()
+    .getOrderBook(CurrencyPair.BTC_USD)
+    .subscribe(orderBook -> { /* Do something */ });
 
-// Unsubscribe from data order book.
-subscription.dispose();
+// Unsubscribe
+subscription1.dispose();
+subscription2.dispose();
 
-// Disconnect from exchange (non-blocking)
-exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
+// Disconnect from exchange (blocking again)
+exchange.disconnect().blockingAwait();
+LOG.info("Disconnected from the Exchange");
 ``` 
 Not all exchanges with streaming support have support for the full range of streaming features, which cover:
 
@@ -88,6 +86,36 @@ Not all exchanges with streaming support have support for the full range of stre
 - Balances (requires authentication)
 - User trades (requires authentication)
 - Open order updates (requires authentication)
+
+## Example 4: Advanced Streaming
+
+Reactive Streams are a **non-blocking** API at heart, allowing you to write code that can monitor thousands of currency pairs on tens of exchanges without requiring large numbers of threads. However, to do so requires you to get used to the the reactive paradigm.  The following example does exactly the same as the above, but in a non-blocking way:
+```java
+exchange.connect(subscription).subscribe(() -> {
+
+  // Connect subscriptions when the exchange signals successful connection
+  Disposable sub1 = exchange.getStreamingMarketDataService()
+      .getTrades(CurrencyPair.BTC_USD)
+      .subscribe(
+          trade -> LOG.info("Incoming trade: {}", trade),
+          throwable -> LOG.error("Error in subscribing trades.", throwable));
+  Disposable sub2 = exchange.getStreamingMarketDataService()
+      .getOrderBook(CurrencyPair.BTC_USD)
+      .subscribe(orderBook -> { /* Do something */ });
+
+  // Schedule disconnection to occur in 20 seconds (does not block)
+  Observable.timer(20, TimeUnit.SECONDS).subscribe(__ -> {
+    sub1.dispose();
+    sub2.dispose();
+    exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
+  });
+
+});
+
+// In our example, we still have to sleep here otherwise the program will
+// end immediately! This is just to demonstrate.
+Thread.sleep(30000);
+```
 
 ## More information
 
