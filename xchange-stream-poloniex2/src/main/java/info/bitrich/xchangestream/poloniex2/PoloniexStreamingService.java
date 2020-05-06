@@ -8,14 +8,13 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMes
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 10.11.17. */
 public class PoloniexStreamingService extends JsonNettyStreamingService {
