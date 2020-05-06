@@ -10,7 +10,6 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
@@ -21,12 +20,13 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class MarketDataServiceIntegration {
 
-  static Exchange exchange;
+  static BinanceExchange exchange;
   static MarketDataService marketService;
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
+    exchange =
+        (BinanceExchange) ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
     marketService = exchange.getMarketDataService();
   }
 
@@ -38,9 +38,7 @@ public class MarketDataServiceIntegration {
   @Test
   public void testTimestamp() throws Exception {
 
-    BinanceMarketDataService marketDataService =
-        (BinanceMarketDataService) exchange.getMarketDataService();
-    long serverTime = marketDataService.getTimestamp();
+    long serverTime = exchange.getTimestampFactory().createValue();
     Assert.assertTrue(0 < serverTime);
   }
 
