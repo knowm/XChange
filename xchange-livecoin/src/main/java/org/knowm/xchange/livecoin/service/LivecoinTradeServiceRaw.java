@@ -1,5 +1,8 @@
 package org.knowm.xchange.livecoin.service;
 
+import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME;
+import static org.knowm.xchange.livecoin.LivecoinResilience.MAIN_RATE_LIMITER;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -23,12 +27,13 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.utils.DateUtils;
 
-public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
+public class LivecoinTradeServiceRaw extends LivecoinBaseService {
 
   private static final long THIRTY_DAYS_MILLISECONDS = 2_592_000_000L;
 
-  public LivecoinTradeServiceRaw(LivecoinExchange exchange) {
-    super(Livecoin.class, exchange);
+  public LivecoinTradeServiceRaw(
+      LivecoinExchange exchange, Livecoin livecoin, ResilienceRegistries resilienceRegistries) {
+    super(exchange, livecoin, resilienceRegistries);
   }
 
   public LivecoinPaginatedResponse<LivecoinUserOrder> clientOrders(
@@ -39,15 +44,20 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
       Long startRow,
       Long endRow)
       throws IOException {
-    return service.clientOrders(
-        apiKey,
-        signatureCreator,
-        Optional.ofNullable(currencyPair).map(CurrencyPair::toString).orElse(null),
-        openClosed,
-        issuedFrom,
-        issuedTo,
-        startRow,
-        endRow);
+    return decorateApiCall(
+            () ->
+                service.clientOrders(
+                    apiKey,
+                    signatureCreator,
+                    Optional.ofNullable(currencyPair).map(CurrencyPair::toString).orElse(null),
+                    openClosed,
+                    issuedFrom,
+                    issuedTo,
+                    startRow,
+                    endRow))
+        .withRetry(retry("clientOrders"))
+        .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+        .call();
   }
 
   public List<UserTrade> tradeHistory(Date startTime, Date endTime, Integer limit, Long offset)
@@ -57,14 +67,18 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     long start = Math.max(DateUtils.toMillisNullSafe(startTime), end - THIRTY_DAYS_MILLISECONDS);
 
     List<Map> response =
-        service.transactions(
-            apiKey,
-            signatureCreator,
-            String.valueOf(start),
-            String.valueOf(end),
-            "BUY,SELL",
-            limit,
-            offset);
+        decorateApiCall(
+                () ->
+                    service.transactions(
+                        apiKey,
+                        signatureCreator,
+                        String.valueOf(start),
+                        String.valueOf(end),
+                        "BUY,SELL",
+                        limit,
+                        offset))
+            .withRetry(retry("transactions"))
+            .call();
 
     List<UserTrade> resp = new ArrayList<>();
     for (Map map : response) {
@@ -80,18 +94,28 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     LivecoinOrderResponse response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response =
-          service.buyWithMarketOrder(
-              apiKey,
-              signatureCreator,
-              order.getCurrencyPair().toString(),
-              order.getOriginalAmount());
+          decorateApiCall(
+                  () ->
+                      service.buyWithMarketOrder(
+                          apiKey,
+                          signatureCreator,
+                          order.getCurrencyPair().toString(),
+                          order.getOriginalAmount()))
+              .withRetry(retry("buyWithMarketOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+              .call();
     } else {
       response =
-          service.sellWithMarketOrder(
-              apiKey,
-              signatureCreator,
-              order.getCurrencyPair().toString(),
-              order.getOriginalAmount());
+          decorateApiCall(
+                  () ->
+                      service.sellWithMarketOrder(
+                          apiKey,
+                          signatureCreator,
+                          order.getCurrencyPair().toString(),
+                          order.getOriginalAmount()))
+              .withRetry(retry("sellWithMarketOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+              .call();
     }
     return response.getOrderId();
   }
@@ -100,28 +124,43 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     LivecoinOrderResponse response;
     if (order.getType().equals(Order.OrderType.BID)) {
       response =
-          service.buyWithLimitOrder(
-              apiKey,
-              signatureCreator,
-              order.getCurrencyPair().toString(),
-              order.getLimitPrice(),
-              order.getOriginalAmount());
+          decorateApiCall(
+                  () ->
+                      service.buyWithLimitOrder(
+                          apiKey,
+                          signatureCreator,
+                          order.getCurrencyPair().toString(),
+                          order.getLimitPrice(),
+                          order.getOriginalAmount()))
+              .withRetry(retry("buyWithLimitOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+              .call();
     } else {
       response =
-          service.sellWithLimitOrder(
-              apiKey,
-              signatureCreator,
-              order.getCurrencyPair().toString(),
-              order.getLimitPrice(),
-              order.getOriginalAmount());
+          decorateApiCall(
+                  () ->
+                      service.sellWithLimitOrder(
+                          apiKey,
+                          signatureCreator,
+                          order.getCurrencyPair().toString(),
+                          order.getLimitPrice(),
+                          order.getOriginalAmount()))
+              .withRetry(retry("sellWithLimitOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+              .call();
     }
     return response.getOrderId();
   }
 
   public boolean cancelOrder(CurrencyPair currencyPair, String orderId) throws IOException {
     LivecoinCancelResponse response =
-        service.cancelLimitOrder(
-            apiKey, signatureCreator, currencyPair.toString(), Long.valueOf(orderId));
+        decorateApiCall(
+                () ->
+                    service.cancelLimitOrder(
+                        apiKey, signatureCreator, currencyPair.toString(), Long.valueOf(orderId)))
+            .withRetry(retry("cancelLimitOrder"))
+            .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
+            .call();
 
     return response.isCancelled();
   }

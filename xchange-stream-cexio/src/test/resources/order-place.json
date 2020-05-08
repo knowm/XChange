@@ -1,0 +1,16 @@
+{
+  "e": "order",
+  "data": {
+    "id": "5913254239",
+    "remains": "200000",
+    "price": "7176.5",
+    "amount": 200000,
+    "time": "1522135708956",
+    "type": "buy",
+    "pair": {
+      "symbol1": "BTC",
+      "symbol2": "USD"
+    },
+    "fee": "0.16"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "jsonrpc": "2.0",
+  "method": "snapshotOrderbook",
+  "params": {
+    "ask": [
+      {
+        "price": "0.054588",
+        "size": "0.245"
+      },
+      {
+        "price": "0.054590",
+        "size": "0.000"
+      },
+      {
+        "price": "0.054591",
+        "size": "2.784"
+      }
+    ],
+    "bid": [
+      {
+        "price": "0.054558",
+        "size": "0.500"
+      },
+      {
+        "price": "0.054557",
+        "size": "0.076"
+      },
+      {
+        "price": "0.054524",
+        "size": "7.725"
+      }
+    ],
+    "symbol": "ETHBTC",
+    "sequence": 8073827
+  }
+}
