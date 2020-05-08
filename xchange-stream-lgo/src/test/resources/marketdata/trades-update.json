@@ -1,0 +1,22 @@
+{
+  "payload": [
+    {
+      "quantity": "4.36920000",
+      "side": "B",
+      "trade_creation_time": "2019-07-19T12:25:01.596Z",
+      "price": "428.5000",
+      "trade_id": "3128770"
+    },
+    {
+      "side": "S",
+      "quantity": "1.85390000",
+      "trade_id": "3128771",
+      "price": "420.3000",
+      "trade_creation_time": "2019-07-19T12:25:05.860Z"
+    }
+  ],
+  "batch_id": 5891632,
+  "type": "update",
+  "channel": "trades",
+  "product_id": "BTC-USD"
+}
