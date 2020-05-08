@@ -366,11 +366,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-acx</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-bitflyer</artifactId>
 			<version>${project.version}</version>
 		</dependency>
