@@ -12,14 +12,55 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.okcoin.v3.dto.account.*;
+import org.knowm.xchange.okcoin.v3.dto.account.BillType;
+import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTicker;
-import org.knowm.xchange.okcoin.v3.dto.trade.*;
+import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.FundsTransferResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsByCurrencyResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderCancellationResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOpenOrdersResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginBorrowRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginBorrowResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginRepaymentRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginRepaymentResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginSetLeverageRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexFuturesTransaction;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexSwapTransaction;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexTransaction;
+import org.knowm.xchange.okcoin.v3.dto.trade.OrderBatchCancellationRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.OrderCancellationResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SpotOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapFuturesMultipleOrderPlacementResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapMultipleOrderCancellationResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapMultipleOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapOpenOrdersResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderBatchCancellationRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
 import org.knowm.xchange.okcoin.v3.service.OkexException;
 import si.mazi.rescu.ParamsDigest;
 
@@ -267,6 +308,35 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
       @PathParam("currency") String currency)
+      throws IOException, OkexException;
+
+  /**
+   * Retrieve the bills of the futures account. The bill refers to all the records that results in
+   * changing the balance of an account. This API can retrieve data in the last 2 days.
+   *
+   * @param underlying - requierd，eg：BTC-USD BTC-USDT
+   * @param after - optional, Pagination of data to return records earlier than the requested
+   *     ledger_id
+   * @param before - optional, Pagination of data to return records newer than the requested
+   *     ledger_id
+   * @param limit - optional, Number of results per request. The maximum is 100; the default is 100
+   * @param type - optional, 1:Open Long 2:Open Short 3:Close Long 4:Close Short 5:Transaction Fee
+   *     6:Transfer In， 7:Transfer Out 8:Settled RPL 13: Full Liquidation of Long 14: Full
+   *     Liquidation of Short 15: Delivery Long 16: Delivery Short 17:Settled UPL Long 18:Settled
+   *     UPL Short 20:Partial Liquidation of Short 21:Partial Liquidation of Long
+   */
+  @GET
+  @Path("/futures/v3/accounts/{underlying}/ledger")
+  List<FuturesBillsResponse> getFuturesBills(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("underlying") String underlying,
+      @QueryParam("after") String after,
+      @QueryParam("before") String before,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("type") BillType type)
       throws IOException, OkexException;
 
   /**
