@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange Core Stream WAMP</name>
     <artifactId>xchange-stream-service-wamp</artifactId>
 
     <dependencies>

@@ -9,7 +9,9 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange Kraken Stream</name>
     <artifactId>xchange-stream-kraken</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>org.knowm.xchange</groupId>

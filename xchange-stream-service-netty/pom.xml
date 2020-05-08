@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange Core Stream Netty</name>
     <artifactId>xchange-stream-service-netty</artifactId>
 
     <dependencies>

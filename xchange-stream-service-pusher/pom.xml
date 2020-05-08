@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange Core Stream Pusher</name>
     <artifactId>xchange-stream-service-pusher</artifactId>
 
     <dependencies>
