@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange Cex.io Stream</name>
     <artifactId>xchange-stream-cexio</artifactId>
 
     <dependencies>

@@ -9,6 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
+    <name>XChange OKCoin Stream</name>
     <artifactId>xchange-stream-okcoin</artifactId>
 
     <dependencies>
