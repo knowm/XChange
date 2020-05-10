@@ -48,7 +48,7 @@ final class MatchingEngine {
   private final Deque<Trade> publicTrades = new ConcurrentLinkedDeque<>();
   private final Multimap<String, UserTrade> userTrades = LinkedListMultimap.create();
 
-  private volatile Ticker ticker = new Ticker.Builder().build();
+  private volatile Ticker ticker;
 
   MatchingEngine(
       AccountFactory accountFactory,
@@ -69,6 +69,7 @@ final class MatchingEngine {
     this.priceScale = priceScale;
     this.minimumAmount = minimumAmount;
     this.onFill = onFill;
+    this.ticker = new Ticker.Builder().currencyPair(currencyPair).build();
   }
 
   public synchronized LimitOrder postOrder(String apiKey, Order original) {
@@ -172,6 +173,7 @@ final class MatchingEngine {
 
   private Ticker.Builder newTickerFromBook() {
     return new Ticker.Builder()
+        .currencyPair(currencyPair)
         .ask(asks.isEmpty() ? null : asks.get(0).getPrice())
         .bid(bids.isEmpty() ? null : bids.get(0).getPrice());
   }
