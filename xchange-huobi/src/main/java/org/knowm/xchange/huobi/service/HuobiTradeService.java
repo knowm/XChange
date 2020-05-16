@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
@@ -17,6 +18,8 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class HuobiTradeService extends HuobiTradeServiceRaw implements TradeService {
+  public static IOrderFlags FOK = new IOrderFlags() {};
+  public static IOrderFlags IOC = new IOrderFlags() {};
 
   public HuobiTradeService(Exchange exchange) {
     super(exchange);
