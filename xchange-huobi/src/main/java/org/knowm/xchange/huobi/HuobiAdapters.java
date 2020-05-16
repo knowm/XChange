@@ -22,6 +22,8 @@ import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.StopOrder.Intention;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -196,29 +198,53 @@ public class HuobiAdapters {
                   .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
               openOrder.getFieldAmount(),
               openOrder.getFieldFees(),
-              null);
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId());
     }
     if (openOrder.isLimit()) {
       order =
           new LimitOrder(
               orderType,
               openOrder.getAmount(),
-              openOrder.getFieldAmount(),
               currencyPair,
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
-              openOrder.getPrice());
-      if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
-        order.setAveragePrice(BigDecimal.ZERO);
-      } else {
-        order.setAveragePrice(
-            openOrder
-                .getFieldCashAmount()
-                .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
-      }
+              openOrder.getPrice(),
+              openOrder
+                  .getFieldCashAmount()
+                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
+              openOrder.getFieldAmount(),
+              openOrder.getFieldFees(),
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId());
     }
-    if (order != null) {
-      order.setOrderStatus(adaptOrderStatus(openOrder.getState()));
+    if (openOrder.isStop()) {
+      order =
+          new StopOrder(
+              orderType,
+              openOrder.getAmount(),
+              currencyPair,
+              String.valueOf(openOrder.getId()),
+              openOrder.getCreatedAt(),
+              openOrder.getStopPrice(),
+              openOrder.getPrice(),
+              openOrder
+                  .getFieldCashAmount()
+                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
+              openOrder.getFieldAmount(),
+              openOrder.getFieldFees(),
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId(),
+              openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT);
+    }
+
+    if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
+      order.setAveragePrice(BigDecimal.ZERO);
+    } else {
+      order.setAveragePrice(
+          openOrder
+              .getFieldCashAmount()
+              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
     }
     return order;
   }
