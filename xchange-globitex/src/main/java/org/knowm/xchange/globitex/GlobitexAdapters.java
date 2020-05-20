@@ -5,10 +5,7 @@ import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -82,13 +79,14 @@ public class GlobitexAdapters {
   }
 
   private static Trade adaptToTrade(GlobitexTrade globitexTrade, CurrencyPair currencyPair) {
-    return new Trade(
-        (globitexTrade.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID),
-        globitexTrade.getAmount(),
-        currencyPair,
-        globitexTrade.getPrice(),
-        new Date(globitexTrade.getTimestamp()),
-        String.valueOf(globitexTrade.getTid()));
+    return new Trade.Builder()
+        .type((globitexTrade.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID))
+        .originalAmount(globitexTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(globitexTrade.getPrice())
+        .timestamp(new Date(globitexTrade.getTimestamp()))
+        .id(String.valueOf(globitexTrade.getTid()))
+        .build();
   }
 
   public static Ticker adaptToTicker(GlobitexTicker globitexTicker) {
@@ -172,10 +170,10 @@ public class GlobitexAdapters {
               balances.add(balance);
             });
 
-    return new Wallet(
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        globitexAccounts.getAccounts().get(0).getAccount(),
-        balances);
+    return Wallet.Builder.from(balances)
+        .id(globitexAccounts.getAccounts().get(0).getAccount())
+        .name(globitexAccounts.getAccounts().get(0).getAccount())
+        .build();
   }
 
   public static UserTrades adaptToUserTrades(GlobitexUserTrades globitexUserTrades) {
@@ -192,17 +190,22 @@ public class GlobitexAdapters {
   }
 
   private static UserTrade adaptToUserTrade(GlobitexUserTrade globitexUserTrade) {
-    return new UserTrade(
-        (globitexUserTrade.getSide().equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID),
-        globitexUserTrade.getQuantity(),
-        CurrencyPairDeserializer.getCurrencyPairFromString(
-            convertXBTtoBTC(globitexUserTrade.getSymbol())),
-        globitexUserTrade.getPrice(),
-        new Date(globitexUserTrade.getTimestamp()),
-        String.valueOf(globitexUserTrade.getOriginalOrderId()),
-        globitexUserTrade.getClientOrderId(),
-        globitexUserTrade.getFee(),
-        new Currency(convertXBTtoBTC(globitexUserTrade.getFeeCurrency())));
+    return new UserTrade.Builder()
+        .type(
+            (globitexUserTrade.getSide().equals("sell")
+                ? Order.OrderType.ASK
+                : Order.OrderType.BID))
+        .originalAmount(globitexUserTrade.getQuantity())
+        .currencyPair(
+            CurrencyPairDeserializer.getCurrencyPairFromString(
+                convertXBTtoBTC(globitexUserTrade.getSymbol())))
+        .price(globitexUserTrade.getPrice())
+        .timestamp(new Date(globitexUserTrade.getTimestamp()))
+        .id(String.valueOf(globitexUserTrade.getOriginalOrderId()))
+        .orderId(globitexUserTrade.getClientOrderId())
+        .feeAmount(globitexUserTrade.getFee())
+        .feeCurrency(new Currency(convertXBTtoBTC(globitexUserTrade.getFeeCurrency())))
+        .build();
   }
 
   public static OpenOrders adaptToOpenOrders(GlobitexActiveOrders globitexActiveOrders) {

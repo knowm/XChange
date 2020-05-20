@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
@@ -90,5 +91,10 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
             paymentId)
         .getResult()
         .getUuid();
+  }
+
+  public BittrexAccountVolume getAccountVolume() throws IOException {
+    return bittrexAuthenticatedV3.getAccountVolume(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreatorV3);
   }
 }

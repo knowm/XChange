@@ -1,0 +1,34 @@
+{
+  "BTC": {
+    "balance": 2.445,
+    "reserved": 1.222
+  },
+  "EUR": {
+    "balance": 10000,
+    "reserved": 5000
+  },
+  "CZK": {
+    "balance": 0,
+    "reserved": 0
+  },
+  "BCH": {
+    "balance": 0,
+    "reserved": 0
+  },
+  "XRP": {
+    "balance": 0,
+    "reserved": 0
+  },
+  "ETH": {
+    "balance": 0,
+    "reserved": 0
+  },
+  "LTC": {
+    "balance": 0,
+    "reserved": 0
+  },
+  "DASH": {
+    "balance": 0,
+    "reserved": 0
+  }
+}

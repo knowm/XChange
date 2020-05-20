@@ -13,11 +13,10 @@ public enum CoinmateOrderFlags implements Order.IOrderFlags {
    */
   IMMEDIATE_OR_CANCEL,
   /**
-   * Flag indicating that stop loss order should be created as trailing. Valid flag value is 0 or 1. Default value is 0
+   * Flag indicating that stop loss order should be created as trailing. Valid flag value is 0 or 1.
+   * Default value is 0
    */
   TRAILING,
-  /**
-   * Id of order used to access order in case of not receiving order id
-   */
+  /** Id of order used to access order in case of not receiving order id */
   CLIENT_ORDER_ID,
 }

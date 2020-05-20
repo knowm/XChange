@@ -102,13 +102,13 @@ public final class BTCTurkAdapters {
    */
   public static Trade adaptTrade(BTCTurkTrades btcTurkTrade, CurrencyPair currencyPair) {
 
-    return new Trade(
-        null,
-        btcTurkTrade.getAmount(),
-        currencyPair,
-        btcTurkTrade.getPrice(),
-        btcTurkTrade.getDate(),
-        btcTurkTrade.getTid().toString());
+    return new Trade.Builder()
+        .originalAmount(btcTurkTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(btcTurkTrade.getPrice())
+        .timestamp(btcTurkTrade.getDate())
+        .id(btcTurkTrade.getTid().toString())
+        .build();
   }
 
   /**
@@ -198,7 +198,7 @@ public final class BTCTurkAdapters {
             btcTurkBalance.getXlm_available(),
             btcTurkBalance.getXlm_reserved()));
 
-    return new Wallet(name, name, balances);
+    return Wallet.Builder.from(balances).id(name).name(name).build();
   }
 
   public static FundingRecord adaptTransaction(BTCTurkUserTransactions transaction) {

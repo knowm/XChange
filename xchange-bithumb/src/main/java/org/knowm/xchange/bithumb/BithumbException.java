@@ -15,6 +15,14 @@ public class BithumbException extends HttpStatusExceptionSupport {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+  public BithumbException() {}
+
+  public BithumbException(String status, String message) {
+    super(message);
+    this.status = status;
+    this.message = message;
+  }
+
   public String getStatus() {
     return status;
   }

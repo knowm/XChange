@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.itbit.ItBitAdapters;
 import org.knowm.xchange.itbit.dto.ItBitException;
 import org.knowm.xchange.itbit.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.dto.trade.ItBitOrderFlags;
 import org.knowm.xchange.itbit.dto.trade.ItBitPlaceOrderRequest;
 import org.knowm.xchange.itbit.dto.trade.ItBitTradeHistory;
 
@@ -92,7 +93,8 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
                 exchangePair.base.getCurrencyCode(),
                 amount,
                 price,
-                exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode()));
+                exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode(),
+                (limitOrder.getOrderFlags().contains(ItBitOrderFlags.POST_ONLY))));
 
     return postOrder;
   }

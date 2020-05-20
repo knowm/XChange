@@ -29,12 +29,13 @@ public class KrakenAssetPairsJSONTest {
     expectedAssetPairInfo =
         new KrakenAssetPair(
             "XBTUSD",
+            "XBT/USD",
             "currency",
             "XXBT",
             "currency",
             "ZUSD",
             "unit",
-            3,
+            1,
             8,
             new BigDecimal(1),
             fees,
@@ -64,6 +65,7 @@ public class KrakenAssetPairsJSONTest {
 
     KrakenAssetPair krakenAssetPairInfo = krakenAssetPairs.getResult().get("XXBTZUSD");
     assertThat(krakenAssetPairInfo.getAltName()).isEqualTo(expectedAssetPairInfo.getAltName());
+    assertThat(krakenAssetPairInfo.getWsName()).isEqualTo(expectedAssetPairInfo.getWsName());
     assertThat(krakenAssetPairInfo.getBase()).isEqualTo(expectedAssetPairInfo.getBase());
     assertThat(krakenAssetPairInfo.getClassBase()).isEqualTo(expectedAssetPairInfo.getClassBase());
     assertThat(krakenAssetPairInfo.getClassQuote())

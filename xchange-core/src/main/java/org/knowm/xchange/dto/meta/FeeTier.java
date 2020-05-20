@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import org.knowm.xchange.dto.account.Fee;
 
 public class FeeTier implements Serializable, Comparable<FeeTier> {
+
+  private static final long serialVersionUID = -4350427635840047928L;
+
   @JsonProperty("begin_quantity")
   public final BigDecimal beginQuantity;
 

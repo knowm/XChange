@@ -99,21 +99,21 @@ public class WithdrawalRequest {
 
     // 0 (SEPA), 1 (bitcoin) or 2(WIRE transfer).
     @JsonCreator
-    public static Type fromString(String string) {
-      switch (string) {
-        case "0":
+    public static Type fromString(Integer id) {
+      switch (id) {
+        case 0:
           return SEPA;
-        case "1":
+        case 1:
           return bitcoin;
-        case "2":
+        case 2:
           return wire;
-        case "6":
+        case 6:
           return rippleUSD;
-        case "7":
+        case 7:
           return rippleBTC;
-        case "14":
+        case 14:
           return XRP;
-        case "15":
+        case 15:
           return litecoin;
         default:
           return unknown;

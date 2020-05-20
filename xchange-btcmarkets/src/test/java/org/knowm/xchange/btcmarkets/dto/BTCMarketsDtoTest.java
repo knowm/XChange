@@ -125,7 +125,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     try {
       parse("Error-PlaceOrderResponse", BTCMarketsPlaceOrderResponse.class);
       assertThat(true).as("Should throw exception").isFalse();
-    } catch (JsonMappingException ignored) {
+    } catch (IllegalArgumentException ignored) {
     }
   }
 

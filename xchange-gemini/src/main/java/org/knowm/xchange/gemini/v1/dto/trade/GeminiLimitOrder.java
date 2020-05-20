@@ -40,7 +40,8 @@ public class GeminiLimitOrder extends LimitOrder {
 
     public GeminiLimitOrder build() {
       final GeminiLimitOrder order =
-          new GeminiLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+          new GeminiLimitOrder(
+              orderType, originalAmount, (CurrencyPair) instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

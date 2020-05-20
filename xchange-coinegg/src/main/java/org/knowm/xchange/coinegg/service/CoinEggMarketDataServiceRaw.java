@@ -23,7 +23,7 @@ public class CoinEggMarketDataServiceRaw extends CoinEggBaseService {
   }
 
   // TODO: Exception Handling - See Bitfinex
-  public CoinEggOrders getCoinEggOrders(String coin) throws IOException {
-    return coinEgg.getOrders(coin);
+  public CoinEggOrders getCoinEggOrders(String region, String coin) throws IOException {
+    return coinEgg.getOrders(region, coin);
   }
 }

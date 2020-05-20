@@ -1,7 +1,11 @@
 package org.knowm.xchange.deribit.v2;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,17 +13,20 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
+import org.knowm.xchange.deribit.v2.service.DeribitAccountService;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataService;
 import org.knowm.xchange.deribit.v2.service.DeribitMarketDataServiceRaw;
+import org.knowm.xchange.deribit.v2.service.DeribitTradeService;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class DeribitExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new AtomicLongCurrentTimeIncrementalNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -30,6 +37,8 @@ public class DeribitExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new DeribitMarketDataService(this);
+    this.accountService = new DeribitAccountService(this);
+    this.tradeService = new DeribitTradeService(this);
   }
 
   @Override
@@ -77,7 +86,7 @@ public class DeribitExchange extends BaseExchange implements Exchange {
     for (DeribitCurrency deribitCurrency : activeDeribitCurrencies) {
       activeDeribitInstruments.addAll(
           ((DeribitMarketDataServiceRaw) marketDataService)
-              .getDeribitActiveInstruments(deribitCurrency.getCurrency()));
+              .getDeribitInstruments(deribitCurrency.getCurrency(), null, null));
     }
 
     activeDeribitInstruments.forEach(
