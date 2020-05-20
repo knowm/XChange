@@ -157,7 +157,15 @@ public class HitbtcAdapters {
         lastTradeId = longTradeId;
       }
       OrderType orderType = adaptSide(hitbtcTrade.getSide());
-      Trade trade = new Trade(orderType, amount, currencyPair, price, timestamp, tid);
+      Trade trade =
+          new Trade.Builder()
+              .type(orderType)
+              .originalAmount(amount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timestamp)
+              .id(tid)
+              .build();
       trades.add(trade);
     }
 
@@ -242,7 +250,7 @@ public class HitbtcAdapters {
           new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
       balances.add(balance);
     }
-    return new Wallet(name, name, balances);
+    return Wallet.Builder.from(balances).id(name).name(name).build();
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

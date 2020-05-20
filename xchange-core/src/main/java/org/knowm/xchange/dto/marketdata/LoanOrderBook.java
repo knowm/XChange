@@ -11,6 +11,8 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 /** DTO representing the exchange loan order book */
 public final class LoanOrderBook implements Serializable {
 
+  private static final long serialVersionUID = -2894416631375841830L;
+
   private final List<FixedRateLoanOrder> fixedRateAsks;
   private final List<FixedRateLoanOrder> fixedRateBids;
   private final List<FloatingRateLoanOrder> floatingRateAsks;

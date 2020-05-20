@@ -1,0 +1,11 @@
+{
+  "channelID": 13,
+  "channelName": "book-25",
+  "event": "subscriptionStatus",
+  "pair": "XBT/EUR",
+  "status": "subscribed",
+  "subscription": {
+    "depth": 25,
+    "name": "book"
+  }
+}

@@ -27,12 +27,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -173,6 +168,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     TradeHistoryParamsSorted.Order order = TradeHistoryParamsSorted.Order.asc;
     Integer limit = 1000;
     int offset = 0;
+    CurrencyPair currencyPair = null;
 
     if (params instanceof TradeHistoryParamOffset) {
       offset = Math.toIntExact(((TradeHistoryParamOffset) params).getOffset());
@@ -186,11 +182,15 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       order = ((TradeHistoryParamsSorted) params).getOrder();
     }
 
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+
     CoinmateTradeHistory coinmateTradeHistory =
-        getCoinmateTradeHistory(limit, CoinmateAdapters.adaptSortOrder(order));
+        getCoinmateTradeHistory(
+            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order));
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
-
 
   @Override
   public String changeOrder(LimitOrder limitOrder) throws IOException {
@@ -198,7 +198,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     boolean immediateOrCancel =
         limitOrder.getOrderFlags().contains(CoinmateOrderFlags.IMMEDIATE_OR_CANCEL);
     boolean trailing = limitOrder.getOrderFlags().contains(CoinmateOrderFlags.TRAILING);
-
 
     CoinmateReplaceResponse response;
     if (limitOrder.getType().equals(Order.OrderType.ASK)) {

@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +11,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /** Data object representing a Trade */
+@JsonDeserialize(builder = Trade.Builder.class)
 public class Trade implements Serializable {
+
+  private static final long serialVersionUID = -4078893146776655648L;
 
   /** Did this trade result from the execution of a bid or a ask? */
   protected final OrderType type;
@@ -29,9 +34,9 @@ public class Trade implements Serializable {
   /** The trade id */
   protected final String id;
 
-  private String makerOrderId;
+  protected final String makerOrderId;
 
-  private String takerOrderId;
+  protected final String takerOrderId;
 
   /**
    * This constructor is called to create a public Trade object in {@link
@@ -44,6 +49,8 @@ public class Trade implements Serializable {
    * @param timestamp The timestamp of the trade according to the exchange's server, null if not
    *     provided
    * @param id The id of the trade
+   * @param makerOrderId The orderId of the maker in the trade
+   * @param takerOrderId The orderId of the taker in the trade
    */
   public Trade(
       OrderType type,
@@ -51,7 +58,9 @@ public class Trade implements Serializable {
       CurrencyPair currencyPair,
       BigDecimal price,
       Date timestamp,
-      String id) {
+      String id,
+      String makerOrderId,
+      String takerOrderId) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -59,6 +68,8 @@ public class Trade implements Serializable {
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
+    this.makerOrderId = makerOrderId;
+    this.takerOrderId = takerOrderId;
   }
 
   public OrderType getType() {
@@ -95,16 +106,8 @@ public class Trade implements Serializable {
     return makerOrderId;
   }
 
-  public void setMakerOrderId(String makerOrderId) {
-    this.makerOrderId = makerOrderId;
-  }
-
   public String getTakerOrderId() {
     return takerOrderId;
-  }
-
-  public void setTakerOrderId(String takerOrderId) {
-    this.takerOrderId = takerOrderId;
   }
 
   @Override
@@ -150,6 +153,7 @@ public class Trade implements Serializable {
         + '}';
   }
 
+  @JsonPOJOBuilder(withPrefix = "")
   public static class Builder {
 
     protected OrderType type;
@@ -158,6 +162,8 @@ public class Trade implements Serializable {
     protected BigDecimal price;
     protected Date timestamp;
     protected String id;
+    protected String makerOrderId;
+    protected String takerOrderId;
 
     public static Builder from(Trade trade) {
       return new Builder()
@@ -205,9 +211,22 @@ public class Trade implements Serializable {
       return this;
     }
 
+    public Builder makerOrderId(String makerOrderId) {
+
+      this.makerOrderId = makerOrderId;
+      return this;
+    }
+
+    public Builder takerOrderId(String takerOrderId) {
+
+      this.takerOrderId = takerOrderId;
+      return this;
+    }
+
     public Trade build() {
 
-      return new Trade(type, originalAmount, currencyPair, price, timestamp, id);
+      return new Trade(
+          type, originalAmount, currencyPair, price, timestamp, id, makerOrderId, takerOrderId);
     }
   }
 }

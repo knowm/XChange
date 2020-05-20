@@ -33,12 +33,13 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
             .distinct()
             .map(
                 type ->
-                    new Wallet(
-                        type,
-                        accounts.stream()
-                            .filter(a -> a.getType().equals(type))
-                            .map(KucoinAdapters::adaptBalance)
-                            .collect(toList())))
+                    Wallet.Builder.from(
+                            accounts.stream()
+                                .filter(a -> a.getType().equals(type))
+                                .map(KucoinAdapters::adaptBalance)
+                                .collect(toList()))
+                        .id(type)
+                        .build())
             .collect(toList()));
   }
 

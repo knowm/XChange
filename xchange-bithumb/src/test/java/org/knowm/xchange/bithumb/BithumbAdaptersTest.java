@@ -2,6 +2,7 @@ package org.knowm.xchange.bithumb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,13 +12,13 @@ import java.util.List;
 import java.util.TimeZone;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
 import org.knowm.xchange.bithumb.dto.account.BithumbAccount;
 import org.knowm.xchange.bithumb.dto.account.BithumbBalance;
 import org.knowm.xchange.bithumb.dto.account.BithumbOrder;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbOrderbook;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTicker;
 import org.knowm.xchange.bithumb.dto.marketdata.BithumbTickersReturn;
-import org.knowm.xchange.bithumb.dto.marketdata.BithumbTransactionHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -26,7 +27,6 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BithumbAdaptersTest {
@@ -147,29 +147,6 @@ public class BithumbAdaptersTest {
   }
 
   @Test
-  public void testAdaptTransactionHistory() throws IOException {
-
-    // given
-    InputStream is =
-        BithumbAdaptersTest.class.getResourceAsStream(
-            "/org/knowm/xchange/bithumb/dto/marketdata/example-transaction-history.json");
-
-    final BithumbTransactionHistory transactionHistory =
-        mapper.readValue(is, BithumbTransactionHistory.class);
-
-    // when
-    final Trade trade = BithumbAdapters.adaptTrade(transactionHistory, CurrencyPair.BTC_KRW);
-
-    // then
-    assertThat(trade.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(trade.getOriginalAmount()).isEqualTo(BigDecimal.valueOf(0.3215));
-    assertThat(trade.getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
-    assertThat(trade.getPrice()).isEqualTo(BigDecimal.valueOf(166900));
-    assertThat(trade.getTimestamp()).isNotNull();
-    assertThat(trade.getId()).isEqualTo("30062545");
-  }
-
-  @Test
   public void testAdaptOpenOrder() throws IOException {
 
     // given
@@ -177,20 +154,22 @@ public class BithumbAdaptersTest {
         BithumbAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/account/example-order.json");
 
-    final BithumbOrder bithumbOrder = mapper.readValue(is, BithumbOrder.class);
+    final BithumbResponse<List<BithumbOrder>> bithumbOrderResponse =
+        mapper.readValue(is, new TypeReference<BithumbResponse<List<BithumbOrder>>>() {});
 
     // when
-    final LimitOrder limitOrder = BithumbAdapters.adaptOrder(bithumbOrder);
+    final LimitOrder limitOrder =
+        BithumbAdapters.adaptOrder(bithumbOrderResponse.getData().stream().findFirst().get());
 
     // then
-    assertThat(limitOrder.getLimitPrice()).isEqualTo(BigDecimal.valueOf(700));
-    assertThat(limitOrder.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(limitOrder.getOriginalAmount()).isEqualTo(BigDecimal.valueOf(1.0));
+    assertThat(limitOrder.getLimitPrice()).isEqualTo(BigDecimal.valueOf(501000));
+    assertThat(limitOrder.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(limitOrder.getOriginalAmount()).isEqualTo(BigDecimal.valueOf(5.0));
     assertThat(limitOrder.getCumulativeAmount()).isEqualTo(BigDecimal.valueOf(0.0));
     assertThat(limitOrder.getAveragePrice()).isNull();
     assertThat(limitOrder.getCurrencyPair())
-        .isEqualTo(new CurrencyPair(Currency.XRP, Currency.KRW));
-    assertThat(limitOrder.getId()).isEqualTo("1546705688665840");
+        .isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
+    assertThat(limitOrder.getId()).isEqualTo("C0101000007408440032");
     assertThat(limitOrder.getTimestamp()).isNotNull();
     assertThat(limitOrder.getStatus()).isEqualTo(Order.OrderStatus.NEW);
   }

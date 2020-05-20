@@ -10,20 +10,13 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -120,7 +113,13 @@ public final class ItBitAdapters {
     Date date = DateUtils.fromISODateString(timestamp);
     final String matchNumber = String.valueOf(trade.getMatchNumber());
 
-    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, matchNumber);
+    return new Trade.Builder()
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(date)
+        .id(matchNumber)
+        .build();
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -173,10 +172,11 @@ public final class ItBitAdapters {
         walletContent.add(balance);
       }
 
-      Wallet wallet =
-          new Wallet(
-              itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent);
-      wallets.add(wallet);
+      wallets.add(
+          Wallet.Builder.from(walletContent)
+              .id(itBitAccountInfoReturn.getId())
+              .name(itBitAccountInfoReturn.getName())
+              .build());
     }
 
     return new AccountInfo(userId, wallets);
@@ -234,6 +234,7 @@ public final class ItBitAdapters {
         totalValue = totalValue.add(trade.getCurrency1Amount().multiply(trade.getRate()));
         totalQuantity = totalQuantity.add(trade.getCurrency1Amount());
         totalFee = totalFee.add(trade.getCommissionPaid());
+        totalFee = totalFee.subtract(trade.getRebatesApplied());
       }
 
       BigDecimal volumeWeightedAveragePrice =
@@ -246,20 +247,21 @@ public final class ItBitAdapters {
               : OrderType.ASK;
 
       CurrencyPair currencyPair = adaptCcyPair(itBitTrade.getInstrument());
-      Currency feeCcy = adaptCcy(itBitTrade.getCommissionCurrency());
+      String ccy = itBitTrade.getCommissionCurrency();
+      Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
 
       UserTrade userTrade =
-          new UserTrade(
-              orderType,
-              totalQuantity,
-              currencyPair,
-              volumeWeightedAveragePrice,
-              itBitTrade.getTimestamp(),
-              orderId,
-              // itbit doesn't have trade ids, so we use the order id instead
-              orderId,
-              totalFee,
-              feeCcy);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(totalQuantity)
+              .currencyPair(currencyPair)
+              .price(volumeWeightedAveragePrice)
+              .timestamp(itBitTrade.getTimestamp())
+              .id(orderId) // itbit doesn't have trade ids, so we use the order id instead
+              .orderId(orderId)
+              .feeAmount(totalFee)
+              .feeCurrency(feeCcy)
+              .build();
 
       trades.add(userTrade);
     }

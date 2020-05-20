@@ -1,0 +1,24 @@
+{
+  "MarketDataIncrementalRefresh": {
+    "seqNo": 4494753,
+    "symbol": "XMRBTC",
+    "exchangeStatus": "working",
+    "ask": [
+    ],
+    "bid": [
+      {
+        "price": "0.001276",
+        "size": 2799
+      }
+    ],
+    "trade": [
+      {
+        "price": "0.001276",
+        "size": 747,
+        "tradeId": 4193069,
+        "timestamp": 1447559153368,
+        "side": "sell"
+      }
+    ]
+  }
+}

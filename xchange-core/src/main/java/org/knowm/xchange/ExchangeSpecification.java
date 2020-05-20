@@ -28,6 +28,7 @@ public class ExchangeSpecification {
   private Integer proxyPort;
   private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
   private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
+  private ResilienceSpecification resilience = new ResilienceSpecification();
   private String metaDataJsonFileOverride = null;
   private boolean shouldLoadRemoteMetaData = true; // default value
   /** arbitrary exchange params that can be set for unique cases */
@@ -406,6 +407,14 @@ public class ExchangeSpecification {
     this.exchangeDescription = exchangeDescription;
   }
 
+  public ResilienceSpecification getResilience() {
+    return resilience;
+  }
+
+  public void setResilience(ResilienceSpecification resilience) {
+    this.resilience = resilience;
+  }
+
   /**
    * Get the override file for generating the {@link org.knowm.xchange.dto.meta.ExchangeMetaData}
    * object. By default, the {@link org.knowm.xchange.dto.meta.ExchangeMetaData} object is loaded at
@@ -453,5 +462,49 @@ public class ExchangeSpecification {
   public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
 
     this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
+  }
+
+  public static class ResilienceSpecification {
+    private boolean retryEnabled = false;
+    private boolean rateLimiterEnabled = false;
+
+    /**
+     * @see #setRetryEnabled(boolean)
+     * @return true if enabled
+     */
+    public boolean isRetryEnabled() {
+      return retryEnabled;
+    }
+
+    /**
+     * Flag that lets you enable retry functionality if it was implemented for the given exchange.
+     *
+     * <p>If this featrue is implemented and enabled then operations that can be safely retried on
+     * socket failures and timeouts will be retried.
+     */
+    public void setRetryEnabled(boolean retryEnabled) {
+      this.retryEnabled = retryEnabled;
+    }
+
+    /**
+     * @see #setRetryEnabled(boolean)
+     * @return true if enabled
+     */
+    public boolean isRateLimiterEnabled() {
+      return rateLimiterEnabled;
+    }
+
+    /**
+     * Flag that lets you enable call rate limiting functionality if it was implemented for the
+     * given exchange.
+     *
+     * <p>If this featrue is implemented and enabled then we will limit the amount of calls to the
+     * exchanges API to not exceeds its limits. This will result in delaying some calls or throwing
+     * a {@link io.github.resilience4j.ratelimiter.RequestNotPermitted} exception if we would have
+     * to wait to long.
+     */
+    public void setRateLimiterEnabled(boolean rateLimiterEnabled) {
+      this.rateLimiterEnabled = rateLimiterEnabled;
+    }
   }
 }

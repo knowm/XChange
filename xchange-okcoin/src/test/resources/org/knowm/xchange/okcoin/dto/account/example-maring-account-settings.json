@@ -1,0 +1,34 @@
+[
+    {
+        "currency:BTC":{
+            "available":"0.09995502",
+            "leverage":"5",
+            "leverage_ratio":"5",
+            "rate":"0.00009984"
+        },
+        "currency:USDT":{
+            "available":"400.00000000",
+            "leverage":"5",
+            "leverage_ratio":"5",
+            "rate":"0.00019992"
+        },
+        "instrument_id":"BTC-USDT",
+        "product_id":"BTC-USDT"
+    },
+    {
+        "currency:EOS":{
+            "available":"1.9343",
+            "leverage":"5",
+            "leverage_ratio":"5",
+            "rate":"0.00009984"
+        },
+        "currency:USDT":{
+            "available":"7.1571",
+            "leverage":"5",
+            "leverage_ratio":"5",
+            "rate":"0.00019992"
+        },
+        "instrument_id":"EOS-USDT",
+        "product_id":"EOS-USDT"
+    }
+]

@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance;
 
+import static org.knowm.xchange.binance.BinanceResilience.*;
+
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -54,7 +56,7 @@ public interface Binance {
   @Path("api/v1/depth")
   /**
    * @param symbol
-   * @param limit optional, default 100; max 100.
+   * @param limit optional, default 100; valid limits: 5, 10, 20, 50, 100, 500, 1000, 5000
    * @return
    * @throws IOException
    * @throws BinanceException
@@ -149,7 +151,7 @@ public interface Binance {
   List<BinancePrice> tickerAllPrices() throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/ticker/allBookTickers")
+  @Path("api/v3/ticker/bookTicker")
   /**
    * Best price/qty on the order book for all symbols.
    *
