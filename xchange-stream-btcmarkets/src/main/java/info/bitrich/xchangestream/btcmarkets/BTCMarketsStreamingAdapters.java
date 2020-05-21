@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.btcmarkets.service;
+package info.bitrich.xchangestream.btcmarkets;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketOrderbookMessage;

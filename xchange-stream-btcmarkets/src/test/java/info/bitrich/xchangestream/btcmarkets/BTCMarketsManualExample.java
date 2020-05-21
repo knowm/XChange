@@ -1,6 +1,5 @@
-package info.bitrich.xchangestream.btcmarkets.service;
+package info.bitrich.xchangestream.btcmarkets;
 
-import info.bitrich.xchangestream.btcmarkets.BTCMarketsStreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import io.reactivex.disposables.Disposable;

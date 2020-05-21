@@ -1,6 +1,6 @@
-package info.bitrich.xchangestream.btcmarkets.service;
+package info.bitrich.xchangestream.btcmarkets;
 
-import static info.bitrich.xchangestream.btcmarkets.service.BTCMarketsStreamingService.CHANNEL_ORDERBOOK;
+import static info.bitrich.xchangestream.btcmarkets.BTCMarketsStreamingService.CHANNEL_ORDERBOOK;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
-public class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService {
+class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService {
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
