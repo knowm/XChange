@@ -40,18 +40,16 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
 
     return (OrderType.BID.equals(marketOrder.getType())
-        ? bittrexAuthenticated.buymarket(
-        apiKey,
-        signatureCreator,
-        exchange.getNonceFactory(),
-        BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
-        marketOrder.getOriginalAmount().toPlainString())
-        : bittrexAuthenticated.sellmarket(
-        apiKey,
-        signatureCreator,
-        exchange.getNonceFactory(),
-        BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
-        marketOrder.getOriginalAmount().toPlainString()))
+        ? bittrexAuthenticated.buymarket(apiKey,
+                                         signatureCreator,
+                                         exchange.getNonceFactory(),
+                                         BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                                         marketOrder.getOriginalAmount().toPlainString())
+        : bittrexAuthenticated.sellmarket(apiKey,
+                                          signatureCreator,
+                                          exchange.getNonceFactory(),
+                                          BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                                          marketOrder.getOriginalAmount().toPlainString()))
         .getResult()
         .getUuid();
   }
@@ -59,20 +57,18 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return (OrderType.BID.equals(limitOrder.getType())
-        ? bittrexAuthenticated.buylimit(
-        apiKey,
-        signatureCreator,
-        exchange.getNonceFactory(),
-        BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
-        limitOrder.getOriginalAmount().toPlainString(),
-        limitOrder.getLimitPrice().toPlainString())
-        : bittrexAuthenticated.selllimit(
-        apiKey,
-        signatureCreator,
-        exchange.getNonceFactory(),
-        BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
-        limitOrder.getOriginalAmount().toPlainString(),
-        limitOrder.getLimitPrice().toPlainString()))
+        ? bittrexAuthenticated.buylimit(apiKey,
+                                        signatureCreator,
+                                        exchange.getNonceFactory(),
+                                        BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                                        limitOrder.getOriginalAmount().toPlainString(),
+                                        limitOrder.getLimitPrice().toPlainString())
+        : bittrexAuthenticated.selllimit(apiKey,
+                                         signatureCreator,
+                                         exchange.getNonceFactory(),
+                                         BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                                         limitOrder.getOriginalAmount().toPlainString(),
+                                         limitOrder.getLimitPrice().toPlainString()))
         .getResult()
         .getUuid();
   }
