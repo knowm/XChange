@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BTCMarketsStreamingService extends JsonNettyStreamingService {
-  public static final String CHANNEL_ORDERBOOK = "orderbook";
-  public static final String CHANNEL_HEARTBEAT = "heartbeat";
+  static final String CHANNEL_ORDERBOOK = "orderbook";
+  static final String CHANNEL_HEARTBEAT = "heartbeat";
   private static final Logger LOG = LoggerFactory.getLogger(BTCMarketsStreamingService.class);
   private final Set<String> subscribedOrderbooks = Sets.newConcurrentHashSet();
 
@@ -61,7 +61,7 @@ public class BTCMarketsStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
     if (channelName.startsWith(CHANNEL_ORDERBOOK)) {
-      final String[] parts = channelName.split(":");
+      subscribedOrderbooks.remove(channelName);
       return objectMapper.writeValueAsString(buildSubscribeMessage());
     } else {
       return null;

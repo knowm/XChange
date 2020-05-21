@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.btcmarkets.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import info.bitrich.xchangestream.btcmarkets.service.BTCMarketsStreamingDigest;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,14 +36,5 @@ public class BTCMarketsWebSocketSubscribeMessage {
     this.timestamp = timestamp;
     this.key = key;
     this.signature = signature;
-  }
-
-  public BTCMarketsWebSocketSubscribeMessage sign(String apiKey, String apiSecret) {
-    long timestamp = System.currentTimeMillis();
-    String stringToSign = "/users/self/subscribe" + "\n" + timestamp;
-
-    BTCMarketsStreamingDigest digest = new BTCMarketsStreamingDigest("sha512", apiSecret);
-    String signature = digest.base64Digest(stringToSign);
-    return new BTCMarketsWebSocketSubscribeMessage(marketIds, channels, timestamp, key, signature);
   }
 }

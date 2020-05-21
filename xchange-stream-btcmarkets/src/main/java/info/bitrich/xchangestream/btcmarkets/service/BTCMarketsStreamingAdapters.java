@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.btcmarkets;
+package info.bitrich.xchangestream.btcmarkets.service;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketOrderbookMessage;
@@ -12,7 +12,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 
-public class BTCMarketsStreamingAdapters {
+class BTCMarketsStreamingAdapters {
   public static String adaptCurrencyPairToMarketId(CurrencyPair currencyPair) {
     return currencyPair.base.toString() + "-" + currencyPair.counter.toString();
   }
@@ -25,11 +25,11 @@ public class BTCMarketsStreamingAdapters {
   public static OrderBook adaptOrderbookMessageToOrderbook(
       BTCMarketsWebSocketOrderbookMessage message) throws InvalidFormatException {
     CurrencyPair currencyPair = adaptMarketIdToCurrencyPair(message.marketId);
-    BiFunction<List<String>, Order.OrderType, LimitOrder> toLimitOrder =
+    BiFunction<List<BigDecimal>, Order.OrderType, LimitOrder> toLimitOrder =
         (strings, ot) ->
             new LimitOrder.Builder(ot, currencyPair)
-                .originalAmount(new BigDecimal(strings.get(1)))
-                .limitPrice(new BigDecimal(strings.get(0)))
+                .originalAmount(strings.get(1))
+                .limitPrice(strings.get(0))
                 .build();
 
     return new OrderBook(
