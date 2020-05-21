@@ -20,6 +20,9 @@ public class HuobiOrder {
   private final String state;
   private final String symbol;
   private final String type;
+  private final String clOrdId;
+  private final BigDecimal stopPrice;
+  private final String operator;
 
   public HuobiOrder(
       @JsonProperty("account-id") long accountID,
@@ -35,7 +38,10 @@ public class HuobiOrder {
       @JsonProperty("source") String source,
       @JsonProperty("state") String state,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("type") String type) {
+      @JsonProperty("type") String type,
+      @JsonProperty("client-order-id") String clOrdId,
+      @JsonProperty("stop-price") BigDecimal stopPrice,
+      @JsonProperty("operator") String operator) {
     this.accountID = accountID;
     this.amount = amount;
     this.canceledAt = canceledAt;
@@ -50,6 +56,9 @@ public class HuobiOrder {
     this.state = state;
     this.symbol = symbol;
     this.type = type;
+    this.clOrdId = clOrdId;
+    this.stopPrice = stopPrice;
+    this.operator = operator;
   }
 
   public long getAccountID() {
@@ -108,11 +117,27 @@ public class HuobiOrder {
     return type;
   }
 
-  public boolean isLimit() {
-    return getType().equals("buy-limit") || getType().equals("sell-limit");
+  public String getClOrdId() {
+    return clOrdId;
+  }
+
+  public BigDecimal getStopPrice() {
+    return stopPrice;
+  }
+
+  public String getOperator() {
+    return operator;
+  }
+
+  public boolean isLimit() { // startswith to support -fok and -ioc
+    return getType().startsWith("buy-limit") || getType().startsWith("sell-limit");
   }
 
   public boolean isMarket() {
     return getType().equals("buy-market") || getType().equals("sell-market");
+  }
+
+  public boolean isStop() {
+    return getType().startsWith("buy-stop") || getType().startsWith("sell-stop");
   }
 }

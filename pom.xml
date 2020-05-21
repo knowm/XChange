@@ -216,6 +216,7 @@
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-service-pusher</module>
     <module>xchange-stream-service-wamp</module>
+    <module>xchange-stream-huobi</module>
 
   </modules>
 
