@@ -16,6 +16,7 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
@@ -57,7 +58,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
-  protected static final int DEFAULT_IDLE_TIMEOUT = 0;
+  protected static final int DEFAULT_IDLE_TIMEOUT = 15;
 
   private class Subscription {
     final ObservableEmitter<T> emitter;
@@ -423,7 +424,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   protected void handleIdle(ChannelHandlerContext ctx) {
-    // No-op
+    ctx.writeAndFlush(new PingWebSocketFrame());
   }
 
   private void onIdle(ChannelHandlerContext ctx) {
