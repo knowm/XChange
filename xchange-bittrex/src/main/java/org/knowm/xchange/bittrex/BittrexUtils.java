@@ -24,6 +24,13 @@ public final class BittrexUtils {
         + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
+  // Bittrex reversed the symbols in V3...
+  public static String toPairStringV3(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode().toUpperCase()
+        + "-"
+        + currencyPair.counter.getCurrencyCode().toUpperCase();
+  }
+
   public static CurrencyPair toCurrencyPair(String pairString) {
     String[] pairStringSplit = pairString.split("-");
     return new CurrencyPair(pairStringSplit[1], pairStringSplit[0]);
