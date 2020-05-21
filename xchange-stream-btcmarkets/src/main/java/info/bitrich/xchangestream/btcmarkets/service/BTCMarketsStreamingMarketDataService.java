@@ -4,7 +4,6 @@ import static info.bitrich.xchangestream.btcmarkets.service.BTCMarketsStreamingS
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import info.bitrich.xchangestream.btcmarkets.BTCMarketsStreamingAdapters;
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketOrderbookMessage;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -32,11 +31,11 @@ public class BTCMarketsStreamingMarketDataService implements StreamingMarketData
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
+    final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
     return service
         .subscribeChannel(CHANNEL_ORDERBOOK, marketId)
         .map(node -> mapper.treeToValue(node, BTCMarketsWebSocketOrderbookMessage.class))
-        .filter(orderEvent -> orderEvent.marketId != null && orderEvent.marketId.equals(marketId))
+        .filter(orderEvent -> marketId.equals(orderEvent.marketId) )
         .map(this::handleOrderbookMessage);
   }
 
