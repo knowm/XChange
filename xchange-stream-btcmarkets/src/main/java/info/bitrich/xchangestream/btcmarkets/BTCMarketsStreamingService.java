@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.btcmarkets.service;
+package info.bitrich.xchangestream.btcmarkets;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
@@ -11,7 +11,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BTCMarketsStreamingService extends JsonNettyStreamingService {
+class BTCMarketsStreamingService extends JsonNettyStreamingService {
   static final String CHANNEL_ORDERBOOK = "orderbook";
   static final String CHANNEL_HEARTBEAT = "heartbeat";
   private static final Logger LOG = LoggerFactory.getLogger(BTCMarketsStreamingService.class);
