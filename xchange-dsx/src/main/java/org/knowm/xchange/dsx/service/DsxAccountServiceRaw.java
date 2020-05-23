@@ -2,7 +2,6 @@ package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -85,19 +84,14 @@ public class DsxAccountServiceRaw extends DsxBaseService {
       String currency, DsxSort sort, Date from, Date till, Integer limit, Integer offset)
       throws HttpStatusIOException {
 
-    String sortValue = sort != null ? sort.toString().toUpperCase() : null;
-    String fromValue = from != null ? Instant.ofEpochMilli(from.getTime()).toString() : null;
-    String tillValue = till != null ? Instant.ofEpochMilli(till.getTime()).toString() : null;
-    return dsx.transactions(currency, sortValue, "timestamp", fromValue, tillValue, limit, offset);
+    Long fromValue = from != null ? from.getTime() : null;
+    Long tillValue = till != null ? till.getTime() : null;
+    return dsx.transactions(currency, sort, "timestamp", fromValue, tillValue, limit, offset);
   }
 
   public List<DsxTransaction> getTransactions(
       String currency, DsxSort sort, Long fromIndex, Long tillIndex, Integer limit, Integer offset)
       throws HttpStatusIOException {
-
-    String sortValue = sort != null ? sort.toString().toUpperCase() : null;
-    String fromValue = fromIndex != null ? fromIndex.toString() : null;
-    String tillValue = fromIndex != null ? tillIndex.toString() : null;
-    return dsx.transactions(currency, sortValue, "index", fromValue, tillValue, limit, offset);
+    return dsx.transactions(currency, sort, "index", fromIndex, tillIndex, limit, offset);
   }
 }

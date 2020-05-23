@@ -82,30 +82,19 @@ public class DsxAccountServiceRawIntegration extends BaseAuthenticatedServiceTes
     List<DsxTransaction> transactions;
 
     transactions =
-        service.getTransactions(
-            null, DsxSort.SORT_ASCENDING, new Date(1520949577579L), new Date(), 100, null);
+        service.getTransactions(null, DsxSort.ASC, new Date(1520949577579L), new Date(), 100, null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
     transactions =
         service.getTransactions(
-            Currency.LTC.getCurrencyCode(),
-            DsxSort.SORT_DESCENDING,
-            new Date(0),
-            new Date(),
-            100,
-            null);
+            Currency.LTC.getCurrencyCode(), DsxSort.DESC, new Date(0), new Date(), 100, null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
     transactions =
         service.getTransactions(
-            Currency.LTC.getCurrencyCode(),
-            DsxSort.SORT_DESCENDING,
-            new Date(0),
-            new Date(),
-            100,
-            null);
+            Currency.LTC.getCurrencyCode(), DsxSort.DESC, new Date(0), new Date(), 100, null);
     Assert.assertTrue(!transactions.isEmpty());
     Assert.assertTrue(StringUtils.isNotEmpty(transactions.get(0).getId()));
 
