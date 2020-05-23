@@ -1,20 +1,12 @@
 package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DsxAdapters;
-import org.knowm.xchange.dsx.dto.DsxCandle;
-import org.knowm.xchange.dsx.dto.DsxCurrency;
-import org.knowm.xchange.dsx.dto.DsxOrderBook;
-import org.knowm.xchange.dsx.dto.DsxSort;
-import org.knowm.xchange.dsx.dto.DsxSymbol;
-import org.knowm.xchange.dsx.dto.DsxTicker;
-import org.knowm.xchange.dsx.dto.DsxTrade;
+import org.knowm.xchange.dsx.dto.*;
 
 public class DsxMarketDataServiceRaw extends DsxBaseService {
 
@@ -40,7 +32,7 @@ public class DsxMarketDataServiceRaw extends DsxBaseService {
   public Map<String, DsxTicker> getDsxTickers() throws IOException {
 
     return dsx.getDsxTickers().stream()
-        .collect(Collectors.toMap(dsxTicker -> dsxTicker.getSymbol(), dsxTicker -> dsxTicker));
+        .collect(Collectors.toMap(DsxTicker::getSymbol, dsxTicker -> dsxTicker));
   }
 
   public DsxTicker getDsxTicker(CurrencyPair currencyPair) throws IOException {
@@ -58,46 +50,36 @@ public class DsxMarketDataServiceRaw extends DsxBaseService {
     return dsx.getOrderBook(DsxAdapters.adaptCurrencyPair(currencyPair), limit);
   }
 
-  public List<DsxTrade> getDsxTrades(CurrencyPair currencyPair) throws IOException {
-
-    return getDsxTrades(
-        currencyPair,
-        100,
-        DsxTrade.DsxTradesSortField.SORT_BY_TRADE_ID,
-        DsxSort.SORT_ASCENDING,
-        0,
-        100,
-        0);
-  }
-
-  // TODO add extra params in API
-  public List<DsxTrade> getDsxTrades(
-      CurrencyPair currencyPair,
-      long from,
-      DsxTrade.DsxTradesSortField sortBy,
+  public Map<String, List<DsxTrade>> getDsxTrades(
       DsxSort sortDirection,
-      long startIndex,
-      long maxResults,
-      long offset)
+      DsxTradesSortBy sortBy,
+      Long from,
+      Long till,
+      Integer maxResults,
+      Integer offset)
       throws IOException {
 
-    return dsx.getTrades(DsxAdapters.adaptCurrencyPair(currencyPair), maxResults, offset);
+    return dsx.getTrades(sortDirection, sortBy, from, till, maxResults, offset);
   }
 
   public List<DsxTrade> getDsxTrades(
       CurrencyPair currencyPair,
-      long from,
-      DsxTrade.DsxTradesSortField sortBy,
       DsxSort sortDirection,
-      long maxResults)
+      DsxTradesSortBy sortBy,
+      Long from,
+      Long till,
+      Integer maxResults,
+      Integer offset)
       throws IOException {
 
     return dsx.getTrades(
         DsxAdapters.adaptCurrencyPair(currencyPair),
-        sortDirection.toString(),
-        sortBy.toString(),
-        String.valueOf(from),
-        maxResults);
+        sortDirection,
+        sortBy,
+        from,
+        till,
+        maxResults,
+        offset);
   }
 
   public List<DsxCandle> getDsxCandles(CurrencyPair currencyPair, int limit, String period)
