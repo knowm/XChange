@@ -14,13 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.dsx.dto.DsxAddress;
-import org.knowm.xchange.dsx.dto.DsxBalance;
-import org.knowm.xchange.dsx.dto.DsxException;
-import org.knowm.xchange.dsx.dto.DsxInternalTransferResponse;
-import org.knowm.xchange.dsx.dto.DsxOrder;
-import org.knowm.xchange.dsx.dto.DsxOwnTrade;
-import org.knowm.xchange.dsx.dto.DsxTransaction;
+import org.knowm.xchange.dsx.dto.*;
 import org.knowm.xchange.dsx.service.DsxOrderType;
 import org.knowm.xchange.dsx.service.DsxTimeInForce;
 import si.mazi.rescu.HttpStatusIOException;
@@ -43,10 +37,10 @@ public interface DsxAuthenticated extends Dsx {
   @Path("account/transactions")
   List<DsxTransaction> transactions(
       @QueryParam("currency") String currency,
-      @QueryParam("sort") String sort,
+      @QueryParam("sort") DsxSort sort,
       @QueryParam("by") String by,
-      @QueryParam("from") String from,
-      @QueryParam("till") String till,
+      @QueryParam("from") Long from,
+      @QueryParam("till") Long till,
       @QueryParam("limit") Integer limit,
       @QueryParam("offset") Integer offset)
       throws DsxException, HttpStatusIOException;
