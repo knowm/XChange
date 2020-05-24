@@ -55,7 +55,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       if (event != null && (krakenEvent = KrakenEventType.getEvent(event.textValue())) != null) {
         switch (krakenEvent) {
           case pingStatus:
-            LOG.warn("PingStatus received: {}", message);
+            LOG.info("PingStatus received: {}", message);
             break;
           case pong:
             LOG.debug("Pong received");
