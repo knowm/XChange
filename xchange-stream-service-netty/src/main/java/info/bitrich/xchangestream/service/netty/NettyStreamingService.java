@@ -376,8 +376,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 Subscription newSubscription = new Subscription(e, channelName, args);
                 try {
                   sendMessage(getSubscribeMessage(channelName, args));
-                } catch (IOException throwable) {
-                  e.onError(throwable);
+                } catch (Exception throwable) { // if getSubscribeMessage throws this, it is because it needs to report
+                  e.onError(throwable);         // a problem creating the message
                 }
                 return newSubscription;
               });
@@ -385,7 +385,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         .doOnDispose(
             () -> {
               if (channels.remove(channelId) != null) {
-                sendMessage(getUnsubscribeMessage(channelId));
+                try {
+                  sendMessage(getUnsubscribeMessage(channelId));
+                } catch (IOException e) {
+                  LOG.error("Failed to unsubscribe channel: {}",channelId);
+                }
               }
             })
         .share();
