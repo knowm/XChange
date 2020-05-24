@@ -14,7 +14,12 @@ public class GeminiProductStreamingService extends JsonNettyStreamingService {
   private final CurrencyPair currencyPair;
 
   public GeminiProductStreamingService(String symbolUrl, CurrencyPair currencyPair) {
-    super(symbolUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, DEFAULT_IDLE_TIMEOUT);
+    super(
+        symbolUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        DEFAULT_IDLE_TIMEOUT);
     this.currencyPair = currencyPair;
   }
 
