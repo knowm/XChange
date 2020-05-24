@@ -1,10 +1,8 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
@@ -34,22 +32,24 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   /**
    * @deprecated Endpoint still valid, but Bittrex have disabled market orders. See
-   * https://twitter.com/bittrexexchange/status/526590250487783425.
+   *     https://twitter.com/bittrexexchange/status/526590250487783425.
    */
   @Deprecated
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
 
     return (OrderType.BID.equals(marketOrder.getType())
-        ? bittrexAuthenticated.buymarket(apiKey,
-                                         signatureCreator,
-                                         exchange.getNonceFactory(),
-                                         BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
-                                         marketOrder.getOriginalAmount().toPlainString())
-        : bittrexAuthenticated.sellmarket(apiKey,
-                                          signatureCreator,
-                                          exchange.getNonceFactory(),
-                                          BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
-                                          marketOrder.getOriginalAmount().toPlainString()))
+            ? bittrexAuthenticated.buymarket(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                marketOrder.getOriginalAmount().toPlainString())
+            : bittrexAuthenticated.sellmarket(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                marketOrder.getOriginalAmount().toPlainString()))
         .getResult()
         .getUuid();
   }
@@ -57,18 +57,20 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return (OrderType.BID.equals(limitOrder.getType())
-        ? bittrexAuthenticated.buylimit(apiKey,
-                                        signatureCreator,
-                                        exchange.getNonceFactory(),
-                                        BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
-                                        limitOrder.getOriginalAmount().toPlainString(),
-                                        limitOrder.getLimitPrice().toPlainString())
-        : bittrexAuthenticated.selllimit(apiKey,
-                                         signatureCreator,
-                                         exchange.getNonceFactory(),
-                                         BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
-                                         limitOrder.getOriginalAmount().toPlainString(),
-                                         limitOrder.getLimitPrice().toPlainString()))
+            ? bittrexAuthenticated.buylimit(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString())
+            : bittrexAuthenticated.selllimit(
+                apiKey,
+                signatureCreator,
+                exchange.getNonceFactory(),
+                BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
+                limitOrder.getOriginalAmount().toPlainString(),
+                limitOrder.getLimitPrice().toPlainString()))
         .getResult()
         .getUuid();
   }
