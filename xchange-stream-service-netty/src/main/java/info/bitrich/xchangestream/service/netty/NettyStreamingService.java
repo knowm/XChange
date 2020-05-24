@@ -44,8 +44,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -131,128 +129,128 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   @Override
   protected Completable openConnection() {
     return Completable.create(
-        completable -> {
-          try {
+            completable -> {
+              try {
 
-            LOG.info("Connecting to {}", uri.toString());
-            String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
+                LOG.info("Connecting to {}", uri.toString());
+                String scheme = uri.getScheme() == null ? "ws" : uri.getScheme();
 
-            String host = uri.getHost();
-            if (host == null) {
-              throw new IllegalArgumentException("Host cannot be null.");
-            }
+                String host = uri.getHost();
+                if (host == null) {
+                  throw new IllegalArgumentException("Host cannot be null.");
+                }
 
-            final int port;
-            if (uri.getPort() == -1) {
-              if ("ws".equalsIgnoreCase(scheme)) {
-                port = 80;
-              } else if ("wss".equalsIgnoreCase(scheme)) {
-                port = 443;
-              } else {
-                port = -1;
+                final int port;
+                if (uri.getPort() == -1) {
+                  if ("ws".equalsIgnoreCase(scheme)) {
+                    port = 80;
+                  } else if ("wss".equalsIgnoreCase(scheme)) {
+                    port = 443;
+                  } else {
+                    port = -1;
+                  }
+                } else {
+                  port = uri.getPort();
+                }
+
+                if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
+                  throw new IllegalArgumentException("Only WS(S) is supported.");
+                }
+
+                final boolean ssl = "wss".equalsIgnoreCase(scheme);
+                final SslContext sslCtx;
+                if (ssl) {
+                  SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
+                  if (acceptAllCertificates) {
+                    sslContextBuilder =
+                        sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+                  }
+                  sslCtx = sslContextBuilder.build();
+                } else {
+                  sslCtx = null;
+                }
+
+                final WebSocketClientHandler handler =
+                    getWebSocketClientHandler(
+                        WebSocketClientHandshakerFactory.newHandshaker(
+                            uri,
+                            WebSocketVersion.V13,
+                            null,
+                            true,
+                            getCustomHeaders(),
+                            maxFramePayloadLength),
+                        this::messageHandler);
+
+                if (eventLoopGroup == null || eventLoopGroup.isShutdown()) {
+                  eventLoopGroup = new NioEventLoopGroup(2);
+                }
+
+                new Bootstrap()
+                    .group(eventLoopGroup)
+                    .option(
+                        ChannelOption.CONNECT_TIMEOUT_MILLIS,
+                        java.lang.Math.toIntExact(connectionTimeout.toMillis()))
+                    .option(ChannelOption.SO_KEEPALIVE, true)
+                    .channel(NioSocketChannel.class)
+                    .handler(
+                        new ChannelInitializer<SocketChannel>() {
+                          @Override
+                          protected void initChannel(SocketChannel ch) {
+                            ChannelPipeline p = ch.pipeline();
+                            if (socksProxyHost != null) {
+                              p.addLast(
+                                  new Socks5ProxyHandler(
+                                      SocketUtils.socketAddress(socksProxyHost, socksProxyPort)));
+                            }
+                            if (sslCtx != null) {
+                              p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
+                            }
+                            p.addLast(new HttpClientCodec());
+                            if (enableLoggingHandler)
+                              p.addLast(new LoggingHandler(loggingHandlerLevel));
+                            if (compressedMessages)
+                              p.addLast(WebSocketClientCompressionHandler.INSTANCE);
+                            p.addLast(new HttpObjectAggregator(8192));
+                            if (idleTimeoutSeconds > 0)
+                              p.addLast(new IdleStateHandler(idleTimeoutSeconds, 0, 0));
+                            WebSocketClientExtensionHandler clientExtensionHandler =
+                                getWebSocketClientExtensionHandler();
+                            if (clientExtensionHandler != null) {
+                              p.addLast(clientExtensionHandler);
+                            }
+                            p.addLast(handler);
+                          }
+                        })
+                    .connect(uri.getHost(), port)
+                    .addListener(
+                        (ChannelFuture channelFuture) -> {
+                          webSocketChannel = channelFuture.channel();
+                          if (channelFuture.isSuccess()) {
+                            handler
+                                .handshakeFuture()
+                                .addListener(
+                                    handshakeFuture -> {
+                                      if (handshakeFuture.isSuccess()) {
+                                        completable.onComplete();
+                                      } else {
+                                        webSocketChannel
+                                            .disconnect()
+                                            .addListener(
+                                                x -> {
+                                                  completable.onError(handshakeFuture.cause());
+                                                });
+                                      }
+                                    });
+                          } else {
+                            completable.onError(channelFuture.cause());
+                            scheduleReconnect();
+                          }
+                        });
+              } catch (Exception throwable) {
+                completable.onError(throwable);
+                scheduleReconnect();
               }
-            } else {
-              port = uri.getPort();
-            }
-
-            if (!"ws".equalsIgnoreCase(scheme) && !"wss".equalsIgnoreCase(scheme)) {
-              throw new IllegalArgumentException("Only WS(S) is supported.");
-            }
-
-            final boolean ssl = "wss".equalsIgnoreCase(scheme);
-            final SslContext sslCtx;
-            if (ssl) {
-              SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
-              if (acceptAllCertificates) {
-                sslContextBuilder =
-                    sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
-              }
-              sslCtx = sslContextBuilder.build();
-            } else {
-              sslCtx = null;
-            }
-
-            final WebSocketClientHandler handler =
-                getWebSocketClientHandler(
-                    WebSocketClientHandshakerFactory.newHandshaker(
-                        uri,
-                        WebSocketVersion.V13,
-                        null,
-                        true,
-                        getCustomHeaders(),
-                        maxFramePayloadLength),
-                    this::messageHandler);
-
-            if (eventLoopGroup == null || eventLoopGroup.isShutdown()) {
-              eventLoopGroup = new NioEventLoopGroup(2);
-            }
-
-            new Bootstrap()
-                .group(eventLoopGroup)
-                .option(
-                    ChannelOption.CONNECT_TIMEOUT_MILLIS,
-                    java.lang.Math.toIntExact(connectionTimeout.toMillis()))
-                .option(ChannelOption.SO_KEEPALIVE, true)
-                .channel(NioSocketChannel.class)
-                .handler(
-                    new ChannelInitializer<SocketChannel>() {
-                      @Override
-                      protected void initChannel(SocketChannel ch) {
-                        ChannelPipeline p = ch.pipeline();
-                        if (socksProxyHost != null) {
-                          p.addLast(
-                              new Socks5ProxyHandler(
-                                  SocketUtils.socketAddress(socksProxyHost, socksProxyPort)));
-                        }
-                        if (sslCtx != null) {
-                          p.addLast(sslCtx.newHandler(ch.alloc(), host, port));
-                        }
-                        p.addLast(new HttpClientCodec());
-                        if (enableLoggingHandler)
-                          p.addLast(new LoggingHandler(loggingHandlerLevel));
-                        if (compressedMessages)
-                          p.addLast(WebSocketClientCompressionHandler.INSTANCE);
-                        p.addLast(new HttpObjectAggregator(8192));
-                        if (idleTimeoutSeconds > 0)
-                          p.addLast(new IdleStateHandler(idleTimeoutSeconds, 0, 0));
-                        WebSocketClientExtensionHandler clientExtensionHandler =
-                            getWebSocketClientExtensionHandler();
-                        if (clientExtensionHandler != null) {
-                          p.addLast(clientExtensionHandler);
-                        }
-                        p.addLast(handler);
-                      }
-                    })
-                .connect(uri.getHost(), port)
-                .addListener(
-                    (ChannelFuture channelFuture) -> {
-                      webSocketChannel = channelFuture.channel();
-                      if (channelFuture.isSuccess()) {
-                        handler
-                            .handshakeFuture()
-                            .addListener(
-                                handshakeFuture -> {
-                                  if (handshakeFuture.isSuccess()) {
-                                    completable.onComplete();
-                                  } else {
-                                    webSocketChannel
-                                        .disconnect()
-                                        .addListener(
-                                            x -> {
-                                              completable.onError(handshakeFuture.cause());
-                                            });
-                                  }
-                                });
-                      } else {
-                        completable.onError(channelFuture.cause());
-                        scheduleReconnect();
-                      }
-                    });
-          } catch (Exception throwable) {
-            completable.onError(throwable);
-            scheduleReconnect();
-          }
-        })
+            })
         .doOnError(
             t -> {
               if (t instanceof WebSocketHandshakeException) {
@@ -366,29 +364,32 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     LOG.info("Subscribing to channel {}", channelId);
 
     return Observable.<T>create(
-        e -> {
-          if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-            e.onError(new NotConnectedException());
-          }
-          channels.computeIfAbsent(
-              channelId,
-              cid -> {
-                Subscription newSubscription = new Subscription(e, channelName, args);
-                try {
-                  sendMessage(getSubscribeMessage(channelName, args));
-                } catch (Exception throwable) { // if getSubscribeMessage throws this, it is because it needs to report
-                  e.onError(throwable);         // a problem creating the message
-                }
-                return newSubscription;
-              });
-        })
+            e -> {
+              if (webSocketChannel == null || !webSocketChannel.isOpen()) {
+                e.onError(new NotConnectedException());
+              }
+              channels.computeIfAbsent(
+                  channelId,
+                  cid -> {
+                    Subscription newSubscription = new Subscription(e, channelName, args);
+                    try {
+                      sendMessage(getSubscribeMessage(channelName, args));
+                    } catch (
+                        Exception
+                            throwable) { // if getSubscribeMessage throws this, it is because it
+                      // needs to report
+                      e.onError(throwable); // a problem creating the message
+                    }
+                    return newSubscription;
+                  });
+            })
         .doOnDispose(
             () -> {
               if (channels.remove(channelId) != null) {
                 try {
                   sendMessage(getUnsubscribeMessage(channelId));
                 } catch (IOException e) {
-                  LOG.error("Failed to unsubscribe channel: {}",channelId);
+                  LOG.error("Failed to unsubscribe channel: {}", channelId);
                 }
               }
             })
@@ -419,16 +420,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected void handleMessage(T message) {
     String channel = getChannel(message);
-    if (!StringUtil.isNullOrEmpty(channel))
-      handleChannelMessage(channel, message);
+    if (!StringUtil.isNullOrEmpty(channel)) handleChannelMessage(channel, message);
   }
 
   protected void handleError(T message, Throwable t) {
     String channel = getChannel(message);
-    if (!StringUtil.isNullOrEmpty(channel))
-      handleChannelError(channel, t);
-    else
-      LOG.error("handleError cannot parse channel from message: {}", message);
+    if (!StringUtil.isNullOrEmpty(channel)) handleChannelError(channel, t);
+    else LOG.error("handleError cannot parse channel from message: {}", message);
   }
 
   protected void handleIdle(ChannelHandlerContext ctx) {
