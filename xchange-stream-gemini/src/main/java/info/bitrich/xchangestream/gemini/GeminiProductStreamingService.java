@@ -2,8 +2,6 @@ package info.bitrich.xchangestream.gemini;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -16,7 +14,12 @@ public class GeminiProductStreamingService extends JsonNettyStreamingService {
   private final CurrencyPair currencyPair;
 
   public GeminiProductStreamingService(String symbolUrl, CurrencyPair currencyPair) {
-    super(symbolUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 15);
+    super(
+        symbolUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        DEFAULT_IDLE_TIMEOUT);
     this.currencyPair = currencyPair;
   }
 
@@ -38,10 +41,5 @@ public class GeminiProductStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
     return null;
-  }
-
-  @Override
-  protected void handleIdle(ChannelHandlerContext ctx) {
-    ctx.writeAndFlush(new PingWebSocketFrame());
   }
 }
