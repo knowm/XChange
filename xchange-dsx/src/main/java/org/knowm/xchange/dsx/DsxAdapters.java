@@ -6,18 +6,7 @@ import java.util.stream.Collectors;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.dto.DsxBalance;
-import org.knowm.xchange.dsx.dto.DsxLimitOrder;
-import org.knowm.xchange.dsx.dto.DsxOrder;
-import org.knowm.xchange.dsx.dto.DsxOrderBook;
-import org.knowm.xchange.dsx.dto.DsxOrderLimit;
-import org.knowm.xchange.dsx.dto.DsxOwnTrade;
-import org.knowm.xchange.dsx.dto.DsxSide;
-import org.knowm.xchange.dsx.dto.DsxSymbol;
-import org.knowm.xchange.dsx.dto.DsxTicker;
-import org.knowm.xchange.dsx.dto.DsxTrade;
-import org.knowm.xchange.dsx.dto.DsxTransaction;
-import org.knowm.xchange.dsx.dto.DsxUserTrade;
+import org.knowm.xchange.dsx.dto.*;
 import org.knowm.xchange.dsx.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -149,7 +138,7 @@ public class DsxAdapters {
   }
 
   public static Trades adaptTrades(
-      List<? extends DsxTrade> allDsxTrades, CurrencyPair currencyPair) {
+      List<? extends DsxTrade> allDsxTrades, CurrencyPair currencyPair, DsxTradesSortBy sortBy) {
 
     List<Trade> trades = new ArrayList<>(allDsxTrades.size());
     long lastTradeId = 0;
@@ -177,13 +166,13 @@ public class DsxAdapters {
       trades.add(trade);
     }
 
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, lastTradeId, sortBy.sortType);
   }
 
   public static LimitOrder adaptOrder(DsxOrder dsxOrder) {
     OrderType type = adaptOrderType(dsxOrder.side);
 
-    return new DsxLimitOrder(
+    return new LimitOrder(
         type,
         dsxOrder.quantity,
         adaptSymbol(dsxOrder.symbol),
@@ -329,10 +318,10 @@ public class DsxAdapters {
   }
 
   /**
-   * @param type
-   * @see https://api.dsxglobal.com/api/2/explore/ Transaction Model possible types: payout, payin,
-   *     deposit, withdraw, bankToExchange, exchangeToBank
-   * @return type
+   * @param type string
+   * @see <a href="https://api.dsxglobal.com/api/2/explore/">Dsx Global API</a> Transaction Model
+   *     possible types: payout, payin, deposit, withdraw, bankToExchange, exchangeToBank
+   * @return type enum value
    */
   private static Type convertType(String type) {
     switch (type) {
@@ -350,9 +339,9 @@ public class DsxAdapters {
   }
 
   /**
-   * @see https://api.dsxglobal.com/api/2/explore/ Transaction Model possible statusses: created,
-   *     pending, failed, success
-   * @return status
+   * @see <a href="https://api.dsxglobal.com/api/2/explore/">Dsx Global API</a> Transaction Model
+   *     possible statusses: created, pending, failed, success
+   * @return status enum value
    */
   private static FundingRecord.Status convertStatus(String status) {
     switch (status) {
@@ -371,9 +360,9 @@ public class DsxAdapters {
   /**
    * Decodes Dsx Order status.
    *
-   * @return
-   * @see https://api.dsxglobal.com/#order-model Order Model possible statuses: new, suspended,
-   *     partiallyFilled, filled, canceled, expired
+   * @see <a href="https://api.dsxglobal.com/#order-model">Dsx Global API Order model</a> Order
+   *     Model possible statuses: new, suspended, partiallyFilled, filled, canceled, expired
+   * @return order status enum
    */
   private static Order.OrderStatus convertOrderStatus(String status) {
     switch (status) {

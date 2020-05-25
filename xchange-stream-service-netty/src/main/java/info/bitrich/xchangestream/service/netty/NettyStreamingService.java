@@ -162,8 +162,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 if (ssl) {
                   SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
                   if (acceptAllCertificates) {
-                    sslContextBuilder =
-                        sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+                    sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
                   }
                   sslCtx = sslContextBuilder.build();
                 } else {
@@ -236,9 +235,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                         webSocketChannel
                                             .disconnect()
                                             .addListener(
-                                                x -> {
-                                                  completable.onError(handshakeFuture.cause());
-                                                });
+                                                x -> completable.onError(handshakeFuture.cause()));
                                       }
                                     });
                           } else {

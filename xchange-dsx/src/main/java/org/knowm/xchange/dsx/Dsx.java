@@ -3,16 +3,12 @@ package org.knowm.xchange.dsx;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import org.knowm.xchange.dsx.dto.DsxCandle;
-import org.knowm.xchange.dsx.dto.DsxCurrency;
-import org.knowm.xchange.dsx.dto.DsxOrderBook;
-import org.knowm.xchange.dsx.dto.DsxSymbol;
-import org.knowm.xchange.dsx.dto.DsxTicker;
-import org.knowm.xchange.dsx.dto.DsxTrade;
+import org.knowm.xchange.dsx.dto.*;
 
 /** Version 2 of Dsx API. See https://api.dsx.com/api/2/explore/ */
 @Path("/api/2/")
@@ -47,18 +43,23 @@ public interface Dsx {
   @Path("public/trades/{symbol}")
   List<DsxTrade> getTrades(
       @PathParam("symbol") String symbol,
-      @QueryParam("limit") long limit,
-      @QueryParam("offset") long offset)
+      @QueryParam("sort") DsxSort sortDirection,
+      @QueryParam("by") DsxTradesSortBy sortBy,
+      @QueryParam("from") Long from,
+      @QueryParam("till") Long till,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset)
       throws IOException;
 
   @GET
-  @Path("public/trades/{symbol}")
-  List<DsxTrade> getTrades(
-      @PathParam("symbol") String symbol,
-      @QueryParam("sort") String sortDirection,
-      @QueryParam("by") String sortBy,
-      @QueryParam("from") String from,
-      @QueryParam("limit") long limit)
+  @Path("public/trades")
+  Map<String, List<DsxTrade>> getTrades(
+      @QueryParam("sort") DsxSort sortDirection,
+      @QueryParam("by") DsxTradesSortBy sortBy,
+      @QueryParam("from") Long from,
+      @QueryParam("till") Long till,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("offset") Integer offset)
       throws IOException;
 
   @GET
