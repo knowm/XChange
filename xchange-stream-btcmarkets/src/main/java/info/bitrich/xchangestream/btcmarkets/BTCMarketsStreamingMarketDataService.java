@@ -35,7 +35,7 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
     return service
         .subscribeChannel(CHANNEL_ORDERBOOK, marketId)
         .map(node -> mapper.treeToValue(node, BTCMarketsWebSocketOrderbookMessage.class))
-        .filter(orderEvent -> marketId.equals(orderEvent.marketId) )
+        .filter(orderEvent -> marketId.equals(orderEvent.marketId))
         .map(this::handleOrderbookMessage);
   }
 
