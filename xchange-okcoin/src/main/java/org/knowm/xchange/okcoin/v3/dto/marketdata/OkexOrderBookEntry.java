@@ -1,14 +1,24 @@
 package org.knowm.xchange.okcoin.v3.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Data;
 
+@Data
+@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 public class OkexOrderBookEntry {
 
-  private final BigDecimal price;
-  private final BigDecimal volume;
-  private final String numOrdersOnLevel;
+  private BigDecimal price;
+  private BigDecimal volume;
+  private String numOrdersOnLevel;
 
-  public OkexOrderBookEntry(BigDecimal price, BigDecimal volume, String numOrdersOnLevel) {
+  @JsonCreator
+  public OkexOrderBookEntry(
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("numOrdersOnLevel") String numOrdersOnLevel) {
 
     this.price = price;
     this.volume = volume;
@@ -31,6 +41,14 @@ public class OkexOrderBookEntry {
 
   @Override
   public String toString() {
-    return "OkexOrderBookEntry [price=" + price + ", volume=" + volume + "]";
+    return "OkexOrderBookEntry [price="
+        + price
+        + ","
+        + " volume="
+        + volume
+        + ","
+        + " numOrdersOnLevel="
+        + numOrdersOnLevel
+        + "]";
   }
 }
