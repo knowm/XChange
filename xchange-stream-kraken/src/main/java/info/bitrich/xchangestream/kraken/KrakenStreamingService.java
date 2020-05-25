@@ -16,14 +16,11 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +30,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
   private static final String EVENT = "event";
   private final Map<Integer, String> channels = new ConcurrentHashMap<>();
-  private ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
 
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
@@ -57,6 +54,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       KrakenEventType krakenEvent;
       if (event != null && (krakenEvent = KrakenEventType.getEvent(event.textValue())) != null) {
         switch (krakenEvent) {
+          case pingStatus:
+            LOG.info("PingStatus received: {}", message);
+            break;
           case pong:
             LOG.debug("Pong received");
             break;
@@ -208,22 +208,6 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       WebSocketClientHandler.WebSocketMessageHandler handler) {
     LOG.info("Registering KrakenWebSocketClientHandler");
     return new KrakenWebSocketClientHandler(handshaker, handler);
-  }
-
-  @Override
-  protected Completable openConnection() {
-
-    KrakenSubscriptionMessage ping =
-        new KrakenSubscriptionMessage(null, KrakenEventType.ping, null, null);
-
-    subscribeConnectionSuccess()
-        .subscribe(
-            o ->
-                Observable.interval(30, TimeUnit.SECONDS)
-                    .takeWhile(t -> isSocketOpen())
-                    .subscribe(t -> sendObjectMessage(ping)));
-
-    return super.openConnection();
   }
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;

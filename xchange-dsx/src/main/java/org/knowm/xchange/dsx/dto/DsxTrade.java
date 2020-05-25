@@ -61,22 +61,4 @@ public class DsxTrade {
         + timestamp
         + '}';
   }
-
-  public enum DsxTradesSortField {
-    SORT_BY_TRADE_ID("trade_id"),
-    SORT_BY_TIMESTAMP("ts");
-
-    private final String dsxTradesSortField;
-
-    DsxTradesSortField(String dsxTradesSortField) {
-
-      this.dsxTradesSortField = dsxTradesSortField;
-    }
-
-    @Override
-    public String toString() {
-
-      return dsxTradesSortField;
-    }
-  }
 }
