@@ -1,26 +1,25 @@
 package info.bitrich.xchangestream.coinmate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
-import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
+import java.util.*;
+
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
-  private final PusherStreamingService service;
-  private final String userId;
+  private final CoinmateStreamingServiceFactory serviceFactory;
   private final Set<Wallet.WalletFeature> walletFeatures =
       new HashSet<>(Arrays.asList(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING));
 
-  public CoinmateStreamingAccountService(PusherStreamingService service, String userId) {
-    this.service = service;
-    this.userId = userId;
+  public CoinmateStreamingAccountService(CoinmateStreamingServiceFactory serviceFactory) {
+    this.serviceFactory = serviceFactory;
   }
 
   @Override
@@ -67,16 +66,15 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
   }
 
   private Observable<Map<String, CoinmateWebsocketBalance>> getCoinmateBalances() {
-    String channelName = "private-user_balances-" + userId;
+    String channelName = "channel/my-balances";
 
-    return service
-        .subscribeChannel(channelName, "user_balances")
+    ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
+    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, true);
+
+    return service.subscribeMessages()
         .map(
             (message) -> {
-              Map<String, CoinmateWebsocketBalance> balanceMap =
-                  StreamingObjectMapperHelper.getObjectMapper()
-                      .readValue(
-                          message, new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
+              Map<String, CoinmateWebsocketBalance> balanceMap = reader.readValue(message.get("balances"));
 
               return balanceMap;
             });
