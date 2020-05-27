@@ -380,6 +380,17 @@ final class MatchingEngine {
     onFill.accept(fill);
   }
 
+  public void cancelOrder(String orderId) {
+    asks.stream()
+        .forEach(
+            bookLevel ->
+                bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+    bids.stream()
+        .forEach(
+            bookLevel ->
+                bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+  }
+
   public void cancelOrder(String orderId, Order.OrderType type) {
 
     switch (type) {
