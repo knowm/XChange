@@ -1,0 +1,13 @@
+{
+  "oid": 3267,
+  "type": "LMT",
+  "product_id": "BTCAUD",
+  "side": "buy",
+  "price": "6203.00000000",
+  "size": "0.04000000",
+  "time_in_force": "GTC",
+  "filled": "0.04000000",
+  "status": "filled",
+  "ref": null,
+  "timestamp": "2017-10-12T15:39:27.000+11:00"
+}

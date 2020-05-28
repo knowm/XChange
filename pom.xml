@@ -134,6 +134,7 @@
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
     <module>xchange-coinbene</module>
+    <module>xchange-coinjar</module>
     <module>xchange-coinegg</module>
     <module>xchange-coinex</module>
     <module>xchange-coinone</module>
