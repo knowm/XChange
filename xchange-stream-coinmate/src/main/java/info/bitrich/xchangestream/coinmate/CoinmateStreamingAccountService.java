@@ -72,11 +72,6 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
     CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, true);
 
     return service.subscribeMessages()
-        .map(
-            (message) -> {
-              Map<String, CoinmateWebsocketBalance> balanceMap = reader.readValue(message.get("balances"));
-
-              return balanceMap;
-            });
+        .map((message) -> reader.readValue(message.get("balances")));
   }
 }
