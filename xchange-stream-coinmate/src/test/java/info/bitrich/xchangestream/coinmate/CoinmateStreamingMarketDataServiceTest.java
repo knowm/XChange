@@ -1,19 +1,15 @@
 package info.bitrich.xchangestream.coinmate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.coinmate.dto.auth.AuthParams;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.coinmate.Coinmate;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
@@ -24,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.stream;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,13 +45,9 @@ public class CoinmateStreamingMarketDataServiceTest {
                 Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
 
     CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
-    CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
-    when(mockService.subscribeMessages())
+    when(mockFactory.createConnection(anyString(), anyBoolean()))
         .thenReturn(Observable.just(mapper.readTree(orderBook)));
-
-    when(mockFactory.createAndConnect(anyString(), anyBoolean()))
-        .thenReturn(mockService);
 
     CoinmateStreamingMarketDataService marketDataService = new CoinmateStreamingMarketDataService(mockFactory);
 
@@ -126,13 +118,9 @@ public class CoinmateStreamingMarketDataServiceTest {
             Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("trades.json").toURI())));
 
     CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
-    CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
-    when(mockService.subscribeMessages())
+    when(mockFactory.createConnection(anyString(), anyBoolean()))
         .thenReturn(Observable.just(mapper.readTree(trade)));
-
-    when(mockFactory.createAndConnect(anyString(), anyBoolean()))
-        .thenReturn(mockService);
 
     CoinmateStreamingMarketDataService marketDataService = new CoinmateStreamingMarketDataService(mockFactory);
 

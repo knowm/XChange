@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CoinmateStreamingTradeService implements StreamingTradeService {
@@ -34,13 +35,11 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
     ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper()
         .readerFor(CoinmateWebsocketOpenOrder.class);
 
-    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, true);
-
-    return service.subscribeMessages()
+    return serviceFactory.createConnection(channelName, true)
         .map(
             (message) -> {
               CoinmateWebsocketOpenOrder websocketOpenOrder = reader.readValue(message);
-              List<CoinmateWebsocketOpenOrder> websocketOpenOrders = Arrays.asList(new CoinmateWebsocketOpenOrder[]{websocketOpenOrder});
+              List<CoinmateWebsocketOpenOrder> websocketOpenOrders = Collections.singletonList(websocketOpenOrder);
               return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(websocketOpenOrders
                   , currencyPair);
             })
@@ -54,9 +53,8 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
             + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<List<CoinmateWebSocketUserTrade>>() {});
-    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, true);
 
-    return service.subscribeMessages()
+    return serviceFactory.createConnection(channelName, true)
         .map(
             (message) -> {
               List<CoinmateWebSocketUserTrade> webSocketUserTrades =
