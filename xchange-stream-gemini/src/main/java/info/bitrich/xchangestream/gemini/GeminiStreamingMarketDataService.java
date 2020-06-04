@@ -81,7 +81,9 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                     GeminiWebSocketTransaction transaction =
                         mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                     GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
-                    GeminiOrderbook orderbook = orderbooks.get(currencyPair);
+                    GeminiOrderbook orderbook =
+                        orderbooks.computeIfAbsent(
+                            currencyPair, cp -> transaction.toGeminiOrderbook(currencyPair));
                     orderbook.updateLevels(levels);
                     return orderbook;
                   }

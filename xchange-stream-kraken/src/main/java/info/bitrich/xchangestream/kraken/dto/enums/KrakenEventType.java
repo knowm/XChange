@@ -9,6 +9,7 @@ public enum KrakenEventType {
   unsubscribe,
   systemStatus,
   subscriptionStatus,
+  pingStatus,
   ping,
   pong,
   error;

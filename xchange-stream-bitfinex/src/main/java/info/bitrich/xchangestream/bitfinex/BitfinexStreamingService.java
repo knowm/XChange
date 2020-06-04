@@ -226,8 +226,10 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         BitfinexWebSocketAuthBalance balance = BitfinexStreamingAdapters.adaptBalance(object);
         if (balance != null) subjectBalance.onNext(balance);
         break;
+      case "bu":
+        break;
       default:
-        LOG.debug("Unknown Bitfinex authenticated message type {}. Content=", type, object);
+        LOG.debug("Unknown Bitfinex authenticated message type {}. Content={}", type, object);
     }
   }
 
