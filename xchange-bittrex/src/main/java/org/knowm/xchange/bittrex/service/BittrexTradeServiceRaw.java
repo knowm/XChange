@@ -2,11 +2,15 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
+import org.knowm.xchange.bittrex.service.batch.BatchOrderResponse;
+import org.knowm.xchange.bittrex.service.batch.order.BatchOrder;
+import org.knowm.xchange.bittrex.service.batch.order.neworder.NewOrderPayload;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -105,5 +109,20 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
     return bittrexAuthenticated
         .getOrder(apiKey, signatureCreator, exchange.getNonceFactory(), uuid)
         .getResult();
+  }
+
+  public BatchOrderResponse[] executeOrdersBatch(BatchOrder[] batchOrders) throws IOException {
+    return bittrexAuthenticatedV3.executeOrdersBatch(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreatorV3, batchOrders);
+  }
+
+  public Map<String, Object> cancelOrderV3(String orderId) throws IOException {
+    return bittrexAuthenticatedV3.cancelOrder(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreatorV3, orderId);
+  }
+
+  public Map<String, Object> placeOrderV3(NewOrderPayload newOrderPayload) throws IOException {
+    return bittrexAuthenticatedV3.placeOrder(
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreatorV3, newOrderPayload);
   }
 }

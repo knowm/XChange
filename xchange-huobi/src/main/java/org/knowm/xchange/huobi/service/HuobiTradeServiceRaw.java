@@ -15,19 +15,23 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
 class HuobiTradeServiceRaw extends HuobiBaseService {
-
   HuobiTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
-  HuobiOrder[] getHuobiTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+  // https://huobiapi.github.io/docs/spot/v1/en/#search-past-orders
+  HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params) throws IOException {
     String tradeStates = "partial-filled,partial-canceled,filled";
     HuobiOrdersResult result =
-        huobi.getOpenOrders(
+        huobi.getOrders(
+            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
             tradeStates,
+            null, // System.currentTimeMillis() - 48 * 60 * 60_000L,
+            null,
+            null,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
@@ -36,10 +40,11 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  HuobiOrder[] getHuobiOpenOrders() throws IOException {
+  HuobiOrder[] getHuobiOpenOrders(CurrencyPairParam params) throws IOException {
     String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
         huobi.getOpenOrders(
+            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
             states,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
@@ -70,6 +75,8 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     } else {
       throw new ExchangeException("Unsupported order type.");
     }
+    if (limitOrder.hasFlag(HuobiTradeService.FOK)) type = type + "-fok";
+    if (limitOrder.hasFlag(HuobiTradeService.IOC)) type = type + "-ioc";
 
     HuobiOrderResult result =
         huobi.placeLimitOrder(
@@ -78,7 +85,10 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
                 limitOrder.getOriginalAmount().toString(),
                 limitOrder.getLimitPrice().toString(),
                 HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
-                type),
+                type,
+                limitOrder.getUserReference(),
+                null,
+                null),
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
@@ -88,23 +98,27 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  String placeHuobiMarketOrder(MarketOrder limitOrder) throws IOException {
+  String placeHuobiMarketOrder(MarketOrder order) throws IOException {
     String type;
-    if (limitOrder.getType() == OrderType.BID) {
+    if (order.getType() == OrderType.BID) {
       type = "buy-market";
-    } else if (limitOrder.getType() == OrderType.ASK) {
+    } else if (order.getType() == OrderType.ASK) {
       type = "sell-market";
     } else {
       throw new ExchangeException("Unsupported order type.");
     }
+
     HuobiOrderResult result =
         huobi.placeMarketOrder(
             new HuobiCreateOrderRequest(
                 getAccountId(),
-                limitOrder.getOriginalAmount().toString(),
+                order.getOriginalAmount().toString(),
                 null,
-                HuobiUtils.createHuobiCurrencyPair(limitOrder.getCurrencyPair()),
-                type),
+                HuobiUtils.createHuobiCurrencyPair(order.getCurrencyPair()),
+                type,
+                order.getUserReference(),
+                null,
+                null),
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
