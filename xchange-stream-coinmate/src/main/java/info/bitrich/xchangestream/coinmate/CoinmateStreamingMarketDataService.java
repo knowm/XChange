@@ -30,9 +30,8 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
     String channelName = "channel/order-book/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateOrderBookData.class);
-    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, false);
 
-    return service.subscribeMessages()
+    return serviceFactory.createConnection(channelName, false)
         .map(
             s -> {
               CoinmateOrderBookData orderBookData = reader.readValue(s);
@@ -54,14 +53,10 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
     String channelName = "channel/trades/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<List<CoinmateWebSocketTrade>>() {});
-    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, false);
 
-    return service.subscribeMessages()
+    return serviceFactory.createConnection(channelName, false)
         .map(
-            s -> {
-              List<CoinmateWebSocketTrade> list = reader.readValue(s);
-              return list;
-            })
+            s -> reader.<List<CoinmateWebSocketTrade>>readValue(s))
         .flatMapIterable(coinmateWebSocketTrades -> coinmateWebSocketTrades)
         .map(
             coinmateWebSocketTrade -> CoinmateStreamingAdapter.adaptTrade(coinmateWebSocketTrade, currencyPair)

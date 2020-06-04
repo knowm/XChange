@@ -28,14 +28,12 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
     return getCoinmateBalances()
         .map(balanceMap -> balanceMap.get(currency.toString()))
         .map(
-            (balance) -> {
-              return new Balance.Builder()
-                  .currency(currency)
-                  .total(balance.getBalance())
-                  .available(balance.getBalance().subtract(balance.getReserved()))
-                  .frozen(balance.getReserved())
-                  .build();
-            });
+            (balance) -> new Balance.Builder()
+                .currency(currency)
+                .total(balance.getBalance())
+                .available(balance.getBalance().subtract(balance.getReserved()))
+                .frozen(balance.getReserved())
+                .build());
   }
 
   public Observable<Wallet> getWalletChanges(Object... args) {
@@ -45,33 +43,28 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
             (balanceMap) -> {
               List<Balance> balances = new ArrayList<>();
               balanceMap.forEach(
-                  (s, coinmateWebsocketBalance) -> {
-                    balances.add(
-                        new Balance.Builder()
-                            .currency(new Currency(s))
-                            .total(coinmateWebsocketBalance.getBalance())
-                            .available(
-                                coinmateWebsocketBalance
-                                    .getBalance()
-                                    .subtract(coinmateWebsocketBalance.getReserved()))
-                            .frozen(coinmateWebsocketBalance.getReserved())
-                            .build());
-                  });
+                  (s, coinmateWebsocketBalance) -> balances.add(
+                      new Balance.Builder()
+                          .currency(new Currency(s))
+                          .total(coinmateWebsocketBalance.getBalance())
+                          .available(
+                              coinmateWebsocketBalance
+                                  .getBalance()
+                                  .subtract(coinmateWebsocketBalance.getReserved()))
+                          .frozen(coinmateWebsocketBalance.getReserved())
+                          .build()));
               return balances;
             })
         .map(
-            (balances) -> {
-              return Wallet.Builder.from(balances).features(walletFeatures).id("spot").build();
-            });
+            (balances) -> Wallet.Builder.from(balances).features(walletFeatures).id("spot").build());
   }
 
   private Observable<Map<String, CoinmateWebsocketBalance>> getCoinmateBalances() {
     String channelName = "channel/my-balances";
 
     ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
-    CoinmateStreamingService service = serviceFactory.createAndConnect(channelName, true);
 
-    return service.subscribeMessages()
+    return serviceFactory.createConnection(channelName, true)
         .map((message) -> reader.readValue(message.get("balances")));
   }
 }

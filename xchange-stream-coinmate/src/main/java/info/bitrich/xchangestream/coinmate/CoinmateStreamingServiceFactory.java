@@ -1,27 +1,44 @@
 package info.bitrich.xchangestream.coinmate;
 
-import info.bitrich.xchangestream.coinmate.CoinmateStreamingService;
+import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.coinmate.dto.auth.AuthParams;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CoinmateStreamingServiceFactory {
 
   private AuthParams authParams;
   private String baseUrl;
+  private ConcurrentMap<String, Observable<JsonNode>> serviceMap;
+  private static Lock connectionLock = new ReentrantLock();
+  private Scheduler scheduler = Schedulers.single();
 
   public CoinmateStreamingServiceFactory(String baseUrl, AuthParams authParams) {
     this.baseUrl = baseUrl;
     this.authParams = authParams;
+    this.serviceMap = new ConcurrentHashMap<>();
   }
 
-  public CoinmateStreamingService createAndConnect(String endpoint, boolean needsAuth) {
-    String url = baseUrl + "/" + endpoint;
-    if (needsAuth && authParams != null) {
-      url += "?" + authParams.toParams();
-    }
-    CoinmateStreamingService service = new CoinmateStreamingService(url);
-    // block until connected, because of nonce conflicts when connecting to multiple channels
-    service.connect().blockingAwait();
-    return service;
+  public Observable<JsonNode> createConnection(String endpoint, boolean needsAuth) {
+      return serviceMap.computeIfAbsent(baseUrl + "/" + endpoint, url -> {
+        String authUrl = url;
+        // append auth parameters if necessary
+        if (needsAuth && authParams != null) {
+          authUrl += "?" + authParams.toParams();
+        }
+        CoinmateStreamingService service = new CoinmateStreamingService(authUrl);
+
+        return service.connect()
+            .andThen(service.subscribeMessages())
+            .doOnDispose(() -> service.disconnect().subscribe())
+            .share();
+      });
   }
 
 }
