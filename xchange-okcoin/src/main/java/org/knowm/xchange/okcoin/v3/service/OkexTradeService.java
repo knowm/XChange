@@ -150,7 +150,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     } while (!stop);
     return new OpenOrders(all.stream().map(OkexAdaptersV3::convert).collect(Collectors.toList()));
   }
-  
+
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new OkexTradeHistoryParams();

@@ -13,7 +13,6 @@ fi"
 dist: trusty
 
 jdk:
-  - oraclejdk8
   - openjdk11
 
 # whitelist
@@ -26,7 +25,7 @@ env:
     - secure: "pDTp3TujySuBn3IV5QzgYSsLdLHRDApm2dvKT5P8aHgLDF2tM59a5fWYuA+MiTrZdpbxsUXzxrl4l5+cQyLGI10/hu4R7uft4k46Da78xNA5REki+YU7rjCA6RXdWUuXyhLNFYPWVNt3mgi7YfsyNwRrtS3FQQZn1BOfDJ0s5Vo="
     - secure: "YwWFnNl4cBEKzRiMjKlfp1VieMkWp4LGENMKzlVs7hy3TWFz4A2pJpRUX76qqWV/6h6vOqY6cogql3NCietzJbspSgwl7MkboPVXYn9HgQkPwrcdQh/h9PzsC63iOW4jyIqHzjVT36MYLYrXTvRrqdMHUjFJmObiNt1KY674d7g="
 
-matrix:
-  - LC_ALL=C
-  - LC_ALL=pl_PL
-  - LC_ALL_zh_CN
+# matrix:
+#  - LC_ALL=C
+#  - LC_ALL=pl_PL
+#  - LC_ALL_zh_CN
