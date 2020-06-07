@@ -1,11 +1,13 @@
 package info.bitrich.xchangestream.kraken.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import java.util.List;
 
 /** @author pchertalev */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class KrakenSubscriptionMessage extends KrakenEvent {
 
   /** Optional, client originated ID reflected in response message. */
