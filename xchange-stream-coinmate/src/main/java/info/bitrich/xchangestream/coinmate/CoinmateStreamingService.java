@@ -16,11 +16,12 @@ import java.io.IOException;
  */
 class CoinmateStreamingService extends JsonNettyStreamingService {
 
-  // there are no channels so provide a fake name
-  private final String channelName = "NO_CHANNEL";
+  // this is not actually used in communication
+  private final String channelName;
 
-  CoinmateStreamingService(String url) {
+  CoinmateStreamingService(String url, String channelName) {
     super(url);
+    this.channelName = channelName;
   }
 
   @Override

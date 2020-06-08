@@ -32,7 +32,7 @@ class CoinmateStreamingServiceFactory {
         if (needsAuth && authParams != null) {
           authUrl += "?" + authParams.toParams();
         }
-        CoinmateStreamingService service = new CoinmateStreamingService(authUrl);
+        CoinmateStreamingService service = new CoinmateStreamingService(authUrl, endpoint);
 
         return service.connect()
             .andThen(service.subscribeMessages())
