@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class CoinmateStreamingServiceFactory {
+class CoinmateStreamingServiceFactory {
 
   private AuthParams authParams;
   private String baseUrl;

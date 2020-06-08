@@ -14,18 +14,18 @@ import java.io.IOException;
  * which use channels over one WebSocket. This is a hack to use JsonNettyStreamingService as
  * single channel source.
  */
-public class CoinmateStreamingService extends JsonNettyStreamingService {
+class CoinmateStreamingService extends JsonNettyStreamingService {
 
-  private PublishSubject<JsonNode> messages;
+  // there are no channels so provide a fake name
+  private final String channelName = "NO_CHANNEL";
 
   CoinmateStreamingService(String url) {
     super(url);
-    this.messages = PublishSubject.create();
   }
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
-    return null;
+    return channelName;
   }
 
   @Override
@@ -38,16 +38,10 @@ public class CoinmateStreamingService extends JsonNettyStreamingService {
     return null;
   }
 
-  @Override
-  protected void handleMessage(JsonNode message) {
-    this.messages.onNext(message);
-  }
-
   public Observable<JsonNode> subscribeMessages() {
-    return messages.filter(jsonNode -> {
-      return "data".equals(jsonNode.get("event").asText()) && jsonNode.has("payload");
-    }).map(jsonNode -> {
-      return jsonNode.get("payload");
-    }).share();
+    return subscribeChannel(channelName)
+        .filter(jsonNode -> "data".equals(jsonNode.get("event").asText()) && jsonNode.has("payload"))
+        .map(jsonNode -> jsonNode.get("payload"))
+        .share();
   }
 }
