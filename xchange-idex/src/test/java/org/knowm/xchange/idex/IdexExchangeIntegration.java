@@ -10,7 +10,7 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
 import java.util.List;
 
-public class IdexExchangeTest {
+public class IdexExchangeIntegration {
 
     @Test
     public void shouldRunWithoutExceptionWhenCallGetMetadata() {
