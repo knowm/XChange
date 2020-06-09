@@ -1,6 +1,5 @@
 package org.knowm.xchange.idex;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -12,23 +11,21 @@ import java.util.List;
 
 public class IdexExchangeIntegration {
 
-    @Test
-    public void shouldRunWithoutExceptionWhenCallGetMetadata() {
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(
-                IdexExchange.class.getName());
+  @Test
+  public void shouldRunWithoutExceptionWhenCallGetMetadata() {
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(
+        IdexExchange.class.getName());
 
-        ExchangeMetaData metaData = exchange.getExchangeMetaData();
-        Assert.assertNotNull(metaData);
+    ExchangeMetaData metaData = exchange.getExchangeMetaData();
+    Assert.assertNotNull(metaData);
+  }
 
-    }
+  @Test
+  public void shouldRunWithoutExceptionWhenCallGetExchangeSymbols() {
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(
+        IdexExchange.class.getName());
 
-    @Test
-    public void shouldRunWithoutExceptionWhenCallGetExchangeSymbols() {
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(
-                IdexExchange.class.getName());
-
-        List<CurrencyPair> marketCurrencyPairs = exchange.getExchangeSymbols();
-        Assert.assertNotNull(marketCurrencyPairs);
-    }
-
+    List<CurrencyPair> marketCurrencyPairs = exchange.getExchangeSymbols();
+    Assert.assertNotNull(marketCurrencyPairs);
+  }
 }
