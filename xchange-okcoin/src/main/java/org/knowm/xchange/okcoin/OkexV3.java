@@ -25,6 +25,7 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexOrderBook;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
@@ -224,6 +225,17 @@ public interface OkexV3 {
       @QueryParam("state") String state)
       throws IOException, OkexException;
 
+  @GET
+  @Path("/spot/v3/orders/{order_id}")
+  OkexOpenOrder getSpotOrderDetails(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("order_id") String orderId,
+      @QueryParam("instrument_id") String instrumentId)
+      throws IOException, OkexException;
+
   /**
    * @param orderId required, order ID
    * @param instrumentId required, trading pair
@@ -261,6 +273,12 @@ public interface OkexV3 {
   @GET
   @Path("/spot/v3/instruments/{instrument_id}/ticker")
   OkexSpotTicker getSpotTicker(@PathParam("instrument_id") String instrumentId)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/spot/v3/instruments/{instrument_id}/book")
+  OkexOrderBook getOrderBook(
+      @PathParam("instrument_id") String instrumentId, @QueryParam("size") int size)
       throws IOException, OkexException;
 
   /** ******************************* Futures Trading API ********************************* */
