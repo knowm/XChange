@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -11,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.0-SNAPSHOT</version>
+  <version>5.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -31,13 +29,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <version.java>1.8</version.java>
+    <version.java>11</version.java>
     <version.assertj>3.16.1</version.assertj>
-    <version.commons.io>2.6</version.commons.io>
+    <version.commons.io>2.7</version.commons.io>
     <version.commons.lang3>3.10</version.commons.lang3>
     <version.fasterxml>2.11.0</version.fasterxml>
     <version.github.mmazi>2.0.2</version.github.mmazi>
-    <version.resilience4j>1.4.0</version.resilience4j>
+    <version.resilience4j>1.5.0</version.resilience4j>
     <version.junit>4.13</version.junit>
     <version.lombok>1.18.12</version.lombok>
     <version.knowm.xchart>3.6.3</version.knowm.xchart>
@@ -134,6 +132,7 @@
     <module>xchange-coindeal</module>
     <module>xchange-coindirect</module>
     <module>xchange-coinbene</module>
+    <module>xchange-coinjar</module>
     <module>xchange-coinegg</module>
     <module>xchange-coinex</module>
     <module>xchange-coinone</module>
@@ -583,7 +582,7 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.10</version>
         <configuration>
           <filesNamePattern>.*\.java</filesNamePattern>
           <skip>false</skip>
