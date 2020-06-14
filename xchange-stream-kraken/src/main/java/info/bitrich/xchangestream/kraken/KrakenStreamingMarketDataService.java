@@ -19,6 +19,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenOHLC;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
@@ -120,6 +121,59 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                             })
                         .collect(Collectors.toList())));
   }
+
+  public Observable<KrakenOHLC> getOHLC(CurrencyPair currencyPair, Integer interval ,Object... args){
+      String channelName = getChannelName(KrakenSubscriptionName.ohlc, currencyPair);
+      return subscribeRaw(channelName, 1, null, interval)
+          .filter(list -> List.class.isAssignableFrom(list.get(1).getClass()))
+          .map(list ->  (List<List>) list.get(1))
+          .map(OHLCList -> {
+              LOG.info("List Iteration {}", OHLCList);
+              float time = getValue(OHLCList, 0, float.class);
+              float etime = getValue(OHLCList, 1, float.class);
+              double open = getValue(OHLCList, 2, double.class);
+              double high = getValue(OHLCList, 3, double.class);
+              double low = getValue(OHLCList, 4, double.class);
+              double close = getValue(OHLCList, 5, double.class);
+              double vwap = getValue(OHLCList, 6, double.class);
+              int volume = getValue(OHLCList, 7, int.class);
+              int count = getValue(OHLCList,8, int.class);
+              long openTime = (long) time; // Will automatically cut off the extra epoch precision
+              long endTime = (long) etime;
+              return new KrakenOHLC(
+                      openTime,
+                      BigDecimal.valueOf(open),
+                      BigDecimal.valueOf(high),
+                      BigDecimal.valueOf(low),
+                      BigDecimal.valueOf(close),
+                      BigDecimal.valueOf(vwap),
+                      BigDecimal.valueOf(volume),
+                      (long) count
+              );
+          });
+  }
+
+    public Observable<List> subscribeRaw(String channelName, int maxItems, Object... args) {
+        return service
+                .subscribeChannel(channelName, args)
+                .filter(JsonNode::isArray)
+                .filter(Objects::nonNull)
+                .map(
+                        jsonNode ->
+                                StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, List.class))
+                .filter(
+                        list -> {
+                            if (list.size() < maxItems) {
+                                LOG.error(
+                                        "Invalid message in channel {}. It contains {} array items but expected at least {}",
+                                        channelName,
+                                        list.size(),
+                                        maxItems);
+                                return false;
+                            }
+                            return true;
+                        });
+    }
 
   public Observable<List> subscribe(String channelName, int maxItems, Integer depth) {
     return service
