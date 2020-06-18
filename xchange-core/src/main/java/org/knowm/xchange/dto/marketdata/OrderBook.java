@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,6 +26,8 @@ public final class OrderBook implements Serializable {
   private final List<LimitOrder> bids;
   /** the timestamp of the orderbook according to the exchange's server, null if not provided */
   private Date timeStamp;
+  /** the metadata, possibly provided by the api*/
+  private Map<String,Object> metadata;
 
   /**
    * Constructor
@@ -263,15 +266,21 @@ public final class OrderBook implements Serializable {
     return thisOb.equals(thatOb);
   }
 
+  public Map<String, Object> getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(Map<String, Object> metadata) {
+    this.metadata = metadata;
+  }
+
   @Override
   public String toString() {
-
-    return "OrderBook [timestamp: "
-        + timeStamp
-        + ", asks="
-        + asks.toString()
-        + ", bids="
-        + bids.toString()
-        + "]";
+    return "OrderBook{" +
+        "asks=" + asks +
+        ", bids=" + bids +
+        ", timeStamp=" + timeStamp +
+        ", metadata=" + metadata +
+        '}';
   }
 }
