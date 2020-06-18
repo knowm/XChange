@@ -83,6 +83,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private boolean compressedMessages = false;
   private final PublishSubject<Throwable> reconnFailEmitters = PublishSubject.create();
   private final PublishSubject<Object> connectionSuccessEmitters = PublishSubject.create();
+  private final PublishSubject<Object> disconnectEmitters = PublishSubject.create();
   private final PublishSubject<Object> subjectIdle = PublishSubject.create();
 
   // debugging
@@ -359,6 +360,10 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     return connectionSuccessEmitters.share();
   }
 
+  public Observable<Object> subscribeDisconnect() {
+    return disconnectEmitters.share();
+  }
+
   public Observable<T> subscribeChannel(String channelName, Object... args) {
     final String channelId = getSubscriptionUniqueId(channelName, args);
     LOG.info("Subscribing to channel {}", channelId);
@@ -500,6 +505,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         // Don't attempt to reconnect
       } else {
         super.channelInactive(ctx);
+        disconnectEmitters.onNext(new Object());
         LOG.info("Reopening websocket because it was closed");
         scheduleReconnect();
       }
