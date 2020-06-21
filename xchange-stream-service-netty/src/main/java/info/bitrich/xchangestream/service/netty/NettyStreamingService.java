@@ -298,6 +298,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                           .addListener(
                               f -> {
                                 LOG.info("Disconnected");
+                                disconnectEmitters.onNext(new Object());
                                 completable.onComplete();
                               });
                     });
