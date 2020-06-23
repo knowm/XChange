@@ -153,7 +153,8 @@ public final class ANXAdapters {
       return new Balance(
           Currency.getInstance(anxWallet.getBalance().getCurrency()),
           anxWallet.getBalance().getValue(),
-          anxWallet.getAvailableBalance().getValue());
+          anxWallet.getAvailableBalance().getValue(),
+          null);
     }
   }
 
