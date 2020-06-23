@@ -36,7 +36,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
   private final BigDecimal borrowed;
   private final BigDecimal withdrawing;
   private final BigDecimal depositing;
-  private Date timestamp;
+  private final Date timestamp;
 
   /**
    * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and
@@ -44,8 +44,9 @@ public final class Balance implements Comparable<Balance>, Serializable {
    *
    * @param currency The underlying currency
    * @param total The total
+   * @param timestamp Time the balance was valid on the exchange server
    */
-  public Balance(Currency currency, BigDecimal total) {
+  public Balance(Currency currency, BigDecimal total, Date timestamp) {
 
     this(
         currency,
@@ -55,7 +56,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        timestamp);
   }
 
   /**
@@ -66,8 +68,9 @@ public final class Balance implements Comparable<Balance>, Serializable {
    * @param total the total amount of the <code>currency</code> in this balance.
    * @param available the amount of the <code>currency</code> in this balance that is available to
    *     trade.
+   * @param timestamp Time the balance was valid on the exchange server
    */
-  public Balance(Currency currency, BigDecimal total, BigDecimal available) {
+  public Balance(Currency currency, BigDecimal total, BigDecimal available, Date timestamp) {
 
     this(
         currency,
@@ -77,7 +80,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        timestamp);
   }
 
   /**
@@ -90,8 +94,9 @@ public final class Balance implements Comparable<Balance>, Serializable {
    *     trade.
    * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in
    *     trading.
+   * @param timestamp Time the balance was valid on the exchange server
    */
-  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
+  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, Date timestamp) {
 
     this(
         currency,
@@ -101,7 +106,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        timestamp);
   }
 
   /**
@@ -122,6 +128,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
    *     for withdrawal.
    * @param depositing the amount of the <code>currency</code> in this balance that is being
    *     deposited but not available yet.
+   * @param timestamp Time the balance was valid on the exchange server
    */
   public Balance(
       Currency currency,
@@ -131,7 +138,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
       BigDecimal borrowed,
       BigDecimal loaned,
       BigDecimal withdrawing,
-      BigDecimal depositing) {
+      BigDecimal depositing,
+      Date timestamp) {
 
     if (total != null && available != null) {
       BigDecimal sum =
@@ -151,6 +159,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
     this.loaned = loaned;
     this.withdrawing = withdrawing;
     this.depositing = depositing;
+    this.timestamp = timestamp;
   }
 
   /**
@@ -169,7 +178,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        BigDecimal.ZERO);
+        BigDecimal.ZERO,
+        null);
   }
 
   public Currency getCurrency() {
@@ -279,7 +289,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
   }
 
   /**
-   * Returns the timestamp of the balance
+   * Returns the time the balance was valid on the exchange server
    *
    * @return the timestamp.
    */
@@ -287,23 +297,28 @@ public final class Balance implements Comparable<Balance>, Serializable {
     return timestamp;
   }
 
-  public void setTimestamp(Date timestamp) {
-    this.timestamp = timestamp;
-  }
-
   @Override
   public String toString() {
-    return "Balance{" +
-        "currency=" + currency +
-        ", total=" + total +
-        ", available=" + available +
-        ", frozen=" + frozen +
-        ", loaned=" + loaned +
-        ", borrowed=" + borrowed +
-        ", withdrawing=" + withdrawing +
-        ", depositing=" + depositing +
-        ", timestamp=" + timestamp +
-        '}';
+    return "Balance{"
+        + "currency="
+        + currency
+        + ", total="
+        + total
+        + ", available="
+        + available
+        + ", frozen="
+        + frozen
+        + ", loaned="
+        + loaned
+        + ", borrowed="
+        + borrowed
+        + ", withdrawing="
+        + withdrawing
+        + ", depositing="
+        + depositing
+        + ", timestamp="
+        + timestamp
+        + '}';
   }
 
   @Override
@@ -426,6 +441,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
     private BigDecimal loaned = BigDecimal.ZERO;
     private BigDecimal withdrawing = BigDecimal.ZERO;
     private BigDecimal depositing = BigDecimal.ZERO;
+    private Date timestamp;
 
     public static Builder from(Balance balance) {
 
@@ -437,7 +453,8 @@ public final class Balance implements Comparable<Balance>, Serializable {
           .borrowed(balance.getBorrowed())
           .loaned(balance.getLoaned())
           .withdrawing(balance.getWithdrawing())
-          .depositing(balance.getDepositing());
+          .depositing(balance.getDepositing())
+          .timestamp(balance.getTimestamp());
     }
 
     public Builder currency(Currency currency) {
@@ -488,6 +505,12 @@ public final class Balance implements Comparable<Balance>, Serializable {
       return this;
     }
 
+    public Builder timestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
     public Balance build() {
 
       if (frozen == null) {
@@ -497,7 +520,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
       }
 
       return new Balance(
-          currency, total, available, frozen, borrowed, loaned, withdrawing, depositing);
+          currency, total, available, frozen, borrowed, loaned, withdrawing, depositing, timestamp);
     }
   }
 }
