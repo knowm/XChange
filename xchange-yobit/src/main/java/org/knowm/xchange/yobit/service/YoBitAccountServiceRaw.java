@@ -57,7 +57,8 @@ public abstract class YoBitAccountServiceRaw extends YoBitBaseService<YoBit>
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               BigDecimal.ZERO,
-              BigDecimal.ZERO);
+              BigDecimal.ZERO,
+              null);
 
       wallets.add(
           Wallet.Builder.from(Arrays.asList(balance)).id(currency.getCurrencyCode()).build());

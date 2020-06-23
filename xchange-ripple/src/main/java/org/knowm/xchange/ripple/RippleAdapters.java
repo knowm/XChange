@@ -73,7 +73,7 @@ public abstract class RippleAdapters {
       }
       balances
           .get(walletId)
-          .add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
+          .add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue(), null));
     }
 
     final List<Wallet> accountInfo = new ArrayList<>(balances.size());

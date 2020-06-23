@@ -93,7 +93,7 @@ public class CobinhoodAdapters {
                     .map(
                         balance ->
                             new Balance(
-                                new Currency(balance.getCurrency()), balance.getTotalAmount()))
+                                new Currency(balance.getCurrency()), balance.getTotalAmount(), null))
                     .collect(Collectors.toList()))
             .build();
 

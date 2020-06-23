@@ -77,7 +77,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
       BinanceAccountInformation acc = account();
       List<Balance> balances =
           acc.balances.stream()
-              .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable()))
+              .map(b -> new Balance(b.getCurrency(), b.getTotal(), b.getAvailable(), null))
               .collect(Collectors.toList());
       return new AccountInfo(new Date(acc.updateTime), Wallet.Builder.from(balances).build());
     } catch (BinanceException e) {

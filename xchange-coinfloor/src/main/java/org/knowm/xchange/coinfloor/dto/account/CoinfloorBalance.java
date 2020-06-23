@@ -103,21 +103,21 @@ public class CoinfloorBalance {
 
   public Balance getBalance(Currency currency) {
     if (currency.equals(Currency.XBT)) {
-      return new Balance(currency, btcBalance, btcAvailable, btcReserved);
+      return new Balance(currency, btcBalance, btcAvailable, btcReserved, null);
     } else if (currency.equals(Currency.GBP)) {
-      return new Balance(currency, gbpBalance, gbpAvailable, gbpReserved);
+      return new Balance(currency, gbpBalance, gbpAvailable, gbpReserved, null);
     } else if (currency.equals(Currency.EUR)) {
-      return new Balance(currency, eurBalance, eurAvailable, eurReserved);
+      return new Balance(currency, eurBalance, eurAvailable, eurReserved, null);
     } else if (currency.equals(Currency.USD)) {
-      return new Balance(currency, usdBalance, usdAvailable, usdReserved);
+      return new Balance(currency, usdBalance, usdAvailable, usdReserved, null);
     } else if (currency.equals(Currency.BCH)) {
-      return new Balance(currency, bchBalance, bchAvailable, bchReserved);
+      return new Balance(currency, bchBalance, bchAvailable, bchReserved, null);
     } else if (currency.equals(Currency.XRP)) {
-      return new Balance(currency, xrpBalance, xrpAvailable, xrpReserved);
+      return new Balance(currency, xrpBalance, xrpAvailable, xrpReserved, null);
     } else if (currency.equals(Currency.LTC)) {
-      return new Balance(currency, ltcBalance, ltcAvailable, ltcReserved);
+      return new Balance(currency, ltcBalance, ltcAvailable, ltcReserved, null);
     } else if (currency.equals(Currency.ETH)) {
-      return new Balance(currency, ethBalance, ethAvailable, ethReserved);
+      return new Balance(currency, ethBalance, ethAvailable, ethReserved, null);
     } else {
       throw new IllegalArgumentException("Unsupported currency: " + currency);
     }

@@ -162,7 +162,7 @@ public class CexIOAdapters {
   public static Balance adaptBalance(Currency currency, CexIOBalance balance) {
     BigDecimal inOrders = balance.getOrders();
     BigDecimal frozen = inOrders == null ? BigDecimal.ZERO : inOrders;
-    return new Balance(currency, null, balance.getAvailable(), frozen);
+    return new Balance(currency, null, balance.getAvailable(), frozen, null);
   }
 
   public static List<LimitOrder> createOrders(

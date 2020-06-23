@@ -126,7 +126,7 @@ public class BxAdapters {
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               currencies.get(record).getWithdrawals(),
-              currencies.get(record).getDeposits());
+              currencies.get(record).getDeposits(), null);
       balances.add(balance);
     }
     return Wallet.Builder.from(balances).build();

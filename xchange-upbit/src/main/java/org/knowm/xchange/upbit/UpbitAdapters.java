@@ -115,7 +115,8 @@ public final class UpbitAdapters {
                   new Balance(
                       Currency.getInstance(balance.getCurrency()),
                       balance.getBalance().add(balance.getLocked()),
-                      balance.getBalance()));
+                      balance.getBalance(),
+                      null));
             });
     return Wallet.Builder.from(balances).build();
   }

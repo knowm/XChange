@@ -168,7 +168,7 @@ public final class ItBitAdapters {
             new Balance(
                 currency,
                 itBitAccountBalance.getTotalBalance(),
-                itBitAccountBalance.getAvailableBalance());
+                itBitAccountBalance.getAvailableBalance(), null);
         walletContent.add(balance);
       }
 

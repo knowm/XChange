@@ -74,10 +74,10 @@ public class CryptoFacilitiesAdapters {
             new Balance(
                 Currency.BTC,
                 balancePair.getValue(),
-                cryptoFacilitiesAccount.getAuxiliary().get("af"));
+                cryptoFacilitiesAccount.getAuxiliary().get("af"), null);
       } else {
         Currency currency = adaptCurrency(balancePair.getKey());
-        balance = new Balance(currency, balancePair.getValue());
+        balance = new Balance(currency, balancePair.getValue(), null);
       }
       balances.add(balance);
     }
@@ -103,10 +103,10 @@ public class CryptoFacilitiesAdapters {
               new Balance(
                   Currency.BTC,
                   balancePair.getValue(),
-                  accounts.get(accountName).getAuxiliary().get("af"));
+                  accounts.get(accountName).getAuxiliary().get("af"), null);
         } else {
           Currency currency = adaptCurrency(balancePair.getKey());
-          balance = new Balance(currency, balancePair.getValue());
+          balance = new Balance(currency, balancePair.getValue(), null);
         }
         balances.add(balance);
       }

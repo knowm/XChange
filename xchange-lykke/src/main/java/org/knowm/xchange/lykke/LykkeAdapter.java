@@ -156,7 +156,7 @@ public class LykkeAdapter {
                   .stripTrailingZeros(),
               BigDecimal.valueOf(lykkeWallet.getReserved())
                   .setScale(8, RoundingMode.HALF_EVEN)
-                  .stripTrailingZeros()));
+                  .stripTrailingZeros(), null));
     }
     return new AccountInfo(Wallet.Builder.from(balances).id("apiWallet").build());
   }

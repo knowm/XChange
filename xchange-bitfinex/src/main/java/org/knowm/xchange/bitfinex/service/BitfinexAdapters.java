@@ -404,7 +404,7 @@ public final class BitfinexAdapters {
         BigDecimal balanceTotal = balanceDetail[0];
         BigDecimal balanceAvailable = balanceDetail[1];
         balances.add(
-            new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+            new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable, null));
       }
       wallets.add(Wallet.Builder.from(balances).id(walletData.getKey()).build());
     }

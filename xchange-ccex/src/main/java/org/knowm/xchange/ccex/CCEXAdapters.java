@@ -165,7 +165,7 @@ public class CCEXAdapters {
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               BigDecimal.ZERO,
-              balance.getPending()));
+              balance.getPending(), null));
     }
 
     return Wallet.Builder.from(wallets).build();

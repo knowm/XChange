@@ -79,7 +79,7 @@ public class IdexAccountService extends BaseExchangeService implements AccountSe
                                       new Currency(entry.getKey()),
                                       null,
                                       entry.getValue().getAvailable(),
-                                      entry.getValue().getOnOrders()))
+                                      entry.getValue().getOnOrders(), null))
                           .collect(Collectors.toList()))
                   .id(s)
                   .build());

@@ -160,43 +160,43 @@ public final class BTCTurkAdapters {
             Currency.TRY,
             null,
             btcTurkBalance.getTry_available(),
-            btcTurkBalance.getTry_reserved()));
+            btcTurkBalance.getTry_reserved(), null));
     balances.add(
         new Balance(
             Currency.BTC,
             null,
             btcTurkBalance.getBtc_available(),
-            btcTurkBalance.getBtc_reserved()));
+            btcTurkBalance.getBtc_reserved(), null));
     balances.add(
         new Balance(
             Currency.ETH,
             null,
             btcTurkBalance.getEth_available(),
-            btcTurkBalance.getEth_reserved()));
+            btcTurkBalance.getEth_reserved(), null));
     balances.add(
         new Balance(
             Currency.XRP,
             null,
             btcTurkBalance.getXrp_available(),
-            btcTurkBalance.getXrp_reserved()));
+            btcTurkBalance.getXrp_reserved(), null));
     balances.add(
         new Balance(
             Currency.LTC,
             null,
             btcTurkBalance.getLtc_available(),
-            btcTurkBalance.getLtc_reserved()));
+            btcTurkBalance.getLtc_reserved(), null));
     balances.add(
         new Balance(
             Currency.USDT,
             null,
             btcTurkBalance.getUsdt_available(),
-            btcTurkBalance.getUsdt_reserved()));
+            btcTurkBalance.getUsdt_reserved(), null));
     balances.add(
         new Balance(
             Currency.XLM,
             null,
             btcTurkBalance.getXlm_available(),
-            btcTurkBalance.getXlm_reserved()));
+            btcTurkBalance.getXlm_reserved(), null));
 
     return Wallet.Builder.from(balances).id(name).name(name).build();
   }

@@ -84,7 +84,7 @@ public final class CoindealAdapters {
                 currency,
                 coindealBalance.getAvailable().add(coindealBalance.getReserved()),
                 coindealBalance.getAvailable(),
-                coindealBalance.getReserved()));
+                coindealBalance.getReserved(), null));
       }
       currency = null;
     }

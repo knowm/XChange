@@ -141,7 +141,7 @@ public class BitbayAdapters {
               currency,
               balance.getAvailable().add(balance.getLocked()),
               balance.getAvailable(),
-              balance.getLocked()));
+              balance.getLocked(), null));
     }
 
     return new AccountInfo(userName, Wallet.Builder.from(balances).build());

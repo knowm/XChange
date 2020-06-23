@@ -256,7 +256,7 @@ public final class BittrexAdapters {
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               BigDecimal.ZERO,
-              Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO)));
+              Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO), null));
     }
 
     return Wallet.Builder.from(wallets).build();
@@ -271,7 +271,7 @@ public final class BittrexAdapters {
         BigDecimal.ZERO,
         BigDecimal.ZERO,
         BigDecimal.ZERO,
-        Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO));
+        Optional.ofNullable(balance.getPending()).orElse(BigDecimal.ZERO), null);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {

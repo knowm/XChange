@@ -23,29 +23,29 @@ public class BleutradeTestData {
           Currency.AUD,
           new BigDecimal("40.00000000"),
           new BigDecimal("10.00000000"),
-          new BigDecimal("30.00000000")),
+          new BigDecimal("30.00000000"), null),
       new Balance(
           Currency.BTC,
           new BigDecimal("100.00000000"),
           new BigDecimal("40.00000000"),
-          new BigDecimal("60.00000000")),
+          new BigDecimal("60.00000000"), null),
       new Balance(
           Currency.getInstance("BLEU"),
           new BigDecimal("160.00000000"),
           new BigDecimal("70.00000000"),
-          new BigDecimal("90.00000000")),
+          new BigDecimal("90.00000000"), null),
     };
   }
 
   protected static Balance[] expectedBalances() {
     return new Balance[] {
       new Balance(
-          Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8")),
+          Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8"), null),
       new Balance(
           Currency.BTC,
           new BigDecimal("15.49843675"),
           new BigDecimal("13.98901996"),
-          new BigDecimal("0E-8")),
+          new BigDecimal("0E-8"), null),
     };
   }
 

@@ -177,13 +177,13 @@ public final class GateioAdapters {
       BigDecimal amount = funds.getValue();
       BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
-      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
+      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked, null));
     }
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getLockedFunds().entrySet()) {
       Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       if (balances.stream().noneMatch(balance -> balance.getCurrency().equals(currency))) {
         BigDecimal amount = funds.getValue();
-        balances.add(new Balance(currency, null, BigDecimal.ZERO, amount));
+        balances.add(new Balance(currency, null, BigDecimal.ZERO, amount, null));
       }
     }
 

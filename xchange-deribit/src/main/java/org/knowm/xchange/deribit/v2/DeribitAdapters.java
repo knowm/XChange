@@ -133,6 +133,6 @@ public class DeribitAdapters {
 
   public static Balance adapt(AccountSummary as) {
     return new Balance(
-        Currency.getInstance(as.getCurrency()), as.getBalance(), as.getAvailableFunds());
+        Currency.getInstance(as.getCurrency()), as.getBalance(), as.getAvailableFunds(), null);
   }
 }

@@ -34,7 +34,7 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
+    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"), null);
     List<Balance> balances = new ArrayList<>();
     balances.add(balance);
     AccountInfo expectedAccountInfo =

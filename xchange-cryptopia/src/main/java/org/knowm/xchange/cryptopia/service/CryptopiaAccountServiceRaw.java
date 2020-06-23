@@ -40,7 +40,8 @@ public class CryptopiaAccountServiceRaw extends CryptopiaBaseService {
               BigDecimal.ZERO,
               BigDecimal.ZERO,
               pendingWithdraw,
-              unconfirmed);
+              unconfirmed,
+              null);
 
       balances.add(balance);
     }

@@ -128,14 +128,16 @@ public class PaymiumAdapters {
             Currency.BTC,
             paymiumBalances.getBalanceBtc(),
             paymiumBalances.getBalanceBtc().subtract(paymiumBalances.getLockedBtc()),
-            paymiumBalances.getLockedBtc()));
+            paymiumBalances.getLockedBtc(),
+            null));
 
     wallets.add(
         new Balance(
             Currency.EUR,
             paymiumBalances.getBalanceEur(),
             paymiumBalances.getBalanceEur().subtract(paymiumBalances.getLockedEur()),
-            paymiumBalances.getLockedEur()));
+            paymiumBalances.getLockedEur(),
+            null));
 
     return Wallet.Builder.from(wallets).build();
   }

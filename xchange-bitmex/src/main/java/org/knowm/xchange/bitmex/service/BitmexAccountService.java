@@ -48,7 +48,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     BigDecimal amount = bitmexMarginAccount.getAmount().divide(BigDecimal.valueOf(100_000_000L));
 
     List<Balance> balances = new ArrayList<>();
-    balances.add(new Balance(Currency.BTC, amount));
+    balances.add(new Balance(Currency.BTC, amount, null));
 
     Wallet wallet =
         Wallet.Builder.from(balances)

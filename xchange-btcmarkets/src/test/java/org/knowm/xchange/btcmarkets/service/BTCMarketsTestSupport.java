@@ -33,7 +33,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
       Base64.getEncoder().encodeToString("secretKey".getBytes());
 
   protected static final Balance EXPECTED_BALANCE =
-      new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
+      new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"), null);
   protected static final Ticker EXPECTED_TICKER =
       new Ticker.Builder()
           .bid(new BigDecimal("137.00"))

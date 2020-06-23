@@ -104,12 +104,12 @@ public class CoinEggAdapters {
     String userName = exchange.getExchangeSpecification().getUserName();
     Wallet btcWallet =
         Wallet.Builder.from(
-                Arrays.asList(new Balance(Currency.BTC, coinEggBalance.getBTCBalance())))
+                Arrays.asList(new Balance(Currency.BTC, coinEggBalance.getBTCBalance(), null)))
             .id(Currency.BTC.getCurrencyCode())
             .build();
     Wallet ethWallet =
         Wallet.Builder.from(
-                Arrays.asList(new Balance(Currency.ETH, coinEggBalance.getETHBalance())))
+                Arrays.asList(new Balance(Currency.ETH, coinEggBalance.getETHBalance(), null)))
             .id(Currency.ETH.getCurrencyCode())
             .build();
     // Wallet xasWallet = new Wallet(new Balance(Currency.XAS, coinEggBalance.getXASBalance()));

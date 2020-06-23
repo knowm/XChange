@@ -45,7 +45,7 @@ public class ExmoAdapters {
     BigDecimal available = new BigDecimal(balances.get(ccy));
     BigDecimal frozen = new BigDecimal(reserved.get(ccy));
 
-    return new Balance(currency, available.add(frozen), available, frozen);
+    return new Balance(currency, available.add(frozen), available, frozen, null);
   }
 
   public static List<LimitOrder> adaptOrders(

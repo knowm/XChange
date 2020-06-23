@@ -162,7 +162,7 @@ public class KucoinAdapters {
   }
 
   public static Balance adaptBalance(AccountBalancesResponse a) {
-    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable());
+    return new Balance(Currency.getInstance(a.getCurrency()), a.getBalance(), a.getAvailable(), null);
   }
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {

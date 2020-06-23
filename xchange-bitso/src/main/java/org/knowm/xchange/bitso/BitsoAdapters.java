@@ -52,13 +52,13 @@ public final class BitsoAdapters {
             Currency.MXN,
             bitsoBalance.getMxnBalance(),
             bitsoBalance.getMxnAvailable(),
-            bitsoBalance.getMxnReserved());
+            bitsoBalance.getMxnReserved(), null);
     Balance btcBalance =
         new Balance(
             Currency.BTC,
             bitsoBalance.getBtcBalance(),
             bitsoBalance.getBtcAvailable(),
-            bitsoBalance.getBtcReserved());
+            bitsoBalance.getBtcReserved(), null);
 
     return Wallet.Builder.from(Arrays.asList(mxnBalance, btcBalance)).build();
   }

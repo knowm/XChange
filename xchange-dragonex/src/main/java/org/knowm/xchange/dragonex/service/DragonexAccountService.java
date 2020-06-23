@@ -37,7 +37,7 @@ public class DragonexAccountService extends DragonexAccountServiceRaw implements
                         Currency.getInstance(b.code.toUpperCase()),
                         b.volume,
                         b.volume.subtract(b.frozen),
-                        b.frozen))
+                        b.frozen, null))
             .collect(Collectors.toList());
     return new AccountInfo(Wallet.Builder.from(balances).build());
   }

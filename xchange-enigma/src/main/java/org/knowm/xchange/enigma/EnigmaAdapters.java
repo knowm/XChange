@@ -41,7 +41,7 @@ public final class EnigmaAdapters {
                 balanceEntry ->
                     new Balance(
                         Currency.getInstance(balanceEntry.getKey().toUpperCase()),
-                        balanceEntry.getValue()))
+                        balanceEntry.getValue(), null))
             .collect(Collectors.toList());
 
     return new AccountInfo(userName, Wallet.Builder.from(balances).build());

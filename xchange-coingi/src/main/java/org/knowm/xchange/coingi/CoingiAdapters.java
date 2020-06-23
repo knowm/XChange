@@ -60,7 +60,7 @@ public final class CoingiAdapters {
               BigDecimal.ZERO, // borrowed is always 0
               BigDecimal.ZERO, // loaned is always 0
               coingiBalance.getWithdrawing(),
-              coingiBalance.getDeposited());
+              coingiBalance.getDeposited(), null);
 
       balances.add(xchangeBalance);
     }

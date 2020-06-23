@@ -32,7 +32,7 @@ public class CoinjarAccountService extends CoinjarAccountServiceRaw implements A
                                   new Balance(
                                       Currency.getInstance(wallet.assetCode),
                                       new BigDecimal(wallet.balance),
-                                      new BigDecimal(wallet.available))))
+                                      new BigDecimal(wallet.available), null)))
                           .id(wallet.number)
                           .build())
               .collect(Collectors.toList());

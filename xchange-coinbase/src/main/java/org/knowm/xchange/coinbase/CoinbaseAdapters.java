@@ -37,7 +37,7 @@ public final class CoinbaseAdapters {
     final String username = user.getEmail();
     final CoinbaseMoney money = user.getBalance();
     final Balance balance =
-        new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
+        new Balance(Currency.getInstance(money.getCurrency()), money.getAmount(), null);
 
     final AccountInfo accountInfoTemporaryName =
         new AccountInfo(username, Wallet.Builder.from(Arrays.asList(balance)).build());

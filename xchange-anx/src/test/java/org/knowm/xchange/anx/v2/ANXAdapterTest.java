@@ -170,19 +170,24 @@ public class ANXAdapterTest {
     Assert.assertTrue(
         balances.contains(
             new Balance(
-                Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"), null)));
+                Currency.CAD,
+                new BigDecimal("100000.00000"),
+                new BigDecimal("100000.00000"),
+                null)));
     Assert.assertTrue(
         balances.contains(
             new Balance(
                 Currency.BTC,
                 new BigDecimal("100000.01988000"),
-                new BigDecimal("100000.01988000"), null)));
+                new BigDecimal("100000.01988000"),
+                null)));
     Assert.assertTrue(
         balances.contains(
             new Balance(
                 Currency.DOGE,
                 new BigDecimal("9999781.09457936"),
-                new BigDecimal("9914833.52608521"), null)));
+                new BigDecimal("9914833.52608521"),
+                null)));
   }
 
   @Test

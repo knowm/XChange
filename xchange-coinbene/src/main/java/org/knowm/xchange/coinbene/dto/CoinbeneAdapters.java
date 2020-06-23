@@ -130,7 +130,7 @@ public class CoinbeneAdapters {
                                 new Currency(balance.getAsset()),
                                 balance.getTotal(),
                                 balance.getAvailable(),
-                                balance.getReserved()))
+                                balance.getReserved(), null))
                     .collect(Collectors.toList()))
             .build();
 

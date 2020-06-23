@@ -24,7 +24,7 @@ class Account {
 
   void initialize(Iterable<Currency> currencies) {
     currencies.forEach(
-        currency -> balances.put(currency, new AtomicReference<>(new Balance(currency, ZERO))));
+        currency -> balances.put(currency, new AtomicReference<>(new Balance(currency, ZERO, null))));
   }
 
   public Collection<Balance> balances() {
@@ -75,7 +75,7 @@ class Account {
   }
 
   private AtomicReference<Balance> defaultBalance(Currency currency) {
-    return new AtomicReference<>(new Balance(currency, ZERO));
+    return new AtomicReference<>(new Balance(currency, ZERO, null));
   }
 
   private void reserve(LimitOrder order, boolean negate) {

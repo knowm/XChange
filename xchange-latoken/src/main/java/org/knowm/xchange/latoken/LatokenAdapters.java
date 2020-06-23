@@ -77,7 +77,8 @@ public class LatokenAdapters {
         BigDecimal.ZERO, // Borrowed
         BigDecimal.ZERO, // Loaned
         BigDecimal.ZERO, // Withdrawing
-        latokenBalance.getPending() // Depositing
+        latokenBalance.getPending(), // Depositing
+        null
         );
   }
 

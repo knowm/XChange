@@ -31,7 +31,7 @@ public class Bl3pAdapters {
           new Balance(
               new Currency(bl3pWallet.getAvailable().currency),
               bl3pWallet.getBalance().value,
-              bl3pWallet.getAvailable().value));
+              bl3pWallet.getAvailable().value, null));
     }
 
     return Wallet.Builder.from(balances).build();

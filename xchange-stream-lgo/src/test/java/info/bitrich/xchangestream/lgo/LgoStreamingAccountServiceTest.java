@@ -36,12 +36,12 @@ public class LgoStreamingAccountServiceTest {
                     Currency.BTC,
                     new BigDecimal("2301.01329566"),
                     new BigDecimal("2297.01329566"),
-                    new BigDecimal("4.00000000")),
+                    new BigDecimal("4.00000000"), null),
                 new Balance(
                     Currency.USD,
                     new BigDecimal("453616.3125"),
                     new BigDecimal("453616.3125"),
-                    new BigDecimal("0.0000"))));
+                    new BigDecimal("0.0000"), null)));
   }
 
   @Test
@@ -63,12 +63,12 @@ public class LgoStreamingAccountServiceTest {
                 Currency.BTC,
                 new BigDecimal("2299.01329566"),
                 new BigDecimal("2295.01329566"),
-                new BigDecimal("4.00000000")),
+                new BigDecimal("4.00000000"), null),
             new Balance(
                 Currency.USD,
                 new BigDecimal("453616.3125"),
                 new BigDecimal("453616.3125"),
-                new BigDecimal("0.0000"))));
+                new BigDecimal("0.0000"), null)));
     verify(streamingService).subscribeChannel("balance");
   }
 
@@ -95,13 +95,13 @@ public class LgoStreamingAccountServiceTest {
             Currency.BTC,
             new BigDecimal("2299.01329566"),
             new BigDecimal("2295.01329566"),
-            new BigDecimal("4.00000000")));
+            new BigDecimal("4.00000000"), null));
     usdChanges.assertValueAt(
         1,
         new Balance(
             Currency.USD,
             new BigDecimal("453616.3125"),
             new BigDecimal("453616.3125"),
-            new BigDecimal("0.0000")));
+            new BigDecimal("0.0000"), null));
   }
 }

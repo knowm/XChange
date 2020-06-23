@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +95,12 @@ public final class Balance implements Comparable<Balance>, Serializable {
    *     trading.
    * @param timestamp Time the balance was valid on the exchange server
    */
-  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, Date timestamp) {
+  public Balance(
+      Currency currency,
+      BigDecimal total,
+      BigDecimal available,
+      BigDecimal frozen,
+      Date timestamp) {
 
     this(
         currency,

@@ -124,7 +124,7 @@ public class BleutradeAdapters {
               Currency.getInstance(bleutradeBalance.getCurrency()),
               bleutradeBalance.getBalance(),
               bleutradeBalance.getAvailable(),
-              bleutradeBalance.getPending()));
+              bleutradeBalance.getPending(), null));
     }
 
     return Wallet.Builder.from(balances).build();

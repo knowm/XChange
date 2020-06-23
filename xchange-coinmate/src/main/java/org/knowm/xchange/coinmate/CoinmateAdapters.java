@@ -138,7 +138,7 @@ public class CoinmateAdapters {
               currency,
               funds.get(lcCurrency).getBalance(),
               funds.get(lcCurrency).getAvailable(),
-              funds.get(lcCurrency).getReserved());
+              funds.get(lcCurrency).getReserved(), null);
 
       balances.add(balance);
     }

@@ -51,7 +51,7 @@ import org.knowm.xchange.utils.DateUtils;
 
 public final class OkCoinAdapters {
 
-  private static final Balance zeroUsdBalance = new Balance(USD, BigDecimal.ZERO);
+  private static final Balance zeroUsdBalance = new Balance(USD, BigDecimal.ZERO, null);
 
   private OkCoinAdapters() {}
 
@@ -156,9 +156,9 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross ltcFunds = futureUserInfo.getFunds(Currency.LTC);
     OkcoinFuturesFundsCross bchFunds = futureUserInfo.getFunds(Currency.BCH);
 
-    Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
-    Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
-    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights());
+    Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights(), null);
+    Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights(), null);
+    Balance bchBalance = new Balance(BCH, bchFunds.getAccountRights(), null);
 
     return new AccountInfo(
         Wallet.Builder.from(

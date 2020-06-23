@@ -12,7 +12,7 @@ public class BitcoinCoreAdapters {
   public static AccountInfo adaptAccountInfo(
       BitcoinCoreBalanceResponse available, BitcoinCoreBalanceResponse unconfirmed) {
     BigDecimal total = available.getAmount().add(unconfirmed.getAmount());
-    Balance btc = new Balance(Currency.BTC, total, available.getAmount(), unconfirmed.getAmount());
+    Balance btc = new Balance(Currency.BTC, total, available.getAmount(), unconfirmed.getAmount(), null);
     Wallet wallet = Wallet.Builder.from(Arrays.asList(btc)).build();
     return new AccountInfo(wallet);
   }

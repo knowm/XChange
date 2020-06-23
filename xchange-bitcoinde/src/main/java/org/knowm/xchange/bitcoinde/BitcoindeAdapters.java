@@ -94,9 +94,9 @@ public final class BitcoindeAdapters {
     BitcoindeBalance eth = bitcoindeAccount.getData().getBalances().getEth();
     BigDecimal eur = bitcoindeAccount.getData().getFidorReservation().getAvailableAmount();
 
-    Balance btcBalance = new Balance(Currency.BTC, btc.getAvailableAmount());
-    Balance ethBalance = new Balance(Currency.ETH, eth.getAvailableAmount());
-    Balance eurBalance = new Balance(Currency.EUR, eur);
+    Balance btcBalance = new Balance(Currency.BTC, btc.getAvailableAmount(), null);
+    Balance ethBalance = new Balance(Currency.ETH, eth.getAvailableAmount(), null);
+    Balance eurBalance = new Balance(Currency.EUR, eur, null);
 
     Wallet wallet = Wallet.Builder.from(Arrays.asList(btcBalance, ethBalance, eurBalance)).build();
 

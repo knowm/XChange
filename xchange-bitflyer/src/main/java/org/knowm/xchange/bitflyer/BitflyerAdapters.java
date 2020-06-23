@@ -69,7 +69,7 @@ public class BitflyerAdapters {
           new Balance(
               Currency.getInstance(balance.getCurrencyCode()),
               balance.getAmount(),
-              balance.getAvailable()));
+              balance.getAvailable(), null));
     }
 
     return Wallet.Builder.from(adaptedBalances).build();

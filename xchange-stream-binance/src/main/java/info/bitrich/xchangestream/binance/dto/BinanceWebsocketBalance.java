@@ -37,7 +37,7 @@ public final class BinanceWebsocketBalance {
   }
 
   public Balance toBalance() {
-    return new Balance(currency, getTotal(), getAvailable(), getLocked());
+    return new Balance(currency, getTotal(), getAvailable(), getLocked(), null);
   }
 
   @Override

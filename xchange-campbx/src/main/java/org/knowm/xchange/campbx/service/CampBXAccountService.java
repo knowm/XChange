@@ -47,8 +47,8 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
           exchange.getExchangeSpecification().getUserName(),
           Wallet.Builder.from(
                   Arrays.asList(
-                      new Balance(Currency.BTC, myFunds.getTotalBTC()),
-                      new Balance(Currency.USD, myFunds.getTotalUSD())))
+                      new Balance(Currency.BTC, myFunds.getTotalBTC(), null),
+                      new Balance(Currency.USD, myFunds.getTotalUSD(), null)))
               .build());
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());

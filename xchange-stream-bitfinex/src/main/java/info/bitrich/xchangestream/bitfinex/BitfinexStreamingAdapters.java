@@ -278,6 +278,6 @@ class BitfinexStreamingAdapters {
     return new Balance(
         Currency.getInstance(authBalance.getCurrency()),
         authBalance.getBalance(),
-        authBalance.getBalanceAvailable());
+        authBalance.getBalanceAvailable(), null);
   }
 }

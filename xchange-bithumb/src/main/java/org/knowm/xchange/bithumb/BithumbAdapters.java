@@ -62,7 +62,7 @@ public final class BithumbAdapters {
     List<Balance> balances = new ArrayList<>();
     balances.add(
         new Balance(
-            Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw()));
+            Currency.KRW, balance.getTotalKrw(), balance.getAvailableKrw(), balance.getInUseKrw(), null));
 
     for (String currency : balance.getCurrencies()) {
       final Balance xchangeBalance =
@@ -70,7 +70,7 @@ public final class BithumbAdapters {
               Currency.getInstance(currency),
               balance.getTotal(currency),
               balance.getAvailable(currency),
-              balance.getFrozen(currency));
+              balance.getFrozen(currency), null);
       balances.add(xchangeBalance);
     }
     return new AccountInfo(null, account.getTradeFee(), Wallet.Builder.from(balances).build());

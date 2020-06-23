@@ -38,7 +38,7 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
           Wallet.Builder.from(
                   Arrays.asList(
                       new Balance(
-                          Currency.getInstance(balance.getCurrency()), balance.getAmount())))
+                          Currency.getInstance(balance.getCurrency()), balance.getAmount(), null)))
               .id(coinbaseAccount.getId())
               .build();
       wallets.add(wallet);

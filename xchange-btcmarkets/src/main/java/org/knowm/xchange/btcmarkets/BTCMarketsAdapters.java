@@ -64,7 +64,7 @@ public final class BTCMarketsAdapters {
     List<Balance> wallets = new ArrayList<>(balances.size());
     for (BTCMarketsBalance blc : balances) {
       final Currency currency = Currency.getInstance(blc.getCurrency());
-      wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
+      wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable(), null));
     }
     return Wallet.Builder.from(wallets).build();
   }

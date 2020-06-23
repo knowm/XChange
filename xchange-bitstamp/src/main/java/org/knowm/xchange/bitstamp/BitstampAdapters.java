@@ -71,7 +71,7 @@ public final class BitstampAdapters {
               ZERO,
               ZERO,
               b.getBalance().subtract(b.getAvailable()).subtract(b.getReserved()),
-              ZERO);
+              ZERO, null);
       balances.add(xchangeBalance);
     }
     return new AccountInfo(

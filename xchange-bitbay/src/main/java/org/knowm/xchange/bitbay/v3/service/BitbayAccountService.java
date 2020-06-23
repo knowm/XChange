@@ -37,7 +37,7 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Acc
                           Currency.getInstance(balance.getCurrency()),
                           balance.getTotalFunds(),
                           balance.getAvailableFunds(),
-                          balance.getLockedFunds())))
+                          balance.getLockedFunds(), null)))
               .id(balance.getId())
               .build();
       wallets.add(wallet);

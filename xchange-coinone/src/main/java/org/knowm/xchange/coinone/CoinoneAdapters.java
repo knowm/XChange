@@ -101,62 +101,62 @@ public final class CoinoneAdapters {
         new Balance(
             Currency.getInstance("KRW"),
             coninoneResponse.getKrw().getBalance(),
-            coninoneResponse.getKrw().getAvail()));
+            coninoneResponse.getKrw().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("BCH"),
             coninoneResponse.getBch().getBalance(),
-            coninoneResponse.getBch().getAvail()));
+            coninoneResponse.getBch().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("BTG"),
             coninoneResponse.getBtg().getBalance(),
-            coninoneResponse.getBtg().getAvail()));
+            coninoneResponse.getBtg().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("IOTA"),
             coninoneResponse.getIota().getBalance(),
-            coninoneResponse.getIota().getAvail()));
+            coninoneResponse.getIota().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("EOS"),
             coninoneResponse.getEos().getBalance(),
-            coninoneResponse.getEos().getAvail()));
+            coninoneResponse.getEos().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("OMG"),
             coninoneResponse.getOmg().getBalance(),
-            coninoneResponse.getOmg().getAvail()));
+            coninoneResponse.getOmg().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("LTC"),
             coninoneResponse.getLtc().getBalance(),
-            coninoneResponse.getLtc().getAvail()));
+            coninoneResponse.getLtc().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("BTC"),
             coninoneResponse.getBtc().getBalance(),
-            coninoneResponse.getBtc().getAvail()));
+            coninoneResponse.getBtc().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("ETC"),
             coninoneResponse.getEtc().getBalance(),
-            coninoneResponse.getEtc().getAvail()));
+            coninoneResponse.getEtc().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("ETH"),
             coninoneResponse.getEth().getBalance(),
-            coninoneResponse.getEth().getAvail()));
+            coninoneResponse.getEth().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("QTUM"),
             coninoneResponse.getQtum().getBalance(),
-            coninoneResponse.getQtum().getAvail()));
+            coninoneResponse.getQtum().getAvail(), null));
     balances.add(
         new Balance(
             Currency.getInstance("XRP"),
             coninoneResponse.getXrp().getBalance(),
-            coninoneResponse.getXrp().getAvail()));
+            coninoneResponse.getXrp().getAvail(), null));
     return Wallet.Builder.from(balances).build();
   }
 

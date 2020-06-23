@@ -36,7 +36,7 @@ public class CoindirectAccountService extends CoindirectAccountServiceRaw
       balance =
           new Balance(
               CoindirectAdapters.toCurrency(coindirectWallet.currency.code),
-              coindirectWallet.balance);
+              coindirectWallet.balance, null);
       wallet =
           Wallet.Builder.from(Arrays.asList(balance))
               .id(String.valueOf(coindirectWallet.id))

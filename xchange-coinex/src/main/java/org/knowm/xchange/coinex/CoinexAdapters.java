@@ -20,7 +20,7 @@ public class CoinexAdapters {
               currency,
               total,
               balancePair.getValue().getAvailable(),
-              balancePair.getValue().getFrozen());
+              balancePair.getValue().getFrozen(), null);
       balances.add(balance);
     }
 

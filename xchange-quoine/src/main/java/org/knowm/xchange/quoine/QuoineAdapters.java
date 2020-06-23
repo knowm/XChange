@@ -83,7 +83,7 @@ public class QuoineAdapters {
       QuoineTradingAccountInfo info = quoineWallet[i];
 
       balances.add(
-          new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
+          new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin(), null));
     }
 
     return Wallet.Builder.from(balances).build();
@@ -98,7 +98,8 @@ public class QuoineAdapters {
           new Balance(
               Currency.getInstance(fiatAccount.getCurrency()),
               fiatAccount.getBalance(),
-              fiatAccount.getBalance());
+              fiatAccount.getBalance(),
+              null);
       balances.add(fiatBalance);
     }
 
@@ -114,7 +115,8 @@ public class QuoineAdapters {
         new Balance(
             Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
             quoineWallet.getBitcoinAccount().getBalance(),
-            quoineWallet.getBitcoinAccount().getFreeBalance());
+            quoineWallet.getBitcoinAccount().getFreeBalance(),
+            null);
     balances.add(btcBalance);
 
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
@@ -122,7 +124,8 @@ public class QuoineAdapters {
           new Balance(
               Currency.getInstance(fiatAccount.getCurrency()),
               fiatAccount.getBalance(),
-              fiatAccount.getBalance());
+              fiatAccount.getBalance(),
+              null);
       balances.add(fiatBalance);
     }
 
@@ -169,12 +172,12 @@ public class QuoineAdapters {
     for (FiatAccount nativeBalance : fiatBalances) {
       balanceList.add(
           new Balance(
-              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance()));
+              Currency.getInstance(nativeBalance.getCurrency()), nativeBalance.getBalance(), null));
     }
     for (BitcoinAccount cryptoBalance : cryptoBalances) {
       balanceList.add(
           new Balance(
-              Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance()));
+              Currency.getInstance(cryptoBalance.getCurrency()), cryptoBalance.getBalance(), null));
     }
     return Wallet.Builder.from(balanceList).build();
   }

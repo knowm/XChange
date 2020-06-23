@@ -244,7 +244,7 @@ public class DsxAdapters {
     for (DsxBalance balanceRaw : dsxBalances) {
       Currency currency = Currency.getInstance(balanceRaw.getCurrency());
       Balance balance =
-          new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved());
+          new Balance(currency, null, balanceRaw.getAvailable(), balanceRaw.getReserved(), null);
       balances.add(balance);
     }
     return Wallet.Builder.from(balances).id(name).name(name).build();

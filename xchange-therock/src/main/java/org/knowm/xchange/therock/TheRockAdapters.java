@@ -43,7 +43,7 @@ public final class TheRockAdapters {
     ArrayList<Balance> balances = new ArrayList<>(trBalances.size());
     for (TheRockBalance blc : trBalances) {
       Currency currency = Currency.getInstance(blc.getCurrency());
-      balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance()));
+      balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance(), null));
     }
 
     return new AccountInfo(userName, Wallet.Builder.from(balances).id("spot").build());

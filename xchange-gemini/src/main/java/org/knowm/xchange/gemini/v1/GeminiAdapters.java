@@ -331,7 +331,7 @@ public final class GeminiAdapters {
       BigDecimal[] balanceDetail = entry.getValue();
       BigDecimal balanceTotal = balanceDetail[0];
       BigDecimal balanceAvailable = balanceDetail[1];
-      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
+      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable, null));
     }
 
     return Wallet.Builder.from(balances).build();

@@ -165,7 +165,7 @@ public class GlobitexAdapters {
                       new Currency(convertXBTtoBTC(globitexBalance.getCurrency())),
                       globitexBalance.getAvailable().add(globitexBalance.getReserved()),
                       globitexBalance.getAvailable(),
-                      globitexBalance.getReserved());
+                      globitexBalance.getReserved(), null);
 
               balances.add(balance);
             });

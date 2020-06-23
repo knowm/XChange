@@ -168,9 +168,9 @@ public class LakeBTCAdapters {
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
     LakeBTCBalance balance = lakeBTCAccount.getBalance();
-    Balance usdBalance = new Balance(Currency.USD, balance.getUSD());
-    Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY());
-    Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
+    Balance usdBalance = new Balance(Currency.USD, balance.getUSD(), null);
+    Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY(), null);
+    Balance btcBalance = new Balance(Currency.BTC, balance.getBTC(), null);
 
     return new AccountInfo(
         profile.getId(),

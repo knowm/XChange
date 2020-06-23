@@ -140,7 +140,7 @@ public class IndependentReserveAdapters {
           new Balance(
               currency.getCommonlyUsedCurrency(),
               balanceAccount.getTotalBalance(),
-              balanceAccount.getAvailableBalance()));
+              balanceAccount.getAvailableBalance(), null));
     }
     return Wallet.Builder.from(balances).build();
   }

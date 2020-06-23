@@ -152,7 +152,7 @@ public class BitmexAdapters {
     List<Balance> balances = new ArrayList<>(bitmexWallet.size());
     for (Entry<String, BigDecimal> balancePair : bitmexWallet.entrySet()) {
       Currency currency = new Currency(balancePair.getKey());
-      Balance balance = new Balance(currency, balancePair.getValue());
+      Balance balance = new Balance(currency, balancePair.getValue(), null);
       balances.add(balance);
     }
     return Wallet.Builder.from(balances).build();

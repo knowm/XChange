@@ -216,7 +216,7 @@ public class KrakenAdapters {
         currency = Currency.getInstance(balancePair.getKey());
       }
 
-      Balance balance = new Balance(currency, balancePair.getValue());
+      Balance balance = new Balance(currency, balancePair.getValue(), null);
       balances.add(balance);
     }
     return Wallet.Builder.from(balances).build();

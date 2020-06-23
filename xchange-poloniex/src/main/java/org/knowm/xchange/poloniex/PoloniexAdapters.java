@@ -139,7 +139,7 @@ public class PoloniexAdapters {
       Currency currency = Currency.getInstance(item.getKey());
       balances.add(
           new Balance(
-              currency, null, item.getValue().getAvailable(), item.getValue().getOnOrders()));
+              currency, null, item.getValue().getAvailable(), item.getValue().getOnOrders(), null));
     }
 
     return balances;

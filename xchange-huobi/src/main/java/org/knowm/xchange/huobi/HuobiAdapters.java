@@ -144,7 +144,7 @@ public class HuobiAdapters {
                 currency,
                 record.getValue().getTotal(),
                 record.getValue().getAvailable(),
-                record.getValue().getFrozen());
+                record.getValue().getFrozen(), null);
         balances.add(balance);
       } catch (ExchangeException e) {
         // It might be a new currency. Ignore the exception and continue with other currency.

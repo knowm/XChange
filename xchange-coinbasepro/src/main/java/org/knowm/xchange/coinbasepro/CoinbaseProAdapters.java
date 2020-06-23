@@ -167,7 +167,7 @@ public class CoinbaseProAdapters {
               Currency.getInstance(coinbaseProAccount.getCurrency()),
               coinbaseProAccount.getBalance(),
               coinbaseProAccount.getAvailable(),
-              coinbaseProAccount.getHold()));
+              coinbaseProAccount.getHold(), null));
     }
 
     return Wallet.Builder.from(balances).id(coinbaseProAccounts[0].getProfile_id()).build();
