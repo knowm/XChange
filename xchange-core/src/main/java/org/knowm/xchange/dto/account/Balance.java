@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
+
 import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
   private final BigDecimal borrowed;
   private final BigDecimal withdrawing;
   private final BigDecimal depositing;
+  private Date timestamp;
 
   /**
    * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and
@@ -275,26 +278,32 @@ public final class Balance implements Comparable<Balance>, Serializable {
     return depositing;
   }
 
+  /**
+   * Returns the timestamp of the balance
+   *
+   * @return the timestamp.
+   */
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
+  }
+
   @Override
   public String toString() {
-
-    return "Balance [currency="
-        + currency
-        + ", total="
-        + total
-        + ", available="
-        + available
-        + ", frozen="
-        + frozen
-        + ", borrowed="
-        + borrowed
-        + ", loaned="
-        + loaned
-        + ", withdrawing="
-        + withdrawing
-        + ", depositing="
-        + depositing
-        + "]";
+    return "Balance{" +
+        "currency=" + currency +
+        ", total=" + total +
+        ", available=" + available +
+        ", frozen=" + frozen +
+        ", loaned=" + loaned +
+        ", borrowed=" + borrowed +
+        ", withdrawing=" + withdrawing +
+        ", depositing=" + depositing +
+        ", timestamp=" + timestamp +
+        '}';
   }
 
   @Override
