@@ -33,7 +33,7 @@
     <version.assertj>3.16.1</version.assertj>
     <version.commons.io>2.7</version.commons.io>
     <version.commons.lang3>3.10</version.commons.lang3>
-    <version.fasterxml>2.11.0</version.fasterxml>
+    <version.fasterxml>2.11.1</version.fasterxml>
     <version.github.mmazi>2.0.2</version.github.mmazi>
     <version.resilience4j>1.5.0</version.resilience4j>
     <version.junit>4.13</version.junit>
@@ -369,7 +369,7 @@
       <dependency>
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
-        <version>4.31.1</version>
+        <version>4.31.3</version>
       </dependency>
       <dependency>
         <groupId>com.pusher</groupId>
@@ -557,13 +557,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M4</version>
+        <version>3.0.0-M5</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M4</version>
+        <version>3.0.0-M5</version>
         <executions>
           <execution>
             <goals>
