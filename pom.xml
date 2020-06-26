@@ -29,7 +29,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <version.java>11</version.java>
+    <version.java>1.8</version.java>
     <version.assertj>3.16.1</version.assertj>
     <version.commons.io>2.7</version.commons.io>
     <version.commons.lang3>3.10</version.commons.lang3>
