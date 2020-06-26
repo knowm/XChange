@@ -66,6 +66,15 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
       if (flags.contains(GeminiOrderFlags.POST_ONLY)) {
         list.add("maker-or-cancel");
       }
+      if (flags.contains(GeminiOrderFlags.FILL_OR_KILL)) {
+        list.add("fill-or-kill");
+      }
+      if (flags.contains(GeminiOrderFlags.AUCTION_ONLY)) {
+        list.add("auction-only");
+      }
+      if (flags.contains(GeminiOrderFlags.INDICATION_OF_INTEREST)) {
+        list.add("indication-of-interest");
+      }
       options = list.toArray();
     }
 
