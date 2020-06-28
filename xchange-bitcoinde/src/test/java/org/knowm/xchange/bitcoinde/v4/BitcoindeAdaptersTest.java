@@ -16,6 +16,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -27,6 +28,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 /** @author matthewdowney */
 public class BitcoindeAdaptersTest {
 
@@ -275,5 +277,52 @@ public class BitcoindeAdaptersTest {
     assertThat(fundingRecords.get(1).getStatus()).isEqualByComparingTo(FundingRecord.Status.COMPLETE);
     assertThat(fundingRecords.get(1).getFee()).isNull();
     assertThat(fundingRecords.get(1).getDescription()).isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
+  }
+
+  @Test
+  public void testOpenOrdersAdapter() throws IOException {
+    final InputStream is =
+        BitcoindeAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/v4/dto/my_orders.json");
+
+    // Use Jackson to parse it
+    final ObjectMapper mapper = new ObjectMapper();
+    BitcoindeMyOrdersWrapper bitcoindeOpenOrdersWrapper =
+        mapper.readValue(is, BitcoindeMyOrdersWrapper.class);
+
+    final OpenOrders openOrders = BitcoindeAdapters.adaptOpenOrders(bitcoindeOpenOrdersWrapper);
+
+    // Make sure trade values are correct
+    assertThat(openOrders.getOpenOrders()).isNotNull();
+    assertThat(openOrders.getOpenOrders().size()).isEqualTo(1);
+
+    LimitOrder order = openOrders.getOpenOrders().get(0);
+    assertThat(order.getId()).isEqualTo("VNSP86");
+    assertThat(order.getType()).isEqualTo(OrderType.BID);
+    assertThat(order.getInstrument()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(order.getTimestamp()).isEqualTo("2018-01-25T17:35:19+01:00");
+    assertThat(order.getOriginalAmount()).isEqualByComparingTo("0.01");
+    assertThat(order.getLimitPrice()).isEqualByComparingTo("6000");
+    assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
+    assertThat(order.getOrderFlags())
+        .containsOnly(
+            new BitcoindeOrderFlagsOrderQuantities(
+                new BigDecimal("0.01"),
+                new BigDecimal("0.01"),
+                new BigDecimal("60"),
+                new BigDecimal("60")),
+            new BitcoindeOrderFlagsOrderRequirements(
+                BitcoindeTrustLevel.SILVER,
+                false,
+                new String[] {
+                  "AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GB",
+                  "GR", "HR", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MQ", "MT", "NL",
+                  "NO", "PL", "PT", "RO", "SE", "SI", "SK"
+                },
+                BitcoindePaymentOption.EXPRESS_SEPA));
+
+    assertThat(order.getAveragePrice()).isNull();
+    assertThat(order.getCumulativeAmount()).isNull();
+    assertThat(order.getFee()).isNull();
   }
 }

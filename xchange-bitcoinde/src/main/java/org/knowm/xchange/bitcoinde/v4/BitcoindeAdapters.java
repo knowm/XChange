@@ -11,6 +11,8 @@ import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAllocation;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeBalance;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.*;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrder;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -319,5 +321,51 @@ public final class BitcoindeAdapters {
     }
 
     throw new IllegalArgumentException("Can't adapt \"" + type + "\" to FundingRecord.Type");
+  }
+  /**
+   * @param bitcoindeOpenOrdersWrapper
+   * @return
+   */
+  public static OpenOrders adaptOpenOrders(BitcoindeMyOrdersWrapper bitcoindeOpenOrdersWrapper) {
+    final List<LimitOrder> orders = new ArrayList<>();
+
+    for (BitcoindeMyOrder bitcoindeMyOrder : bitcoindeOpenOrdersWrapper.getOrders()) {
+      final LimitOrder limitOrder =
+          new LimitOrder.Builder(
+                  adaptOrderType(bitcoindeMyOrder.getType()), bitcoindeMyOrder.getTradingPair())
+              .id(bitcoindeMyOrder.getOrderId())
+              .timestamp(bitcoindeMyOrder.getCreatedAt())
+              .originalAmount(bitcoindeMyOrder.getMaxAmount())
+              .limitPrice(bitcoindeMyOrder.getPrice())
+              .orderStatus(adaptOrderStatus(bitcoindeMyOrder.getState()))
+              .flag(
+                  new BitcoindeOrderFlagsOrderQuantities(
+                      bitcoindeMyOrder.getMinAmount(),
+                      bitcoindeMyOrder.getMaxAmount(),
+                      bitcoindeMyOrder.getMinVolume(),
+                      bitcoindeMyOrder.getMaxVolume()))
+              .flag(adaptOrderRequirements(bitcoindeMyOrder.getOrderRequirements()))
+              .build();
+
+      orders.add(limitOrder);
+    }
+
+    return new OpenOrders(orders);
+  }
+
+  public static OrderType adaptOrderType(final BitcoindeType type) {
+    return type == BitcoindeType.BUY ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static OrderStatus adaptOrderStatus(final BitcoindeOrderState state) {
+    switch (state) {
+      case EXPIRED:
+        return OrderStatus.EXPIRED;
+      case CANCELLED:
+        return OrderStatus.CANCELED;
+      case PENDING:
+      default:
+        return OrderStatus.NEW;
+    }
   }
 }

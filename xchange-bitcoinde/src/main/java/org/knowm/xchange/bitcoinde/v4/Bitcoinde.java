@@ -10,6 +10,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -69,4 +70,32 @@ public interface Bitcoinde {
       @QueryParam("datetime_end") String datetimeEnd,
       @QueryParam("page") Integer page)
       throws IOException, BitcoindeException;
+
+  @GET
+  @Path("orders")
+  BitcoindeMyOrdersWrapper getMyOrders(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @QueryParam("type") String type,
+      @QueryParam("state") Integer state,
+      @QueryParam("date_start") String start,
+      @QueryParam("date_end") String end,
+      @QueryParam("page") Integer page)
+      throws IOException, BitcoindeException;
+
+  @GET
+  @Path("{trading_pair}/orders")
+  BitcoindeMyOrdersWrapper getMyOrders(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @PathParam("trading_pair") String tradingPair,
+      @QueryParam("type") String type,
+      @QueryParam("state") Integer state,
+      @QueryParam("date_start") String start,
+      @QueryParam("date_end") String end,
+      @QueryParam("page") Integer page)
+      throws IOException, BitcoindeException;
+
 }
