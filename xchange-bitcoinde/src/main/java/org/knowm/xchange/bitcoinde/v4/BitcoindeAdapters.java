@@ -4,11 +4,17 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAllocation;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeBalance;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -163,4 +169,66 @@ public final class BitcoindeAdapters {
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
+  /**
+   * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeAccount object to an AccountInfo
+   * object.
+   *
+   * @param bitcoindeAccount
+   * @return AccountInfo
+   */
+  public static AccountInfo adaptAccountInfo(BitcoindeAccountWrapper bitcoindeAccount) {
+
+    final boolean hasBalances =
+        bitcoindeAccount.getData().getBalances() != null
+            && bitcoindeAccount.getData().getBalances().size() > 0;
+    final boolean hasAllocations =
+        bitcoindeAccount.getData().getFidorReservation() != null
+            && bitcoindeAccount.getData().getFidorReservation().getAllocation() != null
+            && bitcoindeAccount.getData().getFidorReservation().getAllocation().size() > 0;
+
+    final Map<String, BitcoindeBalance> bitcoindeBalances =
+        hasBalances ? bitcoindeAccount.getData().getBalances() : new HashMap<>();
+    final Map<String, BitcoindeAllocation> fidorAllocations =
+        hasAllocations
+            ? bitcoindeAccount.getData().getFidorReservation().getAllocation()
+            : new HashMap<>();
+
+    final Set<String> currencyStrings = new HashSet<>();
+    currencyStrings.addAll(bitcoindeBalances.keySet());
+    currencyStrings.addAll(fidorAllocations.keySet());
+
+    final List<Wallet> wallets =
+        currencyStrings.stream()
+            .map(
+                currencyString -> {
+                  final Currency currency = Currency.getInstance(currencyString);
+                  final List<Balance> balances = new LinkedList<>();
+
+                  if (bitcoindeBalances.containsKey(currencyString)) {
+                    final BitcoindeBalance balance = bitcoindeBalances.get(currencyString);
+                    balances.add(
+                        new Balance(
+                            Currency.getInstance(currencyString),
+                            balance.getTotalAmount(),
+                            balance.getAvailableAmount(),
+                            balance.getReservedAmount()));
+                  }
+
+                  if (fidorAllocations.containsKey(currencyString)) {
+                    final BitcoindeAllocation allocation = fidorAllocations.get(currencyString);
+                    balances.add(
+                        new Balance(
+                            Currency.EUR,
+                            allocation.getMaxEurVolume(),
+                            allocation
+                                .getMaxEurVolume()
+                                .subtract(allocation.getEurVolumeOpenOrders())));
+                  }
+
+                  return Wallet.Builder.from(balances).id(currency.getCurrencyCode()).build();
+                })
+            .collect(Collectors.toList());
+
+    return new AccountInfo(wallets);
+  }
 }
