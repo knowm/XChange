@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
@@ -18,6 +19,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -159,5 +162,72 @@ public class BitcoindeAdaptersTest {
     assertThat(firstTrade.getOriginalAmount()).isEqualTo(new BigDecimal("0.08064516"));
     assertThat(firstTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(firstTrade.getTimestamp()).isEqualTo(new Date(1500717160L * 1000));
+  }
+  @Test
+  public void testAccountInfoAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    final InputStream is =
+        BitcoindeAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/v4/dto/account.json");
+
+    // Use Jackson to parse it
+    final ObjectMapper mapper = new ObjectMapper();
+    final BitcoindeAccountWrapper bitcoindeTradesWrapper =
+        mapper.readValue(is, BitcoindeAccountWrapper.class);
+
+    // Use our adapter to get a generic AccountInfo object from a BitcoindeData object
+    final AccountInfo accountInfo = BitcoindeAdapters.adaptAccountInfo(bitcoindeTradesWrapper);
+    assertThat(accountInfo.getWallets()).containsOnlyKeys("BTC", "BCH", "BTG", "BSV", "ETH");
+
+    final Wallet btcWallet = accountInfo.getWallet("BTC");
+    assertThat(btcWallet.getBalances()).containsOnlyKeys(Currency.BTC, Currency.EUR);
+    assertThat(btcWallet.getBalances().get(Currency.BTC).getAvailable())
+        .isEqualByComparingTo("0.009");
+    assertThat(btcWallet.getBalances().get(Currency.BTC).getFrozen()).isEqualByComparingTo("0");
+    assertThat(btcWallet.getBalances().get(Currency.BTC).getTotal()).isEqualByComparingTo("0.009");
+    assertThat(btcWallet.getBalances().get(Currency.EUR).getAvailable())
+        .isEqualByComparingTo("2000");
+    assertThat(btcWallet.getBalances().get(Currency.EUR).getFrozen()).isEqualByComparingTo("0");
+    assertThat(btcWallet.getBalances().get(Currency.EUR).getTotal()).isEqualByComparingTo("2000");
+
+    final Wallet bchWallet = accountInfo.getWallet("BCH");
+    assertThat(bchWallet.getBalances()).containsOnlyKeys(Currency.BCH, Currency.EUR);
+    assertThat(bchWallet.getBalances().get(Currency.BCH).getAvailable())
+        .isEqualByComparingTo("0.008");
+    assertThat(bchWallet.getBalances().get(Currency.BCH).getFrozen()).isEqualByComparingTo("0");
+    assertThat(bchWallet.getBalances().get(Currency.BCH).getTotal()).isEqualByComparingTo("0.008");
+    assertThat(bchWallet.getBalances().get(Currency.EUR).getAvailable()).isEqualByComparingTo("0");
+    assertThat(bchWallet.getBalances().get(Currency.EUR).getFrozen()).isEqualByComparingTo("0");
+    assertThat(bchWallet.getBalances().get(Currency.EUR).getTotal()).isEqualByComparingTo("0");
+
+    final Wallet btgWallet = accountInfo.getWallet("BTG");
+    assertThat(btgWallet.getBalances()).containsOnlyKeys(Currency.BTG, Currency.EUR);
+    assertThat(btgWallet.getBalances().get(Currency.BTG).getAvailable())
+        .isEqualByComparingTo("0.007");
+    assertThat(btgWallet.getBalances().get(Currency.BTG).getFrozen()).isEqualByComparingTo("0");
+    assertThat(btgWallet.getBalances().get(Currency.BTG).getTotal()).isEqualByComparingTo("0.007");
+    assertThat(btgWallet.getBalances().get(Currency.EUR).getAvailable()).isEqualByComparingTo("0");
+    assertThat(btgWallet.getBalances().get(Currency.EUR).getFrozen()).isEqualByComparingTo("0");
+    assertThat(btgWallet.getBalances().get(Currency.EUR).getTotal()).isEqualByComparingTo("0");
+
+    final Wallet bsvWallet = accountInfo.getWallet("BSV");
+    assertThat(bsvWallet.getBalances()).containsOnlyKeys(Currency.getInstance("BSV"));
+    assertThat(bsvWallet.getBalances().get(Currency.getInstance("BSV")).getAvailable())
+        .isEqualByComparingTo("0.006");
+    assertThat(bsvWallet.getBalances().get(Currency.getInstance("BSV")).getFrozen())
+        .isEqualByComparingTo("0");
+    assertThat(bsvWallet.getBalances().get(Currency.getInstance("BSV")).getTotal())
+        .isEqualByComparingTo("0.006");
+
+    final Wallet ethWallet = accountInfo.getWallet("ETH");
+    assertThat(ethWallet.getBalances()).containsOnlyKeys(Currency.ETH, Currency.EUR);
+    assertThat(ethWallet.getBalances().get(Currency.ETH).getAvailable())
+        .isEqualByComparingTo("0.06463044");
+    assertThat(ethWallet.getBalances().get(Currency.ETH).getFrozen()).isEqualByComparingTo("0");
+    assertThat(ethWallet.getBalances().get(Currency.ETH).getTotal())
+        .isEqualByComparingTo("0.06463044");
+    assertThat(ethWallet.getBalances().get(Currency.EUR).getAvailable()).isEqualByComparingTo("0");
+    assertThat(ethWallet.getBalances().get(Currency.EUR).getFrozen()).isEqualByComparingTo("0");
+    assertThat(ethWallet.getBalances().get(Currency.EUR).getTotal()).isEqualByComparingTo("0");
   }
 }

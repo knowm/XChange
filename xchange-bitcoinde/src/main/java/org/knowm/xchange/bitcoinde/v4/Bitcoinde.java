@@ -5,6 +5,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
@@ -45,5 +46,13 @@ public interface Bitcoinde {
       @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
       @PathParam("trading_pair") String tradingPair,
       @QueryParam("since_tid") Integer since)
+      throws IOException, BitcoindeException;
+
+  @GET
+  @Path("account")
+  BitcoindeAccountWrapper getAccount(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest)
       throws IOException, BitcoindeException;
 }
