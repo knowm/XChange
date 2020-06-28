@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitcoinde.v4;
 
 import java.io.IOException;
-import javax.ws.rs.Produces;
+import java.math.BigDecimal;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
@@ -11,6 +11,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeIdResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -99,6 +100,17 @@ public interface Bitcoinde {
       @QueryParam("page") Integer page)
       throws IOException, BitcoindeException;
 
+  @POST
+  @Path("{trading_pair}/orders")
+  BitcoindeIdResponse createOrder(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @FormParam("max_amount_currency_to_trade") BigDecimal maxAmount,
+      @FormParam("price") BigDecimal price,
+      @PathParam("trading_pair") String tradingPair,
+      @FormParam("type") String type)
+      throws IOException, BitcoindeException;
 
   @DELETE
   @Path("{trading_pair}/orders/{order_id}")

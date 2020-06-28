@@ -4,7 +4,9 @@ import org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderState;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeType;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeIdResponse;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
@@ -57,6 +59,12 @@ public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements T
 
     return BitcoindeAdapters.adaptOpenOrders(
         getBitcoindeMyOrders(currencyPair, type, state, start, end, offset));
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    BitcoindeIdResponse response = bitcoindePlaceLimitOrder(limitOrder);
+    return response.getId();
   }
 
   @Override
