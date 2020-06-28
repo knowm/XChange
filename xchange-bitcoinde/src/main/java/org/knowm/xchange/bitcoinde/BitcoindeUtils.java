@@ -1,10 +1,15 @@
 package org.knowm.xchange.bitcoinde;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 
 public class BitcoindeUtils {
+
+  private static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
   private BitcoindeUtils() {}
 
@@ -21,6 +26,9 @@ public class BitcoindeUtils {
     return type.equals(OrderType.ASK) ? "sell" : "buy";
   }
 
+  public static String rfc3339Timestamp(Date date) {
+    return DATE_FORMATTER.format(date);
+  }
 
   public static Integer createBitcoindeBoolean(Boolean value) {
     return Boolean.TRUE.equals(value) ? 1 : 0;

@@ -1,9 +1,12 @@
 package org.knowm.xchange.bitcoinde.v4;
 
+import static org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType.*;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountLedger;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAllocation;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeBalance;
@@ -14,6 +17,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -230,5 +234,90 @@ public final class BitcoindeAdapters {
             .collect(Collectors.toList());
 
     return new AccountInfo(wallets);
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(
+      final Currency currency,
+      final List<BitcoindeAccountLedger> accountLedgers,
+      final boolean leaveFeesSeperate) {
+
+    List<BitcoindeAccountLedger> feeLedgers =
+        accountLedgers.stream()
+            .filter(ledger -> !leaveFeesSeperate && OUTGOING_FEE_VOLUNTARY == ledger.getType())
+            .collect(Collectors.toList());
+
+    return accountLedgers.stream()
+        .filter(ledger -> SELL != ledger.getType() && BUY != ledger.getType())
+        .filter(ledger -> leaveFeesSeperate || OUTGOING_FEE_VOLUNTARY != ledger.getType())
+        .map(
+            ledger -> {
+              FundingRecord.Type type = adaptFundingRecordType(ledger.getType());
+
+              FundingRecord.Builder builder =
+                  new FundingRecord.Builder()
+                      .setType(type)
+                      .setDate(ledger.getDate())
+                      .setCurrency(currency)
+                      .setAmount(ledger.getCashflow().abs())
+                      .setBalance(ledger.getBalance())
+                      .setStatus(FundingRecord.Status.COMPLETE)
+                      .setDescription(ledger.getType().getValue());
+
+              if (INPAYMENT == ledger.getType() || PAYOUT == ledger.getType()) {
+                builder.setBlockchainTransactionHash(ledger.getReference());
+              } else {
+                builder.setInternalId(ledger.getReference());
+              }
+
+              if (!leaveFeesSeperate && PAYOUT == ledger.getType()) {
+                Optional<BitcoindeAccountLedger> feeLedger =
+                    findFeeLedger(ledger.getReference(), feeLedgers);
+                if (feeLedger.isPresent()) {
+                  BigDecimal fee = feeLedger.get().getCashflow().abs();
+                  builder.setAmount(ledger.getCashflow().abs().add(fee));
+                  builder.setFee(fee);
+
+                  /*
+                   * There can be multiple {@code PAYOUTS}s with the same reference/ blockchain
+                   * transaction id. We remove this feeLedgerEntry from the list, so it can't be
+                   * applied twice.
+                   */
+                  feeLedgers.remove(feeLedger.get());
+                }
+              }
+
+              return builder.build();
+            })
+        .collect(Collectors.toList());
+  }
+
+  private static Optional<BitcoindeAccountLedger> findFeeLedger(
+      final String reference, final List<BitcoindeAccountLedger> feeLedgers) {
+    return feeLedgers.stream()
+        .filter(
+            ledger ->
+                OUTGOING_FEE_VOLUNTARY == ledger.getType()
+                    && reference.equals(ledger.getReference()))
+        .findFirst();
+  }
+
+  public static FundingRecord.Type adaptFundingRecordType(BitcoindeAccountLedgerType type) {
+    switch (type) {
+      case INPAYMENT:
+        return FundingRecord.Type.DEPOSIT;
+      case PAYOUT:
+        return FundingRecord.Type.WITHDRAWAL;
+      case WELCOME_BTC:
+        return FundingRecord.Type.AIRDROP;
+      case AFFILIATE:
+      case KICKBACK:
+        return FundingRecord.Type.OTHER_INFLOW;
+      case BUY_YUBIKEY:
+      case BUY_GOLDSHOP:
+      case BUY_DIAMONDSHOP:
+        return FundingRecord.Type.OTHER_OUTFLOW;
+    }
+
+    throw new IllegalArgumentException("Can't adapt \"" + type + "\" to FundingRecord.Type");
   }
 }

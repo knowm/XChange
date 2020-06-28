@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
+import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountLedgerWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
@@ -20,6 +21,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -163,6 +165,7 @@ public class BitcoindeAdaptersTest {
     assertThat(firstTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(firstTrade.getTimestamp()).isEqualTo(new Date(1500717160L * 1000));
   }
+
   @Test
   public void testAccountInfoAdapter() throws IOException {
     // Read in the JSON from the example resources
@@ -229,5 +232,48 @@ public class BitcoindeAdaptersTest {
     assertThat(ethWallet.getBalances().get(Currency.EUR).getAvailable()).isEqualByComparingTo("0");
     assertThat(ethWallet.getBalances().get(Currency.EUR).getFrozen()).isEqualByComparingTo("0");
     assertThat(ethWallet.getBalances().get(Currency.EUR).getTotal()).isEqualByComparingTo("0");
+  }
+
+  @Test
+  public void testFundingHistoryAdapter() throws IOException {
+    final InputStream is =
+            BitcoindeAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/bitcoinde/v4/dto/account_ledger.json");
+
+    // Use Jackson to parse it
+    final ObjectMapper mapper = new ObjectMapper();
+    BitcoindeAccountLedgerWrapper accountLedgerWrapper = mapper.readValue(is, BitcoindeAccountLedgerWrapper.class);
+
+    final List<FundingRecord> fundingRecords = BitcoindeAdapters.adaptFundingHistory(Currency.BTC, accountLedgerWrapper.getAccountLedgers(), false);
+
+    // Make sure trade values are correct
+    assertThat(fundingRecords).isNotEmpty();
+    assertThat(fundingRecords.size()).isEqualTo(2);
+
+    assertThat(fundingRecords.get(0).getAddress()).isNull();
+    assertThat(fundingRecords.get(0).getAddressTag()).isNull();
+    assertThat(fundingRecords.get(0).getDate()).isEqualTo("2015-08-12T13:05:02+02:00");
+    assertThat(fundingRecords.get(0).getCurrency()).isEqualByComparingTo(Currency.BTC);
+    assertThat(fundingRecords.get(0).getAmount()).isEqualByComparingTo("0.10000000");
+    assertThat(fundingRecords.get(0).getInternalId()).isNull();
+    assertThat(fundingRecords.get(0).getBlockchainTransactionHash()).isEqualTo("dqwdqwdwqwq4dqw4d5qd45qd45qwd4qw5df45g4r5g4trh4r5j5j4tz5j4tbc");
+    assertThat(fundingRecords.get(0).getType()).isEqualByComparingTo(FundingRecord.Type.WITHDRAWAL);
+    assertThat(fundingRecords.get(0).getBalance()).isEqualByComparingTo("4.71619794");
+    assertThat(fundingRecords.get(0).getStatus()).isEqualByComparingTo(FundingRecord.Status.COMPLETE);
+    assertThat(fundingRecords.get(0).getFee()).isNull();
+    assertThat(fundingRecords.get(0).getDescription()).isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
+
+    assertThat(fundingRecords.get(1).getAddress()).isNull();
+    assertThat(fundingRecords.get(1).getAddressTag()).isNull();
+    assertThat(fundingRecords.get(1).getDate()).isEqualTo("2015-08-12T12:30:01+02:00");
+    assertThat(fundingRecords.get(1).getCurrency()).isEqualByComparingTo(Currency.BTC);
+    assertThat(fundingRecords.get(1).getAmount()).isEqualByComparingTo("1.91894200");
+    assertThat(fundingRecords.get(1).getInternalId()).isNull();
+    assertThat(fundingRecords.get(1).getBlockchainTransactionHash()).isEqualTo("bdgwflwguwgr884t34g4g555h4zr5j4fh5j48rg4s5bx2nt4jr5jr45j4r5j4");
+    assertThat(fundingRecords.get(1).getType()).isEqualByComparingTo(FundingRecord.Type.WITHDRAWAL);
+    assertThat(fundingRecords.get(1).getBalance()).isEqualByComparingTo("4.81619794");
+    assertThat(fundingRecords.get(1).getStatus()).isEqualByComparingTo(FundingRecord.Status.COMPLETE);
+    assertThat(fundingRecords.get(1).getFee()).isNull();
+    assertThat(fundingRecords.get(1).getDescription()).isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
   }
 }
