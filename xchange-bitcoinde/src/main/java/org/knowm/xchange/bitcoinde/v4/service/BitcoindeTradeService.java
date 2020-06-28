@@ -7,6 +7,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeType;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -56,5 +57,16 @@ public class BitcoindeTradeService extends BitcoindeTradeServiceRaw implements T
 
     return BitcoindeAdapters.adaptOpenOrders(
         getBitcoindeMyOrders(currencyPair, type, state, start, end, offset));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof BitcoindeCancelOrderByIdAndCurrencyPair) {
+      BitcoindeCancelOrderByIdAndCurrencyPair cob =
+          (BitcoindeCancelOrderByIdAndCurrencyPair) orderParams;
+      bitcoindeCancelOrders(cob.getId(), cob.getCurrencyPair());
+    }
+
+    return true;
   }
 }
