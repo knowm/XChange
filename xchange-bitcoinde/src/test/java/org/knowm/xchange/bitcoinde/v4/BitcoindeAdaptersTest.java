@@ -13,11 +13,14 @@ import org.junit.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 /** @author matthewdowney */
 public class BitcoindeAdaptersTest {
@@ -128,4 +131,33 @@ public class BitcoindeAdaptersTest {
             });
   }
     
+  @Test
+  public void testTradesAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    final InputStream is =
+        BitcoindeAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/v4/dto/trades.json");
+
+    // Use Jackson to parse it
+    final ObjectMapper mapper = new ObjectMapper();
+    final BitcoindeTradesWrapper bitcoindeTradesWrapper =
+        mapper.readValue(is, BitcoindeTradesWrapper.class);
+
+    // Use our adapter to get a generic Trades object from a
+    // BitcoindeTrade[] object
+    final Trades trades =
+        BitcoindeAdapters.adaptTrades(bitcoindeTradesWrapper, CurrencyPair.BTC_EUR);
+    final Trade firstTrade = trades.getTrades().get(0);
+
+    // Make sure the adapter got all the data
+    assertThat(trades.getTrades().size()).isEqualTo(92);
+    assertThat(trades.getlastID()).isEqualTo(2844384);
+
+    // Verify that all fields are filled
+    assertThat(firstTrade.getId()).isEqualTo("2844111");
+    assertThat(firstTrade.getPrice()).isEqualTo(new BigDecimal("2395"));
+    assertThat(firstTrade.getOriginalAmount()).isEqualTo(new BigDecimal("0.08064516"));
+    assertThat(firstTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(firstTrade.getTimestamp()).isEqualTo(new Date(1500717160L * 1000));
+  }
 }
