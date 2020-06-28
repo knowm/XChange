@@ -3,6 +3,7 @@ package org.knowm.xchange.bitcoinde.v4.service;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderState;
+import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeType;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -64,5 +65,15 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
     }
   }
 
+  public BitcoindeResponse bitcoindeCancelOrders(String orderId, CurrencyPair currencyPair)
+      throws IOException {
+    try {
+      String currPair = createBitcoindePair(currencyPair);
+
+      return bitcoinde.deleteOrder(apiKey, nonceFactory, signatureCreator, orderId, currPair);
+    } catch (BitcoindeException e) {
+      throw handleError(e);
+    }
+  }
   
 }

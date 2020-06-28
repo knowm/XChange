@@ -5,6 +5,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
+import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountLedgerWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
@@ -98,4 +99,14 @@ public interface Bitcoinde {
       @QueryParam("page") Integer page)
       throws IOException, BitcoindeException;
 
+
+  @DELETE
+  @Path("{trading_pair}/orders/{order_id}")
+  BitcoindeResponse deleteOrder(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @PathParam("order_id") String orderId,
+      @PathParam("trading_pair") String tradingPair)
+      throws IOException, BitcoindeException;
 }
