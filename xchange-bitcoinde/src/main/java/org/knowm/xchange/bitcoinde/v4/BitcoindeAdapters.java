@@ -10,6 +10,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 public final class BitcoindeAdapters {
@@ -128,4 +131,36 @@ public final class BitcoindeAdapters {
         requirements.getSeatOfBank(),
         requirements.getPaymentOption());
   }
+
+  /**
+   * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade[] object to a Trades object.
+   *
+   * @param bitcoindeTradesWrapper Exchange specific trades
+   * @param currencyPair (e.g. BTC/USD)
+   * @return The XChange Trades
+   */
+  public static Trades adaptTrades(
+          BitcoindeTradesWrapper bitcoindeTradesWrapper, CurrencyPair currencyPair) {
+    final List<Trade> trades = new ArrayList<>();
+    long lastTradeId = 0;
+
+    for (BitcoindeTrade bitcoindeTrade : bitcoindeTradesWrapper.getTrades()) {
+      final long tid = bitcoindeTrade.getTid();
+
+      if (tid > lastTradeId) {
+        lastTradeId = tid;
+      }
+      trades.add(
+              new Trade.Builder()
+                      .originalAmount(bitcoindeTrade.getAmount())
+                      .currencyPair(currencyPair)
+                      .price(bitcoindeTrade.getPrice())
+                      .timestamp(bitcoindeTrade.getDate())
+                      .id(String.valueOf(tid))
+                      .build());
+    }
+
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
 }

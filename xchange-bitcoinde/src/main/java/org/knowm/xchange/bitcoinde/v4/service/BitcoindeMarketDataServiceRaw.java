@@ -1,16 +1,16 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.*;
+
+import java.io.IOException;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.*;
 
 public class BitcoindeMarketDataServiceRaw extends BitcoindeBaseService {
 
@@ -44,6 +44,16 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBaseService {
           createBitcoindeBoolean(params.onlyOrdersWithRequirementsFullfilled()),
           createBitcoindeBoolean(params.onlyFromFullyIdentifiedUsers()),
           createBitcoindeBoolean(params.onlyExpressOrders()));
+    } catch (BitcoindeException e) {
+      throw handleError(e);
+    }
+  }
+
+  public BitcoindeTradesWrapper getBitcoindeTrades(CurrencyPair currencyPair, Integer since)
+      throws IOException {
+    try {
+      return bitcoinde.getTrades(
+          apiKey, nonceFactory, signatureCreator, createBitcoindePair(currencyPair), since);
     } catch (BitcoindeException e) {
       throw handleError(e);
     }
