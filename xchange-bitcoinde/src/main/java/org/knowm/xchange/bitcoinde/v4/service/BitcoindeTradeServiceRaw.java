@@ -1,12 +1,15 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.*;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderState;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeType;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeIdResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
@@ -76,4 +79,21 @@ public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
     }
   }
   
+  public BitcoindeIdResponse bitcoindePlaceLimitOrder(LimitOrder order) throws IOException {
+    try {
+      String side = createBitcoindeType(order.getType());
+      String bitcoindeCurrencyPair = createBitcoindePair(order.getCurrencyPair());
+
+      return bitcoinde.createOrder(
+          apiKey,
+          nonceFactory,
+          signatureCreator,
+          order.getOriginalAmount(),
+          order.getLimitPrice(),
+          bitcoindeCurrencyPair,
+          side);
+    } catch (BitcoindeException e) {
+      throw handleError(e);
+    }
+  }
 }
