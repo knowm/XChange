@@ -91,11 +91,7 @@ public final class Balance implements Comparable<Balance>, Serializable {
    * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in
    *     trading.
    */
-  public Balance(
-      Currency currency,
-      BigDecimal total,
-      BigDecimal available,
-      BigDecimal frozen) {
+  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
 
     this(
         currency,
