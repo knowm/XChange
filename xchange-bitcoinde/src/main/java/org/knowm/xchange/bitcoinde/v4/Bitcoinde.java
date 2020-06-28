@@ -13,13 +13,14 @@ import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeIdResponse;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTradesWrapper;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v4")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitcoinde {
-    
+
   @GET
   @Path("{trading_pair}/orderbook/compact")
   BitcoindeCompactOrderbookWrapper getCompactOrderBook(
@@ -120,5 +121,38 @@ public interface Bitcoinde {
       @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
       @PathParam("order_id") String orderId,
       @PathParam("trading_pair") String tradingPair)
+      throws IOException, BitcoindeException;
+
+  @GET
+  @Path("trades")
+  BitcoindeMyTradesWrapper getMyTrades(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @QueryParam("type") String type,
+      @QueryParam("state") Integer state,
+      @QueryParam("only_trades_with_action_for_payment_or_transfer_required")
+          Integer onlyTradesWithActionForPaymentOrTransferRequired,
+      @QueryParam("payment_method") Integer paymentMethod,
+      @QueryParam("date_start") String dateStart,
+      @QueryParam("date_end") String dateEnd,
+      @QueryParam("page") Integer page)
+      throws IOException, BitcoindeException;
+
+  @GET
+  @Path("{trading_pair}/trades")
+  BitcoindeMyTradesWrapper getMyTrades(
+      @HeaderParam("X-API-KEY") String apiKey,
+      @HeaderParam("X-API-NONCE") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("X-API-SIGNATURE") ParamsDigest paramsDigest,
+      @PathParam("trading_pair") String tradingPair,
+      @QueryParam("type") String type,
+      @QueryParam("state") Integer state,
+      @QueryParam("only_trades_with_action_for_payment_or_transfer_required")
+          Integer onlyTradesWithActionForPaymentOrTransferRequired,
+      @QueryParam("payment_method") Integer paymentMethod,
+      @QueryParam("date_start") String dateStart,
+      @QueryParam("date_end") String dateEnd,
+      @QueryParam("page") Integer page)
       throws IOException, BitcoindeException;
 }

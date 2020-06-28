@@ -13,6 +13,8 @@ import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeBalance;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.*;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrder;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTrade;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTradesWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -27,6 +29,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+
 public final class BitcoindeAdapters {
 
   /** Private constructor. */
@@ -322,6 +327,64 @@ public final class BitcoindeAdapters {
 
     throw new IllegalArgumentException("Can't adapt \"" + type + "\" to FundingRecord.Type");
   }
+
+  /**
+   * Helper function for adapting a BitcoindeMyTradesWrapper into a list of trades sorting them with
+   * respect to their timestamps.
+   *
+   * @param bitcoindeMyTradesWrapper
+   * @return the list of trades parsed from the API without any modifications
+   */
+  public static UserTrades adaptTradeHistory(BitcoindeMyTradesWrapper bitcoindeMyTradesWrapper) {
+    return adaptTradeHistory(bitcoindeMyTradesWrapper, TradeSortType.SortByTimestamp);
+  }
+
+  /**
+   * Adapt a BitcoindeMyTradesWrapper into a list of trades.
+   *
+   * @param bitcoindeMyTradesWrapper
+   * @param sortType Sort the trades with respect to their IDs or timestamps.
+   * @return UserTrades
+   */
+  public static UserTrades adaptTradeHistory(
+      BitcoindeMyTradesWrapper bitcoindeMyTradesWrapper, TradeSortType sortType) {
+    List<BitcoindeMyTrade> trades = bitcoindeMyTradesWrapper.getTrades();
+
+    List<UserTrade> result = new ArrayList<>(trades.size());
+    for (BitcoindeMyTrade trade : trades) {
+      BigDecimal fee;
+      Currency feeCurrency;
+      if (trade.getType() == BitcoindeType.BUY) {
+        fee = trade.getFeeCurrencyToTrade();
+        feeCurrency = trade.getTradingPair().base;
+      } else if (trade.getType() == BitcoindeType.SELL) {
+        fee = trade.getFeeCurrencyToPay();
+        feeCurrency = trade.getTradingPair().counter;
+      } else {
+        throw new TypeNotPresentException(trade.getType().toString(), null);
+      }
+
+      Date timestamp =
+          trade.getSuccessfullyFinishedAt() != null
+              ? trade.getSuccessfullyFinishedAt()
+              : trade.getCreatedAt();
+
+      result.add(
+          new UserTrade.Builder()
+              .id(trade.getTradeId())
+              .timestamp(timestamp)
+              .currencyPair(trade.getTradingPair())
+              .type(adaptOrderType(trade.getType()))
+              .originalAmount(trade.getAmountCurrencyToTrade())
+              .price(trade.getPrice())
+              .feeAmount(fee)
+              .feeCurrency(feeCurrency)
+              .build());
+    }
+
+    return new UserTrades(result, sortType);
+  }
+
   /**
    * @param bitcoindeOpenOrdersWrapper
    * @return

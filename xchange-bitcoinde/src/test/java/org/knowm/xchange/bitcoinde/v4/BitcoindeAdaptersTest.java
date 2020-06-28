@@ -17,6 +17,7 @@ import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeCompactOrderbookWr
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.marketdata.BitcoindeTradesWrapper;
 import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyOrdersWrapper;
+import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTradesWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -29,6 +30,9 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
+
 /** @author matthewdowney */
 public class BitcoindeAdaptersTest {
 
@@ -137,7 +141,7 @@ public class BitcoindeAdaptersTest {
                   .isEqualByComparingTo(qty.getMaxVolumeToPay());
             });
   }
-    
+
   @Test
   public void testTradesAdapter() throws IOException {
     // Read in the JSON from the example resources
@@ -324,5 +328,34 @@ public class BitcoindeAdaptersTest {
     assertThat(order.getAveragePrice()).isNull();
     assertThat(order.getCumulativeAmount()).isNull();
     assertThat(order.getFee()).isNull();
+  }
+
+  @Test
+  public void testTradeHistoryAdapter() throws IOException {
+    final InputStream is =
+            BitcoindeAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/bitcoinde/v4/dto/my_trades.json");
+
+    // Use Jackson to parse it
+    final ObjectMapper mapper = new ObjectMapper();
+    BitcoindeMyTradesWrapper myTradesWrapper = mapper.readValue(is, BitcoindeMyTradesWrapper.class);
+
+    final UserTrades userTrades = BitcoindeAdapters.adaptTradeHistory(myTradesWrapper);
+
+    // Make sure trade values are correct
+    assertThat(userTrades.getUserTrades()).isNotEmpty();
+    assertThat(userTrades.getUserTrades().size()).isEqualTo(1);
+
+    UserTrade trade = userTrades.getUserTrades().get(0);
+    assertThat(trade.getType()).isEqualByComparingTo(OrderType.ASK);
+    assertThat(trade.getOriginalAmount()).isEqualByComparingTo("0.5");
+    assertThat(trade.getCurrencyPair()).isEqualByComparingTo(CurrencyPair.BTC_EUR);
+    assertThat(trade.getPrice()).isEqualByComparingTo("250.55");
+    assertThat(trade.getTimestamp()).isEqualTo("2015-01-10T15:00:00+02:00");
+    assertThat(trade.getId()).isEqualTo("2EDYNS");
+    assertThat(trade.getOrderId()).isNull();
+    assertThat(trade.getFeeAmount()).isEqualByComparingTo("0.6");
+    assertThat(trade.getFeeCurrency()).isEqualByComparingTo(Currency.EUR);
+    assertThat(trade.getOrderUserReference()).isNull();
   }
 }
