@@ -5,12 +5,10 @@ public final class BittrexConstants {
 
   // Orders direction
   public static final String BUY = "BUY";
-
   public static final String SELL = "SELL";
 
   // Order types
   public static final String LIMIT = "LIMIT";
-
   public static final String MARKET = "MARKET";
   public static final String CEILING_LIMIT = "CEILING_LIMIT";
   public static final String CEILING_MARKET = "CEILING_MARKET";
