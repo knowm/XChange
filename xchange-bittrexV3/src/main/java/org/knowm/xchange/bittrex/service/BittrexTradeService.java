@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -50,7 +51,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    return "CLOSED".equalsIgnoreCase(cancelBittrexLimitOrder(orderId).getStatus());
+    return BittrexConstants.CLOSED.equalsIgnoreCase(cancelBittrexLimitOrder(orderId).getStatus());
   }
 
   @Override
