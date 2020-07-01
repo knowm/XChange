@@ -37,7 +37,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bittrex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bittrex");
-    exchangeSpecification.setExchangeDescription("Bittrex is a bitcoin and altcoin exchange.");
+    exchangeSpecification.setExchangeDescription("Bittrex is a cryptocurrencies exchange.");
 
     return exchangeSpecification;
   }
