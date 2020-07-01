@@ -15,7 +15,6 @@ public final class BittrexConstants {
 
   // Orders time in force
   public static final String GOOD_TIL_CANCELLED = "GOOD_TIL_CANCELLED";
-
   public static final String IMMEDIATE_OR_CANCEL = "IMMEDIATE_OR_CANCEL";
   public static final String FILL_OR_KILL = "FILL_OR_KILL";
   public static final String POST_ONLY_GOOD_TIL_CANCELLED = "POST_ONLY_GOOD_TIL_CANCELLED";
