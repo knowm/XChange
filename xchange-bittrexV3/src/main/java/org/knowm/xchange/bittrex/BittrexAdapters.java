@@ -2,6 +2,7 @@ package org.knowm.xchange.bittrex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,26 @@ public final class BittrexAdapters {
     return bittrexOpenOrders.stream().map(BittrexAdapters::adaptOrder).collect(Collectors.toList());
   }
 
+  public static List<LimitOrder> adaptOrders(
+      BittrexLevel[] orders, CurrencyPair currencyPair, OrderType orderType, int depth) {
+    if (orders == null || orders.length == 0) {
+      return new ArrayList<>();
+    }
+    return Arrays.stream(orders)
+        .limit(Math.min(orders.length, depth))
+        .map(
+            order ->
+                new LimitOrder.Builder(orderType, currencyPair)
+                    .originalAmount(order.getAmount())
+                    .limitPrice(order.getPrice())
+                    .build())
+        .collect(Collectors.toList());
+  }
+
+  public static LimitOrder adaptOrder(BittrexOrder order) {
+    return adaptOrder(order, adaptOrderStatus(order));
+  }
+
   public static LimitOrder adaptOrder(BittrexOrder order, OrderStatus status) {
 
     OrderType type =
@@ -71,51 +92,19 @@ public final class BittrexAdapters {
         .build();
   }
 
-  public static List<LimitOrder> adaptOrders(
-      BittrexLevel[] orders, CurrencyPair currencyPair, OrderType orderType, String id, int depth) {
-
-    if (orders == null) {
-      return new ArrayList<>();
+  public static OrderStatus adaptOrderStatus(BittrexOrder order) {
+    if (order.getQuantity() == null) {
+      return OrderStatus.UNKNOWN;
     }
-
-    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
-
-    for (int i = 0; i < Math.min(orders.length, depth); i++) {
-      BittrexLevel order = orders[i];
-      limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
+    if (order.getFillQuantity() == null
+        || order.getFillQuantity().compareTo(BigDecimal.ZERO) == 0) {
+      return OrderStatus.NEW;
     }
-
-    return limitOrders;
-  }
-
-  public static LimitOrder adaptOrder(
-      BigDecimal amount,
-      BigDecimal price,
-      CurrencyPair currencyPair,
-      OrderType orderType,
-      String id) {
-    return new LimitOrder(orderType, amount, currencyPair, id, null, price);
-  }
-
-  public static LimitOrder adaptOrder(BittrexOrder order) {
-    return adaptOrder(order, adaptOrderStatus(order));
-  }
-
-  private static OrderStatus adaptOrderStatus(BittrexOrder order) {
-    OrderStatus status = OrderStatus.NEW;
-    BigDecimal qty = order.getQuantity();
-    BigDecimal qtyRem = order.getQuantity().subtract(order.getFillQuantity());
-    int qtyRemainingToQty = qtyRem.compareTo(qty);
-
-    if (qtyRemainingToQty < 0) {
-      /* The order is open and remaining quantity less than order quantity */
-      status = OrderStatus.PARTIALLY_FILLED;
-    }
-    return status;
+    BigDecimal remaining = order.getQuantity().subtract(order.getFillQuantity());
+    return remaining.signum() == 1 ? OrderStatus.PARTIALLY_FILLED : OrderStatus.FILLED;
   }
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {
-
     OrderType orderType =
         BittrexConstants.BUY.equalsIgnoreCase(trade.getTakerSide()) ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity();

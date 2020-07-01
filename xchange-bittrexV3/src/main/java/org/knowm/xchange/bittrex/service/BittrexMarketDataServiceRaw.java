@@ -54,10 +54,10 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     CurrencyPair currencyPair = BittrexUtils.toCurrencyPair(market);
     List<LimitOrder> asks =
         BittrexAdapters.adaptOrders(
-            bittrexDepth.getAsks(), currencyPair, Order.OrderType.ASK, null, depth);
+            bittrexDepth.getAsks(), currencyPair, Order.OrderType.ASK, depth);
     List<LimitOrder> bids =
         BittrexAdapters.adaptOrders(
-            bittrexDepth.getBids(), currencyPair, Order.OrderType.BID, null, depth);
+            bittrexDepth.getBids(), currencyPair, Order.OrderType.BID, depth);
 
     OrderBook orderBook = new OrderBook(null, asks, bids);
     return new SequencedOrderBook(bittrexDepth.getSequence(), orderBook);
