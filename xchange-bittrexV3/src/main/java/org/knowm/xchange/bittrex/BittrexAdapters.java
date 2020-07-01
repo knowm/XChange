@@ -32,10 +32,6 @@ import org.slf4j.LoggerFactory;
 
 public final class BittrexAdapters {
 
-  public static final Logger log = LoggerFactory.getLogger(BittrexAdapters.class);
-
-  private BittrexAdapters() {}
-
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<BittrexSymbol> bittrexSymbols) {
     return bittrexSymbols.stream()
         .map(BittrexAdapters::adaptCurrencyPair)
@@ -122,17 +118,14 @@ public final class BittrexAdapters {
   }
 
   public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
-
-    List<Trade> tradesList = new ArrayList<>(trades.size());
-    long lastTradeId = 0;
-    for (BittrexTrade trade : trades) {
-      long tradeId = Long.parseLong(trade.getId());
-      if (tradeId > lastTradeId) {
-        lastTradeId = tradeId;
-      }
-      tradesList.add(adaptTrade(trade, currencyPair));
-    }
-    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
+    return new Trades(
+        trades.stream().map(trade -> adaptTrade(trade, currencyPair)).collect(Collectors.toList()),
+        trades.stream()
+            .map(BittrexTrade::getId)
+            .map(Long::parseLong)
+            .max(Long::compareTo)
+            .orElse(0L),
+        TradeSortType.SortByID);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexOrder> bittrexUserTrades) {
@@ -206,5 +199,9 @@ public final class BittrexAdapters {
               metaData.getCurrencies().putIfAbsent(currencyPair.base, null);
               metaData.getCurrencies().putIfAbsent(currencyPair.counter, null);
             });
+  }
+
+  private BittrexAdapters() {
+    throw new AssertionError();
   }
 }

@@ -2,16 +2,21 @@ package org.knowm.xchange.bittrex;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
+import io.vavr.collection.Array;
 import junit.framework.TestCase;
 
 public class BittrexAdaptersTest extends TestCase {
@@ -110,27 +115,45 @@ public class BittrexAdaptersTest extends TestCase {
             null);
     BittrexOrder orderUnknown =
         new BittrexOrder(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null);
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null);
     Assert.assertEquals(
         Order.OrderStatus.PARTIALLY_FILLED, BittrexAdapters.adaptOrderStatus(orderPartiallyFilled));
     Assert.assertEquals(Order.OrderStatus.FILLED, BittrexAdapters.adaptOrderStatus(orderFilled));
     Assert.assertEquals(Order.OrderStatus.NEW, BittrexAdapters.adaptOrderStatus(orderNew));
     Assert.assertEquals(Order.OrderStatus.UNKNOWN, BittrexAdapters.adaptOrderStatus(orderUnknown));
+  }
+
+  public void testAdaptTrades() {
+    CurrencyPair pair = CurrencyPair.ETH_BTC;
+
+    BittrexTrade trade1 = new BittrexTrade();
+    trade1.setExecutedAt(new Date());
+    trade1.setId("123");
+    trade1.setQuantity(new BigDecimal("1"));
+    trade1.setRate(new BigDecimal("2"));
+    trade1.setTakerSide(BittrexConstants.BUY);
+
+    BittrexTrade trade2 = new BittrexTrade();
+    trade2.setExecutedAt(new Date());
+    trade2.setId("456");
+    trade2.setQuantity(new BigDecimal("3"));
+    trade2.setRate(new BigDecimal("4"));
+    trade2.setTakerSide(BittrexConstants.SELL);
+
+    Trade adaptedTrade1 = BittrexAdapters.adaptTrade(trade1, pair);
+    Trade adaptedTrade2 = BittrexAdapters.adaptTrade(trade2, pair);
+
+    List<BittrexTrade> bittrexTradesList = Arrays.asList(trade1, trade2);
+    List<Trade> tradesList = Arrays.asList(adaptedTrade1, adaptedTrade2);
+
+    Trades adaptedTrades = BittrexAdapters.adaptTrades(bittrexTradesList, pair);
+    Trades trades = new Trades(tradesList,
+                               Math.max(Long.parseLong(trade1.getId()), Long.parseLong(trade2.getId())),
+                               Trades.TradeSortType.SortByID);
+    Assert.assertEquals(trades.getlastID(), adaptedTrades.getlastID());
+    Assert.assertEquals(trades.getNextPageCursor(), adaptedTrades.getNextPageCursor());
+    Assert.assertEquals(trades.getTrades(), adaptedTrades.getTrades());
+    Assert.assertEquals(trades.getTradeSortType(), adaptedTrades.getTradeSortType());
   }
 }
