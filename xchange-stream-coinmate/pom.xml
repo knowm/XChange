@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-pusher</artifactId>
+            <artifactId>xchange-stream-service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

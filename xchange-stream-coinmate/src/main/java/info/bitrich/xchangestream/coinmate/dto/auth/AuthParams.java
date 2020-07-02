@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class PusherAuthParamsObject {
+public class AuthParams {
 
-  private static final Logger log = LoggerFactory.getLogger(PusherAuthParamsObject.class);
+  private static final Logger log = LoggerFactory.getLogger(AuthParams.class);
   private Map<String, String> params = new HashMap<>();
 
   private final String secret;
@@ -25,7 +25,7 @@ public class PusherAuthParamsObject {
   private final String userId;
   private SynchronizedValueFactory<Long> nonce;
 
-  public PusherAuthParamsObject(
+  public AuthParams(
       String secret, String apiKey, String userId, SynchronizedValueFactory<Long> nonce) {
     this.secret = secret;
     this.apiKey = apiKey;
@@ -33,7 +33,7 @@ public class PusherAuthParamsObject {
     this.nonce = nonce;
   }
 
-  public Map<String, String> getParams() throws IOException {
+  public Map<String, String> getParams() {
     params = new HashMap<>();
     Long nonce1 = nonce.createValue();
     this.params.put("clientId", userId);
@@ -44,8 +44,7 @@ public class PusherAuthParamsObject {
     return params;
   }
 
-  private String signature(Long nonce, String userId, String apiKey, String apiSecret)
-      throws IOException {
+  private String signature(Long nonce, String userId, String apiKey, String apiSecret) {
     try {
       Mac mac256 = Mac.getInstance("HmacSHA256");
       SecretKey secretKey = new SecretKeySpec(apiSecret.getBytes("UTF-8"), "HmacSHA256");
@@ -63,5 +62,10 @@ public class PusherAuthParamsObject {
   @Override
   public String toString() {
     return "PusherAuthParamsObject{" + "params=" + params + '}';
+  }
+
+  public String toParams() {
+    Long nonce1 = nonce.createValue();
+    return "signature=" + signature(nonce1, userId, apiKey, secret) + "&nonce=" + String.valueOf(nonce1) + "&clientId=" + userId + "&publicKey=" + apiKey;
   }
 }
