@@ -18,7 +18,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /** @author walec51 */
-public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
+public class TradeMockedTestIntegration extends BaseMockedTestIntegration {
 
   private static BittrexTradeService tradeService;
   private static final String NEWORDER_FILE_NAME = "newOrder.json";

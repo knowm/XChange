@@ -15,7 +15,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** @author walec51 */
-public class MarketDataIntegration {
+public class MarketDataTestIntegration {
 
   private static BittrexMarketDataService marketDataService;
 
