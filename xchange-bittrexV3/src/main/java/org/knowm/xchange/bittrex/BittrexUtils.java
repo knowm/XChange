@@ -25,5 +25,4 @@ public final class BittrexUtils {
   private BittrexUtils() {
     throw new AssertionError();
   }
-
 }

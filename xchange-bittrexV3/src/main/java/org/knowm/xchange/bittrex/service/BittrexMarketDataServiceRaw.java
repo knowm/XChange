@@ -3,8 +3,8 @@ package org.knowm.xchange.bittrex.service;
 import java.io.IOException;
 import java.util.List;
 import lombok.Data;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
@@ -23,7 +23,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexMarketDataServiceRaw(Exchange exchange) {
+  public BittrexMarketDataServiceRaw(BittrexExchange exchange) {
     super(exchange);
   }
 

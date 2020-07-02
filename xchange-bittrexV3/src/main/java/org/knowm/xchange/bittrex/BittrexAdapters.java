@@ -27,8 +27,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class BittrexAdapters {
 

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
@@ -15,9 +15,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-
-import io.vavr.collection.Array;
-import junit.framework.TestCase;
 
 public class BittrexAdaptersTest extends TestCase {
 
@@ -148,9 +145,11 @@ public class BittrexAdaptersTest extends TestCase {
     List<Trade> tradesList = Arrays.asList(adaptedTrade1, adaptedTrade2);
 
     Trades adaptedTrades = BittrexAdapters.adaptTrades(bittrexTradesList, pair);
-    Trades trades = new Trades(tradesList,
-                               Math.max(Long.parseLong(trade1.getId()), Long.parseLong(trade2.getId())),
-                               Trades.TradeSortType.SortByID);
+    Trades trades =
+        new Trades(
+            tradesList,
+            Math.max(Long.parseLong(trade1.getId()), Long.parseLong(trade2.getId())),
+            Trades.TradeSortType.SortByID);
     Assert.assertEquals(trades.getlastID(), adaptedTrades.getlastID());
     Assert.assertEquals(trades.getNextPageCursor(), adaptedTrades.getNextPageCursor());
     Assert.assertEquals(trades.getTrades(), adaptedTrades.getTrades());
