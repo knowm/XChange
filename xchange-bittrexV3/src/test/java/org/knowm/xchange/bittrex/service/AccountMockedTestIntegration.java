@@ -19,7 +19,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 
 /** @author walec51 */
-public class AccountMockedIntegrationTest extends BaseMockedIntegrationTest {
+public class AccountMockedTestIntegration extends BaseMockedTestIntegration {
 
   private static BittrexAccountService accountService;
   private static final String BALANCES_FILE_NAME = "balances.json";
