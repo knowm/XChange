@@ -1,0 +1,20 @@
+[
+  {
+    "currencySymbol": "BTC",
+    "total": "5265.89272032",
+    "available": "626.54401024",
+    "updatedAt": "2020-06-25T14:38:46.06Z"
+  },
+  {
+    "currencySymbol": "ETH",
+    "total": "0.00000000",
+    "available": "0.00000000",
+    "updatedAt": "2020-06-25T13:40:26.5Z"
+  },
+  {
+    "currencySymbol": "USDT",
+    "total": "3.49239942",
+    "available": "3.49239942",
+    "updatedAt": "2019-09-03T16:11:47.38Z"
+  }
+]
