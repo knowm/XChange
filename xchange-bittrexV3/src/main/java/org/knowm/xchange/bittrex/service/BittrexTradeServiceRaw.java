@@ -2,8 +2,8 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.List;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexConstants;
+import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
@@ -21,7 +21,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexTradeServiceRaw(Exchange exchange) {
+  public BittrexTradeServiceRaw(BittrexExchange exchange) {
     super(exchange);
   }
 

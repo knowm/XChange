@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
 import org.knowm.xchange.bittrex.BittrexConstants;
+import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -29,8 +29,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
    *
    * @param exchange
    */
-  public BittrexTradeService(Exchange exchange) {
-
+  public BittrexTradeService(BittrexExchange exchange) {
     super(exchange);
   }
 

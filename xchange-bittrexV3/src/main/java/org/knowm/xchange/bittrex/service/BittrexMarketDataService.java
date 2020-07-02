@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
@@ -37,14 +37,15 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
    *
    * @param exchange
    */
-  public BittrexMarketDataService(Exchange exchange) {
+  public BittrexMarketDataService(BittrexExchange exchange) {
     super(exchange);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     String marketSymbol = BittrexUtils.toPairString(currencyPair);
-    // The only way is to make two API calls since the information is split between market summary
+    // The only way is to make two API calls since the essential information is split between market
+    // summary
     // and ticker calls...
     BittrexMarketSummary bittrexMarketSummary = bittrexAuthenticated.getMarketSummary(marketSymbol);
     BittrexTicker bittrexTicker = bittrexAuthenticated.getTicker(marketSymbol);
@@ -58,7 +59,8 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
             ? new ArrayList<>(((CurrencyPairsParam) params).getCurrencyPairs())
             : new ArrayList<>();
 
-    // The only way is to make two API calls since the information is split between market summary
+    // The only way is to make two API calls since the essential information is split between market
+    // summary
     // and ticker calls...
     List<BittrexMarketSummary> bittrexMarketSummaries = getBittrexMarketSummaries();
     List<BittrexTicker> bittrexTickers = getBittrexTickers();
@@ -95,7 +97,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
     int depth = 500;
 
     if (args != null && args.length > 0) {
-      if (args[0] instanceof Integer && (Integer) args[0] > 0 && (Integer) args[0] <= 500) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0 && (Integer) args[0] < 500) {
         depth = (Integer) args[0];
       }
     }

@@ -2,7 +2,7 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.Collection;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
@@ -15,7 +15,7 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexAccountServiceRaw(Exchange exchange) {
+  public BittrexAccountServiceRaw(BittrexExchange exchange) {
     super(exchange);
   }
 
