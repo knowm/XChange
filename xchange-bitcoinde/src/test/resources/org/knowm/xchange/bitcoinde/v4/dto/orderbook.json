@@ -1,0 +1,37 @@
+{
+   "orders": [{
+       "order_id": "A1B2D3",
+       "is_external_wallet_order": false,
+       "trading_pair": "btceur",
+       "type": "buy",
+       "max_amount_currency_to_trade": 0.5,
+       "min_amount_currency_to_trade": 0.1,
+       "price": 230.55,
+       "max_volume_currency_to_pay": 115.28,
+       "min_volume_currency_to_pay": 23.06,
+       "order_requirements_fullfilled": true,
+       "trading_partner_information": {
+           "username": "bla",
+           "is_kyc_full": true,
+           "trust_level": "gold",
+           "bank_name": "Sparkasse",
+           "bic": "HASPDEHHXXX",
+           "seat_of_bank": "DE",
+           "rating": 99,
+           "amount_trades": 52
+       },
+       "order_requirements": {
+           "min_trust_level": "gold",
+           "only_kyc_full": true,
+           "seat_of_bank": [
+               "DE",
+               "NL"
+           ],
+           "payment_option": 1
+       }
+   }],
+   "errors":[
+
+   ],
+   "credits":12
+}
