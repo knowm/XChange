@@ -176,7 +176,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
           fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
         }
 
-        createdAt = transfers.getHeader("cb-after");
+        createdAt = transfers.getHeader("Cb-After");
       }
     }
 
