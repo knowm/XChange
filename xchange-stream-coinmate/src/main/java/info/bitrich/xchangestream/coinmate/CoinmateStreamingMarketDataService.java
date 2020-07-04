@@ -1,13 +1,11 @@
 package info.bitrich.xchangestream.coinmate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
-import java.util.List;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.CoinmateUtils;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
@@ -18,24 +16,25 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 
-public class CoinmateStreamingMarketDataService implements StreamingMarketDataService {
-  private final PusherStreamingService service;
+import java.util.List;
 
-  CoinmateStreamingMarketDataService(PusherStreamingService service) {
-    this.service = service;
+public class CoinmateStreamingMarketDataService implements StreamingMarketDataService {
+  private final CoinmateStreamingServiceFactory serviceFactory;
+
+  CoinmateStreamingMarketDataService(CoinmateStreamingServiceFactory serviceFactory) {
+    this.serviceFactory = serviceFactory;
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String channelName = "order_book-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName = "channel/order-book/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
-    return service
-        .subscribeChannel(channelName, "order_book")
+    ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateOrderBookData.class);
+
+    return serviceFactory.createConnection(channelName, false)
         .map(
             s -> {
-              ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-              CoinmateOrderBookData orderBookData =
-                  mapper.readValue(s, CoinmateOrderBookData.class);
+              CoinmateOrderBookData orderBookData = reader.readValue(s);
               CoinmateOrderBook coinmateOrderBook =
                   new CoinmateOrderBook(false, null, orderBookData);
 
@@ -51,22 +50,16 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String channelName = "trades-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName = "channel/trades/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
-    return service
-        .subscribeChannel(channelName, "new_trades")
+    ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<List<CoinmateWebSocketTrade>>() {});
+
+    return serviceFactory.createConnection(channelName, false)
         .map(
-            s -> {
-              ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-              List<CoinmateWebSocketTrade> list =
-                  mapper.readValue(s, new TypeReference<List<CoinmateWebSocketTrade>>() {});
-              return list;
-            })
+            s -> reader.<List<CoinmateWebSocketTrade>>readValue(s))
         .flatMapIterable(coinmateWebSocketTrades -> coinmateWebSocketTrades)
         .map(
-            coinmateWebSocketTrade ->
-                CoinmateAdapters.adaptTrade(
-                    coinmateWebSocketTrade.toTransactionEntry(
-                        CoinmateUtils.getPair(currencyPair))));
+            coinmateWebSocketTrade -> CoinmateStreamingAdapter.adaptTrade(coinmateWebSocketTrade, currencyPair)
+            );
   }
 }
