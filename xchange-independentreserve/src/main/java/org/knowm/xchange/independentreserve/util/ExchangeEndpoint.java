@@ -7,6 +7,7 @@ public enum ExchangeEndpoint {
   GET_ACCOUNTS("GetAccounts"),
   GET_OPEN_ORDERS("GetOpenOrders"),
   PLACE_LIMIT_ORDER("PlaceLimitOrder"),
+  PLACE_MARKET_ORDER("PlaceMarketOrder"),
   CANCEL_ORDER("CancelOrder"),
   GET_TRADES("GetTrades"),
   GET_TRANSACTIONS("GetTransactions"),
