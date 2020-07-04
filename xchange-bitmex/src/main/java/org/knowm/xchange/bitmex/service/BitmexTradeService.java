@@ -56,8 +56,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
     List<LimitOrder> limitOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null)
-            .stream()
+        super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
             .map(BitmexAdapters::adaptOrder)
             .filter(params::accept)
             .collect(Collectors.toList());
