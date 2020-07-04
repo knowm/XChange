@@ -271,10 +271,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.info("Scheduling reconnection");
       webSocketChannel
           .eventLoop()
-          .schedule(() -> connect().subscribe(
-                  () -> LOG.info("Reconnection complete"),
-                  e -> LOG.error("Reconnection failed: {}", e.getMessage())
-          ), retryDuration.toMillis(), TimeUnit.MILLISECONDS);
+          .schedule(
+              () ->
+                  connect()
+                      .subscribe(
+                          () -> LOG.info("Reconnection complete"),
+                          e -> LOG.error("Reconnection failed: {}", e.getMessage())),
+              retryDuration.toMillis(),
+              TimeUnit.MILLISECONDS);
     }
   }
 
