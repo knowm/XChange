@@ -1,4 +1,4 @@
-package org.knowm.xchange.bittrex.dto.account;
+package org.knowm.xchange.bittrex.dto.trade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.knowm.xchange.bittrex.BittrexConstants;
 import si.mazi.rescu.HttpResponseAware;
 
 @Data
-public class BittrexBalances extends ArrayList<BittrexBalance> implements HttpResponseAware {
+public class BittrexOrders extends ArrayList<BittrexOrder> implements HttpResponseAware {
 
   private Map<String, List<String>> headers;
 
