@@ -1,14 +1,10 @@
 package org.knowm.xchange.independentreserve.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
@@ -23,6 +19,12 @@ import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurre
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw
     implements TradeService {
@@ -60,6 +62,12 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
         limitOrder.getType(),
         limitOrder.getLimitPrice(),
         limitOrder.getOriginalAmount());
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    return independentReservePlaceMarketOrder(
+        marketOrder.getInstrument(), marketOrder.getType(), marketOrder.getOriginalAmount());
   }
 
   @Override
