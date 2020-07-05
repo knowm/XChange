@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.bittrex.BittrexConstants;
 import si.mazi.rescu.HttpResponseAware;
 
 public class BittrexDepth implements HttpResponseAware {
 
-  public static final String SEQUENCE = "Sequence";
   private Map<String, List<String>> headers;
   private final BittrexLevel[] asks;
   private final BittrexLevel[] bids;
@@ -57,6 +57,6 @@ public class BittrexDepth implements HttpResponseAware {
   }
 
   public String getSequence() {
-    return getResponseHeaders().get(SEQUENCE).get(0);
+    return getResponseHeaders().get(BittrexConstants.SEQUENCE).get(0);
   }
 }

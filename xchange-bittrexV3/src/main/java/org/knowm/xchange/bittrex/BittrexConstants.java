@@ -3,6 +3,9 @@ package org.knowm.xchange.bittrex;
 /** See https://bittrex.github.io/api/v3 */
 public final class BittrexConstants {
 
+  // Sequence header
+  public static final String SEQUENCE = "Sequence";
+
   // Orders direction
   public static final String BUY = "BUY";
   public static final String SELL = "SELL";

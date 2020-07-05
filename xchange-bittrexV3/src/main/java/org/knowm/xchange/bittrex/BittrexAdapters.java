@@ -37,14 +37,15 @@ public final class BittrexAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(BittrexSymbol bittrexSymbol) {
-
     Currency baseSymbol = bittrexSymbol.getBaseCurrencySymbol();
     Currency counterSymbol = bittrexSymbol.getQuoteCurrencySymbol();
     return new CurrencyPair(baseSymbol, counterSymbol);
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<BittrexOrder> bittrexOpenOrders) {
-    return bittrexOpenOrders.stream().map(BittrexAdapters::adaptOrder).collect(Collectors.toList());
+    return bittrexOpenOrders == null
+        ? null
+        : bittrexOpenOrders.stream().map(BittrexAdapters::adaptOrder).collect(Collectors.toList());
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -74,7 +75,6 @@ public final class BittrexAdapters {
             ? OrderType.ASK
             : OrderType.BID;
     CurrencyPair pair = BittrexUtils.toCurrencyPair(order.getMarketSymbol());
-
     return new LimitOrder.Builder(type, pair)
         .originalAmount(order.getQuantity())
         .id(order.getId())
