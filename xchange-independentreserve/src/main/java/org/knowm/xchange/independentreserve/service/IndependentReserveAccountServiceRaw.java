@@ -1,13 +1,12 @@
 package org.knowm.xchange.independentreserve.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressRequest;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressResponse;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
@@ -17,6 +16,10 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseService {
@@ -74,6 +77,23 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
             nonce,
             req.getParameters()));
     return independentReserveAuthenticated.synchDigitalCurrencyDepositAddressWithBlockchain(req);
+  }
+
+  public String getDigitalCurrencyDepositAddress(String currency) throws ExchangeException {
+    Long nonce = exchange.getNonceFactory().createValue();
+    IndependentReserveDepositAddressRequest request =
+        new IndependentReserveDepositAddressRequest(
+            exchange.getExchangeSpecification().getApiKey(), nonce, currency);
+    request.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_DIGITAL_CURRENCY_DEPOSIT_ADDRESS, nonce, request.getParameters()));
+    try {
+      IndependentReserveDepositAddressResponse response =
+          independentReserveAuthenticated.getDigitalCurrencyDepositAddress(request);
+      return response.getDepositAddress();
+    } catch (IOException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
   }
 
   public void withdrawDigitalCurrency(

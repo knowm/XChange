@@ -1,11 +1,5 @@
 package org.knowm.xchange.independentreserve.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -25,6 +19,13 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAccountService extends IndependentReserveAccountServiceRaw
     implements AccountService {
@@ -43,6 +44,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
     return new AccountInfo(
         exchange.getExchangeSpecification().getUserName(),
         IndependentReserveAdapters.adaptWallet(getIndependentReserveBalance()));
+  }
+
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    return getDigitalCurrencyDepositAddress(currency.getCurrencyCode());
   }
 
   @Override
