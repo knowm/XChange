@@ -64,6 +64,10 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                         || filterEventsByReason(s, "change", "place")
                         || filterEventsByReason(s, "change", "cancel")
                         || filterEventsByReason(s, "change", "trade"))
+            .filter(
+                s -> // filter out updates that arrive before initial book
+                orderbooks.get(currencyPair) != null
+                        || filterEventsByReason(s, "change", "initial"))
             .map(
                 (JsonNode s) -> {
                   if (filterEventsByReason(s, "change", "initial")) {
@@ -81,9 +85,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                     GeminiWebSocketTransaction transaction =
                         mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                     GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
-                    GeminiOrderbook orderbook =
-                        orderbooks.computeIfAbsent(
-                            currencyPair, cp -> transaction.toGeminiOrderbook(currencyPair));
+                    GeminiOrderbook orderbook = orderbooks.get(currencyPair);
                     orderbook.updateLevels(levels);
                     return orderbook;
                   }
