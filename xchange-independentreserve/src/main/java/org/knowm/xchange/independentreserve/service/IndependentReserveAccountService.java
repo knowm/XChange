@@ -98,7 +98,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
     final IndependentReserveBalance bal = getIndependentReserveBalance();
     final Currency currency = historyParams.getCurrency();
     return bal.getIndependentReserveAccounts().stream()
-        .filter(acc -> currency == null || currency.getCurrencyCode().equals(acc.getCurrencyCode()))
+        .filter(acc -> currency == null || currency.getCurrencyCode().equalsIgnoreCase(acc.getCurrencyCode()))
         .map(
             acc -> {
               try {
