@@ -2,6 +2,8 @@ package org.knowm.xchange.independentreserve;
 
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressRequest;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressResponse;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
@@ -36,6 +38,7 @@ public interface IndependentReserveAuthenticated {
   public static final String SynchDigitalCurrencyDepositAddressWithBlockchain =
       "SynchDigitalCurrencyDepositAddressWithBlockchain";
   public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
+  public static final String GetDigitalCurrencyDepositAddress = "GetDigitalCurrencyDepositAddress";
 
   @POST
   @Path("GetAccounts")
@@ -55,6 +58,13 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveTradeHistoryResponse getTradeHistory(
       IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path(GetDigitalCurrencyDepositAddress)
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveDepositAddressResponse getDigitalCurrencyDepositAddress(
+      IndependentReserveDepositAddressRequest independentReserveDepositAddressRequest)
       throws IndependentReserveHttpStatusException, IOException;
 
   @POST

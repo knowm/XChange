@@ -6,6 +6,8 @@ import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 public enum ExchangeEndpoint {
   GET_ACCOUNTS("GetAccounts"),
   GET_OPEN_ORDERS("GetOpenOrders"),
+  GET_DIGITAL_CURRENCY_DEPOSIT_ADDRESS(
+      IndependentReserveAuthenticated.GetDigitalCurrencyDepositAddress),
   PLACE_LIMIT_ORDER("PlaceLimitOrder"),
   PLACE_MARKET_ORDER("PlaceMarketOrder"),
   CANCEL_ORDER("CancelOrder"),
