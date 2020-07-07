@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.bitcoinde.v4.dto.*;
 import org.knowm.xchange.bitcoinde.v4.dto.account.BitcoindeAccountLedgerWrapper;
@@ -243,14 +242,17 @@ public class BitcoindeAdaptersTest {
   @Test
   public void testFundingHistoryAdapter() throws IOException {
     final InputStream is =
-            BitcoindeAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/bitcoinde/v4/dto/account_ledger.json");
+        BitcoindeAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/v4/dto/account_ledger.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
-    BitcoindeAccountLedgerWrapper accountLedgerWrapper = mapper.readValue(is, BitcoindeAccountLedgerWrapper.class);
+    BitcoindeAccountLedgerWrapper accountLedgerWrapper =
+        mapper.readValue(is, BitcoindeAccountLedgerWrapper.class);
 
-    final List<FundingRecord> fundingRecords = BitcoindeAdapters.adaptFundingHistory(Currency.BTC, accountLedgerWrapper.getAccountLedgers(), false);
+    final List<FundingRecord> fundingRecords =
+        BitcoindeAdapters.adaptFundingHistory(
+            Currency.BTC, accountLedgerWrapper.getAccountLedgers(), false);
 
     // Make sure trade values are correct
     assertThat(fundingRecords).isNotEmpty();
@@ -262,12 +264,15 @@ public class BitcoindeAdaptersTest {
     assertThat(fundingRecords.get(0).getCurrency()).isEqualByComparingTo(Currency.BTC);
     assertThat(fundingRecords.get(0).getAmount()).isEqualByComparingTo("0.10000000");
     assertThat(fundingRecords.get(0).getInternalId()).isNull();
-    assertThat(fundingRecords.get(0).getBlockchainTransactionHash()).isEqualTo("dqwdqwdwqwq4dqw4d5qd45qd45qwd4qw5df45g4r5g4trh4r5j5j4tz5j4tbc");
+    assertThat(fundingRecords.get(0).getBlockchainTransactionHash())
+        .isEqualTo("dqwdqwdwqwq4dqw4d5qd45qd45qwd4qw5df45g4r5g4trh4r5j5j4tz5j4tbc");
     assertThat(fundingRecords.get(0).getType()).isEqualByComparingTo(FundingRecord.Type.WITHDRAWAL);
     assertThat(fundingRecords.get(0).getBalance()).isEqualByComparingTo("4.71619794");
-    assertThat(fundingRecords.get(0).getStatus()).isEqualByComparingTo(FundingRecord.Status.COMPLETE);
+    assertThat(fundingRecords.get(0).getStatus())
+        .isEqualByComparingTo(FundingRecord.Status.COMPLETE);
     assertThat(fundingRecords.get(0).getFee()).isNull();
-    assertThat(fundingRecords.get(0).getDescription()).isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
+    assertThat(fundingRecords.get(0).getDescription())
+        .isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
 
     assertThat(fundingRecords.get(1).getAddress()).isNull();
     assertThat(fundingRecords.get(1).getAddressTag()).isNull();
@@ -275,12 +280,15 @@ public class BitcoindeAdaptersTest {
     assertThat(fundingRecords.get(1).getCurrency()).isEqualByComparingTo(Currency.BTC);
     assertThat(fundingRecords.get(1).getAmount()).isEqualByComparingTo("1.91894200");
     assertThat(fundingRecords.get(1).getInternalId()).isNull();
-    assertThat(fundingRecords.get(1).getBlockchainTransactionHash()).isEqualTo("bdgwflwguwgr884t34g4g555h4zr5j4fh5j48rg4s5bx2nt4jr5jr45j4r5j4");
+    assertThat(fundingRecords.get(1).getBlockchainTransactionHash())
+        .isEqualTo("bdgwflwguwgr884t34g4g555h4zr5j4fh5j48rg4s5bx2nt4jr5jr45j4r5j4");
     assertThat(fundingRecords.get(1).getType()).isEqualByComparingTo(FundingRecord.Type.WITHDRAWAL);
     assertThat(fundingRecords.get(1).getBalance()).isEqualByComparingTo("4.81619794");
-    assertThat(fundingRecords.get(1).getStatus()).isEqualByComparingTo(FundingRecord.Status.COMPLETE);
+    assertThat(fundingRecords.get(1).getStatus())
+        .isEqualByComparingTo(FundingRecord.Status.COMPLETE);
     assertThat(fundingRecords.get(1).getFee()).isNull();
-    assertThat(fundingRecords.get(1).getDescription()).isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
+    assertThat(fundingRecords.get(1).getDescription())
+        .isEqualTo(BitcoindeAccountLedgerType.PAYOUT.getValue());
   }
 
   @Test
@@ -333,8 +341,8 @@ public class BitcoindeAdaptersTest {
   @Test
   public void testTradeHistoryAdapter() throws IOException {
     final InputStream is =
-            BitcoindeAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/bitcoinde/v4/dto/my_trades.json");
+        BitcoindeAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/bitcoinde/v4/dto/my_trades.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
