@@ -3,7 +3,9 @@ package org.knowm.xchange.service.trade.params;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
@@ -19,6 +21,8 @@ public class TradeHistoryParamsAll
         TradeHistoryParamOffset,
         TradeHistoryParamCurrencyPair,
         TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamInstrument,
+        TradeHistoryParamMultiInstrument,
         TradeHistoryParamLimit {
 
   private Integer pageLength;
@@ -30,6 +34,8 @@ public class TradeHistoryParamsAll
   private Long offset;
   private CurrencyPair pair;
   private Collection<CurrencyPair> pairs = Collections.emptySet();
+  private Instrument instrument;
+  private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
 
   @Override
@@ -119,7 +125,9 @@ public class TradeHistoryParamsAll
 
   @Override
   public CurrencyPair getCurrencyPair() {
-
+    if (pair == null && instrument instanceof CurrencyPair) {
+      return (CurrencyPair) instrument;
+    }
     return pair;
   }
 
@@ -131,7 +139,12 @@ public class TradeHistoryParamsAll
 
   @Override
   public Collection<CurrencyPair> getCurrencyPairs() {
-
+    if (pairs.isEmpty() && !instruments.isEmpty()) {
+      return instruments.stream()
+          .filter(instrument -> instrument instanceof CurrencyPair)
+          .map(instrument -> (CurrencyPair) instrument)
+          .collect(Collectors.toSet());
+    }
     return pairs;
   }
 
@@ -139,6 +152,34 @@ public class TradeHistoryParamsAll
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
 
     pairs = value;
+  }
+
+  @Override
+  public Instrument getInstrument() {
+    if (instrument == null && pair != null) {
+      return pair;
+    }
+
+    return instrument;
+  }
+
+  @Override
+  public void setInstrument(final Instrument instrument) {
+    this.instrument = instrument;
+  }
+
+  @Override
+  public Collection<Instrument> getInstruments() {
+    if (instruments.isEmpty() && !pairs.isEmpty()) {
+      return pairs.stream().map(pair -> (Instrument) pair).collect(Collectors.toList());
+    }
+
+    return instruments;
+  }
+
+  @Override
+  public void setInstruments(final Collection<Instrument> instruments) {
+    this.instruments = instruments;
   }
 
   @Override
