@@ -10,6 +10,7 @@ import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -55,9 +56,11 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
+    Integer maxDepth = args.length > 0 ? (Integer) args[0] : null;
+
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
-            .subscribeChannel(currencyPair, args)
+            .subscribeChannel(currencyPair, maxDepth, maxDepth)
             .filter(
                 s ->
                     filterEventsByReason(s, "change", "initial")
@@ -94,7 +97,8 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                       " Unknown message type, even after filtering: " + s.toString());
                 });
 
-    return subscribedOrderbookSnapshot.map(GeminiOrderbook::toOrderbook);
+    return subscribedOrderbookSnapshot.map(
+        geminiOrderbook -> geminiOrderbook.toOrderbook(maxDepth, new Date()));
   }
 
   @Override
