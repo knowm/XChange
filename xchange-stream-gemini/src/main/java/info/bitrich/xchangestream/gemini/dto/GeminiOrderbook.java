@@ -1,12 +1,12 @@
 package info.bitrich.xchangestream.gemini.dto;
 
-import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptOrders;
-
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -14,27 +14,27 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiOrderbook {
-  private final Map<BigDecimal, GeminiLimitOrder> asks;
-  private final Map<BigDecimal, GeminiLimitOrder> bids;
+  private final Map<Double, GeminiLimitOrder> asks;
+  private final Map<Double, GeminiLimitOrder> bids;
 
   private final CurrencyPair currencyPair;
 
   public GeminiOrderbook(CurrencyPair currencyPair) {
-    asks = new ConcurrentHashMap<>();
-    bids = new ConcurrentHashMap<>();
+    this.bids = new TreeMap<>(Comparator.reverseOrder());
+    this.asks = new TreeMap<>();
     this.currencyPair = currencyPair;
   }
 
   public void createFromLevels(GeminiLimitOrder[] levels) {
     for (GeminiLimitOrder level : levels) {
-      Map<BigDecimal, GeminiLimitOrder> orderBookSide =
+      Map<Double, GeminiLimitOrder> orderBookSide =
           level.getSide() == Order.OrderType.ASK ? asks : bids;
-      orderBookSide.put(level.getPrice().stripTrailingZeros(), level);
+      orderBookSide.put(level.getPrice().doubleValue(), level);
     }
   }
 
   public void updateLevel(GeminiLimitOrder level) {
-    Map<BigDecimal, GeminiLimitOrder> orderBookSide =
+    Map<Double, GeminiLimitOrder> orderBookSide =
         level.getSide() == Order.OrderType.ASK ? asks : bids;
     boolean shouldDelete = level.getAmount().compareTo(BigDecimal.ZERO) == 0;
     // BigDecimal is immutable type (thread safe naturally),
@@ -42,9 +42,9 @@ public class GeminiOrderbook {
     // decimal scale are different, such as "1.1200" & "1.12"
     BigDecimal price = level.getPrice().stripTrailingZeros();
     if (shouldDelete) {
-      orderBookSide.remove(price);
+      orderBookSide.remove(price.doubleValue());
     } else {
-      orderBookSide.put(price, level);
+      orderBookSide.put(price.doubleValue(), level);
     }
   }
 
@@ -54,15 +54,35 @@ public class GeminiOrderbook {
     }
   }
 
-  public OrderBook toOrderbook() {
-    GeminiLimitOrder[] askLevels = asks.values().toArray(new GeminiLimitOrder[asks.size()]);
-    GeminiLimitOrder[] bidLevels = bids.values().toArray(new GeminiLimitOrder[bids.size()]);
+  public OrderBook toOrderbook(int maxLevels, Date timestamp) {
     List<LimitOrder> askOrders =
-        adaptOrders(askLevels, currencyPair, Order.OrderType.ASK).getLimitOrders();
+        asks.values().stream()
+            .limit(maxLevels)
+            .map(
+                (GeminiLimitOrder geminiLimitOrder) ->
+                    toLimitOrder(geminiLimitOrder, Order.OrderType.ASK))
+            .collect(Collectors.toList());
+
     List<LimitOrder> bidOrders =
-        adaptOrders(bidLevels, currencyPair, Order.OrderType.BID).getLimitOrders();
-    Collections.sort(askOrders);
-    Collections.sort(bidOrders);
-    return new OrderBook(null, askOrders, bidOrders);
+        bids.values().stream()
+            .limit(maxLevels)
+            .map(
+                (GeminiLimitOrder geminiLimitOrder) ->
+                    toLimitOrder(geminiLimitOrder, Order.OrderType.BID))
+            .collect(Collectors.toList());
+
+    return new OrderBook(timestamp, askOrders, bidOrders);
+  }
+
+  private LimitOrder toLimitOrder(GeminiLimitOrder geminiLimitOrder, Order.OrderType side) {
+    return new LimitOrder.Builder(side, currencyPair)
+        .limitPrice(geminiLimitOrder.getPrice())
+        .originalAmount(geminiLimitOrder.getAmount())
+        .timestamp(convertBigDecimalTimestampToDate(geminiLimitOrder.getTimestamp()))
+        .build();
+  }
+
+  static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
+    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
   }
 }
