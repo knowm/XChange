@@ -1,18 +1,13 @@
 package info.bitrich.xchangestream.coinmate;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.coinmate.dto.auth.AuthParams;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-import sun.rmi.runtime.Log;
-
 import java.io.IOException;
 
 /**
- * The new API uses one WebSocket connection per channel, unlike other exchanges,
- * which use channels over one WebSocket. This is a hack to use JsonNettyStreamingService as
- * single channel source.
+ * The new API uses one WebSocket connection per channel, unlike other exchanges, which use channels
+ * over one WebSocket. This is a hack to use JsonNettyStreamingService as single channel source.
  */
 class CoinmateStreamingService extends JsonNettyStreamingService {
 
@@ -41,7 +36,8 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
 
   public Observable<JsonNode> subscribeMessages() {
     return subscribeChannel(channelName)
-        .filter(jsonNode -> "data".equals(jsonNode.get("event").asText()) && jsonNode.has("payload"))
+        .filter(
+            jsonNode -> "data".equals(jsonNode.get("event").asText()) && jsonNode.has("payload"))
         .map(jsonNode -> jsonNode.get("payload"))
         .share();
   }

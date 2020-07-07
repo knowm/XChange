@@ -1,6 +1,11 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
 import static org.knowm.xchange.bitcoinde.BitcoindeUtils.*;
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindePair;
+import static org.knowm.xchange.bitcoinde.BitcoindeUtils.rfc3339Timestamp;
+
+import java.io.IOException;
+import java.util.Date;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeException;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeOrderState;
@@ -13,12 +18,6 @@ import org.knowm.xchange.bitcoinde.v4.dto.trade.BitcoindeMyTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.Date;
-
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.createBitcoindePair;
-import static org.knowm.xchange.bitcoinde.BitcoindeUtils.rfc3339Timestamp;
 
 public class BitcoindeTradeServiceRaw extends BitcoindeBaseService {
 
