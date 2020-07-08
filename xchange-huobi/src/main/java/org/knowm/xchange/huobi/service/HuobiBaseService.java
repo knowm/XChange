@@ -5,6 +5,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.Huobi;
 import org.knowm.xchange.huobi.dto.HuobiResult;
+import org.knowm.xchange.huobi.dto.HuobiResultV2;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiAsset;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -29,6 +30,18 @@ public class HuobiBaseService extends BaseExchangeService implements BaseService
   protected <R> R checkResult(HuobiResult<R> huobiResult) {
     if (!huobiResult.isSuccess()) {
       String huobiError = huobiResult.getError();
+      if (huobiError.length() == 0) {
+        throw new ExchangeException("Missing error message");
+      } else {
+        throw new ExchangeException(huobiError);
+      }
+    }
+    return huobiResult.getResult();
+  }
+
+  protected <R> R checkResult(HuobiResultV2<R> huobiResult) {
+    if (!huobiResult.isSuccess()) {
+      String huobiError = huobiResult.getMessage();
       if (huobiError.length() == 0) {
         throw new ExchangeException("Missing error message");
       } else {
