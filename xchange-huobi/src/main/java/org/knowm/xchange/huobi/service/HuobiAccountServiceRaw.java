@@ -7,15 +7,21 @@ import org.knowm.xchange.huobi.HuobiUtils;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
 import org.knowm.xchange.huobi.dto.account.HuobiBalance;
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
+import org.knowm.xchange.huobi.dto.account.HuobiDepositAddress;
 import org.knowm.xchange.huobi.dto.account.HuobiDepositAddressWithTag;
+import org.knowm.xchange.huobi.dto.account.HuobiFeeRate;
 import org.knowm.xchange.huobi.dto.account.HuobiFundingRecord;
+import org.knowm.xchange.huobi.dto.account.HuobiTransactFeeRate;
 import org.knowm.xchange.huobi.dto.account.HuobiWithdrawFeeRange;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiCreateWithdrawResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressV2Result;
 import org.knowm.xchange.huobi.dto.account.results.HuobiDepositAddressWithTagResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiFeeRateResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiFundingHistoryResult;
+import org.knowm.xchange.huobi.dto.account.results.HuobiTransactFeeRateResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
 
 public class HuobiAccountServiceRaw extends HuobiBaseService {
@@ -52,6 +58,30 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
     return accountCache;
   }
 
+  public HuobiFeeRate[] getFeeRate(String symbols) throws IOException {
+    HuobiFeeRateResult transactFeeRateResult =
+            huobi.getFeeRate(
+                    symbols.toLowerCase(),
+                    exchange.getExchangeSpecification().getApiKey(),
+                    HuobiDigest.HMAC_SHA_256,
+                    2,
+                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+                    signatureCreator);
+    return checkResult(transactFeeRateResult);
+  }
+
+  public HuobiTransactFeeRate[] getTransactFeeRate(String currency) throws IOException {
+    HuobiTransactFeeRateResult transactFeeRateResult =
+            huobi.getTransactFeeRate(
+                    currency.toLowerCase(),
+                    exchange.getExchangeSpecification().getApiKey(),
+                    HuobiDigest.HMAC_SHA_256,
+                    2,
+                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+                    signatureCreator);
+    return checkResult(transactFeeRateResult);
+  }
+
   public String getDepositAddress(String currency) throws IOException {
     HuobiDepositAddressResult depositAddressResult =
         huobi.getDepositAddress(
@@ -61,6 +91,18 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
             2,
             HuobiUtils.createUTCDate(exchange.getNonceFactory()),
             signatureCreator);
+    return checkResult(depositAddressResult);
+  }
+
+  public HuobiDepositAddress[] getDepositAddressV2(String currency) throws IOException {
+    HuobiDepositAddressV2Result depositAddressResult =
+            huobi.getDepositAddressV2(
+                    currency != null ? currency.toLowerCase() : null,
+                    exchange.getExchangeSpecification().getApiKey(),
+                    HuobiDigest.HMAC_SHA_256,
+                    2,
+                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+                    signatureCreator);
     return checkResult(depositAddressResult);
   }
 
@@ -80,7 +122,7 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
       throws IOException {
     HuobiFundingHistoryResult fundingHistoryResult =
         huobi.getFundingHistory(
-            currency.toLowerCase(),
+            currency != null ? currency.toLowerCase() : null,
             type.toLowerCase(),
             from,
             "100",
