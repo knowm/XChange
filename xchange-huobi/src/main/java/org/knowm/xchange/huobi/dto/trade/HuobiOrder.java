@@ -44,12 +44,12 @@ public class HuobiOrder {
       @JsonProperty("operator") String operator) {
     this.accountID = accountID;
     this.amount = amount;
-    this.canceledAt = canceledAt.getTime() != 0 ? canceledAt : null;
+    this.canceledAt = canceledAt != null && canceledAt.getTime() != 0 ? canceledAt : null;
     this.createdAt = createdAt;
     this.fieldAmount = fieldAmount;
     this.fieldCashAmount = fieldCashAmount;
     this.fieldFees = fieldFees;
-    this.finishedAt = finishedAt.getTime() != 0 ? finishedAt : null;
+    this.finishedAt = finishedAt != null && finishedAt.getTime() != 0 ? finishedAt : null;
     this.id = id;
     this.price = price;
     this.source = source;
