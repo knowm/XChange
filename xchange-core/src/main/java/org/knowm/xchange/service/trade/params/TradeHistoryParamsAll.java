@@ -1,12 +1,14 @@
 package org.knowm.xchange.service.trade.params;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the
@@ -32,8 +34,6 @@ public class TradeHistoryParamsAll
   private Date startTime;
   private Date endTime;
   private Long offset;
-  private CurrencyPair pair;
-  private Collection<CurrencyPair> pairs = Collections.emptySet();
   private Instrument instrument;
   private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
@@ -125,41 +125,36 @@ public class TradeHistoryParamsAll
 
   @Override
   public CurrencyPair getCurrencyPair() {
-    if (pair == null && instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return (CurrencyPair) instrument;
     }
-    return pair;
+
+    return null;
   }
 
   @Override
   public void setCurrencyPair(CurrencyPair pair) {
-
-    this.pair = pair;
+    this.instrument = pair;
   }
 
   @Override
   public Collection<CurrencyPair> getCurrencyPairs() {
-    if (pairs.isEmpty() && !instruments.isEmpty()) {
+    if (!instruments.isEmpty()) {
       return instruments.stream()
           .filter(instrument -> instrument instanceof CurrencyPair)
           .map(instrument -> (CurrencyPair) instrument)
           .collect(Collectors.toSet());
     }
-    return pairs;
+    return Collections.emptySet();
   }
 
   @Override
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
-
-    pairs = value;
+    this.instruments = new HashSet<>(value);
   }
 
   @Override
   public Instrument getInstrument() {
-    if (instrument == null && pair != null) {
-      return pair;
-    }
-
     return instrument;
   }
 
@@ -170,10 +165,6 @@ public class TradeHistoryParamsAll
 
   @Override
   public Collection<Instrument> getInstruments() {
-    if (instruments.isEmpty() && !pairs.isEmpty()) {
-      return pairs.stream().map(pair -> (Instrument) pair).collect(Collectors.toList());
-    }
-
     return instruments;
   }
 
