@@ -1,6 +1,7 @@
 package org.knowm.xchange;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -50,7 +51,7 @@ public interface Exchange {
    * @return The exchange's instruments
    */
   default List<Instrument> getExchangeInstruments() {
-    throw new NotYetImplementedForExchangeException();
+    return new ArrayList<>(getExchangeSymbols());
   }
 
   /**
