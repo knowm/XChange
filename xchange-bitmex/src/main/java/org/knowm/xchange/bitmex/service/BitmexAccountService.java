@@ -37,7 +37,7 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
   }
 
   public TradeHistoryParams createFundingHistoryParams() {
-    return new BitmexTradeHistroyParams();
+    return new BitmexTradeHistoryParams();
   }
 
   @Override
