@@ -272,7 +272,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ZAR = createCurrency("ZAR", "South African Rand", null);
   public static final Currency ZEC = createCurrency("ZEC", "Zcash", null);
   public static final Currency ZEN = createCurrency("ZEN", "ZenCash", null);
-  public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
+  public static final Currency ZMW = createCurrency("ZMW", "Zambian Kwacha", null, "ZMK");
+  public static final Currency ZMK = getInstance("ZMK"); // Until 31.12.2012, afterwards ZMW used
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
