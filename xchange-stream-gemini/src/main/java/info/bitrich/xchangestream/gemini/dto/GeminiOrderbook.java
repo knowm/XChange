@@ -14,8 +14,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiOrderbook {
-  private final Map<Double, GeminiLimitOrder> asks;
-  private final Map<Double, GeminiLimitOrder> bids;
+  private final Map<BigDecimal, GeminiLimitOrder> asks;
+  private final Map<BigDecimal, GeminiLimitOrder> bids;
 
   private final CurrencyPair currencyPair;
 
@@ -27,14 +27,14 @@ public class GeminiOrderbook {
 
   public void createFromLevels(GeminiLimitOrder[] levels) {
     for (GeminiLimitOrder level : levels) {
-      Map<Double, GeminiLimitOrder> orderBookSide =
+      Map<BigDecimal, GeminiLimitOrder> orderBookSide =
           level.getSide() == Order.OrderType.ASK ? asks : bids;
-      orderBookSide.put(level.getPrice().doubleValue(), level);
+      orderBookSide.put(level.getPrice(), level);
     }
   }
 
   public void updateLevel(GeminiLimitOrder level) {
-    Map<Double, GeminiLimitOrder> orderBookSide =
+    Map<BigDecimal, GeminiLimitOrder> orderBookSide =
         level.getSide() == Order.OrderType.ASK ? asks : bids;
     boolean shouldDelete = level.getAmount().compareTo(BigDecimal.ZERO) == 0;
     // BigDecimal is immutable type (thread safe naturally),
@@ -42,9 +42,9 @@ public class GeminiOrderbook {
     // decimal scale are different, such as "1.1200" & "1.12"
     BigDecimal price = level.getPrice().stripTrailingZeros();
     if (shouldDelete) {
-      orderBookSide.remove(price.doubleValue());
+      orderBookSide.remove(price);
     } else {
-      orderBookSide.put(price.doubleValue(), level);
+      orderBookSide.put(price, level);
     }
   }
 
