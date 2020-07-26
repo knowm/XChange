@@ -98,7 +98,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                 });
 
     return subscribedOrderbookSnapshot.map(
-        geminiOrderbook -> geminiOrderbook.toOrderbook(maxDepth, new Date()));
+        geminiOrderbook -> GeminiAdaptersX.toOrderbook(geminiOrderbook, maxDepth, new Date()));
   }
 
   @Override

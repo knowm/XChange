@@ -1,16 +1,12 @@
 package info.bitrich.xchangestream.gemini.dto;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiOrderbook {
@@ -54,35 +50,16 @@ public class GeminiOrderbook {
     }
   }
 
-  public OrderBook toOrderbook(int maxLevels, Date timestamp) {
-    List<LimitOrder> askOrders =
-        asks.values().stream()
-            .limit(maxLevels)
-            .map(
-                (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(geminiLimitOrder, Order.OrderType.ASK))
-            .collect(Collectors.toList());
-
-    List<LimitOrder> bidOrders =
-        bids.values().stream()
-            .limit(maxLevels)
-            .map(
-                (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(geminiLimitOrder, Order.OrderType.BID))
-            .collect(Collectors.toList());
-
-    return new OrderBook(timestamp, askOrders, bidOrders);
+  public Collection<GeminiLimitOrder> getAsks() {
+    return asks.values();
   }
 
-  private LimitOrder toLimitOrder(GeminiLimitOrder geminiLimitOrder, Order.OrderType side) {
-    return new LimitOrder.Builder(side, currencyPair)
-        .limitPrice(geminiLimitOrder.getPrice())
-        .originalAmount(geminiLimitOrder.getAmount())
-        .timestamp(convertBigDecimalTimestampToDate(geminiLimitOrder.getTimestamp()))
-        .build();
+  public Collection<GeminiLimitOrder> getBids() {
+    return bids.values();
   }
 
-  static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
-    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
+  public CurrencyPair getCurrencyPair() {
+    return currencyPair;
   }
+
 }
