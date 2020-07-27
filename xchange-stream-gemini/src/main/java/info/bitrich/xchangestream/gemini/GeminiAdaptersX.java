@@ -13,14 +13,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class GeminiAdaptersX {
 
-  public static OrderBook toOrderbook(GeminiOrderbook geminiOrderbook, int maxLevels,
-      Date timestamp) {
+  public static OrderBook toOrderbook(
+      GeminiOrderbook geminiOrderbook, int maxLevels, Date timestamp) {
     List<LimitOrder> askOrders =
         geminiOrderbook.getAsks().stream()
             .limit(maxLevels)
             .map(
                 (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.ASK))
+                    toLimitOrder(
+                        geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.ASK))
             .collect(Collectors.toList());
 
     List<LimitOrder> bidOrders =
@@ -28,15 +29,15 @@ public class GeminiAdaptersX {
             .limit(maxLevels)
             .map(
                 (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.BID))
+                    toLimitOrder(
+                        geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.BID))
             .collect(Collectors.toList());
 
     return new OrderBook(timestamp, askOrders, bidOrders);
   }
 
-  private static LimitOrder toLimitOrder(CurrencyPair currencyPair,
-      GeminiLimitOrder geminiLimitOrder,
-      Order.OrderType side) {
+  private static LimitOrder toLimitOrder(
+      CurrencyPair currencyPair, GeminiLimitOrder geminiLimitOrder, Order.OrderType side) {
     return new LimitOrder.Builder(side, currencyPair)
         .limitPrice(geminiLimitOrder.getPrice())
         .originalAmount(geminiLimitOrder.getAmount())
