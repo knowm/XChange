@@ -17,7 +17,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +29,6 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
   private final CoinjarStreamingService service;
-
-  private final Map<CurrencyPair, SortedMap<BigDecimal, LimitOrder>> bids = Maps.newConcurrentMap();
-  private final Map<CurrencyPair, SortedMap<BigDecimal, LimitOrder>> asks = Maps.newConcurrentMap();
 
   public CoinjarStreamingMarketDataService(CoinjarStreamingService service) {
     this.service = service;
@@ -48,33 +45,35 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
         });
   }
 
-  private OrderBook handleOrderbookEvent(CoinjarWebSocketBookEvent event) {
+  private static OrderBook handleOrderbookEvent(
+      CoinjarWebSocketBookEvent event,
+      Map<BigDecimal, LimitOrder> bids,
+      Map<BigDecimal, LimitOrder> asks) {
     final CurrencyPair pairFromEvent =
         CoinjarStreamingAdapters.adaptTopicToCurrencyPair(event.topic);
     switch (event.event) {
       case CoinjarWebSocketBookEvent.UPDATE:
       case CoinjarWebSocketBookEvent.INIT:
         updateOrderbook(
-            bids.get(pairFromEvent),
+            bids,
             CoinjarStreamingAdapters.toLimitOrders(
                 event.payload.bids, pairFromEvent, Order.OrderType.BID));
         updateOrderbook(
-            asks.get(pairFromEvent),
+            asks,
             CoinjarStreamingAdapters.toLimitOrders(
                 event.payload.asks, pairFromEvent, Order.OrderType.ASK));
         break;
     }
     return new OrderBook(
-        null,
-        Lists.newArrayList(asks.get(pairFromEvent).values()),
-        Lists.newArrayList(bids.get(pairFromEvent).values()));
+        null, Lists.newArrayList(asks.values()), Lists.newArrayList(bids.values()));
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    final SortedMap<BigDecimal, LimitOrder> bids =
+        Maps.newTreeMap((o1, o2) -> Math.negateExact(o1.compareTo(o2)));
+    final SortedMap<BigDecimal, LimitOrder> asks = Maps.newTreeMap(BigDecimal::compareTo);
     String channelName = CoinjarStreamingAdapters.adaptCurrencyPairToBookTopic(currencyPair);
-    this.asks.put(currencyPair, Maps.newTreeMap(BigDecimal::compareTo));
-    this.bids.put(currencyPair, Maps.newTreeMap((o1, o2) -> Math.negateExact(o1.compareTo(o2))));
     return service
         .subscribeChannel(channelName)
         .doOnError(
@@ -86,18 +85,18 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
             node -> {
               CoinjarWebSocketBookEvent orderEvent =
                   mapper.treeToValue(node, CoinjarWebSocketBookEvent.class);
-              return this.handleOrderbookEvent(orderEvent);
+              return handleOrderbookEvent(orderEvent, bids, asks);
             })
         .filter(orderbook -> !orderbook.getBids().isEmpty() && !orderbook.getAsks().isEmpty());
   }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 }
