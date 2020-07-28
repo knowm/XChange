@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexExceptionV1;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
@@ -24,7 +24,7 @@ public interface Bitfinex {
   @GET
   @Path("pubticker/{symbol}")
   BitfinexTicker getTicker(@PathParam("symbol") String symbol)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("book/{symbol}")
@@ -32,11 +32,11 @@ public interface Bitfinex {
       @PathParam("symbol") String symbol,
       @QueryParam("limit_bids") int limit_bids,
       @QueryParam("limit_asks") int limit_asks)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("book/{symbol}")
-  BitfinexDepth getBook(@PathParam("symbol") String symbol) throws IOException, BitfinexException;
+  BitfinexDepth getBook(@PathParam("symbol") String symbol) throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("lendbook/{currency}")
@@ -44,13 +44,13 @@ public interface Bitfinex {
       @PathParam("currency") String currency,
       @QueryParam("limit_bids") int limit_bids,
       @QueryParam("limit_asks") int limit_asks)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("trades/{symbol}")
   BitfinexTrade[] getTrades(
       @PathParam("symbol") String symbol, @QueryParam("timestamp") long timestamp)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("lends/{currency}")
@@ -58,13 +58,13 @@ public interface Bitfinex {
       @PathParam("currency") String currency,
       @QueryParam("timestamp") long timestamp,
       @QueryParam("limit_trades") int limit_trades)
-      throws IOException, BitfinexException;
+      throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("symbols")
-  Set<String> getSymbols() throws IOException, BitfinexException;
+  Set<String> getSymbols() throws IOException, BitfinexExceptionV1;
 
   @GET
   @Path("symbols_details")
-  List<BitfinexSymbolDetail> getSymbolsDetails() throws IOException, BitfinexException;
+  List<BitfinexSymbolDetail> getSymbolsDetails() throws IOException, BitfinexExceptionV1;
 }

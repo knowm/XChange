@@ -10,11 +10,11 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EnigmaExchange extends BaseExchange {
 
-  private static final String SSL_URI = "https://test.enigma-securities.io/";
-  private static final String HOST = "test.enigma-securities.io";
+  // private static final String SSL_URI = "https://api-test.enigma-securities.io/";
+  // private static final String HOST = "api-test.enigma-securities.io";
 
-  //  private static final String SSL_URI = "https://api.enigma-securities.io/";
-  //  private static final String HOST = "api.enigma-securities.io";
+  private static final String SSL_URI = "https://api.enigma-securities.io/";
+  private static final String HOST = "api.enigma-securities.io";
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 

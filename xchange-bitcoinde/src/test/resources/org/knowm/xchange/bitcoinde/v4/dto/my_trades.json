@@ -1,0 +1,43 @@
+{
+  "trades": [
+    {
+      "trade_id": "2EDYNS",
+      "trading_pair": "btceur",
+      "is_external_wallet_trade": false,
+      "type": "sell",
+      "amount_currency_to_trade": 0.5,
+      "price": 250.55,
+      "volume_currency_to_pay": 125.28,
+      "volume_currency_to_pay_after_fee": 124.68,
+      "amount_currency_to_trade_after_fee": 0.4975,
+      "fee_currency_to_pay": 0.6,
+      "fee_currency_to_trade": 0.0025,
+      "new_order_id_for_remaining_amount": "C4Y8HD",
+      "state": 1,
+      "is_trade_marked_as_paid": false,
+      "my_rating_for_trading_partner": "positive",
+      "trading_partner_information":
+      {
+        "username":"testuser",
+        "is_kyc_full": true,
+        "depositor": "Max Musterman",
+        "iban": "DE02370501980001802057",
+        "bank_name": "sparkasse",
+        "bic": "HASPDEHHXXX",
+        "rating": 99,
+        "amount_trades": 42,
+        "trust_level": "gold",
+        "seat_of_bank": "DE"
+      },
+      "payment_method": 1,
+      "created_at": "2015-01-10T15:00:00+02:00",
+      "successfully_finished_at": "2015-01-10T15:00:00+02:00"
+    }
+  ],
+  "page": {
+    "current": 2,
+    "last": 4
+  },
+  "errors": [],
+  "credits": 15
+}

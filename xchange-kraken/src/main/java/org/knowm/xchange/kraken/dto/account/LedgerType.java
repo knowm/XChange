@@ -16,9 +16,11 @@ import org.knowm.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
 public enum LedgerType {
   DEPOSIT,
   WITHDRAWAL,
+  SETTLED,
   TRADE,
   MARGIN,
   CREDIT,
+  STAKING,
   ROLLOVER,
   TRANSFER,
   ADJUSTMENT;

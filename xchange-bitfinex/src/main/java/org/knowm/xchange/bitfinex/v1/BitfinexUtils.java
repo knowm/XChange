@@ -1,8 +1,9 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /** A central place for shared Bitfinex properties */
 public final class BitfinexUtils {
@@ -31,6 +32,17 @@ public final class BitfinexUtils {
         + base
         + currencySeparator(base, counter)
         + adaptXchangeCurrency(currencyPair.counter);
+  }
+
+  public static String toPairStringV1(CurrencyPair currencyPair) {
+
+    if (currencyPair == null) {
+      return null;
+    }
+
+    String base = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.base));
+    String counter = StringUtils.lowerCase(adaptXchangeCurrency(currencyPair.counter));
+    return base + currencySeparator(base, counter) + adaptXchangeCurrency(currencyPair.counter);
   }
 
   /**
@@ -94,7 +106,7 @@ public final class BitfinexUtils {
       case "USDT":
         return "tetheruso";
       default:
-        throw new BitfinexException("Cannot determine withdrawal type.");
+        throw new ExchangeException("Cannot determine withdrawal type.");
     }
   }
 }

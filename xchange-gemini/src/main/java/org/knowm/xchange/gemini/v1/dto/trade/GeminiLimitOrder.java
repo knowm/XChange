@@ -6,7 +6,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /**
- * Poloniex order response contains details of any trades that have just executed in the order entry
+ * Gemini order response contains details of any trades that have just executed in the order entry
  * return value. If a LimitOrder of this type is supplied to the trade service orderEntry method it
  * will be populated with this information.
  */
@@ -40,7 +40,8 @@ public class GeminiLimitOrder extends LimitOrder {
 
     public GeminiLimitOrder build() {
       final GeminiLimitOrder order =
-          new GeminiLimitOrder(orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+          new GeminiLimitOrder(
+              orderType, originalAmount, (CurrencyPair) instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

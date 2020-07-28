@@ -146,7 +146,7 @@ public class LgoAdaptersTest {
     MarketOrder marketOrder =
         new MarketOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, null, now);
 
-    LgoPlaceOrder bidOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+    LgoPlaceOrder bidOrder = LgoAdapters.adaptEncryptedMarketOrder(marketOrder);
 
     assertThat(bidOrder)
         .isEqualToComparingFieldByField(
@@ -159,7 +159,7 @@ public class LgoAdaptersTest {
     MarketOrder marketOrder =
         new MarketOrder(OrderType.ASK, new BigDecimal("1"), CurrencyPair.BTC_USD, null, timestamp);
 
-    LgoPlaceOrder bidOrder = LgoAdapters.adaptMarketOrder(marketOrder);
+    LgoPlaceOrder bidOrder = LgoAdapters.adaptEncryptedMarketOrder(marketOrder);
 
     assertThat(bidOrder)
         .isEqualToComparingFieldByField(
@@ -214,28 +214,30 @@ public class LgoAdaptersTest {
     assertThat(userTrades.getUserTrades()).hasSize(2);
     assertThat(userTrades.getUserTrades().get(0))
         .isEqualToComparingFieldByField(
-            new UserTrade(
-                OrderType.ASK,
-                new BigDecimal("0.00500000"),
-                CurrencyPair.BTC_USD,
-                new BigDecimal("3854.0000"),
-                dateFormat.parse("2019-03-05T16:37:17.220Z"),
-                "2",
-                "155180383648300001",
-                new BigDecimal("0.0096"),
-                Currency.USD));
+            new UserTrade.Builder()
+                .type(OrderType.ASK)
+                .originalAmount(new BigDecimal("0.00500000"))
+                .currencyPair(CurrencyPair.BTC_USD)
+                .price(new BigDecimal("3854.0000"))
+                .timestamp(dateFormat.parse("2019-03-05T16:37:17.220Z"))
+                .id("2")
+                .orderId("155180383648300001")
+                .feeAmount(new BigDecimal("0.0096"))
+                .feeCurrency(Currency.USD)
+                .build());
     assertThat(userTrades.getUserTrades().get(1))
         .isEqualToComparingFieldByField(
-            new UserTrade(
-                OrderType.BID,
-                new BigDecimal("0.00829566"),
-                CurrencyPair.BTC_USD,
-                new BigDecimal("2410.9000"),
-                dateFormat.parse("2019-06-20T15:37:21.855Z"),
-                "2477363",
-                "156104504046400001",
-                new BigDecimal("0.0100"),
-                Currency.USD));
+            new UserTrade.Builder()
+                .type(OrderType.BID)
+                .originalAmount(new BigDecimal("0.00829566"))
+                .currencyPair(CurrencyPair.BTC_USD)
+                .price(new BigDecimal("2410.9000"))
+                .timestamp(dateFormat.parse("2019-06-20T15:37:21.855Z"))
+                .id("2477363")
+                .orderId("156104504046400001")
+                .feeAmount(new BigDecimal("0.0100"))
+                .feeCurrency(Currency.USD)
+                .build());
   }
 
   @Test

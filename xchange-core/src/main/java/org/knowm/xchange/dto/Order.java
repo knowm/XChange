@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -13,6 +14,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.instrument.Instrument;
 
 /** Data object representing an order */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "trigger")
@@ -29,8 +31,8 @@ public abstract class Order implements Serializable {
   private final OrderType type;
   /** Amount to be ordered / amount that was ordered */
   private final BigDecimal originalAmount;
-  /** The currency pair */
-  private final CurrencyPair currencyPair;
+  /** The instrument could be a currency pair of derivative */
+  private final Instrument instrument;
   /** An identifier set by the exchange that uniquely identifies the order */
   private final String id;
   /** An identifier provided by the user on placement that uniquely identifies the order */
@@ -59,18 +61,14 @@ public abstract class Order implements Serializable {
    *     not provided
    */
   public Order(
-      OrderType type,
-      BigDecimal originalAmount,
-      CurrencyPair currencyPair,
-      String id,
-      Date timestamp) {
-    this(type, originalAmount, currencyPair, id, timestamp, null, null, null, null);
+      OrderType type, BigDecimal originalAmount, Instrument instrument, String id, Date timestamp) {
+    this(type, originalAmount, instrument, id, timestamp, null, null, null, null);
   }
 
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if
    *     not provided
@@ -82,7 +80,7 @@ public abstract class Order implements Serializable {
   public Order(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal averagePrice,
@@ -93,7 +91,7 @@ public abstract class Order implements Serializable {
     this(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         averagePrice,
@@ -106,7 +104,7 @@ public abstract class Order implements Serializable {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if
    *     not provided
@@ -119,7 +117,7 @@ public abstract class Order implements Serializable {
   public Order(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal averagePrice,
@@ -130,7 +128,7 @@ public abstract class Order implements Serializable {
 
     this.type = type;
     this.originalAmount = originalAmount;
-    this.currencyPair = currencyPair;
+    this.instrument = instrument;
     this.id = id;
     this.timestamp = timestamp;
     this.averagePrice = averagePrice;
@@ -190,6 +188,7 @@ public abstract class Order implements Serializable {
     this.cumulativeAmount = cumulativeAmount;
   }
 
+  @JsonIgnore
   public BigDecimal getCumulativeCounterAmount() {
     if (cumulativeAmount != null
         && averagePrice != null
@@ -223,9 +222,23 @@ public abstract class Order implements Serializable {
     this.averagePrice = averagePrice;
   }
 
+  /**
+   * @deprecated CurrencyPair is a subtype of Instrument - this method will throw an exception if
+   *     the order was for a derivative
+   *     <p>use {@link #getInstrument()} instead
+   */
+  @Deprecated
   public CurrencyPair getCurrencyPair() {
+    if (!(instrument instanceof CurrencyPair)) {
+      throw new IllegalStateException(
+          "The instrument of this order is not a currency pair: " + instrument);
+    }
+    return (CurrencyPair) instrument;
+  }
 
-    return currencyPair;
+  /** @return The instrument to be bought or sold */
+  public Instrument getInstrument() {
+    return instrument;
   }
 
   /** @return A unique identifier (normally provided by the exchange) */
@@ -294,8 +307,8 @@ public abstract class Order implements Serializable {
         + print(averagePrice)
         + ", fee="
         + print(fee)
-        + ", currencyPair="
-        + currencyPair
+        + ", instrument="
+        + instrument
         + ", id="
         + id
         + ", timestamp="
@@ -315,7 +328,7 @@ public abstract class Order implements Serializable {
     int hash = 7;
     hash = 83 * hash + (this.type != null ? this.type.hashCode() : 0);
     hash = 83 * hash + (this.originalAmount != null ? this.originalAmount.hashCode() : 0);
-    hash = 83 * hash + (this.currencyPair != null ? this.currencyPair.hashCode() : 0);
+    hash = 83 * hash + (this.instrument != null ? this.instrument.hashCode() : 0);
     hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
     hash = 83 * hash + (this.timestamp != null ? this.timestamp.hashCode() : 0);
     return hash;
@@ -339,9 +352,9 @@ public abstract class Order implements Serializable {
         : this.originalAmount.compareTo(other.originalAmount) != 0) {
       return false;
     }
-    if ((this.currencyPair == null)
-        ? (other.currencyPair != null)
-        : !this.currencyPair.equals(other.currencyPair)) {
+    if ((this.instrument == null)
+        ? (other.instrument != null)
+        : !this.instrument.equals(other.instrument)) {
       return false;
     }
     if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
@@ -458,18 +471,19 @@ public abstract class Order implements Serializable {
     protected BigDecimal originalAmount;
     protected BigDecimal cumulativeAmount;
     protected BigDecimal remainingAmount;
-    protected CurrencyPair currencyPair;
+    protected Instrument instrument;
     protected String id;
     protected String userReference;
     protected Date timestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
     protected BigDecimal fee;
+    protected String leverage;
 
-    protected Builder(OrderType orderType, CurrencyPair currencyPair) {
+    protected Builder(OrderType orderType, Instrument instrument) {
 
       this.orderType = orderType;
-      this.currencyPair = currencyPair;
+      this.instrument = instrument;
     }
 
     @JsonProperty("type")
@@ -516,9 +530,15 @@ public abstract class Order implements Serializable {
       return this;
     }
 
+    @Deprecated
     public Builder currencyPair(CurrencyPair currencyPair) {
 
-      this.currencyPair = currencyPair;
+      this.instrument = currencyPair;
+      return this;
+    }
+
+    public Builder instrument(Instrument instrument) {
+      this.instrument = instrument;
       return this;
     }
 
@@ -537,6 +557,12 @@ public abstract class Order implements Serializable {
     public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this;
+    }
+
+    public Builder leverage(String leverage) {
+
+      this.leverage = leverage;
       return this;
     }
 

@@ -33,6 +33,14 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
     }
   }
 
+  public BitstampTicker getBitstampTickerHourly(CurrencyPair pair) throws IOException {
+    try {
+      return bitstampV2.getTickerHour(new BitstampV2.Pair(pair));
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
+  }
+
   public BitstampOrderBook getBitstampOrderBook(CurrencyPair pair) throws IOException {
 
     try {

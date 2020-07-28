@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
@@ -54,7 +54,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
   private Ticker getTickerV1(CurrencyPair currencyPair, Object... args) throws IOException {
     try {
       return BitfinexAdapters.adaptTicker(
-          getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
+          getBitfinexTicker(BitfinexUtils.toPairStringV1(currencyPair)), currencyPair);
     } catch (BitfinexException e) {
       throw BitfinexErrorAdapter.adapt(e);
     }
@@ -92,7 +92,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
       }
 
       BitfinexDepth bitfinexDepth =
-          getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
+          getBitfinexOrderBook(BitfinexUtils.toPairStringV1(currencyPair), limitBids, limitAsks);
 
       OrderBook orderBook = BitfinexAdapters.adaptOrderBook(bitfinexDepth, currencyPair);
 
@@ -178,7 +178,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
         }
       }
       BitfinexTrade[] trades =
-          getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);
+          getBitfinexTrades(BitfinexUtils.toPairStringV1(currencyPair), lastTradeTime);
 
       return BitfinexAdapters.adaptTrades(trades, currencyPair);
     } catch (BitfinexException e) {

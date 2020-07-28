@@ -1,0 +1,34 @@
+[
+  {
+    "id": "123456fr-d7ca-4f16-a149-d8cea6917985",
+    "marketSymbol": "XHV-BTC",
+    "direction": "BUY",
+    "type": "LIMIT",
+    "quantity": "87.42156583",
+    "limit": "0.00016143",
+    "timeInForce": "GOOD_TIL_CANCELLED",
+    "fillQuantity": "25.52000000",
+    "commission": "0.00000000",
+    "proceeds": "0.00411969",
+    "status": "CLOSED",
+    "createdAt": "2020-06-28T07:30:06.97Z",
+    "updatedAt": "2020-06-28T07:30:17.11Z",
+    "closedAt": "2020-06-28T07:30:17.11Z"
+  },
+  {
+    "id": "43082242-43d5-4b02-a234-090a3cfa2345",
+    "marketSymbol": "QNT-BTC",
+    "direction": "SELL",
+    "type": "LIMIT",
+    "quantity": "113.32485631",
+    "limit": "0.00094822",
+    "timeInForce": "GOOD_TIL_CANCELLED",
+    "fillQuantity": "3.36087071",
+    "commission": "0.00000000",
+    "proceeds": "0.00318684",
+    "status": "CLOSED",
+    "createdAt": "2020-06-28T07:30:06.11Z",
+    "updatedAt": "2020-06-28T07:30:07.39Z",
+    "closedAt": "2020-06-28T07:30:07.39Z"
+  }
+]

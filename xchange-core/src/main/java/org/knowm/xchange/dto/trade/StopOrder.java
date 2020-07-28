@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.Builder;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * DTO representing a stop order
@@ -23,6 +25,11 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
   private static final long serialVersionUID = -7341286101341375106L;
 
+  public enum Intention {
+    STOP_LOSS,
+    TAKE_PROFIT
+  }
+
   /** The stop price */
   protected final BigDecimal stopPrice;
   /**
@@ -30,10 +37,14 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
    * the stop price is hit
    */
   protected BigDecimal limitPrice = null;
+
+  /** Some exchanges requires to define the goal of stop order */
+  protected Intention intention = null;
+
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -43,12 +54,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice) {
 
-    super(type, originalAmount, currencyPair, id, timestamp);
+    super(type, originalAmount, instrument, id, timestamp);
     this.stopPrice = stopPrice;
   }
 
@@ -56,7 +67,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
    * @param cumulativeAmount The cumulative amount
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -67,7 +78,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       OrderType type,
       BigDecimal originalAmount,
       BigDecimal cumulativeAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice) {
@@ -75,7 +86,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     super(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         BigDecimal.ZERO,
@@ -88,7 +99,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param Instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -101,7 +112,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice,
@@ -112,7 +123,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     super(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         averagePrice,
@@ -125,7 +136,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -140,7 +151,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice,
@@ -152,7 +163,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     this(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         stopPrice,
@@ -166,7 +177,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -182,7 +193,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice,
@@ -195,7 +206,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     super(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         averagePrice,
@@ -209,7 +220,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp according to the exchange's
    *     server, null if not provided
@@ -224,7 +235,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   public StopOrder(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal stopPrice,
@@ -233,12 +244,13 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       BigDecimal cumulativeAmount,
       BigDecimal fee,
       OrderStatus status,
-      String userReference) {
+      String userReference,
+      Intention intention) {
 
     super(
         type,
         originalAmount,
-        currencyPair,
+        instrument,
         id,
         timestamp,
         averagePrice,
@@ -248,6 +260,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         userReference);
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
+    this.intention = intention;
   }
 
   /** @return The stop price */
@@ -262,6 +275,11 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     return limitPrice;
   }
 
+  /** @return The order intention */
+  public Intention getIntention() {
+    return intention;
+  }
+
   @Override
   public String toString() {
 
@@ -269,6 +287,8 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         + stopPrice
         + ", limitPrice="
         + limitPrice
+        + ", intention="
+        + intention
         + ", "
         + super.toString()
         + "]";
@@ -277,45 +297,48 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
   @Override
   public int compareTo(StopOrder stopOrder) {
 
-    final int ret;
-
-    if (this.getType() == stopOrder.getType()) {
-      // Same side
-      ret =
-          this.getStopPrice().compareTo(stopOrder.getStopPrice())
-              * (getType() == OrderType.BID ? -1 : 1);
-    } else {
-      // Keep bid side be less than ask side
-      ret = this.getType() == OrderType.BID ? -1 : 1;
+    if (this.getType() != stopOrder.getType()) {
+      return this.getType() == OrderType.BID ? -1 : 1;
     }
-
-    return ret;
-  }
-
-  @Override
-  public int hashCode() {
-
-    int hash = super.hashCode();
-    hash = 59 * hash + (this.stopPrice != null ? this.stopPrice.hashCode() : 0);
-    return hash;
+    if (this.getStopPrice().compareTo(stopOrder.getStopPrice()) != 0) {
+      return this.getType() == OrderType.BID ? -1 : 1;
+    }
+    return ObjectUtils.compare(this.getIntention(), stopOrder.getIntention());
   }
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof StopOrder)) {
+      return false;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
 
-    if (obj == null) {
+    StopOrder stopOrder = (StopOrder) obj;
+
+    if (!Objects.equals(stopPrice, stopOrder.stopPrice)) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (!Objects.equals(limitPrice, stopOrder.limitPrice)) {
       return false;
     }
-    final StopOrder other = (StopOrder) obj;
-    if (this.stopPrice == null
-        ? (other.stopPrice != null)
-        : this.stopPrice.compareTo(other.stopPrice) != 0) {
+    if (!Objects.equals(intention, stopOrder.intention)) {
       return false;
     }
-    return super.equals(obj);
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + stopPrice.hashCode();
+    result = 31 * result + (limitPrice != null ? limitPrice.hashCode() : 0);
+    result = 31 * result + (intention != null ? intention.hashCode() : 0);
+    return result;
   }
 
   @JsonPOJOBuilder(withPrefix = "")
@@ -325,18 +348,20 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
 
     protected BigDecimal limitPrice;
 
+    protected Intention intention;
+
     @JsonCreator
     public Builder(
         @JsonProperty("orderType") OrderType orderType,
-        @JsonProperty("currencyPair") CurrencyPair currencyPair) {
+        @JsonProperty("instrument") Instrument instrument) {
 
-      super(orderType, currencyPair);
+      super(orderType, instrument);
     }
 
     public static Builder from(Order order) {
 
       Builder builder =
-          new Builder(order.getType(), order.getCurrencyPair())
+          new Builder(order.getType(), order.getInstrument())
               .originalAmount(order.getOriginalAmount())
               .cumulativeAmount(order.getCumulativeAmount())
               .timestamp(order.getTimestamp())
@@ -350,6 +375,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
         StopOrder stopOrder = (StopOrder) order;
         builder.stopPrice(stopOrder.getStopPrice());
         builder.limitPrice(stopOrder.getLimitPrice());
+        builder.intention(stopOrder.getIntention());
       }
       return builder;
     }
@@ -385,9 +411,16 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
     }
 
     @Override
+    @Deprecated
     public Builder currencyPair(CurrencyPair currencyPair) {
 
       return (Builder) super.currencyPair(currencyPair);
+    }
+
+    @Override
+    public Builder instrument(Instrument instrument) {
+
+      return (Builder) super.instrument(instrument);
     }
 
     @Override
@@ -444,6 +477,12 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
       return this;
     }
 
+    public Builder intention(Intention intention) {
+
+      this.intention = intention;
+      return this;
+    }
+
     @Override
     public StopOrder build() {
 
@@ -451,7 +490,7 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
           new StopOrder(
               orderType,
               originalAmount,
-              currencyPair,
+              instrument,
               id,
               timestamp,
               stopPrice,
@@ -462,9 +501,11 @@ public class StopOrder extends Order implements Comparable<StopOrder> {
                   : originalAmount.subtract(remainingAmount),
               fee,
               status,
-              userReference);
+              userReference,
+              intention);
 
       order.setOrderFlags(flags);
+      order.setLeverage(leverage);
       return order;
     }
   }
