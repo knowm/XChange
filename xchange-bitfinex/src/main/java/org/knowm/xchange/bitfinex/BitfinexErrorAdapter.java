@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitfinex;
 
 import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
@@ -17,13 +17,14 @@ public class BitfinexErrorAdapter {
     if (StringUtils.isEmpty(message)) {
       return new ExchangeException(e);
     }
-    if (message.toLowerCase().contains("unknown symbol")) {
+    message = message.toLowerCase();
+    if (message.contains("unknown symbol") || message.contains("symbol: invalid")) {
       return new CurrencyPairNotValidException(message, e);
-    } else if (message.toLowerCase().contains("not enough exchange balance")) {
+    } else if (message.contains("not enough exchange balance")) {
       return new FundsExceededException(message, e);
-    } else if (message.toUpperCase().contains("ERR_RATE_LIMIT")) {
+    } else if (message.contains("err_rate_limit")) {
       return new RateLimitExceededException(e);
-    } else if (message.toLowerCase().contains("nonce")) {
+    } else if (message.contains("nonce")) {
       return new NonceException(e);
     }
     return new ExchangeException(message, e);

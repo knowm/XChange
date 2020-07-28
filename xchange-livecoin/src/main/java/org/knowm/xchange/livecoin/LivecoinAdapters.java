@@ -137,13 +137,15 @@ public class LivecoinAdapters {
     for (LivecoinTrade trade : tradesRaw) {
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
       Trade t =
-          new Trade(
-              type,
-              trade.getQuantity(),
-              currencyPair,
-              trade.getPrice(),
-              parseDate(trade.getTime()),
-              String.valueOf(trade.getId()));
+          new Trade.Builder()
+              .type(type)
+              .originalAmount(trade.getQuantity())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(parseDate(trade.getTime()))
+              .id(String.valueOf(trade.getId()))
+              .build();
+
       trades.add(t);
     }
 
@@ -243,16 +245,17 @@ public class LivecoinAdapters {
 
     String id = map.get("id").toString();
 
-    return new UserTrade(
-        type,
-        amountA,
-        new CurrencyPair(ccyA, ccyB),
-        price,
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
-        id,
-        Optional.ofNullable(map.get("externalKey")).map(Object::toString).orElse(null),
-        new BigDecimal(map.get("fee").toString()),
-        getInstance(map.get("taxCurrency").toString()));
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(amountA)
+        .currencyPair(new CurrencyPair(ccyA, ccyB))
+        .price(price)
+        .timestamp(DateUtils.fromMillisUtc(Long.parseLong(map.get("date").toString())))
+        .id(id)
+        .orderId(Optional.ofNullable(map.get("externalKey")).map(Object::toString).orElse(null))
+        .feeAmount(new BigDecimal(map.get("fee").toString()))
+        .feeCurrency(getInstance(map.get("taxCurrency").toString()))
+        .build();
   }
 
   public static FundingRecord adaptFundingRecord(Map map) {
@@ -261,7 +264,7 @@ public class LivecoinAdapters {
 
     return new FundingRecord(
         Optional.ofNullable(map.get("externalKey")).map(Object::toString).orElse(null),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+        DateUtils.fromMillisUtc(Long.parseLong(map.get("date").toString())),
         getInstance(map.get("fixedCurrency").toString()),
         new BigDecimal(map.get("amount").toString()),
         map.get("id").toString(),

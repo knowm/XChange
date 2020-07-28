@@ -5,6 +5,7 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
+import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
@@ -24,6 +25,18 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
     checkAuthenticated();
     return classifyingExceptions(
         () -> accountApi.getAccountList(apiKey, digest, nonceFactory, passphrase, null, null));
+  }
+
+  public Void createKucoinAccount(String currency, String type) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            accountApi.createAccount(
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                CreateAccountRequest.builder().currency(currency).type(type).build()));
   }
 
   public ApplyWithdrawResponse applyWithdraw(ApplyWithdrawApiRequest req) throws IOException {

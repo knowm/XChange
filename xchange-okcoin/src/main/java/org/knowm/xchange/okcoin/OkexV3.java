@@ -12,7 +12,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.okcoin.v3.dto.account.BillType;
+import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
+import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
@@ -21,6 +25,7 @@ import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalRequest;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexWithdrawalResponse;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexOrderBook;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
@@ -34,8 +39,14 @@ import org.knowm.xchange.okcoin.v3.dto.trade.FuturesMultipleOrderPlacementReques
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOpenOrdersResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOrderPlacementRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesPositionsResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginBorrowRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginBorrowResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginRepaymentRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginRepaymentResponse;
+import org.knowm.xchange.okcoin.v3.dto.trade.MarginSetLeverageRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexFuturesTransaction;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexSwapTransaction;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexTransaction;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderBatchCancellationRequest;
@@ -63,7 +74,7 @@ public interface OkexV3 {
   public static final String OK_ACCESS_SIGN = "OK-ACCESS-SIGN";
   public static final String OK_ACCESS_TIMESTAMP = "OK-ACCESS-TIMESTAMP";
 
-  /** ******************************** Funding Account API ********************************* */
+  /** ******************************* Funding Account API ********************************* */
   @GET
   @Path("/account/v3/wallet")
   List<OkexFundingAccountRecord> fundingAccountInformation(
@@ -126,7 +137,7 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
       throws IOException, OkexException;
 
-  /** ******************************** Spot Token Trading API ********************************* */
+  /** ******************************* Spot Token Trading API ********************************* */
   @GET
   @Path("/spot/v3/accounts")
   List<OkexSpotAccountRecord> spotTradingAccount(
@@ -214,6 +225,17 @@ public interface OkexV3 {
       @QueryParam("state") String state)
       throws IOException, OkexException;
 
+  @GET
+  @Path("/spot/v3/orders/{order_id}")
+  OkexOpenOrder getSpotOrderDetails(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("order_id") String orderId,
+      @QueryParam("instrument_id") String instrumentId)
+      throws IOException, OkexException;
+
   /**
    * @param orderId required, order ID
    * @param instrumentId required, trading pair
@@ -253,7 +275,13 @@ public interface OkexV3 {
   OkexSpotTicker getSpotTicker(@PathParam("instrument_id") String instrumentId)
       throws IOException, OkexException;
 
-  /** ******************************** Futures Trading API ********************************* */
+  @GET
+  @Path("/spot/v3/instruments/{instrument_id}/book")
+  OkexOrderBook getOrderBook(
+      @PathParam("instrument_id") String instrumentId, @QueryParam("size") int size)
+      throws IOException, OkexException;
+
+  /** ******************************* Futures Trading API ********************************* */
   @GET
   @Path("/futures/v3/instruments")
   List<OkexFutureInstrument> getAllFutureInstruments() throws IOException, OkexException;
@@ -298,6 +326,35 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
       @PathParam("currency") String currency)
+      throws IOException, OkexException;
+
+  /**
+   * Retrieve the bills of the futures account. The bill refers to all the records that results in
+   * changing the balance of an account. This API can retrieve data in the last 2 days.
+   *
+   * @param underlying - requierd，eg：BTC-USD BTC-USDT
+   * @param after - optional, Pagination of data to return records earlier than the requested
+   *     ledger_id
+   * @param before - optional, Pagination of data to return records newer than the requested
+   *     ledger_id
+   * @param limit - optional, Number of results per request. The maximum is 100; the default is 100
+   * @param type - optional, 1:Open Long 2:Open Short 3:Close Long 4:Close Short 5:Transaction Fee
+   *     6:Transfer In， 7:Transfer Out 8:Settled RPL 13: Full Liquidation of Long 14: Full
+   *     Liquidation of Short 15: Delivery Long 16: Delivery Short 17:Settled UPL Long 18:Settled
+   *     UPL Short 20:Partial Liquidation of Short 21:Partial Liquidation of Long
+   */
+  @GET
+  @Path("/futures/v3/accounts/{underlying}/ledger")
+  List<FuturesBillsResponse> getFuturesBills(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("underlying") String underlying,
+      @QueryParam("after") String after,
+      @QueryParam("before") String before,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("type") BillType type)
       throws IOException, OkexException;
 
   /**
@@ -490,6 +547,134 @@ public interface OkexV3 {
   @GET
   @Path("/swap/v3/fills")
   List<OkexSwapTransaction> getSwapTransactionDetails(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @QueryParam("order_id") String orderId,
+      @QueryParam("instrument_id") String instrumentId,
+      @QueryParam("from") String from,
+      @QueryParam("to") String to,
+      @QueryParam("limit") Integer limit)
+      throws IOException, OkexException;
+  /** ******************************** Margin Trading API ********************************* */
+  @GET
+  @Path("/margin/v3/accounts")
+  MarginAccountResponse[] marginAccounts(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  @GET
+  @Path("/margin/v3/accounts/availability")
+  List<MarginAccountSettingsRecord> marginAccountsSettings(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
+      throws IOException, OkexException;
+
+  @POST
+  @Path("/margin/v3/orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OrderPlacementResponse marginPlaceOrder(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      SpotOrderPlacementRequest req)
+      throws IOException, OkexException;
+
+  @POST
+  @Path("/margin/v3/accounts/{instrument_id}/leverage")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OkexResponse setLeverage(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("instrument_id") String instrumentId,
+      MarginSetLeverageRequest req)
+      throws IOException, OkexException;
+
+  @POST
+  @Path("/margin/v3/accounts/borrow")
+  @Consumes(MediaType.APPLICATION_JSON)
+  MarginBorrowResponse marginBorrow(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      MarginBorrowRequest req)
+      throws IOException, OkexException;
+
+  @POST
+  @Path("/margin/v3/accounts/repayment")
+  @Consumes(MediaType.APPLICATION_JSON)
+  MarginRepaymentResponse marginRepayment(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      MarginRepaymentRequest req)
+      throws IOException, OkexException;
+
+  @POST
+  @Path("/margin/v3/cancel_order/{instrument_id}/{order_id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  OrderCancellationResponse marginCancelOrder(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @PathParam("instrument_id") String instrumentId,
+      @PathParam("order_id") String orderId)
+      throws IOException, OkexException;
+
+  /**
+   * @param instrumentId [required] list the orders of specific trading pairs
+   * @param from [optional] request page after this id (latest information) (eg. 1, 2, 3, 4, 5.
+   *     There is only a 5 "from 4", while there are 1, 2, 3 "to 4")
+   * @param to [optional] request page after (newer) this id.
+   * @param limit [optional] number of results per request. Maximum 100. (default 100)
+   * @param state [required ] Order Status("-2":Failed,"-1":Cancelled,"0":Open ,"1":Partially
+   *     Filled, "2":Fully Filled,"3":Submitting,"4":Cancelling,"6": Incomplete（open+partially
+   *     filled），"7":Complete（cancelled+fully filled））
+   * @return
+   * @throws IOException
+   * @throws OkexException
+   */
+  @GET
+  @Path("/margin/v3/orders")
+  List<OkexOpenOrder> getMarginOrderList(
+      @HeaderParam(OK_ACCESS_KEY) String apiKey,
+      @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
+      @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
+      @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase,
+      @QueryParam("instrument_id") String instrumentId,
+      @QueryParam("from") String from,
+      @QueryParam("to") String to,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("state") String state)
+      throws IOException, OkexException;
+
+  /**
+   * @param orderId required, order ID
+   * @param instrumentId required, trading pair
+   * @param from optional, Request page before (older) this pagination id,the parameter are
+   *     order_id, ledger_id or trade_id of the endpoint, etc.
+   * @param to optional, Request page after (newer) this pagination id,the parameter are order_id,
+   *     ledger_id or trade_id of the endpoint, etc.
+   * @param limit optional, Number of results per request. Maximum 100. (default 100)
+   * @return
+   * @throws IOException
+   * @throws OkexException
+   */
+  @GET
+  @Path("/margin/v3/fills")
+  List<OkexTransaction> getMarginTransactionDetails(
       @HeaderParam(OK_ACCESS_KEY) String apiKey,
       @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
