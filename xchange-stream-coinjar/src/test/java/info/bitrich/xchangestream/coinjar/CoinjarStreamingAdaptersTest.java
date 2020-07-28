@@ -2,8 +2,6 @@ package info.bitrich.xchangestream.coinjar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketUserTradeEvent;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
