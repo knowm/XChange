@@ -5,6 +5,9 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
+import info.bitrich.xchangestream.core.StreamingTradeService;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.coinjar.CoinjarExchange;
 
 public class CoinjarStreamingExchange extends CoinjarExchange implements StreamingExchange {
@@ -13,6 +16,7 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
 
   private CoinjarStreamingService streamingService;
   private CoinjarStreamingMarketDataService streamingMarketDataService;
+  private CoinjarStreamingTradeService streamingTradeService;
 
   @Override
   protected void initServices() {
@@ -20,6 +24,7 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
 
     this.streamingService = createStreamingService();
     this.streamingMarketDataService = new CoinjarStreamingMarketDataService(streamingService);
+    this.streamingTradeService = new CoinjarStreamingTradeService(streamingService);
   }
 
   private CoinjarStreamingService createStreamingService() {
@@ -52,15 +57,13 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
   }
 
   @Override
-  public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification spec = super.getDefaultExchangeSpecification();
-    spec.setShouldLoadRemoteMetaData(false);
-    return spec;
+  public CoinjarStreamingMarketDataService getStreamingMarketDataService() {
+    return streamingMarketDataService;
   }
 
   @Override
-  public CoinjarStreamingMarketDataService getStreamingMarketDataService() {
-    return streamingMarketDataService;
+  public StreamingTradeService getStreamingTradeService() {
+    return streamingTradeService;
   }
 
   @Override

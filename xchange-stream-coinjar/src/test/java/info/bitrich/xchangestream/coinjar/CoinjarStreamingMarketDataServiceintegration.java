@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class CoinjarStreamingMarketDataServiceintegration {
+public class CoinjarStreamingMarketDataServiceIntegration {
 
   @Test
   public void runTest() {
