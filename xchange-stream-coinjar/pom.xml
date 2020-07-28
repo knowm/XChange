@@ -7,11 +7,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-<<<<<<< HEAD
-        <version>5.0.1-SNAPSHOT</version>
-=======
         <version>5.0.2-SNAPSHOT</version>
->>>>>>> develop
     </parent>
 
     <name>XChange Coinjar Stream</name>
@@ -33,20 +29,6 @@
             <artifactId>xchange-coinjar</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-<<<<<<< HEAD
-=======
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
->>>>>>> develop
     </dependencies>
 
 </project>
