@@ -195,13 +195,14 @@ public class KrakenAdapters {
     BigDecimal originalAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(
-        type,
-        originalAmount,
-        currencyPair,
-        krakenPublicTrade.getPrice(),
-        timestamp,
-        String.valueOf((long) (krakenPublicTrade.getTime() * 10000L)));
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(originalAmount)
+        .currencyPair(currencyPair)
+        .price(krakenPublicTrade.getPrice())
+        .timestamp(timestamp)
+        .id(String.valueOf((long) (krakenPublicTrade.getTime() * 10000L)))
+        .build();
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {

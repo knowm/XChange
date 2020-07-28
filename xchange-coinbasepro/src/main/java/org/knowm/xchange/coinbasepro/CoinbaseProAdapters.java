@@ -288,16 +288,18 @@ public class CoinbaseProAdapters {
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
       UserTrade t =
-          new UserTrade(
-              type,
-              fill.getSize(),
-              currencyPair,
-              fill.getPrice(),
-              parseDate(fill.getCreatedAt()),
-              String.valueOf(fill.getTradeId()),
-              fill.getOrderId(),
-              fill.getFee(),
-              currencyPair.counter);
+          new UserTrade.Builder()
+              .type(type)
+              .originalAmount(fill.getSize())
+              .currencyPair(currencyPair)
+              .price(fill.getPrice())
+              .timestamp(parseDate(fill.getCreatedAt()))
+              .id(String.valueOf(fill.getTradeId()))
+              .orderId(fill.getOrderId())
+              .feeAmount(fill.getFee())
+              .feeCurrency(currencyPair.counter)
+              .build();
+
       trades.add(t);
     }
 
@@ -312,15 +314,17 @@ public class CoinbaseProAdapters {
       OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
       Trade t =
-          new Trade(
-              type,
-              trade.getSize(),
-              currencyPair,
-              trade.getPrice(),
-              parseDate(trade.getTimestamp()),
-              String.valueOf(trade.getTradeId()));
-      t.setMakerOrderId(trade.getMakerOrderId());
-      t.setTakerOrderId(trade.getTakerOrderId());
+          new Trade.Builder()
+              .type(type)
+              .originalAmount(trade.getSize())
+              .price(trade.getPrice())
+              .currencyPair(currencyPair)
+              .timestamp(parseDate(trade.getTimestamp()))
+              .id(String.valueOf(trade.getTradeId()))
+              .makerOrderId(trade.getMakerOrderId())
+              .takerOrderId(trade.getTakerOrderId())
+              .build();
+
       trades.add(t);
     }
 
@@ -350,7 +354,7 @@ public class CoinbaseProAdapters {
 
     Map<Currency, CurrencyMetaData> currencies =
         exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
-    
+
     for (CoinbaseProProduct product : products) {
       if (!product.getStatus().equals("online")) {
         continue;
@@ -427,6 +431,7 @@ public class CoinbaseProAdapters {
   public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(LimitOrder limitOrder) {
     CoinbaseProPlaceLimitOrder.Builder builder =
         new CoinbaseProPlaceLimitOrder.Builder()
+            .clientOid(limitOrder.getUserReference())
             .price(limitOrder.getLimitPrice())
             .type(CoinbaseProPlaceOrder.Type.limit)
             .productId(adaptProductID(limitOrder.getCurrencyPair()))
@@ -447,6 +452,7 @@ public class CoinbaseProAdapters {
       MarketOrder marketOrder) {
     return new CoinbaseProPlaceMarketOrder.Builder()
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
+        .clientOid(marketOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
         .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
@@ -470,6 +476,7 @@ public class CoinbaseProAdapters {
     if (stopOrder.getLimitPrice() == null) {
       return new CoinbaseProPlaceMarketOrder.Builder()
           .productId(adaptProductID(stopOrder.getCurrencyPair()))
+          .clientOid(stopOrder.getUserReference())
           .type(CoinbaseProPlaceOrder.Type.market)
           .side(adaptSide(stopOrder.getType()))
           .size(stopOrder.getOriginalAmount())
@@ -479,6 +486,7 @@ public class CoinbaseProAdapters {
     }
     return new CoinbaseProPlaceLimitOrder.Builder()
         .productId(adaptProductID(stopOrder.getCurrencyPair()))
+        .clientOid(stopOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.limit)
         .side(adaptSide(stopOrder.getType()))
         .size(stopOrder.getOriginalAmount())

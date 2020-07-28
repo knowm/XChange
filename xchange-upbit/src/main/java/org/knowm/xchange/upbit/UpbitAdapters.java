@@ -96,13 +96,14 @@ public final class UpbitAdapters {
     OrderType orderType = OrderType.BID;
     if (OrderType.ASK.toString().equals(trade.getAskBid())) orderType = OrderType.ASK;
 
-    return new Trade(
-        orderType,
-        trade.getTradeVolume(),
-        currencyPair,
-        trade.getTradePrice(),
-        DateUtils.fromMillisUtc(trade.getTimestamp().longValue()),
-        "");
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(trade.getTradeVolume())
+        .currencyPair(currencyPair)
+        .price(trade.getTradePrice())
+        .timestamp(DateUtils.fromMillisUtc(trade.getTimestamp().longValue()))
+        .id("")
+        .build();
   }
 
   public static Wallet adaptWallet(UpbitBalances wallets) {

@@ -1,18 +1,17 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.cryptowatch.TestUtils;
-import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchOHLCResult;
-
-import java.io.IOException;
-import java.io.InputStream;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Test;
+import org.knowm.xchange.cryptowatch.TestUtils;
+import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchOHLCResult;
 
 public class CryptowatchOHLCJSONTest {
 
@@ -28,9 +27,9 @@ public class CryptowatchOHLCJSONTest {
     assertNotNull(result.getResult());
     CryptowatchOHLCs cryptowatchOHLCs = result.getResult();
     assertFalse(cryptowatchOHLCs.getOHLCs().isEmpty());
-    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey(180));
-    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey(1800));
-    assertEquals(1533304980, cryptowatchOHLCs.getOHLCs().get(180).get(0).getTime());
+    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey("180"));
+    assertTrue(cryptowatchOHLCs.getOHLCs().containsKey("1800"));
+    assertEquals(1533304980, cryptowatchOHLCs.getOHLCs().get("180").get(0).getTime());
   }
 
   @Test

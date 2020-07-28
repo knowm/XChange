@@ -340,6 +340,26 @@ public class TestSimulatedExchange {
         .isEqualTo(INITIAL_BALANCE.subtract(expectedUsdCost).subtract(expectedUsdReserved));
   }
 
+  @Test
+  public void testBalanceIsReleasedOnCancel() throws IOException {
+    // When
+    String orderId =
+        exchange
+            .getTradeService()
+            .placeLimitOrder(
+                new LimitOrder.Builder(BID, BTC_USD)
+                    .limitPrice(new BigDecimal(10))
+                    .originalAmount(new BigDecimal("0.7"))
+                    .build());
+    exchange.getTradeService().cancelOrder(orderId);
+    Balance baseBalance = exchange.getAccountService().getAccountInfo().getWallet().getBalance(BTC);
+
+    // THen
+    assertThat(baseBalance.getTotal()).isEqualTo(INITIAL_BALANCE);
+    assertThat(baseBalance.getFrozen()).isEqualTo(ZERO);
+    assertThat(baseBalance.getAvailable()).isEqualTo(INITIAL_BALANCE);
+  }
+
   private OpenOrders getOpenOrders() throws IOException {
     OpenOrdersParamCurrencyPair params = exchange.getTradeService().createOpenOrdersParams();
     params.setCurrencyPair(BTC_USD);

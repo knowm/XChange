@@ -17,6 +17,7 @@ import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
 
@@ -27,6 +28,11 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return HuobiAdapters.adaptTicker(getHuobiTicker(currencyPair), currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return HuobiAdapters.adaptAllTickers(getHuobiAllTickers());
   }
 
   @Override
@@ -79,13 +85,14 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
             .map(t -> t.getData()[0])
             .map(
                 t ->
-                    new Trade(
-                        HuobiAdapters.adaptOrderType(t.getDirection()),
-                        t.getAmount(),
-                        currencyPair,
-                        t.getPrice(),
-                        t.getTs(),
-                        t.getId()))
+                    new Trade.Builder()
+                        .type(HuobiAdapters.adaptOrderType(t.getDirection()))
+                        .originalAmount(t.getAmount())
+                        .currencyPair(currencyPair)
+                        .price(t.getPrice())
+                        .timestamp(t.getTs())
+                        .id(t.getId())
+                        .build())
             .collect(Collectors.toList());
 
     return new Trades(trades);

@@ -17,8 +17,6 @@ public class LgoPriceHistory {
 
   @Override
   public String toString() {
-    return "LgoPriceHistory{" +
-            "prices=" + prices +
-            '}';
+    return "LgoPriceHistory{" + "prices=" + prices + '}';
   }
 }

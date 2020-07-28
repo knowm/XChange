@@ -1,74 +1,121 @@
 {
   "currency_pairs": {
-    "BTC/USD": {
-      "price_scale": 5
-    },
-    "BTC/EUR": {
-      "price_scale": 5
-    },
-    "ETH/EUR": {
-      "price_scale": 5
+    "LTC/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.001
     },
     "ETH/BTC": {
-      "price_scale": 5
+      "price_scale": 8,
+      "trading_fee": 0.001
     },
-    "ETH/USD": {
-      "price_scale": 5
+    "DOGE/BTC": {
+      "price_scale": 9,
+      "trading_fee": 0.001
     },
-    "LTC/USD": {
-      "price_scale": 6
-    },
-    "LTC/EUR": {
-      "price_scale": 6
-    },
-    "LTC/BTC": {
-      "price_scale": 5
-    },
-    "EUR/USD": {
-      "price_scale": 6
-    },
-    "BTC/RUB": {
-      "price_scale": 5
+    "XMR/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.001
     },
     "BCH/BTC": {
-      "price_scale": 5
+      "price_scale": 8,
+      "min_amount": 0.001,
+      "trading_fee": 0.001
     },
-    "BCH/EUR": {
-      "price_scale": 5
+    "BCH/ETH": {
+      "price_scale": 8,
+      "trading_fee": 0.001
     },
-    "BCH/USD": {
-      "price_scale": 5
+    "XRP/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.001
     },
-    "BCH/GBP": {
-      "price_scale": 5
+    "ARN/BTC": {
+      "price_scale": 8,
+      "trading_fee": 0.001
+    },
+    "XVG/BTC": {
+      "price_scale": 8,
+      "min_amount": 1000,
+      "trading_fee": 0.001
     }
   },
   "currencies": {
-    "BTC": {
+    "ARN": {
+      "scale": 8
+    },
+    "BNC": {
       "scale": 8
     },
     "BCH": {
       "scale": 8
     },
+    "BTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00085
+    },
+    "ETH": {
+      "scale": 8,
+      "withdrawal_fee": 0.00215
+    },
     "EUR": {
-      "scale": 2
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00300
     },
     "USD": {
       "scale": 2
     },
-    "ETH": {
+    "OMG": {
       "scale": 8
     },
-    "LTC": {
+    "TRX": {
       "scale": 8
+    },
+    "XDN": {
+      "scale": 8
+    },
+    "XMR": {
+      "scale": 8,
+      "withdrawal_fee": 0.09000
     },
     "XRP": {
       "scale": 8
     },
-    "PPC": {
+    "XVG": {
       "scale": 8
+    },
+    "BCC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00180
+    },
+    "ETC": {
+      "scale": 8,
+      "withdrawal_fee": 0.00200
+    },
+    "USDT": {
+      "scale": 2,
+      "withdrawal_fee": 100.0
+    },
+    "DASH": {
+      "scale": 8,
+      "withdrawal_fee": 0.03
+    },
+    "BCN": {
+      "scale": 8,
+      "withdrawal_fee": 0.10
+    },
+    "ARDR": {
+      "scale": 8,
+      "withdrawal_fee": 1.0
+    },
+    "STEEM": {
+      "scale": 8,
+      "withdrawal_fee": 0.01
     }
-  },
-  "publicInfoCacheSeconds": 2,
-  "amountScale": 8
+  }
 }

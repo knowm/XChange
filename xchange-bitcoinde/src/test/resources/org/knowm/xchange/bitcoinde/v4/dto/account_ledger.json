@@ -1,0 +1,47 @@
+{
+  "account_ledger": [
+    {
+      "date": "2015-08-13T10:20:27+02:00",
+      "type": "sell",
+      "reference": "NVP39U",
+      "trade": {
+        "trade_id": "NVP39U",
+        "trading_pair": "btceur",
+        "price": "243.77",
+        "currency_to_trade": {
+          "currency": "btc",
+          "before_fee": "1.71600000",
+          "after_fee": "1.69884000"
+        },
+        "currency_to_pay": {
+          "currency": "eur",
+          "before_fee": "418.31",
+          "after_fee": "414.13"
+        }
+      },
+      "cashflow": "-1.71600000",
+      "balance": "3.00019794"
+    },
+    {
+      "date": "2015-08-12T13:05:02+02:00",
+      "type": "payout",
+      "reference": "dqwdqwdwqwq4dqw4d5qd45qd45qwd4qw5df45g4r5g4trh4r5j5j4tz5j4tbc",
+      "cashflow": "-0.10000000",
+      "balance": "4.71619794"
+    },
+    {
+      "date": "2015-08-12T12:30:01+02:00",
+      "type": "payout",
+      "reference": "bdgwflwguwgr884t34g4g555h4zr5j4fh5j48rg4s5bx2nt4jr5jr45j4r5j4",
+      "cashflow": "-1.91894200",
+      "balance": "4.81619794"
+    }
+  ],
+  "page": {
+    "current": 1,
+    "last": 1
+  },
+  "errors": [
+  ],
+  "credits": 9
+}

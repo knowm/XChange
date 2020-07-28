@@ -23,7 +23,16 @@ public class HitbtcUserTrade extends UserTrade {
       Currency feeCurrency,
       String clientOrderId) {
     super(
-        type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+        type,
+        originalAmount,
+        currencyPair,
+        price,
+        timestamp,
+        id,
+        orderId,
+        feeAmount,
+        feeCurrency,
+        "");
     this.clientOrderId = clientOrderId;
   }
 

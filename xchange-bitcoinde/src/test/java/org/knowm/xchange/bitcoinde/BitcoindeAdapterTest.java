@@ -39,7 +39,7 @@ public class BitcoindeAdapterTest {
     assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("2406.11");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("1.745"));
-    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(orderBook.getBids().get(0).getInstrument()).isEqualTo(CurrencyPair.BTC_EUR);
   }
 
   @Test

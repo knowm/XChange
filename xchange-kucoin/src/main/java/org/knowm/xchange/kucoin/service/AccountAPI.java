@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
@@ -45,6 +46,16 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @QueryParam("currency") String currency,
       @QueryParam("type") String type)
+      throws IOException;
+
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  KucoinResponse<Void> createAccount(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      CreateAccountRequest req)
       throws IOException;
 
   @POST
