@@ -2,6 +2,7 @@ package org.knowm.xchange.service;
 
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -41,35 +42,10 @@ public abstract class BaseExchangeService<E extends Exchange> {
     verifyOrder(marketOrder, exchange.getExchangeMetaData());
   }
 
-  /**
-   * Get a ClientConfig object which contains exchange-specific timeout values
-   * (<i>httpConnTimeout</i> and <i>httpReadTimeout</i>) if they were present in the
-   * ExchangeSpecification of this instance. Subclasses are encouraged to use this config object
-   * when creating a RestCU proxy.
-   *
-   * @return a rescu client config object
-   */
+  /** @deprecated use {@link ExchangeRestProxyBuilder} */
+  @Deprecated
   public ClientConfig getClientConfig() {
-
-    ClientConfig rescuConfig = new ClientConfig(); // create default rescu config
-
-    // set per exchange connection- and read-timeout (if they have been set in the
-    // ExchangeSpecification)
-    int customHttpConnTimeout = exchange.getExchangeSpecification().getHttpConnTimeout();
-    if (customHttpConnTimeout > 0) {
-      rescuConfig.setHttpConnTimeout(customHttpConnTimeout);
-    }
-    int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
-    if (customHttpReadTimeout > 0) {
-      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
-    }
-    if (exchange.getExchangeSpecification().getProxyHost() != null) {
-      rescuConfig.setProxyHost(exchange.getExchangeSpecification().getProxyHost());
-    }
-    if (exchange.getExchangeSpecification().getProxyPort() != null) {
-      rescuConfig.setProxyPort(exchange.getExchangeSpecification().getProxyPort());
-    }
-    return rescuConfig;
+    return ExchangeRestProxyBuilder.createClientConfig(exchange.getExchangeSpecification());
   }
 
   protected final void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {

@@ -150,7 +150,14 @@ public final class CryptonitAdapters {
         DateUtils.fromMillisUtc(
             tx.getDate()
                 * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(tx.getAmount())
+        .currencyPair(currencyPair)
+        .price(tx.getPrice())
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   /**
@@ -212,16 +219,17 @@ public final class CryptonitAdapters {
       final CurrencyPair pair =
           new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              t.getBaseAmount().abs(),
-              pair,
-              t.getPrice().abs(),
-              t.getDatetime(),
-              Long.toString(tradeId),
-              Long.toString(t.getOrderId()),
-              t.getFee(),
-              Currency.getInstance(t.getFeeCurrency().toUpperCase()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(t.getBaseAmount().abs())
+              .currencyPair(pair)
+              .price(t.getPrice().abs())
+              .timestamp(t.getDatetime())
+              .id(Long.toString(tradeId))
+              .orderId(Long.toString(t.getOrderId()))
+              .feeAmount(t.getFee())
+              .feeCurrency(Currency.getInstance(t.getFeeCurrency().toUpperCase()))
+              .build();
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);

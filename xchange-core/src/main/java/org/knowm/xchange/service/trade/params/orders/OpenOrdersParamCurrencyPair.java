@@ -3,8 +3,9 @@ package org.knowm.xchange.service.trade.params.orders;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
-public interface OpenOrdersParamCurrencyPair extends OpenOrdersParams {
+public interface OpenOrdersParamCurrencyPair extends OpenOrdersParams, CurrencyPairParam {
   @Override
   default boolean accept(LimitOrder order) {
     return accept((Order) order);

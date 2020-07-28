@@ -90,8 +90,10 @@ public class SimulatedExchangeExample {
     // Market data
     System.out.println("Order book: " + exchange.getMarketDataService().getOrderBook(BTC_USD));
 
-    exchange.getTradeService() // this tests both getOrder and cancelOrder
-        .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD, orderId)).stream()
+    exchange
+        .getTradeService() // this tests both getOrder and cancelOrder
+        .getOrder(new DefaultQueryOrderParamCurrencyPair(BTC_USD, orderId))
+        .stream()
         .forEach(
             order -> {
               try {

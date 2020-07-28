@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Map;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -22,6 +23,14 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 public class KucoinMarketDataServiceIntegration {
 
   private final CurrencyPair ETH = CurrencyPair.ETH_BTC;
+
+  @Test
+  public void testGetPrices() throws Exception {
+    KucoinExchange exchange = exchange();
+    KucoinMarketDataServiceRaw kucoinMarketDataServiceRaw = exchange.getMarketDataService();
+    Map<String, BigDecimal> prices = kucoinMarketDataServiceRaw.getKucoinPrices();
+    assertThat(prices.get("BTC")).isNotNull();
+  }
 
   @Test
   public void testGetMarketData() throws Exception {

@@ -61,13 +61,13 @@ public class LykkeAdapter {
       limitOrders.add(
           new LimitOrder(
               orderType,
-              new BigDecimal(Math.abs(lykkePrices.getVolume()))
+              BigDecimal.valueOf(Math.abs(lykkePrices.getVolume()))
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros(),
               currencyPair,
               null,
               DateUtils.fromISO8601DateString(lykkeOrderBook.getTimestamp()),
-              new BigDecimal(lykkePrices.getPrice())
+              BigDecimal.valueOf(lykkePrices.getPrice())
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros()));
     }
@@ -91,14 +91,14 @@ public class LykkeAdapter {
 
     return new LimitOrder(
         getOrderTypeFromVolumeSign(lykkeOrder.getVolume()),
-        new BigDecimal(Math.abs(lykkeOrder.getVolume()))
+        BigDecimal.valueOf(Math.abs(lykkeOrder.getVolume()))
             .setScale(8, RoundingMode.HALF_EVEN)
             .stripTrailingZeros(),
         adaptToCurrencyPair(currencyPairList, lykkeOrder.getAssetPairId()),
         lykkeOrder.getId(),
         DateUtils.fromISO8601DateString(
             lykkeOrder.getCreatedAt()), // formatter.parse(lykkeOrder.getCreatedAt())
-        new BigDecimal(lykkeOrder.getPrice())
+        BigDecimal.valueOf(lykkeOrder.getPrice())
             .setScale(8, RoundingMode.HALF_EVEN)
             .stripTrailingZeros());
   }
@@ -117,20 +117,21 @@ public class LykkeAdapter {
   private static UserTrade adaptUserTrade(
       List<CurrencyPair> currencyPairList, LykkeOrder tradeHistory) throws IOException {
 
-    return new UserTrade(
-        getOrderTypeFromVolumeSign(tradeHistory.getVolume()),
-        new BigDecimal(Math.abs(tradeHistory.getVolume()))
-            .setScale(8, RoundingMode.HALF_EVEN)
-            .stripTrailingZeros(),
-        adaptToCurrencyPair(currencyPairList, tradeHistory.getAssetPairId()),
-        new BigDecimal(tradeHistory.getPrice())
-            .setScale(8, RoundingMode.HALF_EVEN)
-            .stripTrailingZeros(),
-        DateUtils.fromISO8601DateString(tradeHistory.getCreatedAt()),
-        tradeHistory.getId(), // .substring(tradeHistory.getId().lastIndexOf('_')+1
-        tradeHistory.getId(),
-        null,
-        null);
+    return new UserTrade.Builder()
+        .type(getOrderTypeFromVolumeSign(tradeHistory.getVolume()))
+        .originalAmount(
+            BigDecimal.valueOf(Math.abs(tradeHistory.getVolume()))
+                .setScale(8, RoundingMode.HALF_EVEN)
+                .stripTrailingZeros())
+        .currencyPair(adaptToCurrencyPair(currencyPairList, tradeHistory.getAssetPairId()))
+        .price(
+            BigDecimal.valueOf(tradeHistory.getPrice())
+                .setScale(8, RoundingMode.HALF_EVEN)
+                .stripTrailingZeros())
+        .timestamp(DateUtils.fromISO8601DateString(tradeHistory.getCreatedAt()))
+        .id(tradeHistory.getId()) // .substring(tradeHistory.getId().lastIndexOf('_')+1
+        .orderId(tradeHistory.getId())
+        .build();
   }
 
   public static LykkeLimitOrder adaptLykkeOrder(LimitOrder limitOrder) {
@@ -147,13 +148,13 @@ public class LykkeAdapter {
       balances.add(
           new Balance(
               new Currency(lykkeWallet.getAssetId()),
-              new BigDecimal(lykkeWallet.getBalance())
+              BigDecimal.valueOf(lykkeWallet.getBalance())
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros(),
-              new BigDecimal(lykkeWallet.getBalance() - lykkeWallet.getReserved())
+              BigDecimal.valueOf(lykkeWallet.getBalance() - lykkeWallet.getReserved())
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros(),
-              new BigDecimal(lykkeWallet.getReserved())
+              BigDecimal.valueOf(lykkeWallet.getReserved())
                   .setScale(8, RoundingMode.HALF_EVEN)
                   .stripTrailingZeros()));
     }

@@ -150,9 +150,12 @@ public final class OrderBook implements Serializable {
     int idx = Collections.binarySearch(asks, limitOrder);
     if (idx >= 0) {
       asks.remove(idx);
-      asks.add(idx, limitOrder);
     } else {
-      asks.add(-idx - 1, limitOrder);
+      idx = -idx - 1;
+    }
+
+    if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
+      asks.add(idx, limitOrder);
     }
   }
 

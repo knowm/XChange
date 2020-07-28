@@ -2,6 +2,7 @@ package org.knowm.xchange.bithumb.dto.marketdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +10,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.junit.Test;
 import org.knowm.xchange.bithumb.BithumbAdapters;
+import org.knowm.xchange.bithumb.BithumbAdaptersTest;
+import org.knowm.xchange.bithumb.dto.BithumbResponse;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.Trade;
 
 public class BithumbMarketDataTest {
 
@@ -109,20 +116,29 @@ public class BithumbMarketDataTest {
   }
 
   @Test
-  public void testUnmarshallTransactionHistory() throws IOException {
+  public void testAdaptTransactionHistory() throws IOException {
 
-    final InputStream is =
-        BithumbMarketDataTest.class.getResourceAsStream(
+    // given
+    InputStream is =
+        BithumbAdaptersTest.class.getResourceAsStream(
             "/org/knowm/xchange/bithumb/dto/marketdata/example-transaction-history.json");
 
-    final BithumbTransactionHistory bithumbOrderbook =
-        mapper.readValue(is, BithumbTransactionHistory.class);
+    final BithumbResponse<List<BithumbTransactionHistory>> transactionHistory =
+        mapper.readValue(
+            is, new TypeReference<BithumbResponse<List<BithumbTransactionHistory>>>() {});
 
-    assertThat(bithumbOrderbook.getContNo()).isEqualTo(30062545L);
-    assertThat(bithumbOrderbook.getTransactionDate()).isEqualTo("2019-01-03 00:54:08");
-    assertThat(bithumbOrderbook.getType()).isEqualTo(BithumbAdapters.OrderType.ask);
-    assertThat(bithumbOrderbook.getUnitsTraded()).isEqualTo("0.3215");
-    assertThat(bithumbOrderbook.getPrice()).isEqualTo("166900");
-    assertThat(bithumbOrderbook.getTotal()).isEqualTo("53658");
+    assertThat(transactionHistory.getData().size()).isEqualTo(3);
+    // when
+    final Trade trade =
+        BithumbAdapters.adaptTransactionHistory(
+            transactionHistory.getData().get(0), CurrencyPair.BTC_KRW);
+
+    // then
+    assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("1.0"));
+    assertThat(trade.getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.BTC, Currency.KRW));
+    assertThat(trade.getPrice()).isEqualTo(BigDecimal.valueOf(6779000));
+    assertThat(trade.getTimestamp()).isNotNull();
+    assertThat(trade.getId()).isNull();
   }
 }

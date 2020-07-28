@@ -50,11 +50,11 @@ public final class BinanceErrorAdapter {
     }
   }
 
-  private static ExchangeException createOrderNotValidException(String message, BinanceException e) {
+  private static ExchangeException createOrderNotValidException(
+      String message, BinanceException e) {
     if (e.getMessage().contains("MIN_NOTIONAL")) {
       return new OrderAmountUnderMinimumException(message, e);
-    } else {
-      return new OrderNotValidException(message, e);
     }
+    return new OrderNotValidException(message, e);
   }
 }

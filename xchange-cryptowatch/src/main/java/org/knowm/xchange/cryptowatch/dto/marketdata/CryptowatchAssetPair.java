@@ -22,5 +22,4 @@ public class CryptowatchAssetPair {
     this.base = base;
     this.quote = quote;
   }
-  
 }

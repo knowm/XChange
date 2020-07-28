@@ -22,4 +22,15 @@ public class CoinEggOrdersFetchIntegration {
     // Verify Not Null Values
     assertThat(orders).isNotNull();
   }
+
+  @Test
+  public void ordersFetchTest_BTC_USDT() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    OrderBook orders = marketDataService.getOrderBook(CurrencyPair.BTC_USDT);
+
+    // Verify Not Null Values
+    assertThat(orders).isNotNull();
+  }
 }

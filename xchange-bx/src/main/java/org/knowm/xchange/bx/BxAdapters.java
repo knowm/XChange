@@ -1,6 +1,7 @@
 package org.knowm.xchange.bx;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -166,25 +167,30 @@ public class BxAdapters {
       if (!histories.get(indexOfSecondTrade).getAmount().equals(BigDecimal.ZERO)) {
         BxTradeHistory history = histories.get(indexOfSecondTrade);
         trade =
-            new UserTrade(
-                (history.getAmount().compareTo(BigDecimal.ZERO) > 0)
-                    ? OrderType.BID
-                    : OrderType.ASK,
-                history.getAmount().abs(),
-                new CurrencyPair(
-                    history.getCurrency(), histories.get(indexOfFirstTrade).getCurrency()),
-                histories
-                    .get(indexOfFirstTrade)
-                    .getAmount()
-                    .divide(history.getAmount(), 6, BigDecimal.ROUND_HALF_UP)
-                    .abs(),
-                adaptDate(history.getDate()),
-                String.valueOf(history.getTransactionId()),
-                String.valueOf(history.getRefId()),
-                (indexOfFee < 0) ? null : histories.get(indexOfFee).getAmount().abs(),
-                (indexOfFee < 0)
-                    ? null
-                    : BxUtils.translateCurrency(histories.get(indexOfFee).getCurrency()));
+            new UserTrade.Builder()
+                .type(
+                    (history.getAmount().compareTo(BigDecimal.ZERO) > 0)
+                        ? OrderType.BID
+                        : OrderType.ASK)
+                .originalAmount(history.getAmount().abs())
+                .currencyPair(
+                    new CurrencyPair(
+                        history.getCurrency(), histories.get(indexOfFirstTrade).getCurrency()))
+                .price(
+                    histories
+                        .get(indexOfFirstTrade)
+                        .getAmount()
+                        .divide(history.getAmount(), 6, RoundingMode.UP)
+                        .abs())
+                .timestamp(adaptDate(history.getDate()))
+                .id(String.valueOf(history.getTransactionId()))
+                .orderId(String.valueOf(history.getRefId()))
+                .feeAmount((indexOfFee < 0) ? null : histories.get(indexOfFee).getAmount().abs())
+                .feeCurrency(
+                    (indexOfFee < 0)
+                        ? null
+                        : BxUtils.translateCurrency(histories.get(indexOfFee).getCurrency()))
+                .build();
       }
     }
     return trade;

@@ -128,13 +128,6 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldUseDefaultExchangeSpecForNullSpecification() {
-    exchange.applySpecification(null);
-    assertThat(exchange.getExchangeSpecification())
-        .isEqualToComparingFieldByField(exchange.getDefaultExchangeSpecification());
-  }
-
-  @Test
   public void shouldCreateDefaultExchangeSpecification() {
     // when
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();

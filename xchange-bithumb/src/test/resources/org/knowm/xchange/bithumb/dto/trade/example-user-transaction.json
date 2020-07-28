@@ -1,0 +1,31 @@
+{
+  "status"    : "0000",
+  "data"      : [
+    {
+      "search"            : "1",
+      "transfer_date"     : 1572252297148997,
+      "order_currency"    : "BTC",
+      "payment_currency"  : "KRW",
+      "units"             : "+ 0.0001",
+      "price"             : "10000000",
+      "amount"            : "1000",
+      "fee_currency"      : "KRW",
+      "fee"               : "2.5",
+      "order_balance"     : "6.498881591872",
+      "payment_balance"   : "1140499718"
+    },
+    {
+      "search"            : "2",
+      "transfer_date"     : 1569982658530516,
+      "order_currency"    : "BTC",
+      "payment_currency"  : "KRW",
+      "units"             : "- 0.0003",
+      "price"             : "9001000",
+      "amount"            : "2700",
+      "fee_currency"      : "KRW",
+      "fee"               : "6.75",
+      "order_balance"     : "8.99777301",
+      "payment_balance"   : "827600341"
+    }
+  ]
+}

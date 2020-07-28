@@ -35,6 +35,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerFundingCurrency;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTickerTraidingPair;
@@ -58,6 +59,7 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -318,7 +320,14 @@ public final class BitfinexAdapters {
     Date date =
         DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
@@ -415,6 +424,19 @@ public final class BitfinexAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
+      Supplier<MarketOrder> marketOrderCreator =
+          () ->
+              new MarketOrder(
+                  orderType,
+                  order.getOriginalAmount(),
+                  currencyPair,
+                  String.valueOf(order.getId()),
+                  timestamp,
+                  order.getAvgExecutionPrice(),
+                  order.getExecutedAmount(),
+                  null,
+                  status);
+
       Supplier<LimitOrder> limitOrderCreator =
           () ->
               new LimitOrder(
@@ -445,6 +467,7 @@ public final class BitfinexAdapters {
 
       LimitOrder limitOrder = null;
       StopOrder stopOrder = null;
+      MarketOrder marketOrder = null;
 
       Optional<BitfinexOrderType> bitfinexOrderType =
           Arrays.stream(BitfinexOrderType.values())
@@ -500,8 +523,7 @@ public final class BitfinexAdapters {
             break;
           case MARGIN_MARKET:
           case MARKET:
-            log.warn("Unexpected market order on book. Defaulting to limit order");
-            limitOrder = limitOrderCreator.get();
+            marketOrder = marketOrderCreator.get();
             break;
           default:
             log.warn(
@@ -518,6 +540,8 @@ public final class BitfinexAdapters {
         limitOrders.add(limitOrder);
       } else if (stopOrder != null) {
         hiddenOrders.add(stopOrder);
+      } else if (marketOrder != null) {
+        hiddenOrders.add(marketOrder);
       }
     }
 
@@ -543,16 +567,17 @@ public final class BitfinexAdapters {
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
       pastTrades.add(
-          new UserTrade(
-              orderType,
-              trade.getAmount(),
-              currencyPair,
-              trade.getPrice(),
-              timestamp,
-              trade.getTradeId(),
-              trade.getOrderId(),
-              fee,
-              Currency.getInstance(trade.getFeeCurrency())));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(trade.getAmount())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(timestamp)
+              .id(trade.getTradeId())
+              .orderId(trade.getOrderId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.getInstance(trade.getFeeCurrency()))
+              .build());
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
@@ -646,8 +671,7 @@ public final class BitfinexAdapters {
 
     final Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchangeMetaData.getCurrencyPairs();
-    symbolDetails
-        .parallelStream()
+    symbolDetails.parallelStream()
         .forEach(
             bitfinexSymbolDetail -> {
               final CurrencyPair currencyPair = adaptCurrencyPair(bitfinexSymbolDetail.getPair());
@@ -705,9 +729,7 @@ public final class BitfinexAdapters {
     final CurrencyPairMetaData metaData =
         new CurrencyPairMetaData(
             bitfinexAccountInfos[0].getTakerFees().movePointLeft(2), null, null, null, null);
-    currencyPairs
-        .keySet()
-        .parallelStream()
+    currencyPairs.keySet().parallelStream()
         .forEach(
             currencyPair ->
                 currencyPairs.merge(
@@ -722,6 +744,53 @@ public final class BitfinexAdapters {
                             oldMetaData.getFeeTiers())));
 
     return exchangeMetaData;
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(List<Movement> movementHistorys) {
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
+    for (Movement movement : movementHistorys) {
+      Currency currency = Currency.getInstance(movement.getCurency());
+
+      FundingRecord.Type type =
+          movement.getAmount().compareTo(BigDecimal.ZERO) < 0
+              ? FundingRecord.Type.WITHDRAWAL
+              : FundingRecord.Type.DEPOSIT;
+
+      FundingRecord.Status status = FundingRecord.Status.resolveStatus(movement.getStatus());
+      if (status == null
+          && movement
+              .getStatus()
+              .equalsIgnoreCase("CANCELED")) // there's a spelling mistake in the protocol
+      status = FundingRecord.Status.CANCELLED;
+
+      BigDecimal amount = movement.getAmount().abs();
+      BigDecimal fee = movement.getFees().abs();
+      if (fee != null && type.isOutflowing()) {
+        // The amount reported form Bitfinex on a withdrawal is without the fee, so it has to be
+        // added to get the full amount withdrawn from the wallet
+        // Deposits don't seem to have fees, but it seems reasonable to assume that the reported
+        // value is the full amount added to the wallet
+        amount = amount.add(fee);
+      }
+
+      FundingRecord fundingRecordEntry =
+          new FundingRecord(
+              movement.getDestinationAddress(),
+              null,
+              movement.getMtsUpdated(),
+              currency,
+              amount,
+              movement.getId(),
+              movement.getTransactionId(),
+              type,
+              status,
+              null,
+              fee,
+              null);
+
+      fundingRecords.add(fundingRecordEntry);
+    }
+    return fundingRecords;
   }
 
   public static List<FundingRecord> adaptFundingHistory(
@@ -859,8 +928,14 @@ public final class BitfinexAdapters {
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getTimestamp());
     final String tradeId = String.valueOf(trade.getTradeId());
-    return new Trade(
-        orderType, amount == null ? null : amount.abs(), currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount == null ? null : amount.abs())
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptPublicTrades(BitfinexPublicTrade[] trades, CurrencyPair currencyPair) {

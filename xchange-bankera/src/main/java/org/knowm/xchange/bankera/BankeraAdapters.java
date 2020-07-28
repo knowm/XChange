@@ -111,7 +111,14 @@ public final class BankeraAdapters {
               bankeraTrade.getSide().equalsIgnoreCase(ORDER_SIDE_BUY)
                   ? OrderType.BID
                   : OrderType.ASK;
-          tradesList.add(new Trade(type, amount, currencyPair, price, date, null));
+          tradesList.add(
+              new Trade.Builder()
+                  .type(type)
+                  .originalAmount(amount)
+                  .currencyPair(currencyPair)
+                  .price(price)
+                  .timestamp(date)
+                  .build());
         });
     return new Trades(tradesList, 0L, Trades.TradeSortType.SortByTimestamp);
   }
@@ -176,16 +183,17 @@ public final class BankeraAdapters {
               CurrencyPair pair = new CurrencyPair(currencies[0], currencies[1]);
               Currency feeCurrency = new Currency(currencies[1]);
               tradeList.add(
-                  new UserTrade(
-                      trade.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK,
-                      new BigDecimal(trade.getAmount()),
-                      pair,
-                      new BigDecimal(trade.getPrice()),
-                      new Date(Long.valueOf(trade.getCompletedAt())),
-                      String.valueOf(trade.getId()),
-                      String.valueOf(trade.getOrderId()),
-                      new BigDecimal(trade.getFeeAmount()),
-                      feeCurrency));
+                  new UserTrade.Builder()
+                      .type(trade.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK)
+                      .originalAmount(new BigDecimal(trade.getAmount()))
+                      .currencyPair(pair)
+                      .price(new BigDecimal(trade.getPrice()))
+                      .timestamp(new Date(Long.parseLong(trade.getCompletedAt())))
+                      .id(String.valueOf(trade.getId()))
+                      .orderId(String.valueOf(trade.getOrderId()))
+                      .feeAmount(new BigDecimal(trade.getFeeAmount()))
+                      .feeCurrency(feeCurrency)
+                      .build());
             });
 
     return tradeList;

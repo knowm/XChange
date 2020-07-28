@@ -1,9 +1,6 @@
 package org.knowm.xchange.independentreserve;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -30,6 +27,11 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDet
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /** Author: Kamil Zbikowski Date: 4/10/15 */
 public class IndependentReserveAdapters {
@@ -194,16 +196,15 @@ public class IndependentReserveAdapters {
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
       UserTrade ut =
-          new UserTrade(
-              adapeOrderType(trade.getOrderType()),
-              trade.getVolumeTraded(),
-              currencyPair,
-              trade.getPrice(),
-              trade.getTradeTimestamp(),
-              trade.getTradeGuid(),
-              trade.getOrderGuid(),
-              null,
-              null);
+          new UserTrade.Builder()
+              .type(adapeOrderType(trade.getOrderType()))
+              .originalAmount(trade.getVolumeTraded())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(trade.getTradeTimestamp())
+              .id(trade.getTradeGuid())
+              .orderId(trade.getOrderGuid())
+              .build();
 
       userTrades.add(ut);
     }
@@ -267,6 +268,15 @@ public class IndependentReserveAdapters {
     }
   }
 
+  public static String adaptTransactionHash(IndependentReserveTransaction transaction) {
+
+    if (StringUtils.isNotBlank(transaction.getBitcoinTransactionId())) {
+      return transaction.getBitcoinTransactionId();
+    }
+
+    return transaction.getEthereumTransactionId();
+  }
+
   public static FundingRecord adaptTransaction(IndependentReserveTransaction transaction) {
     BigDecimal amount = null;
     if (transaction.getDebit() != null) {
@@ -280,7 +290,7 @@ public class IndependentReserveAdapters {
         new Currency(transaction.getCurrencyCode()),
         amount,
         null,
-        transaction.getBitcoinTransactionId(),
+        adaptTransactionHash(transaction),
         adaptTransactionTypeToFundingRecordType(transaction.getType()),
         adaptTransactionStatusToFundingRecordStatus(transaction.getStatus()),
         transaction.getBalance(),

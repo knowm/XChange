@@ -235,13 +235,14 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(
-        trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK,
-        trade.getAmount(),
-        currencyPair,
-        trade.getPrice(),
-        trade.getDate(),
-        "" + trade.getTid());
+    return new Trade.Builder()
+        .type(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK)
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(trade.getDate())
+        .id("" + trade.getTid())
+        .build();
   }
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
@@ -320,30 +321,27 @@ public final class OkCoinAdapters {
     // instead.
     String tradeId, orderId;
     tradeId = orderId = String.valueOf(order.getOrderId());
-    return new UserTrade(
-        adaptOrderType(order.getType()),
-        order.getDealAmount(),
-        adaptSymbol(order.getSymbol()),
-        order.getAveragePrice(),
-        order.getCreateDate(),
-        tradeId,
-        orderId,
-        null,
-        null);
+    return new UserTrade.Builder()
+        .type(adaptOrderType(order.getType()))
+        .originalAmount(order.getDealAmount())
+        .currencyPair(adaptSymbol(order.getSymbol()))
+        .price(order.getAveragePrice())
+        .timestamp(order.getCreateDate())
+        .id(tradeId)
+        .orderId(orderId)
+        .build();
   }
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
-    return new UserTrade(
-        adaptOrderType(order.getType()),
-        order.getDealAmount(),
-        adaptSymbol(order.getSymbol()),
-        order.getPrice(),
-        order.getCreatedDate(),
-        null,
-        String.valueOf(order.getOrderId()),
-        null,
-        (Currency) null);
+    return new UserTrade.Builder()
+        .type(adaptOrderType(order.getType()))
+        .originalAmount(order.getDealAmount())
+        .currencyPair(adaptSymbol(order.getSymbol()))
+        .price(order.getPrice())
+        .timestamp(order.getCreatedDate())
+        .orderId(String.valueOf(order.getOrderId()))
+        .build();
   }
 
   public static UserTrades adaptTradeHistory(
@@ -367,18 +365,20 @@ public final class OkCoinAdapters {
       final String orderId = String.valueOf(okCoinFuturesTrade.getId());
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
-      BigDecimal feeAmont = BigDecimal.ZERO;
+      BigDecimal feeAmount = BigDecimal.ZERO;
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              originalAmount,
-              currencyPair,
-              price,
-              timestamp,
-              tradeId,
-              orderId,
-              feeAmont,
-              Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(originalAmount)
+              .currencyPair(currencyPair)
+              .price(price)
+              .timestamp(timestamp)
+              .id(tradeId)
+              .orderId(orderId)
+              .feeAmount(feeAmount)
+              .feeCurrency(Currency.getInstance(currencyPair.counter.getCurrencyCode()))
+              .build();
+
       trades.add(trade);
     }
 
