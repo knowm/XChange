@@ -2,9 +2,6 @@ package info.bitrich.xchangestream.coinjar;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import org.knowm.xchange.ExchangeSpecification;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;

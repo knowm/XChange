@@ -3,6 +3,11 @@ package info.bitrich.xchangestream.coinjar;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketBookEvent;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketOrderEvent;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketUserTradeEvent;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.coinjar.CoinjarAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -10,12 +15,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 class CoinjarStreamingAdapters {
 
