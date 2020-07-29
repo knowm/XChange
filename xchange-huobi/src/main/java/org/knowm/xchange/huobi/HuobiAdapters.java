@@ -116,7 +116,7 @@ public class HuobiAdapters {
             ? null
             : metadata
                 .getMinimumAmount()
-                .setScale(Integer.parseInt(pair.getAmountPrecision()), RoundingMode.DOWN);
+                .setScale(pair.getAmountPrecision(), RoundingMode.DOWN);
     FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
     return new CurrencyPairMetaData(
         fee,
@@ -384,12 +384,22 @@ public class HuobiAdapters {
     }
   }
 
+  /**
+   * List of possible deposit state
+   *
+   * State Description
+   * unknown On-chain transfer has not been received
+   * confirming On-chain transfer waits for first confirmation
+   * confirmed On-chain transfer confirmed for at least one block
+   * safe Multiple on-chain confirmation happened
+   * orphan Confirmed but currently in an orphan branch
+   */
   private static Status adaptDepostStatus(String state) {
     switch (state) {
       case "confirming":
-      case "safe":
-        return Status.PROCESSING;
       case "confirmed":
+        return Status.PROCESSING;
+      case "safe":
         return Status.COMPLETE;
       case "unknown":
       case "orphan":

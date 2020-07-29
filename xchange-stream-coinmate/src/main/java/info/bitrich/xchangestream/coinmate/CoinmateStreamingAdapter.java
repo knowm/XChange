@@ -77,14 +77,18 @@ public class CoinmateStreamingAdapter {
   }
 
   public static Trade adaptTrade(CoinmateWebSocketTrade webSocketTrade, CurrencyPair currencyPair) {
-    return new Trade(webSocketTrade.getType().equals("BUY") ? Order.OrderType.BID : Order.OrderType.ASK,
+    return new Trade(
+        webSocketTrade.getType().equals("BUY") ? Order.OrderType.BID : Order.OrderType.ASK,
         webSocketTrade.getAmount(),
         currencyPair,
         webSocketTrade.getPrice(),
         new java.util.Date(webSocketTrade.getTimestamp()),
         null,
-        webSocketTrade.getType().equals("BUY") ? webSocketTrade.getSellOrderId().toString() : webSocketTrade.getBuyOrderId().toString(),
-        webSocketTrade.getType().equals("BUY") ? webSocketTrade.getBuyOrderId().toString() : webSocketTrade.getSellOrderId().toString()
-        );
+        webSocketTrade.getType().equals("BUY")
+            ? webSocketTrade.getSellOrderId().toString()
+            : webSocketTrade.getBuyOrderId().toString(),
+        webSocketTrade.getType().equals("BUY")
+            ? webSocketTrade.getBuyOrderId().toString()
+            : webSocketTrade.getSellOrderId().toString());
   }
 }
