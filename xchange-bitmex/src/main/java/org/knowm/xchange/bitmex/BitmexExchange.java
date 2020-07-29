@@ -150,7 +150,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     return tickers.stream()
         .filter(ticker -> ticker.getSymbol().equals(BitmexAdapters.adaptCurrencyPairToSymbol(cp)))
         .findFirst()
-        .filter(Objects::nonNull)
+        .filter(ticker -> ticker.getLastPrice() != null)
         .map(ticker -> ticker.getLastPrice().scale())
         .get();
   }
