@@ -123,7 +123,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     Long offset = null;
     TradeHistoryParamsSorted.Order sort = null;
     Long sinceTimestamp = null;
-    Long sinceId = null;
+    String sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
@@ -141,10 +141,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
     if (params instanceof TradeHistoryParamsIdSpan) {
-      sinceId =
-          Optional.ofNullable(((TradeHistoryParamsIdSpan) params).getStartId())
-              .map(Long::parseLong)
-              .orElse(null);
+      sinceId = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
     BitstampUserTransaction[] txs =
         getBitstampUserTransactions(
