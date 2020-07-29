@@ -10,6 +10,7 @@ import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -55,15 +56,21 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
+    Integer maxDepth = args.length > 0 ? (Integer) args[0] : null;
+
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
-            .subscribeChannel(currencyPair, args)
+            .subscribeChannel(currencyPair, maxDepth, maxDepth)
             .filter(
                 s ->
                     filterEventsByReason(s, "change", "initial")
                         || filterEventsByReason(s, "change", "place")
                         || filterEventsByReason(s, "change", "cancel")
                         || filterEventsByReason(s, "change", "trade"))
+            .filter(
+                s -> // filter out updates that arrive before initial book
+                orderbooks.get(currencyPair) != null
+                        || filterEventsByReason(s, "change", "initial"))
             .map(
                 (JsonNode s) -> {
                   if (filterEventsByReason(s, "change", "initial")) {
@@ -81,9 +88,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                     GeminiWebSocketTransaction transaction =
                         mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                     GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
-                    GeminiOrderbook orderbook =
-                        orderbooks.computeIfAbsent(
-                            currencyPair, cp -> transaction.toGeminiOrderbook(currencyPair));
+                    GeminiOrderbook orderbook = orderbooks.get(currencyPair);
                     orderbook.updateLevels(levels);
                     return orderbook;
                   }
@@ -92,7 +97,8 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                       " Unknown message type, even after filtering: " + s.toString());
                 });
 
-    return subscribedOrderbookSnapshot.map(GeminiOrderbook::toOrderbook);
+    return subscribedOrderbookSnapshot.map(
+        geminiOrderbook -> GeminiAdaptersX.toOrderbook(geminiOrderbook, maxDepth, new Date()));
   }
 
   @Override
