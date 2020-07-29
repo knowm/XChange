@@ -18,6 +18,7 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
   protected final OrderAPI orderApi;
   protected final FillAPI fillApi;
   protected final HistOrdersAPI histOrdersApi;
+  protected final WebsocketAPI websocketAPI;
 
   protected KucoinDigest digest;
   protected String apiKey;
@@ -35,6 +36,7 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
     this.orderApi = service(exchange, OrderAPI.class);
     this.fillApi = service(exchange, FillAPI.class);
     this.histOrdersApi = service(exchange, HistOrdersAPI.class);
+    this.websocketAPI = service(exchange, WebsocketAPI.class);
 
     this.digest = KucoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
