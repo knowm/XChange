@@ -123,5 +123,7 @@ public class BitstampTradeHistoryParams
   }
 
   @Override
-  public void setEndId(String endId) {}
+  public void setEndId(String endId) {
+    throw new UnsupportedOperationException("Bitstamp doesn't support end id.");
+  }
 }
