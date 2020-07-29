@@ -20,11 +20,11 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author gnandiga */
@@ -47,13 +47,15 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     super(exchange);
 
     this.bitstampAuthenticated =
-        ExchangeRestProxyBuilder.forInterface(
-                BitstampAuthenticated.class, exchange.getExchangeSpecification())
-            .build();
+        RestProxyFactory.createProxy(
+            BitstampAuthenticated.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
     this.bitstampAuthenticatedV2 =
-        ExchangeRestProxyBuilder.forInterface(
-                BitstampAuthenticatedV2.class, exchange.getExchangeSpecification())
-            .build();
+        RestProxyFactory.createProxy(
+            BitstampAuthenticatedV2.class,
+            exchange.getExchangeSpecification().getSslUri(),
+            getClientConfig());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
@@ -359,7 +361,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
       Long offset,
       String sort,
       Long sinceTimestamp,
-      Long sinceId)
+      String sinceId)
       throws IOException {
 
     try {
@@ -379,7 +381,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, Long sinceId)
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, String sinceId)
       throws IOException {
 
     try {

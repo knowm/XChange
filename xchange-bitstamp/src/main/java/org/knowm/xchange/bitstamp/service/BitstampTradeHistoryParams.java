@@ -123,7 +123,5 @@ public class BitstampTradeHistoryParams
   }
 
   @Override
-  public void setEndId(String endId) {
-    throw new UnsupportedOperationException();
-  }
+  public void setEndId(String endId) {}
 }
