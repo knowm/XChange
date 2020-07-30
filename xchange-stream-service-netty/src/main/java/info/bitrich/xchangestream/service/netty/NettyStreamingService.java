@@ -16,6 +16,7 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
@@ -34,6 +35,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.SocketUtils;
+import io.netty.util.internal.StringUtil;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -42,8 +44,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,7 +57,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
-  protected static final int DEFAULT_IDLE_TIMEOUT = 0;
+  protected static final int DEFAULT_IDLE_TIMEOUT = 15;
 
   private class Subscription {
     final ObservableEmitter<T> emitter;
@@ -81,8 +81,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private volatile NioEventLoopGroup eventLoopGroup;
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
-  private final List<ObservableEmitter<Throwable>> reconnFailEmitters = new LinkedList<>();
-  private final List<ObservableEmitter<Object>> connectionSuccessEmitters = new LinkedList<>();
+  private final PublishSubject<Throwable> reconnFailEmitters = PublishSubject.create();
+  private final PublishSubject<Object> connectionSuccessEmitters = PublishSubject.create();
+  private final PublishSubject<Object> disconnectEmitters = PublishSubject.create();
   private final PublishSubject<Object> subjectIdle = PublishSubject.create();
 
   // debugging
@@ -162,8 +163,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 if (ssl) {
                   SslContextBuilder sslContextBuilder = SslContextBuilder.forClient();
                   if (acceptAllCertificates) {
-                    sslContextBuilder =
-                        sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
+                    sslContextBuilder.trustManager(InsecureTrustManagerFactory.INSTANCE);
                   }
                   sslCtx = sslContextBuilder.build();
                 } else {
@@ -236,19 +236,17 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                         webSocketChannel
                                             .disconnect()
                                             .addListener(
-                                                x -> {
-                                                  completable.onError(handshakeFuture.cause());
-                                                });
+                                                x -> completable.onError(handshakeFuture.cause()));
                                       }
                                     });
                           } else {
-                            scheduleReconnect();
                             completable.onError(channelFuture.cause());
+                            scheduleReconnect();
                           }
                         });
               } catch (Exception throwable) {
-                scheduleReconnect();
                 completable.onError(throwable);
+                scheduleReconnect();
               }
             })
         .doOnError(
@@ -258,13 +256,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
               } else {
                 LOG.warn("Problem with connection", t);
               }
-              reconnFailEmitters.forEach(emitter -> emitter.onNext(t));
+              reconnFailEmitters.onNext(t);
             })
         .doOnComplete(
             () -> {
               resubscribeChannels();
 
-              connectionSuccessEmitters.forEach(emitter -> emitter.onNext(new Object()));
+              connectionSuccessEmitters.onNext(new Object());
             });
   }
 
@@ -273,7 +271,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.info("Scheduling reconnection");
       webSocketChannel
           .eventLoop()
-          .schedule(() -> connect().subscribe(), retryDuration.toMillis(), TimeUnit.MILLISECONDS);
+          .schedule(
+              () ->
+                  connect()
+                      .subscribe(
+                          () -> LOG.info("Reconnection complete"),
+                          e -> LOG.error("Reconnection failed: {}", e.getMessage())),
+              retryDuration.toMillis(),
+              TimeUnit.MILLISECONDS);
     }
   }
 
@@ -297,6 +302,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                           .addListener(
                               f -> {
                                 LOG.info("Disconnected");
+                                disconnectEmitters.onNext(new Object());
                                 completable.onComplete();
                               });
                     });
@@ -352,11 +358,15 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   public Observable<Throwable> subscribeReconnectFailure() {
-    return Observable.create(reconnFailEmitters::add);
+    return reconnFailEmitters.share();
   }
 
   public Observable<Object> subscribeConnectionSuccess() {
-    return Observable.create(connectionSuccessEmitters::add);
+    return connectionSuccessEmitters.share();
+  }
+
+  public Observable<Object> subscribeDisconnect() {
+    return disconnectEmitters.share();
   }
 
   public Observable<T> subscribeChannel(String channelName, Object... args) {
@@ -374,8 +384,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                     Subscription newSubscription = new Subscription(e, channelName, args);
                     try {
                       sendMessage(getSubscribeMessage(channelName, args));
-                    } catch (IOException throwable) {
-                      e.onError(throwable);
+                    } catch (
+                        Exception
+                            throwable) { // if getSubscribeMessage throws this, it is because it
+                      // needs to report
+                      e.onError(throwable); // a problem creating the message
                     }
                     return newSubscription;
                   });
@@ -383,7 +396,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         .doOnDispose(
             () -> {
               if (channels.remove(channelId) != null) {
-                sendMessage(getUnsubscribeMessage(channelId));
+                try {
+                  sendMessage(getUnsubscribeMessage(channelId));
+                } catch (IOException e) {
+                  LOG.debug("Failed to unsubscribe channel: {} {}", channelId, e.toString());
+                } catch (Exception e) {
+                  LOG.warn("Failed to unsubscribe channel: {}", channelId, e);
+                }
               }
             })
         .share();
@@ -413,17 +432,17 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected void handleMessage(T message) {
     String channel = getChannel(message);
-    if (channel != null && !channel.equals("")) handleChannelMessage(channel, message);
+    if (!StringUtil.isNullOrEmpty(channel)) handleChannelMessage(channel, message);
   }
 
   protected void handleError(T message, Throwable t) {
     String channel = getChannel(message);
-    if (channel != null && !channel.equals("")) handleChannelError(channel, t);
+    if (!StringUtil.isNullOrEmpty(channel)) handleChannelError(channel, t);
     else LOG.error("handleError cannot parse channel from message: {}", message);
   }
 
   protected void handleIdle(ChannelHandlerContext ctx) {
-    // No-op
+    ctx.writeAndFlush(new PingWebSocketFrame());
   }
 
   private void onIdle(ChannelHandlerContext ctx) {
@@ -491,6 +510,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         // Don't attempt to reconnect
       } else {
         super.channelInactive(ctx);
+        disconnectEmitters.onNext(new Object());
         LOG.info("Reopening websocket because it was closed");
         scheduleReconnect();
       }

@@ -32,6 +32,11 @@ public interface BitstampV2 {
   BitstampTicker getTicker(@PathParam("pair") BitstampV2.Pair pair)
       throws IOException, BitstampException;
 
+  @GET
+  @Path("ticker_hour/{pair}/")
+  BitstampTicker getTickerHour(@PathParam("pair") BitstampV2.Pair pair)
+      throws IOException, BitstampException;
+
   /** Returns descending list of transactions. */
   @GET
   @Path("transactions/{pair}/")

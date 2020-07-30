@@ -22,6 +22,8 @@ import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.StopOrder.Intention;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -114,7 +116,7 @@ public class HuobiAdapters {
             ? null
             : metadata
                 .getMinimumAmount()
-                .setScale(Integer.parseInt(pair.getAmountPrecision()), RoundingMode.DOWN);
+                .setScale(pair.getAmountPrecision(), RoundingMode.DOWN);
     FeeTier[] feeTiers = metadata == null ? null : metadata.getFeeTiers();
     return new CurrencyPairMetaData(
         fee,
@@ -196,29 +198,53 @@ public class HuobiAdapters {
                   .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
               openOrder.getFieldAmount(),
               openOrder.getFieldFees(),
-              null);
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId());
     }
     if (openOrder.isLimit()) {
       order =
           new LimitOrder(
               orderType,
               openOrder.getAmount(),
-              openOrder.getFieldAmount(),
               currencyPair,
               String.valueOf(openOrder.getId()),
               openOrder.getCreatedAt(),
-              openOrder.getPrice());
-      if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
-        order.setAveragePrice(BigDecimal.ZERO);
-      } else {
-        order.setAveragePrice(
-            openOrder
-                .getFieldCashAmount()
-                .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
-      }
+              openOrder.getPrice(),
+              openOrder
+                  .getFieldCashAmount()
+                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
+              openOrder.getFieldAmount(),
+              openOrder.getFieldFees(),
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId());
     }
-    if (order != null) {
-      order.setOrderStatus(adaptOrderStatus(openOrder.getState()));
+    if (openOrder.isStop()) {
+      order =
+          new StopOrder(
+              orderType,
+              openOrder.getAmount(),
+              currencyPair,
+              String.valueOf(openOrder.getId()),
+              openOrder.getCreatedAt(),
+              openOrder.getStopPrice(),
+              openOrder.getPrice(),
+              openOrder
+                  .getFieldCashAmount()
+                  .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN),
+              openOrder.getFieldAmount(),
+              openOrder.getFieldFees(),
+              adaptOrderStatus(openOrder.getState()),
+              openOrder.getClOrdId(),
+              openOrder.getOperator().equals("lte") ? Intention.STOP_LOSS : Intention.TAKE_PROFIT);
+    }
+
+    if (openOrder.getFieldAmount().compareTo(BigDecimal.ZERO) == 0) {
+      order.setAveragePrice(BigDecimal.ZERO);
+    } else {
+      order.setAveragePrice(
+          openOrder
+              .getFieldCashAmount()
+              .divide(openOrder.getFieldAmount(), 8, BigDecimal.ROUND_DOWN));
     }
     return order;
   }
@@ -358,12 +384,22 @@ public class HuobiAdapters {
     }
   }
 
+  /**
+   * List of possible deposit state
+   *
+   * State Description
+   * unknown On-chain transfer has not been received
+   * confirming On-chain transfer waits for first confirmation
+   * confirmed On-chain transfer confirmed for at least one block
+   * safe Multiple on-chain confirmation happened
+   * orphan Confirmed but currently in an orphan branch
+   */
   private static Status adaptDepostStatus(String state) {
     switch (state) {
       case "confirming":
-      case "safe":
-        return Status.PROCESSING;
       case "confirmed":
+        return Status.PROCESSING;
+      case "safe":
         return Status.COMPLETE;
       case "unknown":
       case "orphan":

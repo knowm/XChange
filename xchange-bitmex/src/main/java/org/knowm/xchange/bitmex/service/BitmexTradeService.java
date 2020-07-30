@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmex.service;
 import static org.knowm.xchange.bitmex.dto.trade.BitmexSide.fromOrderType;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeService {
@@ -36,6 +36,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public BitmexTradeService(BitmexExchange exchange) {
 
     super(exchange);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return new DefaultOpenOrdersParam();
   }
 
   @Override
@@ -50,13 +55,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
-    List<LimitOrder> limitOrders = new ArrayList<>();
-
-    for (LimitOrder order : getOpenOrders().getOpenOrders()) {
-      if (params.accept(order)) {
-        limitOrders.add(order);
-      }
-    }
+    List<LimitOrder> limitOrders =
+        super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
+            .map(BitmexAdapters::adaptOrder)
+            .filter(params::accept)
+            .collect(Collectors.toList());
 
     return new OpenOrders(limitOrders);
   }
@@ -149,6 +152,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
     List<BitmexPrivateOrder> privateOrders = getBitmexOrders(null, filter, null, null, null);
     return privateOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList());
+  }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new BitmexTradeHistoryParams();
   }
 
   @Override

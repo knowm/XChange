@@ -1,10 +1,7 @@
 package org.knowm.xchange.simulated;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.dto.Order;
@@ -56,13 +53,17 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    if (!(params instanceof OpenOrdersParamCurrencyPair)) {
-      throw new ExchangeException("Currency pair required");
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      MatchingEngine engine =
+          exchange.getEngine(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
+      exchange.maybeThrow();
+      return new OpenOrders(engine.openOrders(getApiKey()));
+    } else {
+      return new OpenOrders(
+          exchange.getEngines().stream()
+              .flatMap(e -> e.openOrders(getApiKey()).stream())
+              .collect(Collectors.toList()));
     }
-    MatchingEngine engine =
-        exchange.getEngine(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
-    exchange.maybeThrow();
-    return new OpenOrders(engine.openOrders(getApiKey()));
   }
 
   @Override
@@ -106,33 +107,53 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
         String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
         Order.OrderType type = ((CancelOrderByOrderTypeParams) orderParams).getOrderType();
 
-        engine.cancelOrder(orderId, type);
+        engine.cancelOrder(orderId, getApiKey(), type);
 
         return true;
       }
+    } else if (orderParams instanceof DefaultCancelOrderParamId) {
+      String orderId = ((CancelOrderByIdParams) orderParams).getOrderId();
+      exchange.getEngines().forEach(engine -> engine.cancelOrder(getApiKey(), orderId));
+      return true;
     }
+
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
+    return cancelOrder(new DefaultCancelOrderParamId(orderId));
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) {
     return Arrays.stream(orderQueryParams)
-        .map(
+        .flatMap(
             p -> {
-              if (!(p instanceof OrderQueryParamCurrencyPair))
+              if (p instanceof OrderQueryParamCurrencyPair) {
+                return exchange
+                    .getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair())
+                    .openOrders(getApiKey())
+                    .stream()
+                    .filter(o -> o.getId().equals(p.getOrderId()));
+              } else if (p instanceof DefaultQueryOrderParam) {
+                return exchange.getEngines().stream()
+                    .flatMap(e -> e.openOrders(getApiKey()).stream())
+                    .filter(o -> o.getId().equals(p.getOrderId()));
+              } else {
                 throw new NotYetImplementedForExchangeException();
-
-              MatchingEngine engine =
-                  exchange.getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair());
-
-              Optional<LimitOrder> first =
-                  engine.openOrders(getApiKey()).stream()
-                      .filter(o -> o.getId().equals(p.getOrderId()))
-                      .findFirst();
-
-              return first.orElse(null);
+              }
             })
-        .filter(Objects::nonNull)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) {
+    List<Order> openOrders = new ArrayList<>();
+
+    for (String orderId : orderIds) {
+      openOrders.addAll(getOrder(new DefaultQueryOrderParam(orderId)));
+    }
+    return openOrders;
   }
 }
