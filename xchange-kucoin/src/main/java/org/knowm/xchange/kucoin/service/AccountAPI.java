@@ -78,6 +78,8 @@ public interface AccountAPI {
       @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
       @PathParam("accountId") String accountId,
       @QueryParam("startAt") Long startAt,
-      @QueryParam("endAt") Long endAt)
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
       throws IOException;
 }
