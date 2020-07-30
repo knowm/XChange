@@ -99,7 +99,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   public WebsocketResponse getPrivateWebsocketConnectionDetails() throws IOException {
     getAccountService().checkAuthenticated();
-    
+
     return classifyingExceptions(
         () ->
             getAccountService()
