@@ -303,7 +303,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("limit") Integer limit,
-      @FormParam("lastId") Integer lastId,
+      @FormParam("lastId") Long lastId,
       @FormParam("sort") String sort,
       @FormParam("timestampFrom") Long timestampFrom,
       @FormParam("timestampTo") Long timestampTo,
