@@ -202,10 +202,13 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     }
 
     if (params instanceof TradeHistoryParamsIdSpan) {
-      try {
-        startId = Long.valueOf(((TradeHistoryParamsIdSpan) params).getStartId());
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Integer value is expected. ", e);
+      final String startIdStr = ((TradeHistoryParamsIdSpan) params).getStartId();
+      if (startIdStr != null) {
+        try {
+          startId = Long.valueOf(((TradeHistoryParamsIdSpan) params).getStartId());
+        } catch (NumberFormatException e) {
+          throw new IllegalArgumentException("Integer value is expected. ", e);
+        }
       }
     }
 
