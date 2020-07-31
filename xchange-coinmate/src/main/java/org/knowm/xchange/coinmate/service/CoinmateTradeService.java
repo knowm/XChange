@@ -169,7 +169,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     Integer limit = 1000;
     int offset = 0;
     CurrencyPair currencyPair = null;
-    Long startId = null;
+    String startId = null;
 
     if (params instanceof TradeHistoryParamOffset) {
       offset = Math.toIntExact(((TradeHistoryParamOffset) params).getOffset());
@@ -188,14 +188,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     }
 
     if (params instanceof TradeHistoryParamsIdSpan) {
-      final String startIdStr = ((TradeHistoryParamsIdSpan) params).getStartId();
-      if (startIdStr != null) {
-        try {
-          startId = Long.valueOf(((TradeHistoryParamsIdSpan) params).getStartId());
-        } catch (NumberFormatException e) {
-          throw new IllegalArgumentException("Integer value is expected. ", e);
-        }
-      }
+      startId = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
 
     CoinmateTradeHistory coinmateTradeHistory =
