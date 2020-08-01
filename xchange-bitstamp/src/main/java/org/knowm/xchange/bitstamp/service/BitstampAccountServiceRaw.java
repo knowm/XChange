@@ -368,7 +368,9 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           offset,
           sort,
-          sinceTimestamp);
+          sinceTimestamp,
+          null
+      );
     } catch (BitstampException e) {
       throw handleError(e);
     }
