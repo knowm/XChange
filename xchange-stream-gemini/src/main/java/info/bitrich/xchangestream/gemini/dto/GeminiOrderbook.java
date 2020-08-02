@@ -61,5 +61,4 @@ public class GeminiOrderbook {
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
-
 }
