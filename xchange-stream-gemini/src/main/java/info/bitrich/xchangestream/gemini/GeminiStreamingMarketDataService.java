@@ -10,6 +10,7 @@ import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
@@ -103,7 +105,20 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotAvailableFromExchangeException();
+    return PublishSubject
+        .create( emitter -> getOrderBook(currencyPair, args)
+            .subscribe( orderBook -> {
+              LimitOrder firstBid = orderBook.getBids().iterator().next();
+              LimitOrder firstAsk = orderBook.getAsks().iterator().next();
+              emitter.onNext(new Ticker.Builder()
+                  .currencyPair(currencyPair)
+                  .bid(firstBid.getLimitPrice())
+                  .bidSize(firstBid.getOriginalAmount())
+                  .ask(firstAsk.getLimitPrice())
+                  .askSize(firstAsk.getOriginalAmount())
+                  .timestamp(firstBid.getTimestamp().after(firstAsk.getTimestamp()) ? firstBid.getTimestamp() : firstAsk.getTimestamp())
+                  .build());
+            }));
   }
 
   @Override
