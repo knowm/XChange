@@ -124,8 +124,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                                       : firstAsk.getTimestamp())
                               .build());
                     },
-                    emitter::onError)
-    );
+                    emitter::onError));
   }
 
   @Override
