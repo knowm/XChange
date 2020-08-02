@@ -240,6 +240,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("aclass") String assetPairs,
       @FormParam("asset") String assets,
       @FormParam("method") String method,
+      @FormParam("new") Boolean newAddress,
       @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
