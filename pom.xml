@@ -38,7 +38,7 @@
     <version.resilience4j>1.5.0</version.resilience4j>
     <version.junit>4.13</version.junit>
     <version.lombok>1.18.12</version.lombok>
-    <version.knowm.xchart>3.6.4</version.knowm.xchart>
+    <version.knowm.xchart>3.6.5</version.knowm.xchart>
     <version.powermock>2.0.7</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
