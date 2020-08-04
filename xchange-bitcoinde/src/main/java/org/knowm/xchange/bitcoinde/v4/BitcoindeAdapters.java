@@ -157,7 +157,7 @@ public final class BitcoindeAdapters {
    * @return The XChange Trades
    */
   public static Trades adaptTrades(
-          BitcoindeTradesWrapper bitcoindeTradesWrapper, CurrencyPair currencyPair) {
+      BitcoindeTradesWrapper bitcoindeTradesWrapper, CurrencyPair currencyPair) {
     final List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
 
@@ -168,13 +168,13 @@ public final class BitcoindeAdapters {
         lastTradeId = tid;
       }
       trades.add(
-              new Trade.Builder()
-                      .originalAmount(bitcoindeTrade.getAmount())
-                      .currencyPair(currencyPair)
-                      .price(bitcoindeTrade.getPrice())
-                      .timestamp(bitcoindeTrade.getDate())
-                      .id(String.valueOf(tid))
-                      .build());
+          new Trade.Builder()
+              .originalAmount(bitcoindeTrade.getAmount())
+              .currencyPair(currencyPair)
+              .price(bitcoindeTrade.getPrice())
+              .timestamp(bitcoindeTrade.getDate())
+              .id(String.valueOf(tid))
+              .build());
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
