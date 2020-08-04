@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,7 +34,7 @@ public class Status {
 
   private Object placeHolder2;
   /** Millisecond timestamp of next funding event */
-  private long nextFundingEvtTimestampMillis;
+  private Long nextFundingEvtTimestampMillis;
   /** Current accrued funding for next 8h period */
   private BigDecimal nextFundingAccrued;
   /** Incremental accrual counter */
