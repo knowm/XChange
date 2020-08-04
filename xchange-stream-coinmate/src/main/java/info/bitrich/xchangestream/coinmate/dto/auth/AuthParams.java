@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.coinmate.dto.auth;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -66,6 +65,13 @@ public class AuthParams {
 
   public String toParams() {
     Long nonce1 = nonce.createValue();
-    return "signature=" + signature(nonce1, userId, apiKey, secret) + "&nonce=" + String.valueOf(nonce1) + "&clientId=" + userId + "&publicKey=" + apiKey;
+    return "signature="
+        + signature(nonce1, userId, apiKey, secret)
+        + "&nonce="
+        + String.valueOf(nonce1)
+        + "&clientId="
+        + userId
+        + "&publicKey="
+        + apiKey;
   }
 }

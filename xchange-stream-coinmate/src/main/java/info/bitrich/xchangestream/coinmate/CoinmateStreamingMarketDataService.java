@@ -6,8 +6,8 @@ import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import java.util.List;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
-import org.knowm.xchange.coinmate.CoinmateUtils;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookData;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,8 +15,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-
-import java.util.List;
 
 public class CoinmateStreamingMarketDataService implements StreamingMarketDataService {
   private final CoinmateStreamingServiceFactory serviceFactory;
@@ -27,11 +25,14 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String channelName = "channel/order-book/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName =
+        "channel/order-book/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
-    ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateOrderBookData.class);
+    ObjectReader reader =
+        StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateOrderBookData.class);
 
-    return serviceFactory.createConnection(channelName, false)
+    return serviceFactory
+        .createConnection(channelName, false)
         .map(
             s -> {
               CoinmateOrderBookData orderBookData = reader.readValue(s);
@@ -50,16 +51,19 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String channelName = "channel/trades/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName =
+        "channel/trades/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
-    ObjectReader reader = StreamingObjectMapperHelper.getObjectMapper().readerFor(new TypeReference<List<CoinmateWebSocketTrade>>() {});
+    ObjectReader reader =
+        StreamingObjectMapperHelper.getObjectMapper()
+            .readerFor(new TypeReference<List<CoinmateWebSocketTrade>>() {});
 
-    return serviceFactory.createConnection(channelName, false)
-        .map(
-            s -> reader.<List<CoinmateWebSocketTrade>>readValue(s))
+    return serviceFactory
+        .createConnection(channelName, false)
+        .map(s -> reader.<List<CoinmateWebSocketTrade>>readValue(s))
         .flatMapIterable(coinmateWebSocketTrades -> coinmateWebSocketTrades)
         .map(
-            coinmateWebSocketTrade -> CoinmateStreamingAdapter.adaptTrade(coinmateWebSocketTrade, currencyPair)
-            );
+            coinmateWebSocketTrade ->
+                CoinmateStreamingAdapter.adaptTrade(coinmateWebSocketTrade, currencyPair));
   }
 }

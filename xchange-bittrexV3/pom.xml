@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>5.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-bittrexV3</artifactId>
 
     <name>XChange BittrexV3</name>
-    <description>XChange implementation for the BittrexV3 Exchange</description>
+    <description>XChange implementation for the Bittrex Exchange, API version 3</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>

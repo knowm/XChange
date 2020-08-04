@@ -86,6 +86,9 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
       } else if ("EAPI:Rate limit exceeded".equals(error)) {
         throw new RateLimitExceededException(error);
 
+      } else if ("EOrder:Rate limit exceeded".equals(error)) {
+        throw new RateLimitExceededException(error);
+
       } else if ("EService:Unavailable".equals(error)) {
         throw new ExchangeUnavailableException(error);
       }

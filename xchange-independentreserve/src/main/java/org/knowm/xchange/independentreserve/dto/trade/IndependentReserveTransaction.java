@@ -1,6 +1,7 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -110,6 +111,8 @@ public class IndependentReserveTransaction {
         + bitcoinTransactionId
         + ", bitcoinTransactionOutputIndex="
         + bitcoinTransactionOutputIndex
+        + ", ethereumTransactionId="
+        + ethereumTransactionId
         + ", comment="
         + comment
         + ", createdTimestamp="
