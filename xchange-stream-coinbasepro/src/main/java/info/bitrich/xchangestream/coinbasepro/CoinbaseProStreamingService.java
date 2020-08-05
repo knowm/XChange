@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
+import info.bitrich.xchangestream.coinbasepro.dto.ProductSubscriptionWrapper;
 import info.bitrich.xchangestream.coinbasepro.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -16,6 +17,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -31,6 +33,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SHARE_CHANNEL_NAME = "ALL";
   private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
   private ProductSubscription product = null;
+  private ProductSubscriptionWrapper productWrapper = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
@@ -38,6 +41,17 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   public CoinbaseProStreamingService(
       String apiUrl, Supplier<CoinbaseProWebsocketAuthData> authData) {
     super(apiUrl, Integer.MAX_VALUE);
+    this.authData = authData;
+  }
+
+  public CoinbaseProStreamingService(
+      String apiUrl,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds,
+      Supplier<CoinbaseProWebsocketAuthData> authData) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
   }
 
@@ -95,8 +109,14 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
-        new CoinbaseProWebSocketSubscriptionMessage(SUBSCRIBE, product, authData.get());
+    CoinbaseProWebSocketSubscriptionMessage subscribeMessage;
+    if (productWrapper != null) {
+      subscribeMessage =
+          new CoinbaseProWebSocketSubscriptionMessage(SUBSCRIBE, productWrapper, authData.get());
+    } else {
+      subscribeMessage =
+          new CoinbaseProWebSocketSubscriptionMessage(SUBSCRIBE, product, authData.get());
+    }
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
@@ -104,7 +124,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   public String getUnsubscribeMessage(String channelName) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
-            UNSUBSCRIBE, new String[] {"level2", "matches", "ticker"}, authData.get());
+            UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
@@ -133,6 +153,17 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {
     this.product = products[0];
+  }
+
+  /**
+   * Method has slightly different prototype then above which allows for providing subscriptions to
+   * CoinbasePro specific channels
+   *
+   * @param productWrappers wraps {@link ProductSubscription} and list of {@link CurrencyPair} used
+   *     to subscribe to full channel.
+   */
+  public void subscribeMultipleCurrencyPairs(ProductSubscriptionWrapper... productWrappers) {
+    this.productWrapper = productWrappers[0];
   }
 
   /**
