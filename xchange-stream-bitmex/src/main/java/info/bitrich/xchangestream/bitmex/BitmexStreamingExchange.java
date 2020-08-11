@@ -89,4 +89,8 @@ public class BitmexStreamingExchange extends BitmexExchange implements Streaming
   public void resubscribeChannels() {
     streamingService.resubscribeChannels();
   }
+
+  public BitmexStreamingService getStreamingService() {
+    return streamingService;
+  }
 }

@@ -20,7 +20,13 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
@@ -30,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class BitmexStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
   private final ObjectMapper mapper = new ObjectMapper();
-  private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
+  private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
   private final String apiKey;
   private final String secretKey;
@@ -186,7 +192,12 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String table = message.get("table").asText();
-    if (table.equals("order") || table.equals("funding") || table.equals("position")) {
+    if (table.equals("order")
+        || table.equals("funding")
+        || table.equals("settlement")
+        || table.equals("position")
+        || table.equals("wallet")
+        || table.equals("margin")) {
       return table;
     }
     JsonNode data = message.get("data");
