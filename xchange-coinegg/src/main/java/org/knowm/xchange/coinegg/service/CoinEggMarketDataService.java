@@ -25,7 +25,10 @@ public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     return CoinEggAdapters.adaptOrders(
-        getCoinEggOrders(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
+        getCoinEggOrders(
+            currencyPair.counter.getCurrencyCode().toLowerCase(),
+            currencyPair.base.getCurrencyCode().toLowerCase()),
+        currencyPair);
   }
 
   @Override

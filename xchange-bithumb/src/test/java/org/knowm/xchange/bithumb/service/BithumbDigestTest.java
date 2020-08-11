@@ -4,10 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.ws.rs.FormParam;
 import org.junit.Before;
 import org.junit.Test;
+import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
 
 public class BithumbDigestTest {
@@ -26,9 +30,12 @@ public class BithumbDigestTest {
     final Map<String, String> map = new HashMap<>();
     map.put("Api-Nonce", "1547303756000");
 
+    final Map<Class<? extends Annotation>, Params> formParams = new LinkedHashMap<>();
+    formParams.put(FormParam.class, Params.of("endpoint", "/info/balance", "currency", "ALL"));
+
     final RestInvocation restInvocation = mock(RestInvocation.class);
     when(restInvocation.getPath()).thenReturn("/info/balance");
-    when(restInvocation.getRequestBody()).thenReturn("endpoint=%2Finfo%2Fbalance&currency=ALL");
+    when(restInvocation.getParamsMap()).thenReturn(formParams);
     when(restInvocation.getHttpHeadersFromParams()).thenReturn(map);
 
     // when

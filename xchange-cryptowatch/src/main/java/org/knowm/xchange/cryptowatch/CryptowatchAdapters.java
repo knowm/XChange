@@ -1,5 +1,10 @@
 package org.knowm.xchange.cryptowatch;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAsset;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
 import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchOrderBook;
@@ -15,12 +20,6 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 public class CryptowatchAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(
@@ -28,7 +27,11 @@ public class CryptowatchAdapters {
       List<CryptowatchAssetPair> assetPairs,
       List<CryptowatchAsset> assets) {
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
-    pairs.putAll(exchangeMetaData.getCurrencyPairs());
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    if (exchangeMetaData != null) {
+      pairs.putAll(exchangeMetaData.getCurrencyPairs());
+      currencies.putAll(exchangeMetaData.getCurrencies());
+    }
     pairs.putAll(
         assetPairs.stream()
             .filter(pair -> !pair.getSymbol().endsWith("futures")) // filter out the futures assets
@@ -38,8 +41,6 @@ public class CryptowatchAdapters {
                     pair -> adaptToCurrencyPairMetadata(pairs.get(adaptToCurrencyPair(pair))),
                     (oldValue, newValue) -> newValue)));
 
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
-    currencies.putAll(exchangeMetaData.getCurrencies());
     currencies.putAll(
         assets.stream()
             .collect(
@@ -118,15 +119,18 @@ public class CryptowatchAdapters {
         cryptowatchTrades.stream()
             .map(
                 x ->
-                    new Trade(
-                        null,
-                        x.getAmount(),
-                        currencyPair,
-                        x.getPrice(),
-                        new Date(x.getTimestamp()),
-                        null))
+                    new Trade.Builder()
+                        .originalAmount(x.getAmount())
+                        .currencyPair(currencyPair)
+                        .price(x.getPrice())
+                        .timestamp(new Date(x.getTimestamp()))
+                        .build())
             .collect(Collectors.toList());
     long last = trades.get(trades.size() - 1).getTimestamp().getTime();
     return new Trades(trades, last, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+    return pair.base.getCurrencyCode().concat(pair.counter.getCurrencyCode()).toLowerCase();
   }
 }

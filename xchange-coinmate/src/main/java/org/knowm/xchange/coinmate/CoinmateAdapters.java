@@ -118,13 +118,13 @@ public class CoinmateAdapters {
   }
 
   public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
-    return new Trade(
-        null,
-        coinmateEntry.getAmount(),
-        CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()),
-        coinmateEntry.getPrice(),
-        new Date(coinmateEntry.getTimestamp()),
-        coinmateEntry.getTransactionId());
+    return new Trade.Builder()
+        .originalAmount(coinmateEntry.getAmount())
+        .currencyPair(CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()))
+        .price(coinmateEntry.getPrice())
+        .timestamp(new Date(coinmateEntry.getTimestamp()))
+        .id(coinmateEntry.getTransactionId())
+        .build();
   }
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
@@ -167,16 +167,18 @@ public class CoinmateAdapters {
       }
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              entry.getAmount(),
-              CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
-              entry.getPrice(),
-              new Date(entry.getTimestamp()),
-              Long.toString(entry.getTransactionId()),
-              Long.toString(entry.getOrderId()),
-              entry.getFee(),
-              Currency.getInstance(entry.getFeeCurrency()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(entry.getAmount())
+              .currencyPair(
+                  CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()))
+              .price(entry.getPrice())
+              .timestamp(new Date(entry.getTimestamp()))
+              .id(Long.toString(entry.getTransactionId()))
+              .orderId(Long.toString(entry.getOrderId()))
+              .feeAmount(entry.getFee())
+              .feeCurrency(Currency.getInstance(entry.getFeeCurrency()))
+              .build();
       trades.add(trade);
     }
 
@@ -204,16 +206,17 @@ public class CoinmateAdapters {
       }
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              entry.getAmount(),
-              CoinmateUtils.getPair(entry.getCurrencyPair()),
-              entry.getPrice(),
-              new Date(entry.getCreatedTimestamp()),
-              Long.toString(entry.getTransactionId()),
-              Long.toString(entry.getOrderId()),
-              entry.getFee(),
-              CoinmateUtils.getPair(entry.getCurrencyPair()).counter);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(entry.getAmount())
+              .currencyPair(CoinmateUtils.getPair(entry.getCurrencyPair()))
+              .price(entry.getPrice())
+              .timestamp(new Date(entry.getCreatedTimestamp()))
+              .id(Long.toString(entry.getTransactionId()))
+              .orderId(Long.toString(entry.getOrderId()))
+              .feeAmount(entry.getFee())
+              .feeCurrency(CoinmateUtils.getPair(entry.getCurrencyPair()).counter)
+              .build();
       trades.add(trade);
     }
 

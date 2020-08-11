@@ -121,13 +121,14 @@ public final class BTCTradeAdapters {
 
   private static Trade adaptTrade(BTCTradeTrade btcTradeTrade, CurrencyPair currencyPair) {
 
-    return new Trade(
-        adaptOrderType(btcTradeTrade.getType()),
-        btcTradeTrade.getAmount(),
-        currencyPair,
-        btcTradeTrade.getPrice(),
-        new Date(btcTradeTrade.getDate() * 1000),
-        String.valueOf(btcTradeTrade.getTid()));
+    return new Trade.Builder()
+        .type(adaptOrderType(btcTradeTrade.getType()))
+        .originalAmount(btcTradeTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(btcTradeTrade.getPrice())
+        .timestamp(new Date(btcTradeTrade.getDate() * 1000))
+        .id(String.valueOf(btcTradeTrade.getTid()))
+        .build();
   }
 
   private static OrderType adaptOrderType(String type) {
@@ -268,15 +269,14 @@ public final class BTCTradeAdapters {
       org.knowm.xchange.btctrade.dto.trade.BTCTradeTrade trade,
       CurrencyPair currencyPair) {
 
-    return new UserTrade(
-        adaptOrderType(order.getType()),
-        trade.getAmount(),
-        currencyPair,
-        trade.getPrice(),
-        adaptDatetime(trade.getDatetime()),
-        trade.getTradeId(),
-        order.getId(),
-        null,
-        (Currency) null);
+    return new UserTrade.Builder()
+        .type(adaptOrderType(order.getType()))
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(adaptDatetime(trade.getDatetime()))
+        .id(trade.getTradeId())
+        .orderId(order.getId())
+        .build();
   }
 }

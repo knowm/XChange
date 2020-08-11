@@ -23,7 +23,16 @@ public class KrakenUserTrade extends UserTrade {
       Currency feeCurrency,
       BigDecimal cost) {
     super(
-        type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+        type,
+        originalAmount,
+        currencyPair,
+        price,
+        timestamp,
+        id,
+        orderId,
+        feeAmount,
+        feeCurrency,
+        "");
     this.cost = cost;
   }
 
@@ -61,7 +70,7 @@ public class KrakenUserTrade extends UserTrade {
           new KrakenUserTrade(
               type,
               originalAmount,
-              currencyPair,
+              (CurrencyPair) instrument,
               price,
               timestamp,
               id,

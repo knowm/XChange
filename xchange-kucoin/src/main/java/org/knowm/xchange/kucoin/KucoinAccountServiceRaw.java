@@ -5,6 +5,7 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
+import org.knowm.xchange.kucoin.dto.request.CreateAccountRequest;
 import org.knowm.xchange.kucoin.dto.request.InnerTransferRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
 import org.knowm.xchange.kucoin.dto.response.AccountLedgersResponse;
@@ -26,6 +27,18 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
         () -> accountApi.getAccountList(apiKey, digest, nonceFactory, passphrase, null, null));
   }
 
+  public Void createKucoinAccount(String currency, String type) throws IOException {
+    checkAuthenticated();
+    return classifyingExceptions(
+        () ->
+            accountApi.createAccount(
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                CreateAccountRequest.builder().currency(currency).type(type).build()));
+  }
+
   public ApplyWithdrawResponse applyWithdraw(ApplyWithdrawApiRequest req) throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
@@ -39,29 +52,68 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
   }
 
   public Pagination<AccountLedgersResponse> getAccountLedgers(
-      String accountId, Long startAt, Long endAt) throws IOException {
+      String accountId, Long startAt, Long endAt, Integer pageSize, Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             accountApi.getAccountLedgers(
-                apiKey, digest, nonceFactory, passphrase, accountId, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                accountId,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 
   public Pagination<WithdrawalResponse> getWithdrawalsList(
-      String currency, String status, Long startAt, Long endAt) throws IOException {
+      String currency,
+      String status,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             withdrawalAPI.getWithdrawalsList(
-                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                currency,
+                status,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 
   public Pagination<DepositResponse> getDepositList(
-      String currency, String status, Long startAt, Long endAt) throws IOException {
+      String currency,
+      String status,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             depositAPI.getDepositList(
-                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                currency,
+                status,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 }

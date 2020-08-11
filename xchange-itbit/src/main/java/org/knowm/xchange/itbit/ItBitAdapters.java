@@ -113,7 +113,13 @@ public final class ItBitAdapters {
     Date date = DateUtils.fromISODateString(timestamp);
     final String matchNumber = String.valueOf(trade.getMatchNumber());
 
-    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, matchNumber);
+    return new Trade.Builder()
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(date)
+        .id(matchNumber)
+        .build();
   }
 
   public static List<LimitOrder> adaptOrders(
@@ -245,17 +251,17 @@ public final class ItBitAdapters {
       Currency feeCcy = adaptCcy(ccy == null ? itBitTrade.getRebateCurrency() : ccy);
 
       UserTrade userTrade =
-          new UserTrade(
-              orderType,
-              totalQuantity,
-              currencyPair,
-              volumeWeightedAveragePrice,
-              itBitTrade.getTimestamp(),
-              orderId,
-              // itbit doesn't have trade ids, so we use the order id instead
-              orderId,
-              totalFee,
-              feeCcy);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(totalQuantity)
+              .currencyPair(currencyPair)
+              .price(volumeWeightedAveragePrice)
+              .timestamp(itBitTrade.getTimestamp())
+              .id(orderId) // itbit doesn't have trade ids, so we use the order id instead
+              .orderId(orderId)
+              .feeAmount(totalFee)
+              .feeCurrency(feeCcy)
+              .build();
 
       trades.add(userTrade);
     }

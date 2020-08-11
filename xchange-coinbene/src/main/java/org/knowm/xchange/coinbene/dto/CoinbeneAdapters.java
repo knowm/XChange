@@ -33,11 +33,17 @@ public class CoinbeneAdapters {
   }
 
   private static CurrencyPair adaptSymbol(String symbol) {
-    try {
-      return new CurrencyPair(symbol.substring(0, 3), symbol.substring(3));
-    } catch (RuntimeException e) {
-      throw new IllegalArgumentException("Not supported Coinbene symbol: " + symbol, e);
+    // Iterate by base currency priority at Coinbene.
+    for (Currency base :
+        Arrays.asList(Currency.BTC, Currency.ETH, Currency.USDT, Currency.getInstance("BR"))) {
+      String counter = symbol.replace(base.toString(), "");
+      if (symbol.startsWith(base.toString())) {
+        return new CurrencyPair(base, new Currency(counter));
+      } else if (symbol.endsWith(base.toString())) {
+        return new CurrencyPair(new Currency(counter), base);
+      }
     }
+    throw new IllegalArgumentException("Could not parse currency pair from '" + symbol + "'");
   }
 
   public static String adaptOrderType(OrderType type) {
@@ -72,6 +78,9 @@ public class CoinbeneAdapters {
     long timestamp = container.getTimestamp();
 
     return container.getTickers().stream()
+        .filter(
+            coinbeneTicker ->
+                !coinbeneTicker.getSymbol().endsWith("BRL")) // DASHBRL, EOSBRL unsupported
         .map(coinbeneTicker -> adaptCoinbeneTicker(coinbeneTicker, timestamp))
         .collect(Collectors.toList());
   }

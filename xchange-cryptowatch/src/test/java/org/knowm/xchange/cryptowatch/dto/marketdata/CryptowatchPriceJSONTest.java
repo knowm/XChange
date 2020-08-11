@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 import org.junit.Test;
 import org.knowm.xchange.cryptowatch.TestUtils;
 import org.knowm.xchange.cryptowatch.dto.marketdata.results.CryptowatchPriceResult;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class CryptowatchPriceJSONTest {
 

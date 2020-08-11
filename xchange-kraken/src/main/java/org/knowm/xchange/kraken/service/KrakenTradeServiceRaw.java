@@ -201,7 +201,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     KrakenType type = KrakenType.fromOrderType(marketOrder.getType());
     KrakenOrderBuilder orderBuilder =
         KrakenStandardOrder.getSettlePositionOrderBuilder(
-                marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())            
+                marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())
             .withUserRefId(marketOrder.getUserReference());
 
     return placeKrakenOrder(orderBuilder.buildOrder());

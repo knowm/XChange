@@ -1,0 +1,30 @@
+{
+  "jsonrpc": "2.0",
+  "method": "snapshotTrades",
+  "params": {
+    "data": [
+      {
+        "id": 54469456,
+        "price": "0.054656",
+        "quantity": "0.057",
+        "side": "buy",
+        "timestamp": "2017-10-19T16:33:42.821Z"
+      },
+      {
+        "id": 54469497,
+        "price": "0.054656",
+        "quantity": "0.092",
+        "side": "buy",
+        "timestamp": "2017-10-19T16:33:48.754Z"
+      },
+      {
+        "id": 54469697,
+        "price": "0.054669",
+        "quantity": "0.002",
+        "side": "buy",
+        "timestamp": "2017-10-19T16:34:13.288Z"
+      }
+    ],
+    "symbol": "ETHBTC"
+  }
+}

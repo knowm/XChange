@@ -1,10 +1,9 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.math.BigDecimal;
 
 @Getter
 @ToString
