@@ -14,14 +14,16 @@ import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/** @author gnandiga */
+/**
+ * @author gnandiga
+ */
 public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   private final BitstampAuthenticated bitstampAuthenticated;
   private final BitstampAuthenticatedV2 bitstampAuthenticatedV2;
   private final BitstampDigest signatureCreator;
-  private String apiKey;
-  private SynchronizedValueFactory<Long> nonceFactory;
+  private final String apiKey;
+  private final SynchronizedValueFactory<Long> nonceFactory;
 
   public BitstampTradeServiceRaw(Exchange exchange) {
 
@@ -43,6 +45,14 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
             exchange.getExchangeSpecification().getSecretKey(),
             exchange.getExchangeSpecification().getUserName(),
             apiKey);
+  }
+
+  public BitstampOrder[] getBitstampOpenOrders() throws IOException {
+    try {
+      return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory);
+    } catch (BitstampException e) {
+      throw handleError(e);
+    }
   }
 
   public BitstampOrder[] getBitstampOpenOrders(CurrencyPair pair) throws IOException {
