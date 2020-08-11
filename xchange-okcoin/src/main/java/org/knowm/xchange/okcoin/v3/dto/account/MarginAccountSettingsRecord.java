@@ -2,14 +2,9 @@ package org.knowm.xchange.okcoin.v3.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.knowm.xchange.okcoin.v3.dto.trade.OkexResponse;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 @Data
 public class MarginAccountSettingsRecord {

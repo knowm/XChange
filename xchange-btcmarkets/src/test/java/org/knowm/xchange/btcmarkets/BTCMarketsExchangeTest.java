@@ -8,6 +8,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -128,13 +129,6 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldUseDefaultExchangeSpecForNullSpecification() {
-    exchange.applySpecification(null);
-    assertThat(exchange.getExchangeSpecification())
-        .isEqualToComparingFieldByField(exchange.getDefaultExchangeSpecification());
-  }
-
-  @Test
   public void shouldCreateDefaultExchangeSpecification() {
     // when
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
@@ -157,6 +151,6 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(factory).isNotNull();
-    assertThat(factory instanceof CurrentTimeNonceFactory).isTrue();
+    assertThat(factory instanceof CurrentNanosecondTimeIncrementalNonceFactory).isTrue();
   }
 }

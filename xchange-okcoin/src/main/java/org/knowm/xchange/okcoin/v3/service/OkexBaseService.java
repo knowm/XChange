@@ -1,6 +1,5 @@
 package org.knowm.xchange.okcoin.v3.service;
 
-import java.time.Instant;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.okcoin.OkexDigestV3;
 import org.knowm.xchange.okcoin.OkexExchangeV3;

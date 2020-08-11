@@ -143,8 +143,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
       // merging the two into
       // a single FundingRecord
       ANXWalletHistoryEntry feeEntry =
-          walletHistory
-              .parallelStream()
+          walletHistory.parallelStream()
               .filter(
                   anxWalletHistoryEntry ->
                       "fee".equalsIgnoreCase(anxWalletHistoryEntry.getType())

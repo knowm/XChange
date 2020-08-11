@@ -1,9 +1,8 @@
 package org.knowm.xchange.cryptowatch.dto.marketdata.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
-
 import java.util.List;
+import org.knowm.xchange.cryptowatch.dto.marketdata.CryptowatchAssetPair;
 
 public class CryptowatchAssetPairsResult extends CryptowatchResult<List<CryptowatchAssetPair>> {
 

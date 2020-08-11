@@ -51,8 +51,17 @@ public final class BityAdapters {
     Date date = order.getTimestampCreated();
     String orderId = order.getResourceUri();
 
-    return new UserTrade(
-        orderType, amount, currencyPair, price, date, orderId, orderId, fee, currencyPair.counter);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(orderId)
+        .orderId(orderId)
+        .feeAmount(fee)
+        .feeCurrency(currencyPair.counter)
+        .build();
   }
 
   public static ExchangeMetaData adaptMetaData(

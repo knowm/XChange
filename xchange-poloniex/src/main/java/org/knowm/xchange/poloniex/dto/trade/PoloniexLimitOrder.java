@@ -41,7 +41,7 @@ public class PoloniexLimitOrder extends LimitOrder {
     public PoloniexLimitOrder build() {
       final PoloniexLimitOrder order =
           new PoloniexLimitOrder(
-              orderType, originalAmount, currencyPair, id, timestamp, limitPrice);
+              orderType, originalAmount, (CurrencyPair) instrument, id, timestamp, limitPrice);
       order.setOrderFlags(flags);
       return order;
     }

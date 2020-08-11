@@ -1,7 +1,6 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -120,15 +119,14 @@ public class PoloniexAdapters {
         poloniexTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
 
-    Trade trade =
-        new Trade(
-            type,
-            poloniexTrade.getAmount(),
-            currencyPair,
-            poloniexTrade.getRate(),
-            timestamp,
-            poloniexTrade.getTradeID());
-    return trade;
+    return new Trade.Builder()
+        .type(type)
+        .originalAmount(poloniexTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(poloniexTrade.getRate())
+        .timestamp(timestamp)
+        .id(poloniexTrade.getTradeID())
+        .build();
   }
 
   public static List<Balance> adaptPoloniexBalances(
@@ -219,23 +217,24 @@ public class PoloniexAdapters {
     final String feeCurrencyCode;
     if (orderType == OrderType.ASK) {
       feeAmount =
-          amount.multiply(price).multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+          amount.multiply(price).multiply(userTrade.getFee()).setScale(8, RoundingMode.DOWN);
       feeCurrencyCode = currencyPair.counter.getCurrencyCode();
     } else {
-      feeAmount = amount.multiply(userTrade.getFee()).setScale(8, BigDecimal.ROUND_DOWN);
+      feeAmount = amount.multiply(userTrade.getFee()).setScale(8, RoundingMode.DOWN);
       feeCurrencyCode = currencyPair.base.getCurrencyCode();
     }
 
-    return new UserTrade(
-        orderType,
-        amount,
-        currencyPair,
-        price,
-        date,
-        tradeId,
-        orderId,
-        feeAmount,
-        Currency.getInstance(feeCurrencyCode));
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .orderId(orderId)
+        .feeAmount(feeAmount)
+        .feeCurrency(Currency.getInstance(feeCurrencyCode))
+        .build();
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(
@@ -283,11 +282,11 @@ public class PoloniexAdapters {
   }
 
   private static FundingRecord adaptAdjustment(PoloniexAdjustment a) {
-    FundingRecord.Type type = DEPOSIT;
+    FundingRecord.Type type = OTHER_INFLOW;
     // There seems to be a spelling error in the returning reason. In case that ever gets
     // corrected, this will still pick it up.
-    if (a.getReason().toLowerCase().endsWith("aidrop")
-        || a.getReason().toLowerCase().endsWith("airdrop")) {
+    if (a.getReason().toLowerCase().contains("aidrop")
+        || a.getReason().toLowerCase().contains("airdrop")) {
       type = Type.AIRDROP;
     }
     // There could be other forms of adjustements, but it seems to be some kind of deposit.
@@ -374,7 +373,7 @@ public class PoloniexAdapters {
 
     BigDecimal weightedAveragePrice =
         weightedPrices.stream()
-            .reduce(new BigDecimal(0), (a, b) -> a.add(b))
+            .reduce(new BigDecimal(0), BigDecimal::add)
             .divide(amount, RoundingMode.HALF_UP);
 
     return new LimitOrder(

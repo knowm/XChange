@@ -3,6 +3,7 @@ package org.knowm.xchange.currency;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * Value object to provide the following to API:
@@ -15,7 +16,7 @@ import java.io.Serializable;
  * <p>Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with
  * 1.25 USD
  */
-public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
+public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>, Serializable {
 
   private static final long serialVersionUID = 414711266389792746L;
 
@@ -70,6 +71,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BTC_INR = new CurrencyPair(Currency.BTC, Currency.INR);
   public static final CurrencyPair BTC_XAUR = new CurrencyPair(Currency.BTC, Currency.XAUR);
   public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
+  public static final CurrencyPair BTC_ZMW = new CurrencyPair(Currency.BTC, Currency.ZMW);
   public static final CurrencyPair BTC_TRY = new CurrencyPair(Currency.BTC, Currency.TRY);
   public static final CurrencyPair ETH_TRY = new CurrencyPair(Currency.ETH, Currency.TRY);
 

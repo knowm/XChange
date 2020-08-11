@@ -8,7 +8,7 @@ public class CurrentNanosecondTimeIncrementalNonceFactory
   private long lastNonce = 0L;
 
   @Override
-  public Long createValue() {
+  public synchronized Long createValue() {
 
     long newNonce = System.currentTimeMillis() * 1000;
 

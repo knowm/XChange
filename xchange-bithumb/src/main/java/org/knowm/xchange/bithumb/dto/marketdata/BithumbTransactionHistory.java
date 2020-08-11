@@ -1,44 +1,34 @@
 package org.knowm.xchange.bithumb.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.Date;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.knowm.xchange.bithumb.BithumbAdapters;
 
 public class BithumbTransactionHistory {
-
-  public static final FastDateFormat TRANSACTION_DATE_FORMAT =
-      FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
-  private final long contNo;
-  private final String transactionDate;
+  private final Date timestamp;
   private final BithumbAdapters.OrderType type;
   private final BigDecimal unitsTraded;
   private final BigDecimal price;
   private final BigDecimal total;
 
   public BithumbTransactionHistory(
-      @JsonProperty("cont_no") long contNo,
-      @JsonProperty("transaction_date") String transactionDate,
+      @JsonFormat(
+              shape = JsonFormat.Shape.STRING,
+              pattern = "yyyy-MM-dd HH:mm:ss",
+              timezone = "UTC")
+          @JsonProperty("transaction_date")
+          Date transactionDate,
       @JsonProperty("type") BithumbAdapters.OrderType type,
       @JsonProperty("units_traded") BigDecimal unitsTraded,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("total") BigDecimal total) {
-    this.contNo = contNo;
-    this.transactionDate = transactionDate;
+    this.timestamp = transactionDate; // field is renamed to maintain pre-existing API
     this.type = type;
     this.unitsTraded = unitsTraded;
     this.price = price;
     this.total = total;
-  }
-
-  public long getContNo() {
-    return contNo;
-  }
-
-  public String getTransactionDate() {
-    return transactionDate;
   }
 
   public BithumbAdapters.OrderType getType() {
@@ -58,20 +48,14 @@ public class BithumbTransactionHistory {
   }
 
   public Date getTimestamp() {
-    try {
-      return TRANSACTION_DATE_FORMAT.parse(transactionDate);
-    } catch (ParseException e) {
-      return null;
-    }
+    return timestamp;
   }
 
   @Override
   public String toString() {
     return "BithumbTransactionHistory{"
-        + "contNo="
-        + contNo
-        + ", transactionDate='"
-        + transactionDate
+        + "timestamp='"
+        + timestamp
         + '\''
         + ", type='"
         + type

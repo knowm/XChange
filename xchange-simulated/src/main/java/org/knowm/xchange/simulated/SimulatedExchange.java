@@ -3,6 +3,7 @@ package org.knowm.xchange.simulated;
 import static java.math.BigDecimal.ZERO;
 
 import java.io.IOException;
+import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -114,6 +115,10 @@ public class SimulatedExchange extends BaseExchange {
 
   void maybeThrow() throws IOException {
     exceptionThrower.onSimulatedExchangeOperation();
+  }
+
+  Collection<MatchingEngine> getEngines() {
+    return engineFactory.engines();
   }
 
   MatchingEngine getEngine(CurrencyPair currencyPair) {

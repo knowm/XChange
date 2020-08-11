@@ -6,10 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,6 +13,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 /** @author massi.gerardi */
 @JsonDeserialize(using = CryptowatchOHLCs.CryptowatchOHLCsDeserializer.class)
@@ -25,21 +24,21 @@ import java.util.Map;
 @ToString
 public class CryptowatchOHLCs {
 
-  private final Map<Integer, List<CryptowatchOHLC>> OHLCs;
+  private final Map<String, List<CryptowatchOHLC>> OHLCs;
 
   static class CryptowatchOHLCsDeserializer extends JsonDeserializer<CryptowatchOHLCs> {
 
     @Override
     public CryptowatchOHLCs deserialize(JsonParser jsonParser, DeserializationContext ctxt)
         throws IOException {
-      Map<Integer, List<CryptowatchOHLC>> cwOHLCs = new HashMap<>();
+      Map<String, List<CryptowatchOHLC>> cwOHLCs = new HashMap<>();
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
 
       Iterator<Map.Entry<String, JsonNode>> tradesResultIterator = node.fields();
       while (tradesResultIterator.hasNext()) {
         Map.Entry<String, JsonNode> entry = tradesResultIterator.next();
-        Integer key = Integer.valueOf(entry.getKey());
+        String key = entry.getKey();
         JsonNode value = entry.getValue();
 
         List<CryptowatchOHLC> ohlcs = new ArrayList<>();

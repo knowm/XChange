@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
@@ -27,36 +28,42 @@ public class UserTrade extends Trade {
   /** The currency in which the fee was charged. */
   private final Currency feeCurrency;
 
+  /** The order reference id which has been added by the user on the order creation */
+  private final String orderUserReference;
+
   /**
    * This constructor is called to construct user's trade objects (in {@link
    * TradeService#getTradeHistory(TradeHistoryParams)} implementations).
    *
    * @param type The trade type (BID side or ASK side)
    * @param originalAmount The depth of this trade
-   * @param currencyPair The exchange identifier (e.g. "BTC/USD")
+   * @param instrument The exchange identifier (e.g. "BTC/USD")
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
    * @param feeCurrency The symbol of the currency in which the fee was charged
+   * @param orderUserReference The id that the user has insert to the trade
    */
   public UserTrade(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       BigDecimal price,
       Date timestamp,
       String id,
       String orderId,
       BigDecimal feeAmount,
-      Currency feeCurrency) {
+      Currency feeCurrency,
+      String orderUserReference) {
 
-    super(type, originalAmount, currencyPair, price, timestamp, id);
+    super(type, originalAmount, instrument, price, timestamp, id, null, null);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
     this.feeCurrency = feeCurrency;
+    this.orderUserReference = orderUserReference;
   }
 
   public String getOrderId() {
@@ -74,18 +81,21 @@ public class UserTrade extends Trade {
     return feeCurrency;
   }
 
+  public String getOrderUserReference() {
+    return orderUserReference;
+  }
+
   @Override
   public String toString() {
     return "UserTrade[type="
         + type
         + ", originalAmount="
         + originalAmount
-        + ", currencyPair="
-        + currencyPair
+        + ", instrument="
+        + instrument
         + ", price="
         + price
-        + ", "
-        + "timestamp="
+        + ", timestamp="
         + timestamp
         + ", id="
         + id
@@ -96,6 +106,9 @@ public class UserTrade extends Trade {
         + feeAmount
         + ", feeCurrency='"
         + feeCurrency
+        + '\''
+        + ", orderUserReference='"
+        + orderUserReference
         + '\''
         + "]";
   }
@@ -122,12 +135,13 @@ public class UserTrade extends Trade {
     protected String orderId;
     protected BigDecimal feeAmount;
     protected Currency feeCurrency;
+    protected String orderUserReference;
 
     public static Builder from(UserTrade trade) {
       return new Builder()
           .type(trade.getType())
           .originalAmount(trade.getOriginalAmount())
-          .currencyPair(trade.getCurrencyPair())
+          .instrument(trade.getInstrument())
           .price(trade.getPrice())
           .timestamp(trade.getTimestamp())
           .id(trade.getId())
@@ -144,6 +158,11 @@ public class UserTrade extends Trade {
     @Override
     public Builder originalAmount(BigDecimal originalAmount) {
       return (Builder) super.originalAmount(originalAmount);
+    }
+
+    @Override
+    public Builder instrument(Instrument instrument) {
+      return (Builder) super.instrument(instrument);
     }
 
     @Override
@@ -181,22 +200,24 @@ public class UserTrade extends Trade {
       return this;
     }
 
+    public Builder orderUserReference(String orderUserReference) {
+      this.orderUserReference = orderUserReference;
+      return this;
+    }
+
     @Override
     public UserTrade build() {
-      UserTrade userTrade =
-          new UserTrade(
-              type,
-              originalAmount,
-              currencyPair,
-              price,
-              timestamp,
-              id,
-              orderId,
-              feeAmount,
-              feeCurrency);
-      userTrade.setMakerOrderId(makerOrderId);
-      userTrade.setTakerOrderId(takerOrderId);
-      return userTrade;
+      return new UserTrade(
+          type,
+          originalAmount,
+          instrument,
+          price,
+          timestamp,
+          id,
+          orderId,
+          feeAmount,
+          feeCurrency,
+          orderUserReference);
     }
   }
 }

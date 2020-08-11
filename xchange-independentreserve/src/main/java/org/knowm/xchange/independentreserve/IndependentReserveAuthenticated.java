@@ -8,6 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressRequest;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressResponse;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
@@ -18,6 +20,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDet
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceMarketOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceMarketOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
@@ -33,6 +37,7 @@ public interface IndependentReserveAuthenticated {
   public static final String SynchDigitalCurrencyDepositAddressWithBlockchain =
       "SynchDigitalCurrencyDepositAddressWithBlockchain";
   public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
+  public static final String GetDigitalCurrencyDepositAddress = "GetDigitalCurrencyDepositAddress";
 
   @POST
   @Path("GetAccounts")
@@ -55,10 +60,24 @@ public interface IndependentReserveAuthenticated {
       throws IndependentReserveHttpStatusException, IOException;
 
   @POST
+  @Path(GetDigitalCurrencyDepositAddress)
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveDepositAddressResponse getDigitalCurrencyDepositAddress(
+      IndependentReserveDepositAddressRequest independentReserveDepositAddressRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
   @Path("PlaceLimitOrder")
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReservePlaceLimitOrderResponse placeLimitOrder(
       IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path("PlaceMarketOrder")
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReservePlaceMarketOrderResponse placeMarketOrder(
+      IndependentReservePlaceMarketOrderRequest independentReservePlaceMarketOrderRequest)
       throws IndependentReserveHttpStatusException, IOException;
 
   @POST
