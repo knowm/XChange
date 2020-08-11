@@ -51,28 +51,28 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    Collection<CurrencyPair> pairs = DefaultOpenOrdersParamCurrencyPair.getPairs(params, exchange);
+
     List<LimitOrder> limitOrders = new ArrayList<>();
-    for (CurrencyPair pair : pairs) {
-      BitstampOrder[] openOrders = getBitstampOpenOrders(pair);
-      for (BitstampOrder bitstampOrder : openOrders) {
-        OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-        String id = Long.toString(bitstampOrder.getId());
-        BigDecimal price = bitstampOrder.getPrice();
-        limitOrders.add(
-            new LimitOrder(
-                orderType,
-                bitstampOrder.getAmount(),
-                pair,
-                id,
-                bitstampOrder.getDatetime(),
-                price,
-                null, // avgPrice
-                null, // cumAmount
-                null, // fee
-                Order.OrderStatus.NEW));
-      }
+
+    BitstampOrder[] openOrders = getBitstampOpenOrders();
+    for (BitstampOrder bitstampOrder : openOrders) {
+      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Long.toString(bitstampOrder.getId());
+      BigDecimal price = bitstampOrder.getPrice();
+      limitOrders.add(
+          new LimitOrder(
+              orderType,
+              bitstampOrder.getAmount(),
+              new BitstampV2.Pair(bitstampOrder.getCurrencyPair()).pair,
+              id,
+              bitstampOrder.getDatetime(),
+              price,
+              null, // avgPrice
+              null, // cumAmount
+              null, // fee
+              Order.OrderStatus.NEW));
     }
+
     return new OpenOrders(limitOrders);
   }
 
