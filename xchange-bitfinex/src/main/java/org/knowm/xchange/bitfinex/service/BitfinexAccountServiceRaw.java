@@ -26,6 +26,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
@@ -249,5 +250,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         endTimeMillis,
         limit,
         EmptyRequest.INSTANCE);
+  }
+
+  public List<Wallet> getWallets() throws IOException {
+    return bitfinexV2.getWallets(
+        exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
   }
 }
