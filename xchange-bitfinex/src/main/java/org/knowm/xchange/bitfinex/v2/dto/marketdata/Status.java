@@ -1,8 +1,10 @@
 package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,11 +19,13 @@ import lombok.ToString;
 public class Status {
 
   private String symbol;
+  /** Millisecond timestamp */
   private long timestamp;
+
   private Object placeHolder0;
-  /** Derivative last traded price. */
+  /** Derivative book mid price. */
   private BigDecimal derivPrice;
-  /** Last traded price of the underlying Bitfinex spot trading pair */
+  /** Book mid price of the underlying Bitfinex spot trading pair */
   private BigDecimal spotPrice;
 
   private Object placeHolder1;
@@ -29,7 +33,8 @@ public class Status {
   private BigDecimal insuranceFundBalance;
 
   private Object placeHolder2;
-  private Object placeHolder3;
+  /** Millisecond timestamp of next funding event */
+  private Long nextFundingEvtTimestampMillis;
   /** Current accrued funding for next 8h period */
   private BigDecimal nextFundingAccrued;
   /** Incremental accrual counter */
@@ -48,4 +53,12 @@ public class Status {
   private Object placeHolder8;
   /** Total number of outstanding derivative contracts */
   private BigDecimal openInterest;
+
+  private Object placeHolder9;
+  private Object placeHolder10;
+  private Object placeHolder11;
+  /** Range in the average spread that does not require a funding payment */
+  private BigDecimal clampMin;
+  /** Funding payment cap */
+  private BigDecimal clampMax;
 }
