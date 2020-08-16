@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
-import info.bitrich.xchangestream.coinbasepro.dto.ProductSubscriptionWrapper;
 import info.bitrich.xchangestream.coinbasepro.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -33,8 +32,8 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SHARE_CHANNEL_NAME = "ALL";
   private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
   private ProductSubscription product = null;
-  private ProductSubscriptionWrapper productWrapper = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
+  private boolean subscribeL3Orderbook = false;
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
@@ -109,14 +108,9 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    CoinbaseProWebSocketSubscriptionMessage subscribeMessage;
-    if (productWrapper != null) {
-      subscribeMessage =
-          new CoinbaseProWebSocketSubscriptionMessage(SUBSCRIBE, productWrapper, authData.get());
-    } else {
-      subscribeMessage =
-          new CoinbaseProWebSocketSubscriptionMessage(SUBSCRIBE, product, authData.get());
-    }
+    CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
+        new CoinbaseProWebSocketSubscriptionMessage(
+            SUBSCRIBE, product, subscribeL3Orderbook, authData.get());
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
@@ -155,15 +149,8 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     this.product = products[0];
   }
 
-  /**
-   * Method has slightly different prototype then above which allows for providing subscriptions to
-   * CoinbasePro specific channels
-   *
-   * @param productWrappers wraps {@link ProductSubscription} and list of {@link CurrencyPair} used
-   *     to subscribe to full channel.
-   */
-  public void subscribeMultipleCurrencyPairs(ProductSubscriptionWrapper... productWrappers) {
-    this.productWrapper = productWrappers[0];
+  public void subscribeToL3Orderbook() {
+    this.subscribeL3Orderbook = true;
   }
 
   /**

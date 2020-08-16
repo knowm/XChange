@@ -48,6 +48,13 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
       apiUri = usePrime ? PRIME_API_URI : API_URI;
     }
 
+    boolean subscribeToL3Orderbook =
+            Boolean.TRUE.equals(
+                    exchangeSpecification.getExchangeSpecificParametersItem(StreamingExchange.L3_ORDERBOOK));
+    if (subscribeToL3Orderbook) {
+      this.streamingService.subscribeToL3Orderbook();
+    }
+
     this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
 

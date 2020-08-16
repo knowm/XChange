@@ -71,17 +71,11 @@ public class CoinbaseProWebSocketSubscriptionMessage {
 
   public CoinbaseProWebSocketSubscriptionMessage(
       String type,
-      ProductSubscriptionWrapper subscriptionWrapper,
+      ProductSubscription product,
+      boolean l3orderbook,
       CoinbaseProWebsocketAuthData authData) {
     this.type = type;
-    generateSubscriptionMessage(
-        subscriptionWrapper.getProductSubscription(), subscriptionWrapper.getFull(), authData);
-  }
-
-  public CoinbaseProWebSocketSubscriptionMessage(
-      String type, ProductSubscription product, CoinbaseProWebsocketAuthData authData) {
-    this.type = type;
-    generateSubscriptionMessage(product, null, authData);
+    generateSubscriptionMessage(product, l3orderbook, authData);
   }
 
   public CoinbaseProWebSocketSubscriptionMessage(
@@ -118,15 +112,16 @@ public class CoinbaseProWebSocketSubscriptionMessage {
 
   private void generateSubscriptionMessage(
       ProductSubscription productSubscription,
-      List<CurrencyPair> full,
+      boolean l3orderbook,
       CoinbaseProWebsocketAuthData authData) {
     List<CoinbaseProProductSubscription> channels = new ArrayList<>(3);
     Map<String, List<CurrencyPair>> pairs = new HashMap<>(3);
 
-    if (full != null) {
-      pairs.put("full", full);
+    if (l3orderbook) {
+      pairs.put("full", productSubscription.getOrderBook());
+    } else {
+      pairs.put("level2", productSubscription.getOrderBook());
     }
-    pairs.put("level2", productSubscription.getOrderBook());
     pairs.put("ticker", productSubscription.getTicker());
     pairs.put("matches", productSubscription.getTrades());
     if (authData != null) {
@@ -147,9 +142,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       }
       CoinbaseProProductSubscription coinbaseProProduct =
           generateCoinbaseProProduct(
-              product.getKey(),
-              product.getValue().toArray(new CurrencyPair[0]),
-              authData);
+              product.getKey(), product.getValue().toArray(new CurrencyPair[0]), authData);
       channels.add(coinbaseProProduct);
     }
 
