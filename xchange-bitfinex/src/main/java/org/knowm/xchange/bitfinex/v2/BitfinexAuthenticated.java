@@ -14,6 +14,7 @@ import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
@@ -34,6 +35,16 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("auth/r/positions")
   List<Position> activePositions(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
+  /** https://docs.bitfinex.com/reference#rest-auth-wallets */
+  @POST
+  @Path("auth/r/wallets")
+  List<Wallet> getWallets(
       @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
       @HeaderParam(BFX_APIKEY) String apiKey,
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
