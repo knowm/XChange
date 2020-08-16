@@ -53,7 +53,7 @@ public class CexioStreamingExchange extends CexIOExchange implements StreamingEx
 
   @Override
   public void applySpecification(ExchangeSpecification specification) {
-    super.applySpecification(exchangeSpecification);
+    super.applySpecification(specification);
     ExchangeSpecification finalSpec = getExchangeSpecification();
     String apiKey = finalSpec.getApiKey();
     String secretKey = finalSpec.getSecretKey();
