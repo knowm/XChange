@@ -5,6 +5,7 @@ import static org.knowm.xchange.binance.BinanceResilience.REQUEST_WEIGHT_RATE_LI
 import java.io.IOException;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.service.BaseResilientExchangeService;
@@ -39,13 +40,17 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
-    return ((BinanceExchange) exchange).getTimestampFactory();
+    return exchange.getTimestampFactory();
   }
 
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
-    return decorateApiCall(() -> binance.exchangeInfo())
+    return decorateApiCall(binance::exchangeInfo)
         .withRetry(retry("exchangeInfo"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
+  }
+
+  public BinanceSystemStatus getSystemStatus() throws IOException {
+    return decorateApiCall(binance::systemStatus).call();
   }
 }
