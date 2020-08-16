@@ -2,6 +2,7 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,8 @@ import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
+import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -62,14 +65,25 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         currency.getCurrencyCode());
   }
 
+  public BittrexAccountVolume getAccountVolume() throws IOException {
+    return bittrexAuthenticated.getAccountVolume(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+  }
+
   public BittrexOrder getBittrexOrder(String orderId) throws IOException {
     return bittrexAuthenticated.getOrder(
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, orderId);
   }
 
-  public BittrexAccountVolume getAccountVolume() throws IOException {
-    return bittrexAuthenticated.getAccountVolume(
-        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+
+  public List<BittrexDepositHistory> getBittrexDepositsClosed(String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize) throws IOException {
+    return bittrexAuthenticated.getDepositsClosed(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currencySymbol, nextPageToken, previousPageToken, pageSize);
+  }
+
+  public List<BittrexWithdrawalHistory> getBittrexWithdrawalsClosed(String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize) throws IOException {
+    return bittrexAuthenticated.getWithdrawalsClosed(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currencySymbol, nextPageToken, previousPageToken, pageSize);
   }
 
   @AllArgsConstructor
