@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BitbayBalances extends BitbayBaseResponse {
 
-  private List<BitbayBalance> balances;
+  private final List<BitbayBalance> balances;
 
   public BitbayBalances(
       @JsonProperty("status") String status,
