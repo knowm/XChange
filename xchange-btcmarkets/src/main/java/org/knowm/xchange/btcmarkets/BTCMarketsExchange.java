@@ -6,19 +6,25 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Matija Mazi */
 public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
+  public static final String NONCE_FACTORY = "nonceFactory";
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
+    Object nonceFactoryOverride =
+        exchangeSpecification.getExchangeSpecificParametersItem(NONCE_FACTORY);
+    if (nonceFactoryOverride instanceof SynchronizedValueFactory) {
+      nonceFactory = (SynchronizedValueFactory) nonceFactoryOverride;
+    }
   }
 
   @Override
@@ -44,9 +50,5 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
-  }
-
-  public void setNonceFactory(SynchronizedValueFactory<Long> nonceFactory) {
-    this.nonceFactory = nonceFactory;
   }
 }
