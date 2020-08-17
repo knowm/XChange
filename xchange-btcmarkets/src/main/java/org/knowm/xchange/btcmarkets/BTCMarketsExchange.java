@@ -19,12 +19,12 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
     Object nonceFactoryOverride =
         exchangeSpecification.getExchangeSpecificParametersItem(NONCE_FACTORY);
     if (nonceFactoryOverride instanceof SynchronizedValueFactory) {
       nonceFactory = (SynchronizedValueFactory) nonceFactoryOverride;
     }
+    super.applySpecification(exchangeSpecification);
   }
 
   @Override
