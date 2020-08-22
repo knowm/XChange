@@ -33,14 +33,17 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
-  private boolean subscribeL3Orderbook = false;
+  private final boolean subscribeL3Orderbook;
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   public CoinbaseProStreamingService(
-      String apiUrl, Supplier<CoinbaseProWebsocketAuthData> authData) {
+      String apiUrl,
+      Supplier<CoinbaseProWebsocketAuthData> authData,
+      boolean subscribeL3Orderbook) {
     super(apiUrl, Integer.MAX_VALUE);
     this.authData = authData;
+    this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
 
   public CoinbaseProStreamingService(
@@ -49,9 +52,11 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds,
-      Supplier<CoinbaseProWebsocketAuthData> authData) {
+      Supplier<CoinbaseProWebsocketAuthData> authData,
+      boolean subscribeL3Orderbook) {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
+    this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
 
   public ProductSubscription getProduct() {
@@ -147,10 +152,6 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
 
   public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {
     this.product = products[0];
-  }
-
-  public void subscribeToL3Orderbook() {
-    this.subscribeL3Orderbook = true;
   }
 
   /**
