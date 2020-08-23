@@ -101,7 +101,8 @@ public class CoinbaseProAdapters {
   }
 
   public static CurrencyPair toCurrencyPair(final String productId) {
-    return new CurrencyPair(productId.replace('-', '/'));
+    final String[] parts = productId.split("-");
+    return new CurrencyPair(parts[0], parts[1]);
   }
 
   public static Ticker adaptTicker(
