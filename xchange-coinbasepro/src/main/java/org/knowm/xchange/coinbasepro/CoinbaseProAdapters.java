@@ -552,7 +552,7 @@ public class CoinbaseProAdapters {
       case "DAI":
       case "ZIL":
       case "MKR":
-        transactionHash = "0x" + transactionHash;
+        transactionHash = transactionHash != null ? "0x" + transactionHash : null;
         break;
     }
     return transactionHash;
