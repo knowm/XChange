@@ -43,7 +43,9 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  public HuobiOrder[] getHuobiOrderHistory(CurrencyPairParam params, Date startTime, Date endTime, String direct, Integer size) throws IOException {
+  public HuobiOrder[] getHuobiOrderHistory(
+      CurrencyPairParam params, Date startTime, Date endTime, String direct, Integer size)
+      throws IOException {
     HuobiOrdersResult result =
         huobi.getOrdersHistory(
             params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
@@ -62,32 +64,40 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
   public HuobiOrder[] getHuobiOpenOrders(CurrencyPairParam params) throws IOException {
     String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
-            huobi.getOpenOrders(
-                    params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
-                    states,
-                    exchange.getExchangeSpecification().getApiKey(),
-                    HuobiDigest.HMAC_SHA_256,
-                    2,
-                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-                    signatureCreator);
+        huobi.getOpenOrders(
+            params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
+            states,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
     return checkResult(result);
   }
 
-  public HuobiMatchResult[] getHuobiMatchResults(CurrencyPairParam params, String types, Date startDate, Date endDate, String from, String direct, Integer size) throws IOException {
+  public HuobiMatchResult[] getHuobiMatchResults(
+      CurrencyPairParam params,
+      String types,
+      Date startDate,
+      Date endDate,
+      String from,
+      String direct,
+      Integer size)
+      throws IOException {
     HuobiMatchesResult result =
-            huobi.getMatchResults(
-                    params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
-                    types,
-                    HuobiUtils.createUTCDate(startDate),
-                    HuobiUtils.createUTCDate(endDate),
-                    from,
-                    direct,
-                    size,
-                    exchange.getExchangeSpecification().getApiKey(),
-                    HuobiDigest.HMAC_SHA_256,
-                    2,
-                    HuobiUtils.createUTCDate(exchange.getNonceFactory()),
-                    signatureCreator);
+        huobi.getMatchResults(
+            params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
+            types,
+            HuobiUtils.createUTCDate(startDate),
+            HuobiUtils.createUTCDate(endDate),
+            from,
+            direct,
+            size,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
     return checkResult(result);
   }
 

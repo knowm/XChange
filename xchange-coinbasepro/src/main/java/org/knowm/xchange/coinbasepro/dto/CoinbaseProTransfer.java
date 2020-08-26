@@ -115,19 +115,36 @@ public class CoinbaseProTransfer {
 
     @Override
     public String toString() {
-      return "Detail{" +
-              "cryptoAddress='" + cryptoAddress + '\'' +
-              ", coinbaseAccountId='" + coinbaseAccountId + '\'' +
-              ", cryptoTransactionId='" + cryptoTransactionId + '\'' +
-              ", coinbaseTransactionId='" + coinbaseTransactionId + '\'' +
-              ", cryptoTransactionHash='" + cryptoTransactionHash + '\'' +
-              ", sentToAddress='" + sentToAddress + '\'' +
-              ", coinbaseWithdrawalId='" + coinbaseWithdrawalId + '\'' +
-              ", destinationTag='" + destinationTag + '\'' +
-              ", destinationTagName='" + destinationTagName + '\'' +
-              '}';
+      return "Detail{"
+          + "cryptoAddress='"
+          + cryptoAddress
+          + '\''
+          + ", coinbaseAccountId='"
+          + coinbaseAccountId
+          + '\''
+          + ", cryptoTransactionId='"
+          + cryptoTransactionId
+          + '\''
+          + ", coinbaseTransactionId='"
+          + coinbaseTransactionId
+          + '\''
+          + ", cryptoTransactionHash='"
+          + cryptoTransactionHash
+          + '\''
+          + ", sentToAddress='"
+          + sentToAddress
+          + '\''
+          + ", coinbaseWithdrawalId='"
+          + coinbaseWithdrawalId
+          + '\''
+          + ", destinationTag='"
+          + destinationTag
+          + '\''
+          + ", destinationTagName='"
+          + destinationTagName
+          + '\''
+          + '}';
     }
-
   }
 
   public final String id;
@@ -249,19 +266,39 @@ public class CoinbaseProTransfer {
 
   @Override
   public String toString() {
-    return "CoinbaseProTransfer{" +
-            "id='" + id + '\'' +
-            ", type='" + type + '\'' +
-            ", createdAt='" + createdAt + '\'' +
-            ", completedAt='" + completedAt + '\'' +
-            ", canceledAt='" + canceledAt + '\'' +
-            ", processedAt='" + processedAt + '\'' +
-            ", accountId='" + accountId + '\'' +
-            ", userId='" + userId + '\'' +
-            ", userNonce='" + userNonce + '\'' +
-            ", amount='" + amount + '\'' +
-            ", details=" + details +
-            '}';
+    return "CoinbaseProTransfer{"
+        + "id='"
+        + id
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", createdAt='"
+        + createdAt
+        + '\''
+        + ", completedAt='"
+        + completedAt
+        + '\''
+        + ", canceledAt='"
+        + canceledAt
+        + '\''
+        + ", processedAt='"
+        + processedAt
+        + '\''
+        + ", accountId='"
+        + accountId
+        + '\''
+        + ", userId='"
+        + userId
+        + '\''
+        + ", userNonce='"
+        + userNonce
+        + '\''
+        + ", amount='"
+        + amount
+        + '\''
+        + ", details="
+        + details
+        + '}';
   }
-
 }

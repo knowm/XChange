@@ -66,7 +66,8 @@ public interface Binance {
   @Path("api/v3/depth")
   /**
    * @param symbol
-   * @param limit optional, default 100 max 5000. Valid limits: [5, 10, 20, 50, 100, 500, 1000, 5000]
+   * @param limit optional, default 100 max 5000. Valid limits: [5, 10, 20, 50, 100, 500, 1000,
+   *     5000]
    * @return
    * @throws IOException
    * @throws BinanceException
@@ -158,7 +159,8 @@ public interface Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  BinancePrice tickerPrice(@QueryParam("symbol") String symbol) throws IOException, BinanceException;
+  BinancePrice tickerPrice(@QueryParam("symbol") String symbol)
+      throws IOException, BinanceException;
 
   @GET
   @Path("api/v3/ticker/price")

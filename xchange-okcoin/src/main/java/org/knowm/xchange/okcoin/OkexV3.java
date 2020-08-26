@@ -13,11 +13,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.okcoin.v3.dto.account.BillType;
-import org.knowm.xchange.okcoin.v3.dto.account.OkexCurrencyInformation;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexCurrencyInformation;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
@@ -92,7 +92,7 @@ public interface OkexV3 {
       @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
       @HeaderParam(OK_ACCESS_TIMESTAMP) String timestamp,
       @HeaderParam(OK_ACCESS_PASSPHRASE) String passphrase)
-  throws IOException, OkexException;
+      throws IOException, OkexException;
 
   /**
    * @param currency required, Token

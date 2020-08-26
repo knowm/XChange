@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
@@ -156,28 +155,35 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     String fundingRecordType;
-    if (params instanceof HistoryParamsFundingType && ((HistoryParamsFundingType)params).getType() != null) {
-      FundingRecord.Type type = ((HistoryParamsFundingType)params).getType();
+    if (params instanceof HistoryParamsFundingType
+        && ((HistoryParamsFundingType) params).getType() != null) {
+      FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
       fundingRecordType = type == FundingRecord.Type.WITHDRAWAL ? "withdraw" : "deposit";
     } else {
-      throw new ExchangeException("Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
+      throw new ExchangeException(
+          "Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
     }
 
     int maxPageSize = 100;
 
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    Map<String, String> accountToCurrencyMap = Stream.of(getCoinbaseProAccountInfo()).collect(Collectors.toMap(
-            org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getId,
-            org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getCurrency));
+    Map<String, String> accountToCurrencyMap =
+        Stream.of(getCoinbaseProAccountInfo())
+            .collect(
+                Collectors.toMap(
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getId,
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getCurrency));
 
     String createdAt = null; // use to get next page
     while (true) {
       String createdAtFinal = createdAt;
-      CoinbaseProTransfers transfers = transfers(fundingRecordType, null, null, createdAtFinal, maxPageSize);
+      CoinbaseProTransfers transfers =
+          transfers(fundingRecordType, null, null, createdAtFinal, maxPageSize);
 
       for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
-        Currency currency = Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
+        Currency currency =
+            Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
         fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
       }
 
