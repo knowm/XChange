@@ -68,7 +68,7 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
   /**
    * For more info on each error codes
    *
-   * https://support.kraken.com/hc/en-us/articles/360001491786-API-Error-Codes
+   * <p>https://support.kraken.com/hc/en-us/articles/360001491786-API-Error-Codes
    */
   public <R> R checkResult(KrakenResult<R> krakenResult) {
 

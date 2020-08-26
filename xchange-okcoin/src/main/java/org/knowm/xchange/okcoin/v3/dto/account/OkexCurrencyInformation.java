@@ -10,13 +10,16 @@ import org.knowm.xchange.okcoin.v3.dto.deserialize.StringNumeralBooleanDeseriali
 @Data
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class OkexCurrencyInformation {
-    private String currency;
-    private String name;
-    @JsonDeserialize(using = StringNumeralBooleanDeserializer.class)
-    @JsonProperty("can_deposit")
-    private boolean depositable;
-    @JsonDeserialize(using = StringNumeralBooleanDeserializer.class)
-    @JsonProperty("can_withdraw")
-    private boolean withdrawable;
-    private String minWithdrawal;
+  private String currency;
+  private String name;
+
+  @JsonDeserialize(using = StringNumeralBooleanDeserializer.class)
+  @JsonProperty("can_deposit")
+  private boolean depositable;
+
+  @JsonDeserialize(using = StringNumeralBooleanDeserializer.class)
+  @JsonProperty("can_withdraw")
+  private boolean withdrawable;
+
+  private String minWithdrawal;
 }

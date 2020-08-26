@@ -2,7 +2,6 @@ package org.knowm.xchange.bittrex.dto.account;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

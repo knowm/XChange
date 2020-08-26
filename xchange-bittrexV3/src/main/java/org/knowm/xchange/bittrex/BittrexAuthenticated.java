@@ -122,31 +122,26 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("deposits/closed")
   List<BittrexDepositHistory> getDepositsClosed(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature,
-          @QueryParam("currencySymbol") String currencySymbol,
-          @QueryParam("nextPageToken") String nextPageToken,
-          @QueryParam("previousPageToken") String previousPageToken,
-          @QueryParam("pageSize") Integer pageSize)
-          throws IOException;
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @QueryParam("currencySymbol") String currencySymbol,
+      @QueryParam("nextPageToken") String nextPageToken,
+      @QueryParam("previousPageToken") String previousPageToken,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException;
 
   @GET
   @Path("withdrawals/closed")
   List<BittrexWithdrawalHistory> getWithdrawalsClosed(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature,
-          @QueryParam("currencySymbol") String currencySymbol,
-          @QueryParam("nextPageToken") String nextPageToken,
-          @QueryParam("previousPageToken") String previousPageToken,
-          @QueryParam("pageSize") Integer pageSize)
-          throws IOException;
-
-
-
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @QueryParam("currencySymbol") String currencySymbol,
+      @QueryParam("nextPageToken") String nextPageToken,
+      @QueryParam("previousPageToken") String previousPageToken,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException;
 }
-
-

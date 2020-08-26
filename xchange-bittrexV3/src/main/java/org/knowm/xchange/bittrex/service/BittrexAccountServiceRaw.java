@@ -67,7 +67,7 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public BittrexAccountVolume getAccountVolume() throws IOException {
     return bittrexAuthenticated.getAccountVolume(
-            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
   }
 
   public BittrexOrder getBittrexOrder(String orderId) throws IOException {
@@ -75,15 +75,32 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, orderId);
   }
 
-
-  public List<BittrexDepositHistory> getBittrexDepositsClosed(String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize) throws IOException {
+  public List<BittrexDepositHistory> getBittrexDepositsClosed(
+      String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize)
+      throws IOException {
     return bittrexAuthenticated.getDepositsClosed(
-            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currencySymbol, nextPageToken, previousPageToken, pageSize);
+        apiKey,
+        System.currentTimeMillis(),
+        contentCreator,
+        signatureCreator,
+        currencySymbol,
+        nextPageToken,
+        previousPageToken,
+        pageSize);
   }
 
-  public List<BittrexWithdrawalHistory> getBittrexWithdrawalsClosed(String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize) throws IOException {
+  public List<BittrexWithdrawalHistory> getBittrexWithdrawalsClosed(
+      String currencySymbol, String nextPageToken, String previousPageToken, Integer pageSize)
+      throws IOException {
     return bittrexAuthenticated.getWithdrawalsClosed(
-            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currencySymbol, nextPageToken, previousPageToken, pageSize);
+        apiKey,
+        System.currentTimeMillis(),
+        contentCreator,
+        signatureCreator,
+        currencySymbol,
+        nextPageToken,
+        previousPageToken,
+        pageSize);
   }
 
   @AllArgsConstructor

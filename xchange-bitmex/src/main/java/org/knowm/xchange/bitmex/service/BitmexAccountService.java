@@ -46,7 +46,8 @@ public class BitmexAccountService extends BitmexAccountServiceRaw implements Acc
     BitmexAccount account = super.getBitmexAccountInfo();
     BitmexMarginAccount bitmexMarginAccount = getBitmexMarginAccountStatus();
     BigDecimal amount = bitmexMarginAccount.getAmount().divide(BigDecimal.valueOf(100_000_000L));
-    BigDecimal available = bitmexMarginAccount.getAvailableMargin().divide(BigDecimal.valueOf(100_000_000L));
+    BigDecimal available =
+        bitmexMarginAccount.getAvailableMargin().divide(BigDecimal.valueOf(100_000_000L));
 
     List<Balance> balances = new ArrayList<>();
     balances.add(new Balance(Currency.BTC, amount, available));
