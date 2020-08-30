@@ -286,7 +286,7 @@
       "scale": 8,
       "withdrawal_fee": 0.5
     },
-    "LINK/USD" :{
+    "LINK" :{
       "scale": 2,
       "withdrawal_fee": 0.001
     },
