@@ -46,11 +46,12 @@ public final class BitfinexUtils {
   }
 
   /**
-   * unfortunatelly we need to go this way, since the pairs at bitfinex are not very consequent see
+   * Unfortunately we need to go this way, since the pairs at Bitfinex are not very consistent see
    * dusk:xxx pairs at https://api.bitfinex.com/v1/symbols_details the same for xxx:cnht
    *
-   * @param base
-   * @return
+   * @param base currency to build string with
+   * @param counter currency to build string with
+   * @return string based on pair
    */
   private static String currencySeparator(String base, String counter) {
     if (base.length() > 3 || counter.length() > 3) {
