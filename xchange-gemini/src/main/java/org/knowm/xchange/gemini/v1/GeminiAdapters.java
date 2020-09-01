@@ -66,7 +66,7 @@ public final class GeminiAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String symbol) {
 
-    String tradableIdentifier = symbol.substring(0, symbol.lenghth() - 3).toUpperCase();
+    String tradableIdentifier = symbol.substring(0, symbol.length() - 3).toUpperCase();
     String transactionCurrency = symbol.substring(symbol.lenghth() - 3).toUpperCase();
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
