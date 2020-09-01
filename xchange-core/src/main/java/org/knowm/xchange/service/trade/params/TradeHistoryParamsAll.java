@@ -3,7 +3,10 @@ package org.knowm.xchange.service.trade.params;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
@@ -19,6 +22,8 @@ public class TradeHistoryParamsAll
         TradeHistoryParamOffset,
         TradeHistoryParamCurrencyPair,
         TradeHistoryParamMultiCurrencyPair,
+        TradeHistoryParamInstrument,
+        TradeHistoryParamMultiInstrument,
         TradeHistoryParamLimit {
 
   private Integer pageLength;
@@ -28,8 +33,8 @@ public class TradeHistoryParamsAll
   private Date startTime;
   private Date endTime;
   private Long offset;
-  private CurrencyPair pair;
-  private Collection<CurrencyPair> pairs = Collections.emptySet();
+  private Instrument instrument;
+  private Collection<Instrument> instruments = Collections.emptySet();
   private Integer limit;
 
   @Override
@@ -119,26 +124,52 @@ public class TradeHistoryParamsAll
 
   @Override
   public CurrencyPair getCurrencyPair() {
+    if (instrument instanceof CurrencyPair) {
+      return (CurrencyPair) instrument;
+    }
 
-    return pair;
+    return null;
   }
 
   @Override
   public void setCurrencyPair(CurrencyPair pair) {
-
-    this.pair = pair;
+    this.instrument = pair;
   }
 
   @Override
   public Collection<CurrencyPair> getCurrencyPairs() {
-
-    return pairs;
+    if (!instruments.isEmpty()) {
+      return instruments.stream()
+          .filter(instrument -> instrument instanceof CurrencyPair)
+          .map(instrument -> (CurrencyPair) instrument)
+          .collect(Collectors.toSet());
+    }
+    return Collections.emptySet();
   }
 
   @Override
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
+    this.instruments = new HashSet<>(value);
+  }
 
-    pairs = value;
+  @Override
+  public Instrument getInstrument() {
+    return instrument;
+  }
+
+  @Override
+  public void setInstrument(final Instrument instrument) {
+    this.instrument = instrument;
+  }
+
+  @Override
+  public Collection<Instrument> getInstruments() {
+    return instruments;
+  }
+
+  @Override
+  public void setInstruments(final Collection<Instrument> instruments) {
+    this.instruments = instruments;
   }
 
   @Override

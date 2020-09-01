@@ -1,8 +1,20 @@
 package info.bitrich.xchangestream.coinmate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,19 +23,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.mockito.MockitoAnnotations;
-
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CoinmateStreamingMarketDataServiceTest {
 
@@ -49,7 +48,8 @@ public class CoinmateStreamingMarketDataServiceTest {
     when(mockFactory.createConnection(anyString(), anyBoolean()))
         .thenReturn(Observable.just(mapper.readTree(orderBook)));
 
-    CoinmateStreamingMarketDataService marketDataService = new CoinmateStreamingMarketDataService(mockFactory);
+    CoinmateStreamingMarketDataService marketDataService =
+        new CoinmateStreamingMarketDataService(mockFactory);
 
     List<LimitOrder> bids = new ArrayList<>();
     bids.add(
@@ -122,7 +122,8 @@ public class CoinmateStreamingMarketDataServiceTest {
     when(mockFactory.createConnection(anyString(), anyBoolean()))
         .thenReturn(Observable.just(mapper.readTree(trade)));
 
-    CoinmateStreamingMarketDataService marketDataService = new CoinmateStreamingMarketDataService(mockFactory);
+    CoinmateStreamingMarketDataService marketDataService =
+        new CoinmateStreamingMarketDataService(mockFactory);
 
     Trade expected1 =
         new Trade.Builder()

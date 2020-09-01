@@ -4,8 +4,6 @@ import info.bitrich.xchangestream.coinmate.dto.auth.AuthParams;
 import info.bitrich.xchangestream.core.*;
 import io.reactivex.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
-import org.knowm.xchange.utils.nonce.LongConstNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
   private static final String API_BASE = "wss://coinmate.io/api/websocket";
@@ -20,7 +18,12 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
   private void createExchange() {
     AuthParams authParams;
     if (exchangeSpecification.getApiKey() != null) {
-      authParams = new AuthParams(exchangeSpecification.getSecretKey(), exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), getNonceFactory());
+      authParams =
+          new AuthParams(
+              exchangeSpecification.getSecretKey(),
+              exchangeSpecification.getApiKey(),
+              exchangeSpecification.getUserName(),
+              getNonceFactory());
     } else {
       authParams = null;
     }
@@ -32,10 +35,8 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     super.initServices();
     createExchange();
     streamingMarketDataService = new CoinmateStreamingMarketDataService(streamingServiceFactory);
-    streamingAccountService =
-        new CoinmateStreamingAccountService(streamingServiceFactory);
-    streamingTradeService =
-        new CoinmateStreamingTradeService(streamingServiceFactory);
+    streamingAccountService = new CoinmateStreamingAccountService(streamingServiceFactory);
+    streamingTradeService = new CoinmateStreamingTradeService(streamingServiceFactory);
   }
 
   @Override
@@ -69,6 +70,5 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
   }
 
   @Override
-  public void useCompressedMessages(boolean compressedMessages) {
-  }
+  public void useCompressedMessages(boolean compressedMessages) {}
 }

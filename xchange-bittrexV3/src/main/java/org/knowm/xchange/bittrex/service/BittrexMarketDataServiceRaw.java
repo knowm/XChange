@@ -2,7 +2,8 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.util.List;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAdapters;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
@@ -67,7 +68,8 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
     return bittrexAuthenticated.getTrades(pair);
   }
 
-  @Data
+  @AllArgsConstructor
+  @Getter
   public static class SequencedOrderBook {
     private final String sequence;
     private final OrderBook orderBook;
