@@ -1,6 +1,7 @@
 package org.knowm.xchange.huobi;
 
 import java.io.IOException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
@@ -23,6 +25,7 @@ import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAllTickersResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiCandleStickResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
@@ -32,6 +35,7 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiMatchesResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
+
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -67,25 +71,24 @@ public interface Huobi {
   @GET
   @Path("v1/fee/fee-rate/get")
   HuobiFeeRateResult getFeeRate(
-          @QueryParam("symbols") String symbols,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
+      @QueryParam("symbols") String symbols,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v2/reference/transact-fee-rate")
   HuobiTransactFeeRateResult getTransactFeeRate(
-          @QueryParam("symbols") String symbols,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
-
+      @QueryParam("symbols") String symbols,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v1/dw/deposit-virtual/addresses")
@@ -101,13 +104,13 @@ public interface Huobi {
   @GET
   @Path("v2/account/deposit/address")
   HuobiDepositAddressV2Result getDepositAddressV2(
-          @QueryParam("currency") String currency,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
+      @QueryParam("currency") String currency,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v1/query/deposit-withdraw")
@@ -283,4 +286,9 @@ public interface Huobi {
       @QueryParam("Timestamp") String nonce,
       @QueryParam("Signature") ParamsDigest signature)
       throws IOException;
+  
+  @GET
+  @Path("market/history/kline")
+  HuobiCandleStickResult getCandleStick(@QueryParam("period") String period,@QueryParam("size") int size,@QueryParam("symbol") String symbol) throws IOException;
+
 }
