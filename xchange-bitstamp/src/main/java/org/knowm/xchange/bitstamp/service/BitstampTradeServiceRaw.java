@@ -127,6 +127,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           null,
           null,
+          null,
           null);
     } catch (BitstampException e) {
       throw handleError(e);
@@ -135,11 +136,16 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions)
       throws IOException {
-    return getBitstampUserTransactions(numberOfTransactions, null, null, null);
+    return getBitstampUserTransactions(numberOfTransactions, null, null, null, null);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, CurrencyPair pair, Long offset, String sort, Long sinceTimestamp)
+      Long numberOfTransactions,
+      CurrencyPair pair,
+      Long offset,
+      String sort,
+      Long sinceTimestamp,
+      Long sinceId)
       throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
@@ -150,14 +156,16 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           offset,
           sort,
-          sinceTimestamp);
+          sinceTimestamp,
+          sinceId);
     } catch (BitstampException e) {
       throw handleError(e);
     }
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp) throws IOException {
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, Long sinceId)
+      throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
           apiKey,
@@ -166,7 +174,8 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           offset,
           sort,
-          sinceTimestamp);
+          sinceTimestamp,
+          sinceId);
     } catch (BitstampException e) {
       throw handleError(e);
     }

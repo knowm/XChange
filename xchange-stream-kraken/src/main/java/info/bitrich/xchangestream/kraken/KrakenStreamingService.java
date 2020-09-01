@@ -40,6 +40,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     this.isPrivate = isPrivate;
   }
 
+  public KrakenStreamingService(
+      boolean isPrivate,
+      String uri,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    this.isPrivate = isPrivate;
+  }
+
   @Override
   public boolean processArrayMassageSeparately() {
     return false;
@@ -210,7 +221,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     return new KrakenWebSocketClientHandler(handshaker, handler);
   }
 
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+  private final WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   /**
    * Custom client handler in order to execute an external, user-provided handler on channel events.
