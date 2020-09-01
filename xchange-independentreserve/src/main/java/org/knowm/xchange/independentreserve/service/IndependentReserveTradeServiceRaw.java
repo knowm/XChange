@@ -6,6 +6,7 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
@@ -15,12 +16,15 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDet
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOrderDetailsResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceMarketOrderRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceMarketOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
+import org.knowm.xchange.instrument.Instrument;
 import si.mazi.rescu.RestProxyFactory;
 
 /** Author: Kamil Zbikowski Date: 4/13/15 */
@@ -115,6 +119,46 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
         independentReserveAuthenticated.placeLimitOrder(independentReservePlaceLimitOrderRequest);
 
     return independentReservePlaceLimitOrderResponse.getOrderGuid();
+  }
+
+  public String independentReservePlaceMarketOrder(
+      Instrument instrument, Order.OrderType type, BigDecimal originalAmount) throws IOException {
+
+    CurrencyPair currencyPair;
+    if (instrument instanceof CurrencyPair) {
+      currencyPair = (CurrencyPair) instrument;
+    } else {
+      throw new CurrencyPairNotValidException(
+          "Given instrument is not an instance of CurrencyPair");
+    }
+    Long nonce = exchange.getNonceFactory().createValue();
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+
+    String orderType = null;
+    if (type == Order.OrderType.ASK) {
+      orderType = "MarketOffer";
+    } else if (type == Order.OrderType.BID) {
+      orderType = "MarketBid";
+    }
+
+    IndependentReservePlaceMarketOrderRequest independentReservePlaceMarketOrderRequest =
+        new IndependentReservePlaceMarketOrderRequest(
+            apiKey,
+            nonce,
+            currencyPair.base.getCurrencyCode(),
+            currencyPair.counter.getCurrencyCode(),
+            orderType,
+            originalAmount.toString());
+    independentReservePlaceMarketOrderRequest.setSignature(
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.PLACE_MARKET_ORDER,
+            nonce,
+            independentReservePlaceMarketOrderRequest.getParameters()));
+
+    IndependentReservePlaceMarketOrderResponse independentReservePlaceMarketOrderResponse =
+        independentReserveAuthenticated.placeMarketOrder(independentReservePlaceMarketOrderRequest);
+
+    return independentReservePlaceMarketOrderResponse.getOrderGuid();
   }
 
   public boolean independentReserveCancelOrder(String orderId) throws IOException {

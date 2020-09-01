@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -15,10 +14,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
+import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
+import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("v3")
@@ -57,7 +60,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("balances")
-  Collection<BittrexBalance> getBalances(
+  BittrexBalances getBalances(
       @HeaderParam("Api-Key") String apiKey,
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
@@ -97,7 +100,7 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("orders/open")
-  List<BittrexOrder> getOpenOrders(
+  BittrexOrders getOpenOrders(
       @HeaderParam("Api-Key") String apiKey,
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
@@ -113,6 +116,32 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @QueryParam("marketSymbol") String marketSymbol,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException;
+
+  @GET
+  @Path("deposits/closed")
+  List<BittrexDepositHistory> getDepositsClosed(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @QueryParam("currencySymbol") String currencySymbol,
+      @QueryParam("nextPageToken") String nextPageToken,
+      @QueryParam("previousPageToken") String previousPageToken,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException;
+
+  @GET
+  @Path("withdrawals/closed")
+  List<BittrexWithdrawalHistory> getWithdrawalsClosed(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @QueryParam("currencySymbol") String currencySymbol,
+      @QueryParam("nextPageToken") String nextPageToken,
+      @QueryParam("previousPageToken") String previousPageToken,
       @QueryParam("pageSize") Integer pageSize)
       throws IOException;
 }

@@ -151,6 +151,21 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
         .call();
   }
 
+  public List<BinanceCancelledOrder> cancelAllOpenOrders(CurrencyPair pair)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                binance.cancelAllOpenOrders(
+                    BinanceAdapters.toSymbol(pair),
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    super.apiKey,
+                    super.signatureCreator))
+        .withRetry(retry("cancelAllOpenOrders"))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+        .call();
+  }
+
   public List<BinanceOrder> allOrders(CurrencyPair pair, Long orderId, Integer limit)
       throws BinanceException, IOException {
     return decorateApiCall(

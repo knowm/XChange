@@ -1,5 +1,10 @@
 package org.knowm.xchange.bitcoinde.v4.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeAdapters;
 import org.knowm.xchange.bitcoinde.v4.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.v4.dto.BitcoindeAccountLedgerType;
@@ -11,12 +16,6 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.utils.Assert;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 public class BitcoindeAccountService extends BitcoindeAccountServiceRaw implements AccountService {
 
