@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -130,23 +129,47 @@ public class HuobiMatchResult {
 
   @Override
   public String toString() {
-    return "HuobiMatchResult[" +
-            "id=" + id +
-            ", symbol='" + symbol + '\'' +
-            ", orderId='" + orderId + '\'' +
-            ", matchId='" + matchId + '\'' +
-            ", tradeId='" + tradeId + '\'' +
-            ", price=" + price +
-            ", createdAt=" + createdAt +
-            ", type='" + type + '\'' +
-            ", filledAmount=" + filledAmount +
-            ", filledFees=" + filledFees +
-            ", feeCurrency='" + feeCurrency + '\'' +
-            ", source='" + source + '\'' +
-            ", role='" + role + '\'' +
-            ", filledPoints='" + filledPoints + '\'' +
-            ", feeDeductCurrency='" + feeDeductCurrency + '\'' +
-            ']';
+    return "HuobiMatchResult["
+        + "id="
+        + id
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", orderId='"
+        + orderId
+        + '\''
+        + ", matchId='"
+        + matchId
+        + '\''
+        + ", tradeId='"
+        + tradeId
+        + '\''
+        + ", price="
+        + price
+        + ", createdAt="
+        + createdAt
+        + ", type='"
+        + type
+        + '\''
+        + ", filledAmount="
+        + filledAmount
+        + ", filledFees="
+        + filledFees
+        + ", feeCurrency='"
+        + feeCurrency
+        + '\''
+        + ", source='"
+        + source
+        + '\''
+        + ", role='"
+        + role
+        + '\''
+        + ", filledPoints='"
+        + filledPoints
+        + '\''
+        + ", feeDeductCurrency='"
+        + feeDeductCurrency
+        + '\''
+        + ']';
   }
-
 }

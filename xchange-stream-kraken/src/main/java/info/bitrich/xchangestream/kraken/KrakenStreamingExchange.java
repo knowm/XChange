@@ -29,7 +29,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
 
   public KrakenStreamingExchange() {}
 
-  private static String pickUri(boolean isPrivate, boolean useBeta) {
+  public static String pickUri(boolean isPrivate, boolean useBeta) {
     return useBeta ? API_BETA_URI : isPrivate ? API_AUTH_URI : API_URI;
   }
 

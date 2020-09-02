@@ -52,29 +52,68 @@ public class KucoinAccountServiceRaw extends KucoinBaseService {
   }
 
   public Pagination<AccountLedgersResponse> getAccountLedgers(
-      String accountId, Long startAt, Long endAt) throws IOException {
+      String accountId, Long startAt, Long endAt, Integer pageSize, Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             accountApi.getAccountLedgers(
-                apiKey, digest, nonceFactory, passphrase, accountId, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                accountId,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 
   public Pagination<WithdrawalResponse> getWithdrawalsList(
-      String currency, String status, Long startAt, Long endAt) throws IOException {
+      String currency,
+      String status,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             withdrawalAPI.getWithdrawalsList(
-                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                currency,
+                status,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 
   public Pagination<DepositResponse> getDepositList(
-      String currency, String status, Long startAt, Long endAt) throws IOException {
+      String currency,
+      String status,
+      Long startAt,
+      Long endAt,
+      Integer pageSize,
+      Integer currentPage)
+      throws IOException {
     checkAuthenticated();
     return classifyingExceptions(
         () ->
             depositAPI.getDepositList(
-                apiKey, digest, nonceFactory, passphrase, currency, status, startAt, endAt));
+                apiKey,
+                digest,
+                nonceFactory,
+                passphrase,
+                currency,
+                status,
+                startAt,
+                endAt,
+                pageSize,
+                currentPage));
   }
 }

@@ -16,6 +16,7 @@ public interface StreamingExchange extends Exchange {
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
   String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
   String AUTO_RECONNECT = "Auto_Reconnect";
+  String L3_ORDERBOOK = "L3_Orderbook";
 
   /**
    * Connects to the WebSocket API of the exchange.

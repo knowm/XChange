@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class HuobiTransactFeeRate {
@@ -25,13 +24,15 @@ public class HuobiTransactFeeRate {
     this.actualTakerRate = actualTakerRate;
   }
 
-
-
   @Override
   public String toString() {
     return String.format(
         "[symbol = %s, makerFeeRate = %f, takerFeeRate = %f, actualMakerRate = %f, actualTakerRate = %f]",
-            getSymbol(), getMakerFeeRate(), getTakerFeeRate(), getActualMakerRate(), getActualTakerRate());
+        getSymbol(),
+        getMakerFeeRate(),
+        getTakerFeeRate(),
+        getActualMakerRate(),
+        getActualTakerRate());
   }
 
   public String getSymbol() {
@@ -53,5 +54,4 @@ public class HuobiTransactFeeRate {
   public BigDecimal getActualTakerRate() {
     return actualTakerRate;
   }
-
 }

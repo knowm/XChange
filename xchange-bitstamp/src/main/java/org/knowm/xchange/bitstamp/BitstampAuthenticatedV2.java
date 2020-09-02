@@ -64,7 +64,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort,
-      @FormParam("since_timestamp") Long sinceTimestamp)
+      @FormParam("since_timestamp") Long sinceTimestamp,
+      @FormParam("since_id") Long sinceId)
       throws BitstampException, IOException;
 
   @POST
@@ -77,7 +78,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort,
-      @FormParam("since_timestamp") Long sinceTimestamp)
+      @FormParam("since_timestamp") Long sinceTimestamp,
+      @FormParam("since_id") Long sinceId)
       throws BitstampException, IOException;
 
   @POST
