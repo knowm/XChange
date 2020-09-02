@@ -2,9 +2,11 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,9 +17,11 @@ import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.KrakenAuthenticated;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.KrakenResult;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenServerTime;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
@@ -25,6 +29,7 @@ import org.knowm.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -159,5 +164,14 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
       }
     }
     return delimitedSetString;
+  }
+  
+  protected int getAssetPairScale(Instrument instrument) throws IOException {
+    // get decimal precision scale
+    CurrencyPair cp = (CurrencyPair) instrument;
+    Map<String, KrakenAssetPair> assetPairMap = kraken.getAssetPairs(cp.toString()).getResult();
+    KrakenAssetPair assetPair = assetPairMap.get(cp.toString());
+    int scale = assetPair.getPairScale();
+    return scale;
   }
 }
