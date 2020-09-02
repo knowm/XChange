@@ -6,6 +6,12 @@ public class Symbol {
 
   private String icebergAllowed;
 
+  private String ocoAllowed;
+
+  private String isMarginTradingAllowed;
+
+  private String isSpotTradingAllowed;
+
   private String baseAsset;
 
   private String symbol;
@@ -14,11 +20,15 @@ public class Symbol {
 
   private String quotePrecision;
 
+  private String quoteAssetPrecision;
+
   private String baseAssetPrecision;
 
   private String[] orderTypes;
 
   private Filter[] filters;
+
+  private String[] permissions;
 
   public String getQuoteAsset() {
     return quoteAsset;
@@ -34,6 +44,30 @@ public class Symbol {
 
   public void setIcebergAllowed(String icebergAllowed) {
     this.icebergAllowed = icebergAllowed;
+  }
+
+  public String getOcoAllowed() {
+    return ocoAllowed;
+  }
+
+  public void setOcoAllowed(String ocoAllowed) {
+    this.ocoAllowed = ocoAllowed;
+  }
+
+  public String getIsMarginTradingAllowed() {
+    return isMarginTradingAllowed;
+  }
+
+  public void setIsMarginTradingAllowed(String isMarginTradingAllowed) {
+    this.isMarginTradingAllowed = isMarginTradingAllowed;
+  }
+
+  public String getIsSpotTradingAllowed() {
+    return isSpotTradingAllowed;
+  }
+
+  public void setIsSpotTradingAllowed(String isSpotTradingAllowed) {
+    this.isSpotTradingAllowed = isSpotTradingAllowed;
   }
 
   public String getBaseAsset() {
@@ -68,6 +102,14 @@ public class Symbol {
     this.quotePrecision = quotePrecision;
   }
 
+  public String getQuoteAssetPrecision() {
+    return quoteAssetPrecision;
+  }
+
+  public void setQuoteAssetPrecision(String quoteAssetPrecision) {
+    this.quoteAssetPrecision = quoteAssetPrecision;
+  }
+
   public String getBaseAssetPrecision() {
     return baseAssetPrecision;
   }
@@ -92,6 +134,14 @@ public class Symbol {
     this.filters = filters;
   }
 
+  public String[] getPermissions() {
+    return permissions;
+  }
+
+  public void setPermissions(String[] permissions) {
+    this.permissions = permissions;
+  }
+
   @Override
   public String toString() {
     return "ClassPojo [quoteAsset = "
@@ -106,12 +156,16 @@ public class Symbol {
         + status
         + ", quotePrecision = "
         + quotePrecision
+        + ", quoteAssetPrecision = "
+        + quoteAssetPrecision
         + ", baseAssetPrecision = "
         + baseAssetPrecision
         + ", orderTypes = "
         + orderTypes
         + ", filters = "
         + filters
+        + ", permissions = "
+        + permissions
         + "]";
   }
 }

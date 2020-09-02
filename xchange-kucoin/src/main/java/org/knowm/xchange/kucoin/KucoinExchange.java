@@ -1,10 +1,13 @@
 package org.knowm.xchange.kucoin;
 
+import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
+
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -88,5 +91,23 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   @Override
   public KucoinAccountService getAccountService() {
     return (KucoinAccountService) super.getAccountService();
+  }
+
+  public WebsocketResponse getPublicWebsocketConnectionDetails() throws IOException {
+    return classifyingExceptions(getAccountService().websocketAPI::getPublicWebsocketDetails);
+  }
+
+  public WebsocketResponse getPrivateWebsocketConnectionDetails() throws IOException {
+    getAccountService().checkAuthenticated();
+
+    return classifyingExceptions(
+        () ->
+            getAccountService()
+                .websocketAPI
+                .getPrivateWebsocketDetails(
+                    getAccountService().apiKey,
+                    getAccountService().digest,
+                    getAccountService().nonceFactory,
+                    getAccountService().passphrase));
   }
 }

@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class CoinbaseProAdapters {
 
-  private static Logger logger = LoggerFactory.getLogger(CoinbaseProAdapters.class);
+  private static final Logger logger = LoggerFactory.getLogger(CoinbaseProAdapters.class);
 
   private CoinbaseProAdapters() {}
 
@@ -98,6 +98,11 @@ public class CoinbaseProAdapters {
       logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
       return null;
     }
+  }
+
+  public static CurrencyPair toCurrencyPair(final String productId) {
+    final String[] parts = productId.split("-");
+    return new CurrencyPair(parts[0], parts[1]);
   }
 
   public static Ticker adaptTicker(
@@ -350,10 +355,10 @@ public class CoinbaseProAdapters {
       CoinbaseProCurrency[] cbCurrencies) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencyPairs();
+        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencyPairs();
 
     Map<Currency, CurrencyMetaData> currencies =
-        exchangeMetaData == null ? new HashMap() : exchangeMetaData.getCurrencies();
+        exchangeMetaData == null ? new HashMap<>() : exchangeMetaData.getCurrencies();
 
     for (CoinbaseProProduct product : products) {
       if (!product.getStatus().equals("online")) {
@@ -547,7 +552,7 @@ public class CoinbaseProAdapters {
       case "DAI":
       case "ZIL":
       case "MKR":
-        transactionHash = "0x" + transactionHash;
+        transactionHash = transactionHash != null ? "0x" + transactionHash : null;
         break;
     }
     return transactionHash;

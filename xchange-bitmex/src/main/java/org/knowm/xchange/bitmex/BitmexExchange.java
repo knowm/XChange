@@ -22,7 +22,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
+  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
 
   protected RateLimitUpdateListener rateLimitUpdateListener;
 
@@ -129,7 +129,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     String bitmexSymbol = ticker.getSymbol();
     String baseSymbol =
-        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+        ("XBK".equals(ticker.getRootSymbol()) || "XBJ".equals(ticker.getRootSymbol()))
             ? "XBT"
             : ticker.getRootSymbol();
     String counterSymbol;
@@ -150,17 +150,18 @@ public class BitmexExchange extends BaseExchange implements Exchange {
     return tickers.stream()
         .filter(ticker -> ticker.getSymbol().equals(BitmexAdapters.adaptCurrencyPairToSymbol(cp)))
         .findFirst()
+        .filter(ticker -> ticker.getLastPrice() != null)
         .map(ticker -> ticker.getLastPrice().scale())
-        .get();
+        .orElse(null);
   }
 
   public CurrencyPair determineActiveContract(
       String baseSymbol, String counterSymbol, BitmexPrompt contractTimeframe) {
 
-    if (baseSymbol.equals("BTC")) {
+    if ("BTC".equals(baseSymbol)) {
       baseSymbol = "XBT";
     }
-    if (counterSymbol.equals("BTC")) {
+    if ("BTC".equals(counterSymbol)) {
       counterSymbol = "XBT";
     }
 

@@ -102,9 +102,9 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
       if (responseAware != null && !rateLimitsUpdated) {
         Map<String, List<String>> responseHeaders = responseAware.getResponseHeaders();
 
-        List<String> limitList = responseHeaders.get("X-RateLimit-Limit");
-        List<String> remainingList = responseHeaders.get("X-RateLimit-Remaining");
-        List<String> resetList = responseHeaders.get("X-RateLimit-Reset");
+        List<String> limitList = responseHeaders.get("x-ratelimit-limit");
+        List<String> remainingList = responseHeaders.get("x-ratelimit-remaining");
+        List<String> resetList = responseHeaders.get("x-ratelimit-reset");
 
         if (limitList != null
             && !limitList.isEmpty()
