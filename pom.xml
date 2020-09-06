@@ -30,7 +30,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <version.java>1.8</version.java>
-    <version.assertj>3.17.0</version.assertj>
+    <version.assertj>3.17.1</version.assertj>
     <version.commons.io>2.7</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.2</version.fasterxml>
