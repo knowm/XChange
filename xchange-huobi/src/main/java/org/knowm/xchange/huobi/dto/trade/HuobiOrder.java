@@ -44,12 +44,12 @@ public class HuobiOrder {
       @JsonProperty("operator") String operator) {
     this.accountID = accountID;
     this.amount = amount;
-    this.canceledAt = canceledAt.getTime() != 0 ? canceledAt : null;
+    this.canceledAt = canceledAt != null && canceledAt.getTime() != 0 ? canceledAt : null;
     this.createdAt = createdAt;
     this.fieldAmount = fieldAmount;
     this.fieldCashAmount = fieldCashAmount;
     this.fieldFees = fieldFees;
-    this.finishedAt = finishedAt.getTime() != 0 ? finishedAt : null;
+    this.finishedAt = finishedAt != null && finishedAt.getTime() != 0 ? finishedAt : null;
     this.id = id;
     this.price = price;
     this.source = source;
@@ -143,25 +143,47 @@ public class HuobiOrder {
 
   @Override
   public String toString() {
-    return "HuobiOrder{" +
-            "accountID=" + accountID +
-            ", amount=" + amount +
-            ", canceledAt=" + canceledAt +
-            ", createdAt=" + createdAt +
-            ", fieldAmount=" + fieldAmount +
-            ", fieldCashAmount=" + fieldCashAmount +
-            ", fieldFees=" + fieldFees +
-            ", finishedAt=" + finishedAt +
-            ", id=" + id +
-            ", price=" + price +
-            ", source='" + source + '\'' +
-            ", state='" + state + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", type='" + type + '\'' +
-            ", clOrdId='" + clOrdId + '\'' +
-            ", stopPrice=" + stopPrice +
-            ", operator='" + operator + '\'' +
-            '}';
+    return "HuobiOrder{"
+        + "accountID="
+        + accountID
+        + ", amount="
+        + amount
+        + ", canceledAt="
+        + canceledAt
+        + ", createdAt="
+        + createdAt
+        + ", fieldAmount="
+        + fieldAmount
+        + ", fieldCashAmount="
+        + fieldCashAmount
+        + ", fieldFees="
+        + fieldFees
+        + ", finishedAt="
+        + finishedAt
+        + ", id="
+        + id
+        + ", price="
+        + price
+        + ", source='"
+        + source
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", clOrdId='"
+        + clOrdId
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", operator='"
+        + operator
+        + '\''
+        + '}';
   }
-
 }
