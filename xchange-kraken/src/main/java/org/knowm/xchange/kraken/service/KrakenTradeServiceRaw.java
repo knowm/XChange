@@ -3,7 +3,6 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
