@@ -10,13 +10,15 @@ import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.slf4j.Logger;
@@ -55,15 +57,21 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
+    Integer maxDepth = args.length > 0 ? (Integer) args[0] : null;
+
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
-            .subscribeChannel(currencyPair, args)
+            .subscribeChannel(currencyPair, maxDepth, maxDepth)
             .filter(
                 s ->
                     filterEventsByReason(s, "change", "initial")
                         || filterEventsByReason(s, "change", "place")
                         || filterEventsByReason(s, "change", "cancel")
                         || filterEventsByReason(s, "change", "trade"))
+            .filter(
+                s -> // filter out updates that arrive before initial book
+                orderbooks.get(currencyPair) != null
+                        || filterEventsByReason(s, "change", "initial"))
             .map(
                 (JsonNode s) -> {
                   if (filterEventsByReason(s, "change", "initial")) {
@@ -81,9 +89,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                     GeminiWebSocketTransaction transaction =
                         mapper.treeToValue(s, GeminiWebSocketTransaction.class);
                     GeminiLimitOrder[] levels = transaction.toGeminiLimitOrdersUpdate();
-                    GeminiOrderbook orderbook =
-                        orderbooks.computeIfAbsent(
-                            currencyPair, cp -> transaction.toGeminiOrderbook(currencyPair));
+                    GeminiOrderbook orderbook = orderbooks.get(currencyPair);
                     orderbook.updateLevels(levels);
                     return orderbook;
                   }
@@ -92,12 +98,33 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                       " Unknown message type, even after filtering: " + s.toString());
                 });
 
-    return subscribedOrderbookSnapshot.map(GeminiOrderbook::toOrderbook);
+    return subscribedOrderbookSnapshot.map(
+        geminiOrderbook -> GeminiAdaptersX.toOrderbook(geminiOrderbook, maxDepth, new Date()));
   }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotAvailableFromExchangeException();
+    return PublishSubject.create(
+        emitter ->
+            getOrderBook(currencyPair, args)
+                .subscribe(
+                    orderBook -> {
+                      LimitOrder firstBid = orderBook.getBids().iterator().next();
+                      LimitOrder firstAsk = orderBook.getAsks().iterator().next();
+                      emitter.onNext(
+                          new Ticker.Builder()
+                              .currencyPair(currencyPair)
+                              .bid(firstBid.getLimitPrice())
+                              .bidSize(firstBid.getOriginalAmount())
+                              .ask(firstAsk.getLimitPrice())
+                              .askSize(firstAsk.getOriginalAmount())
+                              .timestamp(
+                                  firstBid.getTimestamp().after(firstAsk.getTimestamp())
+                                      ? firstBid.getTimestamp()
+                                      : firstAsk.getTimestamp())
+                              .build());
+                    },
+                    emitter::onError));
   }
 
   @Override
