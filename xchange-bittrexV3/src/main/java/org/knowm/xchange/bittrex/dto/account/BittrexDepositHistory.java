@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class BittrexDepositHistory {
 
-  private Long id;
+  private String id;
 
   private BigDecimal quantity;
 
