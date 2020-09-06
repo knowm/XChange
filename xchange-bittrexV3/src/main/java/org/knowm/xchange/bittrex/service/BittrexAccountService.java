@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
-
 import org.knowm.xchange.bittrex.BittrexAdapters;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
@@ -34,7 +33,8 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
   }
 
   @Override
-  public AddressWithTag requestDepositAddressData(Currency currency, String... args) throws IOException {
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
     BittrexAddress address = getBittrexDepositAddresses(currency.getCurrencyCode()).get(0);
     return new AddressWithTag(address.getCryptoAddress(), address.getCryptoAddressTag());
   }

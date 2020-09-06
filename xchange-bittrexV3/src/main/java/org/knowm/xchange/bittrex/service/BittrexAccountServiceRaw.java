@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -71,16 +70,21 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public List<BittrexAddress> getBittrexDepositAddresses(String currency) throws IOException {
     if (currency == null) {
-        return bittrexAuthenticated.getAddresses(
+      return bittrexAuthenticated.getAddresses(
           apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
     }
-    return
-        Arrays.asList(bittrexAuthenticated.getAddress(apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currency));
+    return Arrays.asList(
+        bittrexAuthenticated.getAddress(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currency));
   }
 
   public BittrexAddress generateBittrexDepositAddress(String currency) throws IOException {
     return bittrexAuthenticated.generateAddress(
-            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, new BittrexNewAddress(new Currency(currency)));
+        apiKey,
+        System.currentTimeMillis(),
+        contentCreator,
+        signatureCreator,
+        new BittrexNewAddress(new Currency(currency)));
   }
 
   public BittrexAccountVolume getBittrexAccountVolume() throws IOException {

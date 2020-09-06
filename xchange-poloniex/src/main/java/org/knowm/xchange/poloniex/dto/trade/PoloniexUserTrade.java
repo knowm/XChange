@@ -13,7 +13,17 @@ import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"globalTradeID", "tradeID", "date", "rate", "amount", "total", "fee", "orderNumber", "type"})
+@JsonPropertyOrder({
+  "globalTradeID",
+  "tradeID",
+  "date",
+  "rate",
+  "amount",
+  "total",
+  "fee",
+  "orderNumber",
+  "type"
+})
 public class PoloniexUserTrade {
 
   @JsonProperty("globalTradeID")
