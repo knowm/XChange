@@ -1,0 +1,13 @@
+{
+
+  "orderId": "7524",
+  "marketId": "BTC-AUD",
+  "side": "Bid",
+  "type": "Limit",
+  "creationTime": "2019-08-30T11:08:21.956000Z",
+  "price": "100.12",
+  "amount": "1.034",
+  "openAmount": "1.034",
+  "status": "Accepted"
+
+}

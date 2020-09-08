@@ -195,6 +195,9 @@ public class BTCMarketsOrder {
 
   public enum Type {
     Limit,
-    Market
+    Market,
+    StopLimit,
+    Stop,
+    TakeProfit
   }
 }
