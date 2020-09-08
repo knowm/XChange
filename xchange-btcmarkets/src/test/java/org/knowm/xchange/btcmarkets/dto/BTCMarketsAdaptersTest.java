@@ -14,7 +14,7 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryRes
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsTradeHistoryResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -87,22 +87,19 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   }
 
   @Test
-  public void shouldAdaptTradeHistory() throws IOException {
-    final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
+  public void shouldAdaptTradeHistoryResponse() throws IOException {
+    final BTCMarketsTradeHistoryResponse response =
+        parse(BTCMarketsTradeHistoryResponse.class, "v3");
 
-    final List<UserTrade> userTrades =
-        BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), CurrencyPair.BTC_AUD)
-            .getUserTrades();
-    assertThat(userTrades).hasSize(3);
-    assertThat(userTrades.get(2).getId()).isEqualTo("45118157");
-    assertThat(userTrades.get(2).getTimestamp().getTime()).isEqualTo(1442994673684L);
-    assertThat(userTrades.get(2).getPrice()).isEqualTo("330.00000000");
-    assertThat(userTrades.get(2).getOriginalAmount()).isEqualTo("0.00100000");
-    assertThat(userTrades.get(2).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(userTrades.get(2).getFeeAmount()).isEqualTo("0.00280499");
-    assertThat(userTrades.get(2).getFeeCurrency()).isEqualTo(Currency.BTC);
-    assertThat(userTrades.get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(userTrades.get(1).getType()).isEqualTo(Order.OrderType.ASK);
+    final UserTrade userTrade = BTCMarketsAdapters.adaptTradeHistory(response);
+    assertThat(userTrade.getId()).isEqualTo("36014819");
+    assertThat(userTrade.getTimestamp().getTime()).isEqualTo(1561479439000L);
+    assertThat(userTrade.getPrice()).isEqualTo("0.67");
+    assertThat(userTrade.getOriginalAmount()).isEqualTo("1.50533262");
+    assertThat(userTrade.getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(userTrade.getFeeAmount()).isEqualTo("0.00857285");
+    assertThat(userTrade.getFeeCurrency()).isEqualTo(Currency.AUD);
+    assertThat(userTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
   }
 
   @Test

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
@@ -57,5 +59,15 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     return BTCMarketsAdapters.adaptFundingHistory(super.fundtransferHistory());
+  }
+
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    BTCMarketsAddressesResponse response = depositAddress(currency);
+    if (response != null) {
+      return response.address;
+    } else {
+      return null;
+    }
   }
 }
