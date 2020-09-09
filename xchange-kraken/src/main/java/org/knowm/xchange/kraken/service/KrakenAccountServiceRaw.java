@@ -43,8 +43,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
     return checkResult(balanceResult);
   }
 
-  public KrakenDepositAddress[] getDepositAddresses(String currency, String method, boolean newAddress)
-      throws IOException {
+  public KrakenDepositAddress[] getDepositAddresses(
+      String currency, String method, boolean newAddress) throws IOException {
     KrakenDepositAddressResult depositAddressesResult =
         kraken.getDepositAddresses(
             null,
