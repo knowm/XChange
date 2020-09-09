@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -122,6 +123,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     Long offset = null;
     TradeHistoryParamsSorted.Order sort = null;
     Long sinceTimestamp = null;
+    Long sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
@@ -138,9 +140,20 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
       sinceTimestamp =
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      sinceId =
+          Optional.ofNullable(((TradeHistoryParamsIdSpan) params).getStartId())
+              .map(Long::parseLong)
+              .orElse(null);
+    }
     BitstampUserTransaction[] txs =
         getBitstampUserTransactions(
-            limit, currencyPair, offset, sort == null ? null : sort.toString(), sinceTimestamp);
+            limit,
+            currencyPair,
+            offset,
+            sort == null ? null : sort.toString(),
+            sinceTimestamp,
+            sinceId);
     return BitstampAdapters.adaptTradeHistory(txs);
   }
 

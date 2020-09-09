@@ -1,11 +1,10 @@
 package org.knowm.xchange.binance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.HttpResponseAware;
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import java.util.List;
 import java.util.Map;
+import si.mazi.rescu.HttpResponseAware;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BinanceException extends HttpStatusExceptionSupport implements HttpResponseAware {
 

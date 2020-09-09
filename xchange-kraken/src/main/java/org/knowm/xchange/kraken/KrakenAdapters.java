@@ -413,7 +413,9 @@ public class KrakenAdapters {
     if (OriginalMeta != null) {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
-          krakenPair.getOrderMin() != null ? krakenPair.getOrderMin() : OriginalMeta.getMinimumAmount(),
+          krakenPair.getOrderMin() != null
+              ? krakenPair.getOrderMin()
+              : OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
           krakenPair.getPairScale(),
           adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));

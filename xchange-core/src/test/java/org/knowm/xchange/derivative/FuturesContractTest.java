@@ -1,11 +1,10 @@
 package org.knowm.xchange.derivative;
 
-import org.junit.Test;
-import org.knowm.xchange.utils.ObjectMapperHelper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 public class FuturesContractTest {
 

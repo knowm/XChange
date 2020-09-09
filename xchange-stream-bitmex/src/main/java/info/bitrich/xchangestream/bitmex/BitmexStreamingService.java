@@ -50,13 +50,13 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   public BitmexStreamingService(
-          String apiUrl,
-          String apiKey,
-          String secretKey,
-          int maxFramePayloadLength,
-          Duration connectionTimeout,
-          Duration retryDuration,
-          int idleTimeoutSeconds) {
+      String apiUrl,
+      String apiKey,
+      String secretKey,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;

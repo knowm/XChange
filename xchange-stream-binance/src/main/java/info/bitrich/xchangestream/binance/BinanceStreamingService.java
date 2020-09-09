@@ -15,12 +15,13 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     this.productSubscription = productSubscription;
   }
 
-  public BinanceStreamingService(String baseUri,
-                                 ProductSubscription productSubscription,
-                                 int maxFramePayloadLength,
-                                 Duration connectionTimeout,
-                                 Duration retryDuration,
-                                 int idleTimeoutSeconds) {
+  public BinanceStreamingService(
+      String baseUri,
+      ProductSubscription productSubscription,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
     super(baseUri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.productSubscription = productSubscription;
   }
