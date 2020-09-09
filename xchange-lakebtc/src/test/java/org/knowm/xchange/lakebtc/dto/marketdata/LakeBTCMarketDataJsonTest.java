@@ -59,12 +59,12 @@ public class LakeBTCMarketDataJsonTest {
     LakeBTCOrderBook orderBook = mapper.readValue(is, LakeBTCOrderBook.class);
 
     BigDecimal[][] asks = orderBook.getAsks();
-    assertThat(asks).hasSize(3);
+    assertThat(asks).hasDimensions(3, 2);
     assertThat(asks[0][0]).isEqualTo("564.87");
     assertThat(asks[0][1]).isEqualTo("22.371");
 
     BigDecimal[][] bids = orderBook.getBids();
-    assertThat(bids).hasSize(3);
+    assertThat(bids).hasDimensions(3, 2);
     assertThat(bids[2][0]).isEqualTo("558.08");
     assertThat(bids[2][1]).isEqualTo("0.9878");
   }

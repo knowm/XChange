@@ -95,12 +95,13 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     this.nonceFactory = nonceFactory;
   }
 
-  public BitfinexStreamingService(String apiUrl,
-                                  SynchronizedValueFactory<Long> nonceFactory,
-                                  int maxFramePayloadLength,
-                                  Duration connectionTimeout,
-                                  Duration retryDuration,
-                                  int idleTimeoutSeconds) {
+  public BitfinexStreamingService(
+      String apiUrl,
+      SynchronizedValueFactory<Long> nonceFactory,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.nonceFactory = nonceFactory;
   }
@@ -109,7 +110,8 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   public Completable connect() {
     return super.connect()
         .doOnComplete(
-            () -> this.calculator =
+            () ->
+                this.calculator =
                     Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs()));
   }
 

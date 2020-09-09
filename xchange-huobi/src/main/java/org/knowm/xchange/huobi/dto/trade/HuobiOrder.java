@@ -143,25 +143,47 @@ public class HuobiOrder {
 
   @Override
   public String toString() {
-    return "HuobiOrder{" +
-            "accountID=" + accountID +
-            ", amount=" + amount +
-            ", canceledAt=" + canceledAt +
-            ", createdAt=" + createdAt +
-            ", fieldAmount=" + fieldAmount +
-            ", fieldCashAmount=" + fieldCashAmount +
-            ", fieldFees=" + fieldFees +
-            ", finishedAt=" + finishedAt +
-            ", id=" + id +
-            ", price=" + price +
-            ", source='" + source + '\'' +
-            ", state='" + state + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", type='" + type + '\'' +
-            ", clOrdId='" + clOrdId + '\'' +
-            ", stopPrice=" + stopPrice +
-            ", operator='" + operator + '\'' +
-            '}';
+    return "HuobiOrder{"
+        + "accountID="
+        + accountID
+        + ", amount="
+        + amount
+        + ", canceledAt="
+        + canceledAt
+        + ", createdAt="
+        + createdAt
+        + ", fieldAmount="
+        + fieldAmount
+        + ", fieldCashAmount="
+        + fieldCashAmount
+        + ", fieldFees="
+        + fieldFees
+        + ", finishedAt="
+        + finishedAt
+        + ", id="
+        + id
+        + ", price="
+        + price
+        + ", source='"
+        + source
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", clOrdId='"
+        + clOrdId
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", operator='"
+        + operator
+        + '\''
+        + '}';
   }
-
 }

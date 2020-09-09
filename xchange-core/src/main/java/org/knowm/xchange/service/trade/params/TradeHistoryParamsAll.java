@@ -1,14 +1,13 @@
 package org.knowm.xchange.service.trade.params;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.instrument.Instrument;
-import org.knowm.xchange.service.trade.TradeService;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.stream.Collectors;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the

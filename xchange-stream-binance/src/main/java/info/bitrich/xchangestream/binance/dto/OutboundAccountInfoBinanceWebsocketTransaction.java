@@ -16,6 +16,7 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
   private final boolean canDeposit;
   private final long lastUpdateTimestamp;
   private final List<BinanceWebsocketBalance> balances;
+  private List<String> permissions;
 
   public OutboundAccountInfoBinanceWebsocketTransaction(
       @JsonProperty("e") String eventType,
@@ -28,7 +29,8 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
       @JsonProperty("W") boolean canWithdraw,
       @JsonProperty("D") boolean canDeposit,
       @JsonProperty("u") long lastUpdateTimestamp,
-      @JsonProperty("B") List<BinanceWebsocketBalance> balances) {
+      @JsonProperty("B") List<BinanceWebsocketBalance> balances,
+      @JsonProperty("P") List<String> permissions) {
     super(eventType, eventTime);
     this.makerCommissionRate = makerCommissionRate;
     this.takerCommissionRate = takerCommissionRate;
@@ -39,6 +41,7 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
     this.canDeposit = canDeposit;
     this.lastUpdateTimestamp = lastUpdateTimestamp;
     this.balances = balances;
+    this.permissions = permissions;
   }
 
   public BigDecimal getMakerCommissionRate() {
@@ -77,6 +80,10 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
     return balances;
   }
 
+  public List<String> getPermissions() {
+    return permissions;
+  }
+
   @Override
   public String toString() {
     return "OutboundAccountInfoBinanceWebsocketTransaction [makerCommissionRate="
@@ -97,6 +104,8 @@ public class OutboundAccountInfoBinanceWebsocketTransaction
         + lastUpdateTimestamp
         + ", balances="
         + balances
+        + ", permissions="
+        + permissions
         + "]";
   }
 }
