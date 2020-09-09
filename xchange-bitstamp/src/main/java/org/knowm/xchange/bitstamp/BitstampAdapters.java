@@ -263,7 +263,7 @@ public final class BitstampAdapters {
       List<BitstampUserTransaction> userTransactions) {
     List<FundingRecord> fundingRecords = new ArrayList<>();
     for (BitstampUserTransaction trans : userTransactions) {
-      if (trans.isDeposit() || trans.isWithdrawal()) {
+      if (trans.isDeposit() || trans.isWithdrawal() || trans.isSubAccountTransfer()) {
         FundingRecord.Type type =
             trans.isDeposit() ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
         Map.Entry<String, BigDecimal> amount = BitstampAdapters.findNonzeroAmount(trans);
