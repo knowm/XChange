@@ -109,6 +109,23 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     streamingService.useCompressedMessages(compressedMessages);
   }
 
+  /**
+   * Gets a WebSocketToken following https://support.kraken.com/hc/en-us/articles/360034664311-How-to-subscribe-to-the-Kraken-WebSocket-private-feeds
+   *
+   * <p>Token requests should be made before any Websocket reconnection to avoid cases where the token has
+   * become invalid due to issues on the Kraken side.
+   *
+   * <p>From Kraken support:
+   *
+   *    <p>In theory WebSocket authentication tokens can last indefinitely, but in reality they do
+   *    sometimes expire causing an invalid session error. As an example, during a recent WebSocket
+   *    API upgrade, many authentication tokens became invalid (for no apparent reason to the token
+   *    owners), causing unexpected invalid session errors upon reconnecting/resubscribing after the
+   *    upgrade.
+   *
+   * @param accountServiceRaw account service to query new token against
+   * @return token retrieved
+   * */
   public KrakenWebsocketToken authData(final KrakenAccountServiceRaw accountServiceRaw) {
     if (accountServiceRaw == null) {
       return null;
