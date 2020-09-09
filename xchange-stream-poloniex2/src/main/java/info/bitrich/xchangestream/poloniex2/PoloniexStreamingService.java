@@ -1,26 +1,26 @@
 package info.bitrich.xchangestream.poloniex2;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransaction;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
-import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
+import info.bitrich.xchangestream.poloniex2.dto.*;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.reactivex.Completable;
+
 import io.reactivex.Observable;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 10.11.17. */
 public class PoloniexStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(PoloniexStreamingService.class);
 
   private static final String HEARTBEAT = "1010";
+    public static final String ACCOUNT_NOTIFICATIONS_CHANNEL = "1000";
 
   private final Map<String, String> subscribedChannels = new HashMap<>();
   private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
@@ -76,6 +76,27 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
+  public void messageHandler(String message) {
+    LOG.debug("Received message: {}", message);
+    JsonNode jsonNode;
+
+    // Parse incoming message to JSON
+    try {
+      jsonNode = objectMapper.readTree(message);
+    } catch (IOException e) {
+      LOG.error("Error parsing incoming message to JSON: {}", message);
+      return;
+    }
+
+    if (jsonNode.isArray() && jsonNode.size() < 3) {
+      if (jsonNode.get(0).asText().equals(HEARTBEAT)) {
+      } else if (jsonNode.get(0).asText().equals("1002")) return;
+    }
+
+    handleMessage(jsonNode);
+  }
+
+  @Override
   public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
     if (!channels.containsKey(channelName)) {
       Observable<JsonNode> subscription = super.subscribeChannel(channelName, args);
@@ -83,6 +104,11 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     }
 
     return subscriptions.get(channelName);
+  }
+
+  public Observable<JsonNode> subscribeAccountNotificationsChannel(
+      String apiKey, String secretKey, SynchronizedValueFactory<Long> nonceFactory) {
+    return subscribeChannel(ACCOUNT_NOTIFICATIONS_CHANNEL, apiKey, secretKey, nonceFactory);
   }
 
   public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(
@@ -124,9 +150,27 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    PoloniexWebSocketSubscriptionMessage subscribeMessage =
-        new PoloniexWebSocketSubscriptionMessage("subscribe", channelName);
+    Object subscribeMessage;
+    if (ACCOUNT_NOTIFICATIONS_CHANNEL.equals(channelName)) {
+      subscribeMessage =
+          getAccountNotificationsSubscription(
+              (String) args[0], (String) args[1], (SynchronizedValueFactory<Long>) args[2]);
+    } else {
+      subscribeMessage = new PoloniexWebSocketSubscriptionMessage("subscribe", channelName);
+    }
     return objectMapper.writeValueAsString(subscribeMessage);
+  }
+
+  private PoloniexWebSocketAccountNotificationsSubscriptionMessage
+      getAccountNotificationsSubscription(
+          String apiKey, String secretKey, SynchronizedValueFactory<Long> nonceFactory) {
+    String nonce = "nonce=" + nonceFactory.createValue();
+    String signature = new PoloniexSigner(secretKey).getSignature(nonce.getBytes());
+    PoloniexWebSocketAccountNotificationsSubscriptionMessage subscriptionMessage =
+        new PoloniexWebSocketAccountNotificationsSubscriptionMessage(
+            "subscribe", ACCOUNT_NOTIFICATIONS_CHANNEL, apiKey, nonce, signature);
+    LOG.info("Subscribing for account notifications: {}", subscriptionMessage);
+    return subscriptionMessage;
   }
 
   @Override
@@ -136,9 +180,5 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
-  @Override
-  public Completable disconnect() {
 
-    return super.disconnect();
-  }
 }

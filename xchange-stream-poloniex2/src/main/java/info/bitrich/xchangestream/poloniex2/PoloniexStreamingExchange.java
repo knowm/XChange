@@ -25,6 +25,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
 
   private final PoloniexStreamingService streamingService;
   private PoloniexStreamingMarketDataService streamingMarketDataService;
+  private PoloniexStreamingUserDataService poloniexStreamingUserDataService;
 
   public PoloniexStreamingExchange() {
     this.streamingService = new PoloniexStreamingService(API_URI);
@@ -37,6 +38,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
     Map<Integer, CurrencyPair> currencyPairMap = getCurrencyPairMap();
     streamingMarketDataService =
         new PoloniexStreamingMarketDataService(streamingService, currencyPairMap);
+    poloniexStreamingUserDataService = new PoloniexStreamingUserDataService(streamingService);
   }
 
   private Map<Integer, CurrencyPair> getCurrencyPairMap() {
@@ -88,6 +90,10 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
   @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
+  }
+
+  public PoloniexStreamingUserDataService getPoloniexStreamingUserDataService() {
+    return poloniexStreamingUserDataService;
   }
 
   @Override
