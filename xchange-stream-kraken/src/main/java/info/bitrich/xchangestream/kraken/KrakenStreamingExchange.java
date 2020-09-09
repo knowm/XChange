@@ -125,7 +125,7 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
    *
    * @param accountServiceRaw account service to query new token against
    * @return token retrieved
-   * */
+   */
   public KrakenWebsocketToken authData(final KrakenAccountServiceRaw accountServiceRaw) {
     if (accountServiceRaw == null) {
       return null;
