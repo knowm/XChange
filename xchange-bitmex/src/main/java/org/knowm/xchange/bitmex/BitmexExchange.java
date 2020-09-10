@@ -133,7 +133,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     String bitmexSymbol = ticker.getSymbol();
     String baseSymbol =
-        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+        ("XBK".equals(ticker.getRootSymbol()) || "XBJ".equals(ticker.getRootSymbol()))
             ? "XBT"
             : ticker.getRootSymbol();
     String counterSymbol;
@@ -164,10 +164,10 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   public CurrencyPair determineActiveContract(
       String baseSymbol, String counterSymbol, BitmexPrompt contractTimeframe) {
 
-    if (baseSymbol.equals("BTC")) {
+    if ("BTC".equals(baseSymbol)) {
       baseSymbol = "XBT";
     }
-    if (counterSymbol.equals("BTC")) {
+    if ("BTC".equals(counterSymbol)) {
       counterSymbol = "XBT";
     }
 

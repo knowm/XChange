@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -208,13 +209,13 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-
+    int scale = getAssetPairScale(limitOrder.getInstrument());
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder =
         KrakenStandardOrder.getLimitOrderBuilder(
                 limitOrder.getCurrencyPair(),
                 type,
-                limitOrder.getLimitPrice().toPlainString(),
+                limitOrder.getLimitPrice().setScale(scale, RoundingMode.HALF_UP).toPlainString(),
                 limitOrder.getOriginalAmount())
             .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())

@@ -113,7 +113,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                       LimitOrder firstAsk = orderBook.getAsks().iterator().next();
                       emitter.onNext(
                           new Ticker.Builder()
-                              .instrument(currencyPair)
+                              .currencyPair(currencyPair)
                               .bid(firstBid.getLimitPrice())
                               .bidSize(firstBid.getOriginalAmount())
                               .ask(firstAsk.getLimitPrice())

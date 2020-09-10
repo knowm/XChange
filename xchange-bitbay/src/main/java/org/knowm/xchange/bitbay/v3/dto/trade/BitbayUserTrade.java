@@ -13,6 +13,7 @@ public class BitbayUserTrade {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final String userAction;
+  private final BigDecimal commissionValue;
 
   public BitbayUserTrade(
       @JsonProperty("id") UUID id,
@@ -20,13 +21,15 @@ public class BitbayUserTrade {
       @JsonProperty("time") long time,
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("userAction") String userAction) {
+      @JsonProperty("userAction") String userAction,
+      @JsonProperty("commissionValue") BigDecimal commissionValue) {
     this.id = id;
     this.market = market;
     this.time = time;
     this.amount = amount;
     this.rate = rate;
     this.userAction = userAction;
+    this.commissionValue = commissionValue;
   }
 
   public UUID getId() {
@@ -51,5 +54,9 @@ public class BitbayUserTrade {
 
   public String getUserAction() {
     return userAction;
+  }
+
+  public BigDecimal getCommissionValue() {
+    return commissionValue;
   }
 }

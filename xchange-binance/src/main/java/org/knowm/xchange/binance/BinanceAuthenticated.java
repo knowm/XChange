@@ -491,7 +491,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    */
   @POST
-  @Path("/api/v1/userDataStream")
+  @Path("/api/v3/userDataStream")
   BinanceListenKey startUserDataStream(@HeaderParam(X_MBX_APIKEY) String apiKey)
       throws IOException, BinanceException;
 
@@ -505,7 +505,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    */
   @PUT
-  @Path("/api/v1/userDataStream?listenKey={listenKey}")
+  @Path("/api/v3/userDataStream?listenKey={listenKey}")
   Map<?, ?> keepAliveUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
       throws IOException, BinanceException;
@@ -520,7 +520,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    */
   @DELETE
-  @Path("/api/v1/userDataStream?listenKey={listenKey}")
+  @Path("/api/v3/userDataStream?listenKey={listenKey}")
   Map<?, ?> closeUserDataStream(
       @HeaderParam(X_MBX_APIKEY) String apiKey, @PathParam("listenKey") String listenKey)
       throws IOException, BinanceException;
