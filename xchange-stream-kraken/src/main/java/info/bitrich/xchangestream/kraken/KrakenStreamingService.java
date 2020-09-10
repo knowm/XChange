@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +107,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               case error:
                 LOG.error(
                     "Channel {} has been failed: {}", channelName, statusMessage.getErrorMessage());
+                if ("ESession:Invalid session".equals(statusMessage.getErrorMessage())) {
+                  throw new ExchangeException("Issue with session validity");
+                }
             }
             break;
           case error:
