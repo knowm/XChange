@@ -31,7 +31,7 @@
 
     <version.java>1.8</version.java>
     <version.assertj>3.17.2</version.assertj>
-    <version.commons.io>2.7</version.commons.io>
+    <version.commons.io>2.8.0</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.2</version.fasterxml>
     <version.github.mmazi>2.0.2</version.github.mmazi>
