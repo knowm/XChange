@@ -30,7 +30,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -65,7 +64,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
     for (OrderQueryParams orderQueryParam: orderQueryParams) {
       CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
-      List<Order> orders = CoinmateAdapters.apdaptOrders(response);
+      List<Order> orders = CoinmateAdapters.adaptOrders(response);
       result.addAll(orders);
     }
     return result;
