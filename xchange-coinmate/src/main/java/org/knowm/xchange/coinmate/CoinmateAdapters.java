@@ -337,7 +337,7 @@ public class CoinmateAdapters {
     }
   }
 
-  public static List<Order> apdaptOrders(CoinmateOrders coinmateOrders) {
+  public static List<Order> adaptOrders(CoinmateOrders coinmateOrders) {
     List<Order> ordersList = new ArrayList<>(1);
 
     CoinmateOrder entry = coinmateOrders.getData();
