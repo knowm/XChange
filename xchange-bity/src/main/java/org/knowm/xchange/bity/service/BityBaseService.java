@@ -4,9 +4,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bity.BityAuthenticated;
 import org.knowm.xchange.bity.dto.BityException;
 import org.knowm.xchange.bity.dto.account.BityToken;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BityBaseService extends BaseExchangeService implements BaseService {
 
@@ -18,14 +18,12 @@ public class BityBaseService extends BaseExchangeService implements BaseService 
    * @param exchange
    */
   protected BityBaseService(Exchange exchange) {
-
     super(exchange);
 
     bity =
-        RestProxyFactory.createProxy(
-            BityAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BityAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public BityToken createToken() throws BityException {

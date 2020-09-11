@@ -14,11 +14,10 @@ import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.BaseExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -89,10 +88,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
       LOG.info("Connecting to authenticated web socket");
       BinanceAuthenticated binance =
-          RestProxyFactory.createProxy(
-              BinanceAuthenticated.class,
-              getExchangeSpecification().getSslUri(),
-              new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig());
+          ExchangeRestProxyBuilder.forInterface(
+                  BinanceAuthenticated.class, getExchangeSpecification())
+              .build();
       userDataChannel =
           new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
       try {
