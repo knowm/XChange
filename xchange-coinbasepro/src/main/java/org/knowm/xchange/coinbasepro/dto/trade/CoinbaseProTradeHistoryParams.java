@@ -7,8 +7,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 
-public class CoinbaseProTradeHistoryParams implements TradeHistoryParamTransactionId, TradeHistoryParamCurrencyPair,
-    TradeHistoryParamLimit, HistoryParamsFundingType {
+public class CoinbaseProTradeHistoryParams
+    implements TradeHistoryParamTransactionId,
+        TradeHistoryParamCurrencyPair,
+        TradeHistoryParamLimit,
+        HistoryParamsFundingType {
 
   private CurrencyPair currencyPair;
   private String txId;
