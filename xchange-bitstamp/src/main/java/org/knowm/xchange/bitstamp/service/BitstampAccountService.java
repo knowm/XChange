@@ -23,6 +23,7 @@ import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -158,6 +159,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     Long offset = null;
     TradeHistoryParamsSorted.Order sort = null;
     Long sinceTimestamp = null;
+    String sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
@@ -171,9 +173,12 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       sinceTimestamp =
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      sinceId = ((TradeHistoryParamsIdSpan) params).getStartId();
+    }
     BitstampUserTransaction[] txs =
         getBitstampUserTransactions(
-            limit, offset, sort == null ? null : sort.toString(), sinceTimestamp);
+            limit, offset, sort == null ? null : sort.toString(), sinceTimestamp, sinceId);
     return BitstampAdapters.adaptFundingHistory(Arrays.asList(txs));
   }
 }
