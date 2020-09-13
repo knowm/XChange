@@ -53,6 +53,7 @@ public class BitstampTradeHistoryParams
     return offset == null ? null : Long.valueOf(offset);
   }
 
+  @Override
   public void setOffset(Long offset) {
     this.offset = offset == null ? null : offset.intValue();
   }

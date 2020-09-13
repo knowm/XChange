@@ -149,7 +149,8 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
           offset,
           sort,
           sinceTimestamp,
-          sinceId);
+          sinceId
+      );
     } catch (BitstampException e) {
       throw handleError(e);
     }

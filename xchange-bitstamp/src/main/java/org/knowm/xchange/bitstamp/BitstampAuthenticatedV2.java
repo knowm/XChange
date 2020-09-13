@@ -80,7 +80,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort,
       @FormParam("since_timestamp") Long sinceTimestamp,
-      @FormParam("since_id") String sinceId)
+      @FormParam("since_id") String sinceId
+  )
       throws BitstampException, IOException;
 
   @POST

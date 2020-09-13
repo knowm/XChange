@@ -10,6 +10,7 @@ import org.knowm.xchange.okcoin.v3.dto.account.FuturesBillsResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesPosition;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
+import org.knowm.xchange.okcoin.v3.dto.account.OkexCurrencyInformation;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexDepositRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexFundingAccountRecord;
 import org.knowm.xchange.okcoin.v3.dto.account.OkexSpotAccountRecord;
@@ -37,6 +38,10 @@ public class OkexAccountServiceRaw extends OkexBaseService {
 
   public List<OkexFundingAccountRecord> fundingAccountInformation() throws IOException {
     return okex.fundingAccountInformation(apikey, digest, timestamp(), passphrase);
+  }
+
+  public List<OkexCurrencyInformation> currencyInformation() throws IOException {
+    return okex.currencyInformation(apikey, digest, timestamp(), passphrase);
   }
 
   public List<OkexSpotAccountRecord> spotTradingAccount() throws IOException {
