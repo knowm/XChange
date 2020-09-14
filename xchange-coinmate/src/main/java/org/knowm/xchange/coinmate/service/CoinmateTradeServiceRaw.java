@@ -32,6 +32,7 @@ import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOrderHistory;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateReplaceResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
