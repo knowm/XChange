@@ -1,11 +1,11 @@
 package org.knowm.xchange.ripple.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.ripple.RippleAuthenticated;
 import org.knowm.xchange.ripple.RipplePublic;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class RippleBaseService extends BaseExchangeService implements BaseService {
 
@@ -26,8 +26,15 @@ public class RippleBaseService extends BaseExchangeService implements BaseServic
     } else {
       throw new IllegalStateException("either SSL or plain text URI must be specified");
     }
-    ripplePublic = RestProxyFactory.createProxy(RipplePublic.class, uri, getClientConfig());
+    ripplePublic =
+        ExchangeRestProxyBuilder.forInterface(
+                RipplePublic.class, exchange.getExchangeSpecification())
+            .baseUrl(uri)
+            .build();
     rippleAuthenticated =
-        RestProxyFactory.createProxy(RippleAuthenticated.class, uri, getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                RippleAuthenticated.class, exchange.getExchangeSpecification())
+            .baseUrl(uri)
+            .build();
   }
 }
