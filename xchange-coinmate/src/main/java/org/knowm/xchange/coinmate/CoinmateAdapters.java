@@ -23,6 +23,10 @@
  */
 package org.knowm.xchange.coinmate;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
@@ -42,11 +46,6 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /** @author Martin Stachon */
 public class CoinmateAdapters {
@@ -366,7 +365,8 @@ public class CoinmateAdapters {
 
     // TODO: we can probably use `orderTradeType` to distinguish between Market and Limit order
     Order order =
-        new MarketOrder(orderType,
+        new MarketOrder(
+            orderType,
             entry.getOriginalAmount(),
             null,
             Long.toString(entry.getId()),
@@ -376,7 +376,6 @@ public class CoinmateAdapters {
             null,
             orderStatus,
             null);
-
 
     ordersList.add(order);
 

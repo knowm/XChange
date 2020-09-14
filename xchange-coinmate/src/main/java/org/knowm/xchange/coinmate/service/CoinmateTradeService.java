@@ -62,7 +62,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
-    for (OrderQueryParams orderQueryParam: orderQueryParams) {
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
       CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
       List<Order> orders = CoinmateAdapters.adaptOrders(response);
       result.addAll(orders);
