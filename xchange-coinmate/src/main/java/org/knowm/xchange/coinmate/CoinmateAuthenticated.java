@@ -77,6 +77,16 @@ public interface CoinmateAuthenticated extends Coinmate {
       throws IOException;
 
   @POST
+  @Path("orderById")
+  CoinmateOrders getOrderById(
+      @FormParam("publicKey") String publicKey,
+      @FormParam("clientId") String clientId,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("orderId") String orderId)
+      throws IOException;
+
+  @POST
   @Path("cancelOrder")
   CoinmateCancelOrderResponse cancelOder(
       @FormParam("publicKey") String publicKey,
