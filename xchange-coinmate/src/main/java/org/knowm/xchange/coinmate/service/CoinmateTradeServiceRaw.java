@@ -152,6 +152,20 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return response;
   }
 
+  public CoinmateOrders getCoinmateOrderById(String orderId) throws IOException {
+    CoinmateOrders response =
+        coinmateAuthenticated.getOrderById(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getExchangeSpecification().getUserName(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
   public CoinmateCancelOrderWithInfoResponse cancelCoinmateOrderWithInfo(String orderId)
       throws IOException {
     CoinmateCancelOrderWithInfoResponse response =
