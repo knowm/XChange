@@ -8,8 +8,8 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIOCurrencyLimits;
 import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author timmolter */
 public class CexIOMarketDataServiceRaw extends CexIOBaseService {
@@ -26,8 +26,8 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
     super(exchange);
 
     this.cexio =
-        RestProxyFactory.createProxy(
-            CexIO.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(CexIO.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   List<CexIOTicker> getAllCexIOTickers() throws IOException {

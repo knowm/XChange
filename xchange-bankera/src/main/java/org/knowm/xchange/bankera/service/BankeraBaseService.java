@@ -5,9 +5,9 @@ import org.knowm.xchange.bankera.Bankera;
 import org.knowm.xchange.bankera.BankeraAuthenticated;
 import org.knowm.xchange.bankera.dto.BankeraException;
 import org.knowm.xchange.bankera.dto.BankeraToken;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BankeraBaseService extends BaseExchangeService implements BaseService {
 
@@ -15,18 +15,14 @@ public class BankeraBaseService extends BaseExchangeService implements BaseServi
   protected final BankeraAuthenticated bankeraAuthenticated;
 
   public BankeraBaseService(Exchange exchange) {
-
     super(exchange);
-
     bankera =
-        RestProxyFactory.createProxy(
-            Bankera.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
-
+        ExchangeRestProxyBuilder.forInterface(Bankera.class, exchange.getExchangeSpecification())
+            .build();
     bankeraAuthenticated =
-        RestProxyFactory.createProxy(
-            BankeraAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BankeraAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public BankeraToken createToken() throws BankeraException {

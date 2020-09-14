@@ -4,10 +4,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
 import org.knowm.xchange.bitfinex.v1.BitfinexHmacPostBodyDigest;
 import org.knowm.xchange.bitfinex.v2.BitfinexHmacSignature;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BitfinexBaseService extends BaseExchangeService implements BaseService {
 
@@ -29,10 +29,9 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
     super(exchange);
 
     this.bitfinex =
-        RestProxyFactory.createProxy(
-            BitfinexAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitfinexAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BitfinexHmacPostBodyDigest.createInstance(
@@ -40,10 +39,10 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
     this.payloadCreator = new BitfinexPayloadDigest();
 
     this.bitfinexV2 =
-        RestProxyFactory.createProxy(
-            org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                org.knowm.xchange.bitfinex.v2.BitfinexAuthenticated.class,
+                exchange.getExchangeSpecification())
+            .build();
     this.signatureV2 =
         BitfinexHmacSignature.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

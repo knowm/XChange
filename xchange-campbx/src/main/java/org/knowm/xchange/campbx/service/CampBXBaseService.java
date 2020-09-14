@@ -2,11 +2,11 @@ package org.knowm.xchange.campbx.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.CampBX;
+import org.knowm.xchange.client.ClientConfigCustomizer;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.CertHelper;
-import si.mazi.rescu.ClientConfig;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author timmolter */
 public class CampBXBaseService extends BaseExchangeService implements BaseService {
@@ -22,12 +22,15 @@ public class CampBXBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    ClientConfig config = getClientConfig();
     // campbx server raises "internal error" if connected via these protocol versions
-    config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("TLSv1", "TLSv1.1"));
+    ClientConfigCustomizer clientConfigCustomizer =
+        config ->
+            config.setSslSocketFactory(
+                CertHelper.createRestrictedSSLSocketFactory("TLSv1", "TLSv1.1"));
 
     this.campBX =
-        RestProxyFactory.createProxy(
-            CampBX.class, exchange.getExchangeSpecification().getSslUri(), config);
+        ExchangeRestProxyBuilder.forInterface(CampBX.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(clientConfigCustomizer)
+            .build();
   }
 }

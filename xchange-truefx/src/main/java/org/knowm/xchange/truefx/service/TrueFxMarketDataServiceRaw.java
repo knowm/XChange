@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ClientConfigCustomizer;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.truefx.TrueFxPublic;
 import org.knowm.xchange.truefx.dto.marketdata.TrueFxTicker;
-import si.mazi.rescu.ClientConfig;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
 
@@ -40,12 +40,13 @@ public class TrueFxMarketDataServiceRaw extends BaseExchangeService {
   protected TrueFxMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
 
-    final ClientConfig config = getClientConfig();
-    config.setJacksonObjectMapperFactory(factory);
-
+    ClientConfigCustomizer clientConfigCustomizer =
+        config -> config.setJacksonObjectMapperFactory(factory);
     trueFx =
-        RestProxyFactory.createProxy(
-            TrueFxPublic.class, exchange.getExchangeSpecification().getPlainTextUri(), config);
+        ExchangeRestProxyBuilder.forInterface(
+                TrueFxPublic.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(clientConfigCustomizer)
+            .build();
   }
 
   public TrueFxTicker getTicker(CurrencyPair pair) throws IOException {
