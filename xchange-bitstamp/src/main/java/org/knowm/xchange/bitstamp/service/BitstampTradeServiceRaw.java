@@ -10,6 +10,7 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -127,7 +128,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions)
       throws IOException {
-    return getBitstampUserTransactions(numberOfTransactions, null, null, null);
+    return getBitstampUserTransactions(numberOfTransactions, null, null, null, null);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
@@ -136,8 +137,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
       Long offset,
       String sort,
       Long sinceTimestamp,
-      String sinceId
-  )
+      String sinceId)
       throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
@@ -156,7 +156,8 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp) throws IOException {
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, String sinceId)
+      throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
           apiKey,
