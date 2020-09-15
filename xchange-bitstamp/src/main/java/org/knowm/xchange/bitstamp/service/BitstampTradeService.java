@@ -150,7 +150,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
             offset,
             sort == null ? null : sort.toString(),
             sinceTimestamp,
-            sinceId);
+            sinceId
+        );
     return BitstampAdapters.adaptTradeHistory(txs);
   }
 
