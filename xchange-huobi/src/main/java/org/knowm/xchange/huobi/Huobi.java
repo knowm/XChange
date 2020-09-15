@@ -67,25 +67,24 @@ public interface Huobi {
   @GET
   @Path("v1/fee/fee-rate/get")
   HuobiFeeRateResult getFeeRate(
-          @QueryParam("symbols") String symbols,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
+      @QueryParam("symbols") String symbols,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v2/reference/transact-fee-rate")
   HuobiTransactFeeRateResult getTransactFeeRate(
-          @QueryParam("symbols") String symbols,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
-
+      @QueryParam("symbols") String symbols,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v1/dw/deposit-virtual/addresses")
@@ -101,13 +100,13 @@ public interface Huobi {
   @GET
   @Path("v2/account/deposit/address")
   HuobiDepositAddressV2Result getDepositAddressV2(
-          @QueryParam("currency") String currency,
-          @QueryParam("AccessKeyId") String apiKey,
-          @QueryParam("SignatureMethod") String signatureMethod,
-          @QueryParam("SignatureVersion") int signatureVersion,
-          @QueryParam("Timestamp") String nonce,
-          @QueryParam("Signature") ParamsDigest signature)
-          throws IOException;
+      @QueryParam("currency") String currency,
+      @QueryParam("AccessKeyId") String apiKey,
+      @QueryParam("SignatureMethod") String signatureMethod,
+      @QueryParam("SignatureVersion") int signatureVersion,
+      @QueryParam("Timestamp") String nonce,
+      @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("v1/query/deposit-withdraw")

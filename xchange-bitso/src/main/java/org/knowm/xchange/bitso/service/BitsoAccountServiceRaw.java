@@ -6,9 +6,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAuthenticated;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BitsoAccountServiceRaw extends BitsoBaseService {
 
@@ -19,10 +19,9 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
     super(exchange);
 
     this.bitsoAuthenticated =
-        RestProxyFactory.createProxy(
-            BitsoAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitsoAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.signatureCreator =
         BitsoDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),

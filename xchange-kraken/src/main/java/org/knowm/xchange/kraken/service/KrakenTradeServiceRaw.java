@@ -208,7 +208,6 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder =
         KrakenStandardOrder.getLimitOrderBuilder(

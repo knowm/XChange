@@ -1,4 +1,0 @@
-ANX Pro API specification
-================================
-
-https://anxpro.com/info/api

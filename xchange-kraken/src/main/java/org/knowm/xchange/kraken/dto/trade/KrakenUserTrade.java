@@ -70,7 +70,7 @@ public class KrakenUserTrade extends UserTrade {
           new KrakenUserTrade(
               type,
               originalAmount,
-              currencyPair,
+              (CurrencyPair) instrument,
               price,
               timestamp,
               id,

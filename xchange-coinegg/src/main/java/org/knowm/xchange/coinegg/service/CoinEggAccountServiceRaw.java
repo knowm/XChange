@@ -3,9 +3,9 @@ package org.knowm.xchange.coinegg.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinegg.CoinEggAuthenticated;
 import org.knowm.xchange.coinegg.dto.accounts.CoinEggBalance;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinEggAccountServiceRaw extends CoinEggBaseService {
@@ -27,8 +27,9 @@ public class CoinEggAccountServiceRaw extends CoinEggBaseService {
     this.tradePassword = spec.getPassword();
     this.nonceFactory = exchange.getNonceFactory();
     this.coinEggAuthenticated =
-        RestProxyFactory.createProxy(
-            CoinEggAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinEggAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public CoinEggBalance getCoinEggBalance() throws IOException {

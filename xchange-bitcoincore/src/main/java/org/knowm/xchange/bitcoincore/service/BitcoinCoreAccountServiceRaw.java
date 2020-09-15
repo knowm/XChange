@@ -8,11 +8,11 @@ import org.knowm.xchange.bitcoincore.dto.BitcoinCoreException;
 import org.knowm.xchange.bitcoincore.dto.account.BitcoinCoreBalanceRequest;
 import org.knowm.xchange.bitcoincore.dto.account.BitcoinCoreBalanceResponse;
 import org.knowm.xchange.bitcoincore.dto.account.BitcoinCoreUnconfirmedBalanceRequest;
+import org.knowm.xchange.client.ClientConfigCustomizer;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
-import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ClientConfigUtil;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BitcoinCoreAccountServiceRaw extends BaseExchangeService {
 
@@ -27,13 +27,15 @@ public class BitcoinCoreAccountServiceRaw extends BaseExchangeService {
 
     ExchangeSpecification specification = exchange.getExchangeSpecification();
 
-    ClientConfig config = getClientConfig();
     String user = specification.getUserName();
-    ClientConfigUtil.addBasicAuthCredentials(
-        config, user == null ? "" : user, specification.getPassword());
-
+    ClientConfigCustomizer clientConfigCustomizer =
+        config ->
+            ClientConfigUtil.addBasicAuthCredentials(
+                config, user == null ? "" : user, specification.getPassword());
     bitcoinCore =
-        RestProxyFactory.createProxy(BitcoinCore.class, specification.getPlainTextUri(), config);
+        ExchangeRestProxyBuilder.forInterface(BitcoinCore.class, specification)
+            .clientConfigCustomizer(clientConfigCustomizer)
+            .build();
   }
 
   public BitcoinCoreBalanceResponse getBalance() throws IOException {

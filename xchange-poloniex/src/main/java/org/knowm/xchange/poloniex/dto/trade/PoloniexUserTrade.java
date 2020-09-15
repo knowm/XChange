@@ -13,8 +13,21 @@ import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tradeId", "date", "rate", "amount", "total", "fee", "orderNumber", "type"})
+@JsonPropertyOrder({
+  "globalTradeID",
+  "tradeID",
+  "date",
+  "rate",
+  "amount",
+  "total",
+  "fee",
+  "orderNumber",
+  "type"
+})
 public class PoloniexUserTrade {
+
+  @JsonProperty("globalTradeID")
+  private String globalTradeID;
 
   @JsonProperty("tradeID")
   private String tradeID;
@@ -41,6 +54,18 @@ public class PoloniexUserTrade {
   private String type;
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonProperty("globalTradeID")
+  public String getGlobalTradeID() {
+
+    return globalTradeID;
+  }
+
+  @JsonProperty("globalTradeID")
+  public void setGlobalTradeID(String globalTradeID) {
+
+    this.globalTradeID = globalTradeID;
+  }
 
   @JsonProperty("tradeID")
   public String getTradeID() {
@@ -152,8 +177,9 @@ public class PoloniexUserTrade {
 
   @Override
   public String toString() {
-
-    return "PoloniexUserTrade [tradeID= "
+    return "PoloniexUserTrade [globalTradeID="
+        + globalTradeID
+        + ", tradeID= "
         + tradeID
         + ", date="
         + date
