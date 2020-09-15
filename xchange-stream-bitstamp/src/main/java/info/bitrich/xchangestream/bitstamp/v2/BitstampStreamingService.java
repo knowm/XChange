@@ -6,6 +6,7 @@ import info.bitrich.xchangestream.bitstamp.v2.dto.BitstampWebSocketSubscriptionM
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
+import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,15 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
 
   public BitstampStreamingService(String apiUrl) {
     super(apiUrl, Integer.MAX_VALUE);
+  }
+
+  public BitstampStreamingService(
+      String apiUrl,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
   }
 
   @Override

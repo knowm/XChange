@@ -17,6 +17,7 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -37,6 +38,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
   public KrakenStreamingService(boolean isPrivate, String uri) {
     super(uri, Integer.MAX_VALUE);
+    this.isPrivate = isPrivate;
+  }
+
+  public KrakenStreamingService(
+      boolean isPrivate,
+      String uri,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.isPrivate = isPrivate;
   }
 

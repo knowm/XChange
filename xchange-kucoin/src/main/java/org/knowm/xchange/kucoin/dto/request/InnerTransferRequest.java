@@ -15,13 +15,12 @@ public class InnerTransferRequest {
 
   /** Request ID */
   private final String clientOid;
-  /** Account ID of payer(obtained through the "list account" interface). */
-  private final String payAccountId;
-  /** Account ID of receiver */
-  private final String recAccountId;
-  /**
-   * Transfer amount, a quantity that exceeds the precision of the currency（ Obtained through the
-   * currencies interface ）.
-   */
+  /** currency */
+  private final String currency;
+  /** Account type of payer: main, trade, margin or pool */
+  private final String from;
+  /** Account type of payee: main, trade, margin or pool */
+  private final String to;
+  /** Transfer amount, the amount is a positive integer multiple of the currency precision. */
   private final BigDecimal amount;
 }

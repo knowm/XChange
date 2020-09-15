@@ -17,6 +17,8 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -30,6 +32,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** @author Martin Stachon */
 public class CoinmateTradeService extends CoinmateTradeServiceRaw implements TradeService {
@@ -54,6 +57,17 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
     List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
     return new OpenOrders(orders);
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
+      List<Order> orders = CoinmateAdapters.adaptOrders(response);
+      result.addAll(orders);
+    }
+    return result;
   }
 
   @Override
