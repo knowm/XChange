@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author makarid, pchertalev,marcinrabiej */
+/** @author makarid, pchertalev, marcinrabiej */
 public class KrakenStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(KrakenStreamingService.class);
   private static final String EVENT = "event";
