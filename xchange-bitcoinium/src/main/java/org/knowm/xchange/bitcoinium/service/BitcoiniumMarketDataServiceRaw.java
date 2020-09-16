@@ -7,8 +7,8 @@ import org.knowm.xchange.bitcoinium.BitcoiniumUtils;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.utils.Assert;
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Implementation of the raw market data service for Bitcoinium
@@ -30,8 +30,8 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
 
     super(exchange);
     this.bitcoinium =
-        RestProxyFactory.createProxy(
-            Bitcoinium.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(Bitcoinium.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   /**

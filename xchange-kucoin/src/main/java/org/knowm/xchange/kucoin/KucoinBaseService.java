@@ -1,10 +1,21 @@
 package org.knowm.xchange.kucoin;
 
 import com.google.common.base.Strings;
-import org.knowm.xchange.kucoin.service.*;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.kucoin.service.AccountAPI;
+import org.knowm.xchange.kucoin.service.DepositAPI;
+import org.knowm.xchange.kucoin.service.FillAPI;
+import org.knowm.xchange.kucoin.service.HistOrdersAPI;
+import org.knowm.xchange.kucoin.service.HistoryAPI;
+import org.knowm.xchange.kucoin.service.KucoinApiException;
+import org.knowm.xchange.kucoin.service.KucoinDigest;
+import org.knowm.xchange.kucoin.service.OrderAPI;
+import org.knowm.xchange.kucoin.service.OrderBookAPI;
+import org.knowm.xchange.kucoin.service.SymbolAPI;
+import org.knowm.xchange.kucoin.service.WebsocketAPI;
+import org.knowm.xchange.kucoin.service.WithdrawalAPI;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinBaseService extends BaseExchangeService<KucoinExchange> implements BaseService {
@@ -47,8 +58,8 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
   }
 
   private <T> T service(KucoinExchange exchange, Class<T> clazz) {
-    return RestProxyFactory.createProxy(
-        clazz, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+    return ExchangeRestProxyBuilder.forInterface(clazz, exchange.getExchangeSpecification())
+        .build();
   }
 
   protected void checkAuthenticated() {

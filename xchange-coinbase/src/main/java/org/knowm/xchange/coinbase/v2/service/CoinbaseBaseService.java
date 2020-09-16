@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
@@ -13,7 +14,6 @@ import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTim
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.utils.HmacDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
@@ -24,10 +24,9 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
     coinbase =
-        RestProxyFactory.createProxy(
-            CoinbaseAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbaseAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     signatureCreator2 =
         CoinbaseV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
