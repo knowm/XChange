@@ -65,7 +65,7 @@ public class PoloniexWebSocketAccountNotificationsTransaction {
       }
     }
 
-    return events.toArray(new PoloniexWebSocketEvent[events.size()]);
+    return events.toArray(new PoloniexWebSocketEvent[0]);
   }
 
   public String getChannelId() {

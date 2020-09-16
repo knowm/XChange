@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Created by Lukas Zaoralek on 10.11.17. */
+/** Created by Lukas Zaoralek on 10.11.17, marcinrabiej */
 public class PoloniexStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(PoloniexStreamingService.class);
 
   private static final String HEARTBEAT = "1010";
-    public static final String ACCOUNT_NOTIFICATIONS_CHANNEL = "1000";
+  public static final String ACCOUNT_NOTIFICATIONS_CHANNEL = "1000";
 
   private final Map<String, String> subscribedChannels = new HashMap<>();
   private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
@@ -88,11 +88,6 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
       return;
     }
 
-    if (jsonNode.isArray() && jsonNode.size() < 3) {
-      if (jsonNode.get(0).asText().equals(HEARTBEAT)) {
-      } else if (jsonNode.get(0).asText().equals("1002")) return;
-    }
-
     handleMessage(jsonNode);
   }
 
@@ -150,6 +145,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
+    validateArgs(args);
     Object subscribeMessage;
     if (ACCOUNT_NOTIFICATIONS_CHANNEL.equals(channelName)) {
       subscribeMessage =
@@ -161,6 +157,16 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     return objectMapper.writeValueAsString(subscribeMessage);
   }
 
+  private void validateArgs(Object... args) {
+    if (args == null || args.length < 3 || args[0] == null || args[1]==null|| args[2]==null ||
+                !String.class.isAssignableFrom(args[0].getClass())||
+                !String.class.isAssignableFrom(args[1].getClass())||
+                !SynchronizedValueFactory.class.isAssignableFrom(args[2].getClass()))
+    {
+      throw new IllegalArgumentException("Need at least 3 non null args, first three: String, String, SynchronizedValueFactory");
+    }
+  }
+
   private PoloniexWebSocketAccountNotificationsSubscriptionMessage
       getAccountNotificationsSubscription(
           String apiKey, String secretKey, SynchronizedValueFactory<Long> nonceFactory) {
@@ -169,7 +175,6 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     PoloniexWebSocketAccountNotificationsSubscriptionMessage subscriptionMessage =
         new PoloniexWebSocketAccountNotificationsSubscriptionMessage(
             "subscribe", ACCOUNT_NOTIFICATIONS_CHANNEL, apiKey, nonce, signature);
-    LOG.info("Subscribing for account notifications: {}", subscriptionMessage);
     return subscriptionMessage;
   }
 
@@ -179,6 +184,4 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         new PoloniexWebSocketSubscriptionMessage("unsubscribe", channelName);
     return objectMapper.writeValueAsString(subscribeMessage);
   }
-
-
 }

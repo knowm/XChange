@@ -36,7 +36,7 @@ public class PoloniexStreamingUserDataService {
 
   public Observable<UserTrade> getUserTrades() {
     return getStreamEvents()
-        .filter(s -> s.getEventType().equals("t"))
+        .filter(s -> "t".equals(s.getEventType()))
         .map(s -> ((PoloniexWebSocketPrivateTradeEvent) s).getPrivateTradeEvent())
         .share()
         .map(this::adaptTrade);
