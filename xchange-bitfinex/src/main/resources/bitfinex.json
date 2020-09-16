@@ -105,6 +105,11 @@
       "min_amount": 10.00000000,
       "trading_fee": 0.002
     },
+    "LINK/USD" : {
+      "price_scale": 2,
+      "min_amount": 0.02000000,
+      "trading_fee": 0.002
+    },
     "LTC/USD": {
       "price_scale": 2,
       "min_amount": 0.08000000,
@@ -280,6 +285,10 @@
     "IOT": {
       "scale": 8,
       "withdrawal_fee": 0.5
+    },
+    "LINK" : {
+      "scale": 2,
+      "withdrawal_fee": 0.001
     },
     "LTC": {
       "scale": 8,

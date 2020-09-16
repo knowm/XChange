@@ -13,9 +13,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
+import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexNewAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
@@ -75,6 +77,35 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("currencySymbol") String currencySymbol)
+      throws IOException;
+
+  @GET
+  @Path("addresses")
+  List<BittrexAddress> getAddresses(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("addresses/{currencySymbol}")
+  BittrexAddress getAddress(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @PathParam("currencySymbol") String currencySymbol)
+      throws IOException;
+
+  @POST
+  @Path("addresses")
+  BittrexAddress generateAddress(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      BittrexNewAddress newAddress)
       throws IOException;
 
   @GET

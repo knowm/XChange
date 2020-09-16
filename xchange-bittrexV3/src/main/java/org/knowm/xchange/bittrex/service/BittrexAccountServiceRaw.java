@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,11 @@ import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
+import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
+import org.knowm.xchange.bittrex.dto.account.BittrexNewAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.Currency;
@@ -65,7 +68,26 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
         currency.getCurrencyCode());
   }
 
-  public BittrexAccountVolume getAccountVolume() throws IOException {
+  public List<BittrexAddress> getBittrexDepositAddresses(String currency) throws IOException {
+    if (currency == null) {
+      return bittrexAuthenticated.getAddresses(
+          apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+    }
+    return Arrays.asList(
+        bittrexAuthenticated.getAddress(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, currency));
+  }
+
+  public BittrexAddress generateBittrexDepositAddress(String currency) throws IOException {
+    return bittrexAuthenticated.generateAddress(
+        apiKey,
+        System.currentTimeMillis(),
+        contentCreator,
+        signatureCreator,
+        new BittrexNewAddress(new Currency(currency)));
+  }
+
+  public BittrexAccountVolume getBittrexAccountVolume() throws IOException {
     return bittrexAuthenticated.getAccountVolume(
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
   }

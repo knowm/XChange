@@ -16,9 +16,9 @@ import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -201,22 +201,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     for (int i = 0; i < ordersList.size(); i++) {
       BtcMarketsAssert.assertEquals(ordersList.get(i), expectedParsedBtcMarketsOrders[i]);
     }
-  }
-
-  @Test
-  public void shouldParsePlaceOrderResponse() throws IOException {
-    // when
-    final BTCMarketsPlaceOrderResponse response = parse(BTCMarketsPlaceOrderResponse.class);
-
-    // then
-    assertThat(response.getSuccess()).isTrue();
-    assertThat(response.getErrorCode()).isNull();
-    assertThat(response.getErrorMessage()).isNull();
-    assertThat(response.getId()).isEqualTo(100);
-    assertThat(response.getClientRequestId()).isEqualTo("abc-cdf-1000");
-    assertThat(response.toString())
-        .isEqualTo(
-            "BTCMarketsPlaceOrderResponse{success=true, errorMessage='null', errorCode=null}");
   }
 
   @Test
