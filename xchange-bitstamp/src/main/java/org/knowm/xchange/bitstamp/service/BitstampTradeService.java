@@ -24,7 +24,16 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelAllOrders;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
@@ -121,7 +130,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     Long limit = null;
     CurrencyPair currencyPair = null;
     Long offset = null;
-    TradeHistoryParamsSorted.Order sort = null;
+    TradeHistoryParamsSorted.Order order = null;
     Long sinceTimestamp = null;
     Long sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
@@ -134,7 +143,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
       offset = ((TradeHistoryParamOffset) params).getOffset();
     }
     if (params instanceof TradeHistoryParamsSorted) {
-      sort = ((TradeHistoryParamsSorted) params).getOrder();
+      order = ((TradeHistoryParamsSorted) params).getOrder();
     }
     if (params instanceof TradeHistoryParamsTimeSpan) {
       sinceTimestamp =
@@ -146,14 +155,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
               .map(Long::parseLong)
               .orElse(null);
     }
-    BitstampUserTransaction[] txs =
-        getBitstampUserTransactions(
-            limit,
-            currencyPair,
-            offset,
-            sort == null ? null : sort.toString(),
-            sinceTimestamp,
-            sinceId);
+    BitstampUserTransaction[] txs;
+    final String sort = order == null ? null : order.toString();
+    if (currencyPair == null) {
+      txs = getBitstampUserTransactions(limit, offset, sort, sinceTimestamp, sinceId);
+    } else {
+      txs = getBitstampUserTransactions(limit, currencyPair, offset, sort, sinceTimestamp, sinceId);
+    }
+
     return BitstampAdapters.adaptTradeHistory(txs);
   }
 
