@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.CoinMarketCap;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapCurrency;
 import org.knowm.xchange.coinmarketcap.deprecated.v2.dto.marketdata.CoinMarketCapTicker;
@@ -11,7 +12,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author allenday */
 class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements BaseService {
@@ -22,10 +22,9 @@ class CoinMarketCapMarketDataServiceRaw extends BaseExchangeService implements B
 
     super(exchange);
     this.coinmarketcap =
-        RestProxyFactory.createProxy(
-            CoinMarketCap.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinMarketCap.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public CoinMarketCapTicker getCoinMarketCapTicker(CurrencyPair pair) {
