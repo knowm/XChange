@@ -1,11 +1,11 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,7 +17,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.btcmarkets.BTCMarkets;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
+import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticatedV3;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
@@ -25,32 +27,58 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(RestProxyFactory.class)
+@PrepareForTest(ExchangeRestProxyBuilder.class)
 public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
 
   private BTCMarketsAuthenticated btcm;
+  private BTCMarketsAuthenticatedV3 btcmv3;
+  private BTCMarkets btcMarkets;
   private BTCMarketsAccountService accountService;
 
   @Before
   public void setUp() {
     btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.mockStatic(RestProxyFactory.class);
-    given(RestProxyFactory.createProxy(eq(BTCMarketsAuthenticated.class), any(), any(), any()))
-        .willReturn(btcm);
+    btcmv3 = mock(BTCMarketsAuthenticatedV3.class);
+    PowerMockito.mockStatic(ExchangeRestProxyBuilder.class);
+
+    final ExchangeSpecification defaultExchangeSpecification =
+        new BTCMarketsExchange().getDefaultExchangeSpecification();
+
+    ExchangeRestProxyBuilder<BTCMarketsAuthenticated> exchangeRestProxyBuilderMock =
+        mock(ExchangeRestProxyBuilder.class);
+    given(
+            ExchangeRestProxyBuilder.forInterface(
+                eq(BTCMarketsAuthenticated.class), eq(defaultExchangeSpecification)))
+        .willReturn(exchangeRestProxyBuilderMock);
+    ExchangeRestProxyBuilder<BTCMarketsAuthenticatedV3> exchangeRestProxyBuilderV3Mock =
+        mock(ExchangeRestProxyBuilder.class);
+    ExchangeRestProxyBuilder<BTCMarkets> exchangeRestProxyBuilderBTCMarketsMock =
+        mock(ExchangeRestProxyBuilder.class);
+
+    given(ExchangeRestProxyBuilder.forInterface(eq(BTCMarketsAuthenticated.class), any()))
+        .willReturn(exchangeRestProxyBuilderMock);
+    given(ExchangeRestProxyBuilder.forInterface(eq(BTCMarketsAuthenticatedV3.class), any()))
+        .willReturn(exchangeRestProxyBuilderV3Mock);
+    given(ExchangeRestProxyBuilder.forInterface(eq(BTCMarkets.class), any()))
+        .willReturn(exchangeRestProxyBuilderBTCMarketsMock);
+
+    when(exchangeRestProxyBuilderMock.build()).thenReturn(btcm);
+    when(exchangeRestProxyBuilderV3Mock.build()).thenReturn(btcmv3);
+    when(exchangeRestProxyBuilderBTCMarketsMock.build()).thenReturn(btcMarkets);
     BTCMarketsExchange exchange =
         (BTCMarketsExchange)
             ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
@@ -134,14 +162,25 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     assertThat(result).isNull();
   }
 
-  @Test(expected = NotYetImplementedForExchangeException.class)
-  public void shouldFailWhenRequestDepositAddress() throws IOException {
+  @Test
+  public void shouldRequestDepositAddress() throws IOException {
+    BTCMarketsAddressesResponse response = new BTCMarketsAddressesResponse("address");
+
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+    PowerMockito.when(
+            btcmv3.depositAddress(
+                Mockito.eq(SPECIFICATION_API_KEY),
+                Mockito.any(SynchronizedValueFactory.class),
+                Mockito.any(BTCMarketsDigestV3.class),
+                captor.capture()))
+        .thenReturn(response);
     // when
-    accountService.requestDepositAddress(Currency.BTC);
+    String address = accountService.requestDepositAddress(Currency.BTC);
 
     // then
-    fail(
-        "BTCMarketsAccountService should throw NotYetImplementedForExchangeException when call requestDepositAddress");
+    assertThat(captor.getValue()).isEqualTo("BTC");
+    assertThat(address).isEqualTo("address");
   }
 
   @Test

@@ -1,13 +1,13 @@
 package org.knowm.xchange.gateio.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAuthenticated;
 import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class GateioBaseService extends BaseExchangeService implements BaseService {
 
@@ -25,10 +25,9 @@ public class GateioBaseService extends BaseExchangeService implements BaseServic
     super(exchange);
 
     this.bter =
-        RestProxyFactory.createProxy(
-            GateioAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                GateioAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         GateioHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
