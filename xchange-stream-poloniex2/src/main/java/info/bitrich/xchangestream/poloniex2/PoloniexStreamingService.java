@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +27,12 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
   public PoloniexStreamingService(String apiUrl) {
     super(
-            apiUrl,
-            Integer.MAX_VALUE,
-            DEFAULT_CONNECTION_TIMEOUT,
-            DEFAULT_RETRY_DURATION,
-            2,
-            new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        apiUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        2,
+        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
   }
 
   @Override

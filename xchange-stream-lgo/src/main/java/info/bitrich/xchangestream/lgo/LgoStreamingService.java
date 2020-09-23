@@ -17,12 +17,13 @@ public class LgoStreamingService extends JsonNettyStreamingService {
   private final String apiUrl;
 
   LgoStreamingService(LgoSignatureService signatureService, String apiUrl) {
-    super(apiUrl,
-            Integer.MAX_VALUE,
-            Duration.ofSeconds(10),
-            Duration.ofSeconds(15),
-            1,
-            new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+    super(
+        apiUrl,
+        Integer.MAX_VALUE,
+        Duration.ofSeconds(10),
+        Duration.ofSeconds(15),
+        1,
+        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
     this.apiUrl = apiUrl;
     this.signatureService = signatureService;
   }
