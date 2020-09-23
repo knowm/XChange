@@ -14,6 +14,7 @@ import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import java.io.IOException;
@@ -53,14 +54,21 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds,
+      RateController rateController,
       final Supplier<KrakenWebsocketToken> authData) {
-    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    super(
+        uri,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds,
+        rateController);
     this.isPrivate = isPrivate;
     this.authData = authData;
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 
@@ -227,9 +235,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler) {
+      WebSocketClientHandler.WebSocketMessageHandler handler,
+      RateController rateController) {
     LOG.info("Registering KrakenWebSocketClientHandler");
-    return new KrakenWebSocketClientHandler(handshaker, handler);
+    return new KrakenWebSocketClientHandler(handshaker, handler, rateController);
   }
 
   private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
@@ -241,8 +250,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   class KrakenWebSocketClientHandler extends NettyWebSocketClientHandler {
 
     public KrakenWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-      super(handshaker, handler);
+        WebSocketClientHandshaker handshaker,
+        WebSocketMessageHandler handler,
+        RateController rateController) {
+      super(handshaker, handler, rateController);
     }
 
     @Override

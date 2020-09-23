@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler.WebSocketMessageHandler;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
+import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +26,13 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   public HuobiStreamingService(String apiUrl) {
-    super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(5), Duration.ofSeconds(20), 20);
+    super(
+            apiUrl,
+            Integer.MAX_VALUE,
+            Duration.ofSeconds(5),
+            Duration.ofSeconds(20),
+            20,
+            new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
   }
 
   @Override
@@ -43,7 +51,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
       sendMessage("{\"pong\": " + ping + "}");
       return null;
     }
-    if (status != null && status.equals("ok")) {
+    if ("ok".equals(status)) {
       String subbed = message.get("subbed").textValue();
       LOG.debug("Subscribe [{}] is ok", subbed);
       return null;
@@ -75,13 +83,10 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
-      WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-    return new HuobiWebSocketClientHandler(handshaker, handler);
-  }
-
-  @Override
-  protected void handleChannelMessage(String channel, JsonNode message) {
-    if (channel != null) super.handleChannelMessage(channel, message);
+      WebSocketClientHandshaker handshaker,
+      WebSocketMessageHandler handler,
+      RateController rateController) {
+    return new HuobiWebSocketClientHandler(handshaker, handler, rateController);
   }
 
   /**
@@ -90,8 +95,10 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
    */
   private class HuobiWebSocketClientHandler extends NettyWebSocketClientHandler {
     public HuobiWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-      super(handshaker, handler);
+            WebSocketClientHandshaker handshaker,
+            WebSocketMessageHandler handler,
+            RateController rateController) {
+      super(handshaker, handler, rateController);
     }
 
     @Override
@@ -101,7 +108,6 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
         super.channelRead0(ctx, msg);
         return;
       }
-
       super.channelRead0(ctx, msg);
 
       WebSocketFrame frame = (WebSocketFrame) msg;

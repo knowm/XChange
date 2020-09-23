@@ -3,6 +3,8 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
+
 import java.io.IOException;
 import java.time.Duration;
 
@@ -21,19 +23,16 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds) {
-    super(baseUri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+      int idleTimeoutSeconds,
+      RateController rateController) {
+    super(
+        baseUri,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds,
+        rateController);
     this.productSubscription = productSubscription;
-  }
-
-  @Override
-  public void messageHandler(String message) {
-    super.messageHandler(message);
-  }
-
-  @Override
-  protected void handleMessage(JsonNode message) {
-    super.handleMessage(message);
   }
 
   @Override

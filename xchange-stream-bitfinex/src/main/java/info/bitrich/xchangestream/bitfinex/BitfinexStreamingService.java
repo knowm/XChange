@@ -14,6 +14,8 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMess
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
+import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -25,12 +27,12 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
@@ -84,14 +86,20 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private String apiKey;
   private String apiSecret;
 
-  private final Map<String, String> subscribedChannels = new HashMap<>();
+  private final Map<String, String> subscribedChannels = new ConcurrentHashMap<>();
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   private final BlockingQueue<String> calculationQueue = new LinkedBlockingQueue<>();
   private Disposable calculator;
 
   public BitfinexStreamingService(String apiUrl, SynchronizedValueFactory<Long> nonceFactory) {
-    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 30);
+    super(
+        apiUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        30,
+        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
     this.nonceFactory = nonceFactory;
   }
 
@@ -101,8 +109,15 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+      int idleTimeoutSeconds,
+      RateController rateController) {
+    super(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds,
+        rateController);
     this.nonceFactory = nonceFactory;
   }
 
@@ -127,7 +142,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 

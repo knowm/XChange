@@ -2,6 +2,8 @@ package info.bitrich.xchangestream.service.netty;
 
 import info.bitrich.xchangestream.service.ConnectableService;
 import info.bitrich.xchangestream.service.exception.NotConnectedException;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
+import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -55,6 +57,7 @@ import org.slf4j.LoggerFactory;
 public abstract class NettyStreamingService<T> extends ConnectableService {
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
+  protected static final Duration DEFAULT_RATE_LIMIT_INTERVAL = Duration.ofSeconds(30);
   protected static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
@@ -81,6 +84,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private volatile NioEventLoopGroup eventLoopGroup;
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
+  private final RateController rateController;
+
   private final PublishSubject<Throwable> reconnFailEmitters = PublishSubject.create();
   private final PublishSubject<Object> connectionSuccessEmitters = PublishSubject.create();
   private final PublishSubject<Object> disconnectEmitters = PublishSubject.create();
@@ -107,7 +112,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration) {
-    this(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, DEFAULT_IDLE_TIMEOUT);
+    this(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        DEFAULT_IDLE_TIMEOUT,
+        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
   }
 
   public NettyStreamingService(
@@ -115,11 +126,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds) {
+      int idleTimeoutSeconds,
+      RateController rateController) {
     this.maxFramePayloadLength = maxFramePayloadLength;
     this.retryDuration = retryDuration;
     this.connectionTimeout = connectionTimeout;
     this.idleTimeoutSeconds = idleTimeoutSeconds;
+    this.rateController = rateController;
     try {
       this.uri = new URI(apiUrl);
     } catch (URISyntaxException e) {
@@ -179,7 +192,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                             true,
                             getCustomHeaders(),
                             maxFramePayloadLength),
-                        this::messageHandler);
+                        this::messageHandler,
+                        rateController);
 
                 if (eventLoopGroup == null || eventLoopGroup.isShutdown()) {
                   eventLoopGroup = new NioEventLoopGroup(2);
@@ -327,8 +341,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
    * rateLimit the messages sent out. Override this method to provide a rateLimiter, and call
    * acquire on the rate limiter, to slow down out going messages.
    */
-  protected void sendMessageRateLimiterAcquire() {
-    // no rate limiter by default
+  protected Completable sendMessageRateLimiterAcquire() {
+    return Completable.fromRunnable(rateController::acquire);
   }
   /**
    * Handler that receives incoming messages.
@@ -349,9 +363,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.warn("Cannot send data to WebSocket as it is not writable.");
       return;
     }
-
     if (message != null) {
-      sendMessageRateLimiterAcquire();
+      sendMessageRateLimiterAcquire().blockingAwait();
       WebSocketFrame frame = new TextWebSocketFrame(message);
       webSocketChannel.writeAndFlush(frame);
     }
@@ -459,6 +472,10 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   protected void handleChannelMessage(String channel, T message) {
+    if (channel == null) {
+      LOG.debug("Channel provided is null");
+      return;
+    }
     NettyStreamingService<T>.Subscription subscription = channels.get(channel);
     if (subscription == null) {
       LOG.debug("Channel has been closed {}.", channel);
@@ -494,14 +511,18 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler) {
-    return new NettyWebSocketClientHandler(handshaker, handler);
+      WebSocketClientHandler.WebSocketMessageHandler handler,
+      RateController rateController) {
+    return new NettyWebSocketClientHandler(handshaker, handler, rateController);
   }
 
   protected class NettyWebSocketClientHandler extends WebSocketClientHandler {
+
     protected NettyWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-      super(handshaker, handler);
+        WebSocketClientHandshaker handshaker,
+        WebSocketMessageHandler handler,
+        RateController rateController) {
+      super(handshaker, handler, rateController);
     }
 
     @Override
@@ -511,7 +532,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       } else {
         super.channelInactive(ctx);
         disconnectEmitters.onNext(new Object());
-        LOG.info("Reopening websocket because it was closed");
+        LOG.info("Reopening Websocket Client because it was closed! {}", ctx.channel());
         scheduleReconnect();
       }
     }
