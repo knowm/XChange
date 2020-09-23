@@ -27,12 +27,12 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
 
   public HuobiStreamingService(String apiUrl) {
     super(
-            apiUrl,
-            Integer.MAX_VALUE,
-            Duration.ofSeconds(5),
-            Duration.ofSeconds(20),
-            20,
-            new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        apiUrl,
+        Integer.MAX_VALUE,
+        Duration.ofSeconds(5),
+        Duration.ofSeconds(20),
+        20,
+        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
   }
 
   @Override
@@ -95,9 +95,9 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
    */
   private class HuobiWebSocketClientHandler extends NettyWebSocketClientHandler {
     public HuobiWebSocketClientHandler(
-            WebSocketClientHandshaker handshaker,
-            WebSocketMessageHandler handler,
-            RateController rateController) {
+        WebSocketClientHandshaker handshaker,
+        WebSocketMessageHandler handler,
+        RateController rateController) {
       super(handshaker, handler, rateController);
     }
 

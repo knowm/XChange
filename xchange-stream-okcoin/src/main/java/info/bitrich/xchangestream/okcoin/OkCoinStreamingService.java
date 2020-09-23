@@ -44,8 +44,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
                   pingPongSubscription.dispose();
                 }
                 pingPongSubscription =
-                    pingPongSrc.subscribe(
-                        o -> this.sendMessage("{\"event\":\"ping\"}"));
+                    pingPongSrc.subscribe(o -> this.sendMessage("{\"event\":\"ping\"}"));
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
@@ -91,9 +90,9 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
-          WebSocketClientHandshaker handshaker,
-          WebSocketClientHandler.WebSocketMessageHandler handler,
-          RateController rateController) {
+      WebSocketClientHandshaker handshaker,
+      WebSocketClientHandler.WebSocketMessageHandler handler,
+      RateController rateController) {
     return new OkCoinNettyWebSocketClientHandler(handshaker, handler, rateController);
   }
 
@@ -102,7 +101,9 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     private final Logger LOG = LoggerFactory.getLogger(OkCoinNettyWebSocketClientHandler.class);
 
     protected OkCoinNettyWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler, RateController rateController) {
+        WebSocketClientHandshaker handshaker,
+        WebSocketMessageHandler handler,
+        RateController rateController) {
       super(handshaker, handler, rateController);
     }
 
