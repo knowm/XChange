@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.ratecontrol.RateController;
-
 import java.io.IOException;
 import java.time.Duration;
 
