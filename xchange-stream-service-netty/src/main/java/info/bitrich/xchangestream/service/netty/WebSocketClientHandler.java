@@ -1,11 +1,13 @@
 package info.bitrich.xchangestream.service.netty;
 
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.ContinuationWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
@@ -28,12 +30,16 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
   protected final WebSocketClientHandshaker handshaker;
   protected final WebSocketMessageHandler handler;
+  private final RateController rateController;
   private ChannelPromise handshakeFuture;
 
   public WebSocketClientHandler(
-      WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+      WebSocketClientHandshaker handshaker,
+      WebSocketMessageHandler handler,
+      RateController rateController) {
     this.handshaker = handshaker;
     this.handler = handler;
+    this.rateController = rateController;
   }
 
   public ChannelFuture handshakeFuture() {
@@ -65,6 +71,13 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         handshakeFuture.setSuccess();
       } catch (WebSocketHandshakeException e) {
         LOG.error("WebSocket Client failed to connect. {} {}", e.getMessage(), ctx.channel());
+        if (((FullHttpResponse) msg).status().code()
+            == HttpResponseStatus.TOO_MANY_REQUESTS.code()) {
+          LOG.error("Websocket Client received HTTP 429! {}", ctx.channel());
+          if (rateController != null) {
+            rateController.halt();
+          }
+        }
         handshakeFuture.setFailure(e);
       }
       return;
@@ -91,7 +104,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     } else if (frame instanceof PongWebSocketFrame) {
       LOG.debug("WebSocket Client received pong");
     } else if (frame instanceof CloseWebSocketFrame) {
-      LOG.info("WebSocket Client {} received closing", ctx.channel());
+      LOG.info("WebSocket Client received closing! {}", ctx.channel());
       ch.close();
     }
   }

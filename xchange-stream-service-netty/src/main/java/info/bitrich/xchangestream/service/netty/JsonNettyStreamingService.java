@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.time.Duration;
+
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +27,18 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+      int idleTimeoutSeconds,
+      RateController rateController) {
+    super(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds,
+        rateController);
   }
 
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return true;
   }
 
@@ -46,7 +55,7 @@ public abstract class JsonNettyStreamingService extends NettyStreamingService<Js
       return;
     }
 
-    if (processArrayMassageSeparately() && jsonNode.isArray()) {
+    if (processArrayMessageSeparately() && jsonNode.isArray()) {
       // In case of array - handle every message separately.
       for (JsonNode node : jsonNode) {
         handleMessage(node);

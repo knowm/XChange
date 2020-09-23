@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.gemini;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import java.io.IOException;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +15,12 @@ public class GeminiProductStreamingService extends JsonNettyStreamingService {
   private final CurrencyPair currencyPair;
 
   public GeminiProductStreamingService(String symbolUrl, CurrencyPair currencyPair) {
-    super(
-        symbolUrl,
-        Integer.MAX_VALUE,
-        DEFAULT_CONNECTION_TIMEOUT,
-        DEFAULT_RETRY_DURATION,
-        DEFAULT_IDLE_TIMEOUT);
+    super(symbolUrl, Integer.MAX_VALUE);
     this.currencyPair = currencyPair;
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 

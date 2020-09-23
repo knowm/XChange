@@ -11,14 +11,15 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
+import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -30,7 +31,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String SHARE_CHANNEL_NAME = "ALL";
-  private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
+  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
   private final boolean subscribeL3Orderbook;
@@ -52,9 +53,16 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds,
+      RateController rateController,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    super(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds,
+        rateController);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -128,11 +136,6 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  protected void handleMessage(JsonNode message) {
-    super.handleMessage(message);
-  }
-
-  @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
@@ -140,9 +143,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler) {
+      WebSocketClientHandler.WebSocketMessageHandler handler,
+      RateController rateController) {
     LOG.info("Registering CoinbaseProWebSocketClientHandler");
-    return new CoinbaseProWebSocketClientHandler(handshaker, handler);
+    return new CoinbaseProWebSocketClientHandler(handshaker, handler, rateController);
   }
 
   public void setChannelInactiveHandler(
@@ -161,8 +165,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   class CoinbaseProWebSocketClientHandler extends NettyWebSocketClientHandler {
 
     public CoinbaseProWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
-      super(handshaker, handler);
+        WebSocketClientHandshaker handshaker,
+        WebSocketMessageHandler handler,
+        RateController rateController) {
+      super(handshaker, handler, rateController);
     }
 
     @Override
