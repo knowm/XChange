@@ -85,6 +85,22 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getResult();
   }
 
+  @GET
+	@Path("edit")
+	DeribitResponse<OrderPlacement> edit(
+			@QueryParam("order_id") String orderID,
+			@QueryParam("amount") BigDecimal amount, 
+			@QueryParam("price") BigDecimal price,
+			// @QueryParam("post_only") Boolean postOnly,
+			// @QueryParam("reduce_only") Boolean reduceOnly,
+			// @QueryParam("reject_post_only") Boolean reducePostOnly,
+			// @QueryParam("advanced") AdvancedOptions advanced,
+			// @QueryParam("stop_price") BigDecimal stopPrice,
+			// @QueryParam("mp") Boolean mp,
+			// here is/was a bug! on the website it says mmp, but if you tipe in mmp, you get a
+			// bad request 400.
+			@HeaderParam("Authorization") ParamsDigest auth) throws DeribitException, IOException;
+  
   public Order cancel(String orderId) throws IOException {
     return deribitAuthenticated.cancel(orderId, deribitAuth).getResult();
   }
