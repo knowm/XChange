@@ -21,7 +21,7 @@ public class MarketDataIntegration {
 
   @BeforeClass
   public static void setUp() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class);
     marketDataService = (BittrexMarketDataService) exchange.getMarketDataService();
   }
 

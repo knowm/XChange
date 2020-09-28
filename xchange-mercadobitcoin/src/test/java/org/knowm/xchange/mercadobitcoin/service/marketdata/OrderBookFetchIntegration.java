@@ -16,8 +16,7 @@ public class OrderBookFetchIntegration {
   @Test
   public void orderbookFetchTest() throws Exception {
 
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     OrderBook orderBook;

@@ -15,7 +15,7 @@ public class CampBXAccountDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Campbx exchange API using default settings
-    Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class);
 
     campbx.getExchangeSpecification().setUserName("XChange");
     campbx.getExchangeSpecification().setPassword("The Java API");

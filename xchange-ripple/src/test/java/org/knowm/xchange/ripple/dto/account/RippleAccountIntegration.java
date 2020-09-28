@@ -13,8 +13,7 @@ public class RippleAccountIntegration {
 
   @Test
   public void accountSettingsTest() throws IOException {
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final RippleAccountServiceRaw accountService =
         (RippleAccountServiceRaw) exchange.getAccountService();
     final RippleSettings settings =

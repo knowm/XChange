@@ -8,7 +8,7 @@ import org.knowm.xchange.utils.AuthUtils;
 public class CoinbaseDemoUtils {
 
   public static Exchange createExchange() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification(), "coinbase");
     return exchange;
   }

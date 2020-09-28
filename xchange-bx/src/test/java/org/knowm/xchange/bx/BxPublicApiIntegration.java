@@ -16,7 +16,7 @@ public class BxPublicApiIntegration {
 
   @Test
   public void getTickerTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     CurrencyPair pair = new CurrencyPair("THB", "BTC");
     Ticker ticker = marketDataService.getTicker(pair);
@@ -30,7 +30,7 @@ public class BxPublicApiIntegration {
 
   @Test
   public void getExchangeSymbolsTest() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BxExchange.class);
     List<CurrencyPair> pairs = exchange.getExchangeSymbols();
     System.out.println(Arrays.toString(pairs.toArray()));
     assertThat(pairs).isNotNull();
