@@ -10,8 +10,7 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 public class InteractiveAuthenticatedExchange {
 
   public static Exchange createInstanceFromDefaultInput() {
-    Exchange mercadoBitcoin =
-        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+    Exchange mercadoBitcoin = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
     ExchangeSpecification exchangeSpecification = mercadoBitcoin.getExchangeSpecification();
 
     Scanner s = new Scanner(System.in);

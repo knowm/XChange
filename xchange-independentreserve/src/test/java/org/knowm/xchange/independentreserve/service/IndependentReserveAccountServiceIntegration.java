@@ -16,7 +16,7 @@ public class IndependentReserveAccountServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     exchange = ExchangeFactory.INSTANCE.createExchange(exchange.getExchangeSpecification());
     accountService = (IndependentReserveAccountService) exchange.getAccountService();

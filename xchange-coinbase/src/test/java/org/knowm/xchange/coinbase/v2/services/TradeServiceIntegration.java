@@ -26,7 +26,7 @@ public class TradeServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     tradeService = exchange.getTradeService();
   }

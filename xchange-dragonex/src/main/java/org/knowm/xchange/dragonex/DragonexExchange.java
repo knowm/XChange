@@ -95,7 +95,7 @@ public class DragonexExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://openapi.dragonex.io/");
     spec.setHost("openapi.dragonex.io");
     spec.setPort(80);

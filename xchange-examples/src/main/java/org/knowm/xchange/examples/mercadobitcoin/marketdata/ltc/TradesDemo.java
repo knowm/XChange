@@ -23,8 +23,7 @@ public class TradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Mercado Bitcoin exchange API using default settings
-    Exchange mercadoBitcoin =
-        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+    Exchange mercadoBitcoin = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = mercadoBitcoin.getMarketDataService();

@@ -29,8 +29,7 @@ public class BitZExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.bit-z.com");
     exchangeSpecification.setHost("http://www.bit-z.com");
     exchangeSpecification.setPort(80);

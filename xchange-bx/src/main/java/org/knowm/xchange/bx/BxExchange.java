@@ -32,8 +32,7 @@ public class BxExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://bx.in.th");
     exchangeSpecification.setHost("bx.in.th");
     exchangeSpecification.setPort(80);

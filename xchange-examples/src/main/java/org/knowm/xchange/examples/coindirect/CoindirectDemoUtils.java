@@ -14,10 +14,9 @@ public class CoindirectDemoUtils {
 
     if (apiKey != null && apiSecret != null) {
       exchange =
-          ExchangeFactory.INSTANCE.createExchange(
-              CoindirectExchange.class.getName(), apiKey, apiSecret);
+          ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class, apiKey, apiSecret);
     } else {
-      exchange = ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class.getName());
+      exchange = ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class);
     }
 
     /** substitute this with an exchange with your credentials to test authenticated services */
