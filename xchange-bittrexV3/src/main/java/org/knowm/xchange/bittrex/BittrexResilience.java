@@ -14,13 +14,13 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 public final class BittrexResilience {
 
   // rest public endpoints except GET /markets/{marketSymbol}/orderbook
-  public static final String PUBLIC_ENDPOINTS_PER_SECOND_RATE_LIMITER = "publicEndpointsPerSecond";
+  public static final String PUBLIC_ENDPOINTS_RATE_LIMITER = "publicEndpointsPerSecond";
 
   // rest endpoint: GET /markets/{marketSymbol}/orderbook
-  public static final String GET_ORDER_BOOKS_PER_SECOND_RATE_LIMITER = "getOrderBooksPerSecond";
+  public static final String GET_ORDER_BOOKS_RATE_LIMITER = "getOrderBooksPerSecond";
 
   // rest endpoint: GET /orders/closed
-  public static final String GET_CLOSED_ORDERS_PER_SECOND_RATE_LIMITER = "getClosedOrdersPerSecond";
+  public static final String GET_CLOSED_ORDERS_RATE_LIMITER = "getClosedOrdersPerSecond";
 
   private BittrexResilience() {}
 
@@ -29,7 +29,7 @@ public final class BittrexResilience {
     registries
         .rateLimiters()
         .rateLimiter(
-            GET_ORDER_BOOKS_PER_SECOND_RATE_LIMITER,
+            GET_ORDER_BOOKS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(600)
@@ -37,7 +37,7 @@ public final class BittrexResilience {
     registries
         .rateLimiters()
         .rateLimiter(
-            GET_CLOSED_ORDERS_PER_SECOND_RATE_LIMITER,
+            GET_CLOSED_ORDERS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(20)
@@ -45,12 +45,11 @@ public final class BittrexResilience {
     registries
         .rateLimiters()
         .rateLimiter(
-            PUBLIC_ENDPOINTS_PER_SECOND_RATE_LIMITER,
+            PUBLIC_ENDPOINTS_RATE_LIMITER,
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(60)
                 .build());
-
     return registries;
   }
 }
