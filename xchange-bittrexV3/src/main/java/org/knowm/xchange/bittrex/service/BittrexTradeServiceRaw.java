@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
@@ -13,6 +14,7 @@ import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -25,8 +27,8 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexTradeServiceRaw(BittrexExchange exchange) {
-    super(exchange);
+  public BittrexTradeServiceRaw(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+    super(exchange, bittrex, resilienceRegistries);
   }
 
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
