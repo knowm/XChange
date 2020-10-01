@@ -6,7 +6,11 @@ import org.knowm.xchange.client.ResilienceRegistries;
 
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 
-/** Rate limits values provided by the Bittrex team, as of Oct. 1st 2020 */
+/** Rate limits values provided by the Bittrex team, as of Oct. 1st 2020
+ * public endpoints except order books: 60/min
+ * order books: 600/min
+ * closed orders: 20/min
+ * */
 public final class BittrexResilience {
 
   // rest public endpoints except GET /markets/{marketSymbol}/orderbook
