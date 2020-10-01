@@ -20,7 +20,10 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
    *
    * @param exchange
    */
-  public BittrexAccountService(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+  public BittrexAccountService(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, bittrex, resilienceRegistries);
   }
 

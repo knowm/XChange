@@ -31,7 +31,10 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
    *
    * @param exchange
    */
-  public BittrexTradeService(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+  public BittrexTradeService(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, bittrex, resilienceRegistries);
   }
 
