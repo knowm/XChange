@@ -1,5 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
+import static org.knowm.xchange.bittrex.BittrexResilience.GET_CLOSED_ORDERS_RATE_LIMITER;
+
 import java.io.IOException;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -27,7 +29,10 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexTradeServiceRaw(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+  public BittrexTradeServiceRaw(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, bittrex, resilienceRegistries);
   }
 
@@ -72,13 +77,18 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   public List<BittrexOrder> getBittrexUserTradeHistory(CurrencyPair currencyPair)
       throws IOException {
-    return bittrexAuthenticated.getClosedOrders(
-        apiKey,
-        System.currentTimeMillis(),
-        contentCreator,
-        signatureCreator,
-        BittrexUtils.toPairString(currencyPair),
-        200);
+    return decorateApiCall(
+            () ->
+                bittrexAuthenticated.getClosedOrders(
+                    apiKey,
+                    System.currentTimeMillis(),
+                    contentCreator,
+                    signatureCreator,
+                    BittrexUtils.toPairString(currencyPair),
+                    200))
+        .withRetry(retry("getClosedOrders"))
+        .withRateLimiter(rateLimiter(GET_CLOSED_ORDERS_RATE_LIMITER))
+        .call();
   }
 
   public List<BittrexOrder> getBittrexUserTradeHistory() throws IOException {
