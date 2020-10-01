@@ -25,14 +25,14 @@ public class CoinbaseProWebSocketSubscriptionMessage {
   public static final String PASSPHRASE = "passphrase";
   public static final String TIMESTAMP = "timestamp";
 
-  class CoinbaseProProductSubsctiption {
+  class CoinbaseProProductSubscription {
     @JsonProperty(NAME)
     private final String name;
 
     @JsonProperty(PRODUCT_IDS)
     private final String[] productIds;
 
-    public CoinbaseProProductSubsctiption(
+    public CoinbaseProProductSubscription(
         String name, String[] productIds, CoinbaseProWebsocketAuthData authData) {
       this.name = name;
       this.productIds = productIds;
@@ -51,7 +51,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
   private final String type;
 
   @JsonProperty(CHANNELS)
-  private CoinbaseProProductSubsctiption[] channels;
+  private CoinbaseProProductSubscription[] channels;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty(SIGNATURE)
@@ -70,9 +70,12 @@ public class CoinbaseProWebSocketSubscriptionMessage {
   String timestamp;
 
   public CoinbaseProWebSocketSubscriptionMessage(
-      String type, ProductSubscription product, CoinbaseProWebsocketAuthData authData) {
+      String type,
+      ProductSubscription product,
+      boolean l3orderbook,
+      CoinbaseProWebsocketAuthData authData) {
     this.type = type;
-    generateSubscriptionMessage(product, authData);
+    generateSubscriptionMessage(product, l3orderbook, authData);
   }
 
   public CoinbaseProWebSocketSubscriptionMessage(
@@ -87,32 +90,38 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       productIds.add(pair.base.toString() + "-" + pair.counter.toString());
     }
 
-    return productIds.toArray(new String[productIds.size()]);
+    return productIds.toArray(new String[0]);
   }
 
-  private CoinbaseProProductSubsctiption generateCoinbaseProProduct(
+  private CoinbaseProProductSubscription generateCoinbaseProProduct(
       String name, CurrencyPair[] pairs, CoinbaseProWebsocketAuthData authData) {
     String[] productsIds;
     productsIds = generateProductIds(pairs);
-    return new CoinbaseProProductSubsctiption(name, productsIds, authData);
+    return new CoinbaseProProductSubscription(name, productsIds, authData);
   }
 
   private void generateSubscriptionMessage(
       String[] channelNames, CoinbaseProWebsocketAuthData authData) {
-    List<CoinbaseProProductSubsctiption> channels = new ArrayList<>(3);
+    List<CoinbaseProProductSubscription> channels = new ArrayList<>(3);
     for (String name : channelNames) {
-      channels.add(new CoinbaseProProductSubsctiption(name, null, authData));
+      channels.add(new CoinbaseProProductSubscription(name, null, authData));
     }
 
-    this.channels = channels.toArray(new CoinbaseProProductSubsctiption[channels.size()]);
+    this.channels = channels.toArray(new CoinbaseProProductSubscription[0]);
   }
 
   private void generateSubscriptionMessage(
-      ProductSubscription productSubscription, CoinbaseProWebsocketAuthData authData) {
-    List<CoinbaseProProductSubsctiption> channels = new ArrayList<>(3);
+      ProductSubscription productSubscription,
+      boolean l3orderbook,
+      CoinbaseProWebsocketAuthData authData) {
+    List<CoinbaseProProductSubscription> channels = new ArrayList<>(3);
     Map<String, List<CurrencyPair>> pairs = new HashMap<>(3);
 
-    pairs.put("level2", productSubscription.getOrderBook());
+    if (l3orderbook) {
+      pairs.put("full", productSubscription.getOrderBook());
+    } else {
+      pairs.put("level2", productSubscription.getOrderBook());
+    }
     pairs.put("ticker", productSubscription.getTicker());
     pairs.put("matches", productSubscription.getTrades());
     if (authData != null) {
@@ -131,15 +140,13 @@ public class CoinbaseProWebSocketSubscriptionMessage {
       if (currencyPairs == null || currencyPairs.size() == 0) {
         continue;
       }
-      CoinbaseProProductSubsctiption gdaxProduct =
+      CoinbaseProProductSubscription coinbaseProProduct =
           generateCoinbaseProProduct(
-              product.getKey(),
-              product.getValue().toArray(new CurrencyPair[product.getValue().size()]),
-              authData);
-      channels.add(gdaxProduct);
+              product.getKey(), product.getValue().toArray(new CurrencyPair[0]), authData);
+      channels.add(coinbaseProProduct);
     }
 
-    this.channels = channels.toArray(new CoinbaseProProductSubsctiption[channels.size()]);
+    this.channels = channels.toArray(new CoinbaseProProductSubscription[0]);
 
     if (authData != null) {
       this.key = authData.getKey();
@@ -153,7 +160,7 @@ public class CoinbaseProWebSocketSubscriptionMessage {
     return type;
   }
 
-  public CoinbaseProProductSubsctiption[] getChannels() {
+  public CoinbaseProProductSubscription[] getChannels() {
     return channels;
   }
 }

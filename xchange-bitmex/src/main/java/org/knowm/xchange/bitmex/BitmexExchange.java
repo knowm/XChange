@@ -2,7 +2,12 @@ package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -22,8 +27,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
-
+  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
   protected RateLimitUpdateListener rateLimitUpdateListener;
 
   /** Adjust host parameters depending on exchange specific parameters */
@@ -129,7 +133,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
 
     String bitmexSymbol = ticker.getSymbol();
     String baseSymbol =
-        (ticker.getRootSymbol().equals("XBK") || ticker.getRootSymbol().equals("XBJ"))
+        ("XBK".equals(ticker.getRootSymbol()) || "XBJ".equals(ticker.getRootSymbol()))
             ? "XBT"
             : ticker.getRootSymbol();
     String counterSymbol;
@@ -147,20 +151,23 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   }
 
   private Integer getPriceScale(List<BitmexTicker> tickers, CurrencyPair cp) {
+
     return tickers.stream()
         .filter(ticker -> ticker.getSymbol().equals(BitmexAdapters.adaptCurrencyPairToSymbol(cp)))
         .findFirst()
-        .map(ticker -> ticker.getLastPrice().scale())
-        .get();
+        .map(BitmexTicker::getLastPrice)
+        .filter(Objects::nonNull)
+        .map(BigDecimal::scale)
+        .orElse(null);
   }
 
   public CurrencyPair determineActiveContract(
       String baseSymbol, String counterSymbol, BitmexPrompt contractTimeframe) {
 
-    if (baseSymbol.equals("BTC")) {
+    if ("BTC".equals(baseSymbol)) {
       baseSymbol = "XBT";
     }
-    if (counterSymbol.equals("BTC")) {
+    if ("BTC".equals(counterSymbol)) {
       counterSymbol = "XBT";
     }
 
