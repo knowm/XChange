@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.cryptonit2.CryptonitAuthenticated;
 import org.knowm.xchange.cryptonit2.CryptonitAuthenticatedV2;
 import org.knowm.xchange.cryptonit2.CryptonitV2;
@@ -19,7 +20,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author yurivin */
@@ -32,6 +32,7 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
   private final String apiKey;
   private final SynchronizedValueFactory<Long> nonceFactory;
   private final ObjectMapper mapper = new ObjectMapper();
+
   /**
    * Constructor
    *
@@ -42,15 +43,13 @@ public class CryptonitAccountServiceRaw extends CryptonitBaseService {
     super(exchange);
 
     this.cryptonitAuthenticated =
-        RestProxyFactory.createProxy(
-            CryptonitAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CryptonitAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.cryptonitAuthenticatedV2 =
-        RestProxyFactory.createProxy(
-            CryptonitAuthenticatedV2.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CryptonitAuthenticatedV2.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =

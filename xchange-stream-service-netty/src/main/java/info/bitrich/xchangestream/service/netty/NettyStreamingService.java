@@ -298,7 +298,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                     future -> {
                       channels.clear();
                       eventLoopGroup
-                          .shutdownGracefully(2, 30, TimeUnit.SECONDS)
+                          .shutdownGracefully(2, idleTimeoutSeconds, TimeUnit.SECONDS)
                           .addListener(
                               f -> {
                                 LOG.info("Disconnected");

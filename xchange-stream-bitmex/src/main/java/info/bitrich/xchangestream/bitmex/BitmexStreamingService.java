@@ -19,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class BitmexStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
   private final ObjectMapper mapper = new ObjectMapper();
-  private List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
+  private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
   private final String apiKey;
   private final String secretKey;
@@ -44,6 +45,19 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   public BitmexStreamingService(String apiUrl, String apiKey, String secretKey) {
     super(apiUrl, Integer.MAX_VALUE);
+    this.apiKey = apiKey;
+    this.secretKey = secretKey;
+  }
+
+  public BitmexStreamingService(
+      String apiUrl,
+      String apiKey,
+      String secretKey,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }
@@ -147,7 +161,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     } catch (ParseException e) {
       LOG.error("Error parsing deadman's confirmation ");
     }
-    return;
   }
 
   @Override
@@ -157,12 +170,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
 
   public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
     return subscribeChannel(channelName)
-        .map(
-            s -> {
-              BitmexWebSocketTransaction transaction =
-                  objectMapper.treeToValue(s, BitmexWebSocketTransaction.class);
-              return transaction;
-            })
+        .map(s -> objectMapper.treeToValue(s, BitmexWebSocketTransaction.class))
         .share();
   }
 
@@ -178,7 +186,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     String stringToDigest = "GET/realtime" + expires;
     String signature = bitmexDigester.digestString(stringToDigest);
 
-    customHeaders.add("api-nonce", expires);
     customHeaders.add("api-key", apiKey);
     customHeaders.add("api-signature", signature);
     return customHeaders;
@@ -187,7 +194,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String table = message.get("table").asText();
-    if (table.equals("order") || table.equals("funding") || table.equals("position")) {
+    if ("order".equals(table) || "funding".equals(table) || "position".equals(table)) {
       return table;
     }
     JsonNode data = message.get("data");

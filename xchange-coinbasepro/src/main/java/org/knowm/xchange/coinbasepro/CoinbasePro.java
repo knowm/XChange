@@ -231,6 +231,20 @@ public interface CoinbasePro {
       @QueryParam("limit") Integer limit,
       @QueryParam("after") String createdAtDate);
 
+  @GET
+  @Path("transfers")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinbaseProTransfers transfers(
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @QueryParam("type") String type,
+      @QueryParam("profile_id") String profileId,
+      @QueryParam("before") String beforeDate,
+      @QueryParam("after") String afterDate,
+      @QueryParam("limit") Integer limit);
+
   @POST
   @Path("reports")
   @Consumes(MediaType.APPLICATION_JSON)

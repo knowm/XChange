@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,14 +95,24 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     this.nonceFactory = nonceFactory;
   }
 
+  public BitfinexStreamingService(
+      String apiUrl,
+      SynchronizedValueFactory<Long> nonceFactory,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    this.nonceFactory = nonceFactory;
+  }
+
   @Override
   public Completable connect() {
     return super.connect()
         .doOnComplete(
-            () -> {
-              this.calculator =
-                  Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs());
-            });
+            () ->
+                this.calculator =
+                    Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs()));
   }
 
   @Override

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
@@ -25,7 +27,7 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
@@ -151,33 +153,45 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
    * <p>It honours TradeHistoryParamCurrency for filtering to a single ccy.
    */
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+
+    String fundingRecordType;
+    if (params instanceof HistoryParamsFundingType
+        && ((HistoryParamsFundingType) params).getType() != null) {
+      FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
+      fundingRecordType = type == FundingRecord.Type.WITHDRAWAL ? "withdraw" : "deposit";
+    } else {
+      throw new ExchangeException(
+          "Type 'deposit' or 'withdraw' must be supplied using FundingRecord.Type");
+    }
+
     int maxPageSize = 100;
 
     List<FundingRecord> fundingHistory = new ArrayList<>();
 
-    for (org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount coinbaseProAccount :
-        getCoinbaseProAccountInfo()) {
-      Currency currency = Currency.getInstance(coinbaseProAccount.getCurrency());
+    Map<String, String> accountToCurrencyMap =
+        Stream.of(getCoinbaseProAccountInfo())
+            .collect(
+                Collectors.toMap(
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getId,
+                    org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount::getCurrency));
 
-      if (params instanceof TradeHistoryParamCurrency) {
-        Currency desiredCurrency = ((TradeHistoryParamCurrency) params).getCurrency();
-        if (!desiredCurrency.equals(currency)) continue;
+    String createdAt = null; // use to get next page
+    while (true) {
+      String createdAtFinal = createdAt;
+      CoinbaseProTransfers transfers =
+          transfers(fundingRecordType, null, null, createdAtFinal, maxPageSize);
+
+      for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
+        Currency currency =
+            Currency.getInstance(accountToCurrencyMap.get(coinbaseProTransfer.getAccountId()));
+        fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
       }
 
-      String accountId = coinbaseProAccount.getId();
-      String profileId = coinbaseProAccount.getProfile_id();
-      String createdAt = null; // use to get next page
-
-      while (true) {
-        CoinbaseProTransfers transfers = transfers(accountId, profileId, maxPageSize, createdAt);
-        if (transfers.isEmpty()) break;
-
-        for (CoinbaseProTransfer coinbaseProTransfer : transfers) {
-          fundingHistory.add(CoinbaseProAdapters.adaptFundingRecord(currency, coinbaseProTransfer));
-        }
-
-        createdAt = transfers.getHeader("Cb-After");
+      if (transfers.size() < maxPageSize) {
+        break;
       }
+
+      createdAt = transfers.getHeader("Cb-After");
     }
 
     return fundingHistory;
