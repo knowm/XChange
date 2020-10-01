@@ -39,7 +39,10 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw
    *
    * @param exchange
    */
-  public BittrexMarketDataService(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+  public BittrexMarketDataService(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, bittrex, resilienceRegistries);
   }
 

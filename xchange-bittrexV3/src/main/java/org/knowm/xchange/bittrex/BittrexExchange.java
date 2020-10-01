@@ -32,8 +32,8 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   protected void initServices() {
     this.bittrex =
         ExchangeRestProxyBuilder.forInterface(
-            BittrexAuthenticated.class, getExchangeSpecification())
-                                .build();
+                BittrexAuthenticated.class, getExchangeSpecification())
+            .build();
     this.marketDataService = new BittrexMarketDataService(this, bittrex, getResilienceRegistries());
     this.accountService = new BittrexAccountService(this, bittrex, getResilienceRegistries());
     this.tradeService = new BittrexTradeService(this, bittrex, getResilienceRegistries());
@@ -51,6 +51,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
   @Override
   public synchronized ResilienceRegistries getResilienceRegistries() {
     if (resilienceRegistries == null) {

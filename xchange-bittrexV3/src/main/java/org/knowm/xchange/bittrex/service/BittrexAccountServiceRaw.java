@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexExchange;
@@ -31,7 +30,10 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexAccountServiceRaw(BittrexExchange exchange, BittrexAuthenticated bittrex, ResilienceRegistries resilienceRegistries) {
+  public BittrexAccountServiceRaw(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
     super(exchange, bittrex, resilienceRegistries);
   }
 
