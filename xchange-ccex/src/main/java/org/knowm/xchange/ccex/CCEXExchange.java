@@ -24,8 +24,7 @@ public class CCEXExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://c-cex.com");
     exchangeSpecification.setHost("c-cex.com");
     exchangeSpecification.setPort(80);

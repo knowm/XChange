@@ -32,8 +32,7 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.btcmarkets.net");
     exchangeSpecification.setHost("btcmarkets.net");
     exchangeSpecification.setPort(80);

@@ -31,8 +31,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://bittrex.com/api/");
     exchangeSpecification.setExchangeSpecificParametersItem(
         "rest.v3.url", "https://api.bittrex.com/");

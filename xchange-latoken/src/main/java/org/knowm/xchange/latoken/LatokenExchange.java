@@ -47,7 +47,7 @@ public class LatokenExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://api.latoken.com");
     spec.setHost("www.latoken.com");
     spec.setPort(80);

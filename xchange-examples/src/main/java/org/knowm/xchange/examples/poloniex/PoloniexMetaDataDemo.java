@@ -11,7 +11,7 @@ public class PoloniexMetaDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Poloniex exchange API using default settings
-    Exchange anx = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    Exchange anx = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class);
     ExchangeMetaData exchangeMetaData = anx.getExchangeMetaData();
     System.out.println(exchangeMetaData.toJSONString());
     System.out.println(

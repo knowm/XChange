@@ -11,7 +11,7 @@ public class PoloniexManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(PoloniexStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(PoloniexStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     //

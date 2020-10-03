@@ -38,8 +38,7 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.livecoin.net");
     exchangeSpecification.setHost("api.livecoin.net");
     exchangeSpecification.setExchangeName("Livecoin");

@@ -15,8 +15,7 @@ public class BinanceTest {
   public void channelCreateUrlTest() {
     BinanceStreamingExchange exchange =
         (BinanceStreamingExchange)
-            StreamingExchangeFactory.INSTANCE.createExchange(
-                BinanceStreamingExchange.class.getName());
+            StreamingExchangeFactory.INSTANCE.createExchange(BinanceStreamingExchange.class);
     ProductSubscription.ProductSubscriptionBuilder builder = ProductSubscription.create();
     builder.addTicker(CurrencyPair.BTC_USD).addTicker(CurrencyPair.DASH_BTC);
     String buildSubscriptionStreams = exchange.buildSubscriptionStreams(builder.build());
@@ -40,7 +39,7 @@ public class BinanceTest {
         .addOrderbook(CurrencyPair.ETH_BTC);
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
-            .createExchange(BinanceStreamingExchange.class.getName())
+            .createExchange(BinanceStreamingExchange.class)
             .getDefaultExchangeSpecification();
     spec.setExchangeSpecificParametersItem(USE_HIGHER_UPDATE_FREQUENCY, true);
     BinanceStreamingExchange exchange =

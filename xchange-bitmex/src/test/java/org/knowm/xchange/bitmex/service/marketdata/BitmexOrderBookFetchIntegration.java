@@ -20,8 +20,7 @@ public class BitmexOrderBookFetchIntegration {
 
   @Before
   public void setUp() {
-    bitmexExchange =
-        (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
+    bitmexExchange = (BitmexExchange) ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
     marketDataService = bitmexExchange.getMarketDataService();
   }
 
