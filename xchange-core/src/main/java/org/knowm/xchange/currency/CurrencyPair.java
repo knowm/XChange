@@ -58,6 +58,7 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair BTC_RUR = new CurrencyPair(Currency.BTC, Currency.RUR);
   public static final CurrencyPair BTC_ZAR = new CurrencyPair(Currency.BTC, Currency.ZAR);
   public static final CurrencyPair BTC_BRL = new CurrencyPair(Currency.BTC, Currency.BRL);
+  public static final CurrencyPair BTC_BRZ = new CurrencyPair(Currency.BTC, Currency.BRZ);
   public static final CurrencyPair BTC_CZK = new CurrencyPair(Currency.BTC, Currency.CZK);
   public static final CurrencyPair BTC_ILS = new CurrencyPair(Currency.BTC, Currency.ILS);
   public static final CurrencyPair BTC_KRW = new CurrencyPair(Currency.BTC, Currency.KRW);
