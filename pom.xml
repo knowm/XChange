@@ -308,7 +308,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.10</version>
+        <version>3.5.13</version>
         <scope>test</scope>
       </dependency>
 
@@ -531,9 +531,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <skipSource>false</skipSource>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -549,7 +546,6 @@
         </executions>
         <configuration>
           <quiet>true</quiet>
-          <skip>false</skip>
           <doclint>none</doclint>
           <source>${version.java}</source>
         </configuration>
