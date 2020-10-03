@@ -28,8 +28,7 @@ public class BityExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    final ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://bity.com");
     exchangeSpecification.setHost("bity.com");
     exchangeSpecification.setExchangeName("Bity");
@@ -38,6 +37,7 @@ public class BityExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return null;
   }

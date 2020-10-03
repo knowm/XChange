@@ -22,7 +22,7 @@ public class BiboxMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    exchange = ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(BiboxExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));

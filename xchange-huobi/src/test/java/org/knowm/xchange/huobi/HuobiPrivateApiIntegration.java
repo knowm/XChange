@@ -34,7 +34,7 @@ public class HuobiPrivateApiIntegration {
 
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            HuobiExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            HuobiExchange.class, properties.getApiKey(), properties.getSecretKey());
   }
 
   @After

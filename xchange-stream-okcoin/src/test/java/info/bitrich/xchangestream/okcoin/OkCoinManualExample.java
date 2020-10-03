@@ -11,7 +11,7 @@ public class OkCoinManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(OkCoinStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(OkCoinStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     exchange

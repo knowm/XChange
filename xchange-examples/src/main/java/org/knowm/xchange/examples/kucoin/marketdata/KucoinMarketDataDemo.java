@@ -25,7 +25,7 @@ public class KucoinMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    exchange = ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(KucoinExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));

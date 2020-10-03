@@ -56,8 +56,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(LIVE_URI);
     exchangeSpecification.setHost(LIVE_HOST);
     exchangeSpecification.setPort(80);

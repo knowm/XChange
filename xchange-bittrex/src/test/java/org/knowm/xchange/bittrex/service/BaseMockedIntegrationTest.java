@@ -14,8 +14,7 @@ public class BaseMockedIntegrationTest {
 
   public Exchange createExchange() {
     Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(
-            BittrexExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BittrexExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
     specification.setSslUri("http://localhost:" + wireMockRule.port() + "/api/");
