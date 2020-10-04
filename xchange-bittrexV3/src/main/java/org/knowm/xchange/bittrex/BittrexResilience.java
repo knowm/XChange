@@ -11,13 +11,13 @@ import org.knowm.xchange.client.ResilienceRegistries;
 public final class BittrexResilience {
 
   // rest public endpoints except GET /markets/{marketSymbol}/orderbook
-  public static final String PUBLIC_ENDPOINTS_RATE_LIMITER = "publicEndpointsPerSecond";
+  public static final String PUBLIC_ENDPOINTS_RATE_LIMITER = "publicEndpointsRateLimiter";
 
   // rest endpoint: GET /markets/{marketSymbol}/orderbook
-  public static final String GET_ORDER_BOOKS_RATE_LIMITER = "getOrderBooksPerSecond";
+  public static final String GET_ORDER_BOOKS_RATE_LIMITER = "orderBooksRateLimiter";
 
   // rest endpoint: GET /orders/closed
-  public static final String GET_CLOSED_ORDERS_RATE_LIMITER = "getClosedOrdersPerSecond";
+  public static final String GET_CLOSED_ORDERS_RATE_LIMITER = "closedOrdersRateLimiter";
 
   private BittrexResilience() {}
 
