@@ -1,10 +1,13 @@
 package org.knowm.xchange.bittrex.service;
 
+import static org.knowm.xchange.bittrex.BittrexResilience.GET_CLOSED_ORDERS_RATE_LIMITER;
+
 import java.io.IOException;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAdapters;
+import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
@@ -13,6 +16,7 @@ import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -25,8 +29,11 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
    *
    * @param exchange
    */
-  public BittrexTradeServiceRaw(BittrexExchange exchange) {
-    super(exchange);
+  public BittrexTradeServiceRaw(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, bittrex, resilienceRegistries);
   }
 
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -70,13 +77,18 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   public List<BittrexOrder> getBittrexUserTradeHistory(CurrencyPair currencyPair)
       throws IOException {
-    return bittrexAuthenticated.getClosedOrders(
-        apiKey,
-        System.currentTimeMillis(),
-        contentCreator,
-        signatureCreator,
-        BittrexUtils.toPairString(currencyPair),
-        200);
+    return decorateApiCall(
+            () ->
+                bittrexAuthenticated.getClosedOrders(
+                    apiKey,
+                    System.currentTimeMillis(),
+                    contentCreator,
+                    signatureCreator,
+                    BittrexUtils.toPairString(currencyPair),
+                    200))
+        .withRetry(retry("getClosedOrders"))
+        .withRateLimiter(rateLimiter(GET_CLOSED_ORDERS_RATE_LIMITER))
+        .call();
   }
 
   public List<BittrexOrder> getBittrexUserTradeHistory() throws IOException {
