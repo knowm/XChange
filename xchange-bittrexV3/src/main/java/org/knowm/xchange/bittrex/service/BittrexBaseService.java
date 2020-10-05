@@ -3,11 +3,12 @@ package org.knowm.xchange.bittrex.service;
 import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.service.BaseResilientExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 
-public class BittrexBaseService extends BaseExchangeService<BittrexExchange>
+public class BittrexBaseService extends BaseResilientExchangeService<BittrexExchange>
     implements BaseService {
 
   protected final String apiKey;
@@ -20,9 +21,12 @@ public class BittrexBaseService extends BaseExchangeService<BittrexExchange>
    *
    * @param exchange
    */
-  public BittrexBaseService(BittrexExchange exchange) {
+  public BittrexBaseService(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
 
-    super(exchange);
+    super(exchange, resilienceRegistries);
     this.bittrexAuthenticated =
         ExchangeRestProxyBuilder.forInterface(
                 BittrexAuthenticated.class, exchange.getExchangeSpecification())
