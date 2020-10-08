@@ -1,7 +1,6 @@
 package org.knowm.xchange.huobi;
 
 import java.io.IOException;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,7 +9,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.huobi.dto.account.HuobiCreateWithdrawRequest;
 import org.knowm.xchange.huobi.dto.account.results.HuobiAccountResult;
 import org.knowm.xchange.huobi.dto.account.results.HuobiBalanceResult;
@@ -35,7 +33,6 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiMatchesResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
-
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -286,9 +283,12 @@ public interface Huobi {
       @QueryParam("Timestamp") String nonce,
       @QueryParam("Signature") ParamsDigest signature)
       throws IOException;
-  
+
   @GET
   @Path("market/history/kline")
-  HuobiCandleStickResult getCandleStick(@QueryParam("period") String period,@QueryParam("size") int size,@QueryParam("symbol") String symbol) throws IOException;
-
+  HuobiCandleStickResult getCandleStick(
+      @QueryParam("period") String period,
+      @QueryParam("size") int size,
+      @QueryParam("symbol") String symbol)
+      throws IOException;
 }

@@ -132,17 +132,18 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
     }
     return 1;
   }
-  
-  public List<BinanceHistoricalTrade> historicalTrades(CurrencyPair pair,int limit,long fromId) throws IOException {
-	  List<Object[]> raw = decorateApiCall(() -> binance.historicalTrade(BinanceAdapters.toSymbol(pair), limit, fromId))
-        .withRetry(retry("tickerAllBookTickers"))
-        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
-        .call();
-	  
-	  return raw.stream()
-		        .map(obj -> new BinanceHistoricalTrade(pair, obj))
-		        .collect(Collectors.toList());
-  }
 
-  
+  public List<BinanceHistoricalTrade> historicalTrades(CurrencyPair pair, int limit, long fromId)
+      throws IOException {
+    List<Object[]> raw =
+        decorateApiCall(
+                () -> binance.historicalTrade(BinanceAdapters.toSymbol(pair), limit, fromId))
+            .withRetry(retry("tickerAllBookTickers"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+
+    return raw.stream()
+        .map(obj -> new BinanceHistoricalTrade(pair, obj))
+        .collect(Collectors.toList());
+  }
 }
