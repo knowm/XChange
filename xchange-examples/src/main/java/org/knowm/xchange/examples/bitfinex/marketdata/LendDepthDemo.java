@@ -13,7 +13,7 @@ public class LendDepthDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BFX exchange API using default settings
-    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bfx.getMarketDataService();

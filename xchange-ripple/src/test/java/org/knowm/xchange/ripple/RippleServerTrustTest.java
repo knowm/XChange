@@ -15,8 +15,7 @@ public class RippleServerTrustTest {
    */
   @Test
   public void noSecretKeyTest() {
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     assertThat(exchange).isInstanceOf(RippleExchange.class);
     assertThat(exchange.getExchangeSpecification().getSecretKey()).isNull();
     assertThat(exchange.getExchangeSpecification().getSslUri())
@@ -30,8 +29,7 @@ public class RippleServerTrustTest {
    */
   @Test(expected = IllegalStateException.class)
   public void safetyNetTest() {
-    final ExchangeSpecification specification =
-        new ExchangeSpecification(RippleExchange.class.getName());
+    final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");
     ExchangeFactory.INSTANCE.createExchange(specification);
@@ -43,8 +41,7 @@ public class RippleServerTrustTest {
    */
   @Test
   public void localServerTest() {
-    final ExchangeSpecification specification =
-        new ExchangeSpecification(RippleExchange.class.getName());
+    final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(""); // remove the default api.ripple.com connection
     specification.setPlainTextUri(RippleExchange.REST_API_LOCALHOST_PLAIN_TEXT);
     specification.setSecretKey("s****************************");
@@ -65,8 +62,7 @@ public class RippleServerTrustTest {
    */
   @Test
   public void breakGlassTest() {
-    final ExchangeSpecification specification =
-        new ExchangeSpecification(RippleExchange.class.getName());
+    final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");
     specification.setExchangeSpecificParametersItem(

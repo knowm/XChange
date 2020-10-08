@@ -22,7 +22,7 @@ public class RetriesDemo {
       };
 
   public static void main(String[] args) throws Exception {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class);
     MarketDataService service = exchange.getMarketDataService();
     CurrencyPair cp = new CurrencyPair("BTC", "MXN");
 

@@ -26,7 +26,7 @@ public class LatokenMarketDataServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(LatokenExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(LatokenExchange.class);
     marketService = exchange.getMarketDataService();
   }
 

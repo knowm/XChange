@@ -18,9 +18,7 @@ public class BaseServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange =
-        (CoinbaseExchange)
-            ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    exchange = (CoinbaseExchange) ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     baseService = (CoinbaseBaseService) exchange.getMarketDataService();
   }
 

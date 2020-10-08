@@ -28,8 +28,7 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.kraken.com");
     exchangeSpecification.setHost("api.kraken.com");
     exchangeSpecification.setPort(80);
