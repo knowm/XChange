@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
@@ -150,8 +149,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
             offset,
             sort == null ? null : sort.toString(),
             sinceTimestamp,
-            sinceId
-        );
+            sinceId);
     return BitstampAdapters.adaptTradeHistory(txs);
   }
 
