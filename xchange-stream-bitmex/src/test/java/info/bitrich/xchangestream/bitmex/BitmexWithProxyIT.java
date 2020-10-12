@@ -28,8 +28,7 @@ public class BitmexWithProxyIT {
     proxyUtil.startProxy();
     LocalExchangeConfig localConfig =
         PropsLoader.loadKeys("bitmex.secret.keys", "bitmex.secret.keys.origin", "bitmex");
-    exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class.getName());
+    exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitmexStreamingExchange.class);
 
     ExchangeSpecification exchangeSpecification =
         BitmexTestsCommons.getExchangeSpecification(

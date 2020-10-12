@@ -17,8 +17,7 @@ public class CryptowatchMarketDataServiceIntegration {
 
   @Before
   public void setUp() {
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CryptowatchExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptowatchExchange.class);
     marketDataService = (CryptowatchMarketDataService) exchange.getMarketDataService();
   }
 

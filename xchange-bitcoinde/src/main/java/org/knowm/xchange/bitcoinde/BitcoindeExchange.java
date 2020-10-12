@@ -15,8 +15,7 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.bitcoin.de/v2/");
     exchangeSpecification.setHost("bitcoin.de");
     exchangeSpecification.setPort(80);

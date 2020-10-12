@@ -55,7 +55,7 @@ public class KrakenOrderBook {
   }
 
   public KrakenOrderBookStorage toKrakenOrderBook(KrakenOrderBookStorage orderbook, int depth) {
-    if (type == KrakenOrderBookMessageType.UPDATE) {
+    if (type == KrakenOrderBookMessageType.UPDATE && orderbook != null) {
       orderbook.updateOrderBook(this);
       return orderbook;
     }

@@ -15,7 +15,7 @@ public class CoinEggTickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinEggExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.ETH_BTC);
 

@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbasepro;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -16,6 +17,15 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoinbaseProExchangeIntegration {
+
+  @Test
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
+
+    assertThat(exchange.getExchangeSpecification().getSslUri())
+        .isEqualTo("https://api.pro.coinbase.com");
+    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.pro.coinbase.com");
+  }
 
   @Test
   public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
@@ -44,7 +54,7 @@ public class CoinbaseProExchangeIntegration {
     final CurrencyPair currencyPair = new CurrencyPair("BTC", "EUR");
     final Exchange exchange;
 
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     marketDataService = exchange.getMarketDataService();
     marketDataServiceRaw = (CoinbaseProMarketDataServiceRaw) exchange.getMarketDataService();
 
@@ -66,8 +76,7 @@ public class CoinbaseProExchangeIntegration {
 
   @Test
   public void testExchangeMetaData() {
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
 
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
 

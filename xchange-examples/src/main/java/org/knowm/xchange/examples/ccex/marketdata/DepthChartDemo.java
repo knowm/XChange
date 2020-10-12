@@ -25,7 +25,7 @@ public class DepthChartDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the version 1 Bitstamp exchange API using default settings
-    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
+    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = ccexExchange.getMarketDataService();

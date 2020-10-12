@@ -1,9 +1,11 @@
 package org.knowm.xchange.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.interceptor.InterceptorProvider;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.Interceptor;
@@ -31,7 +33,8 @@ public final class ExchangeRestProxyBuilder<T> {
 
   public static <T> ExchangeRestProxyBuilder<T> forInterface(
       Class<T> restInterface, ExchangeSpecification exchangeSpecification) {
-    return new ExchangeRestProxyBuilder<>(restInterface, exchangeSpecification);
+    return new ExchangeRestProxyBuilder<>(restInterface, exchangeSpecification)
+        .customInterceptors(InterceptorProvider.provide());
   }
 
   public ExchangeRestProxyBuilder<T> clientConfig(ClientConfig value) {
@@ -52,6 +55,11 @@ public final class ExchangeRestProxyBuilder<T> {
 
   public ExchangeRestProxyBuilder<T> customInterceptor(Interceptor value) {
     this.customInterceptors.add(value);
+    return this;
+  }
+
+  public ExchangeRestProxyBuilder<T> customInterceptors(Collection<Interceptor> interceptors) {
+    customInterceptors.addAll(interceptors);
     return this;
   }
 

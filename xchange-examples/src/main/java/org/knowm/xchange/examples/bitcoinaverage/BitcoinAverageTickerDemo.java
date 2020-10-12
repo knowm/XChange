@@ -16,7 +16,7 @@ public class BitcoinAverageTickerDemo {
 
     // Use the factory to get the BitcoinAverage exchange API using default settings
     Exchange bitcoinAverageExchange =
-        ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class);
     bitcoinAverageExchange.remoteInit();
     generic(bitcoinAverageExchange);
     raw(bitcoinAverageExchange);
