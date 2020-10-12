@@ -54,8 +54,8 @@ public class BittrexMarketDataDemo {
 
     System.out.println("------------RAW-----------");
 
-    //List<BittrexMarketSummary> currencies = marketDataService.getBittrexMarketSummaries();
-    //System.out.println(currencies);
+    // List<BittrexMarketSummary> currencies = marketDataService.getBittrexMarketSummaries();
+    // System.out.println(currencies);
 
     List<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
@@ -73,7 +73,8 @@ public class BittrexMarketDataDemo {
     List<BittrexMarketSummary> marketSummaries = marketDataService.getBittrexMarketSummaries();
     System.out.println(marketSummaries);
 
-    BittrexMarketDataServiceRaw.SequencedOrderBook orderBook = marketDataService.getBittrexSequencedOrderBook(pairString, 50);
+    BittrexMarketDataServiceRaw.SequencedOrderBook orderBook =
+        marketDataService.getBittrexSequencedOrderBook(pairString, 50);
     System.out.println(orderBook);
 
     List<BittrexTrade> trades = marketDataService.getBittrexTrades(pairString);
