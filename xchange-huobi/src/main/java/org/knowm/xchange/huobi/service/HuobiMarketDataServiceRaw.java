@@ -41,11 +41,11 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
     HuobiTradesResult tradesResult = huobi.getTrades(huobiCurrencyPair, size);
     return checkResult(tradesResult);
   }
-  
-  public HuobiCandle[] getHuobiCandleStick(CurrencyPair currencyPair,String period,int size) throws IOException {
-	    String huobiCurrencyPair = HuobiUtils.createHuobiCurrencyPair(currencyPair);
-	    HuobiCandleStickResult tickerResult = huobi.getCandleStick(period, size, huobiCurrencyPair);
-	    return checkResult(tickerResult);
-	  }
- 
+
+  public HuobiCandle[] getHuobiCandleStick(CurrencyPair currencyPair, String period, int size)
+      throws IOException {
+    String huobiCurrencyPair = HuobiUtils.createHuobiCurrencyPair(currencyPair);
+    HuobiCandleStickResult tickerResult = huobi.getCandleStick(period, size, huobiCurrencyPair);
+    return checkResult(tickerResult);
+  }
 }
