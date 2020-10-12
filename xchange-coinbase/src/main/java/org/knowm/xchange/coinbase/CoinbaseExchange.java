@@ -24,8 +24,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    final ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://coinbase.com");
     exchangeSpecification.setHost("coinbase.com");
     exchangeSpecification.setExchangeName("Coinbase");

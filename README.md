@@ -17,7 +17,7 @@ Basic usage is very simple: Create an `Exchange` instance, get the appropriate s
 ## Example 1: Public Market Data
 
 ```java
-Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class);
 MarketDataService marketDataService = bitstamp.getMarketDataService();
 Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 System.out.println(ticker.toString());
@@ -58,7 +58,7 @@ You will need to import an additional dependency for the exchange you are using 
 
 ```java
 // Use StreamingExchangeFactory instead of ExchangeFactory
-StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
+StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class);
 
 // Connect to the Exchange WebSocket API. Here we use a blocking wait.
 exchange.connect().blockingAwait();
@@ -143,12 +143,12 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-core</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-XYZ</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 ```
 
@@ -158,7 +158,7 @@ If it is available for your exchange, you may also want to use the streaming API
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-stream-XYZ</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 ```
 
@@ -174,7 +174,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    5.0.3-SNAPSHOT
+    5.0.4-SNAPSHOT
 
 ## Building with Maven
 

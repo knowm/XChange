@@ -31,7 +31,7 @@ public class ExchangeUtils {
           "An exception occured while loading the configuration file from the classpath. "
               + "Returning exchange without keys.",
           e);
-      return ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class.getName());
+      return ExchangeFactory.INSTANCE.createExchange(CoindirectExchange.class);
     }
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);

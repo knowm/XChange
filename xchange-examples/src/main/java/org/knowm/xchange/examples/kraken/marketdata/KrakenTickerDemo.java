@@ -16,8 +16,7 @@ public class KrakenTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
-    Exchange krakenExchange =
-        ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class);
 
     generic(krakenExchange);
     raw(krakenExchange);

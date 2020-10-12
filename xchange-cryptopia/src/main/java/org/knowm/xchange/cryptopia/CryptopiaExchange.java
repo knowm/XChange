@@ -40,8 +40,7 @@ public class CryptopiaExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.cryptopia.co.nz");
     exchangeSpecification.setHost("www.cryptopia.co.nz");
     exchangeSpecification.setPort(80);

@@ -15,7 +15,7 @@ public class BitzOrdersFetchIntegration {
   @Test
   public void ordersFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitZExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orders = marketDataService.getOrderBook(new CurrencyPair("LTC", "BTC"));
 

@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.3-SNAPSHOT</version>
+  <version>5.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -33,18 +33,18 @@
     <version.assertj>3.17.2</version.assertj>
     <version.commons.io>2.8.0</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
-    <version.fasterxml>2.11.2</version.fasterxml>
+    <version.fasterxml>2.11.3</version.fasterxml>
     <version.github.mmazi>2.0.2</version.github.mmazi>
-    <version.resilience4j>1.5.0</version.resilience4j>
+    <version.resilience4j>1.6.1</version.resilience4j>
     <version.junit>4.13</version.junit>
-    <version.lombok>1.18.12</version.lombok>
+    <version.lombok>1.18.14</version.lombok>
     <version.knowm.xchart>3.6.5</version.knowm.xchart>
     <version.powermock>2.0.7</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.10.3</version.java-jwt>
+    <version.java-jwt>3.11.0</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -308,13 +308,13 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.10</version>
+        <version>3.5.13</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
-        <artifactId>wiremock</artifactId>
+        <artifactId>wiremock-jre8</artifactId>
         <version>2.27.2</version>
         <scope>test</scope>
       </dependency>
@@ -364,7 +364,7 @@
       <dependency>
         <groupId>io.reactivex.rxjava2</groupId>
         <artifactId>rxjava</artifactId>
-        <version>2.2.19</version>
+        <version>2.2.20</version>
       </dependency>
       <dependency>
         <groupId>com.pubnub</groupId>
@@ -531,9 +531,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <skipSource>false</skipSource>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -549,7 +546,6 @@
         </executions>
         <configuration>
           <quiet>true</quiet>
-          <skip>false</skip>
           <doclint>none</doclint>
           <source>${version.java}</source>
         </configuration>

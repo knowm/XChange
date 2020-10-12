@@ -21,8 +21,7 @@ public class ParibuExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.paribu.com");
     exchangeSpecification.setHost("www.paribu.com");
     exchangeSpecification.setPort(80);
