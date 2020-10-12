@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class BinanceTest {
+public class BinanceIntegration {
 
   @Test
   public void channelCreateUrlTest() {
