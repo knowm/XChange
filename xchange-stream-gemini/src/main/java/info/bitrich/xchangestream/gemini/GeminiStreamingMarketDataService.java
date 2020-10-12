@@ -57,7 +57,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
-    Integer maxDepth = args.length > 0 ? (Integer) args[0] : null;
+    int maxDepth = args.length > 0 ? (int) args[0] : 0;
 
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
