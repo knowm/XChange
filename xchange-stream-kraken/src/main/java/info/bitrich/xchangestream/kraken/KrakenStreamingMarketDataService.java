@@ -80,7 +80,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                       new KrakenPublicOrder(
                           bd(tickerItems.get("b"), 0), bd(tickerItems.get("b"), 2), 0),
                       new KrakenPublicOrder(
-                          bd(tickerItems.get("c"), 0), bd(tickerItems.get("b"), 2), 0),
+                          bd(tickerItems.get("c"), 0), bd(tickerItems.get("c"), 2), 0),
                       new BigDecimal[] {bd(tickerItems.get("v"), 0), bd(tickerItems.get("v"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("p"), 0), bd(tickerItems.get("p"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("t"), 0), bd(tickerItems.get("t"), 1)},
