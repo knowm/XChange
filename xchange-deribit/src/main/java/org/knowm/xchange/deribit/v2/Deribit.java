@@ -12,6 +12,7 @@ import org.knowm.xchange.deribit.v2.dto.DeribitResponse;
 import org.knowm.xchange.deribit.v2.dto.GrantType;
 import org.knowm.xchange.deribit.v2.dto.Kind;
 import org.knowm.xchange.deribit.v2.dto.account.DeribitAuthentication;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DerbitCandle;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
@@ -161,5 +162,14 @@ public interface Deribit {
       @QueryParam("nonce") String nonce,
       @QueryParam("state") String state,
       @QueryParam("scope") String scope)
+      throws DeribitException, IOException;
+
+  @GET
+  @Path("get_tradingview_chart_data")
+  DeribitResponse<DerbitCandle> getTredingViewChartByInstrument(
+      @QueryParam("instrument_name") String instrumentName,
+      @QueryParam("start_timestamp") Long startTime,
+      @QueryParam("end_timestamp") Long endTime,
+      @QueryParam("resolution") Integer resolution)
       throws DeribitException, IOException;
 }

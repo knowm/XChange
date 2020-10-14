@@ -1,8 +1,9 @@
 package org.knowm.xchange.bitbns.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.vavr.collection.List;
 
 public class BItbnsOrderBooks {
 
