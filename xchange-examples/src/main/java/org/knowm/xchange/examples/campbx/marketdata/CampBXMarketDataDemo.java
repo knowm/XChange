@@ -18,8 +18,7 @@ public class CampBXMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get CampBX exchange API using default settings
-    Exchange campBXExchange =
-        ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange campBXExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class);
     generic(campBXExchange);
     raw(campBXExchange);
   }

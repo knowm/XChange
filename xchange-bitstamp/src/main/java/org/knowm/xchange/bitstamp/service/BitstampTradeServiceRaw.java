@@ -10,8 +10,8 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -29,15 +29,13 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
     super(exchange);
     this.bitstampAuthenticated =
-        RestProxyFactory.createProxy(
-            BitstampAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitstampAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.bitstampAuthenticatedV2 =
-        RestProxyFactory.createProxy(
-            BitstampAuthenticatedV2.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitstampAuthenticatedV2.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.nonceFactory = exchange.getNonceFactory();
     this.signatureCreator =

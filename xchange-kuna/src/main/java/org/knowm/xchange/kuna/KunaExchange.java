@@ -36,8 +36,7 @@ public class KunaExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(KUNA_URL);
     exchangeSpecification.setHost(KUNA_HOST);
     exchangeSpecification.setPort(KUNA_PORT);

@@ -25,7 +25,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
 
     LimitOrder limitOrder =
         new LimitOrder(
@@ -57,7 +57,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     boolean result = exchange.getTradeService().cancelOrder("8221435");
     System.out.println(result);
     assertThat(result).isTrue();
@@ -68,7 +68,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     OpenOrders openOrders = exchange.getTradeService().getOpenOrders();
     System.out.println(openOrders.toString());
     assertThat(openOrders).isNotNull();
@@ -79,7 +79,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     Collection<Order> orders = exchange.getTradeService().getOrder("8200823", "8177040");
     System.out.println(orders.toString());
     assertThat(orders).isNotNull();
@@ -90,7 +90,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     BxTradeHistoryParams params =
         new BxTradeHistoryParams("2018-03-01 00:00:00", "2018-03-31 23:59:59");
@@ -104,7 +104,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     TradeService tradeService = exchange.getTradeService();
     UserTrades trades = tradeService.getTradeHistory(null);
     System.out.println(trades);
@@ -116,7 +116,7 @@ public class BxPrivateApiIntegration {
     BxProperties properties = new BxProperties();
     Exchange exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            BxExchange.class.getName(), properties.getApiKey(), properties.getSecretKey());
+            BxExchange.class, properties.getApiKey(), properties.getSecretKey());
     Balance balance =
         exchange.getAccountService().getAccountInfo().getWallet().getBalance(Currency.THB);
     System.out.println(balance.toString());

@@ -12,8 +12,7 @@ public class OkExFuturesManualExample {
 
   public static void main(String[] args) {
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(
-            OkExFuturesStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(OkExFuturesStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     exchange

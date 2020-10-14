@@ -16,7 +16,7 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USDT"));
     System.out.println(ticker.toString());

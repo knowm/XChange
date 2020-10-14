@@ -179,7 +179,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
       LOG.error(
           "Order book size param type {} is invalid. Expected: {}. Default order book size has been used {}",
           obSizeParam.getClass().getName(),
-          Number.class.getName(),
+          Number.class,
           ORDER_BOOK_SIZE_DEFAULT);
       return ORDER_BOOK_SIZE_DEFAULT;
     }

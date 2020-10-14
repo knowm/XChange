@@ -5,9 +5,9 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarkets;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticatedV3;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCMarketsBaseService extends BaseExchangeService implements BaseService {
@@ -23,15 +23,12 @@ public class BTCMarketsBaseService extends BaseExchangeService implements BaseSe
   public BTCMarketsBaseService(Exchange exchange) {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    this.btcm =
-        RestProxyFactory.createProxy(
-            BTCMarketsAuthenticated.class, spec.getSslUri(), getClientConfig());
+    this.btcm = ExchangeRestProxyBuilder.forInterface(BTCMarketsAuthenticated.class, spec).build();
     this.btcmv3 =
-        RestProxyFactory.createProxy(
-            BTCMarketsAuthenticatedV3.class, spec.getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(BTCMarketsAuthenticatedV3.class, spec).build();
     this.btcmPublic =
-        RestProxyFactory.createProxy(
-            BTCMarkets.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(BTCMarkets.class, exchange.getExchangeSpecification())
+            .build();
     if (spec.getSecretKey() != null) {
       this.signerV1 = new BTCMarketsDigest(spec.getSecretKey(), false);
       this.signerV2 = new BTCMarketsDigest(spec.getSecretKey(), true);

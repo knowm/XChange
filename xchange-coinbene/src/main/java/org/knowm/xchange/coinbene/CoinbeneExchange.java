@@ -30,8 +30,7 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.coinbene.com/");
     exchangeSpecification.setHost("coinbene.com");
     exchangeSpecification.setPort(80);

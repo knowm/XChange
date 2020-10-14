@@ -3,6 +3,7 @@ package org.knowm.xchange.exx.service;
 import java.io.IOException;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exx.EXX;
 import org.knowm.xchange.exx.EXXAdapters;
@@ -10,7 +11,6 @@ import org.knowm.xchange.exx.dto.marketdata.EXXOrderbook;
 import org.knowm.xchange.exx.dto.marketdata.EXXTicker;
 import org.knowm.xchange.exx.dto.marketdata.EXXTickerResponse;
 import org.knowm.xchange.exx.dto.marketdata.EXXTransaction;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EXXMarketDataServiceRaw extends EXXBaseService {
@@ -25,8 +25,8 @@ public class EXXMarketDataServiceRaw extends EXXBaseService {
     super(exchange);
 
     this.exx =
-        RestProxyFactory.createProxy(
-            EXX.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(EXX.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;

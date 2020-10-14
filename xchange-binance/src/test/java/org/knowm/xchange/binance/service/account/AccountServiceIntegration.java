@@ -30,7 +30,7 @@ public class AccountServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
     accountService = exchange.getAccountService();
   }
 

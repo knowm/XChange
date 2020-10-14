@@ -2,10 +2,10 @@ package org.knowm.xchange.bl3p.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAuthenticated;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class Bl3pBaseService extends BaseExchangeService implements BaseService {
@@ -20,10 +20,9 @@ public class Bl3pBaseService extends BaseExchangeService implements BaseService 
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.bl3p =
-        RestProxyFactory.createProxy(
-            Bl3pAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                Bl3pAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.nonceFactory = this.exchange.getNonceFactory();
     this.signatureCreator =
         Bl3pDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

@@ -38,7 +38,7 @@ running locally and listening only on the localhost interface. There are instruc
 configured using the XChange initialisation:
 
 ```
-	ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class.getName());
+	ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(""); // remove the default api.ripple.com connection
     specification.setPlainTextUri(RippleExchange.REST_API_LOCALHOST_PLAIN_TEXT);
     specification.setSecretKey("s****************************");
@@ -51,7 +51,7 @@ then this must be explicitly enabled to prevent an exception being thrown on cre
 in the XChange specification, e.g.
 
 ```
-    ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class.getName());
+    ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class);
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");
     specification.setExchangeSpecificParametersItem(RippleExchange.TRUST_API_RIPPLE_COM, true);
