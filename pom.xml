@@ -91,7 +91,7 @@
   </scm>
 
   <ciManagement>
-    <url>https://travis-ci.org/timmolter/XChange</url>
+    <url>https://travis-ci.org/github/knowm/XChange</url>
   </ciManagement>
 
   <modules>
