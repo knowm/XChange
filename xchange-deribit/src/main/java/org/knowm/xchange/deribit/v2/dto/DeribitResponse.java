@@ -56,4 +56,79 @@ public class DeribitResponse<V> {
     this.usOut = usOut;
     this.usDiff = usDiff;
   }
+
+  public String getJsonRPC() {
+    return jsonRPC;
+  }
+
+  public void setJsonRPC(String jsonRPC) {
+    this.jsonRPC = jsonRPC;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public V getResult() {
+    return result;
+  }
+
+  public void setResult(V result) {
+    this.result = result;
+  }
+
+  public boolean isTestnet() {
+    return testnet;
+  }
+
+  public void setTestnet(boolean testnet) {
+    this.testnet = testnet;
+  }
+
+  public long getUsIn() {
+    return usIn;
+  }
+
+  public void setUsIn(long usIn) {
+    this.usIn = usIn;
+  }
+
+  public long getUsOut() {
+    return usOut;
+  }
+
+  public void setUsOut(long usOut) {
+    this.usOut = usOut;
+  }
+
+  public long getUsDiff() {
+    return usDiff;
+  }
+
+  public void setUsDiff(long usDiff) {
+    this.usDiff = usDiff;
+  }
+
+  @Override
+  public String toString() {
+    return "DeribitResponse [jsonRPC="
+        + jsonRPC
+        + ", id="
+        + id
+        + ", result="
+        + result
+        + ", testnet="
+        + testnet
+        + ", usIn="
+        + usIn
+        + ", usOut="
+        + usOut
+        + ", usDiff="
+        + usDiff
+        + "]";
+  }
 }

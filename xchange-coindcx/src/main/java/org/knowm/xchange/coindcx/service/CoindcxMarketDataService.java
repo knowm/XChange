@@ -26,7 +26,6 @@ public class CoindcxMarketDataService extends CoindcxMarketDataServiceRaw implem
 	public CoindcxMarketDataService(Exchange exchange) {
 		super(exchange);
 	}
-
 	
 	@Override
 	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
