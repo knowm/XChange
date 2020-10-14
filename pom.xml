@@ -36,7 +36,7 @@
     <version.fasterxml>2.11.3</version.fasterxml>
     <version.github.mmazi>2.0.2</version.github.mmazi>
     <version.resilience4j>1.6.1</version.resilience4j>
-    <version.junit>4.13</version.junit>
+    <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.14</version.lombok>
     <version.knowm.xchart>3.6.5</version.knowm.xchart>
     <version.powermock>2.0.7</version.powermock>
