@@ -7,6 +7,7 @@ public class BitbnsOrderPlaceStatusResponse {
 	private String error;
 	private long id;
 	private int code;
+	private String msg;
 
 	public String getData() {
 		return data;
@@ -48,10 +49,17 @@ public class BitbnsOrderPlaceStatusResponse {
 		this.code = code;
 	}
 
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	@Override
 	public String toString() {
 		return "BitbnsOrderPlaceStatusResponse [data=" + data + ", status=" + status + ", error=" + error + ", id=" + id
-				+ ", code=" + code + "]";
+				+ ", code=" + code + ", msg=" + msg + "]";
 	}
-
 }

@@ -9,34 +9,33 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 public class BitbnsBaseService extends BaseExchangeService implements BaseService {
 
-	protected final Bitbns bitBns;
-	protected final String apiKey;
-	protected final ParamsDigest signatureCreator;
-	protected final ParamsDigest payloadCreator;
+  protected final Bitbns bitBns;
+  protected final String apiKey;
+  protected final ParamsDigest signatureCreator;
+  protected final ParamsDigest payloadCreator;
 
-	protected BitbnsBaseService(Exchange exchange) {
-		super(exchange);
-		bitBns = RestProxyFactory.createProxy(Bitbns.class, exchange.getExchangeSpecification().getSslUri(),
-				getClientConfig());
-		
-		this.apiKey = exchange.getExchangeSpecification().getApiKey();
-		this.signatureCreator = BitbnsHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-		this.payloadCreator = new BitbnsPayloadDigest();
+  protected BitbnsBaseService(Exchange exchange) {
+    super(exchange);
+    bitBns =
+        RestProxyFactory.createProxy(
+            Bitbns.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
 
-	}
-	
-	  protected ExchangeException handleException(BitbnsException e) {
-	    if (e.getMessage().contains("due to insufficient funds")
-	        || e.getMessage().contains("you do not have enough available"))
-	      return new FundsExceededException(e);
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator =
+        BitbnsHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    this.payloadCreator = new BitbnsPayloadDigest();
+  }
 
-	    return new ExchangeException(e);
-	  }
+  protected ExchangeException handleException(BitbnsException e) {
+    if (e.getMessage().contains("due to insufficient funds")
+        || e.getMessage().contains("you do not have enough available"))
+      return new FundsExceededException(e);
 
+    return new ExchangeException(e);
+  }
 }

@@ -1,64 +1,70 @@
 package org.knowm.xchange.bitbns.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.List;
 
 public class BItbnsOrderBooks {
 
-	private List<BitbnsOrderBook> data;
-	private int status;
-	private String error;
-	private int code;
+  private List<BitbnsOrderBook> data;
+  private int status;
+  private String error;
+  private int code;
 
-	//	
-	
-	public BItbnsOrderBooks(@JsonProperty("data")List<BitbnsOrderBook> data,
-			@JsonProperty("status")int status,
-			@JsonProperty("error")String error,
-			@JsonProperty("code")int code) {
-	this.data=data;
-	this.status=status;
-	this.error=error;
-	this.code=code;
-	}
+  //
 
-	public List<BitbnsOrderBook> getData() {
-		return data;
-	}
+  public BItbnsOrderBooks(
+      @JsonProperty("data") List<BitbnsOrderBook> data,
+      @JsonProperty("status") int status,
+      @JsonProperty("error") String error,
+      @JsonProperty("code") int code) {
+    this.data = data;
+    this.status = status;
+    this.error = error;
+    this.code = code;
+  }
 
-	public void setData(List<BitbnsOrderBook> data) {
-		this.data = data;
-	}
+  public List<BitbnsOrderBook> getData() {
+    return data;
+  }
 
-	public int getStatus() {
-		return status;
-	}
+  public void setData(List<BitbnsOrderBook> data) {
+    this.data = data;
+  }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+  public int getStatus() {
+    return status;
+  }
 
-	public String getError() {
-		return error;
-	}
+  public void setStatus(int status) {
+    this.status = status;
+  }
 
-	public void setError(String error) {
-		this.error = error;
-	}
+  public String getError() {
+    return error;
+  }
 
-	public int getCode() {
-		return code;
-	}
+  public void setError(String error) {
+    this.error = error;
+  }
 
-	public void setCode(int code) {
-		this.code = code;
-	}
+  public int getCode() {
+    return code;
+  }
 
-	@Override
-	public String toString() {
-		return "BItbnsOrderBooks [data=" + data + ", status=" + status + ", error=" + error + ", code=" + code + "]";
-	}
+  public void setCode(int code) {
+    this.code = code;
+  }
 
+  @Override
+  public String toString() {
+    return "BItbnsOrderBooks [data="
+        + data
+        + ", status="
+        + status
+        + ", error="
+        + error
+        + ", code="
+        + code
+        + "]";
+  }
 }

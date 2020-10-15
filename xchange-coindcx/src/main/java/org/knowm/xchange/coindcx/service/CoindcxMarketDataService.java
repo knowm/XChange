@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindcx.dto.CoindcxOrderBook;
 import org.knowm.xchange.coindcx.dto.CoindcxTrade;
@@ -21,59 +20,60 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
-public class CoindcxMarketDataService extends CoindcxMarketDataServiceRaw implements MarketDataService {
+public class CoindcxMarketDataService extends CoindcxMarketDataServiceRaw
+    implements MarketDataService {
 
-	public CoindcxMarketDataService(Exchange exchange) {
-		super(exchange);
-	}
-	
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		CoindcxOrderBook coindcxOrderBook = getCoindcxOrderBook(currencyPair,args);
-		
-		 List<LimitOrder> bids =
-				 	coindcxOrderBook.getBids().entrySet().stream()
-			            .map(
-			                e ->
-			                    new LimitOrder(
-			                        OrderType.BID, e.getValue(), currencyPair, null, null, e.getKey()))
-			            .collect(Collectors.toList());
-		 List<LimitOrder> asks =
-				 coindcxOrderBook.getAsks().entrySet().stream()
-			            .map(
-			                e ->
-			                    new LimitOrder(
-			                        OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey()))
-			            .collect(Collectors.toList());
-		
-		return new OrderBook(new Date(), asks, bids);
-	}
-	
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-		List<CoindcxTrade> coindcxTrades=getCoindcxTrades(currencyPair, args);
-		List<Trade> trades=new ArrayList<>();
-		
-		for(CoindcxTrade coindcxTrade:coindcxTrades){
-			if(coindcxTrade.isMaker()){
-				
-				trades.add(new Trade.Builder()
-		                 .type(null)
-		                 .originalAmount(coindcxTrade.getQuantity())
-		                 .currencyPair(currencyPair)
-		                 .price(coindcxTrade.getPrice())
-		                 .timestamp(new Date(coindcxTrade.getTimestamp()))
-		                 .id(null)
-		                 .build());
- 
-			}
-		}
-		
-		return new Trades(trades,TradeSortType.SortByTimestamp);
-	}
+  public CoindcxMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
-	@Override
-	public List<Ticker> getTickers(Params params) throws IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    CoindcxOrderBook coindcxOrderBook = getCoindcxOrderBook(currencyPair, args);
+
+    List<LimitOrder> bids =
+        coindcxOrderBook.getBids().entrySet().stream()
+            .map(
+                e ->
+                    new LimitOrder(
+                        OrderType.BID, e.getValue(), currencyPair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        coindcxOrderBook.getAsks().entrySet().stream()
+            .map(
+                e ->
+                    new LimitOrder(
+                        OrderType.ASK, e.getValue(), currencyPair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+
+    return new OrderBook(new Date(), asks, bids);
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    List<CoindcxTrade> coindcxTrades = getCoindcxTrades(currencyPair, args);
+    List<Trade> trades = new ArrayList<>();
+
+    for (CoindcxTrade coindcxTrade : coindcxTrades) {
+      if (coindcxTrade.isMaker()) {
+
+        trades.add(
+            new Trade.Builder()
+                .type(null)
+                .originalAmount(coindcxTrade.getQuantity())
+                .currencyPair(currencyPair)
+                .price(coindcxTrade.getPrice())
+                .timestamp(new Date(coindcxTrade.getTimestamp()))
+                .id(null)
+                .build());
+      }
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }
