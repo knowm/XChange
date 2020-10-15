@@ -8,7 +8,9 @@ public final class BitbnsUtils {
   private BitbnsUtils() {}
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.base.toString().toUpperCase()+"_"+ currencyPair.counter.toString().toUpperCase();
+    return currencyPair.base.toString().toUpperCase()
+        + "_"
+        + currencyPair.counter.toString().toUpperCase();
   }
 
   /**

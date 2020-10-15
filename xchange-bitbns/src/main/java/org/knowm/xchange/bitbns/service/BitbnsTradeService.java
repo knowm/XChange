@@ -3,7 +3,6 @@ package org.knowm.xchange.bitbns.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbns.BitbnsAdapters;
 import org.knowm.xchange.bitbns.dto.BitbnsLimitOrder;
@@ -30,14 +29,14 @@ public class BitbnsTradeService extends BitbnsTradeServiceRaw implements TradeSe
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-	  BitbnsOrderPlaceStatusResponse newOrder = placeCoindcxLimitOrder(limitOrder);
+    BitbnsOrderPlaceStatusResponse newOrder = placeCoindcxLimitOrder(limitOrder);
 
     // The return value contains details of any trades that have been immediately executed as a
     // result
     // of this order. Make these available to the application if it has provided a GeminiLimitOrder.
     if (limitOrder instanceof BitbnsLimitOrder) {
-    	BitbnsLimitOrder raw = (BitbnsLimitOrder) limitOrder;
-    	raw.setResponse(newOrder);
+      BitbnsLimitOrder raw = (BitbnsLimitOrder) limitOrder;
+      raw.setResponse(newOrder);
     }
 
     return String.valueOf(newOrder.getId());
@@ -45,8 +44,8 @@ public class BitbnsTradeService extends BitbnsTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-//    return cancelGeminiOrder(orderId);
-	  return false;
+    //    return cancelGeminiOrder(orderId);
+    return false;
   }
 
   @Override
@@ -57,18 +56,17 @@ public class BitbnsTradeService extends BitbnsTradeServiceRaw implements TradeSe
       return false;
     }
   }
-  
+
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
 
     Collection<Order> orders = new ArrayList<>(orderIds.length);
 
-//    for (String orderId : orderIds) {
-      orders.add(BitbnsAdapters.adaptOrder(super.getOrderStatus(orderIds[0],orderIds[1]),orderIds[1]));
-//    }
+    //    for (String orderId : orderIds) {
+    orders.add(
+        BitbnsAdapters.adaptOrder(super.getOrderStatus(orderIds[0], orderIds[1]), orderIds[1]));
+    //    }
 
     return orders;
   }
-  
- 
 }

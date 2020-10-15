@@ -5,33 +5,32 @@ import java.util.UUID;
 
 public class CoindcxOrderStatusRequest {
 
-	private UUID id;
-	private long timestamp;
-	
-	public CoindcxOrderStatusRequest(UUID id) {
-		 this.id=id;
-		 this.timestamp=new Date().getTime();
-	}
+  private UUID id;
+  private long timestamp;
 
-	public UUID getId() {
-		return id;
-	}
+  public CoindcxOrderStatusRequest(UUID id) {
+    this.id = id;
+    this.timestamp = new Date().getTime();
+  }
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+  public UUID getId() {
+    return id;
+  }
 
-	public long getTimestamp() {
-		return timestamp;
-	}
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
-	}
+  public long getTimestamp() {
+    return timestamp;
+  }
 
-	@Override
-	public String toString() {
-		return "CoindcxOrderStatusRequest [id=" + id + ", timestamp=" + timestamp + "]";
-	}
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
+  }
 
+  @Override
+  public String toString() {
+    return "CoindcxOrderStatusRequest [id=" + id + ", timestamp=" + timestamp + "]";
+  }
 }

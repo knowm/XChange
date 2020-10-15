@@ -3,7 +3,6 @@ package org.knowm.xchange.coindcx.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindcx.CoindcxAdapters;
 import org.knowm.xchange.coindcx.dto.CoindcxLimitOrder;
@@ -31,13 +30,14 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    CoindcxOrderStatusResponse newOrder = placeCoindcxLimitOrder(limitOrder, CoindcxOrderType.LIMIT);
+    CoindcxOrderStatusResponse newOrder =
+        placeCoindcxLimitOrder(limitOrder, CoindcxOrderType.LIMIT);
 
     // The return value contains details of any trades that have been immediately executed as a
     // result
     // of this order. Make these available to the application if it has provided a GeminiLimitOrder.
     if (limitOrder instanceof CoindcxLimitOrder) {
-    	CoindcxLimitOrder raw = (CoindcxLimitOrder) limitOrder;
+      CoindcxLimitOrder raw = (CoindcxLimitOrder) limitOrder;
       raw.setResponse(newOrder);
     }
 
@@ -46,8 +46,8 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-//    return cancelGeminiOrder(orderId);
-	  return false;
+    //    return cancelGeminiOrder(orderId);
+    return false;
   }
 
   @Override
@@ -58,7 +58,7 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
       return false;
     }
   }
-  
+
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
 
@@ -70,5 +70,4 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
 
     return orders;
   }
- 
 }
