@@ -10,15 +10,15 @@ import si.mazi.rescu.Interceptor;
 
 public class InterceptorProvider {
 
-    private static final Supplier<Collection<Interceptor>> INTERCEPTORS_SUPPLIER =
-            Suppliers.memoize(
-                    () -> {
-                        final ServiceLoader<Interceptor> serviceLoader = ServiceLoader.load(Interceptor.class);
-                        return StreamSupport.stream(serviceLoader.spliterator(), false)
-                                .collect(Collectors.toSet());
-                    });
+  private static final Supplier<Collection<Interceptor>> INTERCEPTORS_SUPPLIER =
+      Suppliers.memoize(
+          () -> {
+            final ServiceLoader<Interceptor> serviceLoader = ServiceLoader.load(Interceptor.class);
+            return StreamSupport.stream(serviceLoader.spliterator(), false)
+                .collect(Collectors.toSet());
+          });
 
-    public static Collection<Interceptor> provide() {
-        return INTERCEPTORS_SUPPLIER.get();
-    }
+  public static Collection<Interceptor> provide() {
+    return INTERCEPTORS_SUPPLIER.get();
+  }
 }
