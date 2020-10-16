@@ -34,7 +34,7 @@
     <version.commons.io>2.8.0</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
-    <version.github.mmazi>2.0.2</version.github.mmazi>
+    <version.github.mmazi>2.0.4</version.github.mmazi>
     <version.resilience4j>1.6.1</version.resilience4j>
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.14</version.lombok>
