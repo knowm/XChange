@@ -123,12 +123,12 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenTradeHistory getKrakenTradeHistory() throws IOException {
-
     return getKrakenTradeHistory(null, false, null, null, null);
   }
 
   public KrakenTradeHistory getKrakenTradeHistory(
-      String type, boolean includeTrades, Long start, Long end, Long offset) throws IOException {
+      String type, boolean includeTrades, String start, String end, Long offset)
+      throws IOException {
 
     KrakenTradeHistoryResult result =
         kraken.tradeHistory(
