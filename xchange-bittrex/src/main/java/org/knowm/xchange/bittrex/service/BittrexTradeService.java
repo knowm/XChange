@@ -4,17 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.BittrexAdapters;
-import org.knowm.xchange.bittrex.BittrexErrorAdapter;
+import org.knowm.xchange.bittrex.*;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
-import org.knowm.xchange.bittrex.dto.trade.BittrexUserTrade;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
@@ -33,18 +29,11 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
    *
    * @param exchange
    */
-  public BittrexTradeService(Exchange exchange) {
-
-    super(exchange);
-  }
-
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    try {
-      return placeBittrexMarketOrder(marketOrder);
-    } catch (BittrexException e) {
-      throw BittrexErrorAdapter.adapt(e);
-    }
+  public BittrexTradeService(
+      BittrexExchange exchange,
+      BittrexAuthenticated bittrex,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, bittrex, resilienceRegistries);
   }
 
   @Override
@@ -58,11 +47,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    try {
-      return getOpenOrders(createOpenOrdersParams());
-    } catch (BittrexException e) {
-      throw BittrexErrorAdapter.adapt(e);
-    }
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
@@ -77,7 +62,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
     try {
-      return cancelBittrexLimitOrder(orderId);
+      return BittrexConstants.CLOSED.equalsIgnoreCase(cancelBittrexLimitOrder(orderId).getStatus());
     } catch (BittrexException e) {
       throw BittrexErrorAdapter.adapt(e);
     }
@@ -85,30 +70,22 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    try {
-      if (orderParams instanceof CancelOrderByIdParams) {
-        return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
-      } else {
-        return false;
-      }
-    } catch (BittrexException e) {
-      throw BittrexErrorAdapter.adapt(e);
+    if (orderParams instanceof CancelOrderByIdParams) {
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     }
+    return false;
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     try {
-      CurrencyPair currencyPair = null;
-      if (params instanceof TradeHistoryParamCurrencyPair) {
-        TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair =
-            (TradeHistoryParamCurrencyPair) params;
-        currencyPair = tradeHistoryParamCurrencyPair.getCurrencyPair();
-      }
-
-      List<BittrexUserTrade> bittrexTradeHistory = getBittrexTradeHistory(currencyPair);
+      List<BittrexOrder> tradeHistory =
+          (params instanceof TradeHistoryParamCurrencyPair)
+              ? getBittrexUserTradeHistory(
+                  ((TradeHistoryParamCurrencyPair) params).getCurrencyPair())
+              : getBittrexUserTradeHistory();
       return new UserTrades(
-          BittrexAdapters.adaptUserTrades(bittrexTradeHistory), TradeSortType.SortByTimestamp);
+          BittrexAdapters.adaptUserTrades(tradeHistory), Trades.TradeSortType.SortByTimestamp);
     } catch (BittrexException e) {
       throw BittrexErrorAdapter.adapt(e);
     }
@@ -128,9 +105,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   public Collection<Order> getOrder(String... orderIds) throws IOException {
     try {
       List<Order> orders = new ArrayList<>();
-
       for (String orderId : orderIds) {
-
         BittrexOrder order = getBittrexOrder(orderId);
         if (order != null) {
           LimitOrder limitOrder = BittrexAdapters.adaptOrder(order);
