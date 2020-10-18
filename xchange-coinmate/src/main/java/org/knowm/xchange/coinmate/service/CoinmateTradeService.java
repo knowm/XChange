@@ -207,10 +207,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
     CoinmateTradeHistory coinmateTradeHistory =
         getCoinmateTradeHistory(
-            CoinmateUtils.getPair(currencyPair),
-            limit,
-            CoinmateAdapters.adaptSortOrder(order),
-            startId);
+            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order), startId);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
@@ -262,10 +259,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   public static class CoinmateTradeHistoryHistoryParams
-      implements TradeHistoryParamOffset,
-          TradeHistoryParamLimit,
-          TradeHistoryParamsSorted,
-          TradeHistoryParamsIdSpan {
+      implements TradeHistoryParamOffset, TradeHistoryParamLimit, TradeHistoryParamsSorted, TradeHistoryParamsIdSpan {
 
     private Integer limit;
     private Long offset;
@@ -320,6 +314,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     @Override
     public void setStartId(String startId) {
       this.startId = startId;
+
     }
 
     @Override
@@ -330,6 +325,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     @Override
     public void setEndId(String endId) {
       throw new UnsupportedOperationException("Coinmate doesn't support start id.");
+
     }
   }
 }
