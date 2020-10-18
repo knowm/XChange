@@ -149,8 +149,7 @@ public class BittrexAdaptersTest extends TestCase {
         new Trades(
             tradesList,
             Math.max(Long.parseLong(trade1.getId()), Long.parseLong(trade2.getId())),
-            Trades.TradeSortType.SortByID);
-    Assert.assertEquals(trades.getlastID(), adaptedTrades.getlastID());
+            Trades.TradeSortType.SortByTimestamp);
     Assert.assertEquals(trades.getNextPageCursor(), adaptedTrades.getNextPageCursor());
     Assert.assertEquals(trades.getTrades(), adaptedTrades.getTrades());
     Assert.assertEquals(trades.getTradeSortType(), adaptedTrades.getTradeSortType());
