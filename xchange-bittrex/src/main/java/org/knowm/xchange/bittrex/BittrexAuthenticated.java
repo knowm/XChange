@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
 import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
@@ -37,7 +38,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @POST
   @Path("batch")
@@ -48,7 +49,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       BatchOrder[] batchOrders)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @DELETE
   @Path("orders/{order_id}")
@@ -58,7 +59,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("order_id") String accountId)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("balances")
@@ -67,7 +68,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("balances/{currencySymbol}")
@@ -77,7 +78,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("currencySymbol") String currencySymbol)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("addresses")
@@ -86,7 +87,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("addresses/{currencySymbol}")
@@ -96,7 +97,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("currencySymbol") String currencySymbol)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @POST
   @Path("addresses")
@@ -106,7 +107,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       BittrexNewAddress newAddress)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("orders/{orderId}")
@@ -116,7 +117,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @PathParam("orderId") String orderId)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @POST
   @Path("orders")
@@ -127,7 +128,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       BittrexNewOrder newOrderPayload)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("orders/open")
@@ -136,7 +137,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Timestamp") Long timestamp,
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature)
-      throws IOException;
+      throws IOException, BittrexException;
 
   // V3 replacement for get order history
   @GET
@@ -148,7 +149,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @QueryParam("marketSymbol") String marketSymbol,
       @QueryParam("pageSize") Integer pageSize)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("deposits/closed")
@@ -161,7 +162,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @QueryParam("nextPageToken") String nextPageToken,
       @QueryParam("previousPageToken") String previousPageToken,
       @QueryParam("pageSize") Integer pageSize)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("withdrawals/closed")
@@ -174,5 +175,5 @@ public interface BittrexAuthenticated extends Bittrex {
       @QueryParam("nextPageToken") String nextPageToken,
       @QueryParam("previousPageToken") String previousPageToken,
       @QueryParam("pageSize") Integer pageSize)
-      throws IOException;
+      throws IOException, BittrexException;
 }

@@ -8,7 +8,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bittrex.BittrexExchange;
 
 /** @author walec51 */
-public class BaseMockedTestIntegration {
+public class BaseWiremockTest {
 
   @Rule public WireMockRule wireMockRule = new WireMockRule();
   public static final String WIREMOCK_FILES_PATH = "__files";

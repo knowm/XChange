@@ -8,6 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
@@ -22,30 +23,32 @@ public interface Bittrex {
   @Path("markets/{marketSymbol}/orderbook")
   BittrexDepth getOrderBook(
       @PathParam("marketSymbol") String marketSymbol, @QueryParam("depth") int depth)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("markets")
-  List<BittrexSymbol> getMarkets() throws IOException;
+  List<BittrexSymbol> getMarkets() throws IOException, BittrexException;
 
   @GET
   @Path("markets/{marketSymbol}/summary")
   BittrexMarketSummary getMarketSummary(@PathParam("marketSymbol") String marketSymbol)
-      throws IOException;
+      throws IOException, BittrexException;
 
   @GET
   @Path("markets/summaries")
-  List<BittrexMarketSummary> getMarketSummaries() throws IOException;
+  List<BittrexMarketSummary> getMarketSummaries() throws IOException, BittrexException;
 
   @GET
   @Path("markets/tickers")
-  List<BittrexTicker> getTickers() throws IOException;
+  List<BittrexTicker> getTickers() throws IOException, BittrexException;
 
   @GET
   @Path("markets/{marketSymbol}/trades")
-  List<BittrexTrade> getTrades(@PathParam("marketSymbol") String marketSymbol) throws IOException;
+  List<BittrexTrade> getTrades(@PathParam("marketSymbol") String marketSymbol)
+      throws IOException, BittrexException;
 
   @GET
   @Path("markets/{marketSymbol}/ticker")
-  BittrexTicker getTicker(@PathParam("marketSymbol") String marketSymbol) throws IOException;
+  BittrexTicker getTicker(@PathParam("marketSymbol") String marketSymbol)
+      throws IOException, BittrexException;
 }
