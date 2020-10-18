@@ -102,7 +102,7 @@ public final class BittrexAdapters {
     BigDecimal amount = trade.getQuantity();
     BigDecimal price = trade.getRate();
     Date date = trade.getExecutedAt();
-    final String tradeId = String.valueOf(trade.getId());
+    String tradeId = trade.getId();
     return new Trade.Builder()
         .type(orderType)
         .originalAmount(amount)
@@ -115,13 +115,11 @@ public final class BittrexAdapters {
 
   public static Trades adaptTrades(List<BittrexTrade> trades, CurrencyPair currencyPair) {
     return new Trades(
-        trades.stream().map(trade -> adaptTrade(trade, currencyPair)).collect(Collectors.toList()),
         trades.stream()
-            .map(BittrexTrade::getId)
-            .map(Long::parseLong)
-            .max(Long::compareTo)
-            .orElse(0L),
-        TradeSortType.SortByID);
+            .map(trade -> adaptTrade(trade, currencyPair))
+            .sorted(Comparator.comparing(Trade::getTimestamp))
+            .collect(Collectors.toList()),
+        TradeSortType.SortByTimestamp);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexOrder> bittrexUserTrades) {
