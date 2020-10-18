@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
@@ -94,7 +95,11 @@ public class Trade implements Serializable {
    *     <p>use {@link #getInstrument()} instead
    */
   @Deprecated
+  @JsonIgnore
   public CurrencyPair getCurrencyPair() {
+    if (instrument == null) {
+      return null;
+    }
     if (!(instrument instanceof CurrencyPair)) {
       throw new IllegalStateException(
           "The instrument of this order is not a currency pair: " + instrument);
