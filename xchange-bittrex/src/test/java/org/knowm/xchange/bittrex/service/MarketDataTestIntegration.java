@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.List;
 import org.junit.BeforeClass;
@@ -13,6 +14,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 
 /** @author walec51 */
 public class MarketDataTestIntegration {
@@ -23,6 +25,14 @@ public class MarketDataTestIntegration {
   public static void setUp() {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class);
     marketDataService = (BittrexMarketDataService) exchange.getMarketDataService();
+  }
+
+  @Test
+  public void notExistingMarketErrorTest() throws Exception {
+    Throwable exception =
+        catchThrowable(
+            () -> marketDataService.getTicker(new CurrencyPair("NOT_EXISTING_TOKEN", "BTC")));
+    assertThat(exception).isInstanceOf(CurrencyPairNotValidException.class);
   }
 
   @Test
