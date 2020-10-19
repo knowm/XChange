@@ -9,7 +9,7 @@ public class YoBitExchangeDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class);
 
     System.out.println("ExchangeMetaData toString(): " + exchange.getExchangeMetaData().toString());
     System.out.println(

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampUtils;
@@ -170,7 +171,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
     if (params instanceof TradeHistoryParamsIdSpan) {
-      sinceId = ((TradeHistoryParamsIdSpan) params).getStartId();
+      sinceId = Optional.ofNullable(((TradeHistoryParamsIdSpan) params).getStartId()).orElse(null);
     }
     BitstampUserTransaction[] txs =
         getBitstampUserTransactions(

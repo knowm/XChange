@@ -21,8 +21,7 @@ public class KoineksExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://koineks.com");
     exchangeSpecification.setHost("www.koineks.com");
     exchangeSpecification.setPort(80);

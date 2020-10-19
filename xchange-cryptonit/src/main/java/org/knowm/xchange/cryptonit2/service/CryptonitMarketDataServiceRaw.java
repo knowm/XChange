@@ -3,13 +3,13 @@ package org.knowm.xchange.cryptonit2.service;
 import java.io.IOException;
 import javax.annotation.Nullable;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.cryptonit2.CryptonitV2;
 import org.knowm.xchange.cryptonit2.dto.CryptonitException;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitOrderBook;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitTicker;
 import org.knowm.xchange.cryptonit2.dto.marketdata.CryptonitTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author gnandiga */
 public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
@@ -20,8 +20,9 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBaseService {
 
     super(exchange);
     this.cryptonitV2 =
-        RestProxyFactory.createProxy(
-            CryptonitV2.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CryptonitV2.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public CryptonitTicker getCryptonitTicker(CurrencyPair pair) throws IOException {

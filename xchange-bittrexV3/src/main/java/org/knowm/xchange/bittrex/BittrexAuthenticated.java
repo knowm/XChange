@@ -82,31 +82,31 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("addresses")
   List<BittrexAddress> getAddresses(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature)
-          throws IOException;
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature)
+      throws IOException;
 
   @GET
   @Path("addresses/{currencySymbol}")
   BittrexAddress getAddress(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature,
-          @PathParam("currencySymbol") String currencySymbol)
-          throws IOException;
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      @PathParam("currencySymbol") String currencySymbol)
+      throws IOException;
 
   @POST
   @Path("addresses")
   BittrexAddress generateAddress(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature,
-          BittrexNewAddress newAddress)
-          throws IOException;
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      BittrexNewAddress newAddress)
+      throws IOException;
 
   @GET
   @Path("orders/{orderId}")

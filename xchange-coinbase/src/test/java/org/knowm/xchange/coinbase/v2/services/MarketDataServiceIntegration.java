@@ -26,7 +26,7 @@ public class MarketDataServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class);
     marketDataService = exchange.getMarketDataService();
   }
 

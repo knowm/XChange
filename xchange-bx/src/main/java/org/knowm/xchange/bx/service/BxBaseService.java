@@ -3,11 +3,11 @@ package org.knowm.xchange.bx.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bx.BxAuthenticated;
 import org.knowm.xchange.bx.dto.BxResult;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BxBaseService extends BaseExchangeService implements BaseService {
 
@@ -17,10 +17,9 @@ public class BxBaseService extends BaseExchangeService implements BaseService {
   public BxBaseService(Exchange exchange) {
     super(exchange);
     bx =
-        RestProxyFactory.createProxy(
-            BxAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BxAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator = BxDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
