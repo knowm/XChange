@@ -1,26 +1,33 @@
 package info.bitrich.xchangestream.gemini;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Created by Lukas Zaoralek on 15.11.17. */
+/**
+ * Created by Lukas Zaoralek on 15.11.17.
+ */
 public class GeminiStreamingService {
+
   private static final Logger LOG = LoggerFactory.getLogger(GeminiStreamingService.class);
 
   private final String baseUri;
 
-  private Map<CurrencyPair, GeminiProductStreamingService> productStreamingServices;
-  private Map<CurrencyPair, Observable<JsonNode>> productSubscriptions;
+  private final Map<CurrencyPair, GeminiProductStreamingService> productStreamingServices =
+      new HashMap<>();
+  private final Map<CurrencyPair, Observable<JsonNode>> productSubscriptions = new HashMap<>();
+
+  private final Subject<State> stateSubject = BehaviorSubject.create();
 
   public GeminiStreamingService(String baseUri) {
     this.baseUri = baseUri;
-    productStreamingServices = new HashMap<>();
-    productSubscriptions = new HashMap<>();
   }
 
   public Observable<JsonNode> subscribeChannel(CurrencyPair currencyPair, Object... args) {
@@ -33,6 +40,10 @@ public class GeminiStreamingService {
           productStreamingService.subscribeChannel(currencyPair.toString(), args);
       productStreamingServices.put(currencyPair, productStreamingService);
       productSubscriptions.put(currencyPair, productSubscription);
+
+      productStreamingService
+          .subscribeConnectionState()
+          .subscribe(stateSubject);
     }
 
     return productSubscriptions.get(currencyPair);
@@ -40,5 +51,9 @@ public class GeminiStreamingService {
 
   public boolean isAlive() {
     return productStreamingServices.values().stream().allMatch(ps -> ps.isSocketOpen());
+  }
+
+  public Observable<State> connectionStateObservable() {
+    return stateSubject.share();
   }
 }
