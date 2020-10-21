@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 
 /**
@@ -140,6 +141,11 @@ public class DateUtils {
   public static Long toUnixTimeNullSafe(Date time) {
 
     return time == null ? null : time.getTime() / 1000;
+  }
+
+  public static Optional<Long> toUnixTimeOptional(Date time) {
+
+    return Optional.ofNullable(time).map(it -> it.getTime() / 1000);
   }
 
   public static Long toMillisNullSafe(Date time) {
