@@ -54,9 +54,9 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
 
-    List<LimitOrder> limitOrders = new ArrayList<>();
-
     BitstampOrder[] openOrders = getBitstampOpenOrders();
+    List<LimitOrder> limitOrders = new ArrayList<>(openOrders.length);
+
     for (BitstampOrder bitstampOrder : openOrders) {
       OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(bitstampOrder.getId());
