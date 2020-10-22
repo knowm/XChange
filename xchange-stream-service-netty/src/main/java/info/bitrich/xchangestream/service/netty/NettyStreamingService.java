@@ -61,7 +61,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
 
-  private class Subscription {
+  protected class Subscription {
+
     final ObservableEmitter<T> emitter;
     final String channelName;
     final Object[] args;
@@ -70,6 +71,10 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       this.emitter = emitter;
       this.channelName = channelName;
       this.args = args;
+    }
+
+    public ObservableEmitter<T> getEmitter() {
+      return emitter;
     }
   }
 
@@ -475,12 +480,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   protected void handleChannelMessage(String channel, T message) {
-    if ("ALL".equals(channel)) {
-      channels
-          .forEach((k, v) ->
-              v.emitter.onNext(message));
-
-    } else {
       NettyStreamingService<T>.Subscription subscription = channels.get(channel);
       if (subscription == null) {
         LOG.debug("Channel has been closed {}.", channel);
@@ -492,7 +491,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         return;
       }
       emitter.onNext(message);
-    }
   }
 
   protected void handleChannelError(String channel, Throwable t) {
