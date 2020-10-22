@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.service.netty;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The simplest Connection state model possible (maybe someone wants to add authenticated,
@@ -15,17 +16,18 @@ public final class ConnectionStateModel {
     open
   }
 
-  private volatile State state = State.closed;  // start with a closed state
+  private final AtomicReference<State> state = new AtomicReference<>(
+      State.closed);  // start with a closed state
   private final Subject<State> stateSubject = BehaviorSubject.create();  // remembers the last state
 
   public State getState() {
-    return state;
+    return state.get();
   }
 
   void setState(State newState) {
-    if (this.state != newState) {  // reason why state is volatile
-      this.state = newState;  // no need to synchronize as this assigment is the switch
-      this.stateSubject.onNext(newState); // newState is pm the stack (so need to sync)
+    if (newState != state.getAndSet(newState))  // returns old state value
+    {
+      this.stateSubject.onNext(newState);
     }
   }
 
