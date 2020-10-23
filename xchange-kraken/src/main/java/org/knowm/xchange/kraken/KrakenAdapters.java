@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.knowm.xchange.currency.Currency;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -408,8 +409,7 @@ public class KrakenAdapters {
     return resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]);
   }
 
-  private static CurrencyPairMetaData adaptPair(
-      KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
     if (OriginalMeta != null) {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
@@ -417,15 +417,27 @@ public class KrakenAdapters {
               ? krakenPair.getOrderMin()
               : OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
+          null,
+          null,
+          krakenPair.getVolumeLotScale(),
           krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+          null,
+          null,
+          true);
     } else {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           krakenPair.getOrderMin(),
           null,
+          null,
+          null,
+          krakenPair.getVolumeLotScale(),
           krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+          null,
+          null,
+          true);
     }
   }
 
