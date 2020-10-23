@@ -33,7 +33,7 @@ public class CoinbaseProPlaceOrderTest {
             .build();
 
     CoinbaseProPlaceLimitOrder orderFlagsNull =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), limitOrder);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
     assertThat(orderFlagsNull.getPostOnly()).isEqualTo(null);
     assertThat(orderFlagsNull.getTimeInForce()).isEqualTo(null);
   }
@@ -47,7 +47,7 @@ public class CoinbaseProPlaceOrderTest {
             .build();
 
     CoinbaseProPlaceLimitOrder orderFOK =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), order);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(order);
 
     assertThat(orderFOK.getPostOnly()).isEqualTo(null);
     assertThat(orderFOK.getTimeInForce()).isEqualTo(CoinbaseProPlaceLimitOrder.TimeInForce.FOK);
@@ -62,7 +62,7 @@ public class CoinbaseProPlaceOrderTest {
             .build();
 
     CoinbaseProPlaceLimitOrder orderPostOnly =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), order);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(order);
 
     assertThat(orderPostOnly.getPostOnly()).isEqualTo(Boolean.TRUE);
     assertThat(orderPostOnly.getTimeInForce()).isEqualTo(null);
@@ -77,7 +77,7 @@ public class CoinbaseProPlaceOrderTest {
             .build();
 
     CoinbaseProPlaceLimitOrder orderIOC =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), order);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(order);
 
     assertThat(orderIOC.getPostOnly()).isEqualTo(null);
     assertThat(orderIOC.getTimeInForce()).isEqualTo(CoinbaseProPlaceLimitOrder.TimeInForce.IOC);
