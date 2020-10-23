@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>5.0.2-SNAPSHOT</version>
+		<version>5.0.4-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -77,7 +77,7 @@
 		<!-- XChange Bittrex exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bittrex</artifactId>
+			<artifactId>xchange-bittrexV3</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->
@@ -182,13 +182,7 @@
 			<artifactId>xchange-coingi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange ANX exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-anx</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange ItBit exchange support -->
+		<!-- XChange Huobi exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-huobi</artifactId>

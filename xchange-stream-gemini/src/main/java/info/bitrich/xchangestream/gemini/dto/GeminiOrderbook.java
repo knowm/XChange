@@ -1,16 +1,12 @@
 package info.bitrich.xchangestream.gemini.dto;
 
-import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptOrders;
-
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.TreeMap;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiOrderbook {
@@ -20,8 +16,8 @@ public class GeminiOrderbook {
   private final CurrencyPair currencyPair;
 
   public GeminiOrderbook(CurrencyPair currencyPair) {
-    asks = new ConcurrentHashMap<>();
-    bids = new ConcurrentHashMap<>();
+    this.bids = new TreeMap<>(Comparator.reverseOrder());
+    this.asks = new TreeMap<>();
     this.currencyPair = currencyPair;
   }
 
@@ -29,7 +25,7 @@ public class GeminiOrderbook {
     for (GeminiLimitOrder level : levels) {
       Map<BigDecimal, GeminiLimitOrder> orderBookSide =
           level.getSide() == Order.OrderType.ASK ? asks : bids;
-      orderBookSide.put(level.getPrice().stripTrailingZeros(), level);
+      orderBookSide.put(level.getPrice(), level);
     }
   }
 
@@ -54,15 +50,15 @@ public class GeminiOrderbook {
     }
   }
 
-  public OrderBook toOrderbook() {
-    GeminiLimitOrder[] askLevels = asks.values().toArray(new GeminiLimitOrder[asks.size()]);
-    GeminiLimitOrder[] bidLevels = bids.values().toArray(new GeminiLimitOrder[bids.size()]);
-    List<LimitOrder> askOrders =
-        adaptOrders(askLevels, currencyPair, Order.OrderType.ASK).getLimitOrders();
-    List<LimitOrder> bidOrders =
-        adaptOrders(bidLevels, currencyPair, Order.OrderType.BID).getLimitOrders();
-    Collections.sort(askOrders);
-    Collections.sort(bidOrders);
-    return new OrderBook(null, askOrders, bidOrders);
+  public Collection<GeminiLimitOrder> getAsks() {
+    return asks.values();
+  }
+
+  public Collection<GeminiLimitOrder> getBids() {
+    return bids.values();
+  }
+
+  public CurrencyPair getCurrencyPair() {
+    return currencyPair;
   }
 }

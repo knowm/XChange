@@ -80,7 +80,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                       new KrakenPublicOrder(
                           bd(tickerItems.get("b"), 0), bd(tickerItems.get("b"), 2), 0),
                       new KrakenPublicOrder(
-                          bd(tickerItems.get("c"), 0), bd(tickerItems.get("b"), 2), 0),
+                          bd(tickerItems.get("c"), 0), bd(tickerItems.get("c"), 1), 0),
                       new BigDecimal[] {bd(tickerItems.get("v"), 0), bd(tickerItems.get("v"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("p"), 0), bd(tickerItems.get("p"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("t"), 0), bd(tickerItems.get("t"), 1)},
@@ -143,8 +143,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
             });
   }
 
-  private String getChannelName(
-      KrakenSubscriptionName subscriptionName, CurrencyPair currencyPair) {
+  public String getChannelName(KrakenSubscriptionName subscriptionName, CurrencyPair currencyPair) {
     String pair = currencyPair.base.toString() + "/" + currencyPair.counter.toString();
     return subscriptionName + KRAKEN_CHANNEL_DELIMITER + pair;
   }
@@ -180,7 +179,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
       LOG.error(
           "Order book size param type {} is invalid. Expected: {}. Default order book size has been used {}",
           obSizeParam.getClass().getName(),
-          Number.class.getName(),
+          Number.class,
           ORDER_BOOK_SIZE_DEFAULT);
       return ORDER_BOOK_SIZE_DEFAULT;
     }

@@ -33,8 +33,7 @@ public class GlobitexExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.globitex.com");
     exchangeSpecification.setHost("api.globitex.com");
     exchangeSpecification.setPort(80);

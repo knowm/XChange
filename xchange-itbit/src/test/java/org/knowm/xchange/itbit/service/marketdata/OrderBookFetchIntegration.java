@@ -16,7 +16,7 @@ public class OrderBookFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
     //    System.out.println(orderBook.toString());

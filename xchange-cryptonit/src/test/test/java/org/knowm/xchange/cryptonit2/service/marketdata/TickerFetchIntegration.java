@@ -16,7 +16,7 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());

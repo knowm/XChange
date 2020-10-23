@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampUtils;
@@ -11,7 +12,6 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -23,6 +23,7 @@ import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
@@ -150,14 +151,12 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
-      throws ExchangeException, NotAvailableFromExchangeException,
-          NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     Long limit = null;
-    CurrencyPair currencyPair = null;
     Long offset = null;
     TradeHistoryParamsSorted.Order sort = null;
     Long sinceTimestamp = null;
+    String sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
@@ -171,9 +170,12 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
       sinceTimestamp =
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      sinceId = Optional.ofNullable(((TradeHistoryParamsIdSpan) params).getStartId()).orElse(null);
+    }
     BitstampUserTransaction[] txs =
         getBitstampUserTransactions(
-            limit, offset, sort == null ? null : sort.toString(), sinceTimestamp);
+            limit, offset, sort == null ? null : sort.toString(), sinceTimestamp, sinceId);
     return BitstampAdapters.adaptFundingHistory(Arrays.asList(txs));
   }
 }

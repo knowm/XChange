@@ -146,8 +146,6 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
       // round quantity according to step_size
       CurrencyPairMetaData metadata = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair());
-      BigDecimal stepSize = metadata.getAmountStepSize().stripTrailingZeros();
-      int stepSizeScale = stepSize.scale();
       // round price according to price scale and market side
       if (limitPrice != null) {
         // is a limit order
@@ -160,6 +158,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         }
         limitPrice = limitPrice.setScale(priceScale, roundingMode);
       }
+      int stepSizeScale = metadata.getBaseScale();
       BinanceNewOrder newOrder =
           newOrder(
               order.getCurrencyPair(),

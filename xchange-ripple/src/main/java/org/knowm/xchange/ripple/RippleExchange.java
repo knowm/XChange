@@ -65,8 +65,7 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    final ExchangeSpecification specification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    final ExchangeSpecification specification = new ExchangeSpecification(this.getClass());
     specification.setSslUri(REST_API_RIPPLE_LABS);
     specification.setExchangeName("Ripple");
     specification.setExchangeDescription(

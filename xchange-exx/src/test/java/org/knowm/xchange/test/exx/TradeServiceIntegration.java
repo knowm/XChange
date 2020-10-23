@@ -112,7 +112,7 @@ public class TradeServiceIntegration {
   }
 
   private static Exchange getExchange() throws IOException {
-    Exchange exx = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class.getName());
+    Exchange exx = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class);
 
     ExchangeSpecification exchangeSpecification = exx.getExchangeSpecification();
     exchangeSpecification.setSslUri("https://trade.exx.com");

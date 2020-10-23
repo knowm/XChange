@@ -11,9 +11,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
+import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticatedV3;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.trade.*;
+import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsPlaceOrderRequest;
+import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -30,7 +33,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
   BTCMarketsAuthenticated.class,
-  BTCMarketsOpenOrdersAndTradeHistoryRequest.class,
+  BTCMarketsOpenOrdersRequest.class,
   BTCMarketsCancelOrderRequest.class,
   BTCMarketsOrder.class
 })
@@ -46,10 +49,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
         (BTCMarketsExchange)
             ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
 
-    exchange
-        .getExchangeSpecification()
-        .getExchangeSpecificParameters()
-        .put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
+    exchange.getExchangeSpecification().getExchangeSpecificParameters();
     exchange.getExchangeSpecification().setUserName(SPECIFICATION_USERNAME);
     exchange.getExchangeSpecification().setApiKey(SPECIFICATION_API_KEY);
     exchange.getExchangeSpecification().setSecretKey(SPECIFICATION_SECRET_KEY);
@@ -63,35 +63,28 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     MarketOrder marketOrder =
         new MarketOrder(Order.OrderType.BID, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD);
 
-    BTCMarketsOrder btcMarketsOrder =
-        new BTCMarketsOrder(
-            new BigDecimal("10.00000000"),
-            BigDecimal.ZERO,
-            "AUD",
-            "BTC",
-            BTCMarketsOrder.Side.Bid,
-            BTCMarketsOrder.Type.Market,
-            "generatedReqId");
+    BTCMarketsPlaceOrderRequest btcMarketsOrder =
+        new BTCMarketsPlaceOrderRequest(
+            "BTC-AUD", "0", "10.00000000", "Market", "Bid", null, null, "GTC", null, null, null);
 
-    BTCMarketsPlaceOrderResponse orderResponse =
-        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345L);
+    BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
-    BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
+    BTCMarketsAuthenticatedV3 btcm = mock(BTCMarketsAuthenticatedV3.class);
     PowerMockito.when(
             btcm.placeOrder(
                 Mockito.eq(SPECIFICATION_API_KEY),
                 Mockito.any(SynchronizedValueFactory.class),
-                Mockito.any(BTCMarketsDigest.class),
-                Mockito.refEq(btcMarketsOrder, "clientRequestId")))
+                Mockito.any(BTCMarketsDigestV3.class),
+                Mockito.refEq(btcMarketsOrder)))
         .thenReturn(orderResponse);
 
-    Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
+    Whitebox.setInternalState(marketsTradeService, "btcmv3", btcm);
 
     // when
     String placed = marketsTradeService.placeMarketOrder(marketOrder);
 
     // then
-    assertThat(placed).isEqualTo("12345");
+    assertThat(placed).isEqualTo("11111");
   }
 
   @Test
@@ -106,35 +99,38 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
             new Date(1234567890L),
             new BigDecimal("20.00000000"));
 
-    BTCMarketsOrder btcMarketsOrder =
-        new BTCMarketsOrder(
-            new BigDecimal("10.00000000"),
-            new BigDecimal("20.00000000"),
-            "AUD",
-            "BTC",
-            BTCMarketsOrder.Side.Ask,
-            BTCMarketsOrder.Type.Limit,
-            "generatedReqId");
+    BTCMarketsPlaceOrderRequest request =
+        new BTCMarketsPlaceOrderRequest(
+            "BTC-AUD",
+            "20.00000000",
+            "10.00000000",
+            "Limit",
+            "Ask",
+            null,
+            null,
+            "GTC",
+            null,
+            null,
+            null);
 
-    BTCMarketsPlaceOrderResponse orderResponse =
-        new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345L);
+    BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse("11111");
 
-    BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
+    BTCMarketsAuthenticatedV3 btcm = mock(BTCMarketsAuthenticatedV3.class);
     PowerMockito.when(
             btcm.placeOrder(
                 Mockito.eq(SPECIFICATION_API_KEY),
                 Mockito.any(SynchronizedValueFactory.class),
-                Mockito.any(BTCMarketsDigest.class),
-                Mockito.refEq(btcMarketsOrder, "clientRequestId")))
+                Mockito.any(BTCMarketsDigestV3.class),
+                Mockito.refEq(request)))
         .thenReturn(orderResponse);
 
-    Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
+    Whitebox.setInternalState(marketsTradeService, "btcmv3", btcm);
 
     // when
     String placed = marketsTradeService.placeLimitOrder(limitOrder);
 
     // then
-    assertThat(placed).isEqualTo("12345");
+    assertThat(placed).isEqualTo("11111");
   }
 
   @Test

@@ -85,6 +85,12 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
         apiKey, digest, nonceFactory, passphrase, accountId, profileId, limit, after);
   }
 
+  public CoinbaseProTransfers transfers(
+      String type, String profileId, String before, String after, int limit) {
+    return coinbasePro.transfers(
+        apiKey, digest, nonceFactory, passphrase, type, profileId, before, after, limit);
+  }
+
   public CoinbaseProAccount[] getCoinbaseAccounts() throws IOException {
     return coinbasePro.getCoinbaseProAccounts(apiKey, digest, nonceFactory, passphrase);
   }

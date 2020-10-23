@@ -14,7 +14,7 @@ public class UpbitOrderBookDemo {
   public static void main(String[] args) throws IOException {
 
     // Create Default Upbit Instance
-    Exchange upbit = ExchangeFactory.INSTANCE.createExchange(CoinoneExchange.class.getName());
+    Exchange upbit = ExchangeFactory.INSTANCE.createExchange(CoinoneExchange.class);
 
     // Get The Public Market Data Service
     MarketDataService marketDataService = upbit.getMarketDataService();

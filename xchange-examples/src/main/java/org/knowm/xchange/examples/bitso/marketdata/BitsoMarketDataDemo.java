@@ -25,7 +25,7 @@ public class BitsoMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitso exchange API using default settings
-    Exchange bitso = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
+    Exchange bitso = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = bitso.getMarketDataService();

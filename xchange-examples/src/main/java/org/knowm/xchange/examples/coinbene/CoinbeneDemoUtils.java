@@ -7,6 +7,6 @@ import org.knowm.xchange.coinbene.CoinbeneExchange;
 public class CoinbeneDemoUtils {
 
   public static Exchange createExchange() {
-    return ExchangeFactory.INSTANCE.createExchange(CoinbeneExchange.class.getName());
+    return ExchangeFactory.INSTANCE.createExchange(CoinbeneExchange.class);
   }
 }

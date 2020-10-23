@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.knowm.xchange</groupId>
         <artifactId>xchange-parent</artifactId>
-        <version>5.0.2-SNAPSHOT</version>
+        <version>5.0.4-SNAPSHOT</version>
     </parent>
 
     <name>XChange Bitmex Stream</name>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
-            <version>4.5.12</version>
+            <version>4.5.13</version>
         </dependency>
     </dependencies>
 </project>

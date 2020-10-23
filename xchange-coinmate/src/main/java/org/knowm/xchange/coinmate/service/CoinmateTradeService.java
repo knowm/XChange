@@ -17,6 +17,8 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -30,6 +32,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 /** @author Martin Stachon */
 public class CoinmateTradeService extends CoinmateTradeServiceRaw implements TradeService {
@@ -54,6 +57,17 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
     List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
     return new OpenOrders(orders);
+  }
+
+  @Override
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
+    ArrayList<Order> result = new ArrayList<>(orderQueryParams.length);
+    for (OrderQueryParams orderQueryParam : orderQueryParams) {
+      CoinmateOrders response = this.getCoinmateOrderById(orderQueryParam.getOrderId());
+      List<Order> orders = CoinmateAdapters.adaptOrders(response);
+      result.addAll(orders);
+    }
+    return result;
   }
 
   @Override
@@ -169,6 +183,7 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     Integer limit = 1000;
     int offset = 0;
     CurrencyPair currencyPair = null;
+    String startId = null;
 
     if (params instanceof TradeHistoryParamOffset) {
       offset = Math.toIntExact(((TradeHistoryParamOffset) params).getOffset());
@@ -186,9 +201,13 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
       currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
 
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      startId = ((TradeHistoryParamsIdSpan) params).getStartId();
+    }
+
     CoinmateTradeHistory coinmateTradeHistory =
         getCoinmateTradeHistory(
-            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order));
+            CoinmateUtils.getPair(currencyPair), limit, CoinmateAdapters.adaptSortOrder(order), startId);
     return CoinmateAdapters.adaptTradeHistory(coinmateTradeHistory);
   }
 
@@ -240,11 +259,12 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   public static class CoinmateTradeHistoryHistoryParams
-      implements TradeHistoryParamOffset, TradeHistoryParamLimit, TradeHistoryParamsSorted {
+      implements TradeHistoryParamOffset, TradeHistoryParamLimit, TradeHistoryParamsSorted, TradeHistoryParamsIdSpan {
 
     private Integer limit;
     private Long offset;
     private Order order;
+    private String startId;
 
     public CoinmateTradeHistoryHistoryParams(Integer limit, Long offset, Order order) {
       this.limit = limit;
@@ -284,6 +304,28 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
     @Override
     public void setOrder(Order order) {
       this.order = order;
+    }
+
+    @Override
+    public String getStartId() {
+      return startId;
+    }
+
+    @Override
+    public void setStartId(String startId) {
+      this.startId = startId;
+
+    }
+
+    @Override
+    public String getEndId() {
+      return null;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+      throw new UnsupportedOperationException("Coinmate doesn't support start id.");
+
     }
   }
 }

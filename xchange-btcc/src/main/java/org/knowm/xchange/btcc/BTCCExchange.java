@@ -26,8 +26,7 @@ public class BTCCExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.btcc.com");
     exchangeSpecification.setHost("api.btcc.com");
     exchangeSpecification.setPort(80);
