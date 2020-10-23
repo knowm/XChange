@@ -418,14 +418,16 @@ public class KrakenAdapters {
               : OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
           krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+          new BigDecimal(krakenPair.getVolumeLotScale()));
     } else {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           krakenPair.getOrderMin(),
           null,
           krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+          new BigDecimal(krakenPair.getVolumeLotScale()));
     }
   }
 
