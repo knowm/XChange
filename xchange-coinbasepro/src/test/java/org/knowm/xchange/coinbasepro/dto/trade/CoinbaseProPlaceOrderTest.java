@@ -1,10 +1,8 @@
 package org.knowm.xchange.coinbasepro.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
-
 import org.junit.Test;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
