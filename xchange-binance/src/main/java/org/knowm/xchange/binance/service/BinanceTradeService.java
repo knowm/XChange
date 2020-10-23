@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Value;
+
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
@@ -50,6 +50,8 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
+
+import lombok.Value;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
@@ -150,12 +152,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       if (limitPrice != null) {
         // is a limit order
         int priceScale = metadata.getPriceScale();
-        RoundingMode roundingMode = null;
-        if (order.getType().equals(org.knowm.xchange.dto.Order.OrderType.BID)) {
-          roundingMode = RoundingMode.DOWN;
-        } else {
-          roundingMode = RoundingMode.UP;
-        }
+        RoundingMode roundingMode = org.knowm.xchange.dto.Order.OrderType.BID.equals(order.getType()) ? RoundingMode.DOWN : RoundingMode.UP;
         limitPrice = limitPrice.setScale(priceScale, roundingMode);
       }
       int stepSizeScale = metadata.getBaseScale();
