@@ -1,29 +1,17 @@
 package org.knowm.xchange.coinbasepro.dto.trade;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class CoinbaseProPlaceOrderTest {
-
-  static Exchange exchange;
-
-  @BeforeClass
-  public static void setup() {
-    ExchangeSpecification specification = new ExchangeSpecification(CoinbaseProExchange.class);
-    exchange = ExchangeFactory.INSTANCE.createExchange(specification);
-  }
 
   @Test
   public void nullflagsTest() {
