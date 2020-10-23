@@ -408,8 +408,7 @@ public class KrakenAdapters {
     return resultFeeTiers.toArray(new FeeTier[resultFeeTiers.size()]);
   }
 
-  private static CurrencyPairMetaData adaptPair(
-      KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
     if (OriginalMeta != null) {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
@@ -417,17 +416,27 @@ public class KrakenAdapters {
               ? krakenPair.getOrderMin()
               : OriginalMeta.getMinimumAmount(),
           OriginalMeta.getMaximumAmount(),
+          null,
+          null,
+          krakenPair.getVolumeLotScale(),
           krakenPair.getPairScale(),
           adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
-          new BigDecimal(krakenPair.getVolumeLotScale()));
+          null,
+          null,
+          true);
     } else {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           krakenPair.getOrderMin(),
           null,
+          null,
+          null,
+          krakenPair.getVolumeLotScale(),
           krakenPair.getPairScale(),
           adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
-          new BigDecimal(krakenPair.getVolumeLotScale()));
+          null,
+          null,
+          true);
     }
   }
 
