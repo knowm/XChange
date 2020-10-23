@@ -2,6 +2,7 @@ package org.knowm.xchange.binance.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -142,13 +143,16 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       Long recvWindow =
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+      // round quantity according to step_size
+      BigDecimal stepSize = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair()).getAmountStepSize().stripTrailingZeros();
+      int stepSizeScale = stepSize.scale();
       BinanceNewOrder newOrder =
           newOrder(
               order.getCurrencyPair(),
               BinanceAdapters.convert(order.getType()),
               type,
               tif,
-              order.getOriginalAmount(),
+              order.getOriginalAmount().setScale(stepSizeScale, RoundingMode.DOWN),
               limitPrice,
               getClientOrderId(order),
               stopPrice,
