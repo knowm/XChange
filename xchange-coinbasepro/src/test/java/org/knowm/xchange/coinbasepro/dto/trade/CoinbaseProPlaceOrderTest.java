@@ -33,7 +33,7 @@ public class CoinbaseProPlaceOrderTest {
             .build();
 
     CoinbaseProPlaceLimitOrder orderFlagsNull =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(null, limitOrder);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), limitOrder);
     assertThat(orderFlagsNull.getPostOnly()).isEqualTo(null);
     assertThat(orderFlagsNull.getTimeInForce()).isEqualTo(null);
   }

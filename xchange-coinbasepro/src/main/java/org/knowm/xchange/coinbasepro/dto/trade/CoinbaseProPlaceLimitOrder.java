@@ -115,13 +115,13 @@ public class CoinbaseProPlaceLimitOrder extends CoinbaseProPlaceOrder {
   public static class Builder
       extends CoinbaseProPlaceOrder.Builder<CoinbaseProPlaceLimitOrder, Builder> {
     BigDecimal price;
-
     BigDecimal size;
     TimeInForce timeInForce;
     CancelAfter cancelAfter;
     Boolean postOnly;
 
     public Builder price(BigDecimal price) {
+      this.price = price;
       return this;
     }
 
