@@ -25,6 +25,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -144,7 +145,20 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
       // round quantity according to step_size
-      int stepSizeScale = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair()).getBaseScale();
+      CurrencyPairMetaData metadata = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair());
+      // round price according to price scale and market side
+      if (limitPrice != null) {
+        // is a limit order
+        int priceScale = metadata.getPriceScale();
+        RoundingMode roundingMode = null;
+        if (order.getType().equals(org.knowm.xchange.dto.Order.OrderType.BID)) {
+          roundingMode = RoundingMode.DOWN;
+        } else {
+          roundingMode = RoundingMode.UP;
+        }
+        limitPrice = limitPrice.setScale(priceScale, roundingMode);
+      }
+      int stepSizeScale = metadata.getBaseScale();
       BinanceNewOrder newOrder =
           newOrder(
               order.getCurrencyPair(),
