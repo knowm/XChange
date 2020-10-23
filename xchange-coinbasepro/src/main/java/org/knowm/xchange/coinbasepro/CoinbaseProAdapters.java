@@ -440,7 +440,6 @@ public class CoinbaseProAdapters {
         ? CoinbaseProPlaceOrder.Stop.loss
         : CoinbaseProPlaceOrder.Stop.entry;
   }
-
   public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(ExchangeMetaData exchangeMetaData, LimitOrder limitOrder) {
     CurrencyPairMetaData cpMetaData = exchangeMetaData.getCurrencyPairs().get(limitOrder.getCurrencyPair()); 
     int quantityScale = cpMetaData.getBaseScale();
@@ -454,6 +453,26 @@ public class CoinbaseProAdapters {
             .productId(adaptProductID(limitOrder.getCurrencyPair()))
             .side(adaptSide(limitOrder.getType()))
             .size(limitOrder.getOriginalAmount().setScale(quantityScale, RoundingMode.DOWN));
+    
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.POST_ONLY))
+      builder.postOnly(true);
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.FILL_OR_KILL))
+      builder.timeInForce(CoinbaseProPlaceLimitOrder.TimeInForce.FOK);
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.IMMEDIATE_OR_CANCEL))
+      builder.timeInForce(CoinbaseProPlaceLimitOrder.TimeInForce.IOC);
+      
+    return builder.build();
+  }
+
+  public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(LimitOrder limitOrder) {
+    CoinbaseProPlaceLimitOrder.Builder builder =
+        new CoinbaseProPlaceLimitOrder.Builder()
+            .clientOid(limitOrder.getUserReference())
+            .price(limitOrder.getLimitPrice())
+            .type(CoinbaseProPlaceOrder.Type.limit)
+            .productId(adaptProductID(limitOrder.getCurrencyPair()))
+            .side(adaptSide(limitOrder.getType()))
+            .size(limitOrder.getOriginalAmount());
 
     if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.POST_ONLY))
       builder.postOnly(true);
