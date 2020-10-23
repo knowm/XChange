@@ -63,7 +63,7 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
     CoinbaseProPlaceLimitOrder coinbaseProLimitOrder =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), limitOrder);
     CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProLimitOrder);
     return response.getId();
   }

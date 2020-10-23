@@ -2,11 +2,19 @@ package org.knowm.xchange.coinbasepro;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
@@ -431,6 +439,29 @@ public class CoinbaseProAdapters {
     return orderType == OrderType.ASK
         ? CoinbaseProPlaceOrder.Stop.loss
         : CoinbaseProPlaceOrder.Stop.entry;
+  }
+  public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(ExchangeMetaData exchangeMetaData, LimitOrder limitOrder) {
+    CurrencyPairMetaData cpMetaData = exchangeMetaData.getCurrencyPairs().get(limitOrder.getCurrencyPair()); 
+    int quantityScale = cpMetaData.getBaseScale();
+    int priceScale = cpMetaData.getPriceScale();
+    RoundingMode priceRounding = OrderType.BID.equals(limitOrder.getType()) ? RoundingMode.DOWN : RoundingMode.UP;
+    CoinbaseProPlaceLimitOrder.Builder builder =
+        new CoinbaseProPlaceLimitOrder.Builder()
+            .clientOid(limitOrder.getUserReference())
+            .price(limitOrder.getLimitPrice().setScale(priceScale, priceRounding))
+            .type(CoinbaseProPlaceOrder.Type.limit)
+            .productId(adaptProductID(limitOrder.getCurrencyPair()))
+            .side(adaptSide(limitOrder.getType()))
+            .size(limitOrder.getOriginalAmount().setScale(quantityScale, RoundingMode.DOWN));
+    
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.POST_ONLY))
+      builder.postOnly(true);
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.FILL_OR_KILL))
+      builder.timeInForce(CoinbaseProPlaceLimitOrder.TimeInForce.FOK);
+    if (limitOrder.getOrderFlags().contains(CoinbaseProOrderFlags.IMMEDIATE_OR_CANCEL))
+      builder.timeInForce(CoinbaseProPlaceLimitOrder.TimeInForce.IOC);
+      
+    return builder.build();
   }
 
   public static CoinbaseProPlaceLimitOrder adaptCoinbaseProPlaceLimitOrder(LimitOrder limitOrder) {
