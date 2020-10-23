@@ -76,7 +76,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
     return transactionHistory;
   }
 
-  public CoinmateTradeHistory getCoinmateTradeHistory(String currencyPair, int limit, String order)
+  public CoinmateTradeHistory getCoinmateTradeHistory(String currencyPair, int limit, String order, String startId)
       throws IOException {
     CoinmateTradeHistory tradeHistory =
         coinmateAuthenticated.getTradeHistory(
@@ -85,7 +85,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             signatureCreator,
             exchange.getNonceFactory(),
             limit,
-            null,
+            startId,
             order,
             null,
             null,

@@ -1,5 +1,6 @@
 package org.knowm.xchange.coinbasepro;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -16,6 +17,15 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CoinbaseProExchangeIntegration {
+
+  @Test
+  public void testCreateExchangeShouldApplyDefaultSpecification() {
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
+
+    assertThat(exchange.getExchangeSpecification().getSslUri())
+        .isEqualTo("https://api.pro.coinbase.com");
+    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.pro.coinbase.com");
+  }
 
   @Test
   public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {

@@ -1,6 +1,7 @@
 ## [![XChange](https://raw.githubusercontent.com/knowm/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
 
 [![Join the chat at https://gitter.im/Java-XChange/Lobby](https://badges.gitter.im/Java-XChange/Lobby.svg)](https://gitter.im/Java-XChange/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Build Status develop](https://img.shields.io/travis/knowm/XChange/develop?label=develop)
 
 XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges, providing a consistent interface for trading and accessing market data.
 
@@ -143,12 +144,12 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-core</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-XYZ</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 ```
 
@@ -158,7 +159,7 @@ If it is available for your exchange, you may also want to use the streaming API
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-stream-XYZ</artifactId>
-  <version>5.0.2</version>
+  <version>5.0.3</version>
 </dependency>
 ```
 
@@ -174,7 +175,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    5.0.3-SNAPSHOT
+    5.0.4-SNAPSHOT
 
 ## Building with Maven
 

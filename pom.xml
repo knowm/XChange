@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.3-SNAPSHOT</version>
+  <version>5.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -34,10 +34,10 @@
     <version.commons.io>2.8.0</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
-    <version.github.mmazi>2.0.2</version.github.mmazi>
-    <version.resilience4j>1.6.0</version.resilience4j>
-    <version.junit>4.13</version.junit>
-    <version.lombok>1.18.12</version.lombok>
+    <version.github.mmazi>2.0.4</version.github.mmazi>
+    <version.resilience4j>1.6.1</version.resilience4j>
+    <version.junit>4.13.1</version.junit>
+    <version.lombok>1.18.16</version.lombok>
     <version.knowm.xchart>3.6.5</version.knowm.xchart>
     <version.powermock>2.0.7</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
@@ -91,7 +91,7 @@
   </scm>
 
   <ciManagement>
-    <url>https://travis-ci.org/timmolter/XChange</url>
+    <url>https://travis-ci.org/github/knowm/XChange</url>
   </ciManagement>
 
   <modules>
@@ -314,7 +314,7 @@
 
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
-        <artifactId>wiremock</artifactId>
+        <artifactId>wiremock-jre8</artifactId>
         <version>2.27.2</version>
         <scope>test</scope>
       </dependency>
