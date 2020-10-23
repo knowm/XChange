@@ -144,8 +144,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           (Long)
               exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
       // round quantity according to step_size
-      BigDecimal stepSize = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair()).getAmountStepSize().stripTrailingZeros();
-      int stepSizeScale = stepSize.scale();
+      int stepSizeScale = exchange.getExchangeMetaData().getCurrencyPairs().get(order.getCurrencyPair()).getBaseScale();
       BinanceNewOrder newOrder =
           newOrder(
               order.getCurrencyPair(),
