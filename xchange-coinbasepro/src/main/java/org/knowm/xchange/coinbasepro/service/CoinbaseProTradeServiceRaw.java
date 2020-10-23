@@ -91,7 +91,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
       throws IOException {
 
     CoinbaseProPlaceLimitOrder coinbaseProLimitOrder =
-        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(exchange.getExchangeMetaData(), limitOrder);
     return placeCoinbaseProOrder(coinbaseProLimitOrder);
   }
 
