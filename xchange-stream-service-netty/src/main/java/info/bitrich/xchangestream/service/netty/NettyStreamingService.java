@@ -240,7 +240,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                 .addListener(
                                     handshakeFuture -> {
                                       if (handshakeFuture.isSuccess()) {
-                                        connectionStateModel.setState(State.open);
+                                        connectionStateModel.setState(State.OPEN);
                                         completable.onComplete();
                                       } else {
                                         webSocketChannel
@@ -250,13 +250,13 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                                       }
                                     });
                           } else {
-                            connectionStateModel.setState(State.closed);
+                            connectionStateModel.setState(State.CLOSED);
                             completable.onError(channelFuture.cause());
                             scheduleReconnect();
                           }
                         });
               } catch (Exception throwable) {
-                connectionStateModel.setState(State.closed);
+                connectionStateModel.setState(State.CLOSED);
                 completable.onError(throwable);
                 scheduleReconnect();
               }
@@ -268,14 +268,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
               } else {
                 LOG.warn("Problem with connection", t);
               }
-              connectionStateModel.setState(State.closed);
+              connectionStateModel.setState(State.CLOSED);
               reconnFailEmitters.onNext(t);
             })
         .doOnComplete(
             () -> {
               resubscribeChannels();
 
-              connectionStateModel.setState(State.open);
+              connectionStateModel.setState(State.OPEN);
               connectionSuccessEmitters.onNext(new Object());
             });
   }
@@ -317,14 +317,14 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                           .addListener(
                               f -> {
                                 LOG.info("Disconnected");
-                                connectionStateModel.setState(State.closed);
+                                connectionStateModel.setState(State.CLOSED);
                                 disconnectEmitters.onNext(new Object());
                                 completable.onComplete();
                               });
                     });
           } else {
             LOG.warn("Disconnect called but already disconnected");
-            connectionStateModel.setState(State.closed);
+            connectionStateModel.setState(State.CLOSED);
             completable.onComplete();
           }
         });

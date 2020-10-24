@@ -12,12 +12,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class ConnectionStateModel {
 
   public enum State {
-    closed,
-    open
+    CLOSED,
+    OPEN
   }
 
   private final AtomicReference<State> state = new AtomicReference<>(
-      State.closed);  // start with a closed state
+      State.CLOSED);  // start with a closed state
   private final Subject<State> stateSubject = BehaviorSubject.create();  // remembers the last state
 
   public State getState() {
