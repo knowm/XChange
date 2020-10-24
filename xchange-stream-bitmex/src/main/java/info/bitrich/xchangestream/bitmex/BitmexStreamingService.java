@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.google.common.collect.ImmutableSet;
 import info.bitrich.xchangestream.bitmex.dto.BitmexMarketDataEvent;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketTransaction;
@@ -21,15 +22,28 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.bitmex.service.BitmexDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Created by Lukas Zaoralek on 13.11.17. */
+/**
+ * Created by Lukas Zaoralek on 13.11.17.
+ */
 public class BitmexStreamingService extends JsonNettyStreamingService {
+
   private static final Logger LOG = LoggerFactory.getLogger(BitmexStreamingService.class);
+  private static final Set<String> SIMPLE_TABLES = ImmutableSet
+      .of("order", "funding", "settlement", "position", "wallet", "margin");
+
   private final ObjectMapper mapper = new ObjectMapper();
   private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
 
@@ -194,7 +208,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String table = message.get("table").asText();
-    if ("order".equals(table) || "funding".equals(table) || "position".equals(table)) {
+    if (SIMPLE_TABLES.contains(table)) {
       return table;
     }
     JsonNode data = message.get("data");

@@ -232,7 +232,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     return new KrakenWebSocketClientHandler(handshaker, handler);
   }
 
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+  private final WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   /**
    * Custom client handler in order to execute an external, user-provided handler on channel events.

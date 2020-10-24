@@ -27,8 +27,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
   protected RateLimitUpdateListener rateLimitUpdateListener;
+  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
