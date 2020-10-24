@@ -42,6 +42,24 @@
     },
     "ZEC": {
       "scale": 6
+    },
+    "BCH": {
+      "scale": 6
+    },
+    "LTC": {
+      "scale": 5
+    },
+    "BAT": {
+      "scale": 5
+    },
+    "DAI": {
+      "scale": 6
+    },
+    "BAT": {
+      "scale": 6
+    },
+    "OXT": {
+      "scale": 6
     }
   }
 }
