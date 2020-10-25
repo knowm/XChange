@@ -1,6 +1,8 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,18 +23,24 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
 import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
 class HuobiTradeServiceRaw extends HuobiBaseService {
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
   HuobiTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
   // https://huobiapi.github.io/docs/spot/v1/en/#search-past-orders
-  public HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params) throws IOException {
+  public HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params, Date startDate, Date endDate)
+      throws IOException {
     String tradeStates = "partial-filled,partial-canceled,filled";
     HuobiOrdersResult result =
         huobi.getOrders(
             params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
             tradeStates,
             null, // System.currentTimeMillis() - 48 * 60 * 60_000L,
+            null,
+            DATE_FORMAT.format(startDate),
+            DATE_FORMAT.format(endDate),
             null,
             null,
             exchange.getExchangeSpecification().getApiKey(),
