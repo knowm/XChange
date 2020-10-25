@@ -30,8 +30,8 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
   }
 
   // https://huobiapi.github.io/docs/spot/v1/en/#search-past-orders
-  public HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params, Date startDate, Date endDate)
-      throws IOException {
+  public HuobiOrder[] getHuobiTradeHistory(
+      CurrencyPairParam params, Date startDate, Date endDate, String startId) throws IOException {
     String tradeStates = "partial-filled,partial-canceled,filled";
     HuobiOrdersResult result =
         huobi.getOrders(
@@ -39,9 +39,9 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
             tradeStates,
             null, // System.currentTimeMillis() - 48 * 60 * 60_000L,
             null,
-            DATE_FORMAT.format(startDate),
-            DATE_FORMAT.format(endDate),
-            null,
+            startDate == null ? null : DATE_FORMAT.format(startDate),
+            endDate == null ? null : DATE_FORMAT.format(endDate),
+            startId,
             null,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
