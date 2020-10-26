@@ -392,23 +392,23 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
     return Observable.<T>create(
         e -> {
-              if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-                e.onError(new NotConnectedException());
-              }
-              channels.computeIfAbsent(
-                  channelId,
-                  cid -> {
-                    Subscription newSubscription = new Subscription(e, channelName, args);
-                    try {
-                      sendMessage(getSubscribeMessage(channelName, args));
-                    } catch (
-                        Exception
-                            throwable) { // if getSubscribeMessage throws this, it is because it
-                      // needs to report
-                      e.onError(throwable); // a problem creating the message
-                    }
-                    return newSubscription;
-                  });
+          if (webSocketChannel == null || !webSocketChannel.isOpen()) {
+            e.onError(new NotConnectedException());
+          }
+          channels.computeIfAbsent(
+              channelId,
+              cid -> {
+                Subscription newSubscription = new Subscription(e, channelName, args);
+                try {
+                  sendMessage(getSubscribeMessage(channelName, args));
+                } catch (
+                    Exception
+                        throwable) { // if getSubscribeMessage throws this, it is because it
+                  // needs to report
+                  e.onError(throwable); // a problem creating the message
+                }
+                return newSubscription;
+              });
             })
         .doOnDispose(
             () -> {
