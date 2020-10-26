@@ -13,7 +13,7 @@ public class BitbayTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get ANX exchange API using default settings
-    Exchange anx = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
+    Exchange anx = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = anx.getMarketDataService();

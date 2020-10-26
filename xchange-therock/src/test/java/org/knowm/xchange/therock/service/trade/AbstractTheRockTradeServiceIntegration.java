@@ -12,7 +12,7 @@ public abstract class AbstractTheRockTradeServiceIntegration {
    * @return an instance of class TheRockExchange
    */
   protected static Exchange createExchange() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class);
     exchange.getExchangeSpecification().setApiKey("ApiKey");
     exchange.getExchangeSpecification().setSecretKey("SecretKey");
     exchange.getExchangeSpecification().setUserName("UserName");

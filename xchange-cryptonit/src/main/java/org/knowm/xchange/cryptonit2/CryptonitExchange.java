@@ -25,8 +25,7 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.cryptonit2.net");
     exchangeSpecification.setHost("www.cryptonit2.net");
     exchangeSpecification.setPort(80);

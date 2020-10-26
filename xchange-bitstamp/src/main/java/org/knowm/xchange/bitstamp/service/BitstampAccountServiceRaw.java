@@ -359,7 +359,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
       Long offset,
       String sort,
       Long sinceTimestamp,
-      Long sinceId)
+      String sinceId)
       throws IOException {
 
     try {
@@ -379,7 +379,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, Long sinceId)
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, String sinceId)
       throws IOException {
 
     try {

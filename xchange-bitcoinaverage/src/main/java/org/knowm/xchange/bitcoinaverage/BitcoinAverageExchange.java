@@ -23,8 +23,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://apiv2.bitcoinaverage.com");
     exchangeSpecification.setHost("bitcoinaverage.com");
     exchangeSpecification.setPort(80);

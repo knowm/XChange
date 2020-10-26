@@ -19,7 +19,7 @@ public class CryptonitTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitstamp exchange API using default settings
-    Exchange cryptonit = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class.getName());
+    Exchange cryptonit = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = cryptonit.getMarketDataService();

@@ -14,7 +14,7 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_MXN);

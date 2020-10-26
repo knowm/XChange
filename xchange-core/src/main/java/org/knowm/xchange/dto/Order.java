@@ -228,7 +228,11 @@ public abstract class Order implements Serializable {
    *     <p>use {@link #getInstrument()} instead
    */
   @Deprecated
+  @JsonIgnore
   public CurrencyPair getCurrencyPair() {
+    if (instrument == null) {
+      return null;
+    }
     if (!(instrument instanceof CurrencyPair)) {
       throw new IllegalStateException(
           "The instrument of this order is not a currency pair: " + instrument);
