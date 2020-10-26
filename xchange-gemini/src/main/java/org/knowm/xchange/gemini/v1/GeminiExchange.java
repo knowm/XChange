@@ -46,8 +46,7 @@ public class GeminiExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.Gemini.com/");
     exchangeSpecification.setHost("api.Gemini.com");
     exchangeSpecification.setPort(80);

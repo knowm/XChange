@@ -24,7 +24,7 @@ public class CampBXTradeDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class);
 
     ExchangeSpecification exSpec = campbx.getExchangeSpecification();
     exSpec.setUserName("XChange");

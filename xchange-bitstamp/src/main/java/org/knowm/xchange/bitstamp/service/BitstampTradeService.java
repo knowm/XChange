@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampUtils;
+import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -52,28 +52,28 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
-    Collection<CurrencyPair> pairs = DefaultOpenOrdersParamCurrencyPair.getPairs(params, exchange);
-    List<LimitOrder> limitOrders = new ArrayList<>();
-    for (CurrencyPair pair : pairs) {
-      BitstampOrder[] openOrders = getBitstampOpenOrders(pair);
-      for (BitstampOrder bitstampOrder : openOrders) {
-        OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-        String id = Long.toString(bitstampOrder.getId());
-        BigDecimal price = bitstampOrder.getPrice();
-        limitOrders.add(
-            new LimitOrder(
-                orderType,
-                bitstampOrder.getAmount(),
-                pair,
-                id,
-                bitstampOrder.getDatetime(),
-                price,
-                null, // avgPrice
-                null, // cumAmount
-                null, // fee
-                Order.OrderStatus.NEW));
-      }
+
+    BitstampOrder[] openOrders = getBitstampOpenOrders();
+    List<LimitOrder> limitOrders = new ArrayList<>(openOrders.length);
+
+    for (BitstampOrder bitstampOrder : openOrders) {
+      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Long.toString(bitstampOrder.getId());
+      BigDecimal price = bitstampOrder.getPrice();
+      limitOrders.add(
+          new LimitOrder(
+              orderType,
+              bitstampOrder.getAmount(),
+              new BitstampV2.Pair(bitstampOrder.getCurrencyPair()).pair,
+              id,
+              bitstampOrder.getDatetime(),
+              price,
+              null, // avgPrice
+              null, // cumAmount
+              null, // fee
+              Order.OrderStatus.NEW));
     }
+
     return new OpenOrders(limitOrders);
   }
 
@@ -132,7 +132,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
     Long offset = null;
     TradeHistoryParamsSorted.Order order = null;
     Long sinceTimestamp = null;
-    Long sinceId = null;
+    String sinceId = null;
     if (params instanceof TradeHistoryParamPaging) {
       limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
     }
@@ -150,10 +150,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
           DateUtils.toUnixTimeNullSafe(((TradeHistoryParamsTimeSpan) params).getStartTime());
     }
     if (params instanceof TradeHistoryParamsIdSpan) {
-      sinceId =
-          Optional.ofNullable(((TradeHistoryParamsIdSpan) params).getStartId())
-              .map(Long::parseLong)
-              .orElse(null);
+      sinceId = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
     BitstampUserTransaction[] txs;
     final String sort = order == null ? null : order.toString();

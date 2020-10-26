@@ -24,8 +24,7 @@ public class CryptoFacilitiesExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.cryptofacilities.com/derivatives");
     exchangeSpecification.setHost("www.cryptofacilities.com");
     exchangeSpecification.setPort(443);

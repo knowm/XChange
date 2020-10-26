@@ -5,6 +5,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import java.io.IOException;
@@ -85,6 +86,11 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
   @Override
   public Observable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

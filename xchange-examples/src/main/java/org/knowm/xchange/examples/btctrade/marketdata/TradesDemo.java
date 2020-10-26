@@ -17,7 +17,7 @@ public class TradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTCTrade exchange API using the default settings.
-    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class.getName());
+    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class);
     generic(btcTrade);
     raw(btcTrade);
   }

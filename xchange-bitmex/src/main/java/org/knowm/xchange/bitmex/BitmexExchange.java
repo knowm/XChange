@@ -27,8 +27,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
   protected RateLimitUpdateListener rateLimitUpdateListener;
+  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -62,8 +62,7 @@ public class BitmexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.bitmex.com");
     exchangeSpecification.setHost("bitmex.com");
     exchangeSpecification.setPort(80);

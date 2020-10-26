@@ -18,15 +18,6 @@ import org.knowm.xchange.ExchangeSpecification;
 public class CoinbaseProExchangeTest {
 
   @Test
-  public void testCreateExchangeShouldApplyDefaultSpecification() {
-    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
-
-    assertThat(exchange.getExchangeSpecification().getSslUri())
-        .isEqualTo("https://api.pro.coinbase.com");
-    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.pro.coinbase.com");
-  }
-
-  @Test
   public void testCreateExchangeSandboxShouldApplyDefaultSandboxParams() {
     final CoinbaseProExchange coinbaseProExchange = new CoinbaseProExchange();
     final ExchangeSpecification sandboxExchangeSpecification =

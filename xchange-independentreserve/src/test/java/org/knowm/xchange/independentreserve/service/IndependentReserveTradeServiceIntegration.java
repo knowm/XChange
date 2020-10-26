@@ -20,7 +20,7 @@ public class IndependentReserveTradeServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class);
     AuthUtils.setApiAndSecretKey(exchange.getExchangeSpecification());
     exchange = ExchangeFactory.INSTANCE.createExchange(exchange.getExchangeSpecification());
     tradeService = (IndependentReserveTradeService) exchange.getTradeService();

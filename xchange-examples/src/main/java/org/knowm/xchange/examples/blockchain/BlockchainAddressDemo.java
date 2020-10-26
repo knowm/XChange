@@ -15,7 +15,7 @@ public class BlockchainAddressDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange blockchainExchangexchange =
-        ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class);
     Blockchain blockchain =
         ExchangeRestProxyBuilder.forInterface(
                 Blockchain.class, blockchainExchangexchange.getExchangeSpecification())

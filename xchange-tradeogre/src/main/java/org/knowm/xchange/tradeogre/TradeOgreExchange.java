@@ -25,8 +25,7 @@ public class TradeOgreExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://tradeogre.com/api/v1");
     exchangeSpecification.setHost("tradeogre.com");
     exchangeSpecification.setPort(80);

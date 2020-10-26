@@ -12,8 +12,7 @@ public class CexioManualExample {
   public static void main(String[] args) throws IOException {
     CexioStreamingExchange exchange =
         (CexioStreamingExchange)
-            StreamingExchangeFactory.INSTANCE.createExchange(
-                CexioStreamingExchange.class.getName());
+            StreamingExchangeFactory.INSTANCE.createExchange(CexioStreamingExchange.class);
 
     CexioProperties properties = new CexioProperties();
     exchange.setCredentials(properties.getApiKey(), properties.getSecretKey());
