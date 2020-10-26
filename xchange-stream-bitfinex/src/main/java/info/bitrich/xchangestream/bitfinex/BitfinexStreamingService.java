@@ -14,8 +14,6 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMess
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
-import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -98,8 +96,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         Integer.MAX_VALUE,
         DEFAULT_CONNECTION_TIMEOUT,
         DEFAULT_RETRY_DURATION,
-        30,
-        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        30);
     this.nonceFactory = nonceFactory;
   }
 
@@ -109,15 +106,13 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds,
-      RateController rateController) {
+      int idleTimeoutSeconds) {
     super(
         apiUrl,
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        idleTimeoutSeconds,
-        rateController);
+        idleTimeoutSeconds);
     this.nonceFactory = nonceFactory;
   }
 

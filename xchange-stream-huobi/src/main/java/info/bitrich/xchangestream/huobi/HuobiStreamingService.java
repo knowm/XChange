@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler.WebSocketMessageHandler;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
-import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
@@ -31,8 +29,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
         Integer.MAX_VALUE,
         Duration.ofSeconds(5),
         Duration.ofSeconds(20),
-        20,
-        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        20);
   }
 
   @Override
@@ -84,9 +81,8 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketMessageHandler handler,
-      RateController rateController) {
-    return new HuobiWebSocketClientHandler(handshaker, handler, rateController);
+      WebSocketMessageHandler handler) {
+    return new HuobiWebSocketClientHandler(handshaker, handler);
   }
 
   /**
@@ -96,9 +92,8 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   private class HuobiWebSocketClientHandler extends NettyWebSocketClientHandler {
     public HuobiWebSocketClientHandler(
         WebSocketClientHandshaker handshaker,
-        WebSocketMessageHandler handler,
-        RateController rateController) {
-      super(handshaker, handler, rateController);
+        WebSocketMessageHandler handler) {
+      super(handshaker, handler);
     }
 
     @Override

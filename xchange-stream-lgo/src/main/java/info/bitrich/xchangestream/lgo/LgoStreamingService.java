@@ -5,7 +5,6 @@ import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelp
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.lgo.dto.LgoSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import java.io.IOException;
 import java.time.Duration;
@@ -22,8 +21,7 @@ public class LgoStreamingService extends JsonNettyStreamingService {
         Integer.MAX_VALUE,
         Duration.ofSeconds(10),
         Duration.ofSeconds(15),
-        1,
-        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        1);
     this.apiUrl = apiUrl;
     this.signatureService = signatureService;
   }

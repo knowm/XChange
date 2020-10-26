@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.service.netty;
 
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,6 +16,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
 import io.netty.util.CharsetUtil;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,16 +30,13 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
   protected final WebSocketClientHandshaker handshaker;
   protected final WebSocketMessageHandler handler;
-  private final RateController rateController;
   private ChannelPromise handshakeFuture;
 
   public WebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketMessageHandler handler,
-      RateController rateController) {
+      WebSocketMessageHandler handler) {
     this.handshaker = handshaker;
     this.handler = handler;
-    this.rateController = rateController;
   }
 
   public ChannelFuture handshakeFuture() {
@@ -73,10 +70,8 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         LOG.error("WebSocket Client failed to connect. {} {}", e.getMessage(), ctx.channel());
         if (((FullHttpResponse) msg).status().code()
             == HttpResponseStatus.TOO_MANY_REQUESTS.code()) {
-          LOG.error("Websocket Client received HTTP 429! {}", ctx.channel());
-          if (rateController != null) {
-            rateController.halt();
-          }
+          throw new RateLimitExceededException(String.format(
+                  "Websocket Client received HTTP 429! %s", ctx.channel()));
         }
         handshakeFuture.setFailure(e);
       }

@@ -11,7 +11,6 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -53,7 +52,6 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds,
-      RateController rateController,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
     super(
@@ -61,8 +59,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        idleTimeoutSeconds,
-        rateController);
+        idleTimeoutSeconds);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -143,10 +140,9 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler,
-      RateController rateController) {
+      WebSocketClientHandler.WebSocketMessageHandler handler) {
     LOG.info("Registering CoinbaseProWebSocketClientHandler");
-    return new CoinbaseProWebSocketClientHandler(handshaker, handler, rateController);
+    return new CoinbaseProWebSocketClientHandler(handshaker, handler);
   }
 
   public void setChannelInactiveHandler(
@@ -165,10 +161,8 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   class CoinbaseProWebSocketClientHandler extends NettyWebSocketClientHandler {
 
     public CoinbaseProWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker,
-        WebSocketMessageHandler handler,
-        RateController rateController) {
-      super(handshaker, handler, rateController);
+        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+      super(handshaker, handler);
     }
 
     @Override
