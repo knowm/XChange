@@ -16,12 +16,7 @@ public class LgoStreamingService extends JsonNettyStreamingService {
   private final String apiUrl;
 
   LgoStreamingService(LgoSignatureService signatureService, String apiUrl) {
-    super(
-        apiUrl,
-        Integer.MAX_VALUE,
-        Duration.ofSeconds(10),
-        Duration.ofSeconds(15),
-        1);
+    super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(10), Duration.ofSeconds(15), 1);
     this.apiUrl = apiUrl;
     this.signatureService = signatureService;
   }
