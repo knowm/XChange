@@ -19,7 +19,7 @@ public class TickerFetchIntegration {
 
     CertHelper.trustAllCerts();
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
     CurrencyPair market =

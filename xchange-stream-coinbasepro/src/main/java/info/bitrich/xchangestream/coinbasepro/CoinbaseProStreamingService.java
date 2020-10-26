@@ -154,6 +154,18 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
     this.product = products[0];
   }
 
+  @Override
+  protected void handleChannelMessage(String channel, JsonNode message) {
+    if (SHARE_CHANNEL_NAME.equals(channel)) {
+      channels
+          .forEach((k, v) ->
+              v.getEmitter().onNext(message));
+
+    } else {
+      super.handleChannelMessage(channel, message);
+    }
+  }
+
   /**
    * Custom client handler in order to execute an external, user-provided handler on channel events.
    * This is useful because it seems CoinbasePro unexpectedly closes the web socket connection.

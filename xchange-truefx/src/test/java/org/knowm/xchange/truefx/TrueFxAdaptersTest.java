@@ -20,7 +20,7 @@ public class TrueFxAdaptersTest {
   public void adaptTickerTest() throws JsonParseException, JsonMappingException, IOException {
     InputStream is = getClass().getResourceAsStream("/marketdata/example-ticker.csv");
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TrueFxExchange.class);
     TrueFxMarketDataServiceRaw rawService =
         (TrueFxMarketDataServiceRaw) exchange.getMarketDataService();
     ObjectMapper mapper = rawService.createObjectMapper();

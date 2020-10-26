@@ -33,7 +33,7 @@ public class CoindirectExchange extends BaseExchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://api.coindirect.com");
     spec.setHost("www.coindirect.com");
     spec.setPort(80);

@@ -1,5 +1,7 @@
 package org.knowm.xchange;
 
+import static org.knowm.xchange.ExchangeClassUtils.exchangeClassForName;
+
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.Assert;
 import org.slf4j.Logger;
@@ -123,8 +125,8 @@ public enum ExchangeFactory {
 
     log.debug("Creating exchange from specification");
 
-    String exchangeClassName = exchangeSpecification.getExchangeClassName();
-    Exchange exchange = createExchangeWithoutSpecification(exchangeClassName);
+    final Class<? extends Exchange> exchangeClass = exchangeSpecification.getExchangeClass();
+    Exchange exchange = createExchangeWithoutSpecification(exchangeClass);
     exchange.applySpecification(exchangeSpecification);
     return exchange;
   }
@@ -140,28 +142,9 @@ public enum ExchangeFactory {
    *     org.knowm.xchange.ExchangeSpecification}
    */
   public Exchange createExchangeWithoutSpecification(String exchangeClassName) {
-
     Assert.notNull(exchangeClassName, "exchangeClassName cannot be null");
-
     log.debug("Creating default exchange from class name");
-    // Attempt to create an instance of the exchange provider
-    try {
-
-      // Attempt to locate the exchange provider on the classpath
-
-      Class exchangeProviderClass = Class.forName(exchangeClassName);
-
-      // Test that the class implements Exchange
-      if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
-        // Instantiate through the default constructor and use the default exchange specification
-        return createExchangeWithoutSpecification(exchangeProviderClass);
-      } else {
-        throw new ExchangeException(
-            "Class '" + exchangeClassName + "' does not implement Exchange");
-      }
-    } catch (ClassNotFoundException e) {
-      throw new ExchangeException("Problem creating Exchange (class not found)", e);
-    }
+    return createExchangeWithoutSpecification(exchangeClassForName(exchangeClassName));
   }
 
   /**

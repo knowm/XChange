@@ -42,8 +42,7 @@ public class LykkeExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://hft-api.lykke.com/");
     exchangeSpecification.setHost("lykke.com");
     exchangeSpecification.setPort(80);
