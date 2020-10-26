@@ -33,8 +33,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
   private ChannelPromise handshakeFuture;
 
   public WebSocketClientHandler(
-      WebSocketClientHandshaker handshaker,
-      WebSocketMessageHandler handler) {
+      WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
     this.handshaker = handshaker;
     this.handler = handler;
   }
@@ -68,11 +67,6 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         handshakeFuture.setSuccess();
       } catch (WebSocketHandshakeException e) {
         LOG.error("WebSocket Client failed to connect. {} {}", e.getMessage(), ctx.channel());
-        if (((FullHttpResponse) msg).status().code()
-            == HttpResponseStatus.TOO_MANY_REQUESTS.code()) {
-          throw new RateLimitExceededException(String.format(
-                  "Websocket Client received HTTP 429! %s", ctx.channel()));
-        }
         handshakeFuture.setFailure(e);
       }
       return;
