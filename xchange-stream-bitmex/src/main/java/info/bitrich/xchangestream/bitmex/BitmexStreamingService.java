@@ -8,7 +8,6 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexMarketDataEvent;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.bitmex.dto.BitmexWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
@@ -57,15 +56,13 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds,
-      RateController rateController) {
+      int idleTimeoutSeconds) {
     super(
         apiUrl,
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        idleTimeoutSeconds,
-        rateController);
+        idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }

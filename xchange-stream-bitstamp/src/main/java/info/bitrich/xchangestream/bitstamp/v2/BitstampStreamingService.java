@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bitstamp.v2.dto.BitstampWebSocketData;
 import info.bitrich.xchangestream.bitstamp.v2.dto.BitstampWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.time.Duration;
@@ -34,15 +33,13 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds,
-      RateController rateController) {
+      int idleTimeoutSeconds) {
     super(
         apiUrl,
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        idleTimeoutSeconds,
-        rateController);
+        idleTimeoutSeconds);
   }
 
   @Override

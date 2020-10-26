@@ -51,6 +51,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +85,6 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private volatile NioEventLoopGroup eventLoopGroup;
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
-  private final RateController rateController;
 
   private final PublishSubject<Throwable> reconnFailEmitters = PublishSubject.create();
   private final PublishSubject<Object> connectionSuccessEmitters = PublishSubject.create();
@@ -117,8 +117,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         maxFramePayloadLength,
         connectionTimeout,
         retryDuration,
-        DEFAULT_IDLE_TIMEOUT,
-        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        DEFAULT_IDLE_TIMEOUT);
   }
 
   public NettyStreamingService(
@@ -126,13 +125,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds,
-      RateController rateController) {
+      int idleTimeoutSeconds) {
     this.maxFramePayloadLength = maxFramePayloadLength;
     this.retryDuration = retryDuration;
     this.connectionTimeout = connectionTimeout;
     this.idleTimeoutSeconds = idleTimeoutSeconds;
-    this.rateController = rateController;
     try {
       this.uri = new URI(apiUrl);
     } catch (URISyntaxException e) {
@@ -192,8 +189,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                             true,
                             getCustomHeaders(),
                             maxFramePayloadLength),
-                        this::messageHandler,
-                        rateController);
+                        this::messageHandler);
 
                 if (eventLoopGroup == null || eventLoopGroup.isShutdown()) {
                   eventLoopGroup = new NioEventLoopGroup(2);
@@ -336,14 +332,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   public String getSubscriptionUniqueId(String channelName, Object... args) {
     return channelName;
   }
-  /**
-   * Some exchanges rate limit messages sent to the socket (Kraken), by default this method does not
-   * rateLimit the messages sent out. Override this method to provide a rateLimiter, and call
-   * acquire on the rate limiter, to slow down out going messages.
-   */
-  protected Completable sendMessageRateLimiterAcquire() {
-    return Completable.fromRunnable(rateController::acquire);
-  }
+
   /**
    * Handler that receives incoming messages.
    *
@@ -364,9 +353,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       return;
     }
     if (message != null) {
-      sendMessageRateLimiterAcquire().blockingAwait();
-      WebSocketFrame frame = new TextWebSocketFrame(message);
-      webSocketChannel.writeAndFlush(frame);
+      webSocketChannel.writeAndFlush(new TextWebSocketFrame(message));
     }
   }
 
@@ -511,18 +498,15 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler,
-      RateController rateController) {
-    return new NettyWebSocketClientHandler(handshaker, handler, rateController);
+      WebSocketClientHandler.WebSocketMessageHandler handler) {
+    return new NettyWebSocketClientHandler(handshaker, handler);
   }
 
   protected class NettyWebSocketClientHandler extends WebSocketClientHandler {
 
     protected NettyWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker,
-        WebSocketMessageHandler handler,
-        RateController rateController) {
-      super(handshaker, handler, rateController);
+        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+      super(handshaker, handler);
     }
 
     @Override

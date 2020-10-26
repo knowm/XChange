@@ -6,7 +6,6 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransacti
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.ratecontrol.SimpleRateController;
 import io.reactivex.Observable;
 import java.io.IOException;
 import java.util.List;
@@ -31,8 +30,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
         Integer.MAX_VALUE,
         DEFAULT_CONNECTION_TIMEOUT,
         DEFAULT_RETRY_DURATION,
-        2,
-        new SimpleRateController(DEFAULT_RATE_LIMIT_INTERVAL.toMillis(), apiUrl));
+        2);
   }
 
   @Override

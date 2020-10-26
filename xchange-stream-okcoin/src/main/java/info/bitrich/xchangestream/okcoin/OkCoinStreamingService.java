@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
-import info.bitrich.xchangestream.service.ratecontrol.RateController;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerContext;
@@ -91,9 +90,8 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker,
-      WebSocketClientHandler.WebSocketMessageHandler handler,
-      RateController rateController) {
-    return new OkCoinNettyWebSocketClientHandler(handshaker, handler, rateController);
+      WebSocketClientHandler.WebSocketMessageHandler handler) {
+    return new OkCoinNettyWebSocketClientHandler(handshaker, handler);
   }
 
   protected class OkCoinNettyWebSocketClientHandler extends NettyWebSocketClientHandler {
@@ -101,10 +99,8 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     private final Logger LOG = LoggerFactory.getLogger(OkCoinNettyWebSocketClientHandler.class);
 
     protected OkCoinNettyWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker,
-        WebSocketMessageHandler handler,
-        RateController rateController) {
-      super(handshaker, handler, rateController);
+        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
+      super(handshaker, handler);
     }
 
     @Override
