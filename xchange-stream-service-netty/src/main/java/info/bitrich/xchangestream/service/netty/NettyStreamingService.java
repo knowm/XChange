@@ -21,7 +21,6 @@ import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketHandshakeException;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
@@ -393,9 +392,9 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
     return Observable.<T>create(
         e -> {
-          if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-            e.onError(new NotConnectedException());
-          }
+              if (webSocketChannel == null || !webSocketChannel.isOpen()) {
+                e.onError(new NotConnectedException());
+              }
               channels.computeIfAbsent(
                   channelId,
                   cid -> {
