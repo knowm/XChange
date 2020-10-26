@@ -80,8 +80,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientHandler getWebSocketClientHandler(
-      WebSocketClientHandshaker handshaker,
-      WebSocketMessageHandler handler) {
+      WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
     return new HuobiWebSocketClientHandler(handshaker, handler);
   }
 
