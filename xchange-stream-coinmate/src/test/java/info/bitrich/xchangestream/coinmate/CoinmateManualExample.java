@@ -12,7 +12,7 @@ public class CoinmateManualExample {
   public static void main(String[] args) {
 
     StreamingExchange exchange =
-        StreamingExchangeFactory.INSTANCE.createExchange(CoinmateStreamingExchange.class.getName());
+        StreamingExchangeFactory.INSTANCE.createExchange(CoinmateStreamingExchange.class);
     exchange.connect().blockingAwait();
 
     exchange

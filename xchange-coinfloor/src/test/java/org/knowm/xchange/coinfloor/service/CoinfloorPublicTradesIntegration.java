@@ -18,7 +18,7 @@ public class CoinfloorPublicTradesIntegration {
 
   @Test
   public void fetchTransactionTest() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinfloorExchange.class);
     MarketDataService service = exchange.getMarketDataService();
 
     Trades trades = service.getTrades(CurrencyPair.BTC_GBP, CoinfloorInterval.HOUR);

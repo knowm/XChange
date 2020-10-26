@@ -25,7 +25,7 @@ public class CryptopiaMarketDataServiceIntegration {
 
   @BeforeClass
   public static void setupExchange() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptopiaExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptopiaExchange.class);
 
     marketDataService = exchange.getMarketDataService();
   }

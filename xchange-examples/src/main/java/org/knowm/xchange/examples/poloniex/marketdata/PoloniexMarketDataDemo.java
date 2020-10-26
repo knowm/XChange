@@ -20,7 +20,7 @@ public class PoloniexMarketDataDemo {
 
     //    CertHelper.trustAllCerts();
 
-    poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class);
     MarketDataService dataService = poloniex.getMarketDataService();
     currencyPair = new CurrencyPair("BTC", "USDT");
     //    currencyPair = new CurrencyPair("ETH", "BTC");

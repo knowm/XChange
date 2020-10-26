@@ -21,7 +21,7 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());
@@ -31,7 +31,7 @@ public class TickerFetchIntegration {
   @Test
   public void candleFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     GeminiMarketDataServiceRaw mds = (GeminiMarketDataServiceRaw) exchange.getMarketDataService();
     GeminiCandle[] candles = mds.getCandles(CurrencyPair.BTC_USD, Duration.ofHours(1));
     System.out.println(Arrays.toString(candles));
@@ -41,7 +41,7 @@ public class TickerFetchIntegration {
   @Test
   public void ticker2FetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GeminiExchange.class);
     GeminiMarketDataServiceRaw mds = (GeminiMarketDataServiceRaw) exchange.getMarketDataService();
     GeminiTicker2 ticker = mds.getTicker2(CurrencyPair.BTC_USD);
     System.out.println(ticker);

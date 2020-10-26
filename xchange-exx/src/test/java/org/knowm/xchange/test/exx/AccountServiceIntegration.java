@@ -26,7 +26,7 @@ public class AccountServiceIntegration {
     String apiKey = "";
     String secretKey = "";
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(EXXExchange.class);
 
     ExchangeSpecification exchangeSpecification = exchange.getDefaultExchangeSpecification();
     exchangeSpecification.setSslUri("https://trade.exx.com");

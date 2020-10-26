@@ -19,7 +19,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 public class CoinbeneMarketDataServiceIntegration {
 
   private static final Exchange COINBENE =
-      ExchangeFactory.INSTANCE.createExchange(CoinbeneExchange.class.getName());
+      ExchangeFactory.INSTANCE.createExchange(CoinbeneExchange.class);
 
   @Test
   public void testGetTicker() throws Exception {
