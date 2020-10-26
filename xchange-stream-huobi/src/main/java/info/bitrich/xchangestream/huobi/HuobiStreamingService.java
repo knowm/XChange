@@ -91,8 +91,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
    */
   private class HuobiWebSocketClientHandler extends NettyWebSocketClientHandler {
     public HuobiWebSocketClientHandler(
-        WebSocketClientHandshaker handshaker,
-        WebSocketMessageHandler handler) {
+        WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
       super(handshaker, handler);
     }
 
