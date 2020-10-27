@@ -371,11 +371,6 @@
         <version>4.31.3</version>
       </dependency>
       <dependency>
-        <groupId>com.pusher</groupId>
-        <artifactId>pusher-java-client</artifactId>
-        <version>2.2.5</version>
-      </dependency>
-      <dependency>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
         <version>2.3.1</version>
