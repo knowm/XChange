@@ -1,8 +1,11 @@
 package org.knowm.xchange.bittrex.service;
 
-import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
+import javax.ws.rs.HeaderParam;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
 
 public class BittrexDigest extends BaseParamsDigest {
@@ -27,10 +30,25 @@ public class BittrexDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    String invocationUrl = restInvocation.getInvocationUrl();
-    Mac mac = getMac();
-    mac.update(invocationUrl.getBytes());
+    MessageDigest md;
+    try {
+      md = MessageDigest.getInstance("SHA-512");
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalArgumentException(e);
+    }
 
-    return String.format("%0128x", new BigInteger(1, mac.doFinal()));
+    String content = restInvocation.getRequestBody();
+    String contentHash = DigestUtils.bytesToHex(md.digest(content.getBytes()));
+
+    String uri = restInvocation.getInvocationUrl();
+    Long timestamp = (Long) restInvocation.getParamValue(HeaderParam.class, "Api-Timestamp");
+    String method = restInvocation.getHttpMethod();
+
+    String preSign = timestamp + uri + method + contentHash;
+
+    Mac mac = getMac();
+    mac.update(preSign.getBytes());
+
+    return DigestUtils.bytesToHex(mac.doFinal());
   }
 }
