@@ -490,7 +490,7 @@ public class ExchangeSpecification {
     /**
      * Flag that lets you enable retry functionality if it was implemented for the given exchange.
      *
-     * <p>If this featrue is implemented and enabled then operations that can be safely retried on
+     * <p>If this feature is implemented and enabled then operations that can be safely retried on
      * socket failures and timeouts will be retried.
      */
     public void setRetryEnabled(boolean retryEnabled) {

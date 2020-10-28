@@ -53,9 +53,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   public static final int DMS_CANCEL_ALL_IN = 60000;
   public static final int DMS_RESUBSCRIBE = 15000;
   /** deadman's cancel time */
-  private long dmsCancelTime;
+  private volatile long dmsCancelTime;
 
-  private Disposable dmsDisposable;
+  private volatile Disposable dmsDisposable;
 
   public BitmexStreamingService(String apiUrl, String apiKey, String secretKey) {
     super(apiUrl, Integer.MAX_VALUE);
@@ -71,7 +71,12 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    super(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds);
     this.apiKey = apiKey;
     this.secretKey = secretKey;
   }
@@ -82,11 +87,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     String signature =
         BitmexAuthenticator.generateSignature(secretKey, "GET", path, String.valueOf(expires), "");
 
-    List<Object> args = Arrays.asList(apiKey, expires, signature);
-
     Map<String, Object> cmd = new HashMap<>();
     cmd.put("op", "authKey");
-    cmd.put("args", args);
+    cmd.put("args", Arrays.asList(apiKey, expires, signature));
     this.sendMessage(mapper.writeValueAsString(cmd));
   }
 
@@ -158,10 +161,9 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   private void handleDeadMansSwitchMessage(JsonNode message) {
-    // handle dead man's switch confirmation
     try {
       String cancelTime = message.get("cancelTime").asText();
-      if (cancelTime.equals("0")) {
+      if ("0".equals(cancelTime)) {
         LOG.info("Dead man's switch disabled");
         dmsDisposable.dispose();
         dmsDisposable = null;
@@ -169,7 +171,6 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       } else {
         SimpleDateFormat sdf = new SimpleDateFormat(BitmexMarketDataEvent.BITMEX_TIMESTAMP_FORMAT);
         sdf.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
-        long now = sdf.parse(message.get("now").asText()).getTime();
         dmsCancelTime = sdf.parse(cancelTime).getTime();
       }
     } catch (ParseException e) {

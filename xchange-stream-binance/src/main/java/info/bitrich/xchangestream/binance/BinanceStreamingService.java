@@ -22,18 +22,13 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(baseUri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    super(
+        baseUri,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds);
     this.productSubscription = productSubscription;
-  }
-
-  @Override
-  public void messageHandler(String message) {
-    super.messageHandler(message);
-  }
-
-  @Override
-  protected void handleMessage(JsonNode message) {
-    super.handleMessage(message);
   }
 
   @Override
