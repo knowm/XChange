@@ -25,12 +25,12 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
@@ -84,14 +84,19 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private String apiKey;
   private String apiSecret;
 
-  private final Map<String, String> subscribedChannels = new HashMap<>();
+  private final Map<String, String> subscribedChannels = new ConcurrentHashMap<>();
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   private final BlockingQueue<String> calculationQueue = new LinkedBlockingQueue<>();
   private Disposable calculator;
 
   public BitfinexStreamingService(String apiUrl, SynchronizedValueFactory<Long> nonceFactory) {
-    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 30);
+    super(
+        apiUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        30);
     this.nonceFactory = nonceFactory;
   }
 
@@ -102,7 +107,12 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    super(
+        apiUrl,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds);
     this.nonceFactory = nonceFactory;
   }
 
@@ -127,7 +137,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 
