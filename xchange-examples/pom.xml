@@ -77,7 +77,7 @@
 		<!-- XChange Bittrex exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bittrexV3</artifactId>
+			<artifactId>xchange-bittrex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->

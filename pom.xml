@@ -30,7 +30,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <version.java>1.8</version.java>
-    <version.assertj>3.17.2</version.assertj>
+    <version.assertj>3.18.0</version.assertj>
     <version.commons.io>2.8.0</version.commons.io>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
@@ -112,7 +112,6 @@
     <module>xchange-bitso</module>
     <module>xchange-bitstamp</module>
     <module>xchange-bittrex</module>
-    <module>xchange-bittrexV3</module>
     <module>xchange-bity</module>
     <module>xchange-bitz</module>
     <module>xchange-bl3p</module>
@@ -213,7 +212,6 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
-    <module>xchange-stream-service-pusher</module>
     <module>xchange-stream-service-wamp</module>
     <module>xchange-stream-huobi</module>
 
@@ -308,7 +306,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.13</version>
+        <version>3.6.0</version>
         <scope>test</scope>
       </dependency>
 
@@ -370,11 +368,6 @@
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
         <version>4.31.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pusher</groupId>
-        <artifactId>pusher-java-client</artifactId>
-        <version>2.2.5</version>
       </dependency>
       <dependency>
         <groupId>javax.xml.bind</groupId>

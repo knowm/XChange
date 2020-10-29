@@ -3,9 +3,12 @@ package org.knowm.xchange.bittrex.service;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -15,9 +18,11 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /** @author walec51 */
-public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
+public class TradeServiceTest extends BaseWiremockTest {
 
   private static BittrexTradeService tradeService;
+  private static final String NEWORDER_FILE_NAME = "newOrder.json";
+  private static final String OPENORDERS_FILE_NAME = "openOrders.json";
 
   @Before
   public void setUp() {
@@ -26,37 +31,54 @@ public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
 
   @Test
   public void placeOrderTest() throws Exception {
+    final ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonRoot =
+        mapper.readTree(
+            this.getClass().getResource("/" + WIREMOCK_FILES_PATH + "/" + NEWORDER_FILE_NAME));
+
     stubFor(
-        get(urlPathEqualTo("/api/v1.1/market/buylimit"))
-            .withQueryParam("market", equalTo("BTC-ETH"))
-            .withQueryParam("quantity", equalTo("1"))
-            .withQueryParam("rate", equalTo("0.004"))
+        post(urlPathEqualTo("/v3/orders"))
+            .withRequestBody(equalToJson(jsonRoot.toString()))
             .willReturn(
                 aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
                     .withBodyFile("placedorder.json")));
+
+    Order.OrderType type =
+        BittrexConstants.BUY.equals(jsonRoot.get("direction").asText())
+            ? Order.OrderType.BID
+            : Order.OrderType.ASK;
+    String[] currencyPairSplit = jsonRoot.get("marketSymbol").asText().split("-");
+    CurrencyPair market = new CurrencyPair(currencyPairSplit[0], currencyPairSplit[1]);
+    BigDecimal price = new BigDecimal(jsonRoot.get("limit").asText());
+    BigDecimal quantity = new BigDecimal(jsonRoot.get("quantity").asText());
     String orderId =
         tradeService.placeLimitOrder(
-            new LimitOrder.Builder(Order.OrderType.BID, CurrencyPair.ETH_BTC)
-                .limitPrice(new BigDecimal("0.004"))
-                .originalAmount(new BigDecimal("1"))
+            new LimitOrder.Builder(type, market)
+                .limitPrice(price)
+                .originalAmount(quantity)
                 .build());
     assertThat(orderId).isNotNull().isNotEmpty();
   }
 
   @Test
   public void openOrdersTest() throws Exception {
+    final ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonRoot =
+        mapper.readTree(
+            this.getClass().getResource("/" + WIREMOCK_FILES_PATH + "/" + OPENORDERS_FILE_NAME));
     stubFor(
-        get(urlPathEqualTo("/api/v1.1/market/getopenorders"))
+        get(urlPathEqualTo("/v3/orders/open"))
             .willReturn(
                 aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
-                    .withBodyFile("openorders.json")));
+                    .withBodyFile("openOrders.json")));
+
     OpenOrders openOrders = tradeService.getOpenOrders();
     assertThat(openOrders).isNotNull();
-    assertThat(openOrders.getOpenOrders()).isNotEmpty();
+    assertThat(openOrders.getOpenOrders()).hasSize(jsonRoot.size());
     LimitOrder firstOrder = openOrders.getOpenOrders().get(0);
     assertThat(firstOrder).isNotNull();
     assertThat(firstOrder.getOriginalAmount()).isNotNull().isPositive();
@@ -66,7 +88,7 @@ public class TradeMockedIntegrationTest extends BaseMockedIntegrationTest {
   @Test
   public void tradeHistoryTest() throws Exception {
     stubFor(
-        get(urlPathEqualTo("/api/v1.1/account/getorderhistory"))
+        get(urlPathEqualTo("/v3/orders/closed"))
             .willReturn(
                 aResponse()
                     .withStatus(200)
