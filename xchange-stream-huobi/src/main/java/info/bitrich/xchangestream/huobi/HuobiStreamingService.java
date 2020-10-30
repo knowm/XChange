@@ -24,12 +24,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   public HuobiStreamingService(String apiUrl) {
-    super(
-        apiUrl,
-        Integer.MAX_VALUE,
-        Duration.ofSeconds(5),
-        Duration.ofSeconds(20),
-        20);
+    super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(5), Duration.ofSeconds(20), 20);
   }
 
   @Override

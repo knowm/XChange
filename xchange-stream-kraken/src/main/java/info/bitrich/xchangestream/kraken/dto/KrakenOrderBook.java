@@ -4,9 +4,7 @@ import info.bitrich.xchangestream.kraken.KrakenOrderBookStorage;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenOrderBookMessageType;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 
-/**
- * @author pchertalev
- */
+/** @author pchertalev */
 public class KrakenOrderBook {
 
   private final Integer channelID;

@@ -84,6 +84,5 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   }
 
   @Override
-  public void useCompressedMessages(boolean compressedMessages) {
-  }
+  public void useCompressedMessages(boolean compressedMessages) {}
 }
