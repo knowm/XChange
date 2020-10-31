@@ -28,8 +28,7 @@ public class CoinoneExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.coinone.co.kr");
     exchangeSpecification.setHost("www.coinone.co.kr");
     exchangeSpecification.setExchangeName("Coinone");

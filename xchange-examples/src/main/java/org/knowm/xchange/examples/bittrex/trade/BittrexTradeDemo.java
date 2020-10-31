@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.bittrex.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.service.BittrexTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -78,9 +79,9 @@ public class BittrexTradeDemo {
       System.out.println(tradeService.getBittrexOpenOrders(null));
 
       System.out.println("Attempting to cancel order " + uuid);
-      boolean cancelled = tradeService.cancelBittrexLimitOrder(uuid);
+      BittrexOrder cancelledOrder = tradeService.cancelBittrexLimitOrder(uuid);
 
-      if (cancelled) {
+      if ("CLOSED".equals(cancelledOrder.getStatus())) {
         System.out.println("Order successfully canceled.");
       } else {
         System.out.println("Order not successfully canceled.");

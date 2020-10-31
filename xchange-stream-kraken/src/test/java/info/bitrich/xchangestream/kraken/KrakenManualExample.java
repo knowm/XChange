@@ -81,7 +81,7 @@ public class KrakenManualExample {
                 throwable -> {
                   LOG.error("Fail to get trade {}", throwable.getMessage(), throwable);
                 });
-    TimeUnit.SECONDS.sleep(5);
+    TimeUnit.SECONDS.sleep(45);
 
     btcEurOrderBookDis.dispose();
     btcUsdOrderBookDis.dispose();

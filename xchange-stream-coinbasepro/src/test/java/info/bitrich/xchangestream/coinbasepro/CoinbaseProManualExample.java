@@ -29,7 +29,7 @@ public class CoinbaseProManualExample {
 
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
-            .createExchange(CoinbaseProStreamingExchange.class.getName())
+            .createExchange(CoinbaseProStreamingExchange.class)
             .getDefaultExchangeSpecification();
     spec.setApiKey(apiKey);
     spec.setSecretKey(apiSecret);

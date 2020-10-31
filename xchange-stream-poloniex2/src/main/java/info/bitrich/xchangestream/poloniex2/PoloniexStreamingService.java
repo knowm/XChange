@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.poloniex2;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.poloniex2.dto.*;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -11,9 +11,12 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 10.11.17, marcinrabiej */
 public class PoloniexStreamingService extends JsonNettyStreamingService {
@@ -22,11 +25,16 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   private static final String HEARTBEAT = "1010";
   public static final String ACCOUNT_NOTIFICATIONS_CHANNEL = "1000";
 
-  private final Map<String, String> subscribedChannels = new HashMap<>();
-  private final Map<String, Observable<JsonNode>> subscriptions = new HashMap<>();
+  private final Map<String, String> subscribedChannels = new ConcurrentHashMap<>();
+  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
 
   public PoloniexStreamingService(String apiUrl) {
-    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 2);
+    super(
+        apiUrl,
+        Integer.MAX_VALUE,
+        DEFAULT_CONNECTION_TIMEOUT,
+        DEFAULT_RETRY_DURATION,
+        2);
   }
 
   @Override
@@ -35,7 +43,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
     if (message.isArray()) {
       if (message.size() < 3) {
         if (message.get(0).asText().equals(HEARTBEAT)) return;
-        else if (message.get(0).asText().equals("1002")) return;
+        else if ("1002".equals(message.get(0).asText())) return;
       }
       int channelId = Integer.parseInt(message.get(0).toString());
       if (channelId > 0 && channelId < 1000) {
@@ -71,7 +79,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 
@@ -92,12 +100,10 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
+  public synchronized Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
     if (!channels.containsKey(channelName)) {
-      Observable<JsonNode> subscription = super.subscribeChannel(channelName, args);
-      subscriptions.put(channelName, subscription);
+      subscriptions.put(channelName, super.subscribeChannel(channelName, args));
     }
-
     return subscriptions.get(channelName);
   }
 

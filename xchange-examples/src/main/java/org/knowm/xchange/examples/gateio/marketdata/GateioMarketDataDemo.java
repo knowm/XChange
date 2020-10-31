@@ -24,7 +24,7 @@ public class GateioMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GateioExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);

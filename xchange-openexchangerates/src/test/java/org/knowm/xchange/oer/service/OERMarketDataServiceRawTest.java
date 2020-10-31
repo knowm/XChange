@@ -17,7 +17,7 @@ public class OERMarketDataServiceRawTest {
 
   @Test
   public void testProxyIsCalledWithCorrectParameters() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class);
     OERMarketDataServiceRaw serviceRaw = new OERMarketDataServiceRaw(exchange);
     OER oerMock = Mockito.mock(OER.class);
     OERTickers tickers = new OERTickers(new OERRates(), 0L);

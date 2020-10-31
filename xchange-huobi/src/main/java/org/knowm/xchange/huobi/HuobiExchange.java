@@ -27,8 +27,7 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.huobi.pro");
     exchangeSpecification.setHost("api.huobi.pro");
     exchangeSpecification.setPort(80);

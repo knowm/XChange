@@ -24,7 +24,12 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
   public HuobiStreamingService(String apiUrl) {
-    super(apiUrl, Integer.MAX_VALUE, Duration.ofSeconds(5), Duration.ofSeconds(20), 20);
+    super(
+        apiUrl,
+        Integer.MAX_VALUE,
+        Duration.ofSeconds(5),
+        Duration.ofSeconds(20),
+        20);
   }
 
   @Override
@@ -43,7 +48,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
       sendMessage("{\"pong\": " + ping + "}");
       return null;
     }
-    if (status != null && status.equals("ok")) {
+    if ("ok".equals(status)) {
       String subbed = message.get("subbed").textValue();
       LOG.debug("Subscribe [{}] is ok", subbed);
       return null;
@@ -79,11 +84,6 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
     return new HuobiWebSocketClientHandler(handshaker, handler);
   }
 
-  @Override
-  protected void handleChannelMessage(String channel, JsonNode message) {
-    if (channel != null) super.handleChannelMessage(channel, message);
-  }
-
   /**
    * Custom client handler in order to execute an external, user-provided handler on channel events.
    * This is useful because it seems Kraken unexpectedly closes the web socket connection.
@@ -101,7 +101,6 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
         super.channelRead0(ctx, msg);
         return;
       }
-
       super.channelRead0(ctx, msg);
 
       WebSocketFrame frame = (WebSocketFrame) msg;

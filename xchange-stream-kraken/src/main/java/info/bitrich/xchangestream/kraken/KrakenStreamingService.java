@@ -24,11 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +42,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final Map<Integer, String> channels = new ConcurrentHashMap<>();
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final boolean isPrivate;
-
+  private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
   private final Map<Integer, ObservableEmitter<KrakenAddOrderStatusMessage>>
           addOrderStatusEmitters = new HashMap<>();
@@ -47,9 +50,11 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final Map<Integer, ObservableEmitter<KrakenCancelOrderStatusMessage>>
           cancelOrderStatusEmitters = new HashMap<>();
 
-  public KrakenStreamingService(boolean isPrivate, String uri) {
+  public KrakenStreamingService(
+      boolean isPrivate, String uri, final Supplier<KrakenWebsocketToken> authData) {
     super(uri, Integer.MAX_VALUE);
     this.isPrivate = isPrivate;
+    this.authData = authData;
   }
 
   public KrakenStreamingService(
@@ -58,13 +63,20 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       int maxFramePayloadLength,
       Duration connectionTimeout,
       Duration retryDuration,
-      int idleTimeoutSeconds) {
-    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+      int idleTimeoutSeconds,
+      final Supplier<KrakenWebsocketToken> authData) {
+    super(
+        uri,
+        maxFramePayloadLength,
+        connectionTimeout,
+        retryDuration,
+        idleTimeoutSeconds);
     this.isPrivate = isPrivate;
+    this.authData = authData;
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 
@@ -111,6 +123,9 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               case error:
                 LOG.error(
                     "Channel {} has been failed: {}", channelName, statusMessage.getErrorMessage());
+                if ("ESession:Invalid session".equals(statusMessage.getErrorMessage())) {
+                  throw new ExchangeException("Issue with session validity");
+                }
             }
             break;
           case addOrderStatus:
@@ -180,7 +195,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     KrakenSubscriptionName subscriptionName = KrakenSubscriptionName.valueOf(channelData[0]);
 
     if (isPrivate) {
-      String token = (String) args[0];
+      final String token = authData.get().getToken();
 
       KrakenSubscriptionMessage subscriptionMessage =
           new KrakenSubscriptionMessage(
@@ -243,7 +258,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
     return new KrakenWebSocketClientHandler(handshaker, handler);
   }
 
-  private WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
+  private final WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   String submitLimitOrder(KrakenStreamingLimitOrder krakenStreamingLimitOrder) {
     Observable<KrakenAddOrderStatusMessage> responseObservable;
