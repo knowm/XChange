@@ -18,6 +18,13 @@ public class Order {
   private BigDecimal profitLoss;
   /** Price in base currency */
   private BigDecimal price;
+  public void setPrice(String priceStr) {
+    try {
+      this.price = new BigDecimal(priceStr);
+    } catch (NumberFormatException e) {
+      this.price = null;
+    }
+  }
   /** true for post-only orders only */
   @JsonProperty("post_only")
   private boolean postOnly;
