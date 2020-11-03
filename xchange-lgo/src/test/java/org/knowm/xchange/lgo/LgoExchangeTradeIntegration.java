@@ -3,11 +3,12 @@ package org.knowm.xchange.lgo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
-import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
@@ -122,7 +123,12 @@ public class LgoExchangeTradeIntegration {
   }
 
   private String readResource(String path) throws IOException {
-    InputStream stream = LgoExchange.class.getResourceAsStream(path);
-    return IOUtils.toString(stream, StandardCharsets.UTF_8);
+    try {
+      return new String(
+          Files.readAllBytes(Paths.get(getClass().getResource(path).toURI())),
+          StandardCharsets.UTF_8);
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 }

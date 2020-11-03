@@ -247,12 +247,6 @@
       </dependency>
 
       <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${version.commons.io}</version>
-      </dependency>
-
-      <dependency>
         <groupId>io.github.resilience4j</groupId>
         <artifactId>resilience4j-all</artifactId>
         <version>${version.resilience4j}</version>
