@@ -36,13 +36,6 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!--Test -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
 </project>

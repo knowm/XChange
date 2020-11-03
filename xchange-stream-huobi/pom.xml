@@ -26,10 +26,5 @@
             <artifactId>xchange-huobi</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.74</version>
-        </dependency>
     </dependencies>
 </project>

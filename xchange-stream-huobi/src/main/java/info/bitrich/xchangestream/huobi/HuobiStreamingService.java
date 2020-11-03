@@ -1,7 +1,8 @@
 package info.bitrich.xchangestream.huobi;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler.WebSocketMessageHandler;
@@ -67,10 +68,10 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
    */
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    JSONObject send = new JSONObject();
+    ObjectNode send = JsonNodeFactory.instance.objectNode();
     send.put("sub", channelName);
     send.put("id", System.currentTimeMillis());
-    return send.toJSONString();
+    return send.toString();
   }
 
   @Override
