@@ -39,7 +39,7 @@
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.16</version.lombok>
     <version.knowm.xchart>3.6.5</version.knowm.xchart>
-    <version.powermock>2.0.7</version.powermock>
+    <version.powermock>2.0.9</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
