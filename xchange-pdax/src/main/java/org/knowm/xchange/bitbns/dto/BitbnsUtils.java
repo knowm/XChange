@@ -24,6 +24,6 @@ public final class BitbnsUtils {
     if (currency.toUpperCase().equals("BTC")) return "btc";
     if (currency.toUpperCase().equals("ETH")) return "eth";
 
-    throw new BitbnsException("Cannot determine withdrawal type.");
+    throw new PdaxException("Cannot determine withdrawal type.");
   }
 }

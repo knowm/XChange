@@ -14,7 +14,7 @@ public class PdaxOrderBook {
       @JsonProperty("asks") List<Asks> asks,
       @JsonProperty("bids") List<Asks> bids,
       @JsonProperty("dataUpdateTime") long dataUpdateTime,
-      @JsonProperty("dataUpdateTime") long now) {
+      @JsonProperty("now") long now) {
     this.asks = asks;
     this.bids = bids;
     this.dataUpdateTime = dataUpdateTime;

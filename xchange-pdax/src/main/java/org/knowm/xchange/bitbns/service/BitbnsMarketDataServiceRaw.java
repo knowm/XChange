@@ -5,11 +5,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
+
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitbns.dto.BitbnsTicker;
 import org.knowm.xchange.bitbns.dto.PdaxOrderBooks;
+import org.knowm.xchange.bitbns.dto.PdaxTickerData;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BitbnsMarketDataServiceRaw extends BitbnsBaseService {
@@ -29,10 +31,8 @@ public class BitbnsMarketDataServiceRaw extends BitbnsBaseService {
   //		return bitBns.getTrade(getSymbol(currencyPair, args));
   //	}
 
-  public BitbnsTicker getBitbnsTicker(CurrencyPair currencyPair, Object... args)
-      throws IOException {
-    Map<String, BitbnsTicker> tickerMap = pdax.getTicker(args[0].toString());
-    return tickerMap.get(getSymbol(currencyPair));
+  public PdaxTickerData getBitbnsTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+	  	return pdax.getTicker(getSymbol(currencyPair, args));
   }
 
   /**

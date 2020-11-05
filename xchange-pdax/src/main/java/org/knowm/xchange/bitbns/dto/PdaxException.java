@@ -2,12 +2,12 @@ package org.knowm.xchange.bitbns.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BitbnsException extends RuntimeException {
+public class PdaxException extends RuntimeException {
 
   @JsonProperty("message")
   private String message;
 
-  public BitbnsException(@JsonProperty("message") String message) {
+  public PdaxException(@JsonProperty("message") String message) {
 
     super();
     this.message = message;

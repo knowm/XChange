@@ -2,7 +2,7 @@ package org.knowm.xchange.bitbns.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbns.Pdax;
-import org.knowm.xchange.bitbns.dto.BitbnsException;
+import org.knowm.xchange.bitbns.dto.PdaxException;
 import org.knowm.xchange.bitbns.dto.BitbnsHmacPostBodyDigest;
 import org.knowm.xchange.bitbns.dto.BitbnsPayloadDigest;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -31,7 +31,7 @@ public class BitbnsBaseService extends BaseExchangeService implements BaseServic
     this.payloadCreator = new BitbnsPayloadDigest();
   }
 
-  protected ExchangeException handleException(BitbnsException e) {
+  protected ExchangeException handleException(PdaxException e) {
     if (e.getMessage().contains("due to insufficient funds")
         || e.getMessage().contains("you do not have enough available"))
       return new FundsExceededException(e);

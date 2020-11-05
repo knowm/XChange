@@ -2,7 +2,7 @@ package org.knowm.xchange.bitbns.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BitbnsTicker {
+public class PdaxTicker {
 
   private PdaxTickerPrice avg;
   private PdaxTickerPrice buy;
@@ -15,7 +15,7 @@ public class BitbnsTicker {
   private long dataUpdateTime;
   private long now;
 
-  public BitbnsTicker(
+  public PdaxTicker(
       @JsonProperty("avg") PdaxTickerPrice avg,
       @JsonProperty("buy") PdaxTickerPrice buy,
       @JsonProperty("high") PdaxTickerPrice high,

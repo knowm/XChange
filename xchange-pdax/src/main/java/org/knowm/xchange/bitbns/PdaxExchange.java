@@ -3,9 +3,10 @@ package org.knowm.xchange.bitbns;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitbns.service.BitbnsMarketDataService;
-import org.knowm.xchange.bitbns.service.BitbnsTradeService;
+import org.knowm.xchange.bitbns.service.PdaxTradeService;
+import org.knowm.xchange.bitbns.service.PdaxMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class PdaxExchange extends BaseExchange implements Exchange {
@@ -31,8 +32,8 @@ public class PdaxExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.marketDataService = new BitbnsMarketDataService(this);
-    this.tradeService = new BitbnsTradeService(this);
+    this.marketDataService = new PdaxMarketDataService(this);
+    this.tradeService = new PdaxTradeService(this);
   }
 
   //	  @Override

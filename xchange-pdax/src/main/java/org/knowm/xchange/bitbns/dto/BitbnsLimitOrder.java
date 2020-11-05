@@ -15,7 +15,7 @@ public class BitbnsLimitOrder extends LimitOrder {
   /** */
   private static final long serialVersionUID = 1L;
 
-  private BitbnsOrderPlaceStatusResponse response = null;
+  private PdaxOrderPlaceStatusResponse response = null;
 
   public BitbnsLimitOrder(
       OrderType type,
@@ -27,11 +27,11 @@ public class BitbnsLimitOrder extends LimitOrder {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 
-  public BitbnsOrderPlaceStatusResponse getResponse() {
+  public PdaxOrderPlaceStatusResponse getResponse() {
     return response;
   }
 
-  public void setResponse(BitbnsOrderPlaceStatusResponse value) {
+  public void setResponse(PdaxOrderPlaceStatusResponse value) {
     response = value;
   }
 
