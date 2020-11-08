@@ -45,10 +45,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final Supplier<KrakenWebsocketToken> authData;
   private final Map<Integer, String> subscriptionRequestMap = new ConcurrentHashMap<>();
   private final Map<Integer, ObservableEmitter<KrakenAddOrderStatusMessage>>
-          addOrderStatusEmitters = new HashMap<>();
+          addOrderStatusEmitters = new ConcurrentHashMap<>();
 
   private final Map<Integer, ObservableEmitter<KrakenCancelOrderStatusMessage>>
-          cancelOrderStatusEmitters = new HashMap<>();
+          cancelOrderStatusEmitters = new ConcurrentHashMap<>();
 
   public KrakenStreamingService(
       boolean isPrivate, String uri, final Supplier<KrakenWebsocketToken> authData) {
@@ -261,6 +261,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   private final WebSocketClientHandler.WebSocketMessageHandler channelInactiveHandler = null;
 
   String submitLimitOrder(KrakenStreamingLimitOrder krakenStreamingLimitOrder) {
+    krakenStreamingLimitOrder.setToken(authData.get().getToken());
     Observable<KrakenAddOrderStatusMessage> responseObservable;
     responseObservable =
             Observable.create(
@@ -278,6 +279,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   }
 
   Boolean cancelOrder(KrakenStreamingCancelOrder krakenStreamingCancelOrder) {
+    krakenStreamingCancelOrder.setToken(authData.get().getToken());
     Observable<KrakenCancelOrderStatusMessage> responseObservable;
     responseObservable =
             Observable.create(

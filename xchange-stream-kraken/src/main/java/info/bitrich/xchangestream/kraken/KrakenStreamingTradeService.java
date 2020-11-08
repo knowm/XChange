@@ -84,21 +84,11 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
   }
 
   public String submitLimitOrder(LimitOrder order) {
-    try {
-      return streamingService.submitLimitOrder(
-              new KrakenStreamingLimitOrder(order, renewToken().getToken()));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return streamingService.submitLimitOrder(new KrakenStreamingLimitOrder(order));
   }
 
   public Boolean cancelOrder(String orderId, Integer reqid) {
-    try {
-      return streamingService.cancelOrder(
-              new KrakenStreamingCancelOrder(orderId, renewToken().getToken(), reqid));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return streamingService.cancelOrder(new KrakenStreamingCancelOrder(orderId, reqid));
   }
 
   private Iterable<Order> adaptKrakenOrders(KrakenDtoOrderHolder[] dtoList) {

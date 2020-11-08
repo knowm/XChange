@@ -28,9 +28,8 @@ public class KrakenStreamingLimitOrder extends KrakenEvent {
   @JsonProperty
   private Integer reqid;
 
-  public KrakenStreamingLimitOrder(LimitOrder order, String token) {
+  public KrakenStreamingLimitOrder(LimitOrder order) {
     super(KrakenEventType.addOrder);
-    this.token = token;
     this.pair = order.getCurrencyPair().base + "/" + order.getCurrencyPair().counter;
     this.type = KrakenType.fromOrderType(order.getType()).toString();
     this.ordertype = "limit";
@@ -46,5 +45,9 @@ public class KrakenStreamingLimitOrder extends KrakenEvent {
 
   public Integer getReqid() {
     return reqid;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
   }
 }
