@@ -151,9 +151,9 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    validateArgs(args);
     Object subscribeMessage;
     if (ACCOUNT_NOTIFICATIONS_CHANNEL.equals(channelName)) {
+      validateArgs(args);
       subscribeMessage =
           getAccountNotificationsSubscription(
               (String) args[0], (String) args[1], (SynchronizedValueFactory<Long>) args[2]);
