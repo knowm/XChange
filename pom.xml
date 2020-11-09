@@ -207,12 +207,10 @@
     <module>xchange-stream-kraken</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
-    <module>xchange-stream-poloniex</module>
     <module>xchange-stream-poloniex2</module>
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
-    <module>xchange-stream-service-wamp</module>
     <module>xchange-stream-huobi</module>
 
   </modules>
@@ -387,12 +385,6 @@
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <version>1.3.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
     </dependency>
 
     <!-- SLF4J implementation for use in examples -->
