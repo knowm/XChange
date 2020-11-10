@@ -211,7 +211,6 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-huobi</module>
-
   </modules>
 
   <repositories>
