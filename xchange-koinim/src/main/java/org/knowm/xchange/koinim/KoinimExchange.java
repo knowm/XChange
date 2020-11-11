@@ -21,8 +21,7 @@ public class KoinimExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.koinim.com");
     exchangeSpecification.setHost("www.koinim.com");
     exchangeSpecification.setPort(80);

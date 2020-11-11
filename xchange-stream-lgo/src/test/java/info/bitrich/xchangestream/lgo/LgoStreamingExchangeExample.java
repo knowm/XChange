@@ -2,9 +2,11 @@ package info.bitrich.xchangestream.lgo;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
-import org.apache.commons.io.IOUtils;
 import org.junit.*;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.*;
@@ -33,8 +35,13 @@ public class LgoStreamingExchangeExample {
   }
 
   private String readResource(String path) throws IOException {
-    InputStream stream = LgoStreamingExchangeExample.class.getResourceAsStream(path);
-    return IOUtils.toString(stream, StandardCharsets.UTF_8);
+    try {
+      return new String(
+          Files.readAllBytes(Paths.get(getClass().getResource(path).toURI())),
+          StandardCharsets.UTF_8);
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 
   @Test

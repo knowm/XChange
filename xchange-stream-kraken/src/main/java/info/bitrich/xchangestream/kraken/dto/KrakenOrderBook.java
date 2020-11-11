@@ -4,16 +4,18 @@ import info.bitrich.xchangestream.kraken.KrakenOrderBookStorage;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenOrderBookMessageType;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 
-/** @author pchertalev */
+/**
+ * @author pchertalev
+ */
 public class KrakenOrderBook {
 
-  private Integer channelID;
-  private String channelName;
-  private String pair;
-  private KrakenOrderBookMessageType type;
+  private final Integer channelID;
+  private final String channelName;
+  private final String pair;
+  private final KrakenOrderBookMessageType type;
 
-  private KrakenPublicOrder[] ask;
-  private KrakenPublicOrder[] bid;
+  private final KrakenPublicOrder[] ask;
+  private final KrakenPublicOrder[] bid;
 
   public KrakenOrderBook(
       Integer channelID,
@@ -55,7 +57,7 @@ public class KrakenOrderBook {
   }
 
   public KrakenOrderBookStorage toKrakenOrderBook(KrakenOrderBookStorage orderbook, int depth) {
-    if (type == KrakenOrderBookMessageType.UPDATE) {
+    if (type == KrakenOrderBookMessageType.UPDATE && orderbook != null) {
       orderbook.updateOrderBook(this);
       return orderbook;
     }

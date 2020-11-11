@@ -24,6 +24,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public interface BitstampAuthenticatedV2 {
 
   @POST
+  @Path("open_orders/all/")
+  BitstampOrder[] getOpenOrders(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws BitstampException, IOException;
+
+  @POST
   @Path("open_orders/{pair}/")
   BitstampOrder[] getOpenOrders(
       @FormParam("key") String apiKey,
@@ -64,7 +72,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort,
-      @FormParam("since_timestamp") Long sinceTimestamp)
+      @FormParam("since_timestamp") Long sinceTimestamp,
+      @FormParam("since_id") String sinceId)
       throws BitstampException, IOException;
 
   @POST
@@ -77,7 +86,8 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("limit") Long numberOfTransactions,
       @FormParam("offset") Long offset,
       @FormParam("sort") String sort,
-      @FormParam("since_timestamp") Long sinceTimestamp)
+      @FormParam("since_timestamp") Long sinceTimestamp,
+      @FormParam("since_id") String sinceId)
       throws BitstampException, IOException;
 
   @POST

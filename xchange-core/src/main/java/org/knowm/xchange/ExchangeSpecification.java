@@ -1,5 +1,7 @@
 package org.knowm.xchange;
 
+import static org.knowm.xchange.ExchangeClassUtils.exchangeClassForName;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 public class ExchangeSpecification {
 
-  private final String exchangeClassName;
+  private final Class<? extends Exchange> exchangeClass;
   private String exchangeName;
   private String exchangeDescription;
   private String userName;
@@ -39,10 +41,11 @@ public class ExchangeSpecification {
    *
    * @param exchangeClassName The exchange class name (e.g.
    *     "org.knowm.xchange.mtgox.v1.MtGoxExchange")
+   * @deprecated use constructor with exchange class for better performance
    */
+  @Deprecated
   public ExchangeSpecification(String exchangeClassName) {
-
-    this.exchangeClassName = exchangeClassName;
+    this(exchangeClassForName(exchangeClassName));
   }
 
   /**
@@ -51,14 +54,22 @@ public class ExchangeSpecification {
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class<? extends Exchange> exchangeClass) {
-
-    this.exchangeClassName = exchangeClass.getCanonicalName();
+    this.exchangeClass = exchangeClass;
   }
 
-  /** @return The exchange class name for loading at runtime */
-  public String getExchangeClassName() {
+  /** @return The exchange class for loading at runtime */
+  public Class<? extends Exchange> getExchangeClass() {
+    return exchangeClass;
+  }
 
-    return exchangeClassName;
+  /**
+   * @return The exchange class name for loading at runtime
+   * @see this#getExchangeClass
+   * @deprecated use getExchangeClass
+   */
+  @Deprecated
+  public String getExchangeClassName() {
+    return exchangeClass.getName();
   }
 
   /**
@@ -479,7 +490,7 @@ public class ExchangeSpecification {
     /**
      * Flag that lets you enable retry functionality if it was implemented for the given exchange.
      *
-     * <p>If this featrue is implemented and enabled then operations that can be safely retried on
+     * <p>If this feature is implemented and enabled then operations that can be safely retried on
      * socket failures and timeouts will be retried.
      */
     public void setRetryEnabled(boolean retryEnabled) {

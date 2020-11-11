@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -109,4 +110,10 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
   public Observable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
+  }
+
 }

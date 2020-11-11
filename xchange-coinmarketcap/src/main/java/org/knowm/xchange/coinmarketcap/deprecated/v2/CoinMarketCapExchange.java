@@ -31,7 +31,7 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     final ExchangeSpecification defaultExchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+        new ExchangeSpecification(this.getClass());
     defaultExchangeSpecification.setSslUri("https://api.coinmarketcap.com");
     defaultExchangeSpecification.setHost("coinmarketcap.com");
     defaultExchangeSpecification.setExchangeName("CoinMarketCap");

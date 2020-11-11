@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.coinbasepro;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -48,7 +49,14 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
       apiUri = usePrime ? PRIME_API_URI : API_URI;
     }
 
-    this.streamingService = new CoinbaseProStreamingService(apiUri, () -> authData(exchangeSpec));
+    boolean subscribeToL3Orderbook =
+        Boolean.TRUE.equals(
+            exchangeSpecification.getExchangeSpecificParametersItem(
+                StreamingExchange.L3_ORDERBOOK));
+
+    this.streamingService =
+        new CoinbaseProStreamingService(
+            apiUri, () -> authData(exchangeSpec), subscribeToL3Orderbook);
     applyStreamingSpecification(exchangeSpecification, this.streamingService);
 
     this.streamingMarketDataService = new CoinbaseProStreamingMarketDataService(streamingService);
@@ -90,6 +98,11 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public Observable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

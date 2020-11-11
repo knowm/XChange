@@ -2,9 +2,9 @@ package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinmate.CoinmateStatic;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoinmateMetadataServiceRaw extends CoinmateBaseService {
   private final CoinmateStatic coinmateStatic;
@@ -13,10 +13,9 @@ public class CoinmateMetadataServiceRaw extends CoinmateBaseService {
     super(exchange);
 
     this.coinmateStatic =
-        RestProxyFactory.createProxy(
-            CoinmateStatic.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinmateStatic.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public ExchangeMetaData getMetadata() throws IOException {
