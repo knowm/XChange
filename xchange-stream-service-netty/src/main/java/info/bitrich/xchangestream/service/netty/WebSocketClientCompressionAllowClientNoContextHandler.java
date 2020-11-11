@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.coinbasepro.netty;
+package info.bitrich.xchangestream.service.netty;
 
 import static io.netty.handler.codec.http.websocketx.extensions.compression.PerMessageDeflateServerExtensionHandshaker.MAX_WINDOW_SIZE;
 
