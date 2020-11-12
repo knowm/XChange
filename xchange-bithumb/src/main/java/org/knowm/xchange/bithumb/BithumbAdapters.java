@@ -115,7 +115,8 @@ public final class BithumbAdapters {
       BithumbTransactionHistory trade, CurrencyPair currencyPair) {
 
     return new Trade.Builder()
-        .currencyPair(currencyPair)
+        .id(String.valueOf(trade.getTimestamp().getTime()))
+        .instrument(currencyPair)
         .originalAmount(trade.getUnitsTraded())
         .price(trade.getPrice())
         .type(adaptOrderType(trade.getType()))
