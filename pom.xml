@@ -120,7 +120,6 @@
     <module>xchange-btcmarkets</module>
     <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
-    <module>xchange-campbx</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
     <module>xchange-cobinhood</module>
