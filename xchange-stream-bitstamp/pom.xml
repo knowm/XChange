@@ -20,11 +20,6 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-pusher</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-bitstamp</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

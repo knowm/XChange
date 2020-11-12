@@ -29,11 +29,6 @@
             <artifactId>rescu</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        
         <!--For String Joining, etc. -->
         <dependency>
             <groupId>org.apache.commons</groupId>

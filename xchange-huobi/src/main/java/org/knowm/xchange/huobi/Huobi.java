@@ -23,6 +23,7 @@ import org.knowm.xchange.huobi.dto.account.results.HuobiWithdrawFeeRangeResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAllTickersResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetPairsResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiAssetsResult;
+import org.knowm.xchange.huobi.dto.marketdata.results.HuobiCandleStickResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiDepthResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTickerResult;
 import org.knowm.xchange.huobi.dto.marketdata.results.HuobiTradesResult;
@@ -284,5 +285,13 @@ public interface Huobi {
       @QueryParam("SignatureVersion") int signatureVersion,
       @QueryParam("Timestamp") String nonce,
       @QueryParam("Signature") ParamsDigest signature)
+      throws IOException;
+
+  @GET
+  @Path("market/history/kline")
+  HuobiCandleStickResult getCandleStick(
+      @QueryParam("period") String period,
+      @QueryParam("size") int size,
+      @QueryParam("symbol") String symbol)
       throws IOException;
 }

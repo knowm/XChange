@@ -14,7 +14,8 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeIncrementalNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {

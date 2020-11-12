@@ -183,4 +183,12 @@ public interface Binance {
    * @throws BinanceException
    */
   List<BinancePriceQuantity> tickerAllBookTickers() throws IOException, BinanceException;
+
+  @GET
+  @Path("api/v3/historicalTrades")
+  List<Object[]> historicalTrade(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("limit") int limit,
+      @QueryParam("fromId") long fromId)
+      throws IOException, BinanceException;
 }

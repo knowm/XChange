@@ -2,8 +2,11 @@ package org.knowm.xchange.deribit.v2.service;
 
 import java.io.IOException;
 import java.util.List;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.deribit.v2.DeribitAdapters;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.Kind;
+import org.knowm.xchange.deribit.v2.dto.marketdata.DerbitCandle;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitCurrency;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitInstrument;
 import org.knowm.xchange.deribit.v2.dto.marketdata.DeribitOrderBook;
@@ -57,5 +60,14 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
 
   public DeribitTicker getDeribitTicker(String instrumentName) throws IOException {
     return deribit.getTicker(instrumentName).getResult();
+  }
+
+  public DerbitCandle getTredingViewChart(
+      CurrencyPair currencyPair, Long startTime, Long endTime, Integer resolution, String... args)
+      throws IOException {
+    String deribitInstrumentName = DeribitAdapters.adaptInstrumentName(currencyPair, args);
+    return deribit
+        .getTredingViewChartByInstrument(deribitInstrumentName, startTime, endTime, resolution)
+        .getResult();
   }
 }

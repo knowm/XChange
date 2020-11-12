@@ -66,10 +66,5 @@
             <artifactId>xchange-bitmex</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>fluent-hc</artifactId>
-            <version>4.5.13</version>
-        </dependency>
     </dependencies>
 </project>

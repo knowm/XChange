@@ -9,6 +9,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
+import org.knowm.xchange.binance.dto.marketdata.BinanceHistoricalTrade;
 import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
@@ -130,5 +131,19 @@ public class BinanceMarketDataServiceRaw extends BinanceBaseService {
       return 2;
     }
     return 1;
+  }
+
+  public List<BinanceHistoricalTrade> historicalTrades(CurrencyPair pair, int limit, long fromId)
+      throws IOException {
+    List<Object[]> raw =
+        decorateApiCall(
+                () -> binance.historicalTrade(BinanceAdapters.toSymbol(pair), limit, fromId))
+            .withRetry(retry("tickerAllBookTickers"))
+            .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
+            .call();
+
+    return raw.stream()
+        .map(obj -> new BinanceHistoricalTrade(pair, obj))
+        .collect(Collectors.toList());
   }
 }
