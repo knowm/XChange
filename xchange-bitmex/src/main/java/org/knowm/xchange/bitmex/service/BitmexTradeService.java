@@ -194,8 +194,10 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       }
     }
 
-    boolean reverse = (params instanceof TradeHistoryParamsSorted)
-        && ((TradeHistoryParamsSorted) params).getOrder() == TradeHistoryParamsSorted.Order.desc;
+    boolean reverse =
+        (params instanceof TradeHistoryParamsSorted)
+            && ((TradeHistoryParamsSorted) params).getOrder()
+                == TradeHistoryParamsSorted.Order.desc;
 
     List<UserTrade> userTrades =
         getTradeHistory(symbol, null, null, count, start, reverse, startTime, endTime).stream()
