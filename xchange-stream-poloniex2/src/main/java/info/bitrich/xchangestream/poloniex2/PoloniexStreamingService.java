@@ -25,12 +25,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
 
   public PoloniexStreamingService(String apiUrl) {
-    super(
-        apiUrl,
-        Integer.MAX_VALUE,
-        DEFAULT_CONNECTION_TIMEOUT,
-        DEFAULT_RETRY_DURATION,
-        2);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 2);
   }
 
   @Override

@@ -17,6 +17,7 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowC
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
@@ -24,8 +25,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-
-import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
@@ -57,12 +56,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       Duration retryDuration,
       int idleTimeoutSeconds,
       final Supplier<KrakenWebsocketToken> authData) {
-    super(
-        uri,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(uri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.isPrivate = isPrivate;
     this.authData = authData;
   }
