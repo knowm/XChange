@@ -11,6 +11,7 @@ public class BithumbTicker {
   private final BigDecimal maxPrice;
   private final BigDecimal averagePrice;
   private final BigDecimal unitsTraded;
+  private final BigDecimal accTradeValue;
   private final BigDecimal volume1day;
   private final BigDecimal volume7day;
   private final BigDecimal buyPrice;
@@ -26,6 +27,7 @@ public class BithumbTicker {
       @JsonProperty("max_price") BigDecimal maxPrice,
       @JsonProperty("average_price") BigDecimal averagePrice,
       @JsonProperty("units_traded") BigDecimal unitsTraded,
+      @JsonProperty("acc_trade_value") BigDecimal accTradeValue,
       @JsonProperty("volume_1day") BigDecimal volume1day,
       @JsonProperty("volume_7day") BigDecimal volume7day,
       @JsonProperty("buy_price") BigDecimal buyPrice,
@@ -39,6 +41,7 @@ public class BithumbTicker {
     this.maxPrice = maxPrice;
     this.averagePrice = averagePrice;
     this.unitsTraded = unitsTraded;
+    this.accTradeValue = accTradeValue;
     this.volume1day = volume1day;
     this.volume7day = volume7day;
     this.buyPrice = buyPrice;
@@ -70,6 +73,10 @@ public class BithumbTicker {
 
   public BigDecimal getUnitsTraded() {
     return unitsTraded;
+  }
+
+  public BigDecimal getAccTradeValue() {
+    return accTradeValue;
   }
 
   public BigDecimal getVolume1day() {
@@ -119,6 +126,8 @@ public class BithumbTicker {
         + averagePrice
         + ", unitsTraded="
         + unitsTraded
+        + ", accTradeValue="
+        + accTradeValue
         + ", volume1day="
         + volume1day
         + ", volume7day="
