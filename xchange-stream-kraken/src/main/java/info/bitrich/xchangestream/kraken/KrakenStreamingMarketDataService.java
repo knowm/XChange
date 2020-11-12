@@ -81,13 +81,11 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                           bd(tickerItems.get("b"), 0), bd(tickerItems.get("b"), 2), 0),
                       new KrakenPublicOrder(
                           bd(tickerItems.get("c"), 0), bd(tickerItems.get("c"), 1), 0),
-                
                       new BigDecimal[] {bd(tickerItems.get("v"), 0), bd(tickerItems.get("v"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("p"), 0), bd(tickerItems.get("p"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("t"), 0), bd(tickerItems.get("t"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("l"), 0), bd(tickerItems.get("l"), 1)},
                       new BigDecimal[] {bd(tickerItems.get("h"), 0), bd(tickerItems.get("h"), 1)},
-
                       bd(tickerItems.get("o"), 0));
               return KrakenAdapters.adaptTicker(krakenTicker, currencyPair);
             });

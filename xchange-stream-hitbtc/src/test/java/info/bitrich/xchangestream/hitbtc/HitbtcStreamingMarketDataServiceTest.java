@@ -44,8 +44,11 @@ public class HitbtcStreamingMarketDataServiceTest {
 
     // Read order book in JSON
     String orderBook =
-            new String(Files.readAllBytes(Paths.get(getClass().getResource(
-                    "/example/notificationSnapshotOrderBook.json").toURI())), StandardCharsets.UTF_8);
+        new String(
+            Files.readAllBytes(
+                Paths.get(
+                    getClass().getResource("/example/notificationSnapshotOrderBook.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("orderbook-BTCEUR")))
         .thenReturn(Observable.just(objectMapper.readTree(orderBook)));
@@ -109,9 +112,12 @@ public class HitbtcStreamingMarketDataServiceTest {
   @Test
   public void testGetTrades() throws Exception {
     // Read trades in JSON
-      String trades =
-              new String(Files.readAllBytes(Paths.get(getClass().getResource(
-                      "/example/notificationSnapshotTrades.json").toURI())), StandardCharsets.UTF_8);
+    String trades =
+        new String(
+            Files.readAllBytes(
+                Paths.get(
+                    getClass().getResource("/example/notificationSnapshotTrades.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("trades-BTCUSD")))
         .thenReturn(Observable.just(objectMapper.readTree(trades)));
@@ -172,8 +178,10 @@ public class HitbtcStreamingMarketDataServiceTest {
   public void testGetTicker() throws Exception {
     // Read ticker in JSON
     String tickerString =
-            new String(Files.readAllBytes(Paths.get(getClass().getResource(
-                    "/example/notificationTicker.json").toURI())), StandardCharsets.UTF_8);
+        new String(
+            Files.readAllBytes(
+                Paths.get(getClass().getResource("/example/notificationTicker.json").toURI())),
+            StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("ticker-BTCUSD")))
         .thenReturn(Observable.just(objectMapper.readTree(tickerString)));

@@ -91,12 +91,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private Disposable calculator;
 
   public BitfinexStreamingService(String apiUrl, SynchronizedValueFactory<Long> nonceFactory) {
-    super(
-        apiUrl,
-        Integer.MAX_VALUE,
-        DEFAULT_CONNECTION_TIMEOUT,
-        DEFAULT_RETRY_DURATION,
-        30);
+    super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 30);
     this.nonceFactory = nonceFactory;
   }
 
@@ -107,12 +102,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
       Duration connectionTimeout,
       Duration retryDuration,
       int idleTimeoutSeconds) {
-    super(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.nonceFactory = nonceFactory;
   }
 
