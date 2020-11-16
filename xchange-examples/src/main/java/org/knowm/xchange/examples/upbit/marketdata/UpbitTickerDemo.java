@@ -24,5 +24,7 @@ public class UpbitTickerDemo {
 
     // Print The Generic and Raw Ticker
     System.out.println(marketDataService.getTicker(pair));
+
+    System.out.println(marketDataService.getTickers(null));
   }
 }
