@@ -354,7 +354,7 @@
       <dependency>
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
-        <version>4.31.3</version>
+        <version>4.33.3</version>
       </dependency>
       <dependency>
         <groupId>javax.xml.bind</groupId>
