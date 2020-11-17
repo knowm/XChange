@@ -20,10 +20,8 @@ class CoinjarStreamingAdapters {
 
   public static CurrencyPair adaptTopicToCurrencyPair(String topic) {
     if (topic.startsWith("book")) {
-      topic = topic.substring(5);
-      Currency base = new Currency(topic.substring(0, 3));
-      Currency counter = new Currency(topic.substring(3, 6));
-      return new CurrencyPair(base, counter);
+      String product = topic.substring(5);
+      return CoinjarAdapters.productToCurrencyPair(product);
     } else throw new IllegalArgumentException("Cannot determine topic from topic name " + topic);
   }
 
