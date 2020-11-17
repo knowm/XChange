@@ -19,16 +19,11 @@ class CoinjarStreamingService extends JsonNettyStreamingService {
   public CoinjarStreamingService(String apiUrl, String apiKey) {
     super(apiUrl);
     this.apiKey = apiKey;
-    this.subscribeConnectionSuccess()
-        .forEach(
-            (l) -> {
-              Observable.interval(30, TimeUnit.SECONDS)
-                  .forEach(
-                      (ll) -> {
-                        if (this.isSocketOpen()) {
-                          this.sendObjectMessage(new CoinjarHeartbeat(refCount.incrementAndGet()));
-                        }
-                      });
+    Observable.interval(30, TimeUnit.SECONDS)
+            .subscribe( t -> {
+              if (this.isSocketOpen()) {
+                this.sendObjectMessage(new CoinjarHeartbeat(refCount.incrementAndGet()));
+              }
             });
   }
 
