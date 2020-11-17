@@ -15,7 +15,7 @@ public class BittrexLevel {
    * @param quantity
    */
   public BittrexLevel(
-      @JsonProperty("Rate") BigDecimal rate, @JsonProperty("Quantity") BigDecimal quantity) {
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("quantity") BigDecimal quantity) {
 
     this.rate = rate;
     this.quantity = quantity;

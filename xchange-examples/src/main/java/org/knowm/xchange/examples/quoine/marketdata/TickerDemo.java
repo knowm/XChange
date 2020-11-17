@@ -19,7 +19,7 @@ public class TickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Quoine exchange API using default settings
-    Exchange quoine = ExchangeFactory.INSTANCE.createExchange(QuoineExchange.class.getName());
+    Exchange quoine = ExchangeFactory.INSTANCE.createExchange(QuoineExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = quoine.getMarketDataService();

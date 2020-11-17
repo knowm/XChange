@@ -4,10 +4,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.Bitcointoyou;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAuthenticated;
 import org.knowm.xchange.bitcointoyou.service.BitcointoyouDigest;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Jonathas Carrijo */
 public class BitcointoyouBasePollingService extends BaseExchangeService implements BaseService {
@@ -26,15 +26,17 @@ public class BitcointoyouBasePollingService extends BaseExchangeService implemen
 
     super(exchange);
     this.bitcointoyouAuthenticated =
-        RestProxyFactory.createProxy(
-            BitcointoyouAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                BitcointoyouAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
         BitcointoyouDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(), this.apiKey);
 
     this.bitcointoyou =
-        RestProxyFactory.createProxy(
-            Bitcointoyou.class, exchange.getExchangeSpecification().getSslUri());
+        ExchangeRestProxyBuilder.forInterface(
+                Bitcointoyou.class, exchange.getExchangeSpecification())
+            .build();
   }
 }

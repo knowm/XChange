@@ -30,7 +30,7 @@ public class LatokenTradeServiceIntegration {
   public static void beforeClass() {
     exchange =
         ExchangeFactory.INSTANCE.createExchange(
-            LatokenExchange.class.getName(), "api-v1-XXX", "api-v1-secret-YYY");
+            LatokenExchange.class, "api-v1-XXX", "api-v1-secret-YYY");
     tradeService = (LatokenTradeService) exchange.getTradeService();
   }
 

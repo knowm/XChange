@@ -28,8 +28,7 @@ public class EnigmaExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(SSL_URI);
     exchangeSpecification.setHost(HOST);
     exchangeSpecification.setPort(443);

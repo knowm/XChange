@@ -17,8 +17,7 @@ public class TickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Open Exchange Rates exchange API
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(OERExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(OERExchange.class);
     exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("ab32c922bca749ec9345b4717914ee1f");
 

@@ -44,8 +44,7 @@ public class DeribitExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.deribit.com");
     exchangeSpecification.setHost("deribit.com");
     //    exchangeSpecification.setPort(80);
@@ -56,8 +55,7 @@ public class DeribitExchange extends BaseExchange implements Exchange {
 
   public ExchangeSpecification getSandboxExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://test.deribit.com/");
     exchangeSpecification.setHost("test.deribit.com");
     //    exchangeSpecification.setPort(80);

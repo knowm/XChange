@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.binance.BinanceUserDataChannel.NoActiveChannelException;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.util.Events;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -14,11 +15,10 @@ import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.BaseExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
 
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
@@ -89,10 +89,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
       LOG.info("Connecting to authenticated web socket");
       BinanceAuthenticated binance =
-          RestProxyFactory.createProxy(
-              BinanceAuthenticated.class,
-              getExchangeSpecification().getSslUri(),
-              new BaseExchangeService<BinanceExchange>(this) {}.getClientConfig());
+          ExchangeRestProxyBuilder.forInterface(
+                  BinanceAuthenticated.class, getExchangeSpecification())
+              .build();
       userDataChannel =
           new BinanceUserDataChannel(binance, exchangeSpecification.getApiKey(), onApiCall);
       try {
@@ -173,6 +172,11 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   @Override
   public Observable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

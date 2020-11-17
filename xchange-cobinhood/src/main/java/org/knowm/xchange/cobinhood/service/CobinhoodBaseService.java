@@ -1,10 +1,10 @@
 package org.knowm.xchange.cobinhood.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.cobinhood.CobinhoodAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CobinhoodBaseService extends BaseExchangeService implements BaseService {
 
@@ -19,10 +19,9 @@ public class CobinhoodBaseService extends BaseExchangeService implements BaseSer
   protected CobinhoodBaseService(Exchange exchange) {
     super(exchange);
     this.cobinhood =
-        RestProxyFactory.createProxy(
-            CobinhoodAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CobinhoodAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 }

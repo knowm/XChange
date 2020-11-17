@@ -1,10 +1,12 @@
 package info.bitrich.xchangestream.coinmate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import java.math.BigDecimal;
@@ -20,30 +22,34 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 public class CoinmateStreamingMarketDataServiceTest {
-  @Mock private PusherStreamingService streamingService;
+
   private CoinmateStreamingMarketDataService marketDataService;
 
   @Before
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    marketDataService = new CoinmateStreamingMarketDataService(streamingService);
   }
 
   @Test
   public void testGetOrderBook() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+
     // Given order book in JSON
     String orderBook =
         new String(
             Files.readAllBytes(
                 Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
 
-    when(streamingService.subscribeChannel(eq("order_book-BTC_EUR"), eq("order_book")))
-        .thenReturn(Observable.just(orderBook));
+    CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
+
+    when(mockFactory.createConnection(anyString(), anyBoolean()))
+        .thenReturn(Observable.just(mapper.readTree(orderBook)));
+
+    CoinmateStreamingMarketDataService marketDataService =
+        new CoinmateStreamingMarketDataService(mockFactory);
 
     List<LimitOrder> bids = new ArrayList<>();
     bids.add(
@@ -105,12 +111,19 @@ public class CoinmateStreamingMarketDataServiceTest {
 
   @Test
   public void testGetTrades() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+
     String trade =
         new String(
             Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("trades.json").toURI())));
 
-    when(streamingService.subscribeChannel(eq("trades-BTC_CZK"), eq("new_trades")))
-        .thenReturn(Observable.just(trade));
+    CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
+
+    when(mockFactory.createConnection(anyString(), anyBoolean()))
+        .thenReturn(Observable.just(mapper.readTree(trade)));
+
+    CoinmateStreamingMarketDataService marketDataService =
+        new CoinmateStreamingMarketDataService(mockFactory);
 
     Trade expected1 =
         new Trade.Builder()
@@ -119,6 +132,7 @@ public class CoinmateStreamingMarketDataServiceTest {
             .currencyPair(CurrencyPair.BTC_CZK)
             .price(new BigDecimal("855.29"))
             .timestamp(new Date(1484863030522L))
+            .type(Order.OrderType.BID)
             .build();
 
     Trade expected2 =
@@ -128,6 +142,7 @@ public class CoinmateStreamingMarketDataServiceTest {
             .currencyPair(CurrencyPair.BTC_CZK)
             .price(new BigDecimal("855.13"))
             .timestamp(new Date(1484863028887L))
+            .type(Order.OrderType.ASK)
             .build();
 
     TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_CZK).test();
@@ -165,10 +180,5 @@ public class CoinmateStreamingMarketDataServiceTest {
         });
 
     test.assertNoErrors();
-  }
-
-  @Test(expected = NotAvailableFromExchangeException.class)
-  public void testGetTicker() throws Exception {
-    marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
   }
 }

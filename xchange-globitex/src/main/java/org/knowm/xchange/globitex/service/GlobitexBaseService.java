@@ -1,11 +1,11 @@
 package org.knowm.xchange.globitex.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.globitex.GlobitexAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class GlobitexBaseService extends BaseExchangeService implements BaseService {
 
@@ -16,10 +16,9 @@ public class GlobitexBaseService extends BaseExchangeService implements BaseServ
     super(exchange);
 
     globitex =
-        RestProxyFactory.createProxy(
-            GlobitexAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                GlobitexAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     signatureCreator =
         GlobitexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());

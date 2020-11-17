@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.therock.TheRockAuthenticated;
 import org.knowm.xchange.therock.dto.TheRockException;
@@ -13,7 +14,6 @@ import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawal;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
-import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockAccountServiceRaw extends TheRockBaseService {
 
@@ -27,8 +27,7 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
     super(exchange);
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
     this.theRockAuthenticated =
-        RestProxyFactory.createProxy(
-            TheRockAuthenticated.class, spec.getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(TheRockAuthenticated.class, spec).build();
     apiKey = spec.getApiKey();
     this.signatureCreator = new TheRockDigest(spec.getSecretKey());
   }

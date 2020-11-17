@@ -23,13 +23,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.Mac;
@@ -83,7 +84,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private String apiKey;
   private String apiSecret;
 
-  private final Map<String, String> subscribedChannels = new HashMap<>();
+  private final Map<String, String> subscribedChannels = new ConcurrentHashMap<>();
   private final SynchronizedValueFactory<Long> nonceFactory;
 
   private final BlockingQueue<String> calculationQueue = new LinkedBlockingQueue<>();
@@ -94,14 +95,24 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
     this.nonceFactory = nonceFactory;
   }
 
+  public BitfinexStreamingService(
+      String apiUrl,
+      SynchronizedValueFactory<Long> nonceFactory,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    this.nonceFactory = nonceFactory;
+  }
+
   @Override
   public Completable connect() {
     return super.connect()
         .doOnComplete(
-            () -> {
-              this.calculator =
-                  Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs());
-            });
+            () ->
+                this.calculator =
+                    Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs()));
   }
 
   @Override
@@ -116,7 +127,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public boolean processArrayMassageSeparately() {
+  public boolean processArrayMessageSeparately() {
     return false;
   }
 

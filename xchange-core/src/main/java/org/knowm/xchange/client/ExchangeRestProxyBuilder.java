@@ -1,29 +1,40 @@
 package org.knowm.xchange.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.interceptor.InterceptorProvider;
 import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.IRestProxyFactory;
 import si.mazi.rescu.Interceptor;
-import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.RestProxyFactoryImpl;
 
 public final class ExchangeRestProxyBuilder<T> {
 
   private final Class<T> restInterface;
   private final ExchangeSpecification exchangeSpecification;
+  private final List<Interceptor> customInterceptors = new ArrayList<>();
+  private final List<ClientConfigCustomizer> clientConfigCustomizers = new ArrayList<>();
   private ClientConfig clientConfig;
   private ResilienceRegistries resilienceRegistries;
-  private List<Interceptor> customInterceptors = new ArrayList<>();
+  private String baseUrl;
+  private IRestProxyFactory restProxyFactory = new RestProxyFactoryImpl();
 
   private ExchangeRestProxyBuilder(
       Class<T> restInterface, ExchangeSpecification exchangeSpecification) {
     this.restInterface = restInterface;
     this.exchangeSpecification = exchangeSpecification;
+    this.baseUrl =
+        Optional.ofNullable(exchangeSpecification.getSslUri())
+            .orElseGet(exchangeSpecification::getPlainTextUri);
   }
 
   public static <T> ExchangeRestProxyBuilder<T> forInterface(
       Class<T> restInterface, ExchangeSpecification exchangeSpecification) {
-    return new ExchangeRestProxyBuilder(restInterface, exchangeSpecification);
+    return new ExchangeRestProxyBuilder<>(restInterface, exchangeSpecification)
+        .customInterceptors(InterceptorProvider.provide());
   }
 
   public ExchangeRestProxyBuilder<T> clientConfig(ClientConfig value) {
@@ -31,8 +42,29 @@ public final class ExchangeRestProxyBuilder<T> {
     return this;
   }
 
+  public ExchangeRestProxyBuilder<T> clientConfigCustomizer(
+      ClientConfigCustomizer clientConfigCustomizer) {
+    this.clientConfigCustomizers.add(clientConfigCustomizer);
+    return this;
+  }
+
+  public ExchangeRestProxyBuilder<T> baseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
+    return this;
+  }
+
   public ExchangeRestProxyBuilder<T> customInterceptor(Interceptor value) {
-    customInterceptors.add(value);
+    this.customInterceptors.add(value);
+    return this;
+  }
+
+  public ExchangeRestProxyBuilder<T> customInterceptors(Collection<Interceptor> interceptors) {
+    customInterceptors.addAll(interceptors);
+    return this;
+  }
+
+  public ExchangeRestProxyBuilder<T> restProxyFactory(IRestProxyFactory restProxyFactory) {
+    this.restProxyFactory = restProxyFactory;
     return this;
   }
 
@@ -43,11 +75,10 @@ public final class ExchangeRestProxyBuilder<T> {
     if (resilienceRegistries == null) {
       resilienceRegistries = new ResilienceRegistries();
     }
-    return RestProxyFactory.createProxy(
-        restInterface,
-        exchangeSpecification.getSslUri(),
-        clientConfig,
-        customInterceptors.toArray(new Interceptor[0]));
+    clientConfigCustomizers.forEach(
+        clientConfigCustomizer -> clientConfigCustomizer.customize(clientConfig));
+    return restProxyFactory.createProxy(
+        restInterface, baseUrl, clientConfig, customInterceptors.toArray(new Interceptor[0]));
   }
 
   /**

@@ -70,13 +70,13 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
       result.addAll(
-          getWithdrawalsList(currency, null, startAt, endAt).getItems().stream()
+          getWithdrawalsList(currency, null, startAt, endAt, null, null).getItems().stream()
               .map(KucoinAdapters::adaptFundingRecord)
               .collect(Collectors.toList()));
     }
     if (deposits) {
       result.addAll(
-          getDepositList(currency, null, startAt, endAt).getItems().stream()
+          getDepositList(currency, null, startAt, endAt, null, null).getItems().stream()
               .map(KucoinAdapters::adaptFundingRecord)
               .collect(Collectors.toList()));
     }

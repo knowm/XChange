@@ -2,10 +2,12 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.IOrderFlags;
@@ -15,9 +17,11 @@ import org.knowm.xchange.exceptions.FrequencyLimitExceededException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kraken.KrakenAuthenticated;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.KrakenResult;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenServerTime;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
@@ -26,7 +30,6 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 public class KrakenBaseService extends BaseExchangeService implements BaseService {
 
@@ -43,10 +46,9 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
     super(exchange);
 
     kraken =
-        RestProxyFactory.createProxy(
-            KrakenAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                KrakenAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator =
         KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -65,34 +67,35 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
     return new KrakenAssets(checkResult(assetPairsResult));
   }
 
-  protected <R> R checkResult(KrakenResult<R> krakenResult) {
+  /**
+   * For more info on each error codes
+   *
+   * <p>https://support.kraken.com/hc/en-us/articles/360001491786-API-Error-Codes
+   */
+  public <R> R checkResult(KrakenResult<R> krakenResult) {
 
     if (!krakenResult.isSuccess()) {
       String[] errors = krakenResult.getError();
-      if (errors.length == 0) {
+      if (errors.length == 0 || errors[0] == null) {
         throw new ExchangeException("Missing error message");
       }
       String error = errors[0];
-
-      if ("EAPI:Invalid nonce".equals(error)) {
-        throw new NonceException(error);
-
-      } else if ("EGeneral:Temporary lockout".equals(error)) {
-        throw new FrequencyLimitExceededException(error);
-
-      } else if ("EOrder:Insufficient funds".equals(error)) {
-        throw new FundsExceededException(error);
-
-      } else if ("EAPI:Rate limit exceeded".equals(error)) {
-        throw new RateLimitExceededException(error);
-
-      } else if ("EService:Unavailable".equals(error)) {
-        throw new ExchangeUnavailableException(error);
+      switch (error) {
+        case "EAPI:Invalid nonce":
+          throw new NonceException(error);
+        case "EGeneral:Temporary lockout":
+          throw new FrequencyLimitExceededException(error);
+        case "EOrder:Insufficient funds":
+          throw new FundsExceededException(error);
+        case "EAPI:Rate limit exceeded":
+        case "EOrder:Rate limit exceeded":
+          throw new RateLimitExceededException(error);
+        case "EService:Unavailable":
+        case "EService:Busy":
+          throw new ExchangeUnavailableException(error);
       }
-
       throw new ExchangeException(Arrays.toString(errors));
     }
-
     return krakenResult.getResult();
   }
 
@@ -158,5 +161,14 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
       }
     }
     return delimitedSetString;
+  }
+
+  protected int getAssetPairScale(Instrument instrument) throws IOException {
+    // get decimal precision scale
+    CurrencyPair cp = (CurrencyPair) instrument;
+    Map<String, KrakenAssetPair> assetPairMap = kraken.getAssetPairs(cp.toString()).getResult();
+    KrakenAssetPair assetPair = assetPairMap.get(cp.toString());
+    int scale = assetPair.getPairScale();
+    return scale;
   }
 }

@@ -85,6 +85,11 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getResult();
   }
 
+  public OrderPlacement edit(String orderID, BigDecimal amount, BigDecimal price)
+      throws IOException {
+    return deribitAuthenticated.edit(orderID, amount, price, deribitAuth).getResult();
+  }
+
   public Order cancel(String orderId) throws IOException {
     return deribitAuthenticated.cancel(orderId, deribitAuth).getResult();
   }

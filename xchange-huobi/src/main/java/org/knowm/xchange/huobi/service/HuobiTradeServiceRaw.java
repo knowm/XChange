@@ -1,36 +1,48 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.HuobiUtils;
 import org.knowm.xchange.huobi.dto.trade.HuobiCreateOrderRequest;
+import org.knowm.xchange.huobi.dto.trade.HuobiMatchResult;
 import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiCancelOrderResult;
+import org.knowm.xchange.huobi.dto.trade.results.HuobiMatchesResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderInfoResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
 import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
 class HuobiTradeServiceRaw extends HuobiBaseService {
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
   HuobiTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
 
   // https://huobiapi.github.io/docs/spot/v1/en/#search-past-orders
-  HuobiOrder[] getHuobiTradeHistory(CurrencyPairParam params) throws IOException {
+  public HuobiOrder[] getHuobiTradeHistory(
+      CurrencyPair currencyPair, Date startDate, Date endDate, String startId) throws IOException {
     String tradeStates = "partial-filled,partial-canceled,filled";
     HuobiOrdersResult result =
         huobi.getOrders(
-            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
+            HuobiUtils.createHuobiCurrencyPair(currencyPair),
             tradeStates,
             null, // System.currentTimeMillis() - 48 * 60 * 60_000L,
             null,
+            startDate == null ? null : DATE_FORMAT.format(startDate),
+            endDate == null ? null : DATE_FORMAT.format(endDate),
+            startId,
             null,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
@@ -40,11 +52,29 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  HuobiOrder[] getHuobiOpenOrders(CurrencyPairParam params) throws IOException {
+  public HuobiOrder[] getHuobiOrderHistory(
+      CurrencyPairParam params, Date startTime, Date endTime, String direct, Integer size)
+      throws IOException {
+    HuobiOrdersResult result =
+        huobi.getOrdersHistory(
+            params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
+            startTime != null ? startTime.getTime() : null,
+            endTime != null ? endTime.getTime() : null,
+            direct,
+            size,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
+  }
+
+  public HuobiOrder[] getHuobiOpenOrders(CurrencyPairParam params) throws IOException {
     String states = "pre-submitted,submitted,partial-filled";
     HuobiOrdersResult result =
         huobi.getOpenOrders(
-            HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()),
+            params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
             states,
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
@@ -54,7 +84,33 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  String cancelHuobiOrder(String orderId) throws IOException {
+  public HuobiMatchResult[] getHuobiMatchResults(
+      CurrencyPairParam params,
+      String types,
+      Date startDate,
+      Date endDate,
+      String from,
+      String direct,
+      Integer size)
+      throws IOException {
+    HuobiMatchesResult result =
+        huobi.getMatchResults(
+            params != null ? HuobiUtils.createHuobiCurrencyPair(params.getCurrencyPair()) : null,
+            types,
+            HuobiUtils.createUTCDate(startDate),
+            HuobiUtils.createUTCDate(endDate),
+            from,
+            direct,
+            size,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(result);
+  }
+
+  public String cancelHuobiOrder(String orderId) throws IOException {
     HuobiCancelOrderResult result =
         huobi.cancelOrder(
             orderId,
@@ -66,7 +122,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  String placeHuobiLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeHuobiLimitOrder(LimitOrder limitOrder) throws IOException {
     String type;
     if (limitOrder.getType() == OrderType.BID) {
       type = "buy-limit";
@@ -98,7 +154,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  String placeHuobiMarketOrder(MarketOrder order) throws IOException {
+  public String placeHuobiMarketOrder(MarketOrder order) throws IOException {
     String type;
     if (order.getType() == OrderType.BID) {
       type = "buy-market";
@@ -127,7 +183,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
     return checkResult(result);
   }
 
-  List<HuobiOrder> getHuobiOrder(String... orderIds) throws IOException {
+  public List<HuobiOrder> getHuobiOrder(String... orderIds) throws IOException {
     List<HuobiOrder> orders = new ArrayList<>();
     for (String orderId : orderIds) {
       HuobiOrderInfoResult orderInfoResult =

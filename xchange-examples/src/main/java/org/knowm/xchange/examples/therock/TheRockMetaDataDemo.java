@@ -12,7 +12,7 @@ public class TheRockMetaDataDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get The Rock exchange API using default settings
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class);
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     System.out.println(exchangeMetaData.toString());
 
