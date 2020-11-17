@@ -19,13 +19,9 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
   protected void initServices() {
     super.initServices();
 
-    this.streamingService = createStreamingService();
+    this.streamingService = new CoinjarStreamingService(API_URI, this.exchangeSpecification.getApiKey());
     this.streamingMarketDataService = new CoinjarStreamingMarketDataService(streamingService);
     this.streamingTradeService = new CoinjarStreamingTradeService(streamingService);
-  }
-
-  private CoinjarStreamingService createStreamingService() {
-    return new CoinjarStreamingService(API_URI, this.exchangeSpecification.getApiKey());
   }
 
   @Override
