@@ -42,7 +42,7 @@ public class CoinjarStreamingMarketDataServiceIntegration {
         exchange.connect().blockingAwait();
         StreamingMarketDataService streamingMarketDataService =
                 exchange.getStreamingMarketDataService();
-    
+
         Disposable usdtOrderBookDisposable =
                 streamingMarketDataService
                         .getOrderBook(new CurrencyPair(Currency.USDC, Currency.AUD))

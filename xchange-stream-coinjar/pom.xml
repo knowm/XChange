@@ -21,11 +21,6 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
             <artifactId>xchange-coinjar</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
