@@ -25,8 +25,7 @@ public class MarketDataServiceIntegration {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange =
-        (BinanceExchange) ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName());
+    exchange = (BinanceExchange) ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class);
     marketService = exchange.getMarketDataService();
   }
 

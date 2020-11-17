@@ -30,8 +30,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://poloniex.com/");
     exchangeSpecification.setHost("poloniex.com");
     exchangeSpecification.setPort(80);

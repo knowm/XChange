@@ -9,7 +9,7 @@ public class BleutradeDemoUtils {
 
   public static Exchange getExchange() {
 
-    Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
+    Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class);
     ExchangeSpecification exchangeSpecification = bleutrade.getDefaultExchangeSpecification();
     exchangeSpecification.setApiKey("");
     exchangeSpecification.setSecretKey("");

@@ -1,7 +1,8 @@
 package info.bitrich.xchangestream.huobi;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler.WebSocketMessageHandler;
@@ -43,7 +44,7 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
       sendMessage("{\"pong\": " + ping + "}");
       return null;
     }
-    if (status != null && status.equals("ok")) {
+    if ("ok".equals(status)) {
       String subbed = message.get("subbed").textValue();
       LOG.debug("Subscribe [{}] is ok", subbed);
       return null;
@@ -62,10 +63,10 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
    */
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    JSONObject send = new JSONObject();
+    ObjectNode send = JsonNodeFactory.instance.objectNode();
     send.put("sub", channelName);
     send.put("id", System.currentTimeMillis());
-    return send.toJSONString();
+    return send.toString();
   }
 
   @Override
@@ -77,11 +78,6 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
   protected WebSocketClientHandler getWebSocketClientHandler(
       WebSocketClientHandshaker handshaker, WebSocketMessageHandler handler) {
     return new HuobiWebSocketClientHandler(handshaker, handler);
-  }
-
-  @Override
-  protected void handleChannelMessage(String channel, JsonNode message) {
-    if (channel != null) super.handleChannelMessage(channel, message);
   }
 
   /**
@@ -101,7 +97,6 @@ public class HuobiStreamingService extends JsonNettyStreamingService {
         super.channelRead0(ctx, msg);
         return;
       }
-
       super.channelRead0(ctx, msg);
 
       WebSocketFrame frame = (WebSocketFrame) msg;

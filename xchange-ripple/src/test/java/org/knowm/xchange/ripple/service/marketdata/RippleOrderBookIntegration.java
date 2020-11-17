@@ -20,8 +20,7 @@ public class RippleOrderBookIntegration {
   public void getOrderBookTest() throws Exception {
     final int depthLimit = 15;
 
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();
@@ -59,8 +58,7 @@ public class RippleOrderBookIntegration {
   public void invalidOrderBookTest() throws Exception {
     final int depthLimit = 15;
 
-    final Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class);
     final MarketDataService marketDataService = exchange.getMarketDataService();
 
     final RippleMarketDataParams params = new RippleMarketDataParams();

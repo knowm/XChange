@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -16,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
-import org.apache.commons.io.IOUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,10 +75,12 @@ public class LgoAdaptersTest {
   }
 
   @Test
-  public void adaptsKeysIndex() throws IOException {
-    InputStream is =
-        LgoAdaptersTest.class.getResourceAsStream("/org/knowm/xchange/lgo/key/index.txt");
-    String indexFile = IOUtils.toString(is, StandardCharsets.US_ASCII);
+  public void adaptsKeysIndex() throws IOException, URISyntaxException {
+    String indexFile =
+        new String(
+            Files.readAllBytes(
+                Paths.get(getClass().getResource("/org/knowm/xchange/lgo/key/index.txt").toURI())),
+            StandardCharsets.US_ASCII);
 
     List<LgoKey> keys = LgoAdapters.adaptKeysIndex(indexFile).collect(Collectors.toList());
 

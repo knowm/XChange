@@ -6,9 +6,9 @@ import org.knowm.xchange.bitso.Bitso;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author Piotr Ładyżyński */
 public class BitsoMarketDataServiceRaw extends BitsoBaseService {
@@ -18,8 +18,8 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
   public BitsoMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
     this.bitso =
-        RestProxyFactory.createProxy(
-            Bitso.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(Bitso.class, exchange.getExchangeSpecification())
+            .build();
   }
 
   public BitsoOrderBook getBitsoOrderBook(CurrencyPair pair) throws IOException {
