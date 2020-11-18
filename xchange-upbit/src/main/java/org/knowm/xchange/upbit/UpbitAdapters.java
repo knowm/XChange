@@ -46,17 +46,16 @@ public final class UpbitAdapters {
     Arrays.stream(upbitOrders)
         .forEach(
             upbitOrder -> {
-              OrderType orderType = OrderType.ASK;
-              BigDecimal price = upbitOrder.getAskPrice();
-              BigDecimal amount = upbitOrder.getAskSize();
-              LimitOrder limitOrder =
-                  new LimitOrder(orderType, amount, currencyPair, null, null, price);
-              asks.add(limitOrder);
-              orderType = OrderType.BID;
-              price = upbitOrder.getBidPrice();
-              amount = upbitOrder.getBidSize();
-              limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
-              bids.add(limitOrder);
+              asks.add(
+                  new LimitOrder.Builder(OrderType.ASK, currencyPair)
+                      .originalAmount(upbitOrder.getAskSize())
+                      .limitPrice(upbitOrder.getAskPrice())
+                      .build());
+              bids.add(
+                  new LimitOrder.Builder(OrderType.BID, currencyPair)
+                      .originalAmount(upbitOrder.getBidSize())
+                      .limitPrice(upbitOrder.getBidPrice())
+                      .build());
             });
     Map<OrderType, List<LimitOrder>> map = new HashMap<>();
     map.put(OrderType.ASK, asks);
@@ -140,17 +139,19 @@ public final class UpbitAdapters {
     } else {
       status = Order.OrderStatus.NEW;
     }
-    return new LimitOrder(
-        UpbitUtils.fromSide(upbitOrderResponse.getSide()),
-        upbitOrderResponse.getVolume(),
-        UpbitUtils.toCurrencyPair(upbitOrderResponse.getMarket()),
-        upbitOrderResponse.getUuid(),
-        Date.from(ZonedDateTime.parse(upbitOrderResponse.getCreatedAt()).toInstant()),
-        upbitOrderResponse.getAvgPrice(),
-        upbitOrderResponse.getAvgPrice(),
-        upbitOrderResponse.getExecutedVolume(),
-        upbitOrderResponse.getPaidFee(),
-        status);
+
+    final OrderType orderType = UpbitUtils.fromSide(upbitOrderResponse.getSide());
+    final CurrencyPair currencyPair = UpbitUtils.toCurrencyPair(upbitOrderResponse.getMarket());
+    return new LimitOrder.Builder(orderType, currencyPair)
+        .originalAmount(upbitOrderResponse.getVolume())
+        .id(upbitOrderResponse.getUuid())
+        .timestamp(Date.from(ZonedDateTime.parse(upbitOrderResponse.getCreatedAt()).toInstant()))
+        .limitPrice(upbitOrderResponse.getAvgPrice())
+        .averagePrice(upbitOrderResponse.getAvgPrice())
+        .cumulativeAmount(upbitOrderResponse.getExecutedVolume())
+        .fee(upbitOrderResponse.getPaidFee())
+        .orderStatus(status)
+        .build();
   }
 
   public static ExchangeMetaData adaptMetadata(List<UpbitMarket> markets) {
