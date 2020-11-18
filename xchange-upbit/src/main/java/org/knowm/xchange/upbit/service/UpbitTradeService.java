@@ -7,6 +7,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.DefaultCancelOrderParamId;
+import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.upbit.UpbitAdapters;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
 
@@ -23,15 +26,20 @@ public class UpbitTradeService extends UpbitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-    return super.cancelOrderRaw(orderId) != null;
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof DefaultCancelOrderParamId) {
+      final String orderId = ((DefaultCancelOrderParamId) orderParams).getOrderId();
+      return cancelOrderRaw(orderId) != null;
+    } else {
+      return false;
+    }
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws IOException {
+  public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     ArrayList<Order> rtn = new ArrayList<>();
-    for (String orderId : orderIds) {
-      UpbitOrderResponse res = super.getOrderRaw(orderId);
+    for (OrderQueryParams params : orderQueryParams) {
+      UpbitOrderResponse res = getOrderRaw(params.getOrderId());
       rtn.add(UpbitAdapters.adaptOrderInfo(res));
     }
     return rtn;
