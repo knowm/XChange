@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.coinjar.CoinjarAdapters;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -27,7 +26,7 @@ class CoinjarStreamingAdapters {
 
   public static String adaptCurrencyPairToBookTopic(CurrencyPair pair) {
     String sep = "";
-    if ( pair.base.getCurrencyCode().length() > 3 || pair.counter.getCurrencyCode().length() > 3){
+    if (pair.base.getCurrencyCode().length() > 3 || pair.counter.getCurrencyCode().length() > 3) {
       sep = "-";
     }
     return "book:" + pair.base.toString() + sep + pair.counter.toString();
