@@ -2,8 +2,8 @@ package org.knowm.xchange.upbit.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.upbit.UpbitUtils;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderRequest;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
@@ -29,7 +29,7 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
     upbitOrderRequest.setOrderType(limitOrder.getType().name().toLowerCase());
     upbitOrderRequest.setVolume(limitOrder.getOriginalAmount().toString());
     upbitOrderRequest.setPrice(limitOrder.getLimitPrice().toString());
-    upbitOrderRequest.setSide(limitOrder.getType().equals(Order.OrderType.ASK) ? "ask" : "bid");
+    upbitOrderRequest.setSide(UpbitUtils.toSide(limitOrder.getType()));
     upbitOrderRequest.setOrderType("limit");
     return upbit.limitOrder(this.signatureCreator, upbitOrderRequest);
   }

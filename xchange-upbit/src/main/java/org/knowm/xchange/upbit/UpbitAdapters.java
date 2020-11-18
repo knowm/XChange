@@ -139,7 +139,7 @@ public final class UpbitAdapters {
       status = Order.OrderStatus.FILLED;
     }
     return new LimitOrder(
-        upbitOrderResponse.getSide().equals("ask") ? OrderType.ASK : OrderType.BID,
+        UpbitUtils.fromSide(upbitOrderResponse.getSide()),
         upbitOrderResponse.getVolume(),
         UpbitUtils.toCurrencyPair(upbitOrderResponse.getMarket()),
         upbitOrderResponse.getUuid(),

@@ -26,5 +26,7 @@ public class UpbitTickerDemo {
     System.out.println(marketDataService.getTicker(pair));
 
     System.out.println(marketDataService.getTickers(null));
+
+    System.out.println(marketDataService.getTrades(pair));
   }
 }
