@@ -128,7 +128,7 @@ public final class UpbitAdapters {
   }
 
   public static Order adaptOrderInfo(UpbitOrderResponse upbitOrderResponse) {
-    Order.OrderStatus status = Order.OrderStatus.NEW;
+    Order.OrderStatus status;
     if (upbitOrderResponse.getState().equalsIgnoreCase("cancel")) {
       status = Order.OrderStatus.CANCELED;
     } else if (upbitOrderResponse.getExecutedVolume().compareTo(BigDecimal.ZERO) == 0) {
@@ -137,6 +137,8 @@ public final class UpbitAdapters {
       status = Order.OrderStatus.PARTIALLY_FILLED;
     } else if (upbitOrderResponse.getState().equalsIgnoreCase("done")) {
       status = Order.OrderStatus.FILLED;
+    } else {
+      status = Order.OrderStatus.NEW;
     }
     return new LimitOrder(
         UpbitUtils.fromSide(upbitOrderResponse.getSide()),
