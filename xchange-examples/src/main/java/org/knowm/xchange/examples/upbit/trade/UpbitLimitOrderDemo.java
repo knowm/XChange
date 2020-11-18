@@ -32,6 +32,6 @@ public class UpbitLimitOrderDemo {
     Thread.sleep(3000);
     Collection<Order> orders = tradeService.getOrder(id);
     orders.forEach(order -> System.out.println(order));
-    tradeService.cancelOrder(id);
+    System.out.println(tradeService.cancelOrder(id));
   }
 }

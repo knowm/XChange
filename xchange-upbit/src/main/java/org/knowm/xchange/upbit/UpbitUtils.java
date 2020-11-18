@@ -8,9 +8,8 @@ public class UpbitUtils {
 
   public static final String MARKET_NAME_SEPARATOR = "-";
 
-  private UpbitUtils() {
-    // not called
-  }
+  /** private Constructor */
+  private UpbitUtils() {}
 
   public static String toPairString(CurrencyPair currencyPair) {
     if (currencyPair == null) return null;
