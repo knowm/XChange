@@ -17,8 +17,7 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
   }
 
   public UpbitBalances getWallet() throws IOException {
-    UpbitBalances upbitBalances = upbit.getWallet(this.signatureCreator);
-    return upbitBalances;
+    return upbit.getWallet(this.signatureCreator);
   }
 
   public UpbitOrderResponse limitOrder(LimitOrder limitOrder) throws IOException {
@@ -26,7 +25,6 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
     String marketId =
         limitOrder.getCurrencyPair().counter + "-" + limitOrder.getCurrencyPair().base;
     upbitOrderRequest.setMarketId(marketId);
-    upbitOrderRequest.setOrderType(limitOrder.getType().name().toLowerCase());
     upbitOrderRequest.setVolume(limitOrder.getOriginalAmount().toString());
     upbitOrderRequest.setPrice(limitOrder.getLimitPrice().toString());
     upbitOrderRequest.setSide(UpbitUtils.toSide(limitOrder.getType()));
@@ -35,12 +33,10 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
   }
 
   public UpbitOrderResponse cancelOrderRaw(String cancelId) throws IOException {
-    UpbitOrderResponse upbitOrderResponse = upbit.cancelOrder(this.signatureCreator, cancelId);
-    return upbitOrderResponse;
+    return upbit.cancelOrder(this.signatureCreator, cancelId);
   }
 
   public UpbitOrderResponse getOrderRaw(String orderId) throws IOException {
-    UpbitOrderResponse upbitOrderResponse = upbit.getOrder(this.signatureCreator, orderId);
-    return upbitOrderResponse;
+    return upbit.getOrder(this.signatureCreator, orderId);
   }
 }
