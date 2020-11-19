@@ -411,10 +411,14 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-          <name>performRelease</name>
+<!--            <name>performRelease</name>-->
+            <name>gpg.passphrase</name>
           <value>true</value>
         </property>
       </activation>
+<!--        <properties>-->
+<!--            <gpg.executable>gpg2</gpg.executable>-->
+<!--        </properties>-->
       <build>
         <plugins>
           <plugin>
@@ -428,8 +432,16 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                  <configuration>
+                      <gpgArguments>
+                          <arg>--pinentry-mode</arg>
+                          <arg>loopback</arg>
+                      </gpgArguments>
+                  </configuration>
               </execution>
             </executions>
+
+
           </plugin>
 
           <!-- Generates a source code JAR during package -->
