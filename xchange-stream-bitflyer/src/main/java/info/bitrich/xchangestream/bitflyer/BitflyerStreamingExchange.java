@@ -7,12 +7,14 @@ import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitflyer.BitflyerExchange;
+import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** Created by Lukas Zaoralek on 14.11.17. */
 public class BitflyerStreamingExchange extends BitflyerExchange implements StreamingExchange {
   private static final String API_KEY = "sub-c-52a9ab50-291b-11e5-baaa-0619f8945a4f";
 
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
   private final PubnubStreamingService streamingService;
   private BitflyerStreamingMarketDataService streamingMarketDataService;
 
@@ -38,7 +40,7 @@ public class BitflyerStreamingExchange extends BitflyerExchange implements Strea
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    return null;
+    return nonceFactory;
   }
 
   @Override
