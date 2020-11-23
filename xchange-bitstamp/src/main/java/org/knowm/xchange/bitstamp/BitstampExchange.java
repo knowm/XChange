@@ -11,14 +11,14 @@ import org.knowm.xchange.bitstamp.service.BitstampMarketDataService;
 import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.bitstamp.service.BitstampTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentNanoIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Matija Mazi */
 public class BitstampExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanosecondTimeIncrementalNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentNanoIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
