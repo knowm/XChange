@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.4-SNAPSHOT</version>
+  <version>5.0.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -37,7 +37,7 @@
     <version.resilience4j>1.6.1</version.resilience4j>
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.16</version.lombok>
-    <version.knowm.xchart>3.6.5</version.knowm.xchart>
+    <version.knowm.xchart>3.6.6</version.knowm.xchart>
     <version.powermock>2.0.9</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
@@ -196,6 +196,7 @@
     <module>xchange-stream-btcmarkets</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
+    <module>xchange-stream-coinjar</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
     <module>xchange-stream-gemini</module>
@@ -410,10 +411,14 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-          <name>performRelease</name>
+<!--            <name>performRelease</name>-->
+            <name>gpg.passphrase</name>
           <value>true</value>
         </property>
       </activation>
+<!--        <properties>-->
+<!--            <gpg.executable>gpg2</gpg.executable>-->
+<!--        </properties>-->
       <build>
         <plugins>
           <plugin>
@@ -427,8 +432,16 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                  <configuration>
+                      <gpgArguments>
+                          <arg>--pinentry-mode</arg>
+                          <arg>loopback</arg>
+                      </gpgArguments>
+                  </configuration>
               </execution>
             </executions>
+
+
           </plugin>
 
           <!-- Generates a source code JAR during package -->
@@ -487,7 +500,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>3.0.0-M1</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
@@ -565,7 +578,17 @@
           </execution>
         </executions>
       </plugin>
-
+        <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+                <serverId>ossrh</serverId>
+                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 
