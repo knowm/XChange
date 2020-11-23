@@ -16,7 +16,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitflyerExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory =
+  private final SynchronizedValueFactory<Long> nonceFactory =
       new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override

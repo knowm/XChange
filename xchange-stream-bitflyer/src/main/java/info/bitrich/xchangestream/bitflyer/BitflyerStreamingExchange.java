@@ -14,7 +14,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class BitflyerStreamingExchange extends BitflyerExchange implements StreamingExchange {
   private static final String API_KEY = "sub-c-52a9ab50-291b-11e5-baaa-0619f8945a4f";
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
   private final PubnubStreamingService streamingService;
   private BitflyerStreamingMarketDataService streamingMarketDataService;
 
@@ -36,11 +35,6 @@ public class BitflyerStreamingExchange extends BitflyerExchange implements Strea
   @Override
   public Completable disconnect() {
     return streamingService.disconnect();
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
