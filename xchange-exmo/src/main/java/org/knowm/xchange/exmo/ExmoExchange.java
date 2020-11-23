@@ -10,12 +10,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exmo.service.ExmoAccountService;
 import org.knowm.xchange.exmo.service.ExmoMarketDataService;
 import org.knowm.xchange.exmo.service.ExmoTradeService;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentNanoIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ExmoExchange extends BaseExchange implements Exchange {
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanosecondTimeIncrementalNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentNanoIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
