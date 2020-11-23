@@ -7,8 +7,6 @@ import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitflyer.BitflyerExchange;
-import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** Created by Lukas Zaoralek on 14.11.17. */
 public class BitflyerStreamingExchange extends BitflyerExchange implements StreamingExchange {
