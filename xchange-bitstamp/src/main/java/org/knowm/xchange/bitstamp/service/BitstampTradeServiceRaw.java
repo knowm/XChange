@@ -8,6 +8,7 @@ import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderCancelResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
@@ -96,7 +97,8 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   public boolean cancelBitstampOrder(long orderId) throws IOException {
 
     try {
-      return bitstampAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);
+      BitstampOrderCancelResponse cancelResponse = bitstampAuthenticatedV2.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);
+      return cancelResponse.getError() == null;
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -179,7 +181,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   public BitstampOrderStatusResponse getBitstampOrder(Long orderId) throws IOException {
     try {
-      return bitstampAuthenticated.getOrderStatus(
+      return bitstampAuthenticatedV2.getOrderStatus(
           exchange.getExchangeSpecification().getApiKey(),
           signatureCreator,
           exchange.getNonceFactory(),

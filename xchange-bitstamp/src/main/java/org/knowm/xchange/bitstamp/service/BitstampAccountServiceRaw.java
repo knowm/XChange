@@ -68,7 +68,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       BitstampBalance bitstampBalance =
-          bitstampAuthenticated.getBalance(
+          bitstampAuthenticatedV2.getBalance(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
