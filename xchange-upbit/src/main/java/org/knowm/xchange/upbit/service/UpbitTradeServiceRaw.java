@@ -2,8 +2,8 @@ package org.knowm.xchange.upbit.service;
 
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.upbit.UpbitUtils;
 import org.knowm.xchange.upbit.dto.account.UpbitBalances;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderRequest;
 import org.knowm.xchange.upbit.dto.trade.UpbitOrderResponse;
@@ -17,8 +17,7 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
   }
 
   public UpbitBalances getWallet() throws IOException {
-    UpbitBalances upbitBalances = upbit.getWallet(this.signatureCreator);
-    return upbitBalances;
+    return upbit.getWallet(this.signatureCreator);
   }
 
   public UpbitOrderResponse limitOrder(LimitOrder limitOrder) throws IOException {
@@ -26,21 +25,18 @@ public class UpbitTradeServiceRaw extends UpbitBaseService {
     String marketId =
         limitOrder.getCurrencyPair().counter + "-" + limitOrder.getCurrencyPair().base;
     upbitOrderRequest.setMarketId(marketId);
-    upbitOrderRequest.setOrderType(limitOrder.getType().name().toLowerCase());
     upbitOrderRequest.setVolume(limitOrder.getOriginalAmount().toString());
     upbitOrderRequest.setPrice(limitOrder.getLimitPrice().toString());
-    upbitOrderRequest.setSide(limitOrder.getType().equals(Order.OrderType.ASK) ? "ask" : "bid");
+    upbitOrderRequest.setSide(UpbitUtils.toSide(limitOrder.getType()));
     upbitOrderRequest.setOrderType("limit");
     return upbit.limitOrder(this.signatureCreator, upbitOrderRequest);
   }
 
   public UpbitOrderResponse cancelOrderRaw(String cancelId) throws IOException {
-    UpbitOrderResponse upbitOrderResponse = upbit.cancelOrder(this.signatureCreator, cancelId);
-    return upbitOrderResponse;
+    return upbit.cancelOrder(this.signatureCreator, cancelId);
   }
 
   public UpbitOrderResponse getOrderRaw(String orderId) throws IOException {
-    UpbitOrderResponse upbitOrderResponse = upbit.getOrder(this.signatureCreator, orderId);
-    return upbitOrderResponse;
+    return upbit.getOrder(this.signatureCreator, orderId);
   }
 }
