@@ -10,6 +10,8 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM
 import static org.knowm.xchange.coinbasepro.CoinbaseProExchange.Parameters.PARAM_USE_SANDBOX;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
@@ -20,12 +22,13 @@ import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataServiceRaw;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseProExchange extends BaseExchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+          new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {

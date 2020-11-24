@@ -6,14 +6,16 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lakebtc.service.LakeBTCAccountService;
 import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataService;
 import org.knowm.xchange.lakebtc.service.LakeBTCTradeService;
-import org.knowm.xchange.utils.nonce.CurrentNanoIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /** @author kpysniak */
 public class LakeBTCExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanoIncrementalNonceFactory();
+          new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
 
   @Override
   protected void initServices() {
