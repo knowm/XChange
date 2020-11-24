@@ -10,9 +10,9 @@ import java.util.function.Supplier;
  * Class supports a current time based nonce.
  *
  * This class while designed to be thread-safe does not protect against multiple
- * processes where the system clock may be out of sync. It also does protect a
+ * processes where the system clock may be out of sync. It also does not protect a
  * system where a lower granularity time unit like {@link TimeUnit#SECONDS} is
- * used and the same nonce is specified at the same time from competing processes.
+ * used and the same nonce is computed at the same time from competing processes.
  *
  * Compatibility is limited to the time units specified.
  */
