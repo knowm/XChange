@@ -6,13 +6,15 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btctrade.service.BTCTradeAccountService;
 import org.knowm.xchange.btctrade.service.BTCTradeMarketDataService;
 import org.knowm.xchange.btctrade.service.BTCTradeTradeService;
-import org.knowm.xchange.utils.nonce.CurrentNanoIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public class BTCTradeExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanoIncrementalNonceFactory();
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
 
   @Override
   protected void initServices() {

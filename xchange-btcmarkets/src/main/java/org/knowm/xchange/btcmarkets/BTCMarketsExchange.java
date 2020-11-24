@@ -6,15 +6,17 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
-import org.knowm.xchange.utils.nonce.CurrentMillisIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /** @author Matija Mazi */
 public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
-  public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentMillisIncrementalNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+          new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -43,9 +45,5 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
-  }
-
-  public void setNonceFactory(SynchronizedValueFactory<Long> nonceFactory) {
-    this.nonceFactory = nonceFactory;
   }
 }
