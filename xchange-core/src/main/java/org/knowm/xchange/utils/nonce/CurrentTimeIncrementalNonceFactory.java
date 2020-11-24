@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 /**
- * Class supports a current time based nonce.
+ * Class computes a current time based nonce.
  *
  * This class while designed to be thread-safe does not protect against multiple
  * processes where the system clock may be out of sync. It also does not protect a
