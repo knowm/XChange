@@ -1,8 +1,12 @@
 package org.knowm.xchange.upbit.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.upbit.UpbitUtils;
+import org.knowm.xchange.upbit.dto.marketdata.UpbitMarket;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitOrderBooks;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTickers;
 import org.knowm.xchange.upbit.dto.marketdata.UpbitTrades;
@@ -32,18 +36,24 @@ public class UpbitMarketDataServiceRaw extends UpbitBaseService {
     super(exchange);
   }
 
-  public UpbitTickers getTicker(CurrencyPair currencyPair) throws IOException {
+  public UpbitTickers getTickers(List<CurrencyPair> currencyPair) throws IOException {
     return upbit.getTicker(
-        currencyPair.counter.getCurrencyCode() + "-" + currencyPair.base.getCurrencyCode());
+        currencyPair.stream().map(UpbitUtils::toPairString).collect(Collectors.joining(",")));
+  }
+
+  public List<UpbitMarket> getMarketAll() throws IOException {
+    return upbit.getMarketAll();
+  }
+
+  public UpbitTickers getTicker(CurrencyPair currencyPair) throws IOException {
+    return upbit.getTicker(UpbitUtils.toPairString(currencyPair));
   }
 
   public UpbitOrderBooks getUpbitOrderBook(CurrencyPair currencyPair) throws IOException {
-    return upbit.getOrderBook(
-        currencyPair.counter.getCurrencyCode() + "-" + currencyPair.base.getCurrencyCode());
+    return upbit.getOrderBook(UpbitUtils.toPairString(currencyPair));
   }
 
   public UpbitTrades getTrades(CurrencyPair currencyPair) throws IOException {
-    return upbit.getTrades(
-        currencyPair.counter.getCurrencyCode() + "-" + currencyPair.base.getCurrencyCode(), 100);
+    return upbit.getTrades(UpbitUtils.toPairString(currencyPair), 100);
   }
 }
