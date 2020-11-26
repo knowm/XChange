@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import java.io.IOException;
+import java.time.Duration;
 
 public class BinanceStreamingService extends JsonNettyStreamingService {
 
@@ -14,14 +15,15 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
     this.productSubscription = productSubscription;
   }
 
-  @Override
-  public void messageHandler(String message) {
-    super.messageHandler(message);
-  }
-
-  @Override
-  protected void handleMessage(JsonNode message) {
-    super.handleMessage(message);
+  public BinanceStreamingService(
+      String baseUri,
+      ProductSubscription productSubscription,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
+    super(baseUri, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
+    this.productSubscription = productSubscription;
   }
 
   @Override

@@ -20,11 +20,11 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author gnandiga */
@@ -47,15 +47,13 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     super(exchange);
 
     this.bitstampAuthenticated =
-        RestProxyFactory.createProxy(
-            BitstampAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitstampAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.bitstampAuthenticatedV2 =
-        RestProxyFactory.createProxy(
-            BitstampAuthenticatedV2.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitstampAuthenticatedV2.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
@@ -70,7 +68,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       BitstampBalance bitstampBalance =
-          bitstampAuthenticated.getBalance(
+          bitstampAuthenticatedV2.getBalance(
               exchange.getExchangeSpecification().getApiKey(),
               signatureCreator,
               exchange.getNonceFactory());
@@ -356,7 +354,12 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, CurrencyPair pair, Long offset, String sort, Long sinceTimestamp)
+      Long numberOfTransactions,
+      CurrencyPair pair,
+      Long offset,
+      String sort,
+      Long sinceTimestamp,
+      String sinceId)
       throws IOException {
 
     try {
@@ -368,14 +371,16 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           offset,
           sort,
-          sinceTimestamp);
+          sinceTimestamp,
+          sinceId);
     } catch (BitstampException e) {
       throw handleError(e);
     }
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp) throws IOException {
+      Long numberOfTransactions, Long offset, String sort, Long sinceTimestamp, String sinceId)
+      throws IOException {
 
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
@@ -385,7 +390,8 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
           numberOfTransactions,
           offset,
           sort,
-          sinceTimestamp);
+          sinceTimestamp,
+          sinceId);
     } catch (BitstampException e) {
       throw handleError(e);
     }

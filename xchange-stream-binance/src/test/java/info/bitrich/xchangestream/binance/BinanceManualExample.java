@@ -20,7 +20,7 @@ public class BinanceManualExample {
 
     ExchangeSpecification spec =
         StreamingExchangeFactory.INSTANCE
-            .createExchange(BinanceStreamingExchange.class.getName())
+            .createExchange(BinanceStreamingExchange.class)
             .getDefaultExchangeSpecification();
     spec.setApiKey(apiKey);
     spec.setSecretKey(apiSecret);

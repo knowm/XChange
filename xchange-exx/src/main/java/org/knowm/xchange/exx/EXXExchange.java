@@ -28,8 +28,7 @@ public class EXXExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
 
     exchangeSpecification.setSslUri("https://api.exx.com");
     exchangeSpecification.setHost("api.exx.com");

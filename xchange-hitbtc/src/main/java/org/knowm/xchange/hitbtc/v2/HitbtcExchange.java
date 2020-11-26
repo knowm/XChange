@@ -83,8 +83,7 @@ public class HitbtcExchange extends BaseExchange implements org.knowm.xchange.Ex
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.hitbtc.com");
     exchangeSpecification.setHost("hitbtc.com");
     exchangeSpecification.setPort(80);

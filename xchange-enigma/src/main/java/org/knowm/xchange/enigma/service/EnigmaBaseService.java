@@ -3,12 +3,12 @@ package org.knowm.xchange.enigma.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.enigma.EnigmaAuthenticated;
 import org.knowm.xchange.enigma.dto.account.EnigmaCredentials;
 import org.knowm.xchange.enigma.dto.account.EnigmaLoginResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public abstract class EnigmaBaseService extends BaseExchangeService implements BaseService {
@@ -19,10 +19,9 @@ public abstract class EnigmaBaseService extends BaseExchangeService implements B
   protected EnigmaBaseService(Exchange exchange) {
     super(exchange);
     this.enigmaAuthenticated =
-        RestProxyFactory.createProxy(
-            EnigmaAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                EnigmaAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.nonceFactory = exchange.getNonceFactory();
   }
 

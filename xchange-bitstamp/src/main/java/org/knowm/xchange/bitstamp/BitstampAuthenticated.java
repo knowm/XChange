@@ -68,6 +68,7 @@ public interface BitstampAuthenticated {
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")
+  @Deprecated
   boolean cancelOrder(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
@@ -86,6 +87,7 @@ public interface BitstampAuthenticated {
 
   @POST
   @Path("v2/balance/")
+  @Deprecated
   BitstampBalance getBalance(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
@@ -94,6 +96,7 @@ public interface BitstampAuthenticated {
 
   @POST
   @Path("user_transactions/")
+  @Deprecated
   BitstampUserTransaction[] getUserTransactions(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
@@ -103,6 +106,7 @@ public interface BitstampAuthenticated {
 
   @POST
   @Path("user_transactions/")
+  @Deprecated
   BitstampUserTransaction[] getUserTransactions(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
@@ -215,7 +219,8 @@ public interface BitstampAuthenticated {
 
   @POST
   @Path("order_status/")
-  public BitstampOrderStatusResponse getOrderStatus(
+  @Deprecated
+  BitstampOrderStatusResponse getOrderStatus(
       @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,

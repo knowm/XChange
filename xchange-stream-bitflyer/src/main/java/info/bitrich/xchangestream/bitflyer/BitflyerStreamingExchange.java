@@ -7,7 +7,6 @@ import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitflyer.BitflyerExchange;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** Created by Lukas Zaoralek on 14.11.17. */
 public class BitflyerStreamingExchange extends BitflyerExchange implements StreamingExchange {
@@ -34,11 +33,6 @@ public class BitflyerStreamingExchange extends BitflyerExchange implements Strea
   @Override
   public Completable disconnect() {
     return streamingService.disconnect();
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return null;
   }
 
   @Override

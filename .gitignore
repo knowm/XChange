@@ -4,7 +4,6 @@
 *.iml
 *.ipr
 *.ips
-.idea/
 
 # Eclipse
 .settings/
@@ -24,7 +23,6 @@ javadoc/
 bin/
 log/
 classes/
-META-INF/
 
 # Misc.
 .DS_Store

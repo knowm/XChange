@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.core;
 
 import info.bitrich.xchangestream.service.ConnectableService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
@@ -16,6 +17,7 @@ public interface StreamingExchange extends Exchange {
   String SOCKS_PROXY_HOST = "SOCKS_Proxy_Host";
   String SOCKS_PROXY_PORT = "SOCKS_Proxy_Port";
   String AUTO_RECONNECT = "Auto_Reconnect";
+  String L3_ORDERBOOK = "L3_Orderbook";
 
   /**
    * Connects to the WebSocket API of the exchange.
@@ -47,7 +49,7 @@ public interface StreamingExchange extends Exchange {
    * @return Observable with the exception during reconnection.
    */
   default Observable<Throwable> reconnectFailure() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("reconnectFailure");
   }
 
   /**
@@ -57,16 +59,26 @@ public interface StreamingExchange extends Exchange {
    * @return Observable with the exception during reconnection.
    */
   default Observable<Object> connectionSuccess() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("connectionSuccess");
   }
 
   /**
    * Observable for disconnection event.
    *
-   * @return Observable with the exception during reconnection.
+   * @return Observable with ChannelHandlerContext
    */
   default Observable<ChannelHandlerContext> disconnectObservable() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("disconnectObservable");
+  }
+
+  /**
+   * Observable for connectionState. designed to replaces connectionSuccess reconnectFailure
+   * disconnectObservable
+   *
+   * @return Observable
+   */
+  default Observable<State> connectionStateObservable() {
+    throw new NotYetImplementedForExchangeException("connectionState");
   }
 
   /**
@@ -76,15 +88,15 @@ public interface StreamingExchange extends Exchange {
    * @return Observable with the message delay measure.
    */
   default Observable<Long> messageDelay() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("messageDelay");
   }
 
   default void resubscribeChannels() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("resubscribeChannels");
   }
 
   default Observable<Object> connectionIdle() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("connectionIdle");
   }
 
   /** Returns service that can be used to access streaming market data. */
@@ -92,12 +104,12 @@ public interface StreamingExchange extends Exchange {
 
   /** Returns service that can be used to access streaming account data. */
   default StreamingAccountService getStreamingAccountService() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getStreamingAccountService");
   }
 
   /** Returns service that can be used to access streaming trade data. */
   default StreamingTradeService getStreamingTradeService() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotYetImplementedForExchangeException("getStreamingTradeService");
   }
 
   /**

@@ -117,7 +117,7 @@ public class UserTradeTest {
             .build();
 
     String json = ObjectMapperHelper.toCompactJSON(original);
-    assertThat(json).contains("\"currencyPair\":\"BTC/USD\"");
+    assertThat(json).contains("\"instrument\":\"BTC/USD\"");
 
     UserTrade jsonCopy = ObjectMapperHelper.readValueStrict(json, UserTrade.class);
     assertThat(jsonCopy).isEqualToComparingFieldByField(original);

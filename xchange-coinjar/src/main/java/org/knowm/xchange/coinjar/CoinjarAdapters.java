@@ -30,13 +30,22 @@ public class CoinjarAdapters {
   private CoinjarAdapters() {}
 
   public static String currencyPairToProduct(CurrencyPair pair) {
-    return pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+    String sep = "";
+    if (pair.base.getCurrencyCode().length() > 3 || pair.counter.getCurrencyCode().length() > 3) {
+      sep = "-";
+    }
+    return pair.base.getCurrencyCode() + sep + pair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair productToCurrencyPair(String product) {
-    return new CurrencyPair(
-        Currency.getInstance(product.substring(0, 3)),
-        Currency.getInstance(product.substring(3, 6)));
+    if (product.length() == 6) {
+      return new CurrencyPair(
+          Currency.getInstance(product.substring(0, 3)),
+          Currency.getInstance(product.substring(3, 6)));
+    } else {
+      String[] parts = product.split("-");
+      return new CurrencyPair(Currency.getInstance(parts[0]), Currency.getInstance(parts[1]));
+    }
   }
 
   public static String orderTypeToBuySell(Order.OrderType orderType) {

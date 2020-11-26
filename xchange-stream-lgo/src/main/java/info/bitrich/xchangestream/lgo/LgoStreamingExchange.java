@@ -3,7 +3,9 @@ package info.bitrich.xchangestream.lgo;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoExchange;
@@ -74,6 +76,11 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
   @Override
   public LgoStreamingTradeService getStreamingTradeService() {
     return tradeService;
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

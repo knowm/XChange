@@ -1,10 +1,8 @@
 package info.bitrich.xchangestream.okcoin;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
@@ -17,6 +15,7 @@ import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.Inflater;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -25,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinStreamingService extends JsonNettyStreamingService {
 
-  private Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
+  private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
 
   private Disposable pingPongSubscription;
 
@@ -44,10 +43,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
                   pingPongSubscription.dispose();
                 }
                 pingPongSubscription =
-                    pingPongSrc.subscribe(
-                        o -> {
-                          this.sendMessage("{\"event\":\"ping\"}");
-                        });
+                    pingPongSrc.subscribe(o -> this.sendMessage("{\"event\":\"ping\"}"));
                 completable.onComplete();
               } catch (Exception e) {
                 completable.onError(e);
@@ -62,17 +58,12 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    WebSocketMessage webSocketMessage = new WebSocketMessage("addChannel", channelName);
-
-    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-    return objectMapper.writeValueAsString(webSocketMessage);
+    return objectMapper.writeValueAsString(new WebSocketMessage("addChannel", channelName));
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
-    WebSocketMessage webSocketMessage = new WebSocketMessage("removeChannel", channelName);
-
-    return objectMapper.writeValueAsString(webSocketMessage);
+    return objectMapper.writeValueAsString(new WebSocketMessage("removeChannel", channelName));
   }
 
   @Override
@@ -145,7 +136,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
           byte[] result = new byte[1024];
           while (!infl.finished()) {
             int length = infl.inflate(result);
-            appender.append(new String(result, 0, length, "UTF-8"));
+            appender.append(new String(result, 0, length, StandardCharsets.UTF_8));
           }
           infl.end();
         } catch (Exception e) {

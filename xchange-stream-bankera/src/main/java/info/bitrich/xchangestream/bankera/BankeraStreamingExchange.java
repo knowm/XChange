@@ -3,6 +3,7 @@ package info.bitrich.xchangestream.bankera;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,7 +13,7 @@ import org.knowm.xchange.bankera.service.BankeraMarketDataService;
 public class BankeraStreamingExchange extends BankeraExchange implements StreamingExchange {
 
   private static final String WS_URI = "wss://api-exchange.bankera.com/ws";
-  private BankeraStreamingService streamingService;
+  private final BankeraStreamingService streamingService;
   private BankeraStreamingMarketDataService streamingMarketDataService;
 
   public BankeraStreamingExchange() {
@@ -50,6 +51,11 @@ public class BankeraStreamingExchange extends BankeraExchange implements Streami
   @Override
   public Observable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
+  }
+
+  @Override
+  public Observable<State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
   }
 
   @Override

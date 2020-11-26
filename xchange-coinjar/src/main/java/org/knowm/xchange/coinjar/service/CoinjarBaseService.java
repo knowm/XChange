@@ -1,11 +1,11 @@
 package org.knowm.xchange.coinjar.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinjar.CoinjarData;
 import org.knowm.xchange.coinjar.CoinjarTrading;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoinjarBaseService extends BaseExchangeService implements BaseService {
 
@@ -46,12 +46,18 @@ public class CoinjarBaseService extends BaseExchangeService implements BaseServi
     } else {
       domain = "coinjar";
     }
+    final String baseUrlData = "https://data.exchange." + domain + ".com/";
     this.coinjarData =
-        RestProxyFactory.createProxy(
-            CoinjarData.class, "https://data.exchange." + domain + ".com/", getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinjarData.class, exchange.getExchangeSpecification())
+            .baseUrl(baseUrlData)
+            .build();
 
+    final String baseUrlTrading = "https://api.exchange." + domain + ".com/";
     this.coinjarTrading =
-        RestProxyFactory.createProxy(
-            CoinjarTrading.class, "https://api.exchange." + domain + ".com/", getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinjarTrading.class, exchange.getExchangeSpecification())
+            .baseUrl(baseUrlTrading)
+            .build();
   }
 }

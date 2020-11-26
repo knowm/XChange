@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.luno.dto.LunoBoolean;
 import org.knowm.xchange.luno.dto.LunoException;
 import org.knowm.xchange.luno.dto.account.LunoAccount;
@@ -26,20 +28,22 @@ import org.knowm.xchange.luno.dto.trade.LunoPostOrder;
 import org.knowm.xchange.luno.dto.trade.OrderType;
 import org.knowm.xchange.luno.dto.trade.State;
 import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.ClientConfig;
-import si.mazi.rescu.RestProxyFactory;
 
 public class LunoAPIImpl implements LunoAPI {
 
   private static final Set<String> VALID_TYPES =
-      new HashSet<String>(Arrays.asList("ZAR_EFT", "NAD_EFT", "KES_MPESA", "MYR_IBG", "IDR_LLG"));
+      new HashSet<>(Arrays.asList("ZAR_EFT", "NAD_EFT", "KES_MPESA", "MYR_IBG", "IDR_LLG"));
   private final LunoAuthenticated luno;
   private final BasicAuthCredentials auth;
 
-  public LunoAPIImpl(String key, String secret, String uri, ClientConfig clientConfig) {
+  public LunoAPIImpl(ExchangeSpecification exchangeSpecification) {
 
-    luno = RestProxyFactory.createProxy(LunoAuthenticated.class, uri, clientConfig);
-    auth = new BasicAuthCredentials(key, secret);
+    luno =
+        ExchangeRestProxyBuilder.forInterface(LunoAuthenticated.class, exchangeSpecification)
+            .build();
+    auth =
+        new BasicAuthCredentials(
+            exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
   }
 
   @Override

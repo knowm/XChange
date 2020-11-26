@@ -24,8 +24,7 @@ public class CryptowatchMarketDataServiceRawIntegration {
 
   @Before
   public void setUp() {
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CryptowatchExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CryptowatchExchange.class);
     marketDataService = (CryptowatchMarketDataServiceRaw) exchange.getMarketDataService();
   }
 
