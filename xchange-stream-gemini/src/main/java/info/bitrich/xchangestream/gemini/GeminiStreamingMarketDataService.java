@@ -22,13 +22,9 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiStreamingMarketDataService implements StreamingMarketDataService {
-  private static final Logger LOG = LoggerFactory.getLogger(GeminiStreamingMarketDataService.class);
-
   private final GeminiStreamingService service;
   private final Map<CurrencyPair, GeminiOrderbook> orderbooks = new HashMap<>();
 
@@ -58,7 +54,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
-    int maxDepth = (int) MoreObjects.firstNonNull(args.length > 0 ? args[0] : null, 0);
+    int maxDepth = (int) MoreObjects.firstNonNull(args.length > 0 ? args[0] : null, 1);
 
     Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
@@ -114,7 +110,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                       LimitOrder firstAsk = orderBook.getAsks().iterator().next();
                       emitter.onNext(
                           new Ticker.Builder()
-                              .currencyPair(currencyPair)
+                              .instrument(currencyPair)
                               .bid(firstBid.getLimitPrice())
                               .bidSize(firstBid.getOriginalAmount())
                               .ask(firstAsk.getLimitPrice())
