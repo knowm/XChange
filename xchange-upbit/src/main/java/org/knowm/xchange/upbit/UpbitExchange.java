@@ -23,8 +23,7 @@ public class UpbitExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.upbit.com");
     exchangeSpecification.setHost("www.upbit.co.kr");
     exchangeSpecification.setExchangeName("Upbit");
@@ -39,5 +38,7 @@ public class UpbitExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void remoteInit() throws IOException, ExchangeException {}
+  public void remoteInit() throws IOException, ExchangeException {
+    exchangeMetaData = ((UpbitMarketDataService) marketDataService).getMetaData();
+  }
 }

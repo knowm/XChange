@@ -83,8 +83,7 @@ public class DsxExchange extends BaseExchange implements org.knowm.xchange.Excha
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.dsxglobal.com/");
     exchangeSpecification.setHost("dsx.com");
     exchangeSpecification.setPort(80);

@@ -64,9 +64,6 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
     if (params instanceof TradeHistoryParamCurrency
         && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
       currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
-    } else {
-      // Currency is a required parameter for Huobi funding history query
-      throw new ExchangeException("Currency must be supplied");
     }
 
     String from = null;
@@ -74,7 +71,7 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
       from = ((TradeHistoryParamsIdSpan) params).getStartId();
     }
 
-    FundingRecord.Type type = null;
+    FundingRecord.Type type;
     if (params instanceof HistoryParamsFundingType
         && ((HistoryParamsFundingType) params).getType() != null) {
       type = ((HistoryParamsFundingType) params).getType();

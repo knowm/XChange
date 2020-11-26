@@ -14,7 +14,7 @@ public class CoinoneOrderBookDemo {
   public static void main(String[] args) throws IOException {
 
     // Create Default BitZ Instance
-    Exchange coinone = ExchangeFactory.INSTANCE.createExchange(CoinoneExchange.class.getName());
+    Exchange coinone = ExchangeFactory.INSTANCE.createExchange(CoinoneExchange.class);
 
     // Get The Public Market Data Service
     MarketDataService marketDataService = coinone.getMarketDataService();

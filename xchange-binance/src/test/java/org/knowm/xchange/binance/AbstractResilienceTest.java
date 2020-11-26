@@ -32,8 +32,7 @@ public class AbstractResilienceTest {
   protected BinanceExchange createExchange(boolean retryEnabled, boolean rateLimiterEnabled) {
     BinanceExchange exchange =
         (BinanceExchange)
-            ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(
-                BinanceExchange.class.getName());
+            ExchangeFactory.INSTANCE.createExchangeWithoutSpecification(BinanceExchange.class);
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
     specification.setHost("localhost");
     specification.setSslUri("http://localhost:" + wireMockRule.port() + "/");

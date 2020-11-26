@@ -18,7 +18,7 @@ public class HuobiPublicApiIntegration {
 
   @Before
   public void setup() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class);
   }
 
   @Test

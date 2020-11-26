@@ -14,7 +14,7 @@ public class UpbitTickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Create Default Upbit Instance
-    Exchange upbit = ExchangeFactory.INSTANCE.createExchange(UpbitExchange.class.getName());
+    Exchange upbit = ExchangeFactory.INSTANCE.createExchange(UpbitExchange.class);
 
     // Get The Public Market Data Service
     MarketDataService marketDataService = upbit.getMarketDataService();
@@ -24,5 +24,9 @@ public class UpbitTickerDemo {
 
     // Print The Generic and Raw Ticker
     System.out.println(marketDataService.getTicker(pair));
+
+    System.out.println(marketDataService.getTickers(null));
+
+    System.out.println(marketDataService.getTrades(pair));
   }
 }

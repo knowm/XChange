@@ -35,8 +35,7 @@ public class BitcointoyouExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.bitcointoyou.com/");
     exchangeSpecification.setHost("www.bitcointoyou.com");
     exchangeSpecification.setPort(443);

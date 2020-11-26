@@ -6,12 +6,13 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.independentreserve.service.IndependentReserveAccountService;
 import org.knowm.xchange.independentreserve.service.IndependentReserveMarketDataService;
 import org.knowm.xchange.independentreserve.service.IndependentReserveTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class IndependentReserveExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
@@ -23,8 +24,7 @@ public class IndependentReserveExchange extends BaseExchange implements Exchange
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.independentreserve.com");
     exchangeSpecification.setHost("https://api.independentreserve.com");
     exchangeSpecification.setPort(80);
@@ -38,5 +38,9 @@ public class IndependentReserveExchange extends BaseExchange implements Exchange
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  public void setNonceFactory(SynchronizedValueFactory<Long> nonceFactory) {
+    this.nonceFactory = nonceFactory;
   }
 }

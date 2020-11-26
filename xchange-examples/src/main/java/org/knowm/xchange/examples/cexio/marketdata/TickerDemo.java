@@ -15,7 +15,7 @@ public class TickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Cex.IO exchange API using default settings
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = exchange.getMarketDataService();

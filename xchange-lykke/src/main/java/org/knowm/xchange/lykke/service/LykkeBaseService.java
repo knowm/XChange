@@ -1,11 +1,11 @@
 package org.knowm.xchange.lykke.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.lykke.Lykke;
 import org.knowm.xchange.lykke.LykkeAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class LykkeBaseService extends BaseExchangeService implements BaseService {
 
@@ -16,13 +16,14 @@ public class LykkeBaseService extends BaseExchangeService implements BaseService
   protected LykkeBaseService(Exchange exchange) {
     super(exchange);
     this.lykke =
-        RestProxyFactory.createProxy(
-            LykkeAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                LykkeAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.lykkePublic =
-        RestProxyFactory.createProxy(
-            LykkeAuthenticated.class, "https://public-api.lykke.com/", getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                LykkeAuthenticated.class, exchange.getExchangeSpecification())
+            .baseUrl("https://public-api.lykke.com/")
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }
 }
