@@ -20,9 +20,9 @@ public class BitstampStreamingMarketDataServiceBaseTest {
     test.assertValue(
         trade1 -> {
           assertThat(trade1.getId()).as("Id").isEqualTo(expected.getId());
-          assertThat(trade1.getCurrencyPair())
+          assertThat(trade1.getInstrument())
               .as("Currency pair")
-              .isEqualTo(expected.getCurrencyPair());
+              .isEqualTo(expected.getInstrument());
           assertThat(trade1.getPrice()).as("Price").isEqualTo(expected.getPrice());
           // assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected.getTimestamp());
           assertThat(trade1.getOriginalAmount())
@@ -47,7 +47,6 @@ public class BitstampStreamingMarketDataServiceBaseTest {
     test.assertValue(
         ticker -> {
           Assert.assertTrue(expectedTickerList.contains(ticker));
-          ;
           return true;
         });
   }
