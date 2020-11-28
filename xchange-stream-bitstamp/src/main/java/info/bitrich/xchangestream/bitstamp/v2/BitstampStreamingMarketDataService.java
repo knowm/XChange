@@ -59,13 +59,13 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
     final LimitOrder bid = orderBook.getBids().get(0);
 
     return new Ticker.Builder()
-            .instrument(currencyPair)
-            .bid(bid.getLimitPrice())
-            .bidSize(bid.getOriginalAmount())
-            .ask(ask.getLimitPrice())
-            .askSize(ask.getOriginalAmount())
-            .timestamp(orderBook.getTimeStamp())
-            .build();
+        .instrument(currencyPair)
+        .bid(bid.getLimitPrice())
+        .bidSize(bid.getOriginalAmount())
+        .ask(ask.getLimitPrice())
+        .askSize(ask.getOriginalAmount())
+        .timestamp(orderBook.getTimeStamp())
+        .build();
   }
 
   @Override
