@@ -11,7 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 /**
  * Bitstamp WebSocket V2 Streaming Market Data Service implementation Created by Pavel Chertalev on
@@ -50,8 +50,22 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    // BitStamp has no live ticker, only trades.
-    throw new NotAvailableFromExchangeException();
+    return getOrderBook(currencyPair, args)
+        .map(orderBook -> mapOrderBookToTicker(currencyPair, orderBook));
+  }
+
+  private Ticker mapOrderBookToTicker(CurrencyPair currencyPair, OrderBook orderBook) {
+    final LimitOrder ask = orderBook.getAsks().get(0);
+    final LimitOrder bid = orderBook.getBids().get(0);
+
+    return new Ticker.Builder()
+        .instrument(currencyPair)
+        .bid(bid.getLimitPrice())
+        .bidSize(bid.getOriginalAmount())
+        .ask(ask.getLimitPrice())
+        .askSize(ask.getOriginalAmount())
+        .timestamp(orderBook.getTimeStamp())
+        .build();
   }
 
   @Override
