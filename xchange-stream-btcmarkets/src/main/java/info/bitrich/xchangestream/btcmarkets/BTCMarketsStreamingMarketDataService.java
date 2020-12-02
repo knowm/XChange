@@ -1,10 +1,12 @@
 package info.bitrich.xchangestream.btcmarkets;
 
 import static info.bitrich.xchangestream.btcmarkets.BTCMarketsStreamingService.CHANNEL_ORDERBOOK;
+import static info.bitrich.xchangestream.btcmarkets.BTCMarketsStreamingService.CHANNEL_TICK;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketOrderbookMessage;
+import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketTickerMessage;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
@@ -29,6 +31,12 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
     return BTCMarketsStreamingAdapters.adaptOrderbookMessageToOrderbook(message);
   }
 
+
+  public Ticker handleTickerMessage(BTCMarketsWebSocketTickerMessage message) {
+    return BTCMarketsStreamingAdapters.adaptTickerMessageToTicker(message);
+  }
+
+
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
@@ -41,8 +49,14 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotAvailableFromExchangeException();
+    final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
+    return service
+            .subscribeChannel(CHANNEL_TICK,marketId)
+            .map(jsonNode -> mapper.treeToValue(jsonNode, BTCMarketsWebSocketTickerMessage.class))
+            .map(this::handleTickerMessage);
   }
+
+
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {

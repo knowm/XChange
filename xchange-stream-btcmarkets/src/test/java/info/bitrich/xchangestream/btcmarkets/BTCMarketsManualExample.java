@@ -30,6 +30,16 @@ public class BTCMarketsManualExample {
                   logger.info("First btc bid: {}", orderBook.getBids().get(0));
                 });
 
+    Disposable btcTickerDisposable =
+            exchange
+            .getStreamingMarketDataService()
+            .getTicker(CurrencyPair.BTC_AUD)
+            .forEach(
+                    ticker -> {
+                        logger.info("BTC Ticker: {}", ticker.getLast() );
+                    }
+            );
+
     Disposable ethOrderBookDisposable =
         exchange
             .getStreamingMarketDataService()
@@ -40,6 +50,16 @@ public class BTCMarketsManualExample {
                   logger.info("First eth bid: {}", orderBook.getBids().get(0));
                 });
 
+      Disposable ethTickerDisposable =
+              exchange
+                      .getStreamingMarketDataService()
+                      .getTicker(CurrencyPair.ETH_AUD)
+                      .forEach(
+                              ticker -> {
+                                  logger.info("ETH Ticker: {}", ticker.getLast() );
+                              }
+                      );
+
     try {
       Thread.sleep(30000);
     } catch (InterruptedException e) {
@@ -47,7 +67,9 @@ public class BTCMarketsManualExample {
     }
 
     btcOrderBookDisposable.dispose();
+    btcTickerDisposable.dispose();
     ethOrderBookDisposable.dispose();
-    exchange.disconnect().subscribe(() -> logger.info("Disconnected from the Exchange"));
+    ethTickerDisposable.dispose();
+   exchange.disconnect().subscribe(() -> logger.info("Disconnected from the Exchange"));
   }
 }

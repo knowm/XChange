@@ -13,9 +13,11 @@ import org.slf4j.LoggerFactory;
 
 class BTCMarketsStreamingService extends JsonNettyStreamingService {
   static final String CHANNEL_ORDERBOOK = "orderbook";
+  static final String CHANNEL_TICK = "tick";
   static final String CHANNEL_HEARTBEAT = "heartbeat";
   private static final Logger LOG = LoggerFactory.getLogger(BTCMarketsStreamingService.class);
   private final Set<String> subscribedOrderbooks = Sets.newConcurrentHashSet();
+  private final Set<String> subscribedtick = Sets.newConcurrentHashSet();
 
   public BTCMarketsStreamingService(String apiUrl) {
     super(apiUrl);
@@ -23,47 +25,66 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
 
   private BTCMarketsWebSocketSubscribeMessage buildSubscribeMessage() {
     return new BTCMarketsWebSocketSubscribeMessage(
-        new ArrayList<>(subscribedOrderbooks),
-        Lists.newArrayList(CHANNEL_ORDERBOOK, CHANNEL_HEARTBEAT),
-        null,
-        null,
-        null);
+            new ArrayList<>(subscribedtick),
+            Lists.newArrayList(CHANNEL_ORDERBOOK,CHANNEL_HEARTBEAT,CHANNEL_TICK),
+            null,
+            null,
+            null);
   }
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
     final String messageType = message.get("messageType").asText();
-    if (messageType.startsWith(CHANNEL_ORDERBOOK)) {
+    if (messageType.startsWith(CHANNEL_TICK)) {
       return messageType + ":" + message.get("marketId").asText();
     }
-    return messageType;
+    else  if (messageType.startsWith(CHANNEL_ORDERBOOK)) {
+      return messageType + ":" + message.get("marketId").asText();
+    }
+    else
+      return messageType;
   }
 
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
-    if (CHANNEL_ORDERBOOK.equals(channelName)) {
-      subscribedOrderbooks.add(args[0].toString());
-      LOG.debug("Now subscribed to orderbooks {}", subscribedOrderbooks);
+    if (CHANNEL_TICK.equals(channelName)) {
+      subscribedtick.add(args[0].toString());
+      LOG.debug("Now subscribed to Ticker {}", subscribedtick);
       return objectMapper.writeValueAsString(buildSubscribeMessage());
-    } else {
+    }
+    else if (CHANNEL_ORDERBOOK.equals(channelName)) {
+      subscribedtick.add(args[0].toString());
+      LOG.debug("Now subscribed to Ticker {}", subscribedOrderbooks);
+      return objectMapper.writeValueAsString(buildSubscribeMessage());
+    }
+    else {
       throw new IllegalArgumentException(
-          "Can't create subscribe messsage for channel " + channelName);
+              "Can't create subscribe messsage for channel " + channelName);
     }
   }
 
   public String getSubscriptionUniqueId(String channelName, Object... args) {
-    if (CHANNEL_ORDERBOOK.equals(channelName)) {
+    if (CHANNEL_TICK.equals(channelName)) {
       return channelName + ":" + args[0].toString();
     }
-    return channelName;
+    else if (CHANNEL_ORDERBOOK.equals(channelName)) {
+      return channelName + ":" + args[0].toString();
+    }
+    else {
+      return channelName;
+    }
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
-    if (channelName.startsWith(CHANNEL_ORDERBOOK)) {
-      subscribedOrderbooks.remove(channelName);
+    if (channelName.startsWith(CHANNEL_TICK)) {
+      subscribedtick.remove(channelName);
       return objectMapper.writeValueAsString(buildSubscribeMessage());
-    } else {
+    }
+    else  if (channelName.startsWith(CHANNEL_ORDERBOOK)) {
+      subscribedOrderbooks.remove(channelName);
+      return objectMapper.writeValueAsString(buildSubscribeMessage());}
+    else {
       return null;
     }
   }
