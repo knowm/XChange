@@ -31,11 +31,9 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
         return BTCMarketsStreamingAdapters.adaptOrderbookMessageToOrderbook(message);
     }
 
-
     public Ticker handleTickerMessage(BTCMarketsWebSocketTickerMessage message) {
         return BTCMarketsStreamingAdapters.adaptTickerMessageToTicker(message);
     }
-
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
@@ -55,7 +53,6 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
                 .map(jsonNode -> mapper.treeToValue(jsonNode, BTCMarketsWebSocketTickerMessage.class))
                 .map(this::handleTickerMessage);
     }
-
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
