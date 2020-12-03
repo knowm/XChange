@@ -35,9 +35,7 @@ public class BTCMarketsManualExample {
                         .getStreamingMarketDataService()
                         .getTicker(CurrencyPair.BTC_AUD)
                         .forEach(
-                                ticker -> {
-                                    logger.info("BTC Ticker: {}", ticker.getLast());
-                                }
+                                ticker -> logger.info("BTC Ticker: {}", ticker.getLast())
                         );
 
         Disposable ethOrderBookDisposable =
@@ -55,9 +53,7 @@ public class BTCMarketsManualExample {
                         .getStreamingMarketDataService()
                         .getTicker(CurrencyPair.ETH_AUD)
                         .forEach(
-                                ticker -> {
-                                    logger.info("ETH Ticker: {}", ticker.getLast());
-                                }
+                                ticker -> logger.info("ETH Ticker: {}", ticker.getLast())
                         );
 
         try {
@@ -65,7 +61,6 @@ public class BTCMarketsManualExample {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         btcOrderBookDisposable.dispose();
         btcTickerDisposable.dispose();
         ethOrderBookDisposable.dispose();

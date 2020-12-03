@@ -8,7 +8,7 @@ import java.util.List;
 public class BTCMarketsWebSocketSubscribeMessage {
 
   @JsonProperty("messageType")
-  public final String messageType = "subscribe";
+  public final String messageType = "addSubscription";
 
   @JsonProperty("marketIds")
   public final List<String> marketIds;
