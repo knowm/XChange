@@ -11,9 +11,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.BitstampTransferBalanceResponse;
+import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderCancelResponse;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -62,6 +65,33 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
+
+  /** @return true if order has been canceled. */
+  @POST
+  @Path("cancel_order/")
+  BitstampOrderCancelResponse cancelOrder(
+          @FormParam("key") String apiKey,
+          @FormParam("signature") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+          @FormParam("id") long orderId)
+          throws BitstampException, IOException;
+
+  @POST
+  @Path("order_status/")
+  BitstampOrderStatusResponse getOrderStatus(
+          @FormParam("key") String apiKey,
+          @FormParam("signature") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+          @FormParam("id") long orderId)
+          throws BitstampException, IOException;
+
+  @POST
+  @Path("balance/")
+  BitstampBalance getBalance(
+          @FormParam("key") String apiKey,
+          @FormParam("signature") ParamsDigest signer,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+          throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/")
