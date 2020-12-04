@@ -6,13 +6,16 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitbay.service.BitbayAccountService;
 import org.knowm.xchange.bitbay.service.BitbayMarketDataService;
 import org.knowm.xchange.bitbay.service.BitbayTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /** @author kpysniak */
 public class BitbayExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+          new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
