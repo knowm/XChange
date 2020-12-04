@@ -6,13 +6,15 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.independentreserve.service.IndependentReserveAccountService;
 import org.knowm.xchange.independentreserve.service.IndependentReserveMarketDataService;
 import org.knowm.xchange.independentreserve.service.IndependentReserveTradeService;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public class IndependentReserveExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanosecondTimeIncrementalNonceFactory();
+          new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
 
   @Override
   protected void initServices() {
