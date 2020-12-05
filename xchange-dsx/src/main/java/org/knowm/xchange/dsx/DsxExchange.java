@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +20,8 @@ import org.knowm.xchange.dsx.service.DsxMarketDataServiceRaw;
 import org.knowm.xchange.dsx.service.DsxTradeService;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class DsxExchange extends BaseExchange implements org.knowm.xchange.Exchange {
 
@@ -35,7 +31,6 @@ public class DsxExchange extends BaseExchange implements org.knowm.xchange.Excha
     setupPatchSupport();
   }
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private DsxMetaData dsxMetaData;
 
   private static void setupPatchSupport() {
@@ -94,12 +89,6 @@ public class DsxExchange extends BaseExchange implements org.knowm.xchange.Excha
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
-  }
-
-  @Override
   public void remoteInit() throws IOException {
     DsxMarketDataServiceRaw dataService = ((DsxMarketDataServiceRaw) marketDataService);
     List<DsxSymbol> dsxSymbols = dataService.getDsxSymbols();
@@ -119,12 +108,9 @@ public class DsxExchange extends BaseExchange implements org.knowm.xchange.Excha
                             new Currency(dsxSymbol.getBaseCurrency()),
                             new Currency(dsxSymbol.getQuoteCurrency())),
                     dsxSymbol ->
-                        new CurrencyPairMetaData(
-                            (BigDecimal) null,
-                            dsxSymbol.getQuantityIncrement(),
-                            (BigDecimal) null,
-                            dsxSymbol.getTickSize().scale(),
-                            (FeeTier[]) null)));
+                        new CurrencyPairMetaData(null,
+                            dsxSymbol.getQuantityIncrement(), null,
+                            dsxSymbol.getTickSize().scale(), null)));
     exchangeMetaData = DsxAdapters.adaptToExchangeMetaData(dsxSymbols, currencies, currencyPairs);
   }
 }

@@ -10,13 +10,8 @@ import org.knowm.xchange.gemini.v1.service.GeminiAccountService;
 import org.knowm.xchange.gemini.v1.service.GeminiMarketDataService;
 import org.knowm.xchange.gemini.v1.service.GeminiMarketDataServiceRaw;
 import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiExchange extends BaseExchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
@@ -56,12 +51,6 @@ public class GeminiExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Sandbox", false);
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
   }
 
   @Override

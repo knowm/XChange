@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcturk;
 
 import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -8,16 +9,12 @@ import org.knowm.xchange.btcturk.service.BTCTurkAccountService;
 import org.knowm.xchange.btcturk.service.BTCTurkMarketDataService;
 import org.knowm.xchange.btcturk.service.BTCTurkTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author semihunaldi
  * @author mertguner
  */
 public class BTCTurkExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -37,11 +34,6 @@ public class BTCTurkExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription(
         "BTCTurk is a Turkish Lira based Bitcoin, Ethereum, Ripple, Litecoin, Tether and Stellar Lumens exchange platform.");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
