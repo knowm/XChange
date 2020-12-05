@@ -11,16 +11,12 @@ import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.service.LgoKeyService;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 public class LgoStreamingExchange extends LgoExchange implements StreamingExchange {
 
   private LgoStreamingService streamingService;
   private LgoStreamingMarketDataService marketDataService;
   private LgoStreamingAccountService accountService;
   private LgoStreamingTradeService tradeService;
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -33,7 +29,7 @@ public class LgoStreamingExchange extends LgoExchange implements StreamingExchan
             streamingService,
             new LgoKeyService(getExchangeSpecification()),
             LgoSignatureService.createInstance(getExchangeSpecification()),
-            nonceFactory);
+            getNonceFactory());
   }
 
   private LgoStreamingService createStreamingService() {

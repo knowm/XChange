@@ -3,6 +3,7 @@ package org.knowm.xchange.coinmarketcap.deprecated.v2;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -14,13 +15,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author allenday */
 public class CoinMarketCapExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private CoinMarketCapMarketDataService marketDataService;
   private ExchangeSpecification exchangeSpecification;
 
@@ -66,11 +64,6 @@ public class CoinMarketCapExchange extends BaseExchange implements Exchange {
     if (this.marketDataService == null) {
       this.marketDataService = new CoinMarketCapMarketDataService(this);
     }
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

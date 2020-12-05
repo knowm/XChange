@@ -11,13 +11,9 @@ import org.knowm.xchange.cryptowatch.service.CryptowatchAccountService;
 import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataService;
 import org.knowm.xchange.cryptowatch.service.CryptowatchMarketDataServiceRaw;
 import org.knowm.xchange.cryptowatch.service.CryptowatchTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author massi.gerardi */
 public class CryptowatchExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -37,11 +33,6 @@ public class CryptowatchExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription(
         "Cryptowatch is a cryptocurrency charting and trading platform owned by Kraken");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   /**
