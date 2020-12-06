@@ -121,7 +121,13 @@ public class HitbtcAdapters {
               currencyPair,
               null,
               null,
-              hitbtcOrderLimit.getPrice());
+              hitbtcOrderLimit.getPrice(),
+              null,
+              null,
+              null,
+              null,
+              null); // pass null to userReference so LimitOrder wont generate one
+
       orders.add(limitOrder);
     }
 
