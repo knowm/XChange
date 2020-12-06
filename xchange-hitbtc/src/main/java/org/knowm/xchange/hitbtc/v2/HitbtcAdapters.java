@@ -114,23 +114,11 @@ public class HitbtcAdapters {
     List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
 
     for (HitbtcOrderLimit hitbtcOrderLimit : hitbtcOrders) {
-      LimitOrder limitOrder =
-          new LimitOrder(
-              orderType,
-              hitbtcOrderLimit.getSize(),
-              currencyPair,
-              null,
-              null,
-              hitbtcOrderLimit.getPrice(),
-              null,
-              null,
-              null,
-              null,
-              null); // pass null to userReference so LimitOrder wont generate one
-
-      orders.add(limitOrder);
+      orders.add(new LimitOrder.Builder(orderType, currencyPair)
+          .originalAmount(hitbtcOrderLimit.getSize())
+          .limitPrice(hitbtcOrderLimit.getPrice())
+          .build());
     }
-
     return orders;
   }
 
