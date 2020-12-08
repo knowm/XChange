@@ -8,12 +8,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   /**
    * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)} to specify
@@ -63,11 +59,6 @@ public class KucoinExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeName("Kucoin");
     exchangeSpecification.setExchangeDescription("Kucoin is a bitcoin and altcoin exchange.");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

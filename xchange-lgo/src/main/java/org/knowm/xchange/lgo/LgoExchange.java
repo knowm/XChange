@@ -11,12 +11,8 @@ import org.knowm.xchange.lgo.service.LgoMarketDataService;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
 import org.knowm.xchange.lgo.service.LgoTradeService;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LgoExchange extends BaseExchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   private LgoSignatureService signatureService;
   private LgoProducts products;
@@ -54,11 +50,6 @@ public class LgoExchange extends BaseExchange {
   @Override
   public LgoTradeService getTradeService() {
     return (LgoTradeService) super.getTradeService();
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   public LgoProducts getProducts() {
