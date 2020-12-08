@@ -17,7 +17,7 @@ public class KrakenUtils {
   private static Map<String, Currency> assetsMap = new HashMap<String, Currency>();
   private static Map<Currency, String> assetsMapReverse = new HashMap<Currency, String>();
 
-  /** Mapping of discontinued currencies to their standard name. */
+  /** https://support.kraken.com/hc/en-us/articles/360001185506-How-to-interpret-asset-codes */
   private static Map<String, String> discontinuedCurrencies;
 
   static {
