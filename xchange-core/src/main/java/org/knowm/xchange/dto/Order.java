@@ -26,7 +26,8 @@ import org.knowm.xchange.instrument.Instrument;
 public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
-
+  private static final Random random = new Random();
+  
   /** Order type i.e. bid or ask */
   private final OrderType type;
   /** Amount to be ordered / amount that was ordered */
@@ -98,7 +99,7 @@ public abstract class Order implements Serializable {
         cumulativeAmount,
         fee,
         status,
-        100000000 + new Random().nextInt(100000000) + "");
+        Integer.toString(100000000 + random.nextInt(100000000)));
   }
 
   /**
