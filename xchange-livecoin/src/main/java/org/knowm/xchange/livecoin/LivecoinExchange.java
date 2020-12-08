@@ -13,20 +13,12 @@ import org.knowm.xchange.livecoin.service.LivecoinAccountService;
 import org.knowm.xchange.livecoin.service.LivecoinMarketDataService;
 import org.knowm.xchange.livecoin.service.LivecoinMarketDataServiceRaw;
 import org.knowm.xchange.livecoin.service.LivecoinTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LivecoinExchange extends BaseExchange implements Exchange {
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private Livecoin livecoin;
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
 
   @Override
   public ResilienceRegistries getResilienceRegistries() {

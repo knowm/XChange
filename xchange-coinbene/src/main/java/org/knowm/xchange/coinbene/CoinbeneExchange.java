@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbene;
 
 import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -8,16 +9,12 @@ import org.knowm.xchange.coinbene.service.CoinbeneAccountService;
 import org.knowm.xchange.coinbene.service.CoinbeneMarketDataService;
 import org.knowm.xchange.coinbene.service.CoinbeneTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbeneExchange extends BaseExchange implements Exchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoinbeneExchange.class);
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -38,11 +35,6 @@ public class CoinbeneExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Coinbene is a bitcoin and altcoin exchange.");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
