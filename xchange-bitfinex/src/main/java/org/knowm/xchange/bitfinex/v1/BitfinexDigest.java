@@ -6,7 +6,7 @@ import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
-public class BitfinexHmacPostBodyDigest extends BaseParamsDigest {
+public class BitfinexDigest extends BaseParamsDigest {
 
   /**
    * Constructor
@@ -15,14 +15,14 @@ public class BitfinexHmacPostBodyDigest extends BaseParamsDigest {
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded
    *     key is invalid).
    */
-  private BitfinexHmacPostBodyDigest(String secretKeyBase64) {
+  private BitfinexDigest(String secretKeyBase64) {
 
     super(secretKeyBase64, HMAC_SHA_384);
   }
 
-  public static BitfinexHmacPostBodyDigest createInstance(String secretKeyBase64) {
+  public static BitfinexDigest createInstance(String secretKeyBase64) {
 
-    return secretKeyBase64 == null ? null : new BitfinexHmacPostBodyDigest(secretKeyBase64);
+    return secretKeyBase64 == null ? null : new BitfinexDigest(secretKeyBase64);
   }
 
   @Override
