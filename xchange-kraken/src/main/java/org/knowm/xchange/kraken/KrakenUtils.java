@@ -23,6 +23,11 @@ public class KrakenUtils {
   static {
     discontinuedCurrencies = new HashMap<>();
     discontinuedCurrencies.put("XICN", "ICN");
+    discontinuedCurrencies.put("BSV", "BSV");
+    discontinuedCurrencies.put("XDAO", "DAO");
+    discontinuedCurrencies.put("XNMC", "NMC");
+    discontinuedCurrencies.put("XXVN", "XVN");
+    discontinuedCurrencies.put("ZKRW", "KRW");
   }
 
   /** Private Constructor */
