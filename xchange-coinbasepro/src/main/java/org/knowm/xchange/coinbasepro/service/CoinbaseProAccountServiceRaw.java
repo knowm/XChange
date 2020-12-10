@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbasePro;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
@@ -20,7 +21,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
-  public CoinbaseProAccountServiceRaw(Exchange exchange) {
+  public CoinbaseProAccountServiceRaw(Exchange exchange, ResilienceRegistries resilienceRegistries) {
 
     super(exchange);
     this.nonceFactory = exchange.getNonceFactory();
