@@ -8,7 +8,6 @@ import org.knowm.xchange.coinjar.service.CoinjarBaseService;
 import org.knowm.xchange.coinjar.service.CoinjarMarketDataService;
 import org.knowm.xchange.coinjar.service.CoinjarTradeService;
 
-
 public class CoinjarExchange extends BaseExchange implements Exchange {
 
   @Override

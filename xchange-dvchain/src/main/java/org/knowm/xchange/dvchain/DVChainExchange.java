@@ -1,5 +1,6 @@
 package org.knowm.xchange.dvchain;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dvchain.service.DVChainMarketDataService;
@@ -7,11 +8,9 @@ import org.knowm.xchange.dvchain.service.DVChainTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.util.concurrent.TimeUnit;
-
 public class DVChainExchange extends BaseExchange {
   private final SynchronizedValueFactory<Long> nonceFactory =
-          new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {

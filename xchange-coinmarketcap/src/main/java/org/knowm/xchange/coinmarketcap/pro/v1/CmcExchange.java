@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
 
-
 public class CmcExchange extends BaseExchange implements Exchange {
 
   @Override
