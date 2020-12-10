@@ -1,5 +1,6 @@
 package org.knowm.xchange.independentreserve;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -9,12 +10,10 @@ import org.knowm.xchange.independentreserve.service.IndependentReserveTradeServi
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.util.concurrent.TimeUnit;
-
 public class IndependentReserveExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory =
-          new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
 
   @Override
   protected void initServices() {

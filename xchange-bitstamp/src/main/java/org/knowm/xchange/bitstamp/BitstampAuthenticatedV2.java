@@ -70,28 +70,28 @@ public interface BitstampAuthenticatedV2 {
   @POST
   @Path("cancel_order/")
   BitstampOrderCancelResponse cancelOrder(
-          @FormParam("key") String apiKey,
-          @FormParam("signature") ParamsDigest signer,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-          @FormParam("id") long orderId)
-          throws BitstampException, IOException;
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("id") long orderId)
+      throws BitstampException, IOException;
 
   @POST
   @Path("order_status/")
   BitstampOrderStatusResponse getOrderStatus(
-          @FormParam("key") String apiKey,
-          @FormParam("signature") ParamsDigest signer,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-          @FormParam("id") long orderId)
-          throws BitstampException, IOException;
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("id") long orderId)
+      throws BitstampException, IOException;
 
   @POST
   @Path("balance/")
   BitstampBalance getBalance(
-          @FormParam("key") String apiKey,
-          @FormParam("signature") ParamsDigest signer,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-          throws BitstampException, IOException;
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/")

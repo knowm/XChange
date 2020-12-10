@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -31,7 +30,7 @@ public abstract class BaseExchange implements Exchange {
   protected AccountService accountService;
 
   private final SynchronizedValueFactory<Long> nonceFactory =
-          new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
 
   protected abstract void initServices();
 

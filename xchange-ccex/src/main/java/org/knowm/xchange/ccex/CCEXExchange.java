@@ -2,7 +2,6 @@ package org.knowm.xchange.ccex;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
