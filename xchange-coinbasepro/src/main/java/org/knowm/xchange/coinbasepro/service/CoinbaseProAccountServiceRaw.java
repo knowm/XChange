@@ -153,7 +153,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
             () ->
                 coinbasePro.getCoinbaseProAccountAddress(
                     apiKey, digest, nonceFactory, passphrase, accountId))
-        .withRetry(retry("getCoinbaseAccounts"))
+        .withRetry(retry("getCoinbaseAccountAddress"))
         .withRateLimiter(rateLimiter(PRIVATE_PER_SECOND_RATE_LIMITER))
         .call();
   }
