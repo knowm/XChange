@@ -135,7 +135,6 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     try {
       return decorateApiCall(
               () -> coinbasePro.placeOrder(order, apiKey, digest, nonceFactory, passphrase))
-          .withRetry(retry("placeCoinbaseProOrder"))
           .withRateLimiter(rateLimiter(PRIVATE_PER_SECOND_RATE_LIMITER))
           .call();
     } catch (CoinbaseProException e) {
