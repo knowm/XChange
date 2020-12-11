@@ -108,9 +108,12 @@ public class DsxExchange extends BaseExchange implements org.knowm.xchange.Excha
                             new Currency(dsxSymbol.getBaseCurrency()),
                             new Currency(dsxSymbol.getQuoteCurrency())),
                     dsxSymbol ->
-                        new CurrencyPairMetaData(null,
-                            dsxSymbol.getQuantityIncrement(), null,
-                            dsxSymbol.getTickSize().scale(), null)));
+                        new CurrencyPairMetaData(
+                            null,
+                            dsxSymbol.getQuantityIncrement(),
+                            null,
+                            dsxSymbol.getTickSize().scale(),
+                            null)));
     exchangeMetaData = DsxAdapters.adaptToExchangeMetaData(dsxSymbols, currencies, currencyPairs);
   }
 }

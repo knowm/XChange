@@ -1,13 +1,12 @@
 package org.knowm.xchange.btcc;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcc.service.BTCCMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class BTCCExchange extends BaseExchange implements Exchange {
 

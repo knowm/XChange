@@ -1,7 +1,6 @@
 package org.knowm.xchange.cobinhood;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;

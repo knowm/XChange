@@ -3,7 +3,6 @@ package org.knowm.xchange.bitstamp;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;

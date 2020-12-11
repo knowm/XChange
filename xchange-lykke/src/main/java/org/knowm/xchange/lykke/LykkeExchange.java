@@ -30,7 +30,6 @@ public class LykkeExchange extends BaseExchange implements Exchange {
     this.accountService = new LykkeAccountService(this);
   }
 
-
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());

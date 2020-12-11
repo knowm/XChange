@@ -12,7 +12,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class VaultoroExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =
-          () -> getNonceFactory().createValue()/250L;
+      () -> getNonceFactory().createValue() / 250L;
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
