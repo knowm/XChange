@@ -11,6 +11,7 @@ import org.knowm.xchange.lgo.LgoEnv;
 import org.knowm.xchange.lgo.LgoExchange;
 import org.knowm.xchange.lgo.service.LgoKeyService;
 import org.knowm.xchange.lgo.service.LgoSignatureService;
+
 public class LgoStreamingExchange extends LgoExchange implements StreamingExchange {
 
   private LgoStreamingService streamingService;

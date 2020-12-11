@@ -3,7 +3,6 @@ package org.knowm.xchange.coinmarketcap.deprecated.v2;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;

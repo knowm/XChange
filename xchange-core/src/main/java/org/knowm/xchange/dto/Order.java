@@ -27,7 +27,7 @@ public abstract class Order implements Serializable {
 
   private static final long serialVersionUID = -8132103343647993249L;
   private static final Random random = new Random();
-  
+
   /** Order type i.e. bid or ask */
   private final OrderType type;
   /** Amount to be ordered / amount that was ordered */
@@ -56,7 +56,7 @@ public abstract class Order implements Serializable {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param originalAmount The amount to trade
-   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param instrument instrument The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if
    *     not provided
