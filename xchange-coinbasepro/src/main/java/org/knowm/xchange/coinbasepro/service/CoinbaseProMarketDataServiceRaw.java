@@ -1,21 +1,27 @@
 package org.knowm.xchange.coinbasepro.service;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
 import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+
+import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PUBLIC_PER_SECOND_RATE_LIMITER;
+
 @Slf4j
 public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
+  private final String ORDER_BOOK_LEVEL_ONE = "1";
 
-  public CoinbaseProMarketDataServiceRaw(Exchange exchange) {
+  public CoinbaseProMarketDataServiceRaw(
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
-    super(exchange);
+    super(exchange, resilienceRegistries);
   }
 
   public CoinbaseProProductTicker getCoinbaseProProductTicker(CurrencyPair currencyPair)
@@ -26,8 +32,14 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
     }
     try {
       CoinbaseProProductTicker tickerReturn =
-          coinbasePro.getProductTicker(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+          decorateApiCall(
+                  () ->
+                      coinbasePro.getProductTicker(
+                          currencyPair.base.getCurrencyCode(),
+                          currencyPair.counter.getCurrencyCode()))
+              .withRetry(retry("tickerReturn"))
+              .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+              .call();
       return tickerReturn;
     } catch (CoinbaseProException e) {
       throw handleError(e);
@@ -42,8 +54,14 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
     }
     try {
       CoinbaseProProductStats statsReturn =
-          coinbasePro.getProductStats(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+          decorateApiCall(
+                  () ->
+                      coinbasePro.getProductStats(
+                          currencyPair.base.getCurrencyCode(),
+                          currencyPair.counter.getCurrencyCode()))
+              .withRetry(retry("tickerReturn"))
+              .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+              .call();
       return statsReturn;
     } catch (CoinbaseProException e) {
       throw handleError(e);
@@ -59,8 +77,14 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
     try {
       CoinbaseProProductBook book =
-          coinbasePro.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
+          decorateApiCall(
+                  () ->
+                      coinbasePro.getProductOrderBook(
+                          currencyPair.base.getCurrencyCode(),
+                          currencyPair.counter.getCurrencyCode(),
+                          ORDER_BOOK_LEVEL_ONE))
+              .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+              .call();
       return book;
     } catch (CoinbaseProException e) {
       throw handleError(e);
@@ -72,10 +96,14 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
 
     try {
       CoinbaseProProductBook book =
-          coinbasePro.getProductOrderBook(
-              currencyPair.base.getCurrencyCode(),
-              currencyPair.counter.getCurrencyCode(),
-              String.valueOf(level));
+          decorateApiCall(
+                  () ->
+                      coinbasePro.getProductOrderBook(
+                          currencyPair.base.getCurrencyCode(),
+                          currencyPair.counter.getCurrencyCode(),
+                          String.valueOf(level)))
+              .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+              .call();
       return book;
     } catch (CoinbaseProException e) {
       throw handleError(e);
@@ -85,65 +113,31 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   public CoinbaseProTrade[] getCoinbaseProTrades(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return coinbasePro.getTrades(
-          currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getTrades(
+                      currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()))
+          .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  static Instant lastCall = null;
-  static boolean rateLimited = false;
-
   public CoinbaseProTrades getCoinbaseProTradesExtended(
       CurrencyPair currencyPair, Long after, Integer limit) throws IOException {
-
-    for (; ; ) {
-      try {
-        if (rateLimited) {
-          long delta = Duration.between(lastCall, Instant.now()).toMillis();
-          log.debug("Last call {} ms ago", delta);
-          if (delta < 333) {
-            try {
-              log.debug("Sleeping for {}ms", 333 - delta);
-              Thread.sleep(333 - delta);
-            } catch (InterruptedException e) {
-              log.debug("Unexpected exception in getCoinbaseProTradesExtended", e);
-            }
-          } else if (delta > 3000) {
-            log.debug("Clearing rate limiter");
-            rateLimited = false;
-          }
-        }
-        lastCall = Instant.now();
-        CoinbaseProTrades CoinbaseProTrades =
-            coinbasePro.getTradesPageable(
-                currencyPair.base.getCurrencyCode(),
-                currencyPair.counter.getCurrencyCode(),
-                after,
-                limit);
-        log.debug(
-            "CoinbaseProTrades: earliest={}, latest={}, {}",
-            CoinbaseProTrades.getEarliestTradeId(),
-            CoinbaseProTrades.getLatestTradeId(),
-            CoinbaseProTrades);
-        return CoinbaseProTrades;
-      } catch (CoinbaseProException e) {
-
-        if (e.getHttpStatusCode() != 429) {
-          throw handleError(e);
-        }
-
-        log.debug("Rate limit exceeded, sleeping for 1000ms");
-        rateLimited = true;
-        try {
-          Thread.sleep(1000);
-        } catch (InterruptedException e1) {
-          log.debug("Unexpected exception in getCoinbaseProTradesExtended", e1);
-        }
-        log.debug("Retrying");
-      }
+    try {
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getTradesPageable(
+                      currencyPair.base.getCurrencyCode(),
+                      currencyPair.counter.getCurrencyCode(),
+                      after,
+                      limit))
+          .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+          .call();
+    } catch (CoinbaseProException e) {
+      throw handleError(e);
     }
   }
 
@@ -151,12 +145,16 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
       CurrencyPair currencyPair, String start, String end, String granularity) throws IOException {
 
     try {
-      return coinbasePro.getHistoricalCandles(
-          currencyPair.base.getCurrencyCode(),
-          currencyPair.counter.getCurrencyCode(),
-          start,
-          end,
-          granularity);
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getHistoricalCandles(
+                      currencyPair.base.getCurrencyCode(),
+                      currencyPair.counter.getCurrencyCode(),
+                      start,
+                      end,
+                      granularity))
+          .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
@@ -182,7 +180,9 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   public CoinbaseProProduct[] getCoinbaseProProducts() throws IOException {
 
     try {
-      return coinbasePro.getProducts();
+      return decorateApiCall(() -> coinbasePro.getProducts())
+          .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
@@ -191,7 +191,9 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
   public CoinbaseProCurrency[] getCoinbaseProCurrencies() throws IOException {
 
     try {
-      return coinbasePro.getCurrencies();
+      return decorateApiCall(() -> coinbasePro.getCurrencies())
+          .withRateLimiter(rateLimiter(PUBLIC_PER_SECOND_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
