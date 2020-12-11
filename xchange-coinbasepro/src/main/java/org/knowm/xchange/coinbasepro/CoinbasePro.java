@@ -218,19 +218,6 @@ public interface CoinbasePro {
       @QueryParam("after") Integer startingOrderId)
       throws CoinbaseProException, IOException;
 
-//  @GET
-//  @Path("accounts/{account_id}/transfers")
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  CoinbaseProTransfers transfers(
-//      @HeaderParam("CB-ACCESS-KEY") String apiKey,
-//      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-//      @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
-//      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-//      @PathParam("account_id") String accountId,
-//      @QueryParam("profile_id") String profileId,
-//      @QueryParam("limit") Integer limit,
-//      @QueryParam("after") String createdAtDate);
-
   @GET
   @Path("transfers")
   @Consumes(MediaType.APPLICATION_JSON)
