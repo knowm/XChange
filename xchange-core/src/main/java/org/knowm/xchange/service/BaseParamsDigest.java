@@ -1,6 +1,6 @@
 package org.knowm.xchange.service;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -27,31 +27,8 @@ public abstract class BaseParamsDigest implements ParamsDigest {
    *     key is invalid).
    */
   protected BaseParamsDigest(String secretKeyBase64, final String hmacString)
-      throws IllegalArgumentException {
-
-    try {
-      final SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes("UTF-8"), hmacString);
-      threadLocalMac =
-          new ThreadLocal<Mac>() {
-
-            @Override
-            protected Mac initialValue() {
-
-              try {
-                Mac mac = Mac.getInstance(hmacString);
-                mac.init(secretKey);
-                return mac;
-              } catch (InvalidKeyException e) {
-                throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-              } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(
-                    "Illegal algorithm for post body digest. Check the implementation.");
-              }
-            }
-          };
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Illegal encoding, check the code.", e);
-    }
+          throws IllegalArgumentException {
+    this(secretKeyBase64.getBytes(StandardCharsets.UTF_8), hmacString);
   }
 
   /**
@@ -66,31 +43,25 @@ public abstract class BaseParamsDigest implements ParamsDigest {
 
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
     threadLocalMac =
-        new ThreadLocal<Mac>() {
-
-          @Override
-          protected Mac initialValue() {
-
-            try {
-              Mac mac = Mac.getInstance(hmacString);
-              mac.init(secretKey);
-              return mac;
-            } catch (InvalidKeyException e) {
-              throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-            } catch (NoSuchAlgorithmException e) {
-              throw new RuntimeException(
-                  "Illegal algorithm for post body digest. Check the implementation.");
-            }
-          }
-        };
+            ThreadLocal.withInitial(() -> {
+              try {
+                Mac mac = Mac.getInstance(hmacString);
+                mac.init(secretKey);
+                return mac;
+              } catch (InvalidKeyException e) {
+                throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+              } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(
+                    "Illegal algorithm for post body digest. Check the implementation.");
+              }
+            });
   }
 
   protected static byte[] decodeBase64(String secretKey) {
     return Base64.getDecoder().decode(secretKey);
   }
 
-  protected Mac getMac() {
-
+  public Mac getMac() {
     return threadLocalMac.get();
   }
 }
