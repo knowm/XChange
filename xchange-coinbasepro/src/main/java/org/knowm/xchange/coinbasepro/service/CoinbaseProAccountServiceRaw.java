@@ -106,7 +106,6 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
                 () ->
                     coinbasePro.createReport(
                         apiKey, digest, nonceFactory, passphrase, reportRequest))
-            .withRetry(retry("requestNewReport"))
             .withRateLimiter(rateLimiter(PRIVATE_PER_SECOND_RATE_LIMITER))
             .call();
 
