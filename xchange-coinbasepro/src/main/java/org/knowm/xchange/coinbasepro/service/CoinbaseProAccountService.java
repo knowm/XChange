@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
@@ -34,9 +36,9 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     implements AccountService {
 
-  public CoinbaseProAccountService(Exchange exchange) {
+  public CoinbaseProAccountService(CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
-    super(exchange);
+    super(exchange, resilienceRegistries);
   }
 
   @Override

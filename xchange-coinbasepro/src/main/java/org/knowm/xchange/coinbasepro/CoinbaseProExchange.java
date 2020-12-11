@@ -84,7 +84,7 @@ public class CoinbaseProExchange extends BaseExchange {
         concludeHostParams(exchangeSpecification);
 
         this.marketDataService = new CoinbaseProMarketDataService(this);
-        this.accountService = new CoinbaseProAccountService(this);
+        this.accountService = new CoinbaseProAccountService(this, getResilienceRegistries());
         this.tradeService = new CoinbaseProTradeService(this);
     }
 
