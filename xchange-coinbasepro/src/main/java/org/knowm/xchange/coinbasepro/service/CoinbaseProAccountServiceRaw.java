@@ -58,7 +58,6 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
                     nonceFactory,
                     passphrase,
                     accountId))
-        .withRetry(retry("sendMoney"))
         .withRateLimiter(rateLimiter(PRIVATE_PER_SECOND_RATE_LIMITER))
         .call();
   }
@@ -83,7 +82,6 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
                         address,
                         destinationTag,
                         noDestinationTag)))
-        .withRetry(retry("withdrawCrypto"))
         .withRateLimiter(rateLimiter(PRIVATE_PER_SECOND_RATE_LIMITER))
         .call();
   }
