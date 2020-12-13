@@ -9,18 +9,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.instrument.Instrument;
 
 public class OpenPosition extends Order {
 
   public OpenPosition(
       OrderType type,
       BigDecimal originalAmount,
-      CurrencyPair currencyPair,
+      Instrument instrument,
       String id,
       Date timestamp,
       BigDecimal averagePrice,
       BigDecimal fee) {
-    super(type, originalAmount, currencyPair, id, timestamp);
+    super(type, originalAmount, instrument, id, timestamp);
     setAveragePrice(averagePrice);
     setFee(fee);
   }
@@ -31,9 +32,9 @@ public class OpenPosition extends Order {
     @JsonCreator
     public Builder(
             @JsonProperty("orderType") OrderType orderType,
-            @JsonProperty("currencyPair") CurrencyPair currencyPair) {
+            @JsonProperty("instrument") Instrument instrument) {
 
-      super(orderType, currencyPair);
+      super(orderType, instrument);
     }
 
     @Override
@@ -108,7 +109,7 @@ public class OpenPosition extends Order {
       return new OpenPosition(
                       orderType,
                       originalAmount,
-                      currencyPair,
+                      instrument,
                       id,
                       timestamp,
                       averagePrice,
