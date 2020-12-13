@@ -18,7 +18,12 @@ import org.knowm.xchange.bitmex.dto.trade.BitmexPlaceOrderParameters.Builder;
 import org.knowm.xchange.bitmex.dto.trade.BitmexReplaceOrderParameters;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
@@ -50,26 +55,21 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders() throws ExchangeException {
 
     List<BitmexPrivateOrder> bitmexOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
+            super.getBitmexOrders(null, "{\"open\": true}", null, null, null);
 
     return new OpenOrders(
-        bitmexOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList()));
+            bitmexOrders.stream().map(BitmexAdapters::adaptOrder).collect(Collectors.toList()));
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException {
     List<LimitOrder> limitOrders =
-        super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
-            .map(BitmexAdapters::adaptOrder)
-            .filter(params::accept)
-            .collect(Collectors.toList());
+            super.getBitmexOrders(null, "{\"open\": true}", null, null, null).stream()
+                    .map(BitmexAdapters::adaptOrder)
+                    .filter(params::accept)
+                    .collect(Collectors.toList());
 
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenPositions getOpenPositions() throws IOException {
-    return BitmexAdapters.adaptOpenPositions(super.getBitmexPositions());
   }
 
   @Override
@@ -78,10 +78,10 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
     return placeOrder(
             new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(fromOrderType(marketOrder.getType()))
-                .setOrderQuantity(marketOrder.getOriginalAmount())
-                .build())
-        .getId();
+                    .setSide(fromOrderType(marketOrder.getType()))
+                    .setOrderQuantity(marketOrder.getOriginalAmount())
+                    .build())
+            .getId();
   }
 
   @Override
@@ -89,11 +89,11 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     String symbol = BitmexAdapters.adaptCurrencyPairToSymbol(limitOrder.getCurrencyPair());
 
     Builder b =
-        new BitmexPlaceOrderParameters.Builder(symbol)
-            .setOrderQuantity(limitOrder.getOriginalAmount())
-            .setPrice(limitOrder.getLimitPrice())
-            .setSide(fromOrderType(limitOrder.getType()))
-            .setClOrdId(limitOrder.getId());
+            new BitmexPlaceOrderParameters.Builder(symbol)
+                    .setOrderQuantity(limitOrder.getOriginalAmount())
+                    .setPrice(limitOrder.getLimitPrice())
+                    .setSide(fromOrderType(limitOrder.getType()))
+                    .setClOrdId(limitOrder.getId());
     if (limitOrder.hasFlag(BitmexOrderFlags.POST)) {
       b.addExecutionInstruction(BitmexExecutionInstruction.PARTICIPATE_DO_NOT_INITIATE);
     }
@@ -106,25 +106,24 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
     return placeOrder(
             new BitmexPlaceOrderParameters.Builder(symbol)
-                .setSide(fromOrderType(stopOrder.getType()))
-                .setOrderQuantity(stopOrder.getOriginalAmount())
-                .setStopPrice(stopOrder.getStopPrice())
-                .setClOrdId(stopOrder.getId())
-                .build())
-        .getId();
+                    .setSide(fromOrderType(stopOrder.getType()))
+                    .setOrderQuantity(stopOrder.getOriginalAmount())
+                    .setStopPrice(stopOrder.getStopPrice())
+                    .setClOrdId(stopOrder.getId())
+                    .build())
+            .getId();
   }
 
   @Override
   public String changeOrder(LimitOrder limitOrder) throws ExchangeException {
 
     BitmexPrivateOrder order =
-        replaceOrder(
-            new BitmexReplaceOrderParameters.Builder()
-                .setOrderId(limitOrder.getId())
-                .setOrderQuantity(limitOrder.getOriginalAmount())
-                .setPrice(limitOrder.getLimitPrice())
-                .setClOrdId(limitOrder.getId())
-                .build());
+            replaceOrder(
+                    new BitmexReplaceOrderParameters.Builder()
+                            .setOrderId(limitOrder.getId())
+                            .setOrderQuantity(limitOrder.getOriginalAmount())
+                            .setPrice(limitOrder.getLimitPrice())
+                            .build());
     return order.getId();
   }
 
@@ -151,7 +150,7 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
     }
 
     throw new NotYetImplementedForExchangeException(
-        String.format("Unexpected type of parameter: %s", params));
+            String.format("Unexpected type of parameter: %s", params));
   }
 
   @Override
@@ -170,45 +169,6 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    String symbol = null;
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      symbol =
-          BitmexAdapters.adaptCurrencyPairToSymbol(
-              ((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-    }
-    Long start = null;
-    if (params instanceof TradeHistoryParamOffset) {
-      start = ((TradeHistoryParamOffset) params).getOffset();
-    }
-    Date startTime = null;
-    Date endTime = null;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-      startTime = timeSpan.getStartTime();
-      endTime = timeSpan.getEndTime();
-    }
-    int count = 100;
-    if (params instanceof TradeHistoryParamLimit) {
-      TradeHistoryParamLimit limit = (TradeHistoryParamLimit) params;
-      if (limit.getLimit() != null) {
-        count = limit.getLimit();
-      }
-    }
-
-    boolean reverse =
-        (params instanceof TradeHistoryParamsSorted)
-            && ((TradeHistoryParamsSorted) params).getOrder()
-                == TradeHistoryParamsSorted.Order.desc;
-
-    List<UserTrade> userTrades =
-        getTradeHistory(symbol, null, null, count, start, reverse, startTime, endTime).stream()
-            .map(BitmexAdapters::adoptUserTrade)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
-  }
-
-  public UserTrades getFundingRecords(TradeHistoryParams params){
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
       symbol =
@@ -234,12 +194,16 @@ public class BitmexTradeService extends BitmexTradeServiceRaw implements TradeSe
       }
     }
 
-    List<UserTrade> fundingList =
-            getTradeHistory(symbol, null, null, count, start, false, startTime, endTime).stream()
-                    .map(BitmexAdapters::adoptFundingRecords)
+    boolean reverse =
+            (params instanceof TradeHistoryParamsSorted)
+                    && ((TradeHistoryParamsSorted) params).getOrder()
+                    == TradeHistoryParamsSorted.Order.desc;
+
+    List<UserTrade> userTrades =
+            getTradeHistory(symbol, null, null, count, start, reverse, startTime, endTime).stream()
+                    .map(BitmexAdapters::adoptUserTrade)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
-    return new UserTrades(fundingList, TradeSortType.SortByTimestamp);
-
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 }
