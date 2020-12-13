@@ -1,13 +1,13 @@
 package org.knowm.xchange.dvchain.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.dvchain.DVChain;
 import org.knowm.xchange.dvchain.dto.DVChainException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class DVChainBaseService extends BaseExchangeService implements BaseService {
   protected final DVChain dvChain;
@@ -17,8 +17,8 @@ public class DVChainBaseService extends BaseExchangeService implements BaseServi
 
     super(exchange);
     dvChain =
-        RestProxyFactory.createProxy(
-            DVChain.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(DVChain.class, exchange.getExchangeSpecification())
+            .build();
     authToken = exchange.getExchangeSpecification().getSecretKey();
   }
 

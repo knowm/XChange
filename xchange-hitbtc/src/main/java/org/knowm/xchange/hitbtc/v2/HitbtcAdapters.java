@@ -1,7 +1,11 @@
 package org.knowm.xchange.hitbtc.v2;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -24,7 +28,18 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.*;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcLimitOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.HitbtcUserTrade;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcMarketDataServiceRaw;
 
 public class HitbtcAdapters {
@@ -112,19 +127,15 @@ public class HitbtcAdapters {
       HitbtcOrderLimit[] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
+    final LimitOrder.Builder builder = new LimitOrder.Builder(orderType, currencyPair);
 
     for (HitbtcOrderLimit hitbtcOrderLimit : hitbtcOrders) {
-      LimitOrder limitOrder =
-          new LimitOrder(
-              orderType,
-              hitbtcOrderLimit.getSize(),
-              currencyPair,
-              null,
-              null,
-              hitbtcOrderLimit.getPrice());
-      orders.add(limitOrder);
+      orders.add(
+          builder
+              .originalAmount(hitbtcOrderLimit.getSize())
+              .limitPrice(hitbtcOrderLimit.getPrice())
+              .build());
     }
-
     return orders;
   }
 

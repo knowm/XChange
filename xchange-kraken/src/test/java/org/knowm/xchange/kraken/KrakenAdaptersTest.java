@@ -189,7 +189,7 @@ public class KrakenAdaptersTest {
     assertThat(wallet.getBalance(Currency.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
     assertThat(wallet.getBalance(Currency.BTC).getTotal())
         .isEqualTo(new BigDecimal("0.4888583300"));
-    assertThat(wallet.getBalance(Currency.getInstance("XDAO")).getTotal())
+    assertThat(wallet.getBalance(Currency.getInstance("XTSTCUR")).getTotal())
         .isEqualTo(new BigDecimal("10.123"));
   }
 

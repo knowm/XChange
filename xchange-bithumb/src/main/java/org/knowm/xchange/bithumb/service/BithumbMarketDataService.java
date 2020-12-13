@@ -50,7 +50,7 @@ public class BithumbMarketDataService extends BithumbMarketDataServiceRaw
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     try {
-      return BithumbAdapters.adaptTrades(getBithumbTrades(currencyPair), currencyPair);
+      return BithumbAdapters.adaptTransactions(getBithumbTrades(currencyPair), currencyPair);
     } catch (BithumbException e) {
       throw BithumbErrorAdapter.adapt(e);
     }

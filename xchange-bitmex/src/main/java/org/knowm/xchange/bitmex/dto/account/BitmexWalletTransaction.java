@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitmex.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.bitmex.AbstractHttpResponseAware;
+import org.knowm.xchange.bitmex.dto.BitmexDecimalDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -41,9 +41,11 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
   private String transactType;
 
   @JsonProperty("amount")
+  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal amount;
 
   @JsonProperty("fee")
+  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal fee;
 
   @JsonProperty("transactStatus")
@@ -59,16 +61,18 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
   private String text;
 
   @JsonProperty("transactTime")
-  private String transactTime;
+  private Date transactTime;
 
   @JsonProperty("walletBalance")
+  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal walletBalance;
 
   @JsonProperty("marginBalance")
+  @JsonDeserialize(using = BitmexDecimalDeserializer.class)
   private BigDecimal marginBalance;
 
   @JsonProperty("timestamp")
-  private String timestamp;
+  private Date timestamp;
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -112,7 +116,7 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
     return text;
   }
 
-  public String getTransactTime() {
+  public Date getTransactTime() {
     return transactTime;
   }
 
@@ -124,7 +128,7 @@ public final class BitmexWalletTransaction extends AbstractHttpResponseAware {
     return marginBalance;
   }
 
-  public String getTimestamp() {
+  public Date getTimestamp() {
     return timestamp;
   }
 

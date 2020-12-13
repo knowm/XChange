@@ -8,11 +8,8 @@ import org.knowm.xchange.coindeal.service.CoindealAccountService;
 import org.knowm.xchange.coindeal.service.CoindealMarketDataService;
 import org.knowm.xchange.coindeal.service.CoindealTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoindealExchange extends BaseExchange implements Exchange {
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -22,14 +19,8 @@ public class CoindealExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://apigateway.coindeal.com");
     exchangeSpecification.setHost("www.coindeal.com");
     exchangeSpecification.setPort(80);

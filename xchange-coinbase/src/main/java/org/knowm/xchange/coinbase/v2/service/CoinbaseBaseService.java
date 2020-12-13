@@ -2,9 +2,13 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import javax.crypto.Mac;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.coinbase.service.CoinbaseDigest;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.v2.CoinbaseV2Digest;
@@ -12,8 +16,7 @@ import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.Coinbas
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import org.knowm.xchange.utils.HmacDigest;
-import si.mazi.rescu.RestProxyFactory;
+import org.knowm.xchange.utils.DigestUtils;
 
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
 
@@ -24,10 +27,9 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
     coinbase =
-        RestProxyFactory.createProxy(
-            CoinbaseAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbaseAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     signatureCreator2 =
         CoinbaseV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
@@ -60,7 +62,9 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
   protected String getSignature(BigDecimal timestamp, HttpMethod method, String path, String body) {
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
     String message = timestamp + method.toString() + path + (body != null ? body : "");
-    return new HmacDigest("HmacSHA256", secretKey).hexDigest(message);
+    final Mac mac = CoinbaseDigest.createInstance(secretKey).getMac();
+    byte[] bytes = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
+    return DigestUtils.bytesToHex(bytes);
   }
 
   protected void showCurl(

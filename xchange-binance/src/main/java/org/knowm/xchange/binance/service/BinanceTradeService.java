@@ -8,15 +8,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Value;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
+import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.BinanceTrade;
 import org.knowm.xchange.binance.dto.trade.OrderType;
 import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -49,8 +51,11 @@ import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
-  public BinanceTradeService(Exchange exchange) {
-    super(exchange);
+  public BinanceTradeService(
+      BinanceExchange exchange,
+      BinanceAuthenticated binance,
+      ResilienceRegistries resilienceRegistries) {
+    super(exchange, binance, resilienceRegistries);
   }
 
   @Override
@@ -65,17 +70,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     try {
-      Long recvWindow =
-          (Long)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-
       List<BinanceOrder> binanceOpenOrders;
       if (params instanceof OpenOrdersParamCurrencyPair) {
         OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
         CurrencyPair pair = pairParams.getCurrencyPair();
-        binanceOpenOrders = super.openOrders(pair, recvWindow, getTimestamp());
+        binanceOpenOrders = super.openOrders(pair);
       } else {
-        binanceOpenOrders = super.openOrders(recvWindow, getTimestamp());
+        binanceOpenOrders = super.openOrders();
       }
 
       List<LimitOrder> limitOrders = new ArrayList<>();
@@ -151,9 +152,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               limitPrice,
               getClientOrderId(order),
               stopPrice,
-              null,
-              recvWindow,
-              getTimestamp());
+              null);
       return Long.toString(newOrder.orderId);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -176,9 +175,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
           limitPrice,
           getClientOrderId(order),
           stopPrice,
-          null,
-          recvWindow,
-          getTimestamp());
+          null);
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -213,16 +210,11 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       }
       CancelOrderByCurrencyPair paramCurrencyPair = (CancelOrderByCurrencyPair) params;
       CancelOrderByIdParams paramId = (CancelOrderByIdParams) params;
-      Long recvWindow =
-          (Long)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
       super.cancelOrder(
           paramCurrencyPair.getCurrencyPair(),
           BinanceAdapters.id(paramId.getOrderId()),
           null,
-          null,
-          recvWindow,
-          getTimestamp());
+          null);
       return true;
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
@@ -270,12 +262,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
       if ((fromId != null) && (startTime != null || endTime != null))
         throw new ExchangeException(
             "You should either specify the id from which you get the user trades from or start and end times. If you specify both, Binance will only honour the fromId parameter.");
-
-      Long recvWindow =
-          (Long)
-              exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
-      List<BinanceTrade> binanceTrades =
-          super.myTrades(pair, limit, startTime, endTime, fromId, recvWindow, getTimestamp());
+      List<BinanceTrade> binanceTrades = super.myTrades(pair, limit, startTime, endTime, fromId);
       List<UserTrade> trades =
           binanceTrades.stream()
               .map(
@@ -339,12 +326,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
                 super.orderStatus(
                     orderQueryParamCurrencyPair.getCurrencyPair(),
                     BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null,
-                    (Long)
-                        exchange
-                            .getExchangeSpecification()
-                            .getExchangeSpecificParametersItem("recvWindow"),
-                    getTimestamp())));
+                    null)));
       }
       return orders;
     } catch (BinanceException e) {

@@ -7,8 +7,6 @@ import org.knowm.xchange.exx.service.EXXAccountService;
 import org.knowm.xchange.exx.service.EXXMarketDataService;
 import org.knowm.xchange.exx.service.EXXTradeService;
 import org.knowm.xchange.utils.AuthUtils;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * kevinobamatheus@gmail.com
@@ -16,8 +14,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author kevingates
  */
 public class EXXExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -28,8 +24,7 @@ public class EXXExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
 
     exchangeSpecification.setSslUri("https://api.exx.com");
     exchangeSpecification.setHost("api.exx.com");
@@ -39,11 +34,5 @@ public class EXXExchange extends BaseExchange implements Exchange {
     AuthUtils.setApiAndSecretKey(exchangeSpecification, "exx");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
   }
 }

@@ -24,14 +24,33 @@ public class HuobiCreateOrderRequest {
   @JsonProperty("type")
   private String type;
 
+  @JsonProperty("client-order-id")
+  private String clOrdId;
+
+  @JsonProperty("stop-price")
+  private String stopPrice;
+
+  @JsonProperty("operator")
+  private String operator;
+
   public HuobiCreateOrderRequest(
-      String accountId, String amount, String price, String symbol, String type) {
+      String accountId,
+      String amount,
+      String price,
+      String symbol,
+      String type,
+      String clOrdId,
+      String stopPrice,
+      String operator) {
     this.accountId = accountId;
     this.amount = amount;
     this.price = price;
     this.symbol = symbol;
     this.type = type;
-    source = "api";
+    this.source = "api";
+    this.clOrdId = clOrdId;
+    this.stopPrice = stopPrice;
+    this.operator = operator;
   }
 
   public String getAccountId() {
@@ -56,5 +75,17 @@ public class HuobiCreateOrderRequest {
 
   public String getType() {
     return type;
+  }
+
+  public String getClOrdId() {
+    return clOrdId;
+  }
+
+  public String getStopPrice() {
+    return stopPrice;
+  }
+
+  public String getOperator() {
+    return operator;
   }
 }

@@ -17,6 +17,7 @@ import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiDepth;
 import org.knowm.xchange.huobi.dto.marketdata.HuobiTradeWrapper;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements MarketDataService {
 
@@ -27,6 +28,11 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     return HuobiAdapters.adaptTicker(getHuobiTicker(currencyPair), currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    return HuobiAdapters.adaptAllTickers(getHuobiAllTickers());
   }
 
   @Override

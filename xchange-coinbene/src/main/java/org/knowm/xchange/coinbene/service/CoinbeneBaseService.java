@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Map;
 import java.util.TreeMap;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbene.CoinbeneAuthenticated;
 import org.knowm.xchange.coinbene.CoinbeneException;
 import org.knowm.xchange.coinbene.dto.CoinbeneResponse;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CoinbeneBaseService extends BaseExchangeService implements BaseService {
 
@@ -29,10 +29,9 @@ public class CoinbeneBaseService extends BaseExchangeService implements BaseServ
   protected CoinbeneBaseService(Exchange exchange) {
     super(exchange);
     this.coinbene =
-        RestProxyFactory.createProxy(
-            CoinbeneAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbeneAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.secretKey = exchange.getExchangeSpecification().getSecretKey();
   }

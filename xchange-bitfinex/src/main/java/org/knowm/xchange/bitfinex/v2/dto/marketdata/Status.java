@@ -13,15 +13,17 @@ import lombok.ToString;
 @Getter
 @ToString
 
-/** see https://docs.bitfinex.com/v2/reference#status */
+/** see https://docs.bitfinex.com/reference#rest-public-status */
 public class Status {
 
   private String symbol;
+  /** Millisecond timestamp */
   private long timestamp;
+
   private Object placeHolder0;
-  /** Derivative last traded price. */
+  /** Derivative book mid price. */
   private BigDecimal derivPrice;
-  /** Last traded price of the underlying Bitfinex spot trading pair */
+  /** Book mid price of the underlying Bitfinex spot trading pair */
   private BigDecimal spotPrice;
 
   private Object placeHolder1;
@@ -29,7 +31,8 @@ public class Status {
   private BigDecimal insuranceFundBalance;
 
   private Object placeHolder2;
-  private Object placeHolder3;
+  /** Millisecond timestamp of next funding event */
+  private Long nextFundingEvtTimestampMillis;
   /** Current accrued funding for next 8h period */
   private BigDecimal nextFundingAccrued;
   /** Incremental accrual counter */
@@ -38,4 +41,22 @@ public class Status {
   private Object placeHolder4;
   /** Funding applied in the current 8h period */
   private BigDecimal currentFunding;
+
+  private Object placeHolder5;
+  private Object placeHolder6;
+  /** Price based on the BFX Composite Index */
+  private BigDecimal markPrice;
+
+  private Object placeHolder7;
+  private Object placeHolder8;
+  /** Total number of outstanding derivative contracts */
+  private BigDecimal openInterest;
+
+  private Object placeHolder9;
+  private Object placeHolder10;
+  private Object placeHolder11;
+  /** Range in the average spread that does not require a funding payment */
+  private BigDecimal clampMin;
+  /** Funding payment cap */
+  private BigDecimal clampMax;
 }

@@ -64,10 +64,10 @@ public final class GeminiAdapters {
     return currencyPairs;
   }
 
-  public static CurrencyPair adaptCurrencyPair(String GeminiSymbol) {
+  public static CurrencyPair adaptCurrencyPair(String symbol) {
 
-    String tradableIdentifier = GeminiSymbol.substring(0, 3).toUpperCase();
-    String transactionCurrency = GeminiSymbol.substring(3).toUpperCase();
+    String tradableIdentifier = symbol.substring(0, symbol.length() - 3).toUpperCase();
+    String transactionCurrency = symbol.substring(symbol.length() - 3).toUpperCase();
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 

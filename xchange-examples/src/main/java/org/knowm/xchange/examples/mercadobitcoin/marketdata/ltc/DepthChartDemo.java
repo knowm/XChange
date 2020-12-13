@@ -31,7 +31,7 @@ public class DepthChartDemo {
 
     // Use the factory to get the version 1 Mercado Bitcoin exchange API using default settings
     Exchange mercadoExchange =
-        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+        ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = mercadoExchange.getMarketDataService();

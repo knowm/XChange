@@ -1,14 +1,16 @@
 package org.knowm.xchange.dvchain;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dvchain.service.DVChainMarketDataService;
 import org.knowm.xchange.dvchain.service.DVChainTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class DVChainExchange extends BaseExchange {
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -25,8 +27,7 @@ public class DVChainExchange extends BaseExchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://trade.dvchain.co");
     exchangeSpecification.setHost("trade.dvchain.co");
     exchangeSpecification.setPort(80);
@@ -59,7 +60,6 @@ public class DVChainExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
     return nonceFactory;
   }
 }

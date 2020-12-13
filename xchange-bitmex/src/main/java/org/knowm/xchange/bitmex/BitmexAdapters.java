@@ -1,10 +1,7 @@
 package org.knowm.xchange.bitmex;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
@@ -24,8 +21,10 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.trade.*;
-import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitmexAdapters {
 
@@ -57,27 +56,6 @@ public class BitmexAdapters {
     }
 
     return bitmexDepth;
-  }
-
-  public static OpenPositions adaptOpenPositions(List<BitmexPosition> bitmexPositions)
-      throws InvalidFormatException {
-    List<OpenPosition> openPositions = new ArrayList<>();
-
-    for (BitmexPosition bitmexPosition : bitmexPositions) {
-      openPositions.add(
-          new OpenPosition(
-              (bitmexPosition.getCurrentQty().compareTo(BigDecimal.ZERO) > 0)
-                  ? OrderType.BID
-                  : OrderType.ASK,
-              bitmexPosition.getCurrentQty(),
-              adaptSymbolToCurrencyPair(bitmexPosition.getSymbol()),
-              null,
-              DateUtils.fromISODateString(bitmexPosition.getOpeningTimestamp()),
-              bitmexPosition.getAvgEntryPrice(),
-              bitmexPosition.getOpeningComm().divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32)));
-    }
-
-    return new OpenPositions(openPositions);
   }
 
   public static OrdersContainer adaptOrders(
@@ -123,16 +101,17 @@ public class BitmexAdapters {
 
     CurrencyPair pair = adaptSymbolToCurrencyPair(rawOrder.getSymbol());
 
-    return new LimitOrder.Builder(type,pair)
-            .id(rawOrder.getId())
-            .userReference(rawOrder.getClOrdID())
-            .originalAmount(rawOrder.getVolume())
-            .timestamp(rawOrder.getTimestamp())
-            .limitPrice(rawOrder.getPrice())
-            .averagePrice(rawOrder.getAvgPx())
-            .cumulativeAmount(rawOrder.getCumQty())
-            .orderStatus(BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()))
-            .build();
+    return new LimitOrder(
+        type,
+        rawOrder.getVolume(),
+        pair,
+        rawOrder.getId(),
+        rawOrder.getTimestamp(),
+        rawOrder.getPrice(),
+        rawOrder.getAvgPx(),
+        rawOrder.getCumQty(),
+        null,
+        BitmexAdapters.adaptOrderStatus(rawOrder.getOrderStatus()));
   }
 
   public static Ticker adaptTicker(BitmexTicker bitmexTicker, CurrencyPair currencyPair) {
@@ -297,6 +276,25 @@ public class BitmexAdapters {
     }
   }
 
+  public static String adaptCurrency(Currency currency) {
+    // bitmex seems to use a lowercase 't' in XBT
+    // can test this here - https://testnet.bitmex.com/api/explorer/#!/User/User_getDepositAddress
+    // uppercase 'T' will return 'Unknown currency code'
+    if (currency.getCurrencyCode().equals("BTC") || currency.getCurrencyCode().equals("XBT")) {
+      return "XBt";
+    }
+
+    return currency.getCurrencyCode();
+  }
+
+  public static Currency adaptCurrency(String currencyCode) {
+    if (currencyCode.equalsIgnoreCase("XBt")) {
+      return Currency.BTC;
+    }
+
+    return Currency.getInstance(currencyCode);
+  }
+
   public static String adaptCurrencyPairToSymbol(CurrencyPair currencyPair) {
     return currencyPair == null
         ? null
@@ -340,7 +338,7 @@ public class BitmexAdapters {
 
   public static UserTrade adoptUserTrade(BitmexPrivateExecution exec) {
     CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
-
+    // the "lastQty" parameter is in the USD currency for ???/USD pairs
     OrderType orderType = convertType(exec.side);
     return orderType == null
         ? null
@@ -350,29 +348,12 @@ public class BitmexAdapters {
             .currencyPair(pair)
             .originalAmount(exec.lastQty)
             .price(exec.lastPx)
-            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC,MathContext.DECIMAL32))
+            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC, MathContext.DECIMAL32))
             .feeCurrency(Currency.XBT)
             .timestamp(exec.timestamp)
             .type(orderType)
             .orderUserReference(exec.clOrdID)
             .build();
-  }
-
-  public static UserTrade adoptFundingRecords(BitmexPrivateExecution exec) {
-    CurrencyPair pair = BitmexAdapters.adaptSymbolToCurrencyPair(exec.symbol);
-
-    return exec.execType.equals("Funding")
-            ? new UserTrade.Builder()
-            .id(exec.execID)
-            .orderId(exec.orderID)
-            .currencyPair(pair)
-            .originalAmount(exec.lastQty)
-            .price(exec.lastPx)
-            .feeAmount(exec.execComm.divide(SATOSHIS_BY_BTC,MathContext.DECIMAL32))
-            .feeCurrency(Currency.XBT)
-            .timestamp(exec.timestamp)
-            .build()
-            : null;
   }
 
   private static OrderType convertType(String side) {
@@ -387,39 +368,42 @@ public class BitmexAdapters {
   }
 
   public static FundingRecord adaptFundingRecord(BitmexWalletTransaction walletTransaction) {
-
-    String datePattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-    SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
-    Date dateFunding = null;
-
-    try {
-      dateFunding = dateFormat.parse(walletTransaction.getTransactTime());
-    } catch (ParseException e) {
-      throw new IllegalArgumentException(e);
-    }
-
-    String currency = walletTransaction.getCurrency();
-
-    if (currency.equals("XBt")) {
-      currency = Currency.BTC.getCurrencyCode();
-    }
-
     return new FundingRecord(
         walletTransaction.getAddress(),
-        dateFunding,
-        Currency.getInstance(currency),
-        walletTransaction.getAmount().divide(SATOSHIS_BY_BTC),
+        walletTransaction.getTransactTime(),
+        adaptCurrency(walletTransaction.getCurrency()),
+        walletTransaction.getAmount().abs(),
         walletTransaction.getTransactID(),
         walletTransaction.getTx(),
-        walletTransaction.getTransactType().equals("Deposit")
-            ? FundingRecord.Type.DEPOSIT
-            : FundingRecord.Type.WITHDRAWAL,
-        FundingRecord.Status.COMPLETE,
-        null,
-        walletTransaction.getFee() != null
-            ? walletTransaction.getFee().divide(SATOSHIS_BY_BTC)
-            : null,
+        adaptFundingRecordtype(walletTransaction),
+        adaptFundingRecordStatus(walletTransaction.getTransactStatus()),
+        walletTransaction.getWalletBalance(),
+        walletTransaction.getFee(),
         walletTransaction.getText());
+  }
+
+  private static FundingRecord.Type adaptFundingRecordtype(
+      final BitmexWalletTransaction walletTransaction) {
+
+    String type = walletTransaction.getTransactType();
+    if (type.equalsIgnoreCase("Deposit")) {
+      return FundingRecord.Type.DEPOSIT;
+    } else if (type.equalsIgnoreCase("Withdrawal")) {
+      return FundingRecord.Type.WITHDRAWAL;
+    } else if (type.equalsIgnoreCase("RealisedPNL") || type.equalsIgnoreCase("UnrealisedPNL")) {
+      // 'RealisedPNL' will always have transactStatus = Completed whereas 'UnrealisedPNL' will
+      // always be transactStatus = Pending
+      if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+        return FundingRecord.Type.REALISED_PROFIT;
+      } else if (walletTransaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        return FundingRecord.Type.REALISED_LOSS;
+      }
+    }
+
+    throw new ExchangeException("Unknown FundingRecord.Type");
+  }
+
+  private static FundingRecord.Status adaptFundingRecordStatus(final String transactStatus) {
+    return FundingRecord.Status.resolveStatus(transactStatus);
   }
 }
