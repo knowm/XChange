@@ -35,8 +35,12 @@ public class BithumbDigest extends BaseParamsDigest {
     final String requestBody;
     if (restInvocation.getParamsMap().containsKey(FormParam.class)) {
       requestBody =
-          restInvocation.getParamsMap().getOrDefault(FormParam.class, Params.of()).asHttpHeaders()
-              .entrySet().stream()
+          restInvocation
+              .getParamsMap()
+              .getOrDefault(FormParam.class, Params.of())
+              .asHttpHeaders()
+              .entrySet()
+              .stream()
               .map(
                   e -> {
                     final String value =

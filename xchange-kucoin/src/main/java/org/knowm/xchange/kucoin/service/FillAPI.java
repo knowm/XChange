@@ -46,7 +46,7 @@ public interface FillAPI {
       @QueryParam("type") String type,
       @QueryParam("startAt") Long startAt,
       @QueryParam("endAt") Long endAt,
-      @QueryParam("pageSize") int pageSize,
-      @QueryParam("currentPage") int currentPage)
+      @QueryParam("pageSize") Integer pageSize,
+      @QueryParam("currentPage") Integer currentPage)
       throws IOException;
 }

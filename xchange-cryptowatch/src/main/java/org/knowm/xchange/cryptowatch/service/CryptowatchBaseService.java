@@ -1,10 +1,11 @@
 package org.knowm.xchange.cryptowatch.service;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ClientConfigCustomizer;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.cryptowatch.Cryptowatch;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-import si.mazi.rescu.RestProxyFactory;
 
 public class CryptowatchBaseService extends BaseExchangeService implements BaseService {
 
@@ -12,8 +13,11 @@ public class CryptowatchBaseService extends BaseExchangeService implements BaseS
 
   public CryptowatchBaseService(Exchange exchange) {
     super(exchange);
+    ClientConfigCustomizer clientConfigCustomizer = config -> config.setIgnoreHttpErrorCodes(true);
     cryptowatch =
-        RestProxyFactory.createProxy(
-            Cryptowatch.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                Cryptowatch.class, exchange.getExchangeSpecification())
+            .clientConfigCustomizer(clientConfigCustomizer)
+            .build();
   }
 }

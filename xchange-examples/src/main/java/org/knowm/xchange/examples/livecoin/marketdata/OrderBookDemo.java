@@ -14,8 +14,7 @@ public class OrderBookDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange livecoinExchange =
-        ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class);
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = livecoinExchange.getMarketDataService();

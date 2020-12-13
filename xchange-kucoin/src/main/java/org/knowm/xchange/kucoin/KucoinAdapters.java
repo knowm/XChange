@@ -129,7 +129,7 @@ public class KucoinAdapters {
   }
 
   public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {
-    Date timestamp = new Date(Long.parseLong(kc.getSequence()));
+    Date timestamp = new Date(kc.getTime());
     List<LimitOrder> asks =
         kc.getAsks().stream()
             .map(PriceAndSize::new)

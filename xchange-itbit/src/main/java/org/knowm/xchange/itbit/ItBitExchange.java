@@ -6,12 +6,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.itbit.service.ItBitAccountService;
 import org.knowm.xchange.itbit.service.ItBitMarketDataService;
 import org.knowm.xchange.itbit.service.ItBitTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -23,8 +19,7 @@ public class ItBitExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.itbit.com");
     exchangeSpecification.setHost("api.itbit.com");
     exchangeSpecification.setPort(443);
@@ -33,11 +28,5 @@ public class ItBitExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://api.itbit.com");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
   }
 }

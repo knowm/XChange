@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbase.service;
 import java.io.IOException;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.coinbase.CoinbaseAuthenticated;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseToken;
@@ -12,7 +13,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 /** @author jamespedwards42 */
 public class CoinbaseBaseService extends BaseExchangeService implements BaseService {
@@ -30,10 +30,9 @@ public class CoinbaseBaseService extends BaseExchangeService implements BaseServ
     super(exchange);
 
     coinbase =
-        RestProxyFactory.createProxy(
-            CoinbaseAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                CoinbaseAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator =
         CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

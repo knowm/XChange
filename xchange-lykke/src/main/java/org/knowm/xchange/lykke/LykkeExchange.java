@@ -20,13 +20,8 @@ import org.knowm.xchange.lykke.dto.marketdata.LykkeAssetPair;
 import org.knowm.xchange.lykke.service.LykkeAccountService;
 import org.knowm.xchange.lykke.service.LykkeMarketDataService;
 import org.knowm.xchange.lykke.service.LykkeTradeService;
-import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class LykkeExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory =
-      new AtomicLongCurrentTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {
@@ -36,14 +31,8 @@ public class LykkeExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://hft-api.lykke.com/");
     exchangeSpecification.setHost("lykke.com");
     exchangeSpecification.setPort(80);

@@ -15,8 +15,7 @@ public class CoinbaseproTradesDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);

@@ -3,9 +3,10 @@ package org.knowm.xchange.lgo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import org.apache.commons.io.IOUtils;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -34,7 +35,12 @@ public class LgoExchangeMetadataIntegration {
   }
 
   private String readResource(String path) throws IOException {
-    InputStream stream = LgoExchange.class.getResourceAsStream(path);
-    return IOUtils.toString(stream, StandardCharsets.UTF_8);
+    try {
+      return new String(
+          Files.readAllBytes(Paths.get(getClass().getResource(path).toURI())),
+          StandardCharsets.UTF_8);
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 }

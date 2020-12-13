@@ -24,21 +24,21 @@ import lombok.ToString;
 @ToString
 public class CryptowatchOHLCs {
 
-  private final Map<Integer, List<CryptowatchOHLC>> OHLCs;
+  private final Map<String, List<CryptowatchOHLC>> OHLCs;
 
   static class CryptowatchOHLCsDeserializer extends JsonDeserializer<CryptowatchOHLCs> {
 
     @Override
     public CryptowatchOHLCs deserialize(JsonParser jsonParser, DeserializationContext ctxt)
         throws IOException {
-      Map<Integer, List<CryptowatchOHLC>> cwOHLCs = new HashMap<>();
+      Map<String, List<CryptowatchOHLC>> cwOHLCs = new HashMap<>();
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
 
       Iterator<Map.Entry<String, JsonNode>> tradesResultIterator = node.fields();
       while (tradesResultIterator.hasNext()) {
         Map.Entry<String, JsonNode> entry = tradesResultIterator.next();
-        Integer key = Integer.valueOf(entry.getKey());
+        String key = entry.getKey();
         JsonNode value = entry.getValue();
 
         List<CryptowatchOHLC> ohlcs = new ArrayList<>();

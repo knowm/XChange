@@ -12,12 +12,9 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.service.QuoineAccountService;
 import org.knowm.xchange.quoine.service.QuoineMarketDataService;
 import org.knowm.xchange.quoine.service.QuoineTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
   private Map<CurrencyPair, Integer> products;
 
   @Override
@@ -34,20 +31,13 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://api.liquid.com");
     exchangeSpecification.setExchangeName("Quoine");
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Margin", false);
     exchangeSpecification.setExchangeSpecificParametersItem("Leverage_Level", "1");
     exchangeSpecification.setHttpReadTimeout(10000);
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
   }
 
   @Override

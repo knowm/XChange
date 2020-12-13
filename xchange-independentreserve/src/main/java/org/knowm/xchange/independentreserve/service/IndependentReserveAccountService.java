@@ -46,6 +46,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   }
 
   @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    return getDigitalCurrencyDepositAddress(currency.getCurrencyCode());
+  }
+
+  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws IOException {
     withdrawDigitalCurrency(amount, address, "", currency.getCurrencyCode(), null);
@@ -92,7 +97,10 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
     final IndependentReserveBalance bal = getIndependentReserveBalance();
     final Currency currency = historyParams.getCurrency();
     return bal.getIndependentReserveAccounts().stream()
-        .filter(acc -> currency == null || currency.getCurrencyCode().equals(acc.getCurrencyCode()))
+        .filter(
+            acc ->
+                currency == null
+                    || currency.getCurrencyCode().equalsIgnoreCase(acc.getCurrencyCode()))
         .map(
             acc -> {
               try {
@@ -103,7 +111,8 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
                         historyParams.transactionTypes,
                         historyParams.getPageNumber(),
                         historyParams.getPageLength())
-                    .getIndependentReserveTranasactions().stream()
+                    .getIndependentReserveTranasactions()
+                    .stream()
                     .map(IndependentReserveAdapters::adaptTransaction);
               } catch (IndependentReserveHttpStatusException | IOException e) {
                 throw new ExchangeException(e);

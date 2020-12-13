@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -16,6 +17,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinErrorAdapter;
 import org.knowm.xchange.livecoin.LivecoinExchange;
@@ -36,8 +38,11 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class LivecoinTradeService extends LivecoinTradeServiceRaw implements TradeService {
-  public LivecoinTradeService(LivecoinExchange livecoinExchange) {
-    super(livecoinExchange);
+  public LivecoinTradeService(
+      LivecoinExchange livecoinExchange,
+      Livecoin livecoin,
+      ResilienceRegistries resilienceRegistries) {
+    super(livecoinExchange, livecoin, resilienceRegistries);
   }
 
   @Override
