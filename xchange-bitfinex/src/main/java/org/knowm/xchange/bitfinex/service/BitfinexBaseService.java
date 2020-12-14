@@ -2,7 +2,7 @@ package org.knowm.xchange.bitfinex.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
-import org.knowm.xchange.bitfinex.v1.BitfinexHmacPostBodyDigest;
+import org.knowm.xchange.bitfinex.v1.BitfinexDigest;
 import org.knowm.xchange.bitfinex.v2.BitfinexHmacSignature;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -34,8 +34,7 @@ public class BitfinexBaseService extends BaseExchangeService implements BaseServ
             .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
-        BitfinexHmacPostBodyDigest.createInstance(
-            exchange.getExchangeSpecification().getSecretKey());
+        BitfinexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new BitfinexPayloadDigest();
 
     this.bitfinexV2 =

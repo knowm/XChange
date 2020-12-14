@@ -6,8 +6,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Matija Mazi */
 public class BTCMarketsExchange extends BaseExchange implements Exchange {
@@ -39,14 +37,5 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCMarkets");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  public void setNonceFactory(SynchronizedValueFactory<Long> nonceFactory) {
-    this.nonceFactory = nonceFactory;
   }
 }
