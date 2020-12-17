@@ -31,9 +31,23 @@ public class SerumConfigs {
   }
 
   public enum Env {
-    MAINNET,
-    TESTNET,
-    DEVNET
+    MAINNET("api.mainnet-beta.solana.com"),
+    TESTNET("testnet.solana.com"),
+    DEVNET("devnet.solana.com");
+
+    private final String url;
+
+    Env(final String url) {
+      this.url = url;
+    }
+
+    public String wsUrl() {
+      return "wss://" + url;
+    }
+
+    public String restUrl() {
+      return "http://" + url;
+    }
   }
 
   public static final String environment = "Env";
