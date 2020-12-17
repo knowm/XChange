@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.serum;
 
-import com.knowm.xchange.serum.SerumConfigs.Env;
+import com.knowm.xchange.serum.SerumConfigs.Solana;
 import com.knowm.xchange.serum.SerumExchange;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -12,70 +12,67 @@ import org.knowm.xchange.ExchangeSpecification;
 
 public class SerumStreamingExchange extends SerumExchange implements StreamingExchange {
 
-    public static final String MAINNET_URL = "wss://api.mainnet-beta.solana.com";
-    public static final String TESTNET_URL = "wss://testnet.solana.com";
-    public static final String DEVNET_URL = "wss://devnet.solana.com";
+  private SerumStreamingService streamingService;
 
-    private SerumStreamingService streamingService;
+  @Override
+  public Completable connect(ProductSubscription... args) {
 
-    @Override
-    public Completable connect(ProductSubscription... args) {
+    final String url =
+        Solana.valueOf(
+                String.valueOf(getExchangeSpecification().getExchangeSpecificParametersItem("Env")))
+            .wsUrl();
+    this.streamingService = new SerumStreamingService(url);
+    return this.streamingService.connect();
+  }
 
-        final ExchangeSpecification exchangeSpec = getExchangeSpecification();
-        final Env env = Env.valueOf(String.valueOf(exchangeSpec.getExchangeSpecificParametersItem("Env")));
-        String url;
-        switch (env) {
-            case DEVNET:
-                url = DEVNET_URL;
-                break;
-            case TESTNET:
-                url = TESTNET_URL;
-                break;
-            case MAINNET:
-                url = MAINNET_URL;
-                break;
-            default:
-                throw new UnsupportedOperationException("Env unsupported");
-        }
-        this.streamingService = new SerumStreamingService(url);
-        return this.streamingService.connect();
-    }
+  @Override
+  public Completable disconnect() {
+    final SerumStreamingService service = streamingService;
+    streamingService = null;
+    return service.disconnect();
+  }
 
-    @Override
-    public Completable disconnect() {
-        final SerumStreamingService service = streamingService;
-        streamingService = null;
-        return service.disconnect();
-    }
+  @Override
+  public Observable<Throwable> reconnectFailure() {
+    return streamingService.subscribeReconnectFailure();
+  }
 
-    @Override
-    public Observable<Throwable> reconnectFailure() {
-        return streamingService.subscribeReconnectFailure();
-    }
+  @Override
+  public Observable<Object> connectionSuccess() {
+    return streamingService.subscribeConnectionSuccess();
+  }
 
-    @Override
-    public Observable<Object> connectionSuccess() {
-        return streamingService.subscribeConnectionSuccess();
-    }
+  @Override
+  public Observable<ConnectionStateModel.State> connectionStateObservable() {
+    return streamingService.subscribeConnectionState();
+  }
 
-    @Override
-    public Observable<ConnectionStateModel.State> connectionStateObservable() {
-        return streamingService.subscribeConnectionState();
-    }
+  @Override
+  public boolean isAlive() {
+    return streamingService != null && streamingService.isSocketOpen();
+  }
 
+  @Override
+  public StreamingMarketDataService getStreamingMarketDataService() {
+    return null;
+  }
 
-    @Override
-    public boolean isAlive() {
-        return streamingService != null && streamingService.isSocketOpen();
-    }
+  @Override
+  public void useCompressedMessages(boolean compressedMessages) {
+    streamingService.useCompressedMessages(compressedMessages);
+  }
 
-    @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
-        return null;
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    final ExchangeSpecification exchangeSpec = new ExchangeSpecification(this.getClass());
+    exchangeSpec.setSslUri(Solana.MAINNET.restUrl());
+    exchangeSpec.setHost("projectserum.com");
+    exchangeSpec.setPort(80);
+    exchangeSpec.setExchangeName("Serum");
+    exchangeSpec.setExchangeDescription(
+        "Serum is a decentralized cryptocurrency exchange built on Solana.");
+    exchangeSpec.setExchangeSpecificParametersItem("Env", "MAINNET");
 
-    @Override
-    public void useCompressedMessages(boolean compressedMessages) {
-        streamingService.useCompressedMessages(compressedMessages);
-    }
+    return exchangeSpec;
+  }
 }

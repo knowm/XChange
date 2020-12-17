@@ -1,8 +1,8 @@
 package com.knowm.xchange.serum;
 
+import com.knowm.xchange.serum.SerumConfigs.Solana;
 import com.knowm.xchange.serum.service.SerumMarketDataService;
 import com.knowm.xchange.serum.service.SerumMarketDataServiceRaw;
-import com.knowm.xchange.serum.SerumConfigs.Solana;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
