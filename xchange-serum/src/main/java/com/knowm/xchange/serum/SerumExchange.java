@@ -8,7 +8,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class SerumExchange extends BaseExchange implements Exchange {
 
   protected final Logger logger = LoggerFactory.getLogger(SerumExchange.class);
@@ -35,7 +34,7 @@ public class SerumExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() {
     try {
-      SerumAdapters.loadMarkets((SerumMarketDataServiceRaw)this.marketDataService);
+      SerumAdapters.loadMarkets((SerumMarketDataServiceRaw) this.marketDataService);
     } catch (Exception e) {
       logger.error("Unable to load markets", e);
     }

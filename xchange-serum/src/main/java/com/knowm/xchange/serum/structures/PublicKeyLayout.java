@@ -7,9 +7,10 @@ import com.knowm.xchange.serum.dto.PublicKey;
 
 public class PublicKeyLayout {
 
-    @Bin(order = 1, name = "publicKeyLayout", type = BinType.BYTE_ARRAY) byte[] publicKeyLayout;
+  @Bin(order = 1, name = "publicKeyLayout", type = BinType.BYTE_ARRAY)
+  byte[] publicKeyLayout;
 
-    public PublicKey getPublicKey() {
-        return new PublicKey(Base58.encode(publicKeyLayout));
-    }
+  public PublicKey getPublicKey() {
+    return new PublicKey(Base58.encode(publicKeyLayout));
+  }
 }
