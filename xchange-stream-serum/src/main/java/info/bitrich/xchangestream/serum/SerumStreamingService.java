@@ -24,6 +24,7 @@ public class SerumStreamingService extends JsonNettyStreamingService {
 
   private final String RESULT = "result";
   private final String SUBSCRIPTION = "subscription";
+  private final String PARAMS = "params";
   private final String ID = "id";
 
   public SerumStreamingService(String apiUrl) {
@@ -46,8 +47,8 @@ public class SerumStreamingService extends JsonNettyStreamingService {
    */
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
-    if (message.has(SUBSCRIPTION)) {
-      final int subID = message.get(SUBSCRIPTION).intValue();
+    if (message.has(PARAMS) && message.get(PARAMS).has(SUBSCRIPTION)) {
+      final int subID = message.get(PARAMS).get(SUBSCRIPTION).intValue();
       return subscriptionManager.getChannelName(subID);
     }
     return null;
