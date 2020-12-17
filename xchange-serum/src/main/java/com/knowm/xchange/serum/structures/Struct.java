@@ -49,7 +49,7 @@ public class Struct {
 
   /**
    * Method was taken from
-   *  https://github.com/project-serum/serum-ts/blob/master/packages/serum/src/tokens_and_markets.ts
+   * https://github.com/project-serum/serum-ts/blob/master/packages/serum/src/tokens_and_markets.ts
    */
   static int getLayoutVersion(final PublicKey programId) {
     if (programId.equals(DEPRECATED_PROGRAM_ID_1) || programId.equals(DEPRECATED_PROGRAM_ID_2)) {
