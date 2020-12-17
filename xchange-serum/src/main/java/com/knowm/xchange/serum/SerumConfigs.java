@@ -30,14 +30,14 @@ public class SerumConfigs {
     signatureSubscribe
   }
 
-  public enum Env {
+  public enum Solana {
     MAINNET("api.mainnet-beta.solana.com"),
     TESTNET("testnet.solana.com"),
     DEVNET("devnet.solana.com");
 
     private final String url;
 
-    Env(final String url) {
+    Solana(final String url) {
       this.url = url;
     }
 
