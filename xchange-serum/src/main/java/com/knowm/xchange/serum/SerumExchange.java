@@ -2,6 +2,7 @@ package com.knowm.xchange.serum;
 
 import com.knowm.xchange.serum.service.SerumMarketDataService;
 import com.knowm.xchange.serum.service.SerumMarketDataServiceRaw;
+import com.knowm.xchange.serum.SerumConfigs.Env;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -21,7 +22,7 @@ public class SerumExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://api.mainnet-beta.solana.com");
+    exchangeSpecification.setSslUri(Env.MAINNET.restUrl());
     exchangeSpecification.setHost("projectserum.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Serum");
