@@ -176,6 +176,7 @@
     <module>xchange-poloniex</module>
     <module>xchange-quoine</module>
     <module>xchange-ripple</module>
+    <module>xchange-serum</module>
     <module>xchange-simulated</module>
     <module>xchange-therock</module>
     <module>xchange-tradeogre</module>
@@ -205,6 +206,7 @@
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
     <module>xchange-stream-poloniex2</module>
+    <module>xchange-stream-serum</module>
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
