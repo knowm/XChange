@@ -74,15 +74,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       case ORDERBOOK:
         {
           CurrencyPair currencyPair = (CurrencyPair) args[0];
-          int depth = 0;
-          if (args[1] != null && args[1] instanceof Object[] && ((Object[]) args[1]).length > 0) {
-            Object[] objArgs = (Object[]) args[1];
-            if (objArgs.length > 0 && objArgs[0] instanceof Integer) {
-              depth = (Integer) objArgs[0];
-            } else {
-              throw new IllegalArgumentException("Wrong value for depth parameter: " + objArgs);
-            }
-          }
+          int depth = (Integer) args[1];
           return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe, depth);
         }
       default:
