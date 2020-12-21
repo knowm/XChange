@@ -11,11 +11,12 @@ import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class CexioStreamingRawService extends JsonNettyStreamingService {
 
@@ -73,7 +74,8 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
       case ORDERBOOK:
         {
           CurrencyPair currencyPair = (CurrencyPair) args[0];
-          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe);
+          int depth = (Integer) args[1];
+          return new CexioWebSocketOrderBookSubscriptionData(currencyPair, isSubscribe, depth);
         }
       default:
         {
