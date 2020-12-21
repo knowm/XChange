@@ -30,12 +30,12 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
   }
 
   public BitsoBalance getBitsoBalance() throws IOException {
-
-    BitsoBalance bitsoBalance =
-        bitsoAuthenticated.getBalance(
-            exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator,
-            exchange.getNonceFactory());
+	String auth=signatureCreator.digestParams("GET","/v3/balance/",null);
+//	System.out.println("========================================================");
+	System.out.println(auth);
+    BitsoBalance bitsoBalance = bitsoAuthenticated.getBalance(auth);
+    System.out.println(bitsoBalance);
+    System.out.println("========================================================");
     if (bitsoBalance.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitsoBalance.getError());
     }
