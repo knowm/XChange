@@ -2,154 +2,164 @@ package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.dto.Order;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class FtxOrderDto {
 
-    private final Date createdAt;
+  private final Date createdAt;
 
-    private final BigDecimal filledSize;
+  private final BigDecimal filledSize;
 
-    private final String future;
+  private final String future;
 
-    private final String id;
+  private final String id;
 
-    private final String market;
+  private final String market;
 
-    private final BigDecimal price;
+  private final BigDecimal price;
 
-    private final BigDecimal remainingSize;
+  private final BigDecimal avgFillPrice;
 
-    private final FtxOrderSide side;
+  private final BigDecimal remainingSize;
 
-    private final BigDecimal size;
+  private final FtxOrderSide side;
 
-    private final String status;
+  private final BigDecimal size;
 
-    private final FtxOrderType type;
+  private final Order.OrderStatus status;
 
-    private final boolean reduceOnly;
+  private final FtxOrderType type;
 
-    private final boolean ioc;
+  private final boolean reduceOnly;
 
-    private final boolean postOnly;
+  private final boolean ioc;
 
-    private final String clientId;
+  private final boolean postOnly;
 
-    @JsonCreator
-    public FtxOrderDto(
-        @JsonProperty("createdAt") Date createdAt,
-        @JsonProperty("filledSize") BigDecimal filledSize,
-        @JsonProperty("future") String future,
-        @JsonProperty("id") String id,
-        @JsonProperty("market") String market,
-        @JsonProperty("price") BigDecimal price,
-        @JsonProperty("remainingSize") BigDecimal remainingSize,
-        @JsonProperty("side") FtxOrderSide side,
-        @JsonProperty("size") BigDecimal size,
-        @JsonProperty("status") String status,
-        @JsonProperty("type") FtxOrderType type,
-        @JsonProperty("reduceOnly") boolean reduceOnly,
-        @JsonProperty("ioc") boolean ioc,
-        @JsonProperty("postOnly") boolean postOnly,
-        @JsonProperty("clientId") String clientId) {
-        this.createdAt = createdAt;
-        this.filledSize = filledSize;
-        this.future = future;
-        this.id = id;
-        this.market = market;
-        this.price = price;
-        this.remainingSize = remainingSize;
-        this.side = side;
-        this.size = size;
-        this.status = status;
-        this.type = type;
-        this.reduceOnly = reduceOnly;
-        this.ioc = ioc;
-        this.postOnly = postOnly;
-        this.clientId = clientId;
-    }
+  private final String clientId;
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+  @JsonCreator
+  public FtxOrderDto(
+      @JsonProperty("createdAt") Date createdAt,
+      @JsonProperty("filledSize") BigDecimal filledSize,
+      @JsonProperty("future") String future,
+      @JsonProperty("id") String id,
+      @JsonProperty("market") String market,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("remainingSize") BigDecimal remainingSize,
+      @JsonProperty("avgFillPrice") BigDecimal avgFillPrice,
+      @JsonProperty("side") FtxOrderSide side,
+      @JsonProperty("size") BigDecimal size,
+      @JsonProperty("status") String status,
+      @JsonProperty("type") FtxOrderType type,
+      @JsonProperty("reduceOnly") boolean reduceOnly,
+      @JsonProperty("ioc") boolean ioc,
+      @JsonProperty("postOnly") boolean postOnly,
+      @JsonProperty("clientId") String clientId) {
+    this.createdAt = createdAt;
+    this.filledSize = filledSize;
+    this.future = future;
+    this.id = id;
+    this.market = market;
+    this.price = price;
+    this.remainingSize = remainingSize;
+    this.avgFillPrice = avgFillPrice;
+    this.side = side;
+    this.size = size;
+    this.status = Order.OrderStatus.valueOf(status.toUpperCase());
+    this.type = type;
+    this.reduceOnly = reduceOnly;
+    this.ioc = ioc;
+    this.postOnly = postOnly;
+    this.clientId = clientId;
+  }
 
-    public BigDecimal getFilledSize() {
-        return filledSize;
-    }
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-    public String getFuture() {
-        return future;
-    }
+  public BigDecimal getFilledSize() {
+    return filledSize;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getFuture() {
+    return future;
+  }
 
-    public String getMarket() {
-        return market;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public String getMarket() {
+    return market;
+  }
 
-    public BigDecimal getRemainingSize() {
-        return remainingSize;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public FtxOrderSide getSide() {
-        return side;
-    }
+  public BigDecimal getAvgFillPrice() {
+    return avgFillPrice;
+  }
 
-    public BigDecimal getSize() {
-        return size;
-    }
+  public BigDecimal getRemainingSize() {
+    return remainingSize;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public FtxOrderSide getSide() {
+    return side;
+  }
 
-    public FtxOrderType getType() {
-        return type;
-    }
+  public BigDecimal getSize() {
+    return size;
+  }
 
-    public boolean isReduceOnly() {
-        return reduceOnly;
-    }
+  public Order.OrderStatus getStatus() {
+    return status;
+  }
 
-    public boolean isIoc() {
-        return ioc;
-    }
+  public FtxOrderType getType() {
+    return type;
+  }
 
-    public boolean isPostOnly() {
-        return postOnly;
-    }
+  public boolean isReduceOnly() {
+    return reduceOnly;
+  }
 
-    public String getClientId() {
-        return clientId;
-    }
+  public boolean isIoc() {
+    return ioc;
+  }
 
-    @Override
-    public String toString() {
-        return "FtxOrderDto{" +
+  public boolean isPostOnly() {
+    return postOnly;
+  }
+
+  public String getClientId() {
+    return clientId;
+  }
+
+  @Override
+  public String toString() {
+    return "FtxOrderDto{" +
             "createdAt=" + createdAt +
             ", filledSize=" + filledSize +
             ", future='" + future + '\'' +
             ", id='" + id + '\'' +
             ", market='" + market + '\'' +
             ", price=" + price +
+            ", avgFillPrice=" + avgFillPrice +
             ", remainingSize=" + remainingSize +
-            ", side='" + side + '\'' +
+            ", side=" + side +
             ", size=" + size +
-            ", status='" + status + '\'' +
-            ", type='" + type + '\'' +
+            ", status=" + status +
+            ", type=" + type +
             ", reduceOnly=" + reduceOnly +
             ", ioc=" + ioc +
             ", postOnly=" + postOnly +
             ", clientId='" + clientId + '\'' +
             '}';
-    }
+  }
 }

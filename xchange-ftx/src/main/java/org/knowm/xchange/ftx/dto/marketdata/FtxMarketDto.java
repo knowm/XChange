@@ -2,148 +2,238 @@ package org.knowm.xchange.ftx.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class FtxMarketDto {
 
-    @JsonProperty("name")
-    private final String name;
+  @JsonProperty("ask")
+  private final BigDecimal ask;
 
-    @JsonProperty("baseCurrency")
-    private final String baseCurrency;
+  @JsonProperty("baseCurrency")
+  private final String baseCurrency;
 
-    @JsonProperty("quoteCurrency")
-    private final String quoteCurrency;
+  @JsonProperty("bid")
+  private final BigDecimal bid;
 
-    @JsonProperty("type")
-    private final String type;
+  @JsonProperty("change1h")
+  private final BigDecimal change1h;
 
-    @JsonProperty("underlying")
-    private final String underlying;
+  @JsonProperty("change24h")
+  private final BigDecimal change24h;
 
-    @JsonProperty("enabled")
-    private final boolean enabled;
+  @JsonProperty("changeBod")
+  private final BigDecimal changeBod;
 
-    @JsonProperty("ask")
-    private final BigDecimal ask;
+  @JsonProperty("enabled")
+  private final boolean enabled;
 
-    @JsonProperty("bid")
-    private final BigDecimal bid;
+  @JsonProperty("highLeverageFeeExempt")
+  private final boolean highLeverageFeeExempt;
 
-    @JsonProperty("last")
-    private final BigDecimal last;
+  @JsonProperty("last")
+  private final BigDecimal last;
 
-    @JsonProperty("postOnly")
-    private final boolean postOnly;
+  @JsonProperty("minProvideSize")
+  private final BigDecimal minProvideSize;
 
-    @JsonProperty("priceIncrement")
-    private final BigDecimal priceIncrement;
+  @JsonProperty("name")
+  private final String name;
 
-    @JsonProperty("sizeIncrement")
-    private final BigDecimal sizeIncrement;
+  @JsonProperty("postOnly")
+  private final boolean postOnly;
 
-    @JsonProperty("restricted")
-    private final boolean restricted;
+  @JsonProperty("price")
+  private final BigDecimal price;
 
-    @JsonCreator
-    public FtxMarketDto(
-        @JsonProperty("name")String name,
-        @JsonProperty("baseCurrency")String baseCurrency,
-        @JsonProperty("quoteCurrency") String quoteCurrency,
-        @JsonProperty("type") String type,
-        @JsonProperty("underlying") String underlying,
-        @JsonProperty("enabled") boolean enabled,
-        @JsonProperty("ask") BigDecimal ask,
-        @JsonProperty("bid") BigDecimal bid,
-        @JsonProperty("last") BigDecimal last,
-        @JsonProperty("postOnly") boolean postOnly,
-        @JsonProperty("priceIncrement") BigDecimal priceIncrement,
-        @JsonProperty("sizeIncrement") BigDecimal sizeIncrement,
-        @JsonProperty("restricted") boolean restricted) {
-        this.name = name;
-        this.baseCurrency = baseCurrency;
-        this.quoteCurrency = quoteCurrency;
-        this.type = type;
-        this.underlying = underlying;
-        this.enabled = enabled;
-        this.ask = ask;
-        this.bid = bid;
-        this.last = last;
-        this.postOnly = postOnly;
-        this.priceIncrement = priceIncrement;
-        this.sizeIncrement = sizeIncrement;
-        this.restricted = restricted;
-    }
+  @JsonProperty("priceIncrement")
+  private final BigDecimal priceIncrement;
 
-    public String getName() {
-        return name;
-    }
+  @JsonProperty("quoteCurrency")
+  private final String quoteCurrency;
 
-    public String getBaseCurrency() {
-        return baseCurrency;
-    }
+  @JsonProperty("quoteVolume24h")
+  private final BigDecimal quoteVolume24h;
 
-    public String getQuoteCurrency() {
-        return quoteCurrency;
-    }
+  @JsonProperty("restricted")
+  private final boolean restricted;
 
-    public String getType() {
-        return type;
-    }
+  @JsonProperty("sizeIncrement")
+  private final BigDecimal sizeIncrement;
 
-    public String getUnderlying() {
-        return underlying;
-    }
+  @JsonProperty("tokenizedEquity")
+  private final boolean tokenizedEquity;
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @JsonProperty("type")
+  private final String type;
 
-    public BigDecimal getAsk() {
-        return ask;
-    }
+  @JsonProperty("underlying")
+  private final String underlying;
 
-    public BigDecimal getBid() {
-        return bid;
-    }
+  @JsonProperty("volumeUsd24h")
+  private final BigDecimal volumeUsd24h;
 
-    public BigDecimal getLast() {
-        return last;
-    }
+  @JsonCreator
+  public FtxMarketDto(
+          @JsonProperty("ask") BigDecimal ask,
+          @JsonProperty("baseCurrency") String baseCurrency,
+          @JsonProperty("bid") BigDecimal bid,
+          @JsonProperty("change1h") BigDecimal change1h,
+          @JsonProperty("change24h") BigDecimal change24h,
+          @JsonProperty("changeBod") BigDecimal changeBod,
+          @JsonProperty("enabled") boolean enabled,
+          @JsonProperty("highLeverageFeeExempt") boolean highLeverageFeeExempt,
+          @JsonProperty("last") BigDecimal last,
+          @JsonProperty("minProvideSize") BigDecimal minProvideSize,
+          @JsonProperty("name") String name,
+          @JsonProperty("postOnly") boolean postOnly,
+          @JsonProperty("price") BigDecimal price,
+          @JsonProperty("priceIncrement") BigDecimal priceIncrement,
+          @JsonProperty("quoteCurrency") String quoteCurrency,
+          @JsonProperty("quoteVolume24h") BigDecimal quoteVolume24h,
+          @JsonProperty("restricted") boolean restricted,
+          @JsonProperty("sizeIncrement") BigDecimal sizeIncrement,
+          @JsonProperty("tokenizedEquity") boolean tokenizedEquity,
+          @JsonProperty("type") String type,
+          @JsonProperty("underlying") String underlying,
+          @JsonProperty("volumeUsd24h") BigDecimal volumeUsd24h) {
 
-    public boolean isPostOnly() {
-        return postOnly;
-    }
+    this.ask = ask;
+    this.baseCurrency = baseCurrency;
+    this.bid = bid;
+    this.change1h = change1h;
+    this.change24h = change24h;
+    this.changeBod = changeBod;
+    this.enabled = enabled;
+    this.highLeverageFeeExempt = highLeverageFeeExempt;
+    this.last = last;
+    this.minProvideSize = minProvideSize;
+    this.name = name;
+    this.postOnly = postOnly;
+    this.price = price;
+    this.priceIncrement = priceIncrement;
+    this.quoteCurrency = quoteCurrency;
+    this.quoteVolume24h = quoteVolume24h;
+    this.restricted = restricted;
+    this.sizeIncrement = sizeIncrement;
+    this.tokenizedEquity = tokenizedEquity;
+    this.type = type;
+    this.underlying = underlying;
+    this.volumeUsd24h = volumeUsd24h;
+  }
 
-    public BigDecimal getPriceIncrement() {
-        return priceIncrement;
-    }
+  public BigDecimal getAsk() {
+    return ask;
+  }
 
-    public BigDecimal getSizeIncrement() {
-        return sizeIncrement;
-    }
+  public String getBaseCurrency() {
+    return baseCurrency;
+  }
 
-    public boolean isRestricted() {
-        return restricted;
-    }
+  public BigDecimal getBid() {
+    return bid;
+  }
 
-    @Override
-    public String toString() {
-        return "FtxMarketDto{" +
-            "name='" + name + '\'' +
+  public BigDecimal getChange1h() {
+    return change1h;
+  }
+
+  public BigDecimal getChange24h() {
+    return change24h;
+  }
+
+  public BigDecimal getChangeBod() {
+    return changeBod;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public boolean isHighLeverageFeeExempt() {
+    return highLeverageFeeExempt;
+  }
+
+  public BigDecimal getLast() {
+    return last;
+  }
+
+  public BigDecimal getMinProvideSize() {
+    return minProvideSize;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public boolean isPostOnly() {
+    return postOnly;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public BigDecimal getPriceIncrement() {
+    return priceIncrement;
+  }
+
+  public String getQuoteCurrency() {
+    return quoteCurrency;
+  }
+
+  public BigDecimal getQuoteVolume24h() {
+    return quoteVolume24h;
+  }
+
+  public boolean isRestricted() {
+    return restricted;
+  }
+
+  public BigDecimal getSizeIncrement() {
+    return sizeIncrement;
+  }
+
+  public boolean isTokenizedEquity() {
+    return tokenizedEquity;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public String getUnderlying() {
+    return underlying;
+  }
+
+  public BigDecimal getVolumeUsd24h() {
+    return volumeUsd24h;
+  }
+
+  @Override
+  public String toString() {
+    return "FtxMarketDto{" +
+            "ask=" + ask +
             ", baseCurrency='" + baseCurrency + '\'' +
+            ", bid=" + bid +
+            ", change1h=" + change1h +
+            ", change24h=" + change24h +
+            ", changeBod=" + changeBod +
+            ", enabled=" + enabled +
+            ", highLeverageFeeExempt=" + highLeverageFeeExempt +
+            ", last=" + last +
+            ", minProvideSize=" + minProvideSize +
+            ", name='" + name + '\'' +
+            ", postOnly=" + postOnly +
+            ", price=" + price +
+            ", priceIncrement=" + priceIncrement +
             ", quoteCurrency='" + quoteCurrency + '\'' +
+            ", quoteVolume24h=" + quoteVolume24h +
+            ", restricted=" + restricted +
+            ", sizeIncrement=" + sizeIncrement +
+            ", tokenizedEquity=" + tokenizedEquity +
             ", type='" + type + '\'' +
             ", underlying='" + underlying + '\'' +
-            ", enabled=" + enabled +
-            ", ask=" + ask +
-            ", bid=" + bid +
-            ", last=" + last +
-            ", postOnly=" + postOnly +
-            ", priceIncrement=" + priceIncrement +
-            ", sizeIncrement=" + sizeIncrement +
-            ", restricted=" + restricted +
+            ", volumeUsd24h=" + volumeUsd24h +
             '}';
-    }
+  }
 }
