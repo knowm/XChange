@@ -59,8 +59,13 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
 
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    //check depth parameter
+    int depth = 0;
+    if (args != null && args[0] instanceof Integer ) {
+      depth = (Integer) args[0];
+    }
     Observable<JsonNode> jsonNodeObservable =
-        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, args);
+        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
     OrderBookUpdateConsumer orderBookConsumer =
         new OrderBookUpdateConsumer(streamingOrderDataService);
     return jsonNodeObservable
