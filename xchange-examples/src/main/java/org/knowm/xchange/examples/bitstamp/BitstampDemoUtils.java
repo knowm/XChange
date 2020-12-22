@@ -12,8 +12,8 @@ public class BitstampDemoUtils {
 
     ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("34387");
-    exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
-    exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
+    exSpec.setApiKey("EjZ8Cyk9TJO6j2mp7jmtB9NGA3f6FCtV");
+    exSpec.setSecretKey("X2pbzy3gFdzqwujCNgYxTcEmprGQNz0G");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }
