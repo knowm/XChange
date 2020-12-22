@@ -11,9 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by Lukas Zaoralek on 15.11.17.
- */
+/** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(GeminiStreamingService.class);
@@ -42,9 +40,7 @@ public class GeminiStreamingService {
       productStreamingServices.put(currencyPair, productStreamingService);
       productSubscriptions.put(currencyPair, productSubscription);
 
-      productStreamingService
-          .subscribeConnectionState()
-          .subscribe(stateSubject);
+      productStreamingService.subscribeConnectionState().subscribe(stateSubject);
     }
 
     return productSubscriptions.get(currencyPair);
