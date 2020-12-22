@@ -1,92 +1,51 @@
 package org.knowm.xchange.bitso.dto.account;
 
+import org.knowm.xchange.bitso.dto.trade.BitsoErrorDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /** @author Matija Mazi */
 public final class BitsoBalance {
 
-  private final BigDecimal mxnBalance;
+	private boolean success;
+	private BalancePayload payload;
+	private String error;
 
-  private final BigDecimal btcBalance;
+	public BitsoBalance(@JsonProperty("success") boolean success, @JsonProperty("payload") BalancePayload payload,
+			@JsonProperty("error") @JsonDeserialize(using = BitsoErrorDeserializer.class) String errorMessage) {
+		this.success = success;
+		this.payload = payload;
+		this.error = errorMessage;
+	}
 
-  private final BigDecimal mxnReserved;
+	public boolean isSuccess() {
+		return success;
+	}
 
-  private final BigDecimal btcReserved;
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 
-  private final BigDecimal mxnAvailable;
+	public BalancePayload getPayload() {
+		return payload;
+	}
 
-  private final BigDecimal btcAvailable;
+	public void setPayload(BalancePayload payload) {
+		this.payload = payload;
+	}
 
-  private final BigDecimal fee;
+	public String getError() {
+		return error;
+	}
 
-  private final String error;
+	public void setError(String error) {
+		this.error = error;
+	}
 
-  public BitsoBalance(
-      @JsonProperty("mxn_balance") BigDecimal mxnBalance,
-      @JsonProperty("btc_balance") BigDecimal btcBalance,
-      @JsonProperty("mxn_reserved") BigDecimal mxnReserved,
-      @JsonProperty("btc_reserved") BigDecimal btcReserved,
-      @JsonProperty("mxn_available") BigDecimal mxnAvailable,
-      @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("error") String error) {
+	@Override
+	public String toString() {
+		return "BitsoBalance [success=" + success + ", payload=" + payload + ", error=" + error + "]";
+	}
 
-    this.mxnBalance = mxnBalance;
-    this.btcBalance = btcBalance;
-    this.mxnReserved = mxnReserved;
-    this.btcReserved = btcReserved;
-    this.mxnAvailable = mxnAvailable;
-    this.btcAvailable = btcAvailable;
-    this.fee = fee;
-    this.error = error;
-  }
-
-  public BigDecimal getMxnBalance() {
-
-    return mxnBalance;
-  }
-
-  public BigDecimal getBtcBalance() {
-
-    return btcBalance;
-  }
-
-  public BigDecimal getMxnReserved() {
-
-    return mxnReserved;
-  }
-
-  public BigDecimal getBtcReserved() {
-
-    return btcReserved;
-  }
-
-  public BigDecimal getMxnAvailable() {
-
-    return mxnAvailable;
-  }
-
-  public BigDecimal getBtcAvailable() {
-
-    return btcAvailable;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
-  }
-
-  public String getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format(
-        "Balance{mxnBalance=%s, btcBalance=%s, mxnReserved=%s, btcReserved=%s, mxnAvailable=%s, btcAvailable=%s, fee=%s}",
-        mxnBalance, btcBalance, mxnReserved, btcReserved, mxnAvailable, btcAvailable, fee);
-  }
 }

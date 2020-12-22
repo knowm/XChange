@@ -27,7 +27,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Benedikt Bünz See https://www.bitso.net/api/ for up-to-date docs., Piotr Ładyżyński */
 @Path("v3")
-//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+// @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitsoAuthenticated {
 
@@ -59,17 +59,17 @@ public interface BitsoAuthenticated {
   @POST
   @Path("/orders/")
   @Consumes(MediaType.APPLICATION_JSON)
-  BitsoOrderResponse placeOrder(@HeaderParam("Authorization") String authorization,BitsoPlaceOrder bitsoPlaceOrder)
+  BitsoOrderResponse placeOrder(
+      @HeaderParam("Authorization") String authorization, BitsoPlaceOrder bitsoPlaceOrder)
       throws BitsoException, IOException;
 
   @DELETE
   @Path("/orders/{oid}/")
   @Consumes(MediaType.APPLICATION_JSON)
-  BitsoCacleOrderResponse cancelOrder(@HeaderParam("Authorization") String authorization,@PathParam("oid") String oid)
+  BitsoCacleOrderResponse cancelOrder(
+      @HeaderParam("Authorization") String authorization, @PathParam("oid") String oid)
       throws BitsoException, IOException;
 
-  
-  
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")

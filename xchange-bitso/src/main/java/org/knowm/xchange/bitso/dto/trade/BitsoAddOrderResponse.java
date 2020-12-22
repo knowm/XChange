@@ -13,7 +13,6 @@ public class BitsoAddOrderResponse {
 		this.success = success;
 		this.payload = payload;
 		this.error = errorMessage;
-
 	}
 
 	public String getSuccess() {

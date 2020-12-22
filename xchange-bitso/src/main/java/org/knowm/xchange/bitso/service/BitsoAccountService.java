@@ -24,7 +24,9 @@ public class BitsoAccountService extends BitsoAccountServiceRaw implements Accou
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(),BitsoAdapters.adaptWallet(getBitsoBalance()));
+    return new AccountInfo(
+        exchange.getExchangeSpecification().getUserName(),
+        BitsoAdapters.adaptWallet(getBitsoBalance()));
   }
 
   @Override
@@ -59,6 +61,4 @@ public class BitsoAccountService extends BitsoAccountServiceRaw implements Accou
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
-  
-  
 }

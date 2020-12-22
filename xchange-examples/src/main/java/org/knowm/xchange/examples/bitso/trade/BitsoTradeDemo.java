@@ -33,9 +33,9 @@ public class BitsoTradeDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-//    AccountService accountService=bitso.getAccountService();
-//    AccountInfo accountInfo=accountService.getAccountInfo();
-//    System.out.println(accountInfo);
+    AccountService accountService=bitso.getAccountService();
+    AccountInfo accountInfo=accountService.getAccountInfo();
+    System.out.println(accountInfo);
 //    
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService,tradeService);
