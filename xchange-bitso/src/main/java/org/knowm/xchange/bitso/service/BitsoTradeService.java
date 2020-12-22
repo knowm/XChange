@@ -4,12 +4,19 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAdapters;
 import org.knowm.xchange.bitso.dto.BitsoException;
-import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
+import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
+import org.knowm.xchange.bitso.dto.trade.BitsoOrderResponse;
+import org.knowm.xchange.bitso.dto.trade.BitsoPlaceOrder;
+import org.knowm.xchange.bitso.dto.trade.Payload;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -17,7 +24,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
@@ -47,20 +53,31 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    BitsoOrder[] openOrders = getBitsoOpenOrders();
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
+
+    BitsoAllOrders openOrders = getBitsoOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<>();
-    for (BitsoOrder bitsoOrder : openOrders) {
-      OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-      String id = bitsoOrder.getId();
-      BigDecimal price = bitsoOrder.getPrice();
+    for (Payload bitsoOrder : openOrders.getPayload()) {
+      OrderType orderType = bitsoOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
+      String id = bitsoOrder.getOid();
+
+      BigDecimal price = new BigDecimal(bitsoOrder.getPrice());
+
+      Date date = null;
+      try {
+        date = format.parse(bitsoOrder.getCreatedAt());
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
       limitOrders.add(
           new LimitOrder(
               orderType,
-              bitsoOrder.getAmount(),
+              new BigDecimal(bitsoOrder.getOriginalAmount()),
               new CurrencyPair(Currency.BTC, Currency.MXN),
               id,
-              bitsoOrder.getTime(),
+              date,
               price));
     }
     return new OpenOrders(limitOrders);
@@ -75,17 +92,32 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitsoException {
 
-    BitsoOrder bitsoOrder;
-    if (limitOrder.getType() == BID) {
-      bitsoOrder = buyBitoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
-    } else {
-      bitsoOrder = sellBitsoOrder(limitOrder.getOriginalAmount(), limitOrder.getLimitPrice());
-    }
-    if (bitsoOrder.getErrorMessage() != null) {
-      throw new ExchangeException(bitsoOrder.getErrorMessage());
-    }
+    BitsoPlaceOrder bitsoPlaceOrder = new BitsoPlaceOrder();
 
-    return bitsoOrder.getId();
+    String book = limitOrder.getInstrument().toString().replace("/", "_").toLowerCase();
+    String price = limitOrder.getLimitPrice().toPlainString();
+    String major = limitOrder.getOriginalAmount().setScale(8,RoundingMode.HALF_UP).toPlainString();
+
+    bitsoPlaceOrder.setBook(book);
+    bitsoPlaceOrder.setPrice(price);
+    bitsoPlaceOrder.setMajor(major);
+    bitsoPlaceOrder.setType("limit");
+
+    BitsoOrderResponse bitsoOrder;
+    if (limitOrder.getType() == BID) {
+      bitsoPlaceOrder.setSide("buy");
+      //			super.signatureCreator.digestParams(restInvocation);
+      bitsoOrder = placeBitsOrder(bitsoPlaceOrder);
+
+    } else {
+      bitsoPlaceOrder.setSide("sell");
+      bitsoOrder = placeBitsOrder(bitsoPlaceOrder);
+    }
+    //		if (bitsoOrder.getErrorMessage() != null) {
+    //			throw new ExchangeException(bitsoOrder.getErrorMessage());
+    //		}
+
+    return bitsoOrder.getPayload().getOid();
   }
 
   @Override

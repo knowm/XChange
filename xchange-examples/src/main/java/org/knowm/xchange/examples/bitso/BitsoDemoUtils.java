@@ -18,9 +18,11 @@ public class BitsoDemoUtils {
     log.warn("Bitso credentials must be set in BitsoDemoUtils.java.");
 
     // Set your credentials here:
-    exSpec.setUserName("12345");
-    exSpec.setApiKey("Abcde");
-    exSpec.setSecretKey("1234567890abcdef");
+    exSpec.setSslUri("https://api-dev.bitso.com");
+    exSpec.setHost("dev.api.bitso.com");
+    exSpec.setUserName("7895");
+    exSpec.setApiKey("berCEsRXxq");
+    exSpec.setSecretKey("427d805db613b082bf7f9ef761b7e3e2");
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
