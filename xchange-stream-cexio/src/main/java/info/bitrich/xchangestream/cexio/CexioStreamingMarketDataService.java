@@ -40,8 +40,9 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     public OrderBook apply(CexioWebSocketOrderBookSubscribeResponse t) throws Exception {
       OrderBook retVal;
       if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
-        orderBookSoFar =
-            new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
+        throw new IllegalStateException(
+                "Received an update message with id [" + t.id + "] not sequential to last id ["+prevID+"]. " +
+                "Orderbook out of order!");
       }
 
       prevID = t.id;
