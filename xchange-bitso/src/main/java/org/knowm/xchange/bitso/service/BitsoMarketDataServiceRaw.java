@@ -23,7 +23,8 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
   }
 
   public BitsoOrderBook getBitsoOrderBook(CurrencyPair pair) throws IOException {
-    return bitso.getOrderBook();
+	String symbol=pair.base.getCurrencyCode()+"_"+pair.counter.getCurrencyCode();
+    return bitso.getOrderBook(symbol.toLowerCase());
   }
 
   public BitsoTransaction[] getBitsoTransactions(Object... args) throws IOException {

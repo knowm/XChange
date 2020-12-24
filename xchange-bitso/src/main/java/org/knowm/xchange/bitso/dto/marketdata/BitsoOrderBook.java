@@ -1,58 +1,54 @@
 package org.knowm.xchange.bitso.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
-import java.util.List;
-import si.mazi.rescu.ExceptionalReturnContentException;
+import org.knowm.xchange.bitso.dto.trade.BitsoErrorDeserializer;
 
-/** @author Piotr Ładyżyński */
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+ 
+/**
+ * @author Ravi Pandit
+ *
+ */
 public class BitsoOrderBook {
 
-  private final Long timestamp;
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
+	private final boolean success;
+	private final OrderBookPayload payload;
+	private String error;
 
-  /**
-   * Constructor
-   *
-   * @param timestamp
-   * @param bids
-   * @param asks
-   */
-  public BitsoOrderBook(
-      @JsonProperty("timestamp") Long timestamp,
-      @JsonProperty("bids") List<List<BigDecimal>> bids,
-      @JsonProperty("asks") List<List<BigDecimal>> asks) {
+	/**
+	 * Constructor
+	 *
+	 * @param timestamp
+	 * @param bids
+	 * @param asks
+	 */
+	public BitsoOrderBook(@JsonProperty("success") boolean success, @JsonProperty("payload") OrderBookPayload payload,
+			@JsonProperty("error") @JsonDeserialize(using = BitsoErrorDeserializer.class) String errorMessage) {
+		this.success = success;
+		this.payload = payload;
+		this.error = errorMessage;
+	}
 
-    if (asks == null) {
-      throw new ExceptionalReturnContentException("No asks in response.");
-    }
-    this.bids = bids;
-    this.asks = asks;
-    this.timestamp = timestamp;
-  }
+	public String getError() {
+		return error;
+	}
 
-  /** @return Timestamp in Unix milliseconds */
-  public Long getTimestamp() {
+	public void setError(String error) {
+		this.error = error;
+	}
 
-    return timestamp;
-  }
+	public boolean isSuccess() {
+		return success;
+	}
 
-  /** (price, amount) */
-  public List<List<BigDecimal>> getBids() {
+	public OrderBookPayload getPayload() {
+		return payload;
+	}
 
-    return bids;
-  }
+	@Override
+	public String toString() {
+		return "BitsoOrderBook [success=" + success + ", payload=" + payload + ", error=" + error + "]";
+	}
 
-  /** (price, amount) */
-  public List<List<BigDecimal>> getAsks() {
-
-    return asks;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitsoOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
-  }
 }

@@ -2,8 +2,12 @@ package org.knowm.xchange.bitso.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAuthenticated;
+import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoCacleOrderResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
@@ -11,6 +15,7 @@ import org.knowm.xchange.bitso.dto.trade.BitsoOrderResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoPlaceOrder;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.dto.Order;
 
 /** @author Piotr Ładyżyński */
 public class BitsoTradeServiceRaw extends BitsoBaseService {
@@ -39,9 +44,6 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
   public BitsoOrderResponse placeBitsOrder(BitsoPlaceOrder bitsoPlaceOrder) throws IOException {
     String auth = signatureCreator.digestParams("POST", "/v3/orders/", bitsoPlaceOrder);
-    System.out.println("Authorization Code issss...........");
-    System.out.println(auth);
-
     return bitsoAuthenticated.placeOrder(auth, bitsoPlaceOrder);
   }
 
@@ -96,4 +98,19 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
         offset,
         sort);
   }
+
+  public BitsoAllOrders getBitsoOrderByIds(String... orderIds) throws BitsoException, IOException{
+		String orderId="";
+		for (String oid : orderIds) {
+			if(orderId.equals("")){
+				orderId=oid;
+			}else{
+				orderId=orderId+","+oid;
+			}
+		}
+		String auth = signatureCreator.digestParams("GET", "/v3/orders/"+orderId, null);
+
+		return bitsoAuthenticated.getOrder(auth, orderId);
+	 }
+  
 }
