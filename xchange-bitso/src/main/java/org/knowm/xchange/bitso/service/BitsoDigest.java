@@ -70,7 +70,7 @@ public class BitsoDigest extends BaseParamsDigest {
     Mac mac256 = getMac();
     Long nonce = new Date().getTime();
     String signature = nonce + method + path;
-//    String signature="1608625271081GET/v3/balance/";
+    //    String signature="1608625271081GET/v3/balance/";
     String mainBody = "";
     if (!ObjectUtils.isEmpty(body)) {
       try {

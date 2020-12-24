@@ -96,7 +96,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
     String book = limitOrder.getInstrument().toString().replace("/", "_").toLowerCase();
     String price = limitOrder.getLimitPrice().toPlainString();
-    String major = limitOrder.getOriginalAmount().setScale(8,RoundingMode.HALF_UP).toPlainString();
+    String major = limitOrder.getOriginalAmount().setScale(8, RoundingMode.HALF_UP).toPlainString();
 
     bitsoPlaceOrder.setBook(book);
     bitsoPlaceOrder.setPrice(price);

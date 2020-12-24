@@ -3,7 +3,6 @@ package org.knowm.xchange.bitso;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
@@ -48,17 +47,18 @@ public final class BitsoAdapters {
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
-	  List<Balance> balancesList=new ArrayList<>();
-	  Balance balances = null;
-	  for(BitsoBalances balance:bitsoBalance.getPayload().getBalances()){
-		  
-		  balances=new Balance(
-				Currency.getInstance(balance.getCurrency()),
-				new BigDecimal(balance.getTotal()),
-				new BigDecimal(balance.getAvailable()),
-				new BigDecimal(balance.getLocked()));
-		  balancesList.add(balances);
-	  }
+    List<Balance> balancesList = new ArrayList<>();
+    Balance balances = null;
+    for (BitsoBalances balance : bitsoBalance.getPayload().getBalances()) {
+
+      balances =
+          new Balance(
+              Currency.getInstance(balance.getCurrency()),
+              new BigDecimal(balance.getTotal()),
+              new BigDecimal(balance.getAvailable()),
+              new BigDecimal(balance.getLocked()));
+      balancesList.add(balances);
+    }
 
     return Wallet.Builder.from(balancesList).build();
   }

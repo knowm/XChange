@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import org.powermock.reflect.Whitebox;
 
 public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
