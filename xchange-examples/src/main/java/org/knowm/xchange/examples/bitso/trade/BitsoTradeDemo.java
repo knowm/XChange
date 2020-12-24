@@ -3,14 +3,18 @@ package org.knowm.xchange.examples.bitso.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
+import org.knowm.xchange.bitso.dto.trade.Payload;
 import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
@@ -29,21 +33,24 @@ public class BitsoTradeDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-
+    AccountService accountService=bitso.getAccountService();
+    AccountInfo accountInfo=accountService.getAccountInfo();
+    System.out.println(accountInfo);
+//    
     generic(tradeService);
-    raw((BitsoTradeServiceRaw) tradeService);
+    raw((BitsoTradeServiceRaw) tradeService,tradeService);
   }
 
   private static void generic(TradeService tradeService) throws IOException {
 
-    printOpenOrders(tradeService);
+//    printOpenOrders(tradeService);
 
     // place a limit buy order
     LimitOrder limitOrder =
         new LimitOrder(
             (OrderType.ASK),
             new BigDecimal("0.01"),
-            new CurrencyPair(Currency.BTC, Currency.MXN),
+            new CurrencyPair(Currency.BTC, Currency.USD),
             "",
             null,
             new BigDecimal("5000.00"));
@@ -65,29 +72,36 @@ public class BitsoTradeDemo {
     System.out.println("Open Orders: " + openOrders.toString());
   }
 
-  private static void raw(BitsoTradeServiceRaw tradeService) throws IOException {
+  private static void raw(BitsoTradeServiceRaw tradeServiceRaw,TradeService tradeService) throws IOException {
 
-    printRawOpenOrders(tradeService);
+    printRawOpenOrders(tradeServiceRaw);
 
     // place a limit buy order
-    BitsoOrder order =
-        tradeService.sellBitsoOrder(new BigDecimal("0.01"), new BigDecimal("5000.00"));
-    System.out.println("BitsoOrder return value: " + order);
+    LimitOrder limitOrder =
+            new LimitOrder(
+                (OrderType.BID),
+                new BigDecimal("0.01"),
+                new CurrencyPair(Currency.BTC, Currency.USD),
+                "",
+                null,
+                new BigDecimal("5000.00"));
+    String limitOrderReturnValue  = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("BitsoOrder return value: " + limitOrderReturnValue);
 
-    printRawOpenOrders(tradeService);
+    printRawOpenOrders(tradeServiceRaw);
 
     // Cancel the added order
-    boolean cancelResult = tradeService.cancelBitsoOrder(order.getId());
+    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
     System.out.println("Canceling returned " + cancelResult);
 
-    printRawOpenOrders(tradeService);
+    printRawOpenOrders(tradeServiceRaw);
   }
 
   private static void printRawOpenOrders(BitsoTradeServiceRaw tradeService) throws IOException {
 
-    BitsoOrder[] openOrders = tradeService.getBitsoOpenOrders();
-    System.out.println("Open Orders: " + openOrders.length);
-    for (BitsoOrder order : openOrders) {
+	BitsoAllOrders openOrders = tradeService.getBitsoOpenOrders();
+    System.out.println("Open Orders: " + openOrders.getPayload().size());
+    for (Payload order : openOrders.getPayload()) {
       System.out.println(order.toString());
     }
   }

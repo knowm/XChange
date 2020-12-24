@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
+import org.knowm.xchange.bitso.dto.account.BitsoBalances;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
@@ -47,20 +48,19 @@ public final class BitsoAdapters {
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
-    Balance mxnBalance =
-        new Balance(
-            Currency.MXN,
-            bitsoBalance.getMxnBalance(),
-            bitsoBalance.getMxnAvailable(),
-            bitsoBalance.getMxnReserved());
-    Balance btcBalance =
-        new Balance(
-            Currency.BTC,
-            bitsoBalance.getBtcBalance(),
-            bitsoBalance.getBtcAvailable(),
-            bitsoBalance.getBtcReserved());
+	  List<Balance> balancesList=new ArrayList<>();
+	  Balance balances = null;
+	  for(BitsoBalances balance:bitsoBalance.getPayload().getBalances()){
+		  
+		  balances=new Balance(
+				Currency.getInstance(balance.getCurrency()),
+				new BigDecimal(balance.getTotal()),
+				new BigDecimal(balance.getAvailable()),
+				new BigDecimal(balance.getLocked()));
+		  balancesList.add(balances);
+	  }
 
-    return Wallet.Builder.from(Arrays.asList(mxnBalance, btcBalance)).build();
+    return Wallet.Builder.from(balancesList).build();
   }
 
   public static OrderBook adaptOrderBook(

@@ -20,8 +20,8 @@ public class BitsoExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri("https://api.bitso.com");
-    exchangeSpecification.setHost("bitso.com");
+    exchangeSpecification.setSslUri("https://api-dev.bitso.com");
+    exchangeSpecification.setHost("api-dev.bitso.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitso");
     exchangeSpecification.setExchangeDescription(
