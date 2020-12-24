@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
-import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
 import org.knowm.xchange.bitso.dto.trade.Payload;
 import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
 import org.knowm.xchange.currency.Currency;
@@ -33,17 +32,17 @@ public class BitsoTradeDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-    AccountService accountService=bitso.getAccountService();
-    AccountInfo accountInfo=accountService.getAccountInfo();
+    AccountService accountService = bitso.getAccountService();
+    AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println(accountInfo);
-//    
+    //
     generic(tradeService);
-    raw((BitsoTradeServiceRaw) tradeService,tradeService);
+    raw((BitsoTradeServiceRaw) tradeService, tradeService);
   }
 
   private static void generic(TradeService tradeService) throws IOException {
 
-//    printOpenOrders(tradeService);
+    //    printOpenOrders(tradeService);
 
     // place a limit buy order
     LimitOrder limitOrder =
@@ -72,20 +71,21 @@ public class BitsoTradeDemo {
     System.out.println("Open Orders: " + openOrders.toString());
   }
 
-  private static void raw(BitsoTradeServiceRaw tradeServiceRaw,TradeService tradeService) throws IOException {
+  private static void raw(BitsoTradeServiceRaw tradeServiceRaw, TradeService tradeService)
+      throws IOException {
 
     printRawOpenOrders(tradeServiceRaw);
 
     // place a limit buy order
     LimitOrder limitOrder =
-            new LimitOrder(
-                (OrderType.BID),
-                new BigDecimal("0.01"),
-                new CurrencyPair(Currency.BTC, Currency.USD),
-                "",
-                null,
-                new BigDecimal("5000.00"));
-    String limitOrderReturnValue  = tradeService.placeLimitOrder(limitOrder);
+        new LimitOrder(
+            (OrderType.BID),
+            new BigDecimal("0.01"),
+            new CurrencyPair(Currency.BTC, Currency.USD),
+            "",
+            null,
+            new BigDecimal("5000.00"));
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("BitsoOrder return value: " + limitOrderReturnValue);
 
     printRawOpenOrders(tradeServiceRaw);
@@ -99,7 +99,7 @@ public class BitsoTradeDemo {
 
   private static void printRawOpenOrders(BitsoTradeServiceRaw tradeService) throws IOException {
 
-	BitsoAllOrders openOrders = tradeService.getBitsoOpenOrders();
+    BitsoAllOrders openOrders = tradeService.getBitsoOpenOrders();
     System.out.println("Open Orders: " + openOrders.getPayload().size());
     for (Payload order : openOrders.getPayload()) {
       System.out.println(order.toString());

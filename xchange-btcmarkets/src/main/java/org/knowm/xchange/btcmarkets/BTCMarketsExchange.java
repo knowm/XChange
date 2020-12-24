@@ -6,6 +6,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
+import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Matija Mazi */
 public class BTCMarketsExchange extends BaseExchange implements Exchange {
@@ -13,7 +15,7 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
   public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
 
   private SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentNanosecondTimeIncrementalNonceFactory();
+      new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -27,6 +29,11 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
       this.tradeService = new BTCMarketsTradeService(this);
       this.accountService = new BTCMarketsAccountService(this);
     }
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    return nonceFactory;
   }
 
   @Override
