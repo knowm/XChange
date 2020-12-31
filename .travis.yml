@@ -1,6 +1,8 @@
 language: java
 sudo: false
-
+cache:
+  directories:
+    - '$HOME/.m2/repository'
 install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
