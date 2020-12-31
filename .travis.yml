@@ -8,10 +8,10 @@ cache:
 install: true
 
 script: "
-wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
-unzip -qq apache-maven-3.6.3-bin.zip
-export M2_HOME=$PWD/apache-maven-3.6.3
-export PATH=$M2_HOME/bin:$PATH
+wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip;
+unzip -qq apache-maven-3.6.3-bin.zip;
+export M2_HOME=$PWD/apache-maven-3.6.3;
+export PATH=$M2_HOME/bin:$PATH;
 
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then
