@@ -7,9 +7,9 @@ install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then
-    mvn -v
+    mvn -v;
 else
-    mvn -v
+    mvn -v;
 fi"
 
 dist: trusty
