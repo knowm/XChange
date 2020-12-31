@@ -1,10 +1,13 @@
 package org.knowm.xchange.btcmarkets;
 
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
-//Note:
-//    I tried my best to get powermock to work after adding a logback.xml file to suppress verbose logging but there are some Java 9* issues
-//    arising with powermock that I just cannot resolve. Therefore I decided to comment out all the powermock code in this module since it's the
-//    only module using powermock. The dependencies have also been removed from the project. Hopefully someone will upgrade all these test to use
+// Note:
+//    I tried my best to get powermock to work after adding a logback.xml file to suppress verbose
+// logging but there are some Java 9* issues
+//    arising with powermock that I just cannot resolve. Therefore I decided to comment out all the
+// powermock code in this module since it's the
+//    only module using powermock. The dependencies have also been removed from the project.
+// Hopefully someone will upgrade all these test to use
 //    Mokito.ange.btcmarkets.service.BTCMarketsTestSupport;
 
 public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
