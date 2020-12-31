@@ -6,9 +6,11 @@ cache:
 install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
-then 
+then
+    mvn -v
     mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml;
-else 
+else
+    mvn -v
     mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true;
 fi"
 
