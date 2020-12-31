@@ -1,9 +1,12 @@
 package org.knowm.xchange.btcmarkets.service;
 
-//Note:
-//    I tried my best to get powermock to work after adding a logback.xml file to suppress verbose logging but there are some Java 9* issues
-//    arising with powermock that I just cannot resolve. Therefore I decided to comment out all the powermock code in this module since it's the
-//    only module using powermock. The dependencies have also been removed from the project. Hopefully someone will upgrade all these test to use
+// Note:
+//    I tried my best to get powermock to work after adding a logback.xml file to suppress verbose
+// logging but there are some Java 9* issues
+//    arising with powermock that I just cannot resolve. Therefore I decided to comment out all the
+// powermock code in this module since it's the
+//    only module using powermock. The dependencies have also been removed from the project.
+// Hopefully someone will upgrade all these test to use
 //    Mokito.
 // import static org.assertj.core.api.Assertions.assertThat;
 // import static org.assertj.core.api.Assertions.fail;
