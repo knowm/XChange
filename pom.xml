@@ -408,14 +408,10 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-<!--            <name>performRelease</name>-->
             <name>gpg.passphrase</name>
           <value>true</value>
         </property>
       </activation>
-<!--        <properties>-->
-<!--            <gpg.executable>gpg2</gpg.executable>-->
-<!--        </properties>-->
       <build>
         <plugins>
           <plugin>
