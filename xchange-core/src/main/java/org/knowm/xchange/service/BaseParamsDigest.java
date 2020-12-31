@@ -27,7 +27,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
    *     key is invalid).
    */
   protected BaseParamsDigest(String secretKeyBase64, final String hmacString)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     this(secretKeyBase64.getBytes(StandardCharsets.UTF_8), hmacString);
   }
 
@@ -43,7 +43,8 @@ public abstract class BaseParamsDigest implements ParamsDigest {
 
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
     threadLocalMac =
-            ThreadLocal.withInitial(() -> {
+        ThreadLocal.withInitial(
+            () -> {
               try {
                 Mac mac = Mac.getInstance(hmacString);
                 mac.init(secretKey);
