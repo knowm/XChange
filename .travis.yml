@@ -16,10 +16,10 @@ export PATH=$M2_HOME/bin:$PATH;
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then
     mvn -v;
-    mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml;
+    mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml -Dfmt.skip=true;
 else
     mvn -v;
-    mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true;
+    mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true -Dfmt.skip=true;
 fi"
 
 dist: trusty

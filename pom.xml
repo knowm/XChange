@@ -38,7 +38,6 @@
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.16</version.lombok>
     <version.knowm.xchart>3.8.0</version.knowm.xchart>
-    <version.powermock>2.0.9</version.powermock>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
@@ -307,27 +306,6 @@
         <scope>test</scope>
       </dependency>
 
-      <!-- PowerMockito for unit tests -->
-      <!-- when removing powermock, please upgrade mockito -->
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-module-junit4</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-api-mockito2</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-reflect</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-
       <!-- SLF4J implementation for use in examples -->
       <dependency>
         <groupId>ch.qos.logback</groupId>
@@ -346,7 +324,6 @@
         <artifactId>java-jwt</artifactId>
         <version>${version.java-jwt}</version>
       </dependency>
-
 
       <!-- for streaming-->
       <dependency>

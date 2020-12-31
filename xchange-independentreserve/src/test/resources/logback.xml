@@ -53,7 +53,7 @@
     <logger name="org.apache.http.impl.client" level="DEBUG"/>
 
     <!-- Define logging for organisation applications only -->
-    <logger name="si.mazi.rescu" level="TRACE"/>
-    <logger name="org.knowm.xchange" level="INFO"/>
+    <!--<logger name="si.mazi.rescu" level="TRACE"/>-->
+    <logger name="org.knowm.xchange" level="warn"/>
 
 </configuration>
