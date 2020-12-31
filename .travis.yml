@@ -7,9 +7,9 @@ install: true
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then 
-    mvn clean deploy --batch-mode --settings etc/settings.xml;
+    mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml;
 else 
-    mvn clean verify --batch-mode --settings etc/settings.xml;
+    mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true;
 fi"
 
 dist: trusty
