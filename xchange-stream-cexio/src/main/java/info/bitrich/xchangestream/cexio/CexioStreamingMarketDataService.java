@@ -6,16 +6,15 @@ import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResp
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class CexioStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -42,8 +41,12 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
       OrderBook retVal;
       if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
         throw new IllegalStateException(
-                "Received an update message with id [" + t.id + "] not sequential to last id ["+prevID+"]. " +
-                "Orderbook out of order!");
+            "Received an update message with id ["
+                + t.id
+                + "] not sequential to last id ["
+                + prevID
+                + "]. "
+                + "Orderbook out of order!");
       }
 
       prevID = t.id;
@@ -60,9 +63,9 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
 
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-    //check depth parameter
+    // check depth parameter
     int depth = 0;
-    if (args != null && args[0] instanceof Integer ) {
+    if (args != null && args[0] instanceof Integer) {
       depth = (Integer) args[0];
     }
     Observable<JsonNode> jsonNodeObservable =
