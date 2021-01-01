@@ -54,12 +54,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
       int idleTimeoutSeconds,
       Supplier<CoinbaseProWebsocketAuthData> authData,
       boolean subscribeL3Orderbook) {
-    super(
-        apiUrl,
-        maxFramePayloadLength,
-        connectionTimeout,
-        retryDuration,
-        idleTimeoutSeconds);
+    super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
     this.authData = authData;
     this.subscribeL3Orderbook = subscribeL3Orderbook;
   }
@@ -157,9 +152,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   @Override
   protected void handleChannelMessage(String channel, JsonNode message) {
     if (SHARE_CHANNEL_NAME.equals(channel)) {
-      channels
-          .forEach((k, v) ->
-              v.getEmitter().onNext(message));
+      channels.forEach((k, v) -> v.getEmitter().onNext(message));
 
     } else {
       super.handleChannelMessage(channel, message);

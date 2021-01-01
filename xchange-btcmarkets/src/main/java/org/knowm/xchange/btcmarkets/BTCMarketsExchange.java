@@ -6,7 +6,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Matija Mazi */

@@ -1,12 +1,10 @@
 package org.knowm.xchange.bitso;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
@@ -57,37 +55,43 @@ public final class BitsoAdapters {
 
   public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
-	  List<Balance> balancesList=new ArrayList<>();
-	  Balance balances = null;
-	  for(BitsoBalances balance:bitsoBalance.getPayload().getBalances()){
-		  
-		  balances=new Balance(
-				Currency.getInstance(balance.getCurrency()),
-				new BigDecimal(balance.getTotal()),
-				new BigDecimal(balance.getAvailable()),
-				new BigDecimal(balance.getLocked()));
-		  balancesList.add(balances);
-	  }
+    List<Balance> balancesList = new ArrayList<>();
+    Balance balances = null;
+    for (BitsoBalances balance : bitsoBalance.getPayload().getBalances()) {
+
+      balances =
+          new Balance(
+              Currency.getInstance(balance.getCurrency()),
+              new BigDecimal(balance.getTotal()),
+              new BigDecimal(balance.getAvailable()),
+              new BigDecimal(balance.getLocked()));
+      balancesList.add(balances);
+    }
 
     return Wallet.Builder.from(balancesList).build();
   }
 
   public static OrderBook adaptOrderBook(
       BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {
-	  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SS:SS");
-    
-	  List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getPayload().getAsks());
-	  List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getPayload().getBids());
-	  Date bitsoTimestamp=null;
-		try {
-			bitsoTimestamp = format.parse(bitsoOrderBook.getPayload().getTimestamp());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	  
-	  Date date =new Date(bitsoTimestamp.getTime() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-	  return new OrderBook(date, asks, bids);
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SS:SS");
+
+    List<LimitOrder> asks =
+        createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getPayload().getAsks());
+    List<LimitOrder> bids =
+        createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getPayload().getBids());
+    Date bitsoTimestamp = null;
+    try {
+      bitsoTimestamp = format.parse(bitsoOrderBook.getPayload().getTimestamp());
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    Date date =
+        new Date(
+            bitsoTimestamp.getTime()
+                * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    return new OrderBook(date, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(
@@ -95,7 +99,8 @@ public final class BitsoAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (BitsoCommonOrderBook ask : orders) {
-//      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+      //      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0}
+      // elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
@@ -105,7 +110,12 @@ public final class BitsoAdapters {
       CurrencyPair currencyPair, BitsoCommonOrderBook priceAndAmount, Order.OrderType orderType) {
 
     return new LimitOrder(
-        orderType, new BigDecimal(priceAndAmount.getAmount()), currencyPair, "", null, new BigDecimal(priceAndAmount.getPrice()));
+        orderType,
+        new BigDecimal(priceAndAmount.getAmount()),
+        currencyPair,
+        "",
+        null,
+        new BigDecimal(priceAndAmount.getPrice()));
   }
 
   /**
@@ -202,37 +212,41 @@ public final class BitsoAdapters {
   }
 
   public static Order adaptOrder(Payload order) {
-	    OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-	    CurrencyPair currencyPair = new CurrencyPair(order.getBook().replace('_', '/'));
-	    Order.Builder builder = null;
-	    if (order.getType().equals("market")) {
-	      builder = new MarketOrder.Builder(type, currencyPair);
-	    } else if (order.getType().equals("limit")) {
-	      if (order.getUnfilledAmount() == null) {
-	        builder = new LimitOrder.Builder(type, currencyPair).limitPrice(new BigDecimal(order.getPrice()));
-	      } else {
-	        builder = new StopOrder.Builder(type, currencyPair).stopPrice(new BigDecimal(order.getUnfilledAmount()));
-	      }
-	    }
-	    if (builder == null) {
-	      return null;
-	    }
-	    builder
-	        .orderStatus(adaptOrderStatus(order))
-	        .originalAmount(new BigDecimal(order.getOriginalAmount()))
-	        .id(order.getOid())
-	        .timestamp(adaptDate(order.getUpdatedAt()));
-//	        .cumulativeAmount(order.getFilledSize());
-	  
-//	    BigDecimal averagePrice;
-//	    if (order.getFilledSize().signum() != 0 && order.getExecutedvalue().signum() != 0) {
-//	      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(), MathContext.DECIMAL32);
-//	    } else {
-//	      averagePrice = BigDecimal.ZERO;
-//	    }
-//	    builder.averagePrice(averagePrice);
-	    return builder.build();
-	  }
+    OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+    CurrencyPair currencyPair = new CurrencyPair(order.getBook().replace('_', '/'));
+    Order.Builder builder = null;
+    if (order.getType().equals("market")) {
+      builder = new MarketOrder.Builder(type, currencyPair);
+    } else if (order.getType().equals("limit")) {
+      if (order.getUnfilledAmount() == null) {
+        builder =
+            new LimitOrder.Builder(type, currencyPair).limitPrice(new BigDecimal(order.getPrice()));
+      } else {
+        builder =
+            new StopOrder.Builder(type, currencyPair)
+                .stopPrice(new BigDecimal(order.getUnfilledAmount()));
+      }
+    }
+    if (builder == null) {
+      return null;
+    }
+    builder
+        .orderStatus(adaptOrderStatus(order))
+        .originalAmount(new BigDecimal(order.getOriginalAmount()))
+        .id(order.getOid())
+        .timestamp(adaptDate(order.getUpdatedAt()));
+    //	        .cumulativeAmount(order.getFilledSize());
+
+    //	    BigDecimal averagePrice;
+    //	    if (order.getFilledSize().signum() != 0 && order.getExecutedvalue().signum() != 0) {
+    //	      averagePrice = order.getExecutedvalue().divide(order.getFilledSize(),
+    // MathContext.DECIMAL32);
+    //	    } else {
+    //	      averagePrice = BigDecimal.ZERO;
+    //	    }
+    //	    builder.averagePrice(averagePrice);
+    return builder.build();
+  }
   /** The status from the CoinbaseProOrder object converted to xchange status */
   public static OrderStatus adaptOrderStatus(Payload order) {
 
@@ -253,36 +267,35 @@ public final class BitsoAdapters {
       return OrderStatus.UNKNOWN;
     }
 
-//    if (order.getUnfilledAmount().signum() == 0) {
-//
-//      if (order.getStatus().equals("open") && order.getStop() != null) {
-//        // This is a massive edge case of a stop triggering but not immediately
-//        // fulfilling.  STOPPED status is only currently used by the HitBTC and
-//        // YoBit implementations and in both cases it looks like a
-//        // misunderstanding and those should return CANCELLED.  Should we just
-//        // remove this status?
-//        return OrderStatus.STOPPED;
-//      }
-//
-//      return OrderStatus.NEW;
-//    }
-//
-//    if (order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
-//        // if size >= filledSize order should be partially filled
-//        && order.getSize().compareTo(order.getFilledSize()) >= 0)
-//      return OrderStatus.PARTIALLY_FILLED;
+    //    if (order.getUnfilledAmount().signum() == 0) {
+    //
+    //      if (order.getStatus().equals("open") && order.getStop() != null) {
+    //        // This is a massive edge case of a stop triggering but not immediately
+    //        // fulfilling.  STOPPED status is only currently used by the HitBTC and
+    //        // YoBit implementations and in both cases it looks like a
+    //        // misunderstanding and those should return CANCELLED.  Should we just
+    //        // remove this status?
+    //        return OrderStatus.STOPPED;
+    //      }
+    //
+    //      return OrderStatus.NEW;
+    //    }
+    //
+    //    if (order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
+    //        // if size >= filledSize order should be partially filled
+    //        && order.getSize().compareTo(order.getFilledSize()) >= 0)
+    //      return OrderStatus.PARTIALLY_FILLED;
 
     return OrderStatus.UNKNOWN;
   }
-  
-  public static Date adaptDate(String date)  {
-	  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
-	  try {
-		return format.parse(date);
-	} catch (ParseException e) {
-		System.err.println("Date is not Parse from Bitso Adapter Adapt Date Function...");
-	}
-	  return null;
+
+  public static Date adaptDate(String date) {
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
+    try {
+      return format.parse(date);
+    } catch (ParseException e) {
+      System.err.println("Date is not Parse from Bitso Adapter Adapt Date Function...");
+    }
+    return null;
   }
-  
 }

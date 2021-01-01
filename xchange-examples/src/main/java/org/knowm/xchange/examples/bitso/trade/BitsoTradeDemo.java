@@ -33,9 +33,9 @@ public class BitsoTradeDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-    AccountService accountService=bitso.getAccountService();
-    AccountInfo accountInfo=accountService.getAccountInfo();
-    System.out.println(accountInfo);
+//    AccountService accountService=bitso.getAccountService();
+//    AccountInfo accountInfo=accountService.getAccountInfo();
+//    System.out.println(accountInfo);
 //    
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService,tradeService);
@@ -49,11 +49,11 @@ public class BitsoTradeDemo {
     LimitOrder limitOrder =
         new LimitOrder(
             (OrderType.ASK),
-            new BigDecimal("0.01"),
-            new CurrencyPair(Currency.BTC, Currency.USD),
+            new BigDecimal("16923.62"),
+            new CurrencyPair(Currency.XRP, Currency.MXN),
             "",
             null,
-            new BigDecimal("5000.00"));
+            new BigDecimal("6.4998"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
