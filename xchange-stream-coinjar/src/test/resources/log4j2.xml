@@ -6,10 +6,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="io.netty" level="trace"/>
-        <Logger name="info.bitrich.xchangestream" level="trace"/>
-        <Root level="trace">
+        <Logger name="io.netty" level="warn"/>
+        <Logger name="info.bitrich.xchangestream" level="warn"/>
+        <root level="WARN">
             <AppenderRef ref="Console"/>
-        </Root>
+        </root>
     </Loggers>
 </Configuration>
