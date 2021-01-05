@@ -154,7 +154,8 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
             LOG.info("Authenticated successfully");
           }
           break;
-        case SUBSCRIBED: {
+        case SUBSCRIBED:
+          {
             String channel = message.get("channel").asText();
             String pair = message.get("pair").asText();
             String channelId = message.get(CHANNEL_ID).asText();
@@ -167,7 +168,8 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
             }
             break;
           }
-        case UNSUBSCRIBED: {
+        case UNSUBSCRIBED:
+          {
             String channelId = message.get(CHANNEL_ID).asText();
             subscribedChannels.remove(channelId);
             break;
@@ -289,8 +291,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
 
     if (channelId == null) throw new IOException("Can't find channel unique name");
 
-    return objectMapper.writeValueAsString(
-        new BitfinexWebSocketUnSubscriptionMessage(channelId));
+    return objectMapper.writeValueAsString(new BitfinexWebSocketUnSubscriptionMessage(channelId));
   }
 
   void setApiKey(String apiKey) {

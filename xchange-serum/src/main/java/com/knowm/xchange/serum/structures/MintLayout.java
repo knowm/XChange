@@ -17,10 +17,7 @@ public class MintLayout extends Struct {
 
   public static final StructDecoder<MintLayout> DECODER =
       bytes ->
-          JBBPParser.prepare("" +
-                  "byte[44] blob44; " +
-                  "byte decimals; " +
-                  "byte[37] blob37;")
+          JBBPParser.prepare("" + "byte[44] blob44; " + "byte decimals; " + "byte[37] blob37;")
               .parse(bytes)
               .mapTo(new MintLayout());
 }
