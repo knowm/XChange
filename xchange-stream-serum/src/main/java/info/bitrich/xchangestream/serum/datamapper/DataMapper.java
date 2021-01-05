@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.knowm.xchange.serum.core.Market;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class DataMapper {
@@ -25,15 +24,4 @@ public abstract class DataMapper {
     }
 
     abstract Stream<JsonNode> map(final byte[] bytes, final long slot, final long timestamp) throws IOException;
-
-    public static class NewlyAddedWrapper<T> {
-
-        public final T queueHead;
-        public final List<T> newlyAdded;
-
-        public NewlyAddedWrapper(final T queueHead, final List<T> newlyAdded) {
-            this.queueHead = queueHead;
-            this.newlyAdded = newlyAdded;
-        }
-    }
 }
