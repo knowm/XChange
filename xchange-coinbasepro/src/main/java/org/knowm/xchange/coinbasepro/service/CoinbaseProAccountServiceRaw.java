@@ -14,25 +14,23 @@ import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
 import org.knowm.xchange.currency.Currency;
-import si.mazi.rescu.SynchronizedValueFactory;
+import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
 
 public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
 
-  private final SynchronizedValueFactory<Long> nonceFactory;
-
   public CoinbaseProAccountServiceRaw(Exchange exchange) {
-
     super(exchange);
-    this.nonceFactory = exchange.getNonceFactory();
   }
 
   public org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] getCoinbaseProAccountInfo()
       throws CoinbaseProException, IOException {
-    return coinbasePro.getAccounts(apiKey, digest, nonceFactory, passphrase);
+    return coinbasePro.getAccounts(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
   public CoinbaseProFee getCoinbaseProFees() throws CoinbaseProException, IOException {
-    return coinbasePro.getFees(apiKey, digest, nonceFactory, passphrase);
+    return coinbasePro.getFees(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
   public CoinbaseProSendMoneyResponse sendMoney(
@@ -42,7 +40,7 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
         new CoinbaseProSendMoneyRequest(to, amount, currency.getCurrencyCode()),
         apiKey,
         digest,
-        nonceFactory,
+        UnixTimestampFactory.INSTANCE.createValue(),
         passphrase,
         accountId);
   }
@@ -57,58 +55,80 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
     return coinbasePro.withdrawCrypto(
         apiKey,
         digest,
-        nonceFactory,
+        UnixTimestampFactory.INSTANCE.createValue(),
         passphrase,
         new CoinbaseProWithdrawFundsRequest(
             amount, currency.getCurrencyCode(), address, destinationTag, noDestinationTag));
   }
 
   public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {
-    return coinbasePro.ledger(apiKey, digest, nonceFactory, passphrase, accountId, startingOrderId);
+    return coinbasePro.ledger(
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        accountId,
+        startingOrderId);
   }
 
   /** @return the report id */
   public String requestNewReport(CoinbasePro.CoinbaseProReportRequest reportRequest)
       throws IOException {
     Map response =
-        coinbasePro.createReport(apiKey, digest, nonceFactory, passphrase, reportRequest);
+        coinbasePro.createReport(
+            apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, reportRequest);
     return response.get("id").toString();
   }
 
   public Map report(String reportId) throws IOException {
-    return coinbasePro.getReport(apiKey, digest, nonceFactory, passphrase, reportId);
+    return coinbasePro.getReport(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, reportId);
   }
 
   public CoinbaseProTransfers transfers(
       String accountId, String profileId, int limit, String after) {
     return coinbasePro.transfers(
-        apiKey, digest, nonceFactory, passphrase, accountId, profileId, limit, after);
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        accountId,
+        profileId,
+        limit,
+        after);
   }
 
   public CoinbaseProTransfers transfers(
       String type, String profileId, String before, String after, int limit) {
     return coinbasePro.transfers(
-        apiKey, digest, nonceFactory, passphrase, type, profileId, before, after, limit);
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        type,
+        profileId,
+        before,
+        after,
+        limit);
   }
 
   public CoinbaseProAccount[] getCoinbaseAccounts() throws IOException {
-    return coinbasePro.getCoinbaseProAccounts(apiKey, digest, nonceFactory, passphrase);
+    return coinbasePro.getCoinbaseProAccounts(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
   public CoinbaseProAccountAddress getCoinbaseAccountAddress(String accountId) {
     return coinbasePro.getCoinbaseProAccountAddress(
-        apiKey, digest, nonceFactory, passphrase, accountId);
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, accountId);
   }
 
   public CoinbaseProWebsocketAuthData getWebsocketAuthData()
       throws CoinbaseProException, IOException {
-    long timestamp = nonceFactory.createValue();
+    long timestamp = UnixTimestampFactory.INSTANCE.createValue();
     JsonNode json = coinbasePro.getVerifyId(apiKey, digest, timestamp, passphrase);
     String userId = json.get("id").asText();
     CoinbaseProDigest coinbaseProDigest = (CoinbaseProDigest) digest;
-    CoinbaseProWebsocketAuthData data =
-        new CoinbaseProWebsocketAuthData(
-            userId, apiKey, passphrase, coinbaseProDigest.getSignature(), timestamp);
-    return data;
+    return new CoinbaseProWebsocketAuthData(
+        userId, apiKey, passphrase, coinbaseProDigest.getSignature(), timestamp);
   }
 }
