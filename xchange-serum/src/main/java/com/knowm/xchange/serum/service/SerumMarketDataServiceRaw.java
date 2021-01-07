@@ -13,7 +13,7 @@ import com.knowm.xchange.serum.core.MarketOptions;
 import com.knowm.xchange.serum.dto.PublicKey;
 import com.knowm.xchange.serum.dto.SolanaResponse;
 import com.knowm.xchange.serum.dto.SolanaValue;
-import com.knowm.xchange.serum.structures.AccountFlagsLayout;
+import com.knowm.xchange.serum.structures.AccountFlagsLayout.AccountFlags;
 import com.knowm.xchange.serum.structures.MarketLayout;
 import com.knowm.xchange.serum.structures.MarketStat;
 import com.knowm.xchange.serum.structures.MintLayout;
@@ -64,7 +64,7 @@ public class SerumMarketDataServiceRaw extends SerumBaseService {
     }
 
     final MarketStat m = MarketLayout.getLayout(programId).decode(result.data[0]);
-    final AccountFlagsLayout.AccountFlags accountFlags = m.getAccountFlags();
+    final AccountFlags accountFlags = m.getAccountFlags();
     if (!accountFlags.initialized || !accountFlags.market || !m.getOwnAddress().equals(address)) {
       throw new Error("Invalid market");
     }
