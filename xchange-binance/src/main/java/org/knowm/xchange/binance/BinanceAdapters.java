@@ -2,8 +2,9 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.util.Arrays;
 import java.util.stream.Collectors;
+
 import org.knowm.xchange.binance.dto.account.AssetDetail;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
@@ -14,12 +15,12 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrades;
 
 public class BinanceAdapters {
 
@@ -121,7 +122,8 @@ public class BinanceAdapters {
     }
   }
 
-  public static Order adaptOrder(BinanceOrder order) {
+
+  public static Order adaptOrder(BinanceOrder order, UserTrades userTrades) {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
     Order.Builder builder;
@@ -139,6 +141,14 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
+    // TODO: Fee and Average Price
+    BigDecimal fee = BigDecimal.ZERO;
+    userTrades.getUserTrades().stream()
+      .filter(trade -> Long.parseLong(trade.getOrderId()) == order.orderId)
+      .forEach(trade -> {
+        fee.add(trade.getFeeAmount());
+      });
+    // Reference: BTCMarketsAdapters line 115
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
@@ -147,6 +157,19 @@ public class BinanceAdapters {
       builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
     return builder.build();
+  }
+
+  /**
+   * @deprecated 
+   * This method does not contain enough useful information (eg. Fee, AveragePrice)
+   * 
+   * <p> Use {@link BinanceAdapters#adaptOrder(BinanceOrder, UserTrades)} instead.
+   * @param order BinanceOrder
+   * @return
+   */
+  @Deprecated(since ="5.0.4", forRemoval = true)
+  public static Order adaptOrder(BinanceOrder order) {
+    adaptOrder(order, null);
   }
 
   private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
