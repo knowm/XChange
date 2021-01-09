@@ -25,7 +25,7 @@ public class FtxAccountService extends FtxAccountServiceRaw implements AccountSe
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return FtxAdapters.adaptAccountInfo(getFtxAccountInformation(),getFtxWalletBalances());
+    return FtxAdapters.adaptAccountInfo(getFtxAccountInformation(), getFtxWalletBalances());
   }
 
   @Override

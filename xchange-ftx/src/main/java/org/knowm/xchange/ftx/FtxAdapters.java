@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -98,7 +97,6 @@ public class FtxAdapters {
                     new HashSet<>(
                         Arrays.asList(
                             Wallet.WalletFeature.MARGIN_TRADING,
-                            Wallet.WalletFeature.TRADING,
                             Wallet.WalletFeature.MARGIN_FUNDING))))
             .maxLeverage(ftxAccountDto.getResult().getLeverage())
             .currentLeverage(
@@ -109,7 +107,7 @@ public class FtxAdapters {
                         ftxAccountDto.getResult().getTotalAccountValue(),
                         3,
                         RoundingMode.HALF_EVEN))
-                .id("margin")
+            .id("margin")
             .build();
 
     Wallet spotWallet =
@@ -117,134 +115,161 @@ public class FtxAdapters {
             .features(
                 Collections.unmodifiableSet(
                     new HashSet<>(
-                        Arrays.asList(
-                            Wallet.WalletFeature.FUNDING,
-                            Wallet.WalletFeature.TRADING))))
-                .id("spot")
+                        Arrays.asList(Wallet.WalletFeature.FUNDING, Wallet.WalletFeature.TRADING))))
+            .id("spot")
             .build();
 
     return new AccountInfo(
         ftxAccountDto.getResult().getUsername(),
         ftxAccountDto.getResult().getTakerFee(),
-        accountWallet,spotWallet);
+        Collections.unmodifiableList(Arrays.asList(accountWallet, spotWallet)),
+        Date.from(Instant.now()));
   }
 
-  public static ExchangeMetaData adaptExchangeMetaData(FtxMarketsDto marketsDto){
+  public static ExchangeMetaData adaptExchangeMetaData(FtxMarketsDto marketsDto) {
 
-      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-      Map<Currency, CurrencyMetaData> currency = new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currency = new HashMap<>();
 
-      marketsDto.getMarketList().forEach(ftxMarketDto -> {
-
-          CurrencyPairMetaData currencyPairMetaData =
+    marketsDto
+        .getMarketList()
+        .forEach(
+            ftxMarketDto -> {
+              CurrencyPairMetaData currencyPairMetaData =
                   new CurrencyPairMetaData.Builder()
-                          .amountStepSize(ftxMarketDto.getPriceIncrement())
-                          .minimumAmount(ftxMarketDto.getSizeIncrement())
-                          .priceScale(ftxMarketDto.getPriceIncrement().scale())
-                          .baseScale(ftxMarketDto.getSizeIncrement().scale())
-                          .build();
+                      .amountStepSize(ftxMarketDto.getPriceIncrement())
+                      .minimumAmount(ftxMarketDto.getSizeIncrement())
+                      .priceScale(ftxMarketDto.getPriceIncrement().scale())
+                      .baseScale(ftxMarketDto.getSizeIncrement().scale())
+                      .build();
 
-          if(ftxMarketDto.getType().equals("spot")){
-              CurrencyPair currencyPair = new CurrencyPair(ftxMarketDto.getBaseCurrency(),ftxMarketDto.getQuoteCurrency());
-              currencyPairs.put(currencyPair,currencyPairMetaData);
-              if(!currency.containsKey(currencyPair.base)){
-                  currency.put(currencyPair.base,new CurrencyMetaData(ftxMarketDto.getSizeIncrement().scale(),BigDecimal.ZERO));
+              if (ftxMarketDto.getType().equals("spot")) {
+                CurrencyPair currencyPair =
+                    new CurrencyPair(
+                        ftxMarketDto.getBaseCurrency(), ftxMarketDto.getQuoteCurrency());
+                currencyPairs.put(currencyPair, currencyPairMetaData);
+                if (!currency.containsKey(currencyPair.base)) {
+                  currency.put(
+                      currencyPair.base,
+                      new CurrencyMetaData(
+                          ftxMarketDto.getSizeIncrement().scale(), BigDecimal.ZERO));
+                }
+                if (!currency.containsKey(currencyPair.counter)) {
+                  currency.put(
+                      currencyPair.counter,
+                      new CurrencyMetaData(
+                          ftxMarketDto.getPriceIncrement().scale(), BigDecimal.ZERO));
+                }
               }
-              if(!currency.containsKey(currencyPair.counter)){
-                  currency.put(currencyPair.counter,new CurrencyMetaData(ftxMarketDto.getPriceIncrement().scale(),BigDecimal.ZERO));
-              }
-          }
+            });
 
-      });
+    RateLimit[] rateLimits = {new RateLimit(30, 1, TimeUnit.SECONDS)};
 
-      RateLimit[] rateLimits = {new RateLimit(30,1, TimeUnit.SECONDS)};
-
-      return new ExchangeMetaData(currencyPairs,currency,rateLimits,rateLimits,true);
+    return new ExchangeMetaData(currencyPairs, currency, rateLimits, rateLimits, true);
   }
 
-  public static FtxOrderRequestPayload adaptLimitOrderToFtxOrderPayload(LimitOrder limitOrder){
-      return new FtxOrderRequestPayload(
-              limitOrder.getInstrument().toString(),
-              adaptOrderTypeToFtxOrderSide(limitOrder.getType()),
-              limitOrder.getLimitPrice(),
-              FtxOrderType.limit,
-              limitOrder.getOriginalAmount(),
-              limitOrder.hasFlag(FtxOrderFlags.REDUCE_ONLY),
-              limitOrder.hasFlag(FtxOrderFlags.IOC),
-              limitOrder.hasFlag(FtxOrderFlags.POST_ONLY),
-              limitOrder.getUserReference()
-              );
+  public static FtxOrderRequestPayload adaptLimitOrderToFtxOrderPayload(LimitOrder limitOrder) {
+    return new FtxOrderRequestPayload(
+        limitOrder.getInstrument().toString(),
+        adaptOrderTypeToFtxOrderSide(limitOrder.getType()),
+        limitOrder.getLimitPrice(),
+        FtxOrderType.limit,
+        limitOrder.getOriginalAmount(),
+        limitOrder.hasFlag(FtxOrderFlags.REDUCE_ONLY),
+        limitOrder.hasFlag(FtxOrderFlags.IOC),
+        limitOrder.hasFlag(FtxOrderFlags.POST_ONLY),
+        limitOrder.getUserReference());
   }
 
-  public static UserTrades adaptUserTrades(List<FtxOrderDto> ftxUserTrades){
-      List<UserTrade> userTrades = new ArrayList<>();
+  public static UserTrades adaptUserTrades(List<FtxOrderDto> ftxUserTrades) {
+    List<UserTrade> userTrades = new ArrayList<>();
 
-      ftxUserTrades.forEach(ftxOrderDto -> {
-          userTrades.add(new UserTrade.Builder()
-                  .instrument(CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                  .currencyPair(CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+    ftxUserTrades.forEach(
+        ftxOrderDto -> {
+          userTrades.add(
+              new UserTrade.Builder()
+                  .instrument(
+                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                  .currencyPair(
+                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
                   .timestamp(ftxOrderDto.getCreatedAt())
                   .id(ftxOrderDto.getId())
                   .orderUserReference(ftxOrderDto.getClientId())
                   .originalAmount(ftxOrderDto.getSize())
                   .type(adaptFtxOrderSideToOrderSide(ftxOrderDto.getSide()))
-                  .price(ftxOrderDto.getAvgFillPrice() == null ? ftxOrderDto.getPrice(): ftxOrderDto.getAvgFillPrice())
+                  .price(
+                      ftxOrderDto.getAvgFillPrice() == null
+                          ? ftxOrderDto.getPrice()
+                          : ftxOrderDto.getAvgFillPrice())
                   .build());
-      });
+        });
 
-      return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
+    return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
 
-    public static LimitOrder adaptLimitOrder(FtxOrderDto ftxOrderDto){
+  public static LimitOrder adaptLimitOrder(FtxOrderDto ftxOrderDto) {
 
-        return new LimitOrder.Builder(adaptFtxOrderSideToOrderSide(ftxOrderDto.getSide()), CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                .originalAmount(ftxOrderDto.getSize())
-                .limitPrice(ftxOrderDto.getPrice())
-                .averagePrice(ftxOrderDto.getAvgFillPrice())
-                .userReference(ftxOrderDto.getClientId())
-                .timestamp(ftxOrderDto.getCreatedAt())
-                .flags(Collections.unmodifiableSet(
-                        new HashSet<>(
-                                Arrays.asList(
-                                        (ftxOrderDto.isIoc() ? FtxOrderFlags.IOC: null),
-                                        (ftxOrderDto.isPostOnly() ? FtxOrderFlags.POST_ONLY: null),
-                                        (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY: null)
-                                        ))))
-                .remainingAmount(ftxOrderDto.getRemainingSize())
-                .orderStatus(ftxOrderDto.getStatus())
-                .id(ftxOrderDto.getId())
-                .build();
-    }
-
-  public static OpenOrders adaptOpenOrders(FtxResponse<List<FtxOrderDto>> ftxOpenOrdersResponse){
-      List<LimitOrder> openOrders = new ArrayList<>();
-
-      ftxOpenOrdersResponse.getResult().forEach(ftxOrderDto -> {
-          openOrders.add(adaptLimitOrder(ftxOrderDto));
-      });
-
-      return new OpenOrders(openOrders);
+    return new LimitOrder.Builder(
+            adaptFtxOrderSideToOrderSide(ftxOrderDto.getSide()),
+            CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+        .originalAmount(ftxOrderDto.getSize())
+        .limitPrice(ftxOrderDto.getPrice())
+        .averagePrice(ftxOrderDto.getAvgFillPrice())
+        .userReference(ftxOrderDto.getClientId())
+        .timestamp(ftxOrderDto.getCreatedAt())
+        .flags(
+            Collections.unmodifiableSet(
+                new HashSet<>(
+                    Arrays.asList(
+                        (ftxOrderDto.isIoc() ? FtxOrderFlags.IOC : null),
+                        (ftxOrderDto.isPostOnly() ? FtxOrderFlags.POST_ONLY : null),
+                        (ftxOrderDto.isReduceOnly() ? FtxOrderFlags.REDUCE_ONLY : null)))))
+        .remainingAmount(ftxOrderDto.getRemainingSize())
+        .orderStatus(ftxOrderDto.getStatus())
+        .id(ftxOrderDto.getId())
+        .build();
   }
 
-    public static FtxOrderSide adaptOrderTypeToFtxOrderSide(Order.OrderType orderType){
+  public static OpenOrders adaptOpenOrders(FtxResponse<List<FtxOrderDto>> ftxOpenOrdersResponse) {
+    List<LimitOrder> openOrders = new ArrayList<>();
 
-        switch (orderType){
-            case ASK:
-                return FtxOrderSide.sell;
-            case BID:
-                return FtxOrderSide.buy;
-            case EXIT_ASK:
-                return null;
-            case EXIT_BID:
-                return null;
-            default:
-                return null;
-        }
+    ftxOpenOrdersResponse
+        .getResult()
+        .forEach(
+            ftxOrderDto -> {
+              openOrders.add(adaptLimitOrder(ftxOrderDto));
+            });
+
+    return new OpenOrders(openOrders);
+  }
+
+  public static FtxOrderSide adaptOrderTypeToFtxOrderSide(Order.OrderType orderType) {
+
+    switch (orderType) {
+      case ASK:
+        return FtxOrderSide.sell;
+      case BID:
+        return FtxOrderSide.buy;
+      case EXIT_ASK:
+        return null;
+      case EXIT_BID:
+        return null;
+      default:
+        return null;
     }
+  }
 
-    public static Order.OrderType adaptFtxOrderSideToOrderSide(FtxOrderSide ftxOrderSide){
+  public static Order.OrderType adaptFtxOrderSideToOrderSide(FtxOrderSide ftxOrderSide) {
 
-        return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+    return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+    if (currencyPair.counter.getCurrencyCode().contains("PERP")
+        || currencyPair.counter.getCurrencyCode().contains("[0-9]+")) {
+      return currencyPair.base + "-" + currencyPair.counter;
+    } else {
+      return currencyPair.toString();
     }
-
+  }
 }

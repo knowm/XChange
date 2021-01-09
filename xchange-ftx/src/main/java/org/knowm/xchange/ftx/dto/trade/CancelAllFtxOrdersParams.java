@@ -5,21 +5,18 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 public class CancelAllFtxOrdersParams implements CancelOrderParams {
 
-    private final String market;
+  private final String market;
 
-    public CancelAllFtxOrdersParams(
-            @JsonProperty("market") String market) {
-        this.market = market;
-    }
+  public CancelAllFtxOrdersParams(@JsonProperty("market") String market) {
+    this.market = market;
+  }
 
-    public String getMarket() {
-        return market;
-    }
+  public String getMarket() {
+    return market;
+  }
 
-    @Override
-    public String toString() {
-        return "CancelAllFtxOrdersParams{" +
-                "market='" + market + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "CancelAllFtxOrdersParams{" + "market='" + market + '\'' + '}';
+  }
 }

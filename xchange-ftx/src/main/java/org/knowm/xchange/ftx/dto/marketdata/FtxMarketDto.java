@@ -74,28 +74,28 @@ public class FtxMarketDto {
 
   @JsonCreator
   public FtxMarketDto(
-          @JsonProperty("ask") BigDecimal ask,
-          @JsonProperty("baseCurrency") String baseCurrency,
-          @JsonProperty("bid") BigDecimal bid,
-          @JsonProperty("change1h") BigDecimal change1h,
-          @JsonProperty("change24h") BigDecimal change24h,
-          @JsonProperty("changeBod") BigDecimal changeBod,
-          @JsonProperty("enabled") boolean enabled,
-          @JsonProperty("highLeverageFeeExempt") boolean highLeverageFeeExempt,
-          @JsonProperty("last") BigDecimal last,
-          @JsonProperty("minProvideSize") BigDecimal minProvideSize,
-          @JsonProperty("name") String name,
-          @JsonProperty("postOnly") boolean postOnly,
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("priceIncrement") BigDecimal priceIncrement,
-          @JsonProperty("quoteCurrency") String quoteCurrency,
-          @JsonProperty("quoteVolume24h") BigDecimal quoteVolume24h,
-          @JsonProperty("restricted") boolean restricted,
-          @JsonProperty("sizeIncrement") BigDecimal sizeIncrement,
-          @JsonProperty("tokenizedEquity") boolean tokenizedEquity,
-          @JsonProperty("type") String type,
-          @JsonProperty("underlying") String underlying,
-          @JsonProperty("volumeUsd24h") BigDecimal volumeUsd24h) {
+      @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("baseCurrency") String baseCurrency,
+      @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("change1h") BigDecimal change1h,
+      @JsonProperty("change24h") BigDecimal change24h,
+      @JsonProperty("changeBod") BigDecimal changeBod,
+      @JsonProperty("enabled") boolean enabled,
+      @JsonProperty("highLeverageFeeExempt") boolean highLeverageFeeExempt,
+      @JsonProperty("last") BigDecimal last,
+      @JsonProperty("minProvideSize") BigDecimal minProvideSize,
+      @JsonProperty("name") String name,
+      @JsonProperty("postOnly") boolean postOnly,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("priceIncrement") BigDecimal priceIncrement,
+      @JsonProperty("quoteCurrency") String quoteCurrency,
+      @JsonProperty("quoteVolume24h") BigDecimal quoteVolume24h,
+      @JsonProperty("restricted") boolean restricted,
+      @JsonProperty("sizeIncrement") BigDecimal sizeIncrement,
+      @JsonProperty("tokenizedEquity") boolean tokenizedEquity,
+      @JsonProperty("type") String type,
+      @JsonProperty("underlying") String underlying,
+      @JsonProperty("volumeUsd24h") BigDecimal volumeUsd24h) {
 
     this.ask = ask;
     this.baseCurrency = baseCurrency;
@@ -211,29 +211,56 @@ public class FtxMarketDto {
 
   @Override
   public String toString() {
-    return "FtxMarketDto{" +
-            "ask=" + ask +
-            ", baseCurrency='" + baseCurrency + '\'' +
-            ", bid=" + bid +
-            ", change1h=" + change1h +
-            ", change24h=" + change24h +
-            ", changeBod=" + changeBod +
-            ", enabled=" + enabled +
-            ", highLeverageFeeExempt=" + highLeverageFeeExempt +
-            ", last=" + last +
-            ", minProvideSize=" + minProvideSize +
-            ", name='" + name + '\'' +
-            ", postOnly=" + postOnly +
-            ", price=" + price +
-            ", priceIncrement=" + priceIncrement +
-            ", quoteCurrency='" + quoteCurrency + '\'' +
-            ", quoteVolume24h=" + quoteVolume24h +
-            ", restricted=" + restricted +
-            ", sizeIncrement=" + sizeIncrement +
-            ", tokenizedEquity=" + tokenizedEquity +
-            ", type='" + type + '\'' +
-            ", underlying='" + underlying + '\'' +
-            ", volumeUsd24h=" + volumeUsd24h +
-            '}';
+    return "FtxMarketDto{"
+        + "ask="
+        + ask
+        + ", baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", bid="
+        + bid
+        + ", change1h="
+        + change1h
+        + ", change24h="
+        + change24h
+        + ", changeBod="
+        + changeBod
+        + ", enabled="
+        + enabled
+        + ", highLeverageFeeExempt="
+        + highLeverageFeeExempt
+        + ", last="
+        + last
+        + ", minProvideSize="
+        + minProvideSize
+        + ", name='"
+        + name
+        + '\''
+        + ", postOnly="
+        + postOnly
+        + ", price="
+        + price
+        + ", priceIncrement="
+        + priceIncrement
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", quoteVolume24h="
+        + quoteVolume24h
+        + ", restricted="
+        + restricted
+        + ", sizeIncrement="
+        + sizeIncrement
+        + ", tokenizedEquity="
+        + tokenizedEquity
+        + ", type='"
+        + type
+        + '\''
+        + ", underlying='"
+        + underlying
+        + '\''
+        + ", volumeUsd24h="
+        + volumeUsd24h
+        + '}';
   }
 }

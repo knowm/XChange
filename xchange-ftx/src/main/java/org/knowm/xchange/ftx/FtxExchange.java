@@ -46,10 +46,10 @@ public class FtxExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    FtxMarketsDto marketsDto = ((FtxMarketDataServiceRaw) marketDataService).getFtxMarkets().getResult();
+    FtxMarketsDto marketsDto =
+        ((FtxMarketDataServiceRaw) marketDataService).getFtxMarkets().getResult();
 
     exchangeMetaData = FtxAdapters.adaptExchangeMetaData(marketsDto);
-
   }
 
   @Override

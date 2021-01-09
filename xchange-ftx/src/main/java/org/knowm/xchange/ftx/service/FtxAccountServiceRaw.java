@@ -3,7 +3,6 @@ package org.knowm.xchange.ftx.service;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
@@ -28,13 +27,14 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<List<FtxWalletBalanceDto>> getFtxWalletBalances() throws FtxException, IOException {
+  public FtxResponse<List<FtxWalletBalanceDto>> getFtxWalletBalances()
+      throws FtxException, IOException {
 
     try {
       return ftx.getWalletBalances(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator);
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }

@@ -16,7 +16,7 @@
       "remainingSize": 0.0,
       "side": "buy",
       "size": 0.001,
-      "status": "closed",
+      "status": "open",
       "type": "limit"
     }
   ],
