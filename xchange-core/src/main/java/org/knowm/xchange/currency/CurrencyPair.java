@@ -412,11 +412,19 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   @JsonCreator
   public CurrencyPair(String currencyPair) {
 
-    int split = currencyPair.indexOf('/');
+    int split;
+
+    if (currencyPair.contains("-")) {
+      split = currencyPair.indexOf('-');
+    } else {
+      split = currencyPair.indexOf('/');
+    }
+
     if (split < 1) {
       throw new IllegalArgumentException(
           "Could not parse currency pair from '" + currencyPair + "'");
     }
+
     String base = currencyPair.substring(0, split);
     String counter = currencyPair.substring(split + 1);
 

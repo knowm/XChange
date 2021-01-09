@@ -1,12 +1,11 @@
 package org.knowm.xchange.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.instrument.Instrument;
@@ -27,12 +26,12 @@ public class OpenPosition extends Order {
   }
 
   @JsonPOJOBuilder(withPrefix = "")
-  public static class Builder extends Order.Builder{
+  public static class Builder extends Order.Builder {
 
     @JsonCreator
     public Builder(
-            @JsonProperty("orderType") OrderType orderType,
-            @JsonProperty("instrument") Instrument instrument) {
+        @JsonProperty("orderType") OrderType orderType,
+        @JsonProperty("instrument") Instrument instrument) {
 
       super(orderType, instrument);
     }
@@ -102,19 +101,11 @@ public class OpenPosition extends Order {
       return (LimitOrder.Builder) super.fee(fee);
     }
 
-
     @Override
     public OpenPosition build() {
 
       return new OpenPosition(
-                      orderType,
-                      originalAmount,
-                      instrument,
-                      id,
-                      timestamp,
-                      averagePrice,
-                      fee
-              );
+          orderType, originalAmount, instrument, id, timestamp, averagePrice, fee);
     }
   }
 }
