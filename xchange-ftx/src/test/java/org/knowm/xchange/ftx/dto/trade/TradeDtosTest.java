@@ -52,7 +52,7 @@ public class TradeDtosTest {
     assertThat(ftxResponse.getResult().get(0).getMarket()).isEqualTo("BTC-PERP");
     assertThat(ftxResponse.getResult().get(0).getSide()).isEqualTo(FtxOrderSide.buy);
     assertThat(ftxResponse.getResult().get(0).getType()).isEqualTo(FtxOrderType.limit);
-    assertThat(ftxResponse.getResult().get(0).getStatus()).isEqualTo(Order.OrderStatus.OPEN);
+    assertThat(ftxResponse.getResult().get(0).getStatus()).isEqualTo(Order.OrderStatus.NEW);
     assertThat(ftxResponse.getResult().get(0).getFuture()).isEqualTo("BTC-PERP");
   }
 }
