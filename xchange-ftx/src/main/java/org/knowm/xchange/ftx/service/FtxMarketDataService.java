@@ -29,7 +29,8 @@ public class FtxMarketDataService extends FtxMarketDataServiceRaw implements Mar
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return FtxAdapters.adaptOrderBook(getFtxOrderbook(currencyPair.toString()), currencyPair);
+    return FtxAdapters.adaptOrderBook(
+        getFtxOrderbook(FtxAdapters.adaptCurrencyPair(currencyPair)), currencyPair);
   }
 
   @Override

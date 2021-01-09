@@ -2,10 +2,9 @@ package org.knowm.xchange.ftx.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.dto.Order;
-
 import java.math.BigDecimal;
 import java.util.Date;
+import org.knowm.xchange.dto.Order;
 
 public class FtxOrderDto {
 
@@ -143,23 +142,43 @@ public class FtxOrderDto {
 
   @Override
   public String toString() {
-    return "FtxOrderDto{" +
-            "createdAt=" + createdAt +
-            ", filledSize=" + filledSize +
-            ", future='" + future + '\'' +
-            ", id='" + id + '\'' +
-            ", market='" + market + '\'' +
-            ", price=" + price +
-            ", avgFillPrice=" + avgFillPrice +
-            ", remainingSize=" + remainingSize +
-            ", side=" + side +
-            ", size=" + size +
-            ", status=" + status +
-            ", type=" + type +
-            ", reduceOnly=" + reduceOnly +
-            ", ioc=" + ioc +
-            ", postOnly=" + postOnly +
-            ", clientId='" + clientId + '\'' +
-            '}';
+    return "FtxOrderDto{"
+        + "createdAt="
+        + createdAt
+        + ", filledSize="
+        + filledSize
+        + ", future='"
+        + future
+        + '\''
+        + ", id='"
+        + id
+        + '\''
+        + ", market='"
+        + market
+        + '\''
+        + ", price="
+        + price
+        + ", avgFillPrice="
+        + avgFillPrice
+        + ", remainingSize="
+        + remainingSize
+        + ", side="
+        + side
+        + ", size="
+        + size
+        + ", status="
+        + status
+        + ", type="
+        + type
+        + ", reduceOnly="
+        + reduceOnly
+        + ", ioc="
+        + ioc
+        + ", postOnly="
+        + postOnly
+        + ", clientId='"
+        + clientId
+        + '\''
+        + '}';
   }
 }

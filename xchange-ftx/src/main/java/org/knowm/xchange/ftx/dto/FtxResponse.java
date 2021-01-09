@@ -8,10 +8,12 @@ public class FtxResponse<V> {
   private final boolean success;
   private final V result;
 
-  @JsonIgnore
-  private final boolean hasMoreData;
+  @JsonIgnore private final boolean hasMoreData;
 
-  public FtxResponse(@JsonProperty("success") boolean success, @JsonProperty("result") V result,@JsonProperty("hasMoreData") boolean hasMoreData) {
+  public FtxResponse(
+      @JsonProperty("success") boolean success,
+      @JsonProperty("result") V result,
+      @JsonProperty("hasMoreData") boolean hasMoreData) {
     this.success = success;
     this.result = result;
     this.hasMoreData = hasMoreData;
@@ -31,10 +33,13 @@ public class FtxResponse<V> {
 
   @Override
   public String toString() {
-    return "FtxResponse{" +
-            "success=" + success +
-            ", result=" + result +
-            ", hasMoreData=" + hasMoreData +
-            '}';
+    return "FtxResponse{"
+        + "success="
+        + success
+        + ", result="
+        + result
+        + ", hasMoreData="
+        + hasMoreData
+        + '}';
   }
 }

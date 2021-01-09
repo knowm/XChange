@@ -28,10 +28,10 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/wallet/balances")
   FtxResponse<List<FtxWalletBalanceDto>> getWalletBalances(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      throws IOException, FtxException;
 
   @POST
   @Path("/subaccounts")
@@ -76,62 +76,61 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/orders?market={market}")
   FtxResponse<List<FtxOrderDto>> openOrders(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @PathParam("market") String market)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("market") String market)
+      throws IOException, FtxException;
 
   @GET
   @Path("/orders")
   FtxResponse<List<FtxOrderDto>> openOrdersWithout(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
 
   @DELETE
   @Path("/orders/{orderId}")
   FtxResponse<String> cancelOrder(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @PathParam("orderId") String orderId)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("orderId") String orderId)
+      throws IOException, FtxException;
 
   @DELETE
   @Path("/orders")
   FtxResponse<String> cancelAllOrders(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          CancelAllFtxOrdersParams payLoad)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      CancelAllFtxOrdersParams payLoad)
+      throws IOException, FtxException;
 
   @GET
   @Path("/orders/history?market={market}")
   FtxResponse<List<FtxOrderDto>> orderHistory(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @PathParam("market") String market)
-          throws IOException, FtxException;
-
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("market") String market)
+      throws IOException, FtxException;
 
   @DELETE
   @Path("/orders/by_client_id/{client_order_id}")
   FtxResponse<FtxOrderDto> cancelOrderByClientId(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @PathParam("client_order_id") String clientOrderId)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("client_order_id") String clientOrderId)
+      throws IOException, FtxException;
 
   @POST
   @Path("/account/leverage")

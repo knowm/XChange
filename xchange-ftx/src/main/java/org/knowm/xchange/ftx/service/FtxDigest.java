@@ -31,12 +31,13 @@ public class FtxDigest extends BaseParamsDigest {
             + restInvocation.getPath();
 
     if (restInvocation.getHttpMethod().equals("POST")
-            || (restInvocation.getPath().contains("/orders") && restInvocation.getHttpMethod().equals("DELETE")) && restInvocation.getRequestBody() != null) {
+        || (restInvocation.getPath().contains("/orders")
+                && restInvocation.getHttpMethod().equals("DELETE"))
+            && restInvocation.getRequestBody() != null) {
       message += restInvocation.getRequestBody();
     }
 
     Mac mac256 = getMac();
-    System.out.println(message);
 
     try {
       mac256.update(message.getBytes(StandardCharsets.UTF_8));
