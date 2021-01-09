@@ -40,8 +40,13 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     public OrderBook apply(CexioWebSocketOrderBookSubscribeResponse t) throws Exception {
       OrderBook retVal;
       if (prevID != null && prevID.add(BigInteger.ONE).compareTo(t.id) != 0) {
-        orderBookSoFar =
-            new OrderBook(new Date(), new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
+        throw new IllegalStateException(
+            "Received an update message with id ["
+                + t.id
+                + "] not sequential to last id ["
+                + prevID
+                + "]. "
+                + "Orderbook out of order!");
       }
 
       prevID = t.id;
@@ -58,8 +63,13 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
         CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
 
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    // check depth parameter
+    int depth = 0;
+    if (args != null && args[0] instanceof Integer) {
+      depth = (Integer) args[0];
+    }
     Observable<JsonNode> jsonNodeObservable =
-        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair);
+        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
     OrderBookUpdateConsumer orderBookConsumer =
         new OrderBookUpdateConsumer(streamingOrderDataService);
     return jsonNodeObservable

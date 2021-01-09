@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
@@ -107,7 +108,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
-      EmptyRequest empty)
+      LedgerRequest req)
       throws IOException, BitfinexExceptionV2;
 
   @POST
@@ -120,7 +121,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("start") Long startTimeMillis,
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Long limit,
-      EmptyRequest empty)
+      LedgerRequest req)
       throws IOException, BitfinexExceptionV2;
 
   /** https://docs.bitfinex.com/reference#rest-auth-order-trades * */

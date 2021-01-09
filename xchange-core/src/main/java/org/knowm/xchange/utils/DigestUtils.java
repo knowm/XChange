@@ -13,4 +13,16 @@ public class DigestUtils {
     }
     return new String(hexChars);
   }
+
+  public static byte[] hexToBytes(final String encoded) {
+    if ((encoded.length() % 2) != 0)
+      throw new IllegalArgumentException("Input string must contain an even number of characters");
+
+    byte[] b = new byte[encoded.length() / 2];
+    for (int i = 0; i < encoded.length(); i += 2) {
+      b[i / 2] = (byte) ((Character.digit(encoded.charAt(i), 16) << 4)
+              + Character.digit(encoded.charAt(i+1), 16));
+    }
+    return b;
+  }
 }
