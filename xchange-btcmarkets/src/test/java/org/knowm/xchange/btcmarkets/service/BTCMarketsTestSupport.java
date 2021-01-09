@@ -21,7 +21,6 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.powermock.reflect.Whitebox;
 
 /** Test utilities for btnmarkets tests. */
 public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
@@ -335,13 +334,13 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
       BTCMarketsOrder.Side side) {
 
     BTCMarketsUserTrade marketsUserTrade = new BTCMarketsUserTrade();
-    Whitebox.setInternalState(marketsUserTrade, "id", id);
-    Whitebox.setInternalState(marketsUserTrade, "description", description);
-    Whitebox.setInternalState(marketsUserTrade, "price", price);
-    Whitebox.setInternalState(marketsUserTrade, "volume", volume);
-    Whitebox.setInternalState(marketsUserTrade, "fee", fee);
-    Whitebox.setInternalState(marketsUserTrade, "creationTime", creationTime);
-    Whitebox.setInternalState(marketsUserTrade, "side", side);
+    //    Whitebox.setInternalState(marketsUserTrade, "id", id);
+    //    Whitebox.setInternalState(marketsUserTrade, "description", description);
+    //    Whitebox.setInternalState(marketsUserTrade, "price", price);
+    //    Whitebox.setInternalState(marketsUserTrade, "volume", volume);
+    //    Whitebox.setInternalState(marketsUserTrade, "fee", fee);
+    //    Whitebox.setInternalState(marketsUserTrade, "creationTime", creationTime);
+    //    Whitebox.setInternalState(marketsUserTrade, "side", side);
 
     return marketsUserTrade;
   }
@@ -364,12 +363,12 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new BTCMarketsOrder(
             volume, price, currency, instrument, orderSide, ordertype, clientRequestId);
 
-    Whitebox.setInternalState(order, "id", id);
-    Whitebox.setInternalState(order, "creationTime", creationTime);
-    Whitebox.setInternalState(order, "status", status);
-    Whitebox.setInternalState(order, "errorMessage", errorMessage);
-    Whitebox.setInternalState(order, "openVolume", openVolume);
-    Whitebox.setInternalState(order, "trades", trades);
+    //    Whitebox.setInternalState(order, "id", id);
+    //    Whitebox.setInternalState(order, "creationTime", creationTime);
+    //    Whitebox.setInternalState(order, "status", status);
+    //    Whitebox.setInternalState(order, "errorMessage", errorMessage);
+    //    Whitebox.setInternalState(order, "openVolume", openVolume);
+    //    Whitebox.setInternalState(order, "trades", trades);
 
     return order;
   }
@@ -378,9 +377,9 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
       BigDecimal pendingFunds, BigDecimal balance, String currency) {
 
     BTCMarketsBalance marketsBalance = new BTCMarketsBalance();
-    Whitebox.setInternalState(marketsBalance, "pendingFunds", pendingFunds);
-    Whitebox.setInternalState(marketsBalance, "balance", balance);
-    Whitebox.setInternalState(marketsBalance, "currency", currency);
+    //    Whitebox.setInternalState(marketsBalance, "pendingFunds", pendingFunds);
+    //    Whitebox.setInternalState(marketsBalance, "balance", balance);
+    //    Whitebox.setInternalState(marketsBalance, "currency", currency);
 
     return marketsBalance;
   }
