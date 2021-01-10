@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gemini;
+package info.bitrich.xchangestream.gemini.v1;
 
 import static org.knowm.xchange.gemini.v1.GeminiAdapters.adaptTrades;
 
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.gemini.dto.GeminiLimitOrder;
-import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
-import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
+import info.bitrich.xchangestream.gemini.v1.dto.GeminiLimitOrder;
+import info.bitrich.xchangestream.gemini.v1.dto.GeminiOrderbook;
+import info.bitrich.xchangestream.gemini.v1.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
