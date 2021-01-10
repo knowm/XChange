@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gemini;
+package info.bitrich.xchangestream.gemini.v1;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;

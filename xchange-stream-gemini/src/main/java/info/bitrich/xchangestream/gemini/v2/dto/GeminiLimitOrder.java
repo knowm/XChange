@@ -1,10 +1,13 @@
-package info.bitrich.xchangestream.gemini.dto;
+package info.bitrich.xchangestream.gemini.v2.dto;
 
-import java.math.BigDecimal;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 
-/** Created by Lukas Zaoralek on 15.11.17. */
+import java.math.BigDecimal;
+
+/**
+ * Adapted from V1 by Max Gao on 01-09-2021
+ */
 public class GeminiLimitOrder extends GeminiLevel {
   private final Order.OrderType side;
 

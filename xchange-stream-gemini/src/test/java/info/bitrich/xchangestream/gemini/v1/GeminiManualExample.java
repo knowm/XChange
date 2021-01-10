@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gemini;
+package info.bitrich.xchangestream.gemini.v1;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
