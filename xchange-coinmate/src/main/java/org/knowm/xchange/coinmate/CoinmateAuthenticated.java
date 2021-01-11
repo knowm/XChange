@@ -119,6 +119,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -135,6 +136,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("currencyPair") String currencyPair,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -349,6 +351,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;
@@ -366,6 +369,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("orderIdToBeReplaced") String orderIdToBeReplaced,
       @FormParam("stopPrice") BigDecimal stopPrice,
       @FormParam("hidden") Integer hidden,
+      @FormParam("postOnly") Integer postOnly,
       @FormParam("immediateOrCancel") Integer immediateOrCancel,
       @FormParam("trailing") Integer trailing)
       throws IOException;

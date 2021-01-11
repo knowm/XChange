@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,11 +31,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
@@ -45,14 +42,7 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderStatus;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
+import org.knowm.xchange.kraken.dto.trade.*;
 
 public class KrakenAdapters {
 
@@ -84,6 +74,34 @@ public class KrakenAdapters {
     return new OrdersContainer(
         (String.valueOf(maxTimestamp).length() >= 13) ? maxTimestamp : maxTimestamp * 1000,
         limitOrders);
+  }
+
+  public static OpenPositions adaptOpenPositions(
+      Map<String, KrakenOpenPosition> krakenOpenPositionMap) {
+    List<OpenPosition> openPositionsList = new ArrayList<>();
+
+    krakenOpenPositionMap
+        .values()
+        .forEach(
+            krakenOpenPosition -> {
+              openPositionsList.add(
+                  new OpenPosition(
+                      KrakenAdapters.adaptOrderType(krakenOpenPosition.getType()),
+                      krakenOpenPosition.getCost(),
+                      KrakenAdapters.adaptCurrencyPair(krakenOpenPosition.getAssetPair()),
+                      krakenOpenPosition.getOrderTxId(),
+                      new Date(krakenOpenPosition.getTradeUnixTimestamp() * 1000),
+                      krakenOpenPosition
+                          .getCost()
+                          .divide(
+                              krakenOpenPosition
+                                  .getVolume()
+                                  .subtract(krakenOpenPosition.getVolumeClosed()),
+                              RoundingMode.HALF_EVEN),
+                      krakenOpenPosition.getFee()));
+            });
+
+    return new OpenPositions(openPositionsList);
   }
 
   public static List<Order> adaptOrders(Map<String, KrakenOrder> krakenOrdersMap) {
@@ -144,11 +162,8 @@ public class KrakenAdapters {
 
   public static LimitOrder adaptOrder(
       KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
-    // if lenght is bigger or equal to 13 then the timstamp is from streaming orderbook
-    Date timeStamp =
-        (String.valueOf(order.getTimestamp()).length() >= 13)
-            ? new Date(order.getTimestamp())
-            : new Date(order.getTimestamp() * 1000);
+
+    Date timeStamp = new Date(order.getTimestamp() * 1000);
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());
