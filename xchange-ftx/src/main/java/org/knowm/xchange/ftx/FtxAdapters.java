@@ -143,7 +143,7 @@ public class FtxAdapters {
                       .baseScale(ftxMarketDto.getSizeIncrement().scale())
                       .build();
 
-              if (ftxMarketDto.getType().equals("spot")) {
+              if ("spot".equals(ftxMarketDto.getType())) {
                 CurrencyPair currencyPair =
                     new CurrencyPair(
                         ftxMarketDto.getBaseCurrency(), ftxMarketDto.getQuoteCurrency());
@@ -160,6 +160,10 @@ public class FtxAdapters {
                       new CurrencyMetaData(
                           ftxMarketDto.getPriceIncrement().scale(), BigDecimal.ZERO));
                 }
+              } else if ("future".equals(ftxMarketDto.getType())
+                  && ftxMarketDto.getName().contains("/")) {
+                CurrencyPair futuresContract = new CurrencyPair(ftxMarketDto.getName());
+                currencyPairs.put(futuresContract, currencyPairMetaData);
               }
             });
 

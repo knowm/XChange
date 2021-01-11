@@ -1,7 +1,6 @@
 package org.knowm.xchange.ftx;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,18 +10,8 @@ import org.knowm.xchange.ftx.service.*;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class FtxExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory =
-      new CurrentTimeIncrementalNonceFactory(TimeUnit.MILLISECONDS);
-
-  @Override
-  public ExchangeSpecification getExchangeSpecification() {
-    return super.getExchangeSpecification();
-  }
 
   @Override
   protected void initServices() {
@@ -50,11 +39,6 @@ public class FtxExchange extends BaseExchange implements Exchange {
         ((FtxMarketDataServiceRaw) marketDataService).getFtxMarkets().getResult();
 
     exchangeMetaData = FtxAdapters.adaptExchangeMetaData(marketsDto);
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
