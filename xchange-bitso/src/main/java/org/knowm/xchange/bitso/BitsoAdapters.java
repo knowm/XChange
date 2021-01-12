@@ -12,7 +12,8 @@ import org.knowm.xchange.bitso.dto.account.BitsoBalances;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoCommonOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
-import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.bitso.dto.trade.BitsoTrade;
+import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
 import org.knowm.xchange.bitso.dto.trade.Payload;
 import org.knowm.xchange.currency.Currency;
@@ -125,13 +126,13 @@ public final class BitsoAdapters {
    * @param currencyPair (e.g. BTC/MXN)
    * @return The XChange Trades
    */
-  public static Trades adaptTrades(BitsoTransaction[] transactions, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitsoTrades transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
-    for (BitsoTransaction tx : transactions) {
+    for (BitsoTrade tx : transactions.getPayload()) {
       Order.OrderType type;
-      switch (tx.getSide()) {
+      switch (tx.getMakerSide()) {
         case "buy":
           type = Order.OrderType.ASK;
           break;
@@ -151,7 +152,7 @@ public final class BitsoAdapters {
               .originalAmount(tx.getAmount())
               .currencyPair(currencyPair)
               .price(tx.getPrice())
-              .timestamp(DateUtils.fromMillisUtc(tx.getDate() * 1000L))
+              .timestamp(DateUtils.fromMillisUtc(tx.getCreatedAt().getTime() * 1000L))
               .id(String.valueOf(tradeId))
               .build());
     }

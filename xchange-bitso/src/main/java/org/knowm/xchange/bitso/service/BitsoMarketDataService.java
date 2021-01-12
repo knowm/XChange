@@ -28,6 +28,6 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitsoAdapters.adaptTrades(getBitsoTransactions(args), currencyPair);
+    return BitsoAdapters.adaptTrades(getBitsoTrades(currencyPair), currencyPair);
   }
 }

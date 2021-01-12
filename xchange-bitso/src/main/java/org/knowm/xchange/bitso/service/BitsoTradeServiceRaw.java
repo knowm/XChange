@@ -108,4 +108,12 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
     return bitsoAuthenticated.getOrder(auth, orderId);
   }
+
+  public static void main(String[] args) {
+    BitsoDigest signatureCreator =
+        BitsoDigest.createInstance("427d805db613b082bf7f9ef761b7e3e2", "Demo", "berCEsRXxq");
+
+    String auth = signatureCreator.digestParams("GET", "/v3/orders/" + "Qi04TtkVq62J6Uul/", null);
+    System.out.println(auth);
+  }
 }

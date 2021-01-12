@@ -2,6 +2,7 @@ package org.knowm.xchange.bitso.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.crypto.Mac;
@@ -50,10 +51,6 @@ public class BitsoDigest extends BaseParamsDigest {
       signature = signature + body;
     }
 
-    System.out.println("Method : " + restInvocation.getHttpMethod());
-    System.out.println("Path : /" + restInvocation.getPath());
-    System.out.println("Body : " + restInvocation.getUnannanotatedParams());
-
     mac256.update(signature.getBytes());
     byte[] arrayOfByte = mac256.doFinal();
     BigInteger localBigInteger = new BigInteger(1, arrayOfByte);
@@ -62,7 +59,10 @@ public class BitsoDigest extends BaseParamsDigest {
         String.format("%0" + (arrayOfByte.length << 1) + "x", new Object[] {localBigInteger});
     String value = "Bitso " + apiKey + ":" + nonce + ":" + finalValue;
 
-    System.out.println(value);
+    System.out.println("Method : " + restInvocation.getHttpMethod());
+    System.out.println("Path : /" + restInvocation.getPath());
+    System.out.println("Body : " + restInvocation.getUnannanotatedParams());
+    System.out.println("Bitso Digest is    " + value);
     return value;
   }
 
@@ -79,9 +79,6 @@ public class BitsoDigest extends BaseParamsDigest {
         } else {
           mainBody = objectMapper.writeValueAsString(body);
         }
-
-        System.out.println(mainBody);
-
       } catch (JsonProcessingException e) {
         e.printStackTrace();
       }
@@ -90,18 +87,24 @@ public class BitsoDigest extends BaseParamsDigest {
     if (!ObjectUtils.isEmpty(body)) {
       signature = signature + mainBody;
     }
-    System.out.println(signature);
-    mac256.update(signature.getBytes());
+    try {
+      mac256.update(signature.getBytes("UTF-8"));
+    } catch (IllegalStateException e) {
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
     byte[] arrayOfByte = mac256.doFinal();
     BigInteger localBigInteger = new BigInteger(1, arrayOfByte);
 
     String finalValue =
         String.format("%0" + (arrayOfByte.length << 1) + "x", new Object[] {localBigInteger});
-    System.out.println("final Value");
-    System.out.println(finalValue);
     String value = "Bitso " + apiKey + ":" + nonce + ":" + finalValue;
 
-    System.out.println(value);
+    System.out.println("Method : " + method);
+    System.out.println("Path : /" + path);
+    System.out.println("Body : " + body);
+    System.out.println("Bitso Digest is    " + value);
     return value;
   }
 }
