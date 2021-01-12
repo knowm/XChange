@@ -3,6 +3,8 @@ package org.knowm.xchange.binance;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -15,6 +17,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -141,14 +144,12 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
-    // TODO: Fee and Average Price
-    BigDecimal fee = BigDecimal.ZERO;
-    userTrades.getUserTrades().stream()
-      .filter(trade -> Long.parseLong(trade.getOrderId()) == order.orderId)
-      .forEach(trade -> {
-        fee.add(trade.getFeeAmount());
-      });
-    // Reference: BTCMarketsAdapters line 115
+    builder.fee(
+      userTrades.getUserTrades().stream()
+        .filter(trade -> Long.parseLong(trade.getOrderId()) == order.orderId)
+        .map(trade -> trade.getFeeAmount())
+        .reduce(BigDecimal.ZERO, (subtotal, fee) -> subtotal.add(fee))
+     );
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
@@ -169,7 +170,7 @@ public class BinanceAdapters {
    */
   @Deprecated(since ="5.0.4", forRemoval = true)
   public static Order adaptOrder(BinanceOrder order) {
-    adaptOrder(order, null);
+    return adaptOrder(order, null);
   }
 
   private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
