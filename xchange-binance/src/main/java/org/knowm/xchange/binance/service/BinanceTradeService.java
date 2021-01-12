@@ -321,12 +321,16 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               "You need to provide the currency pair and the order id to query an order.");
         }
 
+        // Get trades associated with the order
+        TradeHistoryParams tradeParams = (TradeHistoryParams) new BinanceTradeHistoryParams(orderQueryParamCurrencyPair.getCurrencyPair());
+        UserTrades tradeHist = getTradeHistory(tradeParams);
+
         orders.add(
             BinanceAdapters.adaptOrder(
                 super.orderStatus(
                     orderQueryParamCurrencyPair.getCurrencyPair(),
                     BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null)));
+                    null), tradeHist));
       }
       return orders;
     } catch (BinanceException e) {
