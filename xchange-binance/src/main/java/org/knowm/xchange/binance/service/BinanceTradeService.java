@@ -7,7 +7,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Value;
+
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
@@ -322,15 +323,28 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
         }
 
         // Get trades associated with the order
-        TradeHistoryParams tradeParams = (TradeHistoryParams) new BinanceTradeHistoryParams(orderQueryParamCurrencyPair.getCurrencyPair());
-        UserTrades tradeHist = getTradeHistory(tradeParams);
+        BinanceTradeHistoryParams tradeHistParams = new BinanceTradeHistoryParams(orderQueryParamCurrencyPair.getCurrencyPair());
+        List<UserTrade> filteredTradeHist = new ArrayList<>();
+        String startId = null;
+        // Paginate until we find the order
+        while (filteredTradeHist.size() == 0) {
+          tradeHistParams.setStartId(startId);
+          UserTrades tradeHist = getTradeHistory(tradeHistParams);
+          if (tradeHist.getUserTrades() == null || tradeHist.getUserTrades().size() == 0) {
+            break;
+          }
+          filteredTradeHist = tradeHist.getUserTrades().stream()
+            .filter(trade -> StringUtils.equals(param.getOrderId(), trade.getOrderId()))
+            .collect(Collectors.toList());
+          startId = String.valueOf(tradeHist.getlastID() + 1);
+        }
 
         orders.add(
             BinanceAdapters.adaptOrder(
                 super.orderStatus(
                     orderQueryParamCurrencyPair.getCurrencyPair(),
                     BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null), tradeHist));
+                    null), filteredTradeHist));
       }
       return orders;
     } catch (BinanceException e) {

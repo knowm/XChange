@@ -23,6 +23,7 @@ import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
 public class BinanceAdapters {
@@ -126,7 +127,15 @@ public class BinanceAdapters {
   }
 
 
-  public static Order adaptOrder(BinanceOrder order, UserTrades userTrades) {
+  /**
+   * Adapts a Binance Order into a generic Knowm Order. Trades associated with this order should also be 
+   * supplied for fee calculation
+   * 
+   * @param order Binance Order
+   * @param associatedTrades List of trades associated with this order
+   * @return Generic Knowm Order
+   */
+  public static Order adaptOrder(BinanceOrder order, List<UserTrade> associatedTrades) {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
     Order.Builder builder;
@@ -144,13 +153,13 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
-    // Calculates fee by filtering the user's trade history to the order ID
-    builder.fee(
-      userTrades.getUserTrades().stream()
-        .filter(trade -> Long.parseLong(trade.getOrderId()) == order.orderId)
-        .map(trade -> trade.getFeeAmount())
-        .reduce(BigDecimal.ZERO, (subtotal, fee) -> subtotal.add(fee))
-     );
+    if (associatedTrades.size() > 0) {
+      builder.fee(
+        associatedTrades.stream()
+          .map(trade -> trade.getFeeAmount())
+          .reduce(BigDecimal.ZERO, (subtotal, fee) -> subtotal.add(fee))
+      );
+    }
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
