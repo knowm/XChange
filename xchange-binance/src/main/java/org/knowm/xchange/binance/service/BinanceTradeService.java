@@ -322,29 +322,39 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
               "You need to provide the currency pair and the order id to query an order.");
         }
 
-        // Get trades associated with the order
-        BinanceTradeHistoryParams tradeHistParams = new BinanceTradeHistoryParams(orderQueryParamCurrencyPair.getCurrencyPair());
-        List<UserTrade> filteredTradeHist = new ArrayList<>();
-        String startId = null;
-        // Paginate until we find the order
-        while (filteredTradeHist.size() == 0) {
-          tradeHistParams.setStartId(startId);
-          UserTrades tradeHist = getTradeHistory(tradeHistParams);
-          if (tradeHist.getUserTrades() == null || tradeHist.getUserTrades().size() == 0) {
-            break;
-          }
-          filteredTradeHist = tradeHist.getUserTrades().stream()
-            .filter(trade -> StringUtils.equals(param.getOrderId(), trade.getOrderId()))
-            .collect(Collectors.toList());
-          startId = String.valueOf(tradeHist.getlastID() + 1);
-        }
+        Order order = BinanceAdapters.adaptOrder(
+                        super.orderStatus(
+                          orderQueryParamCurrencyPair.getCurrencyPair(),
+                          BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
+                          null
+                        )
+                      );
 
-        orders.add(
-            BinanceAdapters.adaptOrder(
-                super.orderStatus(
-                    orderQueryParamCurrencyPair.getCurrencyPair(),
-                    BinanceAdapters.id(orderQueryParamCurrencyPair.getOrderId()),
-                    null), filteredTradeHist));
+        // Calculate fees by collecting trades associated with this order
+        BinanceTradeHistoryParams tradeHistParams = new BinanceTradeHistoryParams(orderQueryParamCurrencyPair.getCurrencyPair());
+        UserTrades tradeHist = getTradeHistory(tradeHistParams);
+        BigDecimal fee = null;
+        if (tradeHist.getUserTrades() != null) {
+          // Paginate until no more trades or when the order's base currency amount is fully filled
+          BigDecimal executedQty = BigDecimal.ZERO;
+          while (tradeHist.getUserTrades().size() > 0 && order.getOriginalAmount().compareTo(executedQty) != 0) {
+            List<UserTrade> tradeHistory = tradeHist.getUserTrades().stream()
+              .filter(trade -> StringUtils.equals(param.getOrderId(), trade.getOrderId()))
+              .collect(Collectors.toList());
+            for (UserTrade trade : tradeHistory) {
+              executedQty = executedQty.add(trade.getOriginalAmount());
+              if (fee == null) {
+                fee = BigDecimal.ZERO;
+              }
+              fee = fee.add(trade.getFeeAmount());
+            }
+            tradeHistParams.setStartId(String.valueOf(tradeHist.getlastID() + 1));
+            tradeHistParams.setLimit(1000); // increase query limit to 1000
+            tradeHist = getTradeHistory(tradeHistParams);
+          }
+        }
+        order.setFee(fee);
+        orders.add(order);
       }
       return orders;
     } catch (BinanceException e) {
