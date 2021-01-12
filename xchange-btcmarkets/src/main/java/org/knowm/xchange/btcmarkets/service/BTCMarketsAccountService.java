@@ -1,12 +1,18 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
@@ -69,5 +75,19 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
     } else {
       return null;
     }
+  }
+
+  @Override
+  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
+    BTCMarketsTradingFeesResponse response = tradingFees();
+    Map<CurrencyPair, Fee> dynamicTradingFees = new HashMap<>();
+    for (BTCMarketsTradingFeesResponse.FeeByMarket feeByMarket : response.feeByMarkets) {
+      String[] splitMarketId = feeByMarket.marketId.split("-"); // BTC-AUD
+      CurrencyPair cp = new CurrencyPair(splitMarketId[0], splitMarketId[1]);
+      Fee fee = new Fee(feeByMarket.makerFeeRate, feeByMarket.takerFeeRate);
+      
+      dynamicTradingFees.put(cp, fee);
+    }
+    return dynamicTradingFees;
   }
 }
