@@ -11,12 +11,8 @@ import org.knowm.xchange.huobi.service.HuobiAccountService;
 import org.knowm.xchange.huobi.service.HuobiMarketDataService;
 import org.knowm.xchange.huobi.service.HuobiMarketDataServiceRaw;
 import org.knowm.xchange.huobi.service.HuobiTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HuobiExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -35,11 +31,6 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription(
         "Huobi is a Chinese digital currency trading platform and exchange based in Beijing");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

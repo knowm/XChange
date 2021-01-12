@@ -13,11 +13,12 @@ public class CexioWebSocketOrderBookSubscriptionData {
 
   @JsonProperty final int depth;
 
-  public CexioWebSocketOrderBookSubscriptionData(CurrencyPair currencyPair, boolean subscribe) {
+  public CexioWebSocketOrderBookSubscriptionData(
+      CurrencyPair currencyPair, boolean subscribe, int depth) {
     pair =
         new ArrayList<String>(
             Arrays.asList(currencyPair.base.toString(), currencyPair.counter.toString()));
     this.subscribe = subscribe;
-    this.depth = 0; // 0 for full depth
+    this.depth = depth; // should be 0 for full depth, but instead return an empty orderbook
   }
 }

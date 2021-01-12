@@ -1,10 +1,7 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class BitstampOrderCancelResponse {
 
@@ -25,11 +22,11 @@ public class BitstampOrderCancelResponse {
    * @param error Order error
    */
   public BitstampOrderCancelResponse(
-          @JsonProperty("id") long id,
-          @JsonProperty("type") int type,
-          @JsonProperty("price") BigDecimal price,
-          @JsonProperty("amount") BigDecimal amount,
-          @JsonProperty("error") String error) {
+      @JsonProperty("id") long id,
+      @JsonProperty("type") int type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("error") String error) {
 
     this.id = id;
     this.type = type;
@@ -57,5 +54,4 @@ public class BitstampOrderCancelResponse {
   public String getError() {
     return error;
   }
-
 }

@@ -8,13 +8,10 @@ import org.knowm.xchange.coinone.service.CoinoneAccountService;
 import org.knowm.xchange.coinone.service.CoinoneMarketDataService;
 import org.knowm.xchange.coinone.service.CoinoneTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinoneExchange extends BaseExchange implements Exchange {
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-  public static enum period {
+  public enum period {
     hour,
     day
   }
@@ -35,11 +32,6 @@ public class CoinoneExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Coinone is a block chain exchange.");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override

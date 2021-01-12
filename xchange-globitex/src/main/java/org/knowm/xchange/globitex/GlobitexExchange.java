@@ -10,19 +10,12 @@ import org.knowm.xchange.globitex.service.GlobitexAccountService;
 import org.knowm.xchange.globitex.service.GlobitexMarketDataService;
 import org.knowm.xchange.globitex.service.GlobitexMarketDataServiceRaw;
 import org.knowm.xchange.globitex.service.GlobitexTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /*@author makarid*/
 
 /*username is needed in order to get UserTrades.
  * username is globitex account number*/
 public class GlobitexExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
-  Logger logger = LoggerFactory.getLogger(GlobitexExchange.class);
 
   @Override
   protected void initServices() {
@@ -41,11 +34,6 @@ public class GlobitexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Globitex is a Bitcoin exchange based in UK.");
 
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
