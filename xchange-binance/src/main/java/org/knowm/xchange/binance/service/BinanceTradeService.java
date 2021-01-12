@@ -50,6 +50,8 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 import org.knowm.xchange.utils.Assert;
 
+import lombok.Value;
+
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
 
   public BinanceTradeService(
