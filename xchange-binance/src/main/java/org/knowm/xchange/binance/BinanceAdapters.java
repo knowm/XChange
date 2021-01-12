@@ -144,6 +144,7 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
+    // Calculates fee by filtering the user's trade history to the order ID
     builder.fee(
       userTrades.getUserTrades().stream()
         .filter(trade -> Long.parseLong(trade.getOrderId()) == order.orderId)
