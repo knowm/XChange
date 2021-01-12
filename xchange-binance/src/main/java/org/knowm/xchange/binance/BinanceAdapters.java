@@ -23,8 +23,6 @@ import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
 
 public class BinanceAdapters {
 
@@ -127,15 +125,7 @@ public class BinanceAdapters {
   }
 
 
-  /**
-   * Adapts a Binance Order into a generic Knowm Order. Trades associated with this order should also be 
-   * supplied for fee calculation
-   * 
-   * @param order Binance Order
-   * @param associatedTrades List of trades associated with this order
-   * @return Generic Knowm Order
-   */
-  public static Order adaptOrder(BinanceOrder order, List<UserTrade> associatedTrades) {
+  public static Order adaptOrder(BinanceOrder order) {
     OrderType type = convert(order.side);
     CurrencyPair currencyPair = adaptSymbol(order.symbol);
     Order.Builder builder;
@@ -153,13 +143,6 @@ public class BinanceAdapters {
         .id(Long.toString(order.orderId))
         .timestamp(order.getTime())
         .cumulativeAmount(order.executedQty);
-    if (associatedTrades.size() > 0) {
-      builder.fee(
-        associatedTrades.stream()
-          .map(trade -> trade.getFeeAmount())
-          .reduce(BigDecimal.ZERO, (subtotal, fee) -> subtotal.add(fee))
-      );
-    }
     if (order.executedQty.signum() != 0 && order.cummulativeQuoteQty.signum() != 0) {
       builder.averagePrice(
           order.cummulativeQuoteQty.divide(order.executedQty, MathContext.DECIMAL32));
@@ -168,19 +151,6 @@ public class BinanceAdapters {
       builder.flag(BinanceOrderFlags.withClientId(order.clientOrderId));
     }
     return builder.build();
-  }
-
-  /**
-   * @deprecated 
-   * This method does not contain enough useful information (eg. Fee, AveragePrice)
-   * 
-   * <p> Use {@link BinanceAdapters#adaptOrder(BinanceOrder, UserTrades)} instead.
-   * @param order BinanceOrder
-   * @return
-   */
-  @Deprecated(since ="5.0.4", forRemoval = true)
-  public static Order adaptOrder(BinanceOrder order) {
-    return adaptOrder(order, null);
   }
 
   private static Ticker adaptPriceQuantity(BinancePriceQuantity priceQuantity) {
