@@ -305,6 +305,14 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     throw new NotAvailableFromExchangeException();
   }
 
+  /**
+   * This can be an expensive call to make with accounts with several thousand trades. Because Binance's API doesn't provide the trade fees
+   * associated with an order nor a built-in way to obtain the trades associated with an order,
+   * a separate, paginating API call is made to the trade history endpoint to obtain that information.
+   * 
+   * @param Order Query parameters
+   * @return Collection of Orders
+   */
   @Override
   public Collection<Order> getOrder(OrderQueryParams... params) throws IOException {
     try {
