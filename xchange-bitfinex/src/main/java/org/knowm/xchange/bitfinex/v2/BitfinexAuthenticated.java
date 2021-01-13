@@ -15,6 +15,8 @@ import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
@@ -159,5 +161,14 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @QueryParam("end") Long endTimeMillis,
       @QueryParam("limit") Integer limit,
       EmptyRequest empty)
+      throws IOException, BitfinexExceptionV2;
+
+  @POST
+  @Path("/auth/w/transfer")
+  TransferBetweenWalletsResponse transferBetweenWallets(
+      @HeaderParam(BFX_NONCE) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(BFX_APIKEY) String apiKey,
+      @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
+      TransferBetweenWalletsRequest req)
       throws IOException, BitfinexExceptionV2;
 }
