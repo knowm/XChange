@@ -1,12 +1,13 @@
-package info.bitrich.xchangestream.gemini.v2;
+package info.bitrich.xchangestream.gemini;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.gemini.v2.dto.GeminiWebSocketSubscriptionMessage;
-import info.bitrich.xchangestream.gemini.v2.dto.GeminiWebSocketTransaction;
+import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketSubscriptionMessage;
+import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import io.netty.util.internal.StringUtil;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -15,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 
 /**
  * Adapted from V1 by Max Gao on 01-09-2021
@@ -45,7 +44,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
         return subscribeChannel(channelName)
                 .map(s -> mapper.readValue(s.toString(), GeminiWebSocketTransaction.class))
                 .filter(t -> channelName.equals(t.getSymbol()))
-                .filter(t -> !isNullOrEmpty(t.getType()));
+                .filter(t -> !StringUtil.isNullOrEmpty(t.getType()));
     }
 
     public void subscribeMultipleCurrencyPairs(ProductSubscription... products) {

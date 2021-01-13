@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gemini.v1.dto;
+package info.bitrich.xchangestream.gemini.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
