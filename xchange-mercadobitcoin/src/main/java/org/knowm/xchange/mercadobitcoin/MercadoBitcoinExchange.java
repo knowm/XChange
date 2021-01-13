@@ -1,18 +1,20 @@
 package org.knowm.xchange.mercadobitcoin;
 
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinAccountService;
 import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinMarketDataService;
 import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author Felipe Micaroni Lalli */
 public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -36,7 +38,6 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
     return nonceFactory;
   }
 }

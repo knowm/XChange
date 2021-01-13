@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -22,13 +23,24 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.ExpirationTimeFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitmexExchange extends BaseExchange implements Exchange {
 
   protected RateLimitUpdateListener rateLimitUpdateListener;
-  private final SynchronizedValueFactory<Long> nonceFactory = new ExpirationTimeFactory(30);
+
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new SynchronizedValueFactory<Long>() {
+
+        private final SynchronizedValueFactory<Long> secondsNonce =
+            new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
+
+        @Override
+        public Long createValue() {
+          return secondsNonce.createValue() + 30;
+        }
+      };
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {

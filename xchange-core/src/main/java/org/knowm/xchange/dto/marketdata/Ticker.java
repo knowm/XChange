@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.utils.Assert;
@@ -338,5 +339,43 @@ public final class Ticker implements Serializable {
       this.askSize = askSize;
       return this;
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Ticker ticker = (Ticker) o;
+    return Objects.equals(getInstrument(), ticker.getInstrument())
+        && Objects.equals(getOpen(), ticker.getOpen())
+        && Objects.equals(getLast(), ticker.getLast())
+        && Objects.equals(getBid(), ticker.getBid())
+        && Objects.equals(getAsk(), ticker.getAsk())
+        && Objects.equals(getHigh(), ticker.getHigh())
+        && Objects.equals(getLow(), ticker.getLow())
+        && Objects.equals(getVwap(), ticker.getVwap())
+        && Objects.equals(getVolume(), ticker.getVolume())
+        && Objects.equals(getQuoteVolume(), ticker.getQuoteVolume())
+        && Objects.equals(getTimestamp(), ticker.getTimestamp())
+        && Objects.equals(getBidSize(), ticker.getBidSize())
+        && Objects.equals(getAskSize(), ticker.getAskSize());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getInstrument(),
+        getOpen(),
+        getLast(),
+        getBid(),
+        getAsk(),
+        getHigh(),
+        getLow(),
+        getVwap(),
+        getVolume(),
+        getQuoteVolume(),
+        getTimestamp(),
+        getBidSize(),
+        getAskSize());
   }
 }

@@ -2,6 +2,7 @@ package org.knowm.xchange.binance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.binance.dto.account.AssetDividendResponse;
@@ -14,10 +15,20 @@ import org.knowm.xchange.utils.ObjectMapperHelper;
 public class BinanceAdaptersTest {
 
   @Test
-  public void testFilledMarketOrder() throws Exception {
+  public void testFilledMarketOrder() throws IOException {
+
+    //    InputStream is =
+    //        BinanceAdaptersTest.class.getResourceAsStream(
+    //            "/org/knowm/xchange/binance/filled-market-order.json");
+    //    // Use Jackson to parse it
+    //    ObjectMapper mapper = new ObjectMapper();
+    //    BinanceOrder binanceOrder = mapper.readValue(is, BinanceOrder.class);
+
     BinanceOrder binanceOrder =
         ObjectMapperHelper.readValue(
-            BinanceAdaptersTest.class.getResource("/filled-market-order.json"), BinanceOrder.class);
+            BinanceAdaptersTest.class.getResource(
+                "/org/knowm/xchange/binance/filled-market-order.json"),
+            BinanceOrder.class);
     Order order = BinanceAdapters.adaptOrder(binanceOrder);
     assertThat(order).isInstanceOf(MarketOrder.class);
     MarketOrder marketOrder = (MarketOrder) order;
@@ -37,7 +48,8 @@ public class BinanceAdaptersTest {
   public void testAssetDividendList() throws Exception {
     AssetDividendResponse assetDividendList =
         ObjectMapperHelper.readValue(
-            BinanceAdaptersTest.class.getResource("/asset-dividend-list.json"),
+            BinanceAdaptersTest.class.getResource(
+                "/org/knowm/xchange/binance/asset-dividend-list.json"),
             AssetDividendResponse.class);
 
     assertThat(assetDividendList.getTotal()).isEqualByComparingTo(BigDecimal.ONE);

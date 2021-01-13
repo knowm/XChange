@@ -4,13 +4,9 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.paribu.service.ParibuMarketDataService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /** @author semihunaldi */
 public class ParibuExchange extends BaseExchange implements Exchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -29,10 +25,5 @@ public class ParibuExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription(
         "Paribu is a Bitcoin exchange registered in Turkey.");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 }
