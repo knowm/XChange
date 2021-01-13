@@ -99,14 +99,15 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<FtxOrderDto> getFtxOrderStatus(String orderId) throws FtxException, IOException {
+  public FtxResponse<FtxOrderDto> getFtxOrderStatus(String orderId)
+      throws FtxException, IOException {
     try {
       return ftx.getOrderStatus(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              null,
-              orderId);
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          null,
+          orderId);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
@@ -115,10 +116,10 @@ public class FtxTradeServiceRaw extends FtxBaseService {
   public FtxResponse<List<FtxPositionDto>> getFtxPositions() throws FtxException, IOException {
     try {
       return ftx.getFtxPositions(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              null);
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          null);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }

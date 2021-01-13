@@ -1,6 +1,5 @@
 package org.knowm.xchange.ftx;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -9,21 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 
 public class FtxAdapterTest {
 
-
   @Test
-  public void adaptCurrencyPairToFtxPair(){
-      String market = "BTC-PERP";
-      CurrencyPair currencyPair = new CurrencyPair(market);
+  public void adaptCurrencyPairToFtxPair() {
+    String market = "BTC-PERP";
+    CurrencyPair currencyPair = new CurrencyPair(market);
 
-      assertThat(currencyPair.toString()).isEqualTo("BTC/PERP");
-      assertThat(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).isEqualTo("BTC-PERP");
+    assertThat(currencyPair.toString()).isEqualTo("BTC/PERP");
+    assertThat(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).isEqualTo("BTC-PERP");
   }
 
   @Test
