@@ -27,6 +27,8 @@ import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -257,5 +259,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public List<Wallet> getWallets() throws IOException {
     return bitfinexV2.getWallets(
         exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
+  }
+
+  public TransferBetweenWalletsResponse transferBetweenWallets(TransferBetweenWalletsRequest req)
+      throws IOException {
+    return bitfinexV2.transferBetweenWallets(exchange.getNonceFactory(), apiKey, signatureV2, req);
   }
 }
