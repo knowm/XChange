@@ -37,11 +37,11 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/positions")
   FtxResponse<List<FtxPositionDto>> getFtxPositions(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
 
   @POST
   @Path("/subaccounts")
@@ -86,13 +86,12 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/orders/{order_id}")
   FtxResponse<FtxOrderDto> getOrderStatus(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @PathParam("order_id") String orderId)
-          throws IOException, FtxException;
-
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId)
+      throws IOException, FtxException;
 
   @GET
   @Path("/orders?market={market}")

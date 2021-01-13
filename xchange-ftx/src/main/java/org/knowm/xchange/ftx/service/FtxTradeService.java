@@ -2,10 +2,8 @@ package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -18,7 +16,6 @@ import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
 
@@ -38,9 +35,13 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
       return FtxAdapters.adaptUserTrades(
-          getFtxOrderHistory(FtxAdapters.adaptCurrencyPairToFtxMarket(((TradeHistoryParamCurrencyPair) params).getCurrencyPair())).getResult());
+          getFtxOrderHistory(
+                  FtxAdapters.adaptCurrencyPairToFtxMarket(
+                      ((TradeHistoryParamCurrencyPair) params).getCurrencyPair()))
+              .getResult());
     } else if (params instanceof TradeHistoryParamInstrument) {
-      CurrencyPair currencyPair = new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
+      CurrencyPair currencyPair =
+          new CurrencyPair(((TradeHistoryParamInstrument) params).getInstrument().toString());
       return FtxAdapters.adaptUserTrades(
           getFtxOrderHistory(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).getResult());
     } else {
@@ -58,8 +59,9 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByCurrencyPair) {
       return cancelAllFtxOrders(
-          new CancelAllFtxOrdersParams(FtxAdapters.adaptCurrencyPairToFtxMarket(
-              ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair())));
+          new CancelAllFtxOrdersParams(
+              FtxAdapters.adaptCurrencyPairToFtxMarket(
+                  ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair())));
     } else {
       throw new IOException(
           "CancelOrderParams must implement CancelOrderByCurrencyPair interface.");
@@ -77,7 +79,9 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (params instanceof CurrencyPairParam) {
       return FtxAdapters.adaptOpenOrders(
-          getFtxOpenOrders(FtxAdapters.adaptCurrencyPairToFtxMarket(((CurrencyPairParam) params).getCurrencyPair())));
+          getFtxOpenOrders(
+              FtxAdapters.adaptCurrencyPairToFtxMarket(
+                  ((CurrencyPairParam) params).getCurrencyPair())));
     } else {
       throw new IOException("OpenOrdersParams must implement CurrencyPairParam interface.");
     }

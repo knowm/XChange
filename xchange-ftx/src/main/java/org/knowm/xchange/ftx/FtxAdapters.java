@@ -277,12 +277,15 @@ public class FtxAdapters {
   public static OpenPositions adaptOpenPositions(List<FtxPositionDto> ftxPositionDtos) {
     List<OpenPosition> openPositionList = new ArrayList<>();
 
-    ftxPositionDtos.forEach(ftxPositionDto -> {
-      openPositionList.add(new OpenPosition.Builder(adaptFtxOrderSideToOrderType(ftxPositionDto.getSide()),new CurrencyPair(ftxPositionDto.getFuture()))
-              .originalAmount(ftxPositionDto.getOpenSize())
-              .build()
-      );
-    });
+    ftxPositionDtos.forEach(
+        ftxPositionDto -> {
+          openPositionList.add(
+              new OpenPosition.Builder(
+                      adaptFtxOrderSideToOrderType(ftxPositionDto.getSide()),
+                      new CurrencyPair(ftxPositionDto.getFuture()))
+                  .originalAmount(ftxPositionDto.getOpenSize())
+                  .build());
+        });
 
     return new OpenPositions(openPositionList);
   }
