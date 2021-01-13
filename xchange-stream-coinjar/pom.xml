@@ -9,8 +9,8 @@
         <version>5.0.4</version>
     </parent>
 
-    <name>XChange Hitbtc Stream</name>
-    <artifactId>xchange-stream-hitbtc</artifactId>
+    <name>XChange Coinjar Stream</name>
+    <artifactId>xchange-stream-coinjar</artifactId>
 
     <dependencies>
         <dependency>
@@ -20,23 +20,9 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
+            <artifactId>xchange-coinjar</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-hitbtc</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path-assert</artifactId>
-            <version>2.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
         </dependency>
     </dependencies>
+
 </project>
