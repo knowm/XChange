@@ -6,10 +6,12 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.huobi.HuobiAdapters;
 import org.knowm.xchange.huobi.dto.account.HuobiAccount;
+import org.knowm.xchange.huobi.dto.account.HuobiDepositAddress;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
@@ -90,5 +92,14 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Accou
   @Override
   public String requestDepositAddress(Currency currency, String... strings) throws IOException {
     return getDepositAddress(currency.toString());
+  }
+
+  @Override
+  public AddressWithTag requestDepositAddressData(Currency currency, String... args)
+      throws IOException {
+    HuobiDepositAddress huobiAddrWithTag = getDepositAddressV2(currency.toString())[0];
+    AddressWithTag addressWithTag =
+        new AddressWithTag(huobiAddrWithTag.getAddress(), huobiAddrWithTag.getAddressTag());
+    return addressWithTag;
   }
 }

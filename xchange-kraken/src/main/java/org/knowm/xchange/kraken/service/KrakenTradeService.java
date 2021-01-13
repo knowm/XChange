@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.service.trade.TradeService;
@@ -41,6 +38,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     return KrakenAdapters.adaptOrderId(super.placeKrakenMarketOrder(marketOrder));
+  }
+
+  @Override
+  public OpenPositions getOpenPositions() throws IOException {
+    return KrakenAdapters.adaptOpenPositions(super.getKrakenOpenPositions());
   }
 
   @Override

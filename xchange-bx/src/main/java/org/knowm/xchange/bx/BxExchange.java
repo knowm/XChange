@@ -2,6 +2,7 @@ package org.knowm.xchange.bx;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -11,12 +12,14 @@ import org.knowm.xchange.bx.service.BxMarketDataService;
 import org.knowm.xchange.bx.service.BxMarketDataServiceRaw;
 import org.knowm.xchange.bx.service.BxTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTimeIncrementalNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BxExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  // change from new CurrentTimeNonceFactory(); to   new CurrentTimeIncrementalNonceFactory(null);
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new CurrentTimeIncrementalNonceFactory(TimeUnit.SECONDS);
 
   @Override
   protected void initServices() {

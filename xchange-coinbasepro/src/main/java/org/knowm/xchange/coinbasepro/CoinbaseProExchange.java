@@ -20,12 +20,9 @@ import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataService;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProMarketDataServiceRaw;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseProExchange extends BaseExchange {
-
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -110,8 +107,7 @@ public class CoinbaseProExchange extends BaseExchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-
-    return nonceFactory;
+    throw new UnsupportedOperationException("CoinbasePro uses timestamp rather than a nonce");
   }
 
   @Override
