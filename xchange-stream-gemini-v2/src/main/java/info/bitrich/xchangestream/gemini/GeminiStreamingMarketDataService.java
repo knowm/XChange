@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.gemini.v2;
+package info.bitrich.xchangestream.gemini;
 
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;

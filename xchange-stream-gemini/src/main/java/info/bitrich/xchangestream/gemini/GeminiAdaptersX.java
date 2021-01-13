@@ -1,7 +1,7 @@
-package info.bitrich.xchangestream.gemini.v1;
+package info.bitrich.xchangestream.gemini;
 
-import info.bitrich.xchangestream.gemini.v1.dto.GeminiLimitOrder;
-import info.bitrich.xchangestream.gemini.v1.dto.GeminiOrderbook;
+import info.bitrich.xchangestream.gemini.dto.GeminiLimitOrder;
+import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;

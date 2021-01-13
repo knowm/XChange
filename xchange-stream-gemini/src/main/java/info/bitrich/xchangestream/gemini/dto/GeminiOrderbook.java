@@ -1,17 +1,14 @@
-package info.bitrich.xchangestream.gemini.v2.dto;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
+package info.bitrich.xchangestream.gemini.dto;
 
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 
-/**
- * Adapted from V1 by Max Gao on 01-09-2021
- */
+/** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiOrderbook {
   private final Map<BigDecimal, GeminiLimitOrder> asks;
   private final Map<BigDecimal, GeminiLimitOrder> bids;
