@@ -9,6 +9,7 @@ import org.knowm.xchange.ftx.dto.account.*;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
+import org.knowm.xchange.ftx.dto.trade.FtxPositionDto;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -31,6 +32,15 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/positions")
+  FtxResponse<List<FtxPositionDto>> getFtxPositions(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
 
   @POST
@@ -74,6 +84,16 @@ public interface FtxAuthenticated extends Ftx {
       throws IOException, FtxException;
 
   @GET
+  @Path("/orders/{order_id}")
+  FtxResponse<FtxOrderDto> getOrderStatus(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId)
+      throws IOException, FtxException;
+
+  @GET
   @Path("/orders?market={market}")
   FtxResponse<List<FtxOrderDto>> openOrders(
       @HeaderParam("FTX-KEY") String apiKey,
@@ -85,7 +105,7 @@ public interface FtxAuthenticated extends Ftx {
 
   @GET
   @Path("/orders")
-  FtxResponse<List<FtxOrderDto>> openOrdersWithout(
+  FtxResponse<List<FtxOrderDto>> openOrdersWithoutMarket(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
