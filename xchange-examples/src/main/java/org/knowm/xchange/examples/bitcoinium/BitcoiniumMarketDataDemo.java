@@ -13,7 +13,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/** Demonstrate requesting Market Data from Bitstamp */
+/** Demonstrate requesting Market Data from CampBX */
 public class BitcoiniumMarketDataDemo {
 
   public static void main(String[] args) throws Exception {

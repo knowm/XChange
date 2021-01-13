@@ -14,11 +14,11 @@ public class LoggingInterceptor implements Interceptor {
       throws Throwable {
     long start = System.currentTimeMillis();
     Object result = invocationHandler.invoke(proxy, method, args);
-    log.info(
-        "{}.{} took {} ms.",
-        method.getDeclaringClass().getName(),
-        method.getName(),
-        System.currentTimeMillis() - start);
+//    log.info(
+//        "{}.{} took {} ms.",
+//        method.getDeclaringClass().getName(),
+//        method.getName(),
+//        System.currentTimeMillis() - start);
     return result;
   }
 }

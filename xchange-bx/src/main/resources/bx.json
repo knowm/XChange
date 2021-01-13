@@ -1,0 +1,13 @@
+{
+  "currency_pairs": {
+  },
+  "currencies": {
+  },
+  "private_rate_limits": [
+    {
+      "calls": 600,
+      "time_unit": "minutes"
+    }
+  ],
+  "share_rate_limits": false
+}

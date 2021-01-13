@@ -1,0 +1,6 @@
+BX Exchange API specification
+================================
+
+Documentation
+-------------
+https://bx.in.th/info/api/

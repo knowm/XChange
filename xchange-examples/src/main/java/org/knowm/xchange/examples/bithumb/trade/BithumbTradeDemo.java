@@ -47,8 +47,7 @@ public class BithumbTradeDemo {
       log.debug("", e);
     }
 
-    final TradeHistoryParams tradeHistoryParams =
-        new DefaultTradeHistoryParamCurrencyPair(CURRENCY_PAIR);
+    final TradeHistoryParams tradeHistoryParams = new DefaultTradeHistoryParamCurrencyPair();
     log.debug("{}", tradeService.getTradeHistory(tradeHistoryParams));
 
     final LimitOrder limitOrderBuy =

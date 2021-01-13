@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
+
 import org.junit.Test;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -64,10 +65,8 @@ public class MetaDataFileTest {
     InputStream inputStream =
         BaseExchangeService.class.getClassLoader().getResourceAsStream(metaDataFileName + ".json");
 
-    String strContents =
-        new BufferedReader(new InputStreamReader(inputStream))
-            .lines()
-            .collect(Collectors.joining("\n"));
+   String strContents = new BufferedReader(new InputStreamReader(inputStream))
+            .lines().collect(Collectors.joining("\n"));
 
     System.out.println(strContents);
   }

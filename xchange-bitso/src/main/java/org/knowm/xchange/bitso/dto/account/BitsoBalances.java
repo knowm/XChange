@@ -4,81 +4,91 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitsoBalances {
 
-	private String currency;
-	private String available;
-	private String locked;
-	private String total;
-	private String pendingDeposit;
-	private String pendingWithdrawal;
-	
-	public BitsoBalances(
-			@JsonProperty("currency") String currency,
-			@JsonProperty("available") String available,
-			@JsonProperty("locked") String locked,
-			@JsonProperty("total") String total,
-			@JsonProperty("pending_deposit") String pendingDeposit,
-			@JsonProperty("pending_withdrawal") String pendingWithdrawal) {
-		
-		this.currency=currency;
-		this.available=available;
-		this.locked=locked;
-		this.total=total;
-		this.pendingDeposit=pendingDeposit;
-		this.pendingWithdrawal=pendingWithdrawal;
-	}
+  private String currency;
+  private String available;
+  private String locked;
+  private String total;
+  private String pendingDeposit;
+  private String pendingWithdrawal;
 
-	public String getCurrency() {
-		return currency;
-	}
+  public BitsoBalances(
+      @JsonProperty("currency") String currency,
+      @JsonProperty("available") String available,
+      @JsonProperty("locked") String locked,
+      @JsonProperty("total") String total,
+      @JsonProperty("pending_deposit") String pendingDeposit,
+      @JsonProperty("pending_withdrawal") String pendingWithdrawal) {
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
+    this.currency = currency;
+    this.available = available;
+    this.locked = locked;
+    this.total = total;
+    this.pendingDeposit = pendingDeposit;
+    this.pendingWithdrawal = pendingWithdrawal;
+  }
 
-	public String getAvailable() {
-		return available;
-	}
+  public String getCurrency() {
+    return currency;
+  }
 
-	public void setAvailable(String available) {
-		this.available = available;
-	}
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
 
-	public String getLocked() {
-		return locked;
-	}
+  public String getAvailable() {
+    return available;
+  }
 
-	public void setLocked(String locked) {
-		this.locked = locked;
-	}
+  public void setAvailable(String available) {
+    this.available = available;
+  }
 
-	public String getTotal() {
-		return total;
-	}
+  public String getLocked() {
+    return locked;
+  }
 
-	public void setTotal(String total) {
-		this.total = total;
-	}
+  public void setLocked(String locked) {
+    this.locked = locked;
+  }
 
-	public String getPendingDeposit() {
-		return pendingDeposit;
-	}
+  public String getTotal() {
+    return total;
+  }
 
-	public void setPendingDeposit(String pendingDeposit) {
-		this.pendingDeposit = pendingDeposit;
-	}
+  public void setTotal(String total) {
+    this.total = total;
+  }
 
-	public String getPendingWithdrawal() {
-		return pendingWithdrawal;
-	}
+  public String getPendingDeposit() {
+    return pendingDeposit;
+  }
 
-	public void setPendingWithdrawal(String pendingWithdrawal) {
-		this.pendingWithdrawal = pendingWithdrawal;
-	}
+  public void setPendingDeposit(String pendingDeposit) {
+    this.pendingDeposit = pendingDeposit;
+  }
 
-	@Override
-	public String toString() {
-		return "BitsoBalances [currency=" + currency + ", available=" + available + ", locked=" + locked + ", total="
-				+ total + ", pendingDeposit=" + pendingDeposit + ", pendingWithdrawal=" + pendingWithdrawal + "]";
-	}
+  public String getPendingWithdrawal() {
+    return pendingWithdrawal;
+  }
 
+  public void setPendingWithdrawal(String pendingWithdrawal) {
+    this.pendingWithdrawal = pendingWithdrawal;
+  }
+
+  @Override
+  public String toString() {
+    return "BitsoBalances [currency="
+        + currency
+        + ", available="
+        + available
+        + ", locked="
+        + locked
+        + ", total="
+        + total
+        + ", pendingDeposit="
+        + pendingDeposit
+        + ", pendingWithdrawal="
+        + pendingWithdrawal
+        + "]";
+  }
 }
