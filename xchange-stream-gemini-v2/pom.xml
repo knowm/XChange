@@ -22,13 +22,14 @@
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-stream-service-netty</artifactId>
+            <artifactId>xchange-gemini</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-gemini</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.7.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
