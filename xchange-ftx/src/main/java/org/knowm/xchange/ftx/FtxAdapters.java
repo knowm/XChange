@@ -195,8 +195,9 @@ public class FtxAdapters {
                       CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
                   .timestamp(ftxOrderDto.getCreatedAt())
                   .id(ftxOrderDto.getId())
+                  .orderId(ftxOrderDto.getId())
                   .orderUserReference(ftxOrderDto.getClientId())
-                  .originalAmount(ftxOrderDto.getSize())
+                  .originalAmount(ftxOrderDto.getFilledSize())
                   .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
                   .price(
                       ftxOrderDto.getAvgFillPrice() == null
