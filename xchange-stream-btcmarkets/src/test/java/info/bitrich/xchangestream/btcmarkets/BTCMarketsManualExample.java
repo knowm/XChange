@@ -20,6 +20,13 @@ public class BTCMarketsManualExample {
         StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
     exchange.connect().blockingAwait();
 
+    //    exchange
+    //        .disconnectObservable()
+    //        .doOnEach(
+    //            channelHandler -> {
+    //              logger.info("disconnect observable action: {}", channelHandler);
+    //            });
+
     Disposable btcOrderBookDisposable =
         exchange
             .getStreamingMarketDataService()
@@ -40,6 +47,19 @@ public class BTCMarketsManualExample {
                   logger.info("First eth bid: {}", orderBook.getBids().get(0));
                 });
 
+    Disposable btcTickerDisposable =
+        exchange
+            .getStreamingMarketDataService()
+            .getTicker(CurrencyPair.BTC_AUD)
+            .forEach(
+                ticker -> {
+                  logger.info("BTC: First  ask: {}", ticker.getAsk());
+                  logger.info("BTC: First bid: {}", ticker.getBid());
+                  logger.info("BTC: last price: {}", ticker.getLast());
+                  logger.info("BTC: 24h volume  {}", ticker.getVolume());
+                  logger.info("BTC: timestamp {}", ticker.getVolume());
+                });
+
     try {
       Thread.sleep(30000);
     } catch (InterruptedException e) {
@@ -48,6 +68,7 @@ public class BTCMarketsManualExample {
 
     btcOrderBookDisposable.dispose();
     ethOrderBookDisposable.dispose();
+    btcTickerDisposable.dispose();
     exchange.disconnect().subscribe(() -> logger.info("Disconnected from the Exchange"));
   }
 }
