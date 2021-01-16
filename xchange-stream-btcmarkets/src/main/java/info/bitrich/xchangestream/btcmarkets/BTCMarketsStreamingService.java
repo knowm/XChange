@@ -47,13 +47,6 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
       return BTCMarketsWebSocketSubscriptionMessage.getAddSubcritionMessage(
           Lists.newArrayList(marketIds), Lists.newArrayList(channelName), null, null, null);
     }
-
-    //    return new BTCMarketsWebSocketSubscriptionMessage(
-    //        new ArrayList<>(subscribedMarketIds),
-    //        Lists.newArrayList(channelName, CHANNEL_HEARTBEAT),
-    //        null,
-    //        null,
-    //        null);
   }
 
   private BTCMarketsWebSocketSubscriptionMessage buildRemoveSubscriptionMessage(
@@ -84,11 +77,7 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
     if (CHANNEL_ORDERBOOK.equals(channelName)
         | CHANNEL_TICKER.equals(channelName)
         | CHANNEL_TRADE.equals(channelName)) {
-      // TODO - removing this because it only ever uses the first Instrument provided. Re-look
-      // at the reasoning here. For now we are changing all this to enable different
-      // channel/instrument subscriptions
-      //      subscribedMarketIds.add(args[0].toString());
-      //      LOG.debug("Now subscribed to orderbooks {}", subscribedMarketIds);
+
       LOG.debug("Now subscribing to {}:{}", channelName, args);
       Set<String> newMarketIds = Sets.newConcurrentHashSet();
       if (args != null) {
@@ -96,7 +85,6 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
           newMarketIds.add(marketId.toString());
         }
         // Add the marketIds to the Channel
-        //        if (!subscribedMarketIds.containsKey(channelName))
         Set<String> updateMarketIds = subscribedMarketIds.get(channelName);
         if (updateMarketIds != null) {
           updateMarketIds.addAll(newMarketIds);
