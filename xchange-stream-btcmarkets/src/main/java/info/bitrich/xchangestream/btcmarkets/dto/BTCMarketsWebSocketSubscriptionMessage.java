@@ -29,10 +29,14 @@ public class BTCMarketsWebSocketSubscriptionMessage {
   public final String clientType;
 
   /**
+   * Use the static method {@link BTCMarketsWebSocketSubscriptionMessage.getFirstSubcritionMessage}
+   * instead.
+   *
    * @param marketIds All market id's to subscribe on, any current subscriptions will be dropped if
    *     not in the current message.
    * @implNote kept for backward compatibility
    */
+  @Deprecated
   public BTCMarketsWebSocketSubscriptionMessage(
       List<String> marketIds, List<String> channels, Long timestamp, String key, String signature) {
     this.messageType = "subscribe";
