@@ -2,6 +2,8 @@ package org.knowm.xchange.examples.bitso.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
@@ -37,6 +39,10 @@ public class BitsoTradeDemo {
 //    AccountInfo accountInfo=accountService.getAccountInfo();
 //    System.out.println(accountInfo);
 //    
+    OpenOrders openOrders=tradeService.getOpenOrders();
+    List<LimitOrder> limitOrders=openOrders.getOpenOrders();
+    System.out.println(limitOrders);
+    
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService,tradeService);
   }

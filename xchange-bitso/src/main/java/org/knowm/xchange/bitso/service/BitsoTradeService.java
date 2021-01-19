@@ -72,12 +72,15 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
       } catch (ParseException e) {
         e.printStackTrace();
       }
-
+      String baseCurrency=bitsoOrder.getBook().split("_")[0].toUpperCase();
+      String counterCurrency=bitsoOrder.getBook().split("_")[1].toUpperCase();
+      
+      CurrencyPair currencyPair=new CurrencyPair(baseCurrency, counterCurrency);
       limitOrders.add(
           new LimitOrder(
               orderType,
               new BigDecimal(bitsoOrder.getOriginalAmount()),
-              new CurrencyPair(Currency.BTC, Currency.MXN),
+              currencyPair,
               id,
               date,
               price));
