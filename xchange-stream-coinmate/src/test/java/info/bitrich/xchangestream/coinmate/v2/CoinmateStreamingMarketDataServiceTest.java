@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -43,13 +43,13 @@ public class CoinmateStreamingMarketDataServiceTest {
             Files.readAllBytes(
                 Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
 
-    CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
+    CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
-    when(mockFactory.createConnection(anyString(), anyBoolean()))
+    when(mockService.subscribeChannel(anyString()))
         .thenReturn(Observable.just(mapper.readTree(orderBook)));
 
     CoinmateStreamingMarketDataService marketDataService =
-        new CoinmateStreamingMarketDataService(mockFactory);
+        new CoinmateStreamingMarketDataService(mockService);
 
     List<LimitOrder> bids = new ArrayList<>();
     bids.add(
@@ -117,13 +117,13 @@ public class CoinmateStreamingMarketDataServiceTest {
         new String(
             Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("trades.json").toURI())));
 
-    CoinmateStreamingServiceFactory mockFactory = mock(CoinmateStreamingServiceFactory.class);
+    CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
-    when(mockFactory.createConnection(anyString(), anyBoolean()))
+    when(mockService.subscribeChannel(anyString()))
         .thenReturn(Observable.just(mapper.readTree(trade)));
 
     CoinmateStreamingMarketDataService marketDataService =
-        new CoinmateStreamingMarketDataService(mockFactory);
+        new CoinmateStreamingMarketDataService(mockService);
 
     Trade expected1 =
         new Trade.Builder()

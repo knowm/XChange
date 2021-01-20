@@ -1,6 +1,6 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
-import info.bitrich.xchangestream.coinmate.dto.auth.AuthParams;
+import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
 import info.bitrich.xchangestream.core.*;
 import io.reactivex.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
@@ -8,7 +8,7 @@ import org.knowm.xchange.coinmate.CoinmateExchange;
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
   private static final String API_BASE = "wss://coinmate.io/api/websocket";
 
-  private CoinmateStreamingServiceFactory streamingServiceFactory;
+  private CoinmateStreamingService streamingService;
   private CoinmateStreamingMarketDataService streamingMarketDataService;
   private CoinmateStreamingAccountService streamingAccountService;
   private CoinmateStreamingTradeService streamingTradeService;
@@ -27,26 +27,27 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
     } else {
       authParams = null;
     }
-    streamingServiceFactory = new CoinmateStreamingServiceFactory(API_BASE, authParams);
+
+    streamingService = new CoinmateStreamingService(API_BASE, authParams);
   }
 
   @Override
   protected void initServices() {
     super.initServices();
     createExchange();
-    streamingMarketDataService = new CoinmateStreamingMarketDataService(streamingServiceFactory);
-    streamingAccountService = new CoinmateStreamingAccountService(streamingServiceFactory);
-    streamingTradeService = new CoinmateStreamingTradeService(streamingServiceFactory);
+    streamingMarketDataService = new CoinmateStreamingMarketDataService(streamingService);
+    streamingAccountService = new CoinmateStreamingAccountService(streamingService);
+    streamingTradeService = new CoinmateStreamingTradeService(streamingService);
   }
 
   @Override
   public Completable connect(ProductSubscription... args) {
-    return Completable.complete();
+    return streamingService.connect();
   }
 
   @Override
   public Completable disconnect() {
-    return Completable.complete();
+    return streamingService.disconnect();
   }
 
   @Override
@@ -66,7 +67,7 @@ public class CoinmateStreamingExchange extends CoinmateExchange implements Strea
 
   @Override
   public boolean isAlive() {
-    return true;
+    return streamingService.isSocketOpen();
   }
 
   @Override

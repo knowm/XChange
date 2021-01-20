@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.coinmate.dto.auth;
+package info.bitrich.xchangestream.coinmate.v2.dto.auth;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -17,7 +17,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class AuthParams {
 
   private static final Logger log = LoggerFactory.getLogger(AuthParams.class);
-  private Map<String, String> params = new HashMap<>();
 
   private final String secret;
   private final String apiKey;
@@ -33,12 +32,12 @@ public class AuthParams {
   }
 
   public Map<String, String> getParams() {
-    params = new HashMap<>();
+    Map<String, String> params = new HashMap<>();
     Long nonce1 = nonce.createValue();
-    this.params.put("clientId", userId);
-    this.params.put("nonce", String.valueOf(nonce1));
-    this.params.put("signature", signature(nonce1, userId, apiKey, secret));
-    this.params.put("publicKey", apiKey);
+    params.put("clientId", userId);
+    params.put("nonce", String.valueOf(nonce1));
+    params.put("signature", signature(nonce1, userId, apiKey, secret));
+    params.put("publicKey", apiKey);
 
     return params;
   }
@@ -58,20 +57,7 @@ public class AuthParams {
     }
   }
 
-  @Override
-  public String toString() {
-    return "PusherAuthParamsObject{" + "params=" + params + '}';
-  }
-
-  public String toParams() {
-    Long nonce1 = nonce.createValue();
-    return "signature="
-        + signature(nonce1, userId, apiKey, secret)
-        + "&nonce="
-        + String.valueOf(nonce1)
-        + "&clientId="
-        + userId
-        + "&publicKey="
-        + apiKey;
+  public String getUserId() {
+    return userId;
   }
 }
