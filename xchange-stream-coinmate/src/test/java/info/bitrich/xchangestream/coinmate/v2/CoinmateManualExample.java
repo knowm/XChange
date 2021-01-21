@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
@@ -20,8 +20,8 @@ public class CoinmateManualExample {
         .getOrderBook(CurrencyPair.BTC_EUR)
         .subscribe(
             orderBook -> {
-              LOG.info("First ask: {}", orderBook.getAsks().get(0));
-              LOG.info("First bid: {}", orderBook.getBids().get(0));
+              LOG.info("Ask: {}", orderBook.getAsks().get(0));
+              LOG.info("Bid: {}", orderBook.getBids().get(0));
             });
 
     //        Disposable subscribe =
