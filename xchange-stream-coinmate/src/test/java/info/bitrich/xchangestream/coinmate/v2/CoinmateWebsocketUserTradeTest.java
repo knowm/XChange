@@ -16,6 +16,7 @@ public class CoinmateWebsocketUserTradeTest {
     String message =
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/user-trade.json").openStream())
+            .get("payload")
             .toString();
 
     List<CoinmateWebSocketUserTrade> websocketUserTrades =
