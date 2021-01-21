@@ -17,6 +17,7 @@ public class CoinmateWebsocketBalanceTest {
     String message =
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/balance.json").openStream())
+            .get("payload")
             .toString();
 
     Map<String, CoinmateWebsocketBalance> balanceMap =

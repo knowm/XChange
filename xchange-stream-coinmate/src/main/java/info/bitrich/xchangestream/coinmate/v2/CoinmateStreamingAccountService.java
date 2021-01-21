@@ -69,6 +69,6 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
             .readerFor(new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
 
     return coinmateStreamingService.subscribeChannel(channelName, true)
-        .map((message) -> reader.readValue(message.get("balances")));
+        .map((message) -> reader.readValue(message.get("payload").get("balances")));
   }
 }
