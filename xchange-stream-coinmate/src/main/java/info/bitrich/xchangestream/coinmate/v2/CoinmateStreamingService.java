@@ -1,11 +1,15 @@
 package info.bitrich.xchangestream.coinmate.v2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateAuthenticedSubscribeMessage;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmatePingMessage;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateSubscribeMessage;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateUnsubscribeMessage;
 import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.io.IOException;
 
@@ -49,6 +53,17 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
     CoinmateUnsubscribeMessage unsubscribeMessage =
         generateUnsubscribeMessage(channelName);
     return objectMapper.writeValueAsString(unsubscribeMessage);
+  }
+
+  @Override
+  protected void handleIdle(ChannelHandlerContext ctx) {
+    // the default zero frame is not handled by Coinmate API, use ping message instead
+    String pingMessage = null;
+    try {
+      pingMessage = objectMapper.writeValueAsString(new CoinmatePingMessage());
+    } catch (JsonProcessingException e) {
+    }
+    ctx.writeAndFlush(new TextWebSocketFrame(pingMessage));
   }
 
   private CoinmateSubscribeMessage generateSubscribeMessage(String channelName) {
