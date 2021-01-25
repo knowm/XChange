@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.5-SNAPSHOT</version>
+  <version>5.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -213,6 +213,7 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-huobi</module>
+    <module>xchange-stream-gemini-v2</module>
   </modules>
 
   <repositories>
@@ -298,7 +299,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.7.0</version>
+        <version>3.7.7</version>
         <scope>test</scope>
       </dependency>
 
@@ -546,7 +547,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>format</goal>
+<!--              <goal>format</goal>-->
             </goals>
           </execution>
         </executions>

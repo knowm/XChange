@@ -20,12 +20,12 @@ public class GeminiWebSocketTransaction {
   private JsonNode events;
 
   public GeminiWebSocketTransaction(
-      @JsonProperty("type") String type,
-      @JsonProperty("eventId") String eventId,
-      @JsonProperty("socket_sequence") String socket_sequence,
-      @JsonProperty("timestamp") String timestamp,
-      @JsonProperty("timestampms") String timestampms,
-      @JsonProperty("events") JsonNode events) {
+          @JsonProperty("type") String type,
+          @JsonProperty("eventId") String eventId,
+          @JsonProperty("socket_sequence") String socket_sequence,
+          @JsonProperty("timestamp") String timestamp,
+          @JsonProperty("timestampms") String timestampms,
+          @JsonProperty("events") JsonNode events) {
     this.type = type;
     this.eventId = eventId;
     this.socket_sequence = socket_sequence;
@@ -63,7 +63,7 @@ public class GeminiWebSocketTransaction {
     BigDecimal amount = new BigDecimal(jsonEvent.get("remaining").asText());
     BigDecimal timestamp = new BigDecimal((new Date().getTime() / 1000));
     Order.OrderType side =
-        jsonEvent.get("side").asText().equals("ask") ? Order.OrderType.ASK : Order.OrderType.BID;
+            jsonEvent.get("side").asText().equals("ask") ? Order.OrderType.ASK : Order.OrderType.BID;
     return new GeminiLimitOrder(side, price, amount, timestamp);
   }
 
@@ -72,9 +72,9 @@ public class GeminiWebSocketTransaction {
     for (JsonNode jsonEvent : events) {
       if (!jsonEvent.has("reason")) continue;
       if (jsonEvent.get("reason").asText().equals("initial")
-          || jsonEvent.get("reason").asText().equals("place")
-          || jsonEvent.get("reason").asText().equals("cancel")
-          || jsonEvent.get("reason").asText().equals("trade")) {
+              || jsonEvent.get("reason").asText().equals("place")
+              || jsonEvent.get("reason").asText().equals("cancel")
+              || jsonEvent.get("reason").asText().equals("trade")) {
         GeminiLimitOrder level = toGeminiLimitOrder(jsonEvent);
         levels.add(level);
       }
