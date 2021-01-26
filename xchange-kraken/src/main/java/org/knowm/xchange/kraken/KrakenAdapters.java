@@ -84,7 +84,7 @@ public class KrakenAdapters {
               openPositionsList.add(
                   new OpenPosition.Builder()
                           .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
-                          .type(krakenOpenPosition.getType().equals(KrakenType.BUY)
+                          .type(krakenOpenPosition.getType() == KrakenType.BUY
                                   ? OpenPosition.Type.LONG
                                   : OpenPosition.Type.SHORT)
                           .size(krakenOpenPosition.getCost())
