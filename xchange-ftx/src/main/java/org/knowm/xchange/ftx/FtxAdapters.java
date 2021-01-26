@@ -8,9 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -280,12 +278,17 @@ public class FtxAdapters {
 
     ftxPositionDtos.forEach(
         ftxPositionDto -> {
-          openPositionList.add(
-              new OpenPosition.Builder(
-                      adaptFtxOrderSideToOrderType(ftxPositionDto.getSide()),
-                      new CurrencyPair(ftxPositionDto.getFuture()))
-                  .originalAmount(ftxPositionDto.getOpenSize())
-                  .build());
+          if(ftxPositionDto.getSize().compareTo(BigDecimal.ZERO) > 0){
+            openPositionList.add(
+                    new OpenPosition.Builder()
+                            .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
+                            .price(ftxPositionDto.getEntryPrice())
+                            .size(ftxPositionDto.getSize())
+                            .type(ftxPositionDto.getSide().equals(FtxOrderSide.buy)
+                                    ? OpenPosition.Type.LONG
+                                    : OpenPosition.Type.SHORT)
+                            .build());
+          }
         });
 
     return new OpenPositions(openPositionList);
