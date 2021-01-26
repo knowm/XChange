@@ -1,8 +1,8 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectReader;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketBalance;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
@@ -13,12 +13,12 @@ import org.knowm.xchange.dto.account.Wallet;
 
 public class CoinmateStreamingAccountService implements StreamingAccountService {
 
-  private final CoinmateStreamingServiceFactory serviceFactory;
+  private final CoinmateStreamingService coinmateStreamingService;
   private final Set<Wallet.WalletFeature> walletFeatures =
       new HashSet<>(Arrays.asList(Wallet.WalletFeature.TRADING, Wallet.WalletFeature.FUNDING));
 
-  public CoinmateStreamingAccountService(CoinmateStreamingServiceFactory serviceFactory) {
-    this.serviceFactory = serviceFactory;
+  public CoinmateStreamingAccountService(CoinmateStreamingService coinmateStreamingService) {
+    this.coinmateStreamingService = coinmateStreamingService;
   }
 
   @Override
@@ -62,14 +62,13 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
   }
 
   private Observable<Map<String, CoinmateWebsocketBalance>> getCoinmateBalances() {
-    String channelName = "channel/my-balances";
+    String channelName = "private-user_balances-" + coinmateStreamingService.getUserId();
 
     ObjectReader reader =
         StreamingObjectMapperHelper.getObjectMapper()
             .readerFor(new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
 
-    return serviceFactory
-        .createConnection(channelName, true)
-        .map((message) -> reader.readValue(message.get("balances")));
+    return coinmateStreamingService.subscribeChannel(channelName, true)
+        .map((message) -> reader.readValue(message.get("payload").get("balances")));
   }
 }

@@ -1,9 +1,9 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketOpenOrder;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +16,7 @@ public class CoinmateWebsocketOpenOrderTest {
     String message =
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/open-orders.json").openStream())
+            .get("payload")
             .toString();
 
     List<CoinmateWebsocketOpenOrder> websocketOpenOrders =
