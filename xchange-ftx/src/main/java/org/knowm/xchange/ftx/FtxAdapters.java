@@ -284,7 +284,7 @@ public class FtxAdapters {
                             .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
                             .price(ftxPositionDto.getEntryPrice())
                             .size(ftxPositionDto.getSize())
-                            .type(ftxPositionDto.getSide().equals(FtxOrderSide.buy)
+                            .type(ftxPositionDto.getSide() == FtxOrderSide.buy
                                     ? OpenPosition.Type.LONG
                                     : OpenPosition.Type.SHORT)
                             .build());
