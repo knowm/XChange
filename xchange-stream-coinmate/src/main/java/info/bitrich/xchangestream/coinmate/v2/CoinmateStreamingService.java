@@ -10,6 +10,8 @@ import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -18,6 +20,7 @@ import java.io.IOException;
  */
 class CoinmateStreamingService extends JsonNettyStreamingService {
 
+  private static final Logger LOG = LoggerFactory.getLogger(CoinmateStreamingService.class);
   private final AuthParams authParams;
 
   CoinmateStreamingService(String url, AuthParams authParams) {
@@ -28,7 +31,7 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     String event = message.get("event").asText();
-    if (!event.equals("data")) {
+    if (!"data".equals(event)) {
       return null;
     }
     return message.get("channel").asText();
@@ -37,33 +40,25 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     if (args.length > 0 && args[0].equals(true)) {
-      // needs authentication
-      CoinmateAuthenticedSubscribeMessage subscribeMessage =
-          generateAuthenticatedSubscribeMessage(channelName);
-      return objectMapper.writeValueAsString(subscribeMessage);
+      return objectMapper.writeValueAsString(generateAuthenticatedSubscribeMessage(channelName));
     } else {
-      CoinmateSubscribeMessage subscribeMessage =
-          generateSubscribeMessage(channelName);
-      return objectMapper.writeValueAsString(subscribeMessage);
+      return objectMapper.writeValueAsString(generateSubscribeMessage(channelName));
     }
   }
 
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
-    CoinmateUnsubscribeMessage unsubscribeMessage =
-        generateUnsubscribeMessage(channelName);
-    return objectMapper.writeValueAsString(unsubscribeMessage);
+    return objectMapper.writeValueAsString(generateUnsubscribeMessage(channelName));
   }
 
   @Override
   protected void handleIdle(ChannelHandlerContext ctx) {
     // the default zero frame is not handled by Coinmate API, use ping message instead
-    String pingMessage = null;
     try {
-      pingMessage = objectMapper.writeValueAsString(new CoinmatePingMessage());
+      ctx.writeAndFlush(new TextWebSocketFrame(objectMapper.writeValueAsString(new CoinmatePingMessage())));
     } catch (JsonProcessingException e) {
+      LOG.error("Failed to write ping message.");
     }
-    ctx.writeAndFlush(new TextWebSocketFrame(pingMessage));
   }
 
   private CoinmateSubscribeMessage generateSubscribeMessage(String channelName) {
