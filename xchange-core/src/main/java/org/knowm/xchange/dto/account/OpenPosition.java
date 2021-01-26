@@ -1,21 +1,22 @@
 package org.knowm.xchange.dto.account;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import org.knowm.xchange.instrument.Instrument;
 
-public class OpenPosition {
+public class OpenPosition implements Serializable {
   /** The instrument */
-  private Instrument instrument;
+  private final Instrument instrument;
   /** Is this a long or a short position */
-  private Type type;
+  private final Type type;
   /** The size of the position */
-  private BigDecimal size;
+  private final BigDecimal size;
   /** The avarage entry price for the position */
-  private BigDecimal price;
+  private final BigDecimal price;
 
   public OpenPosition(
-      final Instrument instrument, final Type type, final BigDecimal size, final BigDecimal price) {
+      Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;
