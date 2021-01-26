@@ -1,4 +1,4 @@
-package org.knowm.xchange.dto.trade;
+package org.knowm.xchange.dto.account;
 
 import java.io.Serializable;
 import java.util.List;
