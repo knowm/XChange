@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.coinmate.dto;
+package info.bitrich.xchangestream.coinmate.v2.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
