@@ -1,12 +1,12 @@
 package info.bitrich.xchangestream.btcmarkets;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
@@ -37,15 +37,15 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
 
     // Create the first subscription message
     if (!hasActiveSubscriptions()) {
-      return BTCMarketsWebSocketSubscriptionMessage.getFirstSubcritionMessage(
-          Lists.newArrayList(marketIds),
-          Lists.newArrayList(channelName, CHANNEL_HEARTBEAT),
+      return BTCMarketsWebSocketSubscriptionMessage.getFirstSubscritionMessage(
+          new ArrayList<String>(marketIds),
+          Arrays.asList(channelName, CHANNEL_HEARTBEAT),
           null,
           null,
           null);
     } else {
-      return BTCMarketsWebSocketSubscriptionMessage.getAddSubcritionMessage(
-          Lists.newArrayList(marketIds), Lists.newArrayList(channelName), null, null, null);
+      return BTCMarketsWebSocketSubscriptionMessage.getAddSubscritionMessage(
+          new ArrayList<String>(marketIds), Arrays.asList(channelName), null, null, null);
     }
   }
 
@@ -53,8 +53,8 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
       String channelName, Set<String> marketIds) {
 
     return BTCMarketsWebSocketSubscriptionMessage.getRemoveSubcritionMessage(
-        marketIds == null ? new ArrayList<String>() : Lists.newArrayList(marketIds),
-        Lists.newArrayList(channelName),
+        marketIds == null ? new ArrayList<String>() : new ArrayList<String>(marketIds),
+        Arrays.asList(channelName),
         null,
         null,
         null);
@@ -64,8 +64,8 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
   protected String getChannelNameFromMessage(JsonNode message) {
     final String messageType = message.get("messageType").asText();
     if (messageType.startsWith(CHANNEL_ORDERBOOK)
-        | messageType.startsWith(CHANNEL_TICKER)
-        | messageType.startsWith(CHANNEL_TRADE)) {
+        || messageType.startsWith(CHANNEL_TICKER)
+        || messageType.startsWith(CHANNEL_TRADE)) {
       return messageType + ":" + message.get("marketId").asText();
     }
     return messageType;
@@ -75,11 +75,11 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
 
     if (CHANNEL_ORDERBOOK.equals(channelName)
-        | CHANNEL_TICKER.equals(channelName)
-        | CHANNEL_TRADE.equals(channelName)) {
+        || CHANNEL_TICKER.equals(channelName)
+        || CHANNEL_TRADE.equals(channelName)) {
 
       LOG.debug("Now subscribing to {}:{}", channelName, args);
-      Set<String> newMarketIds = Sets.newConcurrentHashSet();
+      Set<String> newMarketIds = new HashSet<String>();
       if (args != null) {
         for (Object marketId : args) {
           newMarketIds.add(marketId.toString());
@@ -114,8 +114,8 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
     if (channelName.startsWith(CHANNEL_ORDERBOOK)
-        | channelName.startsWith(CHANNEL_TICKER)
-        | channelName.startsWith(CHANNEL_TRADE)) {
+        || channelName.startsWith(CHANNEL_TICKER)
+        || channelName.startsWith(CHANNEL_TRADE)) {
       LOG.debug(
           "getUnsubscribeMessage: what is in subscribedMarketIds {}:{}",
           channelName,

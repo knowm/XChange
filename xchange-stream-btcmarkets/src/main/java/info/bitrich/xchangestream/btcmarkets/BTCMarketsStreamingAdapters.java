@@ -55,10 +55,9 @@ public class BTCMarketsStreamingAdapters {
 
   public static Ticker adaptTickerMessageToTicker(BTCMarketsWebSocketTickerMessage message)
       throws InvalidFormatException {
-    CurrencyPair currencyPair = adaptMarketIdToCurrencyPair(message.getMarketId());
 
     return new Ticker.Builder()
-        .instrument(currencyPair)
+        .instrument(adaptMarketIdToCurrencyPair(message.getMarketId()))
         .last(message.getLastPrice())
         .bid(message.getBestBid())
         .ask(message.getBestAsk())
@@ -69,9 +68,9 @@ public class BTCMarketsStreamingAdapters {
 
   public static Trade adaptTradeMessageToTrade(BTCMarketsWebSocketTradeMessage message)
       throws InvalidFormatException {
-    CurrencyPair currencyPair = adaptMarketIdToCurrencyPair(message.getMarketId());
+
     return new Trade.Builder()
-        .instrument(currencyPair)
+        .instrument(adaptMarketIdToCurrencyPair(message.getMarketId()))
         .id(message.getTradeId())
         .price(message.getPrice())
         .timestamp(DateUtils.fromISODateString(message.getTimestamp()))

@@ -76,13 +76,13 @@ public class BTCMarketsWebSocketSubscriptionMessage {
    * @param signature
    * @return {@link BTCMarketsWebSocketSubscriptionMessage}
    */
-  public static BTCMarketsWebSocketSubscriptionMessage getFirstSubcritionMessage(
+  public static BTCMarketsWebSocketSubscriptionMessage getFirstSubscritionMessage(
       List<String> marketIds, List<String> channels, Long timestamp, String key, String signature) {
     return new BTCMarketsWebSocketSubscriptionMessage(
         "subscribe", marketIds, channels, timestamp, key, signature, "api");
   }
 
-  public static BTCMarketsWebSocketSubscriptionMessage getAddSubcritionMessage(
+  public static BTCMarketsWebSocketSubscriptionMessage getAddSubscritionMessage(
       List<String> marketIds, List<String> channels, Long timestamp, String key, String signature) {
     return new BTCMarketsWebSocketSubscriptionMessage(
         "addSubscription", marketIds, channels, timestamp, key, signature, "api");
