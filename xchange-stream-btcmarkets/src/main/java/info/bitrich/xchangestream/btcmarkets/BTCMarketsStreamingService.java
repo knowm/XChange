@@ -37,14 +37,14 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
 
     // Create the first subscription message
     if (!hasActiveSubscriptions()) {
-      return BTCMarketsWebSocketSubscriptionMessage.getFirstSubscritionMessage(
+      return BTCMarketsWebSocketSubscriptionMessage.getFirstSubscriptionMessage(
           new ArrayList<String>(marketIds),
           Arrays.asList(channelName, CHANNEL_HEARTBEAT),
           null,
           null,
           null);
     } else {
-      return BTCMarketsWebSocketSubscriptionMessage.getAddSubscritionMessage(
+      return BTCMarketsWebSocketSubscriptionMessage.getAddSubscriptionMessage(
           new ArrayList<String>(marketIds), Arrays.asList(channelName), null, null, null);
     }
   }
@@ -52,7 +52,7 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
   private BTCMarketsWebSocketSubscriptionMessage buildRemoveSubscriptionMessage(
       String channelName, Set<String> marketIds) {
 
-    return BTCMarketsWebSocketSubscriptionMessage.getRemoveSubcritionMessage(
+    return BTCMarketsWebSocketSubscriptionMessage.getRemoveSubcriptionMessage(
         marketIds == null ? new ArrayList<String>() : new ArrayList<String>(marketIds),
         Arrays.asList(channelName),
         null,
