@@ -81,7 +81,7 @@ public class BitmaxAdapters {
                 null,
                 limitOrder.hasFlag(BitmaxFlags.POST_ONLY),
                 null,
-                "ACCEPT"
+                null
         );
     }
 
