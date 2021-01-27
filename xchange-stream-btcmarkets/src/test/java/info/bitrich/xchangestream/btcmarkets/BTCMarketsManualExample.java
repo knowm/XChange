@@ -20,13 +20,6 @@ public class BTCMarketsManualExample {
         StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
     exchange.connect().blockingAwait();
 
-    //    exchange
-    //        .disconnectObservable()
-    //        .doOnEach(
-    //            channelHandler -> {
-    //              logger.info("disconnect observable action: {}", channelHandler);
-    //            });
-
     Disposable btcOrderBookDisposable =
         exchange
             .getStreamingMarketDataService()
