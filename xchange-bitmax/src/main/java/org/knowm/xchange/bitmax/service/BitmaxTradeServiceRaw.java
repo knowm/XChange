@@ -40,12 +40,28 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public BitmaxOrderResponse cancelBitmaxOrder(BitmaxCancelOrderRequestPayload payload) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.cancelOrder(
+      return checkResult(
+          bitmaxWithAccountGroup.cancelOrder(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              "cash",
+              payload.getOrderId(),
+              payload.getSymbol(),
+              payload.getTime()));
+        }catch (IOException e){
+            throw new BitmaxException(e.getMessage());
+        }
+    }
+
+    public BitmaxOrderResponse cancelAllBitmaxOrdersBySymbol(String symbol) throws BitmaxException,IOException {
+        try{
+            return checkResult(bitmaxWithAccountGroup.cancelAllOrders(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
                     "cash",
-                    payload
+                    symbol
             ));
         }catch (IOException e){
             throw new BitmaxException(e.getMessage());

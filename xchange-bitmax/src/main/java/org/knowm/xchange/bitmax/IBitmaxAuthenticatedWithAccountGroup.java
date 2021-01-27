@@ -34,12 +34,6 @@ public interface IBitmaxAuthenticatedWithAccountGroup extends IBitmax{
             @HeaderParam("x-auth-timestamp") Long nonce,
             @HeaderParam("x-auth-signature") ParamsDigest signature,
             @PathParam("account-category") String accountCategory,
-//            @QueryParam("symbol") String symbol,
-//            @QueryParam("time") Long time,
-//            @QueryParam("orderQty") BigDecimal orderQty,
-//            @QueryParam("orderType") String orderType,
-//            @QueryParam("side") String side,
-//            @QueryParam("orderPrice") BigDecimal orderPrice
             BitmaxPlaceOrderRequestPayload payload
     ) throws IOException;
 
@@ -50,7 +44,19 @@ public interface IBitmaxAuthenticatedWithAccountGroup extends IBitmax{
             @HeaderParam("x-auth-timestamp") Long nonce,
             @HeaderParam("x-auth-signature") ParamsDigest signature,
             @PathParam("account-category") String accountCategory,
-            BitmaxCancelOrderRequestPayload payload
+            @QueryParam("orderId") String orderId,
+            @QueryParam("symbol") String symbol,
+            @QueryParam("time") Long time
+    ) throws IOException;
+
+    @DELETE
+    @Path("/{account-category}/order/all")
+    BitmaxResponse<BitmaxOrderResponse> cancelAllOrders(
+            @HeaderParam("x-auth-key") String apiKey,
+            @HeaderParam("x-auth-timestamp") Long nonce,
+            @HeaderParam("x-auth-signature") ParamsDigest signature,
+            @PathParam("account-category") String accountCategory,
+            @QueryParam("symbol") String symbol
     ) throws IOException;
 
     @GET

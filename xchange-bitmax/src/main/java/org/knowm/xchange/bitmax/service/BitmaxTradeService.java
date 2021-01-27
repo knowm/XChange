@@ -9,6 +9,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -38,6 +39,11 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
         }else{
             throw new BitmaxException("Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Bitmax.");
         }
+    }
+
+    @Override
+    public OpenOrdersParams createOpenOrdersParams() {
+        return new DefaultOpenOrdersParamInstrument();
     }
 
     @Override

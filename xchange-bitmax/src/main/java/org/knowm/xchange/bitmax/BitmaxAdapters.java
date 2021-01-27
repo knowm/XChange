@@ -71,13 +71,13 @@ public class BitmaxAdapters {
         return new BitmaxPlaceOrderRequestPayload(
                 limitOrder.getInstrument().toString(),
                 Date.from(Instant.now()).toInstant().toEpochMilli(),
-                limitOrder.getOriginalAmount(),
+                limitOrder.getOriginalAmount().toString(),
                 BitmaxPlaceOrderRequestPayload.BitmaxOrderType.limit,
                 limitOrder.getType().equals(Order.OrderType.ASK)
                         ? BitmaxPlaceOrderRequestPayload.BitmaxSide.sell
                         : BitmaxPlaceOrderRequestPayload.BitmaxSide.buy,
                 null,
-                limitOrder.getLimitPrice(),
+                limitOrder.getLimitPrice().toString(),
                 null,
                 limitOrder.hasFlag(BitmaxFlags.POST_ONLY),
                 null,

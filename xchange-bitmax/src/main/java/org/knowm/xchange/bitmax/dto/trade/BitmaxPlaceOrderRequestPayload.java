@@ -11,7 +11,7 @@ public class BitmaxPlaceOrderRequestPayload {
 
     private final Long time;
 
-    private final BigDecimal orderQty;
+    private final String orderQty;
 
     private final BitmaxOrderType orderType;
 
@@ -20,10 +20,10 @@ public class BitmaxPlaceOrderRequestPayload {
     @JsonIgnore
     private final String id;
 
-    private final BigDecimal orderPrice;
+    private final String orderPrice;
 
     @JsonIgnore
-    private final BigDecimal stopPrice;
+    private final String stopPrice;
 
     private final boolean postOnly;
 
@@ -33,7 +33,7 @@ public class BitmaxPlaceOrderRequestPayload {
 
     private final String respInst;
 
-    public BitmaxPlaceOrderRequestPayload(String symbol, Long time, BigDecimal orderQty, BitmaxOrderType orderType, BitmaxSide side, String id, BigDecimal orderPrice, BigDecimal stopPrice, boolean postOnly, String timeInForce, String respInst) {
+    public BitmaxPlaceOrderRequestPayload(String symbol, Long time, String orderQty, BitmaxOrderType orderType, BitmaxSide side, String id, String orderPrice, String stopPrice, boolean postOnly, String timeInForce, String respInst) {
         this.symbol = symbol;
         this.time = time;
         this.orderQty = orderQty;
@@ -55,7 +55,7 @@ public class BitmaxPlaceOrderRequestPayload {
         return time;
     }
 
-    public BigDecimal getOrderQty() {
+    public String getOrderQty() {
         return orderQty;
     }
 
@@ -71,11 +71,11 @@ public class BitmaxPlaceOrderRequestPayload {
         return id;
     }
 
-    public BigDecimal getOrderPrice() {
+    public String getOrderPrice() {
         return orderPrice;
     }
 
-    public BigDecimal getStopPrice() {
+    public String getStopPrice() {
         return stopPrice;
     }
 
