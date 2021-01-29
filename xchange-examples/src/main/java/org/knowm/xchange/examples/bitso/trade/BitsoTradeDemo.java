@@ -49,7 +49,7 @@ public class BitsoTradeDemo {
         new LimitOrder(
             (OrderType.ASK),
             new BigDecimal("0.01"),
-            new CurrencyPair(Currency.BTC, Currency.USD),
+            new CurrencyPair(Currency.XRP, Currency.MXN),
             "",
             null,
             new BigDecimal("5000.00"));
