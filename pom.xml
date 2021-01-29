@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.5-SNAPSHOT</version>
+  <version>5.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -19,6 +19,7 @@
 
   <url>http://knowm.org/open-source/xchange</url>
   <inceptionYear>2012</inceptionYear>
+
 
   <organization>
     <name>Knowm Inc.</name>
@@ -30,20 +31,19 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <version.java>1.8</version.java>
-    <version.assertj>3.18.1</version.assertj>
+    <version.assertj>3.19.0</version.assertj>
     <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
     <version.github.mmazi>2.0.4</version.github.mmazi>
-    <version.resilience4j>1.6.1</version.resilience4j>
+    <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.16</version.lombok>
-    <version.knowm.xchart>3.6.6</version.knowm.xchart>
-    <version.powermock>2.0.9</version.powermock>
+    <version.knowm.xchart>3.8.0</version.knowm.xchart>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.12.0</version.java-jwt>
+    <version.java-jwt>3.12.1</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -149,6 +149,7 @@
     <module>xchange-exx</module>
     <module>xchange-examples</module>
     <module>xchange-fcoin</module>
+    <module>xchange-ftx</module>
     <module>xchange-gateio</module>
     <module>xchange-globitex</module>
     <module>xchange-gemini</module>
@@ -211,6 +212,7 @@
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
     <module>xchange-stream-huobi</module>
+    <module>xchange-stream-gemini-v2</module>
   </modules>
 
   <repositories>
@@ -290,13 +292,13 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>29.0-jre</version>
+        <version>30.1-jre</version>
       </dependency>
 
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.6.28</version>
+        <version>3.7.7</version>
         <scope>test</scope>
       </dependency>
 
@@ -304,27 +306,6 @@
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock-jre8</artifactId>
         <version>2.27.2</version>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- PowerMockito for unit tests -->
-      <!-- when removing powermock, please upgrade mockito -->
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-module-junit4</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-api-mockito2</artifactId>
-        <version>${version.powermock}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.powermock</groupId>
-        <artifactId>powermock-reflect</artifactId>
-        <version>${version.powermock}</version>
         <scope>test</scope>
       </dependency>
 
@@ -346,7 +327,6 @@
         <artifactId>java-jwt</artifactId>
         <version>${version.java-jwt}</version>
       </dependency>
-
 
       <!-- for streaming-->
       <dependency>
@@ -408,14 +388,10 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-<!--            <name>performRelease</name>-->
             <name>gpg.passphrase</name>
           <value>true</value>
         </property>
       </activation>
-<!--        <properties>-->
-<!--            <gpg.executable>gpg2</gpg.executable>-->
-<!--        </properties>-->
       <build>
         <plugins>
           <plugin>
@@ -570,7 +546,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>format</goal>
+<!--              <goal>format</goal>-->
             </goals>
           </execution>
         </executions>

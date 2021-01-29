@@ -144,7 +144,7 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 <dependency>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-core</artifactId>
-  <version>5.0.4</version>
+  <version>5.0.5</version>
 </dependency>
 <dependency>
   <groupId>org.knowm.xchange</groupId>
@@ -175,7 +175,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    5.0.5-SNAPSHOT
+    5.0.6-SNAPSHOT
 
 ## Building with Maven
 

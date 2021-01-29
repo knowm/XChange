@@ -25,7 +25,10 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.LedgerEntry;
+import org.knowm.xchange.bitfinex.v2.dto.account.LedgerRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
+import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -206,7 +209,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   }
 
   public List<LedgerEntry> getLedgerEntries(
-      String currency, Long startTimeMillis, Long endTimeMillis, Long limit) throws IOException {
+      String currency, Long startTimeMillis, Long endTimeMillis, Long limit, Long category)
+      throws IOException {
     if (StringUtils.isBlank(currency)) {
       return bitfinexV2.getLedgerEntries(
           exchange.getNonceFactory(),
@@ -215,7 +219,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
           startTimeMillis,
           endTimeMillis,
           limit,
-          EmptyRequest.INSTANCE);
+          new LedgerRequest(category));
     }
     return bitfinexV2.getLedgerEntries(
         exchange.getNonceFactory(),
@@ -225,7 +229,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
         startTimeMillis,
         endTimeMillis,
         limit,
-        EmptyRequest.INSTANCE);
+        new LedgerRequest(category));
   }
 
   public List<Movement> getMovementHistory(
@@ -255,5 +259,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public List<Wallet> getWallets() throws IOException {
     return bitfinexV2.getWallets(
         exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
+  }
+
+  public TransferBetweenWalletsResponse transferBetweenWallets(TransferBetweenWalletsRequest req)
+      throws IOException {
+    return bitfinexV2.transferBetweenWallets(exchange.getNonceFactory(), apiKey, signatureV2, req);
   }
 }

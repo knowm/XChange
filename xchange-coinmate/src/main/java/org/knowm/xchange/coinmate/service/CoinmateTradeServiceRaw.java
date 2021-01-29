@@ -195,6 +195,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -209,6 +210,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -223,6 +225,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -237,6 +240,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             currencyPair,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -252,6 +256,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -267,6 +272,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
@@ -282,6 +288,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
       String currencyPair,
       BigDecimal stopPrice,
       Integer hidden,
+      Integer postOnly,
       Integer immediateOrCancel,
       Integer trailing)
       throws IOException {
@@ -297,6 +304,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBaseService {
             orderId,
             stopPrice,
             hidden,
+            postOnly,
             immediateOrCancel,
             trailing);
 
