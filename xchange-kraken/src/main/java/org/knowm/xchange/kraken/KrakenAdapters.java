@@ -32,6 +32,8 @@ import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.account.KrakenVolumeFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -354,6 +356,29 @@ public class KrakenAdapters {
         originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
         originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+  }
+
+  public static Map<CurrencyPair, Fee> adaptFees(KrakenTradeVolume krakenTradeVolume) {
+    Map<CurrencyPair, Fee> feeMap = new HashMap<>();
+
+    //Compute Taker Fees
+    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
+      feeMap.computeIfAbsent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), currencyPair ->
+              new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100)))
+      );
+    }
+
+    //Compute Maker Fees
+    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
+      feeMap.computeIfPresent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), (currencyPair, fee) ->
+              fee = new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), fee.getTakerFee())
+      );
+      feeMap.computeIfAbsent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), currencyPair ->
+              new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), null)
+      );
+    }
+
+    return feeMap;
   }
 
   protected static FeeTier[] adaptFeeTiers(List<KrakenFee> makerFees, List<KrakenFee> takerFees) {
