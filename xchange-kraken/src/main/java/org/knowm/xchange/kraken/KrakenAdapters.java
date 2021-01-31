@@ -326,7 +326,6 @@ public class KrakenAdapters {
     KrakenUtils.setKrakenAssets(krakenAssets);
     KrakenUtils.setKrakenAssetPairs(krakenPairs);
 
-    pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
       //  skip dark markets!
       if (!krakenPairCode.endsWith(".d")) {
@@ -418,23 +417,14 @@ public class KrakenAdapters {
 
   private static CurrencyPairMetaData adaptPair(
       KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
-    if (OriginalMeta != null) {
-      return new CurrencyPairMetaData(
-          krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
-          krakenPair.getOrderMin() != null
-              ? krakenPair.getOrderMin()
-              : OriginalMeta.getMinimumAmount(),
-          OriginalMeta.getMaximumAmount(),
-          krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
-    } else {
       return new CurrencyPairMetaData(
           krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
           krakenPair.getOrderMin(),
           null,
           krakenPair.getPairScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()));
-    }
+          krakenPair.getVolumeLotScale(),
+          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+          KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()));
   }
 
   public static List<FundingRecord> adaptFundingHistory(

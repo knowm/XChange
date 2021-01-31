@@ -34,13 +34,13 @@ public class KrakenExchangeTest {
     Map<Currency, CurrencyMetaData> currencies = exchange.getExchangeMetaData().getCurrencies();
 
     Assert.assertEquals(
-        1, currencyPairs.get(CurrencyPair.ADA_BTC).getMinimumAmount().doubleValue(), 0.01);
+        25, currencyPairs.get(CurrencyPair.ADA_BTC).getMinimumAmount().doubleValue(), 0.01);
     Assert.assertEquals(
-        1, currencyPairs.get(CurrencyPair.ADA_ETH).getMinimumAmount().doubleValue(), 0.01);
+        25, currencyPairs.get(CurrencyPair.ADA_ETH).getMinimumAmount().doubleValue(), 0.01);
     Assert.assertEquals(
-        1, currencyPairs.get(CurrencyPair.ADA_USD).getMinimumAmount().doubleValue(), 0.01);
+        25, currencyPairs.get(CurrencyPair.ADA_USD).getMinimumAmount().doubleValue(), 0.01);
     Assert.assertEquals(
-        0.000002,
+        0.02,
         currencyPairs.get(CurrencyPair.BCH_USD).getMinimumAmount().doubleValue(),
         0.000001);
     Assert.assertEquals(
