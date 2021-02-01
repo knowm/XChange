@@ -18,10 +18,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -85,20 +82,16 @@ public class KrakenAdapters {
         .forEach(
             krakenOpenPosition -> {
               openPositionsList.add(
-                  new OpenPosition(
-                      KrakenAdapters.adaptOrderType(krakenOpenPosition.getType()),
-                      krakenOpenPosition.getCost(),
-                      KrakenAdapters.adaptCurrencyPair(krakenOpenPosition.getAssetPair()),
-                      krakenOpenPosition.getOrderTxId(),
-                      new Date(krakenOpenPosition.getTradeUnixTimestamp() * 1000),
-                      krakenOpenPosition
-                          .getCost()
-                          .divide(
-                              krakenOpenPosition
-                                  .getVolume()
-                                  .subtract(krakenOpenPosition.getVolumeClosed()),
-                              RoundingMode.HALF_EVEN),
-                      krakenOpenPosition.getFee()));
+                  new OpenPosition.Builder()
+                          .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                          .type(krakenOpenPosition.getType() == KrakenType.BUY
+                                  ? OpenPosition.Type.LONG
+                                  : OpenPosition.Type.SHORT)
+                          .size(krakenOpenPosition.getCost())
+                          .price(krakenOpenPosition
+                                  .getCost()
+                                  .divide(krakenOpenPosition.getVolume().subtract(krakenOpenPosition.getVolumeClosed()), RoundingMode.HALF_EVEN))
+                          .build());
             });
 
     return new OpenPositions(openPositionsList);
