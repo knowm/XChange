@@ -375,6 +375,16 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair LTC_USDT = new CurrencyPair(Currency.LTC, Currency.USDT);
   public static final CurrencyPair ZEC_USDT = new CurrencyPair(Currency.ZEC, Currency.USDT);
 
+  public static final CurrencyPair XLM_USD = new CurrencyPair(Currency.XLM, Currency.USD);
+  public static final CurrencyPair XLM_EUR = new CurrencyPair(Currency.XLM, Currency.EUR);
+
+  public static final CurrencyPair LINK_USD = new CurrencyPair(Currency.LINK, Currency.USD);
+  public static final CurrencyPair LINK_EUR = new CurrencyPair(Currency.LINK, Currency.EUR);
+  public static final CurrencyPair LINK_BTC = new CurrencyPair(Currency.LINK, Currency.BTC);
+  public static final CurrencyPair LINK_ETH = new CurrencyPair(Currency.LINK, Currency.ETH);
+
+
+
   public final Currency base;
 
   public final Currency counter;
