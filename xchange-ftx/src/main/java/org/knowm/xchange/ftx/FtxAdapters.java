@@ -187,23 +187,25 @@ public class FtxAdapters {
 
     ftxUserTrades.forEach(
         ftxOrderDto -> {
-          userTrades.add(
-              new UserTrade.Builder()
-                  .instrument(
-                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                  .currencyPair(
-                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                  .timestamp(ftxOrderDto.getCreatedAt())
-                  .id(ftxOrderDto.getId())
-                  .orderId(ftxOrderDto.getId())
-                  .orderUserReference(ftxOrderDto.getClientId())
-                  .originalAmount(ftxOrderDto.getFilledSize())
-                  .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
-                  .price(
-                      ftxOrderDto.getAvgFillPrice() == null
-                          ? ftxOrderDto.getPrice()
-                          : ftxOrderDto.getAvgFillPrice())
-                  .build());
+          if(ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0 ){
+            userTrades.add(
+                    new UserTrade.Builder()
+                            .instrument(
+                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                            .currencyPair(
+                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                            .timestamp(ftxOrderDto.getCreatedAt())
+                            .id(ftxOrderDto.getId())
+                            .orderId(ftxOrderDto.getId())
+                            .orderUserReference(ftxOrderDto.getClientId())
+                            .originalAmount(ftxOrderDto.getFilledSize())
+                            .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
+                            .price(
+                                    ftxOrderDto.getAvgFillPrice() == null
+                                            ? ftxOrderDto.getPrice()
+                                            : ftxOrderDto.getAvgFillPrice())
+                            .build());
+          }
         });
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
