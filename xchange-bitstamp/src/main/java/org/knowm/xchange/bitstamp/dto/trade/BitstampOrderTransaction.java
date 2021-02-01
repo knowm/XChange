@@ -17,6 +17,8 @@ public class BitstampOrderTransaction {
   private final BigDecimal eur;
   private final BigDecimal xrp;
   private final BigDecimal bch;
+  private final BigDecimal xlm;
+  private final BigDecimal link;
   private final BigDecimal price;
   private final BigDecimal fee;
 
@@ -42,6 +44,8 @@ public class BitstampOrderTransaction {
       @JsonProperty("eur") BigDecimal eur,
       @JsonProperty("xrp") BigDecimal xrp,
       @JsonProperty("bch") BigDecimal bch,
+      @JsonProperty("xlm") BigDecimal xlm,
+      @JsonProperty("link") BigDecimal link,
       @JsonProperty("price") BigDecimal price,
       @JsonProperty("fee") BigDecimal fee) {
 
@@ -58,6 +62,8 @@ public class BitstampOrderTransaction {
     this.eur = eur;
     this.xrp = xrp;
     this.bch = bch;
+    this.xlm = xlm;
+    this.link = link;
   }
 
   public Date getDatetime() {
@@ -114,4 +120,12 @@ public class BitstampOrderTransaction {
   public BigDecimal getBch() {
     return bch;
   }
+
+    public BigDecimal getXlm() {
+        return xlm;
+    }
+
+    public BigDecimal getLink() {
+        return link;
+    }
 }

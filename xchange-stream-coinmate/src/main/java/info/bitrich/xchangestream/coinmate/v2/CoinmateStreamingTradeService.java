@@ -1,12 +1,14 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectReader;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketUserTrade;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketOpenOrder;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketUserTrade;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,27 +19,26 @@ import org.knowm.xchange.dto.trade.UserTrades;
 
 public class CoinmateStreamingTradeService implements StreamingTradeService {
 
-  private final CoinmateStreamingServiceFactory serviceFactory;
+  private final CoinmateStreamingService coinmateStreamingService;
 
-  public CoinmateStreamingTradeService(CoinmateStreamingServiceFactory serviceFactory) {
-    this.serviceFactory = serviceFactory;
+  public CoinmateStreamingTradeService(CoinmateStreamingService coinmateStreamingService) {
+    this.coinmateStreamingService = coinmateStreamingService;
   }
 
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     String channelName =
-        "channel/my-open-orders/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+        "private-open_orders-" + coinmateStreamingService.getUserId() + "-"
+            + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
         StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateWebsocketOpenOrder.class);
 
-    return serviceFactory
-        .createConnection(channelName, true)
+    return coinmateStreamingService
+        .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-              CoinmateWebsocketOpenOrder websocketOpenOrder = reader.readValue(message);
-              List<CoinmateWebsocketOpenOrder> websocketOpenOrders =
-                  Collections.singletonList(websocketOpenOrder);
+              List<CoinmateWebsocketOpenOrder> websocketOpenOrders = Arrays.asList(reader.readValue(message.get("payload"), CoinmateWebsocketOpenOrder[].class));
               return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(
                   websocketOpenOrders, currencyPair);
             })
@@ -47,17 +48,18 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     String channelName =
-        "channel/my-trades/" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+        "private-user-trades-" + coinmateStreamingService.getUserId() + "-"
+            + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
         StreamingObjectMapperHelper.getObjectMapper()
             .readerFor(new TypeReference<List<CoinmateWebSocketUserTrade>>() {});
 
-    return serviceFactory
-        .createConnection(channelName, true)
+    return coinmateStreamingService
+        .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-              List<CoinmateWebSocketUserTrade> webSocketUserTrades = reader.readValue(message);
+              List<CoinmateWebSocketUserTrade> webSocketUserTrades = reader.readValue(message.get("payload"));
               return CoinmateStreamingAdapter.adaptWebSocketUserTrades(
                   webSocketUserTrades, currencyPair);
             })

@@ -333,7 +333,23 @@ public final class BitstampAdapters {
 
     if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
 
-    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
+    // XLM
+    if (transaction.getXlm() != null && transaction.getBtc() != null) return CurrencyPair.XLM_BTC;
+
+    if (transaction.getXlm() != null && transaction.getUsd() != null) return CurrencyPair.XLM_USD;
+
+    if (transaction.getXlm() != null && transaction.getEur() != null) return CurrencyPair.XLM_EUR;
+
+    if (transaction.getXlm() != null && transaction.getEth() != null) return CurrencyPair.XLM_ETH;
+
+    // LINK
+    if (transaction.getLink() != null && transaction.getBtc() != null) return CurrencyPair.LINK_BTC;
+
+    if (transaction.getLink() != null && transaction.getUsd() != null) return CurrencyPair.LINK_USD;
+
+    if (transaction.getLink() != null && transaction.getEur() != null) return CurrencyPair.LINK_EUR;
+
+    if (transaction.getLink() != null && transaction.getEth() != null) return CurrencyPair.LINK_ETH;
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -352,6 +368,10 @@ public final class BitstampAdapters {
     if (currencyPair.base.equals(Currency.ETH)) return bitstampTransaction.getEth();
 
     if (currencyPair.base.equals(Currency.XRP)) return bitstampTransaction.getXrp();
+
+    if (currencyPair.base.equals(Currency.XLM)) return bitstampTransaction.getXlm();
+
+    if (currencyPair.base.equals(Currency.LINK)) return bitstampTransaction.getLink();
 
     throw new NotYetImplementedForExchangeException();
   }

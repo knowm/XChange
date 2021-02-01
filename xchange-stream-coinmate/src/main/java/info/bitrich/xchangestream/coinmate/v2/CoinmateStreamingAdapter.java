@@ -1,13 +1,14 @@
-package info.bitrich.xchangestream.coinmate;
+package info.bitrich.xchangestream.coinmate.v2;
 
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketTrade;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebSocketUserTrade;
-import info.bitrich.xchangestream.coinmate.dto.CoinmateWebsocketOpenOrder;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketTrade;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketUserTrade;
+import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
