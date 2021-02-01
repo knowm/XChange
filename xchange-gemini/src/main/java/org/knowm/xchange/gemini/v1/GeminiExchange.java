@@ -60,4 +60,9 @@ public class GeminiExchange extends BaseExchange {
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = GeminiAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
   }
+
+  @Override
+  public ExchangeSpecification getExchangeSpecification() {
+    return super.getExchangeSpecification();
+  }
 }

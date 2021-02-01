@@ -57,7 +57,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     final int maxDepth =
         (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
     return getRawWebSocketTransactions(currencyPair, false)
-        .filter(message -> message.getType().equals(SNAPSHOT) || message.getType().equals(L2UPDATE))
+        .filter(message -> (SNAPSHOT).equals(message.getType()) || (L2UPDATE).equals(message.getType()))
         .map(
             s -> {
               if (s.getType().equals(SNAPSHOT)) {
@@ -86,7 +86,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for ticker", currencyPair));
     return getRawWebSocketTransactions(currencyPair, true)
-        .filter(message -> message.getType().equals(TICKER))
+        .filter(message -> (TICKER).equals(message.getType()))
         .map(CoinbaseProWebSocketTransaction::toCoinbaseProProductTicker);
   }
 
@@ -105,7 +105,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for ticker", currencyPair));
     return getRawWebSocketTransactions(currencyPair, true)
-        .filter(message -> message.getType().equals(TICKER))
+        .filter(message -> (TICKER).equals(message.getType()))
         .map(
             s ->
                 adaptTicker(
@@ -118,7 +118,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for trades", currencyPair));
     return getRawWebSocketTransactions(currencyPair, true)
-        .filter(message -> message.getType().equals(MATCH))
+        .filter(message -> (MATCH).equals(message.getType()))
         .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() == null)
         .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProTrade())
         .map((CoinbaseProTrade t) -> adaptTrades(new CoinbaseProTrade[] {t}, currencyPair))
