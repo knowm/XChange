@@ -10,6 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -21,6 +22,7 @@ import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
+import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
 import org.knowm.xchange.ftx.dto.trade.*;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -180,28 +182,47 @@ public class FtxAdapters {
         limitOrder.getUserReference());
   }
 
+  public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos,CurrencyPair currencyPair){
+    List<Trade> trades = new ArrayList<>();
+
+    ftxTradeDtos.forEach(ftxTradeDto -> {
+      trades.add(new Trade.Builder()
+              .id(ftxTradeDto.getId())
+              .instrument(currencyPair)
+              .originalAmount(ftxTradeDto.getSize())
+              .price(ftxTradeDto.getPrice())
+              .timestamp(ftxTradeDto.getTime())
+              .type(adaptFtxOrderSideToOrderType(ftxTradeDto.getSide()))
+              .build());
+    });
+
+    return new Trades(trades);
+  }
+
   public static UserTrades adaptUserTrades(List<FtxOrderDto> ftxUserTrades) {
     List<UserTrade> userTrades = new ArrayList<>();
 
     ftxUserTrades.forEach(
         ftxOrderDto -> {
-          userTrades.add(
-              new UserTrade.Builder()
-                  .instrument(
-                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                  .currencyPair(
-                      CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                  .timestamp(ftxOrderDto.getCreatedAt())
-                  .id(ftxOrderDto.getId())
-                  .orderId(ftxOrderDto.getId())
-                  .orderUserReference(ftxOrderDto.getClientId())
-                  .originalAmount(ftxOrderDto.getFilledSize())
-                  .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
-                  .price(
-                      ftxOrderDto.getAvgFillPrice() == null
-                          ? ftxOrderDto.getPrice()
-                          : ftxOrderDto.getAvgFillPrice())
-                  .build());
+          if(ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0 ){
+            userTrades.add(
+                    new UserTrade.Builder()
+                            .instrument(
+                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                            .currencyPair(
+                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                            .timestamp(ftxOrderDto.getCreatedAt())
+                            .id(ftxOrderDto.getId())
+                            .orderId(ftxOrderDto.getId())
+                            .orderUserReference(ftxOrderDto.getClientId())
+                            .originalAmount(ftxOrderDto.getFilledSize())
+                            .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
+                            .price(
+                                    ftxOrderDto.getAvgFillPrice() == null
+                                            ? ftxOrderDto.getPrice()
+                                            : ftxOrderDto.getAvgFillPrice())
+                            .build());
+          }
         });
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
