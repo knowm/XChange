@@ -46,7 +46,9 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
   }
 
   public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
-    return bitso.getTicker(pair.base + "_" + pair.counter);
+    String symbol =
+        pair.base.toString().toLowerCase() + "_" + pair.counter.toString().toLowerCase();
+    return bitso.getTicker(symbol);
   }
 
   public BitsoTrades getBitsoTrades(CurrencyPair pair) throws BitsoException, IOException {

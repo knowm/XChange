@@ -128,7 +128,7 @@ public final class BittrexAdapters {
             bittrexOrder ->
                 new UserTrade.Builder()
                     .type(
-                        BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getType())
+                        BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getDirection())
                             ? OrderType.BID
                             : OrderType.ASK)
                     .originalAmount(bittrexOrder.getFillQuantity())

@@ -23,7 +23,7 @@ public class BitsoUserTradeHistoryDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-    
+
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService);
   }
