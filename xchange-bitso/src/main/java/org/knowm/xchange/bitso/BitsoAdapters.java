@@ -12,6 +12,7 @@ import org.knowm.xchange.bitso.dto.account.BitsoBalances;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoCommonOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
+import org.knowm.xchange.bitso.dto.marketdata.BitsoTickerPayload;
 import org.knowm.xchange.bitso.dto.trade.BitsoTrade;
 import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
@@ -41,16 +42,17 @@ public final class BitsoAdapters {
 
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
+    BitsoTickerPayload t1 = t.getPayload();
     return new Ticker.Builder()
-        .currencyPair(currencyPair)
-        .last(t.getLast())
-        .bid(t.getBid())
-        .ask(t.getAsk())
-        .high(t.getHigh())
-        .low(t.getLow())
-        .vwap(t.getVwap())
-        .volume(t.getVolume())
-        .timestamp(t.getTimestamp())
+        .instrument(currencyPair)
+        .last(t1.getLast())
+        .bid(t1.getBid())
+        .ask(t1.getAsk())
+        .high(t1.getHigh())
+        .low(t1.getLow())
+        .vwap(t1.getVwap())
+        .volume(t1.getVolume())
+        .timestamp(t1.getTimestamp())
         .build();
   }
 
