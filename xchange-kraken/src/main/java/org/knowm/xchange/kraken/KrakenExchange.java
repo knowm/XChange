@@ -38,8 +38,9 @@ public class KrakenExchange extends BaseExchange implements Exchange {
         ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssetPairs();
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssets();
     KrakenUtils.clearAssets();
-    // other endpoints?
-    // hard-coded meta data from json file not available at an endpoint?
+
+    //Note: CurrencyPair Metadata will not contain accurate maker/taker fees
+    //Note: Currency Metadata will only contain price scale
     exchangeMetaData =
         KrakenAdapters.adaptToExchangeMetaData(
             exchangeMetaData, assetPairs.getAssetPairMap(), assets.getAssetPairMap());

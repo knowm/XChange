@@ -1,6 +1,7 @@
 package org.knowm.xchange.kraken;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -26,7 +27,7 @@ public class KrakenExchangeTest {
   }
 
   @Test
-  public void minimunOrderSizeTest() throws IOException {
+  public void minimumOrderSizeTest() throws IOException {
     exchange.remoteInit();
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
         exchange.getExchangeMetaData().getCurrencyPairs();
@@ -47,5 +48,13 @@ public class KrakenExchangeTest {
         1, currencyPairs.get(CurrencyPair.ATOM_ETH).getMinimumAmount().doubleValue(), 0.01);
 
     Assert.assertEquals(0.3, currencies.get(Currency.ADA).getWithdrawalFee().doubleValue(), 0.01);
+  }
+
+  @Test
+  public void currencyPriceScaleTest() throws IOException {
+    exchange.remoteInit();
+    Map<Currency, CurrencyMetaData> currencyMetadataMap = exchange.getExchangeMetaData().getCurrencies();
+
+    Assert.assertEquals(new BigDecimal(8), currencyMetadataMap.get(Currency.ADA).getScale());
   }
 }
