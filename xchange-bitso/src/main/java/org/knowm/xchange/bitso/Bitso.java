@@ -13,7 +13,7 @@ import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
 import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 
-/** @author Piotr Ładyżyński */
+/** @author Ravi Pandit */
 @Path("v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitso {

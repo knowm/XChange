@@ -3,32 +3,34 @@ package org.knowm.xchange.bitso.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import si.mazi.rescu.ExceptionalReturnContentException;
 import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
-/** @author Piotr Ładyżyński */
+/** @author Ravi Pandit */
 public class BitsoTickerPayload {
 
   private final BigDecimal last;
   private final BigDecimal high;
   private final BigDecimal low;
-  private final BigDecimal vwap;
-  private final BigDecimal volume;
+  private final String vwap;
+  private final String volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final Date timestamp;
+  private final BigDecimal change24;
 
   public BitsoTickerPayload(
       @JsonProperty("last") BigDecimal last,
       @JsonProperty("high") BigDecimal high,
       @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vwap") BigDecimal vwap,
-      @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("vwap") String vwap,
+      @JsonProperty("volume") String volume,
       @JsonProperty("bid") BigDecimal bid,
       @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class)
-          Date timestamp) {
+      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp,
+      @JsonProperty("change_24")BigDecimal change24) {
 
     if (last == null) {
       throw new ExceptionalReturnContentException("No last in response.");
@@ -41,6 +43,7 @@ public class BitsoTickerPayload {
     this.bid = bid;
     this.ask = ask;
     this.timestamp = timestamp;
+    this.change24 = change24.setScale(4, RoundingMode.HALF_UP);
   }
 
   public BigDecimal getLast() {
@@ -58,12 +61,12 @@ public class BitsoTickerPayload {
     return low;
   }
 
-  public BigDecimal getVwap() {
+  public String getVwap() {
 
     return vwap;
   }
 
-  public BigDecimal getVolume() {
+  public String getVolume() {
 
     return volume;
   }
@@ -81,6 +84,10 @@ public class BitsoTickerPayload {
   public Date getTimestamp() {
 
     return timestamp;
+  }
+
+  public BigDecimal getChange24() {
+    return change24;
   }
 
   @Override

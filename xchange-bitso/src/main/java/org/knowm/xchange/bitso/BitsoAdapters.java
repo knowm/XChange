@@ -43,6 +43,8 @@ public final class BitsoAdapters {
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
     BitsoTickerPayload t1 = t.getPayload();
+    System.out.println("Bitso Adapter class and adaptTicker method and BitsoPayload Value is");
+    System.out.println(t1);
     return new Ticker.Builder()
         .instrument(currencyPair)
         .last(t1.getLast())
@@ -50,8 +52,8 @@ public final class BitsoAdapters {
         .ask(t1.getAsk())
         .high(t1.getHigh())
         .low(t1.getLow())
-        .vwap(t1.getVwap())
-        .volume(t1.getVolume())
+        .vwap(new BigDecimal(t1.getVwap()))
+        .volume(new BigDecimal(t1.getVolume()))
         .timestamp(t1.getTimestamp())
         .build();
   }
