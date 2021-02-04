@@ -123,13 +123,9 @@ public class SerumStreamingService extends JsonNettyStreamingService {
     final SubscriptionType subscriptionType = (SubscriptionType) args[1];
     final String account = SerumAdapters.getSolanaDataTypeAddress((CurrencyPair) args[0],(String)args[2]);
     final Commitment commitment =
-<<<<<<< HEAD
         args.length > 2 && args[2] != null && args[2] instanceof Commitment
             ? (Commitment) args[2]
             : Commitment.max;
-=======
-            args.length > 3 && args[2] != null && args[2] instanceof Commitment ? (Commitment) args[2] : Commitment.max;
->>>>>>> 29e8b6b0bc1a974d685f2fb68d91fe13f68e87af
 
     int reqID = subscriptionManager.generateNewInflightRequest(channelName);
     return new SerumWsSubscriptionMessage(commitment, subscriptionType, account, reqID).buildMsg();
