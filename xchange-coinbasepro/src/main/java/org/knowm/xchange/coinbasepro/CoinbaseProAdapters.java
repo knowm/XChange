@@ -385,6 +385,7 @@ public class CoinbaseProAdapters {
               maxMarketFunds,
               baseScale,
               priceScale,
+              null,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
               null,
               pair.counter,
