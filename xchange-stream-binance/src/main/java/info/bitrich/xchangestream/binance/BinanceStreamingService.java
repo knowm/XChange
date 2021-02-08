@@ -3,6 +3,9 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
+
 import java.io.IOException;
 import java.time.Duration;
 
@@ -41,6 +44,11 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
   public String getUnsubscribeMessage(String channelName) throws IOException {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
+  }
+
+  @Override
+  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   @Override
