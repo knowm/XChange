@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.binance.netty;
+package info.bitrich.xchangestream.service.netty;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.compression.ZlibCodecFactory;
@@ -13,13 +13,13 @@ import static io.netty.handler.codec.http.websocketx.extensions.compression.PerM
  * quick fix introduced for binance websocket broken on 2021-02-08 with "invalid websocket extension handshake"
  */
 @ChannelHandler.Sharable
-public final class WebSocketClientCompressionAllowClientNoContextHandler
+public final class WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler
     extends WebSocketClientExtensionHandler {
 
-  public static final WebSocketClientCompressionAllowClientNoContextHandler INSTANCE =
-      new WebSocketClientCompressionAllowClientNoContextHandler();
+  public static final WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler INSTANCE =
+      new WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler();
 
-  private WebSocketClientCompressionAllowClientNoContextHandler() {
+  private WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler() {
     super(
         new PerMessageDeflateClientExtensionHandshaker(
             6, ZlibCodecFactory.isSupportingWindowSizeAndMemLevel(), MAX_WINDOW_SIZE, true, true),

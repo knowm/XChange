@@ -1,9 +1,9 @@
 package info.bitrich.xchangestream.binance;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import info.bitrich.xchangestream.binance.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
+    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   @Override
