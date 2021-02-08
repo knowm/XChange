@@ -61,6 +61,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected static final Duration DEFAULT_RETRY_DURATION = Duration.ofSeconds(15);
   protected static final int DEFAULT_IDLE_TIMEOUT = 15;
 
+  private static final WebSocketClientExtensionHandler DEFAULT_WEB_SOCKET_HANDLER = WebSocketClientCompressionHandler.INSTANCE;
+
   protected class Subscription {
 
     final ObservableEmitter<T> emitter;
@@ -88,6 +90,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   private volatile NioEventLoopGroup eventLoopGroup;
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
+  private WebSocketClientExtensionHandler webSocketClientExtensionHandler;
 
   private final Subject<Throwable> reconnFailEmitters = PublishSubject.create();
   private final Subject<Object> connectionSuccessEmitters = PublishSubject.create();
@@ -135,6 +138,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     this.retryDuration = retryDuration;
     this.connectionTimeout = connectionTimeout;
     this.idleTimeoutSeconds = idleTimeoutSeconds;
+    this.webSocketClientExtensionHandler = DEFAULT_WEB_SOCKET_HANDLER;
     try {
       this.uri = new URI(apiUrl);
     } catch (URISyntaxException e) {
@@ -508,8 +512,12 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     emitter.onError(t);
   }
 
+  public void setWebSocketClientExtensionHandler(WebSocketClientExtensionHandler webSocketClientExtensionHandler) {
+    this.webSocketClientExtensionHandler = webSocketClientExtensionHandler;
+  }
+
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionHandler.INSTANCE;
+    return webSocketClientExtensionHandler;
   }
 
   protected WebSocketClientHandler getWebSocketClientHandler(
