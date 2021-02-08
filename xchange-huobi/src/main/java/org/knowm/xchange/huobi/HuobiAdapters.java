@@ -124,6 +124,7 @@ public class HuobiAdapters {
         null,
         new Integer(pair.getAmountPrecision()),
         new Integer(pair.getPricePrecision()),
+        null,
         feeTiers,
         null,
         null,
