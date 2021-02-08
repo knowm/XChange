@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.binance;
+package info.bitrich.xchangestream.binance.netty;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.compression.ZlibCodecFactory;
