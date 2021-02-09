@@ -15,7 +15,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** DTO representing the exchange order book */
-public final class OrderBook implements Serializable {
+public class OrderBook implements Serializable {
 
   private static final long serialVersionUID = -7788306758114464314L;
 
@@ -192,54 +192,6 @@ public final class OrderBook implements Serializable {
     if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
       this.timeStamp = updateDate;
     }
-  }
-
-  @Override
-  public int hashCode() {
-
-    int hash = 17;
-    hash = 31 * hash + (this.timeStamp != null ? this.timeStamp.hashCode() : 0);
-    for (LimitOrder order : this.bids) {
-      hash = 31 * hash + order.hashCode();
-    }
-    for (LimitOrder order : this.asks) {
-      hash = 31 * hash + order.hashCode();
-    }
-    return hash;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final OrderBook other = (OrderBook) obj;
-    if (this.timeStamp == null
-        ? other.timeStamp != null
-        : !this.timeStamp.equals(other.timeStamp)) {
-      return false;
-    }
-    if (this.bids.size() != other.bids.size()) {
-      return false;
-    }
-    for (int index = 0; index < this.bids.size(); index++) {
-      if (!this.bids.get(index).equals(other.bids.get(index))) {
-        return false;
-      }
-    }
-    if (this.asks.size() != other.asks.size()) {
-      return false;
-    }
-    for (int index = 0; index < this.asks.size(); index++) {
-      if (!this.asks.get(index).equals(other.asks.get(index))) {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**
