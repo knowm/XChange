@@ -1,18 +1,20 @@
 package org.knowm.xchange.bitfinex.v2;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import java.io.IOException;
-import java.util.List;
+import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
+import java.io.IOException;
+import java.util.List;
 
 @Path("v2")
 @Produces(MediaType.APPLICATION_JSON)
@@ -47,4 +49,13 @@ public interface Bitfinex {
       @QueryParam("end") long endTimestamp,
       @QueryParam("sort") int sort)
       throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("candles/trade:{candlePeriod}:{symbol}:{fundingPeriod}/hist")
+  List<BitfinexCandle> getHistoricFundingCandles(
+          @PathParam("candlePeriod") String candlePeriod,
+          @PathParam("symbol") String currency,
+          @PathParam("fundingPeriod") String fundingPeriod,
+          @QueryParam("limit") int limit)
+          throws IOException, BitfinexExceptionV2;
 }

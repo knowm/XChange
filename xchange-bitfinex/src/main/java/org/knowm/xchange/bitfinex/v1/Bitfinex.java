@@ -16,7 +16,6 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
