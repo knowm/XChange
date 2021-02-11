@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+/** @author cyrus13 */
 public class CandlesDemo {
 
   public static void main(String[] args) throws Exception {
