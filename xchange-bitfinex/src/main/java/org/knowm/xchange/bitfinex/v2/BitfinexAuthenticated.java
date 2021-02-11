@@ -2,13 +2,7 @@ package org.knowm.xchange.bitfinex.v2;
 
 import java.io.IOException;
 import java.util.List;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.EmptyRequest;
@@ -18,6 +12,7 @@ import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
@@ -171,4 +166,13 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
       TransferBetweenWalletsRequest req)
       throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("candles/trade:{candlePeriod}:{symbol}:{fundingPeriod}/hist")
+  List<BitfinexCandle> getHistoricFundingCandles(
+          @PathParam("candlePeriod") String candlePeriod,
+          @PathParam("symbol") String currency,
+          @PathParam("fundingPeriod") String fundingPeriod,
+          @QueryParam("limit") int limit)
+          throws IOException;
 }
