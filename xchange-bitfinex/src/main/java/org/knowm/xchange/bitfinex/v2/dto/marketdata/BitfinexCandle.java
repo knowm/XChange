@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.time.Instant;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 /** @author cyrus13 **/
@@ -25,6 +25,6 @@ public class BitfinexCandle {
 
     public ZonedDateTime getCandleDateTime(){
         final Instant instant = Instant.ofEpochMilli(millisecondTimestamp);
-        return ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        return ZonedDateTime.ofInstant(instant, ZoneOffset.UTC);
     }
 }
