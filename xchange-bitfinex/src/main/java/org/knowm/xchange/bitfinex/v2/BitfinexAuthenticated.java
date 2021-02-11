@@ -12,7 +12,6 @@ import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
-import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.trade.ActiveOrder;
 import org.knowm.xchange.bitfinex.v2.dto.trade.OrderTrade;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Position;
@@ -167,12 +166,4 @@ public interface BitfinexAuthenticated extends Bitfinex {
       TransferBetweenWalletsRequest req)
       throws IOException, BitfinexExceptionV2;
 
-  @GET
-  @Path("candles/trade:{candlePeriod}:{symbol}:{fundingPeriod}/hist")
-  List<BitfinexCandle> getHistoricFundingCandles(
-          @PathParam("candlePeriod") String candlePeriod,
-          @PathParam("symbol") String currency,
-          @PathParam("fundingPeriod") String fundingPeriod,
-          @QueryParam("limit") int limit)
-          throws IOException;
 }
