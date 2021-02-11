@@ -3,13 +3,13 @@ package org.knowm.xchange.bitfinex.v2.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
+/** @author cyrus13 **/
 
 @JsonFormat(shape = JsonFormat.Shape.ARRAY)
 @Jacksonized
