@@ -67,4 +67,5 @@ public interface Bitfinex {
   @GET
   @Path("symbols_details")
   List<BitfinexSymbolDetail> getSymbolsDetails() throws IOException, BitfinexExceptionV1;
+
 }

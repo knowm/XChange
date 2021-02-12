@@ -171,4 +171,5 @@ public interface BitfinexAuthenticated extends Bitfinex {
       @HeaderParam(BFX_SIGNATURE) ParamsDigest signature,
       TransferBetweenWalletsRequest req)
       throws IOException, BitfinexExceptionV2;
+
 }
