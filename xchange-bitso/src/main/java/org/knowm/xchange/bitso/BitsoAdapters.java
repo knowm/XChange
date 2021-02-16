@@ -303,4 +303,21 @@ public final class BitsoAdapters {
     }
     return null;
   }
+
+  public static OrderType convertType(boolean isBuyer) {
+    return isBuyer ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static CurrencyPair adaptSymbol(String symbol) {
+    int pairLength = symbol.length();
+    if (symbol.endsWith("USDT")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+    } else if (symbol.endsWith("USDC")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
+    } else if (symbol.endsWith("TUSD")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
+    } else {
+      return symbol.endsWith("USDS") ? new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS") : new CurrencyPair(symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
+    }
+  }
 }

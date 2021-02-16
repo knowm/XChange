@@ -45,7 +45,6 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
         return true;
       }
     }
-
     return false;
   }
 

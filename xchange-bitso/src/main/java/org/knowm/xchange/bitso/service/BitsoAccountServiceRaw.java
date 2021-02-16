@@ -2,6 +2,8 @@ package org.knowm.xchange.bitso.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAuthenticated;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
@@ -9,6 +11,7 @@ import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
 
 public class BitsoAccountServiceRaw extends BitsoBaseService {
 
@@ -87,4 +90,5 @@ public class BitsoAccountServiceRaw extends BitsoBaseService {
             rippleAddress);
     return "ok".equals(result);
   }
+
 }
