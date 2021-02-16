@@ -3,6 +3,11 @@ package org.knowm.xchange.coinbasepro.service;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
@@ -45,6 +50,24 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
           coinbasePro.getProductStats(
               currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
       return statsReturn;
+    } catch (CoinbaseProException e) {
+      throw handleError(e);
+    }
+  }
+
+  public List<CoinbaseProStats> getCoinbaseProStats() throws IOException {
+    try {
+      Map<String, CoinbaseProStats> coinbaseProStats = coinbasePro.getStats();
+      Set<String> pairs = coinbaseProStats.keySet();
+      List<CoinbaseProStats> coinbaseProStatsList = new LinkedList<>();
+      for (String pair : pairs) {
+        String[] pairSplit = pair.split("-");
+        CoinbaseProStats stats = coinbaseProStats.get(pair);
+        stats.setCurrencyPair(new CurrencyPair(pairSplit[0], pairSplit[1]));
+        coinbaseProStatsList.add(stats);
+      }
+
+      return coinbaseProStatsList;
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
