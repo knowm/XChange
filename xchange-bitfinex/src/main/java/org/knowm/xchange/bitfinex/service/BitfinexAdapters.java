@@ -904,6 +904,8 @@ public final class BitfinexAdapters {
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
+    BigDecimal percentageChange =
+        BigDecimal.valueOf(bitfinexTicker.getDailyChangePerc().doubleValue() * 100);
 
     CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(bitfinexTicker.getSymbol().substring(1));
@@ -918,6 +920,7 @@ public final class BitfinexAdapters {
         .volume(volume)
         .bidSize(bidSize)
         .askSize(askSize)
+        .percentageChange(percentageChange)
         .build();
   }
 
