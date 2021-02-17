@@ -81,6 +81,8 @@ public class KucoinAdapters {
                     .low(ticker.getLow())
                     .volume(ticker.getVol())
                     .quoteVolume(ticker.getVolValue())
+                    .percentageChange(
+                        BigDecimal.valueOf(ticker.getChangeRate().doubleValue() * 100))
                     .build())
         .collect(Collectors.toList());
   }
