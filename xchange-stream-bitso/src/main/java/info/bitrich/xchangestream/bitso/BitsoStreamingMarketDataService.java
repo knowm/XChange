@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.bitso;
 
 import info.bitrich.xchangestream.bitso.dto.BitsoTrades;
+import info.bitrich.xchangestream.bitso.dto.BitsoTradsTransaction;
 import info.bitrich.xchangestream.bitso.dto.BitsoWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -48,7 +50,7 @@ public class BitsoStreamingMarketDataService implements StreamingMarketDataServi
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
     final int maxDepth =
         (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
-    return getRawWebSocketTransactions(currencyPair, "trades")
+    return getRawWebSocketTransactions(currencyPair, "orders")
         .filter(message -> ("orders").equals(message.getEventType()))
         .map(
             s -> {
@@ -111,10 +113,10 @@ public class BitsoStreamingMarketDataService implements StreamingMarketDataServi
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for trades", currencyPair));
 //    return getRawWebSocketTransactions(currencyPair, "trades")
-    return getRawWebSocketTransactions(currencyPair, args)
+    return getRawTradesSocketTransactions(currencyPair, "trades")
         .filter(message -> (MATCH).equals(message.getEventType()))
-        .filter((BitsoWebSocketTransaction s) -> s.getPayload().getOrderId() != null)
-        .map((BitsoWebSocketTransaction s) -> s.toBitsoTrade())
+        .filter((BitsoTradsTransaction s) -> !ObjectUtils.isEmpty(s.getPayload()))
+        .map(s -> s.toBitsoTrade())
         .map((BitsoTrades t) -> BitsoStreamingAdapters.adaptTrades(new BitsoTrades[] {t}, currencyPair))
         .map((Trades h) -> h.getTrades().get(0));
   }
@@ -129,5 +131,18 @@ public class BitsoStreamingMarketDataService implements StreamingMarketDataServi
       CurrencyPair currencyPair, Object... args) {
     return service.getRawWebSocketTransactions(currencyPair, args);
   }
+
+  /**
+   * Web socket transactions related to the specified currency, in their raw format.
+   *
+   * @param currencyPair The currency pair.
+   * @return The stream.
+   */
+  public Observable<BitsoTradsTransaction> getRawTradesSocketTransactions(
+          CurrencyPair currencyPair, Object... args) {
+    return service.getRawTradesTransactions(currencyPair, args);
+  }
+
+
 
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -126,7 +127,11 @@ public class BitsoStreamingAdapters {
     try {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
       dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return dateFormat.parse(modified);
+      if(!ObjectUtils.isEmpty(modified)){
+        return dateFormat.parse(modified);
+      }else {
+        return dateFormat.parse(dateFormat.format(new Date()));
+      }
     } catch (ParseException e) {
       LOG.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
       return null;

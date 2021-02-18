@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class BitsoTradsTransaction {
     private final String eventType;
     private final String book;
-    private final BitsoOrderbookPayload payload;
+    private final List<BitsoTradesPayload> payload;
     private final String action;
     private final String response;
     private final Long time;
@@ -23,7 +23,7 @@ public class BitsoTradsTransaction {
     public BitsoTradsTransaction(
             @JsonProperty("type") String eventType,
             @JsonProperty("book") String book,
-            @JsonProperty("payload") BitsoOrderbookPayload payload,
+            @JsonProperty("payload") List<BitsoTradesPayload> payload,
             @JsonProperty("action") String action,
             @JsonProperty("response") String response,
             @JsonProperty("time") Long time) {
@@ -37,7 +37,7 @@ public class BitsoTradsTransaction {
         this.time=time;
     }
 
-    public BitsoOrderbookPayload getPayload() {
+    public List<BitsoTradesPayload> getPayload() {
         return payload;
     }
 
@@ -73,60 +73,7 @@ public class BitsoTradsTransaction {
         return book;
     }
 
-    private List<LimitOrder> coinbaseProOrderBookChanges(
-            String side,
-            Order.OrderType orderType,
-            CurrencyPair currencyPair,
-            List<BitsoOrderBook> bids) {
-        SortedMap<BigDecimal, BigDecimal> sideEntries=new TreeMap<>();
-
-        for (BitsoOrderBook bitsoOrderBook : bids) {
-            BigDecimal price = new BigDecimal(bitsoOrderBook.getRate());
-            BigDecimal volume = new BigDecimal(bitsoOrderBook.getAmount());
-            sideEntries.put(price, volume);
-        }
-
-        Stream<Map.Entry<BigDecimal, BigDecimal>> stream =
-                sideEntries.entrySet().stream()
-                        .filter(level -> level.getValue().compareTo(BigDecimal.ZERO) != 0);
-        return stream
-                .map(
-                        level ->
-                                new LimitOrder(
-                                        orderType, level.getValue(), currencyPair, "0", null, level.getKey()))
-                .collect(Collectors.toList());
-    }
-
-    public OrderBook toOrderBook(
-            SortedMap<BigDecimal, BigDecimal> bids,
-            SortedMap<BigDecimal, BigDecimal> asks,
-            int maxDepth,
-            CurrencyPair currencyPair) {
-        List<LimitOrder> gdaxOrderBookBids = new ArrayList<>();
-        List<LimitOrder> gdaxOrderBookAsks = new ArrayList<>();
-        if(!ObjectUtils.isEmpty(payload)) {
-            // For efficiency, we go straight to XChange format
-            gdaxOrderBookBids = coinbaseProOrderBookChanges(
-                    "buy",
-                    Order.OrderType.BID,
-                    currencyPair,
-                    payload.getBids());
-        }
-        if(!ObjectUtils.isEmpty(payload)) {
-            gdaxOrderBookAsks = coinbaseProOrderBookChanges(
-                    "sell",
-                    Order.OrderType.ASK,
-                    currencyPair,
-                    payload.getAsks());
-        }
-        return new OrderBook(
-                new Date(),
-                gdaxOrderBookAsks,
-                gdaxOrderBookBids,
-                false);
-    }
-
     public BitsoTrades toBitsoTrade() {
-        return new BitsoTrades("", payload.getOrderId(), new BigDecimal(payload.getRate()), new BigDecimal(payload.getAmount()), payload.getType(), payload.getMakerOrderId(), payload.getTakerOrderId());
+        return new BitsoTrades("", payload.get(0).getOrderId(), new BigDecimal(payload.get(0).getRate()), new BigDecimal(payload.get(0).getAmount()), payload.get(0).getType(), payload.get(0).getMakerOrderId(), payload.get(0).getTakerOrderId());
     }
 }

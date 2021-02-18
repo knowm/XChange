@@ -4,6 +4,7 @@ import static io.netty.util.internal.StringUtil.isNullOrEmpty;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import info.bitrich.xchangestream.bitso.dto.BitsoTradsTransaction;
 import info.bitrich.xchangestream.bitso.dto.BitsoWebSocketTransaction;
 import info.bitrich.xchangestream.bitso.dto.BitsoWebsocketAuthData;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -90,9 +91,10 @@ public class BitsoStreamingService extends JsonNettyStreamingService {
     if(args[0] == null){
       throw new UnsupportedOperationException("args could not null");
     }
-//    channelName = " {\"action\":\"subscribe\",\"book\":\""+channelName+"\",\"type\":\""+args[0]+"\"}";
-    channelName = " {\"action\":\"subscribe\",\"book\":\""+channelName+"\",\"type\":\"orders\"}";
-
+    System.out.println("args of channel value is..."+args[0]);
+    channelName = " {\"action\":\"subscribe\",\"book\":\""+channelName+"\",\"type\":\""+args[0]+"\"}";
+//    channelName = " {\"action\":\"subscribe\",\"book\":\""+channelName+"\",\"type\":\"orders\"}";
+    System.out.println(channelName);
     if (!channels.containsKey(channelName) && !subscriptions.containsKey(channelName)) {
       subscriptions.put(channelName, super.subscribeChannel(channelName, args));
     }
@@ -112,6 +114,31 @@ public class BitsoStreamingService extends JsonNettyStreamingService {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return subscribeChannel(channelName.toLowerCase(),args)
             .map(s -> mapper.readValue(s.toString(), BitsoWebSocketTransaction.class))
+            .filter(t -> {
+              if(!ObjectUtils.isEmpty(t.getResponse())) {
+                if (t.getResponse().equals("ok")) {
+                  return true;
+                }
+              }else if((channelName.toLowerCase()).equals(t.getBook())){
+                return true;
+              }
+              return false;
+            })
+            .filter(t -> !isNullOrEmpty(t.getEventType()));
+  }
+
+  /**
+   * Subscribes to web socket transactions related to the specified currency, in their raw format.
+   *
+   * @param currencyPair The currency pair.
+   * @return The stream.
+   */
+  public Observable<BitsoTradsTransaction> getRawTradesTransactions(
+          CurrencyPair currencyPair, Object... args) {
+    String channelName = currencyPair.base.toString() + "_" + currencyPair.counter.toString();
+    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    return subscribeChannel(channelName.toLowerCase(),args)
+            .map(s -> mapper.readValue(s.toString(), BitsoTradsTransaction.class))
             .filter(t -> {
               if(!ObjectUtils.isEmpty(t.getResponse())) {
                 if (t.getResponse().equals("ok")) {
