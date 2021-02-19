@@ -37,6 +37,10 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   }
 
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
+    return placeBittrexLimitOrder(limitOrder, BittrexConstants.GOOD_TIL_CANCELLED);
+  }
+
+  public String placeBittrexLimitOrder(LimitOrder limitOrder, String type) throws IOException {
     BittrexNewOrder bittrexNewOrder =
         new BittrexNewOrder(
             BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
@@ -47,7 +51,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
             limitOrder.getRemainingAmount().toPlainString(),
             null,
             limitOrder.getLimitPrice().toPlainString(),
-            BittrexConstants.GOOD_TIL_CANCELLED,
+            type,
             null,
             null);
     return bittrexAuthenticated
