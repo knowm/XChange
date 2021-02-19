@@ -11,8 +11,8 @@ import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
 
 /** Based on code by chenshiwei on 2019/1/22. */
-@Path("api/v1/market/orderbook")
 @Produces(MediaType.APPLICATION_JSON)
+@Path("api")
 public interface OrderBookAPI {
 
   /**
@@ -27,7 +27,7 @@ public interface OrderBookAPI {
    * @return The aggregated part order book.
    */
   @GET
-  @Path("/level2_100")
+  @Path("v1/market/orderbook/level2_100")
   KucoinResponse<OrderBookResponse> getPartOrderBookAggregated(@QueryParam("symbol") String symbol)
       throws IOException;
 
@@ -43,7 +43,7 @@ public interface OrderBookAPI {
    * @return The aggregated full order book.
    */
   @GET
-  @Path("/level2")
+  @Path("v2/market/orderbook/level2")
   KucoinResponse<OrderBookResponse> getFullOrderBookAggregated(@QueryParam("symbol") String symbol)
       throws IOException;
 
@@ -58,7 +58,7 @@ public interface OrderBookAPI {
    * @return The full atomic order book.
    */
   @GET
-  @Path("/level3")
+  @Path("v2/market/orderbook/level3")
   KucoinResponse<OrderBookResponse> getFullOrderBookAtomic(@QueryParam("symbol") String symbol)
       throws IOException;
 }
