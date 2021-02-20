@@ -3,6 +3,8 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction.BinanceWebSocketTypes;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
+import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler;
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -40,6 +42,12 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
       LOG.error("Error handling message: " + message, e);
       return;
     }
+  }
+
+  @Override
+  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
+
   }
 
   @Override
