@@ -55,19 +55,9 @@ public class CoinbaseProMarketDataServiceRaw extends CoinbaseProBaseService {
     }
   }
 
-  public List<CoinbaseProStats> getCoinbaseProStats() throws IOException {
+  public Map<String, CoinbaseProStats> getCoinbaseProStats() throws IOException {
     try {
-      Map<String, CoinbaseProStats> coinbaseProStats = coinbasePro.getStats();
-      Set<String> pairs = coinbaseProStats.keySet();
-      List<CoinbaseProStats> coinbaseProStatsList = new LinkedList<>();
-      for (String pair : pairs) {
-        String[] pairSplit = pair.split("-");
-        CoinbaseProStats stats = coinbaseProStats.get(pair);
-        stats.setCurrencyPair(new CurrencyPair(pairSplit[0], pairSplit[1]));
-        coinbaseProStatsList.add(stats);
-      }
-
-      return coinbaseProStatsList;
+      return coinbasePro.getStats();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }

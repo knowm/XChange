@@ -124,20 +124,20 @@ public class CoinbaseProAdapters {
         .build();
   }
 
-  public static List<Ticker> adaptTicker(List<CoinbaseProStats> stats) {
+  public static List<Ticker> adaptTickers(Map<String, CoinbaseProStats> stats) {
     List<Ticker> tickers = new LinkedList<>();
 
-    for (CoinbaseProStats coinbaseProStats : stats) {
-      CurrencyPair currencyPair = coinbaseProStats.getCurrencyPair();
-      BigDecimal last = coinbaseProStats.getLast();
-      BigDecimal open = coinbaseProStats.getOpen();
-      BigDecimal high = coinbaseProStats.getHigh();
-      BigDecimal low = coinbaseProStats.getLow();
-      BigDecimal volume = coinbaseProStats.getVolume();
+    for (String pair : stats.keySet()) {
+      CoinbaseProStats pairStats = stats.get(pair);
+      BigDecimal last = pairStats.getLast();
+      BigDecimal open = pairStats.getOpen();
+      BigDecimal high = pairStats.getHigh();
+      BigDecimal low = pairStats.getLow();
+      BigDecimal volume = pairStats.getVolume();
 
       tickers.add(
           new Ticker.Builder()
-              .currencyPair(currencyPair)
+              .currencyPair(new CurrencyPair(pair))
               .last(last)
               .open(open)
               .high(high)

@@ -40,7 +40,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
 
   @Override
   public List<Ticker> getTickers(Params params) throws IOException, RateLimitExceededException {
-    return CoinbaseProAdapters.adaptTicker(getCoinbaseProStats());
+    return CoinbaseProAdapters.adaptTickers(getCoinbaseProStats());
   }
 
   @Override
