@@ -56,7 +56,9 @@ public final class Ticker implements Serializable {
    *     provided
    * @param bidSize The instantaneous size at the bid price
    * @param askSize The instantaneous size at the ask price
-   * @param percentageChange 24h percentage change
+   * @param percentageChange Price percentage change. Is compared against the last price value. Will
+   *     be null if not provided and cannot calculated. Should be represented as percentage (e.g.
+   *     0.5 equal 0.5%, 1 equal 1%, 50 equal 50%, 100 equal 100%)
    */
   private Ticker(
       Instrument instrument,
