@@ -1,6 +1,8 @@
 package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
@@ -13,6 +15,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.Params;
 
 @Slf4j
 public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRaw
@@ -33,6 +36,11 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
 
     // Adapt to XChange DTOs
     return CoinbaseProAdapters.adaptTicker(ticker, stats, currencyPair);
+  }
+
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException, RateLimitExceededException {
+    return CoinbaseProAdapters.adaptTickers(getCoinbaseProStats());
   }
 
   @Override
