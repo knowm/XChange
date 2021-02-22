@@ -222,6 +222,7 @@ public interface DeribitAuthenticated {
    * @param instrumentName required - Instrument name
    * @param count optional - Number of requested items, default - 20
    * @param type optional - Settlement type
+   * @param continuation optional - Continuation string for pagination
    */
   @GET
   @Path("get_settlement_history_by_instrument")
@@ -229,6 +230,7 @@ public interface DeribitAuthenticated {
       @QueryParam("instrument_name") String instrumentName,
       @QueryParam("type") SettlementType type,
       @QueryParam("count") Integer count,
+      @QueryParam("continuation") String continuation,
       @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
 }

@@ -136,9 +136,9 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
   }
 
   public UserSettlements getUserSettlementsByInstrument(
-      String instrumentName, SettlementType type, Integer count) throws IOException {
+      String instrumentName, SettlementType type, Integer count, String continuation) throws IOException {
     return deribitAuthenticated
-        .getSettlementHistoryByInstrument(instrumentName, type, count, deribitAuth)
+        .getSettlementHistoryByInstrument(instrumentName, type, count, continuation, deribitAuth)
         .getResult();
   }
 }

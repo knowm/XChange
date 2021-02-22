@@ -10,4 +10,9 @@ public class UserSettlements {
 
   /** Continuation token for pagination. */
   private String continuation;
+
+  public boolean hasMore() {
+    return !"none".equals(continuation);
+  }
+
 }
