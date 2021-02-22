@@ -85,15 +85,21 @@ public class KrakenAdapters {
             krakenOpenPosition -> {
               openPositionsList.add(
                   new OpenPosition.Builder()
-                          .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
-                          .type(krakenOpenPosition.getType() == KrakenType.BUY
-                                  ? OpenPosition.Type.LONG
-                                  : OpenPosition.Type.SHORT)
-                          .size(krakenOpenPosition.getCost())
-                          .price(krakenOpenPosition
-                                  .getCost()
-                                  .divide(krakenOpenPosition.getVolume().subtract(krakenOpenPosition.getVolumeClosed()), RoundingMode.HALF_EVEN))
-                          .build());
+                      .instrument(new CurrencyPair(krakenOpenPosition.getAssetPair()))
+                      .type(
+                          krakenOpenPosition.getType() == KrakenType.BUY
+                              ? OpenPosition.Type.LONG
+                              : OpenPosition.Type.SHORT)
+                      .size(krakenOpenPosition.getCost())
+                      .price(
+                          krakenOpenPosition
+                              .getCost()
+                              .divide(
+                                  krakenOpenPosition
+                                      .getVolume()
+                                      .subtract(krakenOpenPosition.getVolumeClosed()),
+                                  RoundingMode.HALF_EVEN))
+                      .build());
             });
 
     return new OpenPositions(openPositionsList);
@@ -356,21 +362,24 @@ public class KrakenAdapters {
   public static Map<CurrencyPair, Fee> adaptFees(KrakenTradeVolume krakenTradeVolume) {
     Map<CurrencyPair, Fee> feeMap = new HashMap<>();
 
-    //Compute Taker Fees
+    // Compute Taker Fees
     for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
-      feeMap.computeIfAbsent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), currencyPair ->
-              new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100)))
-      );
+      feeMap.computeIfAbsent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          currencyPair -> new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100))));
     }
 
-    //Compute Maker Fees
+    // Compute Maker Fees
     for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
-      feeMap.computeIfPresent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), (currencyPair, fee) ->
-              fee = new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), fee.getTakerFee())
-      );
-      feeMap.computeIfAbsent(KrakenUtils.translateKrakenCurrencyPair(entry.getKey()), currencyPair ->
-              new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), null)
-      );
+      feeMap.computeIfPresent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          (currencyPair, fee) ->
+              fee =
+                  new Fee(
+                      entry.getValue().getFee().divide(new BigDecimal(100)), fee.getTakerFee()));
+      feeMap.computeIfAbsent(
+          KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
+          currencyPair -> new Fee(entry.getValue().getFee().divide(new BigDecimal(100)), null));
     }
 
     return feeMap;
@@ -437,14 +446,14 @@ public class KrakenAdapters {
 
   private static CurrencyPairMetaData adaptPair(
       KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
-      return new CurrencyPairMetaData(
-          krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
-          krakenPair.getOrderMin(),
-          null,
-          krakenPair.getPairScale(),
-          krakenPair.getVolumeLotScale(),
-          adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
-          KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()));
+    return new CurrencyPairMetaData(
+        krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)),
+        krakenPair.getOrderMin(),
+        null,
+        krakenPair.getPairScale(),
+        krakenPair.getVolumeLotScale(),
+        adaptFeeTiers(krakenPair.getFees_maker(), krakenPair.getFees()),
+        KrakenUtils.translateKrakenCurrencyCode(krakenPair.getFeeVolumeCurrency()));
   }
 
   public static List<FundingRecord> adaptFundingHistory(

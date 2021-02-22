@@ -12,7 +12,7 @@ public class GeminiNewOrderRequest {
 
   @JsonProperty("nonce")
   protected String nonce;
-  
+
   @JsonProperty("client_order_id")
   protected String client_order_id;
 

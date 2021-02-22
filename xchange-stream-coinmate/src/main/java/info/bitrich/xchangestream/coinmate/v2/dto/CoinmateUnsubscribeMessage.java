@@ -9,8 +9,7 @@ public class CoinmateUnsubscribeMessage {
   @JsonProperty("data")
   private CoinmateChannelData data;
 
-  public CoinmateUnsubscribeMessage() {
-  }
+  public CoinmateUnsubscribeMessage() {}
 
   public CoinmateUnsubscribeMessage(String channel) {
     this.event = "unsubscribe";

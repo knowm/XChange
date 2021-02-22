@@ -3,11 +3,7 @@ package org.knowm.xchange.coinbasepro.service;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;

@@ -148,11 +148,13 @@ public class BinanceManualExample {
             throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 
-  private static Disposable orderbooksIncremental(BinanceStreamingExchange exchange, String identifier) {
+  private static Disposable orderbooksIncremental(
+      BinanceStreamingExchange exchange, String identifier) {
     return exchange
-            .getStreamingMarketDataService()
-            .getOrderBookUpdates(CurrencyPair.LTC_BTC)
-            .subscribe(level -> LOG.info("Order Book Level update({}): {}", identifier, level),
-                    throwable -> LOG.error("ERROR in getting order book: ", throwable));
+        .getStreamingMarketDataService()
+        .getOrderBookUpdates(CurrencyPair.LTC_BTC)
+        .subscribe(
+            level -> LOG.info("Order Book Level update({}): {}", identifier, level),
+            throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 }

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.*;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -13,9 +12,9 @@ import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.kraken.KrakenAdapters;
-import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
@@ -65,12 +64,12 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
     return KrakenAdapters.adaptFees(
-            super.getTradeVolume(
-                    exchange.getExchangeMetaData()
-                            .getCurrencyPairs()
-                            .keySet()
-                            .toArray(new CurrencyPair[0])
-    ));
+        super.getTradeVolume(
+            exchange
+                .getExchangeMetaData()
+                .getCurrencyPairs()
+                .keySet()
+                .toArray(new CurrencyPair[0])));
   }
 
   @Override

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Condition;
 import org.junit.Before;
@@ -58,23 +57,24 @@ public class BleutradeExchangeIntegration extends BleutradeServiceTestSupport {
   public void shouldUseDefaultExchangeSpecForNullSpecification() {
     exchange.applySpecification(null);
     assertThat(exchange.getExchangeSpecification())
-            .isEqualToComparingOnlyGivenFields(exchange.getDefaultExchangeSpecification(),
-                    "exchangeName",
-                    "exchangeDescription",
-                    "userName",
-                    "password",
-                    "secretKey",
-                    "apiKey",
-                    "sslUri",
-                    "plainTextUri",
-                    "host",
-                    "port",
-                    "proxyHost",
-                    "proxyPort",
-                    "httpConnTimeout",
-                    "httpReadTimeout",
-                    "metaDataJsonFileOverride",
-                    "shouldLoadRemoteMetaData");
+        .isEqualToComparingOnlyGivenFields(
+            exchange.getDefaultExchangeSpecification(),
+            "exchangeName",
+            "exchangeDescription",
+            "userName",
+            "password",
+            "secretKey",
+            "apiKey",
+            "sslUri",
+            "plainTextUri",
+            "host",
+            "port",
+            "proxyHost",
+            "proxyPort",
+            "httpConnTimeout",
+            "httpReadTimeout",
+            "metaDataJsonFileOverride",
+            "shouldLoadRemoteMetaData");
   }
 
   @Test
