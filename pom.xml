@@ -89,10 +89,6 @@
     <tag>HEAD</tag>
   </scm>
 
-  <ciManagement>
-    <url>https://travis-ci.org/github/knowm/XChange</url>
-  </ciManagement>
-
   <modules>
     <module>xchange-bankera</module>
     <module>xchange-bibox</module>
@@ -202,7 +198,9 @@
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
     <module>xchange-stream-gemini</module>
+    <!--    <module>xchange-stream-gemini-v2</module>-->
     <module>xchange-stream-hitbtc</module>
+    <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
@@ -211,9 +209,11 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
-    <module>xchange-stream-huobi</module>
-    <module>xchange-stream-gemini-v2</module>
   </modules>
+
+  <ciManagement>
+    <url>https://travis-ci.org/github/knowm/XChange</url>
+  </ciManagement>
 
   <repositories>
     <repository>
