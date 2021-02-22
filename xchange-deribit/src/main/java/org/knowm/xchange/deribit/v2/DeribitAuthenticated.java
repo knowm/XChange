@@ -233,4 +233,24 @@ public interface DeribitAuthenticated {
       @QueryParam("continuation") String continuation,
       @HeaderParam("Authorization") ParamsDigest auth)
       throws DeribitException, IOException;
+
+  /**
+   * https://docs.deribit.com/#private-get_order_history_by_instrument
+   *
+   * @param instrumentName required - Instrument name
+   * @param count optional - Number of requested items, default - 20
+   * @param offset optional - The offset for pagination, default - 0
+   * @param includeOld optional - Include orders older than 2 days, default - false
+   * @param includeUnfilled optional - Include fully unfilled closed orders, default - false
+   */
+  @GET
+  @Path("get_order_history_by_instrument")
+  DeribitResponse<List<Order>> getOrderHistoryByInstrument(
+      @QueryParam("instrument_name") String instrumentName,
+      @QueryParam("count") Integer count,
+      @QueryParam("offset") Integer offset,
+      @QueryParam("include_old") Boolean includeOld,
+      @QueryParam("include_unfilled") Boolean includeUnfilled,
+      @HeaderParam("Authorization") ParamsDigest auth)
+      throws DeribitException, IOException;
 }

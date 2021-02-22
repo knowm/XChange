@@ -141,4 +141,17 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
         .getSettlementHistoryByInstrument(instrumentName, type, count, continuation, deribitAuth)
         .getResult();
   }
+
+  public List<Order> getOrderHistoryByInstrument(
+      String instrumentName,
+      Integer count,
+      Integer offset,
+      Boolean includeOld,
+      Boolean includeUnfilled)
+      throws IOException {
+    return deribitAuthenticated
+        .getOrderHistoryByInstrument(
+            instrumentName, count, offset, includeOld, includeUnfilled, deribitAuth)
+        .getResult();
+  }
 }
