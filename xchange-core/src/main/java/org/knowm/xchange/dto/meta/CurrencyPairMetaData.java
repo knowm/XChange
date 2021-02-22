@@ -117,13 +117,13 @@ public class CurrencyPairMetaData implements Serializable {
   }
 
   public CurrencyPairMetaData(
-       BigDecimal tradingFee,
-       BigDecimal minimumAmount,
-       BigDecimal maximumAmount,
-       Integer priceScale,
-       Integer volumeScale,
-       FeeTier[] feeTiers,
-       Currency tradingFeeCurrency) {
+      BigDecimal tradingFee,
+      BigDecimal minimumAmount,
+      BigDecimal maximumAmount,
+      Integer priceScale,
+      Integer volumeScale,
+      FeeTier[] feeTiers,
+      Currency tradingFeeCurrency) {
     this(
         tradingFee,
         minimumAmount,

@@ -14,5 +14,4 @@ public class UserSettlements {
   public boolean hasMore() {
     return !"none".equals(continuation);
   }
-
 }

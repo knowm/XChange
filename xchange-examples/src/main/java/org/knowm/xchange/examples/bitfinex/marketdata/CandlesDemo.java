@@ -1,16 +1,13 @@
 package org.knowm.xchange.examples.bitfinex.marketdata;
 
+import java.io.IOException;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.service.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 
 /** @author cyrus13 */
 public class CandlesDemo {
@@ -27,13 +24,11 @@ public class CandlesDemo {
     raw((BitfinexMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(Exchange bitfinex) {
-
-  }
+  private static void generic(Exchange bitfinex) {}
 
   private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
-    List<BitfinexCandle> candleList = marketDataService.getFundingHistoricCandles("15m","fEUR",2,10);
+    List<BitfinexCandle> candleList =
+        marketDataService.getFundingHistoricCandles("15m", "fEUR", 2, 10);
     System.out.println(candleList);
-
   }
 }

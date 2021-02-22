@@ -15,8 +15,7 @@ public class OpenPosition implements Serializable {
   /** The avarage entry price for the position */
   private final BigDecimal price;
 
-  public OpenPosition(
-      Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
+  public OpenPosition(Instrument instrument, Type type, BigDecimal size, BigDecimal price) {
     this.instrument = instrument;
     this.type = type;
     this.size = size;

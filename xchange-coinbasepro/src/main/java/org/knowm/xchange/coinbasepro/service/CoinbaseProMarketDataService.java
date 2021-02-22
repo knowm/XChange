@@ -2,7 +2,6 @@ package org.knowm.xchange.coinbasepro.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;

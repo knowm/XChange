@@ -22,6 +22,8 @@ public class FtxMarketDataService extends FtxMarketDataServiceRaw implements Mar
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return FtxAdapters.adaptTrades(getFtxTrades(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).getResult(),currencyPair);
+    return FtxAdapters.adaptTrades(
+        getFtxTrades(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).getResult(),
+        currencyPair);
   }
 }

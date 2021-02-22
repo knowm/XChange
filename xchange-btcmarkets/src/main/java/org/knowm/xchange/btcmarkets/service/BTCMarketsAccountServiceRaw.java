@@ -76,8 +76,6 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
 
   public BTCMarketsTradingFeesResponse tradingFees() throws IOException {
     return btcmv3.tradingFees(
-        exchange.getExchangeSpecification().getApiKey(),
-        nonceFactory,
-        signerV3);
+        exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV3);
   }
 }

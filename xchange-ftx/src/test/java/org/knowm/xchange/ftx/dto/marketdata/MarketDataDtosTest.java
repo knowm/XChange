@@ -1,6 +1,5 @@
 package org.knowm.xchange.ftx.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,7 +10,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.trade.TradeDtosTest;
@@ -47,7 +45,7 @@ public class MarketDataDtosTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     FtxResponse<List<FtxTradeDto>> ftxResponse =
-            mapper.readValue(is, new TypeReference<FtxResponse<List<FtxTradeDto>>>() {});
+        mapper.readValue(is, new TypeReference<FtxResponse<List<FtxTradeDto>>>() {});
 
     // Verify that the example data was unmarshalled correctly
     assertThat(ftxResponse.getResult().size()).isEqualTo(1);

@@ -383,8 +383,6 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair LINK_BTC = new CurrencyPair(Currency.LINK, Currency.BTC);
   public static final CurrencyPair LINK_ETH = new CurrencyPair(Currency.LINK, Currency.ETH);
 
-
-
   public final Currency base;
 
   public final Currency counter;
