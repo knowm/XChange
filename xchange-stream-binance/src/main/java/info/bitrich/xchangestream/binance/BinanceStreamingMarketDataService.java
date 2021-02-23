@@ -115,11 +115,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * This api provides the ability to start receiving updates immediately. It is allowed to
    * subscribe to this api and {@link #getOrderBook(CurrencyPair, Object...)} at the same time.
    */
-  public Observable<OrderBookUpdate> getOrderBookUpdates(CurrencyPair currencyPair, Object... args) {
+  public Observable<OrderBookUpdate> getOrderBookUpdates(
+      CurrencyPair currencyPair, Object... args) {
     if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return orderBookUpdatesSubscriptions.computeIfAbsent(currencyPair, this::initOrderBookUpdateIfAbsent);
+    return orderBookUpdatesSubscriptions.computeIfAbsent(
+        currencyPair, this::initOrderBookUpdateIfAbsent);
   }
 
   private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(CurrencyPair currencyPair) {
