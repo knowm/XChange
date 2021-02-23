@@ -110,6 +110,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
     streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
+    // We disable live subscription at connection time because we don't want to send a subscribe message through the websocket
+    // (not required), and the websocket is limited to 5 incoming messages per second (cannot subscribe to many streams
+    // at the same time via live Subscribing/Unsubscribing feature).
+    // See https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits for more details
+    disableLiveSubscription();
+
     return Completable.concat(completables)
         .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
         .doOnComplete(() -> streamingAccountService.openSubscriptions())
@@ -201,16 +207,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
     return Stream.of(
-            buildSubscriptionStrings(subscription.getTicker(), "ticker"),
-            buildSubscriptionStrings(subscription.getOrderBook(), "depth"),
-            buildSubscriptionStrings(subscription.getTrades(), "trade"))
+            buildSubscriptionStrings(subscription.getTicker(), BinanceSubscriptionType.TICKER.getType()),
+            buildSubscriptionStrings(subscription.getOrderBook(),  BinanceSubscriptionType.DEPTH.getType()),
+            buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
         .filter(s -> !s.isEmpty())
         .collect(Collectors.joining("/"));
   }
 
   private String buildSubscriptionStrings(
       List<CurrencyPair> currencyPairs, String subscriptionType) {
-    if ("depth".equals(subscriptionType)) {
+    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
           .collect(Collectors.joining("/"));
@@ -230,4 +236,13 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
   }
+
+  public void enableLiveSubscription() {
+    this.streamingService.enableLiveSubscription();
+  }
+
+  public void disableLiveSubscription() {
+    this.streamingService.disableLiveSubscription();
+  }
+
 }
