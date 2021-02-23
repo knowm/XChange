@@ -100,7 +100,6 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   /**
    * Get the live subscription message
-   * @since 5.0.6
    */
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
@@ -115,7 +114,6 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   /**
    * Get the live unsubscription message
-   * @since 5.0.6
    */
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
