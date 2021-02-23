@@ -17,12 +17,12 @@ public class Order {
   @JsonProperty("profit_loss")
   private BigDecimal profitLoss;
   /** Price in base currency */
-  private BigDecimal price;
-  public void setPrice(String priceStr) {
+  private String price;
+  public BigDecimal getPrice() {
     try {
-      this.price = new BigDecimal(priceStr);
+      return new BigDecimal(price);
     } catch (NumberFormatException e) {
-      this.price = null;
+      return null;
     }
   }
   /** true for post-only orders only */
