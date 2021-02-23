@@ -59,9 +59,11 @@ public class CoinjarAdapters {
   }
 
   public static Order.OrderType buySellToOrderType(String buySell) {
-    if (buySell.equals("buy")) {
+    if (buySell == null) {
+      return null;
+    } else if ("buy".equals(buySell)) {
       return Order.OrderType.BID;
-    } else if (buySell.equals("sell")) {
+    } else if ("sell".equals(buySell)) {
       return Order.OrderType.ASK;
     } else
       throw new IllegalArgumentException(
@@ -123,6 +125,7 @@ public class CoinjarAdapters {
                 ZonedDateTime.parse(coinjarOrder.timestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                     .toInstant()))
         .orderStatus(orderStatus)
+        .userReference(coinjarOrder.ref)
         .build();
   }
 
