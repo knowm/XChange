@@ -17,7 +17,7 @@ import java.util.*;
  * Before this addon, the subscription of the currency pairs required to be at the connection time, so if we wanted to add new
  * currencies to the stream, it was required to disconnect from the stream and reconnect with the new ProductSubscription instance
  * that contains all currency pairs.
- * With the new addon (since 5.0.6), we can subscribe to new currencies live without disconnecting the stream.
+ * With the new addon, we can subscribe to new currencies live without disconnecting the stream.
  */
 public class BinanceLiveSubscriptionExample {
 
