@@ -127,7 +127,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency ILS = createCurrency("ILS", "Israeli New Sheqel", null);
   public static final Currency INR = createCurrency("INR", "Indian Rupee", null);
   public static final Currency IOC = createCurrency("IOC", "I/OCoin", null);
-  public static final Currency IOT = createCurrency("IOT", "IOTA", null);
+  public static final Currency IOT = createCurrency("IOT", "IOTA", null, "IOTA");
+  public static final Currency IOTA = getInstance("IOTA");
   public static final Currency IQD = createCurrency("IQD", "Iraqi Dinar", null);
   public static final Currency IRR = createCurrency("IRR", "Iranian Rial", null);
   public static final Currency ISK = createCurrency("ISK", "Icelandic Króna", null);
@@ -290,7 +291,6 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency BNK = createCurrency("BNK", "Bankera Coin", null);
   public static final Currency BNB = createCurrency("BNB", "Binance Coin", null);
   public static final Currency QSP = createCurrency("QSP", "Quantstamp", null);
-  public static final Currency IOTA = createCurrency("IOTA", "Iota", null);
   public static final Currency YOYO = createCurrency("YOYO", "Yoyow", null);
   public static final Currency BTS = createCurrency("BTS", "Bitshare", null);
   public static final Currency ICX = createCurrency("ICX", "Icon", null);
