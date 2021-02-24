@@ -1,9 +1,11 @@
 package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+
 import java.io.IOException;
 
 /** Created by Lukas Zaoralek on 13.11.17. */
@@ -88,6 +90,15 @@ public class BitmexWebSocketTransaction {
       var5.printStackTrace();
     }
     return funding;
+  }
+
+  public RawOrderBook toRawOrderBook() {
+    try {
+      return mapper.treeToValue(this.data.get(0), RawOrderBook.class);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public String getTable() {
