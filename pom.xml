@@ -68,20 +68,6 @@
     <url>https://github.com/knowm/XChange/issues</url>
   </issueManagement>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
-  </distributionManagement>
-
   <scm>
     <connection>scm:git:git@github.com:knowm/XChange.git</connection>
     <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
@@ -215,19 +201,6 @@
   <ciManagement>
     <url>https://travis-ci.org/github/knowm/XChange</url>
   </ciManagement>
-
-  <repositories>
-    <repository>
-      <id>sonatype-oss-public</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <dependencyManagement>
     <dependencies>
