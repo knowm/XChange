@@ -17,7 +17,7 @@ import org.knowm.xchange.coinbase.v2.dto.account.*;
 import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import si.mazi.rescu.ParamsDigest;
 
-@Path("/")
+@Path("/v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CoinbaseAuthenticated extends Coinbase {
 
