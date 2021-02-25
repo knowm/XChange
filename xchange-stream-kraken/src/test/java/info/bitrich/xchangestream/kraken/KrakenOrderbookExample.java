@@ -34,7 +34,7 @@ public class KrakenOrderbookExample {
                   LOG.error("Fail to get ticker {}", throwable.getMessage(), throwable);
                 });
 
-    TimeUnit.SECONDS.sleep(45);
+    TimeUnit.SECONDS.sleep(60);
 
     tickerDis.dispose();
 
