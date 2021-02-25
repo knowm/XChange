@@ -71,11 +71,11 @@ public class CoinjarAdapters {
   }
 
   public static Order.OrderStatus adaptStatus(String status) {
-    if (status.equals("booked")) {
+    if ("booked".equals(status)) {
       return Order.OrderStatus.PENDING_NEW;
-    } else if (status.equals("filled")) {
+    } else if ("filled".equals(status)) {
       return Order.OrderStatus.FILLED;
-    } else if (status.equals("cancelled")) {
+    } else if ("cancelled".equals(status)) {
       return Order.OrderStatus.CANCELED;
     } else {
       logger.warn("Unable to convert remote status {} to Order.OrderStatus", status);
