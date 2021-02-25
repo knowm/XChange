@@ -1,0 +1,394 @@
+{
+  "currency_pairs": {
+    "BTC/AUD": {
+      "min_amount": 0.001,
+      "max_amount": 1000000,
+      "price_scale": 0,
+      "base_scale": 3,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "ETH/AUD": {
+      "min_amount": 0.1,
+      "max_amount": 1000000,
+      "price_scale": 2,
+      "base_scale": 3,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "ETH/BTC": {
+      "min_amount": 0.01,
+      "max_amount": 1000000,
+      "price_scale": 5,
+      "base_scale": 2,
+      "trading_fee": 0,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0
+          }
+        }
+      ]
+    },
+    "XRP/AUD": {
+      "min_amount": 100,
+      "max_amount": 1000000,
+      "price_scale": 4,
+      "base_scale": 0,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "XRP/BTC": {
+      "min_amount": 100,
+      "max_amount": 1000000,
+      "price_scale": 8,
+      "base_scale": 0,
+      "trading_fee": 0,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0
+          }
+        }
+      ]
+    },
+    "LTC/AUD": {
+      "min_amount": 1,
+      "max_amount": 1000000,
+      "price_scale": 2,
+      "base_scale": 0,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "LTC/BTC": {
+      "min_amount": 1,
+      "max_amount": 1000000,
+      "price_scale": 5,
+      "base_scale": 0,
+      "trading_fee": 0,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0
+          }
+        }
+      ]
+    },
+    "ZEC/AUD": {
+      "min_amount": 1,
+      "max_amount": 1000000,
+      "price_scale": 2,
+      "base_scale": 0,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "ZEC/BTC": {
+      "min_amount": 1,
+      "max_amount": 1000000,
+      "price_scale": 5,
+      "base_scale": 0,
+      "trading_fee": 0,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0
+          }
+        }
+      ]
+    },
+    "BTC/USDC": {
+      "min_amount": 0.01,
+      "max_amount": 1000000,
+      "price_scale": 0.01,
+      "base_scale": 2,
+      "trading_fee": 0,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0
+          }
+        }
+      ]
+    },
+    "USDC/AUD": {
+      "min_amount": 0.001,
+      "max_amount": 1000000,
+      "price_scale": 10,
+      "base_scale": 3,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 10000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 100000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 1000000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 10000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    },
+    "USDC/GBP": {
+      "min_amount": 0.001,
+      "max_amount": 1000000,
+      "price_scale": 10,
+      "base_scale": 3,
+      "trading_fee": 0.002,
+      "fee_tiers": [
+        {
+          "begin_quantity": 0,
+          "fee": {
+            "maker_fee": 0.0015,
+            "taker_fee": 0.002
+          }
+        },
+        {
+          "begin_quantity": 6000,
+          "fee": {
+            "maker_fee": 0.0012,
+            "taker_fee": 0.0015
+          }
+        },
+        {
+          "begin_quantity": 60000,
+          "fee": {
+            "maker_fee": 0.001,
+            "taker_fee": 0.0012
+          }
+        },
+        {
+          "begin_quantity": 600000,
+          "fee": {
+            "maker_fee": 0.0008,
+            "taker_fee": 0.001
+          }
+        },
+        {
+          "begin_quantity": 6000000,
+          "fee": {
+            "maker_fee": 0.0005,
+            "taker_fee": 0.0008
+          }
+        }
+      ]
+    }
+  },
+  "public_rate_limits": [],
+  "private_rate_limits": []
+}
