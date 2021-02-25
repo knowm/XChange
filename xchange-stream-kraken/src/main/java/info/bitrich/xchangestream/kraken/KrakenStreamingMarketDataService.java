@@ -1,6 +1,7 @@
 package info.bitrich.xchangestream.kraken;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -9,13 +10,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.kraken.KrakenAdapters;
@@ -26,6 +27,8 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static info.bitrich.xchangestream.kraken.KrakenStreamingAdapters.*;
 
 /** @author makarid, pchertalev */
 public class KrakenStreamingMarketDataService implements StreamingMarketDataService {
@@ -39,7 +42,6 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   public static final String KRAKEN_CHANNEL_DELIMITER = "-";
 
   private final KrakenStreamingService service;
-  private final Map<String, KrakenOrderBookStorage> orderBooks = new ConcurrentHashMap<>();
 
   public KrakenStreamingMarketDataService(KrakenStreamingService service) {
     this.service = service;
@@ -48,16 +50,34 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
+    OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
     int depth = parseOrderBookSize(args);
-    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth)
-        .map(KrakenOrderBookUtils::parse)
-        .map(
-            ob -> {
-              KrakenOrderBookStorage orderBook =
-                  ob.toKrakenOrderBook(orderBooks.get(channelName), depth);
-              orderBooks.put(channelName, orderBook);
-              return KrakenAdapters.adaptOrderBook(orderBook.toKrakenDepth(), currencyPair);
-            });
+    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth).map( messageAsList -> {
+        List<OrderBookUpdate> orderBookUpdates = Lists.newArrayList();
+        for (Object o : messageAsList) {
+            // Any non map field in this message is irrelevant.
+            if (Map.class.isAssignableFrom(o.getClass())) {
+                Map<String, List<List<String>>> castMap = (Map<String, List<List<String>>>) o;
+                if (castMap.containsKey(ASK_SNAPSHOT)) {
+                    orderBook.getAsks().clear();
+                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.ASK, castMap.get("as")));
+                } else if (castMap.containsKey(ASK_UPDATE)) {
+                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.ASK, castMap.get("a")));
+                }
+
+                if (castMap.containsKey(BID_SNAPSHOT)) {
+                    orderBook.getBids().clear();
+                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.BID, castMap.get("bs")));
+                } else if (castMap.containsKey(BID_UPDATE)) {
+                    orderBook.getBids().clear();
+                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.BID, castMap.get("b")));
+                }
+            }
+        }        for (OrderBookUpdate update : orderBookUpdates){
+            orderBook.update(update);
+        }
+        return orderBook;
+    });
   }
 
   @Override
@@ -125,7 +145,6 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     return service
         .subscribeChannel(channelName, depth)
         .filter(JsonNode::isArray)
-        .filter(Objects::nonNull)
         .map(
             jsonNode ->
                 StreamingObjectMapperHelper.getObjectMapper().treeToValue(jsonNode, List.class))
