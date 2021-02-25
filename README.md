@@ -11,7 +11,7 @@ The world of Bitcoin changes quickly and XChange is no exception. For the latest
 
 ## Description
 
-XChange is a library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges.
+XChange is a Java based library providing a simple and consistent API for interacting with a diverse set of crypto currency exchanges.
 
 Basic usage is very simple: Create an `Exchange` instance, get the appropriate service, and request data. More complex usages are progressively detailed below.
 
