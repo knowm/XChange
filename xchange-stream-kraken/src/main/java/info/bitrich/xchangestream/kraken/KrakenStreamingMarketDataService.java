@@ -48,36 +48,13 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
     OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
     int depth = parseOrderBookSize(args);
-    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth).map( messageAsList -> {
-        List<OrderBookUpdate> orderBookUpdates = Lists.newArrayList();
-        for (Object o : messageAsList) {
-            // Any non map field in this message is irrelevant.
-            if (Map.class.isAssignableFrom(o.getClass())) {
-                Map<String, List<List<String>>> castMap = (Map<String, List<List<String>>>) o;
-                if (castMap.containsKey(ASK_SNAPSHOT)) {
-                    orderBook.getAsks().clear();
-                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.ASK, castMap.get("as")));
-                } else if (castMap.containsKey(ASK_UPDATE)) {
-                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.ASK, castMap.get("a")));
-                }
-
-                if (castMap.containsKey(BID_SNAPSHOT)) {
-                    orderBook.getBids().clear();
-                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.BID, castMap.get("bs")));
-                } else if (castMap.containsKey(BID_UPDATE)) {
-                    orderBook.getBids().clear();
-                    orderBookUpdates.addAll(KrakenStreamingAdapters.adaptOrderbookUpdates(currencyPair, Order.OrderType.BID, castMap.get("b")));
-                }
-            }
-        }        for (OrderBookUpdate update : orderBookUpdates){
-            orderBook.update(update);
-        }
-        return orderBook;
-    });
+    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth)
+            .map( messageAsList -> KrakenStreamingAdapters.adaptOrderbookMessage(orderBook, currencyPair, messageAsList));
   }
 
   @Override
@@ -141,6 +118,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
                         .collect(Collectors.toList())));
   }
 
+  @SuppressWarnings("unchecked")
   public Observable<List> subscribe(String channelName, int maxItems, Integer depth) {
     return service
         .subscribeChannel(channelName, depth)
