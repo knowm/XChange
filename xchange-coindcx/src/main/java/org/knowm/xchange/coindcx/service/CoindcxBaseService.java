@@ -16,11 +16,11 @@ public class CoindcxBaseService extends BaseExchangeService implements BaseServi
   protected final String apiKey;
   protected final ParamsDigest signatureCreator;
 
-  protected CoindcxBaseService(Exchange exchange) {
+    protected CoindcxBaseService(Exchange exchange) {
     super(exchange);
     coindcx =
         RestProxyFactory.createProxy(
-            Coindcx.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
+            Coindcx.class, exchange.getExchangeSpecification().getSslUri());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator =
