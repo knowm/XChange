@@ -110,12 +110,6 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
     streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
-    // We disable live subscription at connection time because we don't want to send a subscribe message through the websocket
-    // (not required), and the websocket is limited to 5 incoming messages per second (cannot subscribe to many streams
-    // at the same time via live Subscribing/Unsubscribing feature).
-    // See https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#websocket-limits for more details
-    disableLiveSubscription();
-
     return Completable.concat(completables)
         .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
         .doOnComplete(() -> streamingAccountService.openSubscriptions())
@@ -238,11 +232,14 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   public void enableLiveSubscription() {
+    if (this.streamingService == null) {
+      throw new UnsupportedOperationException("You must connect to streams before enabling live subscription.");
+    }
     this.streamingService.enableLiveSubscription();
   }
 
   public void disableLiveSubscription() {
-    this.streamingService.disableLiveSubscription();
+    if (this.streamingService != null) this.streamingService.disableLiveSubscription();
   }
 
 }
