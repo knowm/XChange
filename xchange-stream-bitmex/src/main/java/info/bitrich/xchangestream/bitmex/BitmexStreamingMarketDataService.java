@@ -68,10 +68,10 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
       return streamingService
         .subscribeBitmexChannel(channelName)
         .map(s -> {
-          List<LimitOrder> asks = new ArrayList<>();
-          List<LimitOrder> bids = new ArrayList<>();
           RawOrderBook orderBook = s.toRawOrderBook();
           if (orderBook != null) {
+            List<LimitOrder> asks = new ArrayList<>(10);
+            List<LimitOrder> bids = new ArrayList<>(10);
             orderBook.getAsks().forEach(r -> {
               LimitOrder order = new LimitOrder.Builder(ASK, currencyPair)
                 .originalAmount(r.get(1))
@@ -86,8 +86,9 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
                 .build();
               bids.add(order);
             });
+            return new OrderBook(new Date(), asks, bids);
           }
-          return new OrderBook(new Date(), asks, bids);
+          return new OrderBook(new Date(), Collections.emptyList(), Collections.emptyList());
         });
     } else {
       return streamingService
@@ -96,15 +97,14 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
           s -> {
             BitmexOrderbook orderbook;
             String action = s.getAction();
-            if (action.equals("partial")) {
+            if ("partial".equals(action)) {
               orderbook = s.toBitmexOrderbook();
               orderbooks.put(instrument, orderbook);
             } else {
               orderbook = orderbooks.get(instrument);
               // ignore updates until first "partial"
               if (orderbook == null) {
-                return new OrderBook(
-                  new Date(), Collections.emptyList(), Collections.emptyList());
+                return new OrderBook(new Date(), Collections.emptyList(), Collections.emptyList());
               }
               BitmexLimitOrder[] levels = s.toBitmexOrderbookLevels();
               orderbook.updateLevels(levels, action);
