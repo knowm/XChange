@@ -1,16 +1,25 @@
 package info.bitrich.xchangestream.kraken;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.dto.trade.KrakenType;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Kraken streaming adapters
@@ -26,46 +35,148 @@ public class KrakenStreamingAdapters {
     private static final List<String> BID_KEYS = Lists.newArrayList(BID_SNAPSHOT, BID_UPDATE);
     private static final List<String> ASK_KEYS = Lists.newArrayList(ASK_SNAPSHOT, ASK_UPDATE);
 
-    public static OrderBook adaptOrderbookMessage(OrderBook orderBook, Instrument instrument, List<Object> messageAsList) {
-
-        for (Object messageAsListItem : messageAsList) {
-            // Any non map field in this message is irrelevant.
-            if (Map.class.isAssignableFrom(messageAsListItem.getClass())) {
-                Map<String, List<List<String>>> messageMap = (Map<String, List<List<String>>>) messageAsListItem;
-                for (String key : BID_KEYS) {
-                    for (LimitOrder o : adaptLimitOrders(instrument, Order.OrderType.BID, messageMap.get(key))) {
-                        orderBook.update(o);
+    public static OrderBook adaptOrderbookMessage(OrderBook orderBook, Instrument instrument, ArrayNode arrayNode) {
+        Streams.stream(arrayNode.elements())
+                .filter(JsonNode::isObject)
+                .forEach(currentNode -> {
+                    for (String key : BID_KEYS) {
+                        if (currentNode.has(key)) {
+                            adaptLimitOrders(instrument, Order.OrderType.BID, currentNode.get(key)).forEach(orderBook::update);
+                        }
                     }
-                }
-                for (String key : ASK_KEYS) {
-                    for (LimitOrder o : adaptLimitOrders(instrument, Order.OrderType.ASK, messageMap.get(key))) {
-                        orderBook.update(o);
+                    for (String key : ASK_KEYS) {
+                        if (currentNode.has(key)) {
+                            adaptLimitOrders(instrument, Order.OrderType.ASK, currentNode.get(key)).forEach(orderBook::update);
+                        }
                     }
-                }
-            }
-        }
-        return new OrderBook(orderBook.getTimeStamp(), Lists.newArrayList(orderBook.getAsks()), Lists.newArrayList(orderBook.getBids()),true);
 
+                });
+        return new OrderBook(orderBook.getTimeStamp(), Lists.newArrayList(orderBook.getAsks()), Lists.newArrayList(orderBook.getBids()), true);
     }
 
 
     /**
-     * Adapt a of orderbook orders into LimitOrders
+     * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a a/b/as/bs key.
      */
-    public static List<LimitOrder> adaptLimitOrders(Instrument instrument, Order.OrderType orderType, List<List<String>> values) {
-        if (values == null){
-            return Collections.EMPTY_LIST;
+    public static Stream<LimitOrder> adaptLimitOrders(Instrument instrument, Order.OrderType orderType, JsonNode node) {
+        if (node == null || !node.isArray()) {
+            return Stream.empty();
         }
-        return values.stream()
-                .map(wsOrder -> adaptLimitOrder(instrument, orderType, wsOrder))
+        return Streams.stream(node.elements())
+                .filter(JsonNode::isArray)
+                .map(jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
+    }
+
+    /**
+     * Adapt a JsonNode containing two decimals into a LimitOrder
+     */
+    public static LimitOrder adaptLimitOrder(Instrument instrument, Order.OrderType orderType, JsonNode node) {
+        if (node == null || !node.isArray()) {
+            return null;
+        }
+        Iterator<JsonNode> iterator = node.elements();
+        BigDecimal price = nextNodeAsDecimal(iterator);
+        BigDecimal volume = nextNodeAsDecimal(iterator);
+        return new LimitOrder(orderType, volume, instrument, null, null, price);
+    }
+
+    /**
+     * Adapt an ArrayNode containing a ticker message into a Ticker
+     */
+    public static Ticker adaptTickerMessage(Instrument instrument, ArrayNode arrayNode) {
+        return Streams
+                .stream(arrayNode.elements())
+                .filter(JsonNode::isObject)
+                .map(tickerNode -> {
+                    Iterator<JsonNode> askIterator = tickerNode.get("a").iterator();
+                    Iterator<JsonNode> bidIterator = tickerNode.get("b").iterator();
+                    Iterator<JsonNode> closeIterator = tickerNode.get("c").iterator();
+                    Iterator<JsonNode> volumeIterator = tickerNode.get("v").iterator();
+                    Iterator<JsonNode> vwapIterator = tickerNode.get("p").iterator();
+                    Iterator<JsonNode> lowPriceIterator = tickerNode.get("l").iterator();
+                    Iterator<JsonNode> highPriceIterator = tickerNode.get("h").iterator();
+                    Iterator<JsonNode> openPriceIterator = tickerNode.get("o").iterator();
+
+                    // Move iterators forward here required, this ignores the first field if the desired value is in the second element.
+                    vwapIterator.next();
+                    volumeIterator.next();
+
+                    return new Ticker.Builder()
+                            .open(nextNodeAsDecimal(openPriceIterator))
+                            .ask(nextNodeAsDecimal(askIterator))
+                            .bid(nextNodeAsDecimal(bidIterator))
+                            .last(nextNodeAsDecimal(closeIterator))
+                            .high(nextNodeAsDecimal(highPriceIterator))
+                            .low(nextNodeAsDecimal(lowPriceIterator))
+                            .vwap(nextNodeAsDecimal(vwapIterator))
+                            .volume(nextNodeAsDecimal(volumeIterator))
+                            .instrument(instrument)
+                            .build();
+                })
+                .findFirst().orElse(null);
+
+    }
+
+    /**
+     * Adapt an JsonNode into a list of Trade
+     */
+    public static List<Trade> adaptTrades(Instrument instrument, JsonNode arrayNode) {
+        return Streams.stream(arrayNode.elements())
+                .filter(JsonNode::isArray)
+                .flatMap(innerNode ->
+                        Streams.stream(innerNode.elements())
+                                .map(inner -> KrakenStreamingAdapters.adaptTrade(instrument, inner)))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Adapt a single order entry for the book message into a LimitOrder
+     * Adapt an JsonNode into a single Trade
      */
-    public static LimitOrder adaptLimitOrder(Instrument instrument, Order.OrderType orderType, List<String> list) {
-        BigDecimal volume = new BigDecimal(list.get(1)).stripTrailingZeros();
-        return new LimitOrder(orderType, volume, instrument, null, null, new BigDecimal(list.get(0)).stripTrailingZeros());
+    public static Trade adaptTrade(Instrument instrument, JsonNode arrayNode) {
+        if (arrayNode == null || !arrayNode.isArray()) {
+            return null;
+        }
+        Iterator<JsonNode> iterator = arrayNode.iterator();
+        return new Trade.Builder()
+                .price(nextNodeAsDecimal(iterator))
+                .originalAmount(nextNodeAsDecimal(iterator))
+                .timestamp(nextNodeAsDate(iterator))
+                .type(nextNodeAsOrderType(iterator))
+                .instrument(instrument)
+                .build();
     }
+
+    /**
+     * Checks if a iterator has next node and returns the value as a BigDecimal.
+     * Returns null if the iterator has no next value or the given iterator is null.
+     */
+    private static BigDecimal nextNodeAsDecimal(Iterator<JsonNode> iterator) {
+        if (iterator == null || !iterator.hasNext()) {
+            return null;
+        }
+        return new BigDecimal(iterator.next().textValue()).stripTrailingZeros();
+    }
+
+    /**
+     * Checks if a iterator has next node and returns the value as a Date using the long value as timestamp.
+     * Returns null if the iterator has no next value or the given iterator is null.
+     */
+    private static Date nextNodeAsDate(Iterator<JsonNode> iterator) {
+        if (iterator == null || !iterator.hasNext()) {
+            return null;
+        }
+        return DateUtils.fromUnixTime(iterator.next().asLong());
+    }
+
+    /**
+     * Checks if a iterator has next node and returns the value as a Date using the long value as timestamp.
+     * Returns null if the iterator has no next value or the given iterator is null.
+     */
+    private static Order.OrderType nextNodeAsOrderType(Iterator<JsonNode> iterator) {
+        if (iterator == null || !iterator.hasNext()) {
+            return null;
+        }
+        return KrakenAdapters.adaptOrderType(KrakenType.fromString(iterator.next().textValue()));
+    }
+
 }
