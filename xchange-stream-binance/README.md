@@ -2,7 +2,7 @@
 ## Binance
 
 ### Live Subscription/Unsubscription
-The feature to support Live Subscribe/Unsubcribe to streams has been added in version 5.0.7.
+The feature to support Live Subscribe/Unsubcribe to streams has been added on 2021-02-24.
 This allow to subscribe new currency pairs without disconnecting the streams.
 
 To use this feature, follow these steps:
