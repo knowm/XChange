@@ -1,5 +1,6 @@
 package org.knowm.xchange.btcmarkets.service;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,11 @@ import org.knowm.xchange.dto.trade.UserTrade;
 /** Test utilities for btnmarkets tests. */
 public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
-  protected static final String SPECIFICATION_USERNAME = "admin";
+  static void setMock(Field field, Object instance, Object newValue) throws Exception {
+    field.setAccessible(true);
+    field.set(instance, newValue);
+  }
+
   protected static final String SPECIFICATION_API_KEY =
       Base64.getEncoder().encodeToString("publicKey".getBytes());
   protected static final String SPECIFICATION_SECRET_KEY =
