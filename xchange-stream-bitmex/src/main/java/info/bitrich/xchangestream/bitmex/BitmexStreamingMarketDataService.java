@@ -70,8 +70,8 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
         .map(s -> {
           RawOrderBook orderBook = s.toRawOrderBook();
           if (orderBook != null) {
-            List<LimitOrder> asks = new ArrayList<>(10);
-            List<LimitOrder> bids = new ArrayList<>(10);
+            List<LimitOrder> asks = new ArrayList<>(orderBook.getAsks().size());
+            List<LimitOrder> bids = new ArrayList<>(orderBook.getBids().size());
             orderBook.getAsks().forEach(r -> {
               LimitOrder order = new LimitOrder.Builder(ASK, currencyPair)
                 .originalAmount(r.get(1))
