@@ -5,11 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 /** Created by Lukas Zaoralek on 13.11.17. */
 public class BitmexWebSocketTransaction {
+  private static final Logger log = LoggerFactory.getLogger(BitmexWebSocketTransaction.class);
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final String table;
   private final String action;
@@ -31,7 +34,7 @@ public class BitmexWebSocketTransaction {
       try {
         levels[i] = mapper.treeToValue(jsonLevel, BitmexLimitOrder.class);
       } catch (IOException e) {
-        e.printStackTrace();
+        log.error("limit order mapping exception", e);
       }
     }
 
@@ -48,7 +51,7 @@ public class BitmexWebSocketTransaction {
     try {
       bitmexTicker = mapper.treeToValue(data.get(0), BitmexTicker.class);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("ticker mapping exception", e);
     }
     return bitmexTicker;
   }
@@ -60,7 +63,7 @@ public class BitmexWebSocketTransaction {
       try {
         trades[i] = mapper.treeToValue(jsonTrade, BitmexTrade.class);
       } catch (IOException e) {
-        e.printStackTrace();
+        log.error("trade array mapping exception", e);
       }
     }
 
@@ -73,9 +76,9 @@ public class BitmexWebSocketTransaction {
       JsonNode jsonOrder = this.data.get(i);
 
       try {
-        orders[i] = (BitmexOrder) this.mapper.readValue(jsonOrder.toString(), BitmexOrder.class);
-      } catch (IOException var5) {
-        var5.printStackTrace();
+        orders[i] = mapper.readValue(jsonOrder.toString(), BitmexOrder.class);
+      } catch (IOException e) {
+        log.error("orders mapping exception", e);
       }
     }
 
@@ -85,9 +88,9 @@ public class BitmexWebSocketTransaction {
   public BitmexFunding toBitmexFunding() {
     BitmexFunding funding = null;
     try {
-      funding = this.mapper.readValue(this.data.get(0).toString(), BitmexFunding.class);
-    } catch (IOException var5) {
-      var5.printStackTrace();
+      funding = mapper.readValue(this.data.get(0).toString(), BitmexFunding.class);
+    } catch (IOException e) {
+      log.error("funding mapping exception", e);
     }
     return funding;
   }
@@ -96,7 +99,7 @@ public class BitmexWebSocketTransaction {
     try {
       return mapper.treeToValue(this.data.get(0), RawOrderBook.class);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      log.error("raw order book mapping exception", e);
       return null;
     }
   }
