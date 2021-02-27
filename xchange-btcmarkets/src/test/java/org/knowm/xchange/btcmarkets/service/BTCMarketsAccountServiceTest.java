@@ -67,7 +67,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
     String result =
         btcMarketsAccountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
 
-    assertThat(result).isNull();
+    assertThat(result).isNotNull();
   }
 
   @Test
@@ -92,7 +92,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsServiceTest {
         new RippleWithdrawFundsParams("any address", Currency.BTC, BigDecimal.TEN, "12345");
     String result = btcMarketsAccountService.withdrawFunds(params);
     assertThat(captor.getValue().address).isEqualTo("any address?dt=12345");
-    assertThat(result).isNull();
+    assertThat(result).isNotNull();
   }
 
   @Test
