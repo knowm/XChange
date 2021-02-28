@@ -9,6 +9,7 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,7 +83,7 @@ public class KucoinAdapters {
                     .volume(ticker.getVol())
                     .quoteVolume(ticker.getVolValue())
                     .percentageChange(
-                        BigDecimal.valueOf(ticker.getChangeRate().doubleValue() * 100))
+                        ticker.getChangeRate().multiply(new BigDecimal("100"), new MathContext(8)))
                     .build())
         .collect(Collectors.toList());
   }
