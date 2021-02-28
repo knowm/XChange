@@ -6,9 +6,9 @@ import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class BTCMarketsBaseResponse {
 
-  private final Boolean success;
-  private final String errorMessage;
-  private final Integer errorCode;
+  public final Boolean success;
+  public final String errorMessage;
+  public final Integer errorCode;
 
   protected BTCMarketsBaseResponse(
       @JsonProperty("success") Boolean success,
@@ -20,18 +20,6 @@ public class BTCMarketsBaseResponse {
     this.success = success;
     this.errorMessage = errorMessage;
     this.errorCode = errorCode;
-  }
-
-  public String getErrorMessage() {
-    return errorMessage;
-  }
-
-  public Boolean getSuccess() {
-    return success;
-  }
-
-  public Integer getErrorCode() {
-    return errorCode;
   }
 
   @Override
