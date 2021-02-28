@@ -348,7 +348,9 @@ public final class BitfinexAdapters {
 
     BigDecimal last = bitfinexTicker.getLast_price();
     BigDecimal bid = bitfinexTicker.getBid();
+    BigDecimal bidSize = bitfinexTicker.getBidSize();
     BigDecimal ask = bitfinexTicker.getAsk();
+    BigDecimal askSize = bitfinexTicker.getAskSize();
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
@@ -359,7 +361,9 @@ public final class BitfinexAdapters {
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
+        .bidSize(bidSize)
         .ask(ask)
+        .askSize(askSize)
         .high(high)
         .low(low)
         .volume(volume)
