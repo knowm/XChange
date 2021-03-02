@@ -6,12 +6,11 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BTCMarketsException extends HttpStatusExceptionSupport {
 
-  public final Boolean success;
-  public final Integer errorCode;
-  public final String errorMessage;
-  public final String clientRequestId;
-  public final Long id;
-  public final List<BTCMarketsException> responses;
+  private final Boolean success;
+  private final Integer errorCode;
+  private final String clientRequestId;
+  private final Long id;
+  private final List<BTCMarketsException> responses;
 
   public BTCMarketsException(
       @JsonProperty("success") Boolean success,
@@ -23,7 +22,6 @@ public class BTCMarketsException extends HttpStatusExceptionSupport {
     super(constructMsg(errorMessage, responses));
     this.success = success;
     this.errorCode = errorCode;
-    this.errorMessage = errorMessage;
     this.clientRequestId = clientRequestId;
     this.id = id;
     this.responses = responses;
@@ -36,11 +34,31 @@ public class BTCMarketsException extends HttpStatusExceptionSupport {
     }
     if (responses != null) {
       for (BTCMarketsException response : responses) {
-        if (!Boolean.TRUE.equals(response.success)) {
-          sb.append(String.format("Id %d: %s", response.id, response.getMessage()));
+        if (!Boolean.TRUE.equals(response.getSuccess())) {
+          sb.append(String.format("Id %d: %s", response.getId(), response.getMessage()));
         }
       }
     }
     return sb.toString();
+  }
+
+  public Boolean getSuccess() {
+    return success;
+  }
+
+  public Integer getErrorCode() {
+    return errorCode;
+  }
+
+  public String getClientRequestId() {
+    return clientRequestId;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public List<BTCMarketsException> getResponses() {
+    return responses;
   }
 }

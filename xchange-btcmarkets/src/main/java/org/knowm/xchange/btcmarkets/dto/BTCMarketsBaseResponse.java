@@ -22,22 +22,22 @@ public class BTCMarketsBaseResponse {
     this.errorCode = errorCode;
   }
 
-  @Override
-  public String toString() {
-    return String.format(
-        "%s{success=%s, errorMessage='%s', errorCode=%d}",
-        getClass().getSimpleName(), success, errorMessage, errorCode);
+  public String getErrorMessage() {
+    return errorMessage;
   }
 
   public Boolean getSuccess() {
     return success;
   }
 
-  public String getErrorMessage() {
-    return errorMessage;
-  }
-
   public Integer getErrorCode() {
     return errorCode;
+  }
+
+  @Override
+  public String toString() {
+    return String.format(
+        "%s{success=%s, errorMessage='%s', errorCode=%d}",
+        getClass().getSimpleName(), success, errorMessage, errorCode);
   }
 }
