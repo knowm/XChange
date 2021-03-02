@@ -22,15 +22,15 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 public class ResilienceRegistries {
 
   public static final RetryConfig DEFAULT_RETRY_CONFIG =
-      RetryConfig.custom()
-          .maxAttempts(3)
-          .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
-          .retryExceptions(
-              IOException.class,
-              ExchangeUnavailableException.class,
-              InternalServerException.class,
-              OperationTimeoutException.class)
-          .build();
+          RetryConfig.custom()
+                  .maxAttempts(3)
+                  .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
+                  .retryExceptions(
+                          IOException.class,
+                          ExchangeUnavailableException.class,
+                          InternalServerException.class,
+                          OperationTimeoutException.class)
+                  .build();
 
   public static final String NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME = "nonIdempotentCallsBase";
 
@@ -43,17 +43,17 @@ public class ResilienceRegistries {
    * exchanged this retry configuration is recommended.
    */
   public static final RetryConfig DEFAULT_NON_IDEMPOTENT_CALLS_RETRY_CONFIG =
-      RetryConfig.from(DEFAULT_RETRY_CONFIG)
-          .retryExceptions(
-              UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
-          .build();
+          RetryConfig.from(DEFAULT_RETRY_CONFIG)
+                  .retryExceptions(
+                          UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
+                  .build();
 
   public static final RateLimiterConfig DEFAULT_GLOBAL_RATE_LIMITER_CONFIG =
-      RateLimiterConfig.custom()
-          .timeoutDuration(Duration.ofSeconds(30))
-          .limitRefreshPeriod(Duration.ofMinutes(1))
-          .limitForPeriod(1200)
-          .build();
+          RateLimiterConfig.custom()
+                  .timeoutDuration(Duration.ofSeconds(30))
+                  .limitRefreshPeriod(Duration.ofMinutes(1))
+                  .limitForPeriod(1200)
+                  .build();
 
   /**
    * Function which can be used by resilience registry to check if 429 was returned
@@ -71,21 +71,21 @@ public class ResilienceRegistries {
   }
 
   public ResilienceRegistries(
-      RetryConfig globalRetryConfig, RetryConfig nonIdempotentCallsRetryConfig) {
+          RetryConfig globalRetryConfig, RetryConfig nonIdempotentCallsRetryConfig) {
     this(globalRetryConfig, nonIdempotentCallsRetryConfig, DEFAULT_GLOBAL_RATE_LIMITER_CONFIG);
   }
 
   public ResilienceRegistries(
-      RetryConfig globalRetryConfig,
-      RetryConfig nonIdempotentCallsRetryConfig,
-      RateLimiterConfig globalRateLimiterConfig) {
+          RetryConfig globalRetryConfig,
+          RetryConfig nonIdempotentCallsRetryConfig,
+          RateLimiterConfig globalRateLimiterConfig) {
     this(
-        retryRegistryOf(globalRetryConfig, nonIdempotentCallsRetryConfig),
-        RateLimiterRegistry.of(globalRateLimiterConfig));
+            retryRegistryOf(globalRetryConfig, nonIdempotentCallsRetryConfig),
+            RateLimiterRegistry.of(globalRateLimiterConfig));
   }
 
   public ResilienceRegistries(
-      RetryRegistry retryRegistry, RateLimiterRegistry rateLimiterRegistry) {
+          RetryRegistry retryRegistry, RateLimiterRegistry rateLimiterRegistry) {
     this.retryRegistry = retryRegistry;
     this.rateLimiterRegistry = rateLimiterRegistry;
   }
@@ -99,7 +99,7 @@ public class ResilienceRegistries {
   }
 
   private static RetryRegistry retryRegistryOf(
-      RetryConfig globalRetryConfig, RetryConfig nonIdempotentCallsRetryConfig) {
+          RetryConfig globalRetryConfig, RetryConfig nonIdempotentCallsRetryConfig) {
     RetryRegistry registry = RetryRegistry.of(globalRetryConfig);
     registry.addConfiguration(
             NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME, nonIdempotentCallsRetryConfig);
