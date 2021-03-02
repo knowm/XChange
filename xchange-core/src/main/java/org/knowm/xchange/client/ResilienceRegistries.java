@@ -10,13 +10,10 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.Duration;
-import java.util.function.Function;
 
-import io.vavr.control.Either;
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.OperationTimeoutException;
-import si.mazi.rescu.HttpStatusExceptionSupport;
 
 @Beta
 public class ResilienceRegistries {
@@ -54,13 +51,6 @@ public class ResilienceRegistries {
           .limitRefreshPeriod(Duration.ofMinutes(1))
           .limitForPeriod(1200)
           .build();
-
-  /**
-   * Function which can be used by resilience registry to check if 429 was returned
-   */
-  public static Function<Either<? extends Throwable, ?>, Boolean> IS_429 = e ->
-          e instanceof HttpStatusExceptionSupport &&
-                  ((HttpStatusExceptionSupport) e).getHttpStatusCode() == 429;
 
   private final RetryRegistry retryRegistry;
 
