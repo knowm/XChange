@@ -97,23 +97,23 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
             "org/knowm/xchange/btcmarkets/dto/" + "CancelOrderResponse", BTCMarketsException.class);
 
     // then
-    assertThat(ex.success).isTrue();
-    assertThat(ex.errorCode).isNull();
+    assertThat(ex.getSuccess()).isTrue();
+    assertThat(ex.getErrorCode()).isNull();
 
-    List<BTCMarketsException> responses = ex.responses;
+    List<BTCMarketsException> responses = ex.getResponses();
     assertThat(responses).hasSize(2);
 
     BTCMarketsException response1 = responses.get(0);
-    assertThat(response1.success).isTrue();
-    assertThat(response1.errorCode).isNull();
+    assertThat(response1.getSuccess()).isTrue();
+    assertThat(response1.getErrorCode()).isNull();
     assertThat(response1.getMessage()).contains("(HTTP status code: 0)");
-    assertThat(response1.id).isEqualTo(6840125484L);
+    assertThat(response1.getId()).isEqualTo(6840125484L);
 
     BTCMarketsException response2 = responses.get(1);
-    assertThat(response2.success).isFalse();
-    assertThat(response2.errorCode).isEqualTo(3);
+    assertThat(response2.getSuccess()).isFalse();
+    assertThat(response2.getErrorCode()).isEqualTo(3);
     assertThat(response2.getMessage()).contains("order does not exist.");
-    assertThat(response2.id).isEqualTo(6840125478L);
+    assertThat(response2.getId()).isEqualTo(6840125478L);
   }
 
   @Test
@@ -134,12 +134,12 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
             BTCMarketsException.class);
 
     // then
-    assertThat(ex.success).isFalse();
-    assertThat(ex.errorCode).isEqualTo(3);
+    assertThat(ex.getSuccess()).isFalse();
+    assertThat(ex.getErrorCode()).isEqualTo(3);
     assertThat(ex.getMessage()).contains("Invalid argument.");
-    assertThat(ex.responses).isNull();
-    assertThat(ex.id).isEqualTo(0);
-    assertThat(ex.clientRequestId).isEqualTo("abc-cdf-1000");
+    assertThat(ex.getResponses()).isNull();
+    assertThat(ex.getId()).isEqualTo(0);
+    assertThat(ex.getClientRequestId()).isEqualTo("abc-cdf-1000");
   }
 
   @Test
@@ -188,9 +188,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   //    final BTCMarketsOrders response = parse(BTCMarketsOrders.class);
   //
   //    // then
-  //    assertThat(response.success).isTrue();
-  //    assertThat(response.errorCode).isNull();
-  //    assertThat(response.errorMessage).isNull();
+  //    assertThat(response.getSuccess()).isTrue();
+  //    assertThat(response.getErrorCode()).isNull();
+  //    assertThat(response.getErrorMessage()).isNull();
   //
   //    List<BTCMarketsOrder> ordersList = response.getOrders();
   //    assertThat(ordersList).hasSize(2);
@@ -218,9 +218,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   //    final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
   //
   //    // then
-  //    assertThat(response.success).isTrue();
-  //    assertThat(response.errorCode).isNull();
-  //    assertThat(response.errorMessage).isNull();
+  //    assertThat(response.getSuccess()).isTrue();
+  //    assertThat(response.getErrorCode()).isNull();
+  //    assertThat(response.getErrorMessage()).isNull();
   //
   //    List<BTCMarketsUserTrade> userTrades = response.getTrades();
   //    assertThat(userTrades).hasSize(3);
