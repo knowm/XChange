@@ -41,9 +41,12 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
         btcm.withdrawCrypto(
             exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV1, request);
 
-    if (!response.success)
+    if (!response.getSuccess())
       throw new ExchangeException(
-          "failed to withdraw funds: " + response.errorMessage + " " + response.errorCode);
+          "failed to withdraw funds: "
+              + response.getErrorMessage()
+              + " "
+              + response.getErrorCode());
 
     return response.fundTransferId;
   }
@@ -53,12 +56,12 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
         btcm.fundtransferHistory(
             exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV1);
 
-    if (!response.success) {
+    if (!response.getSuccess()) {
       throw new ExchangeException(
           "failed to retrieve fundtransfer history: "
-              + response.errorMessage
+              + response.getErrorMessage()
               + " "
-              + response.errorCode);
+              + response.getErrorCode());
     }
     return response;
   }

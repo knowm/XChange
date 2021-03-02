@@ -70,9 +70,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
             BTCMarketsCancelOrderResponse.class);
 
     // then
-    assertThat(response.success).isTrue();
-    assertThat(response.errorCode).isNull();
-    assertThat(response.errorMessage).isNull();
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getErrorCode()).isNull();
+    assertThat(response.getErrorMessage()).isNull();
   }
 
   @Test
@@ -84,9 +84,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
             BTCMarketsCancelOrderResponse.class);
 
     // then
-    assertThat(response.success).isTrue();
-    assertThat(response.errorCode).isNull();
-    assertThat(response.errorMessage).isNull();
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getErrorCode()).isNull();
+    assertThat(response.getErrorMessage()).isNull();
   }
 
   @Test
