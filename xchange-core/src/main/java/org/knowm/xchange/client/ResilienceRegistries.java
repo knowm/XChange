@@ -22,15 +22,15 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 public class ResilienceRegistries {
 
   public static final RetryConfig DEFAULT_RETRY_CONFIG =
-          RetryConfig.custom()
-                  .maxAttempts(3)
-                  .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
-                  .retryExceptions(
-                          IOException.class,
-                          ExchangeUnavailableException.class,
-                          InternalServerException.class,
-                          OperationTimeoutException.class)
-                  .build();
+      RetryConfig.custom()
+              .maxAttempts(3)
+              .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
+              .retryExceptions(
+                      IOException.class,
+                      ExchangeUnavailableException.class,
+                      InternalServerException.class,
+                      OperationTimeoutException.class)
+              .build();
 
   public static final String NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME = "nonIdempotentCallsBase";
 
