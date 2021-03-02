@@ -18,15 +18,15 @@ import org.knowm.xchange.exceptions.OperationTimeoutException;
 public class ResilienceRegistries {
 
   public static final RetryConfig DEFAULT_RETRY_CONFIG =
-    RetryConfig.custom()
-            .maxAttempts(3)
-            .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
-            .retryExceptions(
-                    IOException.class,
-                    ExchangeUnavailableException.class,
-                    InternalServerException.class,
-                    OperationTimeoutException.class)
-            .build();
+      RetryConfig.custom()
+              .maxAttempts(3)
+              .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
+              .retryExceptions(
+                  IOException.class,
+                  ExchangeUnavailableException.class,
+                  InternalServerException.class,
+                  OperationTimeoutException.class)
+              .build();
 
   public static final String NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME = "nonIdempotenteCallsBase";
 
@@ -39,17 +39,17 @@ public class ResilienceRegistries {
    * exchanged this retry configuration is recomended.
    */
   public static final RetryConfig DEFAULT_NON_IDEMPOTENTE_CALLS_RETRY_CONFIG =
-    RetryConfig.from(DEFAULT_RETRY_CONFIG)
-            .retryExceptions(
-                    UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
-            .build();
+      RetryConfig.from(DEFAULT_RETRY_CONFIG)
+              .retryExceptions(
+                      UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
+              .build();
 
   public static final RateLimiterConfig DEFAULT_GLOBAL_RATE_LIMITER_CONFIG =
     RateLimiterConfig.custom()
-            .timeoutDuration(Duration.ofSeconds(30))
-            .limitRefreshPeriod(Duration.ofMinutes(1))
-            .limitForPeriod(1200)
-            .build();
+        .timeoutDuration(Duration.ofSeconds(30))
+        .limitRefreshPeriod(Duration.ofMinutes(1))
+        .limitForPeriod(1200)
+        .build();
 
   private final RetryRegistry retryRegistry;
 
@@ -65,9 +65,9 @@ public class ResilienceRegistries {
   }
 
   public ResilienceRegistries(
-    RetryConfig globalRetryConfig,
-    RetryConfig nonIdempotenteCallsRetryConfig,
-    RateLimiterConfig globalRateLimiterConfig) {
+      RetryConfig globalRetryConfig,
+      RetryConfig nonIdempotenteCallsRetryConfig,
+      RateLimiterConfig globalRateLimiterConfig) {
     this(
             retryRegistryOf(globalRetryConfig, nonIdempotenteCallsRetryConfig),
             RateLimiterRegistry.of(globalRateLimiterConfig));
