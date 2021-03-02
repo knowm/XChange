@@ -187,7 +187,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsServiceTest {
             true,
             null,
             0,
-            Arrays.asList(new BTCMarketsException(true, null, 0, "12345", 111L, null, null, null)));
+            Arrays.asList(new BTCMarketsException(true, null, 0, "12345", 111L, null)));
 
     when(btcMarketsAuthenticated.cancelOrder(
             Mockito.eq(SPECIFICATION_API_KEY),
