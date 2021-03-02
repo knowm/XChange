@@ -19,14 +19,14 @@ public class ResilienceRegistries {
 
   public static final RetryConfig DEFAULT_RETRY_CONFIG =
       RetryConfig.custom()
-              .maxAttempts(3)
-              .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
-              .retryExceptions(
-                  IOException.class,
-                  ExchangeUnavailableException.class,
-                  InternalServerException.class,
-                  OperationTimeoutException.class)
-              .build();
+          .maxAttempts(3)
+          .intervalFunction(IntervalFunction.ofExponentialBackoff(Duration.ofMillis(50), 4))
+          .retryExceptions(
+              IOException.class,
+              ExchangeUnavailableException.class,
+              InternalServerException.class,
+              OperationTimeoutException.class)
+          .build();
 
   public static final String NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME = "nonIdempotenteCallsBase";
 
@@ -40,9 +40,9 @@ public class ResilienceRegistries {
    */
   public static final RetryConfig DEFAULT_NON_IDEMPOTENTE_CALLS_RETRY_CONFIG =
       RetryConfig.from(DEFAULT_RETRY_CONFIG)
-              .retryExceptions(
-                      UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
-              .build();
+          .retryExceptions(
+                  UnknownHostException.class, SocketException.class, ExchangeUnavailableException.class)
+          .build();
 
   public static final RateLimiterConfig DEFAULT_GLOBAL_RATE_LIMITER_CONFIG =
     RateLimiterConfig.custom()
@@ -60,7 +60,7 @@ public class ResilienceRegistries {
   }
 
   public ResilienceRegistries(
-    RetryConfig globalRetryConfig, RetryConfig nonIdempotenteCallsRetryConfig) {
+      RetryConfig globalRetryConfig, RetryConfig nonIdempotenteCallsRetryConfig) {
     this(globalRetryConfig, nonIdempotenteCallsRetryConfig, DEFAULT_GLOBAL_RATE_LIMITER_CONFIG);
   }
 
@@ -69,12 +69,12 @@ public class ResilienceRegistries {
       RetryConfig nonIdempotenteCallsRetryConfig,
       RateLimiterConfig globalRateLimiterConfig) {
     this(
-            retryRegistryOf(globalRetryConfig, nonIdempotenteCallsRetryConfig),
-            RateLimiterRegistry.of(globalRateLimiterConfig));
+        retryRegistryOf(globalRetryConfig, nonIdempotenteCallsRetryConfig),
+        RateLimiterRegistry.of(globalRateLimiterConfig));
   }
 
   public ResilienceRegistries(
-          RetryRegistry retryRegistry, RateLimiterRegistry rateLimiterRegistry) {
+      RetryRegistry retryRegistry, RateLimiterRegistry rateLimiterRegistry) {
     this.retryRegistry = retryRegistry;
     this.rateLimiterRegistry = rateLimiterRegistry;
   }
