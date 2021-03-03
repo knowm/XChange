@@ -14,6 +14,7 @@ import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
@@ -146,5 +147,11 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     } catch (HttpStatusIOException e) {
       throw new BitfinexException(e.getHttpBody());
     }
+  }
+
+  public List<BitfinexCandle> getFundingHistoricCandles(
+      String candlePeriod, String pair, int fundingPeriod, int numOfCandles) throws IOException {
+    final String fundingPeriodStr = "p" + fundingPeriod;
+    return bitfinexV2.getHistoricFundingCandles(candlePeriod, pair, fundingPeriodStr, numOfCandles);
   }
 }

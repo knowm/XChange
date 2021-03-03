@@ -51,7 +51,7 @@ public abstract class BaseResilientExchangeService<E extends Exchange>
    * upfront in {@link #resilienceRegistries} via {@link ResilienceRegistries#retries()} and the
    * {@link io.github.resilience4j.retry.RetryRegistry#addConfiguration(String, Object)} method. You
    * can also used a predefined retry like {@link
-   * ResilienceRegistries#NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME}.
+   * ResilienceRegistries#NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME}.
    *
    * @param name the name of the Retry
    * @param configName the name of the shared configuration

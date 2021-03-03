@@ -147,6 +147,7 @@ public class BinanceExchange extends BaseExchange {
                   counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
+                  null,
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,
