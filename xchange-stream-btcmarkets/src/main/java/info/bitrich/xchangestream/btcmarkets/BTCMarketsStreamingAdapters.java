@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -74,17 +76,10 @@ public class BTCMarketsStreamingAdapters {
         .id(message.getTradeId())
         .price(message.getPrice())
         .timestamp(DateUtils.fromISODateString(message.getTimestamp()))
-        .type(getOrderType(message.getSide()))
+        .type(BTCMarketsAdapters.adaptOrderType(message.getSide()))
         .build();
   }
 
-  private static OrderType getOrderType(String side) {
-    OrderType orderType = null;
-    if (side.compareToIgnoreCase("ask") == 0) orderType = OrderType.ASK;
-    else if (side.compareToIgnoreCase("bid") == 0) orderType = OrderType.BID;
-    else LOG.error("Trade side {} not recognised, set to null", side);
-    return orderType;
-  }
 
   public static OrderBook adaptOrderUpdateMessageToOrderBook(
       BTCMarketsWebSocketOrderbookMessage message) {
