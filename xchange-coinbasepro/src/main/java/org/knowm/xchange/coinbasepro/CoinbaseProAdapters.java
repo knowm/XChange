@@ -9,13 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBookEntry;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
-import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
+import org.knowm.xchange.coinbasepro.dto.marketdata.*;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrderFlags;
@@ -128,6 +122,31 @@ public class CoinbaseProAdapters {
         .volume(volume)
         .timestamp(date)
         .build();
+  }
+
+  public static List<Ticker> adaptTickers(Map<String, CoinbaseProStats> stats) {
+    List<Ticker> tickers = new LinkedList<>();
+
+    for (String pair : stats.keySet()) {
+      CoinbaseProStats pairStats = stats.get(pair);
+      BigDecimal last = pairStats.getLast();
+      BigDecimal open = pairStats.getOpen();
+      BigDecimal high = pairStats.getHigh();
+      BigDecimal low = pairStats.getLow();
+      BigDecimal volume = pairStats.getVolume();
+
+      tickers.add(
+          new Ticker.Builder()
+              .currencyPair(new CurrencyPair(pair))
+              .last(last)
+              .open(open)
+              .high(high)
+              .low(low)
+              .volume(volume)
+              .build());
+    }
+
+    return tickers;
   }
 
   public static OrderBook adaptOrderBook(
@@ -385,6 +404,7 @@ public class CoinbaseProAdapters {
               maxMarketFunds,
               baseScale,
               priceScale,
+              null,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null,
               null,
               pair.counter,

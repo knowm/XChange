@@ -42,6 +42,10 @@ public class CurrencyPairMetaData implements Serializable {
   @JsonProperty("price_scale")
   private final Integer priceScale;
 
+  /** Decimal places for volume amount */
+  @JsonProperty("volume_scale")
+  private final Integer volumeScale;
+
   /** Amount step size. If set, any amounts must be a multiple of this */
   @JsonProperty("amount_step_size")
   private final BigDecimal amountStepSize;
@@ -74,6 +78,7 @@ public class CurrencyPairMetaData implements Serializable {
         null,
         null,
         priceScale,
+        null,
         feeTiers,
         null,
         null,
@@ -104,9 +109,33 @@ public class CurrencyPairMetaData implements Serializable {
         null,
         null,
         priceScale,
+        null,
         feeTiers,
         amountStepSize,
         null,
+        true);
+  }
+
+  public CurrencyPairMetaData(
+      BigDecimal tradingFee,
+      BigDecimal minimumAmount,
+      BigDecimal maximumAmount,
+      Integer priceScale,
+      Integer volumeScale,
+      FeeTier[] feeTiers,
+      Currency tradingFeeCurrency) {
+    this(
+        tradingFee,
+        minimumAmount,
+        maximumAmount,
+        null,
+        null,
+        null,
+        priceScale,
+        volumeScale,
+        feeTiers,
+        null,
+        tradingFeeCurrency,
         true);
   }
 
@@ -127,6 +156,7 @@ public class CurrencyPairMetaData implements Serializable {
       @JsonProperty("counter_max_amount") BigDecimal counterMaximumAmount,
       @JsonProperty("base_scale") Integer baseScale,
       @JsonProperty("price_scale") Integer priceScale,
+      @JsonProperty("volume_scale") Integer volumeScale,
       @JsonProperty("fee_tiers") FeeTier[] feeTiers,
       @JsonProperty("amount_step_size") BigDecimal amountStepSize,
       @JsonProperty("trading_fee_currency") Currency tradingFeeCurrency,
@@ -139,6 +169,7 @@ public class CurrencyPairMetaData implements Serializable {
     this.counterMaximumAmount = counterMaximumAmount;
     this.baseScale = baseScale;
     this.priceScale = priceScale;
+    this.volumeScale = volumeScale;
     if (feeTiers != null) {
       Arrays.sort(feeTiers);
     }
@@ -168,8 +199,11 @@ public class CurrencyPairMetaData implements Serializable {
   }
 
   public Integer getPriceScale() {
-
     return priceScale;
+  }
+
+  public Integer getVolumeScale() {
+    return volumeScale;
   }
 
   public FeeTier[] getFeeTiers() {
@@ -208,6 +242,7 @@ public class CurrencyPairMetaData implements Serializable {
     private BigDecimal counterMaximumAmount;
     private Integer baseScale;
     private Integer priceScale;
+    private Integer volumeScale;
     private BigDecimal amountStepSize;
     private Currency tradingFeeCurrency;
     private boolean marketOrderEnabled;
@@ -222,6 +257,7 @@ public class CurrencyPairMetaData implements Serializable {
           .counterMaximumAmount(metaData.getCounterMaximumAmount())
           .baseScale(metaData.getBaseScale())
           .priceScale(metaData.getPriceScale())
+          .volumeScale(metaData.getVolumeScale())
           .amountStepSize(metaData.getAmountStepSize())
           .tradingFee(metaData.getTradingFee())
           .tradingFeeCurrency(metaData.getTradingFeeCurrency());
@@ -267,6 +303,11 @@ public class CurrencyPairMetaData implements Serializable {
       return this;
     }
 
+    public Builder volumeScale(Integer volumeScale) {
+      this.volumeScale = volumeScale;
+      return this;
+    }
+
     public Builder amountStepSize(BigDecimal amountStepSize) {
       this.amountStepSize = amountStepSize;
       return this;
@@ -291,6 +332,7 @@ public class CurrencyPairMetaData implements Serializable {
           counterMaximumAmount,
           baseScale,
           priceScale,
+          volumeScale,
           feeTiers,
           amountStepSize,
           tradingFeeCurrency,
@@ -311,6 +353,8 @@ public class CurrencyPairMetaData implements Serializable {
         + baseScale
         + ", priceScale="
         + priceScale
+        + ", volumeScale="
+        + volumeScale
         + ", amountStepSize="
         + amountStepSize
         + ", tradingFeeCurrency="

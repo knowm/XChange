@@ -201,16 +201,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
     return Stream.of(
-            buildSubscriptionStrings(subscription.getTicker(), "ticker"),
-            buildSubscriptionStrings(subscription.getOrderBook(), "depth"),
-            buildSubscriptionStrings(subscription.getTrades(), "trade"))
+            buildSubscriptionStrings(subscription.getTicker(), BinanceSubscriptionType.TICKER.getType()),
+            buildSubscriptionStrings(subscription.getOrderBook(),  BinanceSubscriptionType.DEPTH.getType()),
+            buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
         .filter(s -> !s.isEmpty())
         .collect(Collectors.joining("/"));
   }
 
   private String buildSubscriptionStrings(
       List<CurrencyPair> currencyPairs, String subscriptionType) {
-    if ("depth".equals(subscriptionType)) {
+    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
           .collect(Collectors.joining("/"));
@@ -230,4 +230,16 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
   }
+
+  public void enableLiveSubscription() {
+    if (this.streamingService == null) {
+      throw new UnsupportedOperationException("You must connect to streams before enabling live subscription.");
+    }
+    this.streamingService.enableLiveSubscription();
+  }
+
+  public void disableLiveSubscription() {
+    if (this.streamingService != null) this.streamingService.disableLiveSubscription();
+  }
+
 }

@@ -2,14 +2,15 @@ package org.knowm.xchange.coinbase.v2.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.math.BigDecimal;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData.CoinbaseBuy;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData.CoinbaseSell;
 import org.knowm.xchange.currency.Currency;
+
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
 

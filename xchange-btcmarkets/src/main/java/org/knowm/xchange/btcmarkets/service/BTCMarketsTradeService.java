@@ -2,6 +2,7 @@ package org.knowm.xchange.btcmarkets.service;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -61,6 +62,12 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       BTCMarketsOrder.Type orderType,
       Set<Order.IOrderFlags> flags)
       throws IOException {
+    boolean postOnly = false;
+    if (flags.contains(BTCMarketsOrderFlags.POST_ONLY)) {
+      postOnly = true;
+      flags = Sets.filter(flags, flag -> flag != BTCMarketsOrderFlags.POST_ONLY);
+    }
+
     BTCMarketsOrder.Side side =
         orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
     final String marketId = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
@@ -73,7 +80,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       timeInForce = "GTC";
     }
     final BTCMarketsPlaceOrderResponse orderResponse =
-        placeBTCMarketsOrder(marketId, amount, price, side, orderType, timeInForce);
+        placeBTCMarketsOrder(marketId, amount, price, side, orderType, timeInForce, postOnly);
     return orderResponse.orderId;
   }
 

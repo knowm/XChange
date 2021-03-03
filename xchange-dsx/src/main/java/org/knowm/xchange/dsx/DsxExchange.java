@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,7 +24,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DsxExchange extends BaseExchange implements org.knowm.xchange.Exchange {
+public class DsxExchange extends BaseExchange implements Exchange {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DsxExchange.class);
 

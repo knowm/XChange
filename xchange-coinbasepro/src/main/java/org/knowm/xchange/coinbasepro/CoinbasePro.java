@@ -62,6 +62,10 @@ public interface CoinbasePro {
       throws CoinbaseProException, IOException;
 
   @GET
+  @Path("products/stats")
+  Map<String, CoinbaseProStats> getStats() throws CoinbaseProException, IOException;
+
+  @GET
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
   CoinbaseProProductBook getProductOrderBook(
       @PathParam("baseCurrency") String baseCurrency,
