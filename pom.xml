@@ -203,6 +203,7 @@
     <module>xchange-stream-core</module>
     <module>xchange-stream-gemini</module>
     <module>xchange-stream-hitbtc</module>
+    <module>xchange-stream-ftx</module>
     <module>xchange-stream-kraken</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
