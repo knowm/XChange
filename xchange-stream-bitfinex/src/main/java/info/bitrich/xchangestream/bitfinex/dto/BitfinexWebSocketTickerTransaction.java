@@ -24,7 +24,9 @@ public class BitfinexWebSocketTickerTransaction {
 
   public BitfinexTicker toBitfinexTicker() {
     BigDecimal bid = new BigDecimal(tickerArr[0]);
+    BigDecimal bidSize = new BigDecimal(tickerArr[1]);
     BigDecimal ask = new BigDecimal(tickerArr[2]);
+    BigDecimal askSize = new BigDecimal(tickerArr[3]);
     BigDecimal mid = ask.subtract(bid);
     BigDecimal low = new BigDecimal(tickerArr[9]);
     BigDecimal high = new BigDecimal(tickerArr[8]);
@@ -33,6 +35,6 @@ public class BitfinexWebSocketTickerTransaction {
     double timestamp = System.currentTimeMillis() / 1000;
     BigDecimal volume = new BigDecimal(tickerArr[7]);
 
-    return new BitfinexTicker(mid, bid, ask, low, high, last, timestamp, volume);
+    return new BitfinexTicker(mid, bid, bidSize, ask, askSize, low, high, last, timestamp, volume);
   }
 }

@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
@@ -46,5 +47,14 @@ public interface Bitfinex {
       @QueryParam("start") long startTimestamp,
       @QueryParam("end") long endTimestamp,
       @QueryParam("sort") int sort)
+      throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("candles/trade:{candlePeriod}:{symbol}:{fundingPeriod}/hist")
+  List<BitfinexCandle> getHistoricFundingCandles(
+      @PathParam("candlePeriod") String candlePeriod,
+      @PathParam("symbol") String currency,
+      @PathParam("fundingPeriod") String fundingPeriod,
+      @QueryParam("limit") int limit)
       throws IOException, BitfinexExceptionV2;
 }

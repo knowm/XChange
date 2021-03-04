@@ -41,9 +41,7 @@ public class KrakenExchangeTest {
     Assert.assertEquals(
         25, currencyPairs.get(CurrencyPair.ADA_USD).getMinimumAmount().doubleValue(), 0.01);
     Assert.assertEquals(
-        0.02,
-        currencyPairs.get(CurrencyPair.BCH_USD).getMinimumAmount().doubleValue(),
-        0.000001);
+        0.02, currencyPairs.get(CurrencyPair.BCH_USD).getMinimumAmount().doubleValue(), 0.000001);
     Assert.assertEquals(
         1, currencyPairs.get(CurrencyPair.ATOM_ETH).getMinimumAmount().doubleValue(), 0.01);
 
@@ -53,7 +51,8 @@ public class KrakenExchangeTest {
   @Test
   public void currencyPriceScaleTest() throws IOException {
     exchange.remoteInit();
-    Map<Currency, CurrencyMetaData> currencyMetadataMap = exchange.getExchangeMetaData().getCurrencies();
+    Map<Currency, CurrencyMetaData> currencyMetadataMap =
+        exchange.getExchangeMetaData().getCurrencies();
 
     Assert.assertEquals(new BigDecimal(8), currencyMetadataMap.get(Currency.ADA).getScale());
   }

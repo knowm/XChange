@@ -10,14 +10,11 @@ import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-/**
- * Coinmate Websocket API 2.0
- */
+/** Coinmate Websocket API 2.0 */
 class CoinmateStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(CoinmateStreamingService.class);
@@ -55,7 +52,8 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
   protected void handleIdle(ChannelHandlerContext ctx) {
     // the default zero frame is not handled by Coinmate API, use ping message instead
     try {
-      ctx.writeAndFlush(new TextWebSocketFrame(objectMapper.writeValueAsString(new CoinmatePingMessage())));
+      ctx.writeAndFlush(
+          new TextWebSocketFrame(objectMapper.writeValueAsString(new CoinmatePingMessage())));
     } catch (JsonProcessingException e) {
       LOG.error("Failed to write ping message.");
     }
@@ -65,7 +63,8 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
     return new CoinmateSubscribeMessage(channelName);
   }
 
-  private CoinmateAuthenticedSubscribeMessage generateAuthenticatedSubscribeMessage(String channelName) {
+  private CoinmateAuthenticedSubscribeMessage generateAuthenticatedSubscribeMessage(
+      String channelName) {
     return new CoinmateAuthenticedSubscribeMessage(channelName, authParams);
   }
 
@@ -73,10 +72,7 @@ class CoinmateStreamingService extends JsonNettyStreamingService {
     return new CoinmateUnsubscribeMessage(channelName);
   }
 
-  /**
-   *
-   * @return Client ID needed for private channel
-   */
+  /** @return Client ID needed for private channel */
   String getUserId() {
     return authParams.getUserId();
   }

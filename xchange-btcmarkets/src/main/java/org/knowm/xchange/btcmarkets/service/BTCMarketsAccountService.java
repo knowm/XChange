@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
@@ -43,16 +42,10 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
       if (params instanceof RippleWithdrawFundsParams) {
         address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
       }
-      withdrawCrypto(
+      return withdrawCrypto(
           address,
           defaultWithdrawFundsParams.getAmount(),
           defaultWithdrawFundsParams.getCurrency());
-      // The BTCMarkets API doesn't return a useful value such as an id but the fixed value 'Pending
-      // Authorization'
-      // See https://github.com/BTCMarkets/API/issues/137
-      // and
-      // https://github.com/BTCMarkets/API/wiki/Fund-Transfer-API
-      return null;
     }
     throw new IllegalStateException("Cannot process " + params);
   }
@@ -85,7 +78,7 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
       String[] splitMarketId = feeByMarket.marketId.split("-"); // BTC-AUD
       CurrencyPair cp = new CurrencyPair(splitMarketId[0], splitMarketId[1]);
       Fee fee = new Fee(feeByMarket.makerFeeRate, feeByMarket.takerFeeRate);
-      
+
       dynamicTradingFees.put(cp, fee);
     }
     return dynamicTradingFees;
