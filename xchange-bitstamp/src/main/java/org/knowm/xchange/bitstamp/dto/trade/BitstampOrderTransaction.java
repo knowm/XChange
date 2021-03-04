@@ -121,11 +121,11 @@ public class BitstampOrderTransaction {
     return bch;
   }
 
-    public BigDecimal getXlm() {
-        return xlm;
-    }
+  public BigDecimal getXlm() {
+    return xlm;
+  }
 
-    public BigDecimal getLink() {
-        return link;
-    }
+  public BigDecimal getLink() {
+    return link;
+  }
 }

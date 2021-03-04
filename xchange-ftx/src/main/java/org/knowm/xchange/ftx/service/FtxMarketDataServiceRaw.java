@@ -2,7 +2,6 @@ package org.knowm.xchange.ftx.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
@@ -25,7 +24,7 @@ public class FtxMarketDataServiceRaw extends FtxBaseService {
   }
 
   public FtxResponse<List<FtxTradeDto>> getFtxTrades(String market)
-          throws FtxException, IOException {
+      throws FtxException, IOException {
     try {
       return ftx.getTrades(market, 30);
     } catch (FtxException e) {

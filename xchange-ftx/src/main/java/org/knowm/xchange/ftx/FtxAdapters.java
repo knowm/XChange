@@ -182,19 +182,21 @@ public class FtxAdapters {
         limitOrder.getUserReference());
   }
 
-  public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos,CurrencyPair currencyPair){
+  public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
 
-    ftxTradeDtos.forEach(ftxTradeDto -> {
-      trades.add(new Trade.Builder()
-              .id(ftxTradeDto.getId())
-              .instrument(currencyPair)
-              .originalAmount(ftxTradeDto.getSize())
-              .price(ftxTradeDto.getPrice())
-              .timestamp(ftxTradeDto.getTime())
-              .type(adaptFtxOrderSideToOrderType(ftxTradeDto.getSide()))
-              .build());
-    });
+    ftxTradeDtos.forEach(
+        ftxTradeDto -> {
+          trades.add(
+              new Trade.Builder()
+                  .id(ftxTradeDto.getId())
+                  .instrument(currencyPair)
+                  .originalAmount(ftxTradeDto.getSize())
+                  .price(ftxTradeDto.getPrice())
+                  .timestamp(ftxTradeDto.getTime())
+                  .type(adaptFtxOrderSideToOrderType(ftxTradeDto.getSide()))
+                  .build());
+        });
 
     return new Trades(trades);
   }
@@ -204,24 +206,24 @@ public class FtxAdapters {
 
     ftxUserTrades.forEach(
         ftxOrderDto -> {
-          if(ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0 ){
+          if (ftxOrderDto.getFilledSize().compareTo(BigDecimal.ZERO) != 0) {
             userTrades.add(
-                    new UserTrade.Builder()
-                            .instrument(
-                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                            .currencyPair(
-                                    CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
-                            .timestamp(ftxOrderDto.getCreatedAt())
-                            .id(ftxOrderDto.getId())
-                            .orderId(ftxOrderDto.getId())
-                            .orderUserReference(ftxOrderDto.getClientId())
-                            .originalAmount(ftxOrderDto.getFilledSize())
-                            .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
-                            .price(
-                                    ftxOrderDto.getAvgFillPrice() == null
-                                            ? ftxOrderDto.getPrice()
-                                            : ftxOrderDto.getAvgFillPrice())
-                            .build());
+                new UserTrade.Builder()
+                    .instrument(
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                    .currencyPair(
+                        CurrencyPairDeserializer.getCurrencyPairFromString(ftxOrderDto.getMarket()))
+                    .timestamp(ftxOrderDto.getCreatedAt())
+                    .id(ftxOrderDto.getId())
+                    .orderId(ftxOrderDto.getId())
+                    .orderUserReference(ftxOrderDto.getClientId())
+                    .originalAmount(ftxOrderDto.getFilledSize())
+                    .type(adaptFtxOrderSideToOrderType(ftxOrderDto.getSide()))
+                    .price(
+                        ftxOrderDto.getAvgFillPrice() == null
+                            ? ftxOrderDto.getPrice()
+                            : ftxOrderDto.getAvgFillPrice())
+                    .build());
           }
         });
 
@@ -299,16 +301,17 @@ public class FtxAdapters {
 
     ftxPositionDtos.forEach(
         ftxPositionDto -> {
-          if(ftxPositionDto.getSize().compareTo(BigDecimal.ZERO) > 0){
+          if (ftxPositionDto.getSize().compareTo(BigDecimal.ZERO) > 0) {
             openPositionList.add(
-                    new OpenPosition.Builder()
-                            .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
-                            .price(ftxPositionDto.getEntryPrice())
-                            .size(ftxPositionDto.getSize())
-                            .type(ftxPositionDto.getSide() == FtxOrderSide.buy
-                                    ? OpenPosition.Type.LONG
-                                    : OpenPosition.Type.SHORT)
-                            .build());
+                new OpenPosition.Builder()
+                    .instrument(new CurrencyPair(ftxPositionDto.getFuture()))
+                    .price(ftxPositionDto.getEntryPrice())
+                    .size(ftxPositionDto.getSize())
+                    .type(
+                        ftxPositionDto.getSide() == FtxOrderSide.buy
+                            ? OpenPosition.Type.LONG
+                            : OpenPosition.Type.SHORT)
+                    .build());
           }
         });
 

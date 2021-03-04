@@ -7,10 +7,7 @@ public enum CoinmateOrderFlags implements Order.IOrderFlags {
   STOP,
   /** Flag indicating that order should be created as hidden. */
   HIDDEN,
-  /**
-   * Flag indicating that order should get maker fee only.
-   *
-   * */
+  /** Flag indicating that order should get maker fee only. */
   POST_ONLY,
   /**
    * In case the flag is set: if limit order is not fully settled immediately the remaining part of

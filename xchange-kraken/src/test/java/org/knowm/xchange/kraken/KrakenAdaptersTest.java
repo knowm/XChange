@@ -354,13 +354,13 @@ public class KrakenAdaptersTest {
   public void testAdaptFees() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
-            KrakenAdaptersTest.class.getResourceAsStream(
-                    "/org/knowm/xchange/kraken/dto/account/example-tradevolume-data-2.json");
+        KrakenAdaptersTest.class.getResourceAsStream(
+            "/org/knowm/xchange/kraken/dto/account/example-tradevolume-data-2.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenTradeVolumeResult krakenTradeVolumeResult =
-            mapper.readValue(is, KrakenTradeVolumeResult.class);
+        mapper.readValue(is, KrakenTradeVolumeResult.class);
     KrakenTradeVolume krakenTradeVolume = krakenTradeVolumeResult.getResult();
 
     Map<CurrencyPair, Fee> feeMap = KrakenAdapters.adaptFees(krakenTradeVolume);

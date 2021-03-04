@@ -13,6 +13,7 @@ import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.BittrexUtils;
 import org.knowm.xchange.bittrex.dto.batch.BatchResponse;
 import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
+import org.knowm.xchange.bittrex.dto.batch.order.neworder.TimeInForce;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
@@ -37,6 +38,10 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   }
 
   public String placeBittrexLimitOrder(LimitOrder limitOrder) throws IOException {
+    return placeBittrexLimitOrder(limitOrder, TimeInForce.GOOD_TIL_CANCELLED);
+  }
+
+  public String placeBittrexLimitOrder(LimitOrder limitOrder, TimeInForce type) throws IOException {
     BittrexNewOrder bittrexNewOrder =
         new BittrexNewOrder(
             BittrexUtils.toPairString(limitOrder.getCurrencyPair()),
@@ -47,7 +52,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
             limitOrder.getRemainingAmount().toPlainString(),
             null,
             limitOrder.getLimitPrice().toPlainString(),
-            BittrexConstants.GOOD_TIL_CANCELLED,
+            type.toString(),
             null,
             null);
     return bittrexAuthenticated
