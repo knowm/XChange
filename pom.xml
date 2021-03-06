@@ -197,6 +197,7 @@
     <module>xchange-stream-coinjar</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
+    <module>xchange-stream-ftx</module>
     <module>xchange-stream-gemini</module>
     <module>xchange-stream-gemini-v2</module>
     <module>xchange-stream-hitbtc</module>
