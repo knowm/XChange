@@ -161,4 +161,25 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       FtxLeverageDto leverage)
       throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/borrow_history")
+  FtxResponse<List<FtxBorrowingsDto>> getBorrowHistory(
+          @HeaderParam("FTX-KEY") String apiKey,
+          @HeaderParam("FTX-TS") Long nonce,
+          @HeaderParam("FTX-SIGN") ParamsDigest signature,
+          @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+          throws IOException, FtxException;
+
+  @GET
+  @Path("/funding_payments")
+  FtxResponse<List<FtxFundingPaymentsDto>> getFundingPayments(
+          @HeaderParam("FTX-KEY") String apiKey,
+          @HeaderParam("FTX-TS") Long nonce,
+          @HeaderParam("FTX-SIGN") ParamsDigest signature,
+          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+          @QueryParam("start_time") Long startTime,
+          @QueryParam("end_time") Long endTime,
+          @QueryParam("future") String future)
+          throws IOException, FtxException;
 }
