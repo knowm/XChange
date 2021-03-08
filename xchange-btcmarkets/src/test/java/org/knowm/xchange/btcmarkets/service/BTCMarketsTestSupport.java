@@ -2,12 +2,21 @@ package org.knowm.xchange.btcmarkets.service;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
@@ -15,13 +24,22 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryRes
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 
 /** Test utilities for btnmarkets tests. */
 public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
@@ -38,6 +56,8 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static final Balance EXPECTED_BALANCE =
       new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
+  protected static final Balance EXPECTED_BALANCE_V3 =
+	      new Balance(Currency.LTC, new BigDecimal("5.123"), new BigDecimal("5.123"), new BigDecimal("0.000"));
   protected static final Ticker EXPECTED_TICKER =
       new Ticker.Builder()
           .bid(new BigDecimal("137.00"))
@@ -54,7 +74,40 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
           "AUD",
           "BTC",
           new Date(1378878117000L));
+  
+  protected static final List<BTCMarketsTrade> EXCPECTED_BTC_AUD_MARKET_TRADES =
+		  
 
+		 Arrays.asList(
+			  new BTCMarketsTrade(
+				   Long.parseLong("4107372347"),
+				  new BigDecimal("0.265"),
+				  new BigDecimal("11.25"),
+				  parseISO8601Date("2019-09-02T12:49:42.874000Z"), 
+				  "Ask"	              ), 
+			  new BTCMarketsTrade(
+					  Long.parseLong("4107297908"),
+					  new BigDecimal("0.265"),
+					  new BigDecimal("250"),
+					  parseISO8601Date("2019-09-02T12:15:29.570000Z"), 
+					  "Bid"	  )            
+    	            );
+  
+  protected static final Date parseISO8601Date(String isoDate)  {
+	  
+	  SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	    // set UTC time zone
+	    iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
+	      try {
+			return iso8601Format.parse(isoDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+  }
+  
   protected static LimitOrder[] expectedAsks() {
     return new LimitOrder[] {
       new LimitOrder(
