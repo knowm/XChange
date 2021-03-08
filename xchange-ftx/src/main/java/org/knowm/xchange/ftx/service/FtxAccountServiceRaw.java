@@ -95,4 +95,33 @@ public class FtxAccountServiceRaw extends FtxBaseService {
       throw new FtxException(e.getMessage());
     }
   }
+
+  public FtxResponse<List<FtxBorrowingsDto>> getFtxBorrowHistory(String subaccount)
+          throws FtxException, IOException {
+    try {
+      return ftx.getBorrowHistory(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxFundingPaymentsDto>> getFtxFundingPayments(String subaccount, Long startTime, Long endTime, String future)
+          throws FtxException, IOException {
+    try {
+      return ftx.getFundingPayments(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount,
+              startTime,
+              endTime,
+              future);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
 }
