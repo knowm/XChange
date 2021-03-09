@@ -23,7 +23,7 @@ public class BTCMarketsMarketTradeParams implements Params {
   public String toString() {
 
     return String.format(
-        "BTCMarketsMarketTradeParams: {limt: %s, before: %s, after: %s, CurrencyPair: %s}",
+        "BTCMarketsMarketTradeParams: {limit: %s, before: %s, after: %s, CurrencyPair: %s}",
         limit, before, after, currencyPair);
   }
 }
