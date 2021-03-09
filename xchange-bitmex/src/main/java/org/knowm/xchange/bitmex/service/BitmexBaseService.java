@@ -7,12 +7,16 @@ import org.knowm.xchange.bitmex.BitmexAuthenticated;
 import org.knowm.xchange.bitmex.BitmexException;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.bitmex.RateLimitUpdateListener;
-import org.knowm.xchange.exceptions.*;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.exceptions.InternalServerException;
+import org.knowm.xchange.exceptions.RateLimitExceededException;
+import org.knowm.xchange.exceptions.SystemOverloadException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.HttpResponseAware;
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class BitmexBaseService extends BaseExchangeService<BitmexExchange> implements BaseService {
@@ -29,13 +33,11 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
    * @param exchange
    */
   public BitmexBaseService(BitmexExchange exchange) {
-
     super(exchange);
     bitmex =
-        RestProxyFactory.createProxy(
-            BitmexAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                BitmexAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
     signatureCreator =
         BitmexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -101,10 +103,22 @@ public class BitmexBaseService extends BaseExchangeService<BitmexExchange> imple
     } finally {
       if (responseAware != null && !rateLimitsUpdated) {
         Map<String, List<String>> responseHeaders = responseAware.getResponseHeaders();
-        rateLimit = Integer.valueOf(responseHeaders.get("X-RateLimit-Limit").get(0));
-        rateLimitRemaining = Integer.valueOf(responseHeaders.get("X-RateLimit-Remaining").get(0));
-        rateLimitReset = Long.valueOf(responseHeaders.get("X-RateLimit-Reset").get(0));
-        rateLimitsUpdated = true;
+
+        List<String> limitList = responseHeaders.get("x-ratelimit-limit");
+        List<String> remainingList = responseHeaders.get("x-ratelimit-remaining");
+        List<String> resetList = responseHeaders.get("x-ratelimit-reset");
+
+        if (limitList != null
+            && !limitList.isEmpty()
+            && remainingList != null
+            && !remainingList.isEmpty()
+            && resetList != null
+            && !resetList.isEmpty()) {
+          rateLimit = Integer.valueOf(limitList.get(0));
+          rateLimitRemaining = Integer.valueOf(remainingList.get(0));
+          rateLimitReset = Long.valueOf(resetList.get(0));
+          rateLimitsUpdated = true;
+        }
       }
       if (rateLimitsUpdated) {
         RateLimitUpdateListener rateLimitUpdateListener = exchange.getRateLimitUpdateListener();

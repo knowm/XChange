@@ -62,6 +62,7 @@ public final class GateioAdapters {
     // Looks like gate.io vocabulary is inverted...
     BigDecimal baseVolume = gateioTicker.getQuoteVolume();
     BigDecimal quoteVolume = gateioTicker.getBaseVolume();
+    BigDecimal percentageChange = gateioTicker.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -72,6 +73,7 @@ public final class GateioAdapters {
         .high(high)
         .volume(baseVolume)
         .quoteVolume(quoteVolume)
+        .percentageChange(percentageChange)
         .build();
   }
 
@@ -140,13 +142,14 @@ public final class GateioAdapters {
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
 
-    return new Trade(
-        orderType,
-        trade.getAmount(),
-        currencyPair,
-        trade.getPrice(),
-        timestamp,
-        trade.getTradeId());
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(trade.getAmount())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice())
+        .timestamp(timestamp)
+        .id(trade.getTradeId())
+        .build();
   }
 
   public static Trades adaptTrades(GateioTradeHistory tradeHistory, CurrencyPair currencyPair) {
@@ -186,7 +189,7 @@ public final class GateioAdapters {
       }
     }
 
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static UserTrades adaptUserTrades(List<GateioTrade> userTrades) {
@@ -205,16 +208,15 @@ public final class GateioAdapters {
     Date timestamp = DateUtils.fromMillisUtc(gateioTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
 
-    return new UserTrade(
-        orderType,
-        gateioTrade.getAmount(),
-        currencyPair,
-        gateioTrade.getRate(),
-        timestamp,
-        gateioTrade.getTradeID(),
-        gateioTrade.getOrderNumber(),
-        null,
-        (Currency) null);
+    return new UserTrade.Builder()
+        .type(orderType)
+        .originalAmount(gateioTrade.getAmount())
+        .currencyPair(currencyPair)
+        .price(gateioTrade.getRate())
+        .timestamp(timestamp)
+        .id(gateioTrade.getTradeID())
+        .orderId(gateioTrade.getOrderNumber())
+        .build();
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(

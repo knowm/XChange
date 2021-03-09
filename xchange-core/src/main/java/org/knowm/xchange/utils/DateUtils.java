@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 
 /**
@@ -59,7 +60,7 @@ public class DateUtils {
     try {
       return isoDateFormat.parse(isoFormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException("Error parsing as date", isoFormattedDate, Date.class);
+      throw new InvalidFormatException(null, "Error parsing as date", isoFormattedDate, Date.class);
     }
   }
 
@@ -80,7 +81,8 @@ public class DateUtils {
     try {
       return iso8601Format.parse(iso8601FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", iso8601FormattedDate, Date.class);
     }
   }
 
@@ -100,7 +102,8 @@ public class DateUtils {
     try {
       return rfc1123DateFormat.parse(rfc1123FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", rfc1123FormattedDate, Date.class);
     }
   }
 
@@ -119,7 +122,8 @@ public class DateUtils {
     try {
       return rfc3339DateFormat.parse(rfc3339FormattedDate);
     } catch (ParseException e) {
-      throw new InvalidFormatException("Error parsing as date", rfc3339FormattedDate, Date.class);
+      throw new InvalidFormatException(
+          null, "Error parsing as date", rfc3339FormattedDate, Date.class);
     }
   }
 
@@ -137,6 +141,11 @@ public class DateUtils {
   public static Long toUnixTimeNullSafe(Date time) {
 
     return time == null ? null : time.getTime() / 1000;
+  }
+
+  public static Optional<Long> toUnixTimeOptional(Date time) {
+
+    return Optional.ofNullable(time).map(it -> it.getTime() / 1000);
   }
 
   public static Long toMillisNullSafe(Date time) {

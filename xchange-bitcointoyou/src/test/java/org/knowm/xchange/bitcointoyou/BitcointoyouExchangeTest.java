@@ -24,7 +24,7 @@ public class BitcointoyouExchangeTest {
 
   @Before
   public void setUp() throws Exception {
-    sut = ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class.getName());
+    sut = ExchangeFactory.INSTANCE.createExchange(BitcointoyouExchange.class);
   }
 
   @Test

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
@@ -14,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
@@ -345,18 +345,18 @@ public class CoinbaseProAdaptersTest {
 
     InputStream is =
         new SequenceInputStream(
-            IOUtils.toInputStream("[", StandardCharsets.UTF_8),
+            new ByteArrayInputStream("[".getBytes(StandardCharsets.UTF_8)),
             new SequenceInputStream(
                 getClass()
                     .getResourceAsStream(
                         "/org/knowm/xchange/coinbasepro/dto/order/example-limit-order-pending.json"),
                 new SequenceInputStream(
-                    IOUtils.toInputStream(", ", StandardCharsets.UTF_8),
+                    new ByteArrayInputStream(", ".getBytes(StandardCharsets.UTF_8)),
                     new SequenceInputStream(
                         getClass()
                             .getResourceAsStream(
                                 "/org/knowm/xchange/coinbasepro/dto/order/example-stop-order-filled.json"),
-                        IOUtils.toInputStream("]", StandardCharsets.UTF_8)))));
+                        new ByteArrayInputStream("]".getBytes(StandardCharsets.UTF_8))))));
 
     final CoinbaseProOrder[] coinbaseProOrders = mapper.readValue(is, CoinbaseProOrder[].class);
 

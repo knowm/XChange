@@ -17,7 +17,7 @@ public class OERMarketDataServiceTest {
 
   @Test
   public void testTakesCorrectValueFromOERRates() throws IOException {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(OERExchange.class);
 
     OERMarketDataService marketDataService =
         new OERMarketDataService(exchange) {

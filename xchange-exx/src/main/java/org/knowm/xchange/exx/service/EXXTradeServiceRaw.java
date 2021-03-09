@@ -4,31 +4,27 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.exx.EXXAuthenticated;
 import org.knowm.xchange.exx.dto.trade.EXXCancelOrder;
 import org.knowm.xchange.exx.dto.trade.EXXOrder;
 import org.knowm.xchange.exx.dto.trade.EXXPlaceOrder;
 import org.knowm.xchange.exx.utils.CommonUtil;
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EXXTradeServiceRaw extends EXXBaseService {
   private final EXXAuthenticated exxAuthenticated;
-  private String apiKey;
-  private String secretKey;
-  private SynchronizedValueFactory<Long> nonceFactory;
+  private final String apiKey;
+  private final String secretKey;
 
   public EXXTradeServiceRaw(Exchange exchange) {
     super(exchange);
     this.exxAuthenticated =
-        RestProxyFactory.createProxy(
-            EXXAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
+        ExchangeRestProxyBuilder.forInterface(
+                EXXAuthenticated.class, exchange.getExchangeSpecification())
+            .build();
 
     this.apiKey = super.apiKey;
     this.secretKey = super.secretKey;
-    this.nonceFactory = exchange.getNonceFactory();
   }
 
   /**

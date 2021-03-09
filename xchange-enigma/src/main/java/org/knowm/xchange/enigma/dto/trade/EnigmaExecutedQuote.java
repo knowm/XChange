@@ -2,14 +2,13 @@ package org.knowm.xchange.enigma.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.knowm.xchange.enigma.dto.BaseResponse;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Setter

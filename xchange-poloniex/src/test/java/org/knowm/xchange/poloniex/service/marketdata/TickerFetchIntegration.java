@@ -16,7 +16,7 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class);
     exchange.remoteInit();
     MarketDataService marketDataService = exchange.getMarketDataService();
     CurrencyPair currencyPair =

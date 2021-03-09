@@ -1,11 +1,8 @@
 package org.knowm.xchange.binance;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -15,31 +12,40 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
+import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.AuthUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BinanceExchange.class);
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   private BinanceExchangeInfo exchangeInfo;
-  private Long deltaServerTimeExpire;
-  private Long deltaServerTime;
+  private BinanceAuthenticated binance;
+  private SynchronizedValueFactory<Long> timestampFactory;
 
   @Override
   protected void initServices() {
+    this.binance =
+        ExchangeRestProxyBuilder.forInterface(
+                BinanceAuthenticated.class, getExchangeSpecification())
+            .build();
+    this.timestampFactory =
+        new BinanceTimestampFactory(
+            binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
+    this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
+    this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
+    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+  }
 
-    this.marketDataService = new BinanceMarketDataService(this);
-    this.tradeService = new BinanceTradeService(this);
-    this.accountService = new BinanceAccountService(this);
+  public SynchronizedValueFactory<Long> getTimestampFactory() {
+    return timestampFactory;
   }
 
   @Override
@@ -48,10 +54,22 @@ public class BinanceExchange extends BaseExchange {
         "Binance uses timestamp/recvwindow rather than a nonce");
   }
 
+  public static void resetResilienceRegistries() {
+    RESILIENCE_REGISTRIES = null;
+  }
+
+  @Override
+  public ResilienceRegistries getResilienceRegistries() {
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = BinanceResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
+  }
+
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification spec = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification spec = new ExchangeSpecification(this.getClass());
     spec.setSslUri("https://api.binance.com");
     spec.setHost("www.binance.com");
     spec.setPort(80);
@@ -81,8 +99,12 @@ public class BinanceExchange extends BaseExchange {
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = accountService.getAssetDetails();
+      // Clear all hardcoded currencies when loading dynamically from exchange.
+      if (assetDetailMap != null) {
+        currencies.clear();
+      }
       for (Symbol symbol : symbols) {
-        if (!symbol.getStatus().equals("BREAK")) { // Symbols with status "BREAK" are delisted
+        if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
           int counterPrecision = Integer.parseInt(symbol.getQuotePrecision());
           int pairPrecision = 8;
@@ -92,6 +114,9 @@ public class BinanceExchange extends BaseExchange {
           BigDecimal maxQty = null;
           BigDecimal stepSize = null;
 
+          BigDecimal counterMinQty = null;
+          BigDecimal counterMaxQty = null;
+
           Filter[] filters = symbol.getFilters();
 
           CurrencyPair currentCurrencyPair =
@@ -100,36 +125,46 @@ public class BinanceExchange extends BaseExchange {
           for (Filter filter : filters) {
             if (filter.getFilterType().equals("PRICE_FILTER")) {
               pairPrecision = Math.min(pairPrecision, numberOfDecimals(filter.getTickSize()));
+              counterMaxQty = new BigDecimal(filter.getMaxPrice()).stripTrailingZeros();
             } else if (filter.getFilterType().equals("LOT_SIZE")) {
-              amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getMinQty()));
+              amountPrecision = Math.min(amountPrecision, numberOfDecimals(filter.getStepSize()));
               minQty = new BigDecimal(filter.getMinQty()).stripTrailingZeros();
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
+            } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
+              counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
             }
           }
 
+          boolean marketOrderAllowed = Arrays.asList(symbol.getOrderTypes()).contains("MARKET");
           currencyPairs.put(
               currentCurrencyPair,
               new CurrencyPairMetaData(
                   new BigDecimal("0.1"), // Trading fee at Binance is 0.1 %
                   minQty, // Min amount
                   maxQty, // Max amount
+                  counterMinQty,
+                  counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
+                  null,
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,
-                  null));
+                  null,
+                  marketOrderAllowed));
 
           Currency baseCurrency = currentCurrencyPair.base;
-          BigDecimal baseWithdrawalFee = getWithdrawalFee(currencies, baseCurrency, assetDetailMap);
-          currencies.put(baseCurrency, new CurrencyMetaData(basePrecision, baseWithdrawalFee));
+          CurrencyMetaData baseCurrencyMetaData =
+              BinanceAdapters.adaptCurrencyMetaData(
+                  currencies, baseCurrency, assetDetailMap, basePrecision);
+          currencies.put(baseCurrency, baseCurrencyMetaData);
 
           Currency counterCurrency = currentCurrencyPair.counter;
-          BigDecimal counterWithdrawalFee =
-              getWithdrawalFee(currencies, counterCurrency, assetDetailMap);
-          currencies.put(
-              counterCurrency, new CurrencyMetaData(counterPrecision, counterWithdrawalFee));
+          CurrencyMetaData counterCurrencyMetaData =
+              BinanceAdapters.adaptCurrencyMetaData(
+                  currencies, counterCurrency, assetDetailMap, counterPrecision);
+          currencies.put(counterCurrency, counterCurrencyMetaData);
         }
       }
     } catch (Exception e) {
@@ -137,52 +172,8 @@ public class BinanceExchange extends BaseExchange {
     }
   }
 
-  private BigDecimal getWithdrawalFee(
-      Map<Currency, CurrencyMetaData> currencies,
-      Currency currency,
-      Map<String, AssetDetail> assetDetailMap) {
-    if (assetDetailMap != null) {
-      AssetDetail asset = assetDetailMap.get(currency.getCurrencyCode());
-      return asset != null ? asset.getWithdrawFee().stripTrailingZeros() : null;
-    }
-
-    return currencies.containsKey(currency) ? currencies.get(currency).getWithdrawalFee() : null;
-  }
-
   private int numberOfDecimals(String value) {
 
     return new BigDecimal(value).stripTrailingZeros().scale();
-  }
-
-  public void clearDeltaServerTime() {
-
-    deltaServerTime = null;
-  }
-
-  public long deltaServerTime() throws IOException {
-
-    if (deltaServerTime == null || deltaServerTimeExpire <= System.currentTimeMillis()) {
-
-      // Do a little warm up
-      Binance binance =
-          RestProxyFactory.createProxy(Binance.class, getExchangeSpecification().getSslUri());
-      Date serverTime = new Date(binance.time().getServerTime().getTime());
-
-      // Assume that we are closer to the server time when we get the repose
-      Date systemTime = new Date(System.currentTimeMillis());
-
-      // Expire every 10min
-      deltaServerTimeExpire = systemTime.getTime() + TimeUnit.MINUTES.toMillis(10);
-      deltaServerTime = serverTime.getTime() - systemTime.getTime();
-
-      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-      LOG.trace(
-          "deltaServerTime: {} - {} => {}",
-          df.format(serverTime),
-          df.format(systemTime),
-          deltaServerTime);
-    }
-
-    return deltaServerTime;
   }
 }

@@ -11,7 +11,7 @@ public class BaseKunaTest {
 
   @BeforeClass
   public static void beforeClass() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(KunaExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(KunaExchange.class);
   }
 
   protected static Exchange getExchange() {

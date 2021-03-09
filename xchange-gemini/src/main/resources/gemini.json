@@ -2,32 +2,191 @@
   "currency_pairs": {
     "BTC/USD": {
       "price_scale": 2,
-      "min_amount": 0.00001,
-      "trading_fee": 0.01
+      "min_amount": 0.00001
     },
-    "ETH/USD": {
+    "BTC/EUR": {
       "price_scale": 2,
-      "min_amount": 0.001,
-      "trading_fee": 0.01
+      "min_amount": 0.00001
+    },
+    "BTC/GBP": {
+      "price_scale": 2,
+      "min_amount": 0.00001
     },
     "ETH/BTC": {
       "price_scale": 5,
-      "min_amount": 0.001,
-      "trading_fee": 0.01
+      "min_amount": 0.001
+    },
+    "ETH/USD": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "ETH/EUR": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "ETH/GBP": {
+      "price_scale": 2,
+      "min_amount": 0.001
     },
     "ZEC/USD": {
       "price_scale": 2,
       "min_amount": 0.001
     },
-    "BTC/ZEC": {
+    "ZEC/BTC": {
       "price_scale": 5,
-      "min_amount": 0.001,
-      "trading_fee": 0.01
+      "min_amount": 0.001
     },
-    "ETH/ZEC": {
+    "ZEC/ETH": {
       "price_scale": 4,
-      "min_amount": 0.001,
-      "trading_fee": 0.01
+      "min_amount": 0.001
+    },
+    "ZEC/BCH": {
+      "price_scale": 4,
+      "min_amount": 0.001
+    },
+    "ZEC/LTC": {
+      "price_scale": 3,
+      "min_amount": 0.001
+    },
+    "BCH/USD": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "BCH/BTC": {
+      "price_scale": 5,
+      "min_amount": 0.001
+    },
+    "BCH/ETH": {
+      "price_scale": 5,
+      "min_amount": 0.001
+    },
+    "LTC/USD": {
+      "price_scale": 2,
+      "min_amount": 0.01
+    },
+    "LTC/BTC": {
+      "price_scale": 5,
+      "min_amount": 0.01
+    },
+    "LTC/ETH": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "LTC/BCH": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "BAT/USD": {
+      "price_scale": 5,
+      "min_amount": 1.00
+    },
+    "DAI/USD": {
+      "price_scale": 5,
+      "min_amount": 0.1
+    },
+    "LINK/USD": {
+      "price_scale": 5,
+      "min_amount": 0.1
+    },
+    "OXT/USD": {
+      "price_scale": 5,
+      "min_amount": 1.00
+    },
+    "BAT/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.00
+    },
+    "LINK/BTC": {
+      "price_scale": 8,
+      "min_amount": 0.1
+    },
+    "OXT/BTC": {
+      "price_scale": 8,
+      "min_amount": 1.00
+    },
+    "BAT/ETH": {
+      "price_scale": 7,
+      "min_amount": 1.00
+    },
+    "OXT/ETH": {
+      "price_scale": 7,
+      "min_amount": 1.00
+    },
+    "AMP/USD": {
+      "price_scale": 5,
+      "min_amount": 10.0
+    },
+    "COMP/USD": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "PAXG/USD": {
+      "price_scale": 2,
+      "min_amount": 0.0001
+    },
+    "MKR/USD": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "ZRX/USD": {
+      "price_scale": 5,
+      "min_amount": 0.10
+    },
+    "KNC/USD": {
+      "price_scale": 5,
+      "min_amount": 0.10
+    },
+    "MANA/USD": {
+      "price_scale": 5,
+      "min_amount": 1.00
+    },
+    "STORJ/USD": {
+      "price_scale": 5,
+      "min_amount": 0.10
+    },
+    "SNX/USD": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "CRV/USD": {
+      "price_scale": 4,
+      "min_amount": 0.10
+    },
+    "BAL/USD": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "UNI/USD": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "REN/USD": {
+      "price_scale": 5,
+      "min_amount": 0.01
+    },
+    "UMA/USD": {
+      "price_scale": 4,
+      "min_amount": 0.01
+    },
+    "YFI/USD": {
+      "price_scale": 2,
+      "min_amount": 0.00001
+    },
+    "BTC/DAI": {
+      "price_scale": 2,
+      "min_amount": 0.00001
+    },
+    "ETH/DAI": {
+      "price_scale": 2,
+      "min_amount": 0.001
+    },
+    "AAVE/USD": {
+      "price_scale": 4,
+      "min_amount": 0.001
+    },
+    "FIL/USD": {
+      "price_scale": 4,
+      "min_amount": 0.1
     }
   },
   "currencies": {
@@ -37,10 +196,82 @@
     "USD": {
       "scale": 2
     },
+    "EUR": {
+      "scale": 2
+    },
+    "GBP": {
+      "scale": 2
+    },
     "ETH": {
       "scale": 6
     },
     "ZEC": {
+      "scale": 6
+    },
+    "BCH": {
+      "scale": 6
+    },
+    "LTC": {
+      "scale": 5
+    },
+    "DAI": {
+      "scale": 6
+    },
+    "BAT": {
+      "scale": 6
+    },
+    "OXT": {
+      "scale": 6
+    },
+    "AMP": {
+      "scale": 6
+    },
+    "LINK": {
+      "scale": 6
+    },
+    "COMP": {
+      "scale": 3
+    },
+    "PAXG": {
+      "scale": 8
+    },
+    "MKR": {
+      "scale": 6
+    },
+    "ZRX": {
+      "scale": 6
+    },
+    "KNC": {
+      "scale": 6
+    },
+    "MANA": {
+      "scale": 6
+    },
+    "STORJ": {
+      "scale": 6
+    },
+    "CRV": {
+      "scale": 6
+    },
+    "BAL": {
+      "scale": 6
+    },
+    "UNI": {
+      "scale": 6
+    },
+    "REN": {
+      "scale": 6
+    },
+    "UMA": {
+      "scale": 6
+    },
+    "YFI": {
+      "scale": 8
+    },
+    "AAVE": {
+      "scale": 6
+    },
+    "FIL": {
       "scale": 6
     }
   }

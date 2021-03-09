@@ -20,6 +20,9 @@ public class HuobiOrder {
   private final String state;
   private final String symbol;
   private final String type;
+  private final String clOrdId;
+  private final BigDecimal stopPrice;
+  private final String operator;
 
   public HuobiOrder(
       @JsonProperty("account-id") long accountID,
@@ -35,21 +38,27 @@ public class HuobiOrder {
       @JsonProperty("source") String source,
       @JsonProperty("state") String state,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("type") String type) {
+      @JsonProperty("type") String type,
+      @JsonProperty("client-order-id") String clOrdId,
+      @JsonProperty("stop-price") BigDecimal stopPrice,
+      @JsonProperty("operator") String operator) {
     this.accountID = accountID;
     this.amount = amount;
-    this.canceledAt = canceledAt;
+    this.canceledAt = canceledAt != null && canceledAt.getTime() != 0 ? canceledAt : null;
     this.createdAt = createdAt;
     this.fieldAmount = fieldAmount;
     this.fieldCashAmount = fieldCashAmount;
     this.fieldFees = fieldFees;
-    this.finishedAt = finishedAt;
+    this.finishedAt = finishedAt != null && finishedAt.getTime() != 0 ? finishedAt : null;
     this.id = id;
     this.price = price;
     this.source = source;
     this.state = state;
     this.symbol = symbol;
     this.type = type;
+    this.clOrdId = clOrdId;
+    this.stopPrice = stopPrice;
+    this.operator = operator;
   }
 
   public long getAccountID() {
@@ -108,11 +117,73 @@ public class HuobiOrder {
     return type;
   }
 
-  public boolean isLimit() {
-    return getType().equals("buy-limit") || getType().equals("sell-limit");
+  public String getClOrdId() {
+    return clOrdId;
+  }
+
+  public BigDecimal getStopPrice() {
+    return stopPrice;
+  }
+
+  public String getOperator() {
+    return operator;
+  }
+
+  public boolean isLimit() { // startswith to support -fok and -ioc
+    return getType().startsWith("buy-limit") || getType().startsWith("sell-limit");
   }
 
   public boolean isMarket() {
     return getType().equals("buy-market") || getType().equals("sell-market");
+  }
+
+  public boolean isStop() {
+    return getType().startsWith("buy-stop") || getType().startsWith("sell-stop");
+  }
+
+  @Override
+  public String toString() {
+    return "HuobiOrder{"
+        + "accountID="
+        + accountID
+        + ", amount="
+        + amount
+        + ", canceledAt="
+        + canceledAt
+        + ", createdAt="
+        + createdAt
+        + ", fieldAmount="
+        + fieldAmount
+        + ", fieldCashAmount="
+        + fieldCashAmount
+        + ", fieldFees="
+        + fieldFees
+        + ", finishedAt="
+        + finishedAt
+        + ", id="
+        + id
+        + ", price="
+        + price
+        + ", source='"
+        + source
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", clOrdId='"
+        + clOrdId
+        + '\''
+        + ", stopPrice="
+        + stopPrice
+        + ", operator='"
+        + operator
+        + '\''
+        + '}';
   }
 }

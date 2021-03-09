@@ -3,11 +3,7 @@ package org.knowm.xchange.bitcoinde;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import org.knowm.xchange.bitcoinde.dto.account.BitcoindeAccountWrapper;
 import org.knowm.xchange.bitcoinde.dto.account.BitcoindeBalance;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrder;
@@ -102,7 +98,7 @@ public final class BitcoindeAdapters {
     Balance ethBalance = new Balance(Currency.ETH, eth.getAvailableAmount());
     Balance eurBalance = new Balance(Currency.EUR, eur);
 
-    Wallet wallet = new Wallet(btcBalance, ethBalance, eurBalance);
+    Wallet wallet = Wallet.Builder.from(Arrays.asList(btcBalance, ethBalance, eurBalance)).build();
 
     return new AccountInfo(wallet);
   }
@@ -153,13 +149,13 @@ public final class BitcoindeAdapters {
         lastTradeId = tid;
       }
       trades.add(
-          new Trade(
-              null,
-              bitcoindeTrade.getAmount(),
-              currencyPair,
-              bitcoindeTrade.getPrice(),
-              DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L),
-              String.valueOf(tid)));
+          new Trade.Builder()
+              .originalAmount(bitcoindeTrade.getAmount())
+              .currencyPair(currencyPair)
+              .price(bitcoindeTrade.getPrice())
+              .timestamp(DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L))
+              .id(String.valueOf(tid))
+              .build());
     }
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }

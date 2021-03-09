@@ -18,7 +18,7 @@ public class HuobiPublicApiIntegration {
 
   @Before
   public void setup() {
-    exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class);
   }
 
   @Test
@@ -29,6 +29,19 @@ public class HuobiPublicApiIntegration {
     assertThat(ticker).isNotNull();
     assertThat(ticker.getBid()).isGreaterThan(BigDecimal.ZERO);
     assertThat(ticker.getAsk()).isGreaterThan(BigDecimal.ZERO);
+  }
+
+  @Test
+  public void getAllTickerTest() throws Exception {
+    MarketDataService marketDataService = exchange.getMarketDataService();
+    List<Ticker> tickers = marketDataService.getTickers(null);
+
+    assertThat(tickers).isNotNull();
+
+    assertThat(tickers.get(0).getBid()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAsk()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getBidSize()).isGreaterThan(BigDecimal.ZERO);
+    assertThat(tickers.get(0).getAskSize()).isGreaterThan(BigDecimal.ZERO);
   }
 
   @Test

@@ -74,7 +74,8 @@ public final class BitstampAdapters {
               ZERO);
       balances.add(xchangeBalance);
     }
-    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(balances));
+    return new AccountInfo(
+        userName, bitstampBalance.getFee(), Wallet.Builder.from(balances).build());
   }
 
   /**
@@ -157,7 +158,14 @@ public final class BitstampAdapters {
         DateUtils.fromMillisUtc(
             tx.getDate()
                 * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(tx.getAmount())
+        .currencyPair(currencyPair)
+        .price(tx.getPrice())
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   /**
@@ -224,16 +232,17 @@ public final class BitstampAdapters {
       final CurrencyPair pair =
           new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              t.getBaseAmount().abs(),
-              pair,
-              t.getPrice().abs(),
-              t.getDatetime(),
-              Long.toString(tradeId),
-              Long.toString(t.getOrderId()),
-              t.getFee(),
-              Currency.getInstance(t.getFeeCurrency().toUpperCase()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(t.getBaseAmount().abs())
+              .currencyPair(pair)
+              .price(t.getPrice().abs())
+              .timestamp(t.getDatetime())
+              .id(Long.toString(tradeId))
+              .orderId(Long.toString(t.getOrderId()))
+              .feeAmount(t.getFee())
+              .feeCurrency(Currency.getInstance(t.getFeeCurrency().toUpperCase()))
+              .build();
       trades.add(trade);
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
@@ -254,10 +263,24 @@ public final class BitstampAdapters {
       List<BitstampUserTransaction> userTransactions) {
     List<FundingRecord> fundingRecords = new ArrayList<>();
     for (BitstampUserTransaction trans : userTransactions) {
-      if (trans.isDeposit() || trans.isWithdrawal()) {
-        FundingRecord.Type type =
-            trans.isDeposit() ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
+      if (trans.isDeposit() || trans.isWithdrawal() || trans.isSubAccountTransfer()) {
+
         Map.Entry<String, BigDecimal> amount = BitstampAdapters.findNonzeroAmount(trans);
+
+        FundingRecord.Type type = FundingRecord.Type.DEPOSIT;
+
+        if (trans.isWithdrawal()) {
+          type = FundingRecord.Type.WITHDRAWAL;
+        } else {
+          if (trans.isSubAccountTransfer()) {
+            if (amount.getValue().compareTo(BigDecimal.ZERO) > 0) {
+              type = FundingRecord.Type.INTERNAL_DEPOSIT;
+            } else {
+              type = FundingRecord.Type.INTERNAL_WITHDRAWAL;
+            }
+          }
+        }
+
         FundingRecord record =
             new FundingRecord(
                 null,
@@ -310,7 +333,23 @@ public final class BitstampAdapters {
 
     if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
 
-    if (transaction.getBch() != null && transaction.getBtc() != null) return CurrencyPair.BCH_BTC;
+    // XLM
+    if (transaction.getXlm() != null && transaction.getBtc() != null) return CurrencyPair.XLM_BTC;
+
+    if (transaction.getXlm() != null && transaction.getUsd() != null) return CurrencyPair.XLM_USD;
+
+    if (transaction.getXlm() != null && transaction.getEur() != null) return CurrencyPair.XLM_EUR;
+
+    if (transaction.getXlm() != null && transaction.getEth() != null) return CurrencyPair.XLM_ETH;
+
+    // LINK
+    if (transaction.getLink() != null && transaction.getBtc() != null) return CurrencyPair.LINK_BTC;
+
+    if (transaction.getLink() != null && transaction.getUsd() != null) return CurrencyPair.LINK_USD;
+
+    if (transaction.getLink() != null && transaction.getEur() != null) return CurrencyPair.LINK_EUR;
+
+    if (transaction.getLink() != null && transaction.getEth() != null) return CurrencyPair.LINK_ETH;
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -329,6 +368,10 @@ public final class BitstampAdapters {
     if (currencyPair.base.equals(Currency.ETH)) return bitstampTransaction.getEth();
 
     if (currencyPair.base.equals(Currency.XRP)) return bitstampTransaction.getXrp();
+
+    if (currencyPair.base.equals(Currency.XLM)) return bitstampTransaction.getXlm();
+
+    if (currencyPair.base.equals(Currency.LINK)) return bitstampTransaction.getLink();
 
     throw new NotYetImplementedForExchangeException();
   }

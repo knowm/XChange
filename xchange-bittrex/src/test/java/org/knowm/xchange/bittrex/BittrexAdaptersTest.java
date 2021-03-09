@@ -1,327 +1,210 @@
 package org.knowm.xchange.bittrex;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
-import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.dto.trade.BittrexOpenOrder;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexLevel;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 public class BittrexAdaptersTest {
 
-  private static final BigDecimal QUANTITY = new BigDecimal("100.32");
-  private static final BigDecimal LIMIT_PRICE = new BigDecimal("200");
-  private static final BigDecimal AVERAGE_PRICE = new BigDecimal("2");
-  private static final BigDecimal FEE = new BigDecimal("1");
-  private static final String ORDER_UUID = "ORDER-UUID";
-
   @Test
-  public void testAdaptBittrexOrderIsNew() {
+  public void testAdaptOrders() {
+    BittrexLevel ask1 = new BittrexLevel(new BigDecimal("10"), new BigDecimal("1"));
+    BittrexLevel ask2 = new BittrexLevel(new BigDecimal("11"), new BigDecimal("2"));
+    BittrexLevel ask3 = new BittrexLevel(new BigDecimal("12"), new BigDecimal("3"));
 
-    BittrexOrder order =
-        new BittrexOrder(
-            null,
-            ORDER_UUID,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            QUANTITY,
-            LIMIT_PRICE,
-            null,
-            null,
-            null,
-            null,
-            FEE,
-            null,
-            AVERAGE_PRICE,
-            null,
-            null,
-            true,
-            null,
-            false,
-            null,
-            null,
-            null,
-            null);
+    BittrexLevel bid1 = new BittrexLevel(new BigDecimal("9"), new BigDecimal("4"));
+    BittrexLevel bid2 = new BittrexLevel(new BigDecimal("8"), new BigDecimal("5"));
+    BittrexLevel bid3 = new BittrexLevel(new BigDecimal("7"), new BigDecimal("6"));
 
-    LimitOrder adaptedOrder = BittrexAdapters.adaptOrder(order);
+    BittrexLevel[] asks = {ask1, ask2, ask3};
+    BittrexLevel[] bids = {bid1, bid2, bid3};
+    CurrencyPair currencyPair = CurrencyPair.ETH_BTC;
+    Order.OrderType askType = Order.OrderType.ASK;
+    Order.OrderType bidType = Order.OrderType.BID;
+    int depth = 2;
 
-    assertEquals(ORDER_UUID, adaptedOrder.getId());
-    assertEquals(CurrencyPair.ETH_USDT, adaptedOrder.getCurrencyPair());
-    assertEquals(OrderType.ASK, adaptedOrder.getType());
-    assertEquals(QUANTITY, adaptedOrder.getOriginalAmount());
-    assertEquals(BigDecimal.ZERO, adaptedOrder.getCumulativeAmount().stripTrailingZeros());
-    assertEquals(LIMIT_PRICE, adaptedOrder.getLimitPrice());
-    assertEquals(FEE, adaptedOrder.getFee());
-    assertEquals(AVERAGE_PRICE, adaptedOrder.getAveragePrice());
-    assertEquals(Order.OrderStatus.NEW, adaptedOrder.getStatus());
+    List<LimitOrder> expectedAsks =
+        Arrays.asList(
+            new LimitOrder(askType, ask1.getAmount(), currencyPair, null, null, ask1.getPrice()),
+            new LimitOrder(askType, ask2.getAmount(), currencyPair, null, null, ask2.getPrice()));
+
+    List<LimitOrder> expectedBids =
+        Arrays.asList(
+            new LimitOrder(bidType, bid1.getAmount(), currencyPair, null, null, bid1.getPrice()),
+            new LimitOrder(bidType, bid2.getAmount(), currencyPair, null, null, bid2.getPrice()));
+
+    List<LimitOrder> adaptedAsks = BittrexAdapters.adaptOrders(asks, currencyPair, askType, depth);
+    List<LimitOrder> adaptedBids = BittrexAdapters.adaptOrders(bids, currencyPair, bidType, depth);
+
+    Assert.assertEquals(expectedAsks, adaptedAsks);
+    Assert.assertEquals(expectedBids, adaptedBids);
   }
 
   @Test
-  public void testAdaptBittrexOpenOrderIsNew() {
-
-    BittrexOpenOrder order =
-        new BittrexOpenOrder(
-            null,
-            ORDER_UUID,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            QUANTITY,
-            LIMIT_PRICE,
-            FEE,
-            null,
-            AVERAGE_PRICE,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null,
-            null);
-
-    LimitOrder adaptedOrder = BittrexAdapters.adaptOrder(order);
-
-    assertEquals(ORDER_UUID, adaptedOrder.getId());
-    assertEquals(CurrencyPair.ETH_USDT, adaptedOrder.getCurrencyPair());
-    assertEquals(OrderType.ASK, adaptedOrder.getType());
-    assertEquals(QUANTITY, adaptedOrder.getOriginalAmount());
-    assertEquals(BigDecimal.ZERO, adaptedOrder.getCumulativeAmount().stripTrailingZeros());
-    assertEquals(LIMIT_PRICE, adaptedOrder.getLimitPrice());
-    assertEquals(FEE, adaptedOrder.getFee());
-    assertEquals(AVERAGE_PRICE, adaptedOrder.getAveragePrice());
-    assertEquals(Order.OrderStatus.NEW, adaptedOrder.getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOrderIsPartiallyFilled() {
-
-    BittrexOrder order =
+  public void testAdaptOrderStatus() {
+    BittrexOrder orderPartiallyFilled =
         new BittrexOrder(
             null,
             null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            new BigDecimal("100.00"),
+            null,
+            null,
+            new BigDecimal("10"),
             null,
             null,
             null,
             null,
+            new BigDecimal("5"),
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            true,
-            null,
-            false,
             null,
             null,
             null,
             null);
-
-    assertEquals(Order.OrderStatus.PARTIALLY_FILLED, BittrexAdapters.adaptOrder(order).getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOpenOrderIsPartiallyFilled() {
-
-    BittrexOpenOrder order =
-        new BittrexOpenOrder(
-            null,
-            null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            new BigDecimal("100.31"),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null,
-            null);
-
-    assertEquals(Order.OrderStatus.PARTIALLY_FILLED, BittrexAdapters.adaptOrder(order).getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOrderIsCancelPending() {
-
-    BittrexOrder order =
+    BittrexOrder orderFilled =
         new BittrexOrder(
             null,
             null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            new BigDecimal("100.00"),
+            null,
+            null,
+            new BigDecimal("10"),
             null,
             null,
             null,
             null,
+            new BigDecimal("10"),
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            true,
-            null,
-            true,
             null,
             null,
             null,
             null);
-
-    assertEquals(Order.OrderStatus.PENDING_CANCEL, BittrexAdapters.adaptOrder(order).getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOpenOrderIsCanceledPending() {
-
-    BittrexOpenOrder order =
-        new BittrexOpenOrder(
-            null,
-            null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            QUANTITY,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            true,
-            null,
-            null,
-            null,
-            null);
-
-    assertEquals(Order.OrderStatus.PENDING_CANCEL, BittrexAdapters.adaptOrder(order).getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOrderIsCanceled() {
-
-    BittrexOrder order =
+    BittrexOrder orderNew =
         new BittrexOrder(
             null,
             null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            new BigDecimal("100.00"),
+            null,
+            null,
+            new BigDecimal("10"),
             null,
             null,
             null,
             null,
+            new BigDecimal("0"),
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            false,
-            null,
-            true,
             null,
             null,
             null,
             null);
-
-    assertEquals(Order.OrderStatus.CANCELED, BittrexAdapters.adaptOrder(order).getStatus());
-  }
-
-  @Test
-  public void testAdaptBittrexOrderIsFilled() {
-
-    BittrexOrder order =
+    BittrexOrder orderUnknown =
         new BittrexOrder(
-            null,
-            null,
-            "USDT-ETH",
-            "LIMIT_SELL",
-            QUANTITY,
-            new BigDecimal("0E-8"),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            false,
-            null,
-            false,
-            null,
-            null,
-            null,
-            null);
-
-    assertEquals(Order.OrderStatus.FILLED, BittrexAdapters.adaptOrder(order).getStatus());
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null);
+    Assert.assertEquals(
+        Order.OrderStatus.PARTIALLY_FILLED, BittrexAdapters.adaptOrderStatus(orderPartiallyFilled));
+    Assert.assertEquals(Order.OrderStatus.FILLED, BittrexAdapters.adaptOrderStatus(orderFilled));
+    Assert.assertEquals(Order.OrderStatus.NEW, BittrexAdapters.adaptOrderStatus(orderNew));
+    Assert.assertEquals(Order.OrderStatus.UNKNOWN, BittrexAdapters.adaptOrderStatus(orderUnknown));
   }
 
   @Test
-  public void testAdaptLimitOrder() throws IOException {
+  public void testAdaptTrades() {
+    CurrencyPair pair = CurrencyPair.ETH_BTC;
 
-    // Read in the JSON from the example resources
-    InputStream is =
-        BittrexAdaptersTest.class.getResourceAsStream(
-            "/org/knowm/xchange/bittrex/dto/trade/order/example-limit-buy-order.json");
+    BittrexTrade trade1 = new BittrexTrade();
+    trade1.setExecutedAt(new Date());
+    trade1.setId("123");
+    trade1.setQuantity(new BigDecimal("1"));
+    trade1.setRate(new BigDecimal("2"));
+    trade1.setTakerSide(BittrexConstants.BUY);
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    JavaType responseType =
-        mapper
-            .getTypeFactory()
-            .constructParametricType(BittrexBaseResponse.class, BittrexOrder.class);
-    BittrexBaseResponse<BittrexOrder> bittrexOrderResponse = mapper.readValue(is, responseType);
+    BittrexTrade trade2 = new BittrexTrade();
+    trade2.setExecutedAt(new Date());
+    trade2.setId("456");
+    trade2.setQuantity(new BigDecimal("3"));
+    trade2.setRate(new BigDecimal("4"));
+    trade2.setTakerSide(BittrexConstants.SELL);
 
-    Order order = BittrexAdapters.adaptOrder(bittrexOrderResponse.getResult());
+    Trade adaptedTrade1 = BittrexAdapters.adaptTrade(trade1, pair);
+    Trade adaptedTrade2 = BittrexAdapters.adaptTrade(trade2, pair);
 
-    assertThat(order.getId()).isEqualTo("0cb4c4e4-bdc7-4e13-8c13-430e587d2cc1");
-    assertThat(order.getAveragePrice()).isNull();
-    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0.00000000"));
-    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
-    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.NEW);
-    assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
+    List<BittrexTrade> bittrexTradesList = Arrays.asList(trade1, trade2);
+    List<Trade> tradesList = Arrays.asList(adaptedTrade1, adaptedTrade2);
+
+    Trades adaptedTrades = BittrexAdapters.adaptTrades(bittrexTradesList, pair);
+    Trades trades =
+        new Trades(
+            tradesList,
+            Math.max(Long.parseLong(trade1.getId()), Long.parseLong(trade2.getId())),
+            Trades.TradeSortType.SortByTimestamp);
+    Assert.assertEquals(trades.getNextPageCursor(), adaptedTrades.getNextPageCursor());
+    Assert.assertEquals(trades.getTrades(), adaptedTrades.getTrades());
+    Assert.assertEquals(trades.getTradeSortType(), adaptedTrades.getTradeSortType());
   }
 
   @Test
-  public void testCalculateFrozenBalance() {
-    BittrexBalance balance = new BittrexBalance(null, null, null, null, null, false, null);
-    Assert.assertEquals(BigDecimal.ZERO, BittrexAdapters.calculateFrozenBalance(balance));
+  public void testAdaptUserTrades() {
+    CurrencyPair pair = CurrencyPair.ETH_BTC;
 
-    balance =
-        new BittrexBalance(
-            BigDecimal.ONE, new BigDecimal("100"), null, null, BigDecimal.TEN, false, null);
-    Assert.assertEquals(new BigDecimal("89"), BittrexAdapters.calculateFrozenBalance(balance));
+    BittrexOrder order1 = new BittrexOrder();
+    order1.setType(BittrexConstants.LIMIT);
+    order1.setMarketSymbol("ETH-BTC");
+    order1.setClosedAt(new Date());
+    order1.setId("123");
+    order1.setQuantity(new BigDecimal("1"));
+    order1.setFillQuantity(new BigDecimal("1"));
+    order1.setLimit(new BigDecimal("2"));
+    order1.setDirection(BittrexConstants.BUY);
+    order1.setCommission(new BigDecimal("2"));
 
-    balance = new BittrexBalance(null, new BigDecimal("100"), null, null, null, false, null);
-    Assert.assertEquals(new BigDecimal("100"), BittrexAdapters.calculateFrozenBalance(balance));
+    BittrexOrder order2 = new BittrexOrder();
+    order2.setType(BittrexConstants.MARKET);
+    order2.setMarketSymbol("ETH-BTC");
+    order2.setClosedAt(new Date());
+    order2.setId("456");
+    order2.setQuantity(new BigDecimal("3"));
+    order2.setFillQuantity(new BigDecimal("1"));
+    order2.setLimit(new BigDecimal("4"));
+    order2.setDirection(BittrexConstants.SELL);
+    order2.setCommission(new BigDecimal("4"));
+
+    List<UserTrade> tradesList = BittrexAdapters.adaptUserTrades(Arrays.asList(order1, order2));
+
+    Assert.assertEquals(2, tradesList.size());
+
+    UserTrade trade1 = tradesList.get(0);
+    Assert.assertEquals(Order.OrderType.BID, trade1.getType());
+    Assert.assertEquals(order1.getFillQuantity(), trade1.getOriginalAmount());
+    Assert.assertEquals(pair, trade1.getInstrument());
+    Assert.assertEquals(order1.getLimit(), trade1.getPrice());
+    Assert.assertEquals(order1.getClosedAt(), trade1.getTimestamp());
+    Assert.assertEquals(order1.getId(), trade1.getId());
+    Assert.assertEquals(order1.getCommission(), trade1.getFeeAmount());
+    Assert.assertEquals(pair.counter, trade1.getFeeCurrency());
+
+    UserTrade trade2 = tradesList.get(1);
+    Assert.assertEquals(Order.OrderType.ASK, trade2.getType());
+    Assert.assertEquals(order2.getFillQuantity(), trade2.getOriginalAmount());
+    Assert.assertEquals(pair, trade2.getInstrument());
+    Assert.assertEquals(order2.getLimit(), trade2.getPrice());
+    Assert.assertEquals(order2.getClosedAt(), trade2.getTimestamp());
+    Assert.assertEquals(order2.getId(), trade2.getId());
+    Assert.assertEquals(order2.getCommission(), trade2.getFeeAmount());
+    Assert.assertEquals(pair.counter, trade2.getFeeCurrency());
   }
 }

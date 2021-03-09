@@ -1,17 +1,16 @@
 package org.knowm.xchange.enigma;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.enigma.dto.trade.EnigmaOrderSubmission;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.utils.jackson.CurrencyPairDeserializer.getCurrencyPairFromString;
 
 public class EnigmaAdaptersTest {
 
@@ -30,6 +29,4 @@ public class EnigmaAdaptersTest {
     assertThat(trade.getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("10200.5865"));
   }
-
-
 }

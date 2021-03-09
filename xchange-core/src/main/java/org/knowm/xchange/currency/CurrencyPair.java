@@ -1,7 +1,9 @@
 package org.knowm.xchange.currency;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
+import org.knowm.xchange.instrument.Instrument;
 
 /**
  * Value object to provide the following to API:
@@ -14,8 +16,9 @@ import java.io.Serializable;
  * <p>Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with
  * 1.25 USD
  */
-@JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
+public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>, Serializable {
+
+  private static final long serialVersionUID = 414711266389792746L;
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currency.EUR, Currency.USD);
@@ -55,6 +58,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BTC_RUR = new CurrencyPair(Currency.BTC, Currency.RUR);
   public static final CurrencyPair BTC_ZAR = new CurrencyPair(Currency.BTC, Currency.ZAR);
   public static final CurrencyPair BTC_BRL = new CurrencyPair(Currency.BTC, Currency.BRL);
+  public static final CurrencyPair BTC_BRZ = new CurrencyPair(Currency.BTC, Currency.BRZ);
   public static final CurrencyPair BTC_CZK = new CurrencyPair(Currency.BTC, Currency.CZK);
   public static final CurrencyPair BTC_ILS = new CurrencyPair(Currency.BTC, Currency.ILS);
   public static final CurrencyPair BTC_KRW = new CurrencyPair(Currency.BTC, Currency.KRW);
@@ -68,6 +72,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair BTC_INR = new CurrencyPair(Currency.BTC, Currency.INR);
   public static final CurrencyPair BTC_XAUR = new CurrencyPair(Currency.BTC, Currency.XAUR);
   public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
+  public static final CurrencyPair BTC_ZMW = new CurrencyPair(Currency.BTC, Currency.ZMW);
   public static final CurrencyPair BTC_TRY = new CurrencyPair(Currency.BTC, Currency.TRY);
   public static final CurrencyPair ETH_TRY = new CurrencyPair(Currency.ETH, Currency.TRY);
 
@@ -262,6 +267,16 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair UTC_LTC = new CurrencyPair(Currency.UTC, Currency.LTC);
 
   // Kraken additional pairs
+  public static final CurrencyPair ADA_USD = new CurrencyPair(Currency.ADA, Currency.USD);
+  public static final CurrencyPair ADA_EUR = new CurrencyPair(Currency.ADA, Currency.EUR);
+  public static final CurrencyPair ADA_CAD = new CurrencyPair(Currency.ADA, Currency.CAD);
+
+  public static final CurrencyPair ATOM_BTC = new CurrencyPair(Currency.ATOM, Currency.BTC);
+  public static final CurrencyPair ATOM_ETH = new CurrencyPair(Currency.ATOM, Currency.ETH);
+  public static final CurrencyPair ATOM_USD = new CurrencyPair(Currency.ATOM, Currency.USD);
+  public static final CurrencyPair ATOM_EUR = new CurrencyPair(Currency.ATOM, Currency.EUR);
+  public static final CurrencyPair ATOM_CAD = new CurrencyPair(Currency.ATOM, Currency.CAD);
+
   public static final CurrencyPair ETC_BTC = new CurrencyPair(Currency.ETC, Currency.BTC);
   public static final CurrencyPair ETC_EUR = new CurrencyPair(Currency.ETC, Currency.EUR);
   public static final CurrencyPair ETC_ETH = new CurrencyPair(Currency.ETC, Currency.ETH);
@@ -360,7 +375,16 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   public static final CurrencyPair LTC_USDT = new CurrencyPair(Currency.LTC, Currency.USDT);
   public static final CurrencyPair ZEC_USDT = new CurrencyPair(Currency.ZEC, Currency.USDT);
 
+  public static final CurrencyPair XLM_USD = new CurrencyPair(Currency.XLM, Currency.USD);
+  public static final CurrencyPair XLM_EUR = new CurrencyPair(Currency.XLM, Currency.EUR);
+
+  public static final CurrencyPair LINK_USD = new CurrencyPair(Currency.LINK, Currency.USD);
+  public static final CurrencyPair LINK_EUR = new CurrencyPair(Currency.LINK, Currency.EUR);
+  public static final CurrencyPair LINK_BTC = new CurrencyPair(Currency.LINK, Currency.BTC);
+  public static final CurrencyPair LINK_ETH = new CurrencyPair(Currency.LINK, Currency.ETH);
+
   public final Currency base;
+
   public final Currency counter;
 
   /**
@@ -393,13 +417,22 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
   /**
    * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
+  @JsonCreator
   public CurrencyPair(String currencyPair) {
 
-    int split = currencyPair.indexOf('/');
+    int split;
+
+    if (currencyPair.contains("-")) {
+      split = currencyPair.indexOf('-');
+    } else {
+      split = currencyPair.indexOf('/');
+    }
+
     if (split < 1) {
       throw new IllegalArgumentException(
           "Could not parse currency pair from '" + currencyPair + "'");
     }
+
     String base = currencyPair.substring(0, split);
     String counter = currencyPair.substring(split + 1);
 
@@ -407,6 +440,7 @@ public class CurrencyPair implements Comparable<CurrencyPair>, Serializable {
     this.counter = Currency.getInstance(counter);
   }
 
+  @JsonValue
   @Override
   public String toString() {
 

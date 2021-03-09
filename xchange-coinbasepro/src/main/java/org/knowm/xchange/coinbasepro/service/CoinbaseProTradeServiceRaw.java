@@ -10,24 +10,22 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import si.mazi.rescu.SynchronizedValueFactory;
+import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
 
 public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
 
-  private final SynchronizedValueFactory<Long> nonceFactory;
-
   public CoinbaseProTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
-    this.nonceFactory = exchange.getNonceFactory();
   }
 
   public CoinbaseProOrder[] getCoinbaseProOpenOrders() throws IOException {
 
     try {
-      return coinbasePro.getListOrders(apiKey, digest, nonceFactory, passphrase);
+      return coinbasePro.getListOrders(
+          apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
@@ -40,6 +38,7 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     String productId = null;
     Integer afterTradeId = null;
     Integer beforeTradeId = null;
+    Integer limit = null;
 
     if (tradeHistoryParams instanceof CoinbaseProTradeHistoryParams) {
       CoinbaseProTradeHistoryParams historyParams =
@@ -63,14 +62,20 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
       }
     }
 
+    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) tradeHistoryParams;
+      limit = limitParams.getLimit();
+    }
+
     try {
       return coinbasePro.getFills(
           apiKey,
           digest,
-          nonceFactory,
+          UnixTimestampFactory.INSTANCE.createValue(),
           passphrase,
           afterTradeId,
           beforeTradeId,
+          limit,
           orderId,
           productId);
     } catch (CoinbaseProException e) {
@@ -106,16 +111,17 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   public CoinbaseProIdResponse placeCoinbaseProOrder(CoinbaseProPlaceOrder order)
       throws IOException {
     try {
-      return coinbasePro.placeOrder(order, apiKey, digest, nonceFactory, passphrase);
+      return coinbasePro.placeOrder(
+          order, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
   public boolean cancelCoinbaseProOrder(String id) throws IOException {
-
     try {
-      coinbasePro.cancelOrder(id, apiKey, digest, nonceFactory, passphrase);
+      coinbasePro.cancelOrder(
+          id, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
@@ -123,18 +129,18 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   public CoinbaseProOrder getOrder(String id) throws IOException {
-
     try {
-      return coinbasePro.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+      return coinbasePro.getOrder(
+          id, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
   public CoinbaseProOrder[] getOrders(String status) throws IOException {
-
     try {
-      return coinbasePro.getListOrders(apiKey, digest, nonceFactory, passphrase, status);
+      return coinbasePro.getListOrders(
+          apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, status);
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }

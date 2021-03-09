@@ -11,6 +11,7 @@ import lombok.ToString;
 public class EnigmaProduct {
   @JsonProperty("product_id")
   private int productId;
+
   @JsonProperty("product_name")
   private String productName;
 }

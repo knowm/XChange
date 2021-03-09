@@ -9,12 +9,8 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitZExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -23,14 +19,8 @@ public class BitZExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri("https://www.bit-z.com");
     exchangeSpecification.setHost("http://www.bit-z.com");
     exchangeSpecification.setPort(80);

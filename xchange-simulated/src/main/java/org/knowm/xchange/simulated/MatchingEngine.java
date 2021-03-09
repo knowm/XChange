@@ -380,24 +380,35 @@ final class MatchingEngine {
     onFill.accept(fill);
   }
 
-  public void cancelOrder(String orderId, Order.OrderType type) {
+  public void cancelOrder(String apiKey, String orderId) {
+    cancelOrder(apiKey, orderId, BID);
+    cancelOrder(apiKey, orderId, ASK);
+  }
 
+  public void cancelOrder(String apiKey, String orderId, OrderType type) {
+    Account account = accountFactory.get(apiKey);
+    Stream<BookLevel> bookLevelStream;
     switch (type) {
       case ASK:
-        asks.stream()
-            .forEach(
-                bookLevel ->
-                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
+        bookLevelStream = asks.stream();
         break;
       case BID:
-        bids.stream()
-            .forEach(
-                bookLevel ->
-                    bookLevel.getOrders().removeIf(bookOrder -> bookOrder.getId().equals(orderId)));
-
+        bookLevelStream = bids.stream();
         break;
       default:
         throw new ExchangeException("Unsupported order type: " + type);
     }
+    bookLevelStream.forEach(
+        bookLevel ->
+            bookLevel
+                .getOrders()
+                .removeIf(
+                    bookOrder -> {
+                      final boolean remove = bookOrder.getId().equals(orderId);
+                      if (remove) {
+                        account.release(bookOrder.toOrder(currencyPair));
+                      }
+                      return remove;
+                    }));
   }
 }

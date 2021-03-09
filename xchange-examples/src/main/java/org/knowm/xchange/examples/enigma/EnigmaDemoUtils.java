@@ -1,11 +1,10 @@
 package org.knowm.xchange.examples.enigma;
 
+import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.enigma.EnigmaExchange;
 import org.knowm.xchange.enigma.service.EnigmaAccountService;
-
-import java.io.IOException;
 
 public class EnigmaDemoUtils {
 

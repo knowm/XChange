@@ -1,21 +1,18 @@
 package org.knowm.xchange.enigma.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
 
 public class MarketDataJSONTest {
 
   @Test
   public void testUnMarshal() throws IOException {
-    InputStream is =
-        getClass().getClassLoader().getResourceAsStream(
-            "market-data.json");
+    InputStream is = getClass().getClassLoader().getResourceAsStream("market-data.json");
     ObjectMapper mapper = new ObjectMapper();
     EnigmaProductMarketData product = mapper.readValue(is, EnigmaProductMarketData.class);
     assertThat(product.getProductName()).isEqualTo("BTC-USD");
