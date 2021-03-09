@@ -3,17 +3,18 @@ package org.knowm.xchange.coindcx.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindcx.CoindcxAdapters;
-import org.knowm.xchange.coindcx.dto.CoindcxLimitOrder;
-import org.knowm.xchange.coindcx.dto.CoindcxOrderStatusResponse;
-import org.knowm.xchange.coindcx.dto.CoindcxOrderType;
+import org.knowm.xchange.coindcx.dto.*;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.*;
 
 public class CoindcxTradeService extends CoindcxTradeServiceRaw implements TradeService {
 
@@ -25,6 +26,22 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    CoindcxOrderStatusResponse newOrder =
+            placeCoindcxMarketOrder(marketOrder, CoindcxOrderType.MARKET);
+
+    // The return value contains details of any trades that have been immediately executed as a
+    // result
+    // of this order. Make these available to the application if it has provided a GeminiLimitOrder.
+    if (marketOrder instanceof CoindcxMarketOrder) {
+      CoindcxMarketOrder raw = (CoindcxMarketOrder) marketOrder;
+      raw.setResponse(newOrder);
+    }
+    return String.valueOf(newOrder.getId());
+
   }
 
   @Override
@@ -69,5 +86,27 @@ public class CoindcxTradeService extends CoindcxTradeServiceRaw implements Trade
     }
 
     return orders;
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+//    CoindcxAccountTradeHistory coindcxAccountTradeHistory
+    String orderId = null;
+    Integer limit = null;
+
+    if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
+      TradeHistoryParamTransactionId tnxIdParams =
+              (TradeHistoryParamTransactionId) tradeHistoryParams;
+      orderId = tnxIdParams.getTransactionId();
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit limitParams = (TradeHistoryParamLimit) tradeHistoryParams;
+      limit = limitParams.getLimit();
+    }
+
+    List<CoindcxTradeHistoryResponse> coindcxTradeHistoryResponseList=getCoindcxAccountTradeHistory(new CoindcxAccountTradeHistory(orderId,limit));
+
+    return CoindcxAdapters.adaptUserTrades(coindcxTradeHistoryResponseList);
   }
 }

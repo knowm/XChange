@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coindcx.dto.CoindcxOrderBook;
+import org.knowm.xchange.coindcx.dto.CoindcxTickersResponse;
 import org.knowm.xchange.coindcx.dto.CoindcxTrade;
 import org.knowm.xchange.coindcx.dto.CoindcxTrades;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -28,6 +29,10 @@ public class CoindcxMarketDataServiceRaw extends CoindcxBaseService {
   public List<CoindcxTrade> getCoindcxTrades(CurrencyPair currencyPair, Object... args)
       throws IOException {
     return coindcx.getTrade(getSymbol(currencyPair, args));
+  }
+
+  public List<CoindcxTickersResponse> getCoindcxTicker() {
+    return coindcx.getTicker();
   }
 
   /**

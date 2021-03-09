@@ -10,12 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.coindcx.dto.CoindcxException;
-import org.knowm.xchange.coindcx.dto.CoindcxNewOrderRequest;
-import org.knowm.xchange.coindcx.dto.CoindcxOrderBook;
-import org.knowm.xchange.coindcx.dto.CoindcxOrderStatusRequest;
-import org.knowm.xchange.coindcx.dto.CoindcxOrderStatusResponse;
-import org.knowm.xchange.coindcx.dto.CoindcxTrade;
+
+import org.knowm.xchange.coindcx.dto.*;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -30,20 +26,37 @@ public interface Coindcx {
   @Path("/market_data/trade_history")
   List<CoindcxTrade> getTrade(@QueryParam("pair") String pair);
 
+  @GET
+  @Path("/exchange/ticker")
+  List<CoindcxTickersResponse> getTicker();
+
   @POST
   @Path("/exchange/v1/orders/create")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   CoindcxOrderStatusResponse newOrder(
       @HeaderParam("X-AUTH-APIKEY") String apiKey,
-      @HeaderParam("X-AUTH-SIGNATURE") ParamsDigest signature,
-      CoindcxNewOrderRequest newOrderRequest);
+      @HeaderParam("X-AUTH-SIGNATURE") String signature,
+      CoindcxNewOrderRequest coindcxNewOrderRequest);
 
   @POST
   @Path("/exchange/v1/orders/status")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   CoindcxOrderStatusResponse orderStatus(
-      @HeaderParam("X-AUTH-APIKEY") String apiKey,
-      @HeaderParam("X-AUTH-SIGNATURE") ParamsDigest signature,
-      CoindcxOrderStatusRequest orderStatusRequest)
-      throws IOException, CoindcxException;
+        @HeaderParam("Content-Type") String contentType,
+        @HeaderParam("X-AUTH-APIKEY") String apiKey,
+        @HeaderParam("X-AUTH-SIGNATURE") String signature)
+        throws IOException, CoindcxException;
+
+
+  @POST
+  @Path("/exchange/v1/orders/trade_history")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  List<CoindcxTradeHistoryResponse> getAccountTradeHistory(
+          @HeaderParam("Content-Type") String contentType,
+          @HeaderParam("X-AUTH-APIKEY") String apiKey,
+          @HeaderParam("X-AUTH-SIGNATURE") String signature)
+          throws IOException, CoindcxException;
 }

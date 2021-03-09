@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coindcx.CoindcxAdapters;
 import org.knowm.xchange.coindcx.dto.CoindcxOrderBook;
+import org.knowm.xchange.coindcx.dto.CoindcxTickersResponse;
 import org.knowm.xchange.coindcx.dto.CoindcxTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -70,6 +72,12 @@ public class CoindcxMarketDataService extends CoindcxMarketDataServiceRaw
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    List<CoindcxTickersResponse> coindcxTickersResponses = getCoindcxTicker();
+    return CoindcxAdapters.adaptTickerBasedOnCurencyPair(coindcxTickersResponses,currencyPair);
   }
 
   @Override
