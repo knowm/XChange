@@ -70,6 +70,27 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     return placed.getOrderId();
   }
 
+  public String placeMarginLimitOrder(LimitOrder o) throws IOException {
+
+    // 0: Normal limit order (Unfilled and 0 represent normal limit order) 1: Post only 2: Fill Or
+    // Kill 3: Immediatel Or Cancel
+    OrderPlacementType orderType =
+        o.hasFlag(OkexOrderFlags.POST_ONLY)
+            ? OrderPlacementType.post_only
+            : OrderPlacementType.normal;
+
+    SpotOrderPlacementRequest req =
+        SpotOrderPlacementRequest.builder()
+            .instrumentId(OkexAdaptersV3.toSpotInstrument(o.getCurrencyPair()))
+            .price(o.getLimitPrice())
+            .size(o.getOriginalAmount())
+            .side(o.getType() == OrderType.ASK ? Side.sell : Side.buy)
+            .orderType(orderType)
+            .build();
+    OrderPlacementResponse placed = marginPlaceOrder(req);
+    return placed.getOrderId();
+  }
+
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
     throw new NotAvailableFromExchangeException();
@@ -216,6 +237,86 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
   }
 
+  public UserTrades getMarginTradeHistory(TradeHistoryParams params) throws IOException {
+
+    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+      throw new UnsupportedOperationException(
+          "Getting open orders is only available for a single market.");
+    }
+    final String instrument =
+        OkexAdaptersV3.toSpotInstrument(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+
+    // the 'to' parameter means, fetch all orders newer than that
+    final String to =
+        params instanceof OkexTradeHistoryParams
+            ? ((OkexTradeHistoryParams) params).getSinceOrderId()
+            : null;
+
+    final String state = "2"; // "2":Fully Filled
+
+    String from = null;
+    List<OkexOpenOrder> allOrdersWithTrades = new ArrayList<>();
+    boolean stop = false;
+    do {
+      List<OkexOpenOrder> l = getMarginOrderList(instrument, from, to, orders_limit, state);
+      allOrdersWithTrades.addAll(l);
+      stop = l.size() < orders_limit;
+      if (!stop) {
+        from = l.get(l.size() - 1).getOrderId();
+      }
+    } while (!stop);
+    // instrumentId, from, to, limit, state)
+
+    List<UserTrade> userTrades = new ArrayList<>();
+    allOrdersWithTrades.forEach(
+        o -> {
+          try {
+            fetchMarginTradesForOrder(o).stream()
+                .filter(
+                    t ->
+                        Side.buy
+                            == t.getSide()) // we consider only the "buy" transactions, since there
+                // is the fee defined!
+                .forEach(
+                    t -> {
+                      CurrencyPair p = OkexAdaptersV3.toPair(t.getInstrumentId());
+
+                      BigDecimal amount = null;
+                      Currency feeCurrency = null;
+
+                      if (o.getSide() == Side.buy) { // the same side as the order!
+                        amount = t.getSize();
+                        feeCurrency = p.base;
+                      } else { // order and trade (transaction) have different sides!
+                        amount =
+                            stripTrailingZeros(
+                                t.getSize().divide(t.getPrice(), 16, RoundingMode.HALF_UP));
+                        feeCurrency = p.counter;
+                      }
+
+                      UserTrade ut =
+                          new UserTrade.Builder()
+                              .currencyPair(p)
+                              .id(t.getLedgerId())
+                              .orderId(o.getOrderId())
+                              .originalAmount(amount)
+                              .price(t.getPrice())
+                              .timestamp(t.getTimestamp())
+                              .type(o.getSide() == Side.buy ? OrderType.BID : OrderType.ASK)
+                              .feeAmount(t.getFee())
+                              .feeCurrency(feeCurrency)
+                              .build();
+                      userTrades.add(ut);
+                    });
+
+          } catch (IOException e) {
+            throw new ExchangeException("Could not fetch transactions for " + o, e);
+          }
+        });
+    Collections.sort(userTrades, (t1, t2) -> t1.getTimestamp().compareTo(t2.getTimestamp()));
+    return new UserTrades(userTrades, TradeSortType.SortByTimestamp);
+  }
+
   private static BigDecimal stripTrailingZeros(BigDecimal bd) {
     bd = bd.stripTrailingZeros();
     bd = bd.setScale(Math.max(bd.scale(), 0));
@@ -229,6 +330,22 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     do {
       List<OkexTransaction> l =
           getSpotTransactionDetails(o.getOrderId(), o.getInstrumentId(), from, null, null);
+      all.addAll(l);
+      stop = l.size() < transactions_limit;
+      if (!stop) {
+        from = l.get(l.size() - 1).getLedgerId();
+      }
+    } while (!stop);
+    return all;
+  }
+
+  private List<OkexTransaction> fetchMarginTradesForOrder(OkexOpenOrder o) throws IOException {
+    String from = null;
+    List<OkexTransaction> all = new ArrayList<>();
+    boolean stop = false;
+    do {
+      List<OkexTransaction> l =
+          getMarginTransactionDetails(o.getOrderId(), o.getInstrumentId(), from, null, null);
       all.addAll(l);
       stop = l.size() < transactions_limit;
       if (!stop) {

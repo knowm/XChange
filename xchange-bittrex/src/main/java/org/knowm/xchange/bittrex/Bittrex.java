@@ -4,55 +4,51 @@ import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.bittrex.dto.BittrexBaseResponse;
 import org.knowm.xchange.bittrex.dto.BittrexException;
-import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexMarketSummary;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTicker;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexTrade;
 
-@Path("v1.1")
+@Path("v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bittrex {
 
   @GET
-  @Path("/public/getticker")
-  BittrexBaseResponse<BittrexTicker> getTicker(@QueryParam("market") String market)
-      throws BittrexException, IOException;
+  @Path("markets/{marketSymbol}/orderbook")
+  BittrexDepth getOrderBook(
+      @PathParam("marketSymbol") String marketSymbol, @QueryParam("depth") int depth)
+      throws IOException, BittrexException;
 
   @GET
-  @Path("public/getmarketsummary/")
-  BittrexBaseResponse<List<BittrexMarketSummary>> getMarketSummary(
-      @QueryParam("market") String market) throws BittrexException, IOException;
+  @Path("markets")
+  List<BittrexSymbol> getMarkets() throws IOException, BittrexException;
 
   @GET
-  @Path("public/getmarketsummaries/")
-  BittrexBaseResponse<List<BittrexMarketSummary>> getMarketSummaries()
-      throws BittrexException, IOException;
+  @Path("markets/{marketSymbol}/summary")
+  BittrexMarketSummary getMarketSummary(@PathParam("marketSymbol") String marketSymbol)
+      throws IOException, BittrexException;
 
   @GET
-  @Path("public/getorderbook/")
-  BittrexBaseResponse<BittrexDepth> getBook(
-      @QueryParam("market") String market,
-      @QueryParam("type") String type,
-      @QueryParam("depth") int depth)
-      throws BittrexException, IOException;
+  @Path("markets/summaries")
+  List<BittrexMarketSummary> getMarketSummaries() throws IOException, BittrexException;
 
   @GET
-  @Path("public/getmarkethistory/")
-  BittrexBaseResponse<List<BittrexTrade>> getTrades(@QueryParam("market") String market)
-      throws BittrexException, IOException;
+  @Path("markets/tickers")
+  List<BittrexTicker> getTickers() throws IOException, BittrexException;
 
   @GET
-  @Path("public/getmarkets")
-  BittrexBaseResponse<List<BittrexSymbol>> getSymbols() throws BittrexException, IOException;
+  @Path("markets/{marketSymbol}/trades")
+  List<BittrexTrade> getTrades(@PathParam("marketSymbol") String marketSymbol)
+      throws IOException, BittrexException;
 
   @GET
-  @Path("public/getcurrencies")
-  BittrexBaseResponse<List<BittrexCurrency>> getCurrencies() throws BittrexException, IOException;
+  @Path("markets/{marketSymbol}/ticker")
+  BittrexTicker getTicker(@PathParam("marketSymbol") String marketSymbol)
+      throws IOException, BittrexException;
 }

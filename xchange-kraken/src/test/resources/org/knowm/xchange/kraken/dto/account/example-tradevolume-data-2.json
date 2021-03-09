@@ -1,0 +1,4323 @@
+{
+  "error": [],
+  "result": {
+    "currency": "ZUSD",
+    "volume": "41999999999.689999",
+    "fees": {
+      "ZEURZUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ZGBPZUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ZUSDZJPY": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ZUSDZCAD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCHF": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EURCAD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EURCHF": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EURGBP": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EURJPY": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AUDJPY": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EURAUD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AUDUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZCAD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZJPY": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTCHF": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHCHF": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZCAD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZJPY": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXDGXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZJPY": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTZUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZCAD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHDAI": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DAIUSDT": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DAIUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DAIEUR": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTEUR": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTCAD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTGBP": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTDAI": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XDGUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XDGEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTUSDC": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHUSDC": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCUSDT": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCUSD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCEUR": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHJPY": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZJPY": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTJPY": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTCHF": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDTAUD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2XBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2ETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2EUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2USD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSUSDT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETH2.SETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAUSD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAXBT": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAETH": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAEUR": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCGBP": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "USDCAUD": {
+        "fee": "0.2000",
+        "minfee": "0.0000",
+        "maxfee": "0.2000",
+        "nextfee": "0.1600",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIAUD": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWGBP": {
+        "fee": "0.2600",
+        "minfee": "0.1000",
+        "maxfee": "0.2600",
+        "nextfee": "0.2400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      }
+    },
+    "fees_maker": {
+      "XXBTZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZCAD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXBTZJPY": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTCHF": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHCHF": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZCAD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHZJPY": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETHXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXDGXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XETCZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XREPZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XZECZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZJPY": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXMRZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XMLNZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DASHEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GNOEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXRPZCAD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "QTUMEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "WAVESEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BATEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ICXEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OMGEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SCEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHDAI": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "PAXGEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "NANOEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LSKEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTDAI": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XDGUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XDGEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XBTUSDC": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHUSDC": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHJPY": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XLTCZJPY": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TRXUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETHAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XRPUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BCHUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LTCUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "OXTUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KAVAEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "STORJEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KNCEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "COMPEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2XBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2ETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2EUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "REPV2USD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "CRVEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "BALEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "EOSUSDT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "UNIEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KEEPEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "TBTCEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ANTEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ETH2.SETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAUSD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAXBT": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAETH": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "MANAEUR": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ALGOGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "AAVEAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ADAAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "ATOMAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "DOTAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FILAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "GRTAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "KSMAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "LINKAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "SNXAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XXLMZAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "XTZAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "YFIAUD": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      },
+      "FLOWGBP": {
+        "fee": "0.1600",
+        "minfee": "0.0000",
+        "maxfee": "0.1600",
+        "nextfee": "0.1400",
+        "nextvolume": "50000.0000",
+        "tiervolume": "0.0000"
+      }
+    }
+  }
+}

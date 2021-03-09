@@ -13,6 +13,9 @@ public class GeminiNewOrderRequest {
   @JsonProperty("nonce")
   protected String nonce;
 
+  @JsonProperty("client_order_id")
+  protected String client_order_id;
+
   @JsonProperty("symbol")
   protected String symbol;
 
@@ -47,6 +50,7 @@ public class GeminiNewOrderRequest {
    */
   public GeminiNewOrderRequest(
       String nonce,
+      String client_order_id,
       String symbol,
       BigDecimal amount,
       BigDecimal price,
@@ -57,6 +61,7 @@ public class GeminiNewOrderRequest {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;
+    this.client_order_id = client_order_id;
     this.symbol = symbol;
     this.amount = amount;
     this.price = price;

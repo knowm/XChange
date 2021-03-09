@@ -4,38 +4,26 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsWithdrawCryptoResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
+import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
 
   private static final BigDecimal AMOUNT_MULTIPLICAND = new BigDecimal("100000000");
   private static final int MAX_SCALE = 8;
 
-  private final BTCMarketsDigest signer;
-  private final BTCMarketsAuthenticated btcm;
-  private final SynchronizedValueFactory<Long> nonceFactory;
-
   protected BTCMarketsAccountServiceRaw(Exchange exchange) {
     super(exchange);
-    this.nonceFactory = exchange.getNonceFactory();
-    this.btcm =
-        RestProxyFactory.createProxy(
-            BTCMarketsAuthenticated.class,
-            exchange.getExchangeSpecification().getSslUri(),
-            getClientConfig());
-    this.signer = new BTCMarketsDigest(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public List<BTCMarketsBalance> getBTCMarketsBalance() throws IOException {
-    return btcm.getBalance(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer);
+    return btcm.getBalance(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV1);
   }
 
   public String withdrawCrypto(String address, BigDecimal amount, Currency currency)
@@ -51,7 +39,7 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
         new BTCMarketsWithdrawCryptoRequest(amountInSatoshis, address, currency.getCurrencyCode());
     BTCMarketsWithdrawCryptoResponse response =
         btcm.withdrawCrypto(
-            exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, request);
+            exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV1, request);
 
     if (!response.getSuccess())
       throw new ExchangeException(
@@ -60,13 +48,13 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
               + " "
               + response.getErrorCode());
 
-    return response.status;
+    return response.fundTransferId;
   }
 
   public BTCMarketsFundtransferHistoryResponse fundtransferHistory() throws IOException {
     BTCMarketsFundtransferHistoryResponse response =
         btcm.fundtransferHistory(
-            exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer);
+            exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV1);
 
     if (!response.getSuccess()) {
       throw new ExchangeException(
@@ -76,5 +64,18 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
               + response.getErrorCode());
     }
     return response;
+  }
+
+  public BTCMarketsAddressesResponse depositAddress(Currency currency) throws IOException {
+    return btcmv3.depositAddress(
+        exchange.getExchangeSpecification().getApiKey(),
+        nonceFactory,
+        signerV3,
+        currency.getCurrencyCode());
+  }
+
+  public BTCMarketsTradingFeesResponse tradingFees() throws IOException {
+    return btcmv3.tradingFees(
+        exchange.getExchangeSpecification().getApiKey(), nonceFactory, signerV3);
   }
 }

@@ -9,7 +9,7 @@ public class TheRockExampleUtils {
   private TheRockExampleUtils() {}
 
   public static Exchange createTestExchange() {
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class);
     exchange.getExchangeSpecification().setApiKey("API Key");
     exchange.getExchangeSpecification().setSecretKey("Secret==");
     exchange.getExchangeSpecification().setUserName("user");

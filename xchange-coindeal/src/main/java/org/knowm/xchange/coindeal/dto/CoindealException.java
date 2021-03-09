@@ -6,8 +6,8 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 
 /**
  * CoinDeal API exception
- * 
- * CoinDeals error response format is wildly inconsistent - its like totally different in various
+ *
+ * <p>CoinDeals error response format is wildly inconsistent - its like totally different in various
  * situations. As a consiquence this class will have many properties that are sometimes set and
  * sometimes null.
  */

@@ -1,7 +1,9 @@
 package org.knowm.xchange.btcmarkets;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransfer;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsFundtransferHistoryResponse;
@@ -10,6 +12,8 @@ import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
+import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsTradeHistoryResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -18,11 +22,14 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +73,7 @@ public final class BTCMarketsAdapters {
       final Currency currency = Currency.getInstance(blc.getCurrency());
       wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
-    return new Wallet(wallets);
+    return Wallet.Builder.from(wallets).build();
   }
 
   public static OrderBook adaptOrderBook(
@@ -125,12 +132,11 @@ public final class BTCMarketsAdapters {
   }
 
   public static UserTrades adaptTradeHistory(
-      List<BTCMarketsUserTrade> btcmarketsUserTrades, CurrencyPair currencyPair) {
-    List<UserTrade> trades = new ArrayList<>();
-    for (BTCMarketsUserTrade btcmarketsUserTrade : btcmarketsUserTrades) {
-      trades.add(adaptTrade(btcmarketsUserTrade, currencyPair));
-    }
-
+      List<BTCMarketsTradeHistoryResponse> btcmarketsUserTrades) {
+    List<UserTrade> trades =
+        btcmarketsUserTrades.stream()
+            .map(BTCMarketsAdapters::adaptTradeHistory)
+            .collect(Collectors.toList());
     return new UserTrades(trades, TradeSortType.SortByID);
   }
 
@@ -138,21 +144,54 @@ public final class BTCMarketsAdapters {
     final Order.OrderType type = adaptOrderType(trade.getSide());
     final String tradeId = Long.toString(trade.getId());
     final Long orderId = trade.getOrderId();
-    final String feeCurrency = currencyPair.base.getCurrencyCode();
-    return new UserTrade(
-        type,
-        trade.getVolume(),
-        currencyPair,
-        trade.getPrice().abs(),
-        trade.getCreationTime(),
-        tradeId,
-        String.valueOf(orderId),
-        trade.getFee(),
-        Currency.getInstance(feeCurrency));
+    final String feeCurrency = currencyPair.counter.getCurrencyCode();
+    return new UserTrade.Builder()
+        .type(type)
+        .originalAmount(trade.getVolume())
+        .currencyPair(currencyPair)
+        .price(trade.getPrice().abs())
+        .timestamp(trade.getCreationTime())
+        .id(tradeId)
+        .orderId(String.valueOf(orderId))
+        .feeAmount(trade.getFee())
+        .feeCurrency(Currency.getInstance(feeCurrency))
+        .build();
+  }
+
+  public static UserTrade adaptTradeHistory(BTCMarketsTradeHistoryResponse trade) {
+    final Order.OrderType type = adaptOrderType(trade.side);
+    final CurrencyPair currencyPair = adaptCurrencyPair(trade.marketId);
+    final String tradeId = trade.id;
+    final String orderId = trade.orderId;
+    final String feeCurrency = currencyPair.counter.getCurrencyCode();
+    try {
+      return new UserTrade.Builder()
+          .type(type)
+          .originalAmount(trade.amount)
+          .currencyPair(currencyPair)
+          .price(trade.price.abs())
+          .timestamp(DateUtils.fromISODateString(trade.timestamp))
+          .id(tradeId)
+          .orderId(orderId)
+          .feeAmount(trade.fee)
+          .feeCurrency(Currency.getInstance(feeCurrency))
+          .build();
+    } catch (InvalidFormatException e) {
+      return null;
+    }
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String marketId) {
+    String[] parts = marketId.split("-");
+    return new CurrencyPair(new Currency(parts[0]), new Currency(parts[1]));
   }
 
   public static Order.OrderType adaptOrderType(BTCMarketsOrder.Side orderType) {
     return orderType.equals(BTCMarketsOrder.Side.Bid) ? Order.OrderType.BID : Order.OrderType.ASK;
+  }
+
+  public static Order.OrderType adaptOrderType(String orderType) {
+    return orderType.equals("Bid") ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
   public static OpenOrders adaptOpenOrders(BTCMarketsOrders openOrders) {
@@ -212,5 +251,29 @@ public final class BTCMarketsAdapters {
               transfer.getDescription()));
     }
     return result;
+  }
+
+  public static Trades adaptMarketTrades(
+      List<BTCMarketsTrade> btcMarketsTrades, CurrencyPair currencyPair) {
+
+    Iterator<BTCMarketsTrade> marketTrades = btcMarketsTrades.iterator();
+    List<Trade> trades = new ArrayList<Trade>();
+    while (marketTrades.hasNext()) {
+      BTCMarketsTrade marketTrade = marketTrades.next();
+      logger.debug(marketTrade.toString());
+      Trade trade =
+          new Trade(
+              adaptOrderType(marketTrade.getSide()),
+              marketTrade.getAmount(),
+              currencyPair,
+              marketTrade.getPrice(),
+              marketTrade.getTimestamp(),
+              marketTrade.getId().toString(),
+              null,
+              null);
+      trades.add(trade);
+    }
+
+    return new Trades(trades);
   }
 }

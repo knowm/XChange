@@ -29,11 +29,7 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
+import org.knowm.xchange.coinmate.dto.marketdata.*;
 import org.knowm.xchange.coinmate.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -46,6 +42,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
@@ -118,20 +115,19 @@ public class CoinmateAdapters {
   }
 
   public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
-    return new Trade(
-        null,
-        coinmateEntry.getAmount(),
-        CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()),
-        coinmateEntry.getPrice(),
-        new Date(coinmateEntry.getTimestamp()),
-        coinmateEntry.getTransactionId());
+    return new Trade.Builder()
+        .originalAmount(coinmateEntry.getAmount())
+        .currencyPair(CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()))
+        .price(coinmateEntry.getPrice())
+        .timestamp(new Date(coinmateEntry.getTimestamp()))
+        .id(coinmateEntry.getTransactionId())
+        .build();
   }
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
     CoinmateBalanceData funds = coinmateBalance.getData();
     List<Balance> balances = new ArrayList<>(funds.size());
-
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
       Balance balance =
@@ -143,7 +139,7 @@ public class CoinmateAdapters {
 
       balances.add(balance);
     }
-    return new Wallet(balances);
+    return Wallet.Builder.from(balances).build();
   }
 
   public static UserTrades adaptTransactionHistory(
@@ -168,16 +164,18 @@ public class CoinmateAdapters {
       }
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              entry.getAmount(),
-              CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
-              entry.getPrice(),
-              new Date(entry.getTimestamp()),
-              Long.toString(entry.getTransactionId()),
-              Long.toString(entry.getOrderId()),
-              entry.getFee(),
-              Currency.getInstance(entry.getFeeCurrency()));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(entry.getAmount())
+              .currencyPair(
+                  CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()))
+              .price(entry.getPrice())
+              .timestamp(new Date(entry.getTimestamp()))
+              .id(Long.toString(entry.getTransactionId()))
+              .orderId(Long.toString(entry.getOrderId()))
+              .feeAmount(entry.getFee())
+              .feeCurrency(Currency.getInstance(entry.getFeeCurrency()))
+              .build();
       trades.add(trade);
     }
 
@@ -205,16 +203,17 @@ public class CoinmateAdapters {
       }
 
       UserTrade trade =
-          new UserTrade(
-              orderType,
-              entry.getAmount(),
-              CoinmateUtils.getPair(entry.getCurrencyPair()),
-              entry.getPrice(),
-              new Date(entry.getCreatedTimestamp()),
-              Long.toString(entry.getTransactionId()),
-              Long.toString(entry.getOrderId()),
-              entry.getFee(),
-              CoinmateUtils.getPair(entry.getCurrencyPair()).counter);
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(entry.getAmount())
+              .currencyPair(CoinmateUtils.getPair(entry.getCurrencyPair()))
+              .price(entry.getPrice())
+              .timestamp(new Date(entry.getCreatedTimestamp()))
+              .id(Long.toString(entry.getTransactionId()))
+              .orderId(Long.toString(entry.getOrderId()))
+              .feeAmount(entry.getFee())
+              .feeCurrency(CoinmateUtils.getPair(entry.getCurrencyPair()).counter)
+              .build();
       trades.add(trade);
     }
 
@@ -335,5 +334,51 @@ public class CoinmateAdapters {
       default:
         throw new IllegalArgumentException();
     }
+  }
+
+  public static List<Order> adaptOrders(CoinmateOrders coinmateOrders) {
+    List<Order> ordersList = new ArrayList<>(1);
+
+    CoinmateOrder entry = coinmateOrders.getData();
+
+    Order.OrderType orderType;
+
+    if ("BUY".equals(entry.getType())) {
+      orderType = Order.OrderType.BID;
+    } else if ("SELL".equals(entry.getType())) {
+      orderType = Order.OrderType.ASK;
+    } else {
+      throw new CoinmateException("Unknown order type");
+    }
+    Order.OrderStatus orderStatus;
+    if ("CANCELLED".equals(entry.getStatus())) {
+      orderStatus = Order.OrderStatus.CANCELED;
+    } else if ("FILLED".equals(entry.getStatus())) {
+      orderStatus = Order.OrderStatus.FILLED;
+    } else if ("PARTIALLY_FILLED".equals(entry.getStatus())) {
+      orderStatus = Order.OrderStatus.PARTIALLY_FILLED;
+    } else if ("OPEN".equals(entry.getStatus())) {
+      orderStatus = Order.OrderStatus.NEW;
+    } else {
+      orderStatus = Order.OrderStatus.UNKNOWN;
+    }
+
+    // TODO: we can probably use `orderTradeType` to distinguish between Market and Limit order
+    Order order =
+        new MarketOrder(
+            orderType,
+            entry.getOriginalAmount(),
+            null,
+            Long.toString(entry.getId()),
+            new Date(entry.getTimestamp()),
+            entry.getAvgPrice(),
+            entry.getOriginalAmount().subtract(entry.getRemainingAmount()),
+            null,
+            orderStatus,
+            null);
+
+    ordersList.add(order);
+
+    return ordersList;
   }
 }

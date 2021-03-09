@@ -123,12 +123,12 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
   }
 
   public KrakenTradeHistory getKrakenTradeHistory() throws IOException {
-
     return getKrakenTradeHistory(null, false, null, null, null);
   }
 
   public KrakenTradeHistory getKrakenTradeHistory(
-      String type, boolean includeTrades, Long start, Long end, Long offset) throws IOException {
+      String type, boolean includeTrades, String start, String end, Long offset)
+      throws IOException {
 
     KrakenTradeHistoryResult result =
         kraken.tradeHistory(
@@ -163,13 +163,13 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions() throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions() throws IOException {
 
-    return getOpenPositions(false);
+    return getKrakenOpenPositions(false);
   }
 
-  public Map<String, KrakenOpenPosition> getOpenPositions(boolean doCalcs, String... transactionIds)
-      throws IOException {
+  public Map<String, KrakenOpenPosition> getKrakenOpenPositions(
+      boolean doCalcs, String... transactionIds) throws IOException {
 
     KrakenOpenPositionsResult result =
         kraken.openPositions(
@@ -188,14 +188,26 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     KrakenOrderBuilder orderBuilder =
         KrakenStandardOrder.getMarketOrderBuilder(
                 marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())
+            .withUserRefId(marketOrder.getUserReference())
             .withOrderFlags(marketOrder.getOrderFlags())
             .withLeverage(marketOrder.getLeverage());
 
     return placeKrakenOrder(orderBuilder.buildOrder());
   }
 
-  public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
+  public KrakenOrderResponse placeKrakenSettlePositionOrder(MarketOrder marketOrder)
+      throws IOException {
 
+    KrakenType type = KrakenType.fromOrderType(marketOrder.getType());
+    KrakenOrderBuilder orderBuilder =
+        KrakenStandardOrder.getSettlePositionOrderBuilder(
+                marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())
+            .withUserRefId(marketOrder.getUserReference());
+
+    return placeKrakenOrder(orderBuilder.buildOrder());
+  }
+
+  public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder =
         KrakenStandardOrder.getLimitOrderBuilder(
@@ -203,6 +215,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 type,
                 limitOrder.getLimitPrice().toPlainString(),
                 limitOrder.getOriginalAmount())
+            .withUserRefId(limitOrder.getUserReference())
             .withOrderFlags(limitOrder.getOrderFlags())
             .withLeverage(limitOrder.getLeverage());
 

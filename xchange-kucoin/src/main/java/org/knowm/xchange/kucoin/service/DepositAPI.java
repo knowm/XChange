@@ -39,8 +39,8 @@ public interface DepositAPI {
       @QueryParam("currency") String currency,
       @QueryParam("status") String status,
       @QueryParam("startAt") Long startAt,
-      @QueryParam("endAt") Long endAt
-      // @QueryParam("pageSize") int pageSize
-      // @QueryParam("currentPage") int currentPage
-      ) throws IOException;
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("currentPage") Integer currentPage,
+      @QueryParam("pageSize") Integer pageSize)
+      throws IOException;
 }

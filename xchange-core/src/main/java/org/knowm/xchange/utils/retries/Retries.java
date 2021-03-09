@@ -4,6 +4,8 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** @deprecated */
+@Deprecated
 public class Retries {
 
   private static final Logger log = LoggerFactory.getLogger(Retries.class);

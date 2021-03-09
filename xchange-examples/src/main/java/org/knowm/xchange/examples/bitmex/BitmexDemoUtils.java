@@ -10,7 +10,7 @@ public class BitmexDemoUtils {
   public static Exchange createExchange() {
 
     // Use the factory to get Bitmex exchange API using default settings
-    Exchange bitmex = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class.getName());
+    Exchange bitmex = ExchangeFactory.INSTANCE.createExchange(BitmexExchange.class);
 
     ExchangeSpecification bitmexSpec = bitmex.getDefaultExchangeSpecification();
 

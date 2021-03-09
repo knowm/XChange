@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLoansDataTest;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
@@ -59,7 +60,28 @@ public class PoloniexAdapterTest {
 
     final List<FundingRecord> fundingRecords = PoloniexAdapters.adaptFundingRecords(response);
 
-    assertThat(fundingRecords).hasSize(2);
+    assertThat(fundingRecords).hasSize(3);
+    final FundingRecord adjustment =
+        fundingRecords.stream()
+            .filter(record -> record.getType() == Type.AIRDROP)
+            .findFirst()
+            .orElseThrow(NullPointerException::new);
+
+    assertThat(adjustment.getAddress()).isNull();
+    assertThat(adjustment.getDate()).isEqualTo(new Date(1564782686000L));
+    assertThat(adjustment.getCurrency()).isEqualTo(Currency.USDT);
+    assertThat(adjustment.getAmount())
+        .isCloseTo(new BigDecimal("0.01752476"), Offset.offset(BigDecimal.ZERO));
+    assertThat(adjustment.getInternalId()).isNull();
+    assertThat(adjustment.getBlockchainTransactionHash()).isNull();
+    assertThat(adjustment.getType()).isEqualTo(Type.AIRDROP);
+    assertThat(adjustment.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
+    assertThat(adjustment.getBalance()).isNull();
+    assertThat(adjustment.getFee()).isNull();
+    assertThat(adjustment.getDescription())
+        .isEqualTo(
+            "adjustment:USDT_AIDROP\nUSDT-TRON Airdrop\nYour airdrop for Aug 2, 2019.\nhttps://support.poloniex.circle.com/hc/en-us/articles/360029433451-USDT-TRON-Airdrop-and-Other-Frequently-Asked-Questions");
+
     final FundingRecord deposit =
         fundingRecords.stream()
             .filter(record -> record.getType() == FundingRecord.Type.DEPOSIT)

@@ -72,7 +72,7 @@ public class BitflyerAdapters {
               balance.getAvailable()));
     }
 
-    return new Wallet(adaptedBalances);
+    return Wallet.Builder.from(adaptedBalances).build();
   }
 
   /**

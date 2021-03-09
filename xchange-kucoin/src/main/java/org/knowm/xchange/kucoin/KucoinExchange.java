@@ -1,16 +1,15 @@
 package org.knowm.xchange.kucoin;
 
+import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
+
 import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
+import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
-
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   /**
    * Use with {@link ExchangeSpecification#getExchangeSpecificParametersItem(String)} to specify
@@ -53,19 +52,13 @@ public class KucoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
-    ExchangeSpecification exchangeSpecification =
-        new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(LIVE_URI);
     exchangeSpecification.setHost(LIVE_HOST);
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Kucoin");
     exchangeSpecification.setExchangeDescription("Kucoin is a bitcoin and altcoin exchange.");
     return exchangeSpecification;
-  }
-
-  @Override
-  public SynchronizedValueFactory<Long> getNonceFactory() {
-    return nonceFactory;
   }
 
   @Override
@@ -88,5 +81,23 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   @Override
   public KucoinAccountService getAccountService() {
     return (KucoinAccountService) super.getAccountService();
+  }
+
+  public WebsocketResponse getPublicWebsocketConnectionDetails() throws IOException {
+    return classifyingExceptions(getAccountService().websocketAPI::getPublicWebsocketDetails);
+  }
+
+  public WebsocketResponse getPrivateWebsocketConnectionDetails() throws IOException {
+    getAccountService().checkAuthenticated();
+
+    return classifyingExceptions(
+        () ->
+            getAccountService()
+                .websocketAPI
+                .getPrivateWebsocketDetails(
+                    getAccountService().apiKey,
+                    getAccountService().digest,
+                    getAccountService().nonceFactory,
+                    getAccountService().passphrase));
   }
 }

@@ -1,5 +1,7 @@
 package org.knowm.xchange.binance;
 
+import static org.knowm.xchange.binance.BinanceResilience.*;
+
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -13,6 +15,7 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
+import org.knowm.xchange.binance.dto.meta.BinanceSystemStatus;
 import org.knowm.xchange.binance.dto.meta.BinanceTime;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 
@@ -21,7 +24,16 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 public interface Binance {
 
   @GET
-  @Path("api/v1/ping")
+  @Path("wapi/v3/systemStatus.html")
+  /**
+   * Fetch system status which is normal or system maintenance.
+   *
+   * @throws IOException
+   */
+  BinanceSystemStatus systemStatus() throws IOException;
+
+  @GET
+  @Path("api/v3/ping")
   /**
    * Test connectivity to the Rest API.
    *
@@ -31,7 +43,7 @@ public interface Binance {
   Object ping() throws IOException;
 
   @GET
-  @Path("api/v1/time")
+  @Path("api/v3/time")
   /**
    * Test connectivity to the Rest API and get the current server time.
    *
@@ -41,7 +53,7 @@ public interface Binance {
   BinanceTime time() throws IOException;
 
   @GET
-  @Path("api/v1/exchangeInfo")
+  @Path("api/v3/exchangeInfo")
   /**
    * Current exchange trading rules and symbol information.
    *
@@ -51,10 +63,11 @@ public interface Binance {
   BinanceExchangeInfo exchangeInfo() throws IOException;
 
   @GET
-  @Path("api/v1/depth")
+  @Path("api/v3/depth")
   /**
    * @param symbol
-   * @param limit optional, default 100; max 100.
+   * @param limit optional, default 100 max 5000. Valid limits: [5, 10, 20, 50, 100, 500, 1000,
+   *     5000]
    * @return
    * @throws IOException
    * @throws BinanceException
@@ -63,7 +76,7 @@ public interface Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/aggTrades")
+  @Path("api/v3/aggTrades")
   /**
    * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with the
    * same price will have the quantity aggregated.<br>
@@ -90,7 +103,7 @@ public interface Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/klines")
+  @Path("api/v3/klines")
   /**
    * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.<br>
    * If startTime and endTime are not sent, the most recent klines are returned.
@@ -113,7 +126,7 @@ public interface Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/ticker/24hr")
+  @Path("api/v3/ticker/24hr")
   /**
    * 24 hour price change statistics for all symbols. - bee carreful this api call have a big
    * weight, only about 4 call per minut can be without ban.
@@ -125,7 +138,7 @@ public interface Binance {
   List<BinanceTicker24h> ticker24h() throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/ticker/24hr")
+  @Path("api/v3/ticker/24hr")
   /**
    * 24 hour price change statistics.
    *
@@ -138,7 +151,19 @@ public interface Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("api/v1/ticker/allPrices")
+  @Path("api/v3/ticker/price")
+  /**
+   * Latest price for a symbol.
+   *
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  BinancePrice tickerPrice(@QueryParam("symbol") String symbol)
+      throws IOException, BinanceException;
+
+  @GET
+  @Path("api/v3/ticker/price")
   /**
    * Latest price for all symbols.
    *

@@ -58,16 +58,17 @@ public class DVChainAdapters {
       CurrencyPair currencyPair = new CurrencyPair(trade.getAsset(), "USD");
       final BigDecimal fee = null;
       pastTrades.add(
-          new UserTrade(
-              orderType,
-              trade.getQuantity(),
-              currencyPair,
-              trade.getPrice(),
-              timestamp,
-              trade.getId(),
-              trade.getId(),
-              fee,
-              Currency.USD));
+          new UserTrade.Builder()
+              .type(orderType)
+              .originalAmount(trade.getQuantity())
+              .currencyPair(currencyPair)
+              .price(trade.getPrice())
+              .timestamp(timestamp)
+              .id(trade.getId())
+              .orderId(trade.getId())
+              .feeAmount(fee)
+              .feeCurrency(Currency.USD)
+              .build());
     }
     return new UserTrades(pastTrades, Trades.TradeSortType.SortByTimestamp);
   }
@@ -80,7 +81,14 @@ public class DVChainAdapters {
     BigDecimal price = trade.getPrice();
     Date date = Date.from(trade.getCreatedAt());
     final String tradeId = trade.getId();
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade.Builder()
+        .type(orderType)
+        .originalAmount(amount)
+        .currencyPair(currencyPair)
+        .price(price)
+        .timestamp(date)
+        .id(tradeId)
+        .build();
   }
 
   public static Trades adaptTrades(List<DVChainTrade> trades) {

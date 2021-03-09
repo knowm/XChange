@@ -16,14 +16,13 @@ public class HistoricalCandlesIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    Exchange exchange =
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseProExchange.class);
     CoinbaseProMarketDataService mds =
         (CoinbaseProMarketDataService) exchange.getMarketDataService();
     CoinbaseProCandle[] candles =
         mds.getCoinbaseProHistoricalCandles(
             CurrencyPair.BTC_USD, "2018-02-01T00:00:00Z", "2018-02-01T00:10:00Z", "60");
     System.out.println(Arrays.toString(candles));
-    assertThat(candles).hasSize(10);
+    assertThat(candles).hasSize(11);
   }
 }

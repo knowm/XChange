@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccounts;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancelAllOrdersAfter;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
@@ -44,7 +45,8 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @QueryParam("symbol") String symbol,
       @QueryParam("side") String side,
       @QueryParam("size") BigDecimal size,
-      @QueryParam("limitPrice") BigDecimal limitPrice)
+      @QueryParam("limitPrice") BigDecimal limitPrice,
+      @QueryParam("stopPrice") BigDecimal stopPrice)
       throws IOException;
 
   @POST
@@ -63,6 +65,15 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
       @QueryParam("order_id") String order_id)
+      throws IOException;
+
+  @POST
+  @Path("cancelallordersafter")
+  CryptoFacilitiesCancelAllOrdersAfter cancelAllOrdersAfter(
+      @HeaderParam("APIKey") String apiKey,
+      @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce,
+      @QueryParam("timeout") long timeoutSeconds)
       throws IOException;
 
   @GET

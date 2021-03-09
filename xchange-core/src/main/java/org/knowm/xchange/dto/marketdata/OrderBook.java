@@ -1,5 +1,7 @@
 package org.knowm.xchange.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** DTO representing the exchange order book */
 public final class OrderBook implements Serializable {
+
+  private static final long serialVersionUID = -7788306758114464314L;
 
   /** the asks */
   private final List<LimitOrder> asks;
@@ -30,7 +34,11 @@ public final class OrderBook implements Serializable {
    * @param asks The ASK orders
    * @param bids The BID orders
    */
-  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
+  @JsonCreator
+  public OrderBook(
+      @JsonProperty("timeStamp") Date timeStamp,
+      @JsonProperty("asks") List<LimitOrder> asks,
+      @JsonProperty("bids") List<LimitOrder> bids) {
 
     this(timeStamp, asks, bids, false);
   }
@@ -142,9 +150,12 @@ public final class OrderBook implements Serializable {
     int idx = Collections.binarySearch(asks, limitOrder);
     if (idx >= 0) {
       asks.remove(idx);
-      asks.add(idx, limitOrder);
     } else {
-      asks.add(-idx - 1, limitOrder);
+      idx = -idx - 1;
+    }
+
+    if (limitOrder.getRemainingAmount().compareTo(BigDecimal.ZERO) != 0) {
+      asks.add(idx, limitOrder);
     }
   }
 

@@ -81,7 +81,7 @@ public class CryptoFacilitiesAdapters {
       }
       balances.add(balance);
     }
-    return new AccountInfo(username, new Wallet(balances));
+    return new AccountInfo(username, Wallet.Builder.from(balances).build());
   }
 
   public static AccountInfo adaptAccounts(
@@ -111,7 +111,7 @@ public class CryptoFacilitiesAdapters {
         balances.add(balance);
       }
 
-      wallets.add(new Wallet(accountName, accountName, balances));
+      wallets.add(Wallet.Builder.from(balances).id(accountName).name(accountName).build());
     }
     return new AccountInfo(username, wallets);
   }
@@ -168,16 +168,15 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static UserTrade adaptFill(CryptoFacilitiesFill fill) {
-    return new UserTrade(
-        adaptOrderType(fill.getSide()),
-        fill.getSize(),
-        new CurrencyPair(fill.getSymbol(), fill.getSymbol().substring(6, 9)),
-        fill.getPrice(),
-        fill.getFillTime(),
-        fill.getFillId(),
-        fill.getOrderId(),
-        null,
-        (Currency) null);
+    return new UserTrade.Builder()
+        .type(adaptOrderType(fill.getSide()))
+        .originalAmount(fill.getSize())
+        .currencyPair(new CurrencyPair(fill.getSymbol(), fill.getSymbol().substring(6, 9)))
+        .price(fill.getPrice())
+        .timestamp(fill.getFillTime())
+        .id(fill.getFillId())
+        .orderId(fill.getOrderId())
+        .build();
   }
 
   public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills) {
