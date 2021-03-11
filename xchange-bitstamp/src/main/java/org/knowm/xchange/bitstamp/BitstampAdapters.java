@@ -308,8 +308,9 @@ public final class BitstampAdapters {
       throw new IllegalArgumentException("Amount size is not 2. Unable to calculate currency pair.");
     }
 
-    if (exchangeSymbols.contains(new CurrencyPair(keys[0], keys[1]))) {
-      return new CurrencyPair(keys[0], keys[1]);
+    CurrencyPair currencyPair = new CurrencyPair(keys[0], keys[1]);
+    if (exchangeSymbols.contains(currencyPair)) {
+      return currencyPair;
     } else {
       return new CurrencyPair(keys[1], keys[0]);
     }
