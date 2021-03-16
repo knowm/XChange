@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketUserTrade;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,7 +24,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     String channelName =
         "private-open_orders-"
             + coinmateStreamingService.getUserId()
@@ -48,7 +48,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     String channelName =
         "private-user-trades-"
             + coinmateStreamingService.getUserId()

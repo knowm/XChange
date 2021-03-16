@@ -9,7 +9,7 @@ import com.google.common.base.Suppliers;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.poloniex2.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
   private static final String TICKER_CHANNEL_ID = "1002";
 
   private final PoloniexStreamingService service;
-  private final Supplier<Observable<Ticker>> streamingTickers;
+  private final Supplier<Flowable<Ticker>> streamingTickers;
 
   public PoloniexStreamingMarketDataService(
       PoloniexStreamingService service, Map<Integer, CurrencyPair> currencyIdMap) {
@@ -54,8 +54,8 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    Observable<PoloniexOrderbook> subscribedOrderbook =
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    Flowable<PoloniexOrderbook> subscribedOrderbook =
         service
             .subscribeCurrencyPairChannel(currencyPair)
             .scan(
@@ -80,19 +80,19 @@ public class PoloniexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     return streamingTickers.get().filter(ticker -> ticker.getCurrencyPair().equals(currencyPair));
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    Observable<PoloniexWebSocketTradeEvent> subscribedTrades =
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    Flowable<PoloniexWebSocketTradeEvent> subscribedTrades =
         service
             .subscribeCurrencyPairChannel(currencyPair)
             .flatMapIterable(poloniexWebSocketEvents -> poloniexWebSocketEvents)
             .filter(PoloniexWebSocketTradeEvent.class::isInstance)
             .map(PoloniexWebSocketTradeEvent.class::cast)
-            .share();
+            .publish(1).refCount();
 
     return subscribedTrades.map(
         s -> PoloniexWebSocketAdapter.convertPoloniexWebSocketTradeEventToTrade(s, currencyPair));

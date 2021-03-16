@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketEventsTransacti
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketOrderbookModifiedEvent;
 import info.bitrich.xchangestream.poloniex2.dto.PoloniexWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   private static final String HEARTBEAT = "1010";
 
   private final Map<String, String> subscribedChannels = new ConcurrentHashMap<>();
-  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Flowable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
 
   public PoloniexStreamingService(String apiUrl) {
     super(apiUrl, Integer.MAX_VALUE, DEFAULT_CONNECTION_TIMEOUT, DEFAULT_RETRY_DURATION, 2);
@@ -75,14 +75,14 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public synchronized Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
+  public synchronized Flowable<JsonNode> subscribeChannel(String channelName, Object... args) {
     if (!channels.containsKey(channelName)) {
       subscriptions.put(channelName, super.subscribeChannel(channelName, args));
     }
     return subscriptions.get(channelName);
   }
 
-  public Observable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(
+  public Flowable<List<PoloniexWebSocketEvent>> subscribeCurrencyPairChannel(
       CurrencyPair currencyPair) {
     String channelName = currencyPair.counter.toString() + "_" + currencyPair.base.toString();
     return subscribeChannel(channelName)
@@ -108,7 +108,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
               }
             })
         .map(PoloniexWebSocketEventsTransaction::getEvents)
-        .share();
+        .publish(1).refCount();
   }
 
   @Override

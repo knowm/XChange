@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.lgo.domain.LgoGroupedLevel2Update;
 import info.bitrich.xchangestream.lgo.dto.LgoLevel2Update;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -13,7 +13,7 @@ import org.slf4j.*;
 class LgoLevel2BatchSubscription {
 
   private final LgoStreamingService service;
-  private final Observable<OrderBook> subscription;
+  private final Flowable<OrderBook> subscription;
   private static final Logger LOGGER = LoggerFactory.getLogger(LgoLevel2BatchSubscription.class);
   private CurrencyPair currencyPair;
 
@@ -27,11 +27,11 @@ class LgoLevel2BatchSubscription {
     subscription = createSubscription();
   }
 
-  Observable<OrderBook> getSubscription() {
+  Flowable<OrderBook> getSubscription() {
     return subscription;
   }
 
-  private Observable<OrderBook> createSubscription() {
+  private Flowable<OrderBook> createSubscription() {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return service
         .subscribeChannel(LgoAdapter.channelName("level2", currencyPair))
@@ -57,7 +57,7 @@ class LgoLevel2BatchSubscription {
             })
         .filter(LgoGroupedLevel2Update::isValid)
         .map(LgoGroupedLevel2Update::orderBook)
-        .share();
+        .publish(1).refCount();
   }
 
   private void resubscribe() {

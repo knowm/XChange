@@ -12,9 +12,9 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMe
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.processors.PublishProcessor;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -65,12 +65,12 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   private static final int CALCULATION_BATCH_SIZE = 8;
   private static final List<String> WALLETS = Arrays.asList("exchange", "margin", "funding");
 
-  private final PublishSubject<BitfinexWebSocketAuthPreTrade> subjectPreTrade =
-      PublishSubject.create();
-  private final PublishSubject<BitfinexWebSocketAuthTrade> subjectTrade = PublishSubject.create();
-  private final PublishSubject<BitfinexWebSocketAuthOrder> subjectOrder = PublishSubject.create();
-  private final PublishSubject<BitfinexWebSocketAuthBalance> subjectBalance =
-      PublishSubject.create();
+  private final PublishProcessor<BitfinexWebSocketAuthPreTrade> subjectPreTrade =
+      PublishProcessor.create();
+  private final PublishProcessor<BitfinexWebSocketAuthTrade> subjectTrade = PublishProcessor.create();
+  private final PublishProcessor<BitfinexWebSocketAuthOrder> subjectOrder = PublishProcessor.create();
+  private final PublishProcessor<BitfinexWebSocketAuthBalance> subjectBalance =
+      PublishProcessor.create();
 
   private static final int SUBSCRIPTION_FAILED = 10300;
   private static final int SUBSCRIPTION_DUP = 10301;
@@ -106,7 +106,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         .doOnComplete(
             () ->
                 this.calculator =
-                    Observable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs()));
+                    Flowable.interval(1, TimeUnit.SECONDS).subscribe(x -> requestCalcs()));
   }
 
   @Override
@@ -317,20 +317,20 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
         new BitfinexWebSocketAuth(apiKey, payload, String.valueOf(nonce), signature.toLowerCase()));
   }
 
-  Observable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {
-    return subjectOrder.share();
+  Flowable<BitfinexWebSocketAuthOrder> getAuthenticatedOrders() {
+    return subjectOrder.publish(1).refCount();
   }
 
-  Observable<BitfinexWebSocketAuthPreTrade> getAuthenticatedPreTrades() {
-    return subjectPreTrade.share();
+  Flowable<BitfinexWebSocketAuthPreTrade> getAuthenticatedPreTrades() {
+    return subjectPreTrade.publish(1).refCount();
   }
 
-  Observable<BitfinexWebSocketAuthTrade> getAuthenticatedTrades() {
-    return subjectTrade.share();
+  Flowable<BitfinexWebSocketAuthTrade> getAuthenticatedTrades() {
+    return subjectTrade.publish(1).refCount();
   }
 
-  Observable<BitfinexWebSocketAuthBalance> getAuthenticatedBalances() {
-    return subjectBalance.share();
+  Flowable<BitfinexWebSocketAuthBalance> getAuthenticatedBalances() {
+    return subjectBalance.publish(1).refCount();
   }
 
   /**

@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.huobi.HuobiExchange;
 
 public class HuobiStreamingExchange extends HuobiExchange implements StreamingExchange {
@@ -45,17 +45,17 @@ public class HuobiStreamingExchange extends HuobiExchange implements StreamingEx
   }
 
   @Override
-  public Observable<Throwable> reconnectFailure() {
+  public Flowable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   @Override
-  public Observable<Object> connectionSuccess() {
+  public Flowable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
   }
 
   @Override
-  public Observable<State> connectionStateObservable() {
+  public Flowable<State> connectionStateFlowable() {
     return streamingService.subscribeConnectionState();
   }
 

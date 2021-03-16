@@ -6,8 +6,8 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingMarketDataService;
 import info.bitrich.xchangestream.bitstamp.v2.BitstampStreamingService;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,13 +35,13 @@ public class BitstampStreamingMarketDataServiceV2Test
     marketDataService = new BitstampStreamingMarketDataService(streamingService);
   }
 
-  public void testOrderbookCommon(String channelName, Supplier<TestObserver<OrderBook>> updater)
+  public void testOrderbookCommon(String channelName, Supplier<TestSubscriber<OrderBook>> updater)
       throws Exception {
     // Given order book in JSON
     JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
 
     when(streamingService.subscribeChannel(eq(channelName), eq("data")))
-        .thenReturn(Observable.just(orderBook));
+        .thenReturn(Flowable.just(orderBook));
 
     List<LimitOrder> bids = new ArrayList<>();
     bids.add(
@@ -87,8 +87,8 @@ public class BitstampStreamingMarketDataServiceV2Test
             null,
             new BigDecimal("821.6")));
 
-    // Call get order book observable
-    TestObserver<OrderBook> test = updater.get();
+    // Call get order book Flowable
+    TestSubscriber<OrderBook> test = updater.get();
 
     // We get order book object in correct order
     validateOrderBook(bids, asks, test);
@@ -113,7 +113,7 @@ public class BitstampStreamingMarketDataServiceV2Test
     JsonNode trade = mapper.readTree(this.getClass().getResource("/trade-v2.json"));
 
     when(streamingService.subscribeChannel(eq("live_trades_btcusd"), eq("trade")))
-        .thenReturn(Observable.just(trade));
+        .thenReturn(Flowable.just(trade));
 
     Trade expected =
         new Trade.Builder()
@@ -125,8 +125,8 @@ public class BitstampStreamingMarketDataServiceV2Test
             .id("177827396")
             .build();
 
-    // Call get order book observable
-    TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
+    // Call get order book Flowable
+    TestSubscriber<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
 
     // We get order book object in correct order
     validateTrades(expected, test);
@@ -138,7 +138,7 @@ public class BitstampStreamingMarketDataServiceV2Test
     JsonNode orderBook = mapper.readTree(this.getClass().getResource("/order-book-v2.json"));
 
     when(streamingService.subscribeChannel(eq("order_book_btceur"), eq("data")))
-        .thenReturn(Observable.just(orderBook));
+        .thenReturn(Flowable.just(orderBook));
 
     List<Ticker> tickerList = new ArrayList<>();
     tickerList.add(
@@ -160,8 +160,8 @@ public class BitstampStreamingMarketDataServiceV2Test
             .timestamp(new Date(1553720851000L))
             .build());
 
-    // Call get ticker observable
-    TestObserver<Ticker> test = marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
+    // Call get ticker Flowable
+    TestSubscriber<Ticker> test = marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
 
     // We get order book object in correct order
     validateTicker(tickerList, test);

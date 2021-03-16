@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.lgo;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -21,7 +21,7 @@ public class LgoStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     return level2Subscriptions
         .computeIfAbsent(currencyPair, this::createLevel2Subscription)
         .getSubscription();
@@ -32,7 +32,7 @@ public class LgoStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     return tradeSubscriptions
         .computeIfAbsent(currencyPair, this::createTradeSubscription)
         .getSubscription();
@@ -43,7 +43,7 @@ public class LgoStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException();
   }
 }

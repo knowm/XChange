@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.NettyStreamingService;
 import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -43,51 +43,51 @@ public interface StreamingExchange extends Exchange {
   boolean isAlive();
 
   /**
-   * Observable for reconnection failure event. When this happens, it usually indicates that the
+   * Flowable for reconnection failure event. When this happens, it usually indicates that the
    * server or the network is down.
    *
-   * @return Observable with the exception during reconnection.
+   * @return Flowable with the exception during reconnection.
    */
-  default Observable<Throwable> reconnectFailure() {
+  default Flowable<Throwable> reconnectFailure() {
     throw new NotYetImplementedForExchangeException("reconnectFailure");
   }
 
   /**
-   * Observable for connection success event. When this happens, it usually indicates that the
+   * Flowable for connection success event. When this happens, it usually indicates that the
    * server or the network is down.
    *
-   * @return Observable with the exception during reconnection.
+   * @return Flowable with the exception during reconnection.
    */
-  default Observable<Object> connectionSuccess() {
+  default Flowable<Object> connectionSuccess() {
     throw new NotYetImplementedForExchangeException("connectionSuccess");
   }
 
   /**
-   * Observable for disconnection event.
+   * Flowable for disconnection event.
    *
-   * @return Observable with ChannelHandlerContext
+   * @return Flowable with ChannelHandlerContext
    */
-  default Observable<ChannelHandlerContext> disconnectObservable() {
-    throw new NotYetImplementedForExchangeException("disconnectObservable");
+  default Flowable<ChannelHandlerContext> disconnectFlowable() {
+    throw new NotYetImplementedForExchangeException("disconnectFlowable");
   }
 
   /**
-   * Observable for connectionState. designed to replaces connectionSuccess reconnectFailure
-   * disconnectObservable
+   * Flowable for connectionState. designed to replaces connectionSuccess reconnectFailure
+   * disconnectFlowable
    *
-   * @return Observable
+   * @return Flowable
    */
-  default Observable<State> connectionStateObservable() {
+  default Flowable<State> connectionStateFlowable() {
     throw new NotYetImplementedForExchangeException("connectionState");
   }
 
   /**
-   * Observable for message delay measure. Every time when the client received a message with a
+   * Flowable for message delay measure. Every time when the client received a message with a
    * timestamp, the delay time is calculated and pushed to subscribers.
    *
-   * @return Observable with the message delay measure.
+   * @return Flowable with the message delay measure.
    */
-  default Observable<Long> messageDelay() {
+  default Flowable<Long> messageDelay() {
     throw new NotYetImplementedForExchangeException("messageDelay");
   }
 
@@ -95,7 +95,7 @@ public interface StreamingExchange extends Exchange {
     throw new NotYetImplementedForExchangeException("resubscribeChannels");
   }
 
-  default Observable<Object> connectionIdle() {
+  default Flowable<Object> connectionIdle() {
     throw new NotYetImplementedForExchangeException("connectionIdle");
   }
 

@@ -6,8 +6,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -45,7 +45,7 @@ public class CoinmateStreamingMarketDataServiceTest {
     CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
     when(mockService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(mapper.readTree(orderBook)));
+        .thenReturn(Flowable.just(mapper.readTree(orderBook)));
 
     CoinmateStreamingMarketDataService marketDataService =
         new CoinmateStreamingMarketDataService(mockService);
@@ -94,8 +94,8 @@ public class CoinmateStreamingMarketDataServiceTest {
             null,
             new BigDecimal("855.48")));
 
-    // Call get order book observable
-    TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
+    // Call get order book Flowable
+    TestSubscriber<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
 
     // We get order book object in correct order
     test.assertValue(
@@ -119,7 +119,7 @@ public class CoinmateStreamingMarketDataServiceTest {
     CoinmateStreamingService mockService = mock(CoinmateStreamingService.class);
 
     when(mockService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(mapper.readTree(trade)));
+        .thenReturn(Flowable.just(mapper.readTree(trade)));
 
     CoinmateStreamingMarketDataService marketDataService =
         new CoinmateStreamingMarketDataService(mockService);
@@ -144,7 +144,7 @@ public class CoinmateStreamingMarketDataServiceTest {
             .type(Order.OrderType.ASK)
             .build();
 
-    TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_CZK).test();
+    TestSubscriber<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_CZK).test();
 
     test.assertValueAt(
         0,

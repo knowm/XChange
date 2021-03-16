@@ -14,7 +14,7 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String SHARE_CHANNEL_NAME = "ALL";
-  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Flowable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
   private final Supplier<CoinbaseProWebsocketAuthData> authData;
   private final boolean subscribeL3Orderbook;
@@ -73,10 +73,10 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
    * subscribe more than once to the same channel.
    *
    * @param channelName the name of the requested channel.
-   * @return an Observable of json objects coming from the exchange.
+   * @return an Flowable of json objects coming from the exchange.
    */
   @Override
-  public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
+  public Flowable<JsonNode> subscribeChannel(String channelName, Object... args) {
     channelName = SHARE_CHANNEL_NAME;
 
     if (!channels.containsKey(channelName) && !subscriptions.containsKey(channelName)) {
@@ -92,7 +92,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
    * @param currencyPair The currency pair.
    * @return The stream.
    */
-  public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
+  public Flowable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
     String channelName = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();

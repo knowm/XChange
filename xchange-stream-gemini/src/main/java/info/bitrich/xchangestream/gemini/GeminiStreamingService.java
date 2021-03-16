@@ -2,9 +2,9 @@ package info.bitrich.xchangestream.gemini;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.Flowable;
+import io.reactivex.processors.BehaviorProcessor;
+import io.reactivex.processors.FlowableProcessor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -20,22 +20,22 @@ public class GeminiStreamingService {
 
   private final Map<CurrencyPair, GeminiProductStreamingService> productStreamingServices =
       new ConcurrentHashMap<>();
-  private final Map<CurrencyPair, Observable<JsonNode>> productSubscriptions =
+  private final Map<CurrencyPair, Flowable<JsonNode>> productSubscriptions =
       new ConcurrentHashMap<>();
 
-  private final Subject<State> stateSubject = BehaviorSubject.create();
+  private final FlowableProcessor<State> stateSubject = BehaviorProcessor.create();
 
   public GeminiStreamingService(String baseUri) {
     this.baseUri = baseUri;
   }
 
-  public Observable<JsonNode> subscribeChannel(CurrencyPair currencyPair, Object... args) {
+  public Flowable<JsonNode> subscribeChannel(CurrencyPair currencyPair, Object... args) {
     if (!productStreamingServices.containsKey(currencyPair)) {
       String symbolUri = baseUri + currencyPair.base.toString() + currencyPair.counter.toString();
       GeminiProductStreamingService productStreamingService =
           new GeminiProductStreamingService(symbolUri, currencyPair);
       productStreamingService.connect().blockingAwait();
-      Observable<JsonNode> productSubscription =
+      Flowable<JsonNode> productSubscription =
           productStreamingService.subscribeChannel(currencyPair.toString(), args);
       productStreamingServices.put(currencyPair, productStreamingService);
       productSubscriptions.put(currencyPair, productSubscription);
@@ -50,7 +50,7 @@ public class GeminiStreamingService {
     return productStreamingServices.values().stream().allMatch(ps -> ps.isSocketOpen());
   }
 
-  public Observable<State> connectionStateObservable() {
-    return stateSubject.share();
+  public Flowable<State> connectionStateFlowable() {
+    return stateSubject.publish(1).refCount();
   }
 }

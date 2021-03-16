@@ -8,7 +8,7 @@ import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.netty.util.internal.StringUtil;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +23,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
 
-  private final Map<String, Observable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Flowable<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private ProductSubscription product = null;
 
   public GeminiStreamingService(String baseUri) {
@@ -34,7 +34,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
     return this.product;
   }
 
-  public Observable<GeminiWebSocketTransaction> getRawWebSocketTransactions(
+  public Flowable<GeminiWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
     String channelName = currencyPair.base.toString() + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
@@ -49,7 +49,7 @@ public class GeminiStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
+  public Flowable<JsonNode> subscribeChannel(String channelName, Object... args) {
     channelName = SHARE_CHANNEL_NAME;
 
     if (!channels.containsKey(channelName) && !subscriptions.containsKey(channelName)) {

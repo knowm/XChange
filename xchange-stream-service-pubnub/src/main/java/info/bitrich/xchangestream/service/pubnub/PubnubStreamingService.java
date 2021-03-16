@@ -15,9 +15,11 @@ import com.pubnub.api.models.consumer.pubsub.message_actions.PNMessageActionResu
 import com.pubnub.api.models.consumer.pubsub.objects.PNMembershipResult;
 import com.pubnub.api.models.consumer.pubsub.objects.PNSpaceResult;
 import com.pubnub.api.models.consumer.pubsub.objects.PNUserResult;
+
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class PubnubStreamingService {
 
   private final PubNub pubnub;
   private PNStatusCategory pnStatusCategory;
-  private final Map<String, ObservableEmitter<JsonNode>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, FlowableEmitter<JsonNode>> subscriptions = new ConcurrentHashMap<>();
   private final ObjectMapper mapper;
 
   public PubnubStreamingService(String publicKey) {
@@ -65,7 +67,7 @@ public class PubnubStreamingService {
                 @Override
                 public void message(PubNub pubNub, PNMessageResult pnMessageResult) {
                   String channelName = pnMessageResult.getChannel();
-                  ObservableEmitter<JsonNode> subscription = subscriptions.get(channelName);
+                  FlowableEmitter<JsonNode> subscription = subscriptions.get(channelName);
                   LOG.debug("PubNub Message: {}", pnMessageResult.toString());
                   if (subscription != null) {
                     JsonNode jsonMessage = null;
@@ -115,22 +117,22 @@ public class PubnubStreamingService {
         });
   }
 
-  public Observable<JsonNode> subscribeChannel(String channelName) {
+  public Flowable<JsonNode> subscribeChannel(String channelName) {
     LOG.info("Subscribing to channel {}.", channelName);
-    return Observable.<JsonNode>create(
+    return Flowable.<JsonNode>create(
             e -> {
               if (!subscriptions.containsKey(channelName)) {
                 subscriptions.put(channelName, e);
                 pubnub.subscribe().channels(Collections.singletonList(channelName)).execute();
                 LOG.debug("Subscribe channel: {}", channelName);
               }
-            })
-        .doOnDispose(
+            }, BackpressureStrategy.LATEST)
+        .doOnCancel(
             () -> {
               LOG.debug("Unsubscribe channel: {}", channelName);
               pubnub.unsubscribe().channels(Collections.singletonList(channelName)).execute();
             })
-        .share();
+        .publish(1).refCount(); // share uses a buffer of 128. We need buffer of 1 to prevent delivering delayed events.
   }
 
   public Completable disconnect() {

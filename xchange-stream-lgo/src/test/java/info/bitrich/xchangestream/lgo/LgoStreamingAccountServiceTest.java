@@ -4,8 +4,8 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -20,10 +20,10 @@ public class LgoStreamingAccountServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/account/balance-snapshot.json");
     LgoStreamingService streamingService = mock(LgoStreamingService.class);
     LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
-    Observable<JsonNode> source = Observable.just(snapshot);
+    Flowable<JsonNode> source = Flowable.just(snapshot);
     when(streamingService.subscribeChannel(anyString())).thenReturn(source);
 
-    TestObserver<Wallet> wallet = service.getWallet().test();
+    TestSubscriber<Wallet> wallet = service.getWallet().test();
 
     verify(streamingService).subscribeChannel("balance");
     wallet.assertSubscribed();
@@ -50,12 +50,12 @@ public class LgoStreamingAccountServiceTest {
     JsonNode update = TestUtils.getJsonContent("/account/balance-update.json");
     LgoStreamingService streamingService = mock(LgoStreamingService.class);
     LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
-    Observable<JsonNode> source = Observable.just(snapshot, update);
+    Flowable<JsonNode> source = Flowable.just(snapshot, update);
     when(streamingService.subscribeChannel(anyString())).thenReturn(source);
 
     service.getWallet().subscribe();
 
-    TestObserver<Wallet> wallet = service.getWallet().test();
+    TestSubscriber<Wallet> wallet = service.getWallet().test();
     wallet.assertValueAt(
         1,
         buildWallet(
@@ -83,10 +83,10 @@ public class LgoStreamingAccountServiceTest {
     LgoStreamingService streamingService = mock(LgoStreamingService.class);
     LgoStreamingAccountService service = new LgoStreamingAccountService(streamingService);
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    TestObserver<Balance> btcChanges = service.getBalanceChanges(Currency.BTC).test();
-    TestObserver<Balance> usdChanges = service.getBalanceChanges(Currency.USD).test();
+    TestSubscriber<Balance> btcChanges = service.getBalanceChanges(Currency.BTC).test();
+    TestSubscriber<Balance> usdChanges = service.getBalanceChanges(Currency.USD).test();
 
     verify(streamingService, times(1)).subscribeChannel("balance");
     btcChanges.assertValueAt(

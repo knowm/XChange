@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,7 +51,7 @@ public class HitbtcStreamingMarketDataServiceTest {
             StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("orderbook-BTCEUR")))
-        .thenReturn(Observable.just(objectMapper.readTree(orderBook)));
+        .thenReturn(Flowable.just(objectMapper.readTree(orderBook)));
 
     List<LimitOrder> bids = new ArrayList<>();
     bids.add(
@@ -97,8 +97,8 @@ public class HitbtcStreamingMarketDataServiceTest {
             null,
             new BigDecimal("0.054591")));
 
-    // Call get order book observable
-    TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
+    // Call get order book Flowable
+    TestSubscriber<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
 
     // We get order book object in correct order
     test.assertValue(
@@ -120,7 +120,7 @@ public class HitbtcStreamingMarketDataServiceTest {
             StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("trades-BTCUSD")))
-        .thenReturn(Observable.just(objectMapper.readTree(trades)));
+        .thenReturn(Flowable.just(objectMapper.readTree(trades)));
 
     Trade expected1 =
         new Trade.Builder()
@@ -152,8 +152,8 @@ public class HitbtcStreamingMarketDataServiceTest {
             .id("54469697")
             .build();
 
-    // Call get trades observable
-    TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
+    // Call get trades Flowable
+    TestSubscriber<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
 
     test.assertValues(expected1, expected2, expected3);
     validateTrade(0, test, expected1);
@@ -161,7 +161,7 @@ public class HitbtcStreamingMarketDataServiceTest {
     validateTrade(2, test, expected3);
   }
 
-  private void validateTrade(int index, TestObserver<Trade> test, Trade expected) {
+  private void validateTrade(int index, TestSubscriber<Trade> test, Trade expected) {
     test.assertValueAt(
         index,
         trade -> {
@@ -184,7 +184,7 @@ public class HitbtcStreamingMarketDataServiceTest {
             StandardCharsets.UTF_8);
 
     when(streamingService.subscribeChannel(eq("ticker-BTCUSD")))
-        .thenReturn(Observable.just(objectMapper.readTree(tickerString)));
+        .thenReturn(Flowable.just(objectMapper.readTree(tickerString)));
 
     Ticker expected =
         new Ticker.Builder()
@@ -198,8 +198,8 @@ public class HitbtcStreamingMarketDataServiceTest {
             .timestamp(new Date(1508427944941L))
             .build();
 
-    // Call get ticker observable
-    TestObserver<Ticker> test = marketDataService.getTicker(CurrencyPair.BTC_USD).test();
+    // Call get ticker Flowable
+    TestSubscriber<Ticker> test = marketDataService.getTicker(CurrencyPair.BTC_USD).test();
 
     test.assertValue(
         ticker -> {

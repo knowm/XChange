@@ -4,7 +4,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.function.Function;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,7 +19,7 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
     this.service = service;
   }
 
-  public Observable<Order> getOrderChanges() {
+  public Flowable<Order> getOrderChanges() {
     return getRawAuthenticatedOrders()
         .filter(o -> o.getId() != 0)
         .map(BitfinexStreamingAdapters::adaptOrder)
@@ -31,7 +31,7 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     return getOrderChanges().filter(o -> currencyPair.equals(o.getCurrencyPair()));
   }
 
@@ -40,7 +40,7 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
    *
    * @return The stream of user trades.
    */
-  public Observable<UserTrade> getUserTrades() {
+  public Flowable<UserTrade> getUserTrades() {
     return getRawAuthenticatedTrades()
         .filter(o -> o.getId() != 0)
         .map(BitfinexStreamingAdapters::adaptUserTrade)
@@ -52,24 +52,24 @@ public class BitfinexStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return getUserTrades().filter(t -> currencyPair.equals(t.getCurrencyPair()));
   }
 
-  public Observable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
+  public Flowable<BitfinexWebSocketAuthOrder> getRawAuthenticatedOrders() {
     return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedOrders);
   }
 
-  public Observable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {
+  public Flowable<BitfinexWebSocketAuthPreTrade> getRawAuthenticatedPreTrades() {
     return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedPreTrades);
   }
 
-  public Observable<BitfinexWebSocketAuthTrade> getRawAuthenticatedTrades() {
+  public Flowable<BitfinexWebSocketAuthTrade> getRawAuthenticatedTrades() {
     return withAuthenticatedService(BitfinexStreamingService::getAuthenticatedTrades);
   }
 
-  private <T> Observable<T> withAuthenticatedService(
-      Function<BitfinexStreamingService, Observable<T>> serviceConsumer) {
+  private <T> Flowable<T> withAuthenticatedService(
+      Function<BitfinexStreamingService, Flowable<T>> serviceConsumer) {
     if (!service.isAuthenticated()) {
       throw new ExchangeSecurityException("Not authenticated");
     }

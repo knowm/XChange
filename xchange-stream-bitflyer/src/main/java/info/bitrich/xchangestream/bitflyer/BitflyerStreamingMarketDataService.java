@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.bitflyer.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,7 +31,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelOrderbookSnapshotName =
         "lightning_board_snapshot_"
             + currencyPair.base.toString()
@@ -40,7 +40,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
     String channelOrderbookUpdatesName =
         "lightning_board_" + currencyPair.base.toString() + "_" + currencyPair.counter.toString();
 
-    Observable<BitflyerOrderbook> snapshotTransactions =
+    Flowable<BitflyerOrderbook> snapshotTransactions =
         streamingService
             .subscribeChannel(channelOrderbookSnapshotName)
             .map(
@@ -53,7 +53,7 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
                   return bitflyerOrderbook;
                 });
 
-    Observable<BitflyerOrderbook> updateTransactions =
+    Flowable<BitflyerOrderbook> updateTransactions =
         streamingService
             .subscribeChannel(channelOrderbookUpdatesName)
             .filter(s -> orderbooks.containsKey(currencyPair))
@@ -73,10 +73,10 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName =
         "lightning_ticker_" + currencyPair.base.toString() + "_" + currencyPair.counter.toString();
-    Observable<BitflyerTicker> tickerTransactions =
+    Flowable<BitflyerTicker> tickerTransactions =
         streamingService
             .subscribeChannel(channelName)
             .map(
@@ -90,13 +90,13 @@ public class BitflyerStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channelName =
         "lightning_executions_"
             + currencyPair.base.toString()
             + "_"
             + currencyPair.counter.toString();
-    Observable<BitflyerTrade> tradeTransactions =
+    Flowable<BitflyerTrade> tradeTransactions =
         streamingService
             .subscribeChannel(channelName)
             .flatMapIterable(

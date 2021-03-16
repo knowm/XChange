@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.cexio;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransaction;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -31,7 +31,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<Order> test = service.getOrderData().test();
+    TestSubscriber<Order> test = service.getOrderData().test();
 
     service.handleMessage(jsonNode);
 
@@ -57,7 +57,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<Order> test = service.getOrderData().test();
+    TestSubscriber<Order> test = service.getOrderData().test();
 
     service.handleMessage(jsonNode);
 
@@ -76,7 +76,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<Order> test = service.getOrderData().test();
+    TestSubscriber<Order> test = service.getOrderData().test();
 
     service.handleMessage(jsonNode);
 
@@ -98,7 +98,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<Order> test = service.getOrderData().test();
+    TestSubscriber<Order> test = service.getOrderData().test();
 
     service.handleMessage(jsonNode);
 
@@ -115,7 +115,7 @@ public class CexioStreamingServiceTest {
   public void testGetOrderExecution_invalidJson() throws Exception {
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<Order> test = service.getOrderData().test();
+    TestSubscriber<Order> test = service.getOrderData().test();
 
     service.messageHandler("wrong");
 
@@ -131,7 +131,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<CexioWebSocketTransaction> test = service.getTransactions().test();
+    TestSubscriber<CexioWebSocketTransaction> test = service.getTransactions().test();
 
     service.handleMessage(jsonNode);
 
@@ -168,7 +168,7 @@ public class CexioStreamingServiceTest {
 
     CexioStreamingRawService service = cexioStreamingExchange.getStreamingRawService();
 
-    TestObserver<CexioWebSocketTransaction> test = service.getTransactions().test();
+    TestSubscriber<CexioWebSocketTransaction> test = service.getTransactions().test();
 
     service.handleMessage(jsonNode);
 

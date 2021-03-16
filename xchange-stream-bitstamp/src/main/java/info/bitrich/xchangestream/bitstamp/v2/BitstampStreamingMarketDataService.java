@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,16 +24,16 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
     this.service = service;
   }
 
-  public Observable<OrderBook> getFullOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getFullOrderBook(CurrencyPair currencyPair, Object... args) {
     return getOrderBook("diff_order_book", currencyPair, args);
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     return getOrderBook("order_book", currencyPair, args);
   }
 
-  private Observable<OrderBook> getOrderBook(
+  private Flowable<OrderBook> getOrderBook(
       String channelPrefix, CurrencyPair currencyPair, Object... args) {
     String channelName = channelPrefix + getChannelPostfix(currencyPair);
 
@@ -49,7 +49,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     return getOrderBook(currencyPair, args)
         .map(orderBook -> mapOrderBookToTicker(currencyPair, orderBook));
   }
@@ -69,7 +69,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channelName = "live_trades" + getChannelPostfix(currencyPair);
 
     return service

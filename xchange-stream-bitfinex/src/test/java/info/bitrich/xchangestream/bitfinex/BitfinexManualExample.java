@@ -5,7 +5,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.service.ConnectableService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import org.apache.commons.lang3.concurrent.TimedSemaphore;
 import org.knowm.xchange.ExchangeSpecification;
@@ -54,7 +54,7 @@ public class BitfinexManualExample {
         StreamingExchangeFactory.INSTANCE.createExchange(defaultExchangeSpecification);
     exchange.connect().blockingAwait();
 
-    Observable<OrderBook> orderBookObserver =
+    Flowable<OrderBook> orderBookObserver =
         exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD);
     Disposable orderBookSubscriber =
         orderBookObserver.subscribe(

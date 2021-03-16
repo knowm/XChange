@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitmex.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.bitmex.BitmexExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -51,7 +51,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String instrument = getBitmexSymbol(currencyPair);
     String channelName = String.format("orderBookL2:%s", instrument);
     boolean fullBook = false;
@@ -115,13 +115,13 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     }
   }
 
-  public Observable<RawOrderBook> getRawOrderBook(CurrencyPair currencyPair) {
+  public Flowable<RawOrderBook> getRawOrderBook(CurrencyPair currencyPair) {
     String instrument = getBitmexSymbol(currencyPair);
     String channelName = String.format("orderBook10:%s", instrument);
     return streamingService.subscribeBitmexChannel(channelName).map(s -> s.toRawOrderBook());
   }
 
-  public Observable<BitmexTicker> getRawTicker(CurrencyPair currencyPair) {
+  public Flowable<BitmexTicker> getRawTicker(CurrencyPair currencyPair) {
     String instrument = getBitmexSymbol(currencyPair);
     String channelName = String.format("quote:%s", instrument);
 
@@ -129,7 +129,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String instrument = getBitmexSymbol(currencyPair);
     String channelName = String.format("quote:%s", instrument);
 
@@ -143,7 +143,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String instrument = getBitmexSymbol(currencyPair);
     String channelName = String.format("trade:%s", instrument);
 
@@ -160,7 +160,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
             });
   }
 
-  public Observable<BitmexExecution> getRawExecutions(String symbol) {
+  public Flowable<BitmexExecution> getRawExecutions(String symbol) {
     return streamingService
         .subscribeBitmexChannel("execution:" + symbol)
         .flatMapIterable(
@@ -195,7 +195,7 @@ public class BitmexStreamingMarketDataService implements StreamingMarketDataServ
     streamingService.disableDeadMansSwitch();
   }
 
-  public Observable<BitmexFunding> getRawFunding() {
+  public Flowable<BitmexFunding> getRawFunding() {
     String channelName = "funding";
     return streamingService
         .subscribeBitmexChannel(channelName)

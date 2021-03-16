@@ -15,7 +15,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUpdateOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebsocketUpdateTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -36,13 +36,13 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = "book";
     final String depth = args.length > 0 ? args[0].toString() : "100";
     String pair = currencyPair.base.toString() + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    Observable<BitfinexWebSocketOrderbookTransaction> subscribedChannel =
+    Flowable<BitfinexWebSocketOrderbookTransaction> subscribedChannel =
         service
             .subscribeChannel(channelName, new Object[] {pair, "P0", depth})
             .map(
@@ -62,13 +62,13 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channelName = "ticker";
 
     String pair = currencyPair.base.toString() + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    Observable<BitfinexWebSocketTickerTransaction> subscribedChannel =
+    Flowable<BitfinexWebSocketTickerTransaction> subscribedChannel =
         service
             .subscribeChannel(channelName, new Object[] {pair})
             .map(s -> mapper.treeToValue(s, BitfinexWebSocketTickerTransaction.class));
@@ -77,14 +77,14 @@ public class BitfinexStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channelName = "trades";
     final String tradeType = args.length > 0 ? args[0].toString() : "te";
 
     String pair = currencyPair.base.toString() + currencyPair.counter.toString();
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-    Observable<BitfinexWebSocketTradesTransaction> subscribedChannel =
+    Flowable<BitfinexWebSocketTradesTransaction> subscribedChannel =
         service
             .subscribeChannel(channelName, new Object[] {pair})
             .filter(s -> s.get(1).asText().equals(tradeType))

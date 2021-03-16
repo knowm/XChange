@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.lgo.domain.LgoGroupedTradeUpdate;
 import info.bitrich.xchangestream.lgo.dto.LgoTradesUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -14,7 +14,7 @@ class LgoTradeBatchSubscription {
 
   private final LgoStreamingService service;
   private final CurrencyPair currencyPair;
-  private final Observable<Trade> subscription;
+  private final Flowable<Trade> subscription;
   private static final Logger LOGGER = LoggerFactory.getLogger(LgoTradeBatchSubscription.class);
 
   static LgoTradeBatchSubscription create(LgoStreamingService service, CurrencyPair currencyPair) {
@@ -27,9 +27,9 @@ class LgoTradeBatchSubscription {
     subscription = createTradeSubscription();
   }
 
-  private Observable<Trade> createTradeSubscription() {
+  private Flowable<Trade> createTradeSubscription() {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-    Observable<Trade> observable =
+    Flowable<Trade> flowable =
         service
             .subscribeChannel(LgoAdapter.channelName("trades", currencyPair))
             .map(s -> mapper.readValue(s.toString(), LgoTradesUpdate.class))
@@ -51,8 +51,8 @@ class LgoTradeBatchSubscription {
                   return acc;
                 })
             .skip(1)
-            .flatMap(acc -> Observable.fromIterable(acc.getTrades()));
-    return observable;
+            .flatMap(acc -> Flowable.fromIterable(acc.getTrades()));
+    return flowable;
   }
 
   private void resubscribe() {
@@ -65,7 +65,7 @@ class LgoTradeBatchSubscription {
     }
   }
 
-  Observable<Trade> getSubscription() {
+  Flowable<Trade> getSubscription() {
     return subscription;
   }
 }

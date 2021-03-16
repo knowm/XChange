@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.binance;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +48,7 @@ class BinanceUserDataChannel implements AutoCloseable {
     this.onApiCall = onApiCall;
     openChannel();
     // Send a keepalive every 30 minutes as recommended by Binance
-    this.keepAlive = Observable.interval(30, TimeUnit.MINUTES).subscribe(x -> keepAlive());
+    this.keepAlive = Flowable.interval(30, TimeUnit.MINUTES).subscribe(x -> keepAlive());
   }
 
   /**
@@ -82,7 +82,7 @@ class BinanceUserDataChannel implements AutoCloseable {
       }
     } catch (Exception e) {
       LOG.error("Failed to reconnect. Will retry in 15 seconds.", e);
-      Observable.timer(15, SECONDS).subscribe(x -> reconnect());
+      Flowable.timer(15, SECONDS).subscribe(x -> reconnect());
     }
   }
 

@@ -9,8 +9,8 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.Flowable;
+import io.reactivex.processors.PublishProcessor;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -34,8 +34,8 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
   private String apiSecret;
   private AuthCompletable authCompletable = new AuthCompletable();
 
-  private PublishSubject<Order> subjectOrder = PublishSubject.create();
-  private PublishSubject<CexioWebSocketTransaction> subjectTransaction = PublishSubject.create();
+  private PublishProcessor<Order> subjectOrder = PublishProcessor.create();
+  private PublishProcessor<CexioWebSocketTransaction> subjectTransaction = PublishProcessor.create();
 
   public CexioStreamingRawService(String apiUrl) {
     super(apiUrl, Integer.MAX_VALUE);
@@ -270,11 +270,11 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
     return objectMapper.treeToValue(message, valueType);
   }
 
-  public Observable<Order> getOrderData() {
-    return subjectOrder.share();
+  public Flowable<Order> getOrderData() {
+    return subjectOrder.publish(1).refCount();
   }
 
-  public Observable<CexioWebSocketTransaction> getTransactions() {
-    return subjectTransaction.share();
+  public Flowable<CexioWebSocketTransaction> getTransactions() {
+    return subjectTransaction.publish(1).refCount();
   }
 }

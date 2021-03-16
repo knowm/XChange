@@ -6,7 +6,8 @@ import info.bitrich.xchangestream.kraken.dto.KrakenOpenOrder;
 import info.bitrich.xchangestream.kraken.dto.KrakenOwnTrade;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import java.util.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -26,9 +27,9 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
 
   private final KrakenStreamingService streamingService;
 
-  private volatile boolean ownTradesObservableSet, userTradeObservableSet;
-  private Observable<Order> ownTradesObservable;
-  private Observable<UserTrade> userTradeObservable;
+  private volatile boolean ownTradesFlowableSet, userTradeFlowableSet;
+  private Flowable<Order> ownTradesFlowable;
+  private Flowable<UserTrade> userTradeFlowable;
 
   KrakenStreamingTradeService(KrakenStreamingService streamingService) {
     this.streamingService = streamingService;
@@ -43,13 +44,13 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
   private static class KrakenDtoUserTradeHolder extends HashMap<String, KrakenOwnTrade> {}
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     try {
-      if (!ownTradesObservableSet) {
+      if (!ownTradesFlowableSet) {
         synchronized (this) {
-          if (!ownTradesObservableSet) {
+          if (!ownTradesFlowableSet) {
             String channelName = getChannelName(KrakenSubscriptionName.openOrders);
-            ownTradesObservable =
+            ownTradesFlowable =
                 streamingService
                     .subscribeChannel(channelName)
                     .filter(JsonNode::isArray)
@@ -60,24 +61,25 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                             StreamingObjectMapperHelper.getObjectMapper()
                                 .treeToValue(jsonNode, KrakenDtoOrderHolder[].class))
                     .flatMapIterable(this::adaptKrakenOrders)
-                    .share();
+                    .publish(1).refCount();
 
-            ownTradesObservableSet = true;
+            ownTradesFlowableSet = true;
           }
         }
       }
-      return Observable.create(
+      return Flowable.create(
           emit ->
-              ownTradesObservable
+              ownTradesFlowable
                   .filter(
                       order ->
                           currencyPair == null
                               || order.getCurrencyPair() == null
                               || order.getCurrencyPair().compareTo(currencyPair) == 0)
-                  .subscribe(emit::onNext, emit::onError, emit::onComplete));
+                  .subscribe(emit::onNext, emit::onError, emit::onComplete), 
+          BackpressureStrategy.LATEST);
 
     } catch (Exception e) {
-      return Observable.error(e);
+      return Flowable.error(e);
     }
   }
 
@@ -142,13 +144,13 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     try {
-      if (!userTradeObservableSet) {
+      if (!userTradeFlowableSet) {
         synchronized (this) {
-          if (!userTradeObservableSet) {
+          if (!userTradeFlowableSet) {
             String channelName = getChannelName(KrakenSubscriptionName.ownTrades);
-            userTradeObservable =
+            userTradeFlowable =
                 streamingService
                     .subscribeChannel(channelName)
                     .filter(JsonNode::isArray)
@@ -159,23 +161,24 @@ public class KrakenStreamingTradeService implements StreamingTradeService {
                             StreamingObjectMapperHelper.getObjectMapper()
                                 .treeToValue(jsonNode, KrakenDtoUserTradeHolder[].class))
                     .flatMapIterable(this::adaptKrakenUserTrade)
-                    .share();
-            userTradeObservableSet = true;
+                    .publish(1).refCount();
+            userTradeFlowableSet = true;
           }
         }
       }
-      return Observable.create(
+      return Flowable.create(
           emit ->
-              userTradeObservable
+              userTradeFlowable
                   .filter(
                       order ->
                           currencyPair == null
                               || order.getCurrencyPair() == null
                               || order.getCurrencyPair().compareTo(currencyPair) == 0)
-                  .subscribe(emit::onNext, emit::onError, emit::onComplete));
+                  .subscribe(emit::onNext, emit::onError, emit::onComplete),
+          BackpressureStrategy.LATEST);
 
     } catch (Exception e) {
-      return Observable.error(e);
+      return Flowable.error(e);
     }
   }
 

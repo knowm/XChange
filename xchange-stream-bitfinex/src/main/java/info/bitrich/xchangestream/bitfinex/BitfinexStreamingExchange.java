@@ -4,7 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.BitfinexExchange;
@@ -55,22 +55,22 @@ public class BitfinexStreamingExchange extends BitfinexExchange implements Strea
   }
 
   @Override
-  public Observable<Throwable> reconnectFailure() {
+  public Flowable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   @Override
-  public Observable<Object> connectionSuccess() {
+  public Flowable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
   }
 
   @Override
-  public Observable<State> connectionStateObservable() {
+  public Flowable<State> connectionStateFlowable() {
     return streamingService.subscribeConnectionState();
   }
 
   @Override
-  public Observable<Object> connectionIdle() {
+  public Flowable<Object> connectionIdle() {
     return streamingService.subscribeIdle();
   }
 

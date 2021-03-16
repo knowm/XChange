@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -33,7 +33,7 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     @Override
-    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
         OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
         int depth = parseOrderBookSize(args);
@@ -42,21 +42,21 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     @Override
-    public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
         String channelName = getChannelName(KrakenSubscriptionName.ticker, currencyPair);
         return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
                 .map(arrayNode -> KrakenStreamingAdapters.adaptTickerMessage(currencyPair, arrayNode));
     }
 
     @Override
-    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         String channelName = getChannelName(KrakenSubscriptionName.trade, currencyPair);
         return subscribe(channelName, MIN_DATA_ARRAY_SIZE, null)
-                .flatMap(arrayNode -> Observable.fromIterable(KrakenStreamingAdapters.adaptTrades(currencyPair, arrayNode)));
+                .flatMap(arrayNode -> Flowable.fromIterable(KrakenStreamingAdapters.adaptTrades(currencyPair, arrayNode)));
     }
 
 
-    public Observable<ArrayNode> subscribe(String channelName, int maxItems, Integer depth) {
+    public Flowable<ArrayNode> subscribe(String channelName, int maxItems, Integer depth) {
         return service
                 .subscribeChannel(channelName, depth)
                 .filter(node -> node instanceof ArrayNode)

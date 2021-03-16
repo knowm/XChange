@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.okcoin.dto.OkCoinOrderbook;
 import info.bitrich.xchangestream.okcoin.dto.OkCoinWebSocketTrade;
 import info.bitrich.xchangestream.okcoin.dto.marketdata.FutureTicker;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
    * @return
    */
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_depth",
@@ -117,7 +117,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
    * @return
    */
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_ticker",
@@ -143,7 +143,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
    * @param contract {@link FuturesContract}
    * @return
    */
-  public Observable<FutureTicker> getFutureTicker(
+  public Flowable<FutureTicker> getFutureTicker(
       CurrencyPair currencyPair, FuturesContract contract) {
     String channel =
         String.format(
@@ -167,7 +167,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
    * @return
    */
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channel =
         String.format(
             "ok_sub_spot_%s_%s_deals",

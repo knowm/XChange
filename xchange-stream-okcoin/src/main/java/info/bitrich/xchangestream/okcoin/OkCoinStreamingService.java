@@ -12,7 +12,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinStreamingService extends JsonNettyStreamingService {
 
-  private final Observable<Long> pingPongSrc = Observable.interval(15, 15, TimeUnit.SECONDS);
+  private final Flowable<Long> pingPongSrc = Flowable.interval(15, 15, TimeUnit.SECONDS);
 
   private Disposable pingPongSubscription;
 

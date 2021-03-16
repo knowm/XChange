@@ -1,8 +1,8 @@
 package info.bitrich.xchangestream.service.netty;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.Flowable;
+import io.reactivex.processors.BehaviorProcessor;
+import io.reactivex.processors.FlowableProcessor;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -18,7 +18,7 @@ public final class ConnectionStateModel {
 
   private final AtomicReference<State> state =
       new AtomicReference<>(State.CLOSED); // start with a closed state
-  private final Subject<State> stateSubject = BehaviorSubject.create(); // remembers the last state
+  private final FlowableProcessor<State> stateSubject = BehaviorProcessor.create(); // remembers the last state
 
   public State getState() {
     return state.get();
@@ -31,7 +31,7 @@ public final class ConnectionStateModel {
     }
   }
 
-  public Observable<State> stateObservable() {
-    return stateSubject.share(); // stateSubject can never emit an error
+  public Flowable<State> stateFlowable() {
+    return stateSubject.publish(1).refCount(); // stateSubject can never emit an error
   }
 }

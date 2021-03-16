@@ -7,10 +7,10 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.processors.FlowableProcessor;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -20,8 +20,8 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 public class BinanceStreamingTradeService implements StreamingTradeService {
 
-  private final Subject<ExecutionReportBinanceUserTransaction> executionReportsPublisher =
-      PublishSubject.<ExecutionReportBinanceUserTransaction>create().toSerialized();
+  private final FlowableProcessor<ExecutionReportBinanceUserTransaction> executionReportsPublisher =
+      PublishProcessor.<ExecutionReportBinanceUserTransaction>create().toSerialized();
 
   private volatile Disposable executionReports;
   private volatile BinanceUserDataStreamingService binanceUserDataStreamingService;
@@ -33,31 +33,31 @@ public class BinanceStreamingTradeService implements StreamingTradeService {
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
   }
 
-  public Observable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
+  public Flowable<ExecutionReportBinanceUserTransaction> getRawExecutionReports() {
     if (binanceUserDataStreamingService == null || !binanceUserDataStreamingService.isSocketOpen())
       throw new ExchangeSecurityException("Not authenticated");
     return executionReportsPublisher;
   }
 
-  public Observable<Order> getOrderChanges() {
+  public Flowable<Order> getOrderChanges() {
     return getRawExecutionReports()
         .filter(r -> !r.getExecutionType().equals(ExecutionType.REJECTED))
         .map(ExecutionReportBinanceUserTransaction::toOrder);
   }
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     return getOrderChanges().filter(oc -> currencyPair.equals(oc.getCurrencyPair()));
   }
 
-  public Observable<UserTrade> getUserTrades() {
+  public Flowable<UserTrade> getUserTrades() {
     return getRawExecutionReports()
         .filter(r -> r.getExecutionType().equals(ExecutionType.TRADE))
         .map(ExecutionReportBinanceUserTransaction::toUserTrade);
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return getUserTrades().filter(t -> t.getCurrencyPair().equals(currencyPair));
   }
 

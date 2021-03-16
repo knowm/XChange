@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.bitfinex;
 
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -21,7 +21,7 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
   }
 
   @Override
-  public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+  public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
     if (args.length == 0 || !String.class.isInstance(args[0])) {
       throw new ExchangeException("Specify wallet id to monitor balance stream");
     }
@@ -44,7 +44,7 @@ public class BitfinexStreamingAccountService implements StreamingAccountService 
         .map(BitfinexStreamingAdapters::adaptBalance);
   }
 
-  public Observable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
+  public Flowable<BitfinexWebSocketAuthBalance> getRawAuthenticatedBalances() {
     if (!service.isAuthenticated()) {
       throw new ExchangeSecurityException("Not authenticated");
     }

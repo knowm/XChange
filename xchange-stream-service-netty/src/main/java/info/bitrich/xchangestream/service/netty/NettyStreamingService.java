@@ -36,11 +36,11 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.SocketUtils;
 import io.netty.util.internal.StringUtil;
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.processors.PublishProcessor;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -62,17 +62,17 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
 
   protected class Subscription {
 
-    final ObservableEmitter<T> emitter;
+    final FlowableEmitter<T> emitter;
     final String channelName;
     final Object[] args;
 
-    public Subscription(ObservableEmitter<T> emitter, String channelName, Object[] args) {
+    public Subscription(FlowableEmitter<T> emitter, String channelName, Object[] args) {
       this.emitter = emitter;
       this.channelName = channelName;
       this.args = args;
     }
 
-    public ObservableEmitter<T> getEmitter() {
+    public FlowableEmitter<T> getEmitter() {
       return emitter;
     }
   }
@@ -88,10 +88,10 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   protected final Map<String, Subscription> channels = new ConcurrentHashMap<>();
   private boolean compressedMessages = false;
 
-  private final Subject<Throwable> reconnFailEmitters = PublishSubject.create();
-  private final Subject<Object> connectionSuccessEmitters = PublishSubject.create();
-  private final Subject<Object> disconnectEmitters = PublishSubject.create();
-  private final Subject<Object> subjectIdle = PublishSubject.create();
+  private final PublishProcessor<Throwable> reconnFailEmitters = PublishProcessor.create();
+  private final PublishProcessor<Object> connectionSuccessEmitters = PublishProcessor.create();
+  private final PublishProcessor<Object> disconnectEmitters = PublishProcessor.create();
+  private final PublishProcessor<Object> subjectIdle = PublishProcessor.create();
 
   private final ConnectionStateModel connectionStateModel = new ConnectionStateModel();
 
@@ -364,27 +364,27 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
     }
   }
 
-  public Observable<Throwable> subscribeReconnectFailure() {
-    return reconnFailEmitters.share();
+  public Flowable<Throwable> subscribeReconnectFailure() {
+    return reconnFailEmitters.publish(1).refCount();
   }
 
-  public Observable<Object> subscribeConnectionSuccess() {
-    return connectionSuccessEmitters.share();
+  public Flowable<Object> subscribeConnectionSuccess() {
+    return connectionSuccessEmitters.publish(1).refCount();
   }
 
-  public Observable<Object> subscribeDisconnect() {
-    return disconnectEmitters.share();
+  public Flowable<Object> subscribeDisconnect() {
+    return disconnectEmitters.publish(1).refCount();
   }
 
-  public Observable<State> subscribeConnectionState() {
-    return connectionStateModel.stateObservable();
+  public Flowable<State> subscribeConnectionState() {
+    return connectionStateModel.stateFlowable();
   }
 
-  public Observable<T> subscribeChannel(String channelName, Object... args) {
+  public Flowable<T> subscribeChannel(String channelName, Object... args) {
     final String channelId = getSubscriptionUniqueId(channelName, args);
     LOG.info("Subscribing to channel {}", channelId);
 
-    return Observable.<T>create(
+    return Flowable.<T>create(
             e -> {
               if (webSocketChannel == null || !webSocketChannel.isOpen()) {
                 e.onError(new NotConnectedException());
@@ -403,8 +403,8 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                     }
                     return newSubscription;
                   });
-            })
-        .doOnDispose(
+            }, BackpressureStrategy.LATEST)
+    	.doOnCancel(
             () -> {
               if (channels.remove(channelId) != null) {
                 try {
@@ -416,7 +416,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
                 }
               }
             })
-        .share();
+    	.publish(1).refCount(); // share uses a buffer of 128. We need buffer of 1 to prevent delivering delayed events.
   }
 
   public void resubscribeChannels() {
@@ -462,11 +462,11 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   /**
-   * Observable which fires if the websocket is deemed idle, only fired if <code>
+   * Flowable which fires if the websocket is deemed idle, only fired if <code>
    * idleTimeoutSeconds != 0</code>.
    */
-  public Observable<Object> subscribeIdle() {
-    return subjectIdle.share();
+  public Flowable<Object> subscribeIdle() {
+    return subjectIdle.publish(1).refCount();
   }
 
   protected void handleChannelMessage(String channel, T message) {
@@ -479,7 +479,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.debug("Channel has been closed {}.", channel);
       return;
     }
-    ObservableEmitter<T> emitter = subscription.emitter;
+    FlowableEmitter<T> emitter = channels.get(channel).emitter;
     if (emitter == null) {
       LOG.debug("No subscriber for channel {}.", channel);
       return;
@@ -493,7 +493,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
       LOG.debug("Channel {} has been closed.", channel);
       return;
     }
-    ObservableEmitter<T> emitter = subscription.emitter;
+    FlowableEmitter<T> emitter = channels.get(channel) == null ? null : channels.get(channel).emitter;
     if (emitter == null) {
       LOG.debug("No subscriber for channel {}.", channel);
       return;

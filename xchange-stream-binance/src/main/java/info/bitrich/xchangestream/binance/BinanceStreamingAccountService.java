@@ -7,10 +7,10 @@ import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.processors.BehaviorProcessor;
+import io.reactivex.processors.FlowableProcessor;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -19,9 +19,9 @@ import org.knowm.xchange.exceptions.ExchangeSecurityException;
 
 public class BinanceStreamingAccountService implements StreamingAccountService {
 
-  private final BehaviorSubject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoLast =
-      BehaviorSubject.create();
-  private final Subject<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher =
+  private final BehaviorProcessor<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoLast =
+      BehaviorProcessor.create();
+  private final FlowableProcessor<OutboundAccountInfoBinanceWebsocketTransaction> accountInfoPublisher =
       accountInfoLast.toSerialized();
 
   private volatile Disposable accountInfo;
@@ -34,16 +34,16 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
     this.binanceUserDataStreamingService = binanceUserDataStreamingService;
   }
 
-  public Observable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
+  public Flowable<OutboundAccountInfoBinanceWebsocketTransaction> getRawAccountInfo() {
     checkConnected();
     return accountInfoPublisher;
   }
 
-  public Observable<Balance> getBalanceChanges() {
+  public Flowable<Balance> getBalanceChanges() {
     checkConnected();
     return getRawAccountInfo()
         .map(OutboundAccountInfoBinanceWebsocketTransaction::getBalances)
-        .flatMap((List<BinanceWebsocketBalance> balances) -> Observable.fromIterable(balances))
+        .flatMap((List<BinanceWebsocketBalance> balances) -> Flowable.fromIterable(balances))
         .map(BinanceWebsocketBalance::toBalance);
   }
 
@@ -53,7 +53,7 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   }
 
   @Override
-  public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+  public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
     return getBalanceChanges().filter(t -> t.getCurrency().equals(currency));
   }
 

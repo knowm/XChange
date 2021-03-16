@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.lgo.domain.*;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -54,9 +54,9 @@ public class LgoStreamingTradeServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/trade/orders-snapshot.json");
     JsonNode update = TestUtils.getJsonContent("/trade/orders-update.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    Observable<OpenOrders> openOrders = service.getOpenOrders(CurrencyPair.BTC_USD);
+    Flowable<OpenOrders> openOrders = service.getOpenOrders(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("user-BTC-USD");
     Date date1 = dateFormat.parse("2019-07-23T15:36:14.304Z");
@@ -106,9 +106,9 @@ public class LgoStreamingTradeServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/trade/order-changes-snapshot.json");
     JsonNode update = TestUtils.getJsonContent("/trade/order-changes-update.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    Observable<Order> observable = service.getOrderChanges(CurrencyPair.BTC_USD);
+    Flowable<Order> Flowable = service.getOrderChanges(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("user-BTC-USD");
     Date date1 = dateFormat.parse("2019-07-23T15:36:14.304Z");
@@ -188,7 +188,7 @@ public class LgoStreamingTradeServiceTest {
             new BigDecimal("8000.0000"),
             Order.OrderStatus.NEW);
 
-    ArrayList<Order> orderChanges = Lists.newArrayList(observable.blockingIterable());
+    ArrayList<Order> orderChanges = Lists.newArrayList(Flowable.blockingIterable());
     assertThat(orderChanges).hasSize(7);
     assertThat(orderChanges.get(0)).usingRecursiveComparison().isEqualTo(order1);
     assertThat(orderChanges.get(1)).usingRecursiveComparison().isEqualTo(order2);
@@ -226,9 +226,9 @@ public class LgoStreamingTradeServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/trade/user-trades-snapshot.json");
     JsonNode update = TestUtils.getJsonContent("/trade/user-trades-update.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    Observable<UserTrade> userTrades = service.getUserTrades(CurrencyPair.BTC_USD);
+    Flowable<UserTrade> userTrades = service.getUserTrades(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("user-BTC-USD");
     Date date = dateFormat.parse("2019-08-06T10:00:05.658Z");
@@ -255,9 +255,9 @@ public class LgoStreamingTradeServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/trade/order-events-snapshot.json");
     JsonNode update = TestUtils.getJsonContent("/trade/order-events-update.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    Observable<LgoOrderEvent> events = service.getRawBatchOrderEvents(CurrencyPair.BTC_USD);
+    Flowable<LgoOrderEvent> events = service.getRawBatchOrderEvents(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("user-BTC-USD");
     Date date1 = dateFormat.parse("2019-07-24T08:37:19.116Z");
@@ -304,9 +304,9 @@ public class LgoStreamingTradeServiceTest {
     JsonNode update1 = TestUtils.getJsonContent("/trade/afr-update1.json");
     JsonNode update2 = TestUtils.getJsonContent("/trade/afr-update2.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update1, update2));
+        .thenReturn(Flowable.just(snapshot, update1, update2));
 
-    Observable<LgoOrderEvent> events = service.getRawReceivedOrderEvents();
+    Flowable<LgoOrderEvent> events = service.getRawReceivedOrderEvents();
 
     verify(streamingService).subscribeChannel("afr");
     Date date1 = dateFormat.parse("2019-07-24T13:42:34.970Z");
@@ -328,11 +328,11 @@ public class LgoStreamingTradeServiceTest {
     JsonNode update1 = TestUtils.getJsonContent("/trade/all-afr-update.json");
     JsonNode update2 = TestUtils.getJsonContent("/trade/all-orders-update.json");
     when(streamingService.subscribeChannel("afr"))
-        .thenReturn(Observable.just(snapshotAFR, update1));
+        .thenReturn(Flowable.just(snapshotAFR, update1));
     when(streamingService.subscribeChannel("user-BTC-USD"))
-        .thenReturn(Observable.just(snapshotOrders, update2));
+        .thenReturn(Flowable.just(snapshotOrders, update2));
 
-    Observable<LgoOrderEvent> events =
+    Flowable<LgoOrderEvent> events =
         service.getRawAllOrderEvents(Collections.singletonList(CurrencyPair.BTC_USD));
 
     verify(streamingService).subscribeChannel("afr");

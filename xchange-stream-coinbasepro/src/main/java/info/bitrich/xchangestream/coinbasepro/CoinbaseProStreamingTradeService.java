@@ -4,7 +4,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTradeHistor
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -38,7 +38,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getUserTrades(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for user trades", currencyPair));
@@ -61,7 +61,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
    * Other values will be null.
    */
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getOrders(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for orders", currencyPair));
@@ -87,7 +87,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
    * @param currencyPair The currency pair.
    * @return The stream.
    */
-  public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
+  public Flowable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
     return service.getRawWebSocketTransactions(currencyPair, filterChannelName);
   }

@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketBookEvent;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +69,7 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     final SortedMap<BigDecimal, LimitOrder> bids =
         Maps.newTreeMap((o1, o2) -> Math.negateExact(o1.compareTo(o2)));
     final SortedMap<BigDecimal, LimitOrder> asks = Maps.newTreeMap(BigDecimal::compareTo);
@@ -91,12 +91,12 @@ class CoinjarStreamingMarketDataService implements StreamingMarketDataService {
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException();
   }
 }

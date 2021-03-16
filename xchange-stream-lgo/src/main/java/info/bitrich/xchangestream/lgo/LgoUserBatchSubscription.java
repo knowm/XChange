@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.lgo.domain.*;
 import info.bitrich.xchangestream.lgo.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ import org.knowm.xchange.dto.trade.*;
 
 class LgoUserBatchSubscription {
 
-  private final Observable<LgoGroupedUserUpdate> downstream;
+  private final Flowable<LgoGroupedUserUpdate> downstream;
   private final LgoStreamingService streamingService;
   private final CurrencyPair currencyPair;
 
@@ -32,11 +32,11 @@ class LgoUserBatchSubscription {
     downstream = createSubscription();
   }
 
-  Observable<LgoGroupedUserUpdate> getPublisher() {
+  Flowable<LgoGroupedUserUpdate> getPublisher() {
     return downstream;
   }
 
-  private Observable<LgoGroupedUserUpdate> createSubscription() {
+  private Flowable<LgoGroupedUserUpdate> createSubscription() {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
     return streamingService
         .subscribeChannel(LgoAdapter.channelName("user", currencyPair))
@@ -65,7 +65,7 @@ class LgoUserBatchSubscription {
               }
             })
         .skip(1) // skips the first element, for this is the empty accumulator
-        .share();
+        .publish(1).refCount();
   }
 
   private List<Order> updateAllOrders(

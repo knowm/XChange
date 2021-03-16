@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
@@ -27,9 +27,9 @@ public interface StreamingAccountService {
    * authentication details
    *
    * @param currency Currency to monitor.
-   * @return {@link Observable} that emits {@link Balance} when exchange sends the update.
+   * @return {@link Flowable} that emits {@link Balance} when exchange sends the update.
    */
-  default Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+  default Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
     throw new NotYetImplementedForExchangeException("getBalanceChanges");
   }
 }

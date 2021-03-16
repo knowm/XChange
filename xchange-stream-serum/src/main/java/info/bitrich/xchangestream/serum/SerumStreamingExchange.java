@@ -7,7 +7,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class SerumStreamingExchange extends SerumExchange implements StreamingExchange {
@@ -33,17 +33,17 @@ public class SerumStreamingExchange extends SerumExchange implements StreamingEx
   }
 
   @Override
-  public Observable<Throwable> reconnectFailure() {
+  public Flowable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   @Override
-  public Observable<Object> connectionSuccess() {
+  public Flowable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
   }
 
   @Override
-  public Observable<ConnectionStateModel.State> connectionStateObservable() {
+  public Flowable<ConnectionStateModel.State> connectionStateFlowable() {
     return streamingService.subscribeConnectionState();
   }
 

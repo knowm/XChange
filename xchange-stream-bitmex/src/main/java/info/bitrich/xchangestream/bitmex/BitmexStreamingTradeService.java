@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.bitmex;
 
 import info.bitrich.xchangestream.bitmex.dto.BitmexOrder;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -16,7 +16,7 @@ public class BitmexStreamingTradeService {
     this.streamingService = streamingService;
   }
 
-  public Observable<Order> getOrders(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrders(CurrencyPair currencyPair, Object... args) {
     String channelName = "order";
     String instrument = currencyPair.base.toString() + currencyPair.counter.toString();
     return streamingService

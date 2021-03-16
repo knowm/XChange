@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -28,9 +28,9 @@ public interface StreamingTradeService {
    * authentication details
    *
    * @param currencyPair Currency pair of the order changes.
-   * @return {@link Observable} that emits {@link Order} when exchange sends the update.
+   * @return {@link Flowable} that emits {@link Order} when exchange sends the update.
    */
-  default Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  default Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderChanges");
   }
 
@@ -52,9 +52,9 @@ public interface StreamingTradeService {
    * authentication details
    *
    * @param currencyPair Currency pair for which to get trades.
-   * @return {@link Observable} that emits {@link UserTrade} when exchange sends the update.
+   * @return {@link Flowable} that emits {@link UserTrade} when exchange sends the update.
    */
-  default Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  default Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getUserTrades");
   }
 }

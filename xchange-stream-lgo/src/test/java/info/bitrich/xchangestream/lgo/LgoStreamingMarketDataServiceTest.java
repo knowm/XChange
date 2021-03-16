@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.*;
@@ -34,9 +34,9 @@ public class LgoStreamingMarketDataServiceTest {
     LgoStreamingService streamingService = mock(LgoStreamingService.class);
     LgoStreamingMarketDataService service = new LgoStreamingMarketDataService(streamingService);
     JsonNode message = TestUtils.getJsonContent("/marketdata/trades-update.json");
-    when(streamingService.subscribeChannel(anyString())).thenReturn(Observable.just(message));
+    when(streamingService.subscribeChannel(anyString())).thenReturn(Flowable.just(message));
 
-    Observable<Trade> trades = service.getTrades(CurrencyPair.BTC_USD);
+    Flowable<Trade> trades = service.getTrades(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("trades-BTC-USD");
     assertThat(trades.blockingFirst())
@@ -68,9 +68,9 @@ public class LgoStreamingMarketDataServiceTest {
     JsonNode snapshot = TestUtils.getJsonContent("/marketdata/level2-snapshot.json");
     JsonNode update = TestUtils.getJsonContent("/marketdata/level2-update.json");
     when(streamingService.subscribeChannel(anyString()))
-        .thenReturn(Observable.just(snapshot, update));
+        .thenReturn(Flowable.just(snapshot, update));
 
-    Observable<OrderBook> orderBook = service.getOrderBook(CurrencyPair.BTC_USD);
+    Flowable<OrderBook> orderBook = service.getOrderBook(CurrencyPair.BTC_USD);
 
     verify(streamingService).subscribeChannel("level2-BTC-USD");
     OrderBook firstBook = orderBook.blockingFirst();

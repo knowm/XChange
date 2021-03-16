@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.lgo.domain.LgoGroupedBalanceUpdate;
 import info.bitrich.xchangestream.lgo.dto.LgoBalanceUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;
@@ -14,19 +14,19 @@ public class LgoStreamingAccountService implements StreamingAccountService {
 
   private static final String CHANNEL_NAME = "balance";
   private final LgoStreamingService service;
-  private volatile Observable<LgoGroupedBalanceUpdate> subscription = null;
+  private volatile Flowable<LgoGroupedBalanceUpdate> subscription = null;
 
   public LgoStreamingAccountService(LgoStreamingService lgoStreamingService) {
     service = lgoStreamingService;
   }
 
   @Override
-  public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+  public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
     ensureSubscription();
     return subscription.map(u -> u.getWallet().get(currency));
   }
 
-  public Observable<Wallet> getWallet() {
+  public Flowable<Wallet> getWallet() {
     ensureSubscription();
     return subscription.map(u -> Wallet.Builder.from(u.getWallet().values()).build());
   }
@@ -56,6 +56,6 @@ public class LgoStreamingAccountService implements StreamingAccountService {
                   return acc.applyUpdate(s.getSeq(), updatedBalances);
                 })
             .skip(1) // skips first element for it's just the empty initial accumulator
-            .share();
+            .publish(1).refCount();
   }
 }

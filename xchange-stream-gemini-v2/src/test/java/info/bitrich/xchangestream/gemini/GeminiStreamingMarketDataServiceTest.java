@@ -26,7 +26,7 @@ public class GeminiStreamingMarketDataServiceTest {
   }
 
   /**
-   * Simulates the case in which an attempt to subscribe to an observable of a currency pair not
+   * Simulates the case in which an attempt to subscribe to an Flowable of a currency pair not
    * defined in the product subscription passed to
    * GeminiStreamingMarketDataService.connect(productSubscription) throws an
    * UnsupportedOperationException.

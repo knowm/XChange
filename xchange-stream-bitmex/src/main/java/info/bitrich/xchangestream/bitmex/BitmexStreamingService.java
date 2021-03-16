@@ -13,8 +13,8 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
       ImmutableSet.of("order", "funding", "settlement", "position", "wallet", "margin");
 
   private final ObjectMapper mapper = new ObjectMapper();
-  private final List<ObservableEmitter<Long>> delayEmitters = new LinkedList<>();
+  private final List<FlowableEmitter<Long>> delayEmitters = new LinkedList<>();
 
   private final String apiKey;
   private final String secretKey;
@@ -129,7 +129,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
             String timestamp = d.get("timestamp").asText();
             Date date = formatter.parse(timestamp);
             long delay = current - date.getTime();
-            for (ObservableEmitter<Long> emitter : delayEmitters) {
+            for (FlowableEmitter<Long> emitter : delayEmitters) {
               emitter.onNext(delay);
             }
           } catch (ParseException e) {
@@ -176,10 +176,10 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     return null;
   }
 
-  public Observable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
+  public Flowable<BitmexWebSocketTransaction> subscribeBitmexChannel(String channelName) {
     return subscribeChannel(channelName)
         .map(s -> objectMapper.treeToValue(s, BitmexWebSocketTransaction.class))
-        .share();
+        .publish(1).refCount();
   }
 
   @Override
@@ -252,7 +252,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
     return dmsCancelTime > 0 && System.currentTimeMillis() < dmsCancelTime;
   }
 
-  public void addDelayEmitter(ObservableEmitter<Long> delayEmitter) {
+  public void addDelayEmitter(FlowableEmitter<Long> delayEmitter) {
     delayEmitters.add(delayEmitter);
   }
 }

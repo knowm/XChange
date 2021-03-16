@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.coinjar.dto.CoinjarHeartbeat;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketSubscribeMessage;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketUnsubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,7 +19,7 @@ class CoinjarStreamingService extends JsonNettyStreamingService {
   public CoinjarStreamingService(String apiUrl, String apiKey) {
     super(apiUrl);
     this.apiKey = apiKey;
-    Observable.interval(30, TimeUnit.SECONDS)
+    Flowable.interval(30, TimeUnit.SECONDS)
         .subscribe(
             t -> {
               if (this.isSocketOpen()) {

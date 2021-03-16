@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.gemini;
 
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.SortedMap;
@@ -29,7 +29,7 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     if (!service.getProduct().getOrderBook().stream()
         .anyMatch(pair -> pair.compareTo(currencyPair) == 0)) {
       throw new UnsupportedOperationException(
@@ -52,12 +52,12 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("Not Yet Implemented!");
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("Not Yet Implemented!");
   }
 }

@@ -5,7 +5,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTrades;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getOrderBook(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
@@ -75,13 +75,13 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
   }
 
   /**
-   * Returns an Observable of {@link CoinbaseProProductTicker}, not converted to {@link Ticker}
+   * Returns an Flowable of {@link CoinbaseProProductTicker}, not converted to {@link Ticker}
    *
    * @param currencyPair the currency pair.
    * @param args optional arguments.
-   * @return an Observable of {@link CoinbaseProProductTicker}.
+   * @return an Flowable of {@link CoinbaseProProductTicker}.
    */
-  public Observable<CoinbaseProProductTicker> getRawTicker(
+  public Flowable<CoinbaseProProductTicker> getRawTicker(
       CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getTicker(), currencyPair))
       throw new UnsupportedOperationException(
@@ -98,10 +98,10 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
    *
    * @param currencyPair Currency pair of the ticker
    * @param args optional parameters.
-   * @return an Observable of normalized Ticker objects.
+   * @return an Flowable of normalized Ticker objects.
    */
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getTicker(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for ticker", currencyPair));
@@ -114,7 +114,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     if (!containsPair(service.getProduct().getTrades(), currencyPair))
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for trades", currencyPair));
@@ -132,7 +132,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
    * @param currencyPair The currency pair.
    * @return The stream.
    */
-  public Observable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
+  public Flowable<CoinbaseProWebSocketTransaction> getRawWebSocketTransactions(
       CurrencyPair currencyPair, boolean filterChannelName) {
     return service.getRawWebSocketTransactions(currencyPair, filterChannelName);
   }

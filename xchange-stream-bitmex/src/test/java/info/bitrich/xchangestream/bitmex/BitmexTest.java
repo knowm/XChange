@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.BookSanityChecker;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -46,8 +46,8 @@ public class BitmexTest {
     completable.test().awaitDone(1, TimeUnit.MINUTES).assertComplete().assertNoErrors();
   }
 
-  private <T> void awaitDataCount(Observable<T> observable) {
-    observable
+  private <T> void awaitDataCount(Flowable<T> Flowable) {
+    Flowable
         .test()
         .assertSubscribed()
         .assertNoErrors()
@@ -58,26 +58,26 @@ public class BitmexTest {
 
   @Test
   public void shouldReceiveBooks() {
-    Observable<OrderBook> orderBookObservable = streamingMarketDataService.getOrderBook(xbtUsd);
-    awaitDataCount(orderBookObservable);
+    Flowable<OrderBook> orderBookFlowable = streamingMarketDataService.getOrderBook(xbtUsd);
+    awaitDataCount(orderBookFlowable);
   }
 
   @Test
   public void shouldReceiveRawTickers() {
-    Observable<BitmexTicker> rawTickerObservable = streamingMarketDataService.getRawTicker(xbtUsd);
-    awaitDataCount(rawTickerObservable);
+    Flowable<BitmexTicker> rawTickerFlowable = streamingMarketDataService.getRawTicker(xbtUsd);
+    awaitDataCount(rawTickerFlowable);
   }
 
   @Test
   public void shouldReceiveTickers() {
-    Observable<Ticker> tickerObservable = streamingMarketDataService.getTicker(xbtUsd);
-    awaitDataCount(tickerObservable);
+    Flowable<Ticker> tickerFlowable = streamingMarketDataService.getTicker(xbtUsd);
+    awaitDataCount(tickerFlowable);
   }
 
   //    @Test
   public void shouldReceiveTrades() {
-    Observable<Trade> orderBookObservable = streamingMarketDataService.getTrades(xbtUsd);
-    awaitDataCount(orderBookObservable);
+    Flowable<Trade> orderBookFlowable = streamingMarketDataService.getTrades(xbtUsd);
+    awaitDataCount(orderBookFlowable);
   }
 
   @Test

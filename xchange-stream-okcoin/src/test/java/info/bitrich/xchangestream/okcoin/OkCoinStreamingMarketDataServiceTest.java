@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.TestSubscriber;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class OkCoinStreamingMarketDataServiceTest {
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("order-book.json"));
 
-    when(okCoinStreamingService.subscribeChannel(any())).thenReturn(Observable.just(jsonNode));
+    when(okCoinStreamingService.subscribeChannel(any())).thenReturn(Flowable.just(jsonNode));
 
     Date timestamp = new Date(1484602135246L);
 
@@ -89,8 +89,8 @@ public class OkCoinStreamingMarketDataServiceTest {
 
     OrderBook expected = new OrderBook(timestamp, asks, bids);
 
-    // Call get order book observable
-    TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_USD).test();
+    // Call get order book Flowable
+    TestSubscriber<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_USD).test();
 
     // Get order book object in correct order
     test.assertResult(expected);

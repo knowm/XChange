@@ -10,8 +10,9 @@ import info.bitrich.xchangestream.gemini.dto.GeminiLimitOrder;
 import info.bitrich.xchangestream.gemini.dto.GeminiOrderbook;
 import info.bitrich.xchangestream.gemini.dto.GeminiWebSocketTransaction;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.processors.PublishProcessor;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,11 +53,11 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
 
     int maxDepth = (int) MoreObjects.firstNonNull(args.length > 0 ? args[0] : null, 1);
 
-    Observable<GeminiOrderbook> subscribedOrderbookSnapshot =
+    Flowable<GeminiOrderbook> subscribedOrderbookSnapshot =
         service
             .subscribeChannel(currencyPair, maxDepth, maxDepth)
             .filter(
@@ -100,8 +101,8 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    return PublishSubject.create(
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    return PublishProcessor.create(
         emitter ->
             getOrderBook(currencyPair, args)
                 .subscribe(
@@ -121,12 +122,13 @@ public class GeminiStreamingMarketDataService implements StreamingMarketDataServ
                                       : firstAsk.getTimestamp())
                               .build());
                     },
-                    emitter::onError));
+                    emitter::onError), 
+        BackpressureStrategy.LATEST);
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    Observable<GeminiTrade[]> subscribedTrades =
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    Flowable<GeminiTrade[]> subscribedTrades =
         service
             .subscribeChannel(currencyPair, args)
             .filter(s -> filterEventsByReason(s, "trade", null))

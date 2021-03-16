@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.bankera;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -28,7 +28,7 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     BankeraMarket market = getMarketInfo(currencyPair);
     return service
         .subscribeChannel("market-orderbook", market.getId())
@@ -56,12 +56,12 @@ public class BankeraStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     BankeraMarket market = getMarketInfo(currencyPair);
     return service
         .subscribeChannel("market-trade", market.getId())

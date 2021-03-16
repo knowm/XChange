@@ -4,7 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.coinjar.CoinjarExchange;
 
 public class CoinjarStreamingExchange extends CoinjarExchange implements StreamingExchange {
@@ -41,12 +41,12 @@ public class CoinjarStreamingExchange extends CoinjarExchange implements Streami
   }
 
   @Override
-  public Observable<Throwable> reconnectFailure() {
+  public Flowable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   @Override
-  public Observable<Object> connectionSuccess() {
+  public Flowable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
   }
 

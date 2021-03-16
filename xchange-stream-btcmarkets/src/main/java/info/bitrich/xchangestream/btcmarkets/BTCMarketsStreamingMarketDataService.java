@@ -11,7 +11,7 @@ import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketTickerMessag
 import info.bitrich.xchangestream.btcmarkets.dto.BTCMarketsWebSocketTradeMessage;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -38,7 +38,7 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
     return service
         .subscribeChannel(CHANNEL_ORDERBOOK, marketId)
@@ -48,7 +48,7 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
     return service
         .subscribeChannel(CHANNEL_TICKER, marketId)
@@ -58,7 +58,7 @@ class BTCMarketsStreamingMarketDataService implements StreamingMarketDataService
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     final String marketId = BTCMarketsStreamingAdapters.adaptCurrencyPairToMarketId(currencyPair);
     return service
         .subscribeChannel(CHANNEL_TRADE, marketId)

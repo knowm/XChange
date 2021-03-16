@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.Assert;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,7 +16,7 @@ public class BitstampStreamingMarketDataServiceBaseTest {
 
   protected ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
 
-  protected void validateTrades(Trade expected, TestObserver<Trade> test) {
+  protected void validateTrades(Trade expected, TestSubscriber<Trade> test) {
     test.assertValue(
         trade1 -> {
           assertThat(trade1.getId()).as("Id").isEqualTo(expected.getId());
@@ -34,7 +34,7 @@ public class BitstampStreamingMarketDataServiceBaseTest {
   }
 
   protected void validateOrderBook(
-      List<LimitOrder> bids, List<LimitOrder> asks, TestObserver<OrderBook> test) {
+      List<LimitOrder> bids, List<LimitOrder> asks, TestSubscriber<OrderBook> test) {
     test.assertValue(
         orderBook1 -> {
           assertThat(orderBook1.getAsks()).as("Asks").isEqualTo(asks);
@@ -43,7 +43,7 @@ public class BitstampStreamingMarketDataServiceBaseTest {
         });
   }
 
-  protected void validateTicker(List<Ticker> expectedTickerList, TestObserver<Ticker> test) {
+  protected void validateTicker(List<Ticker> expectedTickerList, TestSubscriber<Ticker> test) {
     test.assertValue(
         ticker -> {
           Assert.assertTrue(expectedTickerList.contains(ticker));

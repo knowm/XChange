@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.lgo.domain.*;
 import info.bitrich.xchangestream.lgo.dto.*;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +28,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
   private final SynchronizedValueFactory<Long> nonceFactory;
   private final Map<CurrencyPair, LgoUserBatchSubscription> batchSubscriptions =
       new ConcurrentHashMap<>();
-  private Observable<LgoOrderEvent> afrSubscription;
+  private Flowable<LgoOrderEvent> afrSubscription;
 
   LgoStreamingTradeService(
       LgoStreamingService streamingService,
@@ -43,15 +43,15 @@ public class LgoStreamingTradeService implements StreamingTradeService {
 
   /** {@inheritDoc} First sent orders will be current open orders. */
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
-    return getOrderBatchChanges(currencyPair).flatMap(Observable::fromIterable);
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+    return getOrderBatchChanges(currencyPair).flatMap(Flowable::fromIterable);
   }
 
   /**
    * Get an up-to-date view of all your open orders after each LGO batch execution. First sending
    * will be the actual open orders list.
    */
-  public Observable<OpenOrders> getOpenOrders(CurrencyPair currencyPair) {
+  public Flowable<OpenOrders> getOpenOrders(CurrencyPair currencyPair) {
     return getOrderUpdates(currencyPair)
         .map(
             u ->
@@ -66,11 +66,11 @@ public class LgoStreamingTradeService implements StreamingTradeService {
    * Receive all updated orders, for each LGO batches. First sending will be the actual open orders
    * list.
    */
-  public Observable<Collection<Order>> getOrderBatchChanges(CurrencyPair currencyPair) {
+  public Flowable<Collection<Order>> getOrderBatchChanges(CurrencyPair currencyPair) {
     return getOrderUpdates(currencyPair).map(LgoGroupedUserUpdate::getUpdatedOrders);
   }
 
-  private Observable<LgoGroupedUserUpdate> getOrderUpdates(CurrencyPair currencyPair) {
+  private Flowable<LgoGroupedUserUpdate> getOrderUpdates(CurrencyPair currencyPair) {
     return batchSubscriptions
         .computeIfAbsent(currencyPair, this::createBatchSubscription)
         .getPublisher();
@@ -81,7 +81,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return getRawBatchOrderEvents(currencyPair)
         .filter(lgoOrderEvent -> "match".equals(lgoOrderEvent.getType()))
         .map(
@@ -92,13 +92,13 @@ public class LgoStreamingTradeService implements StreamingTradeService {
    * Receive all events for the selected currency pairs. Merges batch order events and ack (AFR)
    * events.
    */
-  public Observable<LgoOrderEvent> getRawAllOrderEvents(Collection<CurrencyPair> currencyPairs) {
-    Observable<LgoOrderEvent> ackObservable = getRawReceivedOrderEvents();
+  public Flowable<LgoOrderEvent> getRawAllOrderEvents(Collection<CurrencyPair> currencyPairs) {
+    Flowable<LgoOrderEvent> ackFlowable = getRawReceivedOrderEvents();
     return currencyPairs.stream()
         .map(this::getRawBatchOrderEvents)
-        .reduce(Observable::mergeWith)
-        .map(ackObservable::mergeWith)
-        .orElse(ackObservable);
+        .reduce(Flowable::mergeWith)
+        .map(ackFlowable::mergeWith)
+        .orElse(ackFlowable);
   }
 
   /**
@@ -106,7 +106,7 @@ public class LgoStreamingTradeService implements StreamingTradeService {
    * order, if you set a reference on order placement you will have it in the event. "failed" events
    * indicate that the order could not be read or was invalid and not added to a batch.
    */
-  public Observable<LgoOrderEvent> getRawReceivedOrderEvents() {
+  public Flowable<LgoOrderEvent> getRawReceivedOrderEvents() {
     if (afrSubscription == null) {
       createAfrSubscription();
     }
@@ -120,8 +120,8 @@ public class LgoStreamingTradeService implements StreamingTradeService {
             .subscribeChannel("afr")
             .map(s -> mapper.readValue(s.toString(), LgoAckUpdate.class))
             .map(LgoAckUpdate::getData)
-            .flatMap(Observable::<LgoOrderEvent>fromIterable)
-            .share();
+            .flatMap(Flowable::<LgoOrderEvent>fromIterable)
+            .publish(1).refCount();
   }
 
   /**
@@ -131,10 +131,10 @@ public class LgoStreamingTradeService implements StreamingTradeService {
    * indicate that the order did match against another order. "open" events indicate that the order
    * entered the order book. "done" events indicate that the order was filled, canceled or rejected.
    */
-  public Observable<LgoOrderEvent> getRawBatchOrderEvents(CurrencyPair currencyPair) {
+  public Flowable<LgoOrderEvent> getRawBatchOrderEvents(CurrencyPair currencyPair) {
     return getOrderUpdates(currencyPair)
         .map(LgoGroupedUserUpdate::getEvents)
-        .flatMap(Observable::fromIterable);
+        .flatMap(Flowable::fromIterable);
   }
 
   /**

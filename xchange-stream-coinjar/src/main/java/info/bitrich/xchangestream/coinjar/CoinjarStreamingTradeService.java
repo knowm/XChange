@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketOrderEvent;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketUserTradeEvent;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -27,7 +27,7 @@ class CoinjarStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     return service
         .subscribeChannel(userTradeChannel)
         .filter(node -> node.get("event").textValue().equals("private:fill"))
@@ -40,7 +40,7 @@ class CoinjarStreamingTradeService implements StreamingTradeService {
   }
 
   @Override
-  public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     return service
         .subscribeChannel(userTradeChannel)
         .filter(node -> node.get("event").textValue().equals("private:order"))

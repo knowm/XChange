@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -22,7 +22,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
   }
 
   @Override
-  public Observable<Balance> getBalanceChanges(Currency currency, Object... args) {
+  public Flowable<Balance> getBalanceChanges(Currency currency, Object... args) {
 
     return getCoinmateBalances()
         .map(balanceMap -> balanceMap.get(currency.toString()))
@@ -36,7 +36,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
                     .build());
   }
 
-  public Observable<Wallet> getWalletChanges(Object... args) {
+  public Flowable<Wallet> getWalletChanges(Object... args) {
 
     return getCoinmateBalances()
         .map(
@@ -61,7 +61,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
                 Wallet.Builder.from(balances).features(walletFeatures).id("spot").build());
   }
 
-  private Observable<Map<String, CoinmateWebsocketBalance>> getCoinmateBalances() {
+  private Flowable<Map<String, CoinmateWebsocketBalance>> getCoinmateBalances() {
     String channelName = "private-user_balances-" + coinmateStreamingService.getUserId();
 
     ObjectReader reader =

@@ -8,7 +8,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
-import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.Before;
@@ -37,7 +37,7 @@ public class BitfinexStreamingServiceTest {
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("orders.json"));
 
-    TestObserver<BitfinexWebSocketAuthOrder> test = service.getAuthenticatedOrders().test();
+    TestSubscriber<BitfinexWebSocketAuthOrder> test = service.getAuthenticatedOrders().test();
 
     service.handleMessage(jsonNode);
     BitfinexWebSocketAuthOrder expected =
@@ -69,7 +69,7 @@ public class BitfinexStreamingServiceTest {
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("preTrade.json"));
 
-    TestObserver<BitfinexWebSocketAuthPreTrade> test = service.getAuthenticatedPreTrades().test();
+    TestSubscriber<BitfinexWebSocketAuthPreTrade> test = service.getAuthenticatedPreTrades().test();
 
     service.handleMessage(jsonNode);
 
@@ -93,7 +93,7 @@ public class BitfinexStreamingServiceTest {
     JsonNode jsonNode =
         objectMapper.readTree(ClassLoader.getSystemClassLoader().getResourceAsStream("trade.json"));
 
-    TestObserver<BitfinexWebSocketAuthTrade> test = service.getAuthenticatedTrades().test();
+    TestSubscriber<BitfinexWebSocketAuthTrade> test = service.getAuthenticatedTrades().test();
 
     service.handleMessage(jsonNode);
 
@@ -119,7 +119,7 @@ public class BitfinexStreamingServiceTest {
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("balances.json"));
 
-    TestObserver<BitfinexWebSocketAuthBalance> test = service.getAuthenticatedBalances().test();
+    TestSubscriber<BitfinexWebSocketAuthBalance> test = service.getAuthenticatedBalances().test();
 
     service.handleMessage(jsonNode);
 
@@ -141,7 +141,7 @@ public class BitfinexStreamingServiceTest {
     JsonNode jsonNode =
         objectMapper.readTree(
             ClassLoader.getSystemClassLoader().getResourceAsStream("balance.json"));
-    TestObserver<BitfinexWebSocketAuthBalance> test = service.getAuthenticatedBalances().test();
+    TestSubscriber<BitfinexWebSocketAuthBalance> test = service.getAuthenticatedBalances().test();
     service.handleMessage(jsonNode);
 
     BitfinexWebSocketAuthBalance balance =

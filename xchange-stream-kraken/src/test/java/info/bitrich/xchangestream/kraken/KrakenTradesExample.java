@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.kraken;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
@@ -23,21 +22,18 @@ public class KrakenTradesExample {
         StreamingExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     krakenExchange.connect().blockingAwait();
 
-    Disposable tradesDisp =
-        krakenExchange
-            .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.BTC_USD)
-            .subscribe(
-                s -> {
-                  LOG.info("Received {}", s);
-                },
-                throwable -> {
-                  LOG.error("Fail to get ticker {}", throwable.getMessage(), throwable);
-                });
+    krakenExchange
+        .getStreamingMarketDataService()
+        .getTrades(CurrencyPair.BTC_USD)
+        .subscribe(
+            s -> {
+              LOG.info("Received {}", s);
+            },
+            throwable -> {
+              LOG.error("Fail to get ticker {}", throwable.getMessage(), throwable);
+            });
 
     TimeUnit.SECONDS.sleep(45);
-
-    tradesDisp.dispose();
 
     krakenExchange.disconnect().subscribe(() -> LOG.info("Disconnected"));
   }

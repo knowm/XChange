@@ -8,7 +8,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -74,7 +74,7 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
   }
 
   @Override
-  public Observable<Object> connectionIdle() {
+  public Flowable<Object> connectionIdle() {
     return streamingService.subscribeIdle();
   }
 
@@ -102,17 +102,17 @@ public class PoloniexStreamingExchange extends PoloniexExchange implements Strea
   }
 
   @Override
-  public Observable<Object> connectionSuccess() {
+  public Flowable<Object> connectionSuccess() {
     return streamingService.subscribeConnectionSuccess();
   }
 
   @Override
-  public Observable<Throwable> reconnectFailure() {
+  public Flowable<Throwable> reconnectFailure() {
     return streamingService.subscribeReconnectFailure();
   }
 
   @Override
-  public Observable<State> connectionStateObservable() {
+  public Flowable<State> connectionStateFlowable() {
     return streamingService.subscribeConnectionState();
   }
 }

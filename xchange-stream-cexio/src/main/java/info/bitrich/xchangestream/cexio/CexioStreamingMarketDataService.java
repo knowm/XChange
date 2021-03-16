@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,7 +58,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelNameForPair =
         CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
 
@@ -68,11 +68,11 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
     if (args != null && args[0] instanceof Integer) {
       depth = (Integer) args[0];
     }
-    Observable<JsonNode> jsonNodeObservable =
+    Flowable<JsonNode> jsonNodeFlowable =
         streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
     OrderBookUpdateConsumer orderBookConsumer =
         new OrderBookUpdateConsumer(streamingOrderDataService);
-    return jsonNodeObservable
+    return jsonNodeFlowable
         .map(
             s -> {
               JsonNode dataNode = s.get("data");
@@ -83,12 +83,12 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException();
   }
 }

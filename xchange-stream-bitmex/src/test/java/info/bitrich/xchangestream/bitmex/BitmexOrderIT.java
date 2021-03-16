@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.LocalExchangeConfig;
 import info.bitrich.xchangestream.util.PropsLoader;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -215,10 +215,10 @@ public class BitmexOrderIT {
         1,
         TimeUnit.SECONDS);
 
-    Observable<BitmexExecution> executionObservable =
+    Flowable<BitmexExecution> executionFlowable =
         ((BitmexStreamingMarketDataService) exchange.getStreamingMarketDataService())
             .getRawExecutions("XBTUSD");
-    executionObservable
+    executionFlowable
         .test()
         .awaitCount(5)
         .assertNever(execution -> Objects.equals(execution.getClOrdID(), clOrdId))

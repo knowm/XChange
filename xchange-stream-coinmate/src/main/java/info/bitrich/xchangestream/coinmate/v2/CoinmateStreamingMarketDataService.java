@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import java.util.List;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
@@ -24,7 +24,7 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     String channelName = "order_book-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
@@ -43,13 +43,13 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
   }
 
   @Override
-  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     // No live ticker
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+  public Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     String channelName = "trades-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
