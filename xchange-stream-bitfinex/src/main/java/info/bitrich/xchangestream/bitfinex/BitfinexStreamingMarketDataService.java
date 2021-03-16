@@ -15,7 +15,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUpdateOrderbook;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebsocketUpdateTrade;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;

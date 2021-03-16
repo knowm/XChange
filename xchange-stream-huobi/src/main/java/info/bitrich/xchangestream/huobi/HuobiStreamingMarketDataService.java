@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.huobi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;

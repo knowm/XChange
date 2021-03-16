@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.bitstamp.dto.BitstampWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.currency.CurrencyPair;

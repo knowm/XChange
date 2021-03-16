@@ -11,10 +11,10 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketSubscriptionMess
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketUnSubscriptionMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.processors.PublishProcessor;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;

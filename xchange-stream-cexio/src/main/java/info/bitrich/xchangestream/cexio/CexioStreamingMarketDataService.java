@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketOrderBookSubscribeResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +25,7 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
   }
 
   static class OrderBookUpdateConsumer
-      implements io.reactivex.functions.Function<
+      implements io.reactivex.rxjava3.functions.Function<
           CexioWebSocketOrderBookSubscribeResponse, OrderBook> {
     BigInteger prevID = null;
     OrderBook orderBookSoFar =

@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.coinjar;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.disposables.Disposable;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -22,14 +21,11 @@ public class CoinjarStreamingMarketDataServiceIntegration {
     StreamingMarketDataService streamingMarketDataService =
         exchange.getStreamingMarketDataService();
 
-    Disposable btcOrderBookDisposable =
-        streamingMarketDataService
-            .getOrderBook(CurrencyPair.BTC_AUD)
-            .test()
-            .awaitCount(10)
-            .assertNoErrors();
-
-    btcOrderBookDisposable.dispose();
+    streamingMarketDataService
+        .getOrderBook(CurrencyPair.BTC_AUD)
+        .test()
+        .awaitCount(10)
+        .assertNoErrors();
   }
 
   @Test
@@ -43,12 +39,10 @@ public class CoinjarStreamingMarketDataServiceIntegration {
     StreamingMarketDataService streamingMarketDataService =
         exchange.getStreamingMarketDataService();
 
-    Disposable usdtOrderBookDisposable =
-        streamingMarketDataService
-            .getOrderBook(new CurrencyPair(Currency.USDC, Currency.AUD))
-            .test()
-            .awaitCount(10)
-            .assertNoErrors();
-    usdtOrderBookDisposable.dispose();
+    streamingMarketDataService
+        .getOrderBook(new CurrencyPair(Currency.USDC, Currency.AUD))
+        .test()
+        .awaitCount(10)
+        .assertNoErrors();
   }
 }

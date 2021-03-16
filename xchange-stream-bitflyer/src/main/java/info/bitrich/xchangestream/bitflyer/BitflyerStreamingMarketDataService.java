@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.bitflyer.dto.*;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.pubnub.PubnubStreamingService;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.HashMap;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;

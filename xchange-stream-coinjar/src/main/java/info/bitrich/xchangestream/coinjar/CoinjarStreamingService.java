@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.coinjar.dto.CoinjarHeartbeat;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketSubscribeMessage;
 import info.bitrich.xchangestream.coinjar.dto.CoinjarWebSocketUnsubscribeMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;

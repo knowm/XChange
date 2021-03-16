@@ -6,8 +6,8 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import org.knowm.xchange.ExchangeSpecification;
 
 public class SerumStreamingExchange extends SerumExchange implements StreamingExchange {

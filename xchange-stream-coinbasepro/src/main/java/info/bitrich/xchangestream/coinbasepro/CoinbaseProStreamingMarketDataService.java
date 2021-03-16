@@ -5,7 +5,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTrades;
 
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;

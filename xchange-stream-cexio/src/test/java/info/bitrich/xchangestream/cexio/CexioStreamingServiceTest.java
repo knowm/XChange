@@ -3,7 +3,7 @@ package info.bitrich.xchangestream.cexio;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.cexio.dto.CexioWebSocketTransaction;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;

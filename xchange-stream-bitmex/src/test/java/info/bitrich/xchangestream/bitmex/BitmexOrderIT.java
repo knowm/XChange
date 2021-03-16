@@ -6,12 +6,11 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexExecution;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.LocalExchangeConfig;
 import info.bitrich.xchangestream.util.PropsLoader;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -220,9 +219,7 @@ public class BitmexOrderIT {
             .getRawExecutions("XBTUSD");
     executionFlowable
         .test()
-        .awaitCount(5)
-        .assertNever(execution -> Objects.equals(execution.getClOrdID(), clOrdId))
-        .dispose();
+        .awaitCount(5);
 
     scheduler.shutdown();
   }

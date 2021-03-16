@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.lgo;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;

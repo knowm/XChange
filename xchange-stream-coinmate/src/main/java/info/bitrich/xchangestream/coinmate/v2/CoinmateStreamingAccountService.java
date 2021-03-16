@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketBalance;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;

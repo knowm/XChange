@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import org.apache.commons.lang3.ArrayUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;

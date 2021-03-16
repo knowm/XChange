@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.okcoin.dto.OkCoinOrderbook;
 import info.bitrich.xchangestream.okcoin.dto.OkCoinWebSocketTrade;
 import info.bitrich.xchangestream.okcoin.dto.marketdata.FutureTicker;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;

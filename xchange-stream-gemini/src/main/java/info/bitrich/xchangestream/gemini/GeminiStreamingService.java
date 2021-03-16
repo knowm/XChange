@@ -2,9 +2,9 @@ package info.bitrich.xchangestream.gemini;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel.State;
-import io.reactivex.Flowable;
-import io.reactivex.processors.BehaviorProcessor;
-import io.reactivex.processors.FlowableProcessor;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.processors.BehaviorProcessor;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.knowm.xchange.currency.CurrencyPair;

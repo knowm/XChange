@@ -9,7 +9,7 @@ import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthBalance;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthOrder;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthPreTrade;
 import info.bitrich.xchangestream.bitfinex.dto.BitfinexWebSocketAuthTrade;
-import io.reactivex.annotations.Nullable;
+import io.reactivex.rxjava3.annotations.Nullable;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 import org.knowm.xchange.bitfinex.service.BitfinexAdapters;

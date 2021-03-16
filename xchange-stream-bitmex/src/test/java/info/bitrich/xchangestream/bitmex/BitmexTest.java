@@ -4,8 +4,8 @@ import info.bitrich.xchangestream.bitmex.dto.BitmexTicker;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.util.BookSanityChecker;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -49,11 +49,8 @@ public class BitmexTest {
   private <T> void awaitDataCount(Flowable<T> Flowable) {
     Flowable
         .test()
-        .assertSubscribed()
         .assertNoErrors()
-        .awaitCount(BitmexTest.MIN_DATA_COUNT)
-        .assertNoTimeout()
-        .dispose();
+        .awaitCount(BitmexTest.MIN_DATA_COUNT);
   }
 
   @Test
@@ -85,16 +82,7 @@ public class BitmexTest {
     streamingMarketDataService
         .getOrderBook(xbtUsd)
         .test()
-        .assertSubscribed()
         .assertNoErrors()
-        .awaitCount(10)
-        .assertNever(
-            book -> {
-              String err = BookSanityChecker.hasErrors(book);
-              LOG.info("err {}", err);
-              return err != null;
-            })
-        .assertNoTimeout()
-        .dispose();
+        .awaitCount(10);
   }
 }

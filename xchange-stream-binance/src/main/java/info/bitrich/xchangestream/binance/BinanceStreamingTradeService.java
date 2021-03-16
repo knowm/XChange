@@ -7,10 +7,10 @@ import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransact
 import info.bitrich.xchangestream.binance.dto.ExecutionReportBinanceUserTransaction.ExecutionType;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.processors.FlowableProcessor;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
 import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;

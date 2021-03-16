@@ -2,8 +2,8 @@ package info.bitrich.xchangestream.binance;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;

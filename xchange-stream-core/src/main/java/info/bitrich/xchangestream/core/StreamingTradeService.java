@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.core;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;

@@ -1,8 +1,8 @@
 package info.bitrich.xchangestream.service.netty;
 
-import io.reactivex.Flowable;
-import io.reactivex.processors.BehaviorProcessor;
-import io.reactivex.processors.FlowableProcessor;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.processors.BehaviorProcessor;
+import io.reactivex.rxjava3.processors.FlowableProcessor;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**

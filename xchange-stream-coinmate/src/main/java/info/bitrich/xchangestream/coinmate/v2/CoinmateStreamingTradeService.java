@@ -6,7 +6,7 @@ import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebSocketUserTrade;
 import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.Arrays;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;

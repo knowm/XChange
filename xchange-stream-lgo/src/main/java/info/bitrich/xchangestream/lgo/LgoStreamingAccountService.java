@@ -5,7 +5,7 @@ import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.lgo.domain.LgoGroupedBalanceUpdate;
 import info.bitrich.xchangestream.lgo.dto.LgoBalanceUpdate;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.*;

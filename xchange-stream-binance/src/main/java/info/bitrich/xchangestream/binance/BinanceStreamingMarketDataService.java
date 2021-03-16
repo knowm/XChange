@@ -10,9 +10,9 @@ import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequired
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.functions.Consumer;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -92,21 +92,21 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private Flowable<OrderBook> initOrderBookIfAbsent(CurrencyPair currencyPair) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawOrderBookUpdates(currencyPair)));
-    return createOrderBookObservable(currencyPair);
+    return createOrderBookFlowable(currencyPair);
   }
 
   public Flowable<BinanceTicker24h> getRawTicker(CurrencyPair currencyPair, Object... args) {
     if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getTicker().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return tickerSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawTickerStream(currencyPair)).share());
+    return tickerSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawTickerStream(currencyPair)).publish(1).refCount());
   }
 
   public Flowable<BinanceRawTrade> getRawTrades(CurrencyPair currencyPair, Object... args) {
     if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getTrades().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return tradeSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawTradeStream(currencyPair)).share());
+    return tradeSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawTradeStream(currencyPair)).publish(1).refCount());
   }
 
   /**
@@ -125,7 +125,7 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         currencyPair, this::initOrderBookUpdateIfAbsent);
   }
 
-  private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(CurrencyPair currencyPair) {
+  private Flowable<OrderBookUpdate> initOrderBookUpdateIfAbsent(CurrencyPair currencyPair) {
     orderBookRawUpdatesSubscriptions.computeIfAbsent(currencyPair, s -> triggerFlowableBody(rawOrderBookUpdates(currencyPair)));
     return createOrderBookUpdatesFlowable(currencyPair);
   }
@@ -215,12 +215,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private void initTradeSubscription(CurrencyPair currencyPair) {
     tradeSubscriptions.put(
-        currencyPair, triggerFlowableBody(rawTradeStream(currencyPair)).share());
+        currencyPair, triggerFlowableBody(rawTradeStream(currencyPair)).publish(1).refCount());
   }
 
   private void initTickerSubscription(CurrencyPair currencyPair) {
     tickerSubscriptions.put(
-        currencyPair, triggerFlowableBody(rawTickerStream(currencyPair)).share());
+        currencyPair, triggerFlowableBody(rawTickerStream(currencyPair)).publish(1).refCount());
   }
 
   private void initRawOrderBookUpdatesSubscription(CurrencyPair currencyPair) {

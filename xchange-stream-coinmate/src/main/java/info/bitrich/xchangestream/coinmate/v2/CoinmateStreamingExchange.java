@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.coinmate.v2;
 
 import info.bitrich.xchangestream.coinmate.v2.dto.auth.AuthParams;
 import info.bitrich.xchangestream.core.*;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 import org.knowm.xchange.coinmate.CoinmateExchange;
 
 public class CoinmateStreamingExchange extends CoinmateExchange implements StreamingExchange {
