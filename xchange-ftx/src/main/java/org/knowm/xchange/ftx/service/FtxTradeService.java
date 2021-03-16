@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
@@ -21,6 +22,13 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   public FtxTradeService(Exchange exchange) {
     super(exchange);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    return placeNewFtxOrder(null, FtxAdapters.adaptMarketOrderToFtxOrderPayload(marketOrder))
+        .getResult()
+        .getId();
   }
 
   @Override
