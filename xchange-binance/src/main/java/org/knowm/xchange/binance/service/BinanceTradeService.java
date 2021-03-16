@@ -13,40 +13,19 @@ import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.StopOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParam;
-import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.orders.*;
 import org.knowm.xchange.utils.Assert;
 
 public class BinanceTradeService extends BinanceTradeServiceRaw implements TradeService {
@@ -126,6 +105,38 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     OrderType orderType = BinanceAdapters.adaptOrderType(order);
 
     return placeOrder(orderType, order, order.getLimitPrice(), order.getStopPrice(), tif);
+  }
+
+  @Override
+  public String placeOcoOrder(LimitOrder limitOrder, StopOrder stopOrder) throws IOException {
+    // Time-in-force should not be provided for market orders but is required for
+    // limit orders, order we only default it for limit orders. If the caller
+    // specifies one for a market order, we don't remove it, since Binance might allow
+    // it at some point.
+    TimeInForce tif =
+        timeInForceFromOrder(stopOrder)
+            .orElse(stopOrder.getLimitPrice() != null ? TimeInForce.GTC : null);
+
+    try {
+      BinanceNewOcoOrder newOcoOrder =
+          newOcoOrder(
+              limitOrder.getCurrencyPair(),
+              BinanceAdapters.convert(limitOrder.getType()),
+              tif,
+              limitOrder.getOriginalAmount(),
+              limitOrder.getLimitPrice(),
+              null,
+              stopOrder.getStopPrice(),
+              null,
+              null,
+              null,
+              stopOrder.getLimitPrice(),
+              null,
+              null);
+      return Long.toString(newOcoOrder.orderListId);
+    } catch (BinanceException e) {
+      throw BinanceErrorAdapter.adapt(e);
+    }
   }
 
   private Optional<TimeInForce> timeInForceFromOrder(Order order) {

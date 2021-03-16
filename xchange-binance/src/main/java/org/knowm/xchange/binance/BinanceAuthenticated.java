@@ -1,32 +1,14 @@
 package org.knowm.xchange.binance;
 
-import static org.knowm.xchange.binance.BinanceResilience.*;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.binance.dto.BinanceException;
 import org.knowm.xchange.binance.dto.account.*;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -36,6 +18,52 @@ public interface BinanceAuthenticated extends Binance {
 
   String SIGNATURE = "signature";
   String X_MBX_APIKEY = "X-MBX-APIKEY";
+
+  @POST
+  @Path("/api/v3/order/oco")
+  /**
+   * Send in a new order.
+   *
+   * @param symbol
+   * @param side
+   * @param timeInForce
+   * @param quantity
+   * @param price
+   * @param newOrderRespType Set the response JSON.
+   * @param stopLimitTimeInForce Valid values are GTC/FOK/IOC
+   * @param stopClientOrderId A unique Id for the stop loss/stop loss limit leg
+   * @param stopPrice If provided, stopLimitTimeInForce is required.
+   * @param limitClientOrderId A unique Id for the limit order
+   * @param listClientOrderId A unique Id for the entire orderList
+   * @param stopLimitPrice
+   * @param icebergQty
+   * @param limitIcebergQty Used to make the LIMIT_MAKER leg an iceberg order.
+   * @param stopIcebergQty Used with STOP_LOSS_LIMIT leg to make an iceberg order.
+   * @param recvWindow The value cannot be greater than 60000
+   * @param timestamp
+   * @return
+   * @throws IOException
+   * @throws BinanceException
+   */
+  BinanceNewOcoOrder newOcoOrder(
+      @FormParam("symbol") String symbol,
+      @FormParam("side") OrderSide side,
+      @FormParam("stopLimitTimeInForce") TimeInForce stopLimitTimeInForce,
+      @FormParam("quantity") BigDecimal quantity,
+      @FormParam("price") BigDecimal price,
+      @FormParam("listClientOrderId") String listClientOrderId,
+      @FormParam("stopPrice") BigDecimal stopPrice,
+      @FormParam("limitClientOrderId") String limitClientOrderId,
+      @FormParam("limitIcebergQty") BigDecimal limitIcebergQty,
+      @FormParam("stopClientOrderId") String stopClientOrderId,
+      @FormParam("stopLimitPrice") BigDecimal stopLimitPrice,
+      @FormParam("stopIcebergQty") BigDecimal stopIcebergQty,
+      @FormParam("newOrderRespType") OrderResponseType newOrderRespType,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @HeaderParam(X_MBX_APIKEY) String apiKey,
+      @QueryParam(SIGNATURE) ParamsDigest signature)
+      throws IOException, BinanceException;
 
   @POST
   @Path("api/v3/order")

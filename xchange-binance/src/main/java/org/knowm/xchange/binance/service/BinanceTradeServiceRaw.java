@@ -11,14 +11,7 @@ import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.trade.BinanceCancelledOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceListenKey;
-import org.knowm.xchange.binance.dto.trade.BinanceNewOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceOrder;
-import org.knowm.xchange.binance.dto.trade.BinanceTrade;
-import org.knowm.xchange.binance.dto.trade.OrderSide;
-import org.knowm.xchange.binance.dto.trade.OrderType;
-import org.knowm.xchange.binance.dto.trade.TimeInForce;
+import org.knowm.xchange.binance.dto.trade.*;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -46,6 +39,48 @@ public class BinanceTradeServiceRaw extends BinanceBaseService {
                     signatureCreator))
         .withRetry(retry("openOrders"))
         .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER), openOrdersPermits(pair))
+        .call();
+  }
+
+  public BinanceNewOcoOrder newOcoOrder(
+      CurrencyPair pair,
+      OrderSide side,
+      TimeInForce stopLimitTimeInForce,
+      BigDecimal quantity,
+      BigDecimal price,
+      String listClientOrderId,
+      BigDecimal stopPrice,
+      String limitClientOrderId,
+      BigDecimal limitIcebergQty,
+      String stopClientOrderId,
+      BigDecimal stopLimitPrice,
+      BigDecimal stopIcebergQty,
+      OrderResponseType newOrderRespType)
+      throws IOException, BinanceException {
+    return decorateApiCall(
+            () ->
+                binance.newOcoOrder(
+                    BinanceAdapters.toSymbol(pair),
+                    side,
+                    stopLimitTimeInForce,
+                    quantity,
+                    price,
+                    listClientOrderId,
+                    stopPrice,
+                    limitClientOrderId,
+                    limitIcebergQty,
+                    stopClientOrderId,
+                    stopLimitPrice,
+                    stopIcebergQty,
+                    newOrderRespType,
+                    getRecvWindow(),
+                    getTimestampFactory(),
+                    apiKey,
+                    signatureCreator))
+        .withRetry(retry("newOcoOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
+        .withRateLimiter(rateLimiter(ORDERS_PER_SECOND_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(ORDERS_PER_DAY_RATE_LIMITER))
+        .withRateLimiter(rateLimiter(REQUEST_WEIGHT_RATE_LIMITER))
         .call();
   }
 

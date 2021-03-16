@@ -144,6 +144,26 @@ public interface TradeService extends BaseService {
   }
 
   /**
+   * Place a OCO order
+   *
+   * @param limitOrder
+   * @param stopOrder
+   * @return the order ID
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the
+   *     request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the
+   *     requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *     requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @see org.knowm.xchange.utils.OrderValuesHelper
+   */
+  default String placeOcoOrder(LimitOrder limitOrder, StopOrder stopOrder)
+          throws IOException {
+    throw new NotYetImplementedForExchangeException("placeOcoOrder");
+  }
+
+  /**
    * Modify or cancel/replace an existing limit order
    *
    * @implNote Some exchanges have API methods that allow to modify an order or cancel an existing
