@@ -87,7 +87,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         }
       }
     });
-    return null;
+    return new ArrayList<>();
   }
 
   public FtxLendDataDto lend(String subaccount, String coin, double size, double rate) {
