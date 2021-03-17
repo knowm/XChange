@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class FtxBorrowingsDto {
+public class FtxBorrowingHistoryDto {
 
     @JsonProperty("coin")
     private final String coin;
@@ -22,7 +22,7 @@ public class FtxBorrowingsDto {
     @JsonProperty("time")
     private final Date time;
 
-    public FtxBorrowingsDto(
+    public FtxBorrowingHistoryDto(
             @JsonProperty("coin") String coin,
             @JsonProperty("cost") BigDecimal cost,
             @JsonProperty("rate") BigDecimal rate,

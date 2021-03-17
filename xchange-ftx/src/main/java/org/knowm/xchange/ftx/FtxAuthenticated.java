@@ -6,7 +6,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingsDto;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
@@ -165,7 +165,7 @@ public interface FtxAuthenticated extends Ftx {
 
   @GET
   @Path("/spot_margin/borrow_history")
-  FtxResponse<List<FtxBorrowingsDto>> getBorrowHistory(
+  FtxResponse<List<FtxBorrowingHistoryDto>> getBorrowHistory(
           @HeaderParam("FTX-KEY") String apiKey,
           @HeaderParam("FTX-TS") Long nonce,
           @HeaderParam("FTX-SIGN") ParamsDigest signature,
