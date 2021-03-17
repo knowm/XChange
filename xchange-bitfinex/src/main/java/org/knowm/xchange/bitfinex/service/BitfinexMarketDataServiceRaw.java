@@ -154,4 +154,9 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
     final String fundingPeriodStr = "p" + fundingPeriod;
     return bitfinexV2.getHistoricFundingCandles(candlePeriod, pair, fundingPeriodStr, numOfCandles);
   }
+
+  public List<BitfinexCandle> getHistoricCandles(
+      String candlePeriod, CurrencyPair currencyPair, Integer limit, Long startTimestamp, Long endTimestamp, Integer sort) throws IOException {
+    return bitfinexV2.getHistoricCandles(candlePeriod, BitfinexAdapters.adaptCurrencyPair(currencyPair), limit, startTimestamp, endTimestamp, sort);
+  }
 }
