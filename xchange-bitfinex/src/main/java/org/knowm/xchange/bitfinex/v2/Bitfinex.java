@@ -57,4 +57,15 @@ public interface Bitfinex {
       @PathParam("fundingPeriod") String fundingPeriod,
       @QueryParam("limit") int limit)
       throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("/candles/trade:{candlePeriod}:{symbol}/hist")
+  List<BitfinexCandle> getHistoricCandles(
+          @PathParam("candlePeriod") String candlePeriod,
+          @PathParam("symbol") String currency,
+          @QueryParam("limit") Integer limit,
+          @QueryParam("start") Long startTimestamp,
+          @QueryParam("end") Long endTimestamp,
+          @QueryParam("sort") Integer sort)
+          throws IOException, BitfinexExceptionV2;
 }
