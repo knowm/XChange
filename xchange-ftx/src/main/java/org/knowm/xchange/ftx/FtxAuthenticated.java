@@ -198,8 +198,7 @@ public interface FtxAuthenticated extends Ftx {
   FtxResponse<List<FtxLendingRatesDto>> getLendingRates(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      @HeaderParam("FTX-SIGN") ParamsDigest signature)
       throws IOException, FtxException;
 
   @GET
@@ -226,8 +225,7 @@ public interface FtxAuthenticated extends Ftx {
   FtxResponse<List<FtxBorrowingRatesDto>> getBorrowRates(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      @HeaderParam("FTX-SIGN") ParamsDigest signature)
       throws IOException, FtxException;
 
   @GET

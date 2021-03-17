@@ -30,33 +30,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
     return stopLending(subaccount, Arrays.asList(coins));
   }
 
-  public FtxLendDataDto lendAll(String subaccount, String coin, double rate) {
-    Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin))
-      throw new FtxLendingServiceException("Coin are blank or empty");
-    if (rate < 0)
-      throw new FtxLendingServiceException("Rate must to be >= 0, subaccount: " + subaccount + ", coin: " + coin);
-
-    try {
-      FtxLendingInfoDto info = info(subaccount, coin);
-
-      double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(info.getLendable())).doubleValue();
-      if (Double.compare(sizeToLend, info.getOffered()) == 0)
-        return new FtxLendDataDto(coin, info.getLocked(), sizeToLend, sizeToLend, rate);
-
-      ftx.submitLendingOffer(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount,
-          new FtxSubmitLendingOfferParams(coin, sizeToLend, rate)
-      );
-      return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
-    } catch (IOException e) {
-      throw new FtxLendingServiceException(e.getMessage());
-    }
-  }
-
   public List<FtxLendDataDto> lendAll(String subaccount, Map<String, Double> rateByCoins) {
     List<FtxLendDataDto> list = new ArrayList<>();
     rateByCoins.forEach((coin, rate) -> {
@@ -87,7 +60,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         }
       }
     });
-    return new ArrayList<>();
+    return list;
   }
 
   public FtxLendDataDto lend(String subaccount, String coin, double size, double rate) {
@@ -116,40 +89,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't lend subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", rate: " + rate, e);
-    }
-  }
-
-  public FtxLendDataDto lend(String subaccount, String coin, FtxLendingInfoFunction functionSize, FtxLendingInfoFunction functionRate) {
-    Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin))
-      throw new FtxLendingServiceException("Coin are blank or empty");
-
-    FtxLendingInfoDto info = info(subaccount, coin);
-    if (info == null) {
-      throw new FtxLendingServiceException("No info for coin: " + coin);
-    }
-    double sizeToLend = functionSize.apply(info);
-    if (Double.compare(sizeToLend, info.getLendable()) == 1) {
-      throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", sizeLendable: " + info.getLendable() + ", sizeToLend: " + sizeToLend);
-    }
-    if (sizeToLend < 0)
-      throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", sizeLendable: " + info.getLendable() + ", sizeToLend: " + sizeToLend);
-
-    double rate = functionRate.apply(info);
-    if (rate < 0)
-      throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", sizeLendable: " + info.getLendable() + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
-
-    try {
-      ftx.submitLendingOffer(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount,
-          new FtxSubmitLendingOfferParams(coin, FtxAdapters.lendingRounding(new BigDecimal(sizeToLend)).doubleValue(), rate)
-      );
-      return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
-    } catch (IOException e) {
-      throw new FtxLendingServiceException("Can't lend subaccount: " + subaccount + ", coin: " + coin + ", sizeToLend: " + sizeToLend + ", rate: " + rate, e);
     }
   }
 
@@ -219,38 +158,36 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         .orElse(null);
   }
 
-  public List<FtxLendingRatesDto> rates(String subaccount) {
+  public List<FtxLendingRatesDto> rates() {
     try {
       return ftx.getLendingRates(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
+          signatureCreator
       ).getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't get lending rates", e);
     }
   }
 
-  public List<FtxLendingRatesDto> rates(String subaccount, List<String> coins) {
+  public List<FtxLendingRatesDto> rates(List<String> coins) {
     Objects.requireNonNull(coins);
-    return rates(subaccount).stream()
+    return rates().stream()
         .filter(lendingRates -> coins.contains(lendingRates.getCoin()))
         .collect(Collectors.toList());
   }
 
-  public List<FtxLendingRatesDto> rates(String subaccount, String... coins) {
+  public List<FtxLendingRatesDto> rates(String... coins) {
     Objects.requireNonNull(coins);
-    return rates(subaccount, Arrays.asList(coins));
+    return rates(Arrays.asList(coins));
   }
 
-  public FtxLendingRatesDto rate(String subaccount, String coin) {
+  public FtxLendingRatesDto rate(String coin) {
     try {
       return ftx.getLendingRates(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
+          signatureCreator
       ).getResult().stream()
           .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
           .findFirst()
@@ -258,11 +195,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't get lending rate coin: " + coin, e);
     }
-  }
-
-  @FunctionalInterface
-  public interface FtxLendingInfoFunction {
-    double apply(FtxLendingInfoDto value);
   }
 
   public static class FtxLendingServiceException extends RuntimeException {

@@ -61,7 +61,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
           subaccount
       ).getResult();
     } catch (IOException e) {
-      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
+      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos", e);
     }
   }
 
@@ -86,39 +86,37 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
         .orElse(null);
   }
 
-  public List<FtxBorrowingRatesDto> rates(String subaccount) {
+  public List<FtxBorrowingRatesDto> rates() {
     try {
       return ftx.getBorrowRates(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
+          signatureCreator
       ).getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rates", e);
     }
   }
 
-  public List<FtxBorrowingRatesDto> rates(String subaccount, List<String> coins) {
+  public List<FtxBorrowingRatesDto> rates(List<String> coins) {
     Objects.requireNonNull(coins);
-    return rates(subaccount).stream()
+    return rates().stream()
         .filter(lendingRates -> coins.contains(lendingRates.getCoin()))
         .collect(Collectors.toList());
   }
 
-  public List<FtxBorrowingRatesDto> rates(String subaccount, String... coins) {
+  public List<FtxBorrowingRatesDto> rates(String... coins) {
     Objects.requireNonNull(coins);
-    return rates(subaccount, Arrays.asList(coins));
+    return rates(Arrays.asList(coins));
   }
 
-  public FtxBorrowingRatesDto rate(String subaccount, String coin) {
+  public FtxBorrowingRatesDto rate(String coin) {
     if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     try {
       return ftx.getBorrowRates(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
+          signatureCreator
       ).getResult().stream()
           .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
           .findFirst()

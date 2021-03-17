@@ -331,8 +331,6 @@ public class FtxAdapters {
     return new OpenPositions(openPositionList);
   }
 
-  // Need this to avoid errors
-  // With ftx for lend it takes maximum 4 digit after the comma
   public static BigDecimal lendingRounding(BigDecimal value) {
     return value.setScale(4, RoundingMode.DOWN);
   }
