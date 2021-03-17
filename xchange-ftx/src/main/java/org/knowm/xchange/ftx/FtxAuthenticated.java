@@ -6,6 +6,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingsDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
@@ -182,4 +183,59 @@ public interface FtxAuthenticated extends Ftx {
           @QueryParam("end_time") Long endTime,
           @QueryParam("future") String future)
           throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/lending_info")
+  FtxResponse<List<FtxLendingInfoDto>> getLendingInfos(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/lending_rates")
+  FtxResponse<List<FtxLendingRatesDto>> getLendingRates(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/lending_history")
+  FtxResponse<List<FtxLendingHistoryDto>> getlendingHistories(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/spot_margin/offers")
+  FtxResponse submitLendingOffer(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      FtxSubmitLendingOfferParams payload)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/borrow_rates")
+  FtxResponse<List<FtxBorrowingRatesDto>> getBorrowRates(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/spot_margin/borrow_info")
+  FtxResponse<List<FtxBorrowingInfoDto>> getBorrowingInfos(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
 }
