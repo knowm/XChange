@@ -32,7 +32,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
 
   public FtxLendDataDto lendAll(String subaccount, String coin, double rate) {
     Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin) || StringUtils.isNotEmpty(coin))
+    if (StringUtils.isNotBlank(coin))
       throw new FtxLendingServiceException("Coin are blank or empty");
     if (rate < 0)
       throw new FtxLendingServiceException("Rate must to be >= 0, subaccount: " + subaccount + ", coin: " + coin);
@@ -41,7 +41,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       FtxLendingInfoDto info = info(subaccount, coin);
 
       double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(info.getLendable())).doubleValue();
-      if (sizeToLend == info.getOffered())
+      if (Double.compare(sizeToLend, info.getOffered()) == 0)
         return new FtxLendDataDto(coin, info.getLocked(), sizeToLend, sizeToLend, rate);
 
       ftx.submitLendingOffer(
@@ -70,7 +70,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       if (!op.isPresent()) throw new FtxLendingServiceException("Cant lend all, infos don't exist for coin: " + coin);
 
       double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(op.get().getLendable())).doubleValue();
-      if (sizeToLend == op.get().getOffered())
+      if (Double.compare(sizeToLend, op.get().getOffered()) == 0)
         list.add(new FtxLendDataDto(coin, op.get().getLocked(), sizeToLend, sizeToLend, rate));
       else {
         try {
@@ -92,7 +92,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
 
   public FtxLendDataDto lend(String subaccount, String coin, double size, double rate) {
     Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin) || StringUtils.isNotEmpty(coin))
+    if (StringUtils.isNotBlank(coin))
       throw new FtxLendingServiceException("Coin are blank or empty");
     if (rate < 0)
       throw new FtxLendingServiceException("Rate must to be >= 0, subaccount: " + subaccount + ", coin: " + coin);
@@ -103,7 +103,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       FtxLendingInfoDto info = info(subaccount, coin);
       double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(size)).doubleValue();
 
-      if (sizeToLend > info.getLendable()) {
+      if (Double.compare(sizeToLend, info.getLendable()) == 1) {
         throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
       }
       ftx.submitLendingOffer(
@@ -121,7 +121,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
 
   public FtxLendDataDto lend(String subaccount, String coin, FtxLendingInfoFunction functionSize, FtxLendingInfoFunction functionRate) {
     Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin) || StringUtils.isNotEmpty(coin))
+    if (StringUtils.isNotBlank(coin))
       throw new FtxLendingServiceException("Coin are blank or empty");
 
     FtxLendingInfoDto info = info(subaccount, coin);
@@ -129,7 +129,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       throw new FtxLendingServiceException("No info for coin: " + coin);
     }
     double sizeToLend = functionSize.apply(info);
-    if (sizeToLend > info.getLendable()) {
+    if (Double.compare(sizeToLend, info.getLendable()) == 1) {
       throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", sizeLendable: " + info.getLendable() + ", sizeToLend: " + sizeToLend);
     }
     if (sizeToLend < 0)

@@ -1,7 +1,10 @@
 package org.knowm.xchange.ftx.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ftx.FtxExchange;
-import org.knowm.xchange.ftx.dto.account.*;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingInfoDto;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingRatesDto;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingsDto;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class FtxBorrowingServiceRaw extends FtxBaseService  {
+public class FtxBorrowingServiceRaw extends FtxBaseService {
 
   public FtxBorrowingServiceRaw(FtxExchange exchange) {
     super(exchange);
@@ -41,6 +44,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService  {
   }
 
   public FtxBorrowingsDto history(String subaccount, String coin) {
+    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
     return histories(subaccount).stream()
         .filter(lendingHistory -> lendingHistory.getCoin().equalsIgnoreCase(coin))
@@ -74,6 +78,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService  {
   }
 
   public FtxBorrowingInfoDto info(String subaccount, String coin) {
+    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
     return infos(subaccount).stream()
         .filter(lendingInfo -> lendingInfo.getCoin().equalsIgnoreCase(coin))
@@ -107,6 +112,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService  {
   }
 
   public FtxBorrowingRatesDto rate(String subaccount, String coin) {
+    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     try {
       return ftx.getBorrowRates(
           exchange.getExchangeSpecification().getApiKey(),
@@ -119,6 +125,16 @@ public class FtxBorrowingServiceRaw extends FtxBaseService  {
           .orElse(null);
     } catch (IOException e) {
       throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rate coin: " + coin, e);
+    }
+  }
+
+  public static class FtxBorrowingServiceException extends RuntimeException {
+    public FtxBorrowingServiceException(String message, Throwable cause) {
+      super(message, cause);
+    }
+
+    public FtxBorrowingServiceException(String message) {
+      super(message);
     }
   }
 }
