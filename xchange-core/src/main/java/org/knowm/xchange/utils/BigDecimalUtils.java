@@ -8,12 +8,6 @@ public class BigDecimalUtils {
 
   private BigDecimalUtils() {}
 
-  // Need this to avoid errors
-  // With ftx for lend it takes maximum 4 digit after the comma
-  public static BigDecimal ftxRoundingLending(BigDecimal value) {
-    return value.setScale(4, RoundingMode.DOWN);
-  }
-
   public static BigDecimal roundToStepSize(BigDecimal value, BigDecimal stepSize) {
     return roundToStepSize(value, stepSize, RoundingMode.HALF_DOWN);
   }

@@ -1,9 +1,9 @@
 package org.knowm.xchange.ftx.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.FtxExchange;
 import org.knowm.xchange.ftx.dto.account.*;
-import org.knowm.xchange.utils.BigDecimalUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -40,7 +40,7 @@ public class FtxLendingService extends FtxBaseService {
     try {
       FtxLendingInfoDto info = info(subaccount, coin);
 
-      double sizeToLend = BigDecimalUtils.ftxRoundingLending(new BigDecimal(info.getLendable())).doubleValue();
+      double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(info.getLendable())).doubleValue();
       if (sizeToLend == info.getOffered())
         return new FtxLendDataDto(coin, info.getLocked(), sizeToLend, sizeToLend, rate);
 
@@ -69,7 +69,7 @@ public class FtxLendingService extends FtxBaseService {
 
       if (!op.isPresent()) throw new FtxLendingServiceException("Cant lend all, infos don't exist for coin: " + coin);
 
-      double sizeToLend = BigDecimalUtils.ftxRoundingLending(new BigDecimal(op.get().getLendable())).doubleValue();
+      double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(op.get().getLendable())).doubleValue();
       if (sizeToLend == op.get().getOffered())
         list.add(new FtxLendDataDto(coin, op.get().getLocked(), sizeToLend, sizeToLend, rate));
       else {
@@ -101,7 +101,7 @@ public class FtxLendingService extends FtxBaseService {
 
     try {
       FtxLendingInfoDto info = info(subaccount, coin);
-      double sizeToLend = BigDecimalUtils.ftxRoundingLending(new BigDecimal(size)).doubleValue();
+      double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(size)).doubleValue();
 
       if (sizeToLend > info.getLendable()) {
         throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
@@ -111,7 +111,7 @@ public class FtxLendingService extends FtxBaseService {
           exchange.getNonceFactory().createValue(),
           signatureCreator,
           subaccount,
-          new FtxSubmitLendingOfferParams(coin, BigDecimalUtils.ftxRoundingLending(new BigDecimal(sizeToLend)).doubleValue(), rate)
+          new FtxSubmitLendingOfferParams(coin, FtxAdapters.lendingRounding(new BigDecimal(sizeToLend)).doubleValue(), rate)
       );
       return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
     } catch (IOException e) {
@@ -145,7 +145,7 @@ public class FtxLendingService extends FtxBaseService {
           exchange.getNonceFactory().createValue(),
           signatureCreator,
           subaccount,
-          new FtxSubmitLendingOfferParams(coin, BigDecimalUtils.ftxRoundingLending(new BigDecimal(sizeToLend)).doubleValue(), rate)
+          new FtxSubmitLendingOfferParams(coin, FtxAdapters.lendingRounding(new BigDecimal(sizeToLend)).doubleValue(), rate)
       );
       return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
     } catch (IOException e) {
