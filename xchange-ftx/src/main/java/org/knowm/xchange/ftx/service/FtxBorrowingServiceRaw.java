@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class FtxBorrowingService extends FtxBaseService  {
+public class FtxBorrowingServiceRaw extends FtxBaseService  {
 
-  public FtxBorrowingService(FtxExchange exchange) {
+  public FtxBorrowingServiceRaw(FtxExchange exchange) {
     super(exchange);
   }
 
@@ -24,7 +24,7 @@ public class FtxBorrowingService extends FtxBaseService  {
           subaccount
       ).getResult();
     } catch (IOException e) {
-      throw new FtxLendingService.FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
+      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
     }
   }
 
@@ -57,7 +57,7 @@ public class FtxBorrowingService extends FtxBaseService  {
           subaccount
       ).getResult();
     } catch (IOException e) {
-      throw new FtxLendingService.FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
+      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
     }
   }
 
@@ -90,7 +90,7 @@ public class FtxBorrowingService extends FtxBaseService  {
           subaccount
       ).getResult();
     } catch (IOException e) {
-      throw new FtxLendingService.FtxLendingServiceException("Can't get lending rates", e);
+      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rates", e);
     }
   }
 
@@ -118,7 +118,7 @@ public class FtxBorrowingService extends FtxBaseService  {
           .findFirst()
           .orElse(null);
     } catch (IOException e) {
-      throw new FtxLendingService.FtxLendingServiceException("Can't get lending rate coin: " + coin, e);
+      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rate coin: " + coin, e);
     }
   }
 }
