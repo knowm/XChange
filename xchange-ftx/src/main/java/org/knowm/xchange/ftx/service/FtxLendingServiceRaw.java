@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FtxLendingService extends FtxBaseService {
+public class FtxLendingServiceRaw extends FtxBaseService {
 
-  public FtxLendingService(FtxExchange exchange) {
+  public FtxLendingServiceRaw(FtxExchange exchange) {
     super(exchange);
   }
 
