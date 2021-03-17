@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ftx.FtxExchange;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingInfoDto;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingRatesDto;
-import org.knowm.xchange.ftx.dto.account.FtxBorrowingsDto;
+import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
     super(exchange);
   }
 
-  public List<FtxBorrowingsDto> histories(String subaccount) {
+  public List<FtxBorrowingHistoryDto> histories(String subaccount) {
     try {
       return ftx.getBorrowHistory(
           exchange.getExchangeSpecification().getApiKey(),
@@ -31,19 +31,19 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
     }
   }
 
-  public List<FtxBorrowingsDto> histories(String subaccount, List<String> coins) {
+  public List<FtxBorrowingHistoryDto> histories(String subaccount, List<String> coins) {
     Objects.requireNonNull(coins);
     return histories(subaccount).stream()
         .filter(lendingHistory -> coins.contains(lendingHistory.getCoin()))
         .collect(Collectors.toList());
   }
 
-  public List<FtxBorrowingsDto> histories(String subaccount, String... coins) {
+  public List<FtxBorrowingHistoryDto> histories(String subaccount, String... coins) {
     Objects.requireNonNull(coins);
     return histories(subaccount, Arrays.asList(coins));
   }
 
-  public FtxBorrowingsDto history(String subaccount, String coin) {
+  public FtxBorrowingHistoryDto history(String subaccount, String coin) {
     if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
     return histories(subaccount).stream()
