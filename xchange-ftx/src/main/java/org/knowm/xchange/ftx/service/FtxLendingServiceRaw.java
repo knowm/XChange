@@ -26,39 +26,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxLendDataDto> lendAll(String subaccount, Map<String, Double> rateByCoins) {
-    List<FtxLendDataDto> list = new ArrayList<>();
-    rateByCoins.forEach((coin, rate) -> {
-
-
-      List<FtxLendingInfoDto> infos = infos(subaccount);
-      Optional<FtxLendingInfoDto> op = infos.stream()
-          .filter(lendingInfo -> lendingInfo.getCoin().equalsIgnoreCase(coin))
-          .findFirst();
-
-      if (!op.isPresent()) throw new FtxLendingServiceException("Cant lend all, infos don't exist for coin: " + coin);
-
-      double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(op.get().getLendable())).doubleValue();
-      if (Double.compare(sizeToLend, op.get().getOffered()) == 0)
-        list.add(new FtxLendDataDto(coin, op.get().getLocked(), sizeToLend, sizeToLend, rate));
-      else {
-        try {
-          ftx.submitLendingOffer(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              subaccount,
-              new FtxSubmitLendingOfferParams(coin, sizeToLend, rate)
-          );
-          list.add(new FtxLendDataDto(coin, op.get().getLocked(), op.get().getOffered(), sizeToLend, rate));
-        } catch (IOException e) {
-          throw new FtxLendingServiceException("Can't lend all for subaccount: " + subaccount + ", coin: " + coin + ", rate: " + rate);
-        }
-      }
-    });
-    return list;
-  }
-
   public FtxLendDataDto lend(String subaccount, String coin, double size, double rate) {
     Objects.requireNonNull(coin);
     if (StringUtils.isNotBlank(coin))
