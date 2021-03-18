@@ -1,12 +1,13 @@
 package org.knowm.xchange.ftx.service;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class FtxAccountServiceRaw extends FtxBaseService {
 
@@ -96,30 +97,17 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<List<FtxBorrowingsDto>> getFtxBorrowHistory(String subaccount)
-          throws FtxException, IOException {
-    try {
-      return ftx.getBorrowHistory(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              subaccount);
-    } catch (FtxException e) {
-      throw new FtxException(e.getMessage());
-    }
-  }
-
   public FtxResponse<List<FtxFundingPaymentsDto>> getFtxFundingPayments(String subaccount, Long startTime, Long endTime, String future)
-          throws FtxException, IOException {
+      throws FtxException, IOException {
     try {
       return ftx.getFundingPayments(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              subaccount,
-              startTime,
-              endTime,
-              future);
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          startTime,
+          endTime,
+          future);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }

@@ -330,4 +330,8 @@ public class FtxAdapters {
 
     return new OpenPositions(openPositionList);
   }
+
+  public static BigDecimal lendingRounding(BigDecimal value) {
+    return value.setScale(4, RoundingMode.DOWN);
+  }
 }
