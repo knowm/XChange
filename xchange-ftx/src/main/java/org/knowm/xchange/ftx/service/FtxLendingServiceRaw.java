@@ -26,10 +26,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxLendDataDto> stopLending(String subaccount, String... coins) {
-    return stopLending(subaccount, Arrays.asList(coins));
-  }
-
   public List<FtxLendDataDto> lendAll(String subaccount, Map<String, Double> rateByCoins) {
     List<FtxLendDataDto> list = new ArrayList<>();
     rateByCoins.forEach((coin, rate) -> {
@@ -112,11 +108,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxLendingHistoryDto> histories(String subaccount, String... coins) {
-    Objects.requireNonNull(coins);
-    return histories(subaccount, Arrays.asList(coins));
-  }
-
   public FtxLendingHistoryDto history(String subaccount, String coin) {
     Objects.requireNonNull(coin);
     return histories(subaccount).stream()
@@ -145,11 +136,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxLendingInfoDto> infos(String subaccount, String... coins) {
-    Objects.requireNonNull(coins);
-    return infos(subaccount, Arrays.asList(coins));
-  }
-
   public FtxLendingInfoDto info(String subaccount, String coin) {
     Objects.requireNonNull(coin);
     return infos(subaccount).stream()
@@ -175,11 +161,6 @@ public class FtxLendingServiceRaw extends FtxBaseService {
     return rates().stream()
         .filter(lendingRates -> coins.contains(lendingRates.getCoin()))
         .collect(Collectors.toList());
-  }
-
-  public List<FtxLendingRatesDto> rates(String... coins) {
-    Objects.requireNonNull(coins);
-    return rates(Arrays.asList(coins));
   }
 
   public FtxLendingRatesDto rate(String coin) {
