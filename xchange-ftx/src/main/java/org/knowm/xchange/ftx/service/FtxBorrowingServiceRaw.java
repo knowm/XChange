@@ -7,7 +7,6 @@ import org.knowm.xchange.ftx.dto.account.FtxBorrowingRatesDto;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,8 +38,8 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public FtxBorrowingHistoryDto history(String subaccount, String coin) {
-    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
+    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     return histories(subaccount).stream()
         .filter(lendingHistory -> lendingHistory.getCoin().equalsIgnoreCase(coin))
         .findFirst()
@@ -68,8 +67,8 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public FtxBorrowingInfoDto info(String subaccount, String coin) {
-    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
+    if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     return infos(subaccount).stream()
         .filter(lendingInfo -> lendingInfo.getCoin().equalsIgnoreCase(coin))
         .findFirst()
@@ -96,6 +95,7 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public FtxBorrowingRatesDto rate(String coin) {
+    Objects.requireNonNull(coin);
     if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     try {
       return ftx.getBorrowRates(
