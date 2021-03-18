@@ -57,12 +57,12 @@ public class FtxBorrowingHistoryDto {
 
     @Override
     public String toString() {
-        return "FtxSpotMarginDto{" +
-                "coin='" + coin + '\'' +
-                ", cost=" + cost +
-                ", rate=" + rate +
-                ", size=" + size +
-                ", time=" + time +
-                '}';
+        return "FtxBorrowingHistoryDto{" +
+            "coin='" + coin + '\'' +
+            ", cost=" + cost +
+            ", rate=" + rate +
+            ", size=" + size +
+            ", time=" + time +
+            '}';
     }
 }
