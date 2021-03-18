@@ -73,7 +73,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
       double sizeToLend = FtxAdapters.lendingRounding(new BigDecimal(size)).doubleValue();
 
       if (Double.compare(sizeToLend, info.getLendable()) == 1) {
-        throw new FtxLendingServiceException("Cant't lend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
+        throw new FtxLendingServiceException("Can't lend sizeToLend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
       }
       ftx.submitLendingOffer(
           exchange.getExchangeSpecification().getApiKey(),
