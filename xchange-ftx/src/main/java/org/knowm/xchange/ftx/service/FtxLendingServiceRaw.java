@@ -110,6 +110,8 @@ public class FtxLendingServiceRaw extends FtxBaseService {
 
   public FtxLendingHistoryDto history(String subaccount, String coin) {
     Objects.requireNonNull(coin);
+    if (StringUtils.isNotBlank(coin))
+      throw new FtxLendingServiceException("Coin are blank or empty");
     return histories(subaccount).stream()
         .filter(lendingHistory -> lendingHistory.getCoin().equalsIgnoreCase(coin))
         .findFirst()
@@ -138,6 +140,8 @@ public class FtxLendingServiceRaw extends FtxBaseService {
 
   public FtxLendingInfoDto info(String subaccount, String coin) {
     Objects.requireNonNull(coin);
+    if (StringUtils.isNotBlank(coin))
+      throw new FtxLendingServiceException("Coin are blank or empty");
     return infos(subaccount).stream()
         .filter(lendingInfo -> lendingInfo.getCoin().equalsIgnoreCase(coin))
         .findFirst()
@@ -164,6 +168,9 @@ public class FtxLendingServiceRaw extends FtxBaseService {
   }
 
   public FtxLendingRatesDto rate(String coin) {
+    Objects.requireNonNull(coin);
+    if (StringUtils.isNotBlank(coin))
+      throw new FtxLendingServiceException("Coin are blank or empty");
     try {
       return ftx.getLendingRates(
           exchange.getExchangeSpecification().getApiKey(),
