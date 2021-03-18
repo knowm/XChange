@@ -38,11 +38,6 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxBorrowingHistoryDto> histories(String subaccount, String... coins) {
-    Objects.requireNonNull(coins);
-    return histories(subaccount, Arrays.asList(coins));
-  }
-
   public FtxBorrowingHistoryDto history(String subaccount, String coin) {
     if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
@@ -72,11 +67,6 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
         .collect(Collectors.toList());
   }
 
-  public List<FtxBorrowingInfoDto> infos(String subaccount, String... coins) {
-    Objects.requireNonNull(coins);
-    return infos(subaccount, Arrays.asList(coins));
-  }
-
   public FtxBorrowingInfoDto info(String subaccount, String coin) {
     if (StringUtils.isNotBlank(coin)) throw new FtxBorrowingServiceException("Coin are blank or empty");
     Objects.requireNonNull(coin);
@@ -103,11 +93,6 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
     return rates().stream()
         .filter(lendingRates -> coins.contains(lendingRates.getCoin()))
         .collect(Collectors.toList());
-  }
-
-  public List<FtxBorrowingRatesDto> rates(String... coins) {
-    Objects.requireNonNull(coins);
-    return rates(Arrays.asList(coins));
   }
 
   public FtxBorrowingRatesDto rate(String coin) {
