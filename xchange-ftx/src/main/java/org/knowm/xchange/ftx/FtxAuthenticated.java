@@ -44,6 +44,23 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
 
+  @DELETE
+  @Path("/subaccounts")
+  FtxResponse deleteSubAccounts(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      FtxSubAccountRequestPOJO payload)
+      throws IOException, FtxException;
+
+  @GET
+  @Path("/subaccounts")
+  FtxResponse<List<FtxSubAccountDto>> getAllSubAccounts(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      throws IOException, FtxException;
+
   @POST
   @Path("/subaccounts")
   FtxResponse<FtxSubAccountDto> createSubAccount(
@@ -52,6 +69,15 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       FtxSubAccountRequestPOJO payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/subaccounts/update_name")
+  FtxResponse changeSubAccountName(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      FtxChangeSubAccountNamePOJO payload)
       throws IOException, FtxException;
 
   @GET
