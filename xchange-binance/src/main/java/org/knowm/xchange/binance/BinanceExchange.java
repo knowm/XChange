@@ -10,6 +10,7 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Filter;
 import org.knowm.xchange.binance.dto.meta.exchangeinfo.Symbol;
 import org.knowm.xchange.binance.service.BinanceAccountService;
+import org.knowm.xchange.binance.service.BinanceMarginAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.binance.service.BinanceTradeService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
@@ -24,6 +25,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BinanceExchange extends BaseExchange {
 
+  public static final String EXCHANGE_TYPE_MARGIN = "BinanceMarginExchange";
+  public static final String EXCHANGE_TYPE = "BinanceExchangeType";
+
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   private BinanceExchangeInfo exchangeInfo;
@@ -32,16 +36,26 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
+
+    if (EXCHANGE_TYPE_MARGIN.equals(exchangeSpecification.getExchangeSpecificParametersItem(EXCHANGE_TYPE))) {
+      this.binance = ExchangeRestProxyBuilder.forInterface(
+              BinanceMarginAuthenticated.class, getExchangeSpecification())
+              .build();
+
+      this.accountService = new BinanceMarginAccountService(this, (BinanceMarginAuthenticated)binance, getResilienceRegistries());
+    } else {
+      this.binance = ExchangeRestProxyBuilder.forInterface(
+              BinanceAuthenticated.class, getExchangeSpecification())
+              .build();
+
+      this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+    }
     this.timestampFactory =
         new BinanceTimestampFactory(
             binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
+
     this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
     this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
-    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {

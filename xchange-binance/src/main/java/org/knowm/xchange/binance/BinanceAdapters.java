@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Enums;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
+import org.knowm.xchange.binance.dto.account.BinanceMarginAccountInformation;
 import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
 import org.knowm.xchange.binance.dto.trade.BinanceOrder;
 import org.knowm.xchange.binance.dto.trade.OrderSide;
@@ -14,6 +17,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
@@ -225,5 +231,24 @@ public class BinanceAdapters {
       default:
         throw new IllegalStateException("Unexpected value: " + order.getIntention());
     }
+  }
+
+  public static AccountInfo adaptAccountInfo(BinanceMarginAccountInformation marginAccount) {
+    List<Balance> balances =
+            marginAccount.userAssets.stream()
+                    .map(b -> new Balance(
+                            b.getCurrency(),
+                            b.getTotal(),
+                            b.getAvailable(),
+                            BigDecimal.ZERO,
+                            b.getBorrowed(),
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO,
+                            BigDecimal.ZERO))
+                    .collect(Collectors.toList());
+    return new AccountInfo(Wallet.Builder.from(balances)
+            .features(EnumSet.of(Wallet.WalletFeature.MARGIN_TRADING))
+            .currentLeverage(marginAccount.marginLevel)
+            .build());
   }
 }
