@@ -79,7 +79,7 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<List<FtxSubAccountDto>> deleteFtxAllSubAccounts(String nickname)
+  public FtxResponse deleteFtxAllSubAccounts(String nickname)
       throws FtxException, IOException {
     try {
       return ftx.deleteSubAccounts(

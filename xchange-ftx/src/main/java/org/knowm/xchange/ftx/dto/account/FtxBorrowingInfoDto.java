@@ -3,30 +3,32 @@ package org.knowm.xchange.ftx.dto.account;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public class FtxBorrowingInfoDto {
 
   @JsonProperty("coin")
   private final String coin;
 
   @JsonProperty("lendable")
-  private final double lendable;
+  private final BigDecimal lendable;
 
   @JsonProperty("locked")
-  private final double locked;
+  private final BigDecimal locked;
 
   @JsonProperty("minRate")
-  private final double minRate;
+  private final BigDecimal minRate;
 
   @JsonProperty("offered")
-  private final double offered;
+  private final BigDecimal offered;
 
   @JsonCreator
   public FtxBorrowingInfoDto(
       @JsonProperty("coin") String coin,
-      @JsonProperty("lendable") double lendable,
-      @JsonProperty("locked") double locked,
-      @JsonProperty("minRate") double minRate,
-      @JsonProperty("offered") double offered) {
+      @JsonProperty("lendable") BigDecimal lendable,
+      @JsonProperty("locked") BigDecimal locked,
+      @JsonProperty("minRate") BigDecimal minRate,
+      @JsonProperty("offered") BigDecimal offered) {
     this.coin = coin;
     this.lendable = lendable;
     this.locked = locked;
@@ -38,19 +40,19 @@ public class FtxBorrowingInfoDto {
     return coin;
   }
 
-  public double getLendable() {
+  public BigDecimal getLendable() {
     return lendable;
   }
 
-  public double getLocked() {
+  public BigDecimal getLocked() {
     return locked;
   }
 
-  public double getMinRate() {
+  public BigDecimal getMinRate() {
     return minRate;
   }
 
-  public double getOffered() {
+  public BigDecimal getOffered() {
     return offered;
   }
 
