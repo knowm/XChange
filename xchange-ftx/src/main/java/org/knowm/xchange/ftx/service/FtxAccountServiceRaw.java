@@ -1,12 +1,13 @@
 package org.knowm.xchange.ftx.service;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class FtxAccountServiceRaw extends FtxBaseService {
 
@@ -15,7 +16,6 @@ public class FtxAccountServiceRaw extends FtxBaseService {
   }
 
   public FtxResponse<FtxAccountDto> getFtxAccountInformation() throws FtxException, IOException {
-
     try {
       return ftx.getAccountInformation(
           exchange.getExchangeSpecification().getApiKey(),
@@ -49,6 +49,44 @@ public class FtxAccountServiceRaw extends FtxBaseService {
           signatureCreator,
           null,
           nickname);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxSubAccountBalanceDto> changeFtxSubAccountName(String nickname, String newNickname)
+      throws FtxException, IOException {
+    try {
+      return ftx.changeSubAccountName(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          new FtxChangeSubAccountNamePOJO(nickname, newNickname));
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxSubAccountDto>> getFtxAllSubAccounts()
+      throws FtxException, IOException {
+    try {
+      return ftx.getAllSubAccounts(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse deleteFtxAllSubAccounts(String nickname)
+      throws FtxException, IOException {
+    try {
+      return ftx.deleteSubAccounts(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          new FtxSubAccountRequestPOJO(nickname));
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
@@ -91,6 +129,22 @@ public class FtxAccountServiceRaw extends FtxBaseService {
           signatureCreator,
           URLEncoder.encode(subaccount, "UTF-8"),
           new FtxLeverageDto(leverage));
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<List<FtxFundingPaymentsDto>> getFtxFundingPayments(String subaccount, Long startTime, Long endTime, String future)
+      throws FtxException, IOException {
+    try {
+      return ftx.getFundingPayments(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          startTime,
+          endTime,
+          future);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }

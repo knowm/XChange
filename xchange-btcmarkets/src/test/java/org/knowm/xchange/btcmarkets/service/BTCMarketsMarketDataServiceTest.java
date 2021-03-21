@@ -1,19 +1,20 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
+import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
 
@@ -58,14 +59,21 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
       BtcMarketsAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
   }
+  
+  @Test 
+  public void shouldGetTrades() throws IOException {
+	  
+	  List<BTCMarketsTrade> tradesMock = Arrays.asList(parse(BTCMarketsTrade[].class, "v3"));
+	  
+	  when(btcMarkets.getTrades("BTC-AUD")).thenReturn(tradesMock);
+	  
+	  List<BTCMarketsTrade> trades = btcMarkets.getTrades("BTC-AUD");
 
-  @Test(expected = NotYetImplementedForExchangeException.class)
-  public void shouldFailWhenGetTrades() throws IOException {
-    // when
-    btcMarketsMarketDataService.getTrades(CurrencyPair.BTC_AUD);
-
-    // then
-    fail(
-        "BTCMarketsMarketDataService should throw NotYetImplementedForExchangeException when call getTrades");
+	  assertThat(trades).hasSize(2);
+	  for (int i =0; i < trades.size(); i++) {
+		  BtcMarketsAssert.assertEquals(trades.get(i), EXCPECTED_BTC_AUD_MARKET_TRADES.get(i));
+		 
+	  }
   }
+
 }

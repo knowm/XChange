@@ -13,6 +13,7 @@ import org.knowm.xchange.bitfinex.v2.dto.BitfinexExceptionV2;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexCandle;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicFundingTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexPublicTrade;
+import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexStats;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
 
 @Path("v2")
@@ -57,4 +58,28 @@ public interface Bitfinex {
       @PathParam("fundingPeriod") String fundingPeriod,
       @QueryParam("limit") int limit)
       throws IOException, BitfinexExceptionV2;
+
+  @GET
+  @Path("/candles/trade:{candlePeriod}:{symbol}/hist")
+  List<BitfinexCandle> getHistoricCandles(
+          @PathParam("candlePeriod") String candlePeriod,
+          @PathParam("symbol") String currency,
+          @QueryParam("limit") Integer limit,
+          @QueryParam("start") Long startTimestamp,
+          @QueryParam("end") Long endTimestamp,
+          @QueryParam("sort") Integer sort)
+          throws IOException, BitfinexExceptionV2;
+  
+  @GET
+  @Path("stats1/{key}:{size}:{symbol}:{side}/hist")
+  List<BitfinexStats> getStats(
+          @PathParam("key") String key,
+          @PathParam("size") String size,
+          @PathParam("symbol") String symbol,
+          @PathParam("side") String side,
+          @QueryParam("sort") Integer sort,
+          @QueryParam("start") Long startTimestamp,
+          @QueryParam("end") Long endTimestamp,
+          @QueryParam("limit") Integer limit)
+          throws IOException, BitfinexExceptionV2;
 }

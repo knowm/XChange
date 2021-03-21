@@ -182,6 +182,19 @@ public class FtxAdapters {
         limitOrder.getUserReference());
   }
 
+  public static FtxOrderRequestPayload adaptMarketOrderToFtxOrderPayload(MarketOrder marketOrder) {
+    return new FtxOrderRequestPayload(
+            adaptCurrencyPairToFtxMarket(marketOrder.getCurrencyPair()),
+            adaptOrderTypeToFtxOrderSide(marketOrder.getType()),
+            null,
+            FtxOrderType.market,
+            marketOrder.getOriginalAmount(),
+            marketOrder.hasFlag(FtxOrderFlags.REDUCE_ONLY),
+            marketOrder.hasFlag(FtxOrderFlags.IOC),
+            marketOrder.hasFlag(FtxOrderFlags.POST_ONLY),
+            marketOrder.getUserReference());
+  }
+
   public static Trades adaptTrades(List<FtxTradeDto> ftxTradeDtos, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>();
 
@@ -316,5 +329,9 @@ public class FtxAdapters {
         });
 
     return new OpenPositions(openPositionList);
+  }
+
+  public static BigDecimal lendingRounding(BigDecimal value) {
+    return value.setScale(4, RoundingMode.DOWN);
   }
 }
