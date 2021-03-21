@@ -14,9 +14,7 @@ public class CoinbaseProResilience {
 
     public static final String PRIVATE_REST_ENDPOINT_RATE_LIMITER = "privateEndpointLimit";
 
-    public static ResilienceRegistries INSTANCE = getInstance();
-
-    private static synchronized ResilienceRegistries getInstance() {
+    public static ResilienceRegistries createRegistries() {
         final ResilienceRegistries registries = new ResilienceRegistries();
 
         registries

@@ -25,6 +25,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseProExchange extends BaseExchange {
 
+  private static ResilienceRegistries RESILIENCE_REGISTRIES;
+
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
@@ -113,7 +115,10 @@ public class CoinbaseProExchange extends BaseExchange {
 
   @Override
   public ResilienceRegistries getResilienceRegistries() {
-    return CoinbaseProResilience.INSTANCE;
+    if (RESILIENCE_REGISTRIES == null) {
+      RESILIENCE_REGISTRIES = CoinbaseProResilience.createRegistries();
+    }
+    return RESILIENCE_REGISTRIES;
   }
 
   @Override
