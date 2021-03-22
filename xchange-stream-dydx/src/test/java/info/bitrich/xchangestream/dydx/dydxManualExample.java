@@ -13,7 +13,7 @@ import static org.knowm.xchange.dydx.dydxExchange.V3;
 public class dydxManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(dydxManualExample.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //Layer-2 Perpetual Subscriptions
         ProductSubscription productSubscriptionV3 =
                 ProductSubscription.create()
@@ -25,7 +25,7 @@ public class dydxManualExample {
         //Layer-1 Spot and Margin Subscriptions
         ProductSubscription productSubscriptionV1 =
                 ProductSubscription.create()
-                        .addOrderbook(CurrencyPair.PLINK_USDC)
+                        .addOrderbook(CurrencyPair.WETH_USDC)
                         .build();
 
         ExchangeSpecification specV3 =
@@ -66,12 +66,13 @@ public class dydxManualExample {
 
         exchangeV1
                 .getStreamingMarketDataService()
-                .getOrderBook(CurrencyPair.PLINK_USDC)
+                .getOrderBook(CurrencyPair.WETH_USDC)
                 .subscribe(
                         orderBook -> {
                             LOG.info("First ask: {}", orderBook.getAsks().get(0));
                             LOG.info("First bid: {}", orderBook.getBids().get(0));
                         },
                         throwable -> LOG.error("ERROR in getting order book: ", throwable));
+
     }
 }
