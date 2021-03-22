@@ -1,9 +1,8 @@
-package info.bitrich.xchangestream.dydx.dto.v3;
+package info.bitrich.xchangestream.dydx.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.dydx.dto.dydxWebSocketTransaction;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -12,14 +11,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import static info.bitrich.xchangestream.dydx.dydxStreamingAdapters.dydxOrderBookChanges;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-03-2021 */
-@NoArgsConstructor
-@Getter
-@Setter
 public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {
   @JsonProperty("contents")
   private Contents contents;
@@ -40,16 +37,24 @@ public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {
   @Getter
   @Setter
   public static class Order {
+    @JsonProperty("id")
+    private String id;
+
+    @JsonProperty("uuid")
+    private String uuid;
+
     @JsonProperty("price")
     private String price;
 
-    @JsonProperty("size")
-    private String size;
+    @JsonProperty("amount")
+    private String amount;
   }
 
   public OrderBook toOrderBook(
       SortedMap<BigDecimal, BigDecimal> bids,
       SortedMap<BigDecimal, BigDecimal> asks,
+      Map<String, String> bidIds,
+      Map<String, String> askIds,
       int maxDepth,
       CurrencyPair currencyPair) {
     String[][] bidsData = null;
@@ -58,13 +63,21 @@ public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {
     if (this.contents.getBids() != null) {
       bidsData =
           Arrays.stream(this.contents.getBids())
-              .map(b -> new String[] {b.price, b.size})
+              .map(
+                  b -> {
+                    bidIds.put(b.id, b.price);
+                    return new String[] {b.price, b.amount};
+                  })
               .toArray(String[][]::new);
     }
     if (this.contents.getAsks() != null) {
       asksData =
           Arrays.stream(this.contents.getAsks())
-              .map(a -> new String[] {a.price, a.size})
+              .map(
+                  a -> {
+                    askIds.put(a.id, a.price);
+                    return new String[] {a.price, a.amount};
+                  })
               .toArray(String[][]::new);
     }
 
@@ -75,7 +88,7 @@ public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {
             bidsData,
             bids,
             maxDepth,
-            false);
+            true);
 
     List<LimitOrder> dydxAsks =
         dydxOrderBookChanges(
@@ -84,7 +97,7 @@ public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {
             asksData,
             asks,
             maxDepth,
-            false);
+            true);
 
     return new OrderBook(null, dydxBids, dydxAsks, false);
   }
