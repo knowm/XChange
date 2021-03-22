@@ -29,13 +29,15 @@ public class dydxStreamingService extends JsonNettyStreamingService {
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String CHANNEL = "channel";
 
-  protected final String SUBSCRIBED = "subscribed";
-  protected final String CHANNEL_DATA = "channel_data";
+  public static final String SUBSCRIBED = "subscribed";
+  public static final String CHANNEL_DATA = "channel_data";
 
-  protected final String V3_ORDERBOOK = "v3_orderbook";
-  protected final String V3_TRADES = "v3_trades";
-  protected final String V3_ACCOUNTS = "v3_accounts";
-  protected final String V3_MARKETS = "v3_markets";
+  public static final String V3_ORDERBOOK = "v3_orderbook";
+  public static final String V3_TRADES = "v3_trades";
+  public static final String V3_ACCOUNTS = "v3_accounts";
+  public static final String V3_MARKETS = "v3_markets";
+
+  public static final String V1_ORDERBOOK = "orderbook";
 
   private final String apiUri;
   private ProductSubscription productSubscription;
@@ -49,7 +51,7 @@ public class dydxStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
-    return message.get(CHANNEL) == null ? "" : message.get(CHANNEL).asText();
+    return message.has(CHANNEL) ? message.get(CHANNEL).asText() : "";
   }
 
   public ProductSubscription getProduct() {
@@ -71,18 +73,37 @@ public class dydxStreamingService extends JsonNettyStreamingService {
     return subscribeChannel(channelName)
         .map(
             msg -> {
-              if (channelName.equals(V3_ORDERBOOK)) {
-                if (SUBSCRIBED.equals(msg.get("type").asText())) {
-                  return mapper.readValue(msg.toString(), dydxInitialOrderBookMessage.class);
-                }
-                if (CHANNEL_DATA.equals(msg.get("type").asText())) {
-                  return mapper.readValue(msg.toString(), dydxUpdateOrderBookMessage.class);
-                }
+              switch(channelName) {
+                case V3_ORDERBOOK:
+                case V1_ORDERBOOK:
+                  return handleOrderbookMessage(channelName, objectMapper, msg);
               }
+
               return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
             })
         .filter(t -> currencyPair.equals(new CurrencyPair(t.getId())))
         .filter(t -> channelName.equals(t.getChannel()));
+  }
+
+  private dydxWebSocketTransaction handleOrderbookMessage(String orderBookChannel, ObjectMapper mapper, JsonNode msg)
+      throws Exception {
+    if (V3_ORDERBOOK.equals(orderBookChannel)) {
+      switch (msg.get("type").asText()) {
+        case SUBSCRIBED:
+          return mapper.readValue(msg.toString(), dydxInitialOrderBookMessage.class);
+        case CHANNEL_DATA:
+          return mapper.readValue(msg.toString(), dydxUpdateOrderBookMessage.class);
+      }
+    }
+    if (V1_ORDERBOOK.equals(orderBookChannel)) {
+      switch (msg.get("type").asText()) {
+        case SUBSCRIBED:
+          return mapper.readValue(msg.toString(), info.bitrich.xchangestream.dydx.dto.v1.dydxInitialOrderBookMessage.class);
+        case CHANNEL_DATA:
+          return mapper.readValue(msg.toString(), info.bitrich.xchangestream.dydx.dto.v1.dydxUpdateOrderBookMessage.class);
+      }
+    }
+    return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
   }
 
   /**
@@ -117,12 +138,12 @@ public class dydxStreamingService extends JsonNettyStreamingService {
 
     switch (channelName) {
       case V3_ORDERBOOK:
+      case V1_ORDERBOOK:
         if (productSubscription != null && productSubscription.getOrderBook() != null) {
           for (CurrencyPair currencyPair : productSubscription.getOrderBook()) {
-            dydxWebSocketSubscriptionMessage subscriptionMessage =
-                new dydxWebSocketSubscriptionMessage(
-                    SUBSCRIBE, channelName, currencyPair.toString().replace('/', '-'));
-            subscriptionMessages.add(objectMapper.writeValueAsString(subscriptionMessage));
+            subscriptionMessages.add(objectMapper.writeValueAsString(
+                    new dydxWebSocketSubscriptionMessage(
+                      SUBSCRIBE, channelName, currencyPair.toString().replace('/', '-'))));
           }
         }
         break;

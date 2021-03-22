@@ -1,8 +1,9 @@
-package info.bitrich.xchangestream.dydx;
+package info.bitrich.xchangestream.dydx.service.v3;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
+import info.bitrich.xchangestream.dydx.dydxStreamingService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -18,6 +19,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static info.bitrich.xchangestream.dydx.dydxStreamingService.*;
+
 /** Author: Max Gao (gaamox@tutanota.com) Created: 20-02-2021 */
 public class dydxStreamingMarketDataService implements StreamingMarketDataService {
 
@@ -28,7 +31,7 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
   private final Map<CurrencyPair, SortedMap<BigDecimal, BigDecimal>> asks =
       new ConcurrentHashMap<>();
 
-  dydxStreamingMarketDataService(dydxStreamingService service) {
+  public dydxStreamingMarketDataService(dydxStreamingService service) {
     this.service = service;
   }
 
@@ -46,26 +49,27 @@ public class dydxStreamingMarketDataService implements StreamingMarketDataServic
         (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
 
     return service
-        .getRawWebsocketTransactions(currencyPair, service.V3_ORDERBOOK)
+        .getRawWebsocketTransactions(currencyPair, V3_ORDERBOOK)
         .map(
             message -> {
               bids.computeIfAbsent(currencyPair, k -> new TreeMap<>(Comparator.reverseOrder()));
               asks.computeIfAbsent(currencyPair, k -> new TreeMap<>());
 
-              if (service.SUBSCRIBED.equals(message.getType())) {
-                return ((dydxInitialOrderBookMessage) message)
-                    .toOrderBook(
-                        bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
+              switch (message.getType()) {
+                case SUBSCRIBED:
+                  return ((dydxInitialOrderBookMessage) message)
+                      .toOrderBook(
+                          bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
+                case CHANNEL_DATA:
+                  return ((dydxUpdateOrderBookMessage) message)
+                      .toOrderBook(
+                          bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
+                default:
+                  throw new UnsupportedOperationException(
+                      String.format(
+                          "Unknown message type detected in OrderBook message: %s,",
+                          message.getType()));
               }
-              if (service.CHANNEL_DATA.equals(message.getType())) {
-                return ((dydxUpdateOrderBookMessage) message)
-                    .toOrderBook(
-                        bids.get(currencyPair), asks.get(currencyPair), maxDepth, currencyPair);
-              }
-              throw new UnsupportedOperationException(
-                  String.format(
-                      "Unknown message type detected in OrderBook message: %s,",
-                      message.getType()));
             });
   }
 

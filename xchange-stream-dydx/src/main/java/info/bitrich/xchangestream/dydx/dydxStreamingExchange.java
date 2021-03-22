@@ -3,7 +3,9 @@ package info.bitrich.xchangestream.dydx;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.dydx.service.v1.dydxStreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dydx.dydxExchange;
@@ -25,7 +27,7 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
   private static final String API_URI_ROPSTEN_V3 = "wss://api.stage.dydx.exchange/v3/ws";
 
   private dydxStreamingService streamingService;
-  private dydxStreamingMarketDataService streamingMarketDataService;
+  private StreamingMarketDataService streamingMarketDataService;
 
   public dydxStreamingExchange() {}
 
@@ -35,21 +37,21 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
       throw new UnsupportedOperationException("The ProductSubscription must be defined!");
     ExchangeSpecification exchangeSpec = getExchangeSpecification();
 
-    String url;
     switch ((String) exchangeSpec.getExchangeSpecificParametersItem("version")) {
       case V3:
-        url = API_URI_V3;
+        this.streamingService = new dydxStreamingService(API_URI_V3);
+        this.streamingMarketDataService = new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(streamingService);
         break;
       case V3_ROPSTEN:
-        url = API_URI_ROPSTEN_V3;
+        this.streamingService = new dydxStreamingService(API_URI_ROPSTEN_V3);
+        this.streamingMarketDataService = new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(streamingService);
         break;
       default:
-        url = API_URI_V1;
+        this.streamingService = new dydxStreamingService(API_URI_V1);
+        this.streamingMarketDataService = new dydxStreamingMarketDataService(streamingService);
         break;
     }
 
-    this.streamingService = new dydxStreamingService(url);
-    this.streamingMarketDataService = new dydxStreamingMarketDataService(streamingService);
     streamingService.subscribeMultipleCurrencyPairs(args);
     return streamingService.connect();
   }
@@ -63,7 +65,7 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
   }
 
   @Override
-  public dydxStreamingMarketDataService getStreamingMarketDataService() {
+  public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
 
