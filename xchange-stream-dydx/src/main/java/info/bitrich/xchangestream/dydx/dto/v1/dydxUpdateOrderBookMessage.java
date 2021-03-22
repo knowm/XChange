@@ -67,7 +67,13 @@ public class dydxUpdateOrderBookMessage extends dydxWebSocketTransaction {
                                  // messages.
                   }
                 case "UPDATED":
-                  return new String[] {update.price, update.amount};
+                  String updatedPriceLevel = idMap.get(update.id);
+                  if (updatedPriceLevel != null) {
+                    return new String[] {updatedPriceLevel, update.amount};
+                  } else {
+                    return null; // Occasionally the websocket will return duplicate removal
+                    // messages.
+                  }
                 default:
                   return null;
               }
