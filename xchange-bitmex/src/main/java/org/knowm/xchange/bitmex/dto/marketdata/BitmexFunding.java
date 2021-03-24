@@ -1,0 +1,55 @@
+package org.knowm.xchange.bitmex.dto.marketdata;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+  "timestamp",
+  "symbol",
+  "fundingInterval",
+  "fundingRate",
+  "fundingRateDaily"
+})
+
+public class BitmexFunding {
+
+  @JsonProperty("timestamp")
+  private Date timestamp;
+
+  @JsonProperty("symbol")
+  private String symbol;
+
+  @JsonProperty("fundingInterval")
+  private Date fundingInterval;
+
+  @JsonProperty("fundingRate")
+  private BigDecimal fundingRate;
+
+  @JsonProperty("fundingRateDaily")
+  private BigDecimal fundingRateDaily;
+
+  @Override
+  public String toString() {
+    return "BitmexFunding{"
+        + "timestamp='"
+        + timestamp
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", fundingInterval='"
+        + fundingInterval
+        + '\''
+        + ", fundingRate='"
+        + fundingRate
+        + '\''
+        + ", fundingRateDaily='"
+        + fundingRateDaily
+        + '}';
+  }
+}
