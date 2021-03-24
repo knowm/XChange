@@ -33,6 +33,26 @@ public class BitmexFunding {
   @JsonProperty("fundingRateDaily")
   private BigDecimal fundingRateDaily;
 
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public Date getFundingInterval() {
+    return fundingInterval;
+  }
+
+  public BigDecimal getFundingRate() {
+    return fundingRate;
+  }
+
+  public BigDecimal getFundingRateDaily() {
+    return fundingRateDaily;
+  }
+
   @Override
   public String toString() {
     return "BitmexFunding{"
