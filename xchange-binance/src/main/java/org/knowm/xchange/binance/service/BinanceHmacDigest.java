@@ -17,17 +17,8 @@ public class BinanceHmacDigest extends BaseParamsDigest {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceHmacDigest.class);
 
-  private final Field invocationUrlField;
-
   private BinanceHmacDigest(String secretKeyBase64) {
     super(secretKeyBase64, HMAC_SHA_256);
-
-    try {
-      invocationUrlField = RestInvocation.class.getDeclaredField("invocationUrl");
-      invocationUrlField.setAccessible(true);
-    } catch (NoSuchFieldException | SecurityException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public static BinanceHmacDigest createInstance(String secretKeyBase64) {
