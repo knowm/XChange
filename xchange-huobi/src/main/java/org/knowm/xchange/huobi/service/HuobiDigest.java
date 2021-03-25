@@ -19,17 +19,9 @@ import si.mazi.rescu.RestInvocation;
 
 public class HuobiDigest extends BaseParamsDigest {
 
-  private final Field invocationUrlField;
-  private static final String PLACEHOLDER = "HUOBI_PLACEHOLDER";
 
   private HuobiDigest(String secretKey) {
     super(secretKey, HMAC_SHA_256);
-    try {
-      invocationUrlField = RestInvocation.class.getDeclaredField("invocationUrl");
-      invocationUrlField.setAccessible(true);
-    } catch (NoSuchFieldException e) {
-      throw new IllegalStateException("rescu library has been updated");
-    }
   }
 
   static HuobiDigest createInstance(String secretKey) {
@@ -54,9 +46,7 @@ public class HuobiDigest extends BaseParamsDigest {
             .collect(Collectors.joining("&"));
     String toSign = String.format("%s\n%s\n%s\n%s", httpMethod, host, method, query);
     Mac mac = getMac();
-    String signature =
-        encodeValue(Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim());
-    replaceSignatureUrl(restInvocation, signature);
+    String signature = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim();
     return signature;
   }
 
@@ -80,18 +70,4 @@ public class HuobiDigest extends BaseParamsDigest {
     return ret;
   }
 
-  private void replaceSignatureUrl(RestInvocation restInvocation, String signature) {
-    String invocationUrl = restInvocation.getInvocationUrl();
-    String newInvocationUrl = invocationUrl.replace(PLACEHOLDER, signature);
-    try {
-      invocationUrlField.set(restInvocation, newInvocationUrl);
-    } catch (IllegalAccessException e) {
-      throw new IllegalStateException("rescu library has been updated");
-    }
-  }
-
-  @Override
-  public String toString() {
-    return PLACEHOLDER;
-  }
 }
