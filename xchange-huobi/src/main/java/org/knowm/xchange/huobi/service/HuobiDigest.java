@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class HuobiDigest extends BaseParamsDigest {
             .collect(Collectors.joining("&"));
     String toSign = String.format("%s\n%s\n%s\n%s", httpMethod, host, method, query);
     Mac mac = getMac();
-    String signature = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes())).trim();
+    String signature = Base64.getEncoder().encodeToString(mac.doFinal(toSign.getBytes(StandardCharsets.UTF_8))).trim();
     return signature;
   }
 
