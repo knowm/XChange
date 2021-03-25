@@ -10,6 +10,7 @@ import si.mazi.rescu.RestInvocation;
 import javax.crypto.Mac;
 import javax.ws.rs.QueryParam;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
@@ -36,33 +37,29 @@ public class BinanceHmacDigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    try {
-      final String input;
+    final String input;
 
-      if (restInvocation.getPath().startsWith("wapi/")) {
-        // little dirty hack for /wapi methods
-        input = getQuery(restInvocation);
-      } else {
-        switch (restInvocation.getHttpMethod()) {
-          case "GET":
-          case "DELETE":
-            input = getQuery(restInvocation);
-            break;
-          case "POST":
-            input = restInvocation.getRequestBody();
-            break;
-          default:
-            throw new RuntimeException(
-                "Not support http method: " + restInvocation.getHttpMethod());
-        }
+    if (restInvocation.getPath().startsWith("wapi/")) {
+      // little dirty hack for /wapi methods
+      input = getQuery(restInvocation);
+    } else {
+      switch (restInvocation.getHttpMethod()) {
+        case "GET":
+        case "DELETE":
+          input = getQuery(restInvocation);
+          break;
+        case "POST":
+          input = restInvocation.getRequestBody();
+          break;
+        default:
+          throw new RuntimeException(
+              "Not support http method: " + restInvocation.getHttpMethod());
       }
-
-      Mac mac = getMac();
-      mac.update(input.getBytes("UTF-8"));
-      String printBase64Binary = bytesToHex(mac.doFinal());
-      return printBase64Binary;
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Illegal encoding, check the code.", e);
     }
+
+    Mac mac = getMac();
+    mac.update(input.getBytes(StandardCharsets.UTF_8));
+    String printBase64Binary = bytesToHex(mac.doFinal());
+    return printBase64Binary;
   }
 }
