@@ -26,6 +26,7 @@ public class dydxManualExample {
         ProductSubscription productSubscriptionV1 =
                 ProductSubscription.create()
                         .addOrderbook(CurrencyPair.WETH_USDC)
+                        .addOrderbook(CurrencyPair.WETH_DAI)
                         .build();
 
         ExchangeSpecification specV3 =
@@ -48,10 +49,9 @@ public class dydxManualExample {
 
 
 
-//        exchangeV3.connect(productSubscriptionV3).blockingAwait();
+        exchangeV3.connect(productSubscriptionV3).blockingAwait();
         exchangeV1.connect(productSubscriptionV1).blockingAwait();
 
-        /*
         exchangeV3
                 .getStreamingMarketDataService()
                 .getOrderBook(CurrencyPair.ETH_USD)
@@ -62,8 +62,17 @@ public class dydxManualExample {
                         },
                         throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
-         */
+        exchangeV3
+                .getStreamingMarketDataService()
+                .getOrderBook(CurrencyPair.BTC_USD)
+                .subscribe(
+                        orderBook -> {
+                            LOG.info("First ask: {}", orderBook.getAsks().get(0));
+                            LOG.info("First bid: {}", orderBook.getBids().get(0));
+                        },
+                        throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
+        /*
         exchangeV1
                 .getStreamingMarketDataService()
                 .getOrderBook(CurrencyPair.WETH_USDC)
@@ -74,5 +83,16 @@ public class dydxManualExample {
                         },
                         throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
+        exchangeV1
+                .getStreamingMarketDataService()
+                .getOrderBook(CurrencyPair.WETH_DAI)
+                .subscribe(
+                        orderBook -> {
+                            LOG.info("First ask: {}", orderBook.getAsks().get(0));
+                            LOG.info("First bid: {}", orderBook.getBids().get(0));
+                        },
+                        throwable -> LOG.error("ERROR in getting order book: ", throwable));
+
+         */
     }
 }
