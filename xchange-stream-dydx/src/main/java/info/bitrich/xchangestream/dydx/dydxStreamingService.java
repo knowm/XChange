@@ -16,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,6 +26,7 @@ public class dydxStreamingService extends JsonNettyStreamingService {
   private static final String SUBSCRIBE = "subscribe";
   private static final String UNSUBSCRIBE = "unsubscribe";
   private static final String CHANNEL = "channel";
+  private static final String ID = "id";
 
   public static final String SUBSCRIBED = "subscribed";
   public static final String CHANNEL_DATA = "channel_data";
@@ -38,6 +37,11 @@ public class dydxStreamingService extends JsonNettyStreamingService {
   public static final String V3_MARKETS = "v3_markets";
 
   public static final String V1_ORDERBOOK = "orderbook";
+  public static final String V1_TRADES = "trades";
+  public static final String V1_ACCOUNTS = "accounts";
+  public static final String V1_MARKETS = "markets";
+
+  public static final String ORDERBOOK = "orderbook";
 
   private final String apiUri;
   private ProductSubscription productSubscription;
@@ -51,7 +55,9 @@ public class dydxStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
-    return message.has(CHANNEL) ? message.get(CHANNEL).asText() : "";
+    return message.has(CHANNEL) && message.has(ID)
+        ? String.format("%s-%s", message.get(CHANNEL).asText(), message.get(ID).asText())
+        : "";
   }
 
   public ProductSubscription getProduct() {
@@ -63,31 +69,38 @@ public class dydxStreamingService extends JsonNettyStreamingService {
   }
 
   /**
-   * @param currencyPair
-   * @param channelName
+   * Creates an observable of a channel using the baseChannelName and currencyPair. For example,
+   * subscribing to the trades channel for WETH/USDC will create a new channel "trades-WETH-USDC".
+   *
+   * @param currencyPair any currency pair supported by dydx
+   * @param baseChannelName e.g. "orderbook", "v3_orderbook", etc.
    * @return
    */
   public Observable<dydxWebSocketTransaction> getRawWebsocketTransactions(
-      CurrencyPair currencyPair, String channelName) {
+      CurrencyPair currencyPair, String baseChannelName) {
     final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
-    return subscribeChannel(channelName)
+
+    String currencyPairChannelName =
+        String.format("%s-%s", baseChannelName, currencyPair.toString().replace('/', '-'));
+
+    return subscribeChannel(currencyPairChannelName, currencyPair)
         .map(
             msg -> {
-              switch(channelName) {
-                case V3_ORDERBOOK:
+              switch (baseChannelName) {
                 case V1_ORDERBOOK:
-                  return handleOrderbookMessage(channelName, objectMapper, msg);
+                case V3_ORDERBOOK:
+                  return handleOrderbookMessage(currencyPairChannelName, objectMapper, msg);
               }
 
               return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
             })
         .filter(t -> currencyPair.equals(new CurrencyPair(t.getId())))
-        .filter(t -> channelName.equals(t.getChannel()));
+        .filter(t -> baseChannelName.equals(t.getChannel()));
   }
 
-  private dydxWebSocketTransaction handleOrderbookMessage(String orderBookChannel, ObjectMapper mapper, JsonNode msg)
-      throws Exception {
-    if (V3_ORDERBOOK.equals(orderBookChannel)) {
+  private dydxWebSocketTransaction handleOrderbookMessage(
+      String orderBookChannel, ObjectMapper mapper, JsonNode msg) throws Exception {
+    if (orderBookChannel.contains(V3_ORDERBOOK)) {
       switch (msg.get("type").asText()) {
         case SUBSCRIBED:
           return mapper.readValue(msg.toString(), dydxInitialOrderBookMessage.class);
@@ -95,72 +108,47 @@ public class dydxStreamingService extends JsonNettyStreamingService {
           return mapper.readValue(msg.toString(), dydxUpdateOrderBookMessage.class);
       }
     }
-    if (V1_ORDERBOOK.equals(orderBookChannel)) {
+    if (orderBookChannel.contains(V1_ORDERBOOK)) {
       switch (msg.get("type").asText()) {
         case SUBSCRIBED:
-          return mapper.readValue(msg.toString(), info.bitrich.xchangestream.dydx.dto.v1.dydxInitialOrderBookMessage.class);
+          return mapper.readValue(
+              msg.toString(),
+              info.bitrich.xchangestream.dydx.dto.v1.dydxInitialOrderBookMessage.class);
         case CHANNEL_DATA:
-          return mapper.readValue(msg.toString(), info.bitrich.xchangestream.dydx.dto.v1.dydxUpdateOrderBookMessage.class);
+          return mapper.readValue(
+              msg.toString(),
+              info.bitrich.xchangestream.dydx.dto.v1.dydxUpdateOrderBookMessage.class);
       }
     }
     return mapper.readValue(msg.toString(), dydxWebSocketTransaction.class);
   }
 
-  /**
-   * The connection to dydx will have one channel per channel type. Each channel may receive
-   * messages for multiple currency pairs.
-   *
-   * @param channelName String containing the channel name. Possible options: "v3_orderbook",
-   *     "v3_trades", "v3_accounts", "v3_markets".
-   * @param args
-   * @return
-   */
   @Override
   public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
     if (!channels.containsKey(channelName) && !subscriptions.containsKey(channelName)) {
-      subscriptions.put(channelName, super.subscribeChannelMultipleMessages(channelName, args));
+      subscriptions.put(channelName, super.subscribeChannel(channelName, args));
     }
 
     return subscriptions.get(channelName);
   }
 
-  /**
-   * To subscribe to multiple pairs over a single connection, dydx requires the client to send
-   * multiple subscription messages.
-   *
-   * @param channelName
-   * @param args
-   * @return
-   */
-  @Override
-  public List<String> getSubscribeMessages(String channelName, Object... args) throws IOException {
-    List<String> subscriptionMessages = new ArrayList<>();
-
-    switch (channelName) {
-      case V3_ORDERBOOK:
-      case V1_ORDERBOOK:
-        if (productSubscription != null && productSubscription.getOrderBook() != null) {
-          for (CurrencyPair currencyPair : productSubscription.getOrderBook()) {
-            subscriptionMessages.add(objectMapper.writeValueAsString(
-                    new dydxWebSocketSubscriptionMessage(
-                      SUBSCRIBE, channelName, currencyPair.toString().replace('/', '-'))));
-          }
-        }
-        break;
-      default:
-        return null;
-    }
-
-    return subscriptionMessages;
-  }
-
-  /** Don't use this for dydx. */
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
+    final CurrencyPair currencyPair =
+        (args.length > 0 && args[0] instanceof CurrencyPair) ? ((CurrencyPair) args[0]) : null;
+
+    if (channelName.contains(ORDERBOOK)) {
+      if (productSubscription != null && productSubscription.getOrderBook() != null) {
+        return objectMapper.writeValueAsString(
+            new dydxWebSocketSubscriptionMessage(
+                SUBSCRIBE,
+                channelName.contains(V3_ORDERBOOK) ? V3_ORDERBOOK : ORDERBOOK,
+                currencyPair.toString().replace('/', '-')));
+      }
+    }
     return null;
   }
 
-  /** Don't use this for dydx. */
   @Override
   public String getUnsubscribeMessage(String channelName) throws IOException {
     return null;
