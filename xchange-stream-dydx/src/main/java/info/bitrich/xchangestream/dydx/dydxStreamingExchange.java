@@ -1,15 +1,12 @@
 package info.bitrich.xchangestream.dydx;
 
 import info.bitrich.xchangestream.core.ProductSubscription;
-import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.dydx.service.v1.dydxStreamingMarketDataService;
 import io.reactivex.Completable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dydx.dydxExchange;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,16 +64,6 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
   @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
-  }
-
-  @Override
-  public StreamingAccountService getStreamingAccountService() {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public StreamingTradeService getStreamingTradeService() {
-    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
