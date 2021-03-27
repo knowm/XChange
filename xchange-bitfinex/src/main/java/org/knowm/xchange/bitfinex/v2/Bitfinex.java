@@ -62,24 +62,24 @@ public interface Bitfinex {
   @GET
   @Path("/candles/trade:{candlePeriod}:{symbol}/hist")
   List<BitfinexCandle> getHistoricCandles(
-          @PathParam("candlePeriod") String candlePeriod,
-          @PathParam("symbol") String currency,
-          @QueryParam("limit") Integer limit,
-          @QueryParam("start") Long startTimestamp,
-          @QueryParam("end") Long endTimestamp,
-          @QueryParam("sort") Integer sort)
-          throws IOException, BitfinexExceptionV2;
-  
+      @PathParam("candlePeriod") String candlePeriod,
+      @PathParam("symbol") String currency,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("start") Long startTimestamp,
+      @QueryParam("end") Long endTimestamp,
+      @QueryParam("sort") Integer sort)
+      throws IOException, BitfinexExceptionV2;
+
   @GET
   @Path("stats1/{key}:{size}:{symbol}:{side}/hist")
   List<BitfinexStats> getStats(
-          @PathParam("key") String key,
-          @PathParam("size") String size,
-          @PathParam("symbol") String symbol,
-          @PathParam("side") String side,
-          @QueryParam("sort") Integer sort,
-          @QueryParam("start") Long startTimestamp,
-          @QueryParam("end") Long endTimestamp,
-          @QueryParam("limit") Integer limit)
-          throws IOException, BitfinexExceptionV2;
+      @PathParam("key") String key,
+      @PathParam("size") String size,
+      @PathParam("symbol") String symbol,
+      @PathParam("side") String side,
+      @QueryParam("sort") Integer sort,
+      @QueryParam("start") Long startTimestamp,
+      @QueryParam("end") Long endTimestamp,
+      @QueryParam("limit") Integer limit)
+      throws IOException, BitfinexExceptionV2;
 }
