@@ -11,7 +11,7 @@ public class BaseBinanceWebSocketTransaction {
     KLINE("kline"),
     AGG_TRADE("aggTrade"),
     TRADE("trade"),
-    OUTBOUND_ACCOUNT_INFO("outboundAccountInfo"),
+    OUTBOUND_ACCOUNT_INFO("outboundAccountPosition"),
     EXECUTION_REPORT("executionReport");
 
     /**
