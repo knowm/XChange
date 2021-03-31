@@ -1,18 +1,33 @@
 package info.bitrich.xchangestream.ftx;
 
+import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.ftx.FtxAdapters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FtxStreamingMarketDataService implements StreamingMarketDataService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingMarketDataService.class);
+
+    private final FtxStreamingService service;
+
+    public FtxStreamingMarketDataService(FtxStreamingService service) {
+        this.service = service;
+    }
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        return null;
+        OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
+
+    return service
+        .subscribeChannel("orderbook:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
+            .map(res -> FtxStreamingAdapters.adaptOrderbookMessage(orderBook,currencyPair,res));
     }
 
     @Override
