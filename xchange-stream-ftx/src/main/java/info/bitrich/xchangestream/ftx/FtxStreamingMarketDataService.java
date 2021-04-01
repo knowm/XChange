@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.ftx;
 
-import com.google.common.collect.Lists;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;

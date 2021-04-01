@@ -2,7 +2,6 @@ package info.bitrich.xchangestream.ftx;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
