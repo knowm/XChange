@@ -11,62 +11,62 @@ import org.knowm.xchange.ftx.FtxExchange;
 
 public class FtxStreamingExchange extends FtxExchange implements StreamingExchange {
 
-    private final String API_URI = "wss://ftx.com/ws/";
+  private final String API_URI = "wss://ftx.com/ws/";
 
-    private FtxStreamingService ftxStreamingService;
-    private FtxStreamingMarketDataService ftxStreamingMarketDataService;
+  private FtxStreamingService ftxStreamingService;
+  private FtxStreamingMarketDataService ftxStreamingMarketDataService;
 
-    @Override
-    protected void initServices() {
-        super.initServices();
-        this.ftxStreamingService = new FtxStreamingService(API_URI);
-        this.ftxStreamingMarketDataService = new FtxStreamingMarketDataService(ftxStreamingService);
-    }
+  @Override
+  protected void initServices() {
+    super.initServices();
+    this.ftxStreamingService = new FtxStreamingService(API_URI);
+    this.ftxStreamingMarketDataService = new FtxStreamingMarketDataService(ftxStreamingService);
+  }
 
-    @Override
-    public Completable connect(ProductSubscription... args) {
-        return ftxStreamingService.connect();
-    }
+  @Override
+  public Completable connect(ProductSubscription... args) {
+    return ftxStreamingService.connect();
+  }
 
-    @Override
-    public Completable disconnect() {
-        return ftxStreamingService.disconnect();
-    }
+  @Override
+  public Completable disconnect() {
+    return ftxStreamingService.disconnect();
+  }
 
-    @Override
-    public boolean isAlive() {
-        return ftxStreamingService.isSocketOpen();
-    }
+  @Override
+  public boolean isAlive() {
+    return ftxStreamingService.isSocketOpen();
+  }
 
-    @Override
-    public Observable<Object> connectionSuccess() {
-        return ftxStreamingService.subscribeConnectionSuccess();
-    }
+  @Override
+  public Observable<Object> connectionSuccess() {
+    return ftxStreamingService.subscribeConnectionSuccess();
+  }
 
-    @Override
-    public Observable<Throwable> reconnectFailure() {
-        return ftxStreamingService.subscribeReconnectFailure();
-    }
+  @Override
+  public Observable<Throwable> reconnectFailure() {
+    return ftxStreamingService.subscribeReconnectFailure();
+  }
 
-    @Override
-    public Observable<ConnectionStateModel.State> connectionStateObservable() {
-        return ftxStreamingService.subscribeConnectionState();
-    }
+  @Override
+  public Observable<ConnectionStateModel.State> connectionStateObservable() {
+    return ftxStreamingService.subscribeConnectionState();
+  }
 
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification spec = super.getDefaultExchangeSpecification();
-        spec.setShouldLoadRemoteMetaData(false);
-        return spec;
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification spec = super.getDefaultExchangeSpecification();
+    spec.setShouldLoadRemoteMetaData(false);
+    return spec;
+  }
 
-    @Override
-    public StreamingMarketDataService getStreamingMarketDataService() {
-        return ftxStreamingMarketDataService;
-    }
+  @Override
+  public StreamingMarketDataService getStreamingMarketDataService() {
+    return ftxStreamingMarketDataService;
+  }
 
-    @Override
-    public void useCompressedMessages(boolean compressedMessages) {
-        ftxStreamingService.useCompressedMessages(compressedMessages);
-    }
+  @Override
+  public void useCompressedMessages(boolean compressedMessages) {
+    ftxStreamingService.useCompressedMessages(compressedMessages);
+  }
 }
