@@ -100,7 +100,7 @@ public class FtxStreamingAdapters {
   }
 
   public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
-    StringBuilder data = new StringBuilder();
+    StringBuilder data = new StringBuilder(3072);
 
     for (int i = 0; i < 100; i++) {
       if (bids.size() >= i) {
