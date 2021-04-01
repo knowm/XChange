@@ -11,32 +11,34 @@ import org.knowm.xchange.ftx.FtxAdapters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 public class FtxStreamingMarketDataService implements StreamingMarketDataService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingMarketDataService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingMarketDataService.class);
 
-    private final FtxStreamingService service;
+  private final FtxStreamingService service;
 
-    public FtxStreamingMarketDataService(FtxStreamingService service) {
-        this.service = service;
-    }
+  public FtxStreamingMarketDataService(FtxStreamingService service) {
+    this.service = service;
+  }
 
-    @Override
-    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-        OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
+  @Override
+  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+    OrderBook orderBook = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
 
     return service
         .subscribeChannel("orderbook:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
-            .map(res -> FtxStreamingAdapters.adaptOrderbookMessage(orderBook,currencyPair,res));
-    }
+        .map(res -> FtxStreamingAdapters.adaptOrderbookMessage(orderBook, currencyPair, res));
+  }
 
-    @Override
-    public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        return null;
-    }
+  @Override
+  public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    return null;
+  }
 
-    @Override
-    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        return null;
-    }
+  @Override
+  public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
+    return null;
+  }
 }

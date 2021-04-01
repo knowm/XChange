@@ -20,22 +20,26 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-
 public class FtxStreamingMarketDataServiceTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingMarketDataServiceTest.class);
+  private static final Logger LOG =
+      LoggerFactory.getLogger(FtxStreamingMarketDataServiceTest.class);
 
-    @Test
-    public void ftxStreamingMarketDataServiceTest()throws Exception{
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(FtxStreamingExchange.class);
+  @Test
+  public void ftxStreamingMarketDataServiceTest() throws Exception {
+    StreamingExchange exchange =
+        StreamingExchangeFactory.INSTANCE.createExchange(FtxStreamingExchange.class);
 
-        exchange.connect(ProductSubscription.create()
+    exchange
+        .connect(
+            ProductSubscription.create()
                 .addAll(CurrencyPair.BTC_USD)
                 .addAll(new CurrencyPair("BTC-PERP"))
                 .build())
-                .blockingAwait();
+        .blockingAwait();
 
-        Disposable dis = exchange
+    Disposable dis =
+        exchange
             .getStreamingMarketDataService()
             .getOrderBook(CurrencyPair.BTC_USD)
             .subscribe(
@@ -52,76 +56,102 @@ public class FtxStreamingMarketDataServiceTest {
                   }
                 });
 
-        Disposable dis2 = exchange
-                .getStreamingMarketDataService()
-                .getOrderBook(new CurrencyPair("BTC-PERP"))
-                .subscribe(
-                        orderBook -> {
-                            if (orderBook.getBids().size() > 0 && orderBook.getAsks().size() > 0) {
-                                assertThat(orderBook.getAsks().get(0).getLimitPrice())
-                                        .isLessThan(orderBook.getAsks().get(1).getLimitPrice());
-                                assertThat(orderBook.getBids().get(0).getLimitPrice())
-                                        .isGreaterThan(orderBook.getBids().get(1).getLimitPrice());
-                                assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(Order.OrderType.ASK);
-                                assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
-                                assertThat(orderBook.getBids().get(0).getLimitPrice())
-                                        .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
-                            }
-                        });
+    Disposable dis2 =
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(new CurrencyPair("BTC-PERP"))
+            .subscribe(
+                orderBook -> {
+                  if (orderBook.getBids().size() > 0 && orderBook.getAsks().size() > 0) {
+                    assertThat(orderBook.getAsks().get(0).getLimitPrice())
+                        .isLessThan(orderBook.getAsks().get(1).getLimitPrice());
+                    assertThat(orderBook.getBids().get(0).getLimitPrice())
+                        .isGreaterThan(orderBook.getBids().get(1).getLimitPrice());
+                    assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(Order.OrderType.ASK);
+                    assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
+                    assertThat(orderBook.getBids().get(0).getLimitPrice())
+                        .isLessThan(orderBook.getAsks().get(0).getLimitPrice());
+                  }
+                });
 
-        TimeUnit.SECONDS.sleep(6);
-        dis.dispose();
-        dis2.dispose();
+    TimeUnit.SECONDS.sleep(6);
+    dis.dispose();
+    dis2.dispose();
+  }
 
-    }
+  @Test
+  public void testParser() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        FtxStreamingMarketDataServiceTest.class.getResourceAsStream(
+            "/ftxOrderbookResponse-example.json");
 
-    @Test
-    public void testParser() throws IOException {
-        // Read in the JSON from the example resources
-        InputStream is =
-                FtxStreamingMarketDataServiceTest.class.getResourceAsStream("/ftxOrderbookResponse-example.json");
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    FtxOrderbookResponse ftxResponse = mapper.readValue(is, FtxOrderbookResponse.class);
 
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-        FtxOrderbookResponse ftxResponse =
-                mapper.readValue(is, FtxOrderbookResponse.class);
+    // Verify that the example data was unmarshalled correctly
 
-        // Verify that the example data was unmarshalled correctly
+    assertThat(ftxResponse.getAsks().get(0).get(0)).isEqualTo(BigDecimal.valueOf(55114));
+  }
 
-        assertThat(ftxResponse.getAsks().get(0).get(0)).isEqualTo(BigDecimal.valueOf(55114));
+  @Test
+  @Ignore
+  public void orderbookCorrectnessTest() throws Exception {
+    StreamingExchange exchange =
+        StreamingExchangeFactory.INSTANCE.createExchange(FtxStreamingExchange.class);
 
-    }
-
-    @Test
-    @Ignore
-    public void orderbookCorrectnessTest() throws Exception{
-        StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(FtxStreamingExchange.class);
-
-        exchange.connect(ProductSubscription.create()
+    exchange
+        .connect(
+            ProductSubscription.create()
                 .addAll(CurrencyPair.BTC_USD)
                 .addAll(new CurrencyPair("BTMX-PERP"))
                 .build())
-                .blockingAwait();
+        .blockingAwait();
 
-        Disposable dis = exchange
-                .getStreamingMarketDataService()
-                .getOrderBook(new CurrencyPair("BTMX-PERP"))
-                .subscribe(
-                        orderBook -> {
-                            if (orderBook.getBids().size() > 0 && orderBook.getAsks().size() > 0) {
-                                LOG.info("Ask 3: "+orderBook.getAsks().get(2).getLimitPrice()+" volume "+ orderBook.getAsks().get(2).getOriginalAmount());
-                                LOG.info("Ask 2: "+orderBook.getAsks().get(1).getLimitPrice()+" volume "+ orderBook.getAsks().get(1).getOriginalAmount());
-                                LOG.info("Ask 1: "+orderBook.getAsks().get(0).getLimitPrice()+" volume "+ orderBook.getAsks().get(0).getOriginalAmount());
-                                LOG.info("--");
-                                LOG.info("Bid 1: "+orderBook.getBids().get(0).getLimitPrice()+" volume "+ orderBook.getBids().get(0).getOriginalAmount());
-                                LOG.info("Bid 2: "+orderBook.getBids().get(1).getLimitPrice()+" volume "+ orderBook.getBids().get(1).getOriginalAmount());
-                                LOG.info("Bid 3: "+orderBook.getBids().get(2).getLimitPrice()+" volume "+ orderBook.getBids().get(2).getOriginalAmount());
-                                LOG.info("=================");
-                            }
-                        });
-        while(true){
-            TimeUnit.SECONDS.sleep(60);
-        }
-
+    Disposable dis =
+        exchange
+            .getStreamingMarketDataService()
+            .getOrderBook(new CurrencyPair("BTMX-PERP"))
+            .subscribe(
+                orderBook -> {
+                  if (orderBook.getBids().size() > 0 && orderBook.getAsks().size() > 0) {
+                    LOG.info(
+                        "Ask 3: "
+                            + orderBook.getAsks().get(2).getLimitPrice()
+                            + " volume "
+                            + orderBook.getAsks().get(2).getOriginalAmount());
+                    LOG.info(
+                        "Ask 2: "
+                            + orderBook.getAsks().get(1).getLimitPrice()
+                            + " volume "
+                            + orderBook.getAsks().get(1).getOriginalAmount());
+                    LOG.info(
+                        "Ask 1: "
+                            + orderBook.getAsks().get(0).getLimitPrice()
+                            + " volume "
+                            + orderBook.getAsks().get(0).getOriginalAmount());
+                    LOG.info("--");
+                    LOG.info(
+                        "Bid 1: "
+                            + orderBook.getBids().get(0).getLimitPrice()
+                            + " volume "
+                            + orderBook.getBids().get(0).getOriginalAmount());
+                    LOG.info(
+                        "Bid 2: "
+                            + orderBook.getBids().get(1).getLimitPrice()
+                            + " volume "
+                            + orderBook.getBids().get(1).getOriginalAmount());
+                    LOG.info(
+                        "Bid 3: "
+                            + orderBook.getBids().get(2).getLimitPrice()
+                            + " volume "
+                            + orderBook.getBids().get(2).getOriginalAmount());
+                    LOG.info("=================");
+                  }
+                });
+    while (true) {
+      TimeUnit.SECONDS.sleep(60);
     }
+  }
 }
