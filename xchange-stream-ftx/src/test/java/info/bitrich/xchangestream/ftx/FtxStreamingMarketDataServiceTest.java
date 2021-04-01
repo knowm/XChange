@@ -105,14 +105,15 @@ public class FtxStreamingMarketDataServiceTest {
         .connect(
             ProductSubscription.create()
                 .addAll(CurrencyPair.BTC_USD)
-                .addAll(new CurrencyPair("BTMX-PERP"))
+                .addAll(new CurrencyPair("BTC-PERP"))
+                .addAll(new CurrencyPair("BTC-PERP"))
                 .build())
         .blockingAwait();
 
     Disposable dis =
         exchange
             .getStreamingMarketDataService()
-            .getOrderBook(new CurrencyPair("BTMX-PERP"))
+            .getOrderBook(new CurrencyPair("BTC-PERP"))
             .subscribe(
                 orderBook -> {
                   if (orderBook.getBids().size() > 0 && orderBook.getAsks().size() > 0) {
