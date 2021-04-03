@@ -32,7 +32,8 @@ public interface FtxAuthenticated extends Ftx {
   FtxResponse<List<FtxWalletBalanceDto>> getWalletBalances(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
 
   @GET
