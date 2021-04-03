@@ -15,26 +15,29 @@ public class FtxAccountServiceRaw extends FtxBaseService {
     super(exchange);
   }
 
-  public FtxResponse<FtxAccountDto> getFtxAccountInformation() throws FtxException, IOException {
+  public FtxResponse<FtxAccountDto> getFtxAccountInformation(String subaccount)
+      throws FtxException, IOException {
+
     try {
       return ftx.getAccountInformation(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
-          null);
+          subaccount);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
   }
 
-  public FtxResponse<List<FtxWalletBalanceDto>> getFtxWalletBalances()
+  public FtxResponse<List<FtxWalletBalanceDto>> getFtxWalletBalances(String subaccount)
       throws FtxException, IOException {
 
     try {
       return ftx.getWalletBalances(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
-          signatureCreator);
+          signatureCreator,
+          subaccount);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
     }
