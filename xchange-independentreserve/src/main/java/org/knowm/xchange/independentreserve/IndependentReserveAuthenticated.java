@@ -7,10 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
-import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
-import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressRequest;
-import org.knowm.xchange.independentreserve.dto.account.IndependentReserveDepositAddressResponse;
-import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
+import org.knowm.xchange.independentreserve.dto.account.*;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
@@ -34,10 +31,11 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 @Produces(MediaType.APPLICATION_JSON)
 public interface IndependentReserveAuthenticated {
 
-  public static final String SynchDigitalCurrencyDepositAddressWithBlockchain =
+  String SynchDigitalCurrencyDepositAddressWithBlockchain =
       "SynchDigitalCurrencyDepositAddressWithBlockchain";
-  public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
-  public static final String GetDigitalCurrencyDepositAddress = "GetDigitalCurrencyDepositAddress";
+  String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
+  String GetDigitalCurrencyDepositAddress = "GetDigitalCurrencyDepositAddress";
+  String GetBrokerageFees = "GetBrokerageFees";
 
   @POST
   @Path("GetAccounts")
@@ -115,5 +113,12 @@ public interface IndependentReserveAuthenticated {
   @Path(WithdrawDigitalCurrency)
   @Consumes(MediaType.APPLICATION_JSON)
   Object withdrawDigitalCurrency(IndependentReserveWithdrawDigitalCurrencyRequest req)
+      throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path(GetBrokerageFees)
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveBrokerageFeeResponse getBrokerageFees(
+      IndependentReserveBrokerageFeeRequest independentReserveBrokerageFeeRequest)
       throws IndependentReserveHttpStatusException, IOException;
 }

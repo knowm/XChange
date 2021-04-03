@@ -144,7 +144,8 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
     }
 
     CoinmateTransactionHistory coinmateTransactionHistory =
-        getCoinmateTransactionHistory(offset, limit, CoinmateAdapters.adaptSortOrder(order));
+        getCoinmateTransactionHistory(
+            offset, limit, CoinmateAdapters.adaptSortOrder(order), null, null, null);
     return CoinmateAdapters.adaptFundingHistory(coinmateTransactionHistory);
   }
 
