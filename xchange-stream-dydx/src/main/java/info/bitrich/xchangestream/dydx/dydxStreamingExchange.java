@@ -37,11 +37,15 @@ public class dydxStreamingExchange extends dydxExchange implements StreamingExch
     switch ((String) exchangeSpec.getExchangeSpecificParametersItem("version")) {
       case V3:
         this.streamingService = new dydxStreamingService(API_URI_V3);
-        this.streamingMarketDataService = new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(streamingService);
+        this.streamingMarketDataService =
+            new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(
+                streamingService);
         break;
       case V3_ROPSTEN:
         this.streamingService = new dydxStreamingService(API_URI_ROPSTEN_V3);
-        this.streamingMarketDataService = new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(streamingService);
+        this.streamingMarketDataService =
+            new info.bitrich.xchangestream.dydx.service.v3.dydxStreamingMarketDataService(
+                streamingService);
         break;
       default:
         this.streamingService = new dydxStreamingService(API_URI_V1);

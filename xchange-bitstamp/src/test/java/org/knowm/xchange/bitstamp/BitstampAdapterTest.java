@@ -193,11 +193,13 @@ public class BitstampAdapterTest {
   public void testOrderAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    String order = "{\"status\":\"Finished\",\"id\":1337944912351237,\"transactions\":[{\"datetime\":\"2020-09-01 05:55:04\",\"tid\":156881358,\"type\":2,\"usd\":null,\"btc\":0.00838324,\"ltc\":null,\"eth\":null,\"eur\":397.20059384,\"xrp\":null,\"bch\":null,\"xlm\":null,\"link\":null,\"price\":47380.32000000,\"fee\":0.43692}],\"error\":null}";
+    String order =
+        "{\"status\":\"Finished\",\"id\":1337944912351237,\"transactions\":[{\"datetime\":\"2020-09-01 05:55:04\",\"tid\":156881358,\"type\":2,\"usd\":null,\"btc\":0.00838324,\"ltc\":null,\"eth\":null,\"eur\":397.20059384,\"xrp\":null,\"bch\":null,\"xlm\":null,\"link\":null,\"price\":47380.32000000,\"fee\":0.43692}],\"error\":null}";
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitstampOrderStatusResponse bitstampOrder = mapper.readValue(order, BitstampOrderStatusResponse.class);
+    BitstampOrderStatusResponse bitstampOrder =
+        mapper.readValue(order, BitstampOrderStatusResponse.class);
 
     List<CurrencyPair> currencyPairs = new ArrayList<>();
     currencyPairs.add(CurrencyPair.BTC_USD);
@@ -227,7 +229,9 @@ public class BitstampAdapterTest {
     currencyPairs.add(CurrencyPair.LINK_EUR);
     currencyPairs.add(CurrencyPair.LINK_ETH);
 
-    BitstampGenericOrder genericOrder = BitstampAdapters.adaptOrder(String.valueOf(bitstampOrder.getId()), bitstampOrder, currencyPairs);
+    BitstampGenericOrder genericOrder =
+        BitstampAdapters.adaptOrder(
+            String.valueOf(bitstampOrder.getId()), bitstampOrder, currencyPairs);
 
     assertThat(genericOrder.getType()).isNull();
     assertThat(genericOrder.getOriginalAmount()).isNull();
@@ -238,8 +242,5 @@ public class BitstampAdapterTest {
     assertThat(genericOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.00838324"));
     assertThat(genericOrder.getFee()).isEqualTo(new BigDecimal("0.43692"));
     assertThat(genericOrder.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
-
   }
-
-
 }

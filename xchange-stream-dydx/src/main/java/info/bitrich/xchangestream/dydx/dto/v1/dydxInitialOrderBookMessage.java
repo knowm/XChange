@@ -1,20 +1,19 @@
 package info.bitrich.xchangestream.dydx.dto.v1;
 
+import static info.bitrich.xchangestream.dydx.dydxStreamingAdapters.dydxOrderBookChanges;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import info.bitrich.xchangestream.dydx.dto.dydxWebSocketTransaction;
-import lombok.Getter;
-import lombok.Setter;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-
-import static info.bitrich.xchangestream.dydx.dydxStreamingAdapters.dydxOrderBookChanges;
+import lombok.Getter;
+import lombok.Setter;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-03-2021 */
 public class dydxInitialOrderBookMessage extends dydxWebSocketTransaction {

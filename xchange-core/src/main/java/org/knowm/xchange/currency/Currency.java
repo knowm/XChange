@@ -311,7 +311,8 @@ public class Currency implements Comparable<Currency>, Serializable {
   public static final Currency WETH = createCurrency("WETH", "Wrapped Ether", null);
   public static final Currency USDC = createCurrency("USDC", "USD Coin", null, "UDC");
   public static final Currency PBTC = createCurrency("PBTC", "dydx BTC Perpetual (Linear)", null);
-  public static final Currency PLINK = createCurrency("PLINK", "dydx Link Perpetual (Linear)", null);
+  public static final Currency PLINK =
+      createCurrency("PLINK", "dydx Link Perpetual (Linear)", null);
   public static final Currency PUSD = createCurrency("PUSD", "dydx USD Perpetual (Inverse)", null);
 
   // Coinmarketcap top 200

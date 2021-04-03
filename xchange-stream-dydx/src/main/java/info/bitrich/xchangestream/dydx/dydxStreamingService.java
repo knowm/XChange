@@ -3,21 +3,19 @@ package info.bitrich.xchangestream.dydx;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
-
-import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
-import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
 import info.bitrich.xchangestream.dydx.dto.dydxWebSocketSubscriptionMessage;
 import info.bitrich.xchangestream.dydx.dto.dydxWebSocketTransaction;
+import info.bitrich.xchangestream.dydx.dto.v3.dydxInitialOrderBookMessage;
+import info.bitrich.xchangestream.dydx.dto.v3.dydxUpdateOrderBookMessage;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 20-02-2021 */
 public class dydxStreamingService extends JsonNettyStreamingService {

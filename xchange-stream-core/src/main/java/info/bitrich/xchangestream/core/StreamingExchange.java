@@ -102,7 +102,8 @@ public interface StreamingExchange extends Exchange {
   /** Returns service that can be used to access streaming market data. */
   default StreamingMarketDataService getStreamingMarketDataService() {
     throw new NotYetImplementedForExchangeException("getStreamingMarketDataService");
-  };
+  }
+  ;
 
   /** Returns service that can be used to access streaming account data. */
   default StreamingAccountService getStreamingAccountService() {

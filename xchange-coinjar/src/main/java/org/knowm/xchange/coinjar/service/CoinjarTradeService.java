@@ -6,7 +6,6 @@ import static org.knowm.xchange.coinjar.CoinjarAdapters.orderTypeToBuySell;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.coinjar.*;
 import org.knowm.xchange.coinjar.dto.CoinjarOrder;
 import org.knowm.xchange.coinjar.dto.trading.CoinjarFills;
@@ -18,7 +17,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
-import org.knowm.xchange.service.trade.params.orders.DefaultQueryOrderParam;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamOffset;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
@@ -32,7 +30,7 @@ public class CoinjarTradeService extends CoinjarTradeServiceRaw implements Trade
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     Order.IOrderFlags orderFlag = CoinjarOrderFlags.GTC;
-    if ( limitOrder.getOrderFlags().size() > 0){
+    if (limitOrder.getOrderFlags().size() > 0) {
       orderFlag = limitOrder.getOrderFlags().iterator().next();
     }
     try {

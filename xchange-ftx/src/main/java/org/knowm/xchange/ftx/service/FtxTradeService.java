@@ -35,10 +35,10 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   }
 
   public String placeMarketOrderForSubaccount(String subaccount, MarketOrder marketOrder)
-          throws IOException {
+      throws IOException {
     return placeNewFtxOrder(subaccount, FtxAdapters.adaptMarketOrderToFtxOrderPayload(marketOrder))
-            .getResult()
-            .getId();
+        .getResult()
+        .getId();
   }
 
   @Override
@@ -47,10 +47,10 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   }
 
   public String placeLimitOrderForSubaccount(String subaccount, LimitOrder limitOrder)
-          throws IOException {
+      throws IOException {
     return placeNewFtxOrder(subaccount, FtxAdapters.adaptLimitOrderToFtxOrderPayload(limitOrder))
-            .getResult()
-            .getId();
+        .getResult()
+        .getId();
   }
 
   @Override
@@ -97,7 +97,7 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   }
 
   public Collection<Order> getOrderFromSubaccount(String subaccount, String... orderIds)
-          throws IOException {
+      throws IOException {
     List<Order> orderList = new ArrayList<>();
     for (String orderId : orderIds) {
       Order order = FtxAdapters.adaptLimitOrder(getFtxOrderStatus(subaccount, orderId).getResult());

@@ -1,16 +1,15 @@
 package org.knowm.xchange.client;
 
 import com.google.common.annotations.Beta;
+import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
-import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.retry.RetryRegistry;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.Duration;
-
 import org.knowm.xchange.exceptions.ExchangeUnavailableException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.OperationTimeoutException;
@@ -92,7 +91,7 @@ public class ResilienceRegistries {
       RetryConfig globalRetryConfig, RetryConfig nonIdempotentCallsRetryConfig) {
     RetryRegistry registry = RetryRegistry.of(globalRetryConfig);
     registry.addConfiguration(
-            NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME, nonIdempotentCallsRetryConfig);
+        NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME, nonIdempotentCallsRetryConfig);
     return registry;
   }
 }

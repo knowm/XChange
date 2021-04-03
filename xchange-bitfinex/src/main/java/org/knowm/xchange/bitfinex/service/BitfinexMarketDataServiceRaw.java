@@ -1,11 +1,11 @@
 package org.knowm.xchange.bitfinex.service;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
@@ -26,9 +26,6 @@ import org.knowm.xchange.bitfinex.v2.dto.marketdata.BookPrecision;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-
-import com.fasterxml.jackson.databind.node.ArrayNode;
-
 import si.mazi.rescu.HttpStatusIOException;
 
 /**
@@ -165,16 +162,29 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   public List<BitfinexCandle> getHistoricCandles(
-      String candlePeriod, CurrencyPair currencyPair, Integer limit, Long startTimestamp, Long endTimestamp, Integer sort) throws IOException {
-    return bitfinexV2.getHistoricCandles(candlePeriod, BitfinexAdapters.adaptCurrencyPair(currencyPair), limit, startTimestamp, endTimestamp, sort);
+      String candlePeriod,
+      CurrencyPair currencyPair,
+      Integer limit,
+      Long startTimestamp,
+      Long endTimestamp,
+      Integer sort)
+      throws IOException {
+    return bitfinexV2.getHistoricCandles(
+        candlePeriod,
+        BitfinexAdapters.adaptCurrencyPair(currencyPair),
+        limit,
+        startTimestamp,
+        endTimestamp,
+        sort);
   }
-  
+
   /**
-   * @see https://docs.bitfinex.com/reference#rest-public-stats1
-   * The Stats endpoint provides various statistics on a specified trading pair or funding currency.
-   * Use the available keys to specify which statistic you wish to retrieve.
-   * Please note that the "Side" path param is only required for the pos.size key.
-   * @param key Allowed values: "funding.size", "credits.size", "credits.size.sym", "pos.size", "vol.1d", "vol.7d", "vol.30d", "vwap"
+   * @see https://docs.bitfinex.com/reference#rest-public-stats1 The Stats endpoint provides various
+   *     statistics on a specified trading pair or funding currency. Use the available keys to
+   *     specify which statistic you wish to retrieve. Please note that the "Side" path param is
+   *     only required for the pos.size key.
+   * @param key Allowed values: "funding.size", "credits.size", "credits.size.sym", "pos.size",
+   *     "vol.1d", "vol.7d", "vol.30d", "vwap"
    * @param size Available values: "30m", "1d", '1m'
    * @param symbol The symbol you want information about. (e.g. tBTCUSD, tETHUSD, fUSD, fBTC)
    * @param side Available values: "long", "short". Only for non-funding queries.
@@ -185,10 +195,19 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    * @return
    * @throws IOException
    */
-  public List<BitfinexStats> getStats(String key, String size, String symbol, String side, Integer sort, Long startTimestamp, Long endTimestamp, Integer limit) throws IOException {
+  public List<BitfinexStats> getStats(
+      String key,
+      String size,
+      String symbol,
+      String side,
+      Integer sort,
+      Long startTimestamp,
+      Long endTimestamp,
+      Integer limit)
+      throws IOException {
     return bitfinexV2.getStats(key, size, symbol, side, sort, startTimestamp, endTimestamp, limit);
   }
-  
+
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
    * @param symbol The symbol you want information about. (e.g. tBTCUSD, tETHUSD, fUSD, fBTC)
@@ -197,7 +216,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    * @return list of orders in the book
    * @throws IOException
    */
-  public List<BitfinexTradingOrder> tradingBook(String symbol, BookPrecision precision, Integer len) throws IOException {
+  public List<BitfinexTradingOrder> tradingBook(String symbol, BookPrecision precision, Integer len)
+      throws IOException {
     return bitfinexV2.tradingBook(symbol, precision, len);
   }
   /**
@@ -207,10 +227,11 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    * @return list of orders in the book
    * @throws IOException
    */
-  public List<BitfinexTradingRawOrder> tradingBookRaw(String symbol, Integer len) throws IOException {
-      return bitfinexV2.tradingBookRaw(symbol, len);
-    }
-  
+  public List<BitfinexTradingRawOrder> tradingBookRaw(String symbol, Integer len)
+      throws IOException {
+    return bitfinexV2.tradingBookRaw(symbol, len);
+  }
+
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
    * @param symbol The symbol you want information about. (e.g. tBTCUSD, tETHUSD, fUSD, fBTC)
@@ -219,7 +240,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    * @return list of orders in the book
    * @throws IOException
    */
-  public List<BitfinexFundingOrder> fundingBook(String symbol, BookPrecision precision, Integer len) throws IOException {
+  public List<BitfinexFundingOrder> fundingBook(String symbol, BookPrecision precision, Integer len)
+      throws IOException {
     return bitfinexV2.fundingBook(symbol, precision, len);
   }
   /**
@@ -229,7 +251,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    * @return list of orders in the book
    * @throws IOException
    */
-  public List<BitfinexFundingRawOrder> fundingBookRaw(String symbol, Integer len) throws IOException {
-      return bitfinexV2.fundingBookRaw(symbol, len);
-    }
+  public List<BitfinexFundingRawOrder> fundingBookRaw(String symbol, Integer len)
+      throws IOException {
+    return bitfinexV2.fundingBookRaw(symbol, len);
+  }
 }
