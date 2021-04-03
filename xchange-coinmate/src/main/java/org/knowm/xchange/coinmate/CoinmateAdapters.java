@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
@@ -329,17 +328,20 @@ public class CoinmateAdapters {
 
     return coinmateOpenOrders.getData().stream()
         .filter(entry -> "LIMIT_STOP".equals(entry.getOrderTradeType()))
-        .map(entry -> new StopOrder("SELL".equals(entry.getType()) ? Order.OrderType.ASK : Order.OrderType.BID,
-            entry.getAmount(),
-            CoinmateUtils.getPair(entry.getCurrencyPair()),
-            Long.toString(entry.getId()),
-            new Date(entry.getTimestamp()),
-            entry.getStopPrice(),
-            entry.getPrice(),
-            null,
-            null,
-            null)
-        ).collect(Collectors.toList());
+        .map(
+            entry ->
+                new StopOrder(
+                    "SELL".equals(entry.getType()) ? Order.OrderType.ASK : Order.OrderType.BID,
+                    entry.getAmount(),
+                    CoinmateUtils.getPair(entry.getCurrencyPair()),
+                    Long.toString(entry.getId()),
+                    new Date(entry.getTimestamp()),
+                    entry.getStopPrice(),
+                    entry.getPrice(),
+                    null,
+                    null,
+                    null))
+        .collect(Collectors.toList());
   }
 
   public static String adaptSortOrder(TradeHistoryParamsSorted.Order order) {

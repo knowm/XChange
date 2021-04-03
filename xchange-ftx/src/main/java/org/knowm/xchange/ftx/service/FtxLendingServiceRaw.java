@@ -1,14 +1,13 @@
 package org.knowm.xchange.ftx.service;
 
-import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.ftx.FtxAdapters;
-import org.knowm.xchange.ftx.FtxExchange;
-import org.knowm.xchange.ftx.dto.account.*;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.knowm.xchange.ftx.FtxAdapters;
+import org.knowm.xchange.ftx.FtxExchange;
+import org.knowm.xchange.ftx.dto.account.*;
 
 public class FtxLendingServiceRaw extends FtxBaseService {
 
@@ -21,9 +20,7 @@ public class FtxLendingServiceRaw extends FtxBaseService {
   }
 
   public List<FtxLendDataDto> stopLending(String subaccount, List<String> coins) {
-    return coins.stream()
-        .map(coin -> stopLending(subaccount, coin))
-        .collect(Collectors.toList());
+    return coins.stream().map(coin -> stopLending(subaccount, coin)).collect(Collectors.toList());
   }
 
   public FtxLendDataDto lend(String subaccount, String coin, double size, double rate) {
@@ -31,38 +28,64 @@ public class FtxLendingServiceRaw extends FtxBaseService {
     if (StringUtils.isNotBlank(coin))
       throw new FtxLendingServiceException("Coin are blank or empty");
     if (rate < 0)
-      throw new FtxLendingServiceException("Rate must to be >= 0, subaccount: " + subaccount + ", coin: " + coin);
+      throw new FtxLendingServiceException(
+          "Rate must to be >= 0, subaccount: " + subaccount + ", coin: " + coin);
     if (size < 0)
-      throw new FtxLendingServiceException("Size must to be >= 0, subaccount: " + subaccount + ", coin: " + coin + ", rate: " + rate);
+      throw new FtxLendingServiceException(
+          "Size must to be >= 0, subaccount: "
+              + subaccount
+              + ", coin: "
+              + coin
+              + ", rate: "
+              + rate);
 
     try {
       FtxLendingInfoDto info = info(subaccount, coin);
       double sizeToLend = FtxAdapters.lendingRounding(BigDecimal.valueOf(size)).doubleValue();
 
       if (Double.compare(sizeToLend, info.getLendable()) == 1) {
-        throw new FtxLendingServiceException("Can't lend sizeToLend > to lendable, subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", sizeToLend: " + sizeToLend + ", rate: " + rate);
+        throw new FtxLendingServiceException(
+            "Can't lend sizeToLend > to lendable, subaccount: "
+                + subaccount
+                + ", coin: "
+                + coin
+                + ", size: "
+                + size
+                + ", sizeToLend: "
+                + sizeToLend
+                + ", rate: "
+                + rate);
       }
       ftx.submitLendingOffer(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
           subaccount,
-          new FtxSubmitLendingOfferParams(coin, FtxAdapters.lendingRounding(new BigDecimal(sizeToLend)).doubleValue(), rate)
-      );
+          new FtxSubmitLendingOfferParams(
+              coin, FtxAdapters.lendingRounding(new BigDecimal(sizeToLend)).doubleValue(), rate));
       return new FtxLendDataDto(coin, info.getLocked(), info.getOffered(), sizeToLend, rate);
     } catch (IOException e) {
-      throw new FtxLendingServiceException("Can't lend subaccount: " + subaccount + ", coin: " + coin + ", size: " + size + ", rate: " + rate, e);
+      throw new FtxLendingServiceException(
+          "Can't lend subaccount: "
+              + subaccount
+              + ", coin: "
+              + coin
+              + ", size: "
+              + size
+              + ", rate: "
+              + rate,
+          e);
     }
   }
 
   public List<FtxLendingHistoryDto> histories(String subaccount) {
     try {
       return ftx.getlendingHistories(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
-      ).getResult();
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount)
+          .getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
     }
@@ -88,11 +111,11 @@ public class FtxLendingServiceRaw extends FtxBaseService {
   public List<FtxLendingInfoDto> infos(String subaccount) {
     try {
       return ftx.getLendingInfos(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator,
-          subaccount
-      ).getResult();
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subaccount)
+          .getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't get lending infos subAccount: " + subaccount, e);
     }
@@ -118,10 +141,10 @@ public class FtxLendingServiceRaw extends FtxBaseService {
   public List<FtxLendingRatesDto> rates() {
     try {
       return ftx.getLendingRates(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator
-      ).getResult();
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator)
+          .getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceException("Can't get lending rates", e);
     }
@@ -139,11 +162,13 @@ public class FtxLendingServiceRaw extends FtxBaseService {
     if (StringUtils.isNotBlank(coin))
       throw new FtxLendingServiceException("Coin are blank or empty");
     try {
-      return ftx.getLendingRates(
-          exchange.getExchangeSpecification().getApiKey(),
-          exchange.getNonceFactory().createValue(),
-          signatureCreator
-      ).getResult().stream()
+      return ftx
+          .getLendingRates(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator)
+          .getResult()
+          .stream()
           .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
           .findFirst()
           .orElse(null);

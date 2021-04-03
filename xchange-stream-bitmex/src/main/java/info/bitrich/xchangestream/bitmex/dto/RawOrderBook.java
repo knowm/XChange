@@ -9,11 +9,11 @@ public class RawOrderBook {
   private List<List<BigDecimal>> asks;
   private List<List<BigDecimal>> bids;
 
-  public List<List<BigDecimal>> getAsks(){
+  public List<List<BigDecimal>> getAsks() {
     return asks;
   }
-  public List<List<BigDecimal>> getBids(){
+
+  public List<List<BigDecimal>> getBids() {
     return bids;
   }
-
 }

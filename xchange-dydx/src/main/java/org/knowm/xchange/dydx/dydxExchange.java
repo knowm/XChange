@@ -4,11 +4,10 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 
 /**
- * Author: Max Gao (gaamox@tutanota.com)
- * Created: 20-02-2021
+ * Author: Max Gao (gaamox@tutanota.com) Created: 20-02-2021
  *
- * V3 Documentation: https://docs.dydx.exchange
- * Legacy Documentation: https://legacy-docs.dydx.exchange
+ * <p>V3 Documentation: https://docs.dydx.exchange Legacy Documentation:
+ * https://legacy-docs.dydx.exchange
  */
 public class dydxExchange extends BaseExchange {
   public static final String V3 = "v3";

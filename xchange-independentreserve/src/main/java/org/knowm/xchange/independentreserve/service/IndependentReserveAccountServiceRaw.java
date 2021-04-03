@@ -144,12 +144,11 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseS
   public IndependentReserveBrokerageFeeResponse getBrokerageFees() throws IOException {
     Long nonce = exchange.getNonceFactory().createValue();
     IndependentReserveBrokerageFeeRequest req =
-            new IndependentReserveBrokerageFeeRequest(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    nonce);
+        new IndependentReserveBrokerageFeeRequest(
+            exchange.getExchangeSpecification().getApiKey(), nonce);
     req.setSignature(
-            signatureCreator.digestParamsToString(
-                    ExchangeEndpoint.GET_BROKER_FEES, nonce, req.getParameters()));
+        signatureCreator.digestParamsToString(
+            ExchangeEndpoint.GET_BROKER_FEES, nonce, req.getParameters()));
     return independentReserveAuthenticated.getBrokerageFees(req);
   }
 }

@@ -1,18 +1,16 @@
 package org.knowm.xchange.binance.service;
 
+import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
+
+import java.nio.charset.StandardCharsets;
+import javax.crypto.Mac;
+import javax.ws.rs.QueryParam;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.QueryParam;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
-import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 
 public class BinanceHmacDigest extends BaseParamsDigest {
 
@@ -52,8 +50,7 @@ public class BinanceHmacDigest extends BaseParamsDigest {
           input = restInvocation.getRequestBody();
           break;
         default:
-          throw new RuntimeException(
-              "Not support http method: " + restInvocation.getHttpMethod());
+          throw new RuntimeException("Not support http method: " + restInvocation.getHttpMethod());
       }
     }
 

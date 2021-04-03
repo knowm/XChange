@@ -242,7 +242,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBaseService {
   }
 
   public CoinmateTransactionHistory getCoinmateTransactionHistory(
-      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId) throws IOException {
+      int offset, Integer limit, String sort, Long timestampFrom, Long timestampTo, String orderId)
+      throws IOException {
     CoinmateTransactionHistory tradeHistory =
         coinmateAuthenticated.getTransactionHistory(
             exchange.getExchangeSpecification().getApiKey(),

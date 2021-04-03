@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbase.v2.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.Coinbase;
@@ -18,8 +19,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-
-import java.math.BigDecimal;
 
 public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements TradeService {
 
@@ -77,40 +76,42 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   /**
-   * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts). To get it is
-   * necessary to know the accountId (wallet ID) see {@link AccountInfo#getWallets()}
+   * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts).
+   * To get it is necessary to know the accountId (wallet ID) see {@link AccountInfo#getWallets()}
    */
-  public UserTrades getBuyTradeHistory(CoinbaseTradeHistoryParams params, String accountId) throws IOException {
+  public UserTrades getBuyTradeHistory(CoinbaseTradeHistoryParams params, String accountId)
+      throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-    final CoinbaseBuySellResponse buys = coinbase.getBuys(
+    final CoinbaseBuySellResponse buys =
+        coinbase.getBuys(
             Coinbase.CB_VERSION_VALUE,
             apiKey,
             signatureCreator2,
             timestamp,
             accountId,
             params.getLimit(),
-            params.getStartId()
-    );
+            params.getStartId());
     return CoinbaseAdapters.adaptTrades(buys.getData(), Order.OrderType.BID);
   }
 
   /**
-   * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts). To get it is
-   * necessary to know the accountId (wallet ID) from {@link AccountInfo#getWallets()}
+   * The Coinbase is not typical exchange. It has splitted buys and sells into wallets (accounts).
+   * To get it is necessary to know the accountId (wallet ID) from {@link AccountInfo#getWallets()}
    */
-  public UserTrades getSellTradeHistory(CoinbaseTradeHistoryParams params, String accountId) throws IOException {
+  public UserTrades getSellTradeHistory(CoinbaseTradeHistoryParams params, String accountId)
+      throws IOException {
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
-    final CoinbaseBuySellResponse sells = coinbase.getSells(
+    final CoinbaseBuySellResponse sells =
+        coinbase.getSells(
             Coinbase.CB_VERSION_VALUE,
             apiKey,
             signatureCreator2,
             timestamp,
             accountId,
             params.getLimit(),
-            params.getStartId()
-    );
+            params.getStartId());
     return CoinbaseAdapters.adaptTrades(sells.getData(), Order.OrderType.ASK);
   }
 }
