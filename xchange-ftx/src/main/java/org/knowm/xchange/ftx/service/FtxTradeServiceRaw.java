@@ -99,14 +99,14 @@ public class FtxTradeServiceRaw extends FtxBaseService {
     }
   }
 
-  public FtxResponse<FtxOrderDto> getFtxOrderStatus(String orderId)
+  public FtxResponse<FtxOrderDto> getFtxOrderStatus(String subaccount, String orderId)
       throws FtxException, IOException {
     try {
       return ftx.getOrderStatus(
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
-          null,
+          subaccount,
           orderId);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());

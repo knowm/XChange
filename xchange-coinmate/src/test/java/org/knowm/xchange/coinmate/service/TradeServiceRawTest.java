@@ -1,14 +1,13 @@
 package org.knowm.xchange.coinmate.service;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertNotNull;
 
 public class TradeServiceRawTest {
 
@@ -21,12 +20,9 @@ public class TradeServiceRawTest {
     assertNotNull(exchange);
     CoinmateTradeServiceRaw service = (CoinmateTradeServiceRaw) exchange.getTradeService();
     assertNotNull(service);
-    CoinmateTransactionHistory transactionHistory = service.getCoinmateTransactionHistory(0,
-        1000,
-        "DESC",
-        1612134000000L,
-        1614783942000L,
-        null);
+    CoinmateTransactionHistory transactionHistory =
+        service.getCoinmateTransactionHistory(
+            0, 1000, "DESC", 1612134000000L, 1614783942000L, null);
     assertNotNull(transactionHistory);
     assertNotNull(transactionHistory.getData());
     System.out.println("Got " + transactionHistory.getData().size() + " transactions.");
@@ -44,12 +40,8 @@ public class TradeServiceRawTest {
     assertNotNull(exchange);
     CoinmateTradeServiceRaw service = (CoinmateTradeServiceRaw) exchange.getTradeService();
     assertNotNull(service);
-    CoinmateTransactionHistory transactionHistory = service.getCoinmateTransactionHistory(0,
-        1000,
-        "DESC",
-        null,
-        null,
-        null);
+    CoinmateTransactionHistory transactionHistory =
+        service.getCoinmateTransactionHistory(0, 1000, "DESC", null, null, null);
     assertNotNull(transactionHistory);
     assertNotNull(transactionHistory.getData());
     System.out.println("Got " + transactionHistory.getData().size() + " transactions.");

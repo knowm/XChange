@@ -1,8 +1,8 @@
 package org.knowm.xchange.independentreserve.util;
 
-import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
-
 import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.*;
+
+import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 
 /** Author: Kamil Zbikowski Date: 4/13/15 */
 public enum ExchangeEndpoint {
@@ -16,7 +16,8 @@ public enum ExchangeEndpoint {
   GET_TRANSACTIONS("GetTransactions"),
   PLACE_LIMIT_ORDER("PlaceLimitOrder"),
   PLACE_MARKET_ORDER("PlaceMarketOrder"),
-  SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN(SynchDigitalCurrencyDepositAddressWithBlockchain),
+  SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN(
+      SynchDigitalCurrencyDepositAddressWithBlockchain),
   WITHDRAW_DIGITAL_CURRENCY(WithdrawDigitalCurrency);
 
   private String endpointName;

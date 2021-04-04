@@ -1,0 +1,22 @@
+{
+  "currency_pairs": {
+
+  },
+  "currencies": {
+
+  },
+  "public_rate_limits": [
+    {
+      "calls": 100,
+      "time_span": 10,
+      "time_unit": "SECONDS"
+    }
+  ],
+  "private_rate_limits": [
+    {
+      "calls": 100,
+      "time_span": 10,
+      "time_unit": "SECONDS"
+    }
+  ]
+}

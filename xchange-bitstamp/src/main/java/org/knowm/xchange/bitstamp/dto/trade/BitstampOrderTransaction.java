@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
 public class BitstampOrderTransaction {
@@ -80,5 +79,4 @@ public class BitstampOrderTransaction {
   public Map<String, BigDecimal> getAmounts() {
     return amounts;
   }
-
 }

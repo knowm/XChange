@@ -1,10 +1,9 @@
 package org.knowm.xchange.coinbase.v2.dto.account.transactions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.ZonedDateTime;
 import lombok.Getter;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
-
-import java.time.ZonedDateTime;
 
 @Getter
 public class CoinbaseBuySell {
@@ -24,7 +23,7 @@ public class CoinbaseBuySell {
   private final CoinbaseAmount fee;
   private final String payoutAt;
 
-    public CoinbaseBuySell(
+  public CoinbaseBuySell(
       @JsonProperty("id") String id,
       @JsonProperty("status") String status,
       @JsonProperty("payment_method") CoinbaseBuySellResourceField paymentMethod,
@@ -39,23 +38,22 @@ public class CoinbaseBuySell {
       @JsonProperty("committed") boolean committed,
       @JsonProperty("instant") boolean instant,
       @JsonProperty("fee") CoinbaseAmount fee,
-      @JsonProperty("payout_at") String payoutAt
-  ) {
-      this.id = id;
-      this.status = status;
-      this.paymentMethod = paymentMethod;
-      this.transaction = transaction;
-      this.amount = amount;
-      this.total = total;
-      this.subTotal = subTotal;
-      this.createdAt = createdAt;
-      this.updatedAt = updatedAt;
-      this.resource = resource;
-      this.resourcePath = resourcePath;
-      this.committed = committed;
-      this.instant = instant;
-      this.fee = fee;
-      this.payoutAt = payoutAt;
+      @JsonProperty("payout_at") String payoutAt) {
+    this.id = id;
+    this.status = status;
+    this.paymentMethod = paymentMethod;
+    this.transaction = transaction;
+    this.amount = amount;
+    this.total = total;
+    this.subTotal = subTotal;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.resource = resource;
+    this.resourcePath = resourcePath;
+    this.committed = committed;
+    this.instant = instant;
+    this.fee = fee;
+    this.payoutAt = payoutAt;
   }
 
   public ZonedDateTime getCreatedAt() {
@@ -63,15 +61,14 @@ public class CoinbaseBuySell {
   }
 
   public ZonedDateTime getUpdatedAt() {
-        return ZonedDateTime.parse(updatedAt);
+    return ZonedDateTime.parse(updatedAt);
   }
 
   public ZonedDateTime getPayoutAt() {
-        return ZonedDateTime.parse(payoutAt);
-   }
+    return ZonedDateTime.parse(payoutAt);
+  }
 
-
-    @Override
+  @Override
   public String toString() {
     return "{"
         + "\"id\":"
@@ -128,7 +125,6 @@ public class CoinbaseBuySell {
         + fee
         + ",\"payoutAt\":"
         + payoutAt
-     + '}';
+        + '}';
   }
-
 }

@@ -21,8 +21,7 @@ public class CoinbaseProBaseService extends BaseResilientExchangeService<Coinbas
   protected final String passphrase;
 
   protected CoinbaseProBaseService(
-          CoinbaseProExchange exchange,
-          ResilienceRegistries resilienceRegistries) {
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
     super(exchange, resilienceRegistries);
     coinbasePro =

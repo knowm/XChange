@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
@@ -301,11 +300,13 @@ public final class BitstampAdapters {
     return fundingRecords;
   }
 
-  private static CurrencyPair adaptCurrencyPair(BitstampOrderTransaction transaction, List<CurrencyPair> exchangeSymbols) {
+  private static CurrencyPair adaptCurrencyPair(
+      BitstampOrderTransaction transaction, List<CurrencyPair> exchangeSymbols) {
 
     String[] keys = transaction.getAmounts().keySet().toArray(new String[0]);
     if (keys.length != 2) {
-      throw new IllegalArgumentException("Amount size is not 2. Unable to calculate currency pair.");
+      throw new IllegalArgumentException(
+          "Amount size is not 2. Unable to calculate currency pair.");
     }
 
     CurrencyPair currencyPair = new CurrencyPair(keys[0], keys[1]);
@@ -342,7 +343,9 @@ public final class BitstampAdapters {
    * @return
    */
   public static BitstampGenericOrder adaptOrder(
-          String orderId, BitstampOrderStatusResponse bitstampOrderStatusResponse, List<CurrencyPair> exchangeSymbols) {
+      String orderId,
+      BitstampOrderStatusResponse bitstampOrderStatusResponse,
+      List<CurrencyPair> exchangeSymbols) {
 
     BitstampOrderTransaction[] bitstampTransactions = bitstampOrderStatusResponse.getTransactions();
 

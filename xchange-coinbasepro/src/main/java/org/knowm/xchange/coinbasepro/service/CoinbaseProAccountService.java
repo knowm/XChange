@@ -35,8 +35,7 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     implements AccountService {
 
   public CoinbaseProAccountService(
-          CoinbaseProExchange exchange,
-          ResilienceRegistries resilienceRegistries) {
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
     super(exchange, resilienceRegistries);
   }
@@ -73,12 +72,13 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-        return withdrawCrypto(
-            defaultParams.getAddress(),
-            defaultParams.getAmount(),
-            defaultParams.getCurrency(),
-            defaultParams.getAddressTag(),
-            defaultParams.getAddressTag() == null).id;
+      return withdrawCrypto(
+              defaultParams.getAddress(),
+              defaultParams.getAmount(),
+              defaultParams.getCurrency(),
+              defaultParams.getAddressTag(),
+              defaultParams.getAddressTag() == null)
+          .id;
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);

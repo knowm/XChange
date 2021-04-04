@@ -24,8 +24,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
   private static final Logger log = LoggerFactory.getLogger(CoinbaseProMarketDataService.class);
 
   public CoinbaseProMarketDataService(
-          CoinbaseProExchange exchange,
-          ResilienceRegistries resilienceRegistries) {
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
@@ -86,9 +85,7 @@ public class CoinbaseProMarketDataService extends CoinbaseProMarketDataServiceRa
 
     if (args.length == 0) {
       return CoinbaseProAdapters.adaptTrades(getCoinbaseProTrades(currencyPair), currencyPair);
-    } else if ((args.length == 2) &&
-            (args[0] instanceof Long) &&
-            (args[1] instanceof Long)) {
+    } else if ((args.length == 2) && (args[0] instanceof Long) && (args[1] instanceof Long)) {
 
       Long fromTradeId = (Long) args[0];
       Long toTradeId = (Long) args[1];
