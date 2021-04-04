@@ -34,10 +34,10 @@
     <version.assertj>3.19.0</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
-    <version.github.mmazi>2.0.4</version.github.mmazi>
+    <version.github.mmazi>2.1.0-SNAPSHOT</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.1</version.junit>
-    <version.lombok>1.18.18</version.lombok>
+    <version.lombok>1.18.20</version.lombok>
     <version.knowm.xchart>3.8.0</version.knowm.xchart>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
@@ -141,6 +141,7 @@
     <module>xchange-dragonex</module>
     <module>xchange-dsx</module>
     <module>xchange-dvchain</module>
+    <module>xchange-dydx</module>
     <module>xchange-exmo</module>
     <module>xchange-exx</module>
     <module>xchange-examples</module>
@@ -197,6 +198,7 @@
     <module>xchange-stream-coinjar</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
+    <module>xchange-stream-dydx</module>
     <module>xchange-stream-ftx</module>
     <module>xchange-stream-gemini</module>
     <module>xchange-stream-gemini-v2</module>

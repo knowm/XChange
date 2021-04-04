@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
 import org.knowm.xchange.btcmarkets.dto.v3.BTCMarketsExceptionV3;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;

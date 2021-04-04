@@ -71,6 +71,7 @@ public class BitfinexTicker {
 
     return ask;
   }
+
   public BigDecimal getAskSize() {
 
     return askSize;

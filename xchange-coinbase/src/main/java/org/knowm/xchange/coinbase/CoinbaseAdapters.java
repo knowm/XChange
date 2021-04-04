@@ -58,19 +58,22 @@ public final class CoinbaseAdapters {
 
   private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
     return new UserTrade.Builder()
-      .type(orderType)
-      .originalAmount(transaction.getAmount().getAmount())
-      .currencyPair(new CurrencyPair(transaction.getAmount().getCurrency(), transaction.getTotal().getCurrency()))
-      .price(
-              transaction.getSubTotal().getAmount()
-                      .divide(transaction.getAmount().getAmount(), PRICE_SCALE, RoundingMode.HALF_UP)
-      )
-      .timestamp(Date.from(transaction.getCreatedAt().toInstant()))
-      .id(transaction.getId())
-      .orderId(transaction.getTransaction().getId())
-      .feeAmount(transaction.getFee().getAmount())
-      .feeCurrency(Currency.getInstance(transaction.getFee().getCurrency()))
-      .build();
+        .type(orderType)
+        .originalAmount(transaction.getAmount().getAmount())
+        .currencyPair(
+            new CurrencyPair(
+                transaction.getAmount().getCurrency(), transaction.getTotal().getCurrency()))
+        .price(
+            transaction
+                .getSubTotal()
+                .getAmount()
+                .divide(transaction.getAmount().getAmount(), PRICE_SCALE, RoundingMode.HALF_UP))
+        .timestamp(Date.from(transaction.getCreatedAt().toInstant()))
+        .id(transaction.getId())
+        .orderId(transaction.getTransaction().getId())
+        .feeAmount(transaction.getFee().getAmount())
+        .feeCurrency(Currency.getInstance(transaction.getFee().getCurrency()))
+        .build();
   }
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
