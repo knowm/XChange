@@ -131,6 +131,26 @@ public class BitmaxAdapters {
         return new OpenOrders(openOrders);
     }
 
+    public static List<Order> adaptOpenOrderById(BitmaxOpenOrdersResponse bitmaxOpenOrdersResponse){
+        List<Order> openOrders = new ArrayList<>();
+
+        openOrders.add(new LimitOrder.Builder(adaptBitmaxSideToOrderType(bitmaxOpenOrdersResponse.getSide()),CurrencyPairDeserializer.getCurrencyPairFromString(bitmaxOpenOrdersResponse.getSymbol()))
+            .originalAmount(bitmaxOpenOrdersResponse.getOrderQty())
+            .limitPrice(bitmaxOpenOrdersResponse.getPrice())
+            .fee(bitmaxOpenOrdersResponse.getCumFee())
+            .averagePrice(bitmaxOpenOrdersResponse.getAvgPx())
+            .id(bitmaxOpenOrdersResponse.getOrderId())
+            .timestamp(bitmaxOpenOrdersResponse.getLastExecTime())
+            .orderStatus(Order.OrderStatus.valueOf(bitmaxOpenOrdersResponse.getStatus().toUpperCase()))
+            .remainingAmount(bitmaxOpenOrdersResponse.getOrderQty().subtract(bitmaxOpenOrdersResponse.getCumFilledQty()))
+            .flag((bitmaxOpenOrdersResponse.getExecInst().equals("POST"))
+                    ? BitmaxFlags.POST_ONLY
+                    : null)
+            .build());
+
+        return openOrders;
+    }
+
     public static ExchangeMetaData adaptExchangeMetaData(List<BitmaxAssetDto> bitmaxAssetDtos, List<BitmaxProductDto> bitmaxProductDtos){
         Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
         Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>();

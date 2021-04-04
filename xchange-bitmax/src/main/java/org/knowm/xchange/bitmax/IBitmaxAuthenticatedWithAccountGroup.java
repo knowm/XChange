@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmax;
 
 import org.knowm.xchange.bitmax.dto.BitmaxResponse;
 import org.knowm.xchange.bitmax.dto.account.BitmaxCashAccountBalanceDto;
-import org.knowm.xchange.bitmax.dto.trade.BitmaxCancelOrderRequestPayload;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxOpenOrdersResponse;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxPlaceOrderRequestPayload;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxOrderResponse;
@@ -11,7 +10,6 @@ import si.mazi.rescu.ParamsDigest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Path("api/pro/v1")
@@ -67,6 +65,16 @@ public interface IBitmaxAuthenticatedWithAccountGroup extends IBitmax{
             @HeaderParam("x-auth-signature") ParamsDigest signature,
             @PathParam("account-category") String accountCategory,
             @QueryParam("symbol") String symbol
+    ) throws IOException;
+
+    @GET
+    @Path("/{account-category}/order/status")
+    BitmaxResponse<BitmaxOpenOrdersResponse> getOrderById(
+            @HeaderParam("x-auth-key") String apiKey,
+            @HeaderParam("x-auth-timestamp") Long nonce,
+            @HeaderParam("x-auth-signature") ParamsDigest signature,
+            @PathParam("account-category") String accountCategory,
+            @QueryParam("orderId") String orderId
     ) throws IOException;
 
     @GET

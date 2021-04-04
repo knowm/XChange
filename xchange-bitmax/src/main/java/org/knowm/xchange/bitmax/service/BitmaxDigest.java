@@ -33,7 +33,7 @@ public class BitmaxDigest extends BaseParamsDigest {
             message = restInvocation.getHttpHeadersFromParams().get("x-auth-timestamp")
                     + restInvocation.getPath().substring(restInvocation.getPath().lastIndexOf("/")+1);
         }
-        System.out.println(message);
+
         Mac mac256 = getMac();
         mac256.update(message.getBytes());
 

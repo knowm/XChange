@@ -25,12 +25,6 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
                     "cash",
-//                    "BTC/USDT",
-//                    exchange.getNonceFactory().createValue(),
-//                    BigDecimal.ONE,
-//                    "limit",
-//                    "buy",
-//                    BigDecimal.TEN
                     payload
             ));
         }catch (IOException e){
@@ -76,6 +70,20 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
                     signatureCreator,
                     "cash",
                     symbol
+            ));
+        }catch (IOException e){
+            throw new BitmaxException(e.getMessage());
+        }
+    }
+
+    public BitmaxOpenOrdersResponse getBitmaxOrderById(String orderId) throws BitmaxException,IOException {
+        try{
+            return checkResult(bitmaxWithAccountGroup.getOrderById(
+                    exchange.getExchangeSpecification().getApiKey(),
+                    exchange.getNonceFactory().createValue(),
+                    signatureCreator,
+                    "cash",
+                    orderId
             ));
         }catch (IOException e){
             throw new BitmaxException(e.getMessage());

@@ -4,6 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmax.BitmaxAdapters;
 import org.knowm.xchange.bitmax.BitmaxException;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxCancelOrderRequestPayload;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -15,6 +16,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamInstrument;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 import java.io.IOException;
+import java.util.Collection;
 
 public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeService {
 
@@ -30,13 +32,13 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
     @Override
     public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
         if(orderParams instanceof CancelOrderByPairAndIdParams){
-            cancelBitmaxOrder(new BitmaxCancelOrderRequestPayload(
-                    ((CancelOrderByPairAndIdParams) orderParams).getOrderId(),
-                    ((CancelOrderByPairAndIdParams) orderParams).getCurrencyPair().toString(),
-                    exchange.getNonceFactory().createValue()
-            ));
+            cancelAllBitmaxOrdersBySymbol(((CancelOrderByPairAndIdParams) orderParams).getCurrencyPair().toString());
             return true;
-        }else{
+        }else if(orderParams instanceof CancelOrderByCurrencyPair){
+            cancelAllBitmaxOrdersBySymbol(((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
+            return true;
+        }
+        else{
             throw new BitmaxException("Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Bitmax.");
         }
     }
@@ -75,5 +77,10 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
     @Override
     public OpenOrders getOpenOrders() throws IOException {
         return BitmaxAdapters.adaptOpenOrders(getBitmaxOpenOrders(null));
+    }
+
+    @Override
+    public Collection<Order> getOrder(String... orderIds) throws IOException {
+        return BitmaxAdapters.adaptOpenOrderById(getBitmaxOrderById(orderIds[0]));
     }
 }
