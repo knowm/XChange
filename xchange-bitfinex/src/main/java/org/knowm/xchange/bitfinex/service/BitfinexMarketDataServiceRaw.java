@@ -47,12 +47,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
-    BitfinexTicker bitfinexTicker =
-        decorateApiCall(() -> bitfinex.getTicker(pair))
+    return decorateApiCall(() -> bitfinex.getTicker(pair))
             .withRetry(retry("market-ticker"))
             .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
             .call();
-    return bitfinexTicker;
   }
 
   public BitfinexDepth getBitfinexOrderBook(String pair, Integer limitBids, Integer limitAsks)
@@ -76,31 +74,25 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks)
       throws IOException {
-    BitfinexLendDepth bitfinexLendDepth =
-        decorateApiCall(() -> bitfinex.getLendBook(currency, limitBids, limitAsks))
+    return decorateApiCall(() -> bitfinex.getLendBook(currency, limitBids, limitAsks))
             .withRetry(retry("market-lendBook"))
             .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
             .call();
-    return bitfinexLendDepth;
   }
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
-    BitfinexTrade[] bitfinexTrades =
-        decorateApiCall(() -> bitfinex.getTrades(pair, sinceTimestamp))
+    return decorateApiCall(() -> bitfinex.getTrades(pair, sinceTimestamp))
             .withRetry(retry("market-trades"))
             .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
             .call();
-    return bitfinexTrades;
   }
 
   public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades)
       throws IOException {
-    BitfinexLend[] bitfinexLends =
-        decorateApiCall(() -> bitfinex.getLends(currency, sinceTimestamp, limitTrades))
+    return decorateApiCall(() -> bitfinex.getLends(currency, sinceTimestamp, limitTrades))
             .withRetry(retry("market-lends"))
             .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
             .call();
-    return bitfinexLends;
   }
 
   public Collection<String> getBitfinexSymbols() throws IOException {

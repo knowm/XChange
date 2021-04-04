@@ -20,7 +20,6 @@ public final class BitfinexResilience {
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofMinutes(1))
                 .limitForPeriod(90)
-                .drainPermissionsOnResult(e -> RateLimitExceededException.class.isInstance(e))
                 .build());
     return registries;
   }
