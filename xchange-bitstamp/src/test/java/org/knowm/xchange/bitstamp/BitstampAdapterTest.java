@@ -7,15 +7,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 import org.junit.Test;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import org.knowm.xchange.bitstamp.order.dto.BitstampGenericOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -182,5 +187,60 @@ public class BitstampAdapterTest {
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
+  }
+
+  @Test
+  public void testOrderAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    String order =
+        "{\"status\":\"Finished\",\"id\":1337944912351237,\"transactions\":[{\"datetime\":\"2020-09-01 05:55:04\",\"tid\":156881358,\"type\":2,\"usd\":null,\"btc\":0.00838324,\"ltc\":null,\"eth\":null,\"eur\":397.20059384,\"xrp\":null,\"bch\":null,\"xlm\":null,\"link\":null,\"price\":47380.32000000,\"fee\":0.43692}],\"error\":null}";
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampOrderStatusResponse bitstampOrder =
+        mapper.readValue(order, BitstampOrderStatusResponse.class);
+
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
+    currencyPairs.add(CurrencyPair.BTC_USD);
+    currencyPairs.add(CurrencyPair.LTC_USD);
+    currencyPairs.add(CurrencyPair.ETH_USD);
+    currencyPairs.add(CurrencyPair.XRP_USD);
+    currencyPairs.add(CurrencyPair.BCH_USD);
+
+    currencyPairs.add(CurrencyPair.BTC_EUR);
+    currencyPairs.add(CurrencyPair.LTC_EUR);
+    currencyPairs.add(CurrencyPair.ETH_EUR);
+    currencyPairs.add(CurrencyPair.XRP_EUR);
+    currencyPairs.add(CurrencyPair.BCH_EUR);
+
+    currencyPairs.add(CurrencyPair.LTC_BTC);
+    currencyPairs.add(CurrencyPair.ETH_BTC);
+    currencyPairs.add(CurrencyPair.XRP_BTC);
+    currencyPairs.add(CurrencyPair.BCH_BTC);
+
+    currencyPairs.add(CurrencyPair.XLM_BTC);
+    currencyPairs.add(CurrencyPair.XLM_USD);
+    currencyPairs.add(CurrencyPair.XLM_EUR);
+    currencyPairs.add(CurrencyPair.XLM_ETH);
+
+    currencyPairs.add(CurrencyPair.LINK_BTC);
+    currencyPairs.add(CurrencyPair.LINK_USD);
+    currencyPairs.add(CurrencyPair.LINK_EUR);
+    currencyPairs.add(CurrencyPair.LINK_ETH);
+
+    BitstampGenericOrder genericOrder =
+        BitstampAdapters.adaptOrder(
+            String.valueOf(bitstampOrder.getId()), bitstampOrder, currencyPairs);
+
+    assertThat(genericOrder.getType()).isNull();
+    assertThat(genericOrder.getOriginalAmount()).isNull();
+    assertThat(genericOrder.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
+    assertThat(genericOrder.getId()).isEqualTo("1337944912351237");
+    assertThat(genericOrder.getTimestamp()).isEqualTo("2020-09-01T05:55:04Z");
+    assertThat(genericOrder.getAveragePrice()).isEqualTo(new BigDecimal("47380.32000000"));
+    assertThat(genericOrder.getCumulativeAmount()).isEqualTo(new BigDecimal("0.00838324"));
+    assertThat(genericOrder.getFee()).isEqualTo(new BigDecimal("0.43692"));
+    assertThat(genericOrder.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
   }
 }

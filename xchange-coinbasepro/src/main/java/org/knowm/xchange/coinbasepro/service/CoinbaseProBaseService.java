@@ -1,18 +1,18 @@
 package org.knowm.xchange.coinbasepro.service;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbasePro;
+import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.InternalServerException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.BaseResilientExchangeService;
 import si.mazi.rescu.ParamsDigest;
 
-public class CoinbaseProBaseService extends BaseExchangeService implements BaseService {
+public class CoinbaseProBaseService extends BaseResilientExchangeService<CoinbaseProExchange> {
 
   protected final CoinbasePro coinbasePro;
   protected final ParamsDigest digest;
@@ -20,9 +20,10 @@ public class CoinbaseProBaseService extends BaseExchangeService implements BaseS
   protected final String apiKey;
   protected final String passphrase;
 
-  protected CoinbaseProBaseService(Exchange exchange) {
+  protected CoinbaseProBaseService(
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
 
-    super(exchange);
+    super(exchange, resilienceRegistries);
     coinbasePro =
         ExchangeRestProxyBuilder.forInterface(
                 CoinbasePro.class, exchange.getExchangeSpecification())

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
@@ -59,21 +58,19 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsServiceTest {
       BtcMarketsAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
   }
-  
-  @Test 
+
+  @Test
   public void shouldGetTrades() throws IOException {
-	  
-	  List<BTCMarketsTrade> tradesMock = Arrays.asList(parse(BTCMarketsTrade[].class, "v3"));
-	  
-	  when(btcMarkets.getTrades("BTC-AUD")).thenReturn(tradesMock);
-	  
-	  List<BTCMarketsTrade> trades = btcMarkets.getTrades("BTC-AUD");
 
-	  assertThat(trades).hasSize(2);
-	  for (int i =0; i < trades.size(); i++) {
-		  BtcMarketsAssert.assertEquals(trades.get(i), EXCPECTED_BTC_AUD_MARKET_TRADES.get(i));
-		 
-	  }
+    List<BTCMarketsTrade> tradesMock = Arrays.asList(parse(BTCMarketsTrade[].class, "v3"));
+
+    when(btcMarkets.getTrades("BTC-AUD")).thenReturn(tradesMock);
+
+    List<BTCMarketsTrade> trades = btcMarkets.getTrades("BTC-AUD");
+
+    assertThat(trades).hasSize(2);
+    for (int i = 0; i < trades.size(); i++) {
+      BtcMarketsAssert.assertEquals(trades.get(i), EXCPECTED_BTC_AUD_MARKET_TRADES.get(i));
+    }
   }
-
 }

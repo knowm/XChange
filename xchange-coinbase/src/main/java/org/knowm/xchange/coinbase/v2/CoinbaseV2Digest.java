@@ -20,7 +20,7 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
     final String pathWithQueryString =
-            restInvocation.getInvocationUrl().replace(restInvocation.getBaseUrl(), "");
+        restInvocation.getInvocationUrl().replace(restInvocation.getBaseUrl(), "");
     final String timestamp =
         restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
     final String message = timestamp + restInvocation.getHttpMethod() + pathWithQueryString;

@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.binance;
 
+import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,6 +14,14 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -28,17 +38,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.RateLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
-
-import static info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper.getObjectMapper;
 
 public class BinanceStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOG =
@@ -83,29 +82,35 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return orderbookSubscriptions.computeIfAbsent(currencyPair, this::initOrderBookIfAbsent);
   }
 
   private Observable<OrderBook> initOrderBookIfAbsent(CurrencyPair currencyPair) {
-    orderBookRawUpdatesSubscriptions.computeIfAbsent(currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
+    orderBookRawUpdatesSubscriptions.computeIfAbsent(
+        currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
     return createOrderBookObservable(currencyPair);
   }
 
   public Observable<BinanceTicker24h> getRawTicker(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getTicker().contains(currencyPair)) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getTicker().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return tickerSubscriptions.computeIfAbsent(currencyPair, s -> triggerObservableBody(rawTickerStream(currencyPair)).share());
+    return tickerSubscriptions.computeIfAbsent(
+        currencyPair, s -> triggerObservableBody(rawTickerStream(currencyPair)).share());
   }
 
   public Observable<BinanceRawTrade> getRawTrades(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getTrades().contains(currencyPair)) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getTrades().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
-    return tradeSubscriptions.computeIfAbsent(currencyPair, s -> triggerObservableBody(rawTradeStream(currencyPair)).share());
+    return tradeSubscriptions.computeIfAbsent(
+        currencyPair, s -> triggerObservableBody(rawTradeStream(currencyPair)).share());
   }
 
   /**
@@ -117,7 +122,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    */
   public Observable<OrderBookUpdate> getOrderBookUpdates(
       CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled() && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
       throw new UpFrontSubscriptionRequiredException();
     }
     return orderBookUpdatesSubscriptions.computeIfAbsent(
@@ -125,7 +131,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(CurrencyPair currencyPair) {
-    orderBookRawUpdatesSubscriptions.computeIfAbsent(currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
+    orderBookRawUpdatesSubscriptions.computeIfAbsent(
+        currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
     return createOrderBookUpdatesObservable(currencyPair);
   }
 
@@ -182,17 +189,21 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   /**
-   * Live Unsubscription that should be called in the Observable.doOnDispose(). This is required to stop receiving data from the stream.
-   * This method also clear the subscription from the appropriate map.
+   * Live Unsubscription that should be called in the Observable.doOnDispose(). This is required to
+   * stop receiving data from the stream. This method also clear the subscription from the
+   * appropriate map.
    */
   public void unsubscribe(CurrencyPair currencyPair, BinanceSubscriptionType subscriptionType) {
 
     if (!service.isLiveSubscriptionEnabled()) {
-      throw new UnsupportedOperationException("Unsubscribe not supported for Binance when live Subscription/Unsubscription is disabled. " +
-          "Call BinanceStreamingExchange.enableLiveSubscription() to active it");
+      throw new UnsupportedOperationException(
+          "Unsubscribe not supported for Binance when live Subscription/Unsubscription is disabled. "
+              + "Call BinanceStreamingExchange.enableLiveSubscription() to active it");
     }
-    final String channelId = String.join("", currencyPair.toString().split("/")).toLowerCase()
-        + "@" + subscriptionType.getType();
+    final String channelId =
+        String.join("", currencyPair.toString().split("/")).toLowerCase()
+            + "@"
+            + subscriptionType.getType();
     this.service.unsubscribeChannel(channelId);
 
     switch (subscriptionType) {
@@ -229,7 +240,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private Observable<BinanceTicker24h> rawTickerStream(CurrencyPair currencyPair) {
     return service
-        .subscribeChannel(channelFromCurrency(currencyPair, BinanceSubscriptionType.TICKER.getType()))
+        .subscribeChannel(
+            channelFromCurrency(currencyPair, BinanceSubscriptionType.TICKER.getType()))
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
@@ -300,7 +312,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
       CurrencyPair currencyPair) {
     return service
-        .subscribeChannel(channelFromCurrency(currencyPair,  BinanceSubscriptionType.DEPTH.getType()))
+        .subscribeChannel(
+            channelFromCurrency(currencyPair, BinanceSubscriptionType.DEPTH.getType()))
         .map(
             it ->
                 this.<DepthBinanceWebSocketTransaction>readTransaction(
@@ -380,7 +393,8 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   private Observable<BinanceRawTrade> rawTradeStream(CurrencyPair currencyPair) {
     return service
-        .subscribeChannel(channelFromCurrency(currencyPair, BinanceSubscriptionType.TRADE.getType()))
+        .subscribeChannel(
+            channelFromCurrency(currencyPair, BinanceSubscriptionType.TRADE.getType()))
         .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
         .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
         .map(transaction -> transaction.getData().getRawTrade());

@@ -201,9 +201,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
     return Stream.of(
-            buildSubscriptionStrings(subscription.getTicker(), BinanceSubscriptionType.TICKER.getType()),
-            buildSubscriptionStrings(subscription.getOrderBook(),  BinanceSubscriptionType.DEPTH.getType()),
-            buildSubscriptionStrings(subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
+            buildSubscriptionStrings(
+                subscription.getTicker(), BinanceSubscriptionType.TICKER.getType()),
+            buildSubscriptionStrings(
+                subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
+            buildSubscriptionStrings(
+                subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
         .filter(s -> !s.isEmpty())
         .collect(Collectors.joining("/"));
   }
@@ -233,7 +236,8 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
   public void enableLiveSubscription() {
     if (this.streamingService == null) {
-      throw new UnsupportedOperationException("You must connect to streams before enabling live subscription.");
+      throw new UnsupportedOperationException(
+          "You must connect to streams before enabling live subscription.");
     }
     this.streamingService.enableLiveSubscription();
   }
@@ -241,5 +245,4 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   public void disableLiveSubscription() {
     if (this.streamingService != null) this.streamingService.disableLiveSubscription();
   }
-
 }

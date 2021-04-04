@@ -128,13 +128,12 @@ public class BtcMarketsAssert {
     assertThat(o1.toString()).isEqualTo(o2.toString());
   }
 
-public static void assertEquals(BTCMarketsTrade o1, BTCMarketsTrade o2) {
-	 assertThat(o1.getId()).isEqualTo(o2.getId());
-	    assertThat(o1.getAmount()).isEqualTo(o2.getAmount());
-	    assertThat(o1.getSide()).isEqualTo(o2.getSide());
-	    assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
-	    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
-	    assertThat(o1.toString()).isEqualTo(o2.toString());
-	
-}
+  public static void assertEquals(BTCMarketsTrade o1, BTCMarketsTrade o2) {
+    assertThat(o1.getId()).isEqualTo(o2.getId());
+    assertThat(o1.getAmount()).isEqualTo(o2.getAmount());
+    assertThat(o1.getSide()).isEqualTo(o2.getSide());
+    assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
+    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
+    assertThat(o1.toString()).isEqualTo(o2.toString());
+  }
 }

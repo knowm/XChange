@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
 import org.knowm.xchange.coinmate.dto.marketdata.*;
@@ -41,10 +42,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 /** @author Martin Stachon */
@@ -323,6 +321,27 @@ public class CoinmateAdapters {
     }
 
     return ordersList;
+  }
+
+  public static List<Order> adaptStopOrders(CoinmateOpenOrders coinmateOpenOrders)
+      throws CoinmateException {
+
+    return coinmateOpenOrders.getData().stream()
+        .filter(entry -> "LIMIT_STOP".equals(entry.getOrderTradeType()))
+        .map(
+            entry ->
+                new StopOrder(
+                    "SELL".equals(entry.getType()) ? Order.OrderType.ASK : Order.OrderType.BID,
+                    entry.getAmount(),
+                    CoinmateUtils.getPair(entry.getCurrencyPair()),
+                    Long.toString(entry.getId()),
+                    new Date(entry.getTimestamp()),
+                    entry.getStopPrice(),
+                    entry.getPrice(),
+                    null,
+                    null,
+                    null))
+        .collect(Collectors.toList());
   }
 
   public static String adaptSortOrder(TradeHistoryParamsSorted.Order order) {

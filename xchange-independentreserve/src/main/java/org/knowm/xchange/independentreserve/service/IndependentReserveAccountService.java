@@ -3,7 +3,6 @@ package org.knowm.xchange.independentreserve.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -128,9 +127,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
 
   @Override
   public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    return super.getBrokerageFees().getIndependentReserveBrokerageFees()
-            .stream()
-            .collect(Collectors.toMap(IndependentReserveAdapters::adaptBrokerageCurrencyPair, IndependentReserveAdapters::adaptBrokerageFee));
+    return super.getBrokerageFees().getIndependentReserveBrokerageFees().stream()
+        .collect(
+            Collectors.toMap(
+                IndependentReserveAdapters::adaptBrokerageCurrencyPair,
+                IndependentReserveAdapters::adaptBrokerageFee));
   }
 
   public static class IndependentReserveTradeHistoryParams extends DefaultTradeHistoryParamPaging

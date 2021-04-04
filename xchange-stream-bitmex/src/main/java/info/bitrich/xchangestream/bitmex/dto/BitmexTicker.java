@@ -1,9 +1,8 @@
 package info.bitrich.xchangestream.bitmex.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.dto.marketdata.Ticker;
-
 import java.math.BigDecimal;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 /** Created by Lukas Zaoralek on 13.11.17. */
 public class BitmexTicker extends BitmexMarketDataEvent {

@@ -2,9 +2,12 @@ package org.knowm.xchange.client;
 
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.retry.Retry;
+import io.vavr.control.Either;
 import java.io.IOException;
 import java.util.concurrent.Callable;
+import javax.ws.rs.core.Response;
 import org.knowm.xchange.ExchangeSpecification;
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public final class ResilienceUtils {
 
@@ -14,6 +17,17 @@ public final class ResilienceUtils {
       ExchangeSpecification.ResilienceSpecification resilienceSpecification,
       CallableApi<T> callable) {
     return new DecorateCallableApi<>(resilienceSpecification, callable);
+  }
+
+  /** Function which can be used check if a particular HTTP status code was returned */
+  public static boolean matchesHttpCode(
+      final Either<? extends Throwable, ?> e, final Response.Status status) {
+    if (e.isRight()) {
+      return false;
+    }
+    final Throwable throwable = e.getLeft();
+    return throwable instanceof HttpStatusExceptionSupport
+        && ((HttpStatusExceptionSupport) throwable).getHttpStatusCode() == status.getStatusCode();
   }
 
   public interface CallableApi<T> extends Callable<T> {

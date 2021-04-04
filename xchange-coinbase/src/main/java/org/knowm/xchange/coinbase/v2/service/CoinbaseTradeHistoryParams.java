@@ -4,7 +4,8 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 
-public class CoinbaseTradeHistoryParams implements TradeHistoryParamsIdSpan, TradeHistoryParamLimit {
+public class CoinbaseTradeHistoryParams
+    implements TradeHistoryParamsIdSpan, TradeHistoryParamLimit {
 
   private String startId;
   private Integer limit;
@@ -38,5 +39,4 @@ public class CoinbaseTradeHistoryParams implements TradeHistoryParamsIdSpan, Tra
   public void setEndId(String endId) {
     throw new NotAvailableFromExchangeException("Coinbase does not support ending transaction ID.");
   }
-
 }
