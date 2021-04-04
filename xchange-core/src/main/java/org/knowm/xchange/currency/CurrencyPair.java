@@ -383,6 +383,14 @@ public class CurrencyPair extends Instrument implements Comparable<CurrencyPair>
   public static final CurrencyPair LINK_BTC = new CurrencyPair(Currency.LINK, Currency.BTC);
   public static final CurrencyPair LINK_ETH = new CurrencyPair(Currency.LINK, Currency.ETH);
 
+  // dydx Exchange Spot and Perpetual Pairs
+  public static final CurrencyPair WETH_USDC = new CurrencyPair(Currency.WETH, Currency.USDC);
+  public static final CurrencyPair WETH_DAI = new CurrencyPair(Currency.WETH, Currency.DAI);
+  public static final CurrencyPair DAI_USDC = new CurrencyPair(Currency.DAI, Currency.USDC);
+  public static final CurrencyPair PBTC_USDC = new CurrencyPair(Currency.PBTC, Currency.USDC);
+  public static final CurrencyPair WETH_PUSD = new CurrencyPair(Currency.WETH, Currency.PUSD);
+  public static final CurrencyPair PLINK_USDC = new CurrencyPair(Currency.PLINK, Currency.USDC);
+
   public final Currency base;
 
   public final Currency counter;

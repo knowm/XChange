@@ -36,10 +36,14 @@ public class FtxSubmitLendingOfferParams {
 
   @Override
   public String toString() {
-    return "FtxSubmitLendingOfferParams{" +
-        "coin='" + coin + '\'' +
-        ", size=" + size +
-        ", rate=" + rate +
-        '}';
+    return "FtxSubmitLendingOfferParams{"
+        + "coin='"
+        + coin
+        + '\''
+        + ", size="
+        + size
+        + ", rate="
+        + rate
+        + '}';
   }
 }

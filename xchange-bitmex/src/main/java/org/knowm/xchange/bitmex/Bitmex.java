@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmex;
 
 import java.io.IOException;
 import java.util.Date;
-
 import javax.annotation.Nullable;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

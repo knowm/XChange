@@ -299,13 +299,17 @@ public class IndependentReserveAdapters {
         transaction.getComment());
   }
 
-  public static CurrencyPair adaptBrokerageCurrencyPair(IndependentReserveBrokerageFee independentReserveBrokerageFee) {
+  public static CurrencyPair adaptBrokerageCurrencyPair(
+      IndependentReserveBrokerageFee independentReserveBrokerageFee) {
     // counter currency is unknown at this stage. It depends on how your account is setup.
-    return new CurrencyPair(Currency.getInstance(independentReserveBrokerageFee.getCurrencyCode()), null);
+    return new CurrencyPair(
+        Currency.getInstance(independentReserveBrokerageFee.getCurrencyCode()), null);
   }
 
-  public static Fee adaptBrokerageFee(IndependentReserveBrokerageFee independentReserveBrokerageFee) {
+  public static Fee adaptBrokerageFee(
+      IndependentReserveBrokerageFee independentReserveBrokerageFee) {
     // for IR the market maker and maker taker fee is the same.
-    return new Fee(independentReserveBrokerageFee.getFee(), independentReserveBrokerageFee.getFee());
+    return new Fee(
+        independentReserveBrokerageFee.getFee(), independentReserveBrokerageFee.getFee());
   }
 }

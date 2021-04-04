@@ -32,7 +32,8 @@ public interface FtxAuthenticated extends Ftx {
   FtxResponse<List<FtxWalletBalanceDto>> getWalletBalances(
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature)
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
       throws IOException, FtxException;
 
   @GET
@@ -192,23 +193,23 @@ public interface FtxAuthenticated extends Ftx {
   @GET
   @Path("/spot_margin/borrow_history")
   FtxResponse<List<FtxBorrowingHistoryDto>> getBorrowHistory(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      throws IOException, FtxException;
 
   @GET
   @Path("/funding_payments")
   FtxResponse<List<FtxFundingPaymentsDto>> getFundingPayments(
-          @HeaderParam("FTX-KEY") String apiKey,
-          @HeaderParam("FTX-TS") Long nonce,
-          @HeaderParam("FTX-SIGN") ParamsDigest signature,
-          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-          @QueryParam("start_time") Long startTime,
-          @QueryParam("end_time") Long endTime,
-          @QueryParam("future") String future)
-          throws IOException, FtxException;
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("start_time") Long startTime,
+      @QueryParam("end_time") Long endTime,
+      @QueryParam("future") String future)
+      throws IOException, FtxException;
 
   @GET
   @Path("/spot_margin/lending_info")

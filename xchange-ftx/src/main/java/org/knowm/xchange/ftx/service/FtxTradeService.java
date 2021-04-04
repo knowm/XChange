@@ -15,7 +15,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
+import org.knowm.xchange.service.trade.params.CurrencyPairParam;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamInstrument;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class FtxTradeService extends FtxTradeServiceRaw implements TradeService {
@@ -26,14 +31,24 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeNewFtxOrder(null, FtxAdapters.adaptMarketOrderToFtxOrderPayload(marketOrder))
+    return placeMarketOrderForSubaccount(null, marketOrder);
+  }
+
+  public String placeMarketOrderForSubaccount(String subaccount, MarketOrder marketOrder)
+      throws IOException {
+    return placeNewFtxOrder(subaccount, FtxAdapters.adaptMarketOrderToFtxOrderPayload(marketOrder))
         .getResult()
         .getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeNewFtxOrder(null, FtxAdapters.adaptLimitOrderToFtxOrderPayload(limitOrder))
+    return placeLimitOrderForSubaccount(null, limitOrder);
+  }
+
+  public String placeLimitOrderForSubaccount(String subaccount, LimitOrder limitOrder)
+      throws IOException {
+    return placeNewFtxOrder(subaccount, FtxAdapters.adaptLimitOrderToFtxOrderPayload(limitOrder))
         .getResult()
         .getId();
   }
@@ -78,8 +93,16 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
+    return getOrderFromSubaccount(null, orderIds);
+  }
+
+  public Collection<Order> getOrderFromSubaccount(String subaccount, String... orderIds)
+      throws IOException {
     List<Order> orderList = new ArrayList<>();
-    orderList.add(FtxAdapters.adaptLimitOrder(getFtxOrderStatus(orderIds[0]).getResult()));
+    for (String orderId : orderIds) {
+      Order order = FtxAdapters.adaptLimitOrder(getFtxOrderStatus(subaccount, orderId).getResult());
+      orderList.add(order);
+    }
     return orderList;
   }
 

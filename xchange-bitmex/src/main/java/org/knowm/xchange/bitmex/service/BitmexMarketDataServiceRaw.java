@@ -2,7 +2,6 @@ package org.knowm.xchange.bitmex.service;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -103,8 +102,18 @@ public class BitmexMarketDataServiceRaw extends BitmexBaseService {
         () -> bitmex.getBucketedTrades(binSize, partial, bitmexSymbol, count, reverse));
   }
 
-  public BitmexFundingList getFundingHistory(String symbol, String filter, String columns, Integer count, Long start, Boolean reverse, Date startTime, Date endTime) {
+  public BitmexFundingList getFundingHistory(
+      String symbol,
+      String filter,
+      String columns,
+      Integer count,
+      Long start,
+      Boolean reverse,
+      Date startTime,
+      Date endTime) {
     return updateRateLimit(
-        () -> bitmex.getFundingHistory(symbol, filter, columns, count, start, reverse, startTime, endTime));
+        () ->
+            bitmex.getFundingHistory(
+                symbol, filter, columns, count, start, reverse, startTime, endTime));
   }
 }

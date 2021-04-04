@@ -119,7 +119,6 @@ public interface IndependentReserveAuthenticated {
   @Path(GetBrokerageFees)
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveBrokerageFeeResponse getBrokerageFees(
-          IndependentReserveBrokerageFeeRequest independentReserveBrokerageFeeRequest)
-          throws IndependentReserveHttpStatusException, IOException;
-
+      IndependentReserveBrokerageFeeRequest independentReserveBrokerageFeeRequest)
+      throws IndependentReserveHttpStatusException, IOException;
 }

@@ -40,8 +40,7 @@ public class HuobiAssetPair {
       @JsonProperty("sell-market-min-order-amt") BigDecimal sellMarketMinOrderAmt,
       @JsonProperty("sell-market-max-order-amt") BigDecimal sellMarketMaxOrderAmt,
       @JsonProperty("buy-market-max-order-value") BigDecimal buyMarketMaxOrderValue,
-      @JsonProperty("api-trading") String apiTrading
-  ) {
+      @JsonProperty("api-trading") String apiTrading) {
     this.baseCurrency = baseCurrency;
     this.quoteCurrency = quoteCurrency;
     this.pricePrecision = pricePrecision;
@@ -135,25 +134,47 @@ public class HuobiAssetPair {
 
   @Override
   public String toString() {
-    return "HuobiAssetPair [" +
-            "baseCurrency='" + baseCurrency + '\'' +
-            ", quoteCurrency='" + quoteCurrency + '\'' +
-            ", pricePrecision=" + pricePrecision +
-            ", amountPrecision=" + amountPrecision +
-            ", symbolPartition='" + symbolPartition + '\'' +
-            ", symbol='" + symbol + '\'' +
-            ", state='" + state + '\'' +
-            ", valuePrecision=" + valuePrecision +
-            ", minOrderAmount=" + minOrderAmount +
-            ", maxOrderAmount=" + maxOrderAmount +
-            ", minOrderValue=" + minOrderValue +
-            ", limitOrderMinOrderAmt=" + limitOrderMinOrderAmt +
-            ", limitOrderMaxOrderAmt=" + limitOrderMaxOrderAmt +
-            ", sellMarketMinOrderAmt=" + sellMarketMinOrderAmt +
-            ", sellMarketMaxOrderAmt=" + sellMarketMaxOrderAmt +
-            ", buyMarketMaxOrderValue=" + buyMarketMaxOrderValue +
-            ", apiTrading='" + apiTrading + '\'' +
-            ']';
+    return "HuobiAssetPair ["
+        + "baseCurrency='"
+        + baseCurrency
+        + '\''
+        + ", quoteCurrency='"
+        + quoteCurrency
+        + '\''
+        + ", pricePrecision="
+        + pricePrecision
+        + ", amountPrecision="
+        + amountPrecision
+        + ", symbolPartition='"
+        + symbolPartition
+        + '\''
+        + ", symbol='"
+        + symbol
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", valuePrecision="
+        + valuePrecision
+        + ", minOrderAmount="
+        + minOrderAmount
+        + ", maxOrderAmount="
+        + maxOrderAmount
+        + ", minOrderValue="
+        + minOrderValue
+        + ", limitOrderMinOrderAmt="
+        + limitOrderMinOrderAmt
+        + ", limitOrderMaxOrderAmt="
+        + limitOrderMaxOrderAmt
+        + ", sellMarketMinOrderAmt="
+        + sellMarketMinOrderAmt
+        + ", sellMarketMaxOrderAmt="
+        + sellMarketMaxOrderAmt
+        + ", buyMarketMaxOrderValue="
+        + buyMarketMaxOrderValue
+        + ", apiTrading='"
+        + apiTrading
+        + '\''
+        + ']';
   }
-
 }

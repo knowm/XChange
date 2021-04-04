@@ -1,5 +1,7 @@
 package org.knowm.xchange.coinbasepro.service;
 
+import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
+
 import java.io.IOException;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
@@ -13,34 +15,28 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
 
-import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
-
 public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
 
   public CoinbaseProTradeServiceRaw(
-          CoinbaseProExchange exchange,
-          ResilienceRegistries resilienceRegistries) {
+      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
     super(exchange, resilienceRegistries);
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#list-orders
-   */
+  /** https://docs.pro.coinbase.com/#list-orders */
   public CoinbaseProOrder[] getCoinbaseProOpenOrders() throws IOException {
     try {
-      return decorateApiCall(() ->
-              coinbasePro.getListOrders(
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getListOrders(
                       apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#fills
-   */
+  /** https://docs.pro.coinbase.com/#fills */
   public CoinbaseProFill[] getCoinbaseProFills(TradeHistoryParams tradeHistoryParams)
       throws IOException {
 
@@ -93,63 +89,69 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
     }
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#place-a-new-order
-   */
+  /** https://docs.pro.coinbase.com/#place-a-new-order */
   public CoinbaseProIdResponse placeCoinbaseProOrder(CoinbaseProPlaceOrder order)
       throws IOException {
     try {
-      return decorateApiCall(() ->
-              coinbasePro.placeOrder(
-                      order, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+      return decorateApiCall(
+              () ->
+                  coinbasePro.placeOrder(
+                      order,
+                      apiKey,
+                      digest,
+                      UnixTimestampFactory.INSTANCE.createValue(),
+                      passphrase))
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#cancel-an-order
-   */
+  /** https://docs.pro.coinbase.com/#cancel-an-order */
   public boolean cancelCoinbaseProOrder(String id) throws IOException {
     try {
 
-      return decorateApiCall(() -> {
-        coinbasePro.cancelOrder(id, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
-        return true;
-      }).withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+      return decorateApiCall(
+              () -> {
+                coinbasePro.cancelOrder(
+                    id, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
+                return true;
+              })
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#get-an-order
-   */
+  /** https://docs.pro.coinbase.com/#get-an-order */
   public CoinbaseProOrder getOrder(String id) throws IOException {
     try {
-      return decorateApiCall(() ->
-              coinbasePro.getOrder(
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getOrder(
                       id, apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
   }
 
-  /**
-   * https://docs.pro.coinbase.com/#list-orders
-   */
+  /** https://docs.pro.coinbase.com/#list-orders */
   public CoinbaseProOrder[] getOrders(String status) throws IOException {
     try {
-      return decorateApiCall(() ->
-              coinbasePro.getListOrders(
-                      apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, status))
-              .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-              .call();
+      return decorateApiCall(
+              () ->
+                  coinbasePro.getListOrders(
+                      apiKey,
+                      digest,
+                      UnixTimestampFactory.INSTANCE.createValue(),
+                      passphrase,
+                      status))
+          .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
+          .call();
     } catch (CoinbaseProException e) {
       throw handleError(e);
     }
