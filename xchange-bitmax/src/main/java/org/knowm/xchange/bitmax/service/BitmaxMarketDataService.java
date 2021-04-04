@@ -4,6 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmax.BitmaxAdapters;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 
@@ -18,5 +19,10 @@ public class BitmaxMarketDataService extends BitmaxMarketDataServiceRaw implemen
     @Override
     public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
         return BitmaxAdapters.adaptOrderBook(getBitmaxOrderbook(currencyPair.toString()));
+    }
+
+    @Override
+    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+        return BitmaxAdapters.adaptTrades(getBitmaxTrades(currencyPair.toString()));
     }
 }

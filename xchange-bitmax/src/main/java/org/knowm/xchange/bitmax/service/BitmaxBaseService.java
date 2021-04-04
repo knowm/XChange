@@ -3,8 +3,8 @@ package org.knowm.xchange.bitmax.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitmax.BitmaxException;
+import org.knowm.xchange.bitmax.IBitmax;
 import org.knowm.xchange.bitmax.IBitmaxAuthenticated;
-import org.knowm.xchange.bitmax.IBitmaxAuthenticatedWithAccountGroup;
 import org.knowm.xchange.bitmax.dto.BitmaxResponse;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -21,8 +21,8 @@ import java.io.IOException;
  */
 public class BitmaxBaseService extends BaseExchangeService implements BaseService {
 
-  protected IBitmaxAuthenticated bitmax;
-  protected IBitmaxAuthenticatedWithAccountGroup bitmaxWithAccountGroup;
+  protected IBitmax bitmax;
+  protected IBitmaxAuthenticated bitmaxAuthenticated;
   protected ParamsDigest signatureCreator;
 
   private static final Logger LOG = LoggerFactory.getLogger(BitmaxBaseService.class);
@@ -31,7 +31,7 @@ public class BitmaxBaseService extends BaseExchangeService implements BaseServic
     super(exchange);
     bitmax =
         ExchangeRestProxyBuilder.forInterface(
-                IBitmaxAuthenticated.class, exchange.getExchangeSpecification())
+                IBitmax.class, exchange.getExchangeSpecification())
             .build();
     if(exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("account-group")){
       ExchangeSpecification specWithAccountGroup = exchange.getDefaultExchangeSpecification();
@@ -39,9 +39,9 @@ public class BitmaxBaseService extends BaseExchangeService implements BaseServic
               exchange.getExchangeSpecification().getSslUri()
                       + exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group")
                       + "/");
-      bitmaxWithAccountGroup =
+      bitmaxAuthenticated =
               ExchangeRestProxyBuilder.forInterface(
-                      IBitmaxAuthenticatedWithAccountGroup.class, specWithAccountGroup)
+                      IBitmaxAuthenticated.class, specWithAccountGroup)
                       .build();
     }else {
       LOG.warn("Authenticated endpoints will not work because no 'account-group' specificParameter has been found.");

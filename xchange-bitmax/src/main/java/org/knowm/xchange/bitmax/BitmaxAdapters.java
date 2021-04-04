@@ -2,6 +2,7 @@ package org.knowm.xchange.bitmax;
 
 import org.knowm.xchange.bitmax.dto.account.BitmaxCashAccountBalanceDto;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxAssetDto;
+import org.knowm.xchange.bitmax.dto.marketdata.BitmaxMarketTradesDto;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxOrderbookDto;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxProductDto;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxFlags;
@@ -14,6 +15,7 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -182,4 +184,21 @@ public class BitmaxAdapters {
         }
     }
 
+    public static Trades adaptTrades(BitmaxMarketTradesDto marketTradesDto) {
+        List<Trade> trades = new ArrayList<>();
+
+        marketTradesDto.getData().forEach(bitmaxMarketTradesData -> {
+            trades.add(new Trade.Builder()
+                    .price(bitmaxMarketTradesData.getPrice())
+                    .originalAmount(bitmaxMarketTradesData.getQuantity())
+                    .timestamp(bitmaxMarketTradesData.getTimestamp())
+                    .instrument(new CurrencyPair(marketTradesDto.getSymbol()))
+                    .type(bitmaxMarketTradesData.isBuyerMaker()
+                            ? Order.OrderType.ASK
+                            : Order.OrderType.BID)
+                    .build());
+        });
+
+        return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+    }
 }

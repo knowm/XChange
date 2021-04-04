@@ -2,6 +2,7 @@ package org.knowm.xchange.bitmax;
 
 import org.knowm.xchange.bitmax.dto.BitmaxResponse;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxAssetDto;
+import org.knowm.xchange.bitmax.dto.marketdata.BitmaxMarketTradesDto;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxOrderbookDto;
 import org.knowm.xchange.bitmax.dto.marketdata.BitmaxProductDto;
 
@@ -28,6 +29,10 @@ public interface IBitmax {
     @GET
     @Path("/depth")
     BitmaxResponse<BitmaxOrderbookDto> getOrderbookDepth(
-            @QueryParam("symbol") String symbol
-    ) throws IOException;
+            @QueryParam("symbol") String symbol) throws IOException;
+
+    @GET
+    @Path("/trades")
+    BitmaxResponse<BitmaxMarketTradesDto> getTrades(
+            @QueryParam("symbol") String symbol) throws IOException;
 }

@@ -15,7 +15,7 @@ public class BitmaxAccountServiceRaw extends BitmaxBaseService{
 
     public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance() throws BitmaxException, IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.getCashAccountBalance(
+            return checkResult(bitmaxAuthenticated.getCashAccountBalance(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator

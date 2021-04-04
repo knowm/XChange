@@ -9,7 +9,6 @@ import org.knowm.xchange.bitmax.dto.trade.BitmaxPlaceOrderRequestPayload;
 import org.knowm.xchange.bitmax.dto.trade.BitmaxOrderResponse;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 public class BitmaxTradeServiceRaw extends BitmaxBaseService{
@@ -20,7 +19,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public BitmaxOrderResponse placeBitmaxOrder(BitmaxPlaceOrderRequestPayload payload) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.placeOrder(
+            return checkResult(bitmaxAuthenticated.placeOrder(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
@@ -35,7 +34,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
     public BitmaxOrderResponse cancelBitmaxOrder(BitmaxCancelOrderRequestPayload payload) throws BitmaxException,IOException {
         try{
       return checkResult(
-          bitmaxWithAccountGroup.cancelOrder(
+          bitmaxAuthenticated.cancelOrder(
               exchange.getExchangeSpecification().getApiKey(),
               exchange.getNonceFactory().createValue(),
               signatureCreator,
@@ -50,7 +49,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public BitmaxOrderResponse cancelAllBitmaxOrdersBySymbol(String symbol) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.cancelAllOrders(
+            return checkResult(bitmaxAuthenticated.cancelAllOrders(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
@@ -64,7 +63,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public List<BitmaxOpenOrdersResponse> getBitmaxOpenOrders(String symbol) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.getOpenOrders(
+            return checkResult(bitmaxAuthenticated.getOpenOrders(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
@@ -78,7 +77,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public BitmaxOpenOrdersResponse getBitmaxOrderById(String orderId) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.getOrderById(
+            return checkResult(bitmaxAuthenticated.getOrderById(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
@@ -92,7 +91,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService{
 
     public List<BitmaxOpenOrdersResponse> getBitmaxUserTrades(String symbol) throws BitmaxException,IOException {
         try{
-            return checkResult(bitmaxWithAccountGroup.getOrdersHistory(
+            return checkResult(bitmaxAuthenticated.getOrdersHistory(
                     exchange.getExchangeSpecification().getApiKey(),
                     exchange.getNonceFactory().createValue(),
                     signatureCreator,
