@@ -1,5 +1,11 @@
 package org.knowm.xchange.bitfinex.service;
 
+import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
@@ -46,13 +52,6 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -288,8 +287,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
             String.valueOf(exchange.getNonceFactory().createValue()), bitfinexOrders);
     return decorateApiCall(
             () -> bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public BitfinexOfferStatusResponse placeBitfinexFixedRateLoanOrder(
@@ -297,19 +296,19 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
     return decorateApiCall(
             () ->
-                    bitfinex.newOffer(
-                            apiKey,
-                            payloadCreator,
-                            signatureCreator,
-                            new BitfinexNewOfferRequest(
-                                    String.valueOf(exchange.getNonceFactory().createValue()),
-                                    loanOrder.getCurrency(),
-                                    loanOrder.getOriginalAmount(),
-                                    loanOrder.getRate(),
-                                    loanOrder.getDayPeriod(),
-                                    direction)))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+                bitfinex.newOffer(
+                    apiKey,
+                    payloadCreator,
+                    signatureCreator,
+                    new BitfinexNewOfferRequest(
+                        String.valueOf(exchange.getNonceFactory().createValue()),
+                        loanOrder.getCurrency(),
+                        loanOrder.getOriginalAmount(),
+                        loanOrder.getRate(),
+                        loanOrder.getDayPeriod(),
+                        direction)))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(
@@ -319,19 +318,19 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
     return decorateApiCall(
             () ->
-                    bitfinex.newOffer(
-                            apiKey,
-                            payloadCreator,
-                            signatureCreator,
-                            new BitfinexNewOfferRequest(
-                                    String.valueOf(exchange.getNonceFactory().createValue()),
-                                    loanOrder.getCurrency(),
-                                    loanOrder.getOriginalAmount(),
-                                    new BigDecimal("0.0"),
-                                    loanOrder.getDayPeriod(),
-                                    direction)))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+                bitfinex.newOffer(
+                    apiKey,
+                    payloadCreator,
+                    signatureCreator,
+                    new BitfinexNewOfferRequest(
+                        String.valueOf(exchange.getNonceFactory().createValue()),
+                        loanOrder.getCurrency(),
+                        loanOrder.getOriginalAmount(),
+                        new BigDecimal("0.0"),
+                        loanOrder.getDayPeriod(),
+                        direction)))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public boolean cancelBitfinexOrder(String orderId) throws IOException {

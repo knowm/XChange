@@ -52,15 +52,15 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     try {
       return decorateApiCall(
               () ->
-                      bitfinex.tradingFees(
-                              apiKey,
-                              payloadCreator,
-                              signatureCreator,
-                              new BitfinexTradingFeesRequest(
-                                      String.valueOf(exchange.getNonceFactory().createValue()))))
-              .withRetry(retry("account-tradingFees"))
-              .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-              .call();
+                  bitfinex.tradingFees(
+                      apiKey,
+                      payloadCreator,
+                      signatureCreator,
+                      new BitfinexTradingFeesRequest(
+                          String.valueOf(exchange.getNonceFactory().createValue()))))
+          .withRetry(retry("account-tradingFees"))
+          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+          .call();
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
     }
@@ -69,29 +69,29 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
     return decorateApiCall(
             () ->
-                    bitfinex.balances(
-                            apiKey,
-                            payloadCreator,
-                            signatureCreator,
-                            new BitfinexBalancesRequest(
-                                    String.valueOf(exchange.getNonceFactory().createValue()))))
-            .withRetry(retry("account-accountInfo"))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+                bitfinex.balances(
+                    apiKey,
+                    payloadCreator,
+                    signatureCreator,
+                    new BitfinexBalancesRequest(
+                        String.valueOf(exchange.getNonceFactory().createValue()))))
+        .withRetry(retry("account-accountInfo"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
     return decorateApiCall(
             () ->
-                    bitfinex.marginInfos(
-                            apiKey,
-                            payloadCreator,
-                            signatureCreator,
-                            new BitfinexMarginInfosRequest(
-                                    String.valueOf(exchange.getNonceFactory().createValue()))))
-            .withRetry(retry("account-marginInfo"))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+                bitfinex.marginInfos(
+                    apiKey,
+                    payloadCreator,
+                    signatureCreator,
+                    new BitfinexMarginInfosRequest(
+                        String.valueOf(exchange.getNonceFactory().createValue()))))
+        .withRetry(retry("account-marginInfo"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(
@@ -193,18 +193,18 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     final String finalType = type;
     return decorateApiCall(
             () ->
-                    bitfinex.requestDeposit(
-                            apiKey,
-                            payloadCreator,
-                            signatureCreator,
-                            new BitfinexDepositAddressRequest(
-                                    String.valueOf(exchange.getNonceFactory().createValue()),
-                                    finalType,
-                                    "exchange",
-                                    0)))
-            .withRetry(retry("account-depositAddress"))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+                bitfinex.requestDeposit(
+                    apiKey,
+                    payloadCreator,
+                    signatureCreator,
+                    new BitfinexDepositAddressRequest(
+                        String.valueOf(exchange.getNonceFactory().createValue()),
+                        finalType,
+                        "exchange",
+                        0)))
+        .withRetry(retry("account-depositAddress"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public BitfinexAccountFeesResponse getAccountFees() throws IOException {
