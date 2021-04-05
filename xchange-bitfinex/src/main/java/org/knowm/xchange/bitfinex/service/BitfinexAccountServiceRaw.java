@@ -149,7 +149,6 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     req.setCurrency(currency);
     BitfinexWithdrawalResponse[] withdrawResponse =
         decorateApiCall(() -> bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, req))
-            .withRetry(retry("account-withdraw"))
             .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
             .call();
     if ("error".equalsIgnoreCase(withdrawResponse[0].getStatus())) {
@@ -202,7 +201,6 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
                         finalType,
                         "exchange",
                         0)))
-        .withRetry(retry("account-depositAddress"))
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
@@ -326,7 +324,6 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
             () ->
                 bitfinexV2.transferBetweenWallets(
                     exchange.getNonceFactory(), apiKey, signatureV2, req))
-        .withRetry(retry("account-wallets"))
         .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
         .call();
   }
