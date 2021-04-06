@@ -1,12 +1,14 @@
 package org.knowm.xchange.bitfinex.service;
 
+import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
@@ -24,6 +26,7 @@ import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTradingOrder;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTradingRawOrder;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BookPrecision;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.Status;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import si.mazi.rescu.HttpStatusIOException;
@@ -42,13 +45,17 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    *
    * @param exchange
    */
-  public BitfinexMarketDataServiceRaw(Exchange exchange) {
-
-    super(exchange);
+  public BitfinexMarketDataServiceRaw(
+      BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
-    BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
+    BitfinexTicker bitfinexTicker =
+        decorateApiCall(() -> bitfinex.getTicker(pair))
+            .withRetry(retry("market-ticker"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     return bitfinexTicker;
   }
 
@@ -56,32 +63,55 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       throws IOException {
     BitfinexDepth bitfinexDepth;
     if (limitBids == null && limitAsks == null) {
-      bitfinexDepth = bitfinex.getBook(pair);
+      bitfinexDepth =
+          decorateApiCall(() -> bitfinex.getBook(pair))
+              .withRetry(retry("market-book"))
+              .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+              .call();
     } else {
-      bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+      bitfinexDepth =
+          decorateApiCall(() -> bitfinex.getBook(pair, limitBids, limitAsks))
+              .withRetry(retry("market-book"))
+              .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+              .call();
     }
     return bitfinexDepth;
   }
 
   public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks)
       throws IOException {
-    BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
+    BitfinexLendDepth bitfinexLendDepth =
+        decorateApiCall(() -> bitfinex.getLendBook(currency, limitBids, limitAsks))
+            .withRetry(retry("market-lendBook"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     return bitfinexLendDepth;
   }
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
-    BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
+    BitfinexTrade[] bitfinexTrades =
+        decorateApiCall(() -> bitfinex.getTrades(pair, sinceTimestamp))
+            .withRetry(retry("market-trades"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     return bitfinexTrades;
   }
 
   public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades)
       throws IOException {
-    BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
+    BitfinexLend[] bitfinexLends =
+        decorateApiCall(() -> bitfinex.getLends(currency, sinceTimestamp, limitTrades))
+            .withRetry(retry("market-lends"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     return bitfinexLends;
   }
 
   public Collection<String> getBitfinexSymbols() throws IOException {
-    return bitfinex.getSymbols();
+    return decorateApiCall(() -> bitfinex.getSymbols())
+        .withRetry(retry("market-symbols"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
@@ -93,7 +123,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   }
 
   public List<BitfinexSymbolDetail> getSymbolDetails() throws IOException {
-    return bitfinex.getSymbolsDetails();
+    return decorateApiCall(() -> bitfinex.getSymbolsDetails())
+        .withRetry(retry("market-symbolDetail"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   //////// v2
@@ -101,16 +134,27 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] getBitfinexTickers(
       Collection<CurrencyPair> currencyPairs) throws IOException {
     List<ArrayNode> tickers =
-        bitfinexV2.getTickers(BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs));
+        decorateApiCall(
+                () ->
+                    bitfinexV2.getTickers(
+                        BitfinexAdapters.adaptCurrencyPairsToTickersParam(currencyPairs)))
+            .withRetry(retry("market-tickers"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     return BitfinexAdapters.adoptBitfinexTickers(tickers);
   }
 
   public org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker getBitfinexTickerV2(
       CurrencyPair currencyPair) throws IOException {
     List<ArrayNode> tickers =
-        bitfinexV2.getTickers(
-            BitfinexAdapters.adaptCurrencyPairsToTickersParam(
-                Collections.singletonList(currencyPair)));
+        decorateApiCall(
+                () ->
+                    bitfinexV2.getTickers(
+                        BitfinexAdapters.adaptCurrencyPairsToTickersParam(
+                            Collections.singletonList(currencyPair))))
+            .withRetry(retry("market-ticker"))
+            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+            .call();
     org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker[] ticker =
         BitfinexAdapters.adoptBitfinexTickers(tickers);
     if (ticker.length == 0) {
@@ -124,12 +168,17 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       CurrencyPair currencyPair, int limitTrades, long startTimestamp, long endTimestamp, int sort)
       throws IOException {
     try {
-      return bitfinexV2.getPublicTrades(
-          BitfinexAdapters.adaptCurrencyPair(currencyPair),
-          limitTrades,
-          startTimestamp,
-          endTimestamp,
-          sort);
+      return decorateApiCall(
+              () ->
+                  bitfinexV2.getPublicTrades(
+                      BitfinexAdapters.adaptCurrencyPair(currencyPair),
+                      limitTrades,
+                      startTimestamp,
+                      endTimestamp,
+                      sort))
+          .withRetry(retry("market-trades"))
+          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+          .call();
     } catch (HttpStatusIOException e) {
       throw new BitfinexException(e.getHttpBody());
     }
@@ -139,8 +188,13 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       Currency currency, int limitTrades, long startTimestamp, long endTimestamp, int sort)
       throws IOException {
     try {
-      return bitfinexV2.getPublicFundingTrades(
-          "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort);
+      return decorateApiCall(
+              () ->
+                  bitfinexV2.getPublicFundingTrades(
+                      "f" + currency.toString(), limitTrades, startTimestamp, endTimestamp, sort))
+          .withRetry(retry("market-fundingTrades"))
+          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+          .call();
     } catch (HttpStatusIOException e) {
       throw new BitfinexException(e.getHttpBody());
     }
@@ -148,8 +202,13 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
 
   public List<Status> getStatus(List<CurrencyPair> pairs) throws IOException {
     try {
-      return bitfinexV2.getStatus(
-          "deriv", BitfinexAdapters.adaptCurrencyPairsToTickersParam(pairs));
+      return decorateApiCall(
+              () ->
+                  bitfinexV2.getStatus(
+                      "deriv", BitfinexAdapters.adaptCurrencyPairsToTickersParam(pairs)))
+          .withRetry(retry("market-status"))
+          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+          .call();
     } catch (HttpStatusIOException e) {
       throw new BitfinexException(e.getHttpBody());
     }
@@ -158,7 +217,13 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
   public List<BitfinexCandle> getFundingHistoricCandles(
       String candlePeriod, String pair, int fundingPeriod, int numOfCandles) throws IOException {
     final String fundingPeriodStr = "p" + fundingPeriod;
-    return bitfinexV2.getHistoricFundingCandles(candlePeriod, pair, fundingPeriodStr, numOfCandles);
+    return decorateApiCall(
+            () ->
+                bitfinexV2.getHistoricFundingCandles(
+                    candlePeriod, pair, fundingPeriodStr, numOfCandles))
+        .withRetry(retry("market-fundingHistoricCandles"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   public List<BitfinexCandle> getHistoricCandles(
@@ -169,13 +234,18 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       Long endTimestamp,
       Integer sort)
       throws IOException {
-    return bitfinexV2.getHistoricCandles(
-        candlePeriod,
-        BitfinexAdapters.adaptCurrencyPair(currencyPair),
-        limit,
-        startTimestamp,
-        endTimestamp,
-        sort);
+    return decorateApiCall(
+            () ->
+                bitfinexV2.getHistoricCandles(
+                    candlePeriod,
+                    BitfinexAdapters.adaptCurrencyPair(currencyPair),
+                    limit,
+                    startTimestamp,
+                    endTimestamp,
+                    sort))
+        .withRetry(retry("market-historicCandles"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   /**
@@ -205,7 +275,13 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
       Long endTimestamp,
       Integer limit)
       throws IOException {
-    return bitfinexV2.getStats(key, size, symbol, side, sort, startTimestamp, endTimestamp, limit);
+    return decorateApiCall(
+            () ->
+                bitfinexV2.getStats(
+                    key, size, symbol, side, sort, startTimestamp, endTimestamp, limit))
+        .withRetry(retry("market-stats"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   /**
@@ -218,7 +294,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    */
   public List<BitfinexTradingOrder> tradingBook(String symbol, BookPrecision precision, Integer len)
       throws IOException {
-    return bitfinexV2.tradingBook(symbol, precision, len);
+    return decorateApiCall(() -> bitfinexV2.tradingBook(symbol, precision, len))
+        .withRetry(retry("market-tradingBook"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
@@ -229,7 +308,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    */
   public List<BitfinexTradingRawOrder> tradingBookRaw(String symbol, Integer len)
       throws IOException {
-    return bitfinexV2.tradingBookRaw(symbol, len);
+    return decorateApiCall(() -> bitfinexV2.tradingBookRaw(symbol, len))
+        .withRetry(retry("market-tradingBook"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 
   /**
@@ -242,7 +324,10 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    */
   public List<BitfinexFundingOrder> fundingBook(String symbol, BookPrecision precision, Integer len)
       throws IOException {
-    return bitfinexV2.fundingBook(symbol, precision, len);
+    return decorateApiCall(() -> bitfinexV2.fundingBook(symbol, precision, len))
+        .withRetry(retry("market-fundingBook"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
   /**
    * @see https://docs.bitfinex.com/reference#rest-public-book
@@ -253,6 +338,9 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBaseService {
    */
   public List<BitfinexFundingRawOrder> fundingBookRaw(String symbol, Integer len)
       throws IOException {
-    return bitfinexV2.fundingBookRaw(symbol, len);
+    return decorateApiCall(() -> bitfinexV2.fundingBookRaw(symbol, len))
+        .withRetry(retry("market-fundingBook"))
+        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
+        .call();
   }
 }
