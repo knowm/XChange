@@ -4,6 +4,7 @@ import static org.knowm.xchange.bittrex.BittrexResilience.GET_CLOSED_ORDERS_RATE
 
 import java.io.IOException;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAdapters;
@@ -21,6 +22,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeServiceRaw extends BittrexBaseService {
@@ -52,6 +54,31 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
             limitOrder.getRemainingAmount().toPlainString(),
             null,
             limitOrder.getLimitPrice().toPlainString(),
+            type.toString(),
+            null,
+            null);
+    return bittrexAuthenticated
+        .placeOrder(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, bittrexNewOrder)
+        .getId();
+  }
+
+  public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
+    return placeBittrexMarketOrder(marketOrder, TimeInForce.IMMEDIATE_OR_CANCEL);
+  }
+
+  public String placeBittrexMarketOrder(MarketOrder marketOrder, TimeInForce type)
+      throws IOException {
+    BittrexNewOrder bittrexNewOrder =
+        new BittrexNewOrder(
+            BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+            OrderType.BID.equals(marketOrder.getType())
+                ? BittrexConstants.BUY
+                : BittrexConstants.SELL,
+            BittrexConstants.MARKET,
+            marketOrder.getRemainingAmount().toPlainString(),
+            null,
+            null,
             type.toString(),
             null,
             null);
