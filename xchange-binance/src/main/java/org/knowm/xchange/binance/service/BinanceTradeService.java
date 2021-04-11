@@ -183,7 +183,13 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
 
   private String getClientOrderId(Order order) {
 
-    String clientOrderId = null;
+    // Look for user-reference directly
+    String clientOrderId = order.getUserReference();    
+    if (clientOrderId != null) {
+      return clientOrderId;
+    }
+    
+    // Backward compatibility
     for (IOrderFlags flags : order.getOrderFlags()) {
       if (flags instanceof BinanceOrderFlags) {
         BinanceOrderFlags bof = (BinanceOrderFlags) flags;
@@ -334,6 +340,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     }
   }
 
+  @Deprecated
   public interface BinanceOrderFlags extends IOrderFlags {
 
     static BinanceOrderFlags withClientId(String clientId) {
@@ -344,7 +351,7 @@ public class BinanceTradeService extends BinanceTradeServiceRaw implements Trade
     String getClientId();
   }
 
-  @Value
+  @Deprecated  @Value
   static final class ClientIdFlag implements BinanceOrderFlags {
     private final String clientId;
   }
