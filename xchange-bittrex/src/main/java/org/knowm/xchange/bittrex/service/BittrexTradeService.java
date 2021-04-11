@@ -11,6 +11,7 @@ import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexErrorAdapter;
 import org.knowm.xchange.bittrex.BittrexExchange;
 import org.knowm.xchange.bittrex.dto.BittrexException;
+import org.knowm.xchange.bittrex.dto.trade.BittrexExecution;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
@@ -121,10 +122,21 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
     try {
       List<Order> orders = new ArrayList<>();
       for (String orderId : orderIds) {
-        BittrexOrder order = getBittrexOrder(orderId);
-        if (order != null) {
-          LimitOrder limitOrder = BittrexAdapters.adaptOrder(order);
-          orders.add(limitOrder);
+        BittrexOrder bittrexOrder = getBittrexOrder(orderId);
+        if (bittrexOrder != null) {
+          Order order = BittrexAdapters.adaptOrder(bittrexOrder);
+          if (order instanceof MarketOrder) {
+            List<BittrexExecution> executions = getBittrexOrderExecutions(order.getId());
+            if (executions != null) {
+              executions.stream()
+                  .findFirst()
+                  .ifPresent(
+                      execution -> {
+                        order.setAveragePrice(execution.getRate());
+                      });
+            }
+          }
+          orders.add(order);
         }
       }
       return orders;
