@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -126,15 +127,19 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
         if (bittrexOrder != null) {
           Order order = BittrexAdapters.adaptOrder(bittrexOrder);
           if (order instanceof MarketOrder) {
-            List<BittrexExecution> executions = getBittrexOrderExecutions(order.getId());
-            if (executions != null) {
-              executions.stream()
-                  .findFirst()
-                  .ifPresent(
-                      execution -> {
-                        order.setAveragePrice(execution.getRate());
-                      });
-            }
+            BigDecimal rate =
+                decorateApiCall(
+                        () -> {
+                          List<BittrexExecution> executions =
+                              getBittrexOrderExecutions(order.getId());
+                          if (executions != null && executions.size() > 0) {
+                            return executions.get(0).getRate();
+                          }
+                          throw new BittrexException();
+                        })
+                    .withRetry(retry("orderExecutionRate"))
+                    .call();
+            order.setAveragePrice(rate);
           }
           orders.add(order);
         }
