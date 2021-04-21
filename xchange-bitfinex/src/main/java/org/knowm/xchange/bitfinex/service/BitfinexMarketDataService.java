@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
+import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import org.knowm.xchange.bitfinex.v2.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.LoanOrderBook;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -40,9 +41,9 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw
    *
    * @param exchange
    */
-  public BitfinexMarketDataService(Exchange exchange) {
-
-    super(exchange);
+  public BitfinexMarketDataService(
+      BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override

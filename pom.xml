@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.7-SNAPSHOT</version>
+  <version>5.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -34,7 +34,7 @@
     <version.assertj>3.19.0</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
-    <version.github.mmazi>2.1.0-SNAPSHOT</version.github.mmazi>
+    <version.github.mmazi>2.1.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.1</version.junit>
     <version.lombok>1.18.20</version.lombok>
@@ -43,7 +43,7 @@
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.14.0</version.java-jwt>
+    <version.java-jwt>3.15.0</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -302,7 +302,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.8.0</version>
+        <version>3.9.0</version>
         <scope>test</scope>
       </dependency>
 
