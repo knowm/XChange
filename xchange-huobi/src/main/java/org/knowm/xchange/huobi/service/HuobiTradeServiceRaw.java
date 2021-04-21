@@ -133,6 +133,7 @@ public class HuobiTradeServiceRaw extends HuobiBaseService {
     }
     if (limitOrder.hasFlag(HuobiTradeService.FOK)) type = type + "-fok";
     if (limitOrder.hasFlag(HuobiTradeService.IOC)) type = type + "-ioc";
+    if (limitOrder.hasFlag(HuobiTradeService.POST_ONLY)) type = type + "-maker";
 
     HuobiOrderResult result =
         huobi.placeLimitOrder(
