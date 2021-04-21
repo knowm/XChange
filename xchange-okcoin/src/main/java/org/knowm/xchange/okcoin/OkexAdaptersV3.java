@@ -30,6 +30,7 @@ import org.knowm.xchange.okcoin.v3.dto.trade.FuturesAccountsResponse.FuturesAcco
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesSwapType;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexFuturesOpenOrder;
 import org.knowm.xchange.okcoin.v3.dto.trade.OkexOpenOrder;
+import org.knowm.xchange.okcoin.v3.dto.trade.OkexSwapOpenOrder;
 import org.knowm.xchange.okcoin.v3.dto.trade.Side;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapAccountsResponse.SwapAccountInfo;
 
@@ -145,16 +146,37 @@ public class OkexAdaptersV3 {
             o.getSide() == Side.sell ? OrderType.ASK : OrderType.BID, toPair(o.getInstrumentId()))
         .id(o.getOrderId())
         .limitPrice(o.getPrice())
-        .originalAmount(o.getSize())
+        .originalAmount(
+            o.getSide() == Side.sell
+                ? o.getSize()
+                : (o.getType().equals("market") ? o.getSize().add(o.getFilledSize()) : o.getSize()))
         .orderStatus(adaptOrderState(o.getState()))
+        .cumulativeAmount(o.getFilledSize())
+        .averagePrice(o.getPriceAvg())
         .timestamp(o.getCreatedAt())
+        .fee(o.getFee())
         .build();
   }
 
   public static LimitOrder convert(OkexFuturesOpenOrder o) {
     if (o == null) return null;
     return new LimitOrder.Builder(
-            adaptFuturesOrderType(o.getType()), toFutures(o.getInstrumentId()))
+            adaptFuturesSwapOrderType(o.getType()), toFutures(o.getInstrumentId()))
+        .id(o.getOrderId())
+        .limitPrice(o.getPrice())
+        .averagePrice(o.getPriceAvg())
+        .originalAmount(o.getSize())
+        .timestamp(o.getTimestamp())
+        .orderStatus(adaptOrderState(o.getState()))
+        .cumulativeAmount(o.getFilledQty())
+        .fee(o.getFee())
+        .build();
+  }
+
+  public static LimitOrder convert(OkexSwapOpenOrder o) {
+    if (o == null) return null;
+    return new LimitOrder.Builder(
+            adaptFuturesSwapOrderType(o.getType()), toFutures(o.getInstrumentId()))
         .id(o.getOrderId())
         .limitPrice(o.getPrice())
         .averagePrice(o.getPriceAvg())
@@ -321,7 +343,7 @@ public class OkexAdaptersV3 {
     }
   }
 
-  public static OrderType adaptFuturesOrderType(FuturesSwapType orderType) {
+  public static OrderType adaptFuturesSwapOrderType(FuturesSwapType orderType) {
     if (orderType == null) return null;
     switch (orderType) {
       case open_long:

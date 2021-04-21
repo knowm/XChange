@@ -3,7 +3,6 @@ package org.knowm.xchange.okcoin;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -13,7 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.okcoin.v3.dto.account.FuturesLeverageResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountResponse;
 import org.knowm.xchange.okcoin.v3.dto.account.MarginAccountSettingsRecord;
@@ -29,6 +27,7 @@ import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFuturesTrade;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapDepth;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTrade;
@@ -69,7 +68,6 @@ import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderBatchCancellationRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderPlacementRequest;
 import org.knowm.xchange.okcoin.v3.dto.trade.SwapPositionsEntry;
 import org.knowm.xchange.okcoin.v3.service.OkexException;
-
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
@@ -214,7 +212,7 @@ public interface OkexV3 {
    * @throws OkexException
    */
   @GET
-  @Path("/spot/v3/orders/{instrument_id}/{order_id}")
+  @Path("/spot/v3/orders/{order_id}?instrument_id={instrument_id}")
   OkexOpenOrder getSpotOrder(
       @HeaderParam(OK_ACCESS_KEY) String apiKey,
       @HeaderParam(OK_ACCESS_SIGN) ParamsDigest signature,
@@ -495,7 +493,7 @@ public interface OkexV3 {
 
   @GET
   @Path("/swap/v3/instruments/{instrument_id}/depth")
-  OkexDepth getSwapDepth(
+  OkexSwapDepth getSwapDepth(
       @PathParam("instrument_id") String instrumentId, @QueryParam("size") Integer size)
       throws IOException;
 

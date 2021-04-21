@@ -22,6 +22,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.instrument.FuturesContract;
 import org.knowm.xchange.instrument.Instrument;
+import org.knowm.xchange.instrument.SwapContract;
 import org.knowm.xchange.okcoin.OkexAdaptersV3;
 import org.knowm.xchange.okcoin.OkexExchangeV3;
 import org.knowm.xchange.okcoin.v3.dto.trade.FuturesOrderPlacementRequest;
@@ -38,6 +39,7 @@ import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementResponse;
 import org.knowm.xchange.okcoin.v3.dto.trade.OrderPlacementType;
 import org.knowm.xchange.okcoin.v3.dto.trade.Side;
 import org.knowm.xchange.okcoin.v3.dto.trade.SpotOrderPlacementRequest;
+import org.knowm.xchange.okcoin.v3.dto.trade.SwapOrderPlacementRequest;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderByInstrument;
@@ -63,6 +65,8 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public String placeLimitOrder(LimitOrder o) throws IOException {
     if (o.getInstrument() instanceof CurrencyPair) return placeSpotLimitOrder(o);
+
+    if (o.getInstrument() instanceof SwapContract) return placeSwapLimitOrder(o);
     else return placeFuturesLimitOrder(o);
   }
 
@@ -99,16 +103,15 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   @Override
   public String placeMarketOrder(MarketOrder mo) throws IOException {
     if (mo.getInstrument() instanceof CurrencyPair) return placeSpotMarketOrder(mo);
+
+    if (mo.getInstrument() instanceof SwapContract) return placeSwapMarketOrder(mo);
     else return placeFuturesMarketOrder(mo);
   }
 
   public String placeSpotMarketOrder(MarketOrder mo) throws IOException {
     // 0: Normal limit order (Unfilled and 0 represent normal limit order) 1: Post only 2: Fill Or
     // Kill 3: Immediatel Or Cancel
-    OrderPlacementType orderType =
-        mo.hasFlag(OkexOrderFlags.POST_ONLY)
-            ? OrderPlacementType.post_only
-            : OrderPlacementType.normal;
+    OrderPlacementType orderType = OrderPlacementType.normal;
     SpotOrderPlacementRequest req = null;
     switch (mo.getType()) {
       case ASK:
@@ -117,16 +120,20 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
                 .instrumentId(OkexAdaptersV3.toSpotInstrument(mo.getCurrencyPair()))
                 .size(mo.getOriginalAmount())
                 .side(Side.sell)
+                .type("market")
                 .orderType(orderType)
                 .build();
+        break;
       case BID:
         req =
             SpotOrderPlacementRequest.builder()
                 .instrumentId(OkexAdaptersV3.toSpotInstrument(mo.getCurrencyPair()))
                 .notional(mo.getOriginalAmount())
-                .side(Side.sell)
+                .side(Side.buy)
+                .type("market")
                 .orderType(orderType)
                 .build();
+        break;
     }
     if (req == null) return null;
     OrderPlacementResponse placed = spotPlaceOrder(req);
@@ -160,6 +167,33 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
     return placed.getOrderId();
   }
 
+  public String placeSwapMarketOrder(MarketOrder mo) throws IOException {
+    if (!(mo.getInstrument() instanceof SwapContract)) {
+      throw new IllegalStateException(
+          "The instrument of this order is not a swap: " + mo.getInstrument());
+    }
+    // 0: Normal limit order (Unfilled and 0 represent normal limit order) 1: Post only 2: Fill Or
+    // Kill 3: Immediatel Or Cancel
+
+    OrderPlacementType orderType =
+        mo.hasFlag(OkexOrderFlags.POST_ONLY)
+            ? OrderPlacementType.post_only
+            : OrderPlacementType.normal;
+
+    SwapOrderPlacementRequest req =
+        SwapOrderPlacementRequest.builder()
+            .instrumentId(OkexAdaptersV3.toSwapInstrument((SwapContract) mo.getInstrument()))
+            .price(BigDecimal.ZERO)
+            .size(mo.getOriginalAmount())
+            .type(OkexAdaptersV3.adaptFuturesSwapType(mo.getType()))
+            .orderType(orderType)
+            .matchPrice(FuturesSwapMatchPrice.best_counter_party_price_yes)
+            .build();
+    OrderPlacementResponse placed = swapPlaceOrder(req);
+    if (placed == null) return null;
+    return placed.getOrderId();
+  }
+
   public String placeMarginLimitOrder(LimitOrder o) throws IOException {
     if (!(o.getInstrument() instanceof CurrencyPair)) {
       throw new IllegalStateException(
@@ -180,6 +214,31 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
             .orderType(orderType)
             .build();
     OrderPlacementResponse placed = marginPlaceOrder(req);
+    return placed.getOrderId();
+  }
+
+  public String placeSwapLimitOrder(LimitOrder o) throws IOException {
+    if (!(o.getInstrument() instanceof SwapContract)) {
+      throw new IllegalStateException(
+          "The instrument of this order is not a swap: " + o.getInstrument());
+    }
+    // 0: Normal limit order (Unfilled and 0 represent normal limit order) 1: Post only 2: Fill Or
+    // Kill 3: Immediatel Or Cancel
+    OrderPlacementType orderType =
+        o.hasFlag(OkexOrderFlags.POST_ONLY)
+            ? OrderPlacementType.post_only
+            : OrderPlacementType.normal;
+
+    SwapOrderPlacementRequest req =
+        SwapOrderPlacementRequest.builder()
+            .instrumentId(OkexAdaptersV3.toSwapInstrument((SwapContract) o.getInstrument()))
+            .price(o.getLimitPrice())
+            .size(o.getOriginalAmount())
+            .type(OkexAdaptersV3.adaptFuturesSwapType(o.getType()))
+            .orderType(orderType)
+            .build();
+    OrderPlacementResponse placed = swapPlaceOrder(req);
+    if (placed == null) return null;
     return placed.getOrderId();
   }
 
@@ -230,6 +289,11 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
           OrderCancellationRequest.builder().instrumentId(instrumentId).build();
       OrderCancellationResponse o = spotCancelOrder(id, req);
     }
+    if (instrument instanceof SwapContract) {
+      String instrumentId = OkexAdaptersV3.toSwapInstrument((SwapContract) instrument);
+      OrderCancellationResponse o = swapCancelOrder(instrumentId, id);
+    }
+
     if (instrument instanceof FuturesContract) {
       String instrumentId = OkexAdaptersV3.toFuturesInstrument((FuturesContract) instrument);
       OrderCancellationResponse o = futuresCancelOrder(instrumentId, id);
@@ -267,7 +331,7 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
         CurrencyPair currencyPair = (CurrencyPair) instrument;
         LimitOrder order =
             OkexAdaptersV3.convert(
-                getSpotOrder(orderId, OkexAdaptersV3.toSpotInstrument(currencyPair)));
+                getSpotOrder(OkexAdaptersV3.toSpotInstrument(currencyPair), orderId));
         if (order != null) openOrders.add(order);
       }
       if (instrument instanceof FuturesContract) {
@@ -275,6 +339,13 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
         LimitOrder order =
             OkexAdaptersV3.convert(
                 getFuturesOrder(OkexAdaptersV3.toFuturesInstrument(futuresContract), orderId));
+        if (order != null) openOrders.add(order);
+      }
+      if (instrument instanceof SwapContract) {
+        SwapContract swapContract = (SwapContract) instrument;
+        LimitOrder order =
+            OkexAdaptersV3.convert(
+                getSwapOrder(OkexAdaptersV3.toSwapInstrument(swapContract), orderId));
         if (order != null) openOrders.add(order);
       }
     }

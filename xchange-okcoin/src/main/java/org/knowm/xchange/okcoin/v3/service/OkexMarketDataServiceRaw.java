@@ -9,6 +9,7 @@ import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFutureTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFuturesTrade;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapDepth;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapInstrument;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTicker;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTrade;
@@ -91,11 +92,11 @@ public class OkexMarketDataServiceRaw extends OkexBaseService {
     return okex.getSwapTrades(instrumentID, since);
   }
 
-  public OkexDepth getSwapDepth(String instrumentID) throws IOException {
+  public OkexSwapDepth getSwapDepth(String instrumentID) throws IOException {
     return getSwapDepth(instrumentID, null);
   }
 
-  public OkexDepth getSwapDepth(String instrumentID, Integer size) throws IOException {
+  public OkexSwapDepth getSwapDepth(String instrumentID, Integer size) throws IOException {
     size = (size == null || size < 1 || size > 200) ? 200 : size;
     return okex.getSwapDepth(instrumentID, size);
   }

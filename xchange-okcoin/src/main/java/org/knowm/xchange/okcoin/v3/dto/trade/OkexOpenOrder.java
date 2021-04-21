@@ -44,6 +44,9 @@ public class OkexOpenOrder {
   /** price */
   private BigDecimal price;
 
+  /** fee */
+  private BigDecimal fee;
+
   @JsonProperty("price_avg")
   /** Average price */
   private BigDecimal priceAvg;

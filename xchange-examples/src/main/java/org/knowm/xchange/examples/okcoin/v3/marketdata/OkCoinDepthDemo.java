@@ -31,7 +31,7 @@ public class OkCoinDepthDemo {
     MarketDataService marketDataService = okcoinExchange.getMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USDT);
     System.out.println(orderBook.toString());
     System.out.println(
         "full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));

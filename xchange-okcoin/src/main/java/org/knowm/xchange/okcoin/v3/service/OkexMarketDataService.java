@@ -16,6 +16,7 @@ import org.knowm.xchange.okcoin.OkexExchangeV3;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexDepth;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexFuturesTrade;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSpotTicker;
+import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapDepth;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexSwapTrade;
 import org.knowm.xchange.okcoin.v3.dto.marketdata.OkexTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -76,36 +77,49 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final OkexDepth okexDepth;
-
     if (args == null || args.length == 0) {
-      okexDepth = getDepth(OkexAdaptersV3.toSpotInstrument(currencyPair));
+      OkexDepth okexDepth = getDepth(OkexAdaptersV3.toSpotInstrument(currencyPair));
+      return convertOrderBook(okexDepth, currencyPair);
 
     } else {
       if (args[0] instanceof Long) {
-        okexDepth = getDepth(OkexAdaptersV3.toSpotInstrument(currencyPair), (Integer) args[0]);
-
+        OkexDepth okexDepth =
+            getDepth(OkexAdaptersV3.toSpotInstrument(currencyPair), (Integer) args[0]);
+        return convertOrderBook(okexDepth, currencyPair);
       } else {
         String arg = (String) args[0];
         if (arg.toUpperCase().equals("SWAP")) {
           SwapContract swapContract = new SwapContract(currencyPair, (String) args[0]);
           Object[] newArgs = new Object[args.length - 1];
           System.arraycopy(args, 1, newArgs, 0, args.length - 1);
-          okexDepth = getSwapDepth(OkexAdaptersV3.toSwapInstrument(swapContract));
+          OkexSwapDepth okexSwapDepth = getSwapDepth(OkexAdaptersV3.toSwapInstrument(swapContract));
+          return convertSwapOrderBook(okexSwapDepth, currencyPair);
 
         } else {
           FuturesContract futuresContract = new FuturesContract(currencyPair, (String) args[0]);
           Object[] newArgs = new Object[args.length - 1];
           System.arraycopy(args, 1, newArgs, 0, args.length - 1);
-          okexDepth = getFuturesDepth(OkexAdaptersV3.toFuturesInstrument(futuresContract));
+          OkexDepth okexDepth =
+              getFuturesDepth(OkexAdaptersV3.toFuturesInstrument(futuresContract));
+          return convertOrderBook(okexDepth, currencyPair);
         }
       }
     }
-
-    return convertOrderBook(okexDepth, currencyPair);
   }
 
   public static OrderBook convertOrderBook(OkexDepth ob, CurrencyPair pair) {
+    List<LimitOrder> bids =
+        ob.bids.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    List<LimitOrder> asks =
+        ob.asks.entrySet().stream()
+            .map(e -> new LimitOrder(OrderType.ASK, e.getValue(), pair, null, null, e.getKey()))
+            .collect(Collectors.toList());
+    return new OrderBook(ob.getTimestamp(), asks, bids);
+  }
+
+  public static OrderBook convertSwapOrderBook(OkexSwapDepth ob, CurrencyPair pair) {
     List<LimitOrder> bids =
         ob.bids.entrySet().stream()
             .map(e -> new LimitOrder(OrderType.BID, e.getValue(), pair, null, null, e.getKey()))

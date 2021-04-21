@@ -149,7 +149,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     }
     if (instrument instanceof SwapContract) {
       SwapContract swapContract = (SwapContract) instrument;
-      return okex.getFuturesPriceLimit(OkexAdaptersV3.toSwapInstrument(swapContract));
+      return okex.getSwapPriceLimit(OkexAdaptersV3.toSwapInstrument(swapContract));
     }
     return null;
   }
