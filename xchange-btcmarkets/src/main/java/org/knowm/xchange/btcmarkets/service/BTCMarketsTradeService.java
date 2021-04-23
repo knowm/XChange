@@ -40,7 +40,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         order.getOriginalAmount(),
         BigDecimal.ZERO,
         BTCMarketsOrder.Type.Market,
-        order.getOrderFlags());
+        order.getOrderFlags(),
+        order.getUserReference());
   }
 
   @Override
@@ -51,7 +52,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         order.getOriginalAmount(),
         order.getLimitPrice(),
         BTCMarketsOrder.Type.Limit,
-        order.getOrderFlags());
+        order.getOrderFlags(),
+        order.getUserReference());
   }
 
   private String placeOrder(
@@ -60,7 +62,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       BigDecimal amount,
       BigDecimal price,
       BTCMarketsOrder.Type orderType,
-      Set<Order.IOrderFlags> flags)
+      Set<Order.IOrderFlags> flags,
+      String clientOrderId)
       throws IOException {
     boolean postOnly = false;
     if (flags.contains(BTCMarketsOrderFlags.POST_ONLY)) {
@@ -80,7 +83,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       timeInForce = "GTC";
     }
     final BTCMarketsPlaceOrderResponse orderResponse =
-        placeBTCMarketsOrder(marketId, amount, price, side, orderType, timeInForce, postOnly);
+        placeBTCMarketsOrder(
+            marketId, amount, price, side, orderType, timeInForce, postOnly, clientOrderId);
     return orderResponse.orderId;
   }
 
