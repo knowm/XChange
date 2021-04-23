@@ -18,8 +18,7 @@ public class BTCMarketsCancelOrderResponse extends BTCMarketsBaseResponse {
       for (BTCMarketsException response : responses) {
         if (!Boolean.TRUE.equals(response.getSuccess())) {
           throw new ExceptionalReturnContentException(
-              String.format(
-                  "%s: order %d: %s", errorMessage, response.getId(), response.getMessage()));
+              String.format("%s: order %d: %s", errorMessage, response.getId(), response.getMessage()));
         }
       }
     }
