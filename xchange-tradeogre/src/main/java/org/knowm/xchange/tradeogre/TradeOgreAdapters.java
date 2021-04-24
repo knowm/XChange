@@ -61,20 +61,17 @@ public class TradeOgreAdapters {
 
   private static List<LimitOrder> getOrders(
       CurrencyPair currencyPair, TradeOgreOrderBook tradeOgreOrderBook, Order.OrderType orderType) {
-    Map<String, String> orders =
+    Map<BigDecimal, BigDecimal> orders =
         Order.OrderType.BID.equals(orderType)
             ? tradeOgreOrderBook.getBuy()
             : tradeOgreOrderBook.getSell();
     return orders.entrySet().stream()
         .map(
-            entry -> {
-              BigDecimal price = new BigDecimal(entry.getKey());
-              BigDecimal amount = new BigDecimal(entry.getValue());
-              return new LimitOrder.Builder(orderType, currencyPair)
-                  .limitPrice(price)
-                  .originalAmount(amount)
-                  .build();
-            })
+            entry ->
+                new LimitOrder.Builder(orderType, currencyPair)
+                    .limitPrice(entry.getKey())
+                    .originalAmount(entry.getValue())
+                    .build())
         .collect(Collectors.toList());
   }
 }
