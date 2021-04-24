@@ -17,7 +17,7 @@ public class TradeOgreAccountServiceRaw extends TradeOgreBaseService {
 
   public List<Balance> getTradeOgreBalances() throws IOException {
 
-    return tradeOgre.getBalances(getBase64UserPwd()).getBalances().entrySet().stream()
+    return tradeOgre.getBalances(base64UserPwd).getBalances().entrySet().stream()
         .map(
             entry ->
                 new Balance.Builder()
@@ -28,6 +28,6 @@ public class TradeOgreAccountServiceRaw extends TradeOgreBaseService {
   }
 
   public TradeOgreBalance getTradeOgreBalance(Currency currency) throws IOException {
-    return tradeOgre.getBalance(getBase64UserPwd(), currency.toString().toUpperCase());
+    return tradeOgre.getBalance(base64UserPwd, currency.toString().toUpperCase());
   }
 }

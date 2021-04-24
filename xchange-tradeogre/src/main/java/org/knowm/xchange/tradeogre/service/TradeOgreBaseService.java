@@ -23,6 +23,8 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
 
+    getBase64UserPwd(exchange);
+
     ClientConfigCustomizer clientConfigCustomizer =
         config -> ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
     tradeOgre =
@@ -32,14 +34,12 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
             .build();
   }
 
-  protected String getBase64UserPwd() {
-    if (base64UserPwd == null) {
-      String userPwd =
-          exchange.getExchangeSpecification().getApiKey()
-              + ":"
-              + exchange.getExchangeSpecification().getSecretKey();
-      base64UserPwd = "Basic " + new String(Base64.getEncoder().encode(userPwd.getBytes()));
-    }
-    return base64UserPwd;
+  private void getBase64UserPwd(TradeOgreExchange exchange) {
+    String userPwd =
+        exchange.getExchangeSpecification().getApiKey()
+            + ":"
+            + exchange.getExchangeSpecification().getSecretKey();
+    base64UserPwd = "Basic " + new String(Base64.getEncoder().encode(userPwd.getBytes()));
   }
+
 }
