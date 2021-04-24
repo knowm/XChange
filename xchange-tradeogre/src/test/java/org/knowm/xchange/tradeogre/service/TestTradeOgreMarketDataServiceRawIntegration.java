@@ -42,11 +42,20 @@ public class TestTradeOgreMarketDataServiceRawIntegration {
 
   @Test
   public void testGetOrderBook() throws IOException {
-    OrderBook orderBook = tradeOgreExchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
+    OrderBook orderBook =
+        tradeOgreExchange.getMarketDataService().getOrderBook(CurrencyPair.ETH_BTC);
     Assert.assertNotNull(orderBook);
     Assert.assertFalse(orderBook.getAsks().isEmpty());
     Assert.assertFalse(orderBook.getBids().isEmpty());
-    orderBook.getAsks().forEach(ask-> orderBook.getBids()
-                                               .forEach(bid-> Assert.assertTrue(bid.getLimitPrice().compareTo(ask.getLimitPrice())<0)));
+    orderBook
+        .getAsks()
+        .forEach(
+            ask ->
+                orderBook
+                    .getBids()
+                    .forEach(
+                        bid ->
+                            Assert.assertTrue(
+                                bid.getLimitPrice().compareTo(ask.getLimitPrice()) < 0)));
   }
 }
