@@ -1,12 +1,23 @@
 package org.knowm.xchange.tradeogre;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalance;
-import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
+import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
 
 public class TradeOgreAdapters {
 
@@ -37,5 +48,33 @@ public class TradeOgreAdapters {
         .bid(new BigDecimal(tradeOgreTicker.getBid()))
         .currencyPair(currencyPair)
         .build();
+  }
+
+  public static OrderBook adaptOrderBook(
+      CurrencyPair currencyPair, TradeOgreOrderBook tradeOgreOrderBook) {
+    return new OrderBook(
+        new Date(System.currentTimeMillis()),
+        getOrders(currencyPair, tradeOgreOrderBook, Order.OrderType.ASK),
+        getOrders(currencyPair, tradeOgreOrderBook, Order.OrderType.BID),
+        true);
+  }
+
+  private static List<LimitOrder> getOrders(
+      CurrencyPair currencyPair, TradeOgreOrderBook tradeOgreOrderBook, Order.OrderType orderType) {
+    Map<String, String> orders =
+        Order.OrderType.BID.equals(orderType)
+            ? tradeOgreOrderBook.getBuy()
+            : tradeOgreOrderBook.getSell();
+    return orders.entrySet().stream()
+        .map(
+            entry -> {
+              BigDecimal price = new BigDecimal(entry.getKey());
+              BigDecimal amount = new BigDecimal(entry.getValue());
+              return new LimitOrder.Builder(orderType, currencyPair)
+                  .limitPrice(price)
+                  .originalAmount(amount)
+                  .build();
+            })
+        .collect(Collectors.toList());
   }
 }

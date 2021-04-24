@@ -2,14 +2,15 @@ package org.knowm.xchange.tradeogre.service;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreAdapters;
-import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
+import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
 
 public class TradeOgreMarketDataServiceRaw extends TradeOgreBaseService {
   /**
@@ -26,14 +27,18 @@ public class TradeOgreMarketDataServiceRaw extends TradeOgreBaseService {
     return tradeOgre.getTicker(TradeOgreAdapters.adaptCurrencyPair(market));
   }
 
-  public List<Ticker> getTradeOgreTickers() throws IOException {
+  public Stream<Ticker> getTradeOgreTickers() throws IOException {
     return tradeOgre.getTickers().stream()
         .map(Map::entrySet)
         .flatMap(Collection::stream)
         .map(
             entry ->
                 TradeOgreAdapters.adaptTicker(
-                    TradeOgreAdapters.adaptTradeOgreCurrencyPair(entry.getKey()), entry.getValue()))
-        .collect(Collectors.toList());
+                    TradeOgreAdapters.adaptTradeOgreCurrencyPair(entry.getKey()), entry.getValue()));
+  }
+
+  public TradeOgreOrderBook getTradeOgreOrderBook(CurrencyPair currencyPair) throws IOException {
+    String market = TradeOgreAdapters.adaptCurrencyPair(currencyPair);
+    return tradeOgre.getOrderBook(market);
   }
 }
