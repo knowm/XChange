@@ -1,5 +1,6 @@
 package org.knowm.xchange.tradeogre.dto.market;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import lombok.Data;
@@ -7,6 +8,6 @@ import lombok.Data;
 @Data
 public class TradeOgreOrderBook {
   public boolean success;
-  public Map<String, String> buy;
-  public Map<String, String> sell;
+  public Map<BigDecimal, BigDecimal> buy;
+  public Map<BigDecimal, BigDecimal> sell;
 }
