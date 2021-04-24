@@ -9,13 +9,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class TradeOgreAdaptersTest {
 
   @Test
-  public void adaptCurrencyPair() {
+  public void testAdaptCurrencyPair() {
     CurrencyPair market = CurrencyPair.ETH_BTC;
     Assert.assertEquals("BTC-ETH", TradeOgreAdapters.adaptCurrencyPair(market));
   }
 
   @Test
-  public void adaptTradeOgreCurrencyPair() {
+  public void testAdaptTradeOgreCurrencyPair() {
     String market = "BTC-ETH";
     Assert.assertEquals(CurrencyPair.ETH_BTC, TradeOgreAdapters.adaptTradeOgreCurrencyPair(market));
   }
