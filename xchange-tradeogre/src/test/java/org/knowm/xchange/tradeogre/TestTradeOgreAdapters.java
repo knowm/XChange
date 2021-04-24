@@ -1,12 +1,10 @@
 package org.knowm.xchange.tradeogre;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 
-public class TradeOgreAdaptersTest {
+public class TestTradeOgreAdapters {
 
   @Test
   public void testAdaptCurrencyPair() {
