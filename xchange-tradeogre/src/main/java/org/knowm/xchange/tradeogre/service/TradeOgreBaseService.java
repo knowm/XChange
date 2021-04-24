@@ -11,7 +11,8 @@ import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
 import si.mazi.rescu.ClientConfigUtil;
 
-public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange> implements BaseService {
+public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
+    implements BaseService {
 
   protected final TradeOgreAuthenticated tradeOgre;
   protected String base64UserPwd;
@@ -23,7 +24,7 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     String secretKey = exchange.getExchangeSpecification().getSecretKey();
 
-    getBase64UserPwd(exchange);
+    base64UserPwd = calculateBase64UserPwd(exchange);
 
     ClientConfigCustomizer clientConfigCustomizer =
         config -> ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
@@ -34,12 +35,11 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
             .build();
   }
 
-  private void getBase64UserPwd(TradeOgreExchange exchange) {
+  private String calculateBase64UserPwd(TradeOgreExchange exchange) {
     String userPwd =
         exchange.getExchangeSpecification().getApiKey()
             + ":"
             + exchange.getExchangeSpecification().getSecretKey();
-    base64UserPwd = "Basic " + new String(Base64.getEncoder().encode(userPwd.getBytes()));
+    return "Basic " + new String(Base64.getEncoder().encode(userPwd.getBytes()));
   }
-
 }
