@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.tradeogre.TradeOgreAdapters;
+import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
 public class TradeOgreMarketDataService extends TradeOgreMarketDataServiceRaw
     implements MarketDataService {
@@ -20,7 +20,7 @@ public class TradeOgreMarketDataService extends TradeOgreMarketDataServiceRaw
    *
    * @param exchange
    */
-  public TradeOgreMarketDataService(Exchange exchange) {
+  public TradeOgreMarketDataService(TradeOgreExchange exchange) {
     super(exchange);
   }
 

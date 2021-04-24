@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreAdapters;
+import org.knowm.xchange.tradeogre.TradeOgreExchange;
 import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
 import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
 
@@ -18,7 +18,7 @@ public class TradeOgreMarketDataServiceRaw extends TradeOgreBaseService {
    *
    * @param exchange
    */
-  public TradeOgreMarketDataServiceRaw(Exchange exchange) {
+  public TradeOgreMarketDataServiceRaw(TradeOgreExchange exchange) {
 
     super(exchange);
   }
