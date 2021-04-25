@@ -90,11 +90,11 @@ public final class BittrexAdapters {
   public static Order adaptOrder(BittrexOrder order, OrderStatus status) {
 
     OrderType type =
-        order.getDirection().equalsIgnoreCase(BittrexConstants.SELL)
+            BittrexConstants.SELL.equalsIgnoreCase(order.getDirection())
             ? OrderType.ASK
             : OrderType.BID;
     CurrencyPair pair = BittrexUtils.toCurrencyPair(order.getMarketSymbol());
-    if (order.getType().equalsIgnoreCase(BittrexConstants.MARKET)) {
+    if (BittrexConstants.MARKET.equalsIgnoreCase(order.getType())) {
       return new MarketOrder.Builder(type, pair)
           .originalAmount(order.getQuantity())
           .id(order.getId())

@@ -132,7 +132,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
                         () -> {
                           List<BittrexExecution> executions =
                               getBittrexOrderExecutions(order.getId());
-                          if (executions != null && executions.size() > 0) {
+                          if (executions != null && !executions.isEmpty()) {
                             return executions.get(0).getRate();
                           }
                           throw new BittrexException();
