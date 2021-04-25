@@ -7,8 +7,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
 
 @Path("")
 public interface TradeOgre {

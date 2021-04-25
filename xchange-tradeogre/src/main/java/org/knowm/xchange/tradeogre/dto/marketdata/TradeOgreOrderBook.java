@@ -1,4 +1,4 @@
-package org.knowm.xchange.tradeogre.dto.market;
+package org.knowm.xchange.tradeogre.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.Map;

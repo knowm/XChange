@@ -47,7 +47,7 @@ public interface TradeOgreAuthenticated extends TradeOgre {
 
   @POST
   @Path("order/cancel")
-  Boolean cancel(
+  TradeOgreTradeResponse cancel(
       @HeaderParam("Authorization") String base64UserPwd, @FormParam("uuid") String uuid)
       throws IOException;
 

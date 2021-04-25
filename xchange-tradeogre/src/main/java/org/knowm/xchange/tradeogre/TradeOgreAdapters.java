@@ -1,11 +1,10 @@
 package org.knowm.xchange.tradeogre;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.knowm.xchange.currency.Currency;
@@ -15,9 +14,11 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.tradeogre.dto.account.TradeOgreBalance;
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.trade.TradeOgreOrder;
 
 public class TradeOgreAdapters {
 
@@ -73,5 +74,32 @@ public class TradeOgreAdapters {
                     .originalAmount(entry.getValue())
                     .build())
         .collect(Collectors.toList());
+  }
+
+  private static Order.OrderType getType(TradeOgreOrder tradeOgreOrder) {
+    if ("buy".equals(tradeOgreOrder.getType())) {
+      return Order.OrderType.BID;
+    }
+    if ("sell".equals(tradeOgreOrder.getType())) {
+      return Order.OrderType.ASK;
+    }
+    return null;
+  }
+
+  public static OpenOrders adaptOpenOrders(Collection<TradeOgreOrder> tradeOgreOrders) {
+    List<LimitOrder> orders =
+        tradeOgreOrders.stream()
+            .map(
+                tradeOgreOrder ->
+                    new LimitOrder.Builder(
+                            getType(tradeOgreOrder),
+                            adaptTradeOgreCurrencyPair(tradeOgreOrder.getMarket()))
+                        .limitPrice(tradeOgreOrder.getPrice())
+                        .originalAmount(tradeOgreOrder.getQuantity())
+                        .timestamp(new Date(tradeOgreOrder.getDate()))
+                        .id(tradeOgreOrder.getUuid())
+                        .build())
+            .collect(Collectors.toList());
+    return new OpenOrders(orders);
   }
 }
