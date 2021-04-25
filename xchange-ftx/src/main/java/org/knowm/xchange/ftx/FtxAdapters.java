@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -314,9 +316,10 @@ public class FtxAdapters {
     return ftxOrderSide == FtxOrderSide.buy ? Order.OrderType.BID : Order.OrderType.ASK;
   }
 
+  private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
+  
   public static String adaptCurrencyPairToFtxMarket(CurrencyPair currencyPair) {
-    if (currencyPair.counter.getCurrencyCode().contains("PERP")
-        || currencyPair.counter.getCurrencyCode().contains("[0-9]+")) {
+    if (FUTURES_PATTERN.matcher(currencyPair.counter.getCurrencyCode()).matches()) {
       return currencyPair.base + "-" + currencyPair.counter;
     } else {
       return currencyPair.toString();
