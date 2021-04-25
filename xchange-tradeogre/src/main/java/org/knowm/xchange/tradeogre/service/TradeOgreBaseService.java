@@ -9,7 +9,11 @@ import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.tradeogre.TradeOgreAuthenticated;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import si.mazi.rescu.ClientConfigUtil;
+import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
 public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
     implements BaseService {
@@ -27,7 +31,18 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
     base64UserPwd = calculateBase64UserPwd(exchange);
 
     ClientConfigCustomizer clientConfigCustomizer =
-        config -> ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
+        config -> {
+          ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
+          config.setJacksonObjectMapperFactory(
+              new DefaultJacksonObjectMapperFactory() {
+                @Override
+                public void configureObjectMapper(ObjectMapper objectMapper) {
+                  super.configureObjectMapper(objectMapper);
+                  objectMapper.configure(
+                      DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+                }
+              });
+        };
     tradeOgre =
         ExchangeRestProxyBuilder.forInterface(
                 TradeOgreAuthenticated.class, exchange.getExchangeSpecification())

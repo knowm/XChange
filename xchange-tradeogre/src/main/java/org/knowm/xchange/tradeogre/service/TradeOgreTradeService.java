@@ -10,7 +10,7 @@ import org.knowm.xchange.tradeogre.TradeOgreExchange;
 
 public class TradeOgreTradeService extends TradeOgreTradeServiceRaw implements TradeService {
 
-  protected TradeOgreTradeService(TradeOgreExchange exchange) {
+  public TradeOgreTradeService(TradeOgreExchange exchange) {
     super(exchange);
   }
 
