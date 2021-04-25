@@ -1,4 +1,4 @@
-package org.knowm.xchange.tradeogre.dto.market;
+package org.knowm.xchange.tradeogre.dto.marketdata;
 
 import lombok.Data;
 

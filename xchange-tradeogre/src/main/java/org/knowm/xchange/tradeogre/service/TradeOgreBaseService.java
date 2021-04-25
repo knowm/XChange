@@ -15,7 +15,7 @@ public class TradeOgreBaseService extends BaseExchangeService<TradeOgreExchange>
     implements BaseService {
 
   protected final TradeOgreAuthenticated tradeOgre;
-  protected String base64UserPwd;
+  protected final String base64UserPwd;
 
   protected TradeOgreBaseService(TradeOgreExchange exchange) {
 

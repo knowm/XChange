@@ -9,8 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreAdapters;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreOrderBook;
-import org.knowm.xchange.tradeogre.dto.market.TradeOgreTicker;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
+import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
 
 public class TradeOgreMarketDataServiceRaw extends TradeOgreBaseService {
   /**
