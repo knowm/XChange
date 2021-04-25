@@ -1,6 +1,7 @@
 package org.knowm.xchange.tradeogre;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -66,14 +67,16 @@ public class TradeOgreAdapters {
         Order.OrderType.BID.equals(orderType)
             ? tradeOgreOrderBook.getBuy()
             : tradeOgreOrderBook.getSell();
-    return orders.entrySet().stream()
-        .map(
-            entry ->
-                new LimitOrder.Builder(orderType, currencyPair)
-                    .limitPrice(entry.getKey())
-                    .originalAmount(entry.getValue())
-                    .build())
-        .collect(Collectors.toList());
+    return orders == null
+        ? new ArrayList<>()
+        : orders.entrySet().stream()
+            .map(
+                entry ->
+                    new LimitOrder.Builder(orderType, currencyPair)
+                        .limitPrice(entry.getKey())
+                        .originalAmount(entry.getValue())
+                        .build())
+            .collect(Collectors.toList());
   }
 
   private static Order.OrderType getType(TradeOgreOrder tradeOgreOrder) {
