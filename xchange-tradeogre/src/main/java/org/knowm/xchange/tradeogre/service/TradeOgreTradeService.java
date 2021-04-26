@@ -1,6 +1,8 @@
 package org.knowm.xchange.tradeogre.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -22,12 +24,15 @@ public class TradeOgreTradeService extends TradeOgreTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return TradeOgreAdapters.adaptOpenOrders(getOrders());
+    return getOpenOrders(null);
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return TradeOgreAdapters.adaptOpenOrders(getOrders());
+    List<LimitOrder> orders =
+        TradeOgreAdapters.adaptOpenOrders(getOrders()).getOpenOrders().stream()
+            .filter(params != null ? params::accept : o -> true)
+            .collect(Collectors.toList());
+    return new OpenOrders(orders);
   }
-
 }
