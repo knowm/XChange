@@ -81,7 +81,8 @@ public class KrakenStreamingAdapters {
     Iterator<JsonNode> iterator = node.elements();
     BigDecimal price = nextNodeAsDecimal(iterator);
     BigDecimal volume = nextNodeAsDecimal(iterator);
-    return new LimitOrder(orderType, volume, instrument, null, null, price);
+    Date timestamp = nextNodeAsDate(iterator);
+    return new LimitOrder(orderType, volume, instrument, null, timestamp, price);
   }
 
   /** Adapt an ArrayNode containing a ticker message into a Ticker */
