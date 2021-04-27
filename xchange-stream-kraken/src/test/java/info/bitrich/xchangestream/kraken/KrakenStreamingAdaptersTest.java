@@ -42,10 +42,12 @@ public class KrakenStreamingAdaptersTest {
     LimitOrder firstAsk = afterUpdate.getAsks().get(0);
     assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("8692");
     assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("2.01122372");
+    assertThat(firstAsk.getTimestamp().getTime()).isEqualByComparingTo(1561120269000L);
 
     LimitOrder firstBid = afterUpdate.getBids().get(0);
     assertThat(firstBid.getLimitPrice()).isEqualByComparingTo("8691.9");
     assertThat(firstBid.getOriginalAmount()).isEqualByComparingTo("1.45612927");
+    assertThat(firstBid.getTimestamp().getTime()).isEqualByComparingTo(1561120266000L);
   }
 
   @Test
@@ -68,6 +70,7 @@ public class KrakenStreamingAdaptersTest {
     LimitOrder firstAsk = afterUpdate.getAsks().get(0);
     assertThat(firstAsk.getLimitPrice()).isEqualByComparingTo("9621");
     assertThat(firstAsk.getOriginalAmount()).isEqualByComparingTo("1.36275258");
+    assertThat(firstAsk.getTimestamp().getTime()).isEqualByComparingTo(1561372897000L);
   }
 
   @Test
