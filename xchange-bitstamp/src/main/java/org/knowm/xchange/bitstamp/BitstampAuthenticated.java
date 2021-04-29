@@ -30,7 +30,7 @@ public interface BitstampAuthenticated {
 
   /**
    * @deprecated Use {@link BitstampAuthenticatedV2#getOpenOrders(String, ParamsDigest,
-   *     SynchronizedValueFactory, BitstampV2.Pair)}.
+   *     SynchronizedValueFactory, SynchronizedValueFactory, String, BitstampV2.Pair)}.
    */
   @POST
   @Path("open_orders/")

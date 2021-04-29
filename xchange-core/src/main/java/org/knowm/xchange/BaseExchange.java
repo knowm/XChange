@@ -130,6 +130,7 @@ public abstract class BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+
   protected void loadExchangeMetaData(InputStream is) {
 
     exchangeMetaData = loadMetaData(is, ExchangeMetaData.class);
