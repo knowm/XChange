@@ -36,40 +36,24 @@ public class BitstampDigestV2 extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     Mac mac256 = getMac();
-    mac256.update(apiKey.getBytes());
-
-    System.out.println("restInvocation.getHttpMethod() " + restInvocation.getHttpMethod());
-    mac256.update(restInvocation.getHttpMethod().getBytes()); //HTTP VERB
-
-    System.out.println("baseUrlHost " + baseUrlHost);
-    mac256.update(baseUrlHost.getBytes()); //url Host
-
     String okPath = "/" + restInvocation.getPath();
-    System.out.println("restInvocation.getPath() " + okPath);
-    mac256.update(okPath.getBytes()); //url Path
-
-    System.out.println("restInvocation.getQueryString() " + restInvocation.getQueryString());
-    mac256.update(restInvocation.getQueryString().getBytes()); //url Query
-
     String contentType = restInvocation.getReqContentType();
 
+    mac256.update(apiKey.getBytes());
+
+    mac256.update(restInvocation.getHttpMethod().getBytes()); //HTTP VERB
+    mac256.update(baseUrlHost.getBytes()); //url Host
+    mac256.update(okPath.getBytes()); //url Path
+    mac256.update(restInvocation.getQueryString().getBytes()); //url Query
+
     if (contentType != null) {
-      System.out.println("restInvocation.getReqContentType() " + contentType);
       mac256.update(contentType.getBytes()); //content type
     }
 
-    System.out.println("X-Auth-Nonce " + restInvocation.getParamValue(HeaderParam.class, "X-Auth-Nonce").toString());
     mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Nonce").toString().getBytes());
-
-    System.out.println("X-Auth-Timestamp " + restInvocation.getParamValue(HeaderParam.class, "X-Auth-Timestamp").toString());
     mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Timestamp").toString().getBytes());
-
-    System.out.println("X-Auth-Version " + restInvocation.getParamValue(HeaderParam.class, "X-Auth-Version").toString());
     mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Version").toString().getBytes());
-
-    System.out.println("restInvocation.getRequestBody() " + restInvocation.getRequestBody());
     mac256.update(restInvocation.getRequestBody().getBytes());
-
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
   }
