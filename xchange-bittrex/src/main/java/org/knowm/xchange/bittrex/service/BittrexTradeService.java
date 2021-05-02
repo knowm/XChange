@@ -2,6 +2,8 @@ package org.knowm.xchange.bittrex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -124,25 +126,28 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
       List<Order> orders = new ArrayList<>();
       for (String orderId : orderIds) {
         BittrexOrder bittrexOrder = getBittrexOrder(orderId);
-        if (bittrexOrder != null) {
-          Order order = BittrexAdapters.adaptOrder(bittrexOrder);
-          if (order instanceof MarketOrder) {
-            BigDecimal rate =
-                decorateApiCall(
-                        () -> {
-                          List<BittrexExecution> executions =
-                              getBittrexOrderExecutions(order.getId());
-                          if (executions != null && !executions.isEmpty()) {
-                            return executions.get(0).getRate();
-                          }
-                          throw new BittrexException();
-                        })
-                    .withRetry(retry("orderExecutionRate"))
-                    .call();
-            order.setAveragePrice(rate);
-          }
-          orders.add(order);
+        if (bittrexOrder == null) {
+          continue;
         }
+        Order order = BittrexAdapters.adaptOrder(bittrexOrder);
+        if (order instanceof MarketOrder) {
+          BigDecimal rate =
+              decorateApiCall(
+                      () -> {
+                        List<BittrexExecution> executions =
+                            getBittrexOrderExecutions(order.getId());
+                        return executions.stream()
+                            .map(BittrexExecution::getRate)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            .divide(
+                                new BigDecimal(executions.size()),
+                                new MathContext(8, RoundingMode.FLOOR));
+                      })
+                  .withRetry(retry("orderExecutionRate"))
+                  .call();
+          order.setAveragePrice(rate);
+        }
+        orders.add(order);
       }
       return orders;
     } catch (BittrexException e) {
