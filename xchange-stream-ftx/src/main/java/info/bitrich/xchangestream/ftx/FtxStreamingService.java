@@ -9,28 +9,65 @@ import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.ftx.service.FtxDigest;
+import org.knowm.xchange.utils.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.crypto.Mac;
 
 public class FtxStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingService.class);
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private boolean isLoggedIn = false;
-  private FtxAuthenticationMessage authenticationMessage = null;
+  private ExchangeSpecification exchangeSpecification = null;
 
   public FtxStreamingService(String apiUrl) {
     super(apiUrl);
   }
 
-  public FtxStreamingService(String apiUrl, FtxAuthenticationMessage authenticationMessage) {
+  public FtxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
     super(apiUrl);
-    this.authenticationMessage = authenticationMessage;
+    this.exchangeSpecification = exchangeSpecification;
   }
 
   @Override
   protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
+  }
+
+  private FtxAuthenticationMessage getAuthMessage(){
+    Mac mac = FtxDigest.createInstance(exchangeSpecification.getSecretKey()).getMac();
+
+    try {
+      Long nonce = System.currentTimeMillis();
+      String message = nonce.toString() + "websocket_login";
+
+      mac.update(message.getBytes(StandardCharsets.UTF_8));
+
+      return new FtxAuthenticationMessage(
+              new FtxAuthenticationMessage.FtxAuthenticationArgs(
+                      exchangeSpecification.getApiKey(),
+                      DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
+                      nonce));
+    } catch (Exception e) {
+      throw new ExchangeException("Digest encoding exception", e);
+    }
+  }
+
+  @Override
+  protected void handleMessage(JsonNode message) {
+    if(message.hasNonNull("type")){
+      if(message.get("type").asText().equals("error")){
+        setLoggedInToFalse();
+      }
+    }
+    super.handleMessage(message);
   }
 
   @Override
@@ -53,8 +90,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     String channel = "";
     String market = "";
 
-    if (authenticationMessage != null && !isLoggedIn) {
-      sendObjectMessage(authenticationMessage);
+    if (exchangeSpecification != null && !isLoggedIn) {
+      FtxAuthenticationMessage message = getAuthMessage();
+      LOG.info("Sending authentication message: "+ message);
+      sendObjectMessage(message);
       isLoggedIn = true;
     }
 
@@ -66,8 +105,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       market = null;
     }
 
-    LOG.trace("GetSubscribeMessage channel: " + channel);
-    LOG.trace("GetSubscribeMessage market: " + market);
+    LOG.debug("GetSubscribeMessage channel: " + channel);
+    LOG.debug("GetSubscribeMessage market: " + market);
 
     return mapper.writeValueAsString(new FtxStreamRequest(channel, market, "subscribe"));
   }
@@ -85,13 +124,25 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       market = null;
     }
 
-    if (authenticationMessage != null && isLoggedIn) {
-      isLoggedIn = false;
-    }
+    setLoggedInToFalse();
 
-    LOG.trace("GetSubscribeMessage channel: " + channel);
-    LOG.trace("GetSubscribeMessage market: " + market);
+    LOG.debug("GetUnSubscribeMessage channel: " + channel);
+    LOG.debug("GetUnSubscribeMessage market: " + market);
 
     return objectMapper.writeValueAsString(new FtxStreamRequest(channel, market, "unsubscribe"));
   }
+
+  @Override
+  public void resubscribeChannels() {
+    setLoggedInToFalse();
+    super.resubscribeChannels();
+  }
+
+  private void setLoggedInToFalse(){
+    if (exchangeSpecification != null && isLoggedIn) {
+      isLoggedIn = false;
+      LOG.info("IsLoggedIn is "+false);
+    }
+  }
+
 }
