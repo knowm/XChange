@@ -185,7 +185,7 @@
     <module>xchange-zaif</module>
     <module>xchange-enigma</module>
 
-
+    <module>xchange-stream-simulated</module>
     <module>xchange-stream-bankera</module>
     <module>xchange-stream-binance</module>
     <module>xchange-stream-bitfinex</module>
