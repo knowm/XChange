@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.8-SNAPSHOT</version>
+  <version>5.0.8</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -86,7 +86,7 @@
     <connection>scm:git:git@github.com:knowm/XChange.git</connection>
     <developerConnection>scm:git:git@github.com:knowm/XChange.git</developerConnection>
     <url>git@github.com:knowm/XChange.git</url>
-    <tag>HEAD</tag>
+    <tag>xchange-5.0.8</tag>
   </scm>
 
   <modules>
