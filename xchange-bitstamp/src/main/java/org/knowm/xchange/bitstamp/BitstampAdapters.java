@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampPairInfo;
@@ -37,7 +37,6 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.FeeTier;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -393,25 +392,26 @@ public final class BitstampAdapters {
   public static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairs(
       Collection<BitstampPairInfo> bitstampPairInfo) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
+        new HashMap<CurrencyPair, CurrencyPairMetaData>();
     for (BitstampPairInfo pairInfo : bitstampPairInfo) {
       String[] pairInfos = pairInfo.getName().split("/");
-      currencyPairs.put(new CurrencyPair(pairInfos[0], pairInfos[1]), adaptCurrencyPairInfo(pairInfo));
+      currencyPairs.put(
+          new CurrencyPair(pairInfos[0], pairInfos[1]), adaptCurrencyPairInfo(pairInfo));
     }
     return currencyPairs;
   }
 
-
-  public static CurrencyPairMetaData adaptCurrencyPairInfo (BitstampPairInfo pairInfo) {
+  public static CurrencyPairMetaData adaptCurrencyPairInfo(BitstampPairInfo pairInfo) {
 
     String[] minOrderParts = pairInfo.getMinimumOrder().split(" ");
     BigDecimal minOrder = new BigDecimal(minOrderParts[0]);
 
-    return new CurrencyPairMetaData
-                    .Builder()
-                    .counterMinimumAmount(minOrder)
-                    .priceScale(pairInfo.getCounterDecimals())
-                    .baseScale(pairInfo.getBaseDecimals()).build();
+    return new CurrencyPairMetaData.Builder()
+        .counterMinimumAmount(minOrder)
+        .priceScale(pairInfo.getCounterDecimals())
+        .baseScale(pairInfo.getBaseDecimals())
+        .build();
   }
 
   public static ExchangeMetaData adaptMetaData(
@@ -438,7 +438,6 @@ public final class BitstampAdapters {
         currenciesMap.put(c.counter, null);
       }
     }
-
 
     return metaData;
   }
