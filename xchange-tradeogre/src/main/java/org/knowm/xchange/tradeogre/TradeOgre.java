@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreOrderBook;
 import org.knowm.xchange.tradeogre.dto.marketdata.TradeOgreTicker;
 
@@ -24,5 +23,4 @@ public interface TradeOgre {
   @GET
   @Path("orders/{market}")
   TradeOgreOrderBook getOrderBook(@PathParam("market") String market) throws IOException;
-
 }

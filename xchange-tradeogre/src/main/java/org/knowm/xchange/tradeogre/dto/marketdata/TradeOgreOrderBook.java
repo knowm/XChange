@@ -2,7 +2,6 @@ package org.knowm.xchange.tradeogre.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.Map;
-
 import lombok.Data;
 
 @Data

@@ -3,7 +3,6 @@ package org.knowm.xchange.tradeogre.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;

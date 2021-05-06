@@ -1,7 +1,6 @@
 package org.knowm.xchange.tradeogre.dto.trade;
 
 import java.math.BigDecimal;
-
 import lombok.Data;
 
 @Data

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.tradeogre.TradeOgreAdapters;
@@ -34,7 +33,8 @@ public class TradeOgreMarketDataServiceRaw extends TradeOgreBaseService {
         .map(
             entry ->
                 TradeOgreAdapters.adaptTicker(
-                    TradeOgreAdapters.adaptTradeOgreCurrencyPair(entry.getKey()), entry.getValue()));
+                    TradeOgreAdapters.adaptTradeOgreCurrencyPair(entry.getKey()),
+                    entry.getValue()));
   }
 
   public TradeOgreOrderBook getTradeOgreOrderBook(CurrencyPair currencyPair) throws IOException {
