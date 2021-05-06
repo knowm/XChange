@@ -2,7 +2,6 @@ package org.knowm.xchange.tradeogre.service;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -33,5 +32,4 @@ public class TradeOgreTradeServiceRaw extends TradeOgreBaseService {
   public Collection<TradeOgreOrder> getOrders() throws IOException {
     return tradeOgre.getOrders(base64UserPwd, null);
   }
-
 }

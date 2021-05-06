@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -317,7 +316,7 @@ public class FtxAdapters {
   }
 
   private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
-  
+
   public static String adaptCurrencyPairToFtxMarket(CurrencyPair currencyPair) {
     if (FUTURES_PATTERN.matcher(currencyPair.counter.getCurrencyCode()).matches()) {
       return currencyPair.base + "-" + currencyPair.counter;

@@ -72,9 +72,9 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
             exchange.getExchangeSpecification().getApiKey());
 
     this.signatureCreatorV2 =
-            BitstampDigestV2.createInstance(
-                    exchange.getExchangeSpecification().getSecretKey(),
-                    exchange.getExchangeSpecification().getApiKey());
+        BitstampDigestV2.createInstance(
+            exchange.getExchangeSpecification().getSecretKey(),
+            exchange.getExchangeSpecification().getApiKey());
 
     BitstampExchange bitstampExchange = (BitstampExchange) exchange;
 
@@ -88,12 +88,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       BitstampBalance bitstampBalance =
           bitstampAuthenticatedV2.getBalance(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              version
-          );
+              apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, version);
       if (bitstampBalance.getError() != null) {
         throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
       }
@@ -144,11 +139,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       BitstampWithdrawal response =
           bitstampAuthenticated.withdrawBitcoin(
-              apiKey,
-              signatureCreator,
-              nonceFactory,
-              amount,
-              address);
+              apiKey, signatureCreator, nonceFactory, amount, address);
 
       return checkAndReturnWithdrawal(response);
     } catch (BitstampException e) {
@@ -256,10 +247,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       final BitstampDepositAddress response =
-          bitstampAuthenticated.getBitcoinDepositAddress(
-              apiKey,
-              signatureCreator,
-              nonceFactory);
+          bitstampAuthenticated.getBitcoinDepositAddress(apiKey, signatureCreator, nonceFactory);
       if (response.getError() != null) {
         throw new ExchangeException(
             "Requesting Bitcoin deposit address failed: " + response.getError());
@@ -275,9 +263,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       final BitstampDepositAddress response =
           bitstampAuthenticated.getBitcoinCashDepositAddress(
-              apiKey,
-              signatureCreator,
-              nonceFactory);
+              apiKey, signatureCreator, nonceFactory);
       if (response.getError() != null) {
         throw new ExchangeException(
             "Requesting Bitcoin deposit address failed: " + response.getError());
@@ -292,10 +278,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       final BitstampDepositAddress response =
-          bitstampAuthenticated.getLitecoinDepositAddress(
-              apiKey,
-              signatureCreator,
-              nonceFactory);
+          bitstampAuthenticated.getLitecoinDepositAddress(apiKey, signatureCreator, nonceFactory);
       if (response.getError() != null) {
         throw new ExchangeException(
             "Requesting Bitcoin deposit address failed: " + response.getError());
@@ -310,10 +293,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
     try {
       final BitstampDepositAddress response =
-          bitstampAuthenticated.getEthereumDepositAddress(
-              apiKey,
-              signatureCreator,
-              nonceFactory);
+          bitstampAuthenticated.getEthereumDepositAddress(apiKey, signatureCreator, nonceFactory);
       if (response.getError() != null) {
         throw new ExchangeException(
             "Requesting Bitcoin deposit address failed: " + response.getError());
@@ -326,10 +306,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   public BitstampRippleDepositAddress getRippleDepositAddress() throws IOException {
 
-    return bitstampAuthenticated.getRippleDepositAddress(
-        apiKey,
-        signatureCreator,
-        nonceFactory);
+    return bitstampAuthenticated.getRippleDepositAddress(apiKey, signatureCreator, nonceFactory);
   }
 
   /**
@@ -357,10 +334,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     try {
       final List<DepositTransaction> response =
           Arrays.asList(
-              bitstampAuthenticated.getUnconfirmedDeposits(
-                  apiKey,
-                  signatureCreator,
-                  nonceFactory));
+              bitstampAuthenticated.getUnconfirmedDeposits(apiKey, signatureCreator, nonceFactory));
       return response;
     } catch (BitstampException e) {
       throw handleError(e);
