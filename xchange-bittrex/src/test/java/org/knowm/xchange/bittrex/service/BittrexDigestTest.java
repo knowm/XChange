@@ -1,6 +1,6 @@
 package org.knowm.xchange.bittrex.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -14,6 +14,6 @@ public class BittrexDigestTest {
     String encoded =
         "https://api.bittrex.com/v3/orders/closed?marketSymbol=BTC-USD&pageSize=100&startDate=2020-11-04T09%3A09%3A21Z";
 
-    assertEquals(unencoded, BittrexDigest.urlDecode(encoded));
+    assertThat(BittrexDigest.urlDecode(encoded)).isEqualTo(unencoded);
   }
 }
