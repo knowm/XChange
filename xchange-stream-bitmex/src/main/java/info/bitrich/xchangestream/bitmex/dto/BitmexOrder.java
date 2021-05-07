@@ -81,18 +81,20 @@ public class BitmexOrder extends BitmexMarketDataEvent {
 
   public Order toOrder() {
     Order.Builder order;
-    if (ordType.equals("Market")) {
+    if (ordType == null && BitmexOrder.OrderStatus.CANCELED.equals(ordStatus)){
+      order = new BitmexCancelOrder.BitmexCancelOrderBuilder(getInstrument());
+    } else if (ordType.equals("Market")) {
       order =
           new MarketOrder.Builder(
               side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK,
-              new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
+                  getInstrument());
     } else {
       order =
           new LimitOrder.Builder(
               side.equals("Buy") ? Order.OrderType.BID : Order.OrderType.ASK,
-              new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, symbol.length())));
+                  getInstrument());
     }
-    order.id(orderID).averagePrice(avgPx).originalAmount(orderQty).cumulativeAmount(cumQty);
+    order.id(orderID).averagePrice(avgPx).originalAmount(orderQty).cumulativeAmount(cumQty).timestamp(getDate()).userReference(clOrdID);
 
     switch (ordStatus) {
       case NEW:
@@ -116,11 +118,12 @@ public class BitmexOrder extends BitmexMarketDataEvent {
         order.orderStatus(Order.OrderStatus.UNKNOWN);
         break;
     }
-    if (ordType.equals("Market")) {
-      return ((MarketOrder.Builder) order).build();
-    } else {
-      return ((LimitOrder.Builder) order).build();
-    }
+
+    return order.build();
+  }
+
+  private CurrencyPair getInstrument() {
+    return new CurrencyPair(symbol.substring(0, 3), symbol.substring(3));
   }
 
   public String getOrderID() {

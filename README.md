@@ -180,7 +180,7 @@ For snapshots, add the following repository to your pom.xml file.
 
 The current snapshot version is:
 
-    5.0.9-SNAPSHOT
+    5.0.9-MAHI-SNAPSHOT
 
 ## Building with Maven
 
