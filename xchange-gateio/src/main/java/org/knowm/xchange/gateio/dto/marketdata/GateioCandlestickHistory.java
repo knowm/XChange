@@ -20,18 +20,15 @@ public class GateioCandlestickHistory extends GateioBaseResponse {
   }
 
   public List<List<String>>  getCandlesticks() {
-
     return candlesticks;
   }
 
   public String getElapsed() {
-
     return elapsed;
   }
 
   @Override
   public String toString() {
-
     return "BTERPublicTrades [candlesticks=" + candlesticks + ", elapsed=" + elapsed + "]";
   }
 }

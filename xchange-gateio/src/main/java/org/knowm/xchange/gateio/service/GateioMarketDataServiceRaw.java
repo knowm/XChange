@@ -9,10 +9,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.marketdata.*;
-
-import static java.util.concurrent.TimeUnit.HOURS;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -106,21 +105,20 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return currencyPairs;
   }
 
-  public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, int limit) throws IOException {
+  public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, Integer hours) throws IOException {
 
-    limit = limit < 0 ? 1 : limit;
-
-    long limitHours = (interval.getSeconds() * limit) / HOURS.toSeconds(1);
+    if (hours != null && hours < 1)
+      throw new ExchangeException("Variable 'hours' should be more than 0!");
 
     GateioCandlestickHistory candlestickHistory = handleResponse(
             bter.getKlinesGate(
                     pair.toString().replace('/', '_').toLowerCase(),
-                    limitHours > 1 ? limitHours : 1,
+                    hours,
                     interval.getSeconds()
             )
     );
 
-    List<GateioKline> result = candlestickHistory.getCandlesticks().stream()
+    return candlestickHistory.getCandlesticks().stream()
             .map(data -> new GateioKline(
                     Long.parseLong(data.get(0)),
                     new BigDecimal(data.get(1)),
@@ -130,10 +128,5 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
                     new BigDecimal(data.get(5))
             ))
             .collect(Collectors.toList());
-
-    if (limit > result.size())
-      return result;
-    else
-      return result.subList(result.size() - limit, result.size());
   }
 }
