@@ -1,5 +1,7 @@
 package org.knowm.xchange.bittrex.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
@@ -40,7 +42,9 @@ public class BittrexDigest extends BaseParamsDigest {
     String content = restInvocation.getRequestBody();
     String contentHash = DigestUtils.bytesToHex(md.digest(content.getBytes()));
 
-    String uri = restInvocation.getInvocationUrl();
+    // In the signature calculation, Bittrex expects the original unencoded URL.
+    // That is not accessible from a RestInvocation, so we have to decode it here.
+    String uri = urlDecode(restInvocation.getInvocationUrl());
     Long timestamp = (Long) restInvocation.getParamValue(HeaderParam.class, "Api-Timestamp");
     String method = restInvocation.getHttpMethod();
 
@@ -50,5 +54,20 @@ public class BittrexDigest extends BaseParamsDigest {
     mac.update(preSign.getBytes());
 
     return DigestUtils.bytesToHex(mac.doFinal());
+  }
+
+  /**
+   * Decodes the URL-encoded string and returns the plain text. The converse of
+   * si.mazi.rescu.Params#urlEncode(java.lang.String, boolean).
+   *
+   * @param data Encoded text.
+   * @return Plain text.
+   */
+  static String urlDecode(String data) {
+    try {
+      return URLDecoder.decode(data, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Illegal encoding, fix the code.", e); // should not happen
+    }
   }
 }
