@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>XChange GateIO Stream</name>
+    <name>XChange Gate.io Stream</name>
     <artifactId>xchange-stream-gateio</artifactId>
 
     <dependencies>
