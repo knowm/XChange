@@ -1,19 +1,18 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.gateio.GateioAdapters;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.*;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -105,5 +104,36 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
 
     List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
     return currencyPairs;
+  }
+
+  public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, int limit) throws IOException {
+
+    limit = limit < 0 ? 1 : limit;
+
+    long limitHours = (interval.getSeconds() * limit) / HOURS.toSeconds(1);
+
+    GateioCandlestickHistory candlestickHistory = handleResponse(
+            bter.getKlinesGate(
+                    pair.toString().replace('/', '_').toLowerCase(),
+                    limitHours > 1 ? limitHours : 1,
+                    interval.getSeconds()
+            )
+    );
+
+    List<GateioKline> result = candlestickHistory.getCandlesticks().stream()
+            .map(data -> new GateioKline(
+                    Long.parseLong(data.get(0)),
+                    new BigDecimal(data.get(1)),
+                    new BigDecimal(data.get(2)),
+                    new BigDecimal(data.get(3)),
+                    new BigDecimal(data.get(4)),
+                    new BigDecimal(data.get(5))
+            ))
+            .collect(Collectors.toList());
+
+    if (limit > result.size())
+      return result;
+    else
+      return result.subList(result.size() - limit, result.size());
   }
 }
