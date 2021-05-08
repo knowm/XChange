@@ -57,7 +57,7 @@ public interface Gateio {
   @Path("candlestick2/{currency_pair}")
   GateioCandlestickHistory getKlinesGate(
           @PathParam("currency_pair") String tradePair,
-          @QueryParam("range_hour") Long limit,
+          @QueryParam("range_hour") Integer hours,
           @QueryParam("group_sec") Long interval)
           throws IOException;
 }
