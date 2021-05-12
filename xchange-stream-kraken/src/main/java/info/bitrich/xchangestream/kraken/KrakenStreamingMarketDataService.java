@@ -1,7 +1,7 @@
 package info.bitrich.xchangestream.kraken;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import io.reactivex.Observable;
@@ -10,8 +10,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** @author makarid, pchertalev */
 public class KrakenStreamingMarketDataService implements StreamingMarketDataService {
@@ -30,16 +34,25 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
     this.service = service;
   }
 
-  @Override
-  public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
-    OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
-    int depth = parseOrderBookSize(args);
-    return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth)
-        .map(
-            arrayNode ->
-                KrakenStreamingAdapters.adaptOrderbookMessage(orderBook, currencyPair, arrayNode));
-  }
+    @Override
+    public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
+      String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
+      TreeSet<LimitOrder> bids = Sets.newTreeSet();
+      TreeSet<LimitOrder> asks = Sets.newTreeSet();
+      int depth = parseOrderBookSize(args);
+      AtomicBoolean awaitingSnapshot = new AtomicBoolean(true);
+      return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth).flatMap(arrayNode -> {
+                            try {
+                                return Observable.just(KrakenStreamingAdapters.adaptOrderbookMessage(depth, awaitingSnapshot, bids, asks, currencyPair, arrayNode));
+                            } catch (IllegalStateException e) {
+                                LOG.warn("Reconnecting after adapter error {}", e.getMessage());
+                                awaitingSnapshot.set(true);
+                                this.service.sendMessage(this.service.getUnsubscribeMessage(channelName));
+                                this.service.sendMessage(this.service.getSubscribeMessage(channelName));
+                                return Observable.empty();
+                            }
+                        });
+    }
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
