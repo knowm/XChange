@@ -70,6 +70,13 @@ public interface BitsoAuthenticated {
       @HeaderParam("Authorization") String authorization, @PathParam("oid") String oid)
       throws BitsoException, IOException;
 
+  @GET
+  @Path("/orders/{oid}/")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BitsoAllOrders getOrder(
+      @HeaderParam("Authorization") String authorization, @PathParam("oid") String oid)
+      throws BitsoException, IOException;
+
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")

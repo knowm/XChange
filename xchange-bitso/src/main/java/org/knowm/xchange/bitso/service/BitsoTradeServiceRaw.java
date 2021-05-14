@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.BitsoAuthenticated;
+import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoCacleOrderResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrder;
@@ -39,9 +40,6 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
 
   public BitsoOrderResponse placeBitsOrder(BitsoPlaceOrder bitsoPlaceOrder) throws IOException {
     String auth = signatureCreator.digestParams("POST", "/v3/orders/", bitsoPlaceOrder);
-    System.out.println("Authorization Code issss...........");
-    System.out.println(auth);
-
     return bitsoAuthenticated.placeOrder(auth, bitsoPlaceOrder);
   }
 
@@ -95,5 +93,27 @@ public class BitsoTradeServiceRaw extends BitsoBaseService {
         numberOfTransactions,
         offset,
         sort);
+  }
+
+  public BitsoAllOrders getBitsoOrderByIds(String... orderIds) throws BitsoException, IOException {
+    String orderId = "";
+    for (String oid : orderIds) {
+      if (orderId.equals("")) {
+        orderId = oid;
+      } else {
+        orderId = orderId + "," + oid;
+      }
+    }
+    String auth = signatureCreator.digestParams("GET", "/v3/orders/" + orderId, null);
+
+    return bitsoAuthenticated.getOrder(auth, orderId);
+  }
+
+  public static void main(String[] args) {
+    BitsoDigest signatureCreator =
+        BitsoDigest.createInstance("427d805db613b082bf7f9ef761b7e3e2", "Demo", "berCEsRXxq");
+
+    String auth = signatureCreator.digestParams("GET", "/v3/orders/" + "Qi04TtkVq62J6Uul/", null);
+    System.out.println(auth);
   }
 }

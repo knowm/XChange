@@ -1,9 +1,12 @@
 package org.knowm.xchange.examples.bitso.trade;
 
 import java.io.IOException;
+import java.util.Collection;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
 import org.knowm.xchange.bitso.service.BitsoTradeServiceRaw;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
@@ -23,7 +26,8 @@ public class BitsoUserTradeHistoryDemo {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
     TradeService tradeService = bitso.getTradeService();
-
+    Collection<Order> orders=tradeService.getOrder("wpaVbgYDc06tCZ09");
+    System.out.println(orders);
     generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService);
   }

@@ -96,9 +96,9 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
       start =
-          DateUtils.toUnixTimeOptional(timeSpan.getStartTime()).map(Object::toString).orElse(start);
+          DateUtils.toUnixTimeOptional(timeSpan.getStartTime()).map(Object::toString).orElse(null);
 
-      end = DateUtils.toUnixTimeOptional(timeSpan.getEndTime()).map(Object::toString).orElse(end);
+      end = DateUtils.toUnixTimeOptional(timeSpan.getEndTime()).map(Object::toString).orElse(null);
     }
 
     return KrakenAdapters.adaptTradesHistory(

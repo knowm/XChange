@@ -11,9 +11,10 @@ import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 
-/** @author Piotr Ładyżyński */
-@Path("v2")
+/** @author Ravi Pandit */
+@Path("v3")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitso {
 
@@ -23,11 +24,15 @@ public interface Bitso {
    */
   @GET
   @Path("order_book/")
-  BitsoOrderBook getOrderBook() throws BitsoException, IOException;
+  BitsoOrderBook getOrderBook(@QueryParam("book") String book) throws BitsoException, IOException;
 
   @GET
   @Path("ticker/?book={currency}")
   BitsoTicker getTicker(@PathParam("currency") String currency) throws BitsoException, IOException;
+
+  @GET
+  @Path("trades/?book={currency}")
+  BitsoTrades getTrades(@PathParam("currency") String currency) throws BitsoException, IOException;
 
   /** Returns descending list of transactions. */
   @GET

@@ -17,20 +17,21 @@ public class UpbitLimitOrderDemo {
 
   public static void main(String[] args) throws Exception {
     Exchange upbit = UpbitDemoUtils.createExchange();
-    generic(upbit.getTradeService());
+    generic(upbit);
   }
 
-  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
-
+  private static void generic(Exchange upbit) throws IOException, InterruptedException {
+    // create
+    TradeService tradeService = upbit.getTradeService();
+    BigDecimal amount = new BigDecimal("0.01");
+    BigDecimal price = new BigDecimal("200000");
     LimitOrder limitOrder =
-        new LimitOrder.Builder(OrderType.BID, new CurrencyPair(Currency.ETH, Currency.KRW))
-            .originalAmount(new BigDecimal("0.01"))
-            .limitPrice(new BigDecimal("200000"))
-            .build();
+        new LimitOrder(
+            OrderType.BID, amount, new CurrencyPair(Currency.ETH, Currency.KRW), null, null, price);
     String id = tradeService.placeLimitOrder(limitOrder);
     Thread.sleep(3000);
     Collection<Order> orders = tradeService.getOrder(id);
     orders.forEach(order -> System.out.println(order));
-    System.out.println(tradeService.cancelOrder(id));
+    tradeService.cancelOrder(id);
   }
 }

@@ -18,6 +18,7 @@ public class UpbitAccountServiceRaw extends UpbitBaseService {
   }
 
   public UpbitBalances getWallet() throws UpbitException, IOException {
-    return upbit.getWallet(this.signatureCreator);
+    UpbitBalances upbitBalances = upbit.getWallet(this.signatureCreator);
+    return upbitBalances;
   }
 }

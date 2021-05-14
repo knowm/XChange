@@ -81,6 +81,12 @@
 			<artifactId>xchange-bittrex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange CampBX exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-campbx</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange BitcoinCharts support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -218,6 +224,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-btctrade</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Cryptonit exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-cryptonit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Poloniex exchange support -->
@@ -387,11 +399,6 @@
 			<artifactId>xchange-lgo</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-deribit</artifactId>
-			<version>${project.version}</version>
-	    </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

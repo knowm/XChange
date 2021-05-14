@@ -30,7 +30,5 @@ public class UpbitExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void remoteInit() throws IOException, ExchangeException {
-    exchangeMetaData = ((UpbitMarketDataService) marketDataService).getMetaData();
-  }
+  public void remoteInit() throws IOException, ExchangeException {}
 }

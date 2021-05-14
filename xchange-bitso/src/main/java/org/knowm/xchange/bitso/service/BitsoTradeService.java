@@ -8,6 +8,7 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
@@ -17,8 +18,8 @@ import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrderResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoPlaceOrder;
 import org.knowm.xchange.bitso.dto.trade.Payload;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -70,12 +71,15 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
       } catch (ParseException e) {
         e.printStackTrace();
       }
+      String baseCurrency = bitsoOrder.getBook().split("_")[0].toUpperCase();
+      String counterCurrency = bitsoOrder.getBook().split("_")[1].toUpperCase();
 
+      CurrencyPair currencyPair = new CurrencyPair(baseCurrency, counterCurrency);
       limitOrders.add(
           new LimitOrder(
               orderType,
               new BigDecimal(bitsoOrder.getOriginalAmount()),
-              new CurrencyPair(Currency.BTC, Currency.MXN),
+              currencyPair,
               id,
               date,
               price));
@@ -96,7 +100,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
 
     String book = limitOrder.getInstrument().toString().replace("/", "_").toLowerCase();
     String price = limitOrder.getLimitPrice().toPlainString();
-    String major = limitOrder.getOriginalAmount().setScale(8, RoundingMode.HALF_UP).toPlainString();
+    String major = limitOrder.getOriginalAmount().setScale(2, RoundingMode.HALF_UP).toPlainString();
 
     bitsoPlaceOrder.setBook(book);
     bitsoPlaceOrder.setPrice(price);
@@ -106,16 +110,16 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
     BitsoOrderResponse bitsoOrder;
     if (limitOrder.getType() == BID) {
       bitsoPlaceOrder.setSide("buy");
-      //			super.signatureCreator.digestParams(restInvocation);
+      // super.signatureCreator.digestParams(restInvocation);
       bitsoOrder = placeBitsOrder(bitsoPlaceOrder);
 
     } else {
       bitsoPlaceOrder.setSide("sell");
       bitsoOrder = placeBitsOrder(bitsoPlaceOrder);
     }
-    //		if (bitsoOrder.getErrorMessage() != null) {
-    //			throw new ExchangeException(bitsoOrder.getErrorMessage());
-    //		}
+    // if (bitsoOrder.getErrorMessage() != null) {
+    // throw new ExchangeException(bitsoOrder.getErrorMessage());
+    // }
 
     return bitsoOrder.getPayload().getOid();
   }
@@ -145,19 +149,30 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
     return BitsoAdapters.adaptTradeHistory(
         getBitsoUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-
     return new DefaultTradeHistoryParamPaging(1000);
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+    BitsoAllOrders openOrders = getBitsoOrderByIds(orderIds);
+
+    //		OrderType type, BigDecimal originalAmount, Instrument instrument, String id, Date timestamp
+    Collection<Order> ordersList = new ArrayList<>(orderIds.length);
+
+    for (Payload payload : openOrders.getPayload()) {
+      ordersList.add(BitsoAdapters.adaptOrder(payload));
+    }
+    return ordersList;
   }
 }

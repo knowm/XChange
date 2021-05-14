@@ -120,6 +120,8 @@
     <module>xchange-btcmarkets</module>
     <module>xchange-btctrade</module>
     <module>xchange-btcturk</module>
+    <module>xchange-bx</module>
+    <module>xchange-campbx</module>
     <module>xchange-ccex</module>
     <module>xchange-cexio</module>
     <module>xchange-cobinhood</module>
@@ -147,7 +149,7 @@
     <module>xchange-dvchain</module>
     <module>xchange-exmo</module>
     <module>xchange-exx</module>
-    <module>xchange-examples</module>
+    <!-- <module>xchange-examples</module> -->
     <module>xchange-fcoin</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
@@ -195,10 +197,10 @@
     <module>xchange-stream-bitflyer</module>
     <module>xchange-stream-bitmex</module>
     <module>xchange-stream-bitstamp</module>
+	<module>xchange-stream-bitso</module>
     <module>xchange-stream-btcmarkets</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
-    <module>xchange-stream-coinjar</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
     <module>xchange-stream-gemini</module>
@@ -207,7 +209,7 @@
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
     <module>xchange-stream-poloniex2</module>
-    <module>xchange-stream-serum</module>
+    <!-- <module>xchange-stream-serum</module> -->
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
@@ -388,7 +390,7 @@
       <id>release-sign-artifacts</id>
       <activation>
         <property>
-            <name>gpg.passphrase</name>
+          <name>performRelease</name>
           <value>true</value>
         </property>
       </activation>
@@ -405,16 +407,8 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
-                  <configuration>
-                      <gpgArguments>
-                          <arg>--pinentry-mode</arg>
-                          <arg>loopback</arg>
-                      </gpgArguments>
-                  </configuration>
               </execution>
             </executions>
-
-
           </plugin>
 
           <!-- Generates a source code JAR during package -->
@@ -473,7 +467,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M1</version>
+        <version>2.5.3</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
@@ -551,17 +545,7 @@
           </execution>
         </executions>
       </plugin>
-        <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
-            <extensions>true</extensions>
-            <configuration>
-                <serverId>ossrh</serverId>
-                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-        </plugin>
+
     </plugins>
   </build>
 

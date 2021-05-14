@@ -3,9 +3,11 @@ package org.knowm.xchange.bitso.service;
 import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.Bitso;
+import org.knowm.xchange.bitso.dto.BitsoException;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTransaction;
+import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -23,7 +25,8 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
   }
 
   public BitsoOrderBook getBitsoOrderBook(CurrencyPair pair) throws IOException {
-    return bitso.getOrderBook();
+    String symbol = pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode();
+    return bitso.getOrderBook(symbol.toLowerCase());
   }
 
   public BitsoTransaction[] getBitsoTransactions(Object... args) throws IOException {
@@ -43,7 +46,15 @@ public class BitsoMarketDataServiceRaw extends BitsoBaseService {
   }
 
   public BitsoTicker getBitsoTicker(CurrencyPair pair) throws IOException {
-    return bitso.getTicker(pair.base + "_" + pair.counter);
+    String symbol =
+        pair.base.toString().toLowerCase() + "_" + pair.counter.toString().toLowerCase();
+    return bitso.getTicker(symbol);
+  }
+
+  public BitsoTrades getBitsoTrades(CurrencyPair pair) throws BitsoException, IOException {
+    String symbol =
+        pair.base.toString().toLowerCase() + "_" + pair.counter.toString().toLowerCase();
+    return bitso.getTrades(symbol);
   }
 
   public enum BitsoTime {
