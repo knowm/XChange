@@ -52,9 +52,9 @@ public class DsxExchange extends BaseExchange implements Exchange {
       // set the new methods - including patch
       methodsField.set(null, methods);
     } catch (SecurityException
-            | IllegalArgumentException
-            | IllegalAccessException
-            | NoSuchFieldException e) {
+        | IllegalArgumentException
+        | IllegalAccessException
+        | NoSuchFieldException e) {
       LOGGER.error("Error while setting up PATCH support");
     }
   }
@@ -72,8 +72,8 @@ public class DsxExchange extends BaseExchange implements Exchange {
 
     dsxMetaData = loadMetaData(is, DsxMetaData.class);
     exchangeMetaData =
-            DsxAdapters.adaptToExchangeMetaData(
-                    null, dsxMetaData.getCurrencies(), dsxMetaData.getCurrencyPairs());
+        DsxAdapters.adaptToExchangeMetaData(
+            null, dsxMetaData.getCurrencies(), dsxMetaData.getCurrencyPairs());
   }
 
   @Override
@@ -94,27 +94,27 @@ public class DsxExchange extends BaseExchange implements Exchange {
     DsxMarketDataServiceRaw dataService = ((DsxMarketDataServiceRaw) marketDataService);
     List<DsxSymbol> dsxSymbols = dataService.getDsxSymbols();
     Map<Currency, CurrencyMetaData> currencies =
-            dataService.getDsxCurrencies().stream()
-                    .collect(
-                            Collectors.toMap(
-                                    dsxCurrency -> new Currency(dsxCurrency.getId()),
-                                    dsxCurrency -> new CurrencyMetaData(null, dsxCurrency.getPayoutFee())));
+        dataService.getDsxCurrencies().stream()
+            .collect(
+                Collectors.toMap(
+                    dsxCurrency -> new Currency(dsxCurrency.getId()),
+                    dsxCurrency -> new CurrencyMetaData(null, dsxCurrency.getPayoutFee())));
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs =
-            dsxSymbols.stream()
-                    .collect(
-                            Collectors.toMap(
-                                    dsxSymbol ->
-                                            new CurrencyPair(
-                                                    new Currency(dsxSymbol.getBaseCurrency()),
-                                                    new Currency(dsxSymbol.getQuoteCurrency())),
-                                    dsxSymbol ->
-                                            new CurrencyPairMetaData(
-                                                    null,
-                                                    dsxSymbol.getQuantityIncrement(),
-                                                    null,
-                                                    dsxSymbol.getTickSize().scale(),
-                                                    null)));
+        dsxSymbols.stream()
+            .collect(
+                Collectors.toMap(
+                    dsxSymbol ->
+                        new CurrencyPair(
+                            new Currency(dsxSymbol.getBaseCurrency()),
+                            new Currency(dsxSymbol.getQuoteCurrency())),
+                    dsxSymbol ->
+                        new CurrencyPairMetaData(
+                            null,
+                            dsxSymbol.getQuantityIncrement(),
+                            null,
+                            dsxSymbol.getTickSize().scale(),
+                            null)));
     exchangeMetaData = DsxAdapters.adaptToExchangeMetaData(dsxSymbols, currencies, currencyPairs);
   }
 }

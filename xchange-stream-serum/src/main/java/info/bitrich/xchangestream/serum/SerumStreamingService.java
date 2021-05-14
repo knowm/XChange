@@ -32,11 +32,11 @@ public class SerumStreamingService extends JsonNettyStreamingService {
   }
 
   public SerumStreamingService(
-          String apiUrl,
-          int maxFramePayloadLength,
-          Duration connectionTimeout,
-          Duration retryDuration,
-          int idleTimeoutSeconds) {
+      String apiUrl,
+      int maxFramePayloadLength,
+      Duration connectionTimeout,
+      Duration retryDuration,
+      int idleTimeoutSeconds) {
     super(apiUrl, maxFramePayloadLength, connectionTimeout, retryDuration, idleTimeoutSeconds);
   }
 
@@ -121,9 +121,12 @@ public class SerumStreamingService extends JsonNettyStreamingService {
       throw new IllegalArgumentException("arg[1] must be the market data type");
     }
     final SubscriptionType subscriptionType = (SubscriptionType) args[1];
-    final String account = SerumAdapters.getSolanaDataTypeAddress((CurrencyPair) args[0],(String)args[2]);
+    final String account =
+        SerumAdapters.getSolanaDataTypeAddress((CurrencyPair) args[0], (String) args[2]);
     final Commitment commitment =
-            args.length > 3 && args[2] != null && args[2] instanceof Commitment ? (Commitment) args[2] : Commitment.max;
+        args.length > 3 && args[2] != null && args[2] instanceof Commitment
+            ? (Commitment) args[2]
+            : Commitment.max;
 
     int reqID = subscriptionManager.generateNewInflightRequest(channelName);
     return new SerumWsSubscriptionMessage(commitment, subscriptionType, account, reqID).buildMsg();
@@ -134,18 +137,20 @@ public class SerumStreamingService extends JsonNettyStreamingService {
     return null;
   }
 
-  public String buildChannelName(final CurrencyPair pair,
-                                 final SubscriptionType subscriptionType,
-                                 final Object... args) {
+  public String buildChannelName(
+      final CurrencyPair pair, final SubscriptionType subscriptionType, final Object... args) {
     switch (subscriptionType) {
       case accountSubscribe:
         if (args == null || args.length < 1 || !(args[0] instanceof String)) {
           throw new IllegalArgumentException(
-                  String.format("No/incorrect market data type for %s specified", pair.toString()));
+              String.format("No/incorrect market data type for %s specified", pair.toString()));
         }
-        final String marketDataType = (String)args[0];
-        return subscriptionType.name() + "_" + SerumAdapters.getSolanaDataTypeAddress(pair, marketDataType);
+        final String marketDataType = (String) args[0];
+        return subscriptionType.name()
+            + "_"
+            + SerumAdapters.getSolanaDataTypeAddress(pair, marketDataType);
     }
-    throw new UnsupportedOperationException(String.format("Unsupported subscription type %s", subscriptionType));
+    throw new UnsupportedOperationException(
+        String.format("Unsupported subscription type %s", subscriptionType));
   }
 }

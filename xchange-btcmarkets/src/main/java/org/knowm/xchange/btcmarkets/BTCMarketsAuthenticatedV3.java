@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
+import org.knowm.xchange.btcmarkets.dto.v3.BTCMarketsExceptionV3;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsAddressesResponse;
 import org.knowm.xchange.btcmarkets.dto.v3.account.BTCMarketsTradingFeesResponse;
 import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsPlaceOrderRequest;
@@ -25,7 +25,7 @@ public interface BTCMarketsAuthenticatedV3 {
       @HeaderParam("BM-AUTH-TIMESTAMP") SynchronizedValueFactory<Long> nonceFactory,
       @HeaderParam("BM-AUTH-SIGNATURE") BTCMarketsDigestV3 signer,
       BTCMarketsPlaceOrderRequest order)
-      throws BTCMarketsException, IOException;
+      throws BTCMarketsExceptionV3, IOException;
 
   @GET
   @Path("addresses")
@@ -34,7 +34,7 @@ public interface BTCMarketsAuthenticatedV3 {
       @HeaderParam("BM-AUTH-TIMESTAMP") SynchronizedValueFactory<Long> nonceFactory,
       @HeaderParam("BM-AUTH-SIGNATURE") BTCMarketsDigestV3 signer,
       @QueryParam("assetName") String assetName)
-      throws BTCMarketsException, IOException;
+      throws BTCMarketsExceptionV3, IOException;
 
   @GET
   @Path("trades")
@@ -46,7 +46,7 @@ public interface BTCMarketsAuthenticatedV3 {
       @QueryParam("before") String before,
       @QueryParam("after") String after,
       @QueryParam("limit") Integer limit)
-      throws BTCMarketsException, IOException;
+      throws BTCMarketsExceptionV3, IOException;
 
   @GET
   @Path("accounts/me/trading-fees")
@@ -54,5 +54,5 @@ public interface BTCMarketsAuthenticatedV3 {
       @HeaderParam("BM-AUTH-APIKEY") String publicKey,
       @HeaderParam("BM-AUTH-TIMESTAMP") SynchronizedValueFactory<Long> nonceFactory,
       @HeaderParam("BM-AUTH-SIGNATURE") BTCMarketsDigestV3 signer)
-      throws BTCMarketsException, IOException;
+      throws BTCMarketsExceptionV3, IOException;
 }

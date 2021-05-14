@@ -1,6 +1,6 @@
 package org.knowm.xchange.livecoin.service;
 
-import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME;
+import static org.knowm.xchange.client.ResilienceRegistries.NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME;
 import static org.knowm.xchange.livecoin.LivecoinResilience.MAIN_RATE_LIMITER;
 
 import java.io.IOException;
@@ -101,7 +101,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService {
                           signatureCreator,
                           order.getCurrencyPair().toString(),
                           order.getOriginalAmount()))
-              .withRetry(retry("buyWithMarketOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRetry(retry("buyWithMarketOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
               .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
               .call();
     } else {
@@ -113,7 +113,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService {
                           signatureCreator,
                           order.getCurrencyPair().toString(),
                           order.getOriginalAmount()))
-              .withRetry(retry("sellWithMarketOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRetry(retry("sellWithMarketOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
               .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
               .call();
     }
@@ -132,7 +132,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService {
                           order.getCurrencyPair().toString(),
                           order.getLimitPrice(),
                           order.getOriginalAmount()))
-              .withRetry(retry("buyWithLimitOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRetry(retry("buyWithLimitOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
               .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
               .call();
     } else {
@@ -145,7 +145,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService {
                           order.getCurrencyPair().toString(),
                           order.getLimitPrice(),
                           order.getOriginalAmount()))
-              .withRetry(retry("sellWithLimitOrder", NON_IDEMPOTENTE_CALLS_RETRY_CONFIG_NAME))
+              .withRetry(retry("sellWithLimitOrder", NON_IDEMPOTENT_CALLS_RETRY_CONFIG_NAME))
               .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
               .call();
     }
@@ -157,7 +157,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService {
         decorateApiCall(
                 () ->
                     service.cancelLimitOrder(
-                        apiKey, signatureCreator, currencyPair.toString(), Long.valueOf(orderId)))
+                        apiKey, signatureCreator, currencyPair.toString(), Long.parseLong(orderId)))
             .withRetry(retry("cancelLimitOrder"))
             .withRateLimiter(rateLimiter(MAIN_RATE_LIMITER))
             .call();

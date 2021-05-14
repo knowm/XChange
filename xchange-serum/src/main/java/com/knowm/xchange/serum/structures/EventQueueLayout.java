@@ -7,7 +7,6 @@ import com.knowm.xchange.serum.core.Base58;
 import com.knowm.xchange.serum.dto.PublicKey;
 import com.knowm.xchange.serum.structures.AccountFlagsLayout.AccountFlags;
 import com.knowm.xchange.serum.structures.EventFlagsLayout.EventFlags;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -154,8 +153,8 @@ public class EventQueueLayout {
     public final EventFlags eventFlags;
     public final long openOrdersSlot;
     public final long feeTier;
-    public final long nativeQuantityReleased;   // amount the user received (nativeQuantityUnlocked)
-    public final long nativeQuantityPaid;       // amount the user paid     (nativeQuantityStillLocked)
+    public final long nativeQuantityReleased; // amount the user received (nativeQuantityUnlocked)
+    public final long nativeQuantityPaid; // amount the user paid     (nativeQuantityStillLocked)
     public final long nativeFeeOrRebate;
     public final String orderId;
     public final byte[] orderIdBytes;

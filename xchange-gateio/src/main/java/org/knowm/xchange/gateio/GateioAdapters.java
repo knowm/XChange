@@ -62,6 +62,7 @@ public final class GateioAdapters {
     // Looks like gate.io vocabulary is inverted...
     BigDecimal baseVolume = gateioTicker.getQuoteVolume();
     BigDecimal quoteVolume = gateioTicker.getBaseVolume();
+    BigDecimal percentageChange = gateioTicker.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -72,6 +73,7 @@ public final class GateioAdapters {
         .high(high)
         .volume(baseVolume)
         .quoteVolume(quoteVolume)
+        .percentageChange(percentageChange)
         .build();
   }
 

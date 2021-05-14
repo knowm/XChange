@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.QueryParam;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -45,14 +46,10 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
       throw new RuntimeException(
           "Illegal algorithm for post body digest. Check the implementation.");
     }
-
-    String decodedQuery = null;
-    try {
-      decodedQuery = URLDecoder.decode(restInvocation.getQueryString(), "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException("Unsupported query encoding", e);
-    }
-
+    String decodedQuery =
+        URLDecoder.decode(
+            restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
+            StandardCharsets.UTF_8);
     sha256.update(decodedQuery.getBytes());
     try {
       sha256.update(

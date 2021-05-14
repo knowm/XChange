@@ -2,6 +2,7 @@ package org.knowm.xchange.btcmarkets.service;
 
 import static org.knowm.xchange.dto.Order.OrderType.BID;
 
+import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -39,7 +40,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         order.getOriginalAmount(),
         BigDecimal.ZERO,
         BTCMarketsOrder.Type.Market,
-        order.getOrderFlags());
+        order.getOrderFlags(),
+        order.getUserReference());
   }
 
   @Override
@@ -50,7 +52,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
         order.getOriginalAmount(),
         order.getLimitPrice(),
         BTCMarketsOrder.Type.Limit,
-        order.getOrderFlags());
+        order.getOrderFlags(),
+        order.getUserReference());
   }
 
   private String placeOrder(
@@ -59,8 +62,15 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       BigDecimal amount,
       BigDecimal price,
       BTCMarketsOrder.Type orderType,
-      Set<Order.IOrderFlags> flags)
+      Set<Order.IOrderFlags> flags,
+      String clientOrderId)
       throws IOException {
+    boolean postOnly = false;
+    if (flags.contains(BTCMarketsOrderFlags.POST_ONLY)) {
+      postOnly = true;
+      flags = Sets.filter(flags, flag -> flag != BTCMarketsOrderFlags.POST_ONLY);
+    }
+
     BTCMarketsOrder.Side side =
         orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
     final String marketId = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
@@ -73,7 +83,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       timeInForce = "GTC";
     }
     final BTCMarketsPlaceOrderResponse orderResponse =
-        placeBTCMarketsOrder(marketId, amount, price, side, orderType, timeInForce);
+        placeBTCMarketsOrder(
+            marketId, amount, price, side, orderType, timeInForce, postOnly, clientOrderId);
     return orderResponse.orderId;
   }
 

@@ -128,7 +128,7 @@ public final class BittrexAdapters {
             bittrexOrder ->
                 new UserTrade.Builder()
                     .type(
-                        BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getType())
+                        BittrexConstants.BUY.equalsIgnoreCase(bittrexOrder.getDirection())
                             ? OrderType.BID
                             : OrderType.ASK)
                     .originalAmount(bittrexOrder.getFillQuantity())
@@ -186,6 +186,7 @@ public final class BittrexAdapters {
     BigDecimal low = bittrexMarketSummary.getLow();
     BigDecimal quoteVolume = bittrexMarketSummary.getQuoteVolume();
     BigDecimal volume = bittrexMarketSummary.getVolume();
+    BigDecimal percentageChange = bittrexMarketSummary.getPercentChange();
     Date timestamp = bittrexMarketSummary.getUpdatedAt();
 
     return new Ticker.Builder()
@@ -197,6 +198,7 @@ public final class BittrexAdapters {
         .low(low)
         .quoteVolume(quoteVolume)
         .volume(volume)
+        .percentageChange(percentageChange)
         .timestamp(timestamp)
         .build();
   }

@@ -78,7 +78,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
   }
 
   private final int maxFramePayloadLength;
-  private final URI uri;
+  protected URI uri;
   private final AtomicBoolean isManualDisconnect = new AtomicBoolean();
   private Channel webSocketChannel;
   private final Duration retryDuration;

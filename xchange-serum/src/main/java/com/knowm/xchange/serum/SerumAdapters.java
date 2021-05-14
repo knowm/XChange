@@ -33,8 +33,8 @@ public class SerumAdapters {
     final MarketMeta[] marketMetas = new ObjectMapper().readValue(text, MarketMeta[].class);
 
     for (MarketMeta meta : marketMetas) {
-      final Market m = WrapperFuncs.runUntilSuccess(() ->
-              raw.load(meta.address, null, meta.programId), 5000, 3);
+      final Market m =
+          WrapperFuncs.runUntilSuccess(() -> raw.load(meta.address, null, meta.programId), 5000, 3);
       pairToMarket.put(new CurrencyPair(meta.name), m);
     }
   }
@@ -53,11 +53,8 @@ public class SerumAdapters {
    * Extracts the address associated to a currency pair's specific data type. Serum manages the
    * different parts of an order's lifecycle by using different addresses. e.g.
    *
-   * request queue  (submitted orders)
-   * event queue    (fills)
-   * bids           (orderbook bids)
-   * asks           (orderbook asks)
-   *
+   * <p>request queue (submitted orders) event queue (fills) bids (orderbook bids) asks (orderbook
+   * asks)
    *
    * @param pair to query address for
    * @return address as string
@@ -74,7 +71,8 @@ public class SerumAdapters {
       case "requestQueue":
         return m.decoded.getRequestQueue().getKeyString();
       default:
-        throw new IllegalArgumentException(String.format("Market Data Type %s not valid", dataType));
+        throw new IllegalArgumentException(
+            String.format("Market Data Type %s not valid", dataType));
     }
   }
 

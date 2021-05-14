@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -348,7 +349,9 @@ public final class BitfinexAdapters {
 
     BigDecimal last = bitfinexTicker.getLast_price();
     BigDecimal bid = bitfinexTicker.getBid();
+    BigDecimal bidSize = bitfinexTicker.getBidSize();
     BigDecimal ask = bitfinexTicker.getAsk();
+    BigDecimal askSize = bitfinexTicker.getAskSize();
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
@@ -359,7 +362,9 @@ public final class BitfinexAdapters {
         .currencyPair(currencyPair)
         .last(last)
         .bid(bid)
+        .bidSize(bidSize)
         .ask(ask)
+        .askSize(askSize)
         .high(high)
         .low(low)
         .volume(volume)
@@ -904,6 +909,8 @@ public final class BitfinexAdapters {
     BigDecimal high = bitfinexTicker.getHigh();
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
+    BigDecimal percentageChange =
+        bitfinexTicker.getDailyChangePerc().multiply(new BigDecimal("100"), new MathContext(8));
 
     CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(bitfinexTicker.getSymbol().substring(1));
@@ -918,6 +925,7 @@ public final class BitfinexAdapters {
         .volume(volume)
         .bidSize(bidSize)
         .askSize(askSize)
+        .percentageChange(percentageChange)
         .build();
   }
 

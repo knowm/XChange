@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import static org.knowm.xchange.dto.account.FundingRecord.Type.*;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +66,7 @@ public class PoloniexAdapters {
     BigDecimal high = marketData.getHigh24hr();
     BigDecimal low = marketData.getLow24hr();
     BigDecimal volume = marketData.getQuoteVolume();
+    BigDecimal percentageChange = marketData.getPercentChange();
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -74,6 +76,7 @@ public class PoloniexAdapters {
         .high(high)
         .low(low)
         .volume(volume)
+        .percentageChange(percentageChange.multiply(new BigDecimal("100"), new MathContext(8)))
         .build();
   }
 
