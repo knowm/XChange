@@ -6,7 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
-import org.knowm.xchange.kraken.service.*;
+import org.knowm.xchange.kraken.service.KrakenAccountService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenTradeService;
 
 /** @author Benedikt Bünz */
 public class KrakenExchange extends BaseExchange implements Exchange {
@@ -37,9 +40,8 @@ public class KrakenExchange extends BaseExchange implements Exchange {
         ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssetPairs();
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssets();
     KrakenUtils.clearAssets();
-
-    // Note: CurrencyPair Metadata will not contain accurate maker/taker fees
-    // Note: Currency Metadata will only contain price scale
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
     exchangeMetaData =
         KrakenAdapters.adaptToExchangeMetaData(
             exchangeMetaData, assetPairs.getAssetPairMap(), assets.getAssetPairMap());

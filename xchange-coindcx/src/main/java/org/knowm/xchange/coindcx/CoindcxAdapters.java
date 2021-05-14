@@ -7,12 +7,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.knowm.xchange.coindcx.dto.CoindcxOrderStatusResponse;
+import org.knowm.xchange.coindcx.dto.CoindcxTickersResponse;
+import org.knowm.xchange.coindcx.dto.CoindcxTradeHistoryResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 
 public final class CoindcxAdapters {
@@ -90,5 +96,49 @@ public final class CoindcxAdapters {
       return OrderStatus.PARTIALLY_FILLED;
 
     throw new NotYetImplementedForExchangeException();
+  }
+
+  public static UserTrades adaptUserTrades(List<CoindcxTradeHistoryResponse> coindcxTradeHistoryResponses){
+
+    List<UserTrade> tradeList=new ArrayList();
+
+    for(CoindcxTradeHistoryResponse trades : coindcxTradeHistoryResponses){
+      CurrencyPair currencyPair = new CurrencyPair(trades.getSymbol());
+      OrderType type = trades.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+      UserTrade userTrade=UserTrade.builder()
+                              .id(String.valueOf(trades.getId()))
+                              .orderId(trades.getOrderId())
+                              .feeAmount(new BigDecimal(trades.getFeeAmount()))
+                              .instrument(currencyPair)
+                              .type(type)
+                              .originalAmount(trades.getQuantity())
+                              .price(trades.getPrice())
+                              .timestamp(new Date(trades.getTimestamp()))
+                              .build();
+      tradeList.add(userTrade);
+    }
+
+    return new UserTrades(tradeList, Trades.TradeSortType.SortByID);
+  }
+
+  public static Ticker adaptTickerBasedOnCurencyPair(List<CoindcxTickersResponse> coindcxTickersResponses,CurrencyPair currencyPair){
+    String currency= currencyPair.base.getCurrencyCode()+currencyPair.counter.getCurrencyCode();
+    Ticker ticker=null;
+    for(CoindcxTickersResponse tickersResponse : coindcxTickersResponses){
+      if(tickersResponse.getMarket().equals(currency)){
+        ticker = new Ticker.Builder()
+                .instrument(currencyPair)
+                .high(new BigDecimal(tickersResponse.getHigh()))
+                .low(new BigDecimal(tickersResponse.getLow()))
+                .ask(new BigDecimal(tickersResponse.getAsk()))
+                .bid(new BigDecimal(tickersResponse.getBid()))
+                .last(new BigDecimal(tickersResponse.getLast_price()))
+                .volume(new BigDecimal(tickersResponse.getVolume()))
+                .timestamp(new Date(tickersResponse.getTimestamp()))
+                .vwap(new BigDecimal(tickersResponse.getChange_24_hour()))
+                .build();
+      }
+    }
+    return ticker;
   }
 }

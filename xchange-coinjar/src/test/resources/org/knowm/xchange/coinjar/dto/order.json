@@ -8,6 +8,6 @@
   "time_in_force": "GTC",
   "filled": "0.04000000",
   "status": "filled",
-  "ref": "someref",
+  "ref": null,
   "timestamp": "2017-10-12T15:39:27.000+11:00"
 }

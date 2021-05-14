@@ -6,5 +6,7 @@ public class CoinmatePingMessage {
   @JsonProperty("event")
   final String event = "ping";
 
-  public CoinmatePingMessage() {}
+  public CoinmatePingMessage() {
+
+  }
 }

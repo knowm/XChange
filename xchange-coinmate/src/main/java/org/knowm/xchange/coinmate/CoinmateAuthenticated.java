@@ -63,10 +63,7 @@ public interface CoinmateAuthenticated extends Coinmate {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("offset") int offset,
       @FormParam("limit") Integer limit,
-      @FormParam("sort") String sort,
-      @FormParam("timestampFrom") Long timestampFrom,
-      @FormParam("timestampTo") Long timestampTo,
-      @FormParam("orderId") String orderId)
+      @FormParam("sort") String sort)
       throws IOException;
 
   @POST

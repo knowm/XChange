@@ -16,6 +16,8 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+小田謙太郎
+=
 Aaron Jang
 Achterhoeker
 Adam Walczak
@@ -33,7 +35,6 @@ Alin Breaban
 Allen Day
 Alvin Singh
 Amjad
-Anatoliy Sablin
 Andraž
 Andre Reiter
 Andrea Fossi
@@ -48,7 +49,6 @@ Artur
 Artur M
 Baffo32
 Bartosz Milczarek
-Bashar Saleh
 BenTrapani
 Benedict Wong
 Benedikt Bünz
@@ -59,13 +59,11 @@ Boris Aksenov
 Bruno Volpato
 Bryan
 Bryan Hernandez
-CDP
 Caleb Allen
 Carbo Kuo
 Carlos Lopez-Camey
 Chris Cannell
 Chris Rico
-Christiaan
 Christian Strässle
 Claus235
 Cray Imperative
@@ -76,7 +74,6 @@ Daniel
 Daniel Cohen
 Daniela Hajnikova
 Danilo Guimarães
-Dany Pageau
 Dave Seyb
 David FRANCOIS
 David Jirovec
@@ -92,9 +89,7 @@ Dolezal Zdenek
 Donald Jackson
 Douggie
 DrawFun
-Dynamikey
 Eric Anderson
-Erick
 Erick Arce
 Erland Lewin
 EzBar
@@ -102,14 +97,11 @@ Ezer Bar-Aviv
 Fabian
 Fabien André
 Felipe Micaroni Lalli
-Ferdi-135
 Flemingjp
 Foat Akhmadeev
 Frank Kaiser
-GENERAL BYTES
 GENiALi
 Gary Rowe
-George Soultos
 Gianluigi
 Giedrius
 Giedrius Koksta
@@ -123,6 +115,7 @@ Gregor Gaertner
 Guang YANG
 Guillaume Labbé-Morissette
 Guillaume Morissette
+陈晔
 HairyFotr
 Henry Wong
 Herman Ofenböck
@@ -176,8 +169,6 @@ Keshav Sirohi
 Kevin Britz
 Kevin Gates
 Kevin Jannis
-Khye
-Khye Ean Low
 Kolozsy Gábor
 Konstantin Alexandrov
 Konstantin Indjov
@@ -191,8 +182,6 @@ Lee Cooper
 Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
-Livio Tinnirello
-Low Khye Ean
 Luca Forni
 Luca Rosellini
 Lukas Zaoralek
@@ -200,15 +189,11 @@ Lukáš Krejza
 Macarse
 Marc Deveaux
 Marius Hillenbrand
-Mark Anderson
 MartianTech
-Martin Jones
 Martin Kubliniak
 Martin Stachon
-Martin Zdarsky
 Massimiliano Gerardi
 Matej Spiller Muys
-Math Vadash
 Mathijs Vogelzang
 Matija Mazi
 Matt Read
@@ -216,9 +201,7 @@ Matt Whitlock
 Matthew Downey
 Matthew Peacock
 Maxim Fefilov
-Maxim Feofilov
 MaximFeofilov
-Mehmet Fatih Gultekin
 Mert Güner
 MertGuner
 Micah Lerner
@@ -228,7 +211,6 @@ Mike Gerlyand
 Mikelle
 Mikhail Wall
 Mindaugas Rolius
-Miron Balcerzak
 Miso Oprendek
 Mladen Markov
 Muffon
@@ -247,7 +229,6 @@ Oscar Francia
 Pablo Lopez
 Pan, Xinyang
 Panchen
-Paolo Rendano
 Pavel Chertalev
 Pavel Niedoba
 Pavlo Pastushok
@@ -260,21 +241,17 @@ Piotr Ładyżyński
 Premek
 Premysl Vyhnal
 RadeK
-Radovan Panák
 Radu
-Rafal Krupinski
 Rafał Krupiński
+Rafal Krupinski
 Raphael Voellmy
 Richard Flint
 Robert Felker
-Roberto Santacroce Martins
 Roei Bar Aviv
 Roman Belkov
 Ronald Bultman
-Rudy Godoy
 Ryan Fox
 Ryan Sundberg
-Saeid Rastak
 Sascha
 Sascha Zieger
 Sebastiaan van Erk
@@ -286,7 +263,6 @@ Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
 Snailz
-Spyros Stylianou
 Steven te Brinke
 Stuart Low
 Stéfanie Loiseleur
@@ -310,20 +286,16 @@ Tony Skulk
 Travis Bullock
 Travis Collins
 Travis Savo
-Treer Zoltán
 TrojaNFlash
 U-TORA\cristian.lucaci
 Ujjwal Kabra
 Uwe
-Vadims Grusas
 Valentin Stavetski
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
 Victor Didenko
 Victor Mezrin
-Viktor Szathmáry
 Viktor.Zakalyuzhnyy
-Werner Vos
 Wojciech Langiewicz
 Wyatt Endres
 YANG MING
@@ -332,7 +304,6 @@ Ye Chen
 Yegor Pavlenko
 Ying Zhe Chong
 Your Name
-Youssef Jradeh
 Yuki INOUE
 Yuriy
 Zach Holmes
@@ -340,12 +311,10 @@ Zdenek Dolezal
 Zorge.R
 ahmetoz
 ajdev
-akuloff
 aleks-azen
 aleksazen@gmail.com
 alessandro luppi
 alobarev
-alwinc
 amjad1210
 anton
 anw
@@ -366,19 +335,12 @@ bryantharris
 cacofish
 cacofishadct
 caleb
-cd2357
-cduplessis3
-charvam
 coinlover75
-conspyrosy
 cymp
 cyril
-cyrus
-d.skalenko
 danielgarciaperez
 datbui
 david-yam
-daz
 dependabot-preview[bot]
 dependabot[bot]
 desinerlee
@@ -396,8 +358,6 @@ ezhik97
 fenwulf
 firepol
 fozerol
-gaamox@tutanota.com
-geck64
 glebreutov
 gmorpheme
 godoorsun
@@ -411,7 +371,6 @@ hurricup
 hwiceberg
 interwater
 ivan.kosianenko
-jakubkalicki
 jamespedwards42
 jasonliu119
 jchoinski
@@ -422,7 +381,6 @@ johndemic
 kaiserfr
 karol.pysniak@turbineam.com
 kisapmata
-kkyovsky
 kpysniak
 kyr7
 lapoor
@@ -468,9 +426,7 @@ pnkwpk
 pozheg
 procyon
 rastooo
-renasse
 roeiba
-rpanak-generalbytes
 seanrobb
 sebastienkoch
 semihunaldi
@@ -480,7 +436,6 @@ simonkeliuotis
 sirilicious
 sizmestiev
 skipster
-sm1l3
 sowhynot
 stachon
 stephane-coulomb
@@ -492,7 +447,6 @@ tbosman
 tim
 timmolter
 tobakk
-tonykwok1992
 trix
 trix13
 undecaf
@@ -509,5 +463,3 @@ wvr
 ww3456
 yalevokhin
 zholmes
-陈晔
-小田謙太郎

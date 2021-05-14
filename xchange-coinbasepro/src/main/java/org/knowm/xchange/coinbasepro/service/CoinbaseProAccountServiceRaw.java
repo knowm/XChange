@@ -1,15 +1,12 @@
 package org.knowm.xchange.coinbasepro.service;
 
-import static org.knowm.xchange.coinbasepro.CoinbaseProResilience.PRIVATE_REST_ENDPOINT_RATE_LIMITER;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbasePro;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.*;
@@ -21,48 +18,33 @@ import org.knowm.xchange.utils.timestamp.UnixTimestampFactory;
 
 public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
 
-  public CoinbaseProAccountServiceRaw(
-      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
-    super(exchange, resilienceRegistries);
+  public CoinbaseProAccountServiceRaw(Exchange exchange) {
+    super(exchange);
   }
 
   public org.knowm.xchange.coinbasepro.dto.account.CoinbaseProAccount[] getCoinbaseProAccountInfo()
       throws CoinbaseProException, IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.getAccounts(
-                    apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    return coinbasePro.getAccounts(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
-  /** https://docs.pro.coinbase.com/#fees */
   public CoinbaseProFee getCoinbaseProFees() throws CoinbaseProException, IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.getFees(
-                    apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    return coinbasePro.getFees(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
   public CoinbaseProSendMoneyResponse sendMoney(
       String accountId, String to, BigDecimal amount, Currency currency)
       throws CoinbaseProException, IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.sendMoney(
-                    new CoinbaseProSendMoneyRequest(to, amount, currency.getCurrencyCode()),
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    accountId))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    return coinbasePro.sendMoney(
+        new CoinbaseProSendMoneyRequest(to, amount, currency.getCurrencyCode()),
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        accountId);
   }
 
-  /** https://docs.pro.coinbase.com/#crypto */
   public CoinbaseProWithdrawCryptoResponse withdrawCrypto(
       String address,
       BigDecimal amount,
@@ -70,137 +52,80 @@ public class CoinbaseProAccountServiceRaw extends CoinbaseProBaseService {
       String destinationTag,
       boolean noDestinationTag)
       throws CoinbaseProException, IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.withdrawCrypto(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    new CoinbaseProWithdrawFundsRequest(
-                        amount,
-                        currency.getCurrencyCode(),
-                        address,
-                        destinationTag,
-                        noDestinationTag)))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    return coinbasePro.withdrawCrypto(
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        new CoinbaseProWithdrawFundsRequest(
+            amount, currency.getCurrencyCode(), address, destinationTag, noDestinationTag));
   }
 
-  /** https://docs.pro.coinbase.com/#get-an-account */
-  public List<Map<?, ?>> ledger(String accountId, Integer startingOrderId) throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.ledger(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    accountId,
-                    startingOrderId))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+  public List<Map> ledger(String accountId, Integer startingOrderId) throws IOException {
+    return coinbasePro.ledger(
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        accountId,
+        startingOrderId);
   }
 
-  /** https://docs.pro.coinbase.com/#create-a-new-report */
+  /** @return the report id */
   public String requestNewReport(CoinbasePro.CoinbaseProReportRequest reportRequest)
       throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro
-                    .createReport(
-                        apiKey,
-                        digest,
-                        UnixTimestampFactory.INSTANCE.createValue(),
-                        passphrase,
-                        reportRequest)
-                    .get("id")
-                    .toString())
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    Map response =
+        coinbasePro.createReport(
+            apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, reportRequest);
+    return response.get("id").toString();
   }
 
-  /** https://docs.pro.coinbase.com/#get-report-status */
-  public Map<?, ?> report(String reportId) throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.getReport(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    reportId))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+  public Map report(String reportId) throws IOException {
+    return coinbasePro.getReport(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, reportId);
   }
 
-  /** https://docs.pro.coinbase.com/#get-current-exchange-limits */
-  public CoinbaseProTransfers transfers(String accountId, String profileId, int limit, String after)
-      throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.transfers(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    accountId,
-                    profileId,
-                    limit,
-                    after))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
-  }
-
-  /** https://docs.pro.coinbase.com/#get-current-exchange-limits */
   public CoinbaseProTransfers transfers(
-      String type, String profileId, String before, String after, int limit) throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.transfers(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    type,
-                    profileId,
-                    before,
-                    after,
-                    limit))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+      String accountId, String profileId, int limit, String after) {
+    return coinbasePro.transfers(
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        accountId,
+        profileId,
+        limit,
+        after);
   }
 
-  /** https://docs.pro.coinbase.com/#coinbase-accounts */
+  public CoinbaseProTransfers transfers(
+      String type, String profileId, String before, String after, int limit) {
+    return coinbasePro.transfers(
+        apiKey,
+        digest,
+        UnixTimestampFactory.INSTANCE.createValue(),
+        passphrase,
+        type,
+        profileId,
+        before,
+        after,
+        limit);
+  }
+
   public CoinbaseProAccount[] getCoinbaseAccounts() throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.getCoinbaseProAccounts(
-                    apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+    return coinbasePro.getCoinbaseProAccounts(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase);
   }
 
-  public CoinbaseProAccountAddress getCoinbaseAccountAddress(String accountId) throws IOException {
-    return decorateApiCall(
-            () ->
-                coinbasePro.getCoinbaseProAccountAddress(
-                    apiKey,
-                    digest,
-                    UnixTimestampFactory.INSTANCE.createValue(),
-                    passphrase,
-                    accountId))
-        .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-        .call();
+  public CoinbaseProAccountAddress getCoinbaseAccountAddress(String accountId) {
+    return coinbasePro.getCoinbaseProAccountAddress(
+        apiKey, digest, UnixTimestampFactory.INSTANCE.createValue(), passphrase, accountId);
   }
 
   public CoinbaseProWebsocketAuthData getWebsocketAuthData()
       throws CoinbaseProException, IOException {
     long timestamp = UnixTimestampFactory.INSTANCE.createValue();
-    JsonNode json =
-        decorateApiCall(() -> coinbasePro.getVerifyId(apiKey, digest, timestamp, passphrase))
-            .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
-            .call();
+    JsonNode json = coinbasePro.getVerifyId(apiKey, digest, timestamp, passphrase);
     String userId = json.get("id").asText();
     CoinbaseProDigest coinbaseProDigest = (CoinbaseProDigest) digest;
     return new CoinbaseProWebsocketAuthData(

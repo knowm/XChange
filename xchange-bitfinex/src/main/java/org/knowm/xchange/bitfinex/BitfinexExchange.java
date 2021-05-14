@@ -18,7 +18,6 @@ import org.knowm.xchange.bitfinex.service.BitfinexTradeService;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetail;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
-import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
@@ -26,24 +25,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
-  private static ResilienceRegistries RESILIENCE_REGISTRIES;
-
   private SynchronizedValueFactory<Long> nonceFactory =
       new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   protected void initServices() {
-    this.marketDataService = new BitfinexMarketDataService(this, getResilienceRegistries());
-    this.accountService = new BitfinexAccountService(this, getResilienceRegistries());
-    this.tradeService = new BitfinexTradeService(this, getResilienceRegistries());
-  }
-
-  @Override
-  public ResilienceRegistries getResilienceRegistries() {
-    if (RESILIENCE_REGISTRIES == null) {
-      RESILIENCE_REGISTRIES = BitfinexResilience.createRegistries();
-    }
-    return RESILIENCE_REGISTRIES;
+    this.marketDataService = new BitfinexMarketDataService(this);
+    this.accountService = new BitfinexAccountService(this);
+    this.tradeService = new BitfinexTradeService(this);
   }
 
   @Override
@@ -55,8 +44,6 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitFinex");
     exchangeSpecification.setExchangeDescription("BitFinex is a bitcoin exchange.");
-    exchangeSpecification.getResilience().setRateLimiterEnabled(true);
-    exchangeSpecification.getResilience().setRetryEnabled(true);
 
     return exchangeSpecification;
   }

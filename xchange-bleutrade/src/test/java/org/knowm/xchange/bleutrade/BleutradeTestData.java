@@ -185,8 +185,8 @@ public class BleutradeTestData {
 
   protected static String[] expectedMetaDataStr() {
     return new String[] {
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, volumeScale=null, amountStepSize=null, tradingFeeCurrency=null]",
-      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, volumeScale=null, amountStepSize=null, tradingFeeCurrency=null]"
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]",
+      "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, baseScale=null, priceScale=8, amountStepSize=null, tradingFeeCurrency=null]"
     };
   }
 }

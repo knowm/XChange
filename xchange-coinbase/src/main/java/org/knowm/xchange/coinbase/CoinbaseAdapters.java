@@ -14,7 +14,6 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySell;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -30,7 +29,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 public final class CoinbaseAdapters {
 
   private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
-  private static final int PRICE_SCALE = 10;
 
   private CoinbaseAdapters() {}
 
@@ -44,36 +42,6 @@ public final class CoinbaseAdapters {
     final AccountInfo accountInfoTemporaryName =
         new AccountInfo(username, Wallet.Builder.from(Arrays.asList(balance)).build());
     return accountInfoTemporaryName;
-  }
-
-  public static UserTrades adaptTrades(List<CoinbaseBuySell> transactions, OrderType orderType) {
-    final List<UserTrade> trades = new ArrayList<>();
-
-    for (CoinbaseBuySell transaction : transactions) {
-      trades.add(adaptTrade(transaction, orderType));
-    }
-
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
-  }
-
-  private static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
-    return new UserTrade.Builder()
-        .type(orderType)
-        .originalAmount(transaction.getAmount().getAmount())
-        .currencyPair(
-            new CurrencyPair(
-                transaction.getAmount().getCurrency(), transaction.getTotal().getCurrency()))
-        .price(
-            transaction
-                .getSubTotal()
-                .getAmount()
-                .divide(transaction.getAmount().getAmount(), PRICE_SCALE, RoundingMode.HALF_UP))
-        .timestamp(Date.from(transaction.getCreatedAt().toInstant()))
-        .id(transaction.getId())
-        .orderId(transaction.getTransaction().getId())
-        .feeAmount(transaction.getFee().getAmount())
-        .feeCurrency(Currency.getInstance(transaction.getFee().getCurrency()))
-        .build();
   }
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {

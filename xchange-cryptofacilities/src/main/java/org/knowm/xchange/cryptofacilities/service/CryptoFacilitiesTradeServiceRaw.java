@@ -53,8 +53,7 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBaseService
             symbol,
             side,
             size,
-            limitPrice,
-            null);
+            limitPrice);
 
     if (ord.isSuccess()) {
       return ord;

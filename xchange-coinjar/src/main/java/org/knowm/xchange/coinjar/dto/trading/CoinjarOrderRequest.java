@@ -21,23 +21,18 @@ public class CoinjarOrderRequest {
   @JsonProperty("time_in_force")
   public final String timeInForce;
 
-  @JsonProperty("ref")
-  public final String ref;
-
   public CoinjarOrderRequest(
       String productId,
       String orderType,
       String side,
       String price,
       String size,
-      String timeInForce,
-      String ref) {
+      String timeInForce) {
     this.productId = productId;
     this.orderType = orderType;
     this.side = side;
     this.price = price;
     this.size = size;
     this.timeInForce = timeInForce;
-    this.ref = ref;
   }
 }

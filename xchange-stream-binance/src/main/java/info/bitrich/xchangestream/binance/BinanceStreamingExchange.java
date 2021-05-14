@@ -23,8 +23,7 @@ import org.slf4j.LoggerFactory;
 public class BinanceStreamingExchange extends BinanceExchange implements StreamingExchange {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceStreamingExchange.class);
-  private static final String WS_API_BASE_URI = "wss://stream.binance.com:9443/";
-  private static final String WS_SANDBOX_API_BASE_URI = "wss://testnet.binance.vision/";
+  private static final String API_BASE_URI = "wss://stream.binance.com:9443/";
   protected static final String USE_HIGHER_UPDATE_FREQUENCY =
       "Binance_Orderbook_Use_Higher_Frequency";
 
@@ -196,29 +195,22 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
-            ? WS_SANDBOX_API_BASE_URI
-            : WS_API_BASE_URI;
-    path += "stream?streams=" + buildSubscriptionStreams(subscription);
+    String path = API_BASE_URI + "stream?streams=" + buildSubscriptionStreams(subscription);
     return new BinanceStreamingService(path, subscription);
   }
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {
     return Stream.of(
-            buildSubscriptionStrings(
-                subscription.getTicker(), BinanceSubscriptionType.TICKER.getType()),
-            buildSubscriptionStrings(
-                subscription.getOrderBook(), BinanceSubscriptionType.DEPTH.getType()),
-            buildSubscriptionStrings(
-                subscription.getTrades(), BinanceSubscriptionType.TRADE.getType()))
+            buildSubscriptionStrings(subscription.getTicker(), "ticker"),
+            buildSubscriptionStrings(subscription.getOrderBook(), "depth"),
+            buildSubscriptionStrings(subscription.getTrades(), "trade"))
         .filter(s -> !s.isEmpty())
         .collect(Collectors.joining("/"));
   }
 
   private String buildSubscriptionStrings(
       List<CurrencyPair> currencyPairs, String subscriptionType) {
-    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
+    if ("depth".equals(subscriptionType)) {
       return subscriptionStrings(currencyPairs)
           .map(s -> s + "@" + subscriptionType + orderBookUpdateFrequencyParameter)
           .collect(Collectors.joining("/"));
@@ -237,17 +229,5 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   @Override
   public void useCompressedMessages(boolean compressedMessages) {
     streamingService.useCompressedMessages(compressedMessages);
-  }
-
-  public void enableLiveSubscription() {
-    if (this.streamingService == null) {
-      throw new UnsupportedOperationException(
-          "You must connect to streams before enabling live subscription.");
-    }
-    this.streamingService.enableLiveSubscription();
-  }
-
-  public void disableLiveSubscription() {
-    if (this.streamingService != null) this.streamingService.disableLiveSubscription();
   }
 }

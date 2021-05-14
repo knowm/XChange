@@ -22,7 +22,7 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   protected static final String SPECIFICATION_API_KEY = "publicKey";
   protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
   protected static final String EXPECTED_BLEUTRADE_TICKER_STR =
-      "Ticker [instrument=BLEU/BTC, open=null, last=0.00101977, bid=0.00100000, ask=0.00101977, high=0.00105000, low=0.00086000,avg=0.00103455, volume=2450.97496015, quoteVolume=null, timestamp=1406632770000, bidSize=null, askSize=null]";
+      "Ticker [currencyPair=BLEU/BTC, open=null, last=0.00101977, bid=0.00100000, ask=0.00101977, high=0.00105000, low=0.00086000,avg=0.00103455, volume=2450.97496015, quoteVolume=null, timestamp=1406632770000, bidSize=null, askSize=null]";
   protected static final String BLEUTRADE_BALANCE_STR =
       "BleutradeBalance [Currency=AUD, Balance=40.00000000, Available=10.00000000, "
           + "Pending=30.00000000, CryptoAddress=null, IsActive=true, additionalProperties={}]";

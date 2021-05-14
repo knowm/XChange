@@ -106,8 +106,6 @@ public class BinanceManualExample {
     Disposable orderbooks = orderbooks(exchange, "one");
     Thread.sleep(5000);
     Disposable orderbooks2 = orderbooks(exchange, "two");
-    Disposable orderbookUpdates1 = orderbooksIncremental(exchange, "one");
-    Disposable orderbookUpdates2 = orderbooksIncremental(exchange, "two");
 
     Thread.sleep(1000000);
 
@@ -115,8 +113,6 @@ public class BinanceManualExample {
     trades.dispose();
     orderbooks.dispose();
     orderbooks2.dispose();
-    orderbookUpdates1.dispose();
-    orderbookUpdates2.dispose();
 
     if (apiKey != null) {
       orderChanges.dispose();
@@ -145,16 +141,6 @@ public class BinanceManualExample {
                   orderBook.getBids().get(0).getLimitPrice(),
                   orderBook.getBids().get(0).getRemainingAmount());
             },
-            throwable -> LOG.error("ERROR in getting order book: ", throwable));
-  }
-
-  private static Disposable orderbooksIncremental(
-      BinanceStreamingExchange exchange, String identifier) {
-    return exchange
-        .getStreamingMarketDataService()
-        .getOrderBookUpdates(CurrencyPair.LTC_BTC)
-        .subscribe(
-            level -> LOG.info("Order Book Level update({}): {}", identifier, level),
             throwable -> LOG.error("ERROR in getting order book: ", throwable));
   }
 }

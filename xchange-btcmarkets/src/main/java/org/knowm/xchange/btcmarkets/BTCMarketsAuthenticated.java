@@ -44,6 +44,16 @@ public interface BTCMarketsAuthenticated {
       throws BTCMarketsException, IOException;
 
   @POST
+  @Path("order/history")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCMarketsOrders getOrderHistory(
+      @HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsOpenOrdersRequest request)
+      throws BTCMarketsException, IOException;
+
+  @POST
   @Path("order/detail")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCMarketsOrders getOrderDetails(

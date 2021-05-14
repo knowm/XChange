@@ -7,7 +7,9 @@ import info.bitrich.xchangestream.coinmate.v2.dto.CoinmateWebsocketOpenOrder;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -26,9 +28,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
   @Override
   public Observable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     String channelName =
-        "private-open_orders-"
-            + coinmateStreamingService.getUserId()
-            + "-"
+        "private-open_orders-" + coinmateStreamingService.getUserId() + "-"
             + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
@@ -38,9 +38,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
         .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-              List<CoinmateWebsocketOpenOrder> websocketOpenOrders =
-                  Arrays.asList(
-                      reader.readValue(message.get("payload"), CoinmateWebsocketOpenOrder[].class));
+              List<CoinmateWebsocketOpenOrder> websocketOpenOrders = Arrays.asList(reader.readValue(message.get("payload"), CoinmateWebsocketOpenOrder[].class));
               return CoinmateStreamingAdapter.adaptWebsocketOpenOrders(
                   websocketOpenOrders, currencyPair);
             })
@@ -50,9 +48,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
   @Override
   public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     String channelName =
-        "private-user-trades-"
-            + coinmateStreamingService.getUserId()
-            + "-"
+        "private-user-trades-" + coinmateStreamingService.getUserId() + "-"
             + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
@@ -63,8 +59,7 @@ public class CoinmateStreamingTradeService implements StreamingTradeService {
         .subscribeChannel(channelName, true)
         .map(
             (message) -> {
-              List<CoinmateWebSocketUserTrade> webSocketUserTrades =
-                  reader.readValue(message.get("payload"));
+              List<CoinmateWebSocketUserTrade> webSocketUserTrades = reader.readValue(message.get("payload"));
               return CoinmateStreamingAdapter.adaptWebSocketUserTrades(
                   webSocketUserTrades, currencyPair);
             })

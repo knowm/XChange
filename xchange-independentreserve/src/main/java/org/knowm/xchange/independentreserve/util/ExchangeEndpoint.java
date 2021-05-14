@@ -1,24 +1,22 @@
 package org.knowm.xchange.independentreserve.util;
 
-import static org.knowm.xchange.independentreserve.IndependentReserveAuthenticated.*;
-
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
 
 /** Author: Kamil Zbikowski Date: 4/13/15 */
 public enum ExchangeEndpoint {
-  CANCEL_ORDER("CancelOrder"),
   GET_ACCOUNTS("GetAccounts"),
-  GET_BROKER_FEES(IndependentReserveAuthenticated.GetBrokerageFees),
-  GET_DIGITAL_CURRENCY_DEPOSIT_ADDRESS(GetDigitalCurrencyDepositAddress),
   GET_OPEN_ORDERS("GetOpenOrders"),
-  GET_ORDER_DETAILS("GetOrderDetails"),
-  GET_TRADES("GetTrades"),
-  GET_TRANSACTIONS("GetTransactions"),
+  GET_DIGITAL_CURRENCY_DEPOSIT_ADDRESS(
+      IndependentReserveAuthenticated.GetDigitalCurrencyDepositAddress),
   PLACE_LIMIT_ORDER("PlaceLimitOrder"),
   PLACE_MARKET_ORDER("PlaceMarketOrder"),
+  CANCEL_ORDER("CancelOrder"),
+  GET_TRADES("GetTrades"),
+  GET_TRANSACTIONS("GetTransactions"),
+  GET_ORDER_DETAILS("GetOrderDetails"),
   SYNCH_DIGITAL_CURRENCY_DEPOSIT_ADDRESS_WITH_BLOCKCHAIN(
-      SynchDigitalCurrencyDepositAddressWithBlockchain),
-  WITHDRAW_DIGITAL_CURRENCY(WithdrawDigitalCurrency);
+      IndependentReserveAuthenticated.SynchDigitalCurrencyDepositAddressWithBlockchain),
+  WITHDRAW_DIGITAL_CURRENCY(IndependentReserveAuthenticated.WithdrawDigitalCurrency);
 
   private String endpointName;
 

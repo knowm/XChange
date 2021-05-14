@@ -71,8 +71,6 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(openOrders.getOpenOrders().get(1).getAveragePrice())
         .isEqualTo(BigDecimal.valueOf(130.0));
     assertThat(openOrders.getOpenOrders().get(1).getFee()).isEqualTo(BigDecimal.valueOf(0.001));
-    assertThat(openOrders.getOpenOrders().get(0).getUserReference()).isEqualTo("orderOne");
-    assertThat(openOrders.getOpenOrders().get(1).getUserReference()).isNull();
   }
 
   @Test

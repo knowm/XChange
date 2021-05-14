@@ -36,11 +36,11 @@ public class Market {
   }
 
   public double getMinOrderSize() {
-    return baseSizeLotsToNumber(new BigDecimal("1"));
+    return baseSizeLotsToNumber(new BigDecimal(1));
   }
 
   public double getTickSize() {
-    return priceLotsToNumber(new BigDecimal("1"));
+    return priceLotsToNumber(new BigDecimal(1));
   }
 
   public double baseSizeLotsToNumber(final BigDecimal size) {
@@ -65,15 +65,15 @@ public class Market {
   }
 
   public BigDecimal baseSplTokenMultiplier() {
-    return new BigDecimal("10").pow(baseMintDecimals);
+    return new BigDecimal(10).pow(baseMintDecimals);
   }
 
   public BigDecimal quoteSplTokenMultiplier() {
-    return new BigDecimal("10").pow(quoteMintDecimals);
+    return new BigDecimal(10).pow(quoteMintDecimals);
   }
 
   public BigDecimal baseSizeLotsToNumber(final BigDecimal size, final int decimalPlaces) {
-    return size.multiply(BigDecimal.valueOf(decoded.getBaseLotSize()))
+    return size.multiply(new BigDecimal(decoded.getBaseLotSize()))
         .divide(baseSplTokenMultiplier(), RoundingMode.HALF_UP)
         .setScale(decimalPlaces, RoundingMode.HALF_UP);
   }
@@ -82,9 +82,9 @@ public class Market {
     final BigDecimal a =
         new BigDecimal(price)
             .multiply(quoteSplTokenMultiplier())
-            .multiply(BigDecimal.valueOf(decoded.getBaseLotSize()));
+            .multiply(new BigDecimal(decoded.getBaseLotSize()));
     final BigDecimal b =
-        baseSplTokenMultiplier().multiply(BigDecimal.valueOf(decoded.getQuoteLotSize()));
+        baseSplTokenMultiplier().multiply(new BigDecimal(decoded.getQuoteLotSize()));
     final BigDecimal c = a.divide(b, RoundingMode.HALF_UP);
     return c.setScale(decimalPlaces, RoundingMode.HALF_UP);
   }

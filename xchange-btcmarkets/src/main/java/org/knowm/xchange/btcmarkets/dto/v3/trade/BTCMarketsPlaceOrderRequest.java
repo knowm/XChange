@@ -10,7 +10,7 @@ public class BTCMarketsPlaceOrderRequest {
   public final String triggerPrice;
   public final String targetAmount;
   public final String timeInForce;
-  public final boolean postOnly;
+  public final String postOnly;
   public final String selfTrade;
   public final String clientOrderId;
 
@@ -23,7 +23,7 @@ public class BTCMarketsPlaceOrderRequest {
       String triggerPrice,
       String targetAmount,
       String timeInForce,
-      boolean postOnly,
+      String postOnly,
       String selfTrade,
       String clientOrderId) {
     this.marketId = marketId;

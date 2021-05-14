@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -149,9 +148,7 @@ public interface BittrexAuthenticated extends Bittrex {
       @HeaderParam("Api-Content-Hash") ParamsDigest hash,
       @HeaderParam("Api-Signature") ParamsDigest signature,
       @QueryParam("marketSymbol") String marketSymbol,
-      @QueryParam("pageSize") Integer pageSize,
-      @QueryParam("startDate") Date startDate,
-      @QueryParam("endDate") Date endDate)
+      @QueryParam("pageSize") Integer pageSize)
       throws IOException, BittrexException;
 
   @GET

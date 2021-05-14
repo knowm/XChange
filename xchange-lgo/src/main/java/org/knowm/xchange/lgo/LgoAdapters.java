@@ -54,7 +54,6 @@ public final class LgoAdapters {
               null,
               baseScale,
               increment.scale(),
-              null,
               new FeeTier[0],
               increment,
               Currency.USD,

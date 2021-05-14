@@ -1,17 +1,15 @@
 package org.knowm.xchange.bitfinex.service;
 
-import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAuthenticated;
 import org.knowm.xchange.bitfinex.v1.BitfinexDigest;
 import org.knowm.xchange.bitfinex.v2.BitfinexHmacSignature;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.client.ResilienceRegistries;
-import org.knowm.xchange.service.BaseResilientExchangeService;
+import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import si.mazi.rescu.ParamsDigest;
 
-public class BitfinexBaseService extends BaseResilientExchangeService<BitfinexExchange>
-    implements BaseService {
+public class BitfinexBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;
   protected final BitfinexAuthenticated bitfinex;
@@ -26,9 +24,9 @@ public class BitfinexBaseService extends BaseResilientExchangeService<BitfinexEx
    *
    * @param exchange
    */
-  public BitfinexBaseService(BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+  public BitfinexBaseService(Exchange exchange) {
 
-    super(exchange, resilienceRegistries);
+    super(exchange);
 
     this.bitfinex =
         ExchangeRestProxyBuilder.forInterface(

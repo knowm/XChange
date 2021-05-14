@@ -12,6 +12,7 @@ import org.knowm.xchange.bitso.dto.account.BitsoBalances;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoCommonOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
+import org.knowm.xchange.bitso.dto.marketdata.BitsoTickerPayload;
 import org.knowm.xchange.bitso.dto.trade.BitsoTrade;
 import org.knowm.xchange.bitso.dto.trade.BitsoTrades;
 import org.knowm.xchange.bitso.dto.trade.BitsoUserTransaction;
@@ -41,16 +42,19 @@ public final class BitsoAdapters {
 
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
+    BitsoTickerPayload t1 = t.getPayload();
+    System.out.println("Bitso Adapter class and adaptTicker method and BitsoPayload Value is");
+    System.out.println(t1);
     return new Ticker.Builder()
-        .currencyPair(currencyPair)
-        .last(t.getLast())
-        .bid(t.getBid())
-        .ask(t.getAsk())
-        .high(t.getHigh())
-        .low(t.getLow())
-        .vwap(t.getVwap())
-        .volume(t.getVolume())
-        .timestamp(t.getTimestamp())
+        .instrument(currencyPair)
+        .last(t1.getLast())
+        .bid(t1.getBid())
+        .ask(t1.getAsk())
+        .high(t1.getHigh())
+        .low(t1.getLow())
+        .vwap(new BigDecimal(t1.getVwap()))
+        .volume(new BigDecimal(t1.getVolume()))
+        .timestamp(t1.getTimestamp())
         .build();
   }
 
@@ -298,5 +302,22 @@ public final class BitsoAdapters {
       System.err.println("Date is not Parse from Bitso Adapter Adapt Date Function...");
     }
     return null;
+  }
+
+  public static OrderType convertType(boolean isBuyer) {
+    return isBuyer ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static CurrencyPair adaptSymbol(String symbol) {
+    int pairLength = symbol.length();
+    if (symbol.endsWith("USDT")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDT");
+    } else if (symbol.endsWith("USDC")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "USDC");
+    } else if (symbol.endsWith("TUSD")) {
+      return new CurrencyPair(symbol.substring(0, pairLength - 4), "TUSD");
+    } else {
+      return symbol.endsWith("USDS") ? new CurrencyPair(symbol.substring(0, pairLength - 4), "USDS") : new CurrencyPair(symbol.substring(0, pairLength - 3), symbol.substring(pairLength - 3));
+    }
   }
 }

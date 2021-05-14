@@ -48,7 +48,7 @@ public class BTCMarketsAccountServiceRaw extends BTCMarketsBaseService {
               + " "
               + response.getErrorCode());
 
-    return response.fundTransferId;
+    return response.status;
   }
 
   public BTCMarketsFundtransferHistoryResponse fundtransferHistory() throws IOException {

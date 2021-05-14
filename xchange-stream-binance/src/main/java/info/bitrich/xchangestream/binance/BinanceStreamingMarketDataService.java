@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.RateLimiter;
-import info.bitrich.xchangestream.binance.dto.*;
-import info.bitrich.xchangestream.binance.exceptions.UpFrontSubscriptionRequiredException;
+import info.bitrich.xchangestream.binance.dto.BinanceRawTrade;
+import info.bitrich.xchangestream.binance.dto.BinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.DepthBinanceWebSocketTransaction;
+import info.bitrich.xchangestream.binance.dto.TickerBinanceWebsocketTransaction;
+import info.bitrich.xchangestream.binance.dto.TradeBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -16,12 +19,11 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -43,19 +45,33 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   private static final Logger LOG =
       LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
-  private static final JavaType TICKER_TYPE = getTickerType();
-  private static final JavaType TRADE_TYPE = getTradeType();
-  private static final JavaType DEPTH_TYPE = getDepthType();
+  private static final JavaType TICKER_TYPE =
+      getObjectMapper()
+          .getTypeFactory()
+          .constructType(
+              new TypeReference<
+                  BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction>>() {});
+  private static final JavaType TRADE_TYPE =
+      getObjectMapper()
+          .getTypeFactory()
+          .constructType(
+              new TypeReference<
+                  BinanceWebsocketTransaction<TradeBinanceWebsocketTransaction>>() {});
+  private static final JavaType DEPTH_TYPE =
+      getObjectMapper()
+          .getTypeFactory()
+          .constructType(
+              new TypeReference<
+                  BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>>() {});
 
   private final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;
 
-  private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions;
-  private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions;
-  private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions;
-  private final Map<CurrencyPair, Observable<OrderBookUpdate>> orderBookUpdatesSubscriptions;
-  private final Map<CurrencyPair, Observable<DepthBinanceWebSocketTransaction>>
-      orderBookRawUpdatesSubscriptions;
+  private final Map<CurrencyPair, OrderbookSubscription> orderbooks = new HashMap<>();
+  private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions =
+      new HashMap<>();
+  private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions = new HashMap<>();
+  private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions = new HashMap<>();
 
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private final BinanceMarketDataService marketDataService;
@@ -73,67 +89,31 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     this.orderBookUpdateFrequencyParameter = orderBookUpdateFrequencyParameter;
     this.marketDataService = marketDataService;
     this.onApiCall = onApiCall;
-    this.tickerSubscriptions = new ConcurrentHashMap<>();
-    this.orderbookSubscriptions = new ConcurrentHashMap<>();
-    this.tradeSubscriptions = new ConcurrentHashMap<>();
-    this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
-    this.orderBookRawUpdatesSubscriptions = new ConcurrentHashMap<>();
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
-      throw new UpFrontSubscriptionRequiredException();
+    if (!service.getProductSubscription().getOrderBook().contains(currencyPair)) {
+      throw new UnsupportedOperationException(
+          "Binance exchange only supports up front subscriptions - subscribe at connect time");
     }
-    return orderbookSubscriptions.computeIfAbsent(currencyPair, this::initOrderBookIfAbsent);
-  }
-
-  private Observable<OrderBook> initOrderBookIfAbsent(CurrencyPair currencyPair) {
-    orderBookRawUpdatesSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
-    return createOrderBookObservable(currencyPair);
+    return orderbookSubscriptions.get(currencyPair);
   }
 
   public Observable<BinanceTicker24h> getRawTicker(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getTicker().contains(currencyPair)) {
-      throw new UpFrontSubscriptionRequiredException();
+    if (!service.getProductSubscription().getTicker().contains(currencyPair)) {
+      throw new UnsupportedOperationException(
+          "Binance exchange only supports up front subscriptions - subscribe at connect time");
     }
-    return tickerSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawTickerStream(currencyPair)).share());
+    return tickerSubscriptions.get(currencyPair);
   }
 
   public Observable<BinanceRawTrade> getRawTrades(CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getTrades().contains(currencyPair)) {
-      throw new UpFrontSubscriptionRequiredException();
+    if (!service.getProductSubscription().getTrades().contains(currencyPair)) {
+      throw new UnsupportedOperationException(
+          "Binance exchange only supports up front subscriptions - subscribe at connect time");
     }
-    return tradeSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawTradeStream(currencyPair)).share());
-  }
-
-  /**
-   * Api to get binance incremental order book updates. As binance websocket provides only api to
-   * get incremental updates {@link #getOrderBook(CurrencyPair, Object...)} have to build book from
-   * rest and websocket which leads to delay before the order book will be received by subscriber.
-   * This api provides the ability to start receiving updates immediately. It is allowed to
-   * subscribe to this api and {@link #getOrderBook(CurrencyPair, Object...)} at the same time.
-   */
-  public Observable<OrderBookUpdate> getOrderBookUpdates(
-      CurrencyPair currencyPair, Object... args) {
-    if (!service.isLiveSubscriptionEnabled()
-        && !service.getProductSubscription().getOrderBook().contains(currencyPair)) {
-      throw new UpFrontSubscriptionRequiredException();
-    }
-    return orderBookUpdatesSubscriptions.computeIfAbsent(
-        currencyPair, this::initOrderBookUpdateIfAbsent);
-  }
-
-  private Observable<OrderBookUpdate> initOrderBookUpdateIfAbsent(CurrencyPair currencyPair) {
-    orderBookRawUpdatesSubscriptions.computeIfAbsent(
-        currencyPair, s -> triggerObservableBody(rawOrderBookUpdates(currencyPair)));
-    return createOrderBookUpdatesObservable(currencyPair);
+    return tradeSubscriptions.get(currencyPair);
   }
 
   @Override
@@ -149,27 +129,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 new Trade.Builder()
                     .type(BinanceAdapters.convertType(rawTrade.isBuyerMarketMaker()))
                     .originalAmount(rawTrade.getQuantity())
-                    .instrument(currencyPair)
+                    .currencyPair(currencyPair)
                     .price(rawTrade.getPrice())
                     .timestamp(new Date(rawTrade.getTimestamp()))
                     .id(String.valueOf(rawTrade.getTradeId()))
                     .build());
   }
 
-  private Observable<OrderBookUpdate> createOrderBookUpdatesObservable(CurrencyPair currencyPair) {
-    return orderBookRawUpdatesSubscriptions
-        .get(currencyPair)
-        .flatMap(
-            depthTransaction ->
-                observableFromStream(extractOrderBookUpdates(currencyPair, depthTransaction)))
-        .share();
-  }
-
   private String channelFromCurrency(CurrencyPair currencyPair, String subscriptionType) {
     String currency = String.join("", currencyPair.toString().split("/")).toLowerCase();
     String currencyChannel = currency + "@" + subscriptionType;
 
-    if (BinanceSubscriptionType.DEPTH.getType().equals(subscriptionType)) {
+    if ("depth".equals(subscriptionType)) {
       return currencyChannel + orderBookUpdateFrequencyParameter;
     } else {
       return currencyChannel;
@@ -183,100 +154,58 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
    * handle these before the first messages arrive.
    */
   public void openSubscriptions(ProductSubscription productSubscription) {
-    productSubscription.getTicker().forEach(this::initTickerSubscription);
-    productSubscription.getOrderBook().forEach(this::initRawOrderBookUpdatesSubscription);
-    productSubscription.getTrades().forEach(this::initTradeSubscription);
-  }
-
-  /**
-   * Live Unsubscription that should be called in the Observable.doOnDispose(). This is required to
-   * stop receiving data from the stream. This method also clear the subscription from the
-   * appropriate map.
-   */
-  public void unsubscribe(CurrencyPair currencyPair, BinanceSubscriptionType subscriptionType) {
-
-    if (!service.isLiveSubscriptionEnabled()) {
-      throw new UnsupportedOperationException(
-          "Unsubscribe not supported for Binance when live Subscription/Unsubscription is disabled. "
-              + "Call BinanceStreamingExchange.enableLiveSubscription() to active it");
-    }
-    final String channelId =
-        String.join("", currencyPair.toString().split("/")).toLowerCase()
-            + "@"
-            + subscriptionType.getType();
-    this.service.unsubscribeChannel(channelId);
-
-    switch (subscriptionType) {
-      case DEPTH:
-        orderbookSubscriptions.remove(currencyPair);
-        orderBookUpdatesSubscriptions.remove(currencyPair);
-        orderBookRawUpdatesSubscriptions.remove(currencyPair);
-        break;
-      case TRADE:
-        tradeSubscriptions.remove(currencyPair);
-        break;
-      case TICKER:
-        tickerSubscriptions.remove(currencyPair);
-        break;
-      default:
-        throw new RuntimeException("Subscription type not supported to unsubscribe from stream");
-    }
-  }
-
-  private void initTradeSubscription(CurrencyPair currencyPair) {
-    tradeSubscriptions.put(
-        currencyPair, triggerObservableBody(rawTradeStream(currencyPair)).share());
-  }
-
-  private void initTickerSubscription(CurrencyPair currencyPair) {
-    tickerSubscriptions.put(
-        currencyPair, triggerObservableBody(rawTickerStream(currencyPair)).share());
-  }
-
-  private void initRawOrderBookUpdatesSubscription(CurrencyPair currencyPair) {
-    orderBookRawUpdatesSubscriptions.put(
-        currencyPair, triggerObservableBody(rawOrderBookUpdates(currencyPair)));
+    productSubscription
+        .getTicker()
+        .forEach(
+            currencyPair ->
+                tickerSubscriptions.put(
+                    currencyPair, triggerObservableBody(rawTickerStream(currencyPair).share())));
+    productSubscription
+        .getOrderBook()
+        .forEach(
+            currencyPair ->
+                orderbookSubscriptions.put(
+                    currencyPair, triggerObservableBody(orderBookStream(currencyPair).share())));
+    productSubscription
+        .getTrades()
+        .forEach(
+            currencyPair ->
+                tradeSubscriptions.put(
+                    currencyPair, triggerObservableBody(rawTradeStream(currencyPair).share())));
   }
 
   private Observable<BinanceTicker24h> rawTickerStream(CurrencyPair currencyPair) {
     return service
-        .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.TICKER.getType()))
-        .map(
-            it ->
-                this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
+        .subscribeChannel(channelFromCurrency(currencyPair, "ticker"))
+        .map(this::tickerTransaction)
         .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
         .map(transaction -> transaction.getData().getTicker());
   }
 
   private final class OrderbookSubscription {
-    final Observable<DepthBinanceWebSocketTransaction> stream;
-    final AtomicLong lastUpdateId = new AtomicLong();
-    final AtomicLong snapshotLastUpdateId = new AtomicLong();
+    long snapshotlastUpdateId;
+    AtomicLong lastUpdateId = new AtomicLong(0L);
     OrderBook orderBook;
-
-    private OrderbookSubscription(Observable<DepthBinanceWebSocketTransaction> stream) {
-      this.stream = stream;
-    }
+    Observable<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>> stream;
 
     void invalidateSnapshot() {
-      snapshotLastUpdateId.set(0);
+      snapshotlastUpdateId = 0L;
     }
 
     void initSnapshotIfInvalid(CurrencyPair currencyPair) {
-      if (snapshotLastUpdateId.get() != 0) return;
+      if (snapshotlastUpdateId != 0L) return;
       try {
         LOG.info("Fetching initial orderbook snapshot for {} ", currencyPair);
         onApiCall.run();
         fallbackOnApiCall.get().run();
         BinanceOrderbook book = fetchBinanceOrderBook(currencyPair);
-        snapshotLastUpdateId.set(book.lastUpdateId);
+        snapshotlastUpdateId = book.lastUpdateId;
         lastUpdateId.set(book.lastUpdateId);
         orderBook = BinanceMarketDataService.convertOrderBook(book, currencyPair);
       } catch (Exception e) {
         LOG.error("Failed to fetch initial order book for " + currencyPair, e);
-        snapshotLastUpdateId.set(0);
-        lastUpdateId.set(0);
+        snapshotlastUpdateId = 0L;
+        lastUpdateId.set(0L);
         orderBook = null;
       }
     }
@@ -309,24 +238,23 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
   }
 
-  private Observable<DepthBinanceWebSocketTransaction> rawOrderBookUpdates(
-      CurrencyPair currencyPair) {
-    return service
-        .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.DEPTH.getType()))
-        .map(
-            it ->
-                this.<DepthBinanceWebSocketTransaction>readTransaction(
-                    it, DEPTH_TYPE, "order book"))
-        .map(BinanceWebsocketTransaction::getData)
-        .filter(data -> data.getCurrencyPair().equals(currencyPair));
-  }
+  private OrderbookSubscription connectOrderBook(CurrencyPair currencyPair) {
+    OrderbookSubscription subscription = new OrderbookSubscription();
 
-  private Observable<OrderBook> createOrderBookObservable(CurrencyPair currencyPair) {
     // 1. Open a stream to wss://stream.binance.com:9443/ws/bnbbtc@depth
     // 2. Buffer the events you receive from the stream.
+
+    subscription.stream =
+        service
+            .subscribeChannel(channelFromCurrency(currencyPair, "depth"))
+            .map(this::depthTransaction)
+            .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair));
+    return subscription;
+  }
+
+  private Observable<OrderBook> orderBookStream(CurrencyPair currencyPair) {
     OrderbookSubscription subscription =
-        new OrderbookSubscription(orderBookRawUpdatesSubscriptions.get(currencyPair));
+        orderbooks.computeIfAbsent(currencyPair, this::connectOrderBook);
 
     return subscription
         .stream
@@ -337,10 +265,11 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .doOnNext(transaction -> subscription.initSnapshotIfInvalid(currencyPair))
 
         // If we failed, don't return anything. Just keep trying until it works
-        .filter(transaction -> subscription.snapshotLastUpdateId.get() > 0L)
+        .filter(transaction -> subscription.snapshotlastUpdateId > 0L)
+        .map(BinanceWebsocketTransaction::getData)
 
         // 4. Drop any event where u is <= lastUpdateId in the snapshot
-        .filter(depth -> depth.getLastUpdateId() > subscription.snapshotLastUpdateId.get())
+        .filter(depth -> depth.getLastUpdateId() > subscription.snapshotlastUpdateId)
 
         // 5. The first processed should have U <= lastUpdateId+1 AND u >= lastUpdateId+1, and
         // subsequent events would
@@ -384,18 +313,35 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         // happen and is normal.
         .map(
             depth -> {
-              extractOrderBookUpdates(currencyPair, depth)
-                  .forEach(it -> subscription.orderBook.update(it));
+              BinanceOrderbook ob = depth.getOrderBook();
+              ob.bids.forEach(
+                  (key, value) ->
+                      subscription.orderBook.update(
+                          new OrderBookUpdate(
+                              OrderType.BID,
+                              null,
+                              currencyPair,
+                              key,
+                              depth.getEventTime(),
+                              value)));
+              ob.asks.forEach(
+                  (key, value) ->
+                      subscription.orderBook.update(
+                          new OrderBookUpdate(
+                              OrderType.ASK,
+                              null,
+                              currencyPair,
+                              key,
+                              depth.getEventTime(),
+                              value)));
               return subscription.orderBook;
-            })
-        .share();
+            });
   }
 
   private Observable<BinanceRawTrade> rawTradeStream(CurrencyPair currencyPair) {
     return service
-        .subscribeChannel(
-            channelFromCurrency(currencyPair, BinanceSubscriptionType.TRADE.getType()))
-        .map(it -> this.<TradeBinanceWebsocketTransaction>readTransaction(it, TRADE_TYPE, "trade"))
+        .subscribeChannel(channelFromCurrency(currencyPair, "trade"))
+        .map(this::tradeTransaction)
         .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
         .map(transaction -> transaction.getData().getRawTrade());
   }
@@ -410,73 +356,30 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     return observable;
   }
 
-  private <T> BinanceWebsocketTransaction<T> readTransaction(
-      JsonNode node, JavaType type, String transactionType) {
+  private BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction> tickerTransaction(
+      JsonNode node) {
     try {
-      return mapper.readValue(mapper.treeAsTokens(node), type);
+      return mapper.readValue(mapper.treeAsTokens(node), TICKER_TYPE);
     } catch (IOException e) {
-      throw new ExchangeException(
-          String.format("Unable to parse %s transaction", transactionType), e);
+      throw new ExchangeException("Unable to parse ticker transaction", e);
     }
   }
 
-  private Stream<OrderBookUpdate> extractOrderBookUpdates(
-      CurrencyPair currencyPair, DepthBinanceWebSocketTransaction depthTransaction) {
-    BinanceOrderbook orderBookDiff = depthTransaction.getOrderBook();
-
-    Stream<OrderBookUpdate> bidStream =
-        orderBookDiff.bids.entrySet().stream()
-            .map(
-                entry ->
-                    new OrderBookUpdate(
-                        OrderType.BID,
-                        entry.getValue(),
-                        currencyPair,
-                        entry.getKey(),
-                        depthTransaction.getEventTime(),
-                        entry.getValue()));
-
-    Stream<OrderBookUpdate> askStream =
-        orderBookDiff.asks.entrySet().stream()
-            .map(
-                entry ->
-                    new OrderBookUpdate(
-                        OrderType.ASK,
-                        entry.getValue(),
-                        currencyPair,
-                        entry.getKey(),
-                        depthTransaction.getEventTime(),
-                        entry.getValue()));
-
-    return Stream.concat(bidStream, askStream);
+  private BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction> depthTransaction(
+      JsonNode node) {
+    try {
+      return mapper.readValue(mapper.treeAsTokens(node), DEPTH_TYPE);
+    } catch (IOException e) {
+      throw new ExchangeException("Unable to parse order book transaction", e);
+    }
   }
 
-  private <T> Observable<T> observableFromStream(Stream<T> stream) {
-    return Observable.create(
-        emitter -> {
-          stream.forEach(emitter::onNext);
-          emitter.onComplete();
-        });
-  }
-
-  private static JavaType getTickerType() {
-    return getObjectMapper()
-        .getTypeFactory()
-        .constructType(
-            new TypeReference<BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction>>() {});
-  }
-
-  private static JavaType getTradeType() {
-    return getObjectMapper()
-        .getTypeFactory()
-        .constructType(
-            new TypeReference<BinanceWebsocketTransaction<TradeBinanceWebsocketTransaction>>() {});
-  }
-
-  private static JavaType getDepthType() {
-    return getObjectMapper()
-        .getTypeFactory()
-        .constructType(
-            new TypeReference<BinanceWebsocketTransaction<DepthBinanceWebSocketTransaction>>() {});
+  private BinanceWebsocketTransaction<TradeBinanceWebsocketTransaction> tradeTransaction(
+      JsonNode node) {
+    try {
+      return mapper.readValue(mapper.treeAsTokens(node), TRADE_TYPE);
+    } catch (IOException e) {
+      throw new ExchangeException("Unable to parse trade transaction", e);
+    }
   }
 }

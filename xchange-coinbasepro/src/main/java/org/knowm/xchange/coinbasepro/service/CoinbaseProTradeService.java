@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProIdResponse;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceLimitOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceMarketOrder;
+import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProPlaceOrder;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProTradeHistoryParams;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -25,13 +30,13 @@ import org.knowm.xchange.service.trade.params.orders.OrderQueryParams;
 
 public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implements TradeService {
 
-  public CoinbaseProTradeService(
-      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
-    super(exchange, resilienceRegistries);
+  public CoinbaseProTradeService(Exchange exchange) {
+    super(exchange);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+
     return getOpenOrders(createOpenOrdersParams());
   }
 
@@ -42,28 +47,38 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    return CoinbaseProAdapters.adaptOpenOrders(getCoinbaseProOpenOrders());
+
+    CoinbaseProOrder[] coinbaseExOpenOrders = getCoinbaseProOpenOrders();
+    return CoinbaseProAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeCoinbaseProOrder(CoinbaseProAdapters.adaptCoinbaseProPlaceMarketOrder(marketOrder))
-        .getId();
+    CoinbaseProPlaceMarketOrder coinbaseProMarketOrder =
+        CoinbaseProAdapters.adaptCoinbaseProPlaceMarketOrder(marketOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProMarketOrder);
+    return response.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, FundsExceededException {
-    return placeCoinbaseProOrder(CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder))
-        .getId();
+    CoinbaseProPlaceLimitOrder coinbaseProLimitOrder =
+        CoinbaseProAdapters.adaptCoinbaseProPlaceLimitOrder(limitOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProLimitOrder);
+    return response.getId();
   }
 
   @Override
   public String placeStopOrder(StopOrder stopOrder) throws IOException, FundsExceededException {
-    return placeCoinbaseProOrder(CoinbaseProAdapters.adaptCoinbaseProStopOrder(stopOrder)).getId();
+    CoinbaseProPlaceOrder coinbaseProStopOrder =
+        CoinbaseProAdapters.adaptCoinbaseProStopOrder(stopOrder);
+    CoinbaseProIdResponse response = placeCoinbaseProOrder(coinbaseProStopOrder);
+    return response.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
+
     return cancelCoinbaseProOrder(orderId);
   }
 
@@ -78,11 +93,14 @@ public class CoinbaseProTradeService extends CoinbaseProTradeServiceRaw implemen
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return CoinbaseProAdapters.adaptTradeHistory(getCoinbaseProFills(params));
+
+    CoinbaseProFill[] coinbaseExFills = getCoinbaseProFills(params);
+    return CoinbaseProAdapters.adaptTradeHistory(coinbaseExFills);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+
     return new CoinbaseProTradeHistoryParams();
   }
 

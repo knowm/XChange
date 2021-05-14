@@ -17,7 +17,7 @@ public class Examples {
         (HuobiMarketDataService) exchange.getMarketDataService();
 
     // GET Klines
-    Arrays.stream(marketDataService.getKlines(CurrencyPair.BTC_USDT, KlineInterval.m5, 10))
-        .forEach(System.out::println);
+//    Arrays.stream(marketDataService.getKlines(CurrencyPair.BTC_USDT, KlineInterval.m5, 10))
+//        .forEach(System.out::println);
   }
 }

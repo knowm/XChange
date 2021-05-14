@@ -68,8 +68,7 @@ public class CoinmateStreamingAccountService implements StreamingAccountService 
         StreamingObjectMapperHelper.getObjectMapper()
             .readerFor(new TypeReference<Map<String, CoinmateWebsocketBalance>>() {});
 
-    return coinmateStreamingService
-        .subscribeChannel(channelName, true)
+    return coinmateStreamingService.subscribeChannel(channelName, true)
         .map((message) -> reader.readValue(message.get("payload").get("balances")));
   }
 }

@@ -6,10 +6,10 @@ import java.util.List;
 /** @author Ravi */
 public class OrderBookPayload {
 
-  private final String timestamp;
-  private final String sequence;
-  private final List<BitsoCommonOrderBook> bids;
-  private final List<BitsoCommonOrderBook> asks;
+  public final String timestamp;
+  public final String sequence;
+  public final List<BitsoCommonOrderBook> bids;
+  public final List<BitsoCommonOrderBook> asks;
 
   public OrderBookPayload(
       @JsonProperty("updated_at") String timestamp,

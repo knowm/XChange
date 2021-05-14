@@ -16,15 +16,11 @@ public class FtxAdapterTest {
 
   @Test
   public void adaptCurrencyPairToFtxPair() {
-    assertPair("BTC-USD", "BTC/USD", "BTC/USD");
-    assertPair("BTC-PERP", "BTC/PERP", "BTC-PERP");
-    assertPair("BTC-0625", "BTC/0625", "BTC-0625");
-  }
-
-  private void assertPair(String market, String expString, String expAdapted) {
+    String market = "BTC-PERP";
     CurrencyPair currencyPair = new CurrencyPair(market);
-    assertThat(currencyPair.toString()).isEqualTo(expString);
-    assertThat(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).isEqualTo(expAdapted);
+
+    assertThat(currencyPair.toString()).isEqualTo("BTC/PERP");
+    assertThat(FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair)).isEqualTo("BTC-PERP");
   }
 
   @Test

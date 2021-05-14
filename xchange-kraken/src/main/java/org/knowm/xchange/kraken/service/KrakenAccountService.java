@@ -3,12 +3,13 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.kraken.KrakenAdapters;
@@ -59,17 +60,6 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
     return new AccountInfo(
         exchange.getExchangeSpecification().getUserName(), tradingWallet, marginWallet);
-  }
-
-  @Override
-  public Map<CurrencyPair, Fee> getDynamicTradingFees() throws IOException {
-    return KrakenAdapters.adaptFees(
-        super.getTradeVolume(
-            exchange
-                .getExchangeMetaData()
-                .getCurrencyPairs()
-                .keySet()
-                .toArray(new CurrencyPair[0])));
   }
 
   @Override

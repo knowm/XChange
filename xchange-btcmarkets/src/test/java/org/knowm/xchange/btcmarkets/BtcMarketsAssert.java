@@ -7,7 +7,6 @@ import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
-import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
@@ -124,15 +123,6 @@ public class BtcMarketsAssert {
     assertThat(o1.getLastPrice()).isEqualTo(o2.getLastPrice());
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
     assertThat(o1.getInstrument()).isEqualTo(o2.getInstrument());
-    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
-    assertThat(o1.toString()).isEqualTo(o2.toString());
-  }
-
-  public static void assertEquals(BTCMarketsTrade o1, BTCMarketsTrade o2) {
-    assertThat(o1.getId()).isEqualTo(o2.getId());
-    assertThat(o1.getAmount()).isEqualTo(o2.getAmount());
-    assertThat(o1.getSide()).isEqualTo(o2.getSide());
-    assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
     assertThat(o1.toString()).isEqualTo(o2.toString());
   }

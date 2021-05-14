@@ -4,7 +4,6 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.tradeogre.service.TradeOgreAccountService;
 import org.knowm.xchange.tradeogre.service.TradeOgreMarketDataService;
-import org.knowm.xchange.tradeogre.service.TradeOgreTradeService;
 
 public class TradeOgreExchange extends BaseExchange {
 
@@ -12,7 +11,6 @@ public class TradeOgreExchange extends BaseExchange {
   protected void initServices() {
     marketDataService = new TradeOgreMarketDataService(this);
     accountService = new TradeOgreAccountService(this);
-    tradeService = new TradeOgreTradeService(this);
   }
 
   @Override

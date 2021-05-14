@@ -5,7 +5,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinjar.CoinjarException;
 import org.knowm.xchange.coinjar.dto.CoinjarOrder;
-import org.knowm.xchange.coinjar.dto.trading.CoinjarFills;
+import org.knowm.xchange.coinjar.dto.trading.CoinjarFill;
 import org.knowm.xchange.coinjar.dto.trading.CoinjarOrderRequest;
 
 class CoinjarTradeServiceRaw extends CoinjarBaseService {
@@ -31,7 +31,7 @@ class CoinjarTradeServiceRaw extends CoinjarBaseService {
     return coinjarTrading.cancelOrder(authorizationHeader, id);
   }
 
-  protected CoinjarFills getFills(String cursor, String productId, String oid)
+  protected List<CoinjarFill> getFills(Integer cursor, String productId, String oid)
       throws CoinjarException, IOException {
     return coinjarTrading.getFills(authorizationHeader, cursor, productId, oid);
   }

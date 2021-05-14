@@ -42,10 +42,16 @@ public class BTCMarketsAccountService extends BTCMarketsAccountServiceRaw
       if (params instanceof RippleWithdrawFundsParams) {
         address = address + "?dt=" + ((RippleWithdrawFundsParams) params).tag;
       }
-      return withdrawCrypto(
+      withdrawCrypto(
           address,
           defaultWithdrawFundsParams.getAmount(),
           defaultWithdrawFundsParams.getCurrency());
+      // The BTCMarkets API doesn't return a useful value such as an id but the fixed value 'Pending
+      // Authorization'
+      // See https://github.com/BTCMarkets/API/issues/137
+      // and
+      // https://github.com/BTCMarkets/API/wiki/Fund-Transfer-API
+      return null;
     }
     throw new IllegalStateException("Cannot process " + params);
   }

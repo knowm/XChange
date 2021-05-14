@@ -10,51 +10,46 @@ import org.slf4j.LoggerFactory;
 
 /** Created by Lukas Zaoralek on 15.11.17. */
 public class GeminiManualExample {
-  private static final Logger LOG = LoggerFactory.getLogger(GeminiManualExample.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeminiManualExample.class);
 
-  public static void main(String[] args) throws Exception {
-    ProductSubscription productSubscription =
-        ProductSubscription.create()
-            .addOrderbook(CurrencyPair.BTC_USD)
-            .addOrderbook(CurrencyPair.ETH_USD)
-            .build();
+    public static void main(String[] args) throws Exception {
+        ProductSubscription productSubscription =
+                ProductSubscription.create()
+                        .addOrderbook(CurrencyPair.BTC_USD)
+                        .addOrderbook(CurrencyPair.ETH_USD)
+                        .build();
 
-    ExchangeSpecification spec =
-        StreamingExchangeFactory.INSTANCE
-            .createExchange(GeminiStreamingExchange.class)
-            .getDefaultExchangeSpecification();
+        ExchangeSpecification spec =
+                StreamingExchangeFactory.INSTANCE
+                        .createExchange(GeminiStreamingExchange.class)
+                        .getDefaultExchangeSpecification();
 
-    GeminiStreamingExchange exchange =
-        (GeminiStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
+        GeminiStreamingExchange exchange = (GeminiStreamingExchange) StreamingExchangeFactory.INSTANCE.createExchange(spec);
 
-    exchange.connect(productSubscription).blockingAwait();
+        exchange.connect(productSubscription).blockingAwait();
 
-    Disposable sub1 =
-        exchange
-            .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USD, 5)
-            .subscribe(
-                orderBook -> {
-                  LOG.info("First ask: {}", orderBook.getAsks().get(0));
-                  LOG.info("First bid: {}", orderBook.getBids().get(0));
-                },
-                throwable -> LOG.error("ERROR in getting order book: ", throwable));
+        Disposable sub1 = exchange.getStreamingMarketDataService()
+                .getOrderBook(CurrencyPair.BTC_USD, 5)
+                .subscribe(
+                        orderBook -> {
+                            LOG.info("First ask: {}", orderBook.getAsks().get(0));
+                            LOG.info("First bid: {}", orderBook.getBids().get(0));
+                        },
+                        throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
-    Disposable sub2 =
-        exchange
-            .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.ETH_USD, 5)
-            .subscribe(
-                orderBook -> {
-                  LOG.info("First ask: {}", orderBook.getAsks().get(0));
-                  LOG.info("First bid: {}", orderBook.getBids().get(0));
-                },
-                throwable -> LOG.error("ERROR in getting order book: ", throwable));
+        Disposable sub2 = exchange.getStreamingMarketDataService()
+                .getOrderBook(CurrencyPair.ETH_USD, 5)
+                .subscribe(
+                        orderBook -> {
+                            LOG.info("First ask: {}", orderBook.getAsks().get(0));
+                            LOG.info("First bid: {}", orderBook.getBids().get(0));
+                        },
+                        throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
-    Thread.sleep(2000);
-    LOG.info("Disposing subscriptions.");
-    sub1.dispose();
-    sub2.dispose();
-    exchange.disconnect().blockingAwait();
-  }
+        Thread.sleep(2000);
+        LOG.info("Disposing subscriptions.");
+        sub1.dispose();
+        sub2.dispose();
+        exchange.disconnect().blockingAwait();
+    }
 }

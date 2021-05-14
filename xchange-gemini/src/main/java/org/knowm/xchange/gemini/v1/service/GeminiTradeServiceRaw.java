@@ -81,7 +81,6 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     GeminiNewOrderRequest request =
         new GeminiNewOrderRequest(
             String.valueOf(exchange.getNonceFactory().createValue()),
-            limitOrder.getUserReference(),
             pair,
             limitOrder.getOriginalAmount(),
             limitOrder.getLimitPrice(),

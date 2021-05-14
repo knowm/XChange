@@ -194,8 +194,6 @@ public final class BinanceTicker24h {
               .askSize(askQty)
               .bidSize(bidQty)
               .quoteVolume(quoteVolume)
-              .timestamp(closeTime > 0 ? new Date(closeTime) : null)
-              .percentageChange(priceChangePercent)
               .build();
     }
     return ticker;

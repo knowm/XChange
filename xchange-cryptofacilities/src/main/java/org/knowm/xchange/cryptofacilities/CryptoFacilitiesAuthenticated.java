@@ -45,8 +45,7 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
       @QueryParam("symbol") String symbol,
       @QueryParam("side") String side,
       @QueryParam("size") BigDecimal size,
-      @QueryParam("limitPrice") BigDecimal limitPrice,
-      @QueryParam("stopPrice") BigDecimal stopPrice)
+      @QueryParam("limitPrice") BigDecimal limitPrice)
       throws IOException;
 
   @POST

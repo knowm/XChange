@@ -2,7 +2,6 @@ package org.knowm.xchange.bitstamp;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
@@ -21,12 +20,6 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory =
       new CurrentTimeIncrementalNonceFactory(TimeUnit.NANOSECONDS);
-
-  private final SynchronizedValueFactory<String> uuidNonceFactory =
-      () -> UUID.randomUUID().toString();
-
-  private final SynchronizedValueFactory<String> timestampFactory =
-      () -> String.valueOf(System.currentTimeMillis());
 
   @Override
   protected void initServices() {
@@ -51,15 +44,8 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     return nonceFactory;
-  }
-
-  public SynchronizedValueFactory<String> getUuidNonceFactory() {
-    return uuidNonceFactory;
-  }
-
-  public SynchronizedValueFactory<String> getTimestampFactory() {
-    return timestampFactory;
   }
 
   @Override

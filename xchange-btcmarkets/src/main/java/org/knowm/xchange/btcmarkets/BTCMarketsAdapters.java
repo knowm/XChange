@@ -17,7 +17,6 @@ import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
-import org.knowm.xchange.btcmarkets.dto.v3.marketdata.BTCMarketsTrade;
 import org.knowm.xchange.btcmarkets.dto.v3.trade.BTCMarketsTradeHistoryResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,8 +26,6 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -123,18 +120,17 @@ public final class BTCMarketsAdapters {
     BigDecimal cumulativeAmount =
         BigDecimal.valueOf(
             o.getTrades().stream().mapToDouble(value -> value.getVolume().doubleValue()).sum());
-    return new LimitOrder.Builder(
-            adaptOrderType(o.getOrderSide()), new CurrencyPair(o.getInstrument(), o.getCurrency()))
-        .originalAmount(o.getVolume())
-        .id(Long.toString(o.getId()))
-        .timestamp(o.getCreationTime())
-        .limitPrice(o.getPrice())
-        .averagePrice(averagePrice)
-        .cumulativeAmount(cumulativeAmount)
-        .fee(fee)
-        .orderStatus(adaptOrderStatus(o.getStatus()))
-        .userReference(o.getClientRequestId())
-        .build();
+    return new LimitOrder(
+        adaptOrderType(o.getOrderSide()),
+        o.getVolume(),
+        new CurrencyPair(o.getInstrument(), o.getCurrency()),
+        Long.toString(o.getId()),
+        o.getCreationTime(),
+        o.getPrice(),
+        averagePrice,
+        cumulativeAmount,
+        fee,
+        adaptOrderStatus(o.getStatus()));
   }
 
   public static UserTrades adaptTradeHistory(
@@ -257,29 +253,5 @@ public final class BTCMarketsAdapters {
               transfer.getDescription()));
     }
     return result;
-  }
-
-  public static Trades adaptMarketTrades(
-      List<BTCMarketsTrade> btcMarketsTrades, CurrencyPair currencyPair) {
-
-    Iterator<BTCMarketsTrade> marketTrades = btcMarketsTrades.iterator();
-    List<Trade> trades = new ArrayList<Trade>();
-    while (marketTrades.hasNext()) {
-      BTCMarketsTrade marketTrade = marketTrades.next();
-      logger.debug(marketTrade.toString());
-      Trade trade =
-          new Trade(
-              adaptOrderType(marketTrade.getSide()),
-              marketTrade.getAmount(),
-              currencyPair,
-              marketTrade.getPrice(),
-              marketTrade.getTimestamp(),
-              marketTrade.getId().toString(),
-              null,
-              null);
-      trades.add(trade);
-    }
-
-    return new Trades(trades);
   }
 }

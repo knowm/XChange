@@ -10,7 +10,9 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiExchange;
 
-/** Adapted from V1 by Max Gao on 01-09-2021 */
+/**
+ * Adapted from V1 by Max Gao on 01-09-2021
+ */
 public class GeminiStreamingExchange extends GeminiExchange implements StreamingExchange {
   private static final String API_V2_URI = "wss://api.gemini.com/v2/marketdata/";
 

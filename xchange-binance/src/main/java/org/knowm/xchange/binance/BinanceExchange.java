@@ -79,23 +79,6 @@ public class BinanceExchange extends BaseExchange {
     return spec;
   }
 
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    concludeHostParams(exchangeSpecification);
-    super.applySpecification(exchangeSpecification);
-  }
-
-  /** Adjust host parameters depending on exchange specific parameters */
-  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification.getExchangeSpecificParameters() != null) {
-      if (Boolean.TRUE.equals(
-          exchangeSpecification.getExchangeSpecificParametersItem("Use_Sandbox"))) {
-        exchangeSpecification.setSslUri("https://testnet.binance.vision");
-        exchangeSpecification.setHost("testnet.binance.vision");
-      }
-    }
-  }
-
   public BinanceExchangeInfo getExchangeInfo() {
 
     return exchangeInfo;
@@ -164,7 +147,6 @@ public class BinanceExchange extends BaseExchange {
                   counterMaxQty,
                   amountPrecision, // base precision
                   pairPrecision, // counter precision
-                  null,
                   null, /* TODO get fee tiers, although this is not necessary now
                         because their API returns current fee directly */
                   stepSize,

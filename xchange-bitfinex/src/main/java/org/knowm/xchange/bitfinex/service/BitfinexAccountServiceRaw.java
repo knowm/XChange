@@ -1,13 +1,11 @@
 package org.knowm.xchange.bitfinex.service;
 
-import static org.knowm.xchange.bitfinex.BitfinexResilience.BITFINEX_RATE_LIMITER;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.knowm.xchange.bitfinex.BitfinexExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexAccountFeesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalanceHistoryRequest;
@@ -32,7 +30,6 @@ import org.knowm.xchange.bitfinex.v2.dto.account.Movement;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsRequest;
 import org.knowm.xchange.bitfinex.v2.dto.account.TransferBetweenWalletsResponse;
 import org.knowm.xchange.bitfinex.v2.dto.account.Wallet;
-import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
@@ -42,56 +39,47 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
    *
    * @param exchange
    */
-  public BitfinexAccountServiceRaw(
-      BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+  public BitfinexAccountServiceRaw(Exchange exchange) {
 
-    super(exchange, resilienceRegistries);
+    super(exchange);
   }
 
   public BitfinexTradingFeeResponse[] getBitfinexDynamicTradingFees() throws IOException {
     try {
-      return decorateApiCall(
-              () ->
-                  bitfinex.tradingFees(
-                      apiKey,
-                      payloadCreator,
-                      signatureCreator,
-                      new BitfinexTradingFeesRequest(
-                          String.valueOf(exchange.getNonceFactory().createValue()))))
-          .withRetry(retry("account-tradingFees"))
-          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-          .call();
+      BitfinexTradingFeeResponse[] response =
+          bitfinex.tradingFees(
+              apiKey,
+              payloadCreator,
+              signatureCreator,
+              new BitfinexTradingFeesRequest(
+                  String.valueOf(exchange.getNonceFactory().createValue())));
+      return response;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
     }
   }
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinex.balances(
-                    apiKey,
-                    payloadCreator,
-                    signatureCreator,
-                    new BitfinexBalancesRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()))))
-        .withRetry(retry("account-accountInfo"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+
+    BitfinexBalancesResponse[] balances =
+        bitfinex.balances(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
+    return balances;
   }
 
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinex.marginInfos(
-                    apiKey,
-                    payloadCreator,
-                    signatureCreator,
-                    new BitfinexMarginInfosRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()))))
-        .withRetry(retry("account-marginInfo"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+
+    BitfinexMarginInfosResponse[] marginInfos =
+        bitfinex.marginInfos(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexMarginInfosRequest(
+                String.valueOf(exchange.getNonceFactory().createValue())));
+    return marginInfos;
   }
 
   public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(
@@ -104,13 +92,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
             since,
             until,
             limit);
-    return decorateApiCall(
-            () ->
-                bitfinex.depositWithdrawalHistory(
-                    apiKey, payloadCreator, signatureCreator, request))
-        .withRetry(retry("account-withdrawalHistory"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
   }
 
   public String withdraw(
@@ -148,9 +130,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
             tagOrPaymentId);
     req.setCurrency(currency);
     BitfinexWithdrawalResponse[] withdrawResponse =
-        decorateApiCall(() -> bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, req))
-            .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-            .call();
+        bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, req);
     if ("error".equalsIgnoreCase(withdrawResponse[0].getStatus())) {
       throw new ExchangeException(withdrawResponse[0].getMessage());
     }
@@ -160,171 +140,129 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexDepositAddressResponse requestDepositAddressRaw(String currency)
       throws IOException {
     String type = "unknown";
-    if ("BTC".equalsIgnoreCase(currency)) {
+    if (currency.equalsIgnoreCase("BTC")) {
       type = "bitcoin";
-    } else if ("LTC".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("LTC")) {
       type = "litecoin";
-    } else if ("ETH".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("ETH")) {
       type = "ethereum";
-    } else if ("IOT".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("IOT")) {
       type = "iota";
-    } else if ("BCH".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("BCH")) {
       type = "bab";
-    } else if ("BTG".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("BTG")) {
       type = "bgold";
-    } else if ("DASH".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("DASH")) {
       type = "dash";
-    } else if ("EOS".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("EOS")) {
       type = "eos";
-    } else if ("XMR".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("XMR")) {
       type = "monero";
-    } else if ("NEO".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("NEO")) {
       type = "neo";
-    } else if ("XRP".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("XRP")) {
       type = "ripple";
-    } else if ("XLM".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("XLM")) {
       type = "xlm";
-    } else if ("TRX".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("TRX")) {
       type = "trx";
-    } else if ("ZEC".equalsIgnoreCase(currency)) {
+    } else if (currency.equalsIgnoreCase("ZEC")) {
       type = "zcash";
     }
-    final String finalType = type;
-    return decorateApiCall(
-            () ->
-                bitfinex.requestDeposit(
-                    apiKey,
-                    payloadCreator,
-                    signatureCreator,
-                    new BitfinexDepositAddressRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()),
-                        finalType,
-                        "exchange",
-                        0)))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+
+    BitfinexDepositAddressResponse requestDepositAddressResponse =
+        bitfinex.requestDeposit(
+            apiKey,
+            payloadCreator,
+            signatureCreator,
+            new BitfinexDepositAddressRequest(
+                String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange", 0));
+    if (requestDepositAddressResponse != null) {
+      return requestDepositAddressResponse;
+    } else {
+      return null;
+    }
   }
 
   public BitfinexAccountFeesResponse getAccountFees() throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinex.accountFees(
-                    apiKey,
-                    payloadCreator,
-                    signatureCreator,
-                    new BitfinexNonceOnlyRequest(
-                        "/v1/account_fees",
-                        String.valueOf(exchange.getNonceFactory().createValue()))))
-        .withRetry(retry("account-accountFees"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinex.accountFees(
+        apiKey,
+        payloadCreator,
+        signatureCreator,
+        new BitfinexNonceOnlyRequest(
+            "/v1/account_fees", String.valueOf(exchange.getNonceFactory().createValue())));
   }
 
   public BitfinexBalanceHistoryResponse[] getBitfinexBalanceHistory(
       String currency, String wallet, Long since, Long until, int limit) throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinex.balanceHistory(
-                    apiKey,
-                    payloadCreator,
-                    signatureCreator,
-                    new BitfinexBalanceHistoryRequest(
-                        String.valueOf(exchange.getNonceFactory().createValue()),
-                        currency,
-                        since,
-                        until,
-                        limit,
-                        wallet)))
-        .withRetry(retry("account-balanceHistory"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinex.balanceHistory(
+        apiKey,
+        payloadCreator,
+        signatureCreator,
+        new BitfinexBalanceHistoryRequest(
+            String.valueOf(exchange.getNonceFactory().createValue()),
+            currency,
+            since,
+            until,
+            limit,
+            wallet));
   }
 
   public List<LedgerEntry> getLedgerEntries(
       String currency, Long startTimeMillis, Long endTimeMillis, Long limit, Long category)
       throws IOException {
     if (StringUtils.isBlank(currency)) {
-      return decorateApiCall(
-              () ->
-                  bitfinexV2.getLedgerEntries(
-                      exchange.getNonceFactory(),
-                      apiKey,
-                      signatureV2,
-                      startTimeMillis,
-                      endTimeMillis,
-                      limit,
-                      new LedgerRequest(category)))
-          .withRetry(retry("account-ledgerEntries"))
-          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-          .call();
+      return bitfinexV2.getLedgerEntries(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          new LedgerRequest(category));
     }
-    return decorateApiCall(
-            () ->
-                bitfinexV2.getLedgerEntries(
-                    exchange.getNonceFactory(),
-                    apiKey,
-                    signatureV2,
-                    currency,
-                    startTimeMillis,
-                    endTimeMillis,
-                    limit,
-                    new LedgerRequest(category)))
-        .withRetry(retry("account-ledgerEntries"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinexV2.getLedgerEntries(
+        exchange.getNonceFactory(),
+        apiKey,
+        signatureV2,
+        currency,
+        startTimeMillis,
+        endTimeMillis,
+        limit,
+        new LedgerRequest(category));
   }
 
   public List<Movement> getMovementHistory(
       String currency, Long startTimeMillis, Long endTimeMillis, Integer limit) throws IOException {
     if (StringUtils.isBlank(currency)) {
-      return decorateApiCall(
-              () ->
-                  bitfinexV2.getMovementsHistory(
-                      exchange.getNonceFactory(),
-                      apiKey,
-                      signatureV2,
-                      startTimeMillis,
-                      endTimeMillis,
-                      limit,
-                      EmptyRequest.INSTANCE))
-          .withRetry(retry("account-movementHistory"))
-          .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-          .call();
+      return bitfinexV2.getMovementsHistory(
+          exchange.getNonceFactory(),
+          apiKey,
+          signatureV2,
+          startTimeMillis,
+          endTimeMillis,
+          limit,
+          EmptyRequest.INSTANCE);
     }
 
-    return decorateApiCall(
-            () ->
-                bitfinexV2.getMovementsHistory(
-                    exchange.getNonceFactory(),
-                    apiKey,
-                    signatureV2,
-                    currency,
-                    startTimeMillis,
-                    endTimeMillis,
-                    limit,
-                    EmptyRequest.INSTANCE))
-        .withRetry(retry("account-movementHistory"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinexV2.getMovementsHistory(
+        exchange.getNonceFactory(),
+        apiKey,
+        signatureV2,
+        currency,
+        startTimeMillis,
+        endTimeMillis,
+        limit,
+        EmptyRequest.INSTANCE);
   }
 
   public List<Wallet> getWallets() throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinexV2.getWallets(
-                    exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE))
-        .withRetry(retry("account-wallets"))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinexV2.getWallets(
+        exchange.getNonceFactory(), apiKey, signatureV2, EmptyRequest.INSTANCE);
   }
 
   public TransferBetweenWalletsResponse transferBetweenWallets(TransferBetweenWalletsRequest req)
       throws IOException {
-    return decorateApiCall(
-            () ->
-                bitfinexV2.transferBetweenWallets(
-                    exchange.getNonceFactory(), apiKey, signatureV2, req))
-        .withRateLimiter(rateLimiter(BITFINEX_RATE_LIMITER))
-        .call();
+    return bitfinexV2.transferBetweenWallets(exchange.getNonceFactory(), apiKey, signatureV2, req);
   }
 }

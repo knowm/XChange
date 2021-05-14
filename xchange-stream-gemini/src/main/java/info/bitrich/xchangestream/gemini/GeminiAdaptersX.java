@@ -13,39 +13,39 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class GeminiAdaptersX {
 
-  public static OrderBook toOrderbook(
-      GeminiOrderbook geminiOrderbook, int maxLevels, Date timestamp) {
-    List<LimitOrder> askOrders =
-        geminiOrderbook.getAsks().stream()
-            .limit(maxLevels)
-            .map(
-                (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(
-                        geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.ASK))
-            .collect(Collectors.toList());
+    public static OrderBook toOrderbook(
+            GeminiOrderbook geminiOrderbook, int maxLevels, Date timestamp) {
+        List<LimitOrder> askOrders =
+                geminiOrderbook.getAsks().stream()
+                        .limit(maxLevels)
+                        .map(
+                                (GeminiLimitOrder geminiLimitOrder) ->
+                                        toLimitOrder(
+                                                geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.ASK))
+                        .collect(Collectors.toList());
 
-    List<LimitOrder> bidOrders =
-        geminiOrderbook.getBids().stream()
-            .limit(maxLevels)
-            .map(
-                (GeminiLimitOrder geminiLimitOrder) ->
-                    toLimitOrder(
-                        geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.BID))
-            .collect(Collectors.toList());
+        List<LimitOrder> bidOrders =
+                geminiOrderbook.getBids().stream()
+                        .limit(maxLevels)
+                        .map(
+                                (GeminiLimitOrder geminiLimitOrder) ->
+                                        toLimitOrder(
+                                                geminiOrderbook.getCurrencyPair(), geminiLimitOrder, Order.OrderType.BID))
+                        .collect(Collectors.toList());
 
-    return new OrderBook(timestamp, askOrders, bidOrders);
-  }
+        return new OrderBook(timestamp, askOrders, bidOrders);
+    }
 
-  private static LimitOrder toLimitOrder(
-      CurrencyPair currencyPair, GeminiLimitOrder geminiLimitOrder, Order.OrderType side) {
-    return new LimitOrder.Builder(side, currencyPair)
-        .limitPrice(geminiLimitOrder.getPrice())
-        .originalAmount(geminiLimitOrder.getAmount())
-        .timestamp(convertBigDecimalTimestampToDate(geminiLimitOrder.getTimestamp()))
-        .build();
-  }
+    private static LimitOrder toLimitOrder(
+            CurrencyPair currencyPair, GeminiLimitOrder geminiLimitOrder, Order.OrderType side) {
+        return new LimitOrder.Builder(side, currencyPair)
+                .limitPrice(geminiLimitOrder.getPrice())
+                .originalAmount(geminiLimitOrder.getAmount())
+                .timestamp(convertBigDecimalTimestampToDate(geminiLimitOrder.getTimestamp()))
+                .build();
+    }
 
-  static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
-    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
-  }
+    static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
+        return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
+    }
 }

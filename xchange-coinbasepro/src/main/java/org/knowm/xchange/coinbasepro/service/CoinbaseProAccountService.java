@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
-import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfer;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTransfers;
 import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProFee;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWithdrawCryptoResponse;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccount;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProAccountAddress;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProSendMoneyResponse;
@@ -34,10 +34,9 @@ import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     implements AccountService {
 
-  public CoinbaseProAccountService(
-      CoinbaseProExchange exchange, ResilienceRegistries resilienceRegistries) {
+  public CoinbaseProAccountService(Exchange exchange) {
 
-    super(exchange, resilienceRegistries);
+    super(exchange);
   }
 
   @Override
@@ -72,13 +71,14 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     if (params instanceof DefaultWithdrawFundsParams) {
       DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
-      return withdrawCrypto(
+      CoinbaseProWithdrawCryptoResponse response =
+          withdrawCrypto(
               defaultParams.getAddress(),
               defaultParams.getAmount(),
               defaultParams.getCurrency(),
               defaultParams.getAddressTag(),
-              defaultParams.getAddressTag() == null)
-          .id;
+              defaultParams.getAddressTag() == null);
+      return response.id;
     }
 
     throw new IllegalStateException("Don't know how to withdraw: " + params);
@@ -115,20 +115,22 @@ public class CoinbaseProAccountService extends CoinbaseProAccountServiceRaw
     for (CoinbaseProAccount account : coinbaseAccounts) {
       Currency accountCurrency = Currency.getInstance(account.getCurrency());
       if (account.isActive()
-          && "wallet".equals(account.getType())
+          && account.getType().equals("wallet")
           && accountCurrency.equals(currency)) {
         depositAccount = account;
         break;
       }
     }
 
-    return getCoinbaseAccountAddress(depositAccount.getId());
+    CoinbaseProAccountAddress accountAddress = getCoinbaseAccountAddress(depositAccount.getId());
+    return accountAddress;
   }
 
   @Deprecated
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    return accountAddress(currency, args).getAddress();
+    CoinbaseProAccountAddress depositAddress = accountAddress(currency, args);
+    return depositAddress.getAddress();
   }
 
   @Override

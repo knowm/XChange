@@ -14,7 +14,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProCurrency;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProduct;
 import org.knowm.xchange.coinbasepro.service.CoinbaseProAccountService;
@@ -24,8 +23,6 @@ import org.knowm.xchange.coinbasepro.service.CoinbaseProTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseProExchange extends BaseExchange {
-
-  private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
@@ -75,9 +72,9 @@ public class CoinbaseProExchange extends BaseExchange {
 
     concludeHostParams(exchangeSpecification);
 
-    this.marketDataService = new CoinbaseProMarketDataService(this, getResilienceRegistries());
-    this.accountService = new CoinbaseProAccountService(this, getResilienceRegistries());
-    this.tradeService = new CoinbaseProTradeService(this, getResilienceRegistries());
+    this.marketDataService = new CoinbaseProMarketDataService(this);
+    this.accountService = new CoinbaseProAccountService(this);
+    this.tradeService = new CoinbaseProTradeService(this);
   }
 
   @Override
@@ -111,14 +108,6 @@ public class CoinbaseProExchange extends BaseExchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     throw new UnsupportedOperationException("CoinbasePro uses timestamp rather than a nonce");
-  }
-
-  @Override
-  public ResilienceRegistries getResilienceRegistries() {
-    if (RESILIENCE_REGISTRIES == null) {
-      RESILIENCE_REGISTRIES = CoinbaseProResilience.createRegistries();
-    }
-    return RESILIENCE_REGISTRIES;
   }
 
   @Override

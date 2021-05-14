@@ -28,7 +28,6 @@ public class TickerTest {
             .timestamp(new Date())
             .volume(new BigDecimal("100000"))
             .vwap(new BigDecimal("0.2"))
-            .percentageChange(new BigDecimal("4.2"))
             .build();
     Ticker copy = ObjectMapperHelper.viaJSON(ticker);
     assertThat(copy).isEqualToComparingFieldByField(ticker);

@@ -18,7 +18,7 @@ public final class BlockchainUtils {
    */
   public static BigDecimal getAmount(long price) {
 
-    return BigDecimal.valueOf(price)
-        .divide(new BigDecimal(Integer.toString(BlockchainUtils.AMOUNT_INT_2_DECIMAL_FACTOR)));
+    return new BigDecimal(price)
+        .divide(new BigDecimal(BlockchainUtils.AMOUNT_INT_2_DECIMAL_FACTOR));
   }
 }

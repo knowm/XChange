@@ -5,12 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
-import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
-import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -27,10 +26,9 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
    *
    * @param exchange
    */
-  public BitfinexAccountService(
-      BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+  public BitfinexAccountService(Exchange exchange) {
 
-    super(exchange, resilienceRegistries);
+    super(exchange);
   }
 
   @Override

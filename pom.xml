@@ -9,7 +9,7 @@
 
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-parent</artifactId>
-  <version>5.0.9-SNAPSHOT</version>
+  <version>5.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange</name>
@@ -32,18 +32,18 @@
 
     <version.java>1.8</version.java>
     <version.assertj>3.19.0</version.assertj>
-    <version.commons.lang3>3.12.0</version.commons.lang3>
+    <version.commons.lang3>3.11</version.commons.lang3>
     <version.fasterxml>2.11.3</version.fasterxml>
-    <version.github.mmazi>2.1.0</version.github.mmazi>
+    <version.github.mmazi>2.0.4</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
-    <version.junit>4.13.2</version.junit>
-    <version.lombok>1.18.20</version.lombok>
+    <version.junit>4.13.1</version.junit>
+    <version.lombok>1.18.16</version.lombok>
     <version.knowm.xchart>3.8.0</version.knowm.xchart>
     <version.qos.logback>1.2.3</version.qos.logback>
     <version.reflections>0.9.12</version.reflections>
     <version.slf4j>1.7.30</version.slf4j>
     <version.crypto>5.0.0</version.crypto>
-    <version.java-jwt>3.15.0</version.java-jwt>
+    <version.java-jwt>3.12.1</version.java-jwt>
 
     <skipIntegrationTests>true</skipIntegrationTests>
   </properties>
@@ -88,6 +88,10 @@
     <url>git@github.com:knowm/XChange.git</url>
     <tag>HEAD</tag>
   </scm>
+
+  <ciManagement>
+    <url>https://travis-ci.org/github/knowm/XChange</url>
+  </ciManagement>
 
   <modules>
     <module>xchange-bankera</module>
@@ -143,10 +147,9 @@
     <module>xchange-dragonex</module>
     <module>xchange-dsx</module>
     <module>xchange-dvchain</module>
-    <module>xchange-dydx</module>
     <module>xchange-exmo</module>
     <module>xchange-exx</module>
-    <module>xchange-examples</module>
+    <!-- <module>xchange-examples</module> -->
     <module>xchange-fcoin</module>
     <module>xchange-ftx</module>
     <module>xchange-gateio</module>
@@ -186,23 +189,22 @@
     <module>xchange-yobit</module>
     <module>xchange-zaif</module>
     <module>xchange-enigma</module>
+
+
     <module>xchange-stream-bankera</module>
     <module>xchange-stream-binance</module>
     <module>xchange-stream-bitfinex</module>
     <module>xchange-stream-bitflyer</module>
     <module>xchange-stream-bitmex</module>
     <module>xchange-stream-bitstamp</module>
+	<module>xchange-stream-bitso</module>
     <module>xchange-stream-btcmarkets</module>
     <module>xchange-stream-cexio</module>
     <module>xchange-stream-coinbasepro</module>
     <module>xchange-stream-coinmate</module>
     <module>xchange-stream-core</module>
-    <module>xchange-stream-dydx</module>
-    <module>xchange-stream-ftx</module>
     <module>xchange-stream-gemini</module>
-    <module>xchange-stream-gemini-v2</module>
     <module>xchange-stream-hitbtc</module>
-    <module>xchange-stream-huobi</module>
     <module>xchange-stream-kraken</module>
     <module>xchange-stream-lgo</module>
     <module>xchange-stream-okcoin</module>
@@ -211,11 +213,9 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
+    <module>xchange-stream-huobi</module>
+    <module>xchange-stream-gemini-v2</module>
   </modules>
-
-  <ciManagement>
-    <url>https://travis-ci.org/github/knowm/XChange</url>
-  </ciManagement>
 
   <repositories>
     <repository>
@@ -294,13 +294,13 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>30.1.1-jre</version>
+        <version>30.1-jre</version>
       </dependency>
 
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.9.0</version>
+        <version>3.7.7</version>
         <scope>test</scope>
       </dependency>
 
@@ -334,7 +334,7 @@
       <dependency>
         <groupId>io.reactivex.rxjava2</groupId>
         <artifactId>rxjava</artifactId>
-        <version>2.2.21</version>
+        <version>2.2.20</version>
       </dependency>
       <dependency>
         <groupId>com.pubnub</groupId>

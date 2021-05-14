@@ -62,13 +62,13 @@ public class BitsoTransaction {
 
   public BigDecimal calculateFeeBtc() {
 
-    return roundUp(amount.multiply(new BigDecimal("0.5"))).divide(new BigDecimal("100"));
+    return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
   }
 
   private BigDecimal roundUp(BigDecimal x) {
 
     long n = x.longValue();
-    return BigDecimal.valueOf(x.equals(BigDecimal.valueOf(n)) ? n : n + 1);
+    return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
   }
 
   public BigDecimal calculateFeeMxn() {

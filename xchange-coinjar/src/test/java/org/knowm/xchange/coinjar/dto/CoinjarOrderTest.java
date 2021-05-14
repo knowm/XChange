@@ -25,6 +25,5 @@ public class CoinjarOrderTest {
     assertThat(coinjarOrder.size).isEqualTo("0.04000000");
     assertThat(coinjarOrder.status).isEqualTo("filled");
     assertThat(coinjarOrder.timestamp).isEqualTo("2017-10-12T15:39:27.000+11:00");
-    assertThat(coinjarOrder.ref).isEqualTo("someref");
   }
 }

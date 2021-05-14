@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xchange-parent</artifactId>
         <groupId>org.knowm.xchange</groupId>
-        <version>5.0.9-SNAPSHOT</version>
+        <version>5.0.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-latoken</artifactId>

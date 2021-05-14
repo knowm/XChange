@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import io.reactivex.Observable;
 import java.util.List;
+
 import org.knowm.xchange.coinmate.CoinmateAdapters;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookData;
@@ -25,7 +26,8 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    String channelName = "order_book-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName =
+        "order_book-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
         StreamingObjectMapperHelper.getObjectMapper().readerFor(CoinmateOrderBookData.class);
@@ -50,14 +52,14 @@ public class CoinmateStreamingMarketDataService implements StreamingMarketDataSe
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    String channelName = "trades-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
+    String channelName =
+        "trades-" + CoinmateStreamingAdapter.getChannelPostfix(currencyPair);
 
     ObjectReader reader =
         StreamingObjectMapperHelper.getObjectMapper()
             .readerFor(new TypeReference<List<CoinmateWebSocketTrade>>() {});
 
-    return coinmateStreamingService
-        .subscribeChannel(channelName)
+    return coinmateStreamingService.subscribeChannel(channelName)
         .map(s -> reader.<List<CoinmateWebSocketTrade>>readValue(s.get("payload")))
         .flatMapIterable(coinmateWebSocketTrades -> coinmateWebSocketTrades)
         .map(

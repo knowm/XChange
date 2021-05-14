@@ -8,15 +8,15 @@ import org.knowm.xchange.bitso.dto.trade.BitsoErrorDeserializer;
 public class BitsoOrderBook {
 
   private final boolean success;
-  private final OrderBookPayload payload;
+  public final OrderBookPayload payload;
   private String error;
 
   /**
    * Constructor
    *
-   * @param timestamp
-   * @param bids
-   * @param asks
+   * @param success
+   * @param payload
+   * @param error
    */
   public BitsoOrderBook(
       @JsonProperty("success") boolean success,

@@ -4,12 +4,13 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coindcx.service.CoindcxMarketDataService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.coindcx.service.CoindcxTradeService;
+import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoindcxExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
@@ -31,5 +32,6 @@ public class CoindcxExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new CoindcxMarketDataService(this);
+    this.tradeService = new CoindcxTradeService(this);
   }
 }

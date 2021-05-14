@@ -23,7 +23,7 @@ import org.knowm.xchange.huobi.dto.trade.results.HuobiOrderResult;
 import org.knowm.xchange.huobi.dto.trade.results.HuobiOrdersResult;
 import org.knowm.xchange.service.trade.params.CurrencyPairParam;
 
-public class HuobiTradeServiceRaw extends HuobiBaseService {
+class HuobiTradeServiceRaw extends HuobiBaseService {
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
   HuobiTradeServiceRaw(Exchange exchange) {

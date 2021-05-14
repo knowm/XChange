@@ -31,37 +31,37 @@ public interface DsxAuthenticated extends Dsx {
   @GET
   @Path("account/crypto/address/{currency}")
   DsxAddress getDsxDepositAddress(@PathParam("currency") String currency)
-      throws IOException, DsxException;
+          throws IOException, DsxException;
 
   @GET
   @Path("account/transactions")
   List<DsxTransaction> transactions(
-      @QueryParam("currency") String currency,
-      @QueryParam("sort") DsxSort sort,
-      @QueryParam("by") String by,
-      @QueryParam("from") Long from,
-      @QueryParam("till") Long till,
-      @QueryParam("limit") Integer limit,
-      @QueryParam("offset") Integer offset)
-      throws DsxException, HttpStatusIOException;
+          @QueryParam("currency") String currency,
+          @QueryParam("sort") DsxSort sort,
+          @QueryParam("by") String by,
+          @QueryParam("from") Long from,
+          @QueryParam("till") Long till,
+          @QueryParam("limit") Integer limit,
+          @QueryParam("offset") Integer offset)
+          throws DsxException, HttpStatusIOException;
 
   @POST
   @Path("account/transfer")
   DsxInternalTransferResponse transferToTrading(
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currency") String currency,
-      @FormParam("type") String type)
-      throws IOException, DsxException;
+          @FormParam("amount") BigDecimal amount,
+          @FormParam("currency") String currency,
+          @FormParam("type") String type)
+          throws IOException, DsxException;
 
   @POST
   @Path("account/crypto/withdraw")
   Map payout(
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currency") String currency,
-      @FormParam("address") String address,
-      @FormParam("paymentId") String paymentId,
-      @FormParam("includeFee") Boolean includeFee)
-      throws DsxException, HttpStatusIOException;
+          @FormParam("amount") BigDecimal amount,
+          @FormParam("currency") String currency,
+          @FormParam("address") String address,
+          @FormParam("paymentId") String paymentId,
+          @FormParam("includeFee") Boolean includeFee)
+          throws DsxException, HttpStatusIOException;
 
   /** ********************** Tradding & Order APIs *********************** */
 
@@ -74,35 +74,35 @@ public interface DsxAuthenticated extends Dsx {
   @Path("order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   DsxOrder postDsxNewOrder(
-      @FormParam("clientOrderId") String clientOrderId,
-      @FormParam("symbol") String symbol,
-      @FormParam("side") String side,
-      @FormParam("price") BigDecimal price,
-      @FormParam("quantity") BigDecimal quantity,
-      @FormParam("type") DsxOrderType type,
-      @FormParam("timeInForce") DsxTimeInForce timeInForce)
-      throws IOException, DsxException;
+          @FormParam("clientOrderId") String clientOrderId,
+          @FormParam("symbol") String symbol,
+          @FormParam("side") String side,
+          @FormParam("price") BigDecimal price,
+          @FormParam("quantity") BigDecimal quantity,
+          @FormParam("type") DsxOrderType type,
+          @FormParam("timeInForce") DsxTimeInForce timeInForce)
+          throws IOException, DsxException;
 
   @PATCH
   @Path("order/{clientOrderId}")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   DsxOrder updateDsxOrder(
-      @PathParam("clientOrderId") String clientOrderId,
-      @FormParam("quantity") BigDecimal quantity,
-      @FormParam("requestClientId") String requestClientId,
-      @FormParam("price") BigDecimal price)
-      throws IOException, DsxException;
+          @PathParam("clientOrderId") String clientOrderId,
+          @FormParam("quantity") BigDecimal quantity,
+          @FormParam("requestClientId") String requestClientId,
+          @FormParam("price") BigDecimal price)
+          throws IOException, DsxException;
 
   @DELETE
   @Path("order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   List<DsxOrder> cancelAllOrders(@FormParam("symbol") String symbol)
-      throws IOException, DsxException;
+          throws IOException, DsxException;
 
   @DELETE
   @Path("order/{clientOrderId}")
   DsxOrder cancelSingleOrder(@PathParam("clientOrderId") String clientOrderId)
-      throws IOException, DsxException;
+          throws IOException, DsxException;
 
   @GET
   @Path("trading/balance")
@@ -112,14 +112,14 @@ public interface DsxAuthenticated extends Dsx {
   @GET
   @Path("history/trades")
   List<DsxOwnTrade> getDsxTrades(
-      @QueryParam("symbol") String symbol,
-      @QueryParam("sort") String sort,
-      @QueryParam("by") String sortBy,
-      @QueryParam("from") String from,
-      @QueryParam("till") String till,
-      @QueryParam("limit") Integer limit,
-      @QueryParam("offset") long offset)
-      throws IOException, DsxException;
+          @QueryParam("symbol") String symbol,
+          @QueryParam("sort") String sort,
+          @QueryParam("by") String sortBy,
+          @QueryParam("from") String from,
+          @QueryParam("till") String till,
+          @QueryParam("limit") Integer limit,
+          @QueryParam("offset") long offset)
+          throws IOException, DsxException;
 
   // TODO add query params
 
@@ -146,11 +146,11 @@ public interface DsxAuthenticated extends Dsx {
   @GET
   @Path("history/order")
   List<DsxOrder> getDsxOrder(
-      @QueryParam("symbol") String symbol, @QueryParam("clientOrderId") String clientOrderId)
-      throws IOException, DsxException;
+          @QueryParam("symbol") String symbol, @QueryParam("clientOrderId") String clientOrderId)
+          throws IOException, DsxException;
 
   @GET
   @Path("/history/order/{id}/trades")
   List<DsxOwnTrade> getHistorialTradesByOrder(@PathParam("id") String orderId)
-      throws IOException, DsxException;
+          throws IOException, DsxException;
 }

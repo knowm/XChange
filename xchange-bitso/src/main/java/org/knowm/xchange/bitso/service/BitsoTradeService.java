@@ -18,7 +18,6 @@ import org.knowm.xchange.bitso.dto.trade.BitsoAllOrders;
 import org.knowm.xchange.bitso.dto.trade.BitsoOrderResponse;
 import org.knowm.xchange.bitso.dto.trade.BitsoPlaceOrder;
 import org.knowm.xchange.bitso.dto.trade.Payload;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -72,12 +71,15 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
       } catch (ParseException e) {
         e.printStackTrace();
       }
+      String baseCurrency = bitsoOrder.getBook().split("_")[0].toUpperCase();
+      String counterCurrency = bitsoOrder.getBook().split("_")[1].toUpperCase();
 
+      CurrencyPair currencyPair = new CurrencyPair(baseCurrency, counterCurrency);
       limitOrders.add(
           new LimitOrder(
               orderType,
               new BigDecimal(bitsoOrder.getOriginalAmount()),
-              new CurrencyPair(Currency.BTC, Currency.MXN),
+              currencyPair,
               id,
               date,
               price));

@@ -13,16 +13,11 @@ import org.knowm.xchange.service.trade.TradeService;
 
 public class FtxExchange extends BaseExchange implements Exchange {
 
-  private FtxLendingServiceRaw lendingService;
-  private FtxBorrowingServiceRaw borrowingService;
-
   @Override
   protected void initServices() {
     this.marketDataService = new FtxMarketDataService(this);
     this.accountService = new FtxAccountService(this);
     this.tradeService = new FtxTradeService(this);
-    this.lendingService = new FtxLendingServiceRaw(this);
-    this.borrowingService = new FtxBorrowingServiceRaw(this);
   }
 
   @Override
@@ -59,13 +54,5 @@ public class FtxExchange extends BaseExchange implements Exchange {
   @Override
   public TradeService getTradeService() {
     return this.tradeService;
-  }
-
-  public FtxLendingServiceRaw getLendingService() {
-    return lendingService;
-  }
-
-  public FtxBorrowingServiceRaw getBorrowingService() {
-    return borrowingService;
   }
 }

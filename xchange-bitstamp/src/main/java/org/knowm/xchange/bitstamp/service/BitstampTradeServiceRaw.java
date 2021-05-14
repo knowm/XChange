@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
-import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
@@ -19,17 +18,11 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author gnandiga */
 public class BitstampTradeServiceRaw extends BitstampBaseService {
 
-  private final String version = "v2";
-
   private final BitstampAuthenticated bitstampAuthenticated;
   private final BitstampAuthenticatedV2 bitstampAuthenticatedV2;
   private final BitstampDigest signatureCreator;
-  private final BitstampDigestV2 signatureCreatorV2;
   private final String apiKey;
-  private final String apiKeyForV2Requests;
   private final SynchronizedValueFactory<Long> nonceFactory;
-  private final SynchronizedValueFactory<String> uuidNonceFactory;
-  private final SynchronizedValueFactory<String> timestampFactory;
 
   public BitstampTradeServiceRaw(Exchange exchange) {
 
@@ -43,26 +36,17 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
                 BitstampAuthenticatedV2.class, exchange.getExchangeSpecification())
             .build();
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.apiKeyForV2Requests = "BITSTAMP " + apiKey;
     this.nonceFactory = exchange.getNonceFactory();
     this.signatureCreator =
         BitstampDigest.createInstance(
             exchange.getExchangeSpecification().getSecretKey(),
             exchange.getExchangeSpecification().getUserName(),
             apiKey);
-
-    this.signatureCreatorV2 =
-        BitstampDigestV2.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
-
-    BitstampExchange bitstampExchange = (BitstampExchange) exchange;
-    this.uuidNonceFactory = bitstampExchange.getUuidNonceFactory();
-    this.timestampFactory = bitstampExchange.getTimestampFactory();
   }
 
   public BitstampOrder[] getBitstampOpenOrders() throws IOException {
     try {
-      return bitstampAuthenticatedV2.getOpenOrders(
-          apiKeyForV2Requests, signatureCreatorV2, uuidNonceFactory, timestampFactory, version);
+      return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory);
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -71,12 +55,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   public BitstampOrder[] getBitstampOpenOrders(CurrencyPair pair) throws IOException {
     try {
       return bitstampAuthenticatedV2.getOpenOrders(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
-          new BitstampV2.Pair(pair));
+          apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -88,14 +67,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.placeMarketOrder(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
-          side,
-          new BitstampV2.Pair(pair),
-          originalAmount);
+          apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), originalAmount);
     } catch (BitstampException e) {
       throw handleError(e);
     }
@@ -110,11 +82,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.placeOrder(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
+          apiKey,
+          signatureCreator,
+          nonceFactory,
           side,
           new BitstampV2.Pair(pair),
           originalAmount,
@@ -128,13 +98,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
     try {
       BitstampOrderCancelResponse cancelResponse =
-          bitstampAuthenticatedV2.cancelOrder(
-              apiKeyForV2Requests,
-              signatureCreatorV2,
-              uuidNonceFactory,
-              timestampFactory,
-              version,
-              orderId);
+          bitstampAuthenticatedV2.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);
       return cancelResponse.getError() == null;
     } catch (BitstampException e) {
       throw handleError(e);
@@ -155,11 +119,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
 
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
+          apiKey,
+          signatureCreator,
+          nonceFactory,
           new BitstampV2.Pair(pair),
           numberOfTransactions,
           null,
@@ -186,11 +148,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
       throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
+          apiKey,
+          signatureCreator,
+          nonceFactory,
           new BitstampV2.Pair(pair),
           numberOfTransactions,
           offset,
@@ -207,11 +167,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
       throws IOException {
     try {
       return bitstampAuthenticatedV2.getUserTransactions(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
+          apiKey,
+          signatureCreator,
+          nonceFactory,
           numberOfTransactions,
           offset,
           sort,
@@ -225,11 +183,9 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   public BitstampOrderStatusResponse getBitstampOrder(Long orderId) throws IOException {
     try {
       return bitstampAuthenticatedV2.getOrderStatus(
-          apiKeyForV2Requests,
-          signatureCreatorV2,
-          uuidNonceFactory,
-          timestampFactory,
-          version,
+          exchange.getExchangeSpecification().getApiKey(),
+          signatureCreator,
+          exchange.getNonceFactory(),
           orderId);
     } catch (BitstampException e) {
       throw handleError(e);

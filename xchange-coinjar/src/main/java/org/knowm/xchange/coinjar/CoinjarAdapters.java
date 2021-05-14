@@ -50,11 +50,9 @@ public class CoinjarAdapters {
   }
 
   public static Order.OrderType buySellToOrderType(String buySell) {
-    if (buySell == null) {
-      return null;
-    } else if ("buy".equals(buySell)) {
+    if (buySell.equals("buy")) {
       return Order.OrderType.BID;
-    } else if ("sell".equals(buySell)) {
+    } else if (buySell.equals("sell")) {
       return Order.OrderType.ASK;
     } else
       throw new IllegalArgumentException(
@@ -62,11 +60,11 @@ public class CoinjarAdapters {
   }
 
   public static Order.OrderStatus adaptStatus(String status) {
-    if ("booked".equals(status)) {
+    if (status.equals("booked")) {
       return Order.OrderStatus.PENDING_NEW;
-    } else if ("filled".equals(status)) {
+    } else if (status.equals("filled")) {
       return Order.OrderStatus.FILLED;
-    } else if ("cancelled".equals(status)) {
+    } else if (status.equals("cancelled")) {
       return Order.OrderStatus.CANCELED;
     } else {
       logger.warn("Unable to convert remote status {} to Order.OrderStatus", status);
@@ -116,7 +114,6 @@ public class CoinjarAdapters {
                 ZonedDateTime.parse(coinjarOrder.timestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                     .toInstant()))
         .orderStatus(orderStatus)
-        .userReference(coinjarOrder.ref)
         .build();
   }
 

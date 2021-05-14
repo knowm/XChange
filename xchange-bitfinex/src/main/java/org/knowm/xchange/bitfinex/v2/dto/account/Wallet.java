@@ -20,10 +20,4 @@ public class Wallet {
   private BigDecimal balance;
   /** Unsettled interest */
   private BigDecimal unsettledInterest;
-  /** Wallet balance available for orders/withdrawal/transfer */
-  private BigDecimal availableBalance;
-  /** Description of the last ledger entry */
-  private String lastChange;
-  /** If the last change was a trade, this object will show the trade details */
-  private Object tradeDetails;
 }

@@ -9,7 +9,6 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Status;
 import org.knowm.xchange.dto.account.Wallet;
@@ -23,7 +22,6 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
-import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBrokerageFee;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
 import org.knowm.xchange.independentreserve.dto.marketdata.OrderBookOrder;
@@ -297,19 +295,5 @@ public class IndependentReserveAdapters {
         transaction.getBalance(),
         null,
         transaction.getComment());
-  }
-
-  public static CurrencyPair adaptBrokerageCurrencyPair(
-      IndependentReserveBrokerageFee independentReserveBrokerageFee) {
-    // counter currency is unknown at this stage. It depends on how your account is setup.
-    return new CurrencyPair(
-        Currency.getInstance(independentReserveBrokerageFee.getCurrencyCode()), null);
-  }
-
-  public static Fee adaptBrokerageFee(
-      IndependentReserveBrokerageFee independentReserveBrokerageFee) {
-    // for IR the market maker and maker taker fee is the same.
-    return new Fee(
-        independentReserveBrokerageFee.getFee(), independentReserveBrokerageFee.getFee());
   }
 }

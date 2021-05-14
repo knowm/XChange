@@ -30,10 +30,6 @@ public class FtxDigest extends BaseParamsDigest {
             + restInvocation.getHttpMethod().toUpperCase()
             + restInvocation.getPath();
 
-    if (!restInvocation.getQueryString().isEmpty()) {
-      message += "?" + restInvocation.getQueryString();
-    }
-
     if (restInvocation.getHttpMethod().equals("POST")
         || (restInvocation.getPath().contains("/orders")
                 && restInvocation.getHttpMethod().equals("DELETE"))

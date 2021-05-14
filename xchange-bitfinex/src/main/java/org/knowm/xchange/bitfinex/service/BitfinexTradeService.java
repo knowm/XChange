@@ -5,15 +5,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.BitfinexErrorAdapter;
-import org.knowm.xchange.bitfinex.BitfinexExchange;
 import org.knowm.xchange.bitfinex.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v2.dto.trade.Trade;
-import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.*;
@@ -27,10 +26,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
-  public BitfinexTradeService(
-      BitfinexExchange exchange, ResilienceRegistries resilienceRegistries) {
+  public BitfinexTradeService(Exchange exchange) {
 
-    super(exchange, resilienceRegistries);
+    super(exchange);
   }
 
   @Override

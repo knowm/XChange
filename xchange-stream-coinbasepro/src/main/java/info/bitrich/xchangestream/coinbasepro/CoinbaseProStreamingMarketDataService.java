@@ -45,7 +45,6 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
         return true;
       }
     }
-
     return false;
   }
 
@@ -57,8 +56,7 @@ public class CoinbaseProStreamingMarketDataService implements StreamingMarketDat
     final int maxDepth =
         (args.length > 0 && args[0] instanceof Number) ? ((Number) args[0]).intValue() : 100;
     return getRawWebSocketTransactions(currencyPair, false)
-        .filter(
-            message -> (SNAPSHOT).equals(message.getType()) || (L2UPDATE).equals(message.getType()))
+        .filter(message -> (SNAPSHOT).equals(message.getType()) || (L2UPDATE).equals(message.getType()))
         .map(
             s -> {
               if (s.getType().equals(SNAPSHOT)) {
