@@ -19,17 +19,21 @@ public class TradeOgreTradeServiceRaw extends TradeOgreBaseService {
     String market = TradeOgreAdapters.adaptCurrencyPair((CurrencyPair) limitOrder.getInstrument());
     String price = limitOrder.getLimitPrice().toPlainString();
     String quantity = limitOrder.getRemainingAmount().toPlainString();
-    if (Order.OrderType.BID.equals(limitOrder.getType())) {
-      return tradeOgre.buy(base64UserPwd, market, quantity, price).getUuid();
-    }
-    return tradeOgre.sell(base64UserPwd, market, quantity, price).getUuid();
+
+    return null;
+//    if (Order.OrderType.BID.equals(limitOrder.getType())) {
+//      return tradeOgre.buy(base64UserPwd, market, quantity, price).getUuid();
+//    }
+//    return tradeOgre.sell(base64UserPwd, market, quantity, price).getUuid();
   }
 
   public boolean cancelOrder(String id) throws IOException {
-    return tradeOgre.cancel(base64UserPwd, id).isSuccess();
+//    return tradeOgre.cancel(base64UserPwd, id).isSuccess();
+    return false;
   }
 
   public Collection<TradeOgreOrder> getOrders() throws IOException {
-    return tradeOgre.getOrders(base64UserPwd, null);
+//    return tradeOgre.getOrders(base64UserPwd, null);
+    return null;
   }
 }

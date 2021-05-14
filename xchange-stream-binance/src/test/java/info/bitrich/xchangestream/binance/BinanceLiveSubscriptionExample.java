@@ -42,39 +42,39 @@ public class BinanceLiveSubscriptionExample {
 
     // Note: See the doOnDispose below. It's here that we will send an unsubscribe request to
     // Binance through the websocket instance.
-    Disposable tradesBtc =
-        exchange
-            .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.BTC_USDT)
-            .doOnDispose(
-                () ->
-                    exchange
-                        .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
-            .subscribe(
-                trade -> {
-                  LOG.info("Trade: {}", trade);
-                });
+//    Disposable tradesBtc =
+//        exchange
+//            .getStreamingMarketDataService()
+//            .getTrades(CurrencyPair.BTC_USDT)
+//            .doOnDispose(
+//                () ->
+//                    exchange
+//                        .getStreamingMarketDataService()
+//                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.TRADE))
+//            .subscribe(
+//                trade -> {
+//                  LOG.info("Trade: {}", trade);
+//                });
 
-    Disposable orderBooksBtc =
-        exchange
-            .getStreamingMarketDataService()
-            .getOrderBook(CurrencyPair.BTC_USDT)
-            .doOnDispose(
-                () ->
-                    exchange
-                        .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
-            .subscribe(
-                orderBook -> {
-                  LOG.info("Order book: {}", orderBook);
-                });
+//    Disposable orderBooksBtc =
+//        exchange
+//            .getStreamingMarketDataService()
+//            .getOrderBook(CurrencyPair.BTC_USDT)
+//            .doOnDispose(
+//                () ->
+//                    exchange
+//                        .getStreamingMarketDataService()
+//                        .unsubscribe(CurrencyPair.BTC_USDT, BinanceSubscriptionType.DEPTH))
+//            .subscribe(
+//                orderBook -> {
+//                  LOG.info("Order book: {}", orderBook);
+//                });
 
     Thread.sleep(5000);
 
     // Now we enable the live subscription/unsubscription to add new currencies to the streams
     LOG.info("Enable live subscription/unsubscription");
-    exchange.enableLiveSubscription();
+//    exchange.enableLiveSubscription();
 
     // We subscribe to 3 new currency pairs for trade (live subscription)
     // IMPORTANT!! Binance has a websocket limit of 5 incoming messages per second. If you bypass
@@ -90,20 +90,20 @@ public class BinanceLiveSubscriptionExample {
     for (final CurrencyPair currencyPair : currencyPairs) {
       // Note: See the doOnDispose below. It's here that we will send an unsubscribe request to
       // Binance through the websocket instance.
-      Disposable tradeDisposable =
-          exchange
-              .getStreamingMarketDataService()
-              .getTrades(currencyPair)
-              .doOnDispose(
-                  () ->
-                      exchange
-                          .getStreamingMarketDataService()
-                          .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
-              .subscribe(
-                  trade -> {
-                    LOG.info("Trade: {}", trade);
-                  });
-      disposableTrades.add(tradeDisposable);
+//      Disposable tradeDisposable =
+//          exchange
+//              .getStreamingMarketDataService()
+//              .getTrades(currencyPair)
+//              .doOnDispose(
+//                  () ->
+//                      exchange
+//                          .getStreamingMarketDataService()
+//                          .unsubscribe(currencyPair, BinanceSubscriptionType.TRADE))
+//              .subscribe(
+//                  trade -> {
+//                    LOG.info("Trade: {}", trade);
+//                  });
+//      disposableTrades.add(tradeDisposable);
     }
     Thread.sleep(5000);
 
@@ -111,40 +111,40 @@ public class BinanceLiveSubscriptionExample {
     // pairs (TRADE 3x)
     // Note: we are ok with live unsubscription because we not bypass the limit of 5 messages per
     // second.
-    tradesBtc.dispose();
-    orderBooksBtc.dispose();
+//    tradesBtc.dispose();
+//    orderBooksBtc.dispose();
     disposableTrades.forEach(Disposable::dispose);
 
     LOG.info(
         "Now all symbols are live unsubscribed (BTC, ETH, LTC & XRP). We will live subscribe to XML/USDT and EOS/BTC...");
     Thread.sleep(5000);
 
-    Disposable xlmDisposable =
-        exchange
-            .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.XLM_USDT)
-            .doOnDispose(
-                () ->
-                    exchange
-                        .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.XLM_USDT, BinanceSubscriptionType.TRADE))
-            .subscribe(trade -> {});
-    Disposable eosDisposable =
-        exchange
-            .getStreamingMarketDataService()
-            .getTrades(CurrencyPair.EOS_BTC)
-            .doOnDispose(
-                () ->
-                    exchange
-                        .getStreamingMarketDataService()
-                        .unsubscribe(CurrencyPair.EOS_BTC, BinanceSubscriptionType.TRADE))
-            .subscribe(trade -> {});
-
-    Thread.sleep(5000);
-    LOG.info("Test finished, we unsubscribe XML/USDT and EOS/BTC from the streams.");
-
-    xlmDisposable.dispose();
-    eosDisposable.dispose();
+//    Disposable xlmDisposable =
+//        exchange
+//            .getStreamingMarketDataService()
+//            .getTrades(CurrencyPair.XLM_USDT)
+//            .doOnDispose(
+//                () ->
+//                    exchange
+//                        .getStreamingMarketDataService()
+//                        .unsubscribe(CurrencyPair.XLM_USDT, BinanceSubscriptionType.TRADE))
+//            .subscribe(trade -> {});
+//    Disposable eosDisposable =
+//        exchange
+//            .getStreamingMarketDataService()
+//            .getTrades(CurrencyPair.EOS_BTC)
+//            .doOnDispose(
+//                () ->
+//                    exchange
+//                        .getStreamingMarketDataService()
+//                        .unsubscribe(CurrencyPair.EOS_BTC, BinanceSubscriptionType.TRADE))
+//            .subscribe(trade -> {});
+//
+//    Thread.sleep(5000);
+//    LOG.info("Test finished, we unsubscribe XML/USDT and EOS/BTC from the streams.");
+//
+//    xlmDisposable.dispose();
+//    eosDisposable.dispose();
 
     exchange.disconnect().blockingAwait();
   }

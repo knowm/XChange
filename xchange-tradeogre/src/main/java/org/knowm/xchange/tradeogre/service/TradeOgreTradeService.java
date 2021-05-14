@@ -28,10 +28,11 @@ public class TradeOgreTradeService extends TradeOgreTradeServiceRaw implements T
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
-    List<LimitOrder> orders =
-        TradeOgreAdapters.adaptOpenOrders(getOrders()).getOpenOrders().stream()
-            .filter(params != null ? params::accept : o -> true)
-            .collect(Collectors.toList());
-    return new OpenOrders(orders);
+//    List<LimitOrder> orders =
+//        TradeOgreAdapters.adaptOpenOrders(getOrders()).getOpenOrders().stream()
+//            .filter(params != null ? params::accept : o -> true)
+//            .collect(Collectors.toList());
+//    return new OpenOrders(orders);
+    return null;
   }
 }

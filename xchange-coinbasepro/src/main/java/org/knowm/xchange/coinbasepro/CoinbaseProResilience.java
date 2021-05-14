@@ -23,8 +23,6 @@ public class CoinbaseProResilience {
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(1))
                 .limitForPeriod(3)
-                .drainPermissionsOnResult(
-                    e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
                 .build());
 
     registries
@@ -34,8 +32,6 @@ public class CoinbaseProResilience {
             RateLimiterConfig.from(registries.rateLimiters().getDefaultConfig())
                 .limitRefreshPeriod(Duration.ofSeconds(1))
                 .limitForPeriod(5)
-                .drainPermissionsOnResult(
-                    e -> ResilienceUtils.matchesHttpCode(e, TOO_MANY_REQUESTS))
                 .build());
 
     return registries;

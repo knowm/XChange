@@ -17,17 +17,18 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public List<FtxBorrowingHistoryDto> histories(String subaccount) {
-    try {
-      return ftx.getBorrowHistory(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              subaccount)
-          .getResult();
-    } catch (IOException e) {
-      throw new FtxLendingServiceRaw.FtxLendingServiceException(
-          "Can't get lending infos subAccount: " + subaccount, e);
-    }
+    return null;
+//    try {
+//      return ftx.getBorrowHistory(
+//              exchange.getExchangeSpecification().getApiKey(),
+//              exchange.getNonceFactory().createValue(),
+//              signatureCreator,
+//              subaccount)
+//          .getResult();
+//    } catch (IOException e) {
+//      throw new FtxLendingServiceRaw.FtxLendingServiceException(
+//          "Can't get lending infos subAccount: " + subaccount, e);
+//    }
   }
 
   public List<FtxBorrowingHistoryDto> histories(String subaccount, List<String> coins) {
@@ -48,16 +49,17 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public List<FtxBorrowingInfoDto> infos(String subaccount) {
-    try {
-      return ftx.getBorrowingInfos(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator,
-              subaccount)
-          .getResult();
-    } catch (IOException e) {
-      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos", e);
-    }
+    return null;
+//    try {
+//      return ftx.getBorrowingInfos(
+//              exchange.getExchangeSpecification().getApiKey(),
+//              exchange.getNonceFactory().createValue(),
+//              signatureCreator,
+//              subaccount)
+//          .getResult();
+//    } catch (IOException e) {
+//      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending infos", e);
+//    }
   }
 
   public List<FtxBorrowingInfoDto> infos(String subaccount, List<String> coins) {
@@ -78,15 +80,16 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public List<FtxBorrowingRatesDto> rates() {
-    try {
-      return ftx.getBorrowRates(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator)
-          .getResult();
-    } catch (IOException e) {
-      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rates", e);
-    }
+    return null;
+//    try {
+//      return ftx.getBorrowRates(
+//              exchange.getExchangeSpecification().getApiKey(),
+//              exchange.getNonceFactory().createValue(),
+//              signatureCreator)
+//          .getResult();
+//    } catch (IOException e) {
+//      throw new FtxLendingServiceRaw.FtxLendingServiceException("Can't get lending rates", e);
+//    }
   }
 
   public List<FtxBorrowingRatesDto> rates(List<String> coins) {
@@ -97,24 +100,25 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
   }
 
   public FtxBorrowingRatesDto rate(String coin) {
-    Objects.requireNonNull(coin);
-    if (StringUtils.isNotBlank(coin))
-      throw new FtxBorrowingServiceException("Coin are blank or empty");
-    try {
-      return ftx
-          .getBorrowRates(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator)
-          .getResult()
-          .stream()
-          .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
-          .findFirst()
-          .orElse(null);
-    } catch (IOException e) {
-      throw new FtxLendingServiceRaw.FtxLendingServiceException(
-          "Can't get lending rate coin: " + coin, e);
-    }
+    return null;
+//    Objects.requireNonNull(coin);
+//    if (StringUtils.isNotBlank(coin))
+//      throw new FtxBorrowingServiceException("Coin are blank or empty");
+//    try {
+//      return ftx
+//          .getBorrowRates(
+//              exchange.getExchangeSpecification().getApiKey(),
+//              exchange.getNonceFactory().createValue(),
+//              signatureCreator)
+//          .getResult()
+//          .stream()
+//          .filter(lendingRates -> lendingRates.getCoin().equalsIgnoreCase(coin))
+//          .findFirst()
+//          .orElse(null);
+//    } catch (IOException e) {
+//      throw new FtxLendingServiceRaw.FtxLendingServiceException(
+//          "Can't get lending rate coin: " + coin, e);
+//    }
   }
 
   public static class FtxBorrowingServiceException extends RuntimeException {
