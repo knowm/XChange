@@ -212,6 +212,7 @@
     <module>xchange-stream-service-core</module>
     <module>xchange-stream-service-netty</module>
     <module>xchange-stream-service-pubnub</module>
+      <module>xchange-vega</module>
   </modules>
 
   <ciManagement>
@@ -446,6 +447,7 @@
                   <goal>jar</goal>
                 </goals>
                 <configuration>
+                  <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                   <doclint>none</doclint>
                 </configuration>
               </execution>
