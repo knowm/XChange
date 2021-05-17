@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.binance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.binance.dto.BaseBinanceWebSocketTransaction;
-import info.bitrich.xchangestream.binance.dto.BinanceWebsocketBalance;
 import info.bitrich.xchangestream.binance.dto.OutboundAccountInfoBinanceWebsocketTransaction;
 import info.bitrich.xchangestream.core.StreamingAccountService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
@@ -11,7 +10,6 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.processors.BehaviorProcessor;
 import io.reactivex.rxjava3.processors.FlowableProcessor;
-import java.util.List;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -42,9 +40,8 @@ public class BinanceStreamingAccountService implements StreamingAccountService {
   public Flowable<Balance> getBalanceChanges() {
     checkConnected();
     return getRawAccountInfo()
-        .map(OutboundAccountInfoBinanceWebsocketTransaction::getBalances)
-        .flatMap((List<BinanceWebsocketBalance> balances) -> Flowable.fromIterable(balances))
-        .map(BinanceWebsocketBalance::toBalance);
+        .map(OutboundAccountInfoBinanceWebsocketTransaction::toBalanceList)
+        .flatMap(Flowable::fromIterable);
   }
 
   private void checkConnected() {
