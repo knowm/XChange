@@ -1,6 +1,7 @@
 package org.knowm.xchange.deribit.v2.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
 import org.knowm.xchange.deribit.v2.dto.Kind;
@@ -36,6 +37,11 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
   public DeribitOrderBook getDeribitOrderBook(String instrumentName, Integer depth)
       throws IOException {
     return deribit.getOrderBook(instrumentName, depth).getResult();
+  }
+
+  public List<List<BigDecimal>> getHistoricalVolatility(String currency)
+          throws IOException {
+    return deribit.getHistoricalVolatility(currency).getResult();
   }
 
   public DeribitTrades getLastTradesByInstrument(
