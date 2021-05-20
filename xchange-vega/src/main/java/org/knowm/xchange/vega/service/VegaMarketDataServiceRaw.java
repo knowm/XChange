@@ -59,7 +59,7 @@ public class VegaMarketDataServiceRaw extends VegaBaseService {
                 Trading.CandlesRequest.newBuilder()
                         .setMarketId(marketId)
                         .setInterval(interval)
-                        .setSinceTimestamp(DateUtils.toUnixTime(since))
+                        .setSinceTimestamp(DateUtils.toUnixTime(since) * 100000000)
                         .build()
         ).getCandlesList();
     }

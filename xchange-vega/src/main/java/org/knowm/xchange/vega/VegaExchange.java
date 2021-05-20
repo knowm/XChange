@@ -36,4 +36,9 @@ public class VegaExchange extends BaseExchange implements Exchange {
 
         exchangeMetaData = VegaAdapters.adaptMetaData(currencyPairs);
     }
+
+    @Override
+    public void applySpecification(ExchangeSpecification exchangeSpecification) {
+        super.applySpecification(exchangeSpecification);
+    }
 }
