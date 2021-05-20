@@ -118,17 +118,18 @@ public final class BTCMarketsAdapters {
     BigDecimal cumulativeAmount =
         BigDecimal.valueOf(
             o.getTrades().stream().mapToDouble(value -> value.getVolume().doubleValue()).sum());
-    return new LimitOrder(
-        adaptOrderType(o.getOrderSide()),
-        o.getVolume(),
-        new CurrencyPair(o.getInstrument(), o.getCurrency()),
-        Long.toString(o.getId()),
-        o.getCreationTime(),
-        o.getPrice(),
-        averagePrice,
-        cumulativeAmount,
-        fee,
-        adaptOrderStatus(o.getStatus()));
+    return new LimitOrder.Builder(
+            adaptOrderType(o.getOrderSide()), new CurrencyPair(o.getInstrument(), o.getCurrency()))
+        .originalAmount(o.getVolume())
+        .id(Long.toString(o.getId()))
+        .timestamp(o.getCreationTime())
+        .limitPrice(o.getPrice())
+        .averagePrice(averagePrice)
+        .cumulativeAmount(cumulativeAmount)
+        .fee(fee)
+        .orderStatus(adaptOrderStatus(o.getStatus()))
+        .userReference(o.getClientRequestId())
+        .build();
   }
 
   public static UserTrades adaptTradeHistory(

@@ -448,8 +448,7 @@ public class CoinbaseProAdapters {
         .clientOid(marketOrder.getUserReference())
         .type(CoinbaseProPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .funds(marketOrder.getType() == OrderType.BID ? marketOrder.getOriginalAmount() : null)
-        .size(marketOrder.getType() == OrderType.ASK ? marketOrder.getOriginalAmount() : null)
+        .size(marketOrder.getOriginalAmount())
         .build();
   }
 
