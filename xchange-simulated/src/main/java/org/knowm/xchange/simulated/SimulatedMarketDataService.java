@@ -42,7 +42,7 @@ public class SimulatedMarketDataService extends BaseExchangeService<SimulatedExc
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     exchange.maybeThrow();
-    return exchange.getEngine(currencyPair).level2();
+    return exchange.getEngine(currencyPair).getLevel2OrderBook();
   }
 
   @Override

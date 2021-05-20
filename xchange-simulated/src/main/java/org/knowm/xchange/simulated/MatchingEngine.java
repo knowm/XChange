@@ -336,31 +336,31 @@ final class MatchingEngine {
         .collect(toList());
   }
 
-  public synchronized OrderBook level2() {
-    return new OrderBook(new Date(), accumulateBookSide(asks), accumulateBookSide(bids));
+  public synchronized OrderBook getLevel2OrderBook() {
+    return new OrderBook(new Date(), accumulateBookSide(ASK, asks), accumulateBookSide(BID, bids));
   }
 
-  private List<LimitOrder> accumulateBookSide(List<BookLevel> book) {
+  private List<LimitOrder> accumulateBookSide(OrderType orderType, List<BookLevel> book) {
     BigDecimal price = null;
     BigDecimal amount = ZERO;
     List<LimitOrder> result = new ArrayList<>();
     Iterator<BookOrder> iter = book.stream().flatMap(v -> v.getOrders().stream()).iterator();
     while (iter.hasNext()) {
       BookOrder bookOrder = iter.next();
-      amount = amount.add(bookOrder.getRemainingAmount());
       if (price != null && bookOrder.getLimitPrice().compareTo(price) != 0) {
         result.add(
-            new LimitOrder.Builder(ASK, currencyPair)
+            new LimitOrder.Builder(orderType, currencyPair)
                 .originalAmount(amount)
                 .limitPrice(price)
                 .build());
         amount = ZERO;
       }
+      amount = amount.add(bookOrder.getRemainingAmount());
       price = bookOrder.getLimitPrice();
     }
     if (price != null) {
       result.add(
-          new LimitOrder.Builder(ASK, currencyPair)
+          new LimitOrder.Builder(orderType, currencyPair)
               .originalAmount(amount)
               .limitPrice(price)
               .build());
