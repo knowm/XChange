@@ -41,7 +41,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     return WebSocketClientCompressionAllowClientNoContextHandler.INSTANCE;
   }
 
-  private FtxAuthenticationMessage getAuthMessage(){
+  private FtxAuthenticationMessage getAuthMessage() {
     Mac mac = FtxDigest.createInstance(exchangeSpecification.getSecretKey()).getMac();
 
     try {
@@ -51,10 +51,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       mac.update(message.getBytes(StandardCharsets.UTF_8));
 
       return new FtxAuthenticationMessage(
-              new FtxAuthenticationMessage.FtxAuthenticationArgs(
-                      exchangeSpecification.getApiKey(),
-                      DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
-                      nonce));
+          new FtxAuthenticationMessage.FtxAuthenticationArgs(
+              exchangeSpecification.getApiKey(),
+              DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
+              nonce));
     } catch (Exception e) {
       throw new ExchangeException("Digest encoding exception", e);
     }
@@ -62,8 +62,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected void handleMessage(JsonNode message) {
-    if(message.hasNonNull("type")){
-      if(message.get("type").asText().equals("error")){
+    if (message.hasNonNull("type")) {
+      if (message.get("type").asText().equals("error")) {
         setLoggedInToFalse();
       }
     }
@@ -92,7 +92,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
     if (exchangeSpecification != null && !isLoggedIn) {
       FtxAuthenticationMessage message = getAuthMessage();
-      LOG.info("Sending authentication message: "+ message);
+      LOG.info("Sending authentication message: " + message);
       sendObjectMessage(message);
       isLoggedIn = true;
     }
@@ -138,11 +138,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     super.resubscribeChannels();
   }
 
-  private void setLoggedInToFalse(){
+  private void setLoggedInToFalse() {
     if (exchangeSpecification != null && isLoggedIn) {
       isLoggedIn = false;
-      LOG.info("IsLoggedIn is "+false);
+      LOG.info("IsLoggedIn is " + false);
     }
   }
-
 }

@@ -10,7 +10,6 @@ import io.reactivex.Observable;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ftx.FtxExchange;
 
-
 public class FtxStreamingExchange extends FtxExchange implements StreamingExchange {
 
   private final String API_URI = "wss://ftx.com/ws/";
