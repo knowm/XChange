@@ -1,19 +1,17 @@
 package org.knowm.xchange.gateio.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gateio.GateioAdapters;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 
 public class GateioMarketDataServiceRaw extends GateioBaseService {
 
@@ -105,5 +103,30 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
 
     List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
     return currencyPairs;
+  }
+
+  public List<GateioKline> getKlines(CurrencyPair pair, GateioKlineInterval interval, Integer hours) throws IOException {
+
+    if (hours != null && hours < 1)
+      throw new ExchangeException("Variable 'hours' should be more than 0!");
+
+    GateioCandlestickHistory candlestickHistory = handleResponse(
+            bter.getKlinesGate(
+                    pair.toString().replace('/', '_').toLowerCase(),
+                    hours,
+                    interval.getSeconds()
+            )
+    );
+
+    return candlestickHistory.getCandlesticks().stream()
+            .map(data -> new GateioKline(
+                    Long.parseLong(data.get(0)),
+                    new BigDecimal(data.get(1)),
+                    new BigDecimal(data.get(2)),
+                    new BigDecimal(data.get(3)),
+                    new BigDecimal(data.get(4)),
+                    new BigDecimal(data.get(5))
+            ))
+            .collect(Collectors.toList());
   }
 }

@@ -2,7 +2,6 @@ package org.knowm.xchange.tradeogre;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
