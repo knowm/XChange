@@ -22,6 +22,7 @@ import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeServiceRaw extends BittrexBaseService {
@@ -60,6 +61,30 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
         .placeOrder(
             apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, bittrexNewOrder)
         .getId();
+  }
+
+  public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
+    return placeBittrexMarketOrder(marketOrder, TimeInForce.GOOD_TIL_CANCELLED);
+  }
+
+  public String placeBittrexMarketOrder(MarketOrder marketOrder, TimeInForce type) throws IOException {
+    BittrexNewOrder bittrexNewOrder =
+            new BittrexNewOrder(
+                    BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+                    OrderType.BID.equals(marketOrder.getType())
+                            ? BittrexConstants.BUY
+                            : BittrexConstants.SELL,
+                    BittrexConstants.LIMIT,
+                    marketOrder.getRemainingAmount().toPlainString(),
+                    null,
+                    null,
+                    type.toString(),
+                    null,
+                    null);
+    return bittrexAuthenticated
+            .placeOrder(
+                    apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, bittrexNewOrder)
+            .getId();
   }
 
   public BittrexOrder cancelBittrexLimitOrder(String orderId) throws IOException {
