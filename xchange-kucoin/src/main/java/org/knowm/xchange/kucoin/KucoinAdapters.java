@@ -97,9 +97,10 @@ public class KucoinAdapters {
    * @return Exchange metadata.
    */
   public static ExchangeMetaData adaptMetadata(
-      ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols) {
+      ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols, List<CurrenciesResponse> kucoinCurrencies) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap = adaptCurrencyMetaData(kucoinCurrencies);
 
     for (SymbolResponse symbol : kucoinSymbols) {
 
@@ -119,8 +120,8 @@ public class KucoinAdapters {
               staticMetaData != null ? staticMetaData.getFeeTiers() : null);
       currencyPairs.put(pair, cpmd);
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, stringCurrencyMetaDataMap.get(pair.base.getCurrencyCode()));
+      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, stringCurrencyMetaDataMap.get(pair.counter.getCurrencyCode()));
     }
 
     return new ExchangeMetaData(
@@ -129,6 +130,18 @@ public class KucoinAdapters {
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
         true);
+  }
+
+  static HashMap<String, CurrencyMetaData> adaptCurrencyMetaData(List<CurrenciesResponse> list) {
+    HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
+    for (CurrenciesResponse currenciesResponse : list) {
+      BigDecimal precision = currenciesResponse.getPrecision();
+      String withdrawalMinFee = currenciesResponse.getWithdrawalMinFee();
+      String withdrawalMinSize = currenciesResponse.getWithdrawalMinSize();
+      CurrencyMetaData currencyMetaData = new CurrencyMetaData(precision.intValue(), new BigDecimal(withdrawalMinFee), new BigDecimal(withdrawalMinSize));
+      stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
+    }
+    return stringCurrencyMetaDataMap;
   }
 
   public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {
