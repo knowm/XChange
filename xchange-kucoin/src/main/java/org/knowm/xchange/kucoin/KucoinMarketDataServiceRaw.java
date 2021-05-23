@@ -33,7 +33,9 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
   }
 
   public Map<String, BigDecimal> getKucoinBaseFee() throws IOException {
-    return classifyingExceptions(symbolApi::getBaseFee);
+    checkAuthenticated();
+    return classifyingExceptions(
+            () -> tradingFeeAPI.getBaseFee(apiKey, digest, nonceFactory, passphrase));
   }
 
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
