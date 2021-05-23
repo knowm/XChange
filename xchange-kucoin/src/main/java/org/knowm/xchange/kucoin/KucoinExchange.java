@@ -66,7 +66,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException, ExchangeException {
     this.exchangeMetaData =
         KucoinAdapters.adaptMetadata(
-            this.exchangeMetaData, getMarketDataService().getKucoinSymbols(), getMarketDataService().getKucoinCurrencies());
+            this.exchangeMetaData, getMarketDataService());
   }
 
   @Override
