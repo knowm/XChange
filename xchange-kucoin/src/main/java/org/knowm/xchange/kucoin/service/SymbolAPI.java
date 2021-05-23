@@ -46,6 +46,15 @@ public interface SymbolAPI {
   KucoinResponse<Map<String, BigDecimal>> getPrices() throws IOException;
 
   /**
+   * Get basic fee rate of users.
+   *
+     * @return basic trading fee information
+   */
+  @GET
+  @Path("/base-fee")
+  KucoinResponse<Map<String, BigDecimal>> getBaseFee() throws IOException;
+
+  /**
    * Ticker include only the inside (i.e. best) bid and ask data , last price and last trade size.
    *
    * @param symbol The currency
