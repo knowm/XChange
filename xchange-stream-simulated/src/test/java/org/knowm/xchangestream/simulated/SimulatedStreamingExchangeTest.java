@@ -20,6 +20,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.simulated.AccountFactory;
 import org.knowm.xchange.simulated.MatchingEngineFactory;
+import org.knowm.xchangestream.simulated.util.MockMarket;
 
 /** @author mrmx */
 public class SimulatedStreamingExchangeTest {
@@ -124,8 +125,9 @@ public class SimulatedStreamingExchangeTest {
     exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_FACTORY_PARAM, accountFactory);
     SimulatedStreamingExchange marketMakerExchange =
         (SimulatedStreamingExchange) ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
-    marketMakerExchange.getAccountService().deposit(USD, new BigDecimal(10000));
-    marketMakerExchange.getAccountService().deposit(BTC, new BigDecimal(10000));
-    MockMarket.mockMarket(marketMakerExchange);
+    new MockMarket(marketMakerExchange, BTC_USD)
+        .deposit(BTC, 10000)
+        .deposit(USD, 10000)
+        .placeOrders();
   }
 }
