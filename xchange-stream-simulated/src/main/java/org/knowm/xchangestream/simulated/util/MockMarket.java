@@ -66,8 +66,8 @@ public class MockMarket {
     return exchange.getMarketDataService().getOrderBook(currencyPair);
   }
 
-  public void placeOrders() throws IOException {
-    placeAsk(10000, 200)
+  public MockMarket placeOrders() throws IOException {
+    return placeAsk(10000, 200)
         .placeAsk(1000, 0.1d)
         .placeAsk(99, 0.05d)
         .placeAsk(99, 0.25d)
