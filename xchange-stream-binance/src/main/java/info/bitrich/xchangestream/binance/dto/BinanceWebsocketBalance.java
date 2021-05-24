@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.binance.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
 
 public final class BinanceWebsocketBalance {
 
@@ -34,10 +33,6 @@ public final class BinanceWebsocketBalance {
 
   public BigDecimal getLocked() {
     return locked;
-  }
-
-  public Balance toBalance() {
-    return new Balance(currency, getTotal(), getAvailable(), getLocked());
   }
 
   @Override
