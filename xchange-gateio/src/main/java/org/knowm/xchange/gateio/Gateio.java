@@ -28,6 +28,10 @@ public interface Gateio {
   Map<String, GateioTicker> getTickers() throws IOException;
 
   @GET
+  @Path("coininfo")
+  GateioCoinInfoWrapper getCoinInfo() throws IOException;
+
+  @GET
   @Path("ticker/{ident}_{currency}")
   GateioTicker getTicker(
       @PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)

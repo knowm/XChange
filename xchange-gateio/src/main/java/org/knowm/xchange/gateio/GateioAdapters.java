@@ -1,5 +1,6 @@
 package org.knowm.xchange.gateio;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +22,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -30,14 +33,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gateio.dto.GateioOrderType;
 import org.knowm.xchange.gateio.dto.account.GateioDepositsWithdrawals;
 import org.knowm.xchange.gateio.dto.account.GateioFunds;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
-import org.knowm.xchange.gateio.dto.marketdata.GateioPublicOrder;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
+import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
 import org.knowm.xchange.utils.DateUtils;
 
 /** Various adapters for converting from Bter DTOs to XChange DTOs */
@@ -219,12 +220,16 @@ public final class GateioAdapters {
         .build();
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(
-      Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap) {
+  public static ExchangeMetaData adaptToExchangeMetaData(GateioMarketDataServiceRaw marketDataService) throws IOException {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-    for (Entry<CurrencyPair, GateioMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
+    Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
+    GateioCoinInfoWrapper gateioCoinInfo = marketDataService.getGateioCoinInfo();
+    Map<String, GateioCoin> coins = gateioCoinInfo.getCoins();
+
+    for (Entry<CurrencyPair, GateioMarketInfo> entry : marketDataService.getBTERMarketInfo().entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();
@@ -237,11 +242,26 @@ public final class GateioAdapters {
               btermarketInfo.getDecimalPlaces(),
               null);
       currencyPairs.put(currencyPair, currencyPairMetaData);
+      GateioCoin gateioCoin = coins.get(currencyPair.base.getCurrencyCode());
+      GateioFeeInfo gateioFeeInfo = gateioFees.get(currencyPair.base.getCurrencyCode());
+      if(gateioCoin != null && gateioFeeInfo != null) {
+        currencies.put(currencyPair.base, adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
+      }
     }
 
-    ExchangeMetaData exchangeMetaData = new ExchangeMetaData(currencyPairs, null, null, null, null);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
+  }
 
-    return exchangeMetaData;
+  private static CurrencyMetaData adaptCurrencyMetaData(GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
+      WalletHealth walletHealth = WalletHealth.ONLINE;
+      if(gateioCoin.isDelisted() || (gateioCoin.isWithdraw_disabled() && gateioCoin.isDeposit_disabled())){
+        walletHealth = WalletHealth.OFFLINE;
+      }else if(gateioCoin.isDeposit_disabled()) {
+        walletHealth = WalletHealth.DEPOSITS_DISABLED;
+      }else if(gateioCoin.isWithdraw_disabled()) {
+        walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
+      }
+    return new CurrencyMetaData(0, new BigDecimal(gateioFeeInfo.getWithdraw_fix()), gateioFeeInfo.getWithdraw_amount_mini(), walletHealth);
   }
 
   public static List<FundingRecord> adaptDepositsWithdrawals(
