@@ -340,7 +340,7 @@
       <dependency>
         <groupId>com.pubnub</groupId>
         <artifactId>pubnub-gson</artifactId>
-        <version>4.31.3</version>
+        <version>5.1.0</version>
       </dependency>
 
     </dependencies>
