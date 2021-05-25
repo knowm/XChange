@@ -28,7 +28,7 @@ public class CoinmateWebSocketTrade {
   }
 
   public CoinmateTransactionsEntry toTransactionEntry(String currencyPair) {
-    return new CoinmateTransactionsEntry(timestamp, null, price, amount, currencyPair);
+    return new CoinmateTransactionsEntry(timestamp, null, price, amount, currencyPair, type);
   }
 
   public long getTimestamp() {
