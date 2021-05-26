@@ -33,6 +33,14 @@ public class GateioMarketDataServiceRaw extends GateioBaseService {
     return bterMarketInfo.getMarketInfoMap();
   }
 
+  public GateioCoinInfoWrapper getGateioCoinInfo() throws IOException {
+    return bter.getCoinInfo();
+  }
+
+  public Map<String, GateioFeeInfo> getGateioFees() throws IOException {
+    return bter.getFeeList(apiKey, signatureCreator);
+  }
+
   public Map<CurrencyPair, Ticker> getGateioTickers() throws IOException {
 
     Map<String, GateioTicker> gateioTickers = bter.getTickers();
