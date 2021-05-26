@@ -139,7 +139,7 @@ public class FtxStreamingAdapters {
                 throw new RuntimeException(e);
               }
             })
-        .map(FtxTickerResponse::toTicker)
+        .map(ftxTickerResponse -> ftxTickerResponse.toTicker(instrument))
         .findFirst()
         .orElse(new Ticker.Builder().build());
   }
