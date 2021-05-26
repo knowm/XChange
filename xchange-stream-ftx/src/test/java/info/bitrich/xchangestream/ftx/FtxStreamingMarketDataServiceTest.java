@@ -11,6 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.mockito.internal.matchers.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +82,11 @@ public class FtxStreamingMarketDataServiceTest {
             .getTicker(CurrencyPair.BTC_USD)
             .subscribe(
                 ticker -> {
-                  if (ticker.getBid() != null && ticker.getAsk() != null) {
+                  if( ticker.getBid() != null && ticker.getAsk() != null ) {
+                    assertThat(ticker.getAskSize()).isNotNull();
+                    assertThat(ticker.getBidSize()).isNotNull();
+                    assertThat(ticker.getLast()).isNotNull();
+                    assertThat(ticker.getTimestamp()).isNotNull();
                     assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
                   }
                 });

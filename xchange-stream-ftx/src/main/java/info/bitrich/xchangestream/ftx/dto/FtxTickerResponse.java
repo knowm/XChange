@@ -2,6 +2,7 @@ package info.bitrich.xchangestream.ftx.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -71,6 +72,17 @@ public class FtxTickerResponse implements Serializable {
 
   public BigDecimal getLast() {
     return last;
+  }
+
+  public Ticker toTicker() {
+    return new Ticker.Builder()
+            .timestamp(getTime())
+            .ask(getAsk())
+            .askSize(getAskSize())
+            .bid(getBid())
+            .bidSize(getBidSize())
+            .last(getLast())
+            .build();
   }
 
   @Override
