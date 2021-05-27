@@ -82,6 +82,11 @@ public class FtxStreamingMarketDataServiceTest {
             .subscribe(
                 ticker -> {
                   if (ticker.getBid() != null && ticker.getAsk() != null) {
+                    assertThat(ticker.getAskSize()).isNotNull();
+                    assertThat(ticker.getBidSize()).isNotNull();
+                    assertThat(ticker.getLast()).isNotNull();
+                    assertThat(ticker.getTimestamp()).isNotNull();
+                    assertThat(ticker.getInstrument().equals(CurrencyPair.BTC_USD)).isTrue();
                     assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
                   }
                 });
