@@ -32,16 +32,23 @@ public class BinanceExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
-    this.binance =
-        ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
+    this.binance = binance();
     this.timestampFactory =
         new BinanceTimestampFactory(
             binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
     this.marketDataService = new BinanceMarketDataService(this, binance, getResilienceRegistries());
     this.tradeService = new BinanceTradeService(this, binance, getResilienceRegistries());
-    this.accountService = new BinanceAccountService(this, binance, getResilienceRegistries());
+    this.accountService = binanceAccountService(binance);
+  }
+
+  protected BinanceAccountService binanceAccountService(BinanceAuthenticated binance) {
+    return new BinanceAccountService(this, binance, getResilienceRegistries());
+  }
+
+  protected BinanceAuthenticated binance() {
+    return ExchangeRestProxyBuilder.forInterface(
+            BinanceAuthenticated.class, getExchangeSpecification())
+            .build();
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {
@@ -149,7 +156,7 @@ public class BinanceExchange extends BaseExchange {
               maxQty = new BigDecimal(filter.getMaxQty()).stripTrailingZeros();
               stepSize = new BigDecimal(filter.getStepSize()).stripTrailingZeros();
             } else if (filter.getFilterType().equals("MIN_NOTIONAL")) {
-              counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
+              if (filter.getMinNotional() != null) counterMinQty = new BigDecimal(filter.getMinNotional()).stripTrailingZeros();
             }
           }
 

@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.BinanceFuturesExchange;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,13 +199,21 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
     return streamingTradeService;
   }
 
-  private BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path =
-        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
-            ? WS_SANDBOX_API_BASE_URI
-            : WS_API_BASE_URI;
+  protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
+    return new BinanceStreamingService(streamingUri(subscription), subscription);
+  }
+
+  protected String streamingUri(ProductSubscription subscription) {
+    String path = wsUri(exchangeSpecification);
+
     path += "stream?streams=" + buildSubscriptionStreams(subscription);
-    return new BinanceStreamingService(path, subscription);
+    return path;
+  }
+
+  protected String wsUri(ExchangeSpecification exchangeSpecification) {
+    boolean useSandbox = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX));
+
+    return useSandbox ? WS_SANDBOX_API_BASE_URI : WS_API_BASE_URI;
   }
 
   public String buildSubscriptionStreams(ProductSubscription subscription) {

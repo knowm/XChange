@@ -7,6 +7,7 @@ import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowC
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
 import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +15,25 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
 
   private static final Logger LOG = LoggerFactory.getLogger(BinanceUserDataStreamingService.class);
 
+  private static final String USER_FUTURES_API_BASE_URI = "wss://fstream.binance.com/ws/";
+  private static final String USER_FUTURES_SANDBOX_URI = "wss://testnet.binancefuture.com/ws/";
   private static final String USER_API_BASE_URI = "wss://stream.binance.com:9443/ws/";
   private static final String USER_API_SANDBOX_URI = "wss://testnet.binance.vision/ws/";
 
   public static BinanceUserDataStreamingService create(String listenKey, boolean useSandbox) {
-    final String baseUri = useSandbox ? USER_API_SANDBOX_URI : USER_API_BASE_URI;
-    return new BinanceUserDataStreamingService(baseUri + listenKey);
+    return create(listenKey, useSandbox, false);
+  }
+
+  public static BinanceUserDataStreamingService create(String listenKey, boolean useSandbox, boolean useFutures) {
+    return new BinanceUserDataStreamingService(baseUri(useSandbox, useFutures) + listenKey);
+  }
+
+  private static String baseUri(boolean useSandbox, boolean useFutures) {
+    if (useFutures) {
+      return useSandbox ? USER_FUTURES_SANDBOX_URI : USER_FUTURES_API_BASE_URI;
+    } else {
+      return useSandbox ? USER_API_SANDBOX_URI : USER_API_BASE_URI;
+    }
   }
 
   private BinanceUserDataStreamingService(String url) {
