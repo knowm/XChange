@@ -21,10 +21,12 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.function.Consumer;
 import org.assertj.core.matcher.AssertionMatcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -525,6 +527,66 @@ public class TestMatchingEngine {
     Level3OrderBook book = matchingEngine.book();
     assertThat(book.getBids()).isEmpty();
     assertThat(book.getAsks()).isEmpty();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testGetLevel2OrderBook() {
+    // Given
+    LimitOrder maker1 =
+        matchingEngine.postOrder(
+            MAKER,
+            new LimitOrder.Builder(ASK, BTC_USD)
+                .limitPrice(new BigDecimal(100))
+                .originalAmount(new BigDecimal(1))
+                .build());
+    LimitOrder maker2 =
+        matchingEngine.postOrder(
+            MAKER,
+            new LimitOrder.Builder(ASK, BTC_USD)
+                .limitPrice(new BigDecimal(102))
+                .originalAmount(new BigDecimal(2))
+                .build());
+
+    LimitOrder taker1 =
+        matchingEngine.postOrder(
+            TAKER,
+            new LimitOrder.Builder(BID, BTC_USD)
+                .limitPrice(new BigDecimal(99))
+                .originalAmount(new BigDecimal(1))
+                .build());
+    LimitOrder taker2 =
+        matchingEngine.postOrder(
+            TAKER,
+            new LimitOrder.Builder(BID, BTC_USD)
+                .limitPrice(new BigDecimal(98))
+                .originalAmount(new BigDecimal(2))
+                .build());
+    // When
+    OrderBook level2 = matchingEngine.getLevel2OrderBook();
+    // Then
+    assertThat(maker1.getStatus()).isEqualTo(NEW);
+    assertThat(maker2.getStatus()).isEqualTo(NEW);
+    assertThat(taker1.getStatus()).isEqualTo(NEW);
+    assertThat(taker2.getStatus()).isEqualTo(NEW);
+    List<LimitOrder> asks = level2.getAsks();
+    assertThat(asks).size().isEqualTo(2);
+    assertThat(asks.get(0).getLimitPrice()).isEqualTo("100");
+    assertThat(asks.get(0).getOriginalAmount()).isEqualTo("1");
+    assertThat(asks.get(0).getType()).isEqualTo(ASK);
+    assertThat(asks.get(1).getLimitPrice()).isEqualTo("102");
+    assertThat(asks.get(1).getOriginalAmount()).isEqualTo("2");
+    assertThat(asks.get(1).getType()).isEqualTo(ASK);
+    List<LimitOrder> bids = level2.getBids();
+    assertThat(bids).size().isEqualTo(2);
+    assertThat(bids.get(0).getLimitPrice()).isEqualTo("99");
+    assertThat(bids.get(0).getOriginalAmount()).isEqualTo("1");
+    assertThat(bids.get(0).getType()).isEqualTo(BID);
+    assertThat(bids.get(1).getLimitPrice()).isEqualTo("98");
+    assertThat(bids.get(1).getOriginalAmount()).isEqualTo("2");
+    assertThat(bids.get(1).getType()).isEqualTo(BID);
+    System.out.println("Asks:" + asks);
+    System.out.println("Bids:" + bids);
   }
 
   @SuppressWarnings("unchecked")

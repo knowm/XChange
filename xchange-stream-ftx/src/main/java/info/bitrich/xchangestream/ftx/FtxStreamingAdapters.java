@@ -4,7 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Streams;
 import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
+import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.instrument.Instrument;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -12,10 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.CRC32;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.instrument.Instrument;
 
 public class FtxStreamingAdapters {
 
@@ -123,5 +126,21 @@ public class FtxStreamingAdapters {
     crc32.update(toBytes, 0, toBytes.length);
 
     return crc32.getValue();
+  }
+
+  public static Ticker adaptTickerMessage(Instrument instrument, JsonNode jsonNode) {
+    return Streams.stream(jsonNode)
+        .filter(JsonNode::isObject)
+        .map(
+            res -> {
+              try {
+                return mapper.readValue(res.toString(), FtxTickerResponse.class);
+              } catch (IOException e) {
+                throw new RuntimeException(e);
+              }
+            })
+        .map(ftxTickerResponse -> ftxTickerResponse.toTicker(instrument))
+        .findFirst()
+        .orElse(new Ticker.Builder().build());
   }
 }
