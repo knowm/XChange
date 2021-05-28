@@ -147,4 +147,12 @@ public class KrakenStreamingExchange extends KrakenExchange implements Streaming
     }
     return null;
   }
+
+    @Override
+    public void resubscribeChannels() {
+        logger.debug("Resubscribing channels");
+        streamingService.resubscribeChannels();
+        if (privateStreamingService != null)
+            privateStreamingService.resubscribeChannels();
+    }
 }
