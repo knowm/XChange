@@ -7,12 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.OrderBookResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
-import org.knowm.xchange.kucoin.dto.response.TickerResponse;
-import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
+import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 
@@ -39,6 +34,10 @@ public class KucoinMarketDataServiceRaw extends KucoinBaseService {
 
   public List<SymbolResponse> getKucoinSymbols() throws IOException {
     return classifyingExceptions(symbolApi::getSymbols);
+  }
+
+  public List<CurrenciesResponse> getKucoinCurrencies() throws IOException {
+    return classifyingExceptions(symbolApi::getCurrencies);
   }
 
   public OrderBookResponse getKucoinOrderBookPartial(CurrencyPair pair) throws IOException {

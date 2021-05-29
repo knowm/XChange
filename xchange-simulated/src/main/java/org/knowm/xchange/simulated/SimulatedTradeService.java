@@ -131,10 +131,8 @@ public class SimulatedTradeService extends BaseExchangeService<SimulatedExchange
         .flatMap(
             p -> {
               if (p instanceof OrderQueryParamCurrencyPair) {
-                return exchange
-                    .getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair())
-                    .openOrders(getApiKey())
-                    .stream()
+                return exchange.getEngine(((OrderQueryParamCurrencyPair) p).getCurrencyPair())
+                    .openOrders(getApiKey()).stream()
                     .filter(o -> o.getId().equals(p.getOrderId()));
               } else if (p instanceof DefaultQueryOrderParam) {
                 return exchange.getEngines().stream()

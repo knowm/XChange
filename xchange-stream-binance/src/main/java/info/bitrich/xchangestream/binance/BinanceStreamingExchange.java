@@ -196,8 +196,10 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
   }
 
   private BinanceStreamingService createStreamingService(ProductSubscription subscription) {
-    String path = Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
-            ? WS_SANDBOX_API_BASE_URI : WS_API_BASE_URI;
+    String path =
+        Boolean.TRUE.equals(exchangeSpecification.getExchangeSpecificParametersItem(USE_SANDBOX))
+            ? WS_SANDBOX_API_BASE_URI
+            : WS_API_BASE_URI;
     path += "stream?streams=" + buildSubscriptionStreams(subscription);
     return new BinanceStreamingService(path, subscription);
   }

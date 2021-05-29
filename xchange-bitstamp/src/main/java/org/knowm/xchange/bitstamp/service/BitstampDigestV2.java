@@ -1,11 +1,10 @@
 package org.knowm.xchange.bitstamp.service;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
+import java.math.BigInteger;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
-import java.math.BigInteger;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 /** @author Benedikt Bünz */
 public class BitstampDigestV2 extends BaseParamsDigest {
@@ -23,11 +22,10 @@ public class BitstampDigestV2 extends BaseParamsDigest {
   private BitstampDigestV2(String secretKeyBase64, String apiKey) {
 
     super(secretKeyBase64, HMAC_SHA_256);
-    this.apiKey = "BITSTAMP "+ apiKey;
+    this.apiKey = "BITSTAMP " + apiKey;
   }
 
-  public static BitstampDigestV2 createInstance(
-      String secretKeyBase64, String apiKey) {
+  public static BitstampDigestV2 createInstance(String secretKeyBase64, String apiKey) {
 
     return secretKeyBase64 == null ? null : new BitstampDigestV2(secretKeyBase64, apiKey);
   }
@@ -41,18 +39,21 @@ public class BitstampDigestV2 extends BaseParamsDigest {
 
     mac256.update(apiKey.getBytes());
 
-    mac256.update(restInvocation.getHttpMethod().getBytes()); //HTTP VERB
-    mac256.update(baseUrlHost.getBytes()); //url Host
-    mac256.update(okPath.getBytes()); //url Path
-    mac256.update(restInvocation.getQueryString().getBytes()); //url Query
+    mac256.update(restInvocation.getHttpMethod().getBytes()); // HTTP VERB
+    mac256.update(baseUrlHost.getBytes()); // url Host
+    mac256.update(okPath.getBytes()); // url Path
+    mac256.update(restInvocation.getQueryString().getBytes()); // url Query
 
     if (contentType != null) {
-      mac256.update(contentType.getBytes()); //content type
+      mac256.update(contentType.getBytes()); // content type
     }
 
-    mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Nonce").toString().getBytes());
-    mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Timestamp").toString().getBytes());
-    mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-Auth-Version").toString().getBytes());
+    mac256.update(
+        restInvocation.getParamValue(HeaderParam.class, "X-Auth-Nonce").toString().getBytes());
+    mac256.update(
+        restInvocation.getParamValue(HeaderParam.class, "X-Auth-Timestamp").toString().getBytes());
+    mac256.update(
+        restInvocation.getParamValue(HeaderParam.class, "X-Auth-Version").toString().getBytes());
     mac256.update(restInvocation.getRequestBody().getBytes());
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
