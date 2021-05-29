@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.ftx;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
@@ -11,12 +12,15 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -111,6 +115,22 @@ public class FtxStreamingMarketDataServiceTest {
     // Verify that the example data was unmarshalled correctly
 
     assertThat(ftxResponse.getAsks().get(0).get(0)).isEqualTo(BigDecimal.valueOf(55114));
+  }
+
+  @Test
+  public void testCalcCrc() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        FtxStreamingMarketDataServiceTest.class.getResourceAsStream(
+            "/ftxOrderbookResponse-example.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, Object> jsonMap = mapper.readValue(is, Map.class);
+
+    JsonNode node = mapper.valueToTree(jsonMap);
+    // Verify that the example data was unmarshalled correctly
+    OrderBook book = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+    FtxStreamingAdapters.adaptOrderbookMessage(book, CurrencyPair.BTC_USD, node);
   }
 
   @Test
