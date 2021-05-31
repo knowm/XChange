@@ -14,6 +14,7 @@ import org.knowm.xchange.instrument.Instrument;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,8 @@ import java.util.zip.CRC32;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+  /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
+  private static final DecimalFormat df = new DecimalFormat("0.0####");
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
@@ -103,18 +106,17 @@ public class FtxStreamingAdapters {
 
   public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
     StringBuilder data = new StringBuilder(3072);
-
     for (int i = 0; i < 100; i++) {
       if (bids.size() >= i) {
-        data.append(bids.get(i).getLimitPrice().doubleValue())
+        data.append(df.format(bids.get(i).getLimitPrice()))
             .append(":")
-            .append(bids.get(i).getOriginalAmount().doubleValue());
+            .append(df.format(bids.get(i).getOriginalAmount()));
       }
       data.append(":");
       if (asks.size() >= i) {
-        data.append(asks.get(i).getLimitPrice().doubleValue())
+        data.append(df.format(asks.get(i).getLimitPrice()))
             .append(":")
-            .append(asks.get(i).getOriginalAmount().doubleValue());
+            .append(df.format(asks.get(i).getOriginalAmount()));
       }
       if (i != 99) {
         data.append(":");
