@@ -255,16 +255,16 @@ public final class GateioAdapters {
 
   private static CurrencyMetaData adaptCurrencyMetaData(GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
-    if (gateioCoin.isWithdraw_delayed()) {
+    if (gateioCoin.isWithdrawDelayed()) {
       walletHealth = WalletHealth.UNKNOWN;
-    } else if (gateioCoin.isDelisted() || (gateioCoin.isWithdraw_disabled() && gateioCoin.isDeposit_disabled())) {
+    } else if (gateioCoin.isDelisted() || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
       walletHealth = WalletHealth.OFFLINE;
-    } else if (gateioCoin.isDeposit_disabled()) {
+    } else if (gateioCoin.isDepositDisabled()) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
-    } else if (gateioCoin.isWithdraw_disabled()) {
+    } else if (gateioCoin.isWithdrawDisabled()) {
       walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
     }
-    return new CurrencyMetaData(0, new BigDecimal(gateioFeeInfo.getWithdraw_fix()), gateioFeeInfo.getWithdraw_amount_mini(), walletHealth);
+    return new CurrencyMetaData(0, new BigDecimal(gateioFeeInfo.getWithdrawFix()), gateioFeeInfo.getWithdrawAmountMini(), walletHealth);
   }
 
   public static List<FundingRecord> adaptDepositsWithdrawals(

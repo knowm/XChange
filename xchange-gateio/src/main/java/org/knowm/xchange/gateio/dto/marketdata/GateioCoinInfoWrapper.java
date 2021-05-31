@@ -59,11 +59,11 @@ public class GateioCoinInfoWrapper {
                         String coin = entry.getKey();
                         JsonNode marketInfoData = entry.getValue();
                         boolean delisted = marketInfoData.path(DELISTED).asInt() == 1;
-                        boolean withdraw_disabled = marketInfoData.path(WITHDRAW_DISABLED).asInt() == 1;
-                        boolean withdraw_delayed = marketInfoData.path(WITHDRAW_DELAYED).asInt() == 1;
-                        boolean deposit_disabled = marketInfoData.path(DEPOSIT_DISABLED).asInt() == 1;
-                        boolean trade_disabled = marketInfoData.path(TRADE_DISABLED).asInt() == 1;
-                        GateioCoin gateioCoin = new GateioCoin(delisted, withdraw_disabled, withdraw_delayed, deposit_disabled, trade_disabled);
+                        boolean withdrawDisabled = marketInfoData.path(WITHDRAW_DISABLED).asInt() == 1;
+                        boolean withdrawDelayed = marketInfoData.path(WITHDRAW_DELAYED).asInt() == 1;
+                        boolean depositDisabled = marketInfoData.path(DEPOSIT_DISABLED).asInt() == 1;
+                        boolean tradeDisabled = marketInfoData.path(TRADE_DISABLED).asInt() == 1;
+                        GateioCoin gateioCoin = new GateioCoin(delisted, withdrawDisabled, withdrawDelayed, depositDisabled, tradeDisabled);
                         gateioCoinInfoMap.put(coin, gateioCoin);
                     } else {
                         throw new ExchangeException(
