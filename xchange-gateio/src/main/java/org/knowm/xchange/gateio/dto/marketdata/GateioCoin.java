@@ -3,31 +3,31 @@ package org.knowm.xchange.gateio.dto.marketdata;
 public class GateioCoin {
 
     boolean delisted;
-    boolean withdraw_disabled;
-    boolean withdraw_delayed;
-    boolean deposit_disabled;
-    boolean trade_disabled;
+    boolean withdrawDisabled;
+    boolean withdrawDelayed;
+    boolean depositDisabled;
+    boolean tradeDisabled;
 
     public GateioCoin(boolean delisted,
-                      boolean withdraw_disabled,
-                      boolean withdraw_delayed,
-                      boolean deposit_disabled,
-                      boolean trade_disabled) {
+                      boolean withdrawDisabled,
+                      boolean withdrawDelayed,
+                      boolean depositDisabled,
+                      boolean tradeDisabled) {
         this.delisted = delisted;
-        this.withdraw_disabled = withdraw_disabled;
-        this.withdraw_delayed = withdraw_delayed;
-        this.deposit_disabled = deposit_disabled;
-        this.trade_disabled = trade_disabled;
+        this.withdrawDisabled = withdrawDisabled;
+        this.withdrawDelayed = withdrawDelayed;
+        this.depositDisabled = depositDisabled;
+        this.tradeDisabled = tradeDisabled;
     }
 
     @Override
     public String toString() {
         return "GateioCoin{" +
                 "delisted=" + delisted +
-                ", withdraw_disabled=" + withdraw_disabled +
-                ", withdraw_delayed=" + withdraw_delayed +
-                ", deposit_disabled=" + deposit_disabled +
-                ", trade_disabled=" + trade_disabled +
+                ", withdrawDisabled=" + withdrawDisabled +
+                ", withdrawDelayed=" + withdrawDelayed +
+                ", depositDisabled=" + depositDisabled +
+                ", tradeDisabled=" + tradeDisabled +
                 '}';
     }
 
@@ -35,19 +35,19 @@ public class GateioCoin {
         return delisted;
     }
 
-    public boolean isWithdraw_disabled() {
-        return withdraw_disabled;
+    public boolean isWithdrawDisabled() {
+        return withdrawDisabled;
     }
 
-    public boolean isWithdraw_delayed() {
-        return withdraw_delayed;
+    public boolean isWithdrawDelayed() {
+        return withdrawDelayed;
     }
 
-    public boolean isDeposit_disabled() {
-        return deposit_disabled;
+    public boolean isDepositDisabled() {
+        return depositDisabled;
     }
 
-    public boolean isTrade_disabled() {
-        return trade_disabled;
+    public boolean isTradeDisabled() {
+        return tradeDisabled;
     }
 }
