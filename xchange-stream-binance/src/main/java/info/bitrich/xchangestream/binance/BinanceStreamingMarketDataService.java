@@ -354,9 +354,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
               if (lastUpdateId == 0L) {
                 result = true;
               } else {
-                result =
-                    depth.getFirstUpdateId() <= lastUpdateId + 1
-                        && depth.getLastUpdateId() >= lastUpdateId + 1;
+                // Futures API
+                if(depth.getPreviousMessagelastUpdateId() != 0L){
+                  result = lastUpdateId >= depth.getPreviousMessagelastUpdateId();
+                // Spot API
+                } else {
+                  result =
+                          depth.getFirstUpdateId() <= lastUpdateId + 1
+                                  && depth.getLastUpdateId() >= lastUpdateId + 1;
+                }
               }
               if (result) {
                 subscription.lastUpdateId.set(depth.getLastUpdateId());
@@ -368,11 +374,12 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
                 // missing 6.  The only thing we can do is to keep requesting a fresh snapshot until
                 // we get to a situation where the snapshot and an update event precisely line up.
                 LOG.info(
-                    "Orderbook snapshot for {} out of date (last={}, U={}, u={}). This is normal. Re-syncing.",
+                    "Orderbook snapshot for {} out of date (last={}, U={}, u={}, pu={}). This is normal. Re-syncing.",
                     currencyPair,
                     lastUpdateId,
                     depth.getFirstUpdateId(),
-                    depth.getLastUpdateId());
+                    depth.getLastUpdateId(),
+                    depth.getPreviousMessagelastUpdateId());
                 subscription.invalidateSnapshot();
               }
               return result;
