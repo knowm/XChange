@@ -200,6 +200,7 @@
     <module>xchange-stream-core</module>
     <module>xchange-stream-dydx</module>
     <module>xchange-stream-ftx</module>
+    <module>xchange-stream-gateio</module>
     <module>xchange-stream-gemini</module>
     <module>xchange-stream-gemini-v2</module>
     <module>xchange-stream-hitbtc</module>
