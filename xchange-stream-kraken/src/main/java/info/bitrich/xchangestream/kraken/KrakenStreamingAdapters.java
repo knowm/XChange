@@ -39,20 +39,23 @@ public class KrakenStreamingAdapters {
     public static OrderBook adaptOrderbookMessage(
             OrderBook orderBook, Instrument instrument, ArrayNode arrayNode) {
         Streams.stream(arrayNode.elements())
-                .filter(JsonNode::isObject)
+//                .filter(JsonNode::isObject)
                 .forEach(
                         currentNode -> {
-                            for (String key : BID_KEYS) {
-                                if (currentNode.has(key)) {
-                                    adaptLimitOrders(instrument, Order.OrderType.BID, currentNode.get(key))
-                                            .forEach(orderBook::update);
-                                }
-                            }
-                            for (String key : ASK_KEYS) {
-                                if (currentNode.has(key)) {
-                                    adaptLimitOrders(instrument, Order.OrderType.ASK, currentNode.get(key))
-                                            .forEach(orderBook::update);
-                                }
+                            if(currentNode.has(BID_SNAPSHOT) || currentNode.has(ASK_SNAPSHOT)) {
+                                //Clear orderbook if receiving snapshot
+                                clearOrderbook(orderBook);
+
+                                adaptLimitOrders(instrument, Order.OrderType.BID, currentNode.get(BID_SNAPSHOT))
+                                        .forEach(orderBook::update);
+                                adaptLimitOrders(instrument, Order.OrderType.ASK, currentNode.get(ASK_SNAPSHOT))
+                                        .forEach(orderBook::update);
+
+                            } else if(currentNode.has(BID_UPDATE) || currentNode.has(ASK_UPDATE)) {
+                                adaptLimitOrders(instrument, Order.OrderType.BID, currentNode.get(BID_UPDATE))
+                                        .forEach(orderBook::update);
+                                adaptLimitOrders(instrument, Order.OrderType.ASK, currentNode.get(ASK_UPDATE))
+                                        .forEach(orderBook::update);
                             }
                         });
         return new OrderBook(
@@ -65,9 +68,13 @@ public class KrakenStreamingAdapters {
     public static OrderBook adaptFuturesOrderbookMessage(
             OrderBook orderBook, Instrument instrument, ObjectNode objectNode) {
         if (objectNode.get("feed").asText().equals("book_snapshot")) {
-            adaptFuturesLimitOrders(instrument, Order.OrderType.BID, objectNode.withArray("bids"))
+            //Clear orderbook if receiving snapshot
+            clearOrderbook(orderBook);
+
+            Date timestamp = new Date(objectNode.get("timestamp").asLong());
+            adaptFuturesLimitOrders(instrument, Order.OrderType.BID, objectNode.withArray("bids"), timestamp)
                     .forEach(orderBook::update);
-            adaptFuturesLimitOrders(instrument, Order.OrderType.ASK, objectNode.withArray("asks"))
+            adaptFuturesLimitOrders(instrument, Order.OrderType.ASK, objectNode.withArray("asks"), timestamp)
                     .forEach(orderBook::update);
         } else {
             if (objectNode.get("side").asText().equals("buy")) {
@@ -99,13 +106,13 @@ public class KrakenStreamingAdapters {
     }
 
     public static Stream<LimitOrder> adaptFuturesLimitOrders(
-            Instrument instrument, Order.OrderType orderType, ArrayNode node) {
+            Instrument instrument, Order.OrderType orderType, ArrayNode node, Date timestamp) {
         if (node == null || !node.isArray()) {
             return Stream.empty();
         }
         return Streams.stream(node.elements())
 //                .filter(JsonNode::isArray)
-                .map(jsonNode -> adaptFututuresSnapshotLimitOrder(instrument, orderType, jsonNode));
+                .map(jsonNode -> adaptFututuresSnapshotLimitOrder(instrument, orderType, jsonNode, timestamp));
     }
 
     /**
@@ -124,14 +131,14 @@ public class KrakenStreamingAdapters {
     }
 
     public static LimitOrder adaptFututuresSnapshotLimitOrder(
-            Instrument instrument, Order.OrderType orderType, JsonNode node) {
+            Instrument instrument, Order.OrderType orderType, JsonNode node, Date timestamp) {
         if (node == null) {
             return null;
         }
 
         BigDecimal price = new BigDecimal(node.get("price").asText()).stripTrailingZeros();
         BigDecimal volume = new BigDecimal(node.get("qty").asText()).stripTrailingZeros();
-        return new LimitOrder(orderType, volume, instrument, null, null, price);
+        return new LimitOrder(orderType, volume, instrument, null, timestamp, price);
     }
 
     public static LimitOrder adaptFuturesLimitOrder(
@@ -279,5 +286,10 @@ public class KrakenStreamingAdapters {
             return null;
         }
         return KrakenAdapters.adaptOrderType(KrakenType.fromString(iterator.next().textValue()));
+    }
+
+    private static void clearOrderbook(OrderBook orderBook){
+        orderBook.getBids().clear();
+        orderBook.getAsks().clear();
     }
 }
