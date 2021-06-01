@@ -16,9 +16,6 @@ import java.util.List;
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(GateioStreamingMarketDataService.class);
-  private static final int MAX_DEPTH_DEFAULT = 5;
-  private static final int UPDATE_INTERVAL_DEFAULT = 100;
-
   private final GateioStreamingService service;
 
   public GateioStreamingMarketDataService(GateioStreamingService service) {
@@ -43,21 +40,8 @@ public class GateioStreamingMarketDataService implements StreamingMarketDataServ
       throw new UnsupportedOperationException(
           String.format("The currency pair %s is not subscribed for orderbook", currencyPair));
 
-    final int maxDepth =
-        (args.length > 0 && args[0] instanceof Number)
-            ? ((Number) args[0]).intValue()
-            : MAX_DEPTH_DEFAULT;
-    final int msgInterval =
-        (args.length > 1 && args[1] instanceof Number)
-            ? ((Number) args[1]).intValue()
-            : UPDATE_INTERVAL_DEFAULT;
-
     return service
-        .getRawWebSocketTransactions(
-            currencyPair,
-            GateioStreamingService.SPOT_ORDERBOOK_CHANNEL,
-            new Integer(msgInterval),
-            new Integer(maxDepth))
+        .getRawWebSocketTransactions(currencyPair, GateioStreamingService.SPOT_ORDERBOOK_CHANNEL)
         .map(msg -> ((GateioOrderBookResponse) msg).toOrderBook(currencyPair));
   }
 

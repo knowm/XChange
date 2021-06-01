@@ -8,7 +8,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -50,11 +49,11 @@ public class GateioTradesResponse extends GateioWebSocketTransaction {
 
   public Trade toTrade() {
     return new Trade(
-        Order.OrderType.ASK,
+        "sell".equals(this.result.side) ? Order.OrderType.ASK : Order.OrderType.BID,
         new BigDecimal(result.amount),
         getCurrencyPair(),
         new BigDecimal(result.price),
-        Date.from(Instant.ofEpochMilli(new BigDecimal(result.createTimeMilliseconds).longValue())),
+        new Date(new BigDecimal(result.createTimeMilliseconds).longValue()),
         Long.toString(result.id),
         null,
         null);
