@@ -527,6 +527,7 @@ public abstract class NettyStreamingService<T> extends ConnectableService {
         super.channelInactive(ctx);
         disconnectEmitters.onNext(new Object());
         LOG.info("Reopening Websocket Client because it was closed! {}", ctx.channel());
+        connectionStateModel.setState(State.CLOSED);
         scheduleReconnect();
       }
     }
