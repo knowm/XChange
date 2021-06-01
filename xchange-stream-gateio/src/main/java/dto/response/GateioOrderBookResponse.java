@@ -64,14 +64,14 @@ public class GateioOrderBookResponse extends GateioWebSocketTransaction {
     List<LimitOrder> asks =
         Arrays.stream(result.asks)
             .map(
-                rawBid ->
+                rawAsk ->
                     new LimitOrder(
-                        Order.OrderType.BID,
-                        new BigDecimal(rawBid[1]),
+                        Order.OrderType.ASK,
+                        new BigDecimal(rawAsk[1]),
                         currencyPair,
                         Long.toString(result.lastUpdateId),
                         null,
-                        new BigDecimal(rawBid[0])))
+                        new BigDecimal(rawAsk[0])))
             .collect(Collectors.toList());
 
     return new OrderBook(
