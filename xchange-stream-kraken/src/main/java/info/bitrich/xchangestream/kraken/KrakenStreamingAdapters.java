@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -54,18 +55,16 @@ public class KrakenStreamingAdapters {
         }
     }
 
-    public static OrderBook adaptOrderbookMessage(int depth, AtomicBoolean awaitingSnapshot, TreeSet<LimitOrder> bids, TreeSet<LimitOrder> asks, Instrument instrument, ArrayNode arrayNode) {
+    public static OrderBook adaptOrderbookMessage(int depth, TreeSet<LimitOrder> bids, TreeSet<LimitOrder> asks, Instrument instrument, ArrayNode arrayNode) {
         final AtomicLong expectedChecksum = new AtomicLong(0);
         final AtomicReference<Date> lastTime = new AtomicReference<>(Date.from(Instant.EPOCH));
+        final boolean awaitingSnapshot = (bids.isEmpty() && asks.isEmpty());
         arrayNode.elements().forEachRemaining(currentNode -> {
-            if (awaitingSnapshot.get()) {
+            if (awaitingSnapshot) {
                 if (currentNode.has(BID_SNAPSHOT) && currentNode.has(ASK_SNAPSHOT)) {
-                    LOG.debug("Received snapshot, clearing book");
-                    bids.clear();
-                    asks.clear();
+                    LOG.info("Received {} snapshot, clearing book", instrument);
                     updateInBook(depth, instrument, Order.OrderType.BID, currentNode, BID_SNAPSHOT, bids);
                     updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_SNAPSHOT, asks);
-                    awaitingSnapshot.set(false);
                 }
             } else {
                 if (currentNode.has(BID_UPDATE)) {
@@ -75,18 +74,23 @@ public class KrakenStreamingAdapters {
                     updateInBook(depth, instrument, Order.OrderType.ASK, currentNode, ASK_UPDATE, asks);
                 }
             }
-            if (!awaitingSnapshot.get() && currentNode.has(CHECKSUM)) {
+            if (!awaitingSnapshot && currentNode.has(CHECKSUM)) {
                 expectedChecksum.set(currentNode.get(CHECKSUM).asLong());
             }
         });
-
+        if ( awaitingSnapshot && bids.isEmpty() && asks.isEmpty()){
+            LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
+        }
+//        if ( (Math.random() > 0.99)) {
+//            throw new IllegalStateException("Testing");
+//        }
         OrderBook result = new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
         long localChecksum = createCrcChecksum(asks, bids);
         if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
-            LOG.warn("Checksum does not match, expected {} but local checksum is {}", expectedChecksum.get(), localChecksum);
+            LOG.warn("{} checksum does not match, expected {} but local checksum is {}", instrument, expectedChecksum.get(), localChecksum);
             throw new IllegalStateException("Checksum did not match");
         } else if (expectedChecksum.get() == 0) {
-            LOG.debug("Skipping checksum validation, no expected checksum in message");
+            LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
         }
         return result;
     }

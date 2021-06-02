@@ -120,7 +120,7 @@ public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinbaseProWebSocketSubscriptionMessage subscribeMessage =
         new CoinbaseProWebSocketSubscriptionMessage(
             UNSUBSCRIBE, new String[] {"level2", "matches", "ticker", "full"}, authData.get());

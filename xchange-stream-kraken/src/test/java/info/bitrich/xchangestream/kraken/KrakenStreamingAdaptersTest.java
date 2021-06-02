@@ -30,20 +30,18 @@ public class KrakenStreamingAdaptersTest {
 
   private TreeSet<LimitOrder> bids;
   private TreeSet<LimitOrder> asks;
-  private AtomicBoolean awaitingSnapshot;
 
   @Before
   public void setUp() throws Exception {
     bids = Sets.newTreeSet(Comparator.reverseOrder());
     asks = Sets.newTreeSet();
-    awaitingSnapshot = new AtomicBoolean(true);
   }
 
   @Test
   public void testAdaptOrderbookMessageWithSnapshot() throws IOException {
     JsonNode jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
     Assert.assertNotNull(jsonNode);
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, awaitingSnapshot, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();
@@ -67,16 +65,16 @@ public class KrakenStreamingAdaptersTest {
         StreamingObjectMapperHelper.getObjectMapper()
             .readTree(this.getClass().getResource("/orderBookMessageSnapshot.json").openStream());
     Assert.assertNotNull(jsonNode);
-    KrakenStreamingAdapters.adaptOrderbookMessage(100, awaitingSnapshot, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate00.json").openStream());
-    KrakenStreamingAdapters.adaptOrderbookMessage(100, awaitingSnapshot, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate01.json").openStream());
-    KrakenStreamingAdapters.adaptOrderbookMessage(100, awaitingSnapshot, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     jsonNode = StreamingObjectMapperHelper.getObjectMapper().readTree(this.getClass().getResource("/orderBookMessageUpdate02.json").openStream());
-    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, awaitingSnapshot, bids, asks, XBT_USD, (ArrayNode) jsonNode);
+    OrderBook afterUpdate = KrakenStreamingAdapters.adaptOrderbookMessage(100, bids, asks, XBT_USD, (ArrayNode) jsonNode);
 
     assertThat(afterUpdate).isNotNull();
     assertThat(afterUpdate.getAsks()).isNotNull();

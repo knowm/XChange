@@ -221,7 +221,7 @@ public class BitmexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     BitmexWebSocketSubscriptionMessage subscribeMessage =
         new BitmexWebSocketSubscriptionMessage("unsubscribe", new String[] {channelName});
     return objectMapper.writeValueAsString(subscribeMessage);
