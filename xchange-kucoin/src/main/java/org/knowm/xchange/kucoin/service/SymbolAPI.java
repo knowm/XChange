@@ -10,11 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.knowm.xchange.kucoin.dto.response.AllTickersResponse;
-import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
-import org.knowm.xchange.kucoin.dto.response.SymbolTickResponse;
-import org.knowm.xchange.kucoin.dto.response.TickerResponse;
+
+import org.knowm.xchange.kucoin.dto.response.*;
 
 /** Based on code by chenshiwei on 2019/1/11. */
 @Path("api/v1")
@@ -29,6 +26,15 @@ public interface SymbolAPI {
   @GET
   @Path("/symbols")
   KucoinResponse<List<SymbolResponse>> getSymbols() throws IOException;
+
+  /**
+   * Get a list of available currencies for trading.
+   *
+   * @return The available currencies.
+   */
+  @GET
+  @Path("/currencies")
+  KucoinResponse<List<CurrenciesResponse>> getCurrencies() throws IOException;
 
   /**
    * Get the fiat price of the currencies for the available trading pairs.
