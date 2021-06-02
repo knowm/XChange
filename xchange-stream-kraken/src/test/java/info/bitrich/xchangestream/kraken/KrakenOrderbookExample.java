@@ -47,14 +47,6 @@ public class KrakenOrderbookExample {
     krakenExchange.connect().blockingAwait();
 
     subscribe(krakenExchange, BTC_USD);
-//    subscribe(krakenExchange, ETH_USD);
-//    subscribe(krakenExchange, BCH_USD);
-//    subscribe(krakenExchange, XRP_USD);
-//    subscribe(krakenExchange, LTC_USD);
-//    subscribe(krakenExchange, ADA_USD);
-//    subscribe(krakenExchange, ATOM_USD);
-//    subscribe(krakenExchange, DOGE_USD);
-//    subscribe(krakenExchange, OMG_USD);
 
     TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
 
