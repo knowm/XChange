@@ -106,8 +106,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
       }
     }
 
-    streamingMarketDataService =
-        new BinanceStreamingMarketDataService(
+    streamingMarketDataService = streamingMarketDataService(
             streamingService,
             (BinanceMarketDataService) marketDataService,
             onApiCall,
@@ -119,6 +118,15 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
         .doOnComplete(() -> streamingAccountService.openSubscriptions())
         .doOnComplete(() -> streamingTradeService.openSubscriptions());
+  }
+
+  protected BinanceStreamingMarketDataService streamingMarketDataService(BinanceStreamingService streamingService, BinanceMarketDataService marketDataService, Runnable onApiCall, String orderBookUpdateFrequencyParameter) {
+    return new BinanceStreamingMarketDataService(
+            streamingService,
+            marketDataService,
+            onApiCall,
+            orderBookUpdateFrequencyParameter
+    );
   }
 
   private Completable createAndConnectUserDataService(String listenKey) {

@@ -6,6 +6,7 @@ import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceFuturesAuthenticated;
 import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceFuturesAccountService;
+import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.utils.AuthUtils;
 
@@ -44,5 +45,10 @@ public class BinanceFuturesStreamingExchange extends BinanceStreamingExchange {
     @Override
     protected BinanceStreamingService createStreamingService(ProductSubscription subscription) {
         return new BinanceFuturesStreamingService(streamingUri(subscription), subscription);
+    }
+
+    @Override
+    protected BinanceStreamingMarketDataService streamingMarketDataService(BinanceStreamingService streamingService, BinanceMarketDataService marketDataService, Runnable onApiCall, String orderBookUpdateFrequencyParameter) {
+        return new BinanceFuturesStreamingMarketDataService(streamingService, marketDataService, onApiCall, orderBookUpdateFrequencyParameter);
     }
 }
