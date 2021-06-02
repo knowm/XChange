@@ -152,7 +152,7 @@ public class GateioStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     GateioWebSocketSubscriptionMessage unsubscribeMessage =
         objectMapper.readValue(
             channelSubscriptionMessages.get(channelName), GateioWebSocketSubscriptionMessage.class);
