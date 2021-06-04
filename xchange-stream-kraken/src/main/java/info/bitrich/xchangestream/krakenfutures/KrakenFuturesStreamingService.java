@@ -1,9 +1,10 @@
-package info.bitrich.xchangestream.kraken;
+package info.bitrich.xchangestream.krakenfutures;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.kraken.dto.KrakenFuturesSubscriptionMessage;
+import info.bitrich.xchangestream.kraken.KrakenStreamingMarketDataService;
+import info.bitrich.xchangestream.krakenfutures.dto.KrakenFuturesSubscriptionMessage;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
@@ -101,6 +102,8 @@ public class KrakenFuturesStreamingService extends JsonNettyStreamingService {
                         subscriptionMessage = mapper.treeToValue(message, KrakenFuturesSubscriptionMessage.class);
                         channels.remove(subscriptionMessage.getProduct_ids().get(0), channelName);
                         break;
+                    case subscribed_failed:
+                    case unsubscribed_failed:
                     case error:
                     case alert:
                         LOG.error(

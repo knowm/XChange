@@ -33,13 +33,10 @@ public class KrakenStreamingAdapters {
     static final String BID_SNAPSHOT = "bs";
     static final String BID_UPDATE = "b";
 
-    private static final List<String> BID_KEYS = Lists.newArrayList(BID_SNAPSHOT, BID_UPDATE);
-    private static final List<String> ASK_KEYS = Lists.newArrayList(ASK_SNAPSHOT, ASK_UPDATE);
-
     public static OrderBook adaptOrderbookMessage(
             OrderBook orderBook, Instrument instrument, ArrayNode arrayNode) {
         Streams.stream(arrayNode.elements())
-//                .filter(JsonNode::isObject)
+                .filter(JsonNode::isObject)
                 .forEach(
                         currentNode -> {
                             if(currentNode.has(BID_SNAPSHOT) || currentNode.has(ASK_SNAPSHOT)) {
@@ -64,33 +61,6 @@ public class KrakenStreamingAdapters {
                 Lists.newArrayList(orderBook.getBids()),
                 true);
     }
-
-    public static OrderBook adaptFuturesOrderbookMessage(
-            OrderBook orderBook, Instrument instrument, ObjectNode objectNode) {
-        if (objectNode.get("feed").asText().equals("book_snapshot")) {
-            //Clear orderbook if receiving snapshot
-            clearOrderbook(orderBook);
-
-            Date timestamp = new Date(objectNode.get("timestamp").asLong());
-            adaptFuturesLimitOrders(instrument, Order.OrderType.BID, objectNode.withArray("bids"), timestamp)
-                    .forEach(orderBook::update);
-            adaptFuturesLimitOrders(instrument, Order.OrderType.ASK, objectNode.withArray("asks"), timestamp)
-                    .forEach(orderBook::update);
-        } else {
-            if (objectNode.get("side").asText().equals("buy")) {
-                orderBook.update(adaptFuturesLimitOrder(instrument, Order.OrderType.BID, objectNode));
-            }
-            if (objectNode.get("side").asText().equals("sell")) {
-                orderBook.update(adaptFuturesLimitOrder(instrument, Order.OrderType.ASK, objectNode));
-            }
-        }
-        return new OrderBook(
-                orderBook.getTimeStamp(),
-                Lists.newArrayList(orderBook.getAsks()),
-                Lists.newArrayList(orderBook.getBids()),
-                true);
-    }
-
     /**
      * Adapt a JsonNode to a Stream of limit orders, the node past in here should be the body of a
      * a/b/as/bs key.
@@ -103,16 +73,6 @@ public class KrakenStreamingAdapters {
         return Streams.stream(node.elements())
                 .filter(JsonNode::isArray)
                 .map(jsonNode -> adaptLimitOrder(instrument, orderType, jsonNode));
-    }
-
-    public static Stream<LimitOrder> adaptFuturesLimitOrders(
-            Instrument instrument, Order.OrderType orderType, ArrayNode node, Date timestamp) {
-        if (node == null || !node.isArray()) {
-            return Stream.empty();
-        }
-        return Streams.stream(node.elements())
-//                .filter(JsonNode::isArray)
-                .map(jsonNode -> adaptFututuresSnapshotLimitOrder(instrument, orderType, jsonNode, timestamp));
     }
 
     /**
@@ -130,68 +90,11 @@ public class KrakenStreamingAdapters {
         return new LimitOrder(orderType, volume, instrument, null, timestamp, price);
     }
 
-    public static LimitOrder adaptFututuresSnapshotLimitOrder(
-            Instrument instrument, Order.OrderType orderType, JsonNode node, Date timestamp) {
-        if (node == null) {
-            return null;
-        }
-
-        BigDecimal price = new BigDecimal(node.get("price").asText()).stripTrailingZeros();
-        BigDecimal volume = new BigDecimal(node.get("qty").asText()).stripTrailingZeros();
-        return new LimitOrder(orderType, volume, instrument, null, timestamp, price);
-    }
-
-    public static LimitOrder adaptFuturesLimitOrder(
-            Instrument instrument, Order.OrderType orderType, ObjectNode node) {
-        if (node == null) {
-            return null;
-        }
-        BigDecimal price = new BigDecimal(node.get("price").asText()).stripTrailingZeros();
-        BigDecimal volume = new BigDecimal(node.get("qty").asText()).stripTrailingZeros();
-        Date timestamp = DateUtils.fromUnixTime(node.get("timestamp").asLong());
-        return new LimitOrder(orderType, volume, instrument, null, timestamp, price);
-    }
-
     /**
      * Adapt an ArrayNode containing a ticker message into a Ticker
      */
     public static Ticker adaptTickerMessage(Instrument instrument, ArrayNode arrayNode) {
         return Streams.stream(arrayNode.elements())
-                .filter(JsonNode::isObject)
-                .map(
-                        tickerNode -> {
-                            Iterator<JsonNode> askIterator = tickerNode.get("a").iterator();
-                            Iterator<JsonNode> bidIterator = tickerNode.get("b").iterator();
-                            Iterator<JsonNode> closeIterator = tickerNode.get("c").iterator();
-                            Iterator<JsonNode> volumeIterator = tickerNode.get("v").iterator();
-                            Iterator<JsonNode> vwapIterator = tickerNode.get("p").iterator();
-                            Iterator<JsonNode> lowPriceIterator = tickerNode.get("l").iterator();
-                            Iterator<JsonNode> highPriceIterator = tickerNode.get("h").iterator();
-                            Iterator<JsonNode> openPriceIterator = tickerNode.get("o").iterator();
-
-                            // Move iterators forward here required, this ignores the first field if the desired
-                            // value is in the second element.
-                            vwapIterator.next();
-                            volumeIterator.next();
-
-                            return new Ticker.Builder()
-                                    .open(nextNodeAsDecimal(openPriceIterator))
-                                    .ask(nextNodeAsDecimal(askIterator))
-                                    .bid(nextNodeAsDecimal(bidIterator))
-                                    .last(nextNodeAsDecimal(closeIterator))
-                                    .high(nextNodeAsDecimal(highPriceIterator))
-                                    .low(nextNodeAsDecimal(lowPriceIterator))
-                                    .vwap(nextNodeAsDecimal(vwapIterator))
-                                    .volume(nextNodeAsDecimal(volumeIterator))
-                                    .instrument(instrument)
-                                    .build();
-                        })
-                .findFirst()
-                .orElse(null);
-    }
-
-    public static Ticker adaptFuturesTickerMessage(Instrument instrument, ObjectNode objectNode) {
-        return Streams.stream(objectNode.elements())
                 .filter(JsonNode::isObject)
                 .map(
                         tickerNode -> {

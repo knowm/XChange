@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.kraken;
+package info.bitrich.xchangestream.krakenfutures;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
@@ -10,8 +10,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.krakenfutures.service.KrakenFuturesMarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author makarid, pchertalev
@@ -27,30 +31,51 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
     public static final String KRAKEN_CHANNEL_DELIMITER = "-";
 
     private final KrakenFuturesStreamingService service;
+    private final KrakenFuturesMarketDataService marketDataService;
 
-    public KrakenFuturesStreamingMarketDataService(KrakenFuturesStreamingService service) {
+    public KrakenFuturesStreamingMarketDataService(KrakenFuturesStreamingService service, KrakenFuturesMarketDataService marketDataService) {
         this.service = service;
+        this.marketDataService = marketDataService;
     }
 
     @Override
     public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
         String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
-        OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
         int depth = parseOrderBookSize(args);
-        return subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth)
-                .map(
-                        objectNode ->
-                                KrakenStreamingAdapters.adaptFuturesOrderbookMessage(orderBook, currencyPair, objectNode));
+        Observable<ObjectNode> subscribe = subscribe(channelName, MIN_DATA_ARRAY_SIZE, depth);
+        OrderbookSubscription orderbookSubscription = new OrderbookSubscription(subscribe);
+        AtomicInteger x = new AtomicInteger();
+        return orderbookSubscription.stream
+
+                .doOnNext(objectNode -> orderbookSubscription.initSnapshotIfInvalid(currencyPair))
+
+                .filter(objectNode -> {
+
+                    Integer seqNumber = objectNode.get("seq").asInt();
+
+                    if (orderbookSubscription.lastSequenceNumber + 1 == seqNumber || orderbookSubscription.lastSequenceNumber == 0) {
+                        if(x.get() == 100) orderbookSubscription.lastSequenceNumber = seqNumber -10;
+
+                        else orderbookSubscription.lastSequenceNumber = seqNumber;
+                        x.incrementAndGet();
+
+                        return true;
+                    }
+                    orderbookSubscription.lastSequenceNumber = null;
+                    return false;
+                })
+
+                .map(objectNode -> KrakenFuturesStreamingAdapters.adaptFuturesOrderbookMessage(orderbookSubscription.orderBook, currencyPair, objectNode));
     }
 
     @Override
     public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-        throw new UnsupportedOperationException("getTicker operation not supported");
+        throw new UnsupportedOperationException("getTicker operation not currently supported");
     }
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        throw new UnsupportedOperationException("getTrades operation not supported");
+        throw new NotAvailableFromExchangeException("getTrades operation not supported by Kraken Futures API");
     }
 
     public Observable<ObjectNode> subscribe(String channelName, int maxItems, Integer depth) {
@@ -105,5 +130,31 @@ public class KrakenFuturesStreamingMarketDataService implements StreamingMarketD
                 "Order book size param has not been specified. Default order book size has been used: {}",
                 ORDER_BOOK_SIZE_DEFAULT);
         return ORDER_BOOK_SIZE_DEFAULT;
+    }
+
+    private final class OrderbookSubscription {
+        final Observable<ObjectNode> stream;
+        Integer lastSequenceNumber = 0;
+        OrderBook orderBook = new OrderBook(null, Lists.newArrayList(), Lists.newArrayList());
+
+        private OrderbookSubscription(Observable<ObjectNode> stream) {
+            this.stream = stream;
+        }
+
+        void initSnapshotIfInvalid(CurrencyPair currencyPair) {
+            if (lastSequenceNumber != null) return;
+            try {
+                LOG.info("Fetching orderbook snapshot for {} ", currencyPair);
+                orderBook = marketDataService.getOrderBook(currencyPair);
+
+            } catch (Exception e) {
+                LOG.error("Failed to fetch order book snapshot for " + currencyPair, e);
+                orderBook.getAsks().clear();
+                orderBook.getBids().clear();
+
+            } finally {
+                lastSequenceNumber = 0;
+            }
+        }
     }
 }

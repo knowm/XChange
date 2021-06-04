@@ -1,8 +1,9 @@
-package info.bitrich.xchangestream.kraken.dto;
+package info.bitrich.xchangestream.krakenfutures.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import info.bitrich.xchangestream.kraken.dto.KrakenEvent;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenEventType;
 import info.bitrich.xchangestream.kraken.dto.enums.KrakenSubscriptionName;
 

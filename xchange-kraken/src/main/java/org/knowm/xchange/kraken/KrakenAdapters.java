@@ -2,6 +2,8 @@ package org.knowm.xchange.kraken;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +43,7 @@ import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenOrderBookResult;
 import org.knowm.xchange.kraken.dto.trade.*;
 
 public class KrakenAdapters {
@@ -56,6 +59,24 @@ public class KrakenAdapters {
         new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
         asksOrdersContainer.getLimitOrders(),
         bidsOrdersContainer.getLimitOrders());
+  }
+
+  public static OrderBook adaptFuturesOrderBook(KrakenOrderBookResult result, CurrencyPair currencyPair){
+    KrakenDepth krakenDepth = result.getOrderbook();
+    OrdersContainer asksOrdersContainer = adaptOrders(krakenDepth.getAsks(), currencyPair, OrderType.ASK);
+    OrdersContainer bidsOrdersContainer = adaptOrders(krakenDepth.getBids(), currencyPair, OrderType.BID);
+
+    Date date;
+    try {
+      date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'").parse(result.getServerTime());
+    } catch (ParseException e) {
+      date = new Date(System.currentTimeMillis());
+    }
+
+    return new OrderBook(
+            date,
+            asksOrdersContainer.getLimitOrders(),
+            bidsOrdersContainer.getLimitOrders());
   }
 
   public static OrdersContainer adaptOrders(

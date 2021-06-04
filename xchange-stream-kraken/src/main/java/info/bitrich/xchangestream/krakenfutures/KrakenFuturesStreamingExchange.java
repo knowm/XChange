@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.kraken;
+package info.bitrich.xchangestream.krakenfutures;
 
 import com.google.common.base.MoreObjects;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -13,6 +13,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.account.KrakenWebsocketToken;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
+import org.knowm.xchange.krakenfutures.service.KrakenFuturesMarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class KrakenFuturesStreamingExchange extends KrakenExchange implements St
 
         this.streamingService =
                 new KrakenFuturesStreamingService(false, pickUri(useBeta), () -> authData(accountService));
-        this.streamingMarketDataService = new KrakenFuturesStreamingMarketDataService(streamingService);
+        this.streamingMarketDataService = new KrakenFuturesStreamingMarketDataService(streamingService, new KrakenFuturesMarketDataService(this));
 
         if (StringUtils.isNotEmpty(exchangeSpecification.getApiKey())) {
             this.privateStreamingService =
@@ -96,6 +97,9 @@ public class KrakenFuturesStreamingExchange extends KrakenExchange implements St
     @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification spec = super.getDefaultExchangeSpecification();
+        spec.setSslUri("https://futures.kraken.com/derivatives");
+        spec.setHost("futures.kraken.com/derivatives");
+        spec.setExchangeName("Kraken Futures");
         spec.setShouldLoadRemoteMetaData(false);
         return spec;
     }
