@@ -33,7 +33,7 @@
     <version.java>1.8</version.java>
     <version.assertj>3.19.0</version.assertj>
     <version.commons.lang3>3.12.0</version.commons.lang3>
-    <version.fasterxml>2.11.3</version.fasterxml>
+    <version.fasterxml>2.12.3</version.fasterxml>
     <version.github.mmazi>2.1.0</version.github.mmazi>
     <version.resilience4j>1.7.0</version.resilience4j>
     <version.junit>4.13.2</version.junit>
@@ -201,6 +201,7 @@
     <module>xchange-stream-core</module>
     <module>xchange-stream-dydx</module>
     <module>xchange-stream-ftx</module>
+    <module>xchange-stream-gateio</module>
     <module>xchange-stream-gemini</module>
     <module>xchange-stream-gemini-v2</module>
     <module>xchange-stream-hitbtc</module>
@@ -302,7 +303,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.10.0</version>
+        <version>3.11.0</version>
         <scope>test</scope>
       </dependency>
 
@@ -439,7 +440,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -499,7 +500,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
