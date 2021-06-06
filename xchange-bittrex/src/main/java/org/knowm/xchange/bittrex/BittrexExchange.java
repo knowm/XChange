@@ -3,9 +3,14 @@ package org.knowm.xchange.bittrex;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bittrex.dto.BittrexException;
+import org.knowm.xchange.bittrex.dto.marketdata.BittrexCurrency;
 import org.knowm.xchange.bittrex.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.service.BittrexAccountService;
 import org.knowm.xchange.bittrex.service.BittrexMarketDataService;
@@ -13,6 +18,8 @@ import org.knowm.xchange.bittrex.service.BittrexMarketDataServiceRaw;
 import org.knowm.xchange.bittrex.service.BittrexTradeService;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.Fee;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -24,15 +31,13 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   private static final Object INIT_LOCK = new Object();
 
   private static List<BittrexSymbol> bittrexSymbols = new ArrayList<>();
-  private BittrexAuthenticated bittrex;
 
   private static ResilienceRegistries resilienceRegistries;
 
   @Override
   protected void initServices() {
-    this.bittrex =
-        ExchangeRestProxyBuilder.forInterface(
-                BittrexAuthenticated.class, getExchangeSpecification())
+    BittrexAuthenticated bittrex = ExchangeRestProxyBuilder.forInterface(
+            BittrexAuthenticated.class, getExchangeSpecification())
             .build();
     this.marketDataService = new BittrexMarketDataService(this, bittrex, getResilienceRegistries());
     this.accountService = new BittrexAccountService(this, bittrex, getResilienceRegistries());
@@ -70,7 +75,15 @@ public class BittrexExchange extends BaseExchange implements Exchange {
       synchronized (INIT_LOCK) {
         if (bittrexSymbols.isEmpty()) {
           bittrexSymbols = ((BittrexMarketDataServiceRaw) marketDataService).getBittrexSymbols();
-          BittrexAdapters.adaptMetaData(bittrexSymbols, exchangeMetaData);
+          List<BittrexCurrency> bittrexCurrencies =
+                  ((BittrexMarketDataServiceRaw) marketDataService).getBittrexCurrencies();
+          Map<CurrencyPair, Fee> dynamicTradingFees = null;
+          try {
+            dynamicTradingFees = accountService.getDynamicTradingFees();
+          } catch (BittrexException | IOException e) {
+            // No connection or authentication ?
+          }
+          BittrexAdapters.adaptMetaData(bittrexSymbols, bittrexCurrencies, dynamicTradingFees, exchangeMetaData);
         }
       }
     }
