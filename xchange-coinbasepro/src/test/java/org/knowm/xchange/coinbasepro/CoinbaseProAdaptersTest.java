@@ -3,6 +3,7 @@ package org.knowm.xchange.coinbasepro;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
@@ -14,7 +15,9 @@ import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
+
 import org.junit.Test;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
@@ -106,7 +109,7 @@ public class CoinbaseProAdaptersTest {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/coinbasepro/dto/trade/example-fills.json");
-    CoinbaseProFill[] fills = mapper.readValue(is, CoinbaseProFill[].class);
+    List<CoinbaseProFill> fills = mapper.readValue(is, new TypeReference<List<CoinbaseProFill>>(){});
 
     UserTrades trades = CoinbaseProAdapters.adaptTradeHistory(fills);
 
