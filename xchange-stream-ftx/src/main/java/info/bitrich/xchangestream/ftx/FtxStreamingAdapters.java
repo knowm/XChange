@@ -4,17 +4,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Streams;
 import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
+import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.zip.CRC32;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.instrument.Instrument;
@@ -22,6 +28,8 @@ import org.knowm.xchange.instrument.Instrument;
 public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
+    private static final DecimalFormat df = new DecimalFormat("0.0####");
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
@@ -119,30 +127,46 @@ public class FtxStreamingAdapters {
         .build();
   }
 
-  //  public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
-  //    StringBuilder data = new StringBuilder(3072);
-  //
-  //    for (int i = 0; i < 100; i++) {
-  //      if (bids.size() >= i) {
-  //        data.append(bids.get(i).getLimitPrice().doubleValue())
-  //            .append(":")
-  //            .append(bids.get(i).getOriginalAmount().doubleValue());
-  //      }
-  //      data.append(":");
-  //      if (asks.size() >= i) {
-  //        data.append(asks.get(i).getLimitPrice().doubleValue())
-  //            .append(":")
-  //            .append(asks.get(i).getOriginalAmount().doubleValue());
-  //      }
-  //      if (i != 99) {
-  //        data.append(":");
-  //      }
-  //    }
-  //
-  //    CRC32 crc32 = new CRC32();
-  //    byte[] toBytes = data.toString().getBytes(StandardCharsets.UTF_8);
-  //    crc32.update(toBytes, 0, toBytes.length);
-  //
-  //    return crc32.getValue();
-  //  }
+    public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
+      StringBuilder data = new StringBuilder(3072);
+
+      for (int i = 0; i < 100; i++) {
+        if (bids.size() >= i) {
+            data.append(df.format(bids.get(i).getLimitPrice()))
+                    .append(":")
+                    .append(df.format(bids.get(i).getOriginalAmount()));
+        }
+        data.append(":");
+        if (asks.size() >= i) {
+            data.append(df.format(asks.get(i).getLimitPrice()))
+                    .append(":")
+                    .append(df.format(asks.get(i).getOriginalAmount()));
+        }
+        if (i != 99) {
+          data.append(":");
+        }
+      }
+
+      CRC32 crc32 = new CRC32();
+      byte[] toBytes = data.toString().getBytes(StandardCharsets.UTF_8);
+      crc32.update(toBytes, 0, toBytes.length);
+
+      return crc32.getValue();
+    }
+
+    public static Ticker adaptTickerMessage(Instrument instrument, JsonNode jsonNode) {
+        return Streams.stream(jsonNode)
+                .filter(JsonNode::isObject)
+                .map(
+                        res -> {
+                            try {
+                                return mapper.readValue(res.toString(), FtxTickerResponse.class);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                .map(ftxTickerResponse -> ftxTickerResponse.toTicker(instrument))
+                .findFirst()
+                .orElse(new Ticker.Builder().build());
+    }
 }
