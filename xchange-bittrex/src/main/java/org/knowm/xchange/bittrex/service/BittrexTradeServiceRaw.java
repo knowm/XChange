@@ -64,7 +64,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   }
 
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeBittrexMarketOrder(marketOrder, TimeInForce.GOOD_TIL_CANCELLED);
+    return placeBittrexMarketOrder(marketOrder, TimeInForce.IMMEDIATE_OR_CANCEL);
   }
 
   public String placeBittrexMarketOrder(MarketOrder marketOrder, TimeInForce type) throws IOException {
@@ -74,7 +74,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
                     OrderType.BID.equals(marketOrder.getType())
                             ? BittrexConstants.BUY
                             : BittrexConstants.SELL,
-                    BittrexConstants.LIMIT,
+                    BittrexConstants.MARKET,
                     marketOrder.getRemainingAmount().toPlainString(),
                     null,
                     null,
