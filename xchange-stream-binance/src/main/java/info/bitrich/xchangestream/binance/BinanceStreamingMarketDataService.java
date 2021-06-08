@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.marketdata.BinanceBookTicker;
 import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
@@ -44,13 +45,16 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       LoggerFactory.getLogger(BinanceStreamingMarketDataService.class);
 
   private static final JavaType TICKER_TYPE = getTickerType();
+  private static final JavaType BOOK_TICKER_TYPE = getBookTickerType();
   private static final JavaType TRADE_TYPE = getTradeType();
   private static final JavaType DEPTH_TYPE = getDepthType();
 
   private final BinanceStreamingService service;
   private final String orderBookUpdateFrequencyParameter;
+  private final boolean realtimeOrderBookTicker;
 
   private final Map<CurrencyPair, Observable<BinanceTicker24h>> tickerSubscriptions;
+  private final Map<CurrencyPair, Observable<BinanceBookTicker>> bookTickerSubscriptions;
   private final Map<CurrencyPair, Observable<OrderBook>> orderbookSubscriptions;
   private final Map<CurrencyPair, Observable<BinanceRawTrade>> tradeSubscriptions;
   private final Map<CurrencyPair, Observable<OrderBookUpdate>> orderBookUpdatesSubscriptions;
@@ -68,12 +72,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       BinanceStreamingService service,
       BinanceMarketDataService marketDataService,
       Runnable onApiCall,
-      final String orderBookUpdateFrequencyParameter) {
+      final String orderBookUpdateFrequencyParameter,
+      boolean realtimeOrderBookTicker) {
     this.service = service;
     this.orderBookUpdateFrequencyParameter = orderBookUpdateFrequencyParameter;
+    this.realtimeOrderBookTicker = realtimeOrderBookTicker;
     this.marketDataService = marketDataService;
     this.onApiCall = onApiCall;
     this.tickerSubscriptions = new ConcurrentHashMap<>();
+    this.bookTickerSubscriptions = new ConcurrentHashMap<>();
     this.orderbookSubscriptions = new ConcurrentHashMap<>();
     this.tradeSubscriptions = new ConcurrentHashMap<>();
     this.orderBookUpdatesSubscriptions = new ConcurrentHashMap<>();
@@ -102,6 +109,15 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
     }
     return tickerSubscriptions.computeIfAbsent(
         currencyPair, s -> triggerObservableBody(rawTickerStream(currencyPair)).share());
+  }
+
+  public Observable<BinanceBookTicker> getRawBookTicker(CurrencyPair currencyPair, Object... args) {
+    if (!service.isLiveSubscriptionEnabled()
+        && !service.getProductSubscription().getTicker().contains(currencyPair)) {
+      throw new UpFrontSubscriptionRequiredException();
+    }
+    return bookTickerSubscriptions.computeIfAbsent(
+        currencyPair, s -> triggerObservableBody(rawBookTickerStream(currencyPair)).share());
   }
 
   public Observable<BinanceRawTrade> getRawTrades(CurrencyPair currencyPair, Object... args) {
@@ -138,6 +154,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
+    if (realtimeOrderBookTicker) {
+      return getRawBookTicker(currencyPair).map(BinanceBookTicker::toTicker);
+    }
     return getRawTicker(currencyPair).map(BinanceTicker24h::toTicker);
   }
 
@@ -218,6 +237,9 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
       case TICKER:
         tickerSubscriptions.remove(currencyPair);
         break;
+      case BOOK_TICKER:
+        bookTickerSubscriptions.remove(currencyPair);
+        break;
       default:
         throw new RuntimeException("Subscription type not supported to unsubscribe from stream");
     }
@@ -229,8 +251,13 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   private void initTickerSubscription(CurrencyPair currencyPair) {
-    tickerSubscriptions.put(
-        currencyPair, triggerObservableBody(rawTickerStream(currencyPair)).share());
+    if (realtimeOrderBookTicker) {
+      bookTickerSubscriptions.put(
+          currencyPair, triggerObservableBody(rawBookTickerStream(currencyPair)).share());
+    } else {
+      tickerSubscriptions.put(
+          currencyPair, triggerObservableBody(rawTickerStream(currencyPair)).share());
+    }
   }
 
   private void initRawOrderBookUpdatesSubscription(CurrencyPair currencyPair) {
@@ -245,6 +272,18 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .map(
             it ->
                 this.<TickerBinanceWebsocketTransaction>readTransaction(it, TICKER_TYPE, "ticker"))
+        .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
+        .map(transaction -> transaction.getData().getTicker());
+  }
+
+  private Observable<BinanceBookTicker> rawBookTickerStream(CurrencyPair currencyPair) {
+    return service
+        .subscribeChannel(
+            channelFromCurrency(currencyPair, BinanceSubscriptionType.BOOK_TICKER.getType()))
+        .map(
+            it ->
+                this.<BookTickerBinanceWebSocketTransaction>readTransaction(
+                    it, BOOK_TICKER_TYPE, "book ticker"))
         .filter(transaction -> transaction.getData().getCurrencyPair().equals(currencyPair))
         .map(transaction -> transaction.getData().getTicker());
   }
@@ -464,6 +503,14 @@ public class BinanceStreamingMarketDataService implements StreamingMarketDataSer
         .getTypeFactory()
         .constructType(
             new TypeReference<BinanceWebsocketTransaction<TickerBinanceWebsocketTransaction>>() {});
+  }
+
+  private static JavaType getBookTickerType() {
+    return getObjectMapper()
+        .getTypeFactory()
+        .constructType(
+            new TypeReference<
+                BinanceWebsocketTransaction<BookTickerBinanceWebSocketTransaction>>() {});
   }
 
   private static JavaType getTradeType() {
