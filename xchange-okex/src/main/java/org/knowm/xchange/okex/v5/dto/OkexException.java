@@ -7,10 +7,13 @@ import si.mazi.rescu.HttpStatusExceptionSupport;
 public class OkexException extends HttpStatusExceptionSupport {
 
   private final String message;
+  private final int code;
 
-  public OkexException(@JsonProperty("message") String message) {
+  public OkexException(@JsonProperty("msg") String message,
+                       @JsonProperty("code") int code) {
     super(message);
     this.message = message;
+    this.code = code;
   }
 
   @Override

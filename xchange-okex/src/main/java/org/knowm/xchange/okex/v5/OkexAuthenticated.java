@@ -11,13 +11,27 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/api/v5")
 public interface OkexAuthenticated extends Okex {
+  String balancePath = "/account/balance";
+  String currenciesPath = "/asset/currencies";
+
+  Map<String, List<Integer>> privatePathRateLimits =
+      new HashMap<String, List<Integer>>() {
+        {
+          put(balancePath, Arrays.asList(6, 1));
+          put(currenciesPath, Arrays.asList(6, 1));
+        }
+      };
+
   @GET
-  @Path("/account/balance")
+  @Path(balancePath)
   OkexResponse<List<OkexWalletBalance>> getWalletBalances(
       @QueryParam("ccy") List<Currency> currencies,
       @HeaderParam("OK-ACCESS-KEY") String apiKey,
@@ -27,7 +41,7 @@ public interface OkexAuthenticated extends Okex {
       throws IOException, OkexException;
 
   @GET
-  @Path("/asset/currencies")
+  @Path(currenciesPath)
   OkexResponse<List<OkexCurrency>> getCurrencies(
       @HeaderParam("OK-ACCESS-KEY") String apiKey,
       @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,

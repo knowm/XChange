@@ -43,12 +43,11 @@ public class OkexBaseService extends BaseResilientExchangeService<OkexExchange>
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
   }
 
+  /** https://www.okex.com/docs-v5/en/#error-code **/
   protected ExchangeException handleError(OkexException exception) {
-    if (exception.getMessage().contains("Insufficient")) {
-      return new FundsExceededException(exception);
-    } else if (exception.getMessage().contains("Rate limit exceeded")) {
+    if (exception.getMessage().contains("Requests too frequent")) {
       return new RateLimitExceededException(exception);
-    } else if (exception.getMessage().contains("Internal server error")) {
+    } else if (exception.getMessage().contains("System error")) {
       return new InternalServerException(exception);
     } else {
       return new ExchangeException(exception);
