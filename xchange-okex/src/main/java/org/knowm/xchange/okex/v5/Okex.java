@@ -1,9 +1,7 @@
 package org.knowm.xchange.okex.v5;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
-import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 
 import javax.ws.rs.GET;
