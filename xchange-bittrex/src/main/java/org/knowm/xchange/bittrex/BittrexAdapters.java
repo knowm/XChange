@@ -268,9 +268,9 @@ public final class BittrexAdapters {
 
     for (BittrexCurrency bittrexCurrency : bittrexCurrencies) {
       WalletHealth walletHealth = WalletHealth.UNKNOWN;
-      if( bittrexCurrency.getStatus().equals(BITTREX_CURRENCY_ONLINE_STRING) ){
+      if( BITTREX_CURRENCY_ONLINE_STRING.equals(bittrexCurrency.getStatus()) ){
         walletHealth = WalletHealth.ONLINE;
-      }else if( bittrexCurrency.getStatus().equals(BITTREX_CURRENCY_OFFLINE_STRING)) {
+      }else if( BITTREX_CURRENCY_OFFLINE_STRING.equals(bittrexCurrency.getStatus())) {
         walletHealth = WalletHealth.OFFLINE;
       }
       metaData.getCurrencies().put(bittrexCurrency.getSymbol(),

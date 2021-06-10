@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.knowm.xchange.BaseExchange;
@@ -81,7 +82,8 @@ public class BittrexExchange extends BaseExchange implements Exchange {
           try {
             dynamicTradingFees = accountService.getDynamicTradingFees();
           } catch (BittrexException | IOException e) {
-            // No connection or authentication ?
+            Logger.getLogger(BittrexExchange.class.getName()).log(Level.WARNING,
+                    "Error during remote init, can not fetch trading fees. May be missing auth tokens ?");
           }
           BittrexAdapters.adaptMetaData(bittrexSymbols, bittrexCurrencies, dynamicTradingFees, exchangeMetaData);
         }
