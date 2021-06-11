@@ -41,7 +41,7 @@ public class OkexExchangeIntegrationTest {
 
   @Test
   public void testOrderActions() throws Exception {
-    if (API_KEY != null && SECRET_KEY != null && PASSPHRASE != null) {
+    if (!API_KEY.isEmpty() && !SECRET_KEY.isEmpty() && !PASSPHRASE.isEmpty()) {
       ExchangeSpecification spec =
           ExchangeFactory.INSTANCE
               .createExchange(OkexExchange.class)
