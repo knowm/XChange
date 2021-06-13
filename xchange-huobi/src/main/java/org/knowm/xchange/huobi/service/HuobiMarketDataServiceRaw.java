@@ -51,4 +51,16 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
             interval.code(),
             limit));
   }
+
+  public HuobiCurrencyWrapper[] getHuobiCurrencies(String currency) throws IOException {
+    HuobiCurrenciesResult currenciesResult = huobi.getCurrencies(
+            currency.toLowerCase(),
+            false,
+            exchange.getExchangeSpecification().getApiKey(),
+            HuobiDigest.HMAC_SHA_256,
+            2,
+            HuobiUtils.createUTCDate(exchange.getNonceFactory()),
+            signatureCreator);
+    return checkResult(currenciesResult);
+  }
 }
