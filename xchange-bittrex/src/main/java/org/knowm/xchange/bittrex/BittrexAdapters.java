@@ -26,10 +26,10 @@ import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 
-public final class BittrexAdapters {
+import static org.knowm.xchange.bittrex.BittrexConstants.OFFLINE;
+import static org.knowm.xchange.bittrex.BittrexConstants.ONLINE;
 
-  public static final String BITTREX_CURRENCY_ONLINE_STRING = "ONLINE";
-  public static final String BITTREX_CURRENCY_OFFLINE_STRING = "OFFLINE";
+public final class BittrexAdapters {
 
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<BittrexSymbol> bittrexSymbols) {
     return bittrexSymbols.stream()
@@ -268,9 +268,9 @@ public final class BittrexAdapters {
 
     for (BittrexCurrency bittrexCurrency : bittrexCurrencies) {
       WalletHealth walletHealth = WalletHealth.UNKNOWN;
-      if( BITTREX_CURRENCY_ONLINE_STRING.equals(bittrexCurrency.getStatus()) ){
+      if( ONLINE.equals(bittrexCurrency.getStatus()) ){
         walletHealth = WalletHealth.ONLINE;
-      }else if( BITTREX_CURRENCY_OFFLINE_STRING.equals(bittrexCurrency.getStatus())) {
+      }else if( OFFLINE.equals(bittrexCurrency.getStatus())) {
         walletHealth = WalletHealth.OFFLINE;
       }
       metaData.getCurrencies().put(bittrexCurrency.getSymbol(),
