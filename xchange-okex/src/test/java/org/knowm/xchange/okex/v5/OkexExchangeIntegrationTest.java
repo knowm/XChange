@@ -35,6 +35,20 @@ public class OkexExchangeIntegrationTest {
 
     assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
     assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
+    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()).isEqualTo(false);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled()).isEqualTo(false);
+  }
+
+  @Test
+  public void testCreateExchangeShouldApplyResilience() throws Exception {
+    ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
+    ExchangeSpecification.ResilienceSpecification resilienceSpecification = new ExchangeSpecification.ResilienceSpecification();
+    resilienceSpecification.setRateLimiterEnabled(true);
+    resilienceSpecification.setRetryEnabled(true);
+    spec.setResilience(resilienceSpecification);
+
+    final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
+
     assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()).isEqualTo(true);
     assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled()).isEqualTo(true);
   }
