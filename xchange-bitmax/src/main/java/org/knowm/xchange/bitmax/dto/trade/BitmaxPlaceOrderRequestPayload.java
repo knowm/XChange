@@ -1,9 +1,6 @@
 package org.knowm.xchange.bitmax.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.math.BigDecimal;
 
 public class BitmaxPlaceOrderRequestPayload {
 
@@ -135,11 +132,11 @@ public class BitmaxPlaceOrderRequestPayload {
     market,
     limit,
     stop_market,
-    stop_limit;
+    stop_limit
   }
 
   public enum BitmaxSide {
     buy,
-    sell;
+    sell
   }
 }

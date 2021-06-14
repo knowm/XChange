@@ -42,25 +42,23 @@ public class BitmaxAdapters {
         .getData()
         .getAsks()
         .forEach(
-            askOrder -> {
-              asks.add(
-                  new LimitOrder.Builder(Order.OrderType.ASK, currencyPair)
-                      .limitPrice(askOrder.getPrice())
-                      .originalAmount(askOrder.getVolume())
-                      .build());
-            });
+            askOrder ->
+                asks.add(
+                    new LimitOrder.Builder(Order.OrderType.ASK, currencyPair)
+                        .limitPrice(askOrder.getPrice())
+                        .originalAmount(askOrder.getVolume())
+                        .build()));
 
     bitmaxOrderbookDto
         .getData()
         .getBids()
         .forEach(
-            bidOrder -> {
-              bids.add(
-                  new LimitOrder.Builder(Order.OrderType.BID, currencyPair)
-                      .limitPrice(bidOrder.getPrice())
-                      .originalAmount(bidOrder.getVolume())
-                      .build());
-            });
+            bidOrder ->
+                bids.add(
+                    new LimitOrder.Builder(Order.OrderType.BID, currencyPair)
+                        .limitPrice(bidOrder.getPrice())
+                        .originalAmount(bidOrder.getVolume())
+                        .build()));
 
     return new OrderBook(bitmaxOrderbookDto.getData().getTimestamp(), asks, bids);
   }
@@ -70,18 +68,17 @@ public class BitmaxAdapters {
     List<Balance> balances = new ArrayList<>();
 
     bitmaxCashAccountBalanceDtoList.forEach(
-        bitmaxCashAccountBalanceDto -> {
-          balances.add(
-              new Balance.Builder()
-                  .currency(new Currency(bitmaxCashAccountBalanceDto.getAsset()))
-                  .available(bitmaxCashAccountBalanceDto.getAvailableBalance())
-                  .total(bitmaxCashAccountBalanceDto.getTotalBalance())
-                  .frozen(
-                      bitmaxCashAccountBalanceDto
-                          .getTotalBalance()
-                          .subtract(bitmaxCashAccountBalanceDto.getAvailableBalance()))
-                  .build());
-        });
+        bitmaxCashAccountBalanceDto ->
+            balances.add(
+                new Balance.Builder()
+                    .currency(new Currency(bitmaxCashAccountBalanceDto.getAsset()))
+                    .available(bitmaxCashAccountBalanceDto.getAvailableBalance())
+                    .total(bitmaxCashAccountBalanceDto.getTotalBalance())
+                    .frozen(
+                        bitmaxCashAccountBalanceDto
+                            .getTotalBalance()
+                            .subtract(bitmaxCashAccountBalanceDto.getAvailableBalance()))
+                    .build()));
 
     return new AccountInfo(
         Wallet.Builder.from(balances)
@@ -113,22 +110,22 @@ public class BitmaxAdapters {
     List<UserTrade> userTrades = new ArrayList<>();
 
     bitmaxOrderHistoryResponse.forEach(
-        order -> {
-          userTrades.add(
-              new UserTrade.Builder()
-                  .feeAmount(order.getCumFee())
-                  .orderId(order.getOrderId())
-                  .price(order.getPrice())
-                  .type(adaptBitmaxSideToOrderType(order.getSide()))
-                  .originalAmount(order.getOrderQty())
-                  .id(order.getOrderId())
-                  .timestamp(order.getLastExecTime())
-                  .currencyPair(
-                      CurrencyPairDeserializer.getCurrencyPairFromString(order.getSymbol()))
-                  .feeCurrency(new Currency(order.getFeeAsset()))
-                  .instrument(CurrencyPairDeserializer.getCurrencyPairFromString(order.getSymbol()))
-                  .build());
-        });
+        order ->
+            userTrades.add(
+                new UserTrade.Builder()
+                    .feeAmount(order.getCumFee())
+                    .orderId(order.getOrderId())
+                    .price(order.getPrice())
+                    .type(adaptBitmaxSideToOrderType(order.getSide()))
+                    .originalAmount(order.getOrderQty())
+                    .id(order.getOrderId())
+                    .timestamp(order.getLastExecTime())
+                    .currencyPair(
+                        CurrencyPairDeserializer.getCurrencyPairFromString(order.getSymbol()))
+                    .feeCurrency(new Currency(order.getFeeAsset()))
+                    .instrument(
+                        CurrencyPairDeserializer.getCurrencyPairFromString(order.getSymbol()))
+                    .build()));
 
     return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
   }
@@ -138,30 +135,30 @@ public class BitmaxAdapters {
     List<LimitOrder> openOrders = new ArrayList<>();
 
     bitmaxOpenOrdersResponses.forEach(
-        bitmaxOpenOrdersResponse -> {
-          openOrders.add(
-              new LimitOrder.Builder(
-                      adaptBitmaxSideToOrderType(bitmaxOpenOrdersResponse.getSide()),
-                      CurrencyPairDeserializer.getCurrencyPairFromString(
-                          bitmaxOpenOrdersResponse.getSymbol()))
-                  .originalAmount(bitmaxOpenOrdersResponse.getOrderQty())
-                  .limitPrice(bitmaxOpenOrdersResponse.getPrice())
-                  .fee(bitmaxOpenOrdersResponse.getCumFee())
-                  .averagePrice(bitmaxOpenOrdersResponse.getAvgPx())
-                  .id(bitmaxOpenOrdersResponse.getOrderId())
-                  .timestamp(bitmaxOpenOrdersResponse.getLastExecTime())
-                  .orderStatus(
-                      Order.OrderStatus.valueOf(bitmaxOpenOrdersResponse.getStatus().toUpperCase()))
-                  .remainingAmount(
-                      bitmaxOpenOrdersResponse
-                          .getOrderQty()
-                          .subtract(bitmaxOpenOrdersResponse.getCumFilledQty()))
-                  .flag(
-                      (bitmaxOpenOrdersResponse.getExecInst().equals("POST"))
-                          ? BitmaxFlags.POST_ONLY
-                          : null)
-                  .build());
-        });
+        bitmaxOpenOrdersResponse ->
+            openOrders.add(
+                new LimitOrder.Builder(
+                        adaptBitmaxSideToOrderType(bitmaxOpenOrdersResponse.getSide()),
+                        CurrencyPairDeserializer.getCurrencyPairFromString(
+                            bitmaxOpenOrdersResponse.getSymbol()))
+                    .originalAmount(bitmaxOpenOrdersResponse.getOrderQty())
+                    .limitPrice(bitmaxOpenOrdersResponse.getPrice())
+                    .fee(bitmaxOpenOrdersResponse.getCumFee())
+                    .averagePrice(bitmaxOpenOrdersResponse.getAvgPx())
+                    .id(bitmaxOpenOrdersResponse.getOrderId())
+                    .timestamp(bitmaxOpenOrdersResponse.getLastExecTime())
+                    .orderStatus(
+                        Order.OrderStatus.valueOf(
+                            bitmaxOpenOrdersResponse.getStatus().toUpperCase()))
+                    .remainingAmount(
+                        bitmaxOpenOrdersResponse
+                            .getOrderQty()
+                            .subtract(bitmaxOpenOrdersResponse.getCumFilledQty()))
+                    .flag(
+                        (bitmaxOpenOrdersResponse.getExecInst().equals("POST"))
+                            ? BitmaxFlags.POST_ONLY
+                            : null)
+                    .build()));
 
     return new OpenOrders(openOrders);
   }
@@ -201,28 +198,26 @@ public class BitmaxAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>();
 
     bitmaxAssetDtos.forEach(
-        bitmaxAssetDto -> {
-          currencyMetaDataMap.put(
-              new Currency(bitmaxAssetDto.getAssetCode()),
-              new CurrencyMetaData(
-                  bitmaxAssetDto.getPrecisionScale(),
-                  bitmaxAssetDto.getWithdrawFee(),
-                  bitmaxAssetDto.getMinWithdrawalAmt()));
-        });
+        bitmaxAssetDto ->
+            currencyMetaDataMap.put(
+                new Currency(bitmaxAssetDto.getAssetCode()),
+                new CurrencyMetaData(
+                    bitmaxAssetDto.getPrecisionScale(),
+                    bitmaxAssetDto.getWithdrawFee(),
+                    bitmaxAssetDto.getMinWithdrawalAmt())));
 
     bitmaxProductDtos.forEach(
-        bitmaxProductDto -> {
-          currencyPairMetaDataMap.put(
-              CurrencyPairDeserializer.getCurrencyPairFromString(bitmaxProductDto.getSymbol()),
-              new CurrencyPairMetaData.Builder()
-                  .tradingFee(bitmaxProductDto.getCommissionReserveRate())
-                  .priceScale(bitmaxProductDto.getTickSize().scale())
-                  .baseScale(bitmaxProductDto.getLotSize().scale())
-                  .counterMaximumAmount(bitmaxProductDto.getMinNotional())
-                  .counterMaximumAmount(bitmaxProductDto.getMaxNotional())
-                  .amountStepSize(bitmaxProductDto.getTickSize())
-                  .build());
-        });
+        bitmaxProductDto ->
+            currencyPairMetaDataMap.put(
+                CurrencyPairDeserializer.getCurrencyPairFromString(bitmaxProductDto.getSymbol()),
+                new CurrencyPairMetaData.Builder()
+                    .tradingFee(bitmaxProductDto.getCommissionReserveRate())
+                    .priceScale(bitmaxProductDto.getTickSize().scale())
+                    .baseScale(bitmaxProductDto.getLotSize().scale())
+                    .counterMaximumAmount(bitmaxProductDto.getMinNotional())
+                    .counterMaximumAmount(bitmaxProductDto.getMaxNotional())
+                    .amountStepSize(bitmaxProductDto.getTickSize())
+                    .build()));
 
     return new ExchangeMetaData(currencyPairMetaDataMap, currencyMetaDataMap, null, null, null);
   }
@@ -242,19 +237,18 @@ public class BitmaxAdapters {
     marketTradesDto
         .getData()
         .forEach(
-            bitmaxMarketTradesData -> {
-              trades.add(
-                  new Trade.Builder()
-                      .price(bitmaxMarketTradesData.getPrice())
-                      .originalAmount(bitmaxMarketTradesData.getQuantity())
-                      .timestamp(bitmaxMarketTradesData.getTimestamp())
-                      .instrument(new CurrencyPair(marketTradesDto.getSymbol()))
-                      .type(
-                          bitmaxMarketTradesData.isBuyerMaker()
-                              ? Order.OrderType.ASK
-                              : Order.OrderType.BID)
-                      .build());
-            });
+            bitmaxMarketTradesData ->
+                trades.add(
+                    new Trade.Builder()
+                        .price(bitmaxMarketTradesData.getPrice())
+                        .originalAmount(bitmaxMarketTradesData.getQuantity())
+                        .timestamp(bitmaxMarketTradesData.getTimestamp())
+                        .instrument(new CurrencyPair(marketTradesDto.getSymbol()))
+                        .type(
+                            bitmaxMarketTradesData.isBuyerMaker()
+                                ? Order.OrderType.ASK
+                                : Order.OrderType.BID)
+                        .build()));
 
     return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
   }

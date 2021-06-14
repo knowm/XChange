@@ -13,8 +13,7 @@ public class BitmaxAccountServiceRaw extends BitmaxBaseService {
     super(exchange);
   }
 
-  public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance()
-      throws BitmaxException, IOException {
+  public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance() throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.getCashAccountBalance(

@@ -93,6 +93,6 @@ public class BitmaxAssetDto {
     NoTrading,
     NoWithdraw,
     InternalTrading,
-    NoTransaction;
+    NoTransaction
   }
 }

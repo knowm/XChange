@@ -16,7 +16,7 @@ public class BitmaxMarketDataServiceRaw extends BitmaxBaseService {
     super(exchange);
   }
 
-  public List<BitmaxAssetDto> getAllAssets() throws BitmaxException, IOException {
+  public List<BitmaxAssetDto> getAllAssets() throws IOException {
     try {
       return checkResult(bitmax.getAllAssets());
     } catch (BitmaxException e) {
@@ -24,7 +24,7 @@ public class BitmaxMarketDataServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public List<BitmaxProductDto> getAllProducts() throws BitmaxException, IOException {
+  public List<BitmaxProductDto> getAllProducts() throws IOException {
     try {
       return checkResult(bitmax.getAllProducts());
     } catch (BitmaxException e) {
@@ -32,7 +32,7 @@ public class BitmaxMarketDataServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public BitmaxOrderbookDto getBitmaxOrderbook(String symbol) throws BitmaxException, IOException {
+  public BitmaxOrderbookDto getBitmaxOrderbook(String symbol) throws IOException {
     try {
       return checkResult(bitmax.getOrderbookDepth(symbol));
     } catch (BitmaxException e) {
@@ -40,7 +40,7 @@ public class BitmaxMarketDataServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public BitmaxMarketTradesDto getBitmaxTrades(String symbol) throws BitmaxException, IOException {
+  public BitmaxMarketTradesDto getBitmaxTrades(String symbol) throws IOException {
     try {
       return checkResult(bitmax.getTrades(symbol));
     } catch (BitmaxException e) {

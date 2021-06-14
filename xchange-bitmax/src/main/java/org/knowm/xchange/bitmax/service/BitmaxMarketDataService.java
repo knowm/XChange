@@ -6,7 +6,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.service.marketdata.params.Params;
 
 import java.io.IOException;
 

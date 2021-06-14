@@ -3,7 +3,6 @@ package org.knowm.xchange.bitmax.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmax.BitmaxAdapters;
 import org.knowm.xchange.bitmax.BitmaxException;
-import org.knowm.xchange.bitmax.dto.trade.BitmaxCancelOrderRequestPayload;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;

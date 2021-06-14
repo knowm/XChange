@@ -18,7 +18,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
   }
 
   public BitmaxOrderResponse placeBitmaxOrder(BitmaxPlaceOrderRequestPayload payload)
-      throws BitmaxException, IOException {
+      throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.placeOrder(
@@ -33,7 +33,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
   }
 
   public BitmaxOrderResponse cancelBitmaxOrder(BitmaxCancelOrderRequestPayload payload)
-      throws BitmaxException, IOException {
+      throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.cancelOrder(
@@ -49,8 +49,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public BitmaxOrderResponse cancelAllBitmaxOrdersBySymbol(String symbol)
-      throws BitmaxException, IOException {
+  public BitmaxOrderResponse cancelAllBitmaxOrdersBySymbol(String symbol) throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.cancelAllOrders(
@@ -64,8 +63,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public List<BitmaxOpenOrdersResponse> getBitmaxOpenOrders(String symbol)
-      throws BitmaxException, IOException {
+  public List<BitmaxOpenOrdersResponse> getBitmaxOpenOrders(String symbol) throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.getOpenOrders(
@@ -79,8 +77,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public BitmaxOpenOrdersResponse getBitmaxOrderById(String orderId)
-      throws BitmaxException, IOException {
+  public BitmaxOpenOrdersResponse getBitmaxOrderById(String orderId) throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.getOrderById(
@@ -94,8 +91,7 @@ public class BitmaxTradeServiceRaw extends BitmaxBaseService {
     }
   }
 
-  public List<BitmaxOpenOrdersResponse> getBitmaxUserTrades(String symbol)
-      throws BitmaxException, IOException {
+  public List<BitmaxOpenOrdersResponse> getBitmaxUserTrades(String symbol) throws IOException {
     try {
       return checkResult(
           bitmaxAuthenticated.getOrdersHistory(

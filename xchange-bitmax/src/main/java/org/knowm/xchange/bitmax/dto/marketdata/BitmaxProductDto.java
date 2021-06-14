@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitmax.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.currency.CurrencyPair;
 
 import java.math.BigDecimal;
 
@@ -132,6 +131,6 @@ public class BitmaxProductDto {
   public enum BitmaxProductCommissionType {
     Base,
     Quote,
-    Received;
+    Received
   }
 }
