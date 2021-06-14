@@ -29,20 +29,21 @@ import java.util.Map;
 @Path("/api/v5")
 @Produces(MediaType.APPLICATION_JSON)
 public interface OkexAuthenticated extends Okex {
-  String balancePath = "/account/balance";
-  String currenciesPath = "/asset/currencies";
-  String pendingOrdersPath = "/trade/orders-pending";
-  String placeOrderPath = "/trade/order";
-  String placeBatchOrderPath = "/trade/batch-orders";
-  String cancelOrderPath = "/trade/cancel-order";
-  String cancelBatchOrderPath = "trade/cancel-batch-orders";
-  String amendOrderPath = "trade/amend-order";
-  String amendBatchOrderPath = "trade/amend-batch-orders";
+  String balancePath = "/account/balance"; // Stated as 10 req/2 sec
+  String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
+  String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
+  String placeOrderPath = "/trade/order"; // Stated as 60 req/2 sec
+  String placeBatchOrderPath = "/trade/batch-orders"; // Stated as 300 req/2 sec
+  String cancelOrderPath = "/trade/cancel-order"; // Stated as 60 req/2 sec
+  String cancelBatchOrderPath = "trade/cancel-batch-orders"; // Stated as 300 req/2 sec
+  String amendOrderPath = "trade/amend-order"; // Stated as 60 req/2 sec
+  String amendBatchOrderPath = "trade/amend-batch-orders"; // Stated as 300 req/2 sec
 
+  // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> privatePathRateLimits =
       new HashMap<String, List<Integer>>() {
         {
-          put(balancePath, Arrays.asList(6, 1));
+          put(balancePath, Arrays.asList(5, 1));
           put(currenciesPath, Arrays.asList(6, 1));
           put(pendingOrdersPath, Arrays.asList(20, 2));
           put(placeOrderPath, Arrays.asList(60, 2));

@@ -68,6 +68,11 @@ public class OkexExchange extends BaseExchange {
     exchangeSpecification.setExchangeName("Okex");
     exchangeSpecification.setExchangeDescription("Okex Exchange");
 
+    ExchangeSpecification.ResilienceSpecification resilienceSpec = new ExchangeSpecification.ResilienceSpecification();
+    resilienceSpec.setRetryEnabled(true);
+    resilienceSpec.setRateLimiterEnabled(true);
+    exchangeSpecification.setResilience(resilienceSpec);
+
     exchangeSpecification.setExchangeSpecificParametersItem(Parameters.PARAM_USE_AWS, false);
     exchangeSpecification.setExchangeSpecificParametersItem(
         Parameters.PARAM_AWS_SSL_URI, "https://aws.okex.com");
