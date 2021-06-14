@@ -14,49 +14,46 @@ import java.math.BigDecimal;
 @JsonDeserialize(using = BitmaxPublicOrder.BitmaxOrderDeserializer.class)
 public class BitmaxPublicOrder {
 
-    private final BigDecimal price;
-    private final BigDecimal volume;
+  private final BigDecimal price;
+  private final BigDecimal volume;
 
-    public BitmaxPublicOrder(BigDecimal price, BigDecimal volume) {
+  public BitmaxPublicOrder(BigDecimal price, BigDecimal volume) {
 
-        this.price = price;
-        this.volume = volume;
-    }
+    this.price = price;
+    this.volume = volume;
+  }
 
-    public BigDecimal getPrice() {
+  public BigDecimal getPrice() {
 
-        return price;
-    }
+    return price;
+  }
 
-    public BigDecimal getVolume() {
+  public BigDecimal getVolume() {
 
-        return volume;
-    }
+    return volume;
+  }
+
+  @Override
+  public String toString() {
+    return "BitmaxPublicOrder{" + "price=" + price + ", volume=" + volume + '}';
+  }
+
+  static class BitmaxOrderDeserializer extends JsonDeserializer<BitmaxPublicOrder> {
 
     @Override
-    public String toString() {
-        return "BitmaxPublicOrder{" +
-                "price=" + price +
-                ", volume=" + volume +
-                '}';
+    public BitmaxPublicOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+        throws IOException, JsonProcessingException {
+
+      ObjectCodec oc = jsonParser.getCodec();
+      JsonNode node = oc.readTree(jsonParser);
+      if (node.isArray()) {
+        BigDecimal price = new BigDecimal(node.path(0).asText());
+        BigDecimal volume = new BigDecimal(node.path(1).asText());
+
+        return new BitmaxPublicOrder(price, volume);
+      }
+
+      return null;
     }
-
-    static class BitmaxOrderDeserializer extends JsonDeserializer<BitmaxPublicOrder> {
-
-        @Override
-        public BitmaxPublicOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt)
-                throws IOException, JsonProcessingException {
-
-            ObjectCodec oc = jsonParser.getCodec();
-            JsonNode node = oc.readTree(jsonParser);
-            if (node.isArray()) {
-                BigDecimal price = new BigDecimal(node.path(0).asText());
-                BigDecimal volume = new BigDecimal(node.path(1).asText());
-
-                return new BitmaxPublicOrder(price, volume);
-            }
-
-            return null;
-        }
-    }
+  }
 }

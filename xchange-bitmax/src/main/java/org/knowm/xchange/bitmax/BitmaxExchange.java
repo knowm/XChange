@@ -13,27 +13,28 @@ import java.io.IOException;
 
 public class BitmaxExchange extends BaseExchange implements Exchange {
 
-    @Override
-    protected void initServices() {
-        this.marketDataService = new BitmaxMarketDataService(this);
-        this.accountService = new BitmaxAccountService(this);
-        this.tradeService = new BitmaxTradeService(this);
-    }
+  @Override
+  protected void initServices() {
+    this.marketDataService = new BitmaxMarketDataService(this);
+    this.accountService = new BitmaxAccountService(this);
+    this.tradeService = new BitmaxTradeService(this);
+  }
 
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
-        ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-        exchangeSpecification.setSslUri("https://bitmax.io/");
-        exchangeSpecification.setExchangeName("Bitmax");
-        exchangeSpecification.setExchangeDescription(
-                "Bitmax is a Bitcoin exchange with spot and future markets.");
-        return exchangeSpecification;
-    }
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
+    exchangeSpecification.setSslUri("https://bitmax.io/");
+    exchangeSpecification.setExchangeName("Bitmax");
+    exchangeSpecification.setExchangeDescription(
+        "Bitmax is a Bitcoin exchange with spot and future markets.");
+    return exchangeSpecification;
+  }
 
-    @Override
-    public void remoteInit() throws IOException, ExchangeException {
-        BitmaxMarketDataServiceRaw raw = ((BitmaxMarketDataServiceRaw)getMarketDataService());
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    BitmaxMarketDataServiceRaw raw = ((BitmaxMarketDataServiceRaw) getMarketDataService());
 
-        exchangeMetaData = BitmaxAdapters.adaptExchangeMetaData(raw.getAllAssets(),raw.getAllProducts());
-    }
+    exchangeMetaData =
+        BitmaxAdapters.adaptExchangeMetaData(raw.getAllAssets(), raw.getAllProducts());
+  }
 }

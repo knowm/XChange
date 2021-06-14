@@ -7,21 +7,22 @@ import org.knowm.xchange.bitmax.dto.account.BitmaxCashAccountBalanceDto;
 import java.io.IOException;
 import java.util.List;
 
-public class BitmaxAccountServiceRaw extends BitmaxBaseService{
+public class BitmaxAccountServiceRaw extends BitmaxBaseService {
 
-    public BitmaxAccountServiceRaw(Exchange exchange) {
-        super(exchange);
-    }
+  public BitmaxAccountServiceRaw(Exchange exchange) {
+    super(exchange);
+  }
 
-    public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance() throws BitmaxException, IOException {
-        try{
-            return checkResult(bitmaxAuthenticated.getCashAccountBalance(
-                    exchange.getExchangeSpecification().getApiKey(),
-                    exchange.getNonceFactory().createValue(),
-                    signatureCreator
-            ));
-        }catch (IOException e){
-            throw new BitmaxException(e.getMessage());
-        }
+  public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance()
+      throws BitmaxException, IOException {
+    try {
+      return checkResult(
+          bitmaxAuthenticated.getCashAccountBalance(
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator));
+    } catch (IOException e) {
+      throw new BitmaxException(e.getMessage());
     }
+  }
 }

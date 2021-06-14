@@ -9,12 +9,12 @@ import java.io.IOException;
 
 public class BitmaxAccountService extends BitmaxAccountServiceRaw implements AccountService {
 
-    public BitmaxAccountService(Exchange exchange) {
-        super(exchange);
-    }
+  public BitmaxAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
-        return BitmaxAdapters.adaptAccountInfo(getBitmaxCashAccountBalance());
-    }
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    return BitmaxAdapters.adaptAccountInfo(getBitmaxCashAccountBalance());
+  }
 }

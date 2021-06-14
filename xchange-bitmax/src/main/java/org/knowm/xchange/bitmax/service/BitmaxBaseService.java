@@ -30,30 +30,34 @@ public class BitmaxBaseService extends BaseExchangeService implements BaseServic
   public BitmaxBaseService(Exchange exchange) {
     super(exchange);
     bitmax =
-        ExchangeRestProxyBuilder.forInterface(
-                IBitmax.class, exchange.getExchangeSpecification())
+        ExchangeRestProxyBuilder.forInterface(IBitmax.class, exchange.getExchangeSpecification())
             .build();
-    if(exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("account-group")){
+    if (exchange
+        .getExchangeSpecification()
+        .getExchangeSpecificParameters()
+        .containsKey("account-group")) {
       ExchangeSpecification specWithAccountGroup = exchange.getDefaultExchangeSpecification();
       specWithAccountGroup.setSslUri(
-              exchange.getExchangeSpecification().getSslUri()
-                      + exchange.getExchangeSpecification().getExchangeSpecificParametersItem("account-group")
-                      + "/");
+          exchange.getExchangeSpecification().getSslUri()
+              + exchange
+                  .getExchangeSpecification()
+                  .getExchangeSpecificParametersItem("account-group")
+              + "/");
       bitmaxAuthenticated =
-              ExchangeRestProxyBuilder.forInterface(
-                      IBitmaxAuthenticated.class, specWithAccountGroup)
-                      .build();
-    }else {
-      LOG.warn("Authenticated endpoints will not work because no 'account-group' specificParameter has been found.");
+          ExchangeRestProxyBuilder.forInterface(IBitmaxAuthenticated.class, specWithAccountGroup)
+              .build();
+    } else {
+      LOG.warn(
+          "Authenticated endpoints will not work because no 'account-group' specificParameter has been found.");
     }
     signatureCreator =
         BitmaxDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  public <R> R checkResult(BitmaxResponse<R> response) throws IOException{
-    if(response.getCode() == 0){
+  public <R> R checkResult(BitmaxResponse<R> response) throws IOException {
+    if (response.getCode() == 0) {
       return response.getData();
-    }else {
+    } else {
       throw new BitmaxException(response.getMessage());
     }
   }

@@ -18,21 +18,21 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public interface IBitmax {
 
-    @GET
-    @Path("/assets")
-    BitmaxResponse<List<BitmaxAssetDto>> getAllAssets() throws IOException;
+  @GET
+  @Path("/assets")
+  BitmaxResponse<List<BitmaxAssetDto>> getAllAssets() throws IOException;
 
-    @GET
-    @Path("/products")
-    BitmaxResponse<List<BitmaxProductDto>> getAllProducts() throws IOException;
+  @GET
+  @Path("/products")
+  BitmaxResponse<List<BitmaxProductDto>> getAllProducts() throws IOException;
 
-    @GET
-    @Path("/depth")
-    BitmaxResponse<BitmaxOrderbookDto> getOrderbookDepth(
-            @QueryParam("symbol") String symbol) throws IOException;
+  @GET
+  @Path("/depth")
+  BitmaxResponse<BitmaxOrderbookDto> getOrderbookDepth(@QueryParam("symbol") String symbol)
+      throws IOException;
 
-    @GET
-    @Path("/trades")
-    BitmaxResponse<BitmaxMarketTradesDto> getTrades(
-            @QueryParam("symbol") String symbol) throws IOException;
+  @GET
+  @Path("/trades")
+  BitmaxResponse<BitmaxMarketTradesDto> getTrades(@QueryParam("symbol") String symbol)
+      throws IOException;
 }
