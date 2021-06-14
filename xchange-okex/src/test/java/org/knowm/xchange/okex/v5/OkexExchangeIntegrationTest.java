@@ -23,20 +23,20 @@ import static org.knowm.xchange.currency.CurrencyPair.TRX_USDT;
 
 @Slf4j
 public class OkexExchangeIntegrationTest {
+  //Enter your authentication details here to run private endpoint tests
   private static final String API_KEY = "";
   private static final String SECRET_KEY = "";
   private static final String PASSPHRASE = "";
 
   @Test
   public void testCreateExchangeShouldApplyDefaultSpecification() throws Exception {
-    ExchangeSpecification spec =
-        ExchangeFactory.INSTANCE
-            .createExchange(OkexExchange.class)
-            .getDefaultExchangeSpecification();
+    ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
     assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
     assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
+    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()).isEqualTo(true);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled()).isEqualTo(true);
   }
 
   @Test

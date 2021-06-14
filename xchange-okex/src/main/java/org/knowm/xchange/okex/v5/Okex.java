@@ -20,12 +20,13 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/api/v5")
 @Produces(APPLICATION_JSON)
 public interface Okex {
-  String instrumentsPath = "/public/instruments";
+  String instrumentsPath = "/public/instruments"; // Stated as 20 req/2 sec
 
+  // To avoid 429s, actual req/second may need to be lowered!
   Map<String, List<Integer>> publicPathRateLimits =
       new HashMap<String, List<Integer>>() {
         {
-          put(instrumentsPath, Arrays.asList(20, 2)); // e.g. 20 requests per 2 seconds
+          put(instrumentsPath, Arrays.asList(8, 1));
         }
       };
 
