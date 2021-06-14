@@ -11,6 +11,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
 
+/**
+ * @author makarid
+ */
+
 public class BitmaxExchange extends BaseExchange implements Exchange {
 
   @Override
