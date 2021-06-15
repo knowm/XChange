@@ -1,8 +1,5 @@
 package org.knowm.xchange.bittrex;
 
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
@@ -25,6 +22,10 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.knowm.xchange.bittrex.BittrexConstants.OFFLINE;
 import static org.knowm.xchange.bittrex.BittrexConstants.ONLINE;
@@ -268,9 +269,9 @@ public final class BittrexAdapters {
 
     for (BittrexCurrency bittrexCurrency : bittrexCurrencies) {
       WalletHealth walletHealth = WalletHealth.UNKNOWN;
-      if( ONLINE.equals(bittrexCurrency.getStatus()) ){
+      if (ONLINE.equals(bittrexCurrency.getStatus())) {
         walletHealth = WalletHealth.ONLINE;
-      }else if( OFFLINE.equals(bittrexCurrency.getStatus())) {
+      } else if (OFFLINE.equals(bittrexCurrency.getStatus())) {
         walletHealth = WalletHealth.OFFLINE;
       }
       metaData.getCurrencies().put(bittrexCurrency.getSymbol(),

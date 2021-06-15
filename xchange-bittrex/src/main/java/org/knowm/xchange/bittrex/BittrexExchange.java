@@ -31,6 +31,8 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
   private static final Object INIT_LOCK = new Object();
 
+  private static final Logger EXCHANGE_LOGGER = Logger.getLogger(BittrexExchange.class.getName());
+
   private static List<BittrexSymbol> bittrexSymbols = new ArrayList<>();
 
   private static ResilienceRegistries resilienceRegistries;
@@ -82,7 +84,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
           try {
             dynamicTradingFees = accountService.getDynamicTradingFees();
           } catch (BittrexException | IOException e) {
-            Logger.getLogger(BittrexExchange.class.getName()).log(Level.WARNING,
+              EXCHANGE_LOGGER.log(Level.WARNING,
                     "Error during remote init, can not fetch trading fees. May be missing auth tokens ?");
           }
           BittrexAdapters.adaptMetaData(bittrexSymbols, bittrexCurrencies, dynamicTradingFees, exchangeMetaData);
