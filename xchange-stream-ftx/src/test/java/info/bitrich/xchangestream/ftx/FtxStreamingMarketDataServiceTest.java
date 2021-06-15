@@ -94,11 +94,25 @@ public class FtxStreamingMarketDataServiceTest {
                     assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
                   }
                 });
+    Disposable dis4 =
+        exchange
+            .getStreamingMarketDataService()
+            .getTrades(CurrencyPair.BTC_USD)
+            .subscribe(
+                trade -> {
+                  assertThat(trade.getId()).isNotNull();
+                  assertThat(trade.getType()).isNotNull();
+                  assertThat(trade.getOriginalAmount()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+                  assertThat(trade.getPrice()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getTimestamp()).isNotNull();
+                });
 
     TimeUnit.SECONDS.sleep(6);
     dis.dispose();
     dis2.dispose();
     dis3.dispose();
+    dis4.dispose();
   }
 
   @Test
