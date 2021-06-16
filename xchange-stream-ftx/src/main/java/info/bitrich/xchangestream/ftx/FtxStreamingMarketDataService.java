@@ -40,6 +40,8 @@ public class FtxStreamingMarketDataService implements StreamingMarketDataService
 
   @Override
   public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-    return null;
+    return service
+        .subscribeChannel("trades:" + FtxAdapters.adaptCurrencyPairToFtxMarket(currencyPair))
+        .flatMapIterable(res -> FtxStreamingAdapters.adaptTradesMessage(currencyPair, res));
   }
 }
