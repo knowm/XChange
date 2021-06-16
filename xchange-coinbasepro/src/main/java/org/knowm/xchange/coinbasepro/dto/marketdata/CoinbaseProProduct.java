@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinbasepro.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class CoinbaseProProduct {
@@ -14,21 +15,27 @@ public class CoinbaseProProduct {
   private final BigDecimal maxMarketFunds;
   private final BigDecimal baseIncrement;
   private final BigDecimal quoteIncrement;
+  private final boolean cancelOnly;
   private final boolean limitOnly;
+  private final boolean postOnly;
+  private final boolean tradingDisabled;
   private final String status;
 
   public CoinbaseProProduct(
-      @JsonProperty("id") String id,
-      @JsonProperty("base_currency") String baseCurrency,
-      @JsonProperty("quote_currency") String targetCurrency,
-      @JsonProperty("base_min_size") BigDecimal baseMinSize,
-      @JsonProperty("base_max_size") BigDecimal baseMaxSize,
-      @JsonProperty("min_market_funds") BigDecimal minMarketFunds,
-      @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
-      @JsonProperty("base_increment") BigDecimal baseIncrement,
-      @JsonProperty("quote_increment") BigDecimal quoteIncrement,
-      @JsonProperty("limit_only") boolean limitOnly,
-      @JsonProperty("status") String status) {
+          @JsonProperty("id") String id,
+          @JsonProperty("base_currency") String baseCurrency,
+          @JsonProperty("quote_currency") String targetCurrency,
+          @JsonProperty("base_min_size") BigDecimal baseMinSize,
+          @JsonProperty("base_max_size") BigDecimal baseMaxSize,
+          @JsonProperty("min_market_funds") BigDecimal minMarketFunds,
+          @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
+          @JsonProperty("base_increment") BigDecimal baseIncrement,
+          @JsonProperty("quote_increment") BigDecimal quoteIncrement,
+          @JsonProperty("cancel_only") boolean cancelOnly,
+          @JsonProperty("limit_only") boolean limitOnly,
+          @JsonProperty("post_only") boolean postOnly,
+          @JsonProperty("trading_disabled") boolean tradingDisabled,
+          @JsonProperty("status") String status) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;
@@ -39,7 +46,10 @@ public class CoinbaseProProduct {
     this.maxMarketFunds = maxMarketFunds;
     this.baseIncrement = baseIncrement;
     this.quoteIncrement = quoteIncrement;
+    this.cancelOnly = cancelOnly;
     this.limitOnly = limitOnly;
+    this.postOnly = postOnly;
+    this.tradingDisabled = tradingDisabled;
     this.status = status;
   }
 
@@ -85,8 +95,20 @@ public class CoinbaseProProduct {
     return maxMarketFunds;
   }
 
+  public boolean isCancelOnly() {
+    return cancelOnly;
+  }
+
   public boolean isLimitOnly() {
     return limitOnly;
+  }
+
+  public boolean isPostOnly() {
+    return postOnly;
+  }
+
+  public boolean isTradingDisabled() {
+    return tradingDisabled;
   }
 
   public String getStatus() {
