@@ -90,10 +90,12 @@ public class HuobiAdapters {
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (HuobiCurrencyWrapper huobiCurrencyWrapper : currencyWrapper) {
-      boolean isDelisted = DELISTED.equals(huobiCurrencyWrapper.getInstStatus());
-      CurrencyMetaData currencyMetaData = adaptCurrencyMetaData(huobiCurrencyWrapper, isDelisted);
-      Currency currency = new Currency(huobiCurrencyWrapper.getCurrency());
-      currencies.put(currency, currencyMetaData);
+      if(huobiCurrencyWrapper.getHuobiCurrencies().length != 0) {
+        boolean isDelisted = DELISTED.equals(huobiCurrencyWrapper.getInstStatus());
+        CurrencyMetaData currencyMetaData = adaptCurrencyMetaData(huobiCurrencyWrapper, isDelisted);
+        Currency currency = HuobiUtils.translateHuobiCurrencyCode(huobiCurrencyWrapper.getCurrency());
+        currencies.put(currency, currencyMetaData);
+      }
     }
 
     return new ExchangeMetaData(pairs, currencies, null, null, false);
