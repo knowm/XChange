@@ -131,7 +131,6 @@ public class CoinbaseProExchange extends BaseExchange {
         CoinbaseProAdapters.adaptToExchangeMetaData(exchangeMetaData, products, currencies);
   }
 
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static final class Parameters {
     public static final String PARAM_USE_SANDBOX = "Use_Sandbox";
     public static final String PARAM_SANDBOX_SSL_URI = "SandboxSslUri";
