@@ -368,7 +368,7 @@ public class CoinbaseProAdapters {
 
       currencyPairs.put(pair,
               new CurrencyPairMetaData(
-                      new BigDecimal("0.25"), // Trading fee at Coinbase is 0.25 %
+                      new BigDecimal("0.0025"), // Trading fee at Coinbase is 0.25 %
                       product.getBaseMinSize(),
                       product.getBaseMaxSize(),
                       product.getMinMarketFunds(),
