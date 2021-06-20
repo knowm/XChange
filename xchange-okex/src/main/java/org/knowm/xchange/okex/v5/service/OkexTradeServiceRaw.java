@@ -1,6 +1,8 @@
 package org.knowm.xchange.okex.v5.service;
 
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
@@ -8,10 +10,11 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
-import org.knowm.xchange.okex.v5.dto.trade.OkexPendingOrder;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.utils.DateUtils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class OkexTradeServiceRaw extends OkexBaseService {
     super(exchange, resilienceRegistries);
   }
 
-  public OkexResponse<List<OkexPendingOrder>> getOkexPendingOrder(
+  public OkexResponse<List<OkexOrderDetails>> getOkexPendingOrder(
       String instrumentType,
       String underlying,
       String instrumentId,
@@ -52,6 +55,29 @@ public class OkexTradeServiceRaw extends OkexBaseService {
                       after,
                       before,
                       limit))
+          .call();
+    } catch (OkexException e) {
+      throw handleError(e);
+    }
+  }
+
+  public OkexResponse<List<OkexOrderDetails>> getOkexOrder(String instrumentId, String orderId)
+      throws IOException {
+    try {
+      return decorateApiCall(
+              () ->
+                  okexAuthenticated.getOrderDetails(
+                      exchange.getExchangeSpecification().getApiKey(),
+                      signatureCreator,
+                      DateUtils.toUTCISODateString(new Date()),
+                      (String)
+                          exchange
+                              .getExchangeSpecification()
+                              .getExchangeSpecificParametersItem("passphrase"),
+                      instrumentId,
+                      orderId,
+                      null))
+          .withRateLimiter((rateLimiter(orderDetailsPath)))
           .call();
     } catch (OkexException e) {
       throw handleError(e);

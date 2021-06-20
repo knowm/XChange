@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 10-06-2021 */
 @Getter
-public class OkexPendingOrder {
+public class OkexOrderDetails {
     @JsonProperty("instType")
     private String instrumentType;
 

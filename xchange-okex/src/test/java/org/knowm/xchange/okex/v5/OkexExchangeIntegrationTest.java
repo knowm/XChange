@@ -65,6 +65,7 @@ public class OkexExchangeIntegrationTest {
       spec.setExchangeSpecificParametersItem("passphrase", PASSPHRASE);
 
       final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
+      final OkexTradeService okexTradeService = (OkexTradeService) exchange.getTradeService();
 
       assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
       assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
@@ -74,7 +75,7 @@ public class OkexExchangeIntegrationTest {
           new LimitOrder(
               Order.OrderType.ASK, BigDecimal.TEN, TRX_USDT, null, new Date(), new BigDecimal(100));
 
-      String orderId = exchange.getTradeService().placeLimitOrder(limitOrder);
+      String orderId = okexTradeService.placeLimitOrder(limitOrder);
       log.info("Placed orderId: {}", orderId);
 
       // Amend the above order
@@ -86,8 +87,16 @@ public class OkexExchangeIntegrationTest {
               orderId,
               new Date(),
               new BigDecimal(1000));
-      String orderId2 = exchange.getTradeService().changeOrder(limitOrder2);
+      String orderId2 = okexTradeService.changeOrder(limitOrder2);
       log.info("Amended orderId: {}", orderId2);
+
+      //Get non-existent Order Detail
+      Order failOrder = okexTradeService.getOrder(TRX_USDT, "2132465465");
+      log.info("Null Order: {}", failOrder);
+
+      //Get Order Detail
+      Order amendedOrder = okexTradeService.getOrder(TRX_USDT, orderId2);
+      log.info("Amended Order: {}", amendedOrder);
 
       // Cancel that order
       boolean result =
@@ -98,7 +107,7 @@ public class OkexExchangeIntegrationTest {
 
       // Place batch orders
       List<String> orderIds =
-          ((OkexTradeService) exchange.getTradeService())
+          okexTradeService
               .placeLimitOrder(Arrays.asList(limitOrder, limitOrder, limitOrder));
       log.info("Placed batch orderIds: {}", orderIds);
 
@@ -115,11 +124,12 @@ public class OkexExchangeIntegrationTest {
                 new BigDecimal(1000)));
       }
       List<String> amendedOrderIds =
-          ((OkexTradeService) exchange.getTradeService()).changeOrder(amendOrders);
+          okexTradeService.changeOrder(amendOrders);
       log.info("Amended batch orderIds: {}", amendedOrderIds);
 
-      OpenOrders openOrders = ((OkexTradeService) exchange.getTradeService()).getOpenOrders();
+      OpenOrders openOrders = okexTradeService.getOpenOrders();
       log.info("Open Orders: {}", openOrders);
+
 
       // Cancel batch orders
       List<CancelOrderParams> cancelOrderParams = new ArrayList<>();
@@ -127,7 +137,7 @@ public class OkexExchangeIntegrationTest {
         cancelOrderParams.add(new OkexTradeParams.OkexCancelOrderParams(TRX_USDT, id));
       }
       List<Boolean> results =
-          ((OkexTradeService) exchange.getTradeService()).cancelOrder(cancelOrderParams);
+          okexTradeService.cancelOrder(cancelOrderParams);
       log.info("Cancelled order results: {}", results);
     }
   }
