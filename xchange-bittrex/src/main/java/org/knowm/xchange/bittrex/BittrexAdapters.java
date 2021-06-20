@@ -229,22 +229,23 @@ public final class BittrexAdapters {
                                    ExchangeMetaData metaData) {
     List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
     for (CurrencyPair currencyPair : currencyPairs) {
-      CurrencyPairMetaData defaultCurrencyPairMetaData = metaData.getCurrencyPairs().get(currencyPair);
+      CurrencyPairMetaData defaultCurrencyPairMetaData =
+              metaData.getCurrencyPairs().get(currencyPair);
       BigDecimal resultingFee = null;
       // Prioritize dynamic fee
-      if( dynamicTradingFees != null ){
+      if (dynamicTradingFees != null) {
         Fee fee = dynamicTradingFees.get(currencyPair);
-        if( fee != null){
+        if (fee != null) {
           resultingFee = fee.getMakerFee();
         }
-      }else{
-        if (defaultCurrencyPairMetaData != null ){
+      } else {
+        if (defaultCurrencyPairMetaData != null) {
           resultingFee = defaultCurrencyPairMetaData.getTradingFee();
         }
       }
 
       CurrencyPairMetaData newCurrencyPairMetaData;
-      if(defaultCurrencyPairMetaData != null){
+      if (defaultCurrencyPairMetaData != null) {
         newCurrencyPairMetaData = new CurrencyPairMetaData(
                 resultingFee,
                 defaultCurrencyPairMetaData.getMinimumAmount(),
@@ -253,8 +254,8 @@ public final class BittrexAdapters {
                 defaultCurrencyPairMetaData.getVolumeScale(),
                 defaultCurrencyPairMetaData.getFeeTiers(),
                 defaultCurrencyPairMetaData.getTradingFeeCurrency());
-      }else{
-        newCurrencyPairMetaData =new CurrencyPairMetaData(
+      } else {
+        newCurrencyPairMetaData = new CurrencyPairMetaData(
                 resultingFee,
                 null,
                 null,
