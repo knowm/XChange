@@ -2,6 +2,7 @@ package org.knowm.xchange.okex.v5;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
@@ -9,11 +10,13 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
-import org.knowm.xchange.okex.v5.dto.trade.OkexPendingOrder;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -25,7 +28,26 @@ import java.util.stream.Collectors;
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexAdapters {
 
-  public static OpenOrders adaptOpenOrders(List<OkexPendingOrder> orders) {
+  public static Order adaptOrder(OkexOrderDetails order) {
+    return new LimitOrder(
+        "buy".equals(order.getSide()) ? Order.OrderType.BID : Order.OrderType.ASK,
+        new BigDecimal(order.getAmount()),
+        new CurrencyPair(order.getInstrumentId()),
+        order.getOrderId(),
+        new Date(Long.parseLong(order.getCreationTime())),
+        new BigDecimal(order.getPrice()),
+        order.getAverageFilledPrice().isEmpty()
+            ? BigDecimal.ZERO
+            : new BigDecimal(order.getAverageFilledPrice()),
+        new BigDecimal(order.getAccumulatedFill()),
+        new BigDecimal(order.getFee()),
+        "live".equals(order.getState())
+            ? Order.OrderStatus.OPEN
+            : Order.OrderStatus.PARTIALLY_FILLED,
+        null);
+  }
+
+  public static OpenOrders adaptOpenOrders(List<OkexOrderDetails> orders) {
     List<LimitOrder> openOrders =
         orders.stream()
             .map(
@@ -68,6 +90,18 @@ public class OkexAdapters {
         .amount(order.getOriginalAmount().toString())
         .price(order.getLimitPrice().toString())
         .build();
+  }
+
+  public static String adaptInstrumentId(Instrument instrument) {
+    if (instrument instanceof CurrencyPair) {
+      return adaptCurrencyPairId((CurrencyPair) instrument);
+    }
+
+    if (instrument instanceof FuturesContract) {
+      throw new NotYetImplementedForExchangeException();
+    }
+
+    return null;
   }
 
   public static String adaptCurrencyPairId(CurrencyPair currencyPair) {
