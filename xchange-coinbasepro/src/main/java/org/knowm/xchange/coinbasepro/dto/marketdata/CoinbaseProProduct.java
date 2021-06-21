@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbasepro.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class CoinbaseProProduct {
@@ -22,20 +21,20 @@ public class CoinbaseProProduct {
   private final String status;
 
   public CoinbaseProProduct(
-          @JsonProperty("id") String id,
-          @JsonProperty("base_currency") String baseCurrency,
-          @JsonProperty("quote_currency") String targetCurrency,
-          @JsonProperty("base_min_size") BigDecimal baseMinSize,
-          @JsonProperty("base_max_size") BigDecimal baseMaxSize,
-          @JsonProperty("min_market_funds") BigDecimal minMarketFunds,
-          @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
-          @JsonProperty("base_increment") BigDecimal baseIncrement,
-          @JsonProperty("quote_increment") BigDecimal quoteIncrement,
-          @JsonProperty("cancel_only") boolean cancelOnly,
-          @JsonProperty("limit_only") boolean limitOnly,
-          @JsonProperty("post_only") boolean postOnly,
-          @JsonProperty("trading_disabled") boolean tradingDisabled,
-          @JsonProperty("status") String status) {
+      @JsonProperty("id") String id,
+      @JsonProperty("base_currency") String baseCurrency,
+      @JsonProperty("quote_currency") String targetCurrency,
+      @JsonProperty("base_min_size") BigDecimal baseMinSize,
+      @JsonProperty("base_max_size") BigDecimal baseMaxSize,
+      @JsonProperty("min_market_funds") BigDecimal minMarketFunds,
+      @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
+      @JsonProperty("base_increment") BigDecimal baseIncrement,
+      @JsonProperty("quote_increment") BigDecimal quoteIncrement,
+      @JsonProperty("cancel_only") boolean cancelOnly,
+      @JsonProperty("limit_only") boolean limitOnly,
+      @JsonProperty("post_only") boolean postOnly,
+      @JsonProperty("trading_disabled") boolean tradingDisabled,
+      @JsonProperty("status") String status) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;

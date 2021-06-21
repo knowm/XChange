@@ -1,5 +1,9 @@
 package org.knowm.xchange.okex.v5;
 
+import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
+
+import java.io.IOException;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.knowm.xchange.BaseExchange;
@@ -12,11 +16,6 @@ import org.knowm.xchange.okex.v5.service.OkexMarketDataService;
 import org.knowm.xchange.okex.v5.service.OkexMarketDataServiceRaw;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.knowm.xchange.okex.v5.service.OkexMarketDataService.SPOT;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexExchange extends BaseExchange {
@@ -36,8 +35,7 @@ public class OkexExchange extends BaseExchange {
                     Parameters.PARAM_AWS_SSL_URI));
         exchangeSpecification.setHost(
             (String)
-                exchangeSpecification.getExchangeSpecificParametersItem(
-                    Parameters.PARAM_AWS_HOST));
+                exchangeSpecification.getExchangeSpecificParametersItem(Parameters.PARAM_AWS_HOST));
       }
     }
   }
@@ -94,18 +92,20 @@ public class OkexExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException {
     List<OkexInstrument> instruments =
-        ((OkexMarketDataServiceRaw) marketDataService).getOkexInstruments(SPOT, null, null).getData();
+        ((OkexMarketDataServiceRaw) marketDataService)
+            .getOkexInstruments(SPOT, null, null)
+            .getData();
 
-    //Currency data is only retrievable through a private endpoint
+    // Currency data is only retrievable through a private endpoint
     List<OkexCurrency> currencies = null;
     if (exchangeSpecification.getApiKey() != null
         && exchangeSpecification.getSecretKey() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("passphrase") != null) {
-      currencies =
-          ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
+      currencies = ((OkexMarketDataServiceRaw) marketDataService).getOkexCurrencies().getData();
     }
 
-    exchangeMetaData = OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies);
+    exchangeMetaData =
+        OkexAdapters.adaptToExchangeMetaData(exchangeMetaData, instruments, currencies);
   }
 
   @NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.coinbasepro;
 
+import static io.netty.util.internal.StringUtil.isNullOrEmpty;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketSubscriptionMessage;
@@ -13,18 +15,15 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.reactivex.Observable;
-import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
-
-import static io.netty.util.internal.StringUtil.isNullOrEmpty;
+import org.knowm.xchange.coinbasepro.dto.account.CoinbaseProWebsocketAuthData;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CoinbaseProStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(CoinbaseProStreamingService.class);

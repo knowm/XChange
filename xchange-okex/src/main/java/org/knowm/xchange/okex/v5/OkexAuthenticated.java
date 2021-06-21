@@ -1,5 +1,19 @@
 package org.knowm.xchange.okex.v5;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Currency;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.okex.v5.dto.OkexException;
 import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.account.OkexWalletBalance;
@@ -10,21 +24,6 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
 import org.knowm.xchange.okex.v5.dto.trade.OkexPendingOrder;
 import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Path("/api/v5")
 @Produces(MediaType.APPLICATION_JSON)

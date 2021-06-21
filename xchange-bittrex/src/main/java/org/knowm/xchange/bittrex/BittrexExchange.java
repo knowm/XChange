@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -39,8 +38,9 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    BittrexAuthenticated bittrex = ExchangeRestProxyBuilder.forInterface(
-            BittrexAuthenticated.class, getExchangeSpecification())
+    BittrexAuthenticated bittrex =
+        ExchangeRestProxyBuilder.forInterface(
+                BittrexAuthenticated.class, getExchangeSpecification())
             .build();
     this.marketDataService = new BittrexMarketDataService(this, bittrex, getResilienceRegistries());
     this.accountService = new BittrexAccountService(this, bittrex, getResilienceRegistries());
@@ -79,15 +79,17 @@ public class BittrexExchange extends BaseExchange implements Exchange {
         if (bittrexSymbols.isEmpty()) {
           bittrexSymbols = ((BittrexMarketDataServiceRaw) marketDataService).getBittrexSymbols();
           List<BittrexCurrency> bittrexCurrencies =
-                  ((BittrexMarketDataServiceRaw) marketDataService).getBittrexCurrencies();
+              ((BittrexMarketDataServiceRaw) marketDataService).getBittrexCurrencies();
           Map<CurrencyPair, Fee> dynamicTradingFees = null;
           try {
             dynamicTradingFees = accountService.getDynamicTradingFees();
           } catch (BittrexException | IOException e) {
-              EXCHANGE_LOGGER.warn(
-                    "Error during remote init, can not fetch trading fees. May be missing auth tokens ?", e);
+            EXCHANGE_LOGGER.warn(
+                "Error during remote init, can not fetch trading fees. May be missing auth tokens ?",
+                e);
           }
-          BittrexAdapters.adaptMetaData(bittrexSymbols, bittrexCurrencies, dynamicTradingFees, exchangeMetaData);
+          BittrexAdapters.adaptMetaData(
+              bittrexSymbols, bittrexCurrencies, dynamicTradingFees, exchangeMetaData);
         }
       }
     }

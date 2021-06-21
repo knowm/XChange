@@ -72,8 +72,8 @@ public interface Deribit {
   /**
    * Provides information about historical volatility for given cryptocurrency.
    *
-   * @param currency required, the currency name for which to retrieve the historical volatility,the value
-   *                 can be BTC,ETH or USDT.
+   * @param currency required, the currency name for which to retrieve the historical volatility,the
+   *     value can be BTC,ETH or USDT.
    * @return
    * @throws DeribitException
    * @throws IOException
@@ -81,8 +81,7 @@ public interface Deribit {
   @GET
   @Path("get_historical_volatility")
   DeribitResponse<List<List<BigDecimal>>> getHistoricalVolatility(
-          @QueryParam("currency") String currency)
-          throws DeribitException, IOException;
+      @QueryParam("currency") String currency) throws DeribitException, IOException;
 
   /**
    * Retrieve the latest trades that have occurred for a specific instrument.

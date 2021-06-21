@@ -1,11 +1,10 @@
 package info.bitrich.xchangestream.ftx;
 
-import org.junit.Test;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.Test;
 
 public class FtxConvertDoubleForChecksumTest {
 
