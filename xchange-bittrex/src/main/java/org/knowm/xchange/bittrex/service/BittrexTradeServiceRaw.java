@@ -64,27 +64,28 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
   }
 
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeBittrexMarketOrder(marketOrder, TimeInForce.GOOD_TIL_CANCELLED);
+    return placeBittrexMarketOrder(marketOrder, TimeInForce.IMMEDIATE_OR_CANCEL);
   }
 
-  public String placeBittrexMarketOrder(MarketOrder marketOrder, TimeInForce type) throws IOException {
+  public String placeBittrexMarketOrder(MarketOrder marketOrder, TimeInForce type)
+      throws IOException {
     BittrexNewOrder bittrexNewOrder =
-            new BittrexNewOrder(
-                    BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
-                    OrderType.BID.equals(marketOrder.getType())
-                            ? BittrexConstants.BUY
-                            : BittrexConstants.SELL,
-                    BittrexConstants.LIMIT,
-                    marketOrder.getRemainingAmount().toPlainString(),
-                    null,
-                    null,
-                    type.toString(),
-                    null,
-                    null);
+        new BittrexNewOrder(
+            BittrexUtils.toPairString(marketOrder.getCurrencyPair()),
+            OrderType.BID.equals(marketOrder.getType())
+                ? BittrexConstants.BUY
+                : BittrexConstants.SELL,
+            BittrexConstants.MARKET,
+            marketOrder.getRemainingAmount().toPlainString(),
+            null,
+            null,
+            type.toString(),
+            null,
+            null);
     return bittrexAuthenticated
-            .placeOrder(
-                    apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, bittrexNewOrder)
-            .getId();
+        .placeOrder(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator, bittrexNewOrder)
+        .getId();
   }
 
   public BittrexOrder cancelBittrexLimitOrder(String orderId) throws IOException {

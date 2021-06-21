@@ -1,5 +1,7 @@
 package info.bitrich.xchangestream.ftx;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
@@ -8,6 +10,12 @@ import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
 import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import io.reactivex.disposables.Disposable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,15 +23,6 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FtxStreamingMarketDataServiceTest {
 
@@ -94,11 +93,25 @@ public class FtxStreamingMarketDataServiceTest {
                     assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
                   }
                 });
+    Disposable dis4 =
+        exchange
+            .getStreamingMarketDataService()
+            .getTrades(CurrencyPair.BTC_USD)
+            .subscribe(
+                trade -> {
+                  assertThat(trade.getId()).isNotNull();
+                  assertThat(trade.getType()).isNotNull();
+                  assertThat(trade.getOriginalAmount()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+                  assertThat(trade.getPrice()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getTimestamp()).isNotNull();
+                });
 
     TimeUnit.SECONDS.sleep(6);
     dis.dispose();
     dis2.dispose();
     dis3.dispose();
+    dis4.dispose();
   }
 
   @Test

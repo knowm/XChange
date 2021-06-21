@@ -39,6 +39,23 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     super(exchange, binance, resilienceRegistries);
   }
 
+  private static FundingRecord.Status transferHistoryStatus(String historyStatus) {
+    Status status;
+    switch (historyStatus) {
+      case "SUCCESS":
+        status = Status.COMPLETE;
+        break;
+      default:
+        status =
+            Status.resolveStatus(
+                historyStatus); // FIXME not documented yet in Binance spot api docs
+        if (status == null) {
+          status = Status.FAILED;
+        }
+    }
+    return status;
+  }
+
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
   private static FundingRecord.Status withdrawStatus(int status) {
     switch (status) {
@@ -174,7 +191,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
 
   public Map<String, AssetDetail> getAssetDetails() throws IOException {
     try {
-      return super.requestAssetDetail().getAssetDetail();
+      return super.requestAssetDetail();
     } catch (BinanceException e) {
       throw BinanceErrorAdapter.adapt(e);
     }
@@ -255,7 +272,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           w.getAddress(),
                           w.getAddressTag(),
                           new Date(w.getApplyTime()),
-                          Currency.getInstance(w.getAsset()),
+                          Currency.getInstance(w.getCoin()),
                           w.getAmount(),
                           w.getId(),
                           w.getTxId(),
@@ -322,7 +339,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           .setCurrency(Currency.getInstance(a.getAsset()))
                           .setAmount(a.getQty())
                           .setType(Type.INTERNAL_WITHDRAWAL)
-                          .setStatus(Status.COMPLETE)
+                          .setStatus(transferHistoryStatus(a.getStatus()))
                           .build());
                 });
       }
