@@ -46,7 +46,7 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
             exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
     this.nonceFactory = exchange.getNonceFactory();
 
-    this.tradingFeeAPI = service(exchange,TradingFeeAPI.class);
+    this.tradingFeeAPI = service(exchange, TradingFeeAPI.class);
   }
 
   private <T> T service(KucoinExchange exchange, Class<T> clazz) {

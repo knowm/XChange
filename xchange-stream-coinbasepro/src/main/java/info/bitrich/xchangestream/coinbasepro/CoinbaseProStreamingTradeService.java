@@ -5,6 +5,7 @@ import static org.knowm.xchange.coinbasepro.CoinbaseProAdapters.adaptTradeHistor
 import info.bitrich.xchangestream.coinbasepro.dto.CoinbaseProWebSocketTransaction;
 import info.bitrich.xchangestream.core.StreamingTradeService;
 import io.reactivex.Observable;
+import java.util.Collections;
 import java.util.List;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -50,7 +51,7 @@ public class CoinbaseProStreamingTradeService implements StreamingTradeService {
         .filter(message -> message.getType().equals(MATCH))
         .filter((CoinbaseProWebSocketTransaction s) -> s.getUserId() != null)
         .map((CoinbaseProWebSocketTransaction s) -> s.toCoinbaseProFill())
-        .map((CoinbaseProFill f) -> adaptTradeHistory(new CoinbaseProFill[] {f}))
+        .map((CoinbaseProFill f) -> adaptTradeHistory(Collections.singletonList(f)))
         .map((UserTrades h) -> h.getUserTrades().get(0));
   }
 

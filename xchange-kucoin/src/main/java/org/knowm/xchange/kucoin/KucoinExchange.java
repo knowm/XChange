@@ -3,7 +3,6 @@ package org.knowm.xchange.kucoin;
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 
 import java.io.IOException;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -65,8 +64,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     this.exchangeMetaData =
-        KucoinAdapters.adaptMetadata(
-            this.exchangeMetaData, getMarketDataService());
+        KucoinAdapters.adaptMetadata(this.exchangeMetaData, getMarketDataService());
   }
 
   @Override

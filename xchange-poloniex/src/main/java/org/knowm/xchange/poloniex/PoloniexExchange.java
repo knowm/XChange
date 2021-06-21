@@ -17,7 +17,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 /** @author Zach Holmes */
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory =
+      new TimestampIncrementingNonceFactory();
 
   @Override
   protected void initServices() {

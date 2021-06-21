@@ -1,8 +1,8 @@
 package org.knowm.xchange.gateio.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 import java.util.List;
+import org.knowm.xchange.gateio.dto.GateioBaseResponse;
 
 public class GateioCandlestickHistory extends GateioBaseResponse {
 
@@ -19,7 +19,7 @@ public class GateioCandlestickHistory extends GateioBaseResponse {
     this.elapsed = elapsed;
   }
 
-  public List<List<String>>  getCandlesticks() {
+  public List<List<String>> getCandlesticks() {
     return candlesticks;
   }
 

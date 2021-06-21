@@ -29,11 +29,11 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("account/fees/trading")
   List<BittrexComissionRatesWithMarket> getTradingFees(
-          @HeaderParam("Api-Key") String apiKey,
-          @HeaderParam("Api-Timestamp") Long timestamp,
-          @HeaderParam("Api-Content-Hash") ParamsDigest hash,
-          @HeaderParam("Api-Signature") ParamsDigest signature)
-          throws IOException, BittrexException;
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature)
+      throws IOException, BittrexException;
 
   @GET
   @Path("account/volume")

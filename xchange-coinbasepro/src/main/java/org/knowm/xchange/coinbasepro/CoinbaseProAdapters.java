@@ -286,9 +286,9 @@ public class CoinbaseProAdapters {
     return CoinbaseProAdapters.adaptTrades(tradeArray, currencyPair);
   }
 
-  public static UserTrades adaptTradeHistory(CoinbaseProFill[] coinbaseExFills) {
+  public static UserTrades adaptTradeHistory(List<CoinbaseProFill> coinbaseExFills) {
 
-    List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
+    List<UserTrade> trades = new ArrayList<>(coinbaseExFills.size());
 
     for (CoinbaseProFill fill : coinbaseExFills) {
       CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));

@@ -1,5 +1,11 @@
 package org.knowm.xchange.bittrex.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.knowm.xchange.bittrex.*;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
@@ -14,13 +20,6 @@ import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BittrexAccountService extends BittrexAccountServiceRaw implements AccountService {
 
@@ -73,8 +72,8 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
   @Override
   public Map<Instrument, Fee> getDynamicTradingFeesByInstrument() throws IOException {
     Map<CurrencyPair, Fee> dynamicTradingFees = getDynamicTradingFees();
-    return dynamicTradingFees.entrySet().stream().
-            collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    return dynamicTradingFees.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   @Override
@@ -83,7 +82,9 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       Map<CurrencyPair, Fee> result = new HashMap<>();
       List<BittrexComissionRatesWithMarket> tradingFees = getTradingFees();
       for (BittrexComissionRatesWithMarket tradingFee : tradingFees) {
-        result.put(BittrexUtils.toCurrencyPair(tradingFee.getMarketSymbol()), new Fee(
+        result.put(
+            BittrexUtils.toCurrencyPair(tradingFee.getMarketSymbol()),
+            new Fee(
                 BigDecimal.valueOf(tradingFee.getMakerRate()),
                 BigDecimal.valueOf(tradingFee.getTakerRate())));
       }

@@ -93,7 +93,7 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
 
   public List<BittrexComissionRatesWithMarket> getTradingFees() throws IOException {
     return bittrexAuthenticated.getTradingFees(
-            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+        apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
   }
 
   public BittrexOrder getBittrexOrder(String orderId) throws IOException {

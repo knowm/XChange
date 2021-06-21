@@ -3,7 +3,8 @@ package info.bitrich.xchangestream.binance;
 public enum BinanceSubscriptionType {
   DEPTH("depth"),
   TRADE("trade"),
-  TICKER("ticker");
+  TICKER("ticker"),
+  BOOK_TICKER("bookTicker");
 
   private String type;
 
