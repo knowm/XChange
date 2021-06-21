@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public final class AssetDribbletLogResponse
-    extends WapiResponse<AssetDribbletLogResponse.AssetDribbletLogResults> {
+    extends ApiResponse<AssetDribbletLogResponse.AssetDribbletLogResults> {
 
   private final AssetDribbletLogResults results;
 

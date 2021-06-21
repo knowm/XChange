@@ -16,6 +16,7 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+AGP-PC\AliGökalp
 Aaron Jang
 Achterhoeker
 Adam Walczak
@@ -37,7 +38,9 @@ Anatoliy Sablin
 Andraž
 Andre Reiter
 Andrea Fossi
+Andreas Joelsson
 Andrew Gurinovich
+Andrew Lalis
 André Reiter
 Anthony Tsang
 Anton.Malyshkin
@@ -117,6 +120,7 @@ Giedrius Kokšta
 Gilbert Kimutai
 Giridhar Nandigam
 GlassOfWhiskey
+Gokalp Peker
 Graham Crockford
 Greg
 Gregor Gaertner
@@ -188,6 +192,7 @@ Krzysiek
 Krzysztof Cieślak
 Lang Christian-Gabriel
 Lee Cooper
+Leonardo Flores
 Leone Lisboa Magevski
 Leonid Shamis
 LifeIsGoodMF
@@ -198,6 +203,7 @@ Luca Rosellini
 Lukas Zaoralek
 Lukáš Krejza
 Macarse
+Manuel Polo
 Marc Deveaux
 Marius Hillenbrand
 Mark Anderson
@@ -212,6 +218,7 @@ Math Vadash
 Mathijs Vogelzang
 Matija Mazi
 Matt Read
+Matt Vadash
 Matt Whitlock
 Matthew Downey
 Matthew Peacock
@@ -319,6 +326,7 @@ Vadims Grusas
 Valentin Stavetski
 Vassilis Papavassiliou
 Vassilis Ppapavassiliou
+Vasyl Parasyna
 Victor Didenko
 Victor Mezrin
 Viktor Szathmáry
@@ -375,6 +383,7 @@ cymp
 cyril
 cyrus
 d.skalenko
+dani_devoneko
 danielgarciaperez
 datbui
 david-yam
@@ -397,6 +406,7 @@ fenwulf
 firepol
 fozerol
 gaamox@tutanota.com
+garciapd
 geck64
 glebreutov
 gmorpheme
@@ -420,6 +430,7 @@ jcuypers
 jmcklondonuk
 johndemic
 kaiserfr
+karelhovorka
 karol.pysniak@turbineam.com
 kisapmata
 kkyovsky
@@ -432,6 +443,7 @@ lichunmao
 llacina
 lukaszaoralek
 m4g4
+maghteriton
 makarid
 matija.mazi@gmail.com
 matt pearson
@@ -442,11 +454,13 @@ mfarid
 mharris021
 michaelscheung
 miho
+mikhail.petrov
 mikhw
 milczu
 mnapier
 moardm
 moritzhabegger
+mrmx
 mw
 nado04@gmail.com
 nakedpony
@@ -467,6 +481,7 @@ piotr
 pnkwpk
 pozheg
 procyon
+pw4work
 rastooo
 renasse
 roeiba
@@ -485,6 +500,7 @@ sowhynot
 stachon
 stephane-coulomb
 stevenuray
+straumat
 suchac
 swiesend
 taoruifu

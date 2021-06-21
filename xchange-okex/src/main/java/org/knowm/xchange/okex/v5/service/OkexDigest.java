@@ -1,10 +1,9 @@
 package org.knowm.xchange.okex.v5.service;
 
+import java.util.Base64;
+import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import java.util.Base64;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexDigest extends BaseParamsDigest {

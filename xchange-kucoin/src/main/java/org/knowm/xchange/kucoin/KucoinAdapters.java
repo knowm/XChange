@@ -8,7 +8,6 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -47,7 +46,6 @@ import org.knowm.xchange.kucoin.dto.response.*;
 public class KucoinAdapters {
 
   private static final String TAKER_FEE_RATE = "takerFeeRate";
-
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
@@ -102,11 +100,14 @@ public class KucoinAdapters {
    * @param marketDataService Kucoin market data service
    * @return Exchange metadata.
    */
-  public static ExchangeMetaData adaptMetadata(ExchangeMetaData exchangeMetaData, KucoinMarketDataService marketDataService) throws IOException {
+  public static ExchangeMetaData adaptMetadata(
+      ExchangeMetaData exchangeMetaData, KucoinMarketDataService marketDataService)
+      throws IOException {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
-    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap = adaptCurrencyMetaData(marketDataService.getKucoinCurrencies());
+    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
+        adaptCurrencyMetaData(marketDataService.getKucoinCurrencies());
     BigDecimal takerTradingFee = marketDataService.getKucoinBaseFee().get(TAKER_FEE_RATE);
 
     for (SymbolResponse symbol : marketDataService.getKucoinSymbols()) {
@@ -119,12 +120,12 @@ public class KucoinAdapters {
       int priceScale = symbol.getQuoteIncrement().stripTrailingZeros().scale();
 
       CurrencyPairMetaData cpmd =
-              new CurrencyPairMetaData(
-                      takerTradingFee,
-                      minSize,
-                      maxSize,
-                      priceScale,
-                      staticMetaData != null ? staticMetaData.getFeeTiers() : null);
+          new CurrencyPairMetaData(
+              takerTradingFee,
+              minSize,
+              maxSize,
+              priceScale,
+              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
       currencyPairs.put(pair, cpmd);
 
       if (!currencies.containsKey(pair.base))
@@ -134,11 +135,11 @@ public class KucoinAdapters {
     }
 
     return new ExchangeMetaData(
-            currencyPairs,
-            currencies,
-            exchangeMetaData.getPublicRateLimits(),
-            exchangeMetaData.getPrivateRateLimits(),
-            true);
+        currencyPairs,
+        currencies,
+        exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData.getPrivateRateLimits(),
+        true);
   }
 
   static HashMap<String, CurrencyMetaData> adaptCurrencyMetaData(List<CurrenciesResponse> list) {
@@ -148,7 +149,12 @@ public class KucoinAdapters {
       String withdrawalMinFee = currenciesResponse.getWithdrawalMinFee();
       String withdrawalMinSize = currenciesResponse.getWithdrawalMinSize();
       WalletHealth walletHealth = getWalletHealth(currenciesResponse);
-      CurrencyMetaData currencyMetaData = new CurrencyMetaData(precision.intValue(), new BigDecimal(withdrawalMinFee), new BigDecimal(withdrawalMinSize), walletHealth);
+      CurrencyMetaData currencyMetaData =
+          new CurrencyMetaData(
+              precision.intValue(),
+              new BigDecimal(withdrawalMinFee),
+              new BigDecimal(withdrawalMinSize),
+              walletHealth);
       stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
     }
     return stringCurrencyMetaDataMap;
@@ -160,11 +166,11 @@ public class KucoinAdapters {
    */
   private static WalletHealth getWalletHealth(CurrenciesResponse currenciesResponse) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
-    if(!currenciesResponse.isWithdrawEnabled() && !currenciesResponse.isDepositEnabled()) {
+    if (!currenciesResponse.isWithdrawEnabled() && !currenciesResponse.isDepositEnabled()) {
       walletHealth = WalletHealth.OFFLINE;
-    }else if(!currenciesResponse.isDepositEnabled()) {
+    } else if (!currenciesResponse.isDepositEnabled()) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
-    }else if(!currenciesResponse.isWithdrawEnabled()) {
+    } else if (!currenciesResponse.isWithdrawEnabled()) {
       walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
     }
     return walletHealth;

@@ -44,8 +44,9 @@ public class CoinbaseProExchangeTest {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(primeExchangeSpecification);
 
     assertThat(exchange.getExchangeSpecification().getSslUri())
-        .isEqualTo("https://api.prime.coinbase.com");
-    assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("api.prime.coinbase.com");
+        .isEqualTo("https://api.exchange.coinbase.com");
+    assertThat(exchange.getExchangeSpecification().getHost())
+        .isEqualTo("api.exchange.coinbase.com");
   }
 
   @Test
@@ -61,9 +62,9 @@ public class CoinbaseProExchangeTest {
         ExchangeFactory.INSTANCE.createExchange(sandboxPrimeExchangeSpecification);
 
     assertThat(exchange.getExchangeSpecification().getSslUri())
-        .isEqualTo("https://api-public.sandbox.prime.coinbase.com");
+        .isEqualTo("https://api-public.sandbox.exchange.coinbase.com");
     assertThat(exchange.getExchangeSpecification().getHost())
-        .isEqualTo("api-public.sandbox.prime.coinbase.com");
+        .isEqualTo("api-public.sandbox.exchange.coinbase.com");
   }
 
   @Test

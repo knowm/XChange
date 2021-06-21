@@ -1,32 +1,35 @@
 package org.knowm.xchange.kucoin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrenciesResponse {
 
-    private String currency;
+  private String currency;
 
-    private String name;
+  private String name;
 
-    private String fullName;
+  private String fullName;
 
-    private BigDecimal precision;
+  private BigDecimal precision;
 
-    private String withdrawalMinSize;
+  private String withdrawalMinSize;
 
-    private String withdrawalMinFee;
+  private String withdrawalMinFee;
 
-    private boolean isWithdrawEnabled;
+  @JsonProperty("isWithdrawEnabled")
+  private boolean isWithdrawEnabled;
 
-    private boolean isDepositEnabled;
+  @JsonProperty("isDepositEnabled")
+  private boolean isDepositEnabled;
 
-    private boolean isMarginEnabled;
+  @JsonProperty("isMarginEnabled")
+  private boolean isMarginEnabled;
 
-    private boolean isDebitEnabled;
-
+  @JsonProperty("isDebitEnabled")
+  private boolean isDebitEnabled;
 }

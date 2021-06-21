@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.coinbasepro.CoinbaseProAdapters;
 import org.knowm.xchange.coinbasepro.CoinbaseProExchange;
+import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -37,8 +38,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#fills */
-  public CoinbaseProFill[] getCoinbaseProFills(TradeHistoryParams tradeHistoryParams)
-      throws IOException {
+  public CoinbasePagedResponse<CoinbaseProFill> getCoinbaseProFills(
+      TradeHistoryParams tradeHistoryParams) throws IOException {
 
     String orderId = null;
     String productId = null;
@@ -140,7 +141,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#list-orders */
-  public CoinbaseProOrder[] getOrders(String status) throws IOException {
+  public CoinbasePagedResponse<CoinbaseProOrder> getOrders(
+      String status, Integer limit, String after) throws IOException {
     try {
       return decorateApiCall(
               () ->
@@ -149,7 +151,9 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
                       digest,
                       UnixTimestampFactory.INSTANCE.createValue(),
                       passphrase,
-                      status))
+                      status,
+                      limit,
+                      after))
           .withRateLimiter(rateLimiter(PRIVATE_REST_ENDPOINT_RATE_LIMITER))
           .call();
     } catch (CoinbaseProException e) {
