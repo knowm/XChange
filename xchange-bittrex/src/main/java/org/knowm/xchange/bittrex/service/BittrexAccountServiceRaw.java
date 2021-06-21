@@ -11,13 +11,7 @@ import lombok.Getter;
 import org.knowm.xchange.bittrex.BittrexAuthenticated;
 import org.knowm.xchange.bittrex.BittrexConstants;
 import org.knowm.xchange.bittrex.BittrexExchange;
-import org.knowm.xchange.bittrex.dto.account.BittrexAccountVolume;
-import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
-import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.dto.account.BittrexBalances;
-import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
-import org.knowm.xchange.bittrex.dto.account.BittrexNewAddress;
-import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
+import org.knowm.xchange.bittrex.dto.account.*;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
@@ -95,6 +89,11 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
   public BittrexAccountVolume getBittrexAccountVolume() throws IOException {
     return bittrexAuthenticated.getAccountVolume(
         apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
+  }
+
+  public List<BittrexComissionRatesWithMarket> getTradingFees() throws IOException {
+    return bittrexAuthenticated.getTradingFees(
+            apiKey, System.currentTimeMillis(), contentCreator, signatureCreator);
   }
 
   public BittrexOrder getBittrexOrder(String orderId) throws IOException {
