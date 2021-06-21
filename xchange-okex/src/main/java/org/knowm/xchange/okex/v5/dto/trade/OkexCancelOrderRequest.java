@@ -6,12 +6,12 @@ import lombok.Builder;
 /** Author: Max Gao (gaamox@tutanota.com) Created: 10-06-2021 */
 @Builder
 public class OkexCancelOrderRequest {
-    @JsonProperty("instId")
-    private String instrumentId;
+  @JsonProperty("instId")
+  private String instrumentId;
 
-    @JsonProperty("ordId")
-    private String orderId;
+  @JsonProperty("ordId")
+  private String orderId;
 
-    @JsonProperty("clOrderId")
-    private String clientOrderId;
+  @JsonProperty("clOrderId")
+  private String clientOrderId;
 }

@@ -47,7 +47,8 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
         break;
       default:
         status =
-            Status.resolveStatus(historyStatus); // FIXME not documented yet in Binance spot api docs
+            Status.resolveStatus(
+                historyStatus); // FIXME not documented yet in Binance spot api docs
         if (status == null) {
           status = Status.FAILED;
         }

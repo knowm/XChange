@@ -362,47 +362,44 @@ public final class BitstampAdapters {
       CurrencyPair currencyPair = adaptCurrencyPair(bitstampTransactions[0], exchangeSymbols);
       Date date = bitstampTransactions[0].getDatetime();
       BigDecimal averagePrice =
-              Arrays.stream(bitstampTransactions)
-                      .map(t -> t.getPrice())
-                      .reduce((x, y) -> x.add(y))
-                      .get()
-                      .divide(BigDecimal.valueOf(bitstampTransactions.length), 2);
+          Arrays.stream(bitstampTransactions)
+              .map(t -> t.getPrice())
+              .reduce((x, y) -> x.add(y))
+              .get()
+              .divide(BigDecimal.valueOf(bitstampTransactions.length), 2);
 
       BigDecimal cumulativeAmount =
-              Arrays.stream(bitstampTransactions)
-                      .map(t -> getBaseCurrencyAmountFromBitstampTransaction(t, currencyPair))
-                      .reduce((x, y) -> x.add(y))
-                      .get();
+          Arrays.stream(bitstampTransactions)
+              .map(t -> getBaseCurrencyAmountFromBitstampTransaction(t, currencyPair))
+              .reduce((x, y) -> x.add(y))
+              .get();
 
       BigDecimal totalFee =
-              Arrays.stream(bitstampTransactions).map(t -> t.getFee()).reduce((x, y) -> x.add(y)).get();
+          Arrays.stream(bitstampTransactions).map(t -> t.getFee()).reduce((x, y) -> x.add(y)).get();
 
       return new BitstampGenericOrder(
-                      null, // not discernable from response data
-                      null, // not discernable from the data
-                      currencyPair,
-                      orderId,
-                      date,
-                      averagePrice,
-                      cumulativeAmount,
-                      totalFee,
-                      orderStatus);
+          null, // not discernable from response data
+          null, // not discernable from the data
+          currencyPair,
+          orderId,
+          date,
+          averagePrice,
+          cumulativeAmount,
+          totalFee,
+          orderStatus);
 
     } else {
       return new BitstampGenericOrder(
-                      null, // not discernable from response data
-                      null, // not discernable from the data
-                      null, // not discernable from the data
-                      orderId,
-                      null, // not discernable from the data
-                      new BigDecimal("0.0"), // not discernable from the data
-                      new BigDecimal("0.0"), // not discernable from the data
-                      new BigDecimal("0.0"), // not discernable from the data
-                      orderStatus);
-
+          null, // not discernable from response data
+          null, // not discernable from the data
+          null, // not discernable from the data
+          orderId,
+          null, // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          new BigDecimal("0.0"), // not discernable from the data
+          orderStatus);
     }
-
-
   }
 
   public static Map<CurrencyPair, CurrencyPairMetaData> adaptCurrencyPairs(

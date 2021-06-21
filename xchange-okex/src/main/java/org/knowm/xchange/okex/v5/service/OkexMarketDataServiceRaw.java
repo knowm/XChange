@@ -1,5 +1,11 @@
 package org.knowm.xchange.okex.v5.service;
 
+import static org.knowm.xchange.okex.v5.Okex.instrumentsPath;
+import static org.knowm.xchange.okex.v5.OkexAuthenticated.currenciesPath;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.OkexException;
@@ -7,13 +13,6 @@ import org.knowm.xchange.okex.v5.dto.OkexResponse;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexCurrency;
 import org.knowm.xchange.okex.v5.dto.marketdata.OkexInstrument;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.okex.v5.Okex.instrumentsPath;
-import static org.knowm.xchange.okex.v5.OkexAuthenticated.currenciesPath;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexMarketDataServiceRaw extends OkexBaseService {

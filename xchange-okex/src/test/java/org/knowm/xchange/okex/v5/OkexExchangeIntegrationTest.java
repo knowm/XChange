@@ -1,5 +1,13 @@
 package org.knowm.xchange.okex.v5;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.currency.CurrencyPair.TRX_USDT;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -12,18 +20,9 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.currency.CurrencyPair.TRX_USDT;
-
 @Slf4j
 public class OkexExchangeIntegrationTest {
-  //Enter your authentication details here to run private endpoint tests
+  // Enter your authentication details here to run private endpoint tests
   private static final String API_KEY = "";
   private static final String SECRET_KEY = "";
   private static final String PASSPHRASE = "";
@@ -35,22 +34,27 @@ public class OkexExchangeIntegrationTest {
 
     assertThat(exchange.getExchangeSpecification().getSslUri()).isEqualTo("https://www.okex.com");
     assertThat(exchange.getExchangeSpecification().getHost()).isEqualTo("okex.com");
-    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()).isEqualTo(false);
-    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled()).isEqualTo(false);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled())
+        .isEqualTo(false);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled())
+        .isEqualTo(false);
   }
 
   @Test
   public void testCreateExchangeShouldApplyResilience() throws Exception {
     ExchangeSpecification spec = new OkexExchange().getDefaultExchangeSpecification();
-    ExchangeSpecification.ResilienceSpecification resilienceSpecification = new ExchangeSpecification.ResilienceSpecification();
+    ExchangeSpecification.ResilienceSpecification resilienceSpecification =
+        new ExchangeSpecification.ResilienceSpecification();
     resilienceSpecification.setRateLimiterEnabled(true);
     resilienceSpecification.setRetryEnabled(true);
     spec.setResilience(resilienceSpecification);
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
-    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled()).isEqualTo(true);
-    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled()).isEqualTo(true);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRateLimiterEnabled())
+        .isEqualTo(true);
+    assertThat(exchange.getExchangeSpecification().getResilience().isRetryEnabled())
+        .isEqualTo(true);
   }
 
   @Test

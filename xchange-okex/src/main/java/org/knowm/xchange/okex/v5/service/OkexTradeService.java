@@ -1,5 +1,8 @@
 package org.knowm.xchange.okex.v5.service;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -10,10 +13,6 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 08-06-2021 */
 public class OkexTradeService extends OkexTradeServiceRaw implements TradeService {

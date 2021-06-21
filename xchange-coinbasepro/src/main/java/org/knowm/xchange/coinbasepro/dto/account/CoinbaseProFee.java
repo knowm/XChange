@@ -1,7 +1,6 @@
 package org.knowm.xchange.coinbasepro.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
 public class CoinbaseProFee {

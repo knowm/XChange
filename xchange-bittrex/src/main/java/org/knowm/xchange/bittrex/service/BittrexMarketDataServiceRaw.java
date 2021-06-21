@@ -41,9 +41,9 @@ public class BittrexMarketDataServiceRaw extends BittrexBaseService {
 
   public List<BittrexCurrency> getBittrexCurrencies() throws IOException {
     return decorateApiCall(bittrexAuthenticated::getCurrencies)
-            .withRetry(retry("getCurrencies"))
-            .withRateLimiter(rateLimiter(PUBLIC_ENDPOINTS_RATE_LIMITER))
-            .call();
+        .withRetry(retry("getCurrencies"))
+        .withRateLimiter(rateLimiter(PUBLIC_ENDPOINTS_RATE_LIMITER))
+        .call();
   }
 
   public BittrexMarketSummary getBittrexMarketSummary(String pair) throws IOException {

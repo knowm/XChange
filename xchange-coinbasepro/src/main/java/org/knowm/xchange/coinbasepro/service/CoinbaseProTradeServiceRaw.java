@@ -38,8 +38,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#fills */
-  public CoinbasePagedResponse<CoinbaseProFill> getCoinbaseProFills(TradeHistoryParams tradeHistoryParams)
-      throws IOException {
+  public CoinbasePagedResponse<CoinbaseProFill> getCoinbaseProFills(
+      TradeHistoryParams tradeHistoryParams) throws IOException {
 
     String orderId = null;
     String productId = null;
@@ -141,7 +141,8 @@ public class CoinbaseProTradeServiceRaw extends CoinbaseProBaseService {
   }
 
   /** https://docs.pro.coinbase.com/#list-orders */
-  public CoinbasePagedResponse<CoinbaseProOrder> getOrders(String status, Integer limit, String after) throws IOException {
+  public CoinbasePagedResponse<CoinbaseProOrder> getOrders(
+      String status, Integer limit, String after) throws IOException {
     try {
       return decorateApiCall(
               () ->

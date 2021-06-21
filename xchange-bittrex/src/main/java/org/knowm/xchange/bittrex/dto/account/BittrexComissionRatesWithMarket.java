@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BittrexComissionRatesWithMarket {
-    private String marketSymbol;
-    private Double makerRate;
-    private Double takerRate;
+  private String marketSymbol;
+  private Double makerRate;
+  private Double takerRate;
 }

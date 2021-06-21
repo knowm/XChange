@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
 import org.junit.Test;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
@@ -109,7 +108,8 @@ public class CoinbaseProAdaptersTest {
     InputStream is =
         getClass()
             .getResourceAsStream("/org/knowm/xchange/coinbasepro/dto/trade/example-fills.json");
-    List<CoinbaseProFill> fills = mapper.readValue(is, new TypeReference<List<CoinbaseProFill>>(){});
+    List<CoinbaseProFill> fills =
+        mapper.readValue(is, new TypeReference<List<CoinbaseProFill>>() {});
 
     UserTrades trades = CoinbaseProAdapters.adaptTradeHistory(fills);
 
