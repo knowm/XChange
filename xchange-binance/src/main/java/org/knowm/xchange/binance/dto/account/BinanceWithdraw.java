@@ -14,7 +14,7 @@ public final class BinanceWithdraw {
   private String txId;
   private String id;
   private String coin;
-  private long applyTime;
+  private String applyTime;
   /** (0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6Completed) */
   private int status;
 }

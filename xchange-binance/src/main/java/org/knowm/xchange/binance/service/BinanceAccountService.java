@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceErrorAdapter;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -271,7 +272,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                       new FundingRecord(
                           w.getAddress(),
                           w.getAddressTag(),
-                          new Date(w.getApplyTime()),
+                          BinanceAdapters.toDate(w.getApplyTime()),
                           Currency.getInstance(w.getCoin()),
                           w.getAmount(),
                           w.getId(),
