@@ -14,9 +14,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.simulated.SimulatedAccountService;
 import org.knowm.xchange.simulated.SimulatedExchange;
+import org.knowm.xchange.simulated.SimulatedMarketDataService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -100,7 +100,7 @@ public class SimulatedStreamingExchange implements StreamingExchange {
   }
 
   @Override
-  public MarketDataService getMarketDataService() {
+  public SimulatedMarketDataService getMarketDataService() {
     return exchange.getMarketDataService();
   }
 

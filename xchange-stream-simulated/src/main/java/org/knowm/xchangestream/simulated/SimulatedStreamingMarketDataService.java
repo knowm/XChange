@@ -22,15 +22,17 @@ public class SimulatedStreamingMarketDataService implements StreamingMarketDataS
       LoggerFactory.getLogger(SimulatedStreamingMarketDataService.class);
   private final SimulatedStreamingExchange exchange;
   private final Map<CurrencyPair, Observable<Ticker>> tickerSubscriptions;
+  private final Map<CurrencyPair, Observable<OrderBook>> orderBookSubscriptions;
 
   SimulatedStreamingMarketDataService(SimulatedStreamingExchange exchange) {
     this.exchange = exchange;
     this.tickerSubscriptions = new ConcurrentHashMap<>();
+    this.orderBookSubscriptions = new ConcurrentHashMap<>();
   }
 
   @Override
   public Observable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return orderBookSubscriptions.computeIfAbsent(currencyPair, s -> PublishSubject.<OrderBook>create());
   }
 
   @Override
@@ -46,5 +48,10 @@ public class SimulatedStreamingMarketDataService implements StreamingMarketDataS
   void publish(CurrencyPair currencyPair, Ticker ticker) {
     PublishSubject<Ticker> subject = (PublishSubject<Ticker>) getTicker(currencyPair);
     subject.onNext(ticker);
+  }
+  
+  void publish(CurrencyPair currencyPair, OrderBook orderBook) {
+    PublishSubject<OrderBook> subject = (PublishSubject<OrderBook>) getOrderBook(currencyPair);
+    subject.onNext(orderBook);
   }
 }
