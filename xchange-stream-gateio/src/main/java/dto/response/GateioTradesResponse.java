@@ -1,14 +1,13 @@
 package dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trade;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Setter

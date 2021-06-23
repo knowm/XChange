@@ -7,13 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import org.junit.Test;
-import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.BinanceResilience;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BinanceBaseServiceTest {
   /**
@@ -37,13 +35,13 @@ public class BinanceBaseServiceTest {
     assertThat(serviceBuilder.apply(0.1)).isEqualTo(0L);
     assertThat(serviceBuilder.apply(4.9999)).isEqualTo(4L);
     assertThatThrownBy(() -> serviceBuilder.apply(-1))
-        .isInstanceOf(ExchangeException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("must be in the range");
     assertThatThrownBy(() -> serviceBuilder.apply(60001))
-        .isInstanceOf(ExchangeException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("must be in the range");
     assertThatThrownBy(() -> serviceBuilder.apply("hello world"))
-        .isInstanceOf(ExchangeException.class)
+        .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("could not be parsed");
   }
 
@@ -59,7 +57,14 @@ public class BinanceBaseServiceTest {
     spec.setExchangeSpecificParameters(exchangeSpecificParams);
     spec.setApiKey("abc");
     spec.setSecretKey("123");
-    BinanceExchange exchange = (BinanceExchange) ExchangeFactory.INSTANCE.createExchange(spec);
+    BinanceExchange exchange =
+        new BinanceExchange() {
+          @Override
+          public void remoteInit() {
+            // avoid remote calls for this test
+          }
+        };
+    exchange.applySpecification(spec);
     return new BinanceBaseService(
         exchange,
         ExchangeRestProxyBuilder.forInterface(BinanceAuthenticated.class, spec).build(),

@@ -220,12 +220,14 @@ public final class GateioAdapters {
         .build();
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(GateioMarketDataServiceRaw marketDataService) throws IOException {
+  public static ExchangeMetaData adaptToExchangeMetaData(
+      GateioMarketDataServiceRaw marketDataService) throws IOException {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-    for (Entry<CurrencyPair, GateioMarketInfo> entry : marketDataService.getBTERMarketInfo().entrySet()) {
+    for (Entry<CurrencyPair, GateioMarketInfo> entry :
+        marketDataService.getBTERMarketInfo().entrySet()) {
 
       CurrencyPair currencyPair = entry.getKey();
       GateioMarketInfo btermarketInfo = entry.getValue();
@@ -241,11 +243,11 @@ public final class GateioAdapters {
     }
 
     Map<String, GateioFeeInfo> gateioFees = marketDataService.getGateioFees();
-    Map<String, GateioCoin> coins =  marketDataService.getGateioCoinInfo().getCoins();
+    Map<String, GateioCoin> coins = marketDataService.getGateioCoinInfo().getCoins();
     for (String coin : coins.keySet()) {
       GateioCoin gateioCoin = coins.get(coin);
       GateioFeeInfo gateioFeeInfo = gateioFees.get(coin);
-      if(gateioCoin != null && gateioFeeInfo != null) {
+      if (gateioCoin != null && gateioFeeInfo != null) {
         currencies.put(new Currency(coin), adaptCurrencyMetaData(gateioCoin, gateioFeeInfo));
       }
     }
@@ -253,18 +255,24 @@ public final class GateioAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
-  private static CurrencyMetaData adaptCurrencyMetaData(GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
+  private static CurrencyMetaData adaptCurrencyMetaData(
+      GateioCoin gateioCoin, GateioFeeInfo gateioFeeInfo) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
     if (gateioCoin.isWithdrawDelayed()) {
       walletHealth = WalletHealth.UNKNOWN;
-    } else if (gateioCoin.isDelisted() || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
+    } else if (gateioCoin.isDelisted()
+        || (gateioCoin.isWithdrawDisabled() && gateioCoin.isDepositDisabled())) {
       walletHealth = WalletHealth.OFFLINE;
     } else if (gateioCoin.isDepositDisabled()) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
     } else if (gateioCoin.isWithdrawDisabled()) {
       walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
     }
-    return new CurrencyMetaData(0, new BigDecimal(gateioFeeInfo.getWithdrawFix()), gateioFeeInfo.getWithdrawAmountMini(), walletHealth);
+    return new CurrencyMetaData(
+        0,
+        new BigDecimal(gateioFeeInfo.getWithdrawFix()),
+        gateioFeeInfo.getWithdrawAmountMini(),
+        walletHealth);
   }
 
   public static List<FundingRecord> adaptDepositsWithdrawals(

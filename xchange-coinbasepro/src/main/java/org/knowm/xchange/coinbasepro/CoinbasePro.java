@@ -16,7 +16,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.coinbasepro.dto.CoinbasePagedResponse;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProException;
 import org.knowm.xchange.coinbasepro.dto.CoinbaseProTrades;
@@ -132,14 +131,14 @@ public interface CoinbasePro {
   @GET
   @Path("orders")
   CoinbasePagedResponse<CoinbaseProOrder> getListOrders(
-          @HeaderParam("CB-ACCESS-KEY") String apiKey,
-          @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-          @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
-          @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-          @QueryParam("status") String status,
-          @QueryParam("limit") Integer limit,
-          @QueryParam("after") String after
-  ) throws CoinbaseProException, IOException;
+      @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") long timestamp,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @QueryParam("status") String status,
+      @QueryParam("limit") Integer limit,
+      @QueryParam("after") String after)
+      throws CoinbaseProException, IOException;
 
   @POST
   @Path("orders")
