@@ -1,3 +1,5 @@
+package info.bitrich.xchangestream.gateio;
+
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
@@ -15,7 +17,8 @@ public class GateioStreamingExchange extends GateioExchange implements Streaming
   private GateioStreamingService streamingService;
   private StreamingMarketDataService streamingMarketDataService;
 
-  public GateioStreamingExchange() {}
+  public GateioStreamingExchange() {
+  }
 
   @Override
   public Completable connect(ProductSubscription... args) {
