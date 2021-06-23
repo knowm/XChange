@@ -54,11 +54,11 @@ public class BitmaxBaseService extends BaseExchangeService implements BaseServic
         BitmaxDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  public <R> R checkResult(BitmaxResponse<R> response) throws IOException {
+  public <R> R checkResult(BitmaxResponse<R> response) throws BitmaxException {
     if (response.getCode() == 0) {
       return response.getData();
     } else {
-      throw new BitmaxException(response.getMessage());
+      throw new BitmaxException(response.getCode(), response.getMessage());
     }
   }
 }

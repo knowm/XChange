@@ -42,7 +42,7 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
-      throw new BitmaxException(
+      throw new IOException(
           "Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Bitmax.");
     }
   }
@@ -61,7 +61,7 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
       return BitmaxAdapters.adaptOpenOrders(
           getBitmaxOpenOrders(((OpenOrdersParamInstrument) params).getInstrument().toString()));
     } else {
-      throw new BitmaxException(
+      throw new IOException(
           "Params must be instanceOf OpenOrdersParamCurrencyPair or OpenOrdersParamInstrument in order to get openOrders from Bitmax.");
     }
   }
@@ -78,8 +78,7 @@ public class BitmaxTradeService extends BitmaxTradeServiceRaw implements TradeSe
           getBitmaxUserTrades(
               ((TradeHistoryParamCurrencyPair) params).getCurrencyPair().toString()));
     } else {
-      throw new BitmaxException(
-          "CurrencyPair must specified in order to get usertrades from Bitmax.");
+      throw new IOException("CurrencyPair must specified in order to get usertrades from Bitmax.");
     }
   }
 

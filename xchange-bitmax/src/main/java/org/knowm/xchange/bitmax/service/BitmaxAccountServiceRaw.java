@@ -13,15 +13,12 @@ public class BitmaxAccountServiceRaw extends BitmaxBaseService {
     super(exchange);
   }
 
-  public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance() throws IOException {
-    try {
-      return checkResult(
-          bitmaxAuthenticated.getCashAccountBalance(
-              exchange.getExchangeSpecification().getApiKey(),
-              exchange.getNonceFactory().createValue(),
-              signatureCreator));
-    } catch (IOException e) {
-      throw new BitmaxException(e.getMessage());
-    }
+  public List<BitmaxCashAccountBalanceDto> getBitmaxCashAccountBalance()
+      throws BitmaxException, IOException {
+    return checkResult(
+        bitmaxAuthenticated.getCashAccountBalance(
+            exchange.getExchangeSpecification().getApiKey(),
+            exchange.getNonceFactory().createValue(),
+            signatureCreator));
   }
 }

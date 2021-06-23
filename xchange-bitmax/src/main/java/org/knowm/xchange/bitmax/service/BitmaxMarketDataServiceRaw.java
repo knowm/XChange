@@ -16,35 +16,19 @@ public class BitmaxMarketDataServiceRaw extends BitmaxBaseService {
     super(exchange);
   }
 
-  public List<BitmaxAssetDto> getAllAssets() throws IOException {
-    try {
-      return checkResult(bitmax.getAllAssets());
-    } catch (BitmaxException e) {
-      throw new BitmaxException(e.getMessage());
-    }
+  public List<BitmaxAssetDto> getAllAssets() throws BitmaxException, IOException {
+    return checkResult(bitmax.getAllAssets());
   }
 
-  public List<BitmaxProductDto> getAllProducts() throws IOException {
-    try {
-      return checkResult(bitmax.getAllProducts());
-    } catch (BitmaxException e) {
-      throw new BitmaxException(e.getMessage());
-    }
+  public List<BitmaxProductDto> getAllProducts() throws BitmaxException, IOException {
+    return checkResult(bitmax.getAllProducts());
   }
 
-  public BitmaxOrderbookDto getBitmaxOrderbook(String symbol) throws IOException {
-    try {
-      return checkResult(bitmax.getOrderbookDepth(symbol));
-    } catch (BitmaxException e) {
-      throw new BitmaxException(e.getMessage());
-    }
+  public BitmaxOrderbookDto getBitmaxOrderbook(String symbol) throws BitmaxException, IOException {
+    return checkResult(bitmax.getOrderbookDepth(symbol));
   }
 
-  public BitmaxMarketTradesDto getBitmaxTrades(String symbol) throws IOException {
-    try {
-      return checkResult(bitmax.getTrades(symbol));
-    } catch (BitmaxException e) {
-      throw new BitmaxException(e.getMessage());
-    }
+  public BitmaxMarketTradesDto getBitmaxTrades(String symbol) throws BitmaxException, IOException {
+    return checkResult(bitmax.getTrades(symbol));
   }
 }
