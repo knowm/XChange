@@ -121,7 +121,6 @@ public interface GateioAuthenticated extends Gateio {
   @POST
   @Path("private/feelist")
   Map<String, GateioFeeInfo> getFeeList(
-          @HeaderParam("KEY") String apiKey,
-          @HeaderParam("SIGN") ParamsDigest signer)
-          throws IOException;
+      @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer)
+      throws IOException;
 }
