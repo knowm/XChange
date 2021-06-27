@@ -23,7 +23,7 @@ public class BitmaxExchange extends BaseExchange implements Exchange {
     @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
         ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-        exchangeSpecification.setSslUri("https://bitmax.io/");
+        exchangeSpecification.setSslUri("https://ascendex.com/");
         exchangeSpecification.setExchangeName("Bitmax");
         exchangeSpecification.setExchangeDescription(
                 "Bitmax is a Bitcoin exchange with spot and future markets.");
