@@ -104,7 +104,7 @@ public class CexioStreamingRawService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String eventName = getEventNameFromChannel(channelName);
 
     CurrencyPair currencyPairForChannel = null;
