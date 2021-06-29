@@ -2,14 +2,13 @@ package info.bitrich.xchangestream.ftx.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.instrument.Instrument;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.instrument.Instrument;
 
 public class FtxTickerResponse implements Serializable {
 

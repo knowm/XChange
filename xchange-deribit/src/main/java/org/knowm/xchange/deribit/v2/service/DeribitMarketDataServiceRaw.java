@@ -39,8 +39,7 @@ public class DeribitMarketDataServiceRaw extends DeribitBaseService {
     return deribit.getOrderBook(instrumentName, depth).getResult();
   }
 
-  public List<List<BigDecimal>> getHistoricalVolatility(String currency)
-          throws IOException {
+  public List<List<BigDecimal>> getHistoricalVolatility(String currency) throws IOException {
     return deribit.getHistoricalVolatility(currency).getResult();
   }
 
