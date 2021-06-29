@@ -44,7 +44,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String channel = channelName.substring(0, channelName.indexOf(":"));
     String market = channelName.substring(channelName.indexOf(":") + 1);
 

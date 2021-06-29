@@ -112,7 +112,7 @@ class BTCMarketsStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     if (channelName.startsWith(CHANNEL_ORDERBOOK)
         || channelName.startsWith(CHANNEL_TICKER)
         || channelName.startsWith(CHANNEL_TRADE)) {
