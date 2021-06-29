@@ -35,8 +35,27 @@ public class BinanceBaseService extends BaseResilientExchangeService<BinanceExch
   }
 
   public Long getRecvWindow() {
-    return (Long)
+    Object obj =
         exchange.getExchangeSpecification().getExchangeSpecificParametersItem("recvWindow");
+    if (obj == null) return null;
+    if (obj instanceof Number) {
+      long value = ((Number) obj).longValue();
+      if (value < 0 || value > 60000) {
+        throw new IllegalArgumentException(
+            "Exchange-specific parameter \"recvWindow\" must be in the range [0, 60000].");
+      }
+      return value;
+    }
+    if (obj.getClass().equals(String.class)) {
+      try {
+        return Long.parseLong((String) obj, 10);
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException(
+            "Exchange-specific parameter \"recvWindow\" could not be parsed.", e);
+      }
+    }
+    throw new IllegalArgumentException(
+        "Exchange-specific parameter \"recvWindow\" could not be parsed.");
   }
 
   public SynchronizedValueFactory<Long> getTimestampFactory() {

@@ -2,6 +2,7 @@ import dto.response.GateioOrderBookResponse;
 import dto.response.GateioTradesResponse;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import io.reactivex.Observable;
+import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -9,8 +10,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /** Author: Max Gao (gaamox@tutanota.com) Created: 05-05-2021 */
 public class GateioStreamingMarketDataService implements StreamingMarketDataService {

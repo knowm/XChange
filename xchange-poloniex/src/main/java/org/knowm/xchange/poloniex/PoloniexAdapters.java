@@ -253,15 +253,16 @@ public class PoloniexAdapters {
 
       Currency ccy = Currency.getInstance(entry.getKey());
 
-      if (!currencyMetaDataMap.containsKey(ccy)){
+      if (!currencyMetaDataMap.containsKey(ccy)) {
         currencyMetaDataMap.put(ccy, currencyArchetype);
       }
       CurrencyMetaData currencyMetaData = currencyMetaDataMap.get(ccy);
       WalletHealth walletHealth = WalletHealth.ONLINE;
-      if( entry.getValue().isDelisted() || entry.getValue().isDisabled()){
+      if (entry.getValue().isDelisted() || entry.getValue().isDisabled()) {
         walletHealth = WalletHealth.OFFLINE;
       }
-      CurrencyMetaData currencyMetaDataUpdated = new CurrencyMetaData(
+      CurrencyMetaData currencyMetaDataUpdated =
+          new CurrencyMetaData(
               currencyMetaData.getScale(),
               entry.getValue().getTxFee(),
               currencyMetaData.getMinWithdrawalAmount(),
