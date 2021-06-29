@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.gateio.dto.marketdata.*;
 
 @Path("api2/1")
@@ -26,6 +25,10 @@ public interface Gateio {
   @GET
   @Path("tickers")
   Map<String, GateioTicker> getTickers() throws IOException;
+
+  @GET
+  @Path("coininfo")
+  GateioCoinInfoWrapper getCoinInfo() throws IOException;
 
   @GET
   @Path("ticker/{ident}_{currency}")
@@ -56,8 +59,8 @@ public interface Gateio {
   @GET
   @Path("candlestick2/{currency_pair}")
   GateioCandlestickHistory getKlinesGate(
-          @PathParam("currency_pair") String tradePair,
-          @QueryParam("range_hour") Integer hours,
-          @QueryParam("group_sec") Long interval)
-          throws IOException;
+      @PathParam("currency_pair") String tradePair,
+      @QueryParam("range_hour") Integer hours,
+      @QueryParam("group_sec") Long interval)
+      throws IOException;
 }

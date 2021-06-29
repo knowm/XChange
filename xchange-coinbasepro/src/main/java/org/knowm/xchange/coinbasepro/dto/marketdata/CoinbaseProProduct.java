@@ -14,7 +14,10 @@ public class CoinbaseProProduct {
   private final BigDecimal maxMarketFunds;
   private final BigDecimal baseIncrement;
   private final BigDecimal quoteIncrement;
+  private final boolean cancelOnly;
   private final boolean limitOnly;
+  private final boolean postOnly;
+  private final boolean tradingDisabled;
   private final String status;
 
   public CoinbaseProProduct(
@@ -27,7 +30,10 @@ public class CoinbaseProProduct {
       @JsonProperty("max_market_funds") BigDecimal maxMarketFunds,
       @JsonProperty("base_increment") BigDecimal baseIncrement,
       @JsonProperty("quote_increment") BigDecimal quoteIncrement,
+      @JsonProperty("cancel_only") boolean cancelOnly,
       @JsonProperty("limit_only") boolean limitOnly,
+      @JsonProperty("post_only") boolean postOnly,
+      @JsonProperty("trading_disabled") boolean tradingDisabled,
       @JsonProperty("status") String status) {
 
     this.id = id;
@@ -39,7 +45,10 @@ public class CoinbaseProProduct {
     this.maxMarketFunds = maxMarketFunds;
     this.baseIncrement = baseIncrement;
     this.quoteIncrement = quoteIncrement;
+    this.cancelOnly = cancelOnly;
     this.limitOnly = limitOnly;
+    this.postOnly = postOnly;
+    this.tradingDisabled = tradingDisabled;
     this.status = status;
   }
 
@@ -85,8 +94,20 @@ public class CoinbaseProProduct {
     return maxMarketFunds;
   }
 
+  public boolean isCancelOnly() {
+    return cancelOnly;
+  }
+
   public boolean isLimitOnly() {
     return limitOnly;
+  }
+
+  public boolean isPostOnly() {
+    return postOnly;
+  }
+
+  public boolean isTradingDisabled() {
+    return tradingDisabled;
   }
 
   public String getStatus() {
