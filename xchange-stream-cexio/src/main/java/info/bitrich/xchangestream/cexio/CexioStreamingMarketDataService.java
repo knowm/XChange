@@ -84,7 +84,37 @@ public class CexioStreamingMarketDataService implements StreamingMarketDataServi
 
   @Override
   public Observable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
-    throw new NotYetImplementedForExchangeException();
+    String channelNameForPair =
+        CexioStreamingRawService.GetOrderBookChannelForCurrencyPair(currencyPair);
+
+    final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
+    int depth = 1;
+    Observable<JsonNode> jsonNodeObservable =
+        streamingOrderDataService.subscribeChannel(channelNameForPair, currencyPair, depth);
+    OrderBookUpdateConsumer orderBookConsumer =
+        new OrderBookUpdateConsumer(streamingOrderDataService);
+
+    return jsonNodeObservable
+        .map(
+            s -> {
+              JsonNode dataNode = s.get("data");
+              return mapper.readValue(
+                  dataNode.toString(), CexioWebSocketOrderBookSubscribeResponse.class);
+            })
+        .map(orderBookConsumer)
+        .filter(orderBook -> !orderBook.getBids().isEmpty() && !orderBook.getAsks().isEmpty())
+        .map(
+            orderBook ->
+                new Ticker.Builder()
+                    .timestamp(orderBook.getTimeStamp())
+                    .instrument(currencyPair)
+                    .bid(orderBook.getBids().get(0).getLimitPrice())
+                    .ask(orderBook.getAsks().get(0).getLimitPrice())
+                    .build())
+        .distinctUntilChanged(
+            (prev, next) ->
+                prev.getBid().compareTo(next.getBid()) == 0
+                    && prev.getAsk().compareTo(next.getAsk()) == 0);
   }
 
   @Override

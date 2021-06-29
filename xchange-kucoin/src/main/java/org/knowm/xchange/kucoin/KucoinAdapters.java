@@ -8,6 +8,7 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -32,6 +33,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.WalletHealth;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
@@ -42,6 +44,8 @@ import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinAdapters {
+
+  private static final String TAKER_FEE_RATE = "takerFeeRate";
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair == null ? null : pair.base.getCurrencyCode() + "-" + pair.counter.getCurrencyCode();
@@ -93,15 +97,20 @@ public class KucoinAdapters {
    * <strong>and max</strong> amount that the XChange API current doesn't take account of.
    *
    * @param exchangeMetaData The static exchange metadata.
-   * @param kucoinSymbols Kucoin symbol data.
+   * @param marketDataService Kucoin market data service
    * @return Exchange metadata.
    */
   public static ExchangeMetaData adaptMetadata(
-      ExchangeMetaData exchangeMetaData, List<SymbolResponse> kucoinSymbols) {
+      ExchangeMetaData exchangeMetaData, KucoinMarketDataService marketDataService)
+      throws IOException {
+
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
+    Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
+        adaptCurrencyMetaData(marketDataService.getKucoinCurrencies());
+    BigDecimal takerTradingFee = marketDataService.getKucoinBaseFee().get(TAKER_FEE_RATE);
 
-    for (SymbolResponse symbol : kucoinSymbols) {
+    for (SymbolResponse symbol : marketDataService.getKucoinSymbols()) {
 
       CurrencyPair pair = adaptCurrencyPair(symbol.getSymbol());
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
@@ -112,15 +121,17 @@ public class KucoinAdapters {
 
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
-              null,
+              takerTradingFee,
               minSize,
               maxSize,
               priceScale,
               staticMetaData != null ? staticMetaData.getFeeTiers() : null);
       currencyPairs.put(pair, cpmd);
 
-      if (!currencies.containsKey(pair.base)) currencies.put(pair.base, null);
-      if (!currencies.containsKey(pair.counter)) currencies.put(pair.counter, null);
+      if (!currencies.containsKey(pair.base))
+        currencies.put(pair.base, stringCurrencyMetaDataMap.get(pair.base.getCurrencyCode()));
+      if (!currencies.containsKey(pair.counter))
+        currencies.put(pair.counter, stringCurrencyMetaDataMap.get(pair.counter.getCurrencyCode()));
     }
 
     return new ExchangeMetaData(
@@ -129,6 +140,40 @@ public class KucoinAdapters {
         exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(),
         true);
+  }
+
+  static HashMap<String, CurrencyMetaData> adaptCurrencyMetaData(List<CurrenciesResponse> list) {
+    HashMap<String, CurrencyMetaData> stringCurrencyMetaDataMap = new HashMap<>();
+    for (CurrenciesResponse currenciesResponse : list) {
+      BigDecimal precision = currenciesResponse.getPrecision();
+      String withdrawalMinFee = currenciesResponse.getWithdrawalMinFee();
+      String withdrawalMinSize = currenciesResponse.getWithdrawalMinSize();
+      WalletHealth walletHealth = getWalletHealth(currenciesResponse);
+      CurrencyMetaData currencyMetaData =
+          new CurrencyMetaData(
+              precision.intValue(),
+              new BigDecimal(withdrawalMinFee),
+              new BigDecimal(withdrawalMinSize),
+              walletHealth);
+      stringCurrencyMetaDataMap.put(currenciesResponse.getCurrency(), currencyMetaData);
+    }
+    return stringCurrencyMetaDataMap;
+  }
+
+  /**
+   * @param currenciesResponse currency response which holds wallet status information
+   * @return WalletHealth
+   */
+  private static WalletHealth getWalletHealth(CurrenciesResponse currenciesResponse) {
+    WalletHealth walletHealth = WalletHealth.ONLINE;
+    if (!currenciesResponse.isWithdrawEnabled() && !currenciesResponse.isDepositEnabled()) {
+      walletHealth = WalletHealth.OFFLINE;
+    } else if (!currenciesResponse.isDepositEnabled()) {
+      walletHealth = WalletHealth.DEPOSITS_DISABLED;
+    } else if (!currenciesResponse.isWithdrawEnabled()) {
+      walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
+    }
+    return walletHealth;
   }
 
   public static OrderBook adaptOrderBook(CurrencyPair currencyPair, OrderBookResponse kc) {

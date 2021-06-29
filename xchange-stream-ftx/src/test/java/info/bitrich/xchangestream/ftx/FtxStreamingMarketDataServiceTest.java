@@ -2,20 +2,25 @@ package info.bitrich.xchangestream.ftx;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
+import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import io.reactivex.disposables.Disposable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,13 +78,44 @@ public class FtxStreamingMarketDataServiceTest {
                   }
                 });
 
+    Disposable dis3 =
+        exchange
+            .getStreamingMarketDataService()
+            .getTicker(CurrencyPair.BTC_USD)
+            .subscribe(
+                ticker -> {
+                  if (ticker.getBid() != null && ticker.getAsk() != null) {
+                    assertThat(ticker.getAskSize()).isNotNull();
+                    assertThat(ticker.getBidSize()).isNotNull();
+                    assertThat(ticker.getLast()).isNotNull();
+                    assertThat(ticker.getTimestamp()).isNotNull();
+                    assertThat(ticker.getInstrument().equals(CurrencyPair.BTC_USD)).isTrue();
+                    assertThat(ticker.getBid()).isLessThan(ticker.getAsk());
+                  }
+                });
+    Disposable dis4 =
+        exchange
+            .getStreamingMarketDataService()
+            .getTrades(CurrencyPair.BTC_USD)
+            .subscribe(
+                trade -> {
+                  assertThat(trade.getId()).isNotNull();
+                  assertThat(trade.getType()).isNotNull();
+                  assertThat(trade.getOriginalAmount()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getInstrument()).isEqualTo(CurrencyPair.BTC_USD);
+                  assertThat(trade.getPrice()).isGreaterThan(new BigDecimal(0));
+                  assertThat(trade.getTimestamp()).isNotNull();
+                });
+
     TimeUnit.SECONDS.sleep(6);
     dis.dispose();
     dis2.dispose();
+    dis3.dispose();
+    dis4.dispose();
   }
 
   @Test
-  public void testParser() throws IOException {
+  public void testParserMarket() throws IOException {
     // Read in the JSON from the example resources
     InputStream is =
         FtxStreamingMarketDataServiceTest.class.getResourceAsStream(
@@ -92,6 +128,46 @@ public class FtxStreamingMarketDataServiceTest {
     // Verify that the example data was unmarshalled correctly
 
     assertThat(ftxResponse.getAsks().get(0).get(0)).isEqualTo(BigDecimal.valueOf(55114));
+  }
+
+  @Test
+  public void testCalcCrc() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        FtxStreamingMarketDataServiceTest.class.getResourceAsStream(
+            "/ftxOrderbookResponse-example.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, Object> jsonMap = mapper.readValue(is, Map.class);
+
+    JsonNode node = mapper.valueToTree(jsonMap);
+    // Verify that the example data was unmarshalled correctly
+    OrderBook book = new OrderBook(null, new ArrayList<>(), new ArrayList<>());
+    FtxStreamingAdapters.adaptOrderbookMessage(book, CurrencyPair.BTC_USD, node);
+  }
+
+  @Test
+  public void testParserTicker() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is =
+        FtxStreamingMarketDataServiceTest.class.getResourceAsStream(
+            "/ftxTickerResponse-example.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    FtxTickerResponse ftxResponse = mapper.readValue(is, FtxTickerResponse.class);
+
+    // Verify that the example data was unmarshalled correctly
+
+    assertThat(
+            new FtxTickerResponse(
+                1621712252.2447793,
+                BigDecimal.valueOf(37819.0),
+                BigDecimal.valueOf(2.0809),
+                BigDecimal.valueOf(3.783E+4),
+                BigDecimal.valueOf(0.0793),
+                BigDecimal.valueOf(37829.0)))
+        .isEqualTo(ftxResponse);
   }
 
   @Test

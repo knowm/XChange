@@ -17,9 +17,9 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements StreamingExchange {
   private static final String API_URI = "wss://ws-feed.pro.coinbase.com";
   private static final String SANDBOX_API_URI = "wss://ws-feed-public.sandbox.pro.coinbase.com";
-  private static final String PRIME_API_URI = "wss://ws-feed.prime.coinbase.com";
+  private static final String PRIME_API_URI = "wss://ws-feed.exchange.coinbase.com";
   private static final String PRIME_SANDBOX_API_URI =
-      "wss://ws-feed-public.sandbox.prime.coinbase.com";
+      "wss://ws-feed-public.sandbox.exchange.coinbase.com";
 
   private CoinbaseProStreamingService streamingService;
   private CoinbaseProStreamingMarketDataService streamingMarketDataService;
@@ -103,6 +103,11 @@ public class CoinbaseProStreamingExchange extends CoinbaseProExchange implements
   @Override
   public Observable<State> connectionStateObservable() {
     return streamingService.subscribeConnectionState();
+  }
+
+  @Override
+  public Observable<Object> connectionIdle() {
+    return streamingService.subscribeIdle();
   }
 
   @Override
