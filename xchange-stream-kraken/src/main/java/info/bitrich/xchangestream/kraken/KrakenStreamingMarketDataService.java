@@ -36,19 +36,14 @@ public class KrakenStreamingMarketDataService implements StreamingMarketDataServ
       String channelName = getChannelName(KrakenSubscriptionName.book, currencyPair);
       TreeSet<LimitOrder> bids = Sets.newTreeSet();
       TreeSet<LimitOrder> asks = Sets.newTreeSet();
-      Object lock = new Object();
       int depth = KrakenStreamingService.parseOrderBookSize(args);
       return subscribe(channelName, MIN_DATA_ARRAY_SIZE, args).map(arrayNode -> {
                             try {
-                                synchronized (lock){
                                     return KrakenStreamingAdapters.adaptOrderbookMessage(depth, bids, asks, currencyPair, arrayNode);
-                                }
                             } catch (IllegalStateException e) {
                                 LOG.warn("Resubscribing {} channel after adapter error {}", currencyPair, e.getMessage());
-                                synchronized (lock){
-                                    bids.clear();
-                                    asks.clear();
-                                }
+                                bids.clear();
+                                asks.clear();
                                 // Resubscribe to the channel, triggering a new snapshot
                                 this.service.sendMessage(service.getUnsubscribeMessage(channelName, args));
                                 this.service.sendMessage(service.getSubscribeMessage(channelName, args));

@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.CRC32;
 
 public class KrakenStreamingChecksum {
+    private static final int CHECKSUM_ORDERBOOK_DEPTH = 10;
+
     private static final LoadingCache<BigDecimal, String> crcStringCache = CacheBuilder
             .newBuilder()
             .expireAfterAccess(1, TimeUnit.MINUTES)
@@ -37,8 +39,8 @@ public class KrakenStreamingChecksum {
 
     public static String createCrcString(TreeSet<LimitOrder> asks, TreeSet<LimitOrder> bids) {
         StringBuilder stringBuilder = new StringBuilder();
-        asks.stream().limit(10).forEach(o -> addOrderToCrcString(stringBuilder, o));
-        bids.stream().limit(10).forEach(o -> addOrderToCrcString(stringBuilder, o));
+        asks.stream().limit(CHECKSUM_ORDERBOOK_DEPTH).forEach(o -> addOrderToCrcString(stringBuilder, o));
+        bids.stream().limit(CHECKSUM_ORDERBOOK_DEPTH).forEach(o -> addOrderToCrcString(stringBuilder, o));
         return stringBuilder.toString();
     }
 
