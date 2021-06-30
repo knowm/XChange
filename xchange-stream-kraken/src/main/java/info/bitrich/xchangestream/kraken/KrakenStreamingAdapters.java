@@ -81,7 +81,6 @@ public class KrakenStreamingAdapters {
         if ( bids.isEmpty() && asks.isEmpty()){
             LOG.info("Ignoring {} message {}, awaiting snapshot", instrument, arrayNode);
         }
-        OrderBook result = new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
         long localChecksum = createCrcChecksum(asks, bids);
         if (expectedChecksum.get() > 0 && expectedChecksum.get() != localChecksum) {
             LOG.warn("{} checksum does not match, expected {} but local checksum is {}", instrument, expectedChecksum.get(), localChecksum);
@@ -89,7 +88,7 @@ public class KrakenStreamingAdapters {
         } else if (expectedChecksum.get() == 0) {
             LOG.debug("Skipping {} checksum validation, no expected checksum in message", instrument);
         }
-        return result;
+        return new OrderBook(lastTime.get(), Lists.newArrayList(asks), Lists.newArrayList(bids), true);
     }
 
     /**
