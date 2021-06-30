@@ -203,7 +203,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     int reqID = Math.abs(UUID.randomUUID().hashCode());
     String[] channelData =
         channelName.split(KrakenStreamingMarketDataService.KRAKEN_CHANNEL_DELIMITER);
