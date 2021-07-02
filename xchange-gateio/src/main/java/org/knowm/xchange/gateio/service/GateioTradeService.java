@@ -15,10 +15,7 @@ import org.knowm.xchange.gateio.GateioAdapters;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class GateioTradeService extends GateioTradeServiceRaw implements TradeService {
@@ -78,10 +75,10 @@ public class GateioTradeService extends GateioTradeServiceRaw implements TradeSe
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
-    if (orderParams instanceof GateioCancelOrderParams) {
+    if (orderParams instanceof CancelOrderByCurrencyPair && orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(
-          ((GateioCancelOrderParams) orderParams).getOrderId(),
-          ((GateioCancelOrderParams) orderParams).getCurrencyPair());
+          ((CancelOrderByIdParams) orderParams).getOrderId(),
+          ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair());
     } else {
       return false;
     }
