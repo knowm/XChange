@@ -61,7 +61,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
           new FtxAuthenticationMessage.FtxAuthenticationArgs(
               exchangeSpecification.getApiKey(),
               DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
-              nonce));
+              nonce,
+              exchangeSpecification.getUserName()));
     } catch (Exception e) {
       throw new ExchangeException("Digest encoding exception", e);
     }

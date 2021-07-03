@@ -34,13 +34,17 @@ public class FtxAuthenticationMessage {
 
     private final Long time;
 
+    private final String subaccount;
+
     public FtxAuthenticationArgs(
-        @JsonProperty("key") String key,
-        @JsonProperty("sign") String sign,
-        @JsonProperty("time") Long time) {
+            @JsonProperty("key") String key,
+            @JsonProperty("sign") String sign,
+            @JsonProperty("time") Long time,
+            @JsonProperty("subaccount") String subaccount) {
       this.key = key;
       this.sign = sign;
       this.time = time;
+      this.subaccount = subaccount;
     }
 
     public String getKey() {
@@ -55,18 +59,18 @@ public class FtxAuthenticationMessage {
       return time;
     }
 
+    public String getSubaccount() {
+      return subaccount;
+    }
+
     @Override
     public String toString() {
-      return "FtxAuthenticationArgs{"
-          + "key='"
-          + key
-          + '\''
-          + ", sign='"
-          + sign
-          + '\''
-          + ", time="
-          + time
-          + '}';
+      return "FtxAuthenticationArgs{" +
+              "key='" + key + '\'' +
+              ", sign='" + sign + '\'' +
+              ", time=" + time +
+              ", subaccount='" + subaccount + '\'' +
+              '}';
     }
   }
 }
