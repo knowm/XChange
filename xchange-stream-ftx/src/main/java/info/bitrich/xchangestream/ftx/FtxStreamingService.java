@@ -46,7 +46,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
     try {
       Long nonce = System.currentTimeMillis();
-      String message = nonce.toString() + "websocket_login";
+      String message = nonce + "websocket_login";
 
       mac.update(message.getBytes(StandardCharsets.UTF_8));
 
@@ -63,8 +63,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
   @Override
   protected void handleMessage(JsonNode message) {
-    if(message.hasNonNull("type")){
-      if(message.get("type").asText().equals("error")){
+    if (message.hasNonNull("type")) {
+      if ("error".equals(message.get("type").asText())) {
         setLoggedInToFalse();
       }
     }
@@ -72,7 +72,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  protected String getChannelNameFromMessage(JsonNode message) throws IOException {
+  protected String getChannelNameFromMessage(JsonNode message) {
     String channelName = "";
 
     if ("fills".equals(message.get("channel").asText())) {

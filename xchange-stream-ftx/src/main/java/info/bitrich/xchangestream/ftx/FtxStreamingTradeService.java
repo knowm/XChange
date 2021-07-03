@@ -20,11 +20,8 @@ public class FtxStreamingTradeService implements StreamingTradeService {
     public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
 
         return fills
-                .filter(
-                        jsonNode ->
-                                jsonNode.hasNonNull("data")
-                                        && new CurrencyPair(jsonNode.get("data").get("market").asText())
-                                        .equals(currencyPair))
+                .filter(jsonNode -> jsonNode.hasNonNull("data"))
+                .filter(jsonNode -> new CurrencyPair(jsonNode.get("data").get("market").asText()).equals(currencyPair))
                 .map(FtxStreamingAdapters::adaptUserTrade);
     }
 }
