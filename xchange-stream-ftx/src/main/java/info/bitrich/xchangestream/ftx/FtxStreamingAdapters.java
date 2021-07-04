@@ -126,8 +126,7 @@ public class FtxStreamingAdapters {
       }
     }
     
-    String s = data.toString();
-    s = s.length() > 0 ? s.substring(0, s.length() - 1) : s; // strip last :
+    String s = data.length() > 0 ? data.substring(0, data.length() - 1) : data.toString(); // strip last :
     
     CRC32 crc32 = new CRC32();
     byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
