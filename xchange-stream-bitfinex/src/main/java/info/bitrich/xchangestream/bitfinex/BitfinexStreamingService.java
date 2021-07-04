@@ -280,7 +280,7 @@ public class BitfinexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String channelId = null;
     for (Map.Entry<String, String> entry : subscribedChannels.entrySet()) {
       if (entry.getValue().equals(channelName)) {

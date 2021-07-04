@@ -62,7 +62,7 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
   }
