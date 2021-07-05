@@ -117,7 +117,7 @@ public class FtxStreamingAdapters {
             .append(df.format(bids.get(i).getOriginalAmount()))
             .append(":");
       }
-      data.append(":");
+      
       if (asks.size() > i) {
         data.append(df.format(asks.get(i).getLimitPrice()))
             .append(":")
