@@ -128,7 +128,7 @@ public class FtxAccountServiceRaw extends FtxBaseService {
           exchange.getExchangeSpecification().getApiKey(),
           exchange.getNonceFactory().createValue(),
           signatureCreator,
-          URLEncoder.encode(subaccount, "UTF-8"),
+          null,
           new FtxLeverageDto(leverage));
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());
