@@ -10,6 +10,7 @@ import org.knowm.xchange.bittrex.*;
 import org.knowm.xchange.bittrex.dto.BittrexException;
 import org.knowm.xchange.bittrex.dto.account.BittrexAddress;
 import org.knowm.xchange.bittrex.dto.account.BittrexComissionRatesWithMarket;
+import org.knowm.xchange.bittrex.dto.withdrawal.BittrexWithdrawal;
 import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -89,6 +90,17 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
                 BigDecimal.valueOf(tradingFee.getTakerRate())));
       }
       return result;
+    } catch (BittrexException e) {
+      throw BittrexErrorAdapter.adapt(e);
+    }
+  }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    try {
+      BittrexWithdrawal createdWithdrawal = createNewWithdrawal(currency, amount, address);
+      return createdWithdrawal.getId();
     } catch (BittrexException e) {
       throw BittrexErrorAdapter.adapt(e);
     }
