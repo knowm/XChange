@@ -10,7 +10,6 @@ import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxPositionDto;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api")
