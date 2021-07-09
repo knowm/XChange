@@ -40,7 +40,7 @@ class CoinjarStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     CoinjarWebSocketUnsubscribeMessage message = new CoinjarWebSocketUnsubscribeMessage();
     return objectMapper.writeValueAsString(message);
   }

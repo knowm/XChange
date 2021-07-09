@@ -111,24 +111,25 @@ public class FtxStreamingAdapters {
   public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
     StringBuilder data = new StringBuilder(3072);
     for (int i = 0; i < 100; i++) {
-      if (bids.size() >= i) {
+      if (bids.size() > i) {
         data.append(df.format(bids.get(i).getLimitPrice()))
             .append(":")
-            .append(df.format(bids.get(i).getOriginalAmount()));
+            .append(df.format(bids.get(i).getOriginalAmount()))
+            .append(":");
       }
-      data.append(":");
-      if (asks.size() >= i) {
+
+      if (asks.size() > i) {
         data.append(df.format(asks.get(i).getLimitPrice()))
             .append(":")
-            .append(df.format(asks.get(i).getOriginalAmount()));
-      }
-      if (i != 99) {
-        data.append(":");
+            .append(df.format(asks.get(i).getOriginalAmount()))
+            .append(":");
       }
     }
-
+    
+    String s = data.length() > 0 ? data.substring(0, data.length() - 1) : data.toString(); // strip last :
+    
     CRC32 crc32 = new CRC32();
-    byte[] toBytes = data.toString().getBytes(StandardCharsets.UTF_8);
+    byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
     crc32.update(toBytes, 0, toBytes.length);
 
     return crc32.getValue();

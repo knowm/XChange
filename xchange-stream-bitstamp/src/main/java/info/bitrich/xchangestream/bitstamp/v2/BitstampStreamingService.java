@@ -96,7 +96,7 @@ public class BitstampStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     BitstampWebSocketSubscriptionMessage subscribeMessage =
         generateSubscribeMessage(channelName, "bts:unsubscribe");
     return objectMapper.writeValueAsString(subscribeMessage);
