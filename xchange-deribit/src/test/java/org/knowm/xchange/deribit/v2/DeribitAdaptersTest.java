@@ -16,8 +16,40 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitAdaptersTest {
+  
+  @Test
+  public void adaptInstrument() {
+    Instrument instrument = DeribitAdapters.adaptInstrument("BTC-USDT-PERPETUAL-F");
+    assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
+    assertThat(instrument).isEqualTo(new FuturesContract("BTC-USDT-PERPETUAL"));
+
+    instrument = DeribitAdapters.adaptInstrument("ETH-PERPETUAL");
+    assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
+    assertThat(instrument).isEqualTo(new FuturesContract("ETH-USD-perpetual"));
+
+    instrument = DeribitAdapters.adaptInstrument("ETH-31DEC21");
+    assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
+    assertThat(instrument).isEqualTo(new FuturesContract("ETH-USD-211231"));
+
+    instrument = DeribitAdapters.adaptInstrument("ETH-24SEP21-2040-P");
+    assertThat(instrument).isExactlyInstanceOf(OptionsContract.class);
+    assertThat(instrument).isEqualTo(new OptionsContract("ETH-USD-210924-2040-P"));
+
+    instrument = DeribitAdapters.adaptInstrument("BTC-PERPETUAL");
+    assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
+    assertThat(instrument).isEqualTo(new FuturesContract("BTC-USD-perpetual"));
+
+    instrument = DeribitAdapters.adaptInstrument("BTC-25MAR22");
+    assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
+    assertThat(instrument).isEqualTo(new FuturesContract("BTC-USD-220325"));
+
+    instrument = DeribitAdapters.adaptInstrument("BTC-24SEP21-7000-P");
+    assertThat(instrument).isExactlyInstanceOf(OptionsContract.class);
+    assertThat(instrument).isEqualTo(new OptionsContract("BTC-USD-210924-7000-P"));
+  }
 
   @Test
   public void adaptTicker() throws IOException {
@@ -29,7 +61,7 @@ public class DeribitAdaptersTest {
     DeribitTicker deribitTicker = mapper.readValue(is, DeribitTicker.class);
 
     // when
-    Ticker ticker = DeribitAdapters.adaptTicker(deribitTicker, new OptionsContract("BTC-USD-190503-5000-P"));
+    Ticker ticker = DeribitAdapters.adaptTicker(deribitTicker);
 
     // then
     assertThat(ticker).isNotNull();
@@ -56,7 +88,7 @@ public class DeribitAdaptersTest {
     DeribitOrderBook deribitOrderbook = mapper.readValue(is, DeribitOrderBook.class);
 
     // when
-    OrderBook orderBook = DeribitAdapters.adaptOrderBook(deribitOrderbook, new FuturesContract("BTC-USD-PERPETUAL"));
+    OrderBook orderBook = DeribitAdapters.adaptOrderBook(deribitOrderbook);
 
     // then
     assertThat(orderBook).isNotNull();

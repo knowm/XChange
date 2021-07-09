@@ -44,7 +44,7 @@ public class DeribitMarketDataService extends DeribitMarketDataServiceRaw
     } catch (DeribitException ex) {
       throw DeribitAdapters.adapt(ex);
     }
-    return DeribitAdapters.adaptTicker(deribitTicker, instrument);
+    return DeribitAdapters.adaptTicker(deribitTicker);
   }
 
   @Override
@@ -57,7 +57,7 @@ public class DeribitMarketDataService extends DeribitMarketDataServiceRaw
       throw new ExchangeException(ex);
     }
 
-    return DeribitAdapters.adaptOrderBook(deribitOrderBook, instrument);
+    return DeribitAdapters.adaptOrderBook(deribitOrderBook);
   }
 
   @Override
