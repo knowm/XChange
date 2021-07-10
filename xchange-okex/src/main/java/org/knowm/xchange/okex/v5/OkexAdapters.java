@@ -139,6 +139,14 @@ public class OkexAdapters {
   public static String adaptCurrencyPairId(Instrument instrument) {
     return instrument.toString().replace('/', '-');
   }
+  
+  public static String adaptInstrumentId(Instrument instrument) {
+      return adaptCurrencyPairId(instrument);
+   }
+
+  public static String adaptCurrencyPairId(CurrencyPair currencyPair) {
+    return currencyPair.toString().replace('/', '-');
+  }
 
   public static Trades adaptTrades(List<OkexTrade> okexTrades, Instrument instrument) {
     List<Trade> trades = new ArrayList<>();
