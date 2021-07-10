@@ -76,7 +76,8 @@ public class HuobiAdapters {
   }
 
   static ExchangeMetaData adaptToExchangeMetaData(
-          HuobiAssetPair[] assetPairs, HuobiAsset[] assets, ExchangeMetaData staticMetaData, HuobiCurrencyWrapper[] currencyWrapper) {
+          HuobiAssetPair[] assetPairs, HuobiAsset[] assets,
+          ExchangeMetaData staticMetaData, HuobiCurrencyWrapper[] currencyWrapper) {
 
     HuobiUtils.setHuobiAssets(assets);
     HuobiUtils.setHuobiAssetPairs(assetPairs);
@@ -90,7 +91,7 @@ public class HuobiAdapters {
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (HuobiCurrencyWrapper huobiCurrencyWrapper : currencyWrapper) {
-      if(huobiCurrencyWrapper.getHuobiCurrencies().length != 0) {
+      if (huobiCurrencyWrapper.getHuobiCurrencies().length != 0) {
         boolean isDelisted = DELISTED.equals(huobiCurrencyWrapper.getInstStatus());
         CurrencyMetaData currencyMetaData = adaptCurrencyMetaData(huobiCurrencyWrapper, isDelisted);
         Currency currency = HuobiUtils.translateHuobiCurrencyCode(huobiCurrencyWrapper.getCurrency());
@@ -104,10 +105,10 @@ public class HuobiAdapters {
   private static CurrencyMetaData adaptCurrencyMetaData(HuobiCurrencyWrapper huobiCurrencyWrapper, boolean isDelisted) {
     CurrencyMetaData result = null;
     List<HuobiCurrency> huobiCurrencies = Arrays.asList(huobiCurrencyWrapper.getHuobiCurrencies());
-    if(!huobiCurrencies.isEmpty()) {
+    if (!huobiCurrencies.isEmpty()) {
       result = getCurrencyMetaData(huobiCurrencies.get(0), isDelisted);
       for (HuobiCurrency huobiCurrency : huobiCurrencies) {
-        if(TARGET_NETWORK.equals(huobiCurrency.getDisplayName())) {
+        if (TARGET_NETWORK.equals(huobiCurrency.getDisplayName())) {
           result = getCurrencyMetaData(huobiCurrency, isDelisted);
           break;
         }
@@ -126,11 +127,11 @@ public class HuobiAdapters {
 
   private static WalletHealth getWalletHealthStatus(HuobiCurrency huobiCurrency) {
     WalletHealth walletHealth = WalletHealth.ONLINE;
-    if(!ONLINE.equals(huobiCurrency.getDepositStatus()) && !ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
+    if (!ONLINE.equals(huobiCurrency.getDepositStatus()) && !ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
       walletHealth = WalletHealth.OFFLINE;
-    }else if(!ONLINE.equals(huobiCurrency.getDepositStatus())) {
+    } else if (!ONLINE.equals(huobiCurrency.getDepositStatus())) {
       walletHealth = WalletHealth.DEPOSITS_DISABLED;
-    }else if(!ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
+    } else if (!ONLINE.equals(huobiCurrency.getWithdrawStatus())) {
       walletHealth = WalletHealth.WITHDRAWALS_DISABLED;
     }
     return walletHealth;

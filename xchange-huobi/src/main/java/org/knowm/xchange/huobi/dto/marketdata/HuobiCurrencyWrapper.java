@@ -22,10 +22,6 @@ public class HuobiCurrencyWrapper {
         return huobiCurrencies;
     }
 
-    public void setHuobiCurrencies(HuobiCurrency[] huobiCurrencies) {
-        this.huobiCurrencies = huobiCurrencies;
-    }
-
     public String getCurrency() {
         return currency;
     }
@@ -36,10 +32,6 @@ public class HuobiCurrencyWrapper {
 
     public String getInstStatus() {
         return instStatus;
-    }
-
-    public void setInstStatus(String instStatus) {
-        this.instStatus = instStatus;
     }
 
     @Override
