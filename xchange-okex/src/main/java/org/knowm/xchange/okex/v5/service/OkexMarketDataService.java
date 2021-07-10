@@ -24,12 +24,12 @@ public class OkexMarketDataService extends OkexMarketDataServiceRaw implements M
   @Override
   public OrderBook getOrderBook(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptOrderBook(
-        getOkexOrderbook(OkexAdapters.adaptInstrumentToOkexMarket(instrument)), instrument);
+        getOkexOrderbook(OkexAdapters.adaptCurrencyPairId(instrument)), instrument);
   }
 
   @Override
   public Trades getTrades(Instrument instrument, Object... args) throws IOException {
     return OkexAdapters.adaptTrades(
-        getOkexTrades(OkexAdapters.adaptInstrumentToOkexMarket(instrument)).getData(), instrument);
+        getOkexTrades(OkexAdapters.adaptCurrencyPairId(instrument)).getData(), instrument);
   }
 }
