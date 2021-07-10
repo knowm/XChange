@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.knowm.xchange.binance.BinanceAdapters;
 
 public final class AssetDribbletLogResponse
     extends ApiResponse<AssetDribbletLogResponse.AssetDribbletLogResults> {
@@ -64,7 +64,7 @@ public final class AssetDribbletLogResponse
     }
 
     public LocalDateTime getOperateTime() {
-      return LocalDateTime.parse(operate_time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+      return BinanceAdapters.toLocalDateTime(operate_time);
     }
   }
 
@@ -80,7 +80,7 @@ public final class AssetDribbletLogResponse
     private String fromAsset;
 
     public LocalDateTime getOperateTime() {
-      return LocalDateTime.parse(operateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+      return BinanceAdapters.toLocalDateTime(operateTime);
     }
   }
 }
