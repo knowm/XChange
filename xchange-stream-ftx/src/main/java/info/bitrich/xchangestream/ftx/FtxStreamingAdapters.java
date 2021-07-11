@@ -29,7 +29,7 @@ public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
-  private static final DecimalFormat df = new DecimalFormat("0.0####");
+  private static final DecimalFormat df = new DecimalFormat("0.0########");  // 10 decimal places
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
