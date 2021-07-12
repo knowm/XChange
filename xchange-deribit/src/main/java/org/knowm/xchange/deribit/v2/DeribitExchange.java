@@ -1,6 +1,7 @@
 package org.knowm.xchange.deribit.v2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.knowm.xchange.BaseExchange;
@@ -18,6 +19,7 @@ import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.DerivativeMetaData;
+import org.knowm.xchange.instrument.Instrument;
 
 public class DeribitExchange extends BaseExchange implements Exchange {
 
@@ -89,4 +91,12 @@ public class DeribitExchange extends BaseExchange implements Exchange {
     }
 
   }
+
+    @Override
+    public List<Instrument> getExchangeInstruments() {
+        ArrayList<Instrument> instruments = new ArrayList<>();
+        instruments.addAll(getExchangeMetaData().getFutures().keySet());
+        instruments.addAll(getExchangeMetaData().getOptions().keySet());
+        return instruments;
+    }
 }
