@@ -139,10 +139,10 @@ public class OkexAdapters {
   public static String adaptCurrencyPairId(Instrument instrument) {
     return instrument.toString().replace('/', '-');
   }
-  
+
   public static String adaptInstrumentId(Instrument instrument) {
-      return adaptCurrencyPairId(instrument);
-   }
+    return adaptCurrencyPairId(instrument);
+  }
 
   public static String adaptCurrencyPairId(CurrencyPair currencyPair) {
     return currencyPair.toString().replace('/', '-');
@@ -155,11 +155,11 @@ public class OkexAdapters {
         okexTrade -> {
           trades.add(
               new Trade.Builder()
-                  .id(okexTrade.getId())
+                  .id(okexTrade.getTradeId())
                   .instrument(instrument)
-                  .originalAmount(okexTrade.getSize())
-                  .price(okexTrade.getPrice())
-                  .timestamp(okexTrade.getTime())
+                  .originalAmount(okexTrade.getSz())
+                  .price(okexTrade.getPx())
+                  .timestamp(okexTrade.getTs())
                   .type(adaptOkexOrderSideToOrderType(okexTrade.getSide()))
                   .build());
         });

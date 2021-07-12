@@ -7,73 +7,68 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkexTrade {
 
-  private final String id;
-
-  private final boolean liquidation;
-
-  private final BigDecimal price;
-
+  private final String tradeId;
+  private final String instId;
+  private final BigDecimal px;
   private final String side;
-
-  private final BigDecimal size;
-
-  private final Date time;
+  private final BigDecimal sz;
+  private final Date ts;
 
   public OkexTrade(
-      @JsonProperty("id") String id,
-      @JsonProperty("liquidation") boolean liquidation,
-      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tradeId") String tradeId,
+      @JsonProperty("instId") String instId,
+      @JsonProperty("px") BigDecimal px,
+      @JsonProperty("sz") BigDecimal sz,
       @JsonProperty("side") String side,
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("time") Date time) {
-    this.id = id;
-    this.liquidation = liquidation;
-    this.price = price;
+      @JsonProperty("ts") Date ts) {
+    this.tradeId = tradeId;
+    this.instId = instId;
+    this.px = px;
+    this.sz = sz;
     this.side = side;
-    this.size = size;
-    this.time = time;
+    this.ts = ts;
   }
 
-  public String getId() {
-    return id;
+  public String getTradeId() {
+    return tradeId;
   }
 
-  public boolean isLiquidation() {
-    return liquidation;
+  public String getInstId() {
+    return instId;
   }
 
-  public BigDecimal getPrice() {
-    return price;
+  public BigDecimal getPx() {
+    return px;
+  }
+
+  public BigDecimal getSz() {
+    return sz;
   }
 
   public String getSide() {
     return side;
   }
 
-  public BigDecimal getSize() {
-    return size;
-  }
-
-  public Date getTime() {
-    return time;
+  public Date getTs() {
+    return ts;
   }
 
   @Override
   public String toString() {
-    return "FtxTradeDto{"
-        + "id='"
-        + id
+    return "OkexTrade{"
+        + "tradeId='"
+        + tradeId
         + '\''
-        + ", liquidation="
-        + liquidation
-        + ", price="
-        + price
+        + ", instId="
+        + instId
+        + ", px="
+        + px
         + ", side="
         + side
-        + ", size="
-        + size
-        + ", time="
-        + time
+        + ", sz="
+        + sz
+        + ", ts="
+        + ts
         + '}';
   }
 }
