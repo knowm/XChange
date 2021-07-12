@@ -89,10 +89,27 @@ public class OkexAdapters {
   }
 
   public static OkexOrderRequest adaptOrder(LimitOrder order) {
+    String positionEffect = null;
+    switch (order.getType()) {
+      case BID:
+        positionEffect = "long";
+        break;
+      case ASK:
+        positionEffect = "short";
+        break;
+      case EXIT_ASK:
+        positionEffect = "short";
+        break;
+      case EXIT_BID:
+        positionEffect = "long";
+        break;
+    }
+
     return OkexOrderRequest.builder()
-        .instrumentId(adaptCurrencyPairId((CurrencyPair) order.getInstrument()))
-        .tradeMode("cash")
+        .instrumentId(adaptInstrumentId(order.getInstrument()))
+        .tradeMode(order.getInstrument() instanceof CurrencyPair ? "cash" : "cross")
         .side(order.getType() == Order.OrderType.BID ? "buy" : "sell")
+        .posSide(positionEffect)
         .orderType("limit")
         .amount(order.getOriginalAmount().toString())
         .price(order.getLimitPrice().toString())
