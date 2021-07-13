@@ -34,7 +34,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   // Although API doc says 7 days max timespan, KuCoin actually allows (almost) 8 days :)
   private static final long oneWeekMillis = (8 * 24 * 60 * 60 * 1000) - 1000;
 
-  KucoinTradeService(KucoinExchange exchange) {
+  protected KucoinTradeService(KucoinExchange exchange) {
     super(exchange);
   }
 
