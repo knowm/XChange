@@ -141,7 +141,7 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
     String nextPageCursor = null;
     if (startTime != null && startTime >= cutoffHistOrdersMillis) {
       Pagination<TradeResponse> fills =
-          getKucoinFills(symbol, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
+          getKucoinFills(symbol, null, page, TRADE_HISTORIES_TO_FETCH, startTime, endTime);
       userTrades =
           fills.getItems().stream()
               .map(KucoinAdapters::adaptUserTrade)
