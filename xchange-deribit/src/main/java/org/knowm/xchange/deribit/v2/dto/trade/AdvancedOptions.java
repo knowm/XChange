@@ -1,6 +1,8 @@
 package org.knowm.xchange.deribit.v2.dto.trade;
 
-public enum AdvancedOptions {
+import org.knowm.xchange.dto.Order.IOrderFlags;
+
+public enum AdvancedOptions implements IOrderFlags {
   usd,
   implv;
 }

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -14,9 +15,12 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.dto.DeribitError;
 import org.knowm.xchange.deribit.v2.dto.DeribitException;
+import org.knowm.xchange.deribit.v2.dto.Direction;
 import org.knowm.xchange.deribit.v2.dto.account.AccountSummary;
 import org.knowm.xchange.deribit.v2.dto.account.Position;
 import org.knowm.xchange.deribit.v2.dto.marketdata.*;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderState;
+import org.knowm.xchange.deribit.v2.dto.trade.OrderType;
 import org.knowm.xchange.derivative.FuturesContract;
 import org.knowm.xchange.derivative.OptionsContract;
 import org.knowm.xchange.dto.Order;
@@ -30,7 +34,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.DerivativeMetaData;
 import org.knowm.xchange.dto.meta.FeeTier;
-import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.CurrencyPairNotValidException;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.instrument.Instrument;
@@ -98,21 +102,8 @@ public class DeribitAdapters {
   }
 
   public static Trade adaptTrade(DeribitTrade deribitTrade, Instrument instrument) {
-
-    Order.OrderType type = null;
-    switch (deribitTrade.getDirection()) {
-      case buy:
-        type = Order.OrderType.BID;
-        break;
-      case sell:
-        type = Order.OrderType.ASK;
-        break;
-      default:
-        break;
-    }
-
     return new Trade.Builder()
-        .type(type)
+        .type(adapt(deribitTrade.getDirection()))
         .originalAmount(deribitTrade.getAmount())
         .instrument(instrument)
         .price(deribitTrade.getPrice())
@@ -129,6 +120,75 @@ public class DeribitAdapters {
             .collect(Collectors.toList()));
   }
 
+  public static OpenOrders adaptOpenOrders(List<org.knowm.xchange.deribit.v2.dto.trade.Order> orders) {
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    List<Order> otherOrders = new ArrayList<>();
+    
+    orders.forEach(
+      o -> {
+        Order order = DeribitAdapters.adaptOrder(o);
+        if (order instanceof LimitOrder) {
+          limitOrders.add((LimitOrder) order);
+        } else {
+          otherOrders.add(order);
+        }
+      });
+    
+    return new OpenOrders(limitOrders, otherOrders);
+  }
+  
+  public static Order adaptOrder(org.knowm.xchange.deribit.v2.dto.trade.Order order) {
+    Order.OrderType type = adapt(order.getDirection());
+    Instrument instrument = adaptInstrument(order.getInstrumentName());
+    Order.Builder builder;
+    if (order.getOrderType().equals(OrderType.market)) {
+      builder = new MarketOrder.Builder(type, instrument);
+    } else if (order.getOrderType().equals(OrderType.limit)) {
+      builder = new LimitOrder.Builder(type, instrument).limitPrice(order.getPrice());
+    } else {
+      throw new ExchangeException("Unsupported order type: \"" + order.getOrderType() + "\"");
+    }
+    builder
+        .orderStatus(adaptOrderStatus(order.getOrderState()))
+        .id(order.getOrderId())
+        .userReference(order.getLabel())    
+        .timestamp(new Date(order.getCreationTimestamp()))
+        .averagePrice(order.getAveragePrice())
+        .originalAmount(order.getAmount())    
+        .cumulativeAmount(order.getFilledAmount())
+        .fee(order.getCommission());
+    
+    return builder.build();
+  }
+
+  public static Order.OrderType adapt(Direction direction) {
+    switch (direction) {
+      case buy:
+        return Order.OrderType.BID;
+      case sell:
+        return Order.OrderType.ASK;
+      default:
+        throw new RuntimeException("Not supported order direction: " + direction);
+    }
+  }
+
+  public static Order.OrderStatus adaptOrderStatus(OrderState state) {
+    switch (state) {
+      case open:
+      case untriggered:  
+        return Order.OrderStatus.OPEN;
+      case filled:
+        return Order.OrderStatus.FILLED;
+      case rejected:
+        return Order.OrderStatus.REJECTED;
+      case cancelled:
+        return Order.OrderStatus.CANCELED;
+      case archive:
+      default:
+        return Order.OrderStatus.UNKNOWN;
+    }
+  }
+  
   /** Parse errors from HTTP exceptions */
   public static ExchangeException adapt(DeribitException ex) {
 
@@ -237,5 +297,27 @@ public class DeribitAdapters {
             instrument.getTickSize(),
             instrument.getMinTradeAmount(),
             new BigDecimal(instrument.getContractSize()));
+  }
+
+  public static UserTrades adaptUserTrades(org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades) {
+    return new UserTrades(
+            userTrades.getTrades().stream()
+            .map(DeribitAdapters::adaptUserTrade)
+            .collect(Collectors.toList()), Trades.TradeSortType.SortByTimestamp);
+  }
+
+  private static UserTrade adaptUserTrade(org.knowm.xchange.deribit.v2.dto.trade.Trade trade) {
+    return new UserTrade.Builder()
+            .type(adapt(trade.getDirection()))
+            .originalAmount(trade.getAmount())
+            .instrument(adaptInstrument(trade.getInstrumentName()))
+            .price(trade.getPrice())
+            .timestamp(trade.getTimestamp())
+            .id(trade.getTradeId())
+            .orderId(trade.getOrderId())
+            .feeAmount(trade.getFee())
+            .feeCurrency(new Currency(trade.getFeeCurrency()))
+            .orderUserReference(trade.getLabel())
+            .build();
   }
 }
