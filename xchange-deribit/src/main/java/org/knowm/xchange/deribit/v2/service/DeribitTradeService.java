@@ -58,7 +58,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair();
+    return new DefaultOpenOrdersParamInstrument();
   }
   
   private List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders() throws IOException {
