@@ -1,0 +1,15 @@
+{
+  "id": "c123456-4d92-4ec2-9bcf-12345d6bb205",
+  "marketSymbol": "ETH-BTC",
+  "direction": "BUY",
+  "type": "LIMIT",
+  "quantity": "0.1",
+  "limit": "0.01",
+  "timeInForce": "GOOD_TIL_CANCELLED",
+  "fillQuantity": "0.00000000",
+  "commission": "0.00000000",
+  "proceeds": "0.00000000",
+  "status": "CLOSED",
+  "createdAt": "2020-06-25T20:29:23.57Z",
+  "updatedAt": "2020-06-25T20:29:23.57Z"
+}

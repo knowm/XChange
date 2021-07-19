@@ -1,6 +1,7 @@
 package org.knowm.xchange.bittrex;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -111,6 +112,25 @@ public class BittrexAdaptersTest {
             null,
             null,
             null);
+    BittrexOrder orderClosed =
+        new BittrexOrder(
+            null,
+            null,
+            null,
+            null,
+            new BigDecimal("10"),
+            null,
+            null,
+            null,
+            null,
+            new BigDecimal("0"),
+            null,
+            null,
+            null,
+            null,
+            null,
+            Date.from(Instant.now()),
+            null);
     BittrexOrder orderUnknown =
         new BittrexOrder(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
@@ -120,6 +140,7 @@ public class BittrexAdaptersTest {
     Assert.assertEquals(Order.OrderStatus.FILLED, BittrexAdapters.adaptOrderStatus(orderFilled));
     Assert.assertEquals(Order.OrderStatus.NEW, BittrexAdapters.adaptOrderStatus(orderNew));
     Assert.assertEquals(Order.OrderStatus.UNKNOWN, BittrexAdapters.adaptOrderStatus(orderUnknown));
+    Assert.assertEquals(Order.OrderStatus.CLOSED, BittrexAdapters.adaptOrderStatus(orderClosed));
   }
 
   @Test
