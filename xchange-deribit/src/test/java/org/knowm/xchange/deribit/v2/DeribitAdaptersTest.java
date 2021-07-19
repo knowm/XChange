@@ -34,9 +34,9 @@ public class DeribitAdaptersTest {
     assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);
     assertThat(instrument).isEqualTo(new FuturesContract("ETH-USD-211231"));
 
-    instrument = DeribitAdapters.adaptInstrument("ETH-24SEP21-2040-P");
+    instrument = DeribitAdapters.adaptInstrument("ETH-9SEP21-2040-P");
     assertThat(instrument).isExactlyInstanceOf(OptionsContract.class);
-    assertThat(instrument).isEqualTo(new OptionsContract("ETH-USD-210924-2040-P"));
+    assertThat(instrument).isEqualTo(new OptionsContract("ETH-USD-210909-2040-P"));
 
     instrument = DeribitAdapters.adaptInstrument("BTC-PERPETUAL");
     assertThat(instrument).isExactlyInstanceOf(FuturesContract.class);

@@ -43,7 +43,7 @@ public class DeribitAdapters {
   private static final String IMPLIED_COUNTER = "USD";
   private static final String PERPETUAL = "perpetual";
   private static final ThreadLocal<DateFormat> DATE_PARSER =
-          ThreadLocal.withInitial(() -> new SimpleDateFormat("dLLLyy"));
+          ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
 
   public static String adaptInstrumentName(Instrument instrument) {
     if (instrument instanceof FuturesContract) {
@@ -56,7 +56,7 @@ public class DeribitAdapters {
   
   public static String adaptInstrumentName(FuturesContract future) {
     return future.getCurrencyPair().base + "-"
-        + (future.getExpireDate() == null ? PERPETUAL : DATE_PARSER.get().format(future.getExpireDate())).toUpperCase();
+        + (future.getExpireDate() == null ? PERPETUAL : formatDate(future.getExpireDate()));
   }
 
   public static String adaptInstrumentName(OptionsContract option) {
@@ -65,7 +65,7 @@ public class DeribitAdapters {
         throw new IllegalArgumentException("Could not adapt instrument name from '" + option + "'");
     }
     return option.getCurrencyPair().base + "-"
-        + DATE_PARSER.get().format(option.getExpireDate()).toUpperCase() + "-"
+        + formatDate(option.getExpireDate()) + "-"
         + parts[3] + "-"
         + parts[4];
     }
@@ -151,7 +151,7 @@ public class DeribitAdapters {
     builder
         .orderStatus(adaptOrderStatus(order.getOrderState()))
         .id(order.getOrderId())
-        .userReference(order.getLabel())    
+        .userReference(order.getLabel())
         .timestamp(new Date(order.getCreationTimestamp()))
         .averagePrice(order.getAveragePrice())
         .originalAmount(order.getAmount())    
@@ -265,7 +265,7 @@ public class DeribitAdapters {
           future.setSettlementPeriod(PERPETUAL);    
       } else {
         try {
-          future.setExpirationTimestamp(DATE_PARSER.get().parse(parts[1]).getTime());
+          future.setExpirationTimestamp(parseDate(parts[1]).getTime());
         } catch (ParseException e) {
           throw new IllegalArgumentException("Could not adapt instrument from name '" + instrumentName + "'");          
         }
@@ -281,7 +281,7 @@ public class DeribitAdapters {
       DeribitInstrument option = new DeribitInstrument();
       option.setBaseCurrency(parts[0]);
       try {
-        option.setExpirationTimestamp(DATE_PARSER.get().parse(parts[1]).getTime());
+        option.setExpirationTimestamp(parseDate(parts[1]).getTime());
       } catch (ParseException e) {
         throw new IllegalArgumentException("Could not adapt instrument from name '" + instrumentName + "'");
       }
@@ -319,5 +319,20 @@ public class DeribitAdapters {
             .feeCurrency(new Currency(trade.getFeeCurrency()))
             .orderUserReference(trade.getLabel())
             .build();
+  }
+
+  private static Date parseDate(String source) throws ParseException {
+    if (!Character.isDigit(source.charAt(1))) {
+      source = '0' + source;
+    }
+    return DATE_PARSER.get().parse(source);
+  }
+
+  private static String formatDate(Date date) {
+    String str = DATE_PARSER.get().format(date).toUpperCase();
+    if (str.charAt(0) == '0') {
+      str = str.substring(1);
+    }
+    return str;
   }
 }
