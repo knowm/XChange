@@ -8,12 +8,14 @@ import static org.knowm.xchange.kucoin.dto.KucoinOrderFlags.*;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Ordering;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -97,20 +99,26 @@ public class KucoinAdapters {
    * <strong>and max</strong> amount that the XChange API current doesn't take account of.
    *
    * @param exchangeMetaData The static exchange metadata.
-   * @param marketDataService Kucoin market data service
+   * @param currenciesResponse Kucoin currencies
+   * @param symbolsResponse Kucoin symbols
+   * @param tradeFee Kucoin trade fee (optional)
    * @return Exchange metadata.
    */
   public static ExchangeMetaData adaptMetadata(
-      ExchangeMetaData exchangeMetaData, KucoinMarketDataService marketDataService)
+      ExchangeMetaData exchangeMetaData,
+      List<CurrenciesResponse> currenciesResponse,
+      List<SymbolResponse> symbolsResponse,
+      TradeFeeResponse tradeFee)
       throws IOException {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
     Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     Map<String, CurrencyMetaData> stringCurrencyMetaDataMap =
-        adaptCurrencyMetaData(marketDataService.getKucoinCurrencies());
-    BigDecimal takerTradingFee = marketDataService.getKucoinBaseFee().get(TAKER_FEE_RATE);
+        adaptCurrencyMetaData(currenciesResponse);
 
-    for (SymbolResponse symbol : marketDataService.getKucoinSymbols()) {
+    BigDecimal takerTradingFee = tradeFee != null ? tradeFee.getTakerFeeRate() : null;
+
+    for (SymbolResponse symbol : symbolsResponse) {
 
       CurrencyPair pair = adaptCurrencyPair(symbol.getSymbol());
       CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
