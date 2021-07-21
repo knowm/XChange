@@ -6,10 +6,7 @@ import java.util.Date;
 import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.account.*;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexErrorAdapter;
 import org.knowm.xchange.poloniex.dto.PoloniexException;
@@ -53,6 +50,11 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   }
 
   @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
+    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
+  }
+
+  @Override
   public String withdrawFunds(WithdrawFundsParams params) throws IOException {
     try {
       if (params instanceof RippleWithdrawFundsParams) {
@@ -69,10 +71,10 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
         DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
 
         return withdraw(
-            defaultParams.getCurrency(),
-            defaultParams.getAmount(),
-            defaultParams.getAddress(),
-            null);
+                defaultParams.getCurrency(),
+                defaultParams.getAmount(),
+                defaultParams.getAddress(),
+                defaultParams.getAddressTag());
       }
 
       throw new IllegalStateException("Don't know how to withdraw: " + params);
