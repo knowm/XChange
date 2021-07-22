@@ -696,12 +696,18 @@ public final class BitfinexAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(
-          BitfinexAccountFeesResponse accountFeesResponse, Integer platformStatus, ExchangeMetaData metaData) {
+          BitfinexAccountFeesResponse accountFeesResponse, int platformStatus,
+          boolean platformStatusPresent,
+          ExchangeMetaData metaData) {
     final WalletHealth health;
-    if (platformStatus == PLATFORM_STATUS_ONLINE) {
-      health = WalletHealth.ONLINE;
-    } else if (platformStatus == PLATFORM_STATUS_OFFLINE) {
-      health = WalletHealth.OFFLINE;
+    if (platformStatusPresent) {
+      if (platformStatus == PLATFORM_STATUS_ONLINE) {
+        health = WalletHealth.ONLINE;
+      } else if (platformStatus == PLATFORM_STATUS_OFFLINE) {
+        health = WalletHealth.OFFLINE;
+      } else {
+        health = WalletHealth.UNKNOWN;
+      }
     } else {
       health = WalletHealth.UNKNOWN;
     }
