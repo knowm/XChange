@@ -93,4 +93,14 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
       throw BittrexErrorAdapter.adapt(e);
     }
   }
+
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+      throws IOException {
+    try {
+      return createNewWithdrawal(currency, amount, address).getId();
+    } catch (BittrexException e) {
+      throw BittrexErrorAdapter.adapt(e);
+    }
+  }
 }

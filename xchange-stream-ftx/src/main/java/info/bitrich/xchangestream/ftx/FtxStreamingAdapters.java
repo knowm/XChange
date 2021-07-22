@@ -29,7 +29,9 @@ public class FtxStreamingAdapters {
 
   private static final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   /** Incoming values always has 1 trailing 0 after the decimal, and start with 1 zero */
-  private static final DecimalFormat df = new DecimalFormat("0.0####");
+  private static final ThreadLocal<DecimalFormat> df = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0########"));  // 10 decimal places
+  
+  static Ticker NULL_TICKER = new Ticker.Builder().build();  // not need to create a new one each time
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
@@ -110,25 +112,28 @@ public class FtxStreamingAdapters {
 
   public static Long getOrderbookChecksum(List<LimitOrder> asks, List<LimitOrder> bids) {
     StringBuilder data = new StringBuilder(3072);
+    DecimalFormat decimalFormat = df.get();
+    
     for (int i = 0; i < 100; i++) {
-      if (bids.size() >= i) {
-        data.append(df.format(bids.get(i).getLimitPrice()))
+      if (bids.size() > i) {
+        data.append(decimalFormat.format(bids.get(i).getLimitPrice()))
             .append(":")
-            .append(df.format(bids.get(i).getOriginalAmount()));
+            .append(decimalFormat.format(bids.get(i).getOriginalAmount()))
+            .append(":");
       }
-      data.append(":");
-      if (asks.size() >= i) {
-        data.append(df.format(asks.get(i).getLimitPrice()))
+
+      if (asks.size() > i) {
+        data.append(decimalFormat.format(asks.get(i).getLimitPrice()))
             .append(":")
-            .append(df.format(asks.get(i).getOriginalAmount()));
-      }
-      if (i != 99) {
-        data.append(":");
+            .append(decimalFormat.format(asks.get(i).getOriginalAmount()))
+            .append(":");
       }
     }
-
+    
+    String s = data.length() > 0 ? data.substring(0, data.length() - 1) : data.toString(); // strip last :
+    
     CRC32 crc32 = new CRC32();
-    byte[] toBytes = data.toString().getBytes(StandardCharsets.UTF_8);
+    byte[] toBytes = s.getBytes(StandardCharsets.UTF_8);
     crc32.update(toBytes, 0, toBytes.length);
 
     return crc32.getValue();
@@ -147,7 +152,7 @@ public class FtxStreamingAdapters {
             })
         .map(ftxTickerResponse -> ftxTickerResponse.toTicker(instrument))
         .findFirst()
-        .orElse(new Ticker.Builder().build());
+        .orElse(NULL_TICKER);
   }
 
   public static Iterable<Trade> adaptTradesMessage(Instrument instrument, JsonNode jsonNode) {

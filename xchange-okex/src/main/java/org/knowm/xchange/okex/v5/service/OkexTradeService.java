@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.client.ResilienceRegistries;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.FundsExceededException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.okex.v5.OkexAdapters;
 import org.knowm.xchange.okex.v5.OkexExchange;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
@@ -24,6 +27,16 @@ public class OkexTradeService extends OkexTradeServiceRaw implements TradeServic
   public OpenOrders getOpenOrders() throws IOException {
     return OkexAdapters.adaptOpenOrders(
         getOkexPendingOrder(null, null, null, null, null, null, null, null).getData());
+  }
+
+  public Order getOrder(Instrument instrument, String orderId) throws IOException {
+    List<OkexOrderDetails> orderResults = getOkexOrder(OkexAdapters.adaptInstrumentId(instrument), orderId).getData();
+
+    if (!orderResults.isEmpty()) {
+      return OkexAdapters.adaptOrder(orderResults.get(0));
+    } else {
+      return null;
+    }
   }
 
   @Override

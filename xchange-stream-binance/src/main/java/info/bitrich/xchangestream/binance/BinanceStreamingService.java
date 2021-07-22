@@ -116,7 +116,7 @@ public class BinanceStreamingService extends JsonNettyStreamingService {
 
   /** Get the live unsubscription message */
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
 
     if (isLiveSubscriptionEnabled) {
       updateConnectionUri(channelName, BinanceWebSocketSubscriptionMessage.MethodType.UNSUBSCRIBE);
