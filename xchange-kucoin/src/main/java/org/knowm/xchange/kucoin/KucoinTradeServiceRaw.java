@@ -5,13 +5,15 @@ import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExce
 import java.io.IOException;
 import java.util.List;
 
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;
 
 public class KucoinTradeServiceRaw extends KucoinBaseService {
 
-  protected KucoinTradeServiceRaw(KucoinExchange exchange) {
-    super(exchange);
+  protected KucoinTradeServiceRaw(
+      KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   public Pagination<OrderResponse> getKucoinOpenOrders(String symbol, int page, int pageSize)

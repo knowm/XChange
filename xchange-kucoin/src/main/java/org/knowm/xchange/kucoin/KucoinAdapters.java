@@ -32,15 +32,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.WalletHealth;
+import org.knowm.xchange.dto.meta.*;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.kucoin.KucoinTradeService.KucoinOrderFlags;
 import org.knowm.xchange.kucoin.dto.request.OrderCreateApiRequest;
 import org.knowm.xchange.kucoin.dto.response.*;
@@ -63,7 +61,7 @@ public class KucoinAdapters {
 
   public static Ticker.Builder adaptTickerFull(CurrencyPair pair, SymbolTickResponse stats) {
     return new Ticker.Builder()
-        .currencyPair(pair)
+        .instrument(pair)
         .bid(stats.getBuy())
         .ask(stats.getSell())
         .last(stats.getLast())
@@ -80,7 +78,7 @@ public class KucoinAdapters {
         .map(
             ticker ->
                 new Ticker.Builder()
-                    .currencyPair(adaptCurrencyPair(ticker.getSymbol()))
+                    .instrument(adaptCurrencyPair(ticker.getSymbol()))
                     .bid(ticker.getBuy())
                     .ask(ticker.getSell())
                     .last(ticker.getLast())
@@ -125,15 +123,27 @@ public class KucoinAdapters {
 
       BigDecimal minSize = symbol.getBaseMinSize();
       BigDecimal maxSize = symbol.getBaseMaxSize();
+      BigDecimal minQuoteSize = symbol.getQuoteMinSize();
+      BigDecimal maxQuoteSize = symbol.getQuoteMaxSize();
+      int baseScale = symbol.getBaseIncrement().stripTrailingZeros().scale();
       int priceScale = symbol.getQuoteIncrement().stripTrailingZeros().scale();
+      FeeTier[] feeTiers = staticMetaData != null ? staticMetaData.getFeeTiers() : null;
+      Currency feeCurrency = new Currency(symbol.getFeeCurrency());
 
       CurrencyPairMetaData cpmd =
           new CurrencyPairMetaData(
               takerTradingFee,
               minSize,
               maxSize,
+              minQuoteSize,
+              maxQuoteSize,
+              baseScale,
               priceScale,
-              staticMetaData != null ? staticMetaData.getFeeTiers() : null);
+              null,
+              feeTiers,
+              null,
+              feeCurrency,
+              true);
       currencyPairs.put(pair, cpmd);
 
       if (!currencies.containsKey(pair.base))
@@ -223,7 +233,7 @@ public class KucoinAdapters {
 
   private static Trade adaptTrade(CurrencyPair currencyPair, TradeHistoryResponse trade) {
     return new Trade.Builder()
-        .currencyPair(currencyPair)
+        .instrument(currencyPair)
         .originalAmount(trade.getSize())
         .price(trade.getPrice())
         .timestamp(new Date(Long.parseLong(trade.getSequence())))
@@ -288,7 +298,7 @@ public class KucoinAdapters {
       builder.flag(TimeInForce.getTimeInForce(order.getTimeInForce()));
     }
 
-    return StopOrder.Builder.class.isInstance(builder)
+    return builder instanceof StopOrder.Builder
         ? ((StopOrder.Builder) builder).build()
         : ((LimitOrder.Builder) builder).build();
   }
@@ -365,7 +375,7 @@ public class KucoinAdapters {
       request.clientOid(UUID.randomUUID().toString());
     }
     return request
-        .symbol(adaptCurrencyPair(order.getCurrencyPair()))
+        .symbol(adaptCurrencyPair((CurrencyPair) order.getInstrument()))
         .size(order.getOriginalAmount())
         .side(adaptSide(order.getType()));
   }

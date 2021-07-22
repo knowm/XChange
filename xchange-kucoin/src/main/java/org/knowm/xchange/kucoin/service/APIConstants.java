@@ -3,7 +3,8 @@ package org.knowm.xchange.kucoin.service;
 
 /** Based on code by zicong.lu on 2018/12/14. */
 public class APIConstants {
-  public static final String API_BASE_URL = "https://openapi-v2.kucoin.com/";
+  public static final String API_BASE_HOST = "api.kucoin.com";
+  public static final String API_SANDBOX_HOST = "openapi-sandbox.kucoin.com";
 
   public static final String USER_API_KEY = "KC-API-KEY";
   public static final String USER_API_SECRET = "KC-API-SECRET";
