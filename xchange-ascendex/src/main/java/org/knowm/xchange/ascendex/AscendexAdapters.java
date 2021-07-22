@@ -32,8 +32,8 @@ import java.util.*;
 public class AscendexAdapters {
 
   public static OrderBook adaptOrderBook(AscendexOrderbookDto ascendexOrderbookDto) {
-    List<LimitOrder> asks = new ArrayList<>(100);
-    List<LimitOrder> bids = new ArrayList<>(100);
+    List<LimitOrder> asks = new ArrayList<>(ascendexOrderbookDto.getData().getAsks().size());
+    List<LimitOrder> bids = new ArrayList<>(ascendexOrderbookDto.getData().getBids().size());
 
     CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(ascendexOrderbookDto.getSymbol());
@@ -65,7 +65,7 @@ public class AscendexAdapters {
 
   public static AccountInfo adaptAccountInfo(
       List<AscendexCashAccountBalanceDto> ascendexCashAccountBalanceDtoList) {
-    List<Balance> balances = new ArrayList<>(100);
+    List<Balance> balances = new ArrayList<>(ascendexCashAccountBalanceDtoList.size());
 
     ascendexCashAccountBalanceDtoList.forEach(
         ascendexCashAccountBalanceDto ->
@@ -107,7 +107,7 @@ public class AscendexAdapters {
 
   public static UserTrades adaptUserTrades(
       List<AscendexOpenOrdersResponse> ascendexOrderHistoryResponse) {
-    List<UserTrade> userTrades = new ArrayList<>(100);
+    List<UserTrade> userTrades = new ArrayList<>(ascendexOrderHistoryResponse.size());
 
     ascendexOrderHistoryResponse.forEach(
         order ->
@@ -132,7 +132,7 @@ public class AscendexAdapters {
 
   public static OpenOrders adaptOpenOrders(
       List<AscendexOpenOrdersResponse> ascendexOpenOrdersRespons) {
-    List<LimitOrder> openOrders = new ArrayList<>(100);
+    List<LimitOrder> openOrders = new ArrayList<>(ascendexOpenOrdersRespons.size());
 
     ascendexOpenOrdersRespons.forEach(AscendexAdapters::adaptOpenOrderById);
 
@@ -141,7 +141,7 @@ public class AscendexAdapters {
 
   public static List<Order> adaptOpenOrderById(
       AscendexOpenOrdersResponse ascendexOpenOrdersResponse) {
-    List<Order> openOrders = new ArrayList<>(100);
+    List<Order> openOrders = new ArrayList<>();
 
     openOrders.add(
         new LimitOrder.Builder(
@@ -171,8 +171,8 @@ public class AscendexAdapters {
 
   public static ExchangeMetaData adaptExchangeMetaData(
       List<AscendexAssetDto> ascendexAssetDtos, List<AscendexProductDto> ascendexProductDtos) {
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>(100);
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>(100);
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>(ascendexAssetDtos.size());
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>(ascendexProductDtos.size());
 
     ascendexAssetDtos.forEach(
         ascendexAssetDto ->
@@ -209,7 +209,7 @@ public class AscendexAdapters {
   }
 
   public static Trades adaptTrades(AscendexMarketTradesDto marketTradesDto) {
-    List<Trade> trades = new ArrayList<>(100);
+    List<Trade> trades = new ArrayList<>(marketTradesDto.getData().size());
 
     marketTradesDto
         .getData()
