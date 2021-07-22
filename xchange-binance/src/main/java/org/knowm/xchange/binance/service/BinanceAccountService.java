@@ -294,7 +294,7 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
                           d.getAddress(),
                           d.getAddressTag(),
                           new Date(d.getInsertTime()),
-                          Currency.getInstance(d.getAsset()),
+                          Currency.getInstance(d.getCoin()),
                           d.getAmount(),
                           null,
                           d.getTxId(),
