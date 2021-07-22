@@ -20,6 +20,8 @@ import org.knowm.xchange.bittrex.dto.batch.order.BatchOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexNewOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrder;
 import org.knowm.xchange.bittrex.dto.trade.BittrexOrders;
+import org.knowm.xchange.bittrex.dto.withdrawal.BittrexNewWithdrawal;
+import org.knowm.xchange.bittrex.dto.withdrawal.BittrexWithdrawal;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("v3")
@@ -181,5 +183,16 @@ public interface BittrexAuthenticated extends Bittrex {
       @QueryParam("nextPageToken") String nextPageToken,
       @QueryParam("previousPageToken") String previousPageToken,
       @QueryParam("pageSize") Integer pageSize)
+      throws IOException, BittrexException;
+
+  @POST
+  @Path("withdrawals")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BittrexWithdrawal createNewWithdrawal(
+      @HeaderParam("Api-Key") String apiKey,
+      @HeaderParam("Api-Timestamp") Long timestamp,
+      @HeaderParam("Api-Content-Hash") ParamsDigest hash,
+      @HeaderParam("Api-Signature") ParamsDigest signature,
+      BittrexNewWithdrawal newWithdrawal)
       throws IOException, BittrexException;
 }

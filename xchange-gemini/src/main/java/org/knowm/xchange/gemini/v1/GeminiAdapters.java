@@ -159,6 +159,9 @@ public final class GeminiAdapters {
 
     if (geminiOrderStatusResponse.isCancelled()) return OrderStatus.CANCELED;
 
+    if (geminiOrderStatusResponse.getExecutedAmount().equals(new BigDecimal(0.0)))
+      return OrderStatus.OPEN;
+
     if (geminiOrderStatusResponse.getRemainingAmount().equals(new BigDecimal(0.0)))
       return OrderStatus.FILLED;
 

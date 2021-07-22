@@ -2,6 +2,9 @@ package org.knowm.xchange.binance;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.knowm.xchange.binance.dto.account.AssetDetail;
@@ -22,8 +25,19 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.StopOrder;
 
 public class BinanceAdapters {
+  private static final DateTimeFormatter DATE_TIME_FMT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   private BinanceAdapters() {}
+
+  public static Date toDate(String dateTime) {
+    return java.util.Date.from(
+        toLocalDateTime(dateTime).atZone(ZoneId.systemDefault()).toInstant());
+  }
+
+  public static LocalDateTime toLocalDateTime(String dateTime) {
+    return LocalDateTime.parse(dateTime, DATE_TIME_FMT);
+  }
 
   public static String toSymbol(CurrencyPair pair) {
     if (pair.equals(CurrencyPair.IOTA_BTC)) {
