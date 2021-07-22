@@ -8,10 +8,10 @@
         <version>5.0.10-SNAPSHOT</version>
     </parent>
 
-    <artifactId>xchange-bitmax</artifactId>
+    <artifactId>xchange-ascendex</artifactId>
 
-    <name>XChange Bitmax</name>
-    <description>XChange implementation for Bitmax Exchange</description>
+    <name>XChange Ascendex</name>
+    <description>XChange implementation for Ascendex Exchange</description>
 
     <url>http://knowm.org/open-source/xchange/</url>
     <inceptionYear>2012</inceptionYear>
