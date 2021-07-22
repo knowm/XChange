@@ -4,6 +4,7 @@ import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class AscendexDigest extends BaseParamsDigest {
@@ -42,7 +43,7 @@ public class AscendexDigest extends BaseParamsDigest {
     }
 
     Mac mac256 = getMac();
-    mac256.update(message.getBytes());
+    mac256.update(message.getBytes(StandardCharsets.UTF_8));
 
     return Base64.getEncoder().encodeToString(mac256.doFinal()).trim();
   }

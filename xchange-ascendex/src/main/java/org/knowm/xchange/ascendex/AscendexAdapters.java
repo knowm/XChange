@@ -32,8 +32,8 @@ import java.util.*;
 public class AscendexAdapters {
 
   public static OrderBook adaptOrderBook(AscendexOrderbookDto ascendexOrderbookDto) {
-    List<LimitOrder> asks = new ArrayList<>();
-    List<LimitOrder> bids = new ArrayList<>();
+    List<LimitOrder> asks = new ArrayList<>(100);
+    List<LimitOrder> bids = new ArrayList<>(100);
 
     CurrencyPair currencyPair =
         CurrencyPairDeserializer.getCurrencyPairFromString(ascendexOrderbookDto.getSymbol());
@@ -65,10 +65,10 @@ public class AscendexAdapters {
 
   public static AccountInfo adaptAccountInfo(
       List<AscendexCashAccountBalanceDto> ascendexCashAccountBalanceDtoList) {
-    List<Balance> balances = new ArrayList<>();
+    List<Balance> balances = new ArrayList<>(100);
 
     ascendexCashAccountBalanceDtoList.forEach(
-            ascendexCashAccountBalanceDto ->
+        ascendexCashAccountBalanceDto ->
             balances.add(
                 new Balance.Builder()
                     .currency(new Currency(ascendexCashAccountBalanceDto.getAsset()))
@@ -107,7 +107,7 @@ public class AscendexAdapters {
 
   public static UserTrades adaptUserTrades(
       List<AscendexOpenOrdersResponse> ascendexOrderHistoryResponse) {
-    List<UserTrade> userTrades = new ArrayList<>();
+    List<UserTrade> userTrades = new ArrayList<>(100);
 
     ascendexOrderHistoryResponse.forEach(
         order ->
@@ -132,39 +132,16 @@ public class AscendexAdapters {
 
   public static OpenOrders adaptOpenOrders(
       List<AscendexOpenOrdersResponse> ascendexOpenOrdersRespons) {
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<LimitOrder> openOrders = new ArrayList<>(100);
 
-    ascendexOpenOrdersRespons.forEach(
-            ascendexOpenOrdersResponse ->
-            openOrders.add(
-                new LimitOrder.Builder(
-                        adaptAscendexSideToOrderType(ascendexOpenOrdersResponse.getSide()),
-                        CurrencyPairDeserializer.getCurrencyPairFromString(
-                            ascendexOpenOrdersResponse.getSymbol()))
-                    .originalAmount(ascendexOpenOrdersResponse.getOrderQty())
-                    .limitPrice(ascendexOpenOrdersResponse.getPrice())
-                    .fee(ascendexOpenOrdersResponse.getCumFee())
-                    .averagePrice(ascendexOpenOrdersResponse.getAvgPx())
-                    .id(ascendexOpenOrdersResponse.getOrderId())
-                    .timestamp(ascendexOpenOrdersResponse.getLastExecTime())
-                    .orderStatus(
-                        Order.OrderStatus.valueOf(
-                            ascendexOpenOrdersResponse.getStatus().toUpperCase()))
-                    .remainingAmount(
-                        ascendexOpenOrdersResponse
-                            .getOrderQty()
-                            .subtract(ascendexOpenOrdersResponse.getCumFilledQty()))
-                    .flag(
-                        (ascendexOpenOrdersResponse.getExecInst().equals("POST"))
-                            ? AscendexFlags.POST_ONLY
-                            : null)
-                    .build()));
+    ascendexOpenOrdersRespons.forEach(AscendexAdapters::adaptOpenOrderById);
 
     return new OpenOrders(openOrders);
   }
 
-  public static List<Order> adaptOpenOrderById(AscendexOpenOrdersResponse ascendexOpenOrdersResponse) {
-    List<Order> openOrders = new ArrayList<>();
+  public static List<Order> adaptOpenOrderById(
+      AscendexOpenOrdersResponse ascendexOpenOrdersResponse) {
+    List<Order> openOrders = new ArrayList<>(100);
 
     openOrders.add(
         new LimitOrder.Builder(
@@ -184,7 +161,7 @@ public class AscendexAdapters {
                     .getOrderQty()
                     .subtract(ascendexOpenOrdersResponse.getCumFilledQty()))
             .flag(
-                (ascendexOpenOrdersResponse.getExecInst().equals("POST"))
+                ("POST".equals(ascendexOpenOrdersResponse.getExecInst()))
                     ? AscendexFlags.POST_ONLY
                     : null)
             .build());
@@ -193,9 +170,9 @@ public class AscendexAdapters {
   }
 
   public static ExchangeMetaData adaptExchangeMetaData(
-          List<AscendexAssetDto> ascendexAssetDtos, List<AscendexProductDto> ascendexProductDtos) {
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>();
+      List<AscendexAssetDto> ascendexAssetDtos, List<AscendexProductDto> ascendexProductDtos) {
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>(100);
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>(100);
 
     ascendexAssetDtos.forEach(
         ascendexAssetDto ->
@@ -207,7 +184,7 @@ public class AscendexAdapters {
                     ascendexAssetDto.getMinWithdrawalAmt())));
 
     ascendexProductDtos.forEach(
-            ascendexProductDto ->
+        ascendexProductDto ->
             currencyPairMetaDataMap.put(
                 CurrencyPairDeserializer.getCurrencyPairFromString(ascendexProductDto.getSymbol()),
                 new CurrencyPairMetaData.Builder()
@@ -224,7 +201,7 @@ public class AscendexAdapters {
 
   public static Order.OrderType adaptAscendexSideToOrderType(
       AscendexPlaceOrderRequestPayload.AscendexSide ascendexSide) {
-    if (ascendexSide.equals(AscendexPlaceOrderRequestPayload.AscendexSide.buy)) {
+    if (AscendexPlaceOrderRequestPayload.AscendexSide.buy.equals(ascendexSide)) {
       return Order.OrderType.BID;
     } else {
       return Order.OrderType.ASK;
@@ -232,7 +209,7 @@ public class AscendexAdapters {
   }
 
   public static Trades adaptTrades(AscendexMarketTradesDto marketTradesDto) {
-    List<Trade> trades = new ArrayList<>();
+    List<Trade> trades = new ArrayList<>(100);
 
     marketTradesDto
         .getData()

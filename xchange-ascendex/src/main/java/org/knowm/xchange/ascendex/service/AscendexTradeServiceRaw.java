@@ -13,6 +13,8 @@ import java.util.List;
 
 public class AscendexTradeServiceRaw extends AscendexBaseService {
 
+  private static final String ACCOUNT_CASH_CATEGORY = "cash";
+
   public AscendexTradeServiceRaw(Exchange exchange) {
     super(exchange);
   }
@@ -24,7 +26,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             payload));
   }
 
@@ -35,7 +37,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             payload.getOrderId(),
             payload.getSymbol(),
             payload.getTime()));
@@ -48,7 +50,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             symbol));
   }
 
@@ -60,7 +62,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             symbol));
   }
 
@@ -71,7 +73,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             orderId));
   }
 
@@ -82,7 +84,7 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
-            "cash",
+            ACCOUNT_CASH_CATEGORY,
             50,
             symbol,
             true));

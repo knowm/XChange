@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AscendexMarketDataJSONTest {
 
     @Test
-    public void bitmaxAssetDtoTest() throws IOException {
+    public void ascendexAssetDtoTest() throws IOException {
 
         // Read in the JSON from the example resources
         InputStream is =
