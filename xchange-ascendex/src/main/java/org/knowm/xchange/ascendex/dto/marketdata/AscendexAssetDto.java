@@ -18,7 +18,7 @@ public class AscendexAssetDto {
 
   private final BigDecimal minWithdrawalAmt;
 
-  private final BitmaxAssetStatus status;
+  private final AscendexAssetStatus status;
 
   public AscendexAssetDto(
       @JsonProperty("assetCode") String assetCode,
@@ -27,7 +27,7 @@ public class AscendexAssetDto {
       @JsonProperty("nativeScale") int nativeScale,
       @JsonProperty("withdrawalFee") BigDecimal withdrawalFee,
       @JsonProperty("nimWithdrawalAmt") BigDecimal minWithdrawalAmt,
-      @JsonProperty("status") BitmaxAssetStatus status) {
+      @JsonProperty("status") AscendexAssetStatus status) {
     this.assetCode = assetCode;
     this.assetName = assetName;
     this.precisionScale = precisionScale;
@@ -61,13 +61,13 @@ public class AscendexAssetDto {
     return minWithdrawalAmt;
   }
 
-  public BitmaxAssetStatus getStatus() {
+  public AscendexAssetStatus getStatus() {
     return status;
   }
 
   @Override
   public String toString() {
-    return "BitmaxAssetDto{"
+    return "AscendexAssetDto{"
         + "assetCode='"
         + assetCode
         + '\''
@@ -87,7 +87,7 @@ public class AscendexAssetDto {
         + '}';
   }
 
-  public enum BitmaxAssetStatus {
+  public enum AscendexAssetStatus {
     Normal,
     NoDeposit,
     NoTrading,

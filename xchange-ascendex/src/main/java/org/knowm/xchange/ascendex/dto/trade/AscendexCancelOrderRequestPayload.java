@@ -36,7 +36,7 @@ public class AscendexCancelOrderRequestPayload {
 
   @Override
   public String toString() {
-    return "BitmaxCancelOrderRequestPayload{"
+    return "AscendexCancelOrderRequestPayload{"
         + ", orderId='"
         + orderId
         + '\''

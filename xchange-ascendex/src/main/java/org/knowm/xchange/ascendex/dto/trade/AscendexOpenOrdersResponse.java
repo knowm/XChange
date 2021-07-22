@@ -24,13 +24,13 @@ public class AscendexOpenOrdersResponse {
 
   private final BigDecimal orderQty;
 
-  private final AscendexPlaceOrderRequestPayload.BitmaxOrderType orderType;
+  private final AscendexPlaceOrderRequestPayload.AscendexOrderType orderType;
 
   private final BigDecimal price;
 
   private final Long seqNum;
 
-  private final AscendexPlaceOrderRequestPayload.BitmaxSide side;
+  private final AscendexPlaceOrderRequestPayload.AscendexSide side;
 
   private final String status;
 
@@ -66,10 +66,10 @@ public class AscendexOpenOrdersResponse {
     this.orderId = orderId;
     this.orderQty = orderQty;
     this.orderType =
-        AscendexPlaceOrderRequestPayload.BitmaxOrderType.valueOf(orderType.toLowerCase());
+        AscendexPlaceOrderRequestPayload.AscendexOrderType.valueOf(orderType.toLowerCase());
     this.price = price;
     this.seqNum = seqNum;
-    this.side = AscendexPlaceOrderRequestPayload.BitmaxSide.valueOf(side.toLowerCase());
+    this.side = AscendexPlaceOrderRequestPayload.AscendexSide.valueOf(side.toLowerCase());
     this.status = status;
     this.stopPrice = stopPrice;
     this.symbol = symbol;
@@ -108,7 +108,7 @@ public class AscendexOpenOrdersResponse {
     return orderQty;
   }
 
-  public AscendexPlaceOrderRequestPayload.BitmaxOrderType getOrderType() {
+  public AscendexPlaceOrderRequestPayload.AscendexOrderType getOrderType() {
     return orderType;
   }
 
@@ -120,7 +120,7 @@ public class AscendexOpenOrdersResponse {
     return seqNum;
   }
 
-  public AscendexPlaceOrderRequestPayload.BitmaxSide getSide() {
+  public AscendexPlaceOrderRequestPayload.AscendexSide getSide() {
     return side;
   }
 
@@ -142,7 +142,7 @@ public class AscendexOpenOrdersResponse {
 
   @Override
   public String toString() {
-    return "BitmaxOpenOrdersResponse{"
+    return "AscendexOpenOrdersResponse{"
         + "avgPx="
         + avgPx
         + ", cumFee="

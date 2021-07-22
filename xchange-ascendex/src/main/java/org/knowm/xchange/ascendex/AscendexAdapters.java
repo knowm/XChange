@@ -87,16 +87,16 @@ public class AscendexAdapters {
             .build());
   }
 
-  public static AscendexPlaceOrderRequestPayload adaptLimitOrderToBitmaxPlaceOrderRequestPayload(
+  public static AscendexPlaceOrderRequestPayload adaptLimitOrderToAscendexPlaceOrderRequestPayload(
       LimitOrder limitOrder) {
     return new AscendexPlaceOrderRequestPayload(
         limitOrder.getInstrument().toString(),
         Date.from(Instant.now()).toInstant().toEpochMilli(),
         limitOrder.getOriginalAmount().toString(),
-        AscendexPlaceOrderRequestPayload.BitmaxOrderType.limit,
+        AscendexPlaceOrderRequestPayload.AscendexOrderType.limit,
         limitOrder.getType().equals(Order.OrderType.ASK)
-            ? AscendexPlaceOrderRequestPayload.BitmaxSide.sell
-            : AscendexPlaceOrderRequestPayload.BitmaxSide.buy,
+            ? AscendexPlaceOrderRequestPayload.AscendexSide.sell
+            : AscendexPlaceOrderRequestPayload.AscendexSide.buy,
         null,
         limitOrder.getLimitPrice().toString(),
         null,
@@ -106,17 +106,17 @@ public class AscendexAdapters {
   }
 
   public static UserTrades adaptUserTrades(
-      List<AscendexOpenOrdersResponse> bitmaxOrderHistoryResponse) {
+      List<AscendexOpenOrdersResponse> ascendexOrderHistoryResponse) {
     List<UserTrade> userTrades = new ArrayList<>();
 
-    bitmaxOrderHistoryResponse.forEach(
+    ascendexOrderHistoryResponse.forEach(
         order ->
             userTrades.add(
                 new UserTrade.Builder()
                     .feeAmount(order.getCumFee())
                     .orderId(order.getOrderId())
                     .price(order.getPrice())
-                    .type(adaptBitmaxSideToOrderType(order.getSide()))
+                    .type(adaptAscendexSideToOrderType(order.getSide()))
                     .originalAmount(order.getOrderQty())
                     .id(order.getOrderId())
                     .timestamp(order.getLastExecTime())
@@ -138,7 +138,7 @@ public class AscendexAdapters {
             ascendexOpenOrdersResponse ->
             openOrders.add(
                 new LimitOrder.Builder(
-                        adaptBitmaxSideToOrderType(ascendexOpenOrdersResponse.getSide()),
+                        adaptAscendexSideToOrderType(ascendexOpenOrdersResponse.getSide()),
                         CurrencyPairDeserializer.getCurrencyPairFromString(
                             ascendexOpenOrdersResponse.getSymbol()))
                     .originalAmount(ascendexOpenOrdersResponse.getOrderQty())
@@ -168,7 +168,7 @@ public class AscendexAdapters {
 
     openOrders.add(
         new LimitOrder.Builder(
-                adaptBitmaxSideToOrderType(ascendexOpenOrdersResponse.getSide()),
+                adaptAscendexSideToOrderType(ascendexOpenOrdersResponse.getSide()),
                 CurrencyPairDeserializer.getCurrencyPairFromString(
                     ascendexOpenOrdersResponse.getSymbol()))
             .originalAmount(ascendexOpenOrdersResponse.getOrderQty())
@@ -198,13 +198,13 @@ public class AscendexAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairMetaDataMap = new HashMap<>();
 
     ascendexAssetDtos.forEach(
-        bitmaxAssetDto ->
+        ascendexAssetDto ->
             currencyMetaDataMap.put(
-                new Currency(bitmaxAssetDto.getAssetCode()),
+                new Currency(ascendexAssetDto.getAssetCode()),
                 new CurrencyMetaData(
-                    bitmaxAssetDto.getPrecisionScale(),
-                    bitmaxAssetDto.getWithdrawFee(),
-                    bitmaxAssetDto.getMinWithdrawalAmt())));
+                    ascendexAssetDto.getPrecisionScale(),
+                    ascendexAssetDto.getWithdrawFee(),
+                    ascendexAssetDto.getMinWithdrawalAmt())));
 
     ascendexProductDtos.forEach(
             ascendexProductDto ->
@@ -222,9 +222,9 @@ public class AscendexAdapters {
     return new ExchangeMetaData(currencyPairMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
-  public static Order.OrderType adaptBitmaxSideToOrderType(
-      AscendexPlaceOrderRequestPayload.BitmaxSide bitmaxSide) {
-    if (bitmaxSide.equals(AscendexPlaceOrderRequestPayload.BitmaxSide.buy)) {
+  public static Order.OrderType adaptAscendexSideToOrderType(
+      AscendexPlaceOrderRequestPayload.AscendexSide ascendexSide) {
+    if (ascendexSide.equals(AscendexPlaceOrderRequestPayload.AscendexSide.buy)) {
       return Order.OrderType.BID;
     } else {
       return Order.OrderType.ASK;
@@ -237,15 +237,15 @@ public class AscendexAdapters {
     marketTradesDto
         .getData()
         .forEach(
-            bitmaxMarketTradesData ->
+            ascendexMarketTradesData ->
                 trades.add(
                     new Trade.Builder()
-                        .price(bitmaxMarketTradesData.getPrice())
-                        .originalAmount(bitmaxMarketTradesData.getQuantity())
-                        .timestamp(bitmaxMarketTradesData.getTimestamp())
+                        .price(ascendexMarketTradesData.getPrice())
+                        .originalAmount(ascendexMarketTradesData.getQuantity())
+                        .timestamp(ascendexMarketTradesData.getTimestamp())
                         .instrument(new CurrencyPair(marketTradesDto.getSymbol()))
                         .type(
-                            bitmaxMarketTradesData.isBuyerMaker()
+                            ascendexMarketTradesData.isBuyerMaker()
                                 ? Order.OrderType.ASK
                                 : Order.OrderType.BID)
                         .build()));

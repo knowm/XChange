@@ -13,10 +13,10 @@ public class AscendexAccountServiceRaw extends AscendexBaseService {
     super(exchange);
   }
 
-  public List<AscendexCashAccountBalanceDto> getBitmaxCashAccountBalance()
+  public List<AscendexCashAccountBalanceDto> getAscendexCashAccountBalance()
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.getCashAccountBalance(
+        ascendexAuthenticated.getCashAccountBalance(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator));

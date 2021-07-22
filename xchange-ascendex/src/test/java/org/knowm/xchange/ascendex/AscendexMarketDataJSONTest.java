@@ -27,16 +27,16 @@ public class AscendexMarketDataJSONTest {
 
         // Use Jackson to parse it
         ObjectMapper mapper = new ObjectMapper();
-        AscendexResponse<List<AscendexAssetDto>> bitmaxAssets = mapper.readValue(is, new TypeReference<AscendexResponse<List<AscendexAssetDto>>>(){});
+        AscendexResponse<List<AscendexAssetDto>> ascendexAssets = mapper.readValue(is, new TypeReference<AscendexResponse<List<AscendexAssetDto>>>(){});
 
         // Verify that the example data was unmarshalled correctly
-        assertThat(bitmaxAssets.getData().size()).isEqualTo(1);
-        assertThat(bitmaxAssets.getData().get(0).getStatus()).isEqualTo(AscendexAssetDto.BitmaxAssetStatus.Normal);
+        assertThat(ascendexAssets.getData().size()).isEqualTo(1);
+        assertThat(ascendexAssets.getData().get(0).getStatus()).isEqualTo(AscendexAssetDto.AscendexAssetStatus.Normal);
 
     }
 
     @Test
-    public void bitmaxProductDtoTest() throws IOException {
+    public void ascendexProductDtoTest() throws IOException {
 
         // Read in the JSON from the example resources
         InputStream is =
@@ -45,16 +45,16 @@ public class AscendexMarketDataJSONTest {
 
         // Use Jackson to parse it
         ObjectMapper mapper = new ObjectMapper();
-        AscendexResponse<List<AscendexProductDto>> bitmaxAssets = mapper.readValue(is, new TypeReference<AscendexResponse<List<AscendexProductDto>>>(){});
+        AscendexResponse<List<AscendexProductDto>> ascendexAssets = mapper.readValue(is, new TypeReference<AscendexResponse<List<AscendexProductDto>>>(){});
 
         // Verify that the example data was unmarshalled correctly
-        assertThat(bitmaxAssets.getData().size()).isEqualTo(1);
-        assertThat(bitmaxAssets.getData().get(0).getStatus()).isEqualTo(AscendexAssetDto.BitmaxAssetStatus.Normal);
+        assertThat(ascendexAssets.getData().size()).isEqualTo(1);
+        assertThat(ascendexAssets.getData().get(0).getStatus()).isEqualTo(AscendexAssetDto.AscendexAssetStatus.Normal);
 
     }
 
     @Test
-    public void bitmaxOrderbookDtoTest() throws IOException {
+    public void ascendexOrderbookDtoTest() throws IOException {
 
         // Read in the JSON from the example resources
         InputStream is =
@@ -63,13 +63,13 @@ public class AscendexMarketDataJSONTest {
 
         // Use Jackson to parse it
         ObjectMapper mapper = new ObjectMapper();
-        AscendexResponse<AscendexOrderbookDto> bitmaxAssets = mapper.readValue(is, new TypeReference<AscendexResponse<AscendexOrderbookDto>>(){});
+        AscendexResponse<AscendexOrderbookDto> ascendexAssets = mapper.readValue(is, new TypeReference<AscendexResponse<AscendexOrderbookDto>>(){});
 
         // Verify that the example data was unmarshalled correctly
-        assertThat(bitmaxAssets.getData().getData().getSeqnum()).isEqualTo(5068757);
-        assertThat(bitmaxAssets.getData().getM()).isEqualTo("depth-snapshot");
-        assertThat(bitmaxAssets.getData().getData().getAsks().get(0).getPrice()).isEqualByComparingTo(BigDecimal.valueOf(0.06848));
-        assertThat(bitmaxAssets.getData().getData().getAsks().get(0).getVolume()).isEqualByComparingTo(BigDecimal.valueOf(4084.2));
+        assertThat(ascendexAssets.getData().getData().getSeqnum()).isEqualTo(5068757);
+        assertThat(ascendexAssets.getData().getM()).isEqualTo("depth-snapshot");
+        assertThat(ascendexAssets.getData().getData().getAsks().get(0).getPrice()).isEqualByComparingTo(BigDecimal.valueOf(0.06848));
+        assertThat(ascendexAssets.getData().getData().getAsks().get(0).getVolume()).isEqualByComparingTo(BigDecimal.valueOf(4084.2));
 
     }
 }

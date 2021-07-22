@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@JsonDeserialize(using = AscendexPublicOrder.BitmaxOrderDeserializer.class)
+@JsonDeserialize(using = AscendexPublicOrder.AscendexOrderDeserializer.class)
 public class AscendexPublicOrder {
 
   private final BigDecimal price;
@@ -34,10 +34,10 @@ public class AscendexPublicOrder {
 
   @Override
   public String toString() {
-    return "BitmaxPublicOrder{" + "price=" + price + ", volume=" + volume + '}';
+    return "AscendexPublicOrder{" + "price=" + price + ", volume=" + volume + '}';
   }
 
-  static class BitmaxOrderDeserializer extends JsonDeserializer<AscendexPublicOrder> {
+  static class AscendexOrderDeserializer extends JsonDeserializer<AscendexPublicOrder> {
 
     @Override
     public AscendexPublicOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt)

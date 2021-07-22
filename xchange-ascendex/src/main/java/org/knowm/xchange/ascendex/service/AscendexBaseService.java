@@ -14,20 +14,20 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
 
 /**
- * In order for Bitmax exchange authenticated endpoints to work you must add a specificParameterItem
+ * In order for Ascendex exchange authenticated endpoints to work you must add a specificParameterItem
  * named 'account-group' on the getExchangeSpecification.getExchangeSpecificParameters Map
  */
 public class AscendexBaseService extends BaseExchangeService implements BaseService {
 
-  protected IAscendex bitmax;
-  protected IAscendexAuthenticated bitmaxAuthenticated;
+  protected IAscendex ascendex;
+  protected IAscendexAuthenticated ascendexAuthenticated;
   protected ParamsDigest signatureCreator;
 
   private static final Logger LOG = LoggerFactory.getLogger(AscendexBaseService.class);
 
   public AscendexBaseService(Exchange exchange) {
     super(exchange);
-    bitmax =
+    ascendex =
         ExchangeRestProxyBuilder.forInterface(IAscendex.class, exchange.getExchangeSpecification())
             .build();
     if (exchange
@@ -41,7 +41,7 @@ public class AscendexBaseService extends BaseExchangeService implements BaseServ
                   .getExchangeSpecification()
                   .getExchangeSpecificParametersItem("account-group")
               + "/");
-      bitmaxAuthenticated =
+      ascendexAuthenticated =
           ExchangeRestProxyBuilder.forInterface(IAscendexAuthenticated.class, specWithAccountGroup)
               .build();
     } else {

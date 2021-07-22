@@ -14,13 +14,13 @@ public class AscendexMarketTradesDto implements Serializable {
 
   private final String symbol;
 
-  private final List<BitmaxMarketTradesData> data;
+  private final List<AscendexMarketTradesData> data;
 
   @JsonCreator
   public AscendexMarketTradesDto(
       @JsonProperty("m") String m,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("data") List<BitmaxMarketTradesData> data) {
+      @JsonProperty("data") List<AscendexMarketTradesData> data) {
     this.m = m;
     this.symbol = symbol;
     this.data = data;
@@ -34,13 +34,13 @@ public class AscendexMarketTradesDto implements Serializable {
     return symbol;
   }
 
-  public List<BitmaxMarketTradesData> getData() {
+  public List<AscendexMarketTradesData> getData() {
     return data;
   }
 
   @Override
   public String toString() {
-    return "BitmaxMarketTradesDto{"
+    return "AscendexMarketTradesDto{"
         + "m='"
         + m
         + '\''
@@ -52,7 +52,7 @@ public class AscendexMarketTradesDto implements Serializable {
         + '}';
   }
 
-  public static class BitmaxMarketTradesData {
+  public static class AscendexMarketTradesData {
     private final String seqnum;
 
     private final BigDecimal price;
@@ -64,7 +64,7 @@ public class AscendexMarketTradesDto implements Serializable {
     private final boolean isBuyerMaker;
 
     @JsonCreator
-    public BitmaxMarketTradesData(
+    public AscendexMarketTradesData(
         @JsonProperty("seqnum") String seqnum,
         @JsonProperty("p") BigDecimal price,
         @JsonProperty("q") BigDecimal quantity,
@@ -99,7 +99,7 @@ public class AscendexMarketTradesDto implements Serializable {
 
     @Override
     public String toString() {
-      return "BitmaxMarketTradesData{"
+      return "AscendexMarketTradesData{"
           + "seqnum='"
           + seqnum
           + '\''

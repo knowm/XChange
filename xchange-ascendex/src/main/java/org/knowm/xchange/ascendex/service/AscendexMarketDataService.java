@@ -18,11 +18,11 @@ public class AscendexMarketDataService extends AscendexMarketDataServiceRaw
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return AscendexAdapters.adaptOrderBook(getBitmaxOrderbook(currencyPair.toString()));
+    return AscendexAdapters.adaptOrderBook(getAscendexOrderbook(currencyPair.toString()));
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    return AscendexAdapters.adaptTrades(getBitmaxTrades(currencyPair.toString()));
+    return AscendexAdapters.adaptTrades(getAscendexTrades(currencyPair.toString()));
   }
 }

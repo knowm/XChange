@@ -17,10 +17,10 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
     super(exchange);
   }
 
-  public AscendexOrderResponse placeBitmaxOrder(AscendexPlaceOrderRequestPayload payload)
+  public AscendexOrderResponse placeAscendexOrder(AscendexPlaceOrderRequestPayload payload)
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.placeOrder(
+        ascendexAuthenticated.placeOrder(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
@@ -28,10 +28,10 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             payload));
   }
 
-  public AscendexOrderResponse cancelBitmaxOrder(AscendexCancelOrderRequestPayload payload)
+  public AscendexOrderResponse cancelAscendexOrder(AscendexCancelOrderRequestPayload payload)
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.cancelOrder(
+        ascendexAuthenticated.cancelOrder(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
@@ -41,10 +41,10 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             payload.getTime()));
   }
 
-  public AscendexOrderResponse cancelAllBitmaxOrdersBySymbol(String symbol)
+  public AscendexOrderResponse cancelAllAscendexOrdersBySymbol(String symbol)
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.cancelAllOrders(
+        ascendexAuthenticated.cancelAllOrders(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
@@ -52,11 +52,11 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             symbol));
   }
 
-  public List<AscendexOpenOrdersResponse> getBitmaxOpenOrders(String symbol)
+  public List<AscendexOpenOrdersResponse> getAscendexOpenOrders(String symbol)
       throws AscendexException, IOException {
 
     return checkResult(
-        bitmaxAuthenticated.getOpenOrders(
+        ascendexAuthenticated.getOpenOrders(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
@@ -64,10 +64,10 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             symbol));
   }
 
-  public AscendexOpenOrdersResponse getBitmaxOrderById(String orderId)
+  public AscendexOpenOrdersResponse getAscendexOrderById(String orderId)
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.getOrderById(
+        ascendexAuthenticated.getOrderById(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,
@@ -75,10 +75,10 @@ public class AscendexTradeServiceRaw extends AscendexBaseService {
             orderId));
   }
 
-  public List<AscendexOpenOrdersResponse> getBitmaxUserTrades(String symbol)
+  public List<AscendexOpenOrdersResponse> getAscendexUserTrades(String symbol)
       throws AscendexException, IOException {
     return checkResult(
-        bitmaxAuthenticated.getOrdersHistory(
+        ascendexAuthenticated.getOrdersHistory(
             exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory().createValue(),
             signatureCreator,

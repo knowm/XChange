@@ -12,12 +12,12 @@ public class AscendexOrderbookDto {
 
   private final String symbol;
 
-  private final BitmaxOrderbookData data;
+  private final AscendexOrderbookData data;
 
   public AscendexOrderbookDto(
       @JsonProperty("m") String m,
       @JsonProperty("symbol") String symbol,
-      @JsonProperty("data") BitmaxOrderbookData data) {
+      @JsonProperty("data") AscendexOrderbookData data) {
     this.m = m;
     this.symbol = symbol;
     this.data = data;
@@ -31,13 +31,13 @@ public class AscendexOrderbookDto {
     return symbol;
   }
 
-  public BitmaxOrderbookData getData() {
+  public AscendexOrderbookData getData() {
     return data;
   }
 
   @Override
   public String toString() {
-    return "BitmaxOrderbookDto{"
+    return "AscendexOrderbookDto{"
         + "m='"
         + m
         + '\''
@@ -49,7 +49,7 @@ public class AscendexOrderbookDto {
         + '}';
   }
 
-  public static class BitmaxOrderbookData {
+  public static class AscendexOrderbookData {
     private final Long seqnum;
 
     private final Date ts;
@@ -58,7 +58,7 @@ public class AscendexOrderbookDto {
 
     private final List<AscendexPublicOrder> bids;
 
-    public BitmaxOrderbookData(
+    public AscendexOrderbookData(
         @JsonProperty("seqnum") Long seqnum,
         @JsonProperty("ts") Long ts,
         @JsonProperty("asks") List<AscendexPublicOrder> asks,
@@ -87,7 +87,7 @@ public class AscendexOrderbookDto {
 
     @Override
     public String toString() {
-      return "BitmaxOrderbookData{"
+      return "AscendexOrderbookData{"
           + "seqnum="
           + seqnum
           + ", timestamp="

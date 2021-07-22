@@ -35,7 +35,7 @@ public class AscendexCashAccountBalanceDto {
 
   @Override
   public String toString() {
-    return "BitmaxCashAccountBalanceDto{"
+    return "AscendexCashAccountBalanceDto{"
         + "asset='"
         + asset
         + '\''

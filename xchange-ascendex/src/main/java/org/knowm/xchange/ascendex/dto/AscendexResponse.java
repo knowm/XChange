@@ -50,7 +50,7 @@ public class AscendexResponse<V> {
 
   @Override
   public String toString() {
-    return "BitmaxResponse{"
+    return "AscendexResponse{"
         + "ac='"
         + ac
         + '\''

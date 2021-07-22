@@ -12,7 +12,7 @@ public class AscendexProductDto {
 
   private final String quoteAsset;
 
-  private final AscendexAssetDto.BitmaxAssetStatus status;
+  private final AscendexAssetDto.AscendexAssetStatus status;
 
   private final BigDecimal minNotional;
 
@@ -20,7 +20,7 @@ public class AscendexProductDto {
 
   private final boolean marginTradable;
 
-  private final BitmaxProductCommissionType commissionType;
+  private final AscendexProductCommissionType commissionType;
 
   private final BigDecimal commissionReserveRate;
 
@@ -32,11 +32,11 @@ public class AscendexProductDto {
       @JsonProperty("symbol") String symbol,
       @JsonProperty("baseAsset") String baseAsset,
       @JsonProperty("quoteAsset") String quoteAsset,
-      @JsonProperty("status") AscendexAssetDto.BitmaxAssetStatus status,
+      @JsonProperty("status") AscendexAssetDto.AscendexAssetStatus status,
       @JsonProperty("minNotional") BigDecimal minNotional,
       @JsonProperty("maxNotional") BigDecimal maxNotional,
       @JsonProperty("marginTradable") boolean marginTradable,
-      @JsonProperty("commissionType") BitmaxProductCommissionType commissionType,
+      @JsonProperty("commissionType") AscendexProductCommissionType commissionType,
       @JsonProperty("commissionReserveRate") BigDecimal commissionReserveRate,
       @JsonProperty("tickSize") BigDecimal tickSize,
       @JsonProperty("lotSize") BigDecimal lotSize) {
@@ -65,7 +65,7 @@ public class AscendexProductDto {
     return quoteAsset;
   }
 
-  public AscendexAssetDto.BitmaxAssetStatus getStatus() {
+  public AscendexAssetDto.AscendexAssetStatus getStatus() {
     return status;
   }
 
@@ -81,7 +81,7 @@ public class AscendexProductDto {
     return marginTradable;
   }
 
-  public BitmaxProductCommissionType getCommissionType() {
+  public AscendexProductCommissionType getCommissionType() {
     return commissionType;
   }
 
@@ -99,7 +99,7 @@ public class AscendexProductDto {
 
   @Override
   public String toString() {
-    return "BitmaxProductDto{"
+    return "AscendexProductDto{"
         + "symbol='"
         + symbol
         + '\''
@@ -128,7 +128,7 @@ public class AscendexProductDto {
         + '}';
   }
 
-  public enum BitmaxProductCommissionType {
+  public enum AscendexProductCommissionType {
     Base,
     Quote,
     Received

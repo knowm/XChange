@@ -10,9 +10,9 @@ public class AscendexPlaceOrderRequestPayload {
 
   private final String orderQty;
 
-  private final BitmaxOrderType orderType;
+  private final AscendexOrderType orderType;
 
-  private final BitmaxSide side;
+  private final AscendexSide side;
 
   @JsonIgnore private final String id;
 
@@ -31,8 +31,8 @@ public class AscendexPlaceOrderRequestPayload {
       String symbol,
       Long time,
       String orderQty,
-      BitmaxOrderType orderType,
-      BitmaxSide side,
+      AscendexOrderType orderType,
+      AscendexSide side,
       String id,
       String orderPrice,
       String stopPrice,
@@ -64,11 +64,11 @@ public class AscendexPlaceOrderRequestPayload {
     return orderQty;
   }
 
-  public BitmaxOrderType getOrderType() {
+  public AscendexOrderType getOrderType() {
     return orderType;
   }
 
-  public BitmaxSide getSide() {
+  public AscendexSide getSide() {
     return side;
   }
 
@@ -98,7 +98,7 @@ public class AscendexPlaceOrderRequestPayload {
 
   @Override
   public String toString() {
-    return "BitmaxPlaceOrderRequestPayload{"
+    return "AscendexPlaceOrderRequestPayload{"
         + "symbol='"
         + symbol
         + '\''
@@ -128,14 +128,14 @@ public class AscendexPlaceOrderRequestPayload {
         + '}';
   }
 
-  public enum BitmaxOrderType {
+  public enum AscendexOrderType {
     market,
     limit,
     stop_market,
     stop_limit
   }
 
-  public enum BitmaxSide {
+  public enum AscendexSide {
     buy,
     sell
   }

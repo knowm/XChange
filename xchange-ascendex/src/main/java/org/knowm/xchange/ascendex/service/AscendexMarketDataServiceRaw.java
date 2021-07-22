@@ -17,18 +17,18 @@ public class AscendexMarketDataServiceRaw extends AscendexBaseService {
   }
 
   public List<AscendexAssetDto> getAllAssets() throws AscendexException, IOException {
-    return checkResult(bitmax.getAllAssets());
+    return checkResult(ascendex.getAllAssets());
   }
 
   public List<AscendexProductDto> getAllProducts() throws AscendexException, IOException {
-    return checkResult(bitmax.getAllProducts());
+    return checkResult(ascendex.getAllProducts());
   }
 
-  public AscendexOrderbookDto getBitmaxOrderbook(String symbol) throws AscendexException, IOException {
-    return checkResult(bitmax.getOrderbookDepth(symbol));
+  public AscendexOrderbookDto getAscendexOrderbook(String symbol) throws AscendexException, IOException {
+    return checkResult(ascendex.getOrderbookDepth(symbol));
   }
 
-  public AscendexMarketTradesDto getBitmaxTrades(String symbol) throws AscendexException, IOException {
-    return checkResult(bitmax.getTrades(symbol));
+  public AscendexMarketTradesDto getAscendexTrades(String symbol) throws AscendexException, IOException {
+    return checkResult(ascendex.getTrades(symbol));
   }
 }

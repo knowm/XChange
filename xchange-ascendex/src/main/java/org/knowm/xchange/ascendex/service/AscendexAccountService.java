@@ -15,6 +15,6 @@ public class AscendexAccountService extends AscendexAccountServiceRaw implements
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return AscendexAdapters.adaptAccountInfo(getBitmaxCashAccountBalance());
+    return AscendexAdapters.adaptAccountInfo(getAscendexCashAccountBalance());
   }
 }

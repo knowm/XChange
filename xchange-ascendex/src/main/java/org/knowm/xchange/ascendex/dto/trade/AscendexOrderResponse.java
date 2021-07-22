@@ -13,7 +13,7 @@ public class AscendexOrderResponse {
 
   private final String action;
 
-  private final BitmaxPlaceOrderInfo info;
+  private final AscendexPlaceOrderInfo info;
 
   private final String status;
 
@@ -21,7 +21,7 @@ public class AscendexOrderResponse {
       @JsonProperty("ac") String ac,
       @JsonProperty("accountId") String accountId,
       @JsonProperty("action") String action,
-      @JsonProperty("info") BitmaxPlaceOrderInfo info,
+      @JsonProperty("info") AscendexPlaceOrderInfo info,
       @JsonProperty("status") String status) {
     this.ac = ac;
     this.accountId = accountId;
@@ -42,7 +42,7 @@ public class AscendexOrderResponse {
     return action;
   }
 
-  public BitmaxPlaceOrderInfo getInfo() {
+  public AscendexPlaceOrderInfo getInfo() {
     return info;
   }
 
@@ -52,7 +52,7 @@ public class AscendexOrderResponse {
 
   @Override
   public String toString() {
-    return "BitmaxPlaceOrderResponse{"
+    return "AscendexPlaceOrderResponse{"
         + "ac='"
         + ac
         + '\''
@@ -70,7 +70,7 @@ public class AscendexOrderResponse {
         + '}';
   }
 
-  public static class BitmaxPlaceOrderInfo {
+  public static class AscendexPlaceOrderInfo {
     private final String id;
 
     private final String orderId;
@@ -81,7 +81,7 @@ public class AscendexOrderResponse {
 
     private final Date timestamp;
 
-    public BitmaxPlaceOrderInfo(
+    public AscendexPlaceOrderInfo(
         @JsonProperty("id") String id,
         @JsonProperty("orderId") String orderId,
         @JsonProperty("orderType") String orderType,

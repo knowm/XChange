@@ -24,8 +24,8 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeBitmaxOrder(
-            AscendexAdapters.adaptLimitOrderToBitmaxPlaceOrderRequestPayload(limitOrder))
+    return placeAscendexOrder(
+            AscendexAdapters.adaptLimitOrderToAscendexPlaceOrderRequestPayload(limitOrder))
         .getInfo()
         .getOrderId();
   }
@@ -33,16 +33,16 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByPairAndIdParams) {
-      cancelAllBitmaxOrdersBySymbol(
+      cancelAllAscendexOrdersBySymbol(
           ((CancelOrderByPairAndIdParams) orderParams).getCurrencyPair().toString());
       return true;
     } else if (orderParams instanceof CancelOrderByCurrencyPair) {
-      cancelAllBitmaxOrdersBySymbol(
+      cancelAllAscendexOrdersBySymbol(
           ((CancelOrderByCurrencyPair) orderParams).getCurrencyPair().toString());
       return true;
     } else {
       throw new IOException(
-          "Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Bitmax.");
+          "Params must be instanceOf CancelOrderByPairAndIdParams in order to cancel an order on Ascendex.");
     }
   }
 
@@ -55,13 +55,13 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     if (params instanceof OpenOrdersParamCurrencyPair) {
       return AscendexAdapters.adaptOpenOrders(
-          getBitmaxOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair().toString()));
+          getAscendexOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair().toString()));
     } else if (params instanceof OpenOrdersParamInstrument) {
       return AscendexAdapters.adaptOpenOrders(
-          getBitmaxOpenOrders(((OpenOrdersParamInstrument) params).getInstrument().toString()));
+          getAscendexOpenOrders(((OpenOrdersParamInstrument) params).getInstrument().toString()));
     } else {
       throw new IOException(
-          "Params must be instanceOf OpenOrdersParamCurrencyPair or OpenOrdersParamInstrument in order to get openOrders from Bitmax.");
+          "Params must be instanceOf OpenOrdersParamCurrencyPair or OpenOrdersParamInstrument in order to get openOrders from Ascendex.");
     }
   }
 
@@ -74,20 +74,20 @@ public class AscendexTradeService extends AscendexTradeServiceRaw implements Tra
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     if (params instanceof TradeHistoryParamCurrencyPair) {
       return AscendexAdapters.adaptUserTrades(
-          getBitmaxUserTrades(
+          getAscendexUserTrades(
               ((TradeHistoryParamCurrencyPair) params).getCurrencyPair().toString()));
     } else {
-      throw new IOException("CurrencyPair must specified in order to get usertrades from Bitmax.");
+      throw new IOException("CurrencyPair must specified in order to get usertrades from Ascendex.");
     }
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return AscendexAdapters.adaptOpenOrders(getBitmaxOpenOrders(null));
+    return AscendexAdapters.adaptOpenOrders(getAscendexOpenOrders(null));
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
-    return AscendexAdapters.adaptOpenOrderById(getBitmaxOrderById(orderIds[0]));
+    return AscendexAdapters.adaptOpenOrderById(getAscendexOrderById(orderIds[0]));
   }
 }
