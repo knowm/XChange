@@ -9,6 +9,8 @@ import java.util.Base64;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.QueryParam;
+
+import lombok.SneakyThrows;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
@@ -36,6 +38,7 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
     }
   }
 
+  @SneakyThrows
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
@@ -49,7 +52,7 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
     String decodedQuery =
         URLDecoder.decode(
             restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
-            StandardCharsets.UTF_8);
+            String.valueOf(StandardCharsets.UTF_8));
     sha256.update(decodedQuery.getBytes());
     try {
       sha256.update(
