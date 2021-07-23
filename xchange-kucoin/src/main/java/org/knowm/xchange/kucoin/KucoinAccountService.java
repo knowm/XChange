@@ -3,21 +3,20 @@ package org.knowm.xchange.kucoin;
 import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.kucoin.dto.request.ApplyWithdrawApiRequest;
 import org.knowm.xchange.kucoin.dto.response.AccountBalancesResponse;
-import org.knowm.xchange.kucoin.dto.response.ApplyWithdrawResponse;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class KucoinAccountService extends KucoinAccountServiceRaw implements AccountService {
 
@@ -82,27 +81,5 @@ public class KucoinAccountService extends KucoinAccountServiceRaw implements Acc
               .collect(Collectors.toList()));
     }
     return result;
-  }
-
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, AddressWithTag address) throws IOException {
-    return withdrawFunds(new DefaultWithdrawFundsParams(address, currency, amount));
-  }
-
-  @Override
-  public String withdrawFunds(WithdrawFundsParams params) throws IOException {
-    if(!(params instanceof DefaultWithdrawFundsParams)) {
-      throw new IllegalArgumentException("DefaultWithdrawFundsParams must be provided.");
-    }
-    DefaultWithdrawFundsParams defParams = (DefaultWithdrawFundsParams) params;
-    ApplyWithdrawApiRequest apiRequest = ApplyWithdrawApiRequest.builder()
-            .currency(defParams.getCurrency().toString())
-            .amount(defParams.getAmount())
-            .address(defParams.getAddress())
-            .memo(defParams.getAddressTag())
-            .build();
-    ApplyWithdrawResponse response = super.applyWithdraw(apiRequest);
-
-    return response.getWithdrawalId();
   }
 }
