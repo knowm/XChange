@@ -12,20 +12,22 @@ import java.math.BigDecimal;
 public class KucoinKline {
 
   private final CurrencyPair pair;
+
   private final KlineIntervalType intervalType;
-  private Long time;
 
-  private BigDecimal open;
+  private final Long time;
 
-  private BigDecimal high;
+  private final BigDecimal open;
 
-  private BigDecimal low;
+  private final BigDecimal high;
 
-  private BigDecimal close;
+  private final BigDecimal low;
 
-  private BigDecimal volume;
+  private final BigDecimal close;
 
-  private BigDecimal amount;
+  private final BigDecimal volume;
+
+  private final BigDecimal amount;
 
   public KucoinKline(CurrencyPair pair, KlineIntervalType intervalType, Object[] obj) {
     this.pair = pair;
@@ -37,41 +39,5 @@ public class KucoinKline {
     this.low = new BigDecimal(obj[4].toString());
     this.volume = new BigDecimal(obj[5].toString());
     this.amount = new BigDecimal(obj[6].toString());
-  }
-
-  public CurrencyPair getPair() {
-    return pair;
-  }
-
-  public KlineIntervalType getIntervalType() {
-    return intervalType;
-  }
-
-  public Long getTime() {
-    return time;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
-  }
-
-  public BigDecimal getHigh() {
-    return high;
-  }
-
-  public BigDecimal getLow() {
-    return low;
-  }
-
-  public BigDecimal getClose() {
-    return close;
-  }
-
-  public BigDecimal getVolume() {
-    return volume;
-  }
-
-  public BigDecimal getAmount() {
-    return amount;
   }
 }
