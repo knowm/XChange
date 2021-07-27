@@ -3,6 +3,8 @@ package org.knowm.xchange.kucoin;
 import static org.knowm.xchange.kucoin.KucoinExceptionClassifier.classifyingExceptions;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
@@ -24,11 +26,8 @@ public class KucoinExchange extends BaseExchange implements Exchange {
    */
   public static final String PARAM_SANDBOX = "Use_Sandbox";
 
-  static final String SANDBOX_HOST = APIConstants.API_SANDBOX_HOST;
-  static final String SANDBOX_URI = "https://" + SANDBOX_HOST;
-
-  static final String LIVE_HOST = APIConstants.API_BASE_HOST;
-  static final String LIVE_URI = "https://" + LIVE_HOST;
+  static final String SANDBOX_URI = "https://openapi-sandbox.kucoin.com";
+  static final String LIVE_URI = "https://api.kucoin.com";
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
@@ -38,7 +37,11 @@ public class KucoinExchange extends BaseExchange implements Exchange {
           exchangeSpecification.getExchangeSpecificParametersItem(PARAM_SANDBOX))) {
         logger.debug("Connecting to sandbox");
         exchangeSpecification.setSslUri(KucoinExchange.SANDBOX_URI);
-        exchangeSpecification.setHost(KucoinExchange.SANDBOX_HOST);
+        try {
+          URL url = new URL(KucoinExchange.SANDBOX_URI);
+          exchangeSpecification.setHost(url.getHost());
+        } catch (MalformedURLException ignored) {
+        }
       } else {
         logger.debug("Connecting to live");
       }
@@ -63,7 +66,11 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
     exchangeSpecification.setSslUri(LIVE_URI);
-    exchangeSpecification.setHost(LIVE_HOST);
+    try {
+      URL url = new URL(KucoinExchange.LIVE_URI);
+      exchangeSpecification.setHost(url.getHost());
+    } catch (MalformedURLException ignored) {
+    }
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Kucoin");
     exchangeSpecification.setExchangeDescription("Kucoin is a bitcoin and altcoin exchange.");
