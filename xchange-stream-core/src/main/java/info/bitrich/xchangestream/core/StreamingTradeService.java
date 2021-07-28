@@ -6,6 +6,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.TradeService;
 
 public interface StreamingTradeService {
@@ -30,7 +31,15 @@ public interface StreamingTradeService {
    * @param currencyPair Currency pair of the order changes.
    * @return {@link Flowable} that emits {@link Order} when exchange sends the update.
    */
+  @Deprecated
   default Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
+    throw new NotYetImplementedForExchangeException("getOrderChanges");
+  }
+
+  default Flowable<Order> getOrderChanges(Instrument instrument, Object... args) {
+    if(instrument instanceof CurrencyPair) {
+      return getOrderChanges((CurrencyPair) instrument, args);
+    }
     throw new NotYetImplementedForExchangeException("getOrderChanges");
   }
 
@@ -54,7 +63,15 @@ public interface StreamingTradeService {
    * @param currencyPair Currency pair for which to get trades.
    * @return {@link Flowable} that emits {@link UserTrade} when exchange sends the update.
    */
+  @Deprecated
   default Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+    throw new NotYetImplementedForExchangeException("getUserTrades");
+  }
+
+  default Flowable<UserTrade> getUserTrades(Instrument instrument, Object... args) {
+    if(instrument instanceof CurrencyPair) {
+      return getUserTrades((CurrencyPair) instrument, args);
+    }
     throw new NotYetImplementedForExchangeException("getUserTrades");
   }
 }
