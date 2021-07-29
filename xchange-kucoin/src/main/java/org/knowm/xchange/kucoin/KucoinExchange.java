@@ -16,7 +16,6 @@ import org.knowm.xchange.kucoin.dto.response.CurrenciesResponse;
 import org.knowm.xchange.kucoin.dto.response.SymbolResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeFeeResponse;
 import org.knowm.xchange.kucoin.dto.response.WebsocketResponse;
-import org.knowm.xchange.kucoin.service.APIConstants;
 
 public class KucoinExchange extends BaseExchange implements Exchange {
 
@@ -27,7 +26,7 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   public static final String PARAM_SANDBOX = "Use_Sandbox";
 
   static final String SANDBOX_URI = "https://openapi-sandbox.kucoin.com";
-  static final String LIVE_URI = "https://api.kucoin.com";
+  static final String PROD_URI = "https://api.kucoin.com";
 
   private static ResilienceRegistries RESILIENCE_REGISTRIES;
 
@@ -40,7 +39,8 @@ public class KucoinExchange extends BaseExchange implements Exchange {
         try {
           URL url = new URL(KucoinExchange.SANDBOX_URI);
           exchangeSpecification.setHost(url.getHost());
-        } catch (MalformedURLException ignored) {
+        } catch (MalformedURLException exception) {
+          logger.error("Kucoin sandbox host exception: {}", exception.getMessage());
         }
       } else {
         logger.debug("Connecting to live");
@@ -65,11 +65,12 @@ public class KucoinExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass());
-    exchangeSpecification.setSslUri(LIVE_URI);
+    exchangeSpecification.setSslUri(PROD_URI);
     try {
-      URL url = new URL(KucoinExchange.LIVE_URI);
+      URL url = new URL(KucoinExchange.PROD_URI);
       exchangeSpecification.setHost(url.getHost());
-    } catch (MalformedURLException ignored) {
+    } catch (MalformedURLException exception) {
+      logger.error("Kucoin host exception: {}", exception.getMessage());
     }
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Kucoin");
