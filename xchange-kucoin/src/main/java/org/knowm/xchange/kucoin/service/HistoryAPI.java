@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.kucoin.dto.response.KucoinResponse;
 import org.knowm.xchange.kucoin.dto.response.TradeHistoryResponse;
 
@@ -25,5 +26,24 @@ public interface HistoryAPI {
   @GET
   @Path("/histories")
   KucoinResponse<List<TradeHistoryResponse>> getTradeHistories(@QueryParam("symbol") String symbol)
+      throws IOException;
+
+  /**
+   * Gets the kline of the specified symbol. Data are returned in grouped buckets based on requested
+   * type.
+   *
+   * @param symbol The symbol whose trades should be fetched.
+   * @param startAt The start time (in seconds) - defaults to 0, optional
+   * @param endAt The end time (in seconds) - defaults to 0, optional
+   * @param type The type of kline
+   * @return The klines for the symbol and params.
+   */
+  @GET
+  @Path("/candles")
+  KucoinResponse<List<Object[]>> getKlines(
+      @QueryParam("symbol") String symbol,
+      @QueryParam("startAt") Long startAt,
+      @QueryParam("endAt") Long endAt,
+      @QueryParam("type") String type)
       throws IOException;
 }

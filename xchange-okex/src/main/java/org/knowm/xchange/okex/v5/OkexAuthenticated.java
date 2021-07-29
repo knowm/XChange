@@ -22,7 +22,7 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexAmendOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexCancelOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderRequest;
 import org.knowm.xchange.okex.v5.dto.trade.OkexOrderResponse;
-import org.knowm.xchange.okex.v5.dto.trade.OkexPendingOrder;
+import org.knowm.xchange.okex.v5.dto.trade.OkexOrderDetails;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/api/v5")
@@ -31,6 +31,7 @@ public interface OkexAuthenticated extends Okex {
   String balancePath = "/account/balance"; // Stated as 10 req/2 sec
   String currenciesPath = "/asset/currencies"; // Stated as 6 req/sec
   String pendingOrdersPath = "/trade/orders-pending"; // Stated as 20 req/2 sec
+  String orderDetailsPath = "/trade/order";
   String placeOrderPath = "/trade/order"; // Stated as 60 req/2 sec
   String placeBatchOrderPath = "/trade/batch-orders"; // Stated as 300 req/2 sec
   String cancelOrderPath = "/trade/cancel-order"; // Stated as 60 req/2 sec
@@ -45,6 +46,7 @@ public interface OkexAuthenticated extends Okex {
           put(balancePath, Arrays.asList(5, 1));
           put(currenciesPath, Arrays.asList(6, 1));
           put(pendingOrdersPath, Arrays.asList(20, 2));
+          put(orderDetailsPath, Arrays.asList(60, 2));
           put(placeOrderPath, Arrays.asList(60, 2));
           put(placeBatchOrderPath, Arrays.asList(300, 2));
           put(cancelOrderPath, Arrays.asList(60, 2));
@@ -75,7 +77,7 @@ public interface OkexAuthenticated extends Okex {
 
   @GET
   @Path(pendingOrdersPath)
-  OkexResponse<List<OkexPendingOrder>> getPendingOrders(
+  OkexResponse<List<OkexOrderDetails>> getPendingOrders(
       @HeaderParam("OK-ACCESS-KEY") String apiKey,
       @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
       @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
@@ -88,6 +90,18 @@ public interface OkexAuthenticated extends Okex {
       @QueryParam("after") String after,
       @QueryParam("before") String before,
       @QueryParam("limit") String limit)
+      throws OkexException, IOException;
+
+  @GET
+  @Path(orderDetailsPath)
+  OkexResponse<List<OkexOrderDetails>> getOrderDetails(
+      @HeaderParam("OK-ACCESS-KEY") String apiKey,
+      @HeaderParam("OK-ACCESS-SIGN") ParamsDigest signature,
+      @HeaderParam("OK-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("OK-ACCESS-PASSPHRASE") String passphrase,
+      @QueryParam("instId") String instrumentId,
+      @QueryParam("ordId") String orderId,
+      @QueryParam("clOrdId") String clientOrderId)
       throws OkexException, IOException;
 
   @POST

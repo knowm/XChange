@@ -21,8 +21,11 @@ public class OkexDigest extends BaseParamsDigest {
 
     StringBuilder sb = new StringBuilder();
     sb.append(restInvocation.getHttpHeadersFromParams().getOrDefault("OK-ACCESS-TIMESTAMP", null));
-    sb.append(restInvocation.getHttpMethod().toUpperCase());
+    sb.append(restInvocation.getHttpMethod());
     sb.append(restInvocation.getPath());
+    if ("GET".equals(restInvocation.getHttpMethod()) && !restInvocation.getQueryString().isEmpty()) {
+      sb.append("?" + restInvocation.getQueryString());
+    }
     sb.append(restInvocation.getRequestBody());
 
     Mac mac = getMac();
