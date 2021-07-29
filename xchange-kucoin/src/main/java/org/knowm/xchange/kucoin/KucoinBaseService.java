@@ -2,12 +2,12 @@ package org.knowm.xchange.kucoin;
 
 import com.google.common.base.Strings;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.kucoin.service.*;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.BaseResilientExchangeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class KucoinBaseService extends BaseExchangeService<KucoinExchange> implements BaseService {
+public class KucoinBaseService extends BaseResilientExchangeService<KucoinExchange> {
 
   protected final SymbolAPI symbolApi;
   protected final OrderBookAPI orderBookApi;
@@ -27,8 +27,8 @@ public class KucoinBaseService extends BaseExchangeService<KucoinExchange> imple
   protected String passphrase;
   protected SynchronizedValueFactory<Long> nonceFactory;
 
-  protected KucoinBaseService(KucoinExchange exchange) {
-    super(exchange);
+  protected KucoinBaseService(KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
     this.symbolApi = service(exchange, SymbolAPI.class);
     this.orderBookApi = service(exchange, OrderBookAPI.class);
     this.historyApi = service(exchange, HistoryAPI.class);

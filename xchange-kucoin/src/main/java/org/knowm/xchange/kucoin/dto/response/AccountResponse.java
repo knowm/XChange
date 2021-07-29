@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TradeFeeResponse {
+public class AccountResponse {
 
-  private String symbol;
+    private String currency;
 
-  private BigDecimal takerFeeRate;
+    private BigDecimal balance;
 
-  private BigDecimal makerFeeRate;
+    private BigDecimal holds;
+
+    private BigDecimal available;
 }

@@ -17,12 +17,11 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public interface LimitOrderAPI {
 
-    @GET
-    KucoinResponse<List<OrderResponse>> getRecentOrders(
-            @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
-            @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
-            @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
-            @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase
-    ) throws IOException;
-
+  @GET
+  KucoinResponse<List<OrderResponse>> getRecentOrders(
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase)
+      throws IOException;
 }

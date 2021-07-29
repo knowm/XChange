@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.knowm.xchange.client.ResilienceRegistries;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -34,8 +36,8 @@ public class KucoinTradeService extends KucoinTradeServiceRaw implements TradeSe
   // Although API doc says 7 days max timespan, KuCoin actually allows (almost) 8 days :)
   private static final long oneWeekMillis = (8 * 24 * 60 * 60 * 1000) - 1000;
 
-  protected KucoinTradeService(KucoinExchange exchange) {
-    super(exchange);
+  protected KucoinTradeService(KucoinExchange exchange, ResilienceRegistries resilienceRegistries) {
+    super(exchange, resilienceRegistries);
   }
 
   @Override

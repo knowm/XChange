@@ -52,33 +52,32 @@ public interface DepositAPI {
   @POST
   @Path("/v1/deposit-addresses")
   KucoinResponse<DepositAddressResponse> createDepositAddress(
-          @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
-          @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
-          @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
-          @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
-          @QueryParam("currency") String currency,
-          @QueryParam("chain") String chain
-  ) throws IOException;
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("chain") String chain)
+      throws IOException;
 
   @GET
   @Path("/v1/deposit-addresses")
   KucoinResponse<DepositAddressResponse> getDepositAddress(
-          @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
-          @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
-          @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
-          @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
-          @QueryParam("currency") String currency,
-          @QueryParam("chain") String chain
-  ) throws IOException;
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency,
+      @QueryParam("chain") String chain)
+      throws IOException;
 
   @GET
   @Path("/v2/deposit-addresses")
   KucoinResponse<List<DepositAddressResponse>> getDepositAddresses(
-          @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
-          @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
-          @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
-          @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
-          @QueryParam("currency") String currency
-  ) throws IOException;
-
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("currency") String currency)
+      throws IOException;
 }
