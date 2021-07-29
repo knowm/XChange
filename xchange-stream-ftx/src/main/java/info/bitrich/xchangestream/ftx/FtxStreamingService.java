@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bitrich.xchangestream.ftx.dto.FtxAuthenticationMessage;
 import info.bitrich.xchangestream.ftx.dto.FtxStreamRequest;
+import info.bitrich.xchangestream.ftx.dto.FtxWebsocketCredential;
 import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import info.bitrich.xchangestream.service.netty.WebSocketClientCompressionAllowClientNoContextHandler;
 import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.ftx.service.FtxDigest;
 import org.knowm.xchange.utils.DigestUtils;
@@ -25,15 +26,16 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   private static final Logger LOG = LoggerFactory.getLogger(FtxStreamingService.class);
   private final ObjectMapper mapper = StreamingObjectMapperHelper.getObjectMapper();
   private boolean isLoggedIn = false;
-  private ExchangeSpecification exchangeSpecification = null;
+  private final Supplier<FtxWebsocketCredential> authData;
 
   public FtxStreamingService(String apiUrl) {
     super(apiUrl);
+    this.authData = null;
   }
 
-  public FtxStreamingService(String apiUrl, ExchangeSpecification exchangeSpecification) {
+  public FtxStreamingService(String apiUrl, final Supplier<FtxWebsocketCredential> authData) {
     super(apiUrl);
-    this.exchangeSpecification = exchangeSpecification;
+    this.authData = authData;
   }
 
   @Override
@@ -42,7 +44,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   }
 
   private FtxAuthenticationMessage getAuthMessage(){
-    Mac mac = FtxDigest.createInstance(exchangeSpecification.getSecretKey()).getMac();
+    Mac mac = FtxDigest.createInstance(authData.get().getSecretKey()).getMac();
 
     try {
       Long nonce = System.currentTimeMillis();
@@ -52,10 +54,10 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
       return new FtxAuthenticationMessage(
               new FtxAuthenticationMessage.FtxAuthenticationArgs(
-                      exchangeSpecification.getApiKey(),
+                      authData.get().getApiKey(),
                       DigestUtils.bytesToHex(mac.doFinal()).toLowerCase(),
                       nonce,
-                      exchangeSpecification.getUserName()));
+                      authData.get().getUserName()));
     } catch (Exception e) {
       throw new ExchangeException("Digest encoding exception", e);
     }
@@ -91,7 +93,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     String channel = "";
     String market = "";
 
-    if (exchangeSpecification != null && !isLoggedIn) {
+    if (authData != null && !isLoggedIn) {
       FtxAuthenticationMessage message = getAuthMessage();
       LOG.info("Sending authentication message: "+ message);
       sendObjectMessage(message);
@@ -140,7 +142,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   }
 
   private void setLoggedInToFalse(){
-    if (exchangeSpecification != null && isLoggedIn) {
+    if (authData != null && isLoggedIn) {
       isLoggedIn = false;
       LOG.info("IsLoggedIn is "+false);
     }
