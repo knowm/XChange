@@ -1,10 +1,10 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven on Push
+name: Java CI with Maven on Pull Request
 
 on:
-  push:
+  pull_request:
     branches: [ develop ]
 
 jobs:
@@ -20,4 +20,4 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Build with Maven
-      run: mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml -Dfmt.skip=true;
+      run: mvn clean verify --no-transfer-progress --batch-mode --settings etc/settings.xml -Dmaven.javadoc.skip=true -Dfmt.skip=true;
