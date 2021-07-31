@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -20,8 +20,10 @@ import org.knowm.xchange.okex.v5.dto.trade.OkexTradeParams;
 import org.knowm.xchange.okex.v5.service.OkexTradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
-public class OkexExchangeIntegrationTest {
+public class OkexExchangeIntegration {
   // Enter your authentication details here to run private endpoint tests
   private static final String API_KEY = "";
   private static final String SECRET_KEY = "";
