@@ -1,7 +1,7 @@
 ## [![XChange](https://raw.githubusercontent.com/knowm/XChange/develop/etc/XChange_64_64.png)](http://knowm.org/open-source/xchange) XChange
 
 [![Discord](https://img.shields.io/discord/778301671302365256?logo=Discord)](https://discord.gg/n27zjVTbDz)
-[![Build Status](https://www.travis-ci.com/knowm/XChange.svg?branch=develop)](https://www.travis-ci.com/knowm/XChange)
+[![Java CI with Maven on Push](https://github.com/knowm/XChange/actions/workflows/maven.yml/badge.svg?event=status)](https://github.com/knowm/XChange/actions/workflows/maven.yml)
 
 XChange is a Java library providing a simple and consistent API for interacting with 60+ Bitcoin and other crypto currency exchanges, providing a consistent interface for trading and accessing market data.
 
