@@ -1,7 +1,5 @@
 package org.knowm.xchange.binance;
 
-import static org.knowm.xchange.binance.BinanceResilience.*;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -285,11 +283,11 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @POST
-  @Path("wapi/v3/withdraw.html")
+  @Path("/sapi/v1/capital/withdraw/apply")
   /**
    * Submit a withdraw request.
    *
-   * @param asset
+   * @param coin
    * @param address
    * @param addressTag optional for Ripple
    * @param amount
@@ -303,23 +301,23 @@ public interface BinanceAuthenticated extends Binance {
    * @throws BinanceException
    */
   WithdrawRequest withdraw(
-      @QueryParam("asset") String asset,
-      @QueryParam("address") String address,
-      @QueryParam("addressTag") String addressTag,
-      @QueryParam("amount") BigDecimal amount,
-      @QueryParam("name") String name,
-      @QueryParam("recvWindow") Long recvWindow,
-      @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
+      @FormParam("coin") String coin,
+      @FormParam("address") String address,
+      @FormParam("addressTag") String addressTag,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("name") String name,
+      @FormParam("recvWindow") Long recvWindow,
+      @FormParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
       @QueryParam(SIGNATURE) ParamsDigest signature)
       throws IOException, BinanceException;
 
   @GET
-  @Path("wapi/v3/depositHistory.html")
+  @Path("/sapi/v1/capital/deposit/hisrec")
   /**
    * Fetch deposit history.
    *
-   * @param asset optional
+   * @param coin optional
    * @param startTime optional
    * @param endTime optional
    * @param recvWindow optional
@@ -330,8 +328,8 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  DepositList depositHistory(
-      @QueryParam("asset") String asset,
+  List<BinanceDeposit> depositHistory(
+      @QueryParam("coin") String coin,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("recvWindow") Long recvWindow,
@@ -341,11 +339,11 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("wapi/v3/withdrawHistory.html")
+  @Path("/sapi/v1/capital/withdraw/history")
   /**
    * Fetch withdraw history.
    *
-   * @param asset optional
+   * @param coin optional
    * @param startTime optional
    * @param endTime optional
    * @param recvWindow optional
@@ -356,8 +354,8 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  WithdrawList withdrawHistory(
-      @QueryParam("asset") String asset,
+  List<BinanceWithdraw> withdrawHistory(
+      @QueryParam("coin") String coin,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("recvWindow") Long recvWindow,
@@ -378,7 +376,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws BinanceException
    */
   @GET
-  @Path("/wapi/v3/userAssetDribbletLog.html")
+  @Path("/sapi/v1/asset/dribblet ")
   AssetDribbletLogResponse userAssetDribbletLog(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
@@ -413,9 +411,9 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("/wapi/v3/sub-account/transfer/history.html")
-  TransferHistoryResponse transferHistory(
-      @QueryParam("email") String email,
+  @Path("/sapi/v1/sub-account/sub/transfer/history")
+  List<TransferHistory> transferHistory(
+      @QueryParam("fromEmail") String fromEmail,
       @QueryParam("startTime") Long startTime,
       @QueryParam("endTime") Long endTime,
       @QueryParam("page") Integer page,
@@ -441,11 +439,11 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("wapi/v3/depositAddress.html")
+  @Path("/sapi/v1/capital/deposit/address")
   /**
    * Fetch deposit address.
    *
-   * @param asset
+   * @param coin
    * @param recvWindow
    * @param timestamp
    * @param apiKey
@@ -455,7 +453,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws BinanceException
    */
   DepositAddress depositAddress(
-      @QueryParam("asset") String asset,
+      @QueryParam("coin") String coin,
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,
@@ -463,7 +461,7 @@ public interface BinanceAuthenticated extends Binance {
       throws IOException, BinanceException;
 
   @GET
-  @Path("wapi/v3/assetDetail.html")
+  @Path("/sapi/v1/asset/assetDetail")
   /**
    * Fetch asset details.
    *
@@ -475,7 +473,7 @@ public interface BinanceAuthenticated extends Binance {
    * @throws IOException
    * @throws BinanceException
    */
-  AssetDetailResponse assetDetail(
+  Map<String, AssetDetail> assetDetail(
       @QueryParam("recvWindow") Long recvWindow,
       @QueryParam("timestamp") SynchronizedValueFactory<Long> timestamp,
       @HeaderParam(X_MBX_APIKEY) String apiKey,

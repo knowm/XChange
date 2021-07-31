@@ -1,7 +1,5 @@
 package org.knowm.xchange.binance;
 
-import static org.knowm.xchange.binance.BinanceResilience.*;
-
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -24,7 +22,7 @@ import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
 public interface Binance {
 
   @GET
-  @Path("wapi/v3/systemStatus.html")
+  @Path("sapi/v1/system/status")
   /**
    * Fetch system status which is normal or system maintenance.
    *

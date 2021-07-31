@@ -1,17 +1,14 @@
 package org.knowm.xchange.tradeogre.service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Base64;
-
 import org.knowm.xchange.client.ClientConfigCustomizer;
 import org.knowm.xchange.client.ExchangeRestProxyBuilder;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 import org.knowm.xchange.tradeogre.TradeOgreAuthenticated;
 import org.knowm.xchange.tradeogre.TradeOgreExchange;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import si.mazi.rescu.ClientConfigUtil;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 

@@ -70,6 +70,18 @@ public interface Huobi {
       throws IOException;
 
   @GET
+  @Path("v2/reference/currencies")
+  HuobiCurrenciesResult getCurrencies(
+          @QueryParam("currency") String currency,
+          @QueryParam("authorizedUser") boolean authorizedUser,
+          @QueryParam("AccessKeyId") String apiKey,
+          @QueryParam("SignatureMethod") String signatureMethod,
+          @QueryParam("SignatureVersion") int signatureVersion,
+          @QueryParam("Timestamp") String nonce,
+          @QueryParam("Signature") ParamsDigest signature)
+          throws IOException;
+
+  @GET
   @Path("v2/reference/transact-fee-rate")
   HuobiTransactFeeRateResult getTransactFeeRate(
       @QueryParam("symbols") String symbols,

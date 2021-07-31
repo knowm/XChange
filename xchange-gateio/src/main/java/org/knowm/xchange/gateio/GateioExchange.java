@@ -1,13 +1,10 @@
 package org.knowm.xchange.gateio;
 
 import java.io.IOException;
-import java.util.Map;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper.GateioMarketInfo;
 import org.knowm.xchange.gateio.service.GateioAccountService;
 import org.knowm.xchange.gateio.service.GateioMarketDataService;
 import org.knowm.xchange.gateio.service.GateioMarketDataServiceRaw;
@@ -42,9 +39,7 @@ public class GateioExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-
-    Map<CurrencyPair, GateioMarketInfo> currencyPair2BTERMarketInfoMap =
-        ((GateioMarketDataServiceRaw) marketDataService).getBTERMarketInfo();
-    exchangeMetaData = GateioAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
+    exchangeMetaData =
+        GateioAdapters.adaptToExchangeMetaData((GateioMarketDataServiceRaw) marketDataService);
   }
 }

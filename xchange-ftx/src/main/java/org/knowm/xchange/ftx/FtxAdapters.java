@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -36,6 +35,7 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
+import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
 import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
@@ -45,7 +45,6 @@ import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
-import org.knowm.xchange.ftx.dto.trade.FtxPositionDto;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -317,7 +316,7 @@ public class FtxAdapters {
   }
 
   private static final Pattern FUTURES_PATTERN = Pattern.compile("PERP|[0-9]+");
-  
+
   public static String adaptCurrencyPairToFtxMarket(CurrencyPair currencyPair) {
     if (FUTURES_PATTERN.matcher(currencyPair.counter.getCurrencyCode()).matches()) {
       return currencyPair.base + "-" + currencyPair.counter;
