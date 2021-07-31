@@ -127,7 +127,7 @@ public class PoloniexStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getUnsubscribeMessage(String channelName) throws IOException {
+  public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     PoloniexWebSocketSubscriptionMessage subscribeMessage =
         new PoloniexWebSocketSubscriptionMessage("unsubscribe", channelName);
     return objectMapper.writeValueAsString(subscribeMessage);

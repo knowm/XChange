@@ -241,7 +241,7 @@ public class GeminiAdaptersTest {
   }
 
   @Test
-  public void testAdaptMarketOrder() throws IOException {
+  public void testAdaptLimitOrderFilled() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is =
@@ -259,6 +259,53 @@ public class GeminiAdaptersTest {
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("400.00"));
     assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("3"));
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.FILLED);
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
+  }
+
+  @Test
+  public void testAdaptLimitOrderPartiallyFilled() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+            GeminiAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/gemini/v1/order/limit-order-partially-filled.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    GeminiOrderStatusResponse geminiOrderStatusResponse =
+            mapper.readValue(is, GeminiOrderStatusResponse.class);
+
+    Order order = GeminiAdapters.adaptOrder(geminiOrderStatusResponse);
+
+    assertThat(order.getId()).isEqualTo("44375901");
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("400.00"));
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("1"));
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.PARTIALLY_FILLED);
+    assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
+  }
+
+  @Test
+  public void testAdaptLimitOrderUntouched() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is =
+            GeminiAdaptersTest.class.getResourceAsStream(
+                    "/org/knowm/xchange/gemini/v1/order/limit-order-untouched.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    GeminiOrderStatusResponse geminiOrderStatusResponse =
+            mapper.readValue(is, GeminiOrderStatusResponse.class);
+
+    Order order = GeminiAdapters.adaptOrder(geminiOrderStatusResponse);
+
+    assertThat(order.getId()).isEqualTo("44375901");
+    assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(order.getCumulativeAmount()).isEqualTo(new BigDecimal("0"));
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(order.getStatus()).isEqualTo(Order.OrderStatus.OPEN);
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass()));
   }
 
