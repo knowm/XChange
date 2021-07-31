@@ -21,3 +21,6 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn clean deploy --no-transfer-progress --batch-mode --settings etc/settings.xml -Dfmt.skip=true;
+      env:
+        CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
+        CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
