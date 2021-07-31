@@ -129,8 +129,7 @@ Talk to us on discord: [![Discord](https://img.shields.io/discord/77830167130236
 
 ## Continuous Integration
 
-[![Build Status](https://travis-ci.org/knowm/XChange.png?branch=develop)](https://travis-ci.org/knowm/XChange.png)
-[Build History](https://travis-ci.org/knowm/XChange/builds)
+[![Java CI with Maven](https://github.com/knowm/XChange/actions/workflows/maven.yml/badge.svg?branch=develop&event=status)](https://github.com/knowm/XChange/actions/workflows/maven.yml)
 
 ## Getting Started
 
