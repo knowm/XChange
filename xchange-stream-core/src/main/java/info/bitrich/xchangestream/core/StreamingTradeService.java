@@ -31,7 +31,6 @@ public interface StreamingTradeService {
    * @param currencyPair Currency pair of the order changes.
    * @return {@link Flowable} that emits {@link Order} when exchange sends the update.
    */
-  @Deprecated
   default Flowable<Order> getOrderChanges(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderChanges");
   }
@@ -63,7 +62,6 @@ public interface StreamingTradeService {
    * @param currencyPair Currency pair for which to get trades.
    * @return {@link Flowable} that emits {@link UserTrade} when exchange sends the update.
    */
-  @Deprecated
   default Flowable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getUserTrades");
   }

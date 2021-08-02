@@ -37,9 +37,7 @@ public interface MarketDataService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   * @deprecated replaced by {@link #getTicker(Instrument, Object...)}
    */
-  @Deprecated
   default Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getTicker");
   }
@@ -91,9 +89,7 @@ public interface MarketDataService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   * @deprecated replaced by {@link #getOrderBook(Instrument, Object...)}
    */
-  @Deprecated
   default OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
@@ -147,9 +143,7 @@ public interface MarketDataService extends BaseService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
    *     requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   * @deprecated replaced by {@link #getTrades(Instrument, Object...)} 
    */
-  @Deprecated
   default Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException("getTrades");
   }

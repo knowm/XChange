@@ -21,7 +21,6 @@ public interface StreamingMarketDataService {
    * @param currencyPair Currency pair of the order book
    * @return {@link Flowable} that emits {@link OrderBook} when exchange sends the update.
    */
-  @Deprecated
   default Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
@@ -43,7 +42,6 @@ public interface StreamingMarketDataService {
    * @param currencyPair Currency pair of the ticker
    * @return {@link Flowable} that emits {@link Ticker} when exchange sends the update.
    */
-  @Deprecated
   default Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getTicker");
   }
@@ -66,7 +64,6 @@ public interface StreamingMarketDataService {
    * @param currencyPair Currency pair of the trades
    * @return {@link Flowable} that emits {@link Trade} when exchange sends the update.
    */
-  @Deprecated
   default Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getTrades");
   }
