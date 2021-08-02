@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
 import org.knowm.xchange.deribit.v2.DeribitExchange;
@@ -23,8 +22,7 @@ public class DeribitAccountService extends DeribitAccountServiceRaw implements A
   @Override
   public AccountInfo getAccountInfo() {
     List<Balance> balances =
-        currencies()
-            .stream()
+        currencies().stream()
             .map(Currency::getCurrencyCode)
             .parallel()
             .map(
@@ -42,22 +40,21 @@ public class DeribitAccountService extends DeribitAccountServiceRaw implements A
   }
 
   List<OpenPosition> openPositions() {
-    return currencies()
-      .stream()
-      .map(Currency::getCurrencyCode)
-      .parallel()
-      .flatMap(
-        c -> {
-          try {
-            return super.getPositions(c, null).stream().map(DeribitAdapters::adapt);
-          } catch (IOException e) {
-            throw new ExchangeException(e);
-          }
-        })
-      .collect(Collectors.toList());
+    return currencies().stream()
+        .map(Currency::getCurrencyCode)
+        .parallel()
+        .flatMap(
+            c -> {
+              try {
+                return super.getPositions(c, null).stream().map(DeribitAdapters::adapt);
+              } catch (IOException e) {
+                throw new ExchangeException(e);
+              }
+            })
+        .collect(Collectors.toList());
   }
-  
+
   Collection<Currency> currencies() {
-      return exchange.getExchangeMetaData().getCurrencies().keySet();
+    return exchange.getExchangeMetaData().getCurrencies().keySet();
   }
 }

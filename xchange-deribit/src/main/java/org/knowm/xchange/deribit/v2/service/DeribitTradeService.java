@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
@@ -40,7 +39,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders;
-    
+
     if (params instanceof OpenOrdersParamCurrencyPair) {
       OpenOrdersParamCurrencyPair pairParams = (OpenOrdersParamCurrencyPair) params;
       CurrencyPair pair = pairParams.getCurrencyPair();
@@ -48,36 +47,37 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     } else if (params instanceof OpenOrdersParamInstrument) {
       OpenOrdersParamInstrument instrumentParams = (OpenOrdersParamInstrument) params;
       Instrument instrument = instrumentParams.getInstrument();
-      openOrders = super.getOpenOrdersByInstrument(DeribitAdapters.adaptInstrumentName(instrument), null);
+      openOrders =
+          super.getOpenOrdersByInstrument(DeribitAdapters.adaptInstrumentName(instrument), null);
     } else {
       openOrders = openOrders();
     }
-    
+
     return DeribitAdapters.adaptOpenOrders(openOrders);
   }
-  
+
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return new DefaultOpenOrdersParamInstrument();
   }
-  
+
   private List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders() throws IOException {
     try {
-      return ((DeribitAccountService) exchange.getAccountService()).currencies()
-        .stream()
-        .map(Currency::getCurrencyCode)    
-        .parallel()
-        .flatMap(
-          c -> {
-            try {
-              return super.getOpenOrdersByCurrency(c, null, null).stream();
-            } catch (IOException e) {
-              throw new ExchangeException(e);
-            }
-          })
-        .collect(Collectors.toList());
+      return ((DeribitAccountService) exchange.getAccountService())
+          .currencies().stream()
+              .map(Currency::getCurrencyCode)
+              .parallel()
+              .flatMap(
+                  c -> {
+                    try {
+                      return super.getOpenOrdersByCurrency(c, null, null).stream();
+                    } catch (IOException e) {
+                      throw new ExchangeException(e);
+                    }
+                  })
+              .collect(Collectors.toList());
     } catch (ExchangeException e) {
-      if(e.getCause() instanceof IOException) {
+      if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
       }
       throw e;
@@ -86,7 +86,8 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
 
   @Override
   public OpenPositions getOpenPositions() {
-    return new OpenPositions(((DeribitAccountService) exchange.getAccountService()).openPositions());
+    return new OpenPositions(
+        ((DeribitAccountService) exchange.getAccountService()).openPositions());
   }
 
   @Override
@@ -107,17 +108,19 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     Trigger trigger = findOrderFlagValue(order, Trigger.class);
     BigDecimal price = stopOrder.getLimitPrice();
     BigDecimal triggerPrice = stopOrder.getStopPrice()
-    
+
     // then adapt order type of the stop order (add corresponding adapter)
     OrderType type = DeribitAdapters.adaptOrderType(stopOrder);
-    
+
     // validate the values and then call placeOrder:
     placeOrder(type, order, price, trigger, triggerPrice);
     */
     throw new NotYetImplementedForExchangeException("placeStopOrder");
   }
-  
-  private String placeOrder(OrderType type, Order order, BigDecimal price, Trigger trigger, BigDecimal triggerPrice) throws IOException {
+
+  private String placeOrder(
+      OrderType type, Order order, BigDecimal price, Trigger trigger, BigDecimal triggerPrice)
+      throws IOException {
     String instrumentName = DeribitAdapters.adaptInstrumentName(order.getInstrument());
     BigDecimal amount = order.getOriginalAmount();
     String label = order.getUserReference();
@@ -128,56 +131,58 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     Boolean reduceOnly = hasOrderFlag(order, OrderFlags.REDUCE_ONLY);
     AdvancedOptions advanced = findOrderFlagValue(order, AdvancedOptions.class);
     Boolean mmp = hasOrderFlag(order, OrderFlags.MMP);
-    
+
     OrderPlacement placement;
     if (order.getType() == Order.OrderType.BID) {
-      placement = super.buy(
-        instrumentName,
-        amount,
-        type,
-        label,
-        price,
-        timeInForce,
-        maxShow,
-        postOnly,
-        rejectPostOnly,
-        reduceOnly,
-        triggerPrice,
-        trigger,
-        advanced,
-        mmp);
+      placement =
+          super.buy(
+              instrumentName,
+              amount,
+              type,
+              label,
+              price,
+              timeInForce,
+              maxShow,
+              postOnly,
+              rejectPostOnly,
+              reduceOnly,
+              triggerPrice,
+              trigger,
+              advanced,
+              mmp);
     } else if (order.getType() == Order.OrderType.ASK) {
-      placement = super.sell(
-        instrumentName,
-        amount,
-        type,
-        label,      
-        price,
-        timeInForce,
-        maxShow,
-        postOnly,
-        rejectPostOnly,
-        reduceOnly,
-        triggerPrice,
-        trigger,
-        advanced,
-        mmp);
+      placement =
+          super.sell(
+              instrumentName,
+              amount,
+              type,
+              label,
+              price,
+              timeInForce,
+              maxShow,
+              postOnly,
+              rejectPostOnly,
+              reduceOnly,
+              triggerPrice,
+              trigger,
+              advanced,
+              mmp);
     } else {
       throw new ExchangeException("Unsupported order type: " + order.getType());
     }
     return placement.getOrder().getOrderId();
   }
-  
+
   private static Boolean hasOrderFlag(Order order, OrderFlags flag) {
     return order.getOrderFlags().contains(flag) ? true : null;
-  } 
+  }
 
   private static <T extends IOrderFlags> T findOrderFlagValue(Order order, Class<T> klass) {
     return order.getOrderFlags().stream()
-            .filter(flag -> flag.getClass().isInstance(klass))
-            .map(flag -> (T) flag)
-            .findFirst()
-            .orElse(null);
+        .filter(flag -> flag.getClass().isInstance(klass))
+        .map(flag -> (T) flag)
+        .findFirst()
+        .orElse(null);
   }
 
   @Override
@@ -191,17 +196,19 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     BigDecimal triggerPrice = null; // not implemented currently
     AdvancedOptions advanced = findOrderFlagValue(limitOrder, AdvancedOptions.class);
     Boolean mmp = hasOrderFlag(limitOrder, OrderFlags.MMP);
-    
+
     return super.edit(
-      orderId,
-      amount,
-      price,
-      postOnly,
-      rejectPostOnly,
-      reduceOnly,
-      triggerPrice,
-      advanced,
-      mmp).getOrder().getOrderId();
+            orderId,
+            amount,
+            price,
+            postOnly,
+            rejectPostOnly,
+            reduceOnly,
+            triggerPrice,
+            advanced,
+            mmp)
+        .getOrder()
+        .getOrderId();
   }
 
   @Override
@@ -214,7 +221,9 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
     if (orderParams instanceof CancelOrderByIdParams) {
       return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else if (orderParams instanceof CancelOrderByUserReferenceParams) {
-      return 0 < super.cancelByLabel(((CancelOrderByUserReferenceParams) orderParams).getUserReference());
+      return 0
+          < super.cancelByLabel(
+              ((CancelOrderByUserReferenceParams) orderParams).getUserReference());
     } else {
       return false;
     }
@@ -245,59 +254,64 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
       startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
     }
-    
+
     String startId = null;
     String endId = null;
     if (params instanceof TradeHistoryParamsIdSpan) {
       startId = ((TradeHistoryParamsIdSpan) params).getStartId();
       endId = ((TradeHistoryParamsIdSpan) params).getEndId();
     }
-    
+
     Integer limit = null;
     if (params instanceof TradeHistoryParamLimit) {
       limit = ((TradeHistoryParamLimit) params).getLimit();
     }
-    
+
     String sorting = null;
     if (params instanceof TradeHistoryParamsSorted) {
       TradeHistoryParamsSorted.Order order = ((TradeHistoryParamsSorted) params).getOrder();
-      sorting = order == TradeHistoryParamsSorted.Order.asc ? "asc" :
-              order == TradeHistoryParamsSorted.Order.desc ? "desc" : null;        
+      sorting =
+          order == TradeHistoryParamsSorted.Order.asc
+              ? "asc"
+              : order == TradeHistoryParamsSorted.Order.desc ? "desc" : null;
     }
 
     Boolean includeOld = null;
     if (params instanceof DeribitTradeHistoryParamsOld) {
       includeOld = ((DeribitTradeHistoryParamsOld) params).isIncludeOld();
     }
-    
 
     org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades = null;
-    
+
     if (startTime != null && endTime != null) {
       if (instrumentName != null) {
-        userTrades = super.getUserTradesByInstrumentAndTime(
-            instrumentName, startTime, endTime, limit, includeOld, sorting);
+        userTrades =
+            super.getUserTradesByInstrumentAndTime(
+                instrumentName, startTime, endTime, limit, includeOld, sorting);
       } else if (currency != null) {
-        userTrades = super.getUserTradesByCurrencyAndTime(
-            currency, kind, startTime, endTime, limit, includeOld, sorting);
+        userTrades =
+            super.getUserTradesByCurrencyAndTime(
+                currency, kind, startTime, endTime, limit, includeOld, sorting);
       }
     } else {
       if (instrumentName != null) {
         Integer startSeq = startId != null ? Integer.valueOf(startId) : null;
         Integer endSeq = endId != null ? Integer.valueOf(endId) : null;
-        
-        userTrades = super.getUserTradesByInstrument(
-            instrumentName, startSeq, endSeq, limit, includeOld, sorting);
+
+        userTrades =
+            super.getUserTradesByInstrument(
+                instrumentName, startSeq, endSeq, limit, includeOld, sorting);
       } else if (currency != null) {
-        userTrades = super.getUserTradesByCurrency(
-            currency, kind, startId, endId, limit, includeOld, sorting);
+        userTrades =
+            super.getUserTradesByCurrency(
+                currency, kind, startId, endId, limit, includeOld, sorting);
       }
     }
-    
+
     if (userTrades == null) {
       throw new ExchangeException("You should specify either instrument or currency pair");
     }
-    
+
     return DeribitAdapters.adaptUserTrades(userTrades);
   }
 
@@ -320,6 +334,6 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   @Override
   public Collection<Order> getOrder(OrderQueryParams... orderQueryParams) throws IOException {
     return getOrder(
-            Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
+        Arrays.stream(orderQueryParams).map(OrderQueryParams::getOrderId).toArray(String[]::new));
   }
 }

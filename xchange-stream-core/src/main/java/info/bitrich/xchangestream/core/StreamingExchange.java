@@ -53,8 +53,8 @@ public interface StreamingExchange extends Exchange {
   }
 
   /**
-   * Flowable for connection success event. When this happens, it usually indicates that the
-   * server or the network is down.
+   * Flowable for connection success event. When this happens, it usually indicates that the server
+   * or the network is down.
    *
    * @return Flowable with the exception during reconnection.
    */

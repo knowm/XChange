@@ -24,9 +24,9 @@ public interface StreamingMarketDataService {
   default Flowable<OrderBook> getOrderBook(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getOrderBook");
   }
-  
+
   default Flowable<OrderBook> getOrderBook(Instrument instrument, Object... args) {
-    if(instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return getOrderBook((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getOrderBook");
@@ -45,9 +45,9 @@ public interface StreamingMarketDataService {
   default Flowable<Ticker> getTicker(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getTicker");
   }
-  
+
   default Flowable<Ticker> getTicker(Instrument instrument, Object... args) {
-    if(instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return getTicker((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getTicker");
@@ -67,9 +67,9 @@ public interface StreamingMarketDataService {
   default Flowable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
     throw new NotYetImplementedForExchangeException("getTrades");
   }
-  
+
   default Flowable<Trade> getTrades(Instrument instrument, Object... args) {
-    if(instrument instanceof CurrencyPair) {
+    if (instrument instanceof CurrencyPair) {
       return getTrades((CurrencyPair) instrument, args);
     }
     throw new NotYetImplementedForExchangeException("getTrades");

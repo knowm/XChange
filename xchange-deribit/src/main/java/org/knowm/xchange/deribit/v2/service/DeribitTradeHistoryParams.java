@@ -1,16 +1,15 @@
 package org.knowm.xchange.deribit.v2.service;
 
+import java.util.Date;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.instrument.Instrument;
 import org.knowm.xchange.service.trade.params.*;
 
-import java.util.Date;
-
 public class DeribitTradeHistoryParams
-    implements TradeHistoryParamInstrument, 
+    implements TradeHistoryParamInstrument,
         TradeHistoryParamCurrencyPair,
         TradeHistoryParamsTimeSpan,
-        TradeHistoryParamsIdSpan, 
+        TradeHistoryParamsIdSpan,
         TradeHistoryParamLimit,
         TradeHistoryParamsSorted,
         DeribitTradeHistoryParamsOld {
@@ -34,7 +33,7 @@ public class DeribitTradeHistoryParams
   /** optional */
   private Boolean includeOld;
 
-  public DeribitTradeHistoryParams() { }
+  public DeribitTradeHistoryParams() {}
 
   public DeribitTradeHistoryParams(Instrument instrument) {
     this.instrument = instrument;

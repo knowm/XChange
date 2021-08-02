@@ -1,12 +1,11 @@
 package org.knowm.xchange.dto.meta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-public class DerivativeMetaData implements Serializable { 
+public class DerivativeMetaData implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /** Trading fee (fraction) */
@@ -42,14 +41,14 @@ public class DerivativeMetaData implements Serializable {
   private final BigDecimal priceStepSize;
 
   public DerivativeMetaData(
-          @JsonProperty("trading_fee") BigDecimal tradingFee,
-          @JsonProperty("min_amount") BigDecimal minimumAmount,
-          @JsonProperty("max_amount") BigDecimal maximumAmount,
-          @JsonProperty("amount_scale") Integer amountScale,
-          @JsonProperty("price_scale") Integer priceScale,
-          @JsonProperty("fee_tiers") FeeTier[] feeTiers,
-          @JsonProperty("amount_step_size") BigDecimal amountStepSize,
-          @JsonProperty("price_step_size") BigDecimal priceStepSize) {
+      @JsonProperty("trading_fee") BigDecimal tradingFee,
+      @JsonProperty("min_amount") BigDecimal minimumAmount,
+      @JsonProperty("max_amount") BigDecimal maximumAmount,
+      @JsonProperty("amount_scale") Integer amountScale,
+      @JsonProperty("price_scale") Integer priceScale,
+      @JsonProperty("fee_tiers") FeeTier[] feeTiers,
+      @JsonProperty("amount_step_size") BigDecimal amountStepSize,
+      @JsonProperty("price_step_size") BigDecimal priceStepSize) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -149,17 +148,16 @@ public class DerivativeMetaData implements Serializable {
     }
 
     public DerivativeMetaData build() {
-      
-  return new DerivativeMetaData(
-        tradingFee,
-        minimumAmount,
-        maximumAmount,
-        amountScale,
-        priceScale, 
-        feeTiers,
-        amountStepSize,
-        priceStepSize
-      );
+
+      return new DerivativeMetaData(
+          tradingFee,
+          minimumAmount,
+          maximumAmount,
+          amountScale,
+          priceScale,
+          feeTiers,
+          amountStepSize,
+          priceStepSize);
     }
   }
 

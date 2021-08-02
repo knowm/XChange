@@ -48,36 +48,36 @@ public interface DeribitAuthenticated {
    * Places a buy order for an instrument.
    *
    * @param instrumentName required, Instrument name
-   * @param amount         required, It represents the requested order size. For perpetual and futures the
-   *                       amount is in USD units, for options it is amount of corresponding cryptocurrency contracts,
-   *                       e.g., BTC or ETH
-   * @param type           optional, The order type, default: "limit"
-   * @param label          optional, user defined label for the order (maximum 32 characters)
-   * @param price          optional, The order price in base currency (Only for limit and stop_limit orders)
-   *                       When adding order with advanced=usd, the field price should be the option price value in
-   *                       USD. When adding order with advanced=implv, the field price should be a value of implied
-   *                       volatility in percentages. For example, price=100, means implied volatility of 100%
-   * @param timeInForce    optional, Specifies how long the order remains in effect. Default
-   *                       "good_til_cancelled" "good_til_cancelled" - unfilled order remains in order book until
-   *                       cancelled "fill_or_kill" - execute a transaction immediately and completely or not at all
-   *                       "immediate_or_cancel" - execute a transaction immediately, and any portion of the order
-   *                       that cannot be immediately filled is cancelled
-   * @param maxShow        optional, Maximum amount within an order to be shown to other customers, 0 for
-   *                       invisible order
-   * @param postOnly       optional, If true, the order is considered post-only. If the new price would
-   *                       cause the order to be filled immediately (as taker), the price will be changed to be just
-   *                       below the bid. Only valid in combination with time_in_force="good_til_cancelled"
+   * @param amount required, It represents the requested order size. For perpetual and futures the
+   *     amount is in USD units, for options it is amount of corresponding cryptocurrency contracts,
+   *     e.g., BTC or ETH
+   * @param type optional, The order type, default: "limit"
+   * @param label optional, user defined label for the order (maximum 32 characters)
+   * @param price optional, The order price in base currency (Only for limit and stop_limit orders)
+   *     When adding order with advanced=usd, the field price should be the option price value in
+   *     USD. When adding order with advanced=implv, the field price should be a value of implied
+   *     volatility in percentages. For example, price=100, means implied volatility of 100%
+   * @param timeInForce optional, Specifies how long the order remains in effect. Default
+   *     "good_til_cancelled" "good_til_cancelled" - unfilled order remains in order book until
+   *     cancelled "fill_or_kill" - execute a transaction immediately and completely or not at all
+   *     "immediate_or_cancel" - execute a transaction immediately, and any portion of the order
+   *     that cannot be immediately filled is cancelled
+   * @param maxShow optional, Maximum amount within an order to be shown to other customers, 0 for
+   *     invisible order
+   * @param postOnly optional, If true, the order is considered post-only. If the new price would
+   *     cause the order to be filled immediately (as taker), the price will be changed to be just
+   *     below the bid. Only valid in combination with time_in_force="good_til_cancelled"
    * @param rejectPostOnly optional, If an order is considered post-only and this field is set to
-   *                       true then the order is put to order book unmodified or request is rejected and order is
-   *                       canceled. Only valid in combination with "post_only" set to true
-   * @param reduceOnly     optional, If true, the order is considered reduce-only which is intended to
-   *                       only reduce a current position
-   * @param triggerPrice   optional, Trigger price, required for trigger orders only (Stop-loss or
-   *                       Take-profit orders)
-   * @param trigger        optional, Defines trigger type, required for "stop_limit", "stop_market",
-   *                       "take_limit" or "take_market" order types
-   * @param advanced       optional, Advanced option order type. (Only for options)
-   * @param mmp            optional, Order MMP flag, only for order_type 'limit'
+   *     true then the order is put to order book unmodified or request is rejected and order is
+   *     canceled. Only valid in combination with "post_only" set to true
+   * @param reduceOnly optional, If true, the order is considered reduce-only which is intended to
+   *     only reduce a current position
+   * @param triggerPrice optional, Trigger price, required for trigger orders only (Stop-loss or
+   *     Take-profit orders)
+   * @param trigger optional, Defines trigger type, required for "stop_limit", "stop_market",
+   *     "take_limit" or "take_market" order types
+   * @param advanced optional, Advanced option order type. (Only for options)
+   * @param mmp optional, Order MMP flag, only for order_type 'limit'
    * @see <a href="https://docs.deribit.com/#private-buy">docs.deribit.com</a>
    */
   @GET
@@ -174,11 +174,12 @@ public interface DeribitAuthenticated {
    * Retrieves list of user's open orders.
    *
    * @param currency required, The currency symbol
-   * @param kind     optional, Instrument kind, if not provided instruments of all kinds are considered.
-   *                 One of: "future", "option"
-   * @param type     optional, Order type, one of (all, limit, stop_all, stop_limit, stop_market),
-   *                 default - all
-   * @see <a href="https://docs.deribit.com/#private-get_open_orders_by_currency">docs.deribit.com</a>
+   * @param kind optional, Instrument kind, if not provided instruments of all kinds are considered.
+   *     One of: "future", "option"
+   * @param type optional, Order type, one of (all, limit, stop_all, stop_limit, stop_market),
+   *     default - all
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_open_orders_by_currency">docs.deribit.com</a>
    */
   @GET
   @Path("get_open_orders_by_currency")
@@ -193,9 +194,10 @@ public interface DeribitAuthenticated {
    * Retrieves list of user's open orders within given Instrument.
    *
    * @param instrumentName required, Instrument name
-   * @param type           optional, Order type, one of (all, limit, stop_all, stop_limit, stop_market),
-   *                       default - all
-   * @see <a href="https://docs.deribit.com/#private-get_open_orders_by_instrument">docs.deribit.com</a>
+   * @param type optional, Order type, one of (all, limit, stop_all, stop_limit, stop_market),
+   *     default - all
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_open_orders_by_instrument">docs.deribit.com</a>
    */
   @GET
   @Path("get_open_orders_by_instrument")
@@ -206,9 +208,11 @@ public interface DeribitAuthenticated {
       throws DeribitException, IOException;
 
   /**
-   * Retrieves the latest user trades that have occurred for instruments in a specific currency symbol.
+   * Retrieves the latest user trades that have occurred for instruments in a specific currency
+   * symbol.
    *
-   * @see <a href="https://docs.deribit.com/#private-get_user_trades_by_currency">docs.deribit.com</a>
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_user_trades_by_currency">docs.deribit.com</a>
    */
   @GET
   @Path("get_user_trades_by_currency")
@@ -227,7 +231,8 @@ public interface DeribitAuthenticated {
    * Retrieves the latest user trades that have occurred for instruments in a specific currency
    * symbol and within given time range.
    *
-   * @see <a href="https://docs.deribit.com/#private-get_user_trades_by_currency_and_time">docs.deribit.com</a>
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_user_trades_by_currency_and_time">docs.deribit.com</a>
    */
   @GET
   @Path("get_user_trades_by_currency")
@@ -246,13 +251,14 @@ public interface DeribitAuthenticated {
    * Retrieves the latest user trades that have occurred for a specific instrument.
    *
    * @param instrumentName required Instrument name
-   * @param startSeq       optional The sequence number of the first trade to be returned
-   * @param endSeq         optional The sequence number of the last trade to be returned
-   * @param count          optional Number of requested items, default - 10
-   * @param includeOld     optional Include trades older than 7 days, default - false
-   * @param sorting        optional ( asc, desc, default) Direction of results sorting (default value means
-   *                       no sorting, results will be returned in order in which they left the database)
-   * @see <a href="https://docs.deribit.com/#private-get_user_trades_by_instrument">docs.deribit.com</a>
+   * @param startSeq optional The sequence number of the first trade to be returned
+   * @param endSeq optional The sequence number of the last trade to be returned
+   * @param count optional Number of requested items, default - 10
+   * @param includeOld optional Include trades older than 7 days, default - false
+   * @param sorting optional ( asc, desc, default) Direction of results sorting (default value means
+   *     no sorting, results will be returned in order in which they left the database)
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_user_trades_by_instrument">docs.deribit.com</a>
    */
   @GET
   @Path("get_user_trades_by_instrument")
@@ -267,17 +273,18 @@ public interface DeribitAuthenticated {
       throws DeribitException, IOException;
 
   /**
-   * Retrieves the latest user trades that have occurred for a specific instrument and within
-   * given time range.
+   * Retrieves the latest user trades that have occurred for a specific instrument and within given
+   * time range.
    *
    * @param instrumentName required Instrument name
    * @param startTimestamp required The earliest timestamp to return result for
-   * @param endTimestamp   required The most recent timestamp to return result for
-   * @param count          optional Number of requested items, default - 10
-   * @param includeOld     optional Include trades older than 7 days, default - false
-   * @param sorting        optional ( asc, desc, default) Direction of results sorting (default value means
-   *                       no sorting, results will be returned in order in which they left the database)
-   * @see <a href="https://docs.deribit.com/#private-get_user_trades_by_instrument_and_time">docs.deribit.com</a>
+   * @param endTimestamp required The most recent timestamp to return result for
+   * @param count optional Number of requested items, default - 10
+   * @param includeOld optional Include trades older than 7 days, default - false
+   * @param sorting optional ( asc, desc, default) Direction of results sorting (default value means
+   *     no sorting, results will be returned in order in which they left the database)
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_user_trades_by_instrument_and_time">docs.deribit.com</a>
    */
   @GET
   @Path("get_user_trades_by_instrument_and_time")
@@ -295,7 +302,7 @@ public interface DeribitAuthenticated {
    * Retrieves user positions.
    *
    * @param currency BTC, ETH
-   * @param kind     Kind filter on positions
+   * @param kind Kind filter on positions
    * @see <a href="https://docs.deribit.com/#private-get_positions">docs.deribit.com</a>
    */
   @GET
@@ -310,10 +317,11 @@ public interface DeribitAuthenticated {
    * Retrieves public settlement, delivery and bankruptcy events filtered by instrument name.
    *
    * @param instrumentName required - Instrument name
-   * @param count          optional - Number of requested items, default - 20
-   * @param type           optional - Settlement type
-   * @param continuation   optional - Continuation string for pagination
-   * @see <a href="https://docs.deribit.com/#private-get_settlement_history_by_instrument">docs.deribit.com</a>
+   * @param count optional - Number of requested items, default - 20
+   * @param type optional - Settlement type
+   * @param continuation optional - Continuation string for pagination
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_settlement_history_by_instrument">docs.deribit.com</a>
    */
   @GET
   @Path("get_settlement_history_by_instrument")
@@ -328,7 +336,8 @@ public interface DeribitAuthenticated {
   /**
    * Retrieves history of orders that have been partially or fully filled.
    *
-   * @see <a href="https://docs.deribit.com/#private-get_order_history_by_currency">docs.deribit.com</a>
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_order_history_by_currency">docs.deribit.com</a>
    */
   @GET
   @Path("get_order_history_by_instrument")
@@ -345,12 +354,13 @@ public interface DeribitAuthenticated {
   /**
    * Retrieves history of orders that have been partially or fully filled.
    *
-   * @param instrumentName  required - Instrument name
-   * @param count           optional - Number of requested items, default - 20
-   * @param offset          optional - The offset for pagination, default - 0
-   * @param includeOld      optional - Include orders older than 2 days, default - false
+   * @param instrumentName required - Instrument name
+   * @param count optional - Number of requested items, default - 20
+   * @param offset optional - The offset for pagination, default - 0
+   * @param includeOld optional - Include orders older than 2 days, default - false
    * @param includeUnfilled optional - Include fully unfilled closed orders, default - false
-   * @see <a href="https://docs.deribit.com/#private-get_order_history_by_instrument">docs.deribit.com</a>
+   * @see <a
+   *     href="https://docs.deribit.com/#private-get_order_history_by_instrument">docs.deribit.com</a>
    */
   @GET
   @Path("get_order_history_by_instrument")
