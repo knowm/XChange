@@ -42,6 +42,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class DeribitAdapters {
   private static final String IMPLIED_COUNTER = "USD";
   private static final String PERPETUAL = "perpetual";
+  private static final int CURRENCY_SCALE = 8;
   private static final ThreadLocal<DateFormat> DATE_PARSER =
           ThreadLocal.withInitial(() -> new SimpleDateFormat("ddMMMyy"));
 
@@ -60,7 +61,7 @@ public class DeribitAdapters {
   }
 
   public static String adaptInstrumentName(OptionsContract option) {
-    String[] parts = option.toString().split("-");
+    String[] parts = option.toString().split("/");
     if (parts.length != 5) {
         throw new IllegalArgumentException("Could not adapt instrument name from '" + option + "'");
     }
@@ -229,7 +230,7 @@ public class DeribitAdapters {
   }
   
   public static CurrencyMetaData adaptMeta(DeribitCurrency currency) {
-    return new CurrencyMetaData(currency.getFeePrecision(),currency.getWithdrawalFee());
+    return new CurrencyMetaData(CURRENCY_SCALE, currency.getWithdrawalFee());
   }
 
   public static FuturesContract adaptFuturesContract(DeribitInstrument instrument) {
@@ -292,11 +293,19 @@ public class DeribitAdapters {
   }
 
   public static DerivativeMetaData adaptMeta(DeribitInstrument instrument) {
-    return new DerivativeMetaData(instrument.getTakerCommission(),
-            new FeeTier[]{new FeeTier(BigDecimal.ZERO, new Fee(instrument.getMakerCommission(), instrument.getTakerCommission()))},
-            instrument.getTickSize(),
-            instrument.getMinTradeAmount(),
-            new BigDecimal(instrument.getContractSize()));
+    FeeTier[] feeTiers = {
+      new FeeTier(
+          BigDecimal.ZERO,
+          new Fee(instrument.getMakerCommission(), instrument.getTakerCommission()))
+    };
+    return new DerivativeMetaData.Builder()
+        .tradingFee(instrument.getTakerCommission())
+        .feeTiers(feeTiers)
+        .minimumAmount(instrument.getMinTradeAmount())
+        .amountScale(instrument.getMinTradeAmount().scale())
+        .priceScale(instrument.getTickSize().scale())
+        .priceStepSize(instrument.getTickSize())
+        .build();
   }
 
   public static UserTrades adaptUserTrades(org.knowm.xchange.deribit.v2.dto.trade.UserTrades userTrades) {

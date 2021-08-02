@@ -64,7 +64,7 @@ public class OptionsContract extends Instrument
 
   @JsonCreator
   public OptionsContract(final String symbol) {
-    String[] parts = symbol.split("-");
+    String[] parts = symbol.split("/");
     if (parts.length != 5) {
       throw new IllegalArgumentException("Could not parse options contract from '" + symbol + "'");
     }
@@ -126,7 +126,7 @@ public class OptionsContract extends Instrument
   @JsonValue
   @Override
   public String toString() {
-    return currencyPair.base + "-" + currencyPair.counter + "-"
-            + DATE_PARSER.get().format(this.expireDate) +  "-" + strike + "-" + type.postfix;
+    return currencyPair.base + "/" + currencyPair.counter + "/"
+            + DATE_PARSER.get().format(this.expireDate) +  "/" + strike + "/" + type.postfix;
   }
 }

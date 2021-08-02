@@ -38,7 +38,7 @@ public class FuturesContract extends Instrument
 
   @JsonCreator
   public FuturesContract(final String symbol) {
-    String[] parts = symbol.split("-");
+    String[] parts = symbol.split("/");
     if (parts.length < 3) {
       throw new IllegalArgumentException("Could not parse futures contract from '" + symbol + "'");
     }
@@ -97,7 +97,7 @@ public class FuturesContract extends Instrument
   @Override
   public String toString() {
 
-    return currencyPair.base + "-" + currencyPair.counter + "-" 
+    return currencyPair.base + "/" + currencyPair.counter + "/" 
         + (expireDate == null ? PERPETUAL : DATE_PARSER.get().format(this.expireDate));
   }
 }
