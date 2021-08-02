@@ -105,7 +105,8 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
       AdvancedOptions advanced,
       Boolean mmp)
       throws IOException {
-    return deribitAuthenticated.edit(
+    return deribitAuthenticated
+        .edit(
             orderId,
             amount,
             price,
@@ -115,7 +116,8 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             triggerPrice,
             advanced,
             mmp,
-            deribitAuth).getResult();
+            deribitAuth)
+        .getResult();
   }
 
   public Order cancel(String orderId) throws IOException {
@@ -129,10 +131,10 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
   public List<Order> getOpenOrdersByCurrency(String currency, Kind kind, String type)
       throws IOException {
     return deribitAuthenticated
-      .getOpenOrdersByCurrency(currency, kind, type, deribitAuth)
-      .getResult();
+        .getOpenOrdersByCurrency(currency, kind, type, deribitAuth)
+        .getResult();
   }
-  
+
   public List<Order> getOpenOrdersByInstrument(String instrumentName, String type)
       throws IOException {
     return deribitAuthenticated
@@ -245,7 +247,7 @@ public class DeribitTradeServiceRaw extends DeribitBaseService {
             instrumentName, count, offset, includeOld, includeUnfilled, deribitAuth)
         .getResult();
   }
-  
+
   public Order getOrderState(String orderId) throws IOException {
     return deribitAuthenticated.getOrderState(orderId, deribitAuth).getResult();
   }

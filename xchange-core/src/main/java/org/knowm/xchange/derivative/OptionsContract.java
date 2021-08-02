@@ -2,9 +2,6 @@ package org.knowm.xchange.derivative;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.instrument.Instrument;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -13,12 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.instrument.Instrument;
 
-public class OptionsContract extends Instrument 
-      implements Derivative, Comparable<OptionsContract>, Serializable {
+public class OptionsContract extends Instrument
+    implements Derivative, Comparable<OptionsContract>, Serializable {
 
-  private static final long serialVersionUID = 1L;    
-    
+  private static final long serialVersionUID = 1L;
+
   public enum OptionType {
     CALL("C"),
     PUT("P");
@@ -28,13 +27,12 @@ public class OptionsContract extends Instrument
     OptionType(String postfix) {
       this.postfix = postfix;
     }
-    
+
     public static OptionType fromString(String s) {
-      if(CALL.postfix.equalsIgnoreCase(s)) return CALL;
-      if(PUT.postfix.equalsIgnoreCase(s)) return PUT;
+      if (CALL.postfix.equalsIgnoreCase(s)) return CALL;
+      if (PUT.postfix.equalsIgnoreCase(s)) return PUT;
       throw new IllegalArgumentException("Unknown option type: " + s);
     }
-    
   }
 
   private static final ThreadLocal<DateFormat> DATE_PARSER =
@@ -42,10 +40,9 @@ public class OptionsContract extends Instrument
 
   private static final Comparator<OptionsContract> COMPARATOR =
       Comparator.comparing(OptionsContract::getCurrencyPair)
-        .thenComparing(OptionsContract::getExpireDate)
-        .thenComparing(OptionsContract::getStrike)
-        .thenComparing(OptionsContract::getType);
-
+          .thenComparing(OptionsContract::getExpireDate)
+          .thenComparing(OptionsContract::getStrike)
+          .thenComparing(OptionsContract::getType);
 
   private final CurrencyPair currencyPair;
 
@@ -55,7 +52,8 @@ public class OptionsContract extends Instrument
 
   private final OptionType type;
 
-  public OptionsContract(CurrencyPair currencyPair, Date expireDate, BigDecimal strike, OptionType type) {
+  public OptionsContract(
+      CurrencyPair currencyPair, Date expireDate, BigDecimal strike, OptionType type) {
     this.currencyPair = currencyPair;
     this.expireDate = expireDate;
     this.strike = strike;
@@ -84,12 +82,12 @@ public class OptionsContract extends Instrument
     this.strike = new BigDecimal(strike);
     this.type = OptionType.fromString(type);
   }
-  
+
   @Override
   public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
-    
+
   public Date getExpireDate() {
     return expireDate;
   }
@@ -113,9 +111,9 @@ public class OptionsContract extends Instrument
     if (o == null || getClass() != o.getClass()) return false;
     final OptionsContract contract = (OptionsContract) o;
     return Objects.equals(currencyPair, contract.currencyPair)
-            && Objects.equals(expireDate, contract.expireDate)
-            && Objects.equals(strike, contract.strike)
-            && Objects.equals(type, contract.type);
+        && Objects.equals(expireDate, contract.expireDate)
+        && Objects.equals(strike, contract.strike)
+        && Objects.equals(type, contract.type);
   }
 
   @Override
@@ -126,7 +124,14 @@ public class OptionsContract extends Instrument
   @JsonValue
   @Override
   public String toString() {
-    return currencyPair.base + "/" + currencyPair.counter + "/"
-            + DATE_PARSER.get().format(this.expireDate) +  "/" + strike + "/" + type.postfix;
+    return currencyPair.base
+        + "/"
+        + currencyPair.counter
+        + "/"
+        + DATE_PARSER.get().format(this.expireDate)
+        + "/"
+        + strike
+        + "/"
+        + type.postfix;
   }
 }

@@ -76,27 +76,32 @@ public class DeribitExchange extends BaseExchange implements Exchange {
     options.clear();
 
     for (DeribitCurrency deribitCurrency : activeDeribitCurrencies) {
-      currencies.put(new Currency(deribitCurrency.getCurrency()), DeribitAdapters.adaptMeta(deribitCurrency));
+      currencies.put(
+          new Currency(deribitCurrency.getCurrency()), DeribitAdapters.adaptMeta(deribitCurrency));
 
-      List<DeribitInstrument> deribitInstruments = ((DeribitMarketDataServiceRaw) marketDataService)
+      List<DeribitInstrument> deribitInstruments =
+          ((DeribitMarketDataServiceRaw) marketDataService)
               .getDeribitInstruments(deribitCurrency.getCurrency(), null, null);
 
-      for(DeribitInstrument deribitInstrument : deribitInstruments) {
+      for (DeribitInstrument deribitInstrument : deribitInstruments) {
         if (deribitInstrument.getKind() == Kind.future) {
-          futures.put(DeribitAdapters.adaptFuturesContract(deribitInstrument), DeribitAdapters.adaptMeta(deribitInstrument));
+          futures.put(
+              DeribitAdapters.adaptFuturesContract(deribitInstrument),
+              DeribitAdapters.adaptMeta(deribitInstrument));
         } else {
-          options.put(DeribitAdapters.adaptOptionsContract(deribitInstrument), DeribitAdapters.adaptMeta(deribitInstrument));
+          options.put(
+              DeribitAdapters.adaptOptionsContract(deribitInstrument),
+              DeribitAdapters.adaptMeta(deribitInstrument));
         }
       }
     }
-
   }
 
-    @Override
-    public List<Instrument> getExchangeInstruments() {
-        ArrayList<Instrument> instruments = new ArrayList<>();
-        instruments.addAll(getExchangeMetaData().getFutures().keySet());
-        instruments.addAll(getExchangeMetaData().getOptions().keySet());
-        return instruments;
-    }
+  @Override
+  public List<Instrument> getExchangeInstruments() {
+    ArrayList<Instrument> instruments = new ArrayList<>();
+    instruments.addAll(getExchangeMetaData().getFutures().keySet());
+    instruments.addAll(getExchangeMetaData().getOptions().keySet());
+    return instruments;
+  }
 }

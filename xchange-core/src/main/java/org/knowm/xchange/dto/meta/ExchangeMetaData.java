@@ -57,11 +57,11 @@ public class ExchangeMetaData implements Serializable {
    * @param currency Map of currency -> {@link CurrencyMetaData}
    */
   public ExchangeMetaData(
-          Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
-          Map<Currency, CurrencyMetaData> currency,
-          RateLimit[] publicRateLimits,
-          RateLimit[] privateRateLimits,
-          Boolean shareRateLimits) {
+      Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
+      Map<Currency, CurrencyMetaData> currency,
+      RateLimit[] publicRateLimits,
+      RateLimit[] privateRateLimits,
+      Boolean shareRateLimits) {
     this(currencyPairs, currency, null, null, publicRateLimits, privateRateLimits, shareRateLimits);
   }
 
@@ -145,7 +145,7 @@ public class ExchangeMetaData implements Serializable {
         + ", futures="
         + futures
         + ", options="
-        + options    
+        + options
         + ", publicRateLimits="
         + Arrays.toString(publicRateLimits)
         + ", privateRateLimits="
