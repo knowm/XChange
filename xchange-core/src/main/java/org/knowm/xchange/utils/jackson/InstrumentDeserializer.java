@@ -31,10 +31,9 @@ public class InstrumentDeserializer extends JsonDeserializer<Instrument> {
     long count = instrumentString.chars().filter(ch -> ch == '/').count();
     // CurrencyPair (Base/Counter) i.e. BTC/USD
     if (count == 1) return new CurrencyPair(instrumentString);
-    count = instrumentString.chars().filter(ch -> ch == '-').count();
-    // Futures/Swaps (Base-Counter-Prompt) i.e. BTC-USD-200925
+    // Futures/Swaps (Base/Counter/Prompt) i.e. BTC/USD/200925
     if (count == 2) return new FuturesContract(instrumentString);
-    // Options (Base-Counter-Prompt-StrikePrice-Put?Call) i.e. BTC-USD-200925-8956.67-P
+    // Options (Base/Counter/Prompt/StrikePrice/Put?Call) i.e. BTC/USD/200925/8956.67/P
     if (count == 4) return new OptionsContract(instrumentString);
     else return null;
   }
