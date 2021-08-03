@@ -85,7 +85,7 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenPositions getOpenPositions() {
+  public OpenPositions getOpenPositions() throws IOException {
     return new OpenPositions(
         ((DeribitAccountService) exchange.getAccountService()).openPositions());
   }
