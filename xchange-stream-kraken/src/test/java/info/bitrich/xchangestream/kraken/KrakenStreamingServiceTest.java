@@ -8,7 +8,7 @@ public class KrakenStreamingServiceTest {
     @Test
     public void testParseOrderbookSizeReturnsDefaultOnInvalidValue() {
         Assert.assertEquals(null, KrakenStreamingService.parseOrderBookSize(new Object[]{"22"}));
-        Assert.assertEquals(null, KrakenStreamingService.parseOrderBookSize(new Object[]{22}));
+        Assert.assertEquals((Integer)KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT, KrakenStreamingService.parseOrderBookSize(new Object[]{22}));
     }
 
     @Test
@@ -18,7 +18,8 @@ public class KrakenStreamingServiceTest {
 
     @Test
     public void testParseOrderbookSizeReturnsDefaultWhenNoArgsGiven() {
-        Assert.assertEquals((Integer)KrakenStreamingService.ORDER_BOOK_SIZE_DEFAULT,KrakenStreamingService.parseOrderBookSize(new Object[]{}));
+        Assert.assertEquals(null,KrakenStreamingService.parseOrderBookSize(new Object[]{}));
     }
+
 
 }

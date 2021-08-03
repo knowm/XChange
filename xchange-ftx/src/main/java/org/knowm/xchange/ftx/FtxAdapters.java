@@ -22,6 +22,7 @@ import org.knowm.xchange.dto.account.OpenPosition;
 import org.knowm.xchange.dto.account.OpenPositions;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
@@ -37,9 +38,7 @@ import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
-import org.knowm.xchange.ftx.dto.marketdata.FtxMarketsDto;
-import org.knowm.xchange.ftx.dto.marketdata.FtxOrderbookDto;
-import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
+import org.knowm.xchange.ftx.dto.marketdata.*;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
@@ -349,5 +348,38 @@ public class FtxAdapters {
 
   public static BigDecimal lendingRounding(BigDecimal value) {
     return value.setScale(4, RoundingMode.DOWN);
+  }
+
+  public static Ticker adaptTicker(FtxResponse<FtxMarketDto> ftxMarketResp,
+                                   FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
+                                   CurrencyPair currencyPair) {
+
+    System.out.println("marketResp"  + ftxMarketResp.toString());
+    System.out.println("CurrencyPair" + currencyPair.toString());
+
+    FtxCandleDto lastCandle = ftxCandlesResp.getResult().get(ftxCandlesResp.getResult().size() - 1);
+
+    System.out.println("lastCandle"  + lastCandle.toString());
+
+    BigDecimal open = lastCandle.getOpen();
+    BigDecimal last = ftxMarketResp.getResult().getLast();
+    BigDecimal bid = ftxMarketResp.getResult().getBid();
+    BigDecimal ask = ftxMarketResp.getResult().getAsk();
+    BigDecimal high = lastCandle.getHigh();
+    BigDecimal low = lastCandle.getLow();
+    BigDecimal volume = lastCandle.getVolume();
+    Date timestamp = lastCandle.getStartTime();
+
+    return new Ticker.Builder()
+            .currencyPair(currencyPair)
+            .open(open)
+            .last(last)
+            .bid(bid)
+            .ask(ask)
+            .high(high)
+            .low(low)
+            .volume(volume)
+            .timestamp(timestamp)
+            .build();
   }
 }
