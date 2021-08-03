@@ -1,7 +1,6 @@
 package org.knowm.xchange.bittrex;
 
-import static org.knowm.xchange.bittrex.BittrexConstants.OFFLINE;
-import static org.knowm.xchange.bittrex.BittrexConstants.ONLINE;
+import static org.knowm.xchange.bittrex.BittrexConstants.*;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -88,6 +87,9 @@ public final class BittrexAdapters {
   }
 
   public static OrderStatus adaptOrderStatus(BittrexOrder order) {
+    if (order.getClosedAt() != null) {
+      return OrderStatus.CLOSED;
+    }
     if (order.getQuantity() == null) {
       return OrderStatus.UNKNOWN;
     }

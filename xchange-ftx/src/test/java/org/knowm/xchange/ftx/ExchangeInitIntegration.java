@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 
-public class ExchangeInitTest {
+public class ExchangeInitIntegration {
 
   @Test
   public void ftxInitializationTest() {
