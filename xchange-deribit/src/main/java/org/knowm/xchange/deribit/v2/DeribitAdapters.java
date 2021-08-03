@@ -262,7 +262,12 @@ public class DeribitAdapters {
     }
     BigDecimal strike = new BigDecimal(parts[2]);
     OptionsContract.OptionType type = OptionsContract.OptionType.fromString(parts[3]);
-    return new OptionsContract(currencyPair, expireDate, strike, type);
+    return new OptionsContract.Builder()
+        .currencyPair(currencyPair)
+        .expireDate(expireDate)
+        .strike(strike)
+        .type(type)
+        .build();
   }
 
   public static Instrument adaptInstrument(String instrumentName) {

@@ -16,7 +16,7 @@ import org.knowm.xchange.instrument.Instrument;
 public class OptionsContract extends Instrument
     implements Derivative, Comparable<OptionsContract>, Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 4546376909031640294L;
 
   public enum OptionType {
     CALL("C"),
@@ -52,7 +52,7 @@ public class OptionsContract extends Instrument
 
   private final OptionType type;
 
-  public OptionsContract(
+  private OptionsContract(
       CurrencyPair currencyPair, Date expireDate, BigDecimal strike, OptionType type) {
     this.currencyPair = currencyPair;
     this.expireDate = expireDate;
@@ -119,6 +119,39 @@ public class OptionsContract extends Instrument
   @Override
   public int hashCode() {
     return Objects.hash(currencyPair, expireDate, strike, type);
+  }
+
+  public static final class Builder {
+    private CurrencyPair currencyPair;
+    private Date expireDate;
+    private BigDecimal strike;
+    private OptionType type;
+
+    public Builder() {}
+
+    public Builder currencyPair(CurrencyPair val) {
+      currencyPair = val;
+      return this;
+    }
+
+    public Builder expireDate(Date val) {
+      expireDate = val;
+      return this;
+    }
+
+    public Builder strike(BigDecimal val) {
+      strike = val;
+      return this;
+    }
+
+    public Builder type(OptionType val) {
+      type = val;
+      return this;
+    }
+
+    public OptionsContract build() {
+      return new OptionsContract(currencyPair, expireDate, strike, type);
+    }
   }
 
   @JsonValue
