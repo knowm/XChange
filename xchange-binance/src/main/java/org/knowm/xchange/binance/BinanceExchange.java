@@ -35,8 +35,8 @@ public class BinanceExchange extends BaseExchange {
   protected void initServices() {
     this.binance =
         ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
+            BinanceAuthenticated.class, getExchangeSpecification())
+                                .build();
     this.timestampFactory =
         new BinanceTimestampFactory(
             binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
@@ -109,7 +109,7 @@ public class BinanceExchange extends BaseExchange {
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
       Map<String, AssetDetail> assetDetailMap = null;
-      if (!usingSandbox()) {
+      if (!usingSandbox() && isAuthenticated()) {
         assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
       }
       // Clear all hardcoded currencies when loading dynamically from exchange.
@@ -183,6 +183,12 @@ public class BinanceExchange extends BaseExchange {
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
+  }
+
+  private boolean isAuthenticated() {
+    return exchangeSpecification != null
+        && exchangeSpecification.getApiKey() != null
+        && exchangeSpecification.getSecretKey() != null;
   }
 
   private int numberOfDecimals(String value) {
