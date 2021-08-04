@@ -38,6 +38,7 @@
                     <groupId>javax.cache</groupId>  
                     <artifactId>cache-api</artifactId> 
                 </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
