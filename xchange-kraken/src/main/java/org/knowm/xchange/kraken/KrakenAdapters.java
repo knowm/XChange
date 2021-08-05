@@ -271,7 +271,7 @@ public class KrakenAdapters {
 
       if (!"limit".equals(orderDescription.getOrderType().toString()) ||
               ( currencyPair != null &&
-                !currencyPair.equals(adaptCurrencyPair(krakenOrder.getOrderDescription().getAssetPair()))
+                !currencyPair.equals(adaptCurrencyPair(orderDescription.getAssetPair()))
               )
       ) {
         // how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
