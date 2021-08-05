@@ -259,13 +259,21 @@ public class KrakenAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
+    return adaptOpenOrders(krakenOrders, null);
+  }
+
+  public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (Entry<String, KrakenOrder> krakenOrderEntry : krakenOrders.entrySet()) {
       KrakenOrder krakenOrder = krakenOrderEntry.getValue();
       KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
 
-      if (!"limit".equals(orderDescription.getOrderType().toString())) {
+      if (!"limit".equals(orderDescription.getOrderType().toString()) ||
+              ( currencyPair != null &&
+                !currencyPair.equals(adaptCurrencyPair(krakenOrder.getOrderDescription().getAssetPair()))
+              )
+      ) {
         // how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
         // ignore anything but a plain limit order for now
         continue;
