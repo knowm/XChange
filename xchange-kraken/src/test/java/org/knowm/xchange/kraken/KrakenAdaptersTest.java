@@ -249,10 +249,10 @@ public class KrakenAdaptersTest {
     List<UserTrade> tradeList =
         loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json");
 
-    assertThat(tradeList.size()).isEqualTo(1);
+    assertThat(tradeList.size()).isEqualTo(3);
     UserTrade trade = tradeList.get(0);
     assertThat(trade).isInstanceOf(KrakenUserTrade.class);
-    assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
+    assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-1");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.50000000");
     assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.LTC);
@@ -261,6 +261,39 @@ public class KrakenAdaptersTest {
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade.getFeeCurrency()).isEqualTo(Currency.BTC);
     assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
+  }
+
+  @Test
+  public void testAdaptTradeHistoryByCurrencyPair() throws JsonParseException, JsonMappingException, IOException {
+    List<UserTrade> tradeList =
+        loadUserTrades("/org/knowm/xchange/kraken/dto/trading/example-tradehistory-data.json",
+                CurrencyPair.BTC_USD);
+
+    assertThat(tradeList.size()).isEqualTo(2);
+
+    UserTrade trade0 = tradeList.get(0);
+    assertThat(trade0).isInstanceOf(KrakenUserTrade.class);
+    assertThat(trade0.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-2");
+    assertThat(trade0.getPrice()).isEqualTo("32.07562");
+    assertThat(trade0.getOriginalAmount()).isEqualTo("0.50000000");
+    assertThat(trade0.getCurrencyPair().base).isEqualTo(Currency.BTC);
+    assertThat(trade0.getCurrencyPair().counter).isEqualTo(Currency.USD);
+    assertThat(trade0.getType()).isEqualTo(OrderType.ASK);
+    assertThat(trade0.getFeeAmount()).isEqualTo("0.03208");
+    assertThat(trade0.getFeeCurrency()).isEqualTo(Currency.USD);
+    assertThat(((KrakenUserTrade) trade0).getCost()).isEqualTo("16.03781");
+
+    UserTrade trade1 = tradeList.get(1);
+    assertThat(trade1).isInstanceOf(KrakenUserTrade.class);
+    assertThat(trade1.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD-3");
+    assertThat(trade1.getPrice()).isEqualTo("32.07562");
+    assertThat(trade1.getOriginalAmount()).isEqualTo("0.50000000");
+    assertThat(trade1.getCurrencyPair().base).isEqualTo(Currency.BTC);
+    assertThat(trade1.getCurrencyPair().counter).isEqualTo(Currency.USD);
+    assertThat(trade1.getType()).isEqualTo(OrderType.ASK);
+    assertThat(trade1.getFeeAmount()).isEqualTo("0.03208");
+    assertThat(trade1.getFeeCurrency()).isEqualTo(Currency.USD);
+    assertThat(((KrakenUserTrade) trade1).getCost()).isEqualTo("16.03781");
   }
 
   @Test
@@ -283,6 +316,10 @@ public class KrakenAdaptersTest {
   }
 
   private static List<UserTrade> loadUserTrades(String resourceName) throws IOException {
+    return loadUserTrades(resourceName, null);
+  }
+
+  private static List<UserTrade> loadUserTrades(String resourceName, CurrencyPair currencyPair) throws IOException {
     // Read in the JSON from the example resources
     InputStream is = KrakenAdaptersTest.class.getResourceAsStream(resourceName);
 
@@ -292,7 +329,7 @@ public class KrakenAdaptersTest {
     KrakenTradeHistory krakenTradeHistory = krakenResult.getResult();
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
 
-    UserTrades trades = KrakenAdapters.adaptTradesHistory(krakenTradeHistoryMap);
+    UserTrades trades = KrakenAdapters.adaptTradesHistory(krakenTradeHistoryMap, currencyPair);
     return trades.getUserTrades();
   }
 

@@ -187,7 +187,7 @@ public class KrakenAdapters {
 
   public static List<Ticker> adaptTickers(Map<String, KrakenTicker> krackenTickers) {
     List<Ticker> tickers = new ArrayList<>();
-    for (Map.Entry<String, KrakenTicker> ticker : krackenTickers.entrySet()) {
+    for (Entry<String, KrakenTicker> ticker : krackenTickers.entrySet()) {
       CurrencyPair pair = KrakenUtils.translateKrakenCurrencyPair(ticker.getKey());
       tickers.add(adaptTicker(ticker.getValue(), pair));
     }
@@ -277,9 +277,18 @@ public class KrakenAdapters {
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
+    return adaptTradesHistory(krakenTrades, null);
+  }
+
+  public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades,
+                                              CurrencyPair currencyPair) {
 
     List<UserTrade> trades = new ArrayList<>();
     for (Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
+      if(currencyPair != null && !currencyPair.equals(adaptCurrencyPair(krakenTradeEntry.getValue().getAssetPair()))){
+        continue;
+      }
+
       trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
 
@@ -363,14 +372,14 @@ public class KrakenAdapters {
     Map<CurrencyPair, Fee> feeMap = new HashMap<>();
 
     // Compute Taker Fees
-    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFees().entrySet()) {
       feeMap.computeIfAbsent(
           KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
           currencyPair -> new Fee(null, entry.getValue().getFee().divide(new BigDecimal(100))));
     }
 
     // Compute Maker Fees
-    for (Map.Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
+    for (Entry<String, KrakenVolumeFee> entry : krakenTradeVolume.getFeesMaker().entrySet()) {
       feeMap.computeIfPresent(
           KrakenUtils.translateKrakenCurrencyPair(entry.getKey()),
           (currencyPair, fee) ->
