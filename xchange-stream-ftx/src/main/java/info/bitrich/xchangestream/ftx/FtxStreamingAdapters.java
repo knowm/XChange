@@ -188,19 +188,19 @@ public class FtxStreamingAdapters {
 
   public static UserTrade adaptUserTrade(JsonNode jsonNode) {
     return new UserTrade.Builder()
-        .currencyPair(new CurrencyPair(jsonNode.get("data").get("market").asText()))
-        .type(
-            jsonNode.get("data").get("side").asText().equals("buy")
-                ? Order.OrderType.BID
-                : Order.OrderType.ASK)
-        .instrument(new CurrencyPair(jsonNode.get("data").get("market").asText()))
-        .originalAmount(BigDecimal.valueOf(jsonNode.get("data").get("size").asDouble()))
-        .price(BigDecimal.valueOf(jsonNode.get("data").get("price").asDouble()))
-        .timestamp(Date.from(Instant.ofEpochMilli(jsonNode.get("data").get("time").asLong())))
-        .id(jsonNode.get("data").get("id").asText())
-        .orderId(jsonNode.get("data").get("orderId").asText())
-        .feeAmount(BigDecimal.valueOf(jsonNode.get("data").get("fee").asDouble()))
-        .feeCurrency(new Currency(jsonNode.get("data").get("feeCurrency").asText()))
-        .build();
+            .currencyPair(new CurrencyPair(jsonNode.get("data").get("market").asText()))
+            .type(
+                    "buy".equals(jsonNode.get("data").get("side").asText())
+                            ? Order.OrderType.BID
+                            : Order.OrderType.ASK)
+            .instrument(new CurrencyPair(jsonNode.get("data").get("market").asText()))
+            .originalAmount(BigDecimal.valueOf(jsonNode.get("data").get("size").asDouble()))
+            .price(BigDecimal.valueOf(jsonNode.get("data").get("price").asDouble()))
+            .timestamp(Date.from(Instant.ofEpochMilli(jsonNode.get("data").get("time").asLong())))
+            .id(jsonNode.get("data").get("id").asText())
+            .orderId(jsonNode.get("data").get("orderId").asText())
+            .feeAmount(BigDecimal.valueOf(jsonNode.get("data").get("fee").asDouble()))
+            .feeCurrency(new Currency(jsonNode.get("data").get("feeCurrency").asText()))
+            .build();
   }
 }

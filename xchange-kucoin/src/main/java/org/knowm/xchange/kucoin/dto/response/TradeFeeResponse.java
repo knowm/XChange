@@ -9,10 +9,9 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TradeFeeResponse {
 
-    private String symbol;
+  private String symbol;
 
-    private BigDecimal takerFeeRate;
+  private BigDecimal takerFeeRate;
 
-    private BigDecimal makerFeeRate;
-
+  private BigDecimal makerFeeRate;
 }

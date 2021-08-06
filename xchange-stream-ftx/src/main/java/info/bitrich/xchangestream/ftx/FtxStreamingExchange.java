@@ -4,6 +4,7 @@ import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.core.StreamingTradeService;
+import info.bitrich.xchangestream.ftx.dto.FtxWebsocketCredential;
 import info.bitrich.xchangestream.service.netty.ConnectionStateModel;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -24,7 +25,7 @@ public class FtxStreamingExchange extends FtxExchange implements StreamingExchan
     super.initServices();
 
     if (exchangeSpecification.getApiKey() != null) {
-      this.ftxStreamingService = new FtxStreamingService(API_URI, exchangeSpecification);
+      this.ftxStreamingService = new FtxStreamingService(API_URI, () -> new FtxWebsocketCredential(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName()));
       this.ftxStreamingTradeService = new FtxStreamingTradeService(ftxStreamingService);
     } else {
       this.ftxStreamingService = new FtxStreamingService(API_URI);

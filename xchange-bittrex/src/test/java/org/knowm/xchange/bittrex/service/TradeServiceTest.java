@@ -44,7 +44,7 @@ public class TradeServiceTest extends BaseWiremockTest {
                 aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json")
-                    .withBodyFile("placedorder.json")));
+                    .withBodyFile("placedOrder.json")));
 
     Order.OrderType type =
         BittrexConstants.BUY.equals(jsonRoot.get("direction").asText())

@@ -36,11 +36,10 @@ public interface TradingFeeAPI {
   @GET
   @Path("/trade-fees")
   KucoinResponse<List<TradeFeeResponse>> getTradeFee(
-          @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
-          @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
-          @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
-          @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
-          @QueryParam("symbols") String symbols)
-          throws IOException;
-
+      @HeaderParam(APIConstants.API_HEADER_KEY) String apiKey,
+      @HeaderParam(APIConstants.API_HEADER_SIGN) ParamsDigest signature,
+      @HeaderParam(APIConstants.API_HEADER_TIMESTAMP) SynchronizedValueFactory<Long> nonce,
+      @HeaderParam(APIConstants.API_HEADER_PASSPHRASE) String apiPassphrase,
+      @QueryParam("symbols") String symbols)
+      throws IOException;
 }

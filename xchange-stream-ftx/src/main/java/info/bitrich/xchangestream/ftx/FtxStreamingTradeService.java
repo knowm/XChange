@@ -8,23 +8,20 @@ import org.knowm.xchange.dto.trade.UserTrade;
 
 public class FtxStreamingTradeService implements StreamingTradeService {
 
-  private final FtxStreamingService service;
-  private final Observable<JsonNode> fills;
+    private final FtxStreamingService service;
+    private final Observable<JsonNode> fills;
 
-  public FtxStreamingTradeService(FtxStreamingService service) {
-    this.service = service;
-    this.fills = service.subscribeChannel("fills");
-  }
+    public FtxStreamingTradeService(FtxStreamingService service) {
+        this.service = service;
+        this.fills = service.subscribeChannel("fills");
+    }
 
-  @Override
-  public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
+    @Override
+    public Observable<UserTrade> getUserTrades(CurrencyPair currencyPair, Object... args) {
 
-    return fills
-            .filter(
-            jsonNode ->
-                jsonNode.hasNonNull("data")
-                    && new CurrencyPair(jsonNode.get("data").get("market").asText())
-                        .equals(currencyPair))
-        .map(FtxStreamingAdapters::adaptUserTrade);
-  }
+        return fills
+                .filter(jsonNode -> jsonNode.hasNonNull("data"))
+                .filter(jsonNode -> new CurrencyPair(jsonNode.get("data").get("market").asText()).equals(currencyPair))
+                .map(FtxStreamingAdapters::adaptUserTrade);
+    }
 }

@@ -35,8 +35,8 @@ public class BinanceExchange extends BaseExchange {
   protected void initServices() {
     this.binance =
         ExchangeRestProxyBuilder.forInterface(
-                BinanceAuthenticated.class, getExchangeSpecification())
-            .build();
+            BinanceAuthenticated.class, getExchangeSpecification())
+                                .build();
     this.timestampFactory =
         new BinanceTimestampFactory(
             binance, getExchangeSpecification().getResilience(), getResilienceRegistries());
@@ -108,14 +108,14 @@ public class BinanceExchange extends BaseExchange {
       Symbol[] symbols = exchangeInfo.getSymbols();
 
       BinanceAccountService accountService = (BinanceAccountService) getAccountService();
-//      Map<String, AssetDetail> assetDetailMap = null;
-//      if (!usingSandbox()) {
-//        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
-//      }
+      Map<String, AssetDetail> assetDetailMap = null;
+      if (!usingSandbox() && isAuthenticated()) {
+        assetDetailMap = accountService.getAssetDetails(); // not available in sndbox
+      }
       // Clear all hardcoded currencies when loading dynamically from exchange.
-//      if (assetDetailMap != null) {
-//        currencies.clear();
-//      }
+      if (assetDetailMap != null) {
+        currencies.clear();
+      }
       for (Symbol symbol : symbols) {
         if (symbol.getStatus().equals("TRADING")) { // Symbols which are trading
           int basePrecision = Integer.parseInt(symbol.getBaseAssetPrecision());
@@ -170,19 +170,25 @@ public class BinanceExchange extends BaseExchange {
           Currency baseCurrency = currentCurrencyPair.base;
           CurrencyMetaData baseCurrencyMetaData =
               BinanceAdapters.adaptCurrencyMetaData(
-                  currencies, baseCurrency, null, basePrecision);
+                  currencies, baseCurrency, assetDetailMap, basePrecision);
           currencies.put(baseCurrency, baseCurrencyMetaData);
 
           Currency counterCurrency = currentCurrencyPair.counter;
           CurrencyMetaData counterCurrencyMetaData =
               BinanceAdapters.adaptCurrencyMetaData(
-                  currencies, counterCurrency, null, counterPrecision);
+                  currencies, counterCurrency, assetDetailMap, counterPrecision);
           currencies.put(counterCurrency, counterCurrencyMetaData);
         }
       }
     } catch (Exception e) {
       throw new ExchangeException("Failed to initialize: " + e.getMessage(), e);
     }
+  }
+
+  private boolean isAuthenticated() {
+    return exchangeSpecification != null
+        && exchangeSpecification.getApiKey() != null
+        && exchangeSpecification.getSecretKey() != null;
   }
 
   private int numberOfDecimals(String value) {
