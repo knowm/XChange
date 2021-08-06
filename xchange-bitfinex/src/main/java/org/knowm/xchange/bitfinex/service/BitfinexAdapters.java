@@ -158,8 +158,7 @@ public final class BitfinexAdapters {
       transactionCurrency = bitfinexSymbol.substring(startIndex + 3);
     }
 
-    return new CurrencyPair(
-        adaptBitfinexCurrency(tradableIdentifier), adaptBitfinexCurrency(transactionCurrency));
+    return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
   public static OrderStatus adaptOrderStatus(BitfinexOrderStatusResponse order) {
@@ -377,7 +376,7 @@ public final class BitfinexAdapters {
       Map<String, BigDecimal[]> balancesByCurrency =
           walletsBalancesMap.get(walletId); // {total, available}
 
-      String currencyName = adaptBitfinexCurrency(balance.getCurrency());
+      String currencyName = balance.getCurrency();
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
         balanceDetail = new BigDecimal[] {balance.getAmount(), balance.getAvailable()};
