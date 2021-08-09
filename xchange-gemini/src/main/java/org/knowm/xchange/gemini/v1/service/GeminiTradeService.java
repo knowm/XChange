@@ -26,6 +26,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -40,7 +42,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    return getOpenOrders(createOpenOrdersParams());
+    return getOpenOrders(null);
   }
 
   @Override
@@ -50,6 +52,10 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     if (activeOrders.length <= 0) {
       return noOpenOrders;
     } else {
+      if (params != null && params instanceof OpenOrdersParamCurrencyPair) {
+        OpenOrdersParamCurrencyPair openOrdersParamCurrencyPair = (OpenOrdersParamCurrencyPair) params;
+        return GeminiAdapters.adaptOrders(activeOrders, openOrdersParamCurrencyPair.getCurrencyPair());
+      }
       return GeminiAdapters.adaptOrders(activeOrders);
     }
   }
@@ -146,7 +152,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
