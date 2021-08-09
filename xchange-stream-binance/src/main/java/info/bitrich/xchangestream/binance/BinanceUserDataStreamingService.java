@@ -45,6 +45,12 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
+  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
+    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
+
+  }
+
+  @Override
   protected String getChannelNameFromMessage(JsonNode message) throws IOException {
     return message.get("e").asText();
   }
@@ -59,11 +65,6 @@ public class BinanceUserDataStreamingService extends JsonNettyStreamingService {
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     // No op. Disconnecting from the web socket will cancel subscriptions.
     return null;
-  }
-
-  @Override
-  protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler() {
-    return WebSocketClientCompressionAllowClientNoContextAndServerNoContextHandler.INSTANCE;
   }
 
   @Override

@@ -57,6 +57,12 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
           "Bad encoding found on request query while hashing (SHA256) the POST data.", e);
     }
     try {
+      String decodedQuery =
+          URLDecoder.decode(
+              restInvocation.getParamsMap().get(QueryParam.class).asQueryString(),
+              StandardCharsets.UTF_8.name());
+      sha256.update(decodedQuery.getBytes());
+
       sha256.update(
           URLDecoder.decode(restInvocation.getRequestBody(), StandardCharsets.UTF_8.name())
               .getBytes());
