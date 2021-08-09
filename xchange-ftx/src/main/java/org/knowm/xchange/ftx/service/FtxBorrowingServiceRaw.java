@@ -22,7 +22,9 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
               exchange.getExchangeSpecification().getApiKey(),
               exchange.getNonceFactory().createValue(),
               signatureCreator,
-              subaccount)
+              subaccount,
+              null,
+              null)
           .getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceRaw.FtxLendingServiceException(
@@ -30,17 +32,20 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
     }
   }
 
-  public List<FtxBorrowingHistoryDto> historiesByDates(String subAccount,Long startTime,Long endTime) {
+  public List<FtxBorrowingHistoryDto> historiesByDates(
+      String subAccount, Long startTime, Long endTime) {
     try {
       return ftx.getBorrowHistory(
-                      exchange.getExchangeSpecification().getApiKey(),
-                      exchange.getNonceFactory().createValue(),
-                      signatureCreator,
-                      subAccount)
-              .getResult();
+              exchange.getExchangeSpecification().getApiKey(),
+              exchange.getNonceFactory().createValue(),
+              signatureCreator,
+              subAccount,
+              startTime,
+              endTime)
+          .getResult();
     } catch (IOException e) {
       throw new FtxLendingServiceRaw.FtxLendingServiceException(
-              "Can't get lending infos subAccount: " + subAccount, e);
+          "Can't get lending infos subAccount: " + subAccount, e);
     }
   }
 

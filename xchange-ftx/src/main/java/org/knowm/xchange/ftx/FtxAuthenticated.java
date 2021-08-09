@@ -195,7 +195,9 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-KEY") String apiKey,
       @HeaderParam("FTX-TS") Long nonce,
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount)
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @QueryParam("start_time") Long start_time,
+      @QueryParam("end_time") Long end_time)
       throws IOException, FtxException;
 
   @GET
