@@ -30,6 +30,20 @@ public class FtxBorrowingServiceRaw extends FtxBaseService {
     }
   }
 
+  public List<FtxBorrowingHistoryDto> historiesByDates(String subAccount,Long startTime,Long endTime) {
+    try {
+      return ftx.getBorrowHistory(
+                      exchange.getExchangeSpecification().getApiKey(),
+                      exchange.getNonceFactory().createValue(),
+                      signatureCreator,
+                      subAccount)
+              .getResult();
+    } catch (IOException e) {
+      throw new FtxLendingServiceRaw.FtxLendingServiceException(
+              "Can't get lending infos subAccount: " + subAccount, e);
+    }
+  }
+
   public List<FtxBorrowingHistoryDto> histories(String subaccount, List<String> coins) {
     Objects.requireNonNull(coins);
     return histories(subaccount).stream()
