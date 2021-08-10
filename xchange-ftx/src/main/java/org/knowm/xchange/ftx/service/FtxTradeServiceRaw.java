@@ -13,6 +13,7 @@ import org.knowm.xchange.ftx.FtxException;
 import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import org.knowm.xchange.service.trade.params.*;
@@ -51,6 +52,38 @@ public class FtxTradeServiceRaw extends FtxBaseService {
           exchange.getNonceFactory().createValue(),
           signatureCreator,
           subaccount,
+          payload);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxOrderDto> modifyFtxOrder(
+      String subaccount, String orderId, FtxModifyOrderRequestPayload payload)
+      throws FtxException, IOException {
+    try {
+      return ftx.modifyOrder(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          orderId,
+          payload);
+    } catch (FtxException e) {
+      throw new FtxException(e.getMessage());
+    }
+  }
+
+  public FtxResponse<FtxOrderDto> modifyFtxOrderByClientId(
+      String subaccount, String clientId, FtxModifyOrderRequestPayload payload)
+      throws FtxException, IOException {
+    try {
+      return ftx.modifyOrder(
+          exchange.getExchangeSpecification().getApiKey(),
+          exchange.getNonceFactory().createValue(),
+          signatureCreator,
+          subaccount,
+          clientId,
           payload);
     } catch (FtxException e) {
       throw new FtxException(e.getMessage());

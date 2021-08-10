@@ -39,11 +39,7 @@ import org.knowm.xchange.ftx.dto.account.FtxAccountDto;
 import org.knowm.xchange.ftx.dto.account.FtxPositionDto;
 import org.knowm.xchange.ftx.dto.account.FtxWalletBalanceDto;
 import org.knowm.xchange.ftx.dto.marketdata.*;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderSide;
-import org.knowm.xchange.ftx.dto.trade.FtxOrderType;
+import org.knowm.xchange.ftx.dto.trade.*;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class FtxAdapters {
@@ -193,6 +189,12 @@ public class FtxAdapters {
 
   public static FtxOrderRequestPayload adaptLimitOrderToFtxOrderPayload(LimitOrder limitOrder) {
     return adaptOrderToFtxOrderPayload(FtxOrderType.limit, limitOrder, limitOrder.getLimitPrice());
+  }
+
+  public static FtxModifyOrderRequestPayload adaptModifyOrderToFtxOrderPayload(
+      LimitOrder limitOrder) {
+    return new FtxModifyOrderRequestPayload(
+        limitOrder.getLimitPrice(), limitOrder.getOriginalAmount(), limitOrder.getUserReference());
   }
 
   private static FtxOrderRequestPayload adaptOrderToFtxOrderPayload(
@@ -350,16 +352,17 @@ public class FtxAdapters {
     return value.setScale(4, RoundingMode.DOWN);
   }
 
-  public static Ticker adaptTicker(FtxResponse<FtxMarketDto> ftxMarketResp,
-                                   FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
-                                   CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(
+      FtxResponse<FtxMarketDto> ftxMarketResp,
+      FtxResponse<List<FtxCandleDto>> ftxCandlesResp,
+      CurrencyPair currencyPair) {
 
-    System.out.println("marketResp"  + ftxMarketResp.toString());
+    System.out.println("marketResp" + ftxMarketResp.toString());
     System.out.println("CurrencyPair" + currencyPair.toString());
 
     FtxCandleDto lastCandle = ftxCandlesResp.getResult().get(ftxCandlesResp.getResult().size() - 1);
 
-    System.out.println("lastCandle"  + lastCandle.toString());
+    System.out.println("lastCandle" + lastCandle.toString());
 
     BigDecimal open = lastCandle.getOpen();
     BigDecimal last = ftxMarketResp.getResult().getLast();
@@ -371,15 +374,15 @@ public class FtxAdapters {
     Date timestamp = lastCandle.getStartTime();
 
     return new Ticker.Builder()
-            .currencyPair(currencyPair)
-            .open(open)
-            .last(last)
-            .bid(bid)
-            .ask(ask)
-            .high(high)
-            .low(low)
-            .volume(volume)
-            .timestamp(timestamp)
-            .build();
+        .currencyPair(currencyPair)
+        .open(open)
+        .last(last)
+        .bid(bid)
+        .ask(ask)
+        .high(high)
+        .low(low)
+        .volume(volume)
+        .timestamp(timestamp)
+        .build();
   }
 }
