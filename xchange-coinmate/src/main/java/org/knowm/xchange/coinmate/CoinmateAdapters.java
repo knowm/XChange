@@ -78,7 +78,7 @@ public class CoinmateAdapters {
         .volume(volume)
         .timestamp(timestamp)
         .open(open)
-//        .percentageChange(change)
+        .percentageChange(change)
         .build();
   }
 
