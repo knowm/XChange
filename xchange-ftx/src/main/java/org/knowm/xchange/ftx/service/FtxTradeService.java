@@ -82,7 +82,8 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
               exchange.getExchangeSpecification().getUserName(),
               limitOrder.getId(),
               FtxAdapters.adaptModifyOrderToFtxOrderPayload(limitOrder))
-          .toString();
+          .getResult()
+          .getId();
     }
   }
 }
