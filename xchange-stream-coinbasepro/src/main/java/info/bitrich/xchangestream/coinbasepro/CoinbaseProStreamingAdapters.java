@@ -23,24 +23,25 @@ public class CoinbaseProStreamingAdapters {
   /** TODO this clearly isn't good enough. We need an initial snapshot that these can build on. */
   static Order adaptOrder(CoinbaseProWebSocketTransaction s) {
     switch (s.getType()) {
-      case "activate":
       case "received":
+      case "done":
+      case "match":
         return CoinbaseProAdapters.adaptOrder(
             new CoinbaseProOrder(
-                s.getOrderId(),
+                s.getType().equals("match") ? (s.getSide().equals("sell") ? s.getTakerOrderId() : s.getMakerOrderId()) : s.getOrderId(),
                 s.getPrice(),
-                s.getSize() == null ? BigDecimal.ZERO : s.getSize(),
+                s.getType().equals("done") ? s.getRemainingSize() : (s.getType().equals("match") ? s.getSize().add(BigDecimal.ONE) : s.getSize()),
                 s.getProductId(),
                 s.getSide(),
                 s.getTime(), // createdAt,
                 null, // doneAt,
-                BigDecimal.ZERO, // filled size
+                s.getType().equals("match") ? s.getSize() : BigDecimal.ZERO, // filled size
                 null, // fees
                 s.getType(), // status - TODO no clean mapping atm
                 false, // settled
-                s.getType().equals("received") ? "limit" : "stop", // type. TODO market orders
-                null, // doneReason
-                null,
+                "limit", // type. TODO market orders
+                s.getReason(), // doneReason
+                s.getType().equals("match") ? s.getSize() : null,
                 null, // stop TODO no source for this
                 null // stopPrice
                 ));
