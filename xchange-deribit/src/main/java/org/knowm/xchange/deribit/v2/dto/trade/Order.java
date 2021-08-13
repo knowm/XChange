@@ -18,6 +18,7 @@ public class Order {
   private BigDecimal profitLoss;
   /** Price in base currency */
   private String price;
+
   public BigDecimal getPrice() {
     try {
       return new BigDecimal(price);
@@ -40,7 +41,10 @@ public class Order {
   /** Unique order identifier */
   @JsonProperty("order_id")
   private String orderId;
-  /** Id of the stop order that was triggered to create the order (Only for orders that were created by triggered stop orders) */
+  /**
+   * Id of the stop order that was triggered to create the order (Only for orders that were created
+   * by triggered stop orders)
+   */
   @JsonProperty("stop_order_id")
   private String stopOrderId;
   /** Maximum amount within an order to be shown to other traders, 0 for invisible order. */

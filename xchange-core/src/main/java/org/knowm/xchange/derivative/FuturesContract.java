@@ -97,7 +97,9 @@ public class FuturesContract extends Instrument
   @Override
   public String toString() {
 
-    return currencyPair
+    return currencyPair.base
+        + "/"
+        + currencyPair.counter
         + "/"
         + (expireDate == null ? PERPETUAL : DATE_PARSER.get().format(this.expireDate));
   }
