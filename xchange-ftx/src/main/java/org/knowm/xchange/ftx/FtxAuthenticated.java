@@ -194,13 +194,13 @@ public interface FtxAuthenticated extends Ftx {
 
   @DELETE
   @Path("/orders/by_client_id/{client_order_id}")
-  FtxResponse<FtxOrderDto> cancelOrderByClientId(
-      @HeaderParam("FTX-KEY") String apiKey,
-      @HeaderParam("FTX-TS") Long nonce,
-      @HeaderParam("FTX-SIGN") ParamsDigest signature,
-      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
-      @PathParam("client_order_id") String clientOrderId)
-      throws IOException, FtxException;
+  FtxResponse<String> cancelOrderByClientId(
+          @HeaderParam("FTX-KEY") String apiKey,
+          @HeaderParam("FTX-TS") Long nonce,
+          @HeaderParam("FTX-SIGN") ParamsDigest signature,
+          @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+          @PathParam("client_order_id") String clientOrderId)
+          throws IOException, FtxException;
 
   @POST
   @Path("/account/leverage")
