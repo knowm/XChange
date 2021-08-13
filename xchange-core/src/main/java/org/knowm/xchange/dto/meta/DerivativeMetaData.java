@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class DerivativeMetaData implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1471672854252184985L;
 
   /** Trading fee (fraction) */
   @JsonProperty("trading_fee")

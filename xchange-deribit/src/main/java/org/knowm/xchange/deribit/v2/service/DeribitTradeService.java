@@ -3,7 +3,6 @@ package org.knowm.xchange.deribit.v2.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.deribit.v2.DeribitAdapters;
@@ -62,26 +61,11 @@ public class DeribitTradeService extends DeribitTradeServiceRaw implements Trade
   }
 
   private List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders() throws IOException {
-    try {
-      return ((DeribitAccountService) exchange.getAccountService())
-          .currencies().stream()
-              .map(Currency::getCurrencyCode)
-              .parallel()
-              .flatMap(
-                  c -> {
-                    try {
-                      return super.getOpenOrdersByCurrency(c, null, null).stream();
-                    } catch (IOException e) {
-                      throw new ExchangeException(e);
-                    }
-                  })
-              .collect(Collectors.toList());
-    } catch (ExchangeException e) {
-      if (e.getCause() instanceof IOException) {
-        throw (IOException) e.getCause();
-      }
-      throw e;
+    List<org.knowm.xchange.deribit.v2.dto.trade.Order> openOrders = new ArrayList<>();
+    for (Currency c : ((DeribitAccountService) exchange.getAccountService()).currencies()) {
+      openOrders.addAll(super.getOpenOrdersByCurrency(c.getCurrencyCode(), null, null));
     }
+    return openOrders;
   }
 
   @Override
