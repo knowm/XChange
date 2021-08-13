@@ -57,13 +57,16 @@ public class CoinmateAdapters {
    */
   public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
 
-    BigDecimal last = coinmateTicker.getData().getLast();
-    BigDecimal bid = coinmateTicker.getData().getBid();
-    BigDecimal ask = coinmateTicker.getData().getAsk();
-    BigDecimal high = coinmateTicker.getData().getHigh();
-    BigDecimal low = coinmateTicker.getData().getLow();
-    BigDecimal volume = coinmateTicker.getData().getAmount();
-    Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
+    CoinmateTickerData data = coinmateTicker.getData();
+    BigDecimal last = data.getLast();
+    BigDecimal bid = data.getBid();
+    BigDecimal ask = data.getAsk();
+    BigDecimal high = data.getHigh();
+    BigDecimal low = data.getLow();
+    BigDecimal volume = data.getAmount();
+    BigDecimal open = data.getOpen();
+    BigDecimal change = data.getChange();
+    Date timestamp = new Date(data.getTimestamp() * 1000L);
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
@@ -74,6 +77,8 @@ public class CoinmateAdapters {
         .low(low)
         .volume(volume)
         .timestamp(timestamp)
+        .open(open)
+        .percentageChange(change)
         .build();
   }
 
