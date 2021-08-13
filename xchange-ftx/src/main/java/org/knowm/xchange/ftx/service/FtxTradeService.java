@@ -7,6 +7,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,12 +24,14 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeMarketOrderForSubaccount(exchange.getExchangeSpecification().getUserName(), marketOrder);
+    return placeMarketOrderForSubaccount(
+        exchange.getExchangeSpecification().getUserName(), marketOrder);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeLimitOrderForSubaccount(exchange.getExchangeSpecification().getUserName(), limitOrder);
+    return placeLimitOrderForSubaccount(
+        exchange.getExchangeSpecification().getUserName(), limitOrder);
   }
 
   @Override
@@ -64,5 +67,24 @@ public class FtxTradeService extends FtxTradeServiceRaw implements TradeService 
   @Override
   public OpenPositions getOpenPositions() throws IOException {
     return getOpenPositionsForSubaccount(exchange.getExchangeSpecification().getUserName());
+  }
+
+  @Override
+  public String changeOrder(LimitOrder limitOrder) throws IOException {
+    if (limitOrder.getUserReference() != null) {
+      return modifyFtxOrderByClientId(
+              exchange.getExchangeSpecification().getUserName(),
+              limitOrder.getUserReference(),
+              FtxAdapters.adaptModifyOrderToFtxOrderPayload(limitOrder))
+          .getResult()
+          .getClientId();
+    } else {
+      return modifyFtxOrder(
+              exchange.getExchangeSpecification().getUserName(),
+              limitOrder.getId(),
+              FtxAdapters.adaptModifyOrderToFtxOrderPayload(limitOrder))
+          .getResult()
+          .getId();
+    }
   }
 }

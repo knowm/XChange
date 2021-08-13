@@ -8,6 +8,7 @@ import org.knowm.xchange.ftx.dto.FtxResponse;
 import org.knowm.xchange.ftx.dto.account.*;
 import org.knowm.xchange.ftx.dto.account.FtxBorrowingHistoryDto;
 import org.knowm.xchange.ftx.dto.trade.CancelAllFtxOrdersParams;
+import org.knowm.xchange.ftx.dto.trade.FtxModifyOrderRequestPayload;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderDto;
 import org.knowm.xchange.ftx.dto.trade.FtxOrderRequestPayload;
 import si.mazi.rescu.ParamsDigest;
@@ -108,6 +109,28 @@ public interface FtxAuthenticated extends Ftx {
       @HeaderParam("FTX-SIGN") ParamsDigest signature,
       @HeaderParam("FTX-SUBACCOUNT") String subaccount,
       FtxOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/orders/{order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrder(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("order_id") String orderId,
+      FtxModifyOrderRequestPayload payload)
+      throws IOException, FtxException;
+
+  @POST
+  @Path("/orders/by_client_id/{client_order_id}/modify")
+  FtxResponse<FtxOrderDto> modifyOrderByClientId(
+      @HeaderParam("FTX-KEY") String apiKey,
+      @HeaderParam("FTX-TS") Long nonce,
+      @HeaderParam("FTX-SIGN") ParamsDigest signature,
+      @HeaderParam("FTX-SUBACCOUNT") String subaccount,
+      @PathParam("client_order_id") String clientId,
+      FtxModifyOrderRequestPayload payload)
       throws IOException, FtxException;
 
   @GET
