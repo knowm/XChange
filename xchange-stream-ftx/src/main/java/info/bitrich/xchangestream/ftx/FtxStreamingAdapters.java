@@ -8,7 +8,6 @@ import info.bitrich.xchangestream.ftx.dto.FtxOrderbookResponse;
 import info.bitrich.xchangestream.ftx.dto.FtxTickerResponse;
 import info.bitrich.xchangestream.service.netty.StreamingObjectMapperHelper;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -28,6 +27,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.ftx.FtxAdapters;
 import org.knowm.xchange.ftx.dto.marketdata.FtxTradeDto;
+import org.knowm.xchange.ftx.dto.trade.FtxOrderFlags;
 import org.knowm.xchange.instrument.Instrument;
 
 public class FtxStreamingAdapters {
@@ -187,20 +187,45 @@ public class FtxStreamingAdapters {
   }
 
   public static UserTrade adaptUserTrade(JsonNode jsonNode) {
+    JsonNode data = jsonNode.get("data");
+
     return new UserTrade.Builder()
-            .currencyPair(new CurrencyPair(jsonNode.get("data").get("market").asText()))
+            .currencyPair(new CurrencyPair(data.get("market").asText()))
             .type(
-                    "buy".equals(jsonNode.get("data").get("side").asText())
+                    "buy".equals(data.get("side").asText())
                             ? Order.OrderType.BID
                             : Order.OrderType.ASK)
-            .instrument(new CurrencyPair(jsonNode.get("data").get("market").asText()))
-            .originalAmount(BigDecimal.valueOf(jsonNode.get("data").get("size").asDouble()))
-            .price(BigDecimal.valueOf(jsonNode.get("data").get("price").asDouble()))
-            .timestamp(Date.from(Instant.ofEpochMilli(jsonNode.get("data").get("time").asLong())))
-            .id(jsonNode.get("data").get("id").asText())
-            .orderId(jsonNode.get("data").get("orderId").asText())
-            .feeAmount(BigDecimal.valueOf(jsonNode.get("data").get("fee").asDouble()))
-            .feeCurrency(new Currency(jsonNode.get("data").get("feeCurrency").asText()))
+            .instrument(new CurrencyPair(data.get("market").asText()))
+            .originalAmount(data.get("size").decimalValue())
+            .price(data.get("price").decimalValue())
+            .timestamp(Date.from(Instant.ofEpochMilli(data.get("time").asLong())))
+            .id(data.get("id").asText())
+            .orderId(data.get("orderId").asText())
+            .feeAmount(data.get("fee").decimalValue())
+            .feeCurrency(new Currency(data.get("feeCurrency").asText()))
             .build();
+  }
+
+  public static Order adaptOrders(JsonNode jsonNode) {
+    JsonNode data = jsonNode.get("data");
+    System.out.println(jsonNode.toPrettyString());
+    LimitOrder.Builder order = new LimitOrder.Builder("buy".equals(data.get("side").asText())
+            ? Order.OrderType.BID
+            : Order.OrderType.ASK, new CurrencyPair(data.get("market").asText()))
+            .id(data.get("id").asText())
+            .timestamp(Date.from(Instant.now()))
+            .limitPrice(data.get("price").decimalValue())
+            .originalAmount(data.get("size").decimalValue())
+            .userReference(data.get("clientId").asText())
+            .remainingAmount(data.get("remainingSize").decimalValue())
+            .averagePrice(data.get("avgFillPrice").decimalValue())
+            .orderStatus(Order.OrderStatus.valueOf(data.get("status").asText().toUpperCase()));
+
+    if (data.get("ioc").asBoolean()) order.flag(FtxOrderFlags.IOC);
+    if (data.get("postOnly").asBoolean()) order.flag(FtxOrderFlags.POST_ONLY);
+    if (data.get("reduceOnly").asBoolean()) order.flag(FtxOrderFlags.REDUCE_ONLY);
+
+    return order.build();
+
   }
 }
