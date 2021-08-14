@@ -79,6 +79,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
 
     if ("fills".equals(message.get("channel").asText())) {
       channelName = message.get("channel").asText();
+    } else if ("orders".equals(message.get("channel").asText())) {
+      channelName = message.get("channel").asText();
     } else if ("orderbook".equals(message.get("channel").asText())) {
       channelName = message.get("channel").asText() + ":" + message.get("market").asText();
     }
@@ -103,6 +105,9 @@ public class FtxStreamingService extends JsonNettyStreamingService {
     if (channelName.contains("orderbook")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
+    } else if (channelName.contains("orders")) {
+      channel = "orders";
+      market = null;
     } else if (channelName.contains("fills")) {
       channel = "fills";
       market = null;
