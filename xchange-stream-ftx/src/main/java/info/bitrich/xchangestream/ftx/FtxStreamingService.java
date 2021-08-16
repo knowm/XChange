@@ -77,9 +77,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   protected String getChannelNameFromMessage(JsonNode message) {
     String channelName = "";
 
-    if ("fills".equals(message.get("channel").asText())) {
-      channelName = message.get("channel").asText();
-    } else if ("orders".equals(message.get("channel").asText())) {
+    if ("fills".equals(message.get("channel").asText()) || "orders".equals(message.get("channel").asText())) {
       channelName = message.get("channel").asText();
     } else if ("orderbook".equals(message.get("channel").asText())) {
       channelName = message.get("channel").asText() + ":" + message.get("market").asText();
@@ -93,7 +91,7 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     String channel = "";
-    String market = "";
+    String market = null;
 
     if (authData != null && !isLoggedIn) {
       FtxAuthenticationMessage message = getAuthMessage();
@@ -107,10 +105,8 @@ public class FtxStreamingService extends JsonNettyStreamingService {
       market = channelName.substring(channelName.indexOf(":") + 1);
     } else if (channelName.contains("orders")) {
       channel = "orders";
-      market = null;
     } else if (channelName.contains("fills")) {
       channel = "fills";
-      market = null;
     }
 
     LOG.debug("GetSubscribeMessage channel: " + channel);
@@ -122,14 +118,15 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   public String getUnsubscribeMessage(String channelName, Object... args) throws IOException {
     String channel = "";
-    String market = "";
+    String market = null;
 
     if (channelName.contains("orderbook")) {
       channel = channelName.substring(0, channelName.indexOf(":"));
       market = channelName.substring(channelName.indexOf(":") + 1);
+    } else if (channelName.contains("orders")) {
+      channel = "orders";
     } else if (channelName.contains("fills")) {
       channel = "fills";
-      market = null;
     }
 
     setLoggedInToFalse();
