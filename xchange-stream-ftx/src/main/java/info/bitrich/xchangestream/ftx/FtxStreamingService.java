@@ -76,11 +76,12 @@ public class FtxStreamingService extends JsonNettyStreamingService {
   @Override
   protected String getChannelNameFromMessage(JsonNode message) {
     String channelName = "";
+    String text = message.get("channel") == null ? null : message.get("channel").asText();
 
-    if ("fills".equals(message.get("channel").asText()) || "orders".equals(message.get("channel").asText())) {
-      channelName = message.get("channel").asText();
-    } else if ("orderbook".equals(message.get("channel").asText())) {
-      channelName = message.get("channel").asText() + ":" + message.get("market").asText();
+    if ("fills".equals(text) || "orders".equals(text)) {
+      channelName = text;
+    } else if ("orderbook".equals(text)) {
+      channelName = text + ":" + message.get("market").asText();
     }
 
     LOG.trace("GetChannelNameFromMessage: " + channelName);
