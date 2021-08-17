@@ -37,6 +37,8 @@ public class FtxStreamingAdapters {
   private static final ThreadLocal<DecimalFormat> df = ThreadLocal.withInitial(() ->  new DecimalFormat("0.0########"));  // 10 decimal places
   
   static Ticker NULL_TICKER = new Ticker.Builder().build();  // not need to create a new one each time
+  
+  public static boolean throwOnChecksumError = true;  // we are currently unable to calc checksum correctly for XRP/BTC
 
   public static OrderBook adaptOrderbookMessage(
       OrderBook orderBook, Instrument instrument, JsonNode jsonNode) {
@@ -103,7 +105,8 @@ public class FtxStreamingAdapters {
                     getOrderbookChecksum(orderBook.getAsks(), orderBook.getBids());
 
                 if (!calculatedChecksum.equals(message.getChecksum())) {
-                  throw new RuntimeException("Checksum is not correct!");
+                  if (throwOnChecksumError)
+                    throw new RuntimeException("Checksum is not correct!");
                 }
               }
             });
